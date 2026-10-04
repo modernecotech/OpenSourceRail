@@ -330,7 +330,7 @@ def split_inputs(inputs, phases, task_lines, design, scenario, city_finance, red
         consolidated_monthly=resource_rows, ppa=dict(reference_iqd_per_kwh=tariff, annual_planning_purchased_kwh=annual_kwh,
             full_network_annual_payment_at_reference_prices_usd=annual_kwh*tariff/fx,
             time_resolved_generation_demonstrated=False, buyer_signed=False, surplus_sales_usd=0.),
-        factory=dict(backlog_trainsets=831, baseline_price_usd_per_train=1_680_000,
+        factory=dict(backlog_trainsets=sum(row['trainset_count'] for row in design['fleets']), baseline_price_usd_per_train=1_680_000,
             additional_capacity_fee_usd_per_train=redesign['factory']['capacity_fee_usd_per_train'],
             manufacturing_resource_cost_usd=sum(r['factory_resource_purchase_usd'] for r in transfers),
             train_invoice_total_usd=sum(r['train_rail_capital_invoice_usd'] for r in transfers),
@@ -430,7 +430,7 @@ def main():
         ('DEBT','Sponsor treasury and Iraqi finance counsel','Indicative IQD lender/bond terms: opening-linked cohorts, separate construction/operation liquidity, contingency, DSRA, fees, prepayment rights and placement proof',15,60),
         ('LAND','Land/title lead and independent valuer','15 candidate areas: title and encumbrances, surveyed parcels, opportunity cost, safeguards, independent valuations, demand and competitive developer expressions',15,75),
         ('ENERGY','Energy procurement lead and lender engineer','Quoted IQD PPA and owner alternative; 8760-hour dispatch/grid imports, metering, replacement schedule, offtaker credit, termination compensation and guarantees',30,75),
-        ('FACTORY','Industrial investment lead','831-train-only priced backlog, working capital/warranty, input quotes, labour/QA/overhead reconciliation, private equity terms, tax and post-order closure',30,75),
+        ('FACTORY','Industrial investment lead','Baghdad-only priced backlog, working capital/warranty, input quotes, labour/QA/overhead reconciliation, private equity terms, tax and post-order closure',30,75),
         ('PHASE','Owner engineer and safety assurance lead','Accept existing first-section package: independent depot, turnbacks, energy, fleet, safety, demand, contingent delivery and contingency costs',15,60),
         ('MODEL','Independent financial reviewer and public sponsor','Reconcile monthly/native ledgers and 6-month placements, entity cash and consolidation, debt tenor/covenants, joint downside, public affordability and funding gates',60,90)]
     revision = hashlib.sha256(json.dumps(sources, sort_keys=True).encode()).hexdigest()
@@ -441,7 +441,7 @@ def main():
     tasks = [dict(subject=p['id']+' — '+p['accountable_owner_role'], status='Open', priority='High', description='<pre>'+html.escape(json.dumps(p,indent=2))+'</pre>') for p in packages]
     save('erpnext-tasks.json',dict(doctype='Task',status='draft-import-package-not-live-records',tasks=tasks))
     csvout('erpnext-task-import.csv',tasks)
-    report = report_text(cases, phases, redesign)
+    report = report_text(cases, phases, redesign, design)
     (OUT/'README.md').write_text(report); output_paths.append(OUT/'README.md')
     summary = dict(schema='baghdad-financing-redesign/1', as_of=redesign['model']['as_of'], status='illustrative-financeability-study-not-bankable',
         financing_committed=False, operational_release=False, included_cities=['Baghdad'], source_revision=revision,
@@ -504,7 +504,7 @@ def retained_entity(baseline,portfolio,config,options,rentals):
     return case
 
 
-def report_text(cases, phases, redesign):
+def report_text(cases, phases, redesign, design):
     baseline, integrated, weak = cases['reference'], cases['integrated'], cases['integrated_joint_downside']
     rows = []
     for name, case in cases.items():
@@ -516,7 +516,7 @@ def report_text(cases, phases, redesign):
     a,m = integrated['appraisal'], integrated['metrics']
     return f'''# Baghdad financing redesign — {redesign['model']['as_of']}
 
-Twelve executable alternatives retain 9 lines, 516.5175 km, 182 stations and 831 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are {', '.join(str(p['opening_month']) for p in phases)} months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
+Twelve executable alternatives use {len(design['lines'])} lines, {sum(l['length_m'] for l in design['lines'])/1000:.4f} km, {len(design['stations'])} stations and {sum(f['trainset_count'] for f in design['fleets'])} six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are {', '.join(str(p['opening_month']) for p in phases)} months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
 
 ## Results and what they mean
 

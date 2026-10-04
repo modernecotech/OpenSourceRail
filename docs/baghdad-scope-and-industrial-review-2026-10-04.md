@@ -1,6 +1,8 @@
 # Baghdad scope and industrial review — 4 October 2026
 
-The [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md) is the latest Baghdad staffing, depot, procurement-origin and financing study. The [complete proposal](../cities/catalogue/west-asia/Iraq/Baghdad/proposal/README.md) publishes it alongside its source files, twelve monthly cashflows, contract registers and six-month placement schedules. It supersedes the earlier staffing/depot assumptions for this study; the original catalogue design, generic city pages and financing cases remain separately identified comparators. No national borrowing or future factory sales are credited to Baghdad.
+> **Historical revision review.** Its figures describe the revision reviewed below. The reworked central alignment, current staffing/depot scope and current cashflows are in the [Baghdad city summary](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) and [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md).
+
+The [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md) is the latest Baghdad staffing, depot, procurement-origin and financing study. The [complete proposal](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) publishes it alongside its source files, twelve monthly cashflows, contract registers and six-month placement schedules. It supersedes the earlier staffing/depot assumptions for this study; the original catalogue design, generic city pages and financing cases remain separately identified comparators. No national borrowing or future factory sales are credited to Baghdad.
 
 ## People and operating coverage
 
@@ -29,6 +31,8 @@ Mezzanine substitutes for 10% of domestic residual capital borrowing. The tested
 The revised senior case still has unsourced support and unpaid debt at the horizon. Mezzanine reduces immediate funding pressure by deferring payments but increases terminal debt and leaves 85 junior draw vintages in default. It is not recommended as the solution to the operating deficit. Indexed fares, OPEX inflation, advertising/kiosks/rentals and inherited additional receipts are already included. Green terms, grants, rights income and 2% concessional gap credit remain uncommitted; the 8% gap-rate stress shows that financing dependence. There are no dividends. Verified capital, affordable revenue or accepted scope savings are still needed.
 
 ## Reproduction and release limits
+
+The [city landing page](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) is published from the current case rather than the earlier catalogue budget. The city regeneration, batch generation and controls-refresh commands use [publish-city-summary.py](../tools/automation/publish-city-summary.py). Its [registry](../lib/templates/city-publication.toml) identifies the current study and seventeen earlier reference documents. Original finance, depot, staffing, national and portfolio figures remain traceable with an explicit original-scope notice; document receipt updates do not change financial values or release flags. A stale study stops publication. CI checks the committed page before regeneration, then verifies the publisher after national-brief regeneration. The reader book includes the current city summary and current study before the original funding appendices.
 
 - Assumptions: [baghdad-programme-recalculation.toml](../lib/templates/baghdad-programme-recalculation.toml).
 - Generate: `.venv/bin/python tools/automation/baghdad_programme_recalculation.py`; verify with `--check`.

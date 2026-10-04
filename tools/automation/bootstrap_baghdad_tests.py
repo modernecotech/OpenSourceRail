@@ -28,7 +28,7 @@ def restore(root=ROOT, *, check=False):
         return 'verified-existing'
     if check:
         raise ValueError('Operations input missing; run bootstrap_baghdad_tests.py')
-    proposal = city/'proposal'
+    proposal = city
     manifest = json.loads((proposal/'manifest.json').read_text())
     archive_path = proposal/'Baghdad-Proposal-Supporting-Data.zip'
     receipt = manifest['outputs'][archive_path.relative_to(root).as_posix()]
@@ -65,13 +65,14 @@ def main():
     print('Baghdad proposal solver/GIS inputs: '+restore_proposal_inputs(check=args.check))
 
 def restore_proposal_inputs(root=ROOT, *, check=False):
-    """Restore only declared solver/GIS archive inputs, preserving local drift."""
-    city=root/CITY.relative_to(ROOT);proposal=city/'proposal'
+    """Restore declared solver/GIS/alignment inputs, preserving local drift."""
+    city=root/CITY.relative_to(ROOT);proposal=city
     manifest=json.loads((proposal/'manifest.json').read_text())
     prefix=city.relative_to(root).as_posix()+'/engineering/'
     allowed=('energy/','gis/','sumo/')
+    corridor=(city/'corridors.json').relative_to(root).as_posix()
     receipts={path:value for path,value in manifest['inputs'].items()
-        if path.startswith(prefix) and path[len(prefix):].startswith(allowed)}
+        if path==corridor or path.startswith(prefix) and path[len(prefix):].startswith(allowed)}
     missing=[]
     for relative,receipt in receipts.items():
         path=root/relative

@@ -1,14 +1,18 @@
 # Baghdad retained under-viaduct rental portfolio — 2026-10-04
 
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
 Rental income is a conditional addition to the existing station-development **sale** case, with different assets and external tenants. No site is commercially accepted, surveyed, leased or funded. [Network Rail's arch portfolio](https://property.networkrail.co.uk/business-space-let/railway-arches/) provides a precedent for railway SME premises. [Places for London's guidance](https://www.placesforlondon.co.uk/blog/renting-railway-arch-london-what-small-businesses-need-know) emphasises access, services, insulation, fit-out responsibilities and permitted uses. These UK precedents do not establish Iraqi demand, prices or building permissions. Sources checked 4 October 2026.
 
 ## Geometry, eligibility and pilot
 
-The controlled design has 1,143 elevated civil segments totalling 75.8105 km, with median length 40 m. Each [register entry](commercial-space-register.json) carries its civil index, line/chainage, planning coordinates, existing parent track assets and nearest station. 14 segments lack a materialised parent track link and need asset-register reconciliation; no ID is invented. Coordinates interpolate the corridor and **are not surveyed footprints**. Clear height, frontage, ownership, title, utilities, permitted use and street/rail access remain null or unaccepted.
+The controlled design has 497 elevated civil segments totalling 260.1474 km, with median length 48 m. Each [register entry](commercial-space-register.json) carries its civil index, line/chainage, planning coordinates, existing parent track assets and nearest station. 0 segments lack a materialised parent track link and need asset-register reconciliation; no ID is invented. Coordinates interpolate the corridor and **are not surveyed footprints**. Clear height, frontage, ownership, title, utilities, permitted use and street/rail access remain null or unaccepted.
 
-The reference screen excludes segments shorter than 75 m, reserves 10 m at each approach and counts complete 25 m planning bays. Each bay tests three independent 30 m² internal units, with 2 m protected support-end inspection zones and 1.2 m independent access. It suggests **128,070 m²**, before unknown road crossings, utility space, pier positions, access, ownership, flooding, station-sale overlap and fire exclusions. **Confirmed eligible area is zero.** Elevation alone never grants eligibility. Pier height is not usable clear height beneath a cap/deck.
+The reference screen excludes segments shorter than 75 m, reserves 10 m at each approach and counts complete 25 m planning bays. Each bay tests three independent 30 m² internal units, with 2 m protected support-end inspection zones and 1.2 m independent access. It suggests **873,810 m²**, before unknown road crossings, utility space, pier positions, access, ownership, flooding, station-sale overlap and fire exclusions. **Confirmed eligible area is zero.** Elevation alone never grants eligibility. Pier height is not usable clear height beneath a cap/deck.
 
-The 200,000 m² illustration exceeds this screen by 71,930 m² and is **unmapped-area-blocked**, with no lease receipts in executable integrated cases. It requires a different surveyed footprint/reference layout; there is no automatic widening of a viaduct. Small/medium models allocate assumed area against identified civil segments and phase construction by their infrastructure dates. These are conditional surveys-to-test, not valuations. [Thirty draft pilot units](pilot-digital-twin.json) use one long candidate selected by station-chainage proximity and bay count, without a claim of commercial desirability. Market-test 20–50 units through comparable IQD rents, tenant interest, permissions and costed fit-outs before expansion. No external contact has been made.
+The 200,000 m² illustration exceeds this screen by 0 m² and is **unmapped-area-blocked**, with no lease receipts in executable integrated cases. It requires a different surveyed footprint/reference layout; there is no automatic widening of a viaduct. Small/medium models allocate assumed area against identified civil segments and phase construction by their infrastructure dates. These are conditional surveys-to-test, not valuations. [Thirty draft pilot units](pilot-digital-twin.json) use one long candidate selected by station-chainage proximity and bay count, without a claim of commercial desirability. Market-test 20–50 units through comparable IQD rents, tenant interest, permissions and costed fit-outs before expansion. No external contact has been made.
 
 ## Open reference unit and costs
 
@@ -28,10 +32,10 @@ These illustrations deduct 25% of occupied receipts and exclude capital, financi
 
 | Executable rental scenario | Status | Fit-out capital USD m eq | First conditional cash month | Resource NPV before tax USD m eq | Standalone after-tax NPV USD m eq |
 | --- | --- | --- | --- | --- | --- |
-| small | conditional-unverified-retained-portfolio | 38.908 | 44 | -4.493 | -5.591 |
-| medium | conditional-unverified-retained-portfolio | 93.532 | 44 | 17.244 | 10.745 |
-| large | unmapped-area-blocked | Unmodelled | Blocked | Unmodelled | Unmodelled |
-| medium_downside | conditional-unverified-retained-portfolio | 93.532 | 56 | -35.427 | -35.797 |
+| small | conditional-unverified-retained-portfolio | 33.646 | 43 | -5.624 | -6.989 |
+| medium | conditional-unverified-retained-portfolio | 87.523 | 43 | 19.166 | 11.924 |
+| large | conditional-unverified-retained-portfolio | 180.062 | 43 | 98.180 | 75.736 |
+| medium_downside | conditional-unverified-retained-portfolio | 87.523 | 55 | -38.539 | -39.058 |
 
 Monthly ledgers phase fit-outs after the corresponding infrastructure-completion month and delay tenant handover until railway opening or fit-out completion, whichever is later. Six-month enclosures, three initial rent-free months and an 18-month occupancy ramp precede steady receipts. The last fractional module is constructed in full; spare floor area receives no rent. Rent and OPEX escalate 5% from financial close, and unquoted capital escalates 5% to each invoice. The downside uses rent USD 9/m², 55% target occupancy, 12 extra months of vacancy, a 36-month ramp, 8% arrears and 7% OPEX inflation.
 

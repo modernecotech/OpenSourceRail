@@ -1,6 +1,7 @@
 """Finite supports, complete-train loading and honest installed-price boundaries."""
 from copy import deepcopy
 import importlib.util
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -69,9 +70,11 @@ def test_comparison_binds_all_special_segments_and_keeps_penalty_out_of_priced_d
     result=comparison.build()
     assert result['complete_train']['axles']==24
     assert result['complete_train']['axle_positions_m']==[]
-    assert result['special_segment_count']==65
+    design=tomllib.loads((comparison.CITY/'design.toml').read_text())
+    count=sum(s.get('viaduct_product')=='REALIGN-OR-SPECIAL' for s in design['civil_segments'])
+    assert result['special_segment_count']==count
     special=[r for r in result['alignment_segments'] if r['special_priority_rank']]
-    assert sorted(r['special_priority_rank'] for r in special)==list(range(1,66))
+    assert sorted(r['special_priority_rank'] for r in special)==list(range(1,count+1))
     assert all(not r['radius_proxy_is_surveyed'] for r in special)
     assert any(r['pi20_chord_screen_passed'] is False for r in special)
     assert len(result['packages'])==5

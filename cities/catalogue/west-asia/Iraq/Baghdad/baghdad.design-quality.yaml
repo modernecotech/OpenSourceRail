@@ -1,29 +1,29 @@
 slug: baghdad
-pass: false
+pass: true
 metrics:
-  total_route_m: 516517.4
+  total_route_m: 474179.8
   n_lines: 9
-  n_stations: 182
-  anchor_hit_rate: 0.467
-  high_demand_coverage: 0.464
+  n_stations: 164
+  anchor_hit_rate: 0.415
+  high_demand_coverage: 0.389
   civil_mix_m:
-    at_grade: 428330.6
-    elevated: 75811.1
-    bridge:   12375.8
-  elevated_fraction: 0.171
+    at_grade: 191792.8
+    elevated: 260148.4
+    bridge:   22238.7
+  elevated_fraction: 0.596
   viaduct_products_m:
-    osr_pi20_pi25: 33520.3
-    osr_us:      31486.5
-    special:     12375.8
-    realign:     10804.3
-  max_elevated_cost_multiplier: 45.000
+    osr_pi20_pi25: 249785.2
+    osr_us:      7988.3
+    special:     22238.7
+    realign:     2374.8
+  max_elevated_cost_multiplier: 26.471
 gates:
   hard:
     has_stations:      true
-    length_reasonable: false
+    length_reasonable: true
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
+    elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

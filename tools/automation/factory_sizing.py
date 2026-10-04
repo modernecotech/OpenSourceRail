@@ -28,7 +28,7 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
     if f['productive_availability'] > 1:
         raise ValueError('productive availability cannot exceed one')
     for key in ('ready_months_from_ntp', 'working_days_per_year', 'shift_hours', 'shifts_per_day',
-                'first_article_additional_working_days', 'test_tracks'):
+                'first_article_additional_working_days', 'test_tracks', 'maximum_test_tracks'):
         if int(f[key]) != f[key]:
             raise ValueError('factory count/day must be a whole number: '+key)
     if sum(p['days'] for p in config['construction_phase']) != f['ready_months_from_ntp']*f['working_days_per_year']/12:
@@ -114,9 +114,11 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
     if result is None:
         raise ValueError('no factory sizing solution within search limit')
     bottleneck=min(cells[s['work_center']]/cycles[s['package']] for s in stages)
-    track_capacity=f['test_tracks']*f['shift_hours']*f['shifts_per_day']*f['productive_availability']/f['exclusive_track_hours_per_trainset']
-    if track_capacity < bottleneck:
-        raise ValueError('acceptance bays exceed independently segregated test-track path capacity')
+    per_track_capacity=f['shift_hours']*f['shifts_per_day']*f['productive_availability']/f['exclusive_track_hours_per_trainset']
+    test_tracks=max(int(f['test_tracks']),math.ceil(bottleneck/per_track_capacity))
+    if test_tracks>f['maximum_test_tracks']:
+        raise ValueError('required test-track path capacity exceeds the controlled site limit')
+    track_capacity=test_tracks*per_track_capacity
     # Tell the common scheduler the approved planning priority explicitly.
     physical=[]
     for s in stages:
@@ -127,14 +129,14 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
             process_floor_m2=n*s.get('floor_m2_per_cell',f['trainset_bay_length_m']*f['trainset_bay_width_m']),
             tooling_allowance_usd=n*s['tooling_allowance_usd_per_cell']))
     floor=sum(s['process_floor_m2'] for s in physical)*(1+f['support_floor_fraction'])
-    track_land=f['test_tracks']*f['test_track_length_m']*f['test_track_land_width_m']
+    track_land=test_tracks*f['test_track_length_m']*f['test_track_land_width_m']
     land=floor*f['site_floor_multiplier']+track_land
     c=config['cost_envelope']
     for k,v in c.items(): _positive(v,k)
     costs=dict(buildings=floor*c['building_allowance_usd_m2'],
                serviced_site=land*c['serviced_site_allowance_usd_m2'],
                stage_tooling=sum(s['tooling_allowance_usd'] for s in physical),
-               test_tracks=f['test_tracks']*f['test_track_length_m']/1000*c['test_track_allowance_usd_km'],
+               test_tracks=test_tracks*f['test_track_length_m']/1000*c['test_track_allowance_usd_km'],
                shared_utilities_stores_labs_logistics=c['shared_utilities_stores_labs_logistics_usd'],
                design_training_qualification=c['design_training_qualification_usd'])
     costs['contingency']=sum(costs.values())*c['contingency_fraction']
@@ -148,6 +150,9 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict) -> dict:
         lines_civil_complete_before_factory_ready=[line for line in order if deadlines[line]<ready],
         resource_capacity=cells,resource_ready_days=resource_ready,stages=physical,
         minimum_steady_output_trainsets_per_year=bottleneck*f['working_days_per_year'],
+        test_tracks=test_tracks,minimum_test_tracks=f['test_tracks'],
+        exclusive_track_hours_per_trainset=f['exclusive_track_hours_per_trainset'],
+        test_track_length_m=f['test_track_length_m'],
         exclusive_test_path_capacity_trainsets_per_year=track_capacity*f['working_days_per_year'],
         process_and_support_floor_m2=floor,planning_site_m2=land,
         direct_production_crew_fte=sum(s['direct_crew_fte'] for s in physical),

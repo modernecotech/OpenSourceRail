@@ -16,7 +16,7 @@ const region = argument("region", "west-asia");
 const baseUrl = argument("base-url", "http://127.0.0.1:8090").replace(/\/$/, "");
 const output = argument(
   "output",
-  `cities/catalogue/${region}/${country}/${city[0].toUpperCase()}${city.slice(1)}/offer/screenshots`,
+  `cities/catalogue/${region}/${country}/${city[0].toUpperCase()}${city.slice(1)}/engineering/screenshots`,
 );
 
 await mkdir(output, { recursive: true });

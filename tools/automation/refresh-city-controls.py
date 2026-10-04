@@ -26,7 +26,7 @@ def refresh(path: Path, documentation_only: bool = False) -> dict:
         commands += [finance, operations]
     if not documentation_only:
         commands += [[sys.executable, str(ROOT / "tools/automation/generate-acceptance-evidence-report.py"), "--bundle", str(directory / f"operations/{slug}-operations.json.gz")]]
-    commands += [[sys.executable, "-m", "osr_scenario.network_readme", "--design", str(path), "--scenario", str(directory / f"{slug}.toml"), "--out", str(directory / "README.md"), "--allow-stale-evidence"]]
+    commands += [[sys.executable, str(ROOT / "tools/automation/publish-city-summary.py"), "--design", str(path), "--scenario", str(directory / f"{slug}.toml"), "--out", str(directory / "README.md"), "--allow-stale-evidence"]]
     with (logs / f"controls-{slug}.log").open("w") as handle:
         for command in commands:
             result = subprocess.run(command, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)

@@ -48,4 +48,9 @@ def test_catalogue_depot_scope_is_current_and_does_not_claim_release():
         assert report == scope.build_report(path), path
         assert report["passed"] is False
         assert report["quantities_reconciled"] is True
-        assert (output.parent / "README.md").read_text() == scope.render_markdown(report)
+        assert publication_without_context((output.parent / "README.md").read_text()) == scope.render_markdown(report)
+
+
+def publication_without_context(text):
+    import re
+    return re.sub(r'<!-- OSR CURRENT SCOPE CONTEXT -->.*?<!-- END OSR CURRENT SCOPE CONTEXT -->\n\n?', '', text, flags=re.S)

@@ -12,14 +12,14 @@ detail=importlib.util.module_from_spec(spec);spec.loader.exec_module(detail)
 
 def test_family_quantities_and_nested_content_do_not_become_finance_or_release():
     r=detail.build_register();b=r['quantity_bases']
-    assert (b['trainset'],b['car'],b['bogie'],b['station'],b['site'],b['plant']) == (831,4986,9972,182,158,1)
+    assert (b['trainset'],b['car'],b['bogie'],b['station'],b['site'],b['plant']) == (current_fleet(),current_fleet()*6,current_fleet()*12,len(current_design()['stations']),len(__import__('tomllib').loads((detail.CITY/'baghdad.toml').read_text())['sites']),1)
     assert r['family']=='metro-6car'
     assert not r['engineering_release'] and not r['cost_model_changed'] and not r['finance_model_changed']
     parts={p['id']:p for p in r['parts']}
-    assert parts['ME-05']['quantity_network_reference']==19944
-    assert parts['ME-06']['quantity_network_reference']==9972
-    assert parts['EL-03']['quantity_network_reference']==1662
-    assert parts['EL-04']['quantity_network_reference']==3324
+    assert parts['ME-05']['quantity_network_reference']==current_fleet()*24
+    assert parts['ME-06']['quantity_network_reference']==current_fleet()*12
+    assert parts['EL-03']['quantity_network_reference']==current_fleet()*2
+    assert parts['EL-04']['quantity_network_reference']==current_fleet()*4
     assert parts['TR-01']['quantity_network_reference']==pytest.approx(b['route-km']*4000)
     assert parts['TR-08']['quantity_network_reference'] is None
     assert parts['TR-03']['quantity_network_reference'] is None
@@ -66,3 +66,11 @@ def test_database_has_independent_bounded_temporary_storage_and_persistent_data(
     assert 'db-data:/var/lib/mysql' in db['volumes']
     assert '/tmp:mode=1777,size=512m' in db['tmpfs']
     assert db['healthcheck']['test']==['CMD','healthcheck.sh','--connect','--innodb_initialized']
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

@@ -59,9 +59,9 @@ depot_maintenance_fraction = 0.025
 import_share = 0.20
 
 [civil_policy]
-minimum_at_grade_fraction = 0.55
-maximum_elevated_fraction = 0.40
-maximum_bridge_fraction = 0.05
+minimum_at_grade_fraction = 0.25
+maximum_elevated_fraction = 0.65
+maximum_bridge_fraction = 0.10
 preferred_elevated_radius_m = 300.0
 deck_height_m = 8.5
 maximum_gradient = 0.03
@@ -201,3 +201,11 @@ cash_coupon_deferrable_until_maturity = true
 automatic_refinancing = false
 equity_conversion_assumed = false
 subordination = "Junior to scheduled senior debt and funded reserves; junior payments cannot use new gap borrowing or unfunded support"
+
+# Core stations require raised-platform structures and vertical access.
+# Catalogue interchange-elevated already includes its structure: no second charge.
+[elevated_stations]
+non_interchange_structure_multiplier = 1.30
+vertical_access_allowance_usd = 1000000
+annual_maintenance_fraction = 0.025
+import_share = 0.10

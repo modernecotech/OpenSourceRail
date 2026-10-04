@@ -247,6 +247,22 @@ def alignment_options(d,c,comparison,cost):
         selected_geometry=None,land_utilities_stations_foundations_and_crossings_usd=None)
 
 
+def elevated_station_scope(d,c):
+    core=read(CITY/'engineering/alignment/core-realignment.json')['core']
+    rates=tomllib.loads((ROOT/'lib/templates/capex-costs.toml').read_text())['station_unit_usd']
+    policy=c['elevated_stations'];rows=[]
+    for station in d['stations']:
+        if not core['south']<=station['lat']<=core['north'] or not core['west']<=station['lon']<=core['east']:continue
+        base=rates[station['archetype']]
+        elevated=(rates['interchange-elevated'] if station['archetype'] in ('interchange','interchange-elevated') else base*policy['non_interchange_structure_multiplier']+policy['vertical_access_allowance_usd'])
+        rows.append(dict(station=station['id'],line=station['line'],catalogue_archetype=station['archetype'],
+            existing_station_allowance_usd=base,elevated_reference_allowance_usd=elevated,
+            incremental_direct_usd=max(0,elevated-base),status='unquoted-core-elevated-platform-and-vertical-access-allowance',
+            actual_structure_accessibility_fire_egress_accepted=False))
+    return dict(stations=rows,incremental_direct_usd=sum(row['incremental_direct_usd'] for row in rows),
+        title_clearance_pier_utility_approval=False,quoted=False)
+
+
 def revised_contracts(inputs,task_lines,d,depots,industry,c,cost,selection,alignment, *, raw_stress=False, construction_stress=False):
     contracts=deepcopy(inputs['contracts']+inputs['factory_contracts']);old=sum(r['budget_usd'] for r in contracts)
     contracts=[r for r in contracts if r['bucket']!='depots']
@@ -254,6 +270,16 @@ def revised_contracts(inputs,task_lines,d,depots,industry,c,cost,selection,align
         finish=max(0,int((site['opening_month']-2)*260/12-30))
         contracts.append(dict(bucket='revised_depot',line=site['line'],budget_usd=site['reference_cost_usd'],
             imported_share=c['depots']['import_share'],planned_start_day=max(0,finish-22*260//12),planned_finish_day=finish))
+    uplift=elevated_station_scope(d,c)
+    old_station_contracts=[row for row in contracts if row['bucket']=='stations']
+    for line in d['lines']:
+        amount=sum(row['incremental_direct_usd'] for row in uplift['stations'] if row['line']==line['name'])
+        if amount:
+            related=[row for row in old_station_contracts if task_lines.get(row.get('manufacturing_uid'),row.get('line',''))==line['name']]
+            if not related:raise ValueError('Missing station work programme for core uplift: '+line['name'])
+            contracts.append(dict(bucket='core_elevated_station_upgrade',line=line['name'],budget_usd=amount,
+                imported_share=c['elevated_stations']['import_share'],planned_start_day=min(row['planned_start_day'] for row in related),
+                planned_finish_day=max(row['planned_finish_day'] for row in related)))
     contracts+=bearing_index_delta_contracts(inputs['contracts']+inputs['factory_contracts'],task_lines,d,cost)
     count=industry['trainsets'];selected=[r for r in industry['products'] if selection=='all' or selection=='positive' and r['economically_positive_before_finance']]
     old_rolling=sum(r['budget_usd'] for r in contracts if r['bucket']=='rolling_stock')
@@ -287,7 +313,7 @@ def revised_contracts(inputs,task_lines,d,depots,industry,c,cost,selection,align
     if civil_total+civil_delta<0:raise ValueError('Alignment sensitivity removes more than civil scope')
     for contract in contracts:
         if contract['bucket']=='civil':contract['budget_usd']*=1+civil_delta/civil_total
-        if construction_stress and contract['bucket'] in {'civil','stations','revised_depot','component_factory'}:
+        if construction_stress and contract['bucket'] in {'civil','stations','core_elevated_station_upgrade','revised_depot','component_factory'}:
             contract['budget_usd']*=1+c['construction']['embedded_labour_fraction_stress']*c['construction']['pay_uplift_fraction_stress']
     direct_change=sum(r['budget_usd'] for r in contracts)-old
     epc=direct_change*c['model']['incremental_epc_fraction']
@@ -336,6 +362,7 @@ def operating_projection(inputs,people,bc,depots,industry,selected,c,finance,pha
     byrole={r['role_id']:r for r in people['roles']}
     for unit in people['units']:
         role=byrole[unit['unit'].split(':')[0]];line_pay[unit['line']]+=unit['required_fte']*role['annual_loaded_payroll_iqd']/role['required_fte']/fx
+    core_stations=elevated_station_scope(tomllib.loads((CITY/'design.toml').read_text()),c)
     first=min(openings.values());last=max(openings.values());olddep=read(CITY/'engineering/delivery-baseline/depot-package.json')['alternatives']['workload_bays']['gross_reference_cost_usd']
     # Cash procurement already includes variable component labour/materials;
     # only distinct ongoing support/plant maintenance is added below.
@@ -346,6 +373,8 @@ def operating_projection(inputs,people,bc,depots,industry,selected,c,finance,pha
         active=first<=month<last+inputs['config']['model']['operating_years']*12
         payroll=sum(v for line,v in line_pay.items() if month>=openings[line])*indexed/12 if active else 0
         row['opex_usd']=inherited[month]['opex_iqd']/fx+payroll-components[month]['workload_payroll_usd']+prepay[month]-oldprepay[month]
+        if active:
+            row['opex_usd']+=sum(station['incremental_direct_usd'] for station in core_stations['stations'] if month>=openings[station['line']])*c['elevated_stations']['annual_maintenance_fraction']*indexed/12
         opened=sum(p['weight'] for p in phases if month>=p['opening_month']) if active else 0
         row['opex_usd']+=(depots['gross_reference_cost_usd']-olddep)*c['depots']['depot_maintenance_fraction']*opened*indexed/12
         # Fixed support, paid capacity above variable unit labour, and
@@ -415,6 +444,7 @@ def main():
     industry=local_industry(d,s,read(CITY/'engineering/delivery-baseline/six-car.json'),factory,c,people)
     comparison=read(CITY/'engineering/viaduct-comparison/comparison.json');cost=tomllib.loads((ROOT/'lib/templates/civil-cost-model.toml').read_text())
     alignment=alignment_options(d,c,comparison,cost)
+    core_stations=elevated_station_scope(d,c)
     payload=json.loads(gzip.decompress(paths['operations'].read_bytes()));construction=construction_people(payload,industry,c,people)
     cases={}
     variants=[('revised_scope_buy','none',None,False,False),('local_all','all',None,False,False),('local_positive','positive',None,False,False),
@@ -423,6 +453,7 @@ def main():
     variants += [(a['id'],'positive',a,False,False) for a in alignment['alternatives']]
     variants += [(name,'positive',None,False,False) for name in ('local_positive_raw_price_stress','local_positive_supplier_delay','construction_wage_content_stress')]
     OUT.mkdir(parents=True,exist_ok=True)
+    (OUT/'core-elevated-stations.json').write_text(json.dumps(core_stations,indent=2,sort_keys=True)+'\n')
     for name,selection,align,mezz,commercial in variants:
         contracts,selected,bridge=revised_contracts(inputs,task_lines,d,depot,industry,c,cost,selection,align,
             raw_stress=name=='local_positive_raw_price_stress',construction_stress=name=='construction_wage_content_stress')
@@ -480,7 +511,7 @@ Controlled planning basis, {c['model']['as_of']}; unquoted and uncommitted. This
 
 ## Operating people and wages
 
-The 182 stations require two concurrent staff during two normal eight-hour shifts: **{people['station_cover']['normal_daily_shift_assignments']} daily shift assignments**, not 728 people working every day. Retaining {people['station_cover']['service_hours']} service hours also requires {people['station_cover']['additional_late_hours_per_station']} hours of separately funded late cover per station. Weekly cover, leave, training, sickness and handovers give **{people['station_cover']['station_cover_fte']} station-cover FTE**, within **{people['reference_required_fte']} permanent operating FTE**. Full-operation loaded payroll is **IQD {people['reference_annual_loaded_payroll_iqd']/1e9:.3f}bn/year** (USD {people['reference_annual_loaded_payroll_usd']/1e6:.3f}m equivalent), indexed thereafter with OPEX.
+The {len(d['stations'])} stations require two concurrent staff during two normal eight-hour shifts: **{people['station_cover']['normal_daily_shift_assignments']} daily shift assignments**, not a headcount of people working every day. Retaining {people['station_cover']['service_hours']} service hours also requires {people['station_cover']['additional_late_hours_per_station']} hours of separately funded late cover per station. Weekly cover, leave, training, sickness and handovers give **{people['station_cover']['station_cover_fte']} station-cover FTE**, within **{people['reference_required_fte']} permanent operating FTE**. Full-operation loaded payroll is **IQD {people['reference_annual_loaded_payroll_iqd']/1e9:.3f}bn/year** (USD {people['reference_annual_loaded_payroll_usd']/1e6:.3f}m equivalent), indexed thereafter with OPEX.
 
 The employee median is IQD 614,000 from the 2021 Labour Force Survey, cited in the [IMF 2023 report]({c['wages']['source']}). Applying an assumed 5% annual index to 2026 gives IQD {indexed_median(c):,.0f}; the general-worker floor is **IQD {indexed_median(c)*1.5:,.0f}/month**, 50% higher. Technical, supervisor, senior and director roles use 2.25/3/4/5 times that indexed proxy. This is a historical observation plus an editable index, not a measured current national median. Employer costs and overtime are priced separately. [Roles](workforce.csv) and [recruitment/cohorts](workforce.json) retain appointment and competence gates.
 
@@ -498,6 +529,10 @@ There are **{depot['number_of_depots']} line-local depots**, providing **{depot[
 
 Total depot reference: **USD {depot['gross_reference_cost_usd']/1e6:.3f}m**, replacing the original USD 8m exactly once. Storage, workshop and access tracks, points, drainage/access, workshop shell/equipment/services, yard lighting/fire services, wash plant, wheel lathe, offices/stores and rescue/quarantine are visible. Access-track length is an editable allowance, not a connected site alignment. Existing depot PV/BESS is retained once. Land/title, utility relocation, actual soil/foundations, installed charger/grid upgrades and tax/duties remain unpriced. [Item register](depot-items.csv).
 
+## Core elevated stations
+
+The reworked core has {len(core_stations['stations'])} station platforms with raised-structure/access scope. The register replaces their catalogue allowance with a separately stated elevated reference, adding **USD {core_stations['incremental_direct_usd']/1e6:.3f}m direct**, with incremental EPC and operating maintenance once. Elevated interchange allowances are already present where catalogued; they receive no duplicate uplift. Other core stations use a 30% structure allowance plus USD 1m for vertical access. These are unquoted allowances, not released multi-level junction or station designs. [Core station register](core-elevated-stations.json).
+
 ## Iraqi component manufacture
 
 {table(['Product','Network quantity','Required units/year','Cells','Production/support FTE','Factory capital USD m','Unit make/buy USD','Whole-order margin USD m'],[[r['id'],r['network_quantity'],f"{r['annual_required_output']:.0f}",r['cells'],f"{r['production_fte']}/{r['support_fte']}",f"{r['incremental_capital_usd']/1e6:.3f}",f"{r['local_unit_reference_usd']:.0f}/{r['baseline_unit_allocation_usd']:.0f}",f"{r['whole_order_margin_before_finance_tax_risk_usd']/1e6:.3f}"] for r in industry['products']])}
@@ -508,7 +543,7 @@ The buy case itemises these five imported completed products; the old blanket ve
 
 ## More elevation and fewer bends
 
-The study allows up to 40% elevated and at least 55% at grade, subject to site/design acceptance. Baghdad currently has {alignment['current_elevated_fraction']:.2%} elevated. Investigation windows around all {alignment['exceptional_segments']} exceptional segments add {alignment['candidate_extra_elevated_m']/1000:.3f} km of candidate at-grade conversion, reaching {alignment['candidate_elevated_fraction']:.2%}; overlapping intervals are merged and existing viaduct/bridge lengths excluded. Approach length is at least {alignment['minimum_gradient_approach_m']:.1f} m from assumed height/gradient.
+The current main design adopts the straight central elevated alignment. The screening policy allows up to {alignment['policy']['maximum_elevated_fraction']:.0%} elevated and at least {alignment['policy']['minimum_at_grade_fraction']:.0%} at grade, subject to site/design acceptance. Baghdad currently has {alignment['current_elevated_fraction']:.2%} elevated. Investigation windows around all {alignment['exceptional_segments']} exceptional segments add {alignment['candidate_extra_elevated_m']/1000:.3f} km of candidate at-grade conversion, reaching {alignment['candidate_elevated_fraction']:.2%}; overlapping intervals are merged and existing viaduct/bridge lengths excluded. Approach length is at least {alignment['minimum_gradient_approach_m']:.1f} m from assumed height/gradient.
 
 **Elevation alone removes no horizontal bend.** Wider-radius geometry, station moves, ROW, vertical alignment, ramps, egress, ground/utility evidence, crossings and whole-life costs must be designed together. The finance cases separately test no routing-penalty removal and hypothetical 25%/50% removal; these percentages are unverified counterfactuals, not achieved savings. The added standard civil allowance uses the conservative simple-span bearing index. [Candidate intervals](alignment-candidates.csv).
 
@@ -516,7 +551,7 @@ The study allows up to 40% elevated and at least 55% at grade, subject to site/d
 
 Government capital remains exactly 25% of the scenario total. Imported invoices receive 50% government USD cash / 50% Chinese USD credit. Remaining government cash, bonds, senior bank/gap credit and mezzanine are IQD. Government USD payment dates follow machinery/input invoices; the remaining appropriation is allocated proportionally to local invoices, so a machinery-heavy month need not be falsely limited to 25% government cash. Chinese supplier origin and export-credit eligibility are assumptions requiring vendor/lender confirmation. China Exim describes buyer credit for Chinese products, technologies and services; machinery eligibility is not a loan commitment ([official product description](https://english.eximbank.gov.cn/Business/CreditB/SupportingFT/201810/t20181016_6965.html)).
 
-The four-process senior case's **capital-only** sources are shown below. They sum to its capital uses; gap credit, interest/fees, reserve funding and operating receipts are additional cashflows in its [monthly ledger](local_positive-monthly.csv) and [six-month placement schedule](local_positive-semiannual.csv). Ordinary and green bonds are separate placements, never added again to a combined bond figure. Bond face units are IQD 1m; rounded placement envelopes are not additional cash raised.
+The positive-margin local-production senior case's **capital-only** sources are shown below. They sum to its capital uses; gap credit, interest/fees, reserve funding and operating receipts are additional cashflows in its [monthly ledger](local_positive-monthly.csv) and [six-month placement schedule](local_positive-semiannual.csv). Ordinary and green bonds are separate placements, never added again to a combined bond figure. Bond face units are IQD 1m; rounded placement envelopes are not additional cash raised.
 
 {table(['Capital source','Currency','Native amount','USD equivalent m'],[[label,currency,f'{amount:,.0f}',f"{amount/(1 if currency=='USD' else c['model']['iqd_per_usd'])/1e6:.3f}"] for label,currency,amount in capital_sources])}
 
@@ -524,9 +559,9 @@ Mezzanine replaces 10% of domestic residual capital borrowing; it is not extra c
 
 {table(['Matched case / six-month placement schedule','CAPEX USD bn','USD capital intensity','Peak IQD gap tn','Terminal all debt IQD tn','Unfunded IQD tn','Junior defaulted vintages'],[[f'[{name}]({name}-semiannual.csv)',f"{m['total_capital_usd']/1e9:.3f}",f"{m['usd_capital_intensity']:.2%}",f"{m['peak_gap_iqd']/1e12:.3f}",f"{m['terminal_all_debt_iqd']/1e12:.3f}",f"{m['unfunded_support_iqd']/1e12:.3f}",m['junior_defaulted_vintages']] for name,m in cases.items()])}
 
-The four positive-margin process options reduce capital from USD {cases['revised_scope_buy']['total_capital_usd']/1e9:.3f}bn to USD {cases['local_positive']['total_capital_usd']/1e9:.3f}bn, and imported invoice exposure from USD {cases['revised_scope_buy']['imported_invoices_usd']/1e9:.3f}bn to USD {cases['local_positive']['imported_invoices_usd']/1e9:.3f}bn. Half of that exposure is government USD cash and half Chinese USD credit; all other capital funding is IQD. The historical 148 km / USD 18bn third-party benchmark has a different scope and assumed full foreign-currency financing; this is a planning comparison, not a like-for-like tender saving. The 516.5 km catalogue's 46.4% population-access proxy is unchanged and is not surveyed pedestrian coverage.
+The {len(read(OUT/'local_positive.json')['selected_component_factories'])} positive-margin process options reduce capital from USD {cases['revised_scope_buy']['total_capital_usd']/1e9:.3f}bn to USD {cases['local_positive']['total_capital_usd']/1e9:.3f}bn, and imported invoice exposure from USD {cases['revised_scope_buy']['imported_invoices_usd']/1e9:.3f}bn to USD {cases['local_positive']['imported_invoices_usd']/1e9:.3f}bn. Half of that exposure is government USD cash and half Chinese USD credit; all other capital funding is IQD. The historical 148 km / USD 18bn third-party benchmark has a different scope and assumed full foreign-currency financing; this is a planning comparison, not a like-for-like tender saving. The reworked {sum(l['length_m'] for l in d['lines'])/1000:.1f} km network's {programme['comparison']['anchor_weighted_coverage']:.1%} population-access proxy is not surveyed pedestrian coverage.
 
-**Current financial conclusion:** the four-process senior case still needs IQD {cases['local_positive']['unfunded_support_iqd']/1e12:.3f}tn of unsourced support and retains IQD {cases['local_positive']['terminal_all_debt_iqd']/1e12:.3f}tn of debt at the horizon. Its company NPV before finance is USD {cases['local_positive']['company_npv_before_finance_usd']/1e9:.3f}bn at the assumed nominal discount rate. Adding mezzanine does not change the underlying operating return: it leaves IQD {cases['local_positive_mezzanine']['terminal_all_debt_iqd']/1e12:.3f}tn of total debt and {cases['local_positive_mezzanine']['junior_defaulted_vintages']} unpaid junior vintages. It is not recommended as a cure for the funding deficit. Fare and OPEX indexation, kiosks/advertising and inherited additional receipts are already included; new verified capital, affordable revenue or accepted scope savings are still needed.
+**Current financial conclusion:** the positive-margin senior case records IQD {cases['local_positive']['unfunded_support_iqd']/1e12:.3f}tn of residual unsourced support after assumed facilities and retains IQD {cases['local_positive']['terminal_all_debt_iqd']/1e12:.3f}tn of debt at the horizon. Its company NPV before finance is USD {cases['local_positive']['company_npv_before_finance_usd']/1e9:.3f}bn at the assumed nominal discount rate. Adding mezzanine does not change the underlying operating return: it leaves IQD {cases['local_positive_mezzanine']['terminal_all_debt_iqd']/1e12:.3f}tn of total debt and {cases['local_positive_mezzanine']['junior_defaulted_vintages']} unpaid junior vintages. It is not recommended as a cure for the funding deficit. Fare and OPEX indexation, kiosks/advertising and inherited additional receipts are already included; new verified capital, affordable revenue or accepted scope savings are still needed.
 
 All cases use the same revised staff, depot and indexed fare/OPEX assumptions. Six months of scheduled senior service are reserved from the first draw; three months of OPEX plus explicit industrial working capital are restricted. This revised reserve policy differs from older reference cases, so compare matched cases in this table when judging mezzanine. Concessional 2% gap funding, grants/rights/additional income and enhanced green coupons are uncommitted; the 8% gap and high mezzanine-rate case expose that dependence. There are zero dividends. Cash/principal/PIK identities, maturity risk, monthly draws and six-month bond denominations are retained for every case.
 
@@ -540,12 +575,15 @@ Regenerate with `.venv/bin/python tools/automation/baghdad_programme_recalculati
         comparison=CITY/'engineering/viaduct-comparison/comparison.json',depots=CITY/'engineering/delivery-baseline/depot-package.json',
         family=CITY/'engineering/delivery-baseline/six-car.json',people=CITY/'engineering/delivery-baseline/workforce.json',
         full_case=CITY/'engineering/delivery-closure/finance-simple_span_bearing_index.json')
+    paths.update(alignment_config=ROOT/'lib/templates/baghdad-alignment.toml',
+        alignment_controls=CITY/'engineering/alignment/core-realignment.json',
+        alignment_generator=ROOT/'tools/automation/rework-baghdad-alignment.py')
     paths.update(mobilisation=CITY/'engineering/delivery-closure/development-training-mobilisation.json',
         closure_config=ROOT/'lib/templates/baghdad-delivery-closure.toml')
     summary=dict(schema=1,as_of=c['model']['as_of'],scope=c['model']['scope'],finance_cases=cases,
         operating_fte=people['reference_required_fte'],annual_payroll_iqd=people['reference_annual_loaded_payroll_iqd'],
         depot_count=depot['number_of_depots'],depot_storage_slots=depot['full_fleet_storage_slots'],
-        supplier_quotes=0,physical_acceptances=0,complete_delivery_budget=False,baseline_design_replaced=False,
+        supplier_quotes=0,physical_acceptances=0,complete_delivery_budget=False,baseline_design_replaced=True,
         sources_sha256={p.relative_to(ROOT).as_posix():digest(p) for p in paths.values()},
         outputs_sha256={p.name:digest(p) for p in sorted(OUT.iterdir()) if p.is_file() and p.name!='summary.json'})
     (OUT/'summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True,allow_nan=False)+'\n')

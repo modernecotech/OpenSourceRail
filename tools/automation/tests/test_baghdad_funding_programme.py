@@ -58,7 +58,8 @@ def test_comparator_and_employment_remain_evidence_limited():
     assert 'not verified' in c['third_party']['currency_basis']
     assert 'not measured' in c['third_party']['coverage_basis']
     assert c['construction_job_count'] is None
-    assert c['operating_fte'] == 2350
+    city=json.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json').read_text())
+    assert c['operating_fte']==city['workforce']['total_fte']
     assert 0 < c['anchor_weighted_coverage'] < 1
     assert c['first_operating_year_neutral_fare_iqd_including_debt_and_fees'] > c['operating_only_neutral_fare_iqd_at_low_trips']
     assert not p['funding_committed']

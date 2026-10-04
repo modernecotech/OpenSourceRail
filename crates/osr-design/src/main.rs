@@ -32,6 +32,7 @@ use osr_routing::{
     topology::{budget_for_population, greedy_synthesize_lines, hub_cell, Line, HUB_RADIUS_CELLS},
 };
 use serde::{Deserialize, Serialize};
+mod alignment_policy;
 mod emit;
 
 const CORRIDOR_CACHE_SCHEMA_VERSION: u32 = 1;
@@ -388,6 +389,7 @@ fn main() -> Result<()> {
         snap_radius_cells: 25,
         ..SpacingConfig::default()
     };
+    let alignment_policy = alignment_policy::Policy::load(&args.out_dir)?;
     for line in &lines {
         let stations = place_stations(
             &bundle.grid,
@@ -398,7 +400,11 @@ fn main() -> Result<()> {
         );
         eprintln!("  {}: {} stations", line.name, stations.len());
         all_stations.extend(stations);
-        civil_per_line.push(classify_segments(&bundle.grid, &line.cells));
+        let classified = classify_segments(&bundle.grid, &line.cells);
+        civil_per_line.push(match &alignment_policy {
+            Some(policy) => policy.classify(&line.name, &bundle.grid, &line.cells, &classified),
+            None => classified,
+        });
     }
 
     // Force every radial through one CBD interchange. Without this each

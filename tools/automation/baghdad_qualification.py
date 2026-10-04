@@ -130,7 +130,8 @@ def section_study(design, scenario, payload, factory, context, options, risk):
     full_line = next(p for p in delivery['phases'] if p['line']==options['line'])
     if opening >= full_line['opening_month']:
         raise ValueError('First section does not create an earlier operating phase')
-    capacity_weight = min(fleet/831, full_line['weight']*length/(next(l['length_m'] for l in design['lines'] if l['name']==options['line'])/1000))
+    ultimate_fleet=sum(row['trainset_count'] for row in design['fleets'])
+    capacity_weight = min(fleet/ultimate_fleet, full_line['weight']*length/(next(l['length_m'] for l in design['lines'] if l['name']==options['line'])/1000))
     weight = capacity_weight*options['demand_fraction_of_capacity_proxy']
     full_line_month = full_line['opening_month']
     full_line['weight'] -= weight
@@ -145,7 +146,7 @@ def section_study(design, scenario, payload, factory, context, options, risk):
     annual_grid_kwh=annual_legs*duty_kwh/2/options['charger_efficiency']
     section_opex=dict(labour=options['operating_fte']*salary,
         civil_station_maintenance=components['civil_station_depot_maintenance']*length_share,
-        rolling_stock_and_battery_reserve=components['rolling_stock_maintenance_including_battery_renewal_reserve']*fleet/831,
+        rolling_stock_and_battery_reserve=components['rolling_stock_maintenance_including_battery_renewal_reserve']*fleet/ultimate_fleet,
         solar_maintenance=components['solar_plant_maintenance']*length_share,
         signalling_maintenance=components['signalling_maintenance']*length_share,
         conservative_grid_energy=annual_grid_kwh*options['reference_grid_usd_per_kwh'],
@@ -173,7 +174,7 @@ def section_study(design, scenario, payload, factory, context, options, risk):
     return dict(status='separate-unqualified-first-section-option', line=options['line'], station_ids=[r['id'] for r in stations],
                 route_km=length, headway_minutes=options['headway_minutes'], running_minutes=running_minutes,
                 round_trip_minutes=cycle, peak_trains=peak, spare_trains=spares, cold_reserve=1, total_trainsets=fleet,
-                allocated_existing_trainsets=[r['asset_id'] for r in accepts], ultimate_city_trainsets=831,
+                allocated_existing_trainsets=[r['asset_id'] for r in accepts], ultimate_city_trainsets=ultimate_fleet,
                 terminal_berths_per_end=berths, charger_kw_per_berth=charging_kw,
                 terminal_grid_kw_per_end=berths*charging_kw, terminal_charge_seconds=options['terminal_charging_seconds'],
                 auxiliary_proxy_kw=aux_kw, round_trip_energy_kwh=duty_kwh, round_trip_charge_delivered_kwh=delivered,
@@ -238,14 +239,14 @@ def evidence_packages(register, factory, programme, section, sources):
         return dict(id=label, operator=operator, target=value, unit=unit)
     criteria=[
       [*[c(s['package']+'-occupation','le',s['planned_occupation_days']*8,'working-hour') for s in factory['stages']],c('availability','ge',.85,'fraction'),c('first-article-qualification','ge',60,'working-day'),c('fixed-hold-shift-compression','eq',0,'working-hour')],
-      [c('complete-qualified-kits','eq',831,'six-car-kit'),c('origin-and-invoice-coverage','eq',1,'fraction')],
+      [c('complete-qualified-kits','eq',factory['total_trainsets'],'six-car-kit'),c('origin-and-invoice-coverage','eq',1,'fraction')],
       [c('competent-baseline-cell-staff','ge',1044,'FTE'),c('qualified-fatigue-roster','eq',1,'fraction')],
       [c('segregated-paths','ge',2,'path'),c('exclusive-running-test','ge',16,'hour/train'),c('qualified-throughput','ge',factory['minimum_steady_output_trainsets_per_year'],'train/year')],
       [c('survey-and-permit-coverage','eq',1,'fraction'),c('accepted-quantity-and-rate-coverage','eq',1,'fraction')],
       [c('temporary-ready','le',260,'working-day'),c('permanent-acceptance-ready','le',390,'working-day'),c('transfer-and-quote-coverage','eq',1,'fraction')],
       [c('phase-demand-calibration','eq',1,'fraction'),c('concession-net-receipts-evidence','eq',1,'fraction')],
       [c('all-six-month-financing-gates-covered','eq',1,'fraction'),c('signed-native-currency-term-coverage','eq',1,'fraction'),c('government-capital-share','eq',.25,'fraction')],
-      [c('open-release-hazards','eq',0,'hazard'),c('allocated-full-fleet-acceptance','eq',831,'train'),c('line-infrastructure-acceptance','eq',1,'fraction')],
+      [c('open-release-hazards','eq',0,'hazard'),c('allocated-full-fleet-acceptance','eq',factory['total_trainsets'],'train'),c('line-infrastructure-acceptance','eq',1,'fraction')],
     ]
     rows=[]
     for i,(entry,checks) in enumerate(zip(register,criteria),1):
@@ -433,7 +434,7 @@ def main():
 def write_readme(facility,section,gates,threshold,npv,comparison):
     text=f'''# Baghdad qualification, funding gates and first operating section
 
-This package turns the review findings into executable draft work. It supplies no physical acceptance, supplier quotation, named owner assignment or financing commitment. The full 831-train Baghdad baseline and its month 41/83 openings remain unchanged.
+This package turns the review findings into executable draft work. It supplies no physical acceptance, supplier quotation, named owner assignment or financing commitment. The full {section['ultimate_city_trainsets']}-train Baghdad baseline uses the current generated route and opening schedule.
 
 ## Temporary first-article industrial package
 
@@ -469,7 +470,7 @@ The placement files diagnose the **original** invoice request. Recovered cashflo
     text+=f'''
 ## Separate independently operable first-section option
 
-[First-section duty, assets and finance](first-section.json) takes the actual first five line-1 stations, from the Mahmudiya terminal to {section['station_ids'][-1]}, spanning **{section['route_km']:.3f} km**. This outer corridor is a demonstrator candidate, not a proven best catchment. It needs its own OD/accessibility study and comparison against better central corridors. Existing station/track/wayside tasks alone are pulled forward within the frozen lane/predecessor graph; their already-budgeted capital is retimed, not purchased again. Other route quantities and the 831-city fleet remain unchanged.
+[First-section duty, assets and finance](first-section.json) takes the actual first five line-1 stations, from the Mahmudiya terminal to {section['station_ids'][-1]}, spanning **{section['route_km']:.3f} km**. This outer corridor is a demonstrator candidate, not a proven best catchment. It needs its own OD/accessibility study and comparison against better central corridors. Existing station/track/wayside tasks alone are pulled forward within the frozen lane/predecessor graph; their already-budgeted capital is retimed, not purchased again. Other route quantities and the {section['ultimate_city_trainsets']}-train city fleet remain unchanged.
 
 At the reference six-minute headway and 40 km/h average running speed, the round trip is {section['round_trip_minutes']:.2f} minutes including intermediate dwells and ten-minute charging/turnaround at each end. It requires **{section['peak_trains']} peak + {section['spare_trains']} spare + 1 cold reserve = {section['total_trainsets']} existing six-car trains**. Allocated train IDs are in the data file and must all pass acceptance before section operation. A six-minute section service is an explicit early-phase option rather than the ultimate line's three-minute design demand.
 
@@ -481,7 +482,7 @@ The [section RFQs](first-section-rfqs.csv) provide four incremental packages exc
 
 The first {section['total_trainsets']} accepted trains finish at day {section['fleet_completion_day']}; selected civil at day {section['civil_completion_day']}; independent support at day {section['independent_support_ready_day']}. The resulting **conditional section opening is month {section['conditional_opening_month']}**, including the same three-month commissioning allowance; complete line opening stays month {section['full_line_opening_month']}. No passengers or fares occur before that opening. Section paid demand is only half the smaller of fleet-capacity and route-length allocation proxies, weight {section['revenue_weight']:.6f}, deducted from later full-line demand to avoid double counting. This is a scenario, not population coverage evidence. Opening acceptance must cover section-specific turnbacks/chargers/depot, full allocated section fleet, isolation from works, evacuation/rescue, software configuration, hazards and independently signed operator/authority release; the full-line BAG-EVID-009 remains separate.
 
-[Monthly finance](first-section-monthly-finance.csv), [six-month tranches](first-section-six-month-finance.csv) and [incremental cost ledger](first-section-incremental-costs.csv) include early baseline invoice timing, new support capital, indexed support payroll, fares/nonfare ramp, fixed/variable OPEX, reserves, native debt and prepayments. Peak gap debt is IQD {section['metrics']['peak_supplemental_balance_iqd']/1e12:.3f}tn; clearance month {section['metrics']['debt_clearance_month_without_unfunded_support']}. Its unlevered NPV is USD {section['metrics']['unlevered_project_npv_usd']/1e9:.3f}bn. Compare against the baseline IQD 4.461tn peak / month 303 clearance / USD -3.299bn NPV. At the conservative demand proxy, mature section receipts are only USD {section['reference_mature_annual_revenue_usd']/1e6:.3f}m/year versus its USD {sum(section['reference_annual_opex_usd'].values())/1e6:.3f}m OPEX before indexing/ramp: it is not independently self-financing. Earlier service requires an explicit operating bridge; the extra facilities and advanced invoices must be justified by measured access benefits, demand or lower costs.
+[Monthly finance](first-section-monthly-finance.csv), [six-month tranches](first-section-six-month-finance.csv) and [incremental cost ledger](first-section-incremental-costs.csv) include early baseline invoice timing, new support capital, indexed support payroll, fares/nonfare ramp, fixed/variable OPEX, reserves, native debt and prepayments. Peak gap debt is IQD {section['metrics']['peak_supplemental_balance_iqd']/1e12:.3f}tn; clearance month {section['metrics']['debt_clearance_month_without_unfunded_support']}. Its unlevered NPV is USD {section['metrics']['unlevered_project_npv_usd']/1e9:.3f}bn. Compare against the current baseline IQD {comparison[0]['peak_gap_iqd']/1e12:.3f}tn peak / month {comparison[0]['debt_clearance_month']} clearance / USD {comparison[0]['unlevered_npv_usd']/1e9:.3f}bn NPV. At the conservative demand proxy, mature section receipts are only USD {section['reference_mature_annual_revenue_usd']/1e6:.3f}m/year versus its USD {sum(section['reference_annual_opex_usd'].values())/1e6:.3f}m OPEX before indexing/ramp: it is not independently self-financing. Earlier service requires an explicit operating bridge; the extra facilities and advanced invoices must be justified by measured access benefits, demand or lower costs.
 
 ## Financial feasibility and funding evidence
 

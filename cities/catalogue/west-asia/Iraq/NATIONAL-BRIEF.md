@@ -1,11 +1,15 @@
 # Iraq National OpenSourceRail Strategy
 
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](Baghdad/engineering/programme-recalculation/README.md) and [current city summary](Baghdad/README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
 This page contains only Iraq-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.95 B (86.9%) of external capital** and **$45.43 B of external interest**. Capital plus saved interest totals **$82.39 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.41 B (87.0%) of external capital** and **$44.76 B of external interest**. Capital plus saved interest totals **$81.17 B**.
 
-The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its 831 six-car trainsets to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.
+The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its current six-car trainset order to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.
 
 ## Iraq financing
 
@@ -17,42 +21,42 @@ The catalogue-wide figures below are generic capital/benchmark aggregations. The
 |---|---:|
 | Catalogue cities | 18 |
 | Represented population | 29,491,199 |
-| Trainsets / vehicle modules | 3,650 / 15,996 |
-| City infrastructure and fleet CAPEX | $23.30 B |
-| Shared national factory | $303.5 M |
-| Factory sizing basis | 4,986 modules for Baghdad, then reused nationally |
-| **Total national programme** | **$23.62 B** |
+| Trainsets / vehicle modules | 3,581 / 15,582 |
+| City infrastructure and fleet CAPEX | $22.91 B |
+| Shared national factory | $323.9 M |
+| Factory sizing basis | 4,572 modules for Baghdad, then reused nationally |
+| **Total national programme** | **$23.26 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.56 B (23.5%) |
-| Domestic / local capital | $18.06 B (76.5%) |
-| Default foreign-turnkey external capital | $42.52 B |
-| External capital saved | $36.95 B |
-| Capital + lifetime external interest saved | $82.39 B |
+| Imported / external capital | $5.45 B (23.5%) |
+| Domestic / local capital | $17.80 B (76.5%) |
+| Default foreign-turnkey external capital | $41.86 B |
+| External capital saved | $36.41 B |
+| Capital + lifetime external interest saved | $81.17 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $10.32 B | $1.55 B | $8.77 B |
-| Stations | $3.98 B | $796.1 M | $3.18 B |
+| Civil works | $10.31 B | $1.55 B | $8.76 B |
+| Stations | $3.81 B | $762.9 M | $3.05 B |
 | Depots | $144.0 M | $36.0 M | $108.0 M |
-| Rolling stock | $4.55 B | $1.59 B | $2.96 B |
-| Dedicated solar plants | $2.62 B | $1.18 B | $1.44 B |
-| Residual train control | $114.4 M | $57.2 M | $57.2 M |
-| Charging microgrids | $218.7 M | $87.5 M | $131.2 M |
-| EPC / project services | $1.37 B | $206.1 M | $1.17 B |
-| Shared national trainset factory | $303.5 M | $60.7 M | $242.8 M |
-| **Total** | **$23.62 B** | **$5.56 B** | **$18.06 B** |
+| Rolling stock | $4.43 B | $1.55 B | $2.88 B |
+| Dedicated solar plants | $2.55 B | $1.15 B | $1.40 B |
+| Residual train control | $112.3 M | $56.2 M | $56.2 M |
+| Charging microgrids | $208.8 M | $83.5 M | $125.3 M |
+| EPC / project services | $1.35 B | $203.2 M | $1.15 B |
+| Shared national trainset factory | $323.9 M | $64.8 M | $259.1 M |
+| **Total** | **$23.26 B** | **$5.45 B** | **$17.80 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 831 | $7.56 B | $1.73 B | $5.83 B |
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 762 | $7.17 B | $1.62 B | $5.55 B |
 | [Basra](Basra/README.md) | 3,955,000 | 450 | $3.11 B | $793.5 M | $2.32 B |
 | [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 129 | $1.03 B | $243.5 M | $783.0 M |
 | [Erbil](Erbil/README.md) | 1,952,000 | 212 | $1.02 B | $262.0 M | $758.5 M |

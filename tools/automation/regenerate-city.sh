@@ -20,7 +20,7 @@
 #   5. Render the network map PNG via `osr_scenario.render_map`.
 #   6. Generate and run the city-local SUMO, QGIS and energy screening.
 #   7. Generate finance, project-twin, procurement, cashflow and operations evidence.
-#   8. Emit the per-network README via `osr_scenario.network_readme`.
+#   8. Publish the current city summary and original-reference context.
 #   9. Print summary stats and run the design-quality drift tests.
 #  10. Fail closed through a hashed planning-package manifest.
 #
@@ -137,7 +137,12 @@ echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,an
     --country "$COUNTRY"
 
 echo "3) design synthesis → $DESIGN_DIR/design.toml"
-if [[ -f "$DESIGN_DIR/design.toml" ]]; then
+if [[ "$SLUG" == "baghdad" ]]; then
+    "$PYTHON" "$REPO/tools/automation/rework-baghdad-alignment.py"
+    "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
+        --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
+        --out-dir "$DESIGN_DIR" --design-only
+elif [[ -f "$DESIGN_DIR/design.toml" ]]; then
     "$PYTHON" "$REPO/tools/automation/refresh-city-design-costs.py" --design "$DESIGN_DIR/design.toml"
 else
 "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
@@ -188,8 +193,13 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
 "$PYTHON" "$REPO/engineering/analysis/city_delivery.py" --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/engineering/analysis/city_deployment.py" --design "$DESIGN_DIR/design.toml"
 
+if [[ "$SLUG" == "baghdad" ]]; then
+    "$PYTHON" "$REPO/tools/automation/render-baghdad-alignment-review.py"
+    "$PYTHON" "$REPO/tools/automation/regenerate-baghdad-studies.py"
+fi
+
 echo "8) per-network README → $DESIGN_DIR/README.md"
-"$PYTHON" -m osr_scenario.network_readme \
+"$PYTHON" "$REPO/tools/automation/publish-city-summary.py" \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \
     --out "$DESIGN_DIR/README.md"

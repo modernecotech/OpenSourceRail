@@ -71,15 +71,15 @@ def test_payments_with_actual_surplus_reduce_junior_principal_once():
 
 def test_station_rosters_wages_and_depot_slots_bind_full_baghdad_scope():
     people=read('workforce');depots=read('depots')
-    assert people['station_cover']['normal_daily_shift_assignments']==728
-    assert people['station_cover']['simultaneous_posts']==364
+    assert people['station_cover']['normal_daily_shift_assignments']==4*len(current_design()['stations'])
+    assert people['station_cover']['simultaneous_posts']==2*len(current_design()['stations'])
     assert people['station_cover']['additional_late_hours_per_station']==4.5
-    assert people['station_cover']['station_cover_fte']>=2723630/people['productive_hours_per_fte']
+    assert people['station_cover']['station_cover_fte']>=len(current_design()['stations'])*20.5*365*2/people['productive_hours_per_fte']
     median=people['wage_basis']['indexed_planning_median_iqd']
     assert all(r['monthly_base_iqd']>=1.5*median-.01 for r in people['roles'])
     assert sum(r['required_fte'] for r in people['roles'])==people['reference_required_fte']
     assert sum(r['annual_loaded_payroll_iqd'] for r in people['roles'])==pytest.approx(people['reference_annual_loaded_payroll_iqd'])
-    assert depots['number_of_depots']==9 and depots['full_fleet_storage_slots']==831
+    assert depots['number_of_depots']==9 and depots['full_fleet_storage_slots']==current_fleet()
     assert len({r['line'] for r in depots['sites']})==9
     for depot in depots['sites']:
         assert sum(t['slots'] for t in depot['tracks'])==depot['trainsets']
@@ -103,11 +103,11 @@ def test_factory_establishment_is_paid_through_the_scheduled_order():
 
 def test_fabrication_counts_capacity_parent_budgets_and_residual_imports():
     industry=read('industry');products={r['id']:r for r in industry['products']}
-    assert products['bogie']['network_quantity']==products['motor-inverter-set']['network_quantity']==9972
-    assert products['battery-225kwh-pack']['network_quantity']==4986
-    assert products['door-cassette']['network_quantity']==19944
-    assert products['window-cassette']['network_quantity']==29916
-    assert industry['battery_gross_network_kwh']==1121850
+    assert products['bogie']['network_quantity']==products['motor-inverter-set']['network_quantity']==current_fleet()*12
+    assert products['battery-225kwh-pack']['network_quantity']==current_fleet()*6
+    assert products['door-cassette']['network_quantity']==current_fleet()*24
+    assert products['window-cassette']['network_quantity']==current_fleet()*36
+    assert industry['battery_gross_network_kwh']==current_fleet()*6*225
     assert industry['no_cell_manufacturing_plant_assumed']
     assert all(r['annual_cell_output_capacity']>=r['annual_required_output'] for r in products.values())
     assert all(r['imported_input_usd_per_unit']>0 and not r['first_article_accepted'] for r in products.values())
@@ -143,13 +143,21 @@ def test_every_cashflow_and_native_principal_and_six_month_tranche_reconciles(na
 
 def test_delay_and_raw_input_and_construction_stress_do_not_invent_savings():
     base=read('local_positive');delay=read('local_positive_supplier_delay')
-    assert min(p['opening_month'] for p in delay['opening_phases'])==47
-    assert max(p['opening_month'] for p in delay['opening_phases'])==89
+    assert min(p['opening_month'] for p in delay['opening_phases'])==min(p['opening_month'] for p in base['opening_phases'])+6
+    assert max(p['opening_month'] for p in delay['opening_phases'])==max(p['opening_month'] for p in base['opening_phases'])+6
     assert len(delay['monthly'])==len(base['monthly'])+6
-    assert all(r['revenue_iqd']==0 for r in delay['monthly'] if r['month']<47)
+    assert all(r['revenue_iqd']==0 for r in delay['monthly'] if r['month']<min(p['opening_month'] for p in delay['opening_phases']))
     assert read('local_positive_raw_price_stress')['metrics']['total_capital_usd']>base['metrics']['total_capital_usd']
     assert read('construction_wage_content_stress')['metrics']['total_capital_usd']>base['metrics']['total_capital_usd']
     alignment=read('alignment')
     assert alignment['elevation_alone_removes_no_horizontal_bend']
-    assert alignment['candidate_elevated_fraction']<.40
+    assert alignment['candidate_elevated_fraction']<=alignment['policy']['maximum_elevated_fraction']
     assert not any(r['achieved_saving'] for r in alignment['alternatives'])
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

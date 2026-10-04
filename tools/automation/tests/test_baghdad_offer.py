@@ -1,47 +1,22 @@
-import hashlib
+"""The retired short offer shares the complete root publication command."""
 import json
 import tomllib
 from pathlib import Path
+ROOT=Path(__file__).resolve().parents[3]
+CITY=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 
-
-ROOT = Path(__file__).resolve().parents[3]
-OFFER = ROOT / "cities/catalogue/west-asia/Iraq/Baghdad/offer"
-
-
-def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def test_baghdad_offer_inputs_and_pdf_are_current():
-    manifest = json.loads((OFFER / "manifest.json").read_text())
-    assert manifest["document_status"] == "concept-and-feed-offer-not-construction-release"
-    assert manifest["failed_city_summaries"] == [
-        "engineering/depot-scope/summary.json",
-        "engineering/stabling/summary.json",
-    ]
-    for relative, receipt in manifest["inputs"].items():
-        path = ROOT / relative
-        assert path.is_file(), relative
-        assert path.stat().st_size == receipt["bytes"], relative
-        assert digest(path) == receipt["sha256"], relative
-
-    output = ROOT / manifest["output"]["path"]
-    assert output.read_bytes().startswith(b"%PDF-")
-    assert output.stat().st_size == manifest["output"]["bytes"]
-    assert digest(output) == manifest["output"]["sha256"]
-
-
-def test_baghdad_offer_does_not_overclaim_supplier_or_release_status():
-    text = (OFFER / "README.md").read_text()
-    assert "candidate CRRC component package" in text
-    assert "no CRRC partnership, endorsement, selected supplier" in text
-    assert "not" in text.lower() and "construction release" in text.lower()
-    assert "physical depot and distributed stabling positions" in text
-    assert all(f"**G{gate}" in text for gate in range(5))
-
+def test_one_baghdad_publication_and_preserved_screenshots():
+    assert not (CITY/'offer').exists()
+    assert not (CITY/'proposal').exists()
+    assert (CITY/'Baghdad-Proposal.pdf').read_bytes().startswith(b'%PDF-')
+    for name in ('baghdad-operations-dashboard.png','baghdad-project-twin.png','baghdad-qa-gates.png'):
+        assert (CITY/'engineering/screenshots'/name).is_file()
+    text=(ROOT/'tools/automation/build-baghdad-offer.py').read_text()
+    assert 'build-baghdad-proposal.py' in text
+    assert 'reportlab' not in text
 
 def test_baghdad_engineering_evidence_matches_offer_baseline():
-    city = OFFER.parent
+    city = CITY
     with (city / "package-manifest.json").open() as handle:
         package = json.load(handle)
     with (city / "engineering/simulation/validation-summary.json").open() as handle:
@@ -61,15 +36,3 @@ def test_baghdad_engineering_evidence_matches_offer_baseline():
     assert gis["passed"] and gis["layers"]["civil_segments"] == len(design["civil_segments"])
     assert package["planning_example_complete"]
     assert not package["operational_release"]
-
-
-def test_offer_text_uses_current_configuration_and_funding():
-    city = OFFER.parent
-    design = tomllib.loads((city / "design.toml").read_text())
-    fleet = sum(row["trainset_count"] for row in design["fleets"])
-    finance = json.loads((city / "engineering/finance/summary.json").read_text())
-    text = (OFFER / "README.md").read_text()
-    assert f"{fleet} six-car trainsets" in text
-    assert f"USD {finance['capex_usd']['reconciled_project_total']/1e9:.2f} billion" in text
-    assert "uncommitted appraisal assumptions" in text
-    assert "IQD bank credit" in text

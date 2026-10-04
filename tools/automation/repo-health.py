@@ -266,30 +266,41 @@ def check_city_artifacts() -> list[Finding]:
         readme = city_dir / "README.md"
         if readme.exists():
             text = readme.read_text()
-            if "| Charging microgrids |" not in text:
-                findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
-            if "[deployment planning reference]" not in text:
-                findings.append(Finding(readme, "missing canonical common-planning reference"))
-            if design.get("city", {}).get("country") == "IQ":
-                for required_funding_text in (
-                    "## Iraq funding", "uncommitted", "chinese export credit",
-                    "domestic bonds", "bank credit", "government",
-                    "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv",
-                ):
-                    if required_funding_text not in text:
-                        findings.append(Finding(readme, f"missing structured Iraq funding disclosure: {required_funding_text}"))
+            publisher = runpy.run_path(str(REPO_ROOT/'tools/automation/publish-city-summary.py'))
+            registry = tomllib.loads(publisher['CONFIG'].read_text())['city']
+            selected = any((REPO_ROOT/e['directory']).resolve()==city_dir.resolve() for e in registry)
+            if selected:
+                try:
+                    publisher['publish'](design_path,scenario_path,readme,check=True)
+                except (ValueError, FileNotFoundError) as error:
+                    findings.append(Finding(readme,'current publication check failed: '+str(error)))
+                if '[deployment planning reference]' not in text:
+                    findings.append(Finding(readme,'missing canonical common-planning reference'))
             else:
-                if "Imported / external capital" not in text:
-                    findings.append(Finding(readme, "missing imported/external capital requirement"))
-                if "External capital saved vs default turnkey sensitivity" not in text:
-                    findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
-            if actual_continent != "europe":
-                if "> **Foreign-capital advantage:**" not in text:
-                    findings.append(Finding(readme, "missing headline foreign-capital advantage"))
-                if "Capital plus saved interest totals" not in text:
-                    findings.append(Finding(readme, "missing lifetime capital-and-interest saving"))
-            elif "Technical comparison only" not in text:
-                findings.append(Finding(readme, "comparison-only scope is not explicit"))
+                if "| Charging microgrids |" not in text:
+                    findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
+                if "[deployment planning reference]" not in text:
+                    findings.append(Finding(readme, "missing canonical common-planning reference"))
+                if design.get("city", {}).get("country") == "IQ":
+                    for required_funding_text in (
+                        "## Iraq funding", "uncommitted", "chinese export credit",
+                        "domestic bonds", "bank credit", "government",
+                        "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv",
+                    ):
+                        if required_funding_text not in text:
+                            findings.append(Finding(readme, f"missing structured Iraq funding disclosure: {required_funding_text}"))
+                else:
+                    if "Imported / external capital" not in text:
+                        findings.append(Finding(readme, "missing imported/external capital requirement"))
+                    if "External capital saved vs default turnkey sensitivity" not in text:
+                        findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
+                if actual_continent != "europe":
+                    if "> **Foreign-capital advantage:**" not in text:
+                        findings.append(Finding(readme, "missing headline foreign-capital advantage"))
+                    if "Capital plus saved interest totals" not in text:
+                        findings.append(Finding(readme, "missing lifetime capital-and-interest saving"))
+                elif "Technical comparison only" not in text:
+                    findings.append(Finding(readme, "comparison-only scope is not explicit"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
@@ -1382,7 +1393,10 @@ def check_generated_portfolio_summary() -> list[Finding]:
         REPO_ROOT / "docs/portfolio-summary.json": module["build_json"](data),
     }
     for path, expected in expected_outputs.items():
-        if not path.is_file() or path.read_text() != expected:
+        actual = path.read_text() if path.is_file() else None
+        if path.suffix == '.md' and actual is not None:
+            actual = runpy.run_path(str(REPO_ROOT/'tools/automation/publish-city-summary.py'))['without_context'](actual)
+        if actual != expected:
             findings.append(
                 Finding(
                     path,

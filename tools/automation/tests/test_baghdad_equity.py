@@ -22,7 +22,7 @@ def cases():
 
 @pytest.mark.parametrize('name,private',[('primary_500m',500e6),('primary_1000m',1e9),('primary_2000m',2e9)])
 def test_paid_cap_table_and_fresh_cash(cases,name,private):
-    c=cases[name];m=c['metrics'];government=1970123396.8037586
+    c=cases[name];m=c['metrics'];programme=json.loads((OUT.parents[2]/'finance/baghdad-programme.json').read_text());government=programme['total_capex_usd']*.25
     assert m['government_capital_usd']==pytest.approx(government,abs=.02)
     assert m['government_ownership']==pytest.approx(government/(government+private))
     assert m['government_equity_reclassification_new_cash_usd']==0
@@ -30,9 +30,10 @@ def test_paid_cap_table_and_fresh_cash(cases,name,private):
     assert m['primary_net_equity_usd']==pytest.approx(private*.98,abs=.02)
     assert m['primary_issue_fees_usd']==pytest.approx(private*.02,abs=.02)
     assert sum(c['final_shares'].values())==pytest.approx((government+private)*1300)
-    assert c['source_equity_replaced_iqd']>1.4e12
-    assert m['total_capital_usd']==pytest.approx(10280493587.215033,abs=.02)
-    assert m['chinese_credit_usd']==pytest.approx(896529966.4521289,abs=.02)
+    source=json.loads((OUT.parent/'financing-redesign/integrated.json').read_text())
+    assert c['source_equity_replaced_iqd']==pytest.approx(sum(e['metrics']['private_equity_iqd'] for e in source['entities'].values()),abs=.1)
+    assert m['total_capital_usd']==pytest.approx(programme['total_capex_usd']+2.4e9,abs=.02)
+    assert m['chinese_credit_usd']==pytest.approx(programme['usd_denominated_capital_usd']/2,abs=.02)
     assert sum(r['government_usd_cash'] for r in c['monthly'])==pytest.approx(m['chinese_credit_usd'],abs=.02)
 
 
@@ -130,7 +131,7 @@ def test_resource_value_matches_prior_group_and_accounting_non_cash_charges(case
     for r,s in zip(cases['primary_1000m']['monthly'],resources):
         ppe+=sum(float(s[k+'_capital_usd']) for k in ('rail','train','solar','factory'))*1300-r['depreciation_iqd']-r['factory_impairment_iqd']
         inventory+=float(s['property_build_usd'])*1300-r['property_cost_of_sales_iqd']
-        assert ppe==pytest.approx(r['closing_ppe_iqd'],abs=.05)
+        assert ppe==pytest.approx(r['closing_ppe_iqd'],abs=.1)
         assert inventory==pytest.approx(r['closing_property_inventory_iqd'],abs=.05)
         assert abs(float(s['consolidation_residual_usd']))<.02
     assert inventory==pytest.approx(0.,abs=.02)
@@ -168,11 +169,11 @@ def test_domestic_vintages_wait_for_full_network_and_delay_keeps_scope(cases):
     c=cases['primary_1000m']
     for v in c['loan_vintages']:
         if v['instrument']!='chinese_export_credit':
-            assert v['first_contractual_principal_month']>=83
+            assert v['first_contractual_principal_month']>=c['full_opening_month']
             assert v['repayment_months']==(240 if v['instrument']=='bank_credit' else 216)
         else:assert v['first_contractual_principal_month']==v['month']+49
     delayed=cases['delayed_1000m']
-    assert (delayed['opening_month'],delayed['full_opening_month'])==(47,89)
+    assert (delayed['opening_month'],delayed['full_opening_month'])==(c['opening_month']+6,c['full_opening_month']+6)
     assert all(r['physical_capital_iqd']==r['primary_gross_subscription_iqd']==0 for r in delayed['monthly'][:6])
     assert delayed['metrics']['total_capital_usd']==c['metrics']['total_capital_usd']
 

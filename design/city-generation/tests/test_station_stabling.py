@@ -82,7 +82,7 @@ def test_committed_candidates_and_source_records_are_current():
     for path in paths:
         candidate, report = module.build(path)
         assert json.loads((path.parent / 'engineering/stabling/summary.json').read_text()) == report
-        assert (path.parent / 'engineering/stabling/README.md').read_text() == module.markdown(report)
+        assert publication_without_context((path.parent / 'engineering/stabling/README.md').read_text()) == module.markdown(report)
         assert hashlib.sha256(candidate.encode()).hexdigest() == report['candidate_sha256']
         assert report['passed'] is False
         hybrid = report['hybrid_allocation']
@@ -134,3 +134,8 @@ def test_lower_power_storage_station_remains_a_candidate():
     assert len({r['station'] for r in rows}) == 20
     selected = {r['station'] for r in rows}
     assert all(s['charging_power_kw'] == 50 for s in tomllib.loads(candidate)['stations'] if s['id'] in selected)
+
+
+def publication_without_context(text):
+    import re
+    return re.sub(r'<!-- OSR CURRENT SCOPE CONTEXT -->.*?<!-- END OSR CURRENT SCOPE CONTEXT -->\n\n?', '', text, flags=re.S)

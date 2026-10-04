@@ -97,7 +97,9 @@ def allocate(rows,target):
         if remaining<=0:break
     return allocation,remaining
 
-def portfolio(name,config,segments,phases,horizon=442):
+def portfolio(name,config,segments,phases,horizon=None):
+    if horizon is None:
+        horizon=max(p['opening_month'] for p in phases)+config['model']['rail_operating_years']*12-1
     """Cash collection and asset schedule; arithmetic assumptions, no real leases."""
     validate(config);m=deepcopy(config['model']);c=config['cases'][name];m.update({k:v for k,v in c.items() if k in m})
     g=config['geometry'];area=g['unit_internal_frontage_m']*g['unit_internal_depth_m'];unit_cost=sum(config['unit_allowances_usd'].values())
@@ -304,8 +306,10 @@ def main():
                 if digest(base/rel)!=sha:raise ValueError('Stale viaduct rentals '+rel)
         print('Viaduct rental source/output hashes pass');return
     paths=[Path(__file__),ROOT/'lib/templates/baghdad-viaduct-rentals.toml',CITY/'design.toml',CITY/'baghdad.corridor.geojson',
-        CITY/'operations/baghdad-operations.json.gz',CITY/'engineering/delivery-risk/summary.json',ROOT/'docs/civil/viaduct-substructure-kit.md']
-    config=tomllib.loads(paths[1].read_text());design=tomllib.loads(paths[2].read_text());geo=json.loads(paths[3].read_text())
+        CITY/'operations/baghdad-operations.json.gz',CITY/'engineering/delivery-risk/summary.json',ROOT/'docs/civil/viaduct-substructure-kit.md',ROOT/'lib/templates/iraq-funding.toml']
+    config=tomllib.loads(paths[1].read_text())
+    if config['model']['rail_operating_years']!=tomllib.loads(paths[-1].read_text())['model']['operating_years']:raise ValueError('Rental/rail operating horizons disagree')
+    design=tomllib.loads(paths[2].read_text());geo=json.loads(paths[3].read_text())
     payload=json.loads(gzip.decompress(paths[4].read_bytes()));risk=json.loads(paths[5].read_text())
     sources={r.relative_to(ROOT).as_posix():digest(r) for r in paths};revision=hashlib.sha256(json.dumps(sources,sort_keys=True).encode()).hexdigest()
     segments=register(design,geo,payload,config);cases={name:portfolio(name,config,segments,risk['cases']['calendar_baseline']['phases']) for name in config['cases']}

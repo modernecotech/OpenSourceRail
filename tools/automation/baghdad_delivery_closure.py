@@ -376,7 +376,7 @@ def pilot_roster(c):
         required_weekly_cover_hours=sum(r['end_hour_from_week']-r['start_hour_from_week'] for r in rows),
         limits_are_accepted_iraqi_employment_terms=False,roster_released=False)
 
-def reconstruct_inputs(paths):
+def reconstruct_inputs(paths, operating_phases=None):
     from osr_scenario.iraq_finance import city_funding_config
     config=city_funding_config(tomllib.loads(paths['funding'].read_text()),'baghdad')
     options=tomllib.loads(paths['options'].read_text());programme=read(paths['programme']);city_finance=read(paths['finance'])
@@ -386,10 +386,12 @@ def reconstruct_inputs(paths):
     task_lines={r['manufacturing_uid']:r['line'] for r in payload['manufacturing_tasks']}
     settings=deepcopy(stress['cases']['calendar_baseline']['settings']);settings['export_model_inputs']=True
     delivery=schedule(payload['manufacturing_tasks'],factory,settings)
+    if operating_phases is not None:
+        delivery['phases']=deepcopy(operating_phases)
     result=finance(delivery,settings,(config,options,programme,city_finance,factory,risk))
     reference=read(paths['reference'])
     for key in ('peak_supplemental_balance_iqd','total_capital_usd','terminal_cash_iqd'):
-        if abs(result['metrics'][key]-reference['metrics'][key])>.02:raise ValueError('Reference reconstruction differs: '+key)
+        if operating_phases is None and abs(result['metrics'][key]-reference['metrics'][key])>.02:raise ValueError('Reference reconstruction differs: '+key)
     return result['model_inputs'],delivery['phases'],task_lines,programme
 
 def mobilisation_capacity(people,bc,c):
@@ -506,7 +508,7 @@ def opening_factory_replay(paths,phases,settings):
         selected_trainsets=len(selected)+len({r['asset_id'] for r in added}),
         retained_factory_capital_usd=factory['budgeted_plant_direct_usd']+factory['budgeted_plant_epc_usd'],
         factory_ready_month=factory['readiness_months_from_ntp'],factory_repriced=False,accepted=False,
-        finance_dates_policy='Retain baseline civil opening dates; no earlier fare income credited',
+        finance_dates_policy='Open no earlier than retained civil dates and replayed fleet acceptance; propagate later dates to all operating cash',
         limitations=['Planned selected asset IDs are not purchase orders or accepted train deliveries',
             'Full expansion-capable factory/equipment retained and paid once; no invented cheaper factory',
             'Factory queues replay selected orders and one new spare; civil scope and independent acceptance remain unchanged'])
@@ -515,10 +517,13 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
     config=inputs['config'];options=inputs['options'];fx=config['model']['iqd_per_usd'];eligible=set(options['green']['candidate_buckets'])
     base_contracts=inputs['contracts']+inputs['factory_contracts'];costs=read(CITY/'engineering/finance/summary.json')['annual_opex_usd']['components']
     cases={};rate=(1+config['model']['discount_rate'])*(1+options['fares']['general_price_inflation'])-1
-    line_openings={r['line']:r['opening_month'] for r in phases};first=min(line_openings.values());last=max(line_openings.values())
     for name in ('reference','reconciled_full_fleet','reconciled_fixed_original_government','reconciled_without_uncommitted_income','opening_fleet_supply_scaled','contracted_solar','installed_energy_supply_bound','simple_span_bearing_index'):
         cfg=deepcopy(config);opt=deepcopy(options);contracts=deepcopy(base_contracts);op=deepcopy(inputs['operating']);is_reference=name=='reference';opening=name=='opening_fleet_supply_scaled';ppa=name=='contracted_solar'
         installed=name=='installed_energy_supply_bound'
+        case_phases=opening_factory['delivery']['phases'] if opening else phases
+        if opening:op=deepcopy(opening_factory['operating_inputs']['operating'])
+        line_openings={r['line']:r['opening_month'] for r in case_phases}
+        first=min(line_openings.values());last=max(line_openings.values())
         ppl=opening_people if opening else people;power=opening_energy if opening else energy;prepay=preopening_cash(ppl,len(op),fx,opt)
         energy_ratios={p['line']:sum(r['installed_deliverable_traction_upper_bound_kwh'] for r in power['cases']['reference']['sites'] if r['line']==p['line'])/sum(r['allocated_traction_kwh'] for r in power['cases']['reference']['sites'] if r['line']==p['line']) for p in phases}
         energy_config=tomllib.loads((ROOT/'lib/templates/baghdad-delivery-baseline.toml').read_text())['energy']
@@ -576,7 +581,7 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
         for row in op:
             month=row['month'];index=(1+opt['fares']['opex_inflation'])**(month//12)
             active=first<=month<last+cfg['model']['operating_years']*12
-            opened=sum(p['weight'] for p in phases if month>=p['opening_month']) if active else 0
+            opened=sum(p['weight'] for p in case_phases if month>=p['opening_month']) if active else 0
             weight=cfg['model']['phased_fixed_opex_share']+(1-cfg['model']['phased_fixed_opex_share'])*opened if active else 0
             payroll=sum(pay for line,pay in line_pay.items() if month>=line_openings[line])*index/12 if active else 0
             power_annual=power['cases']['reference']['annual_firm_energy_cost_usd']
@@ -595,7 +600,7 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
                         reduction=costs['rolling_stock_maintenance_including_battery_renewal_reserve']*(1-first_phase['opening_fleet']/first_phase['baseline_fleet'])
                         additional-=reduction*weight*index/12
                     ramp=cfg['model']['revenue_ramp'];denom=numerator=0.
-                    for phase in phases:
+                    for phase in case_phases:
                         if month>=phase['opening_month']:
                             r=next(r for r in first_phase['lines'] if r['line']==phase['line'])
                             w=phase['weight']*ramp[min((month-phase['opening_month'])//12,len(ramp)-1)]
@@ -617,7 +622,7 @@ def reconciled_finance(inputs,phases,task_lines,depots,family,people,opening_peo
             bridge_rate=opt['liquidity']['concessional_annual_rate'],bridge_fee=opt['liquidity']['concessional_draw_fee'],repayment_policy='cost_priority')
         if name=='simple_span_bearing_index':
             result['bearing_index_delta_contracts']=[r for r in contracts if r['bucket']=='bearing_index_delta']
-        result.update(capital_components=cap_inclusions,opex_components=component_rows,
+        result.update(capital_components=cap_inclusions,opex_components=component_rows,operating_phases=deepcopy(case_phases),
             service_basis='Original annual-netting comparator, unverified service' if is_reference else 'Installed energy/charger throughput upper bound; trip feasibility remains unaccepted' if installed else 'Conditional service requiring priced/accepted electrical upgrades',
             shareholder_distributions=dict(modelled_total_dividends_iqd=0,dividend_permission=False,
                 retained_project_cash_iqd=result['metrics']['terminal_cash_iqd'],
@@ -825,7 +830,7 @@ These executable sensitivities preserve the original reference, then replace the
 
 The fixed-government case retains the original absolute government contribution and reallocates its USD downpayment within that ceiling. Other cases use 25% of their own capital; increased appropriation is not committed. In every case imports are funded 50% government USD/50% proposed Chinese USD credit; ordinary/green bonds, bank and gap credit remain IQD. All debt/reserve/buffer/principal/cash residuals reconcile. **Six-month bond units are placement requirements, not subscriptions.** Climate/rights/additional local income remain uncommitted in conditional cases; the dedicated case removes all these targets and green pricing benefits.
 
-Opening-fleet procurement follows the 450-train supply case with 382 gross deferrals and one extra spare. Factory cost/capacity and opening dates stay unchanged; paid receipts scale with reduced timetable supply and ramps. Future expansion dates and funding remain null. Contracted solar removes city-owned plant CAPEX but keeps provider plant resources visible and charges generation; a private provider, rights, prices and firm deliverability are not established. Company cash NPVs are not like-for-like complete resource NPVs.
+Opening-fleet procurement follows the selected supply case and its extra spare. Factory cost/capacity is retained, and opening dates follow the later of civil readiness and replayed fleet acceptance; paid receipts scale with reduced timetable supply and ramps. Future expansion dates and funding remain null. Contracted solar removes city-owned plant CAPEX but keeps provider plant resources visible and charges generation; a private provider, rights, prices and firm deliverability are not established. Company cash NPVs are not like-for-like complete resource NPVs.
 
 [Summary and source-bound cases](finance-summary.json) include full monthly native-currency ledgers, six-month bond/loan sale and repayment schedules, fees, grace, early principal, buffers and terminal debt/cash. Only genuine surplus after all obligations and buffers can fund contractual voluntary repayment; uncovered support cannot fund it. No new public subsidy or tariff adoption is claimed. Baseline fares and OPEX retain 5% growth and the existing elasticity/income assumptions.
 ''',
@@ -896,10 +901,24 @@ def main():
         raise ValueError('Reconcile financial/workforce/corridor exchange-rate assumptions before publication')
     opening_factory=opening_factory_replay(paths,phases,deepcopy(risk['cases']['calendar_baseline']['settings']))
     baseline_openings={p['line']:p['opening_month'] for p in delivery_phases}
-    if any(p['opening_month']>baseline_openings[p['line']] for p in opening_factory['delivery']['phases']):
-        raise ValueError('Opening-fleet factory replay misses retained civil opening dates')
+    # Preserve full-fleet demand weights: reduced service is applied separately
+    # below. A smaller order must never invent earlier civil commissioning.
+    demand_weights={p['line']:p['weight'] for p in delivery_phases}
+    for phase in opening_factory['delivery']['phases']:
+        phase['opening_month']=max(phase['opening_month'],baseline_openings[phase['line']])
+        phase['weight']=demand_weights[phase['line']]
+    actual_openings={p['line']:p['opening_month'] for p in opening_factory['delivery']['phases']}
+    opening_inputs,_,_,_=reconstruct_inputs(paths,opening_factory['delivery']['phases'])
+    opening_factory['operating_inputs']=opening_inputs
+    opening_risk=deepcopy(risk)
+    opening_risk['cases']['calendar_baseline']['phases']=opening_factory['delivery']['phases']
+    opening_people=workforce(opening_d,opening_s,opening_finance,opening_risk,factory,bc)
+    opening_people['development_mobilisation']=mobilisation_capacity(opening_people,bc,c)
+    for row in opening_phases['lines']:
+        row['conditional_full_line_opening_month']=actual_openings[row['line']]
+    opening_maintenance=maintenance(opening_d,opening_s,opening_people,opening_finance,opening_phases,c)
     batteries=battery_cash(maintenance_data,phases,inputs['options'],len(inputs['operating']))
-    opening_batteries=battery_cash(opening_maintenance,opening_phases,inputs['options'],len(inputs['operating']))
+    opening_batteries=battery_cash(opening_maintenance,opening_phases,inputs['options'],len(opening_inputs['operating']))
     corridors=corridor_cases(opening_d,opening_s,phases,city_finance,factory,bc,c,opening_energy,programme)
     cases=reconciled_finance(inputs,delivery_phases,task_lines,depots,family,people,opening_people,energy,opening_energy,phases,batteries,opening_batteries,c,opening_factory)
     reference=read(paths['reference'])
@@ -919,7 +938,7 @@ def main():
         path=OUT/('depot-'+site['line']+'.svg');path.write_text(layout_svg(site));outputs.append(path)
     save('six-car-procurement.json',bom);csvout('six-car-child-bom.csv',bom['parts'])
     save('development-training-mobilisation.json',people['development_mobilisation'])
-    save('opening-factory-replay.json',opening_factory)
+    save('opening-factory-replay.json',{k:v for k,v in opening_factory.items() if k!='operating_inputs'})
     csvout('development-training-monthly.csv',people['development_mobilisation']['monthly'])
     with (paths['baseline'].parent/'energy-synthetic_reference-owned_solar-hourly.csv').open() as stream:
         aggregate_shortages=[row for row in csv.DictReader(stream) if float(row['unserved_kwh'])>1e-7]
@@ -938,7 +957,8 @@ def main():
     csvout('opening-battery-reserve-monthly.csv',opening_batteries.pop('monthly'));save('opening-battery-reserve.json',opening_batteries)
     interval_register=maintenance_register(d,s,tomllib.loads(paths['maintenance'].read_text())['maintenance_interval'])
     save('maintenance-interval-register.json',interval_register)
-    save('startup-policy-alternatives.json',startup_alternatives(d,read(paths['stabling'])))
+    startup=startup_alternatives(d,read(paths['stabling']))
+    save('startup-policy-alternatives.json',startup)
     save('corridor-comparison.json',corridors);csvout('corridor-comparison.csv',corridors['cases'])
     save('pilot-roster.json',roster);save('lesson-cards.json',lesson_cards(people));save('closure-packets.json',packets)
     csvout('scope-inclusion-forms.csv',packets['scope_inclusion_forms']);csvout('supplier-rfq.csv',packets['supplier_rfq_forms'])
@@ -967,12 +987,13 @@ Interim development authorities begin at NTP. The training head mobilises at mon
 
 The native Employee attachment preview validates a controlled snapshot only. It returns `snapshot_eligible` for those assertions, keeps `eligible` and `live_start_check` false, and does not resolve current authoritative revocation. Real task start requires current permits, calibration, stock release, competence, availability and human work-release authority.
 '''
-    reports['SITE-ENERGY.md']+='\n[All 28 former aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
-    reports['FINANCE-RECONCILIATION.md']+='\n[Opening factory replay](opening-factory-replay.json) manufactures exactly 450 planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX and civil opening dates are retained, so no earlier income or cheaper plant is invented. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.\n'
+    reports['SITE-ENERGY.md']+=f'\n[All {len(aggregate_shortages)} aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
+    reports['FINANCE-RECONCILIATION.md']+=f"\n[Opening factory replay](opening-factory-replay.json) manufactures exactly {opening_factory['selected_trainsets']} planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX is retained. Openings are the later of civil readiness and replayed fleet acceptance; later dates flow through receipts, payroll, reserves and the operating horizon. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.\n"
     reports['FINANCE-RECONCILIATION.md']+='\nThe `simple_span_bearing_index` sensitivity removes the bearing reduction only from existing standard Pi25 length, then adds the declared incremental EPC once. It inherits original civil invoice dates and procurement-origin proportions as assumptions, keeps government at 25%, splits assumed imports 50% USD government cash / 50% Chinese USD credit, and retains all other funding in IQD. Monthly/six-month ledgers, interest, fees, reserves and early repayment are recalculated. This is an unquoted index counterfactual, not a bearing supplier offer; finite end effects, connection costs, actual import eligibility and consequential foundations remain unpriced. OSR-US and special segments do not inherit Pi25 bearing quantities.\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n![Line 6 storage and workshop packing study](depot-line-6.svg)\n'
-    reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n[Startup alternatives](startup-policy-alternatives.json) compare the existing revenue fleet with the frozen original dispatch-point set, including the five missing line-9 directions. Holding that set fixed requires five extra revenue trains and one extra spare: USD 10.08m vehicle reference, before consequential costs. Adding trains must not silently expand dispatch-point selection. Reserving fewer start points or buying trains requires a separate selected-start, cycle, turnback, depot/charging and funding replay; neither changes the baseline nor closes the existing failed gate.\n'
-    reports['MAINTENANCE-RENEWALS.md']+='\n[All 26 controlled interval records](maintenance-interval-register.json) also retain station, civil/track/structures, energy, wayside, tooling, finish/joint/wash and soiling work. Condition-based tasks have no invented frequency or labour cost. [Opening-fleet reserve cash](opening-battery-reserve-monthly.csv) uses 450 trainsets and adds its own indexed shortfalls to the reduced-supply financing case.\n'
+    startup_ring=next(row for row in startup['cases'] if row['line']=='line-9')
+    reports['DEPOTS-SLAB-MANUFACTURE.md']+=f"\n[Startup alternatives](startup-policy-alternatives.json) compare the existing revenue fleet with the frozen original dispatch-point set, including {startup_ring['revenue_position_deficit']} missing line-9 directions. Holding that set fixed requires {startup_ring['minimum_additional_revenue_trains']} extra revenue trains and {startup_ring['additional_10_percent_spares']} extra spares: USD {startup_ring['additional_train_reference_capital_usd']/1e6:.2f}m vehicle reference, before consequential costs. Adding trains must not silently expand dispatch-point selection. Reserving fewer start points or buying trains requires a separate selected-start, cycle, turnback, depot/charging and funding replay; neither changes the baseline nor closes the existing failed gate.\n"
+    reports['MAINTENANCE-RENEWALS.md']+=f"\n[All {len(interval_register)} controlled interval records](maintenance-interval-register.json) also retain station, civil/track/structures, energy, wayside, tooling, finish/joint/wash and soiling work. Condition-based tasks have no invented frequency or labour cost. [Opening-fleet reserve cash](opening-battery-reserve-monthly.csv) uses {opening_factory['selected_trainsets']} trainsets and adds its own indexed shortfalls to the reduced-supply financing case.\n"
     reports['FINANCE-RECONCILIATION.md']+='\n\n## Fare/demand/affordability sensitivities\n\n'+table(
         ['Base fare IQD','Paid-demand multiplier','44-trip income share','Debt-clear month','Terminal gap IQD tn','Before-finance cash NPV USD bn'],
         [(r['base_fare_iqd'],f"{r['paid_demand_multiplier']:.3f}",f"{r['monthly_44_trip_income_share']:.1%}",r['debt_clearance_without_unfunded_support_month'],f"{r['terminal_gap_debt_iqd']/1e12:.3f}",f"{r['company_cash_npv_before_finance_usd']/1e9:.3f}") for r in fare_sweep])+'''

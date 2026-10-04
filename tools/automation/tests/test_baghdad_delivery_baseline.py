@@ -43,7 +43,7 @@ def config():return tomllib.loads((ROOT/'lib/templates/baghdad-delivery-baseline
 def test_complete_scope_is_not_inferred_from_base_and_replacement_scenarios():
     s=read('scope-register');programme=json.loads((OUT.parent.parent.parent/'finance/baghdad-programme.json').read_text())
     assert sum(r['base_estimate_usd'] or 0 for r in s['rows'])==pytest.approx(programme['total_capex_usd'],abs=.02)
-    assert s['base_programme_usd']==pytest.approx(7880493587.215033,abs=.02)
+    assert s['base_programme_usd']==pytest.approx(programme['total_capex_usd'],abs=.02)
     assert not s['complete_delivery_budget'] and s['unpriced_scope_count']==12
     for r in s['rows']:
         assert r['named_estimator'] is None and r['price_date'] is None and r['quotation'] is None
@@ -56,13 +56,13 @@ def test_complete_scope_is_not_inferred_from_base_and_replacement_scenarios():
 
 def test_line_local_storage_and_workshops_reconcile_without_double_equipment_delta(config):
     s=read('depot-package')
-    assert s['station_trainsets']+s['depot_trainsets']==s['fleet_trainsets']==831
+    assert s['station_trainsets']+s['depot_trainsets']==s['fleet_trainsets']==current_fleet()
     assert not s['original_allocation_passed'] and s['missing_morning_directions']
     design=tomllib.loads((OUT.parent.parent/'design.toml').read_text())
     fleets={r['line']:r['trainset_count'] for r in design['fleets']}
     c=config['depot']
     for variant,v in s['alternatives'].items():
-        assert len(v['sites'])==9 and sum(r['stabling_positions'] for r in v['sites'])==533
+        assert len(v['sites'])==9 and sum(r['stabling_positions'] for r in v['sites'])==s['depot_trainsets']
         assert v['gross_reference_cost_usd']==pytest.approx(sum(r['quantity']*r['reference_rate_usd'] for r in v['items']))
         for r in v['sites']:
             assert r['storage_usable_track_m']==r['stabling_positions']*121
@@ -71,11 +71,12 @@ def test_line_local_storage_and_workshops_reconcile_without_double_equipment_del
             if variant=='workload_bays':assert r['workshop_bays']*260*16*.7>=fleets[r['line']]*400
         assert sum(r['reference_cost_usd'] for r in v['items'] if r['scope'].startswith('depot-'))==6500000
         assert not v['allowance_overlap_accepted'] and not v['actual_layout_released']
-    assert sum(r['workshop_bays'] for r in s['alternatives']['retained_declared_bays']['sites'])==125
+    original=json.loads((OUT.parent/'depot-scope/summary.json').read_text())
+    assert sum(r['workshop_bays'] for r in s['alternatives']['retained_declared_bays']['sites'])==sum(r['workshop_bays'] for r in original['depots'])
 
 def test_six_car_price_mass_counts_and_factory_payroll_boundary():
     s=read('six-car')
-    assert s['trainsets']==831 and s['vehicle_modules']==4986
+    assert s['trainsets']==current_fleet() and s['vehicle_modules']==current_fleet()*6
     assert sum(r['cost_allocation_per_consist_usd'] for r in s['bom'])==1680000
     assert sum(r['planning_mass_kg_per_consist'] for r in s['bom'])+s['unallocated_mass_reserve_kg']==204000
     assert s['doors_per_consist']==24 and s['windows_per_consist']==36
@@ -84,7 +85,7 @@ def test_six_car_price_mass_counts_and_factory_payroll_boundary():
     assert s['controlled_profile']['onboard_battery_kwh']==1080
     assert s['qualification_incremental_cost_usd'] is None and not s['engineering_release']
     assert all(not r['lm3_credit_accepted'] and r['mass_evidence'] is None for r in s['bom'])
-    assert all(r['network_person_hours']==r['reference_person_hours_per_consist']*831 and r['labour_in_train_procurement'] and r['measured_cycle_days'] is None for r in s['labour_routes'])
+    assert all(r['network_person_hours']==r['reference_person_hours_per_consist']*current_fleet() and r['labour_in_train_procurement'] and r['measured_cycle_days'] is None for r in s['labour_routes'])
 
 def test_editable_price_and_fx_reconcile_in_fleet_bom_and_payroll(monkeypatch,config):
     import baghdad_delivery_baseline as baseline
@@ -216,3 +217,11 @@ def test_current_front_door_headlines_follow_physical_and_finance_sources():
     assert f"{len(design['lines'])} lines, {sum(r['length_m'] for r in design['lines'])/1000:.4f} km, {len(design['stations'])} stations and {family['trainsets']} six-car trains" in text
     assert f"USD {scope['base_programme_usd']/1e9:.6f}bn" in text
     assert f"capital table has {sum(r['capex_usd']>0 for r in programme['monthly'])} periods" in text
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

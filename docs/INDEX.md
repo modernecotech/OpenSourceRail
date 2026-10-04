@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5069**.
+Indexed Markdown files: **5067**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **5069**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4369 |
+| [cities](#cities) | 4367 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -3416,7 +3416,9 @@ Indexed Markdown files: **5069**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md) | Amarah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md) | Amarah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md) | Amarah Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md) | Baghdad Proposal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md`](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md) | Baghdad detailed engineering and Iraqi manufacturing plan |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md`](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md) | Baghdad detailed schedules |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
@@ -3461,11 +3463,7 @@ Indexed Markdown files: **5069**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.md) | Baghdad surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-comparison/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-comparison/README.md) | Baghdad manufactured-viaduct comparison |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/README.md) | Baghdad retained under-viaduct rental portfolio — 2026-10-04 |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/offer/README.md) | OpenSourceRail Baghdad — concept and FEED offer |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Baghdad/operations/acceptance-evidence-report.md) | Baghdad Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/proposal/BAGHDAD-PROPOSAL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/proposal/BAGHDAD-PROPOSAL.md) | Baghdad Proposal |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/proposal/DETAILED-SCHEDULES.md`](../cities/catalogue/west-asia/Iraq/Baghdad/proposal/DETAILED-SCHEDULES.md) | Baghdad detailed schedules |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/proposal/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/proposal/README.md) | Baghdad proposal publication |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/README.md) | Baqubah — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/alignment/README.md) | Baqubah Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md) | Baqubah organisation and design work |

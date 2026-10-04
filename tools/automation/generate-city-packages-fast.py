@@ -220,7 +220,11 @@ def prepare_city(
         design_command.extend(
             ["--design-only", "--corridor-cache", str(corridor_cache)]
         )
-    if design_path.is_file() and not (from_scratch or resynthesise_corridors or resynthesise_design):
+    if slug == 'baghdad':
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-baghdad-alignment.py')])
+        if '--design-only' not in design_command:design_command.append('--design-only')
+        commands.append(design_command)
+    elif design_path.is_file() and not (from_scratch or resynthesise_corridors or resynthesise_design):
         # Existing catalogue intent is the controlled input. An unchecked
         # local corridor cache must not remove rings or replace station IDs.
         commands.append([sys.executable, str(REPO_ROOT / "tools/automation/refresh-city-design-costs.py"), "--design", str(design_path)])
@@ -335,8 +339,7 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_deployment.py"), "--design", str(design_path)],
         [
             sys.executable,
-            "-m",
-            "osr_scenario.network_readme",
+            str(REPO_ROOT / "tools/automation/publish-city-summary.py"),
             "--design",
             str(design_path),
             "--scenario",
@@ -352,6 +355,11 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int) -> dict[str,
             "--planning-example",
         ],
     ]
+    if slug=='baghdad':
+        position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
+        commands[position:position]=[
+            [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py')],
+            [sys.executable,str(REPO_ROOT/'tools/automation/regenerate-baghdad-studies.py')]]
     # Funding reads deterministic procurement CSVs. Refresh it after operations
     # have produced the current schedule, then bind the twin to final finance.
     commands[3:3] = [

@@ -15,7 +15,8 @@ trainset_bay_length_m = 135.0
 trainset_bay_width_m = 6.5
 support_floor_fraction = 0.35
 site_floor_multiplier = 2.5
-test_tracks = 2
+test_tracks = 2 # minimum; actual paths sized to output
+maximum_test_tracks = 8
 test_track_length_m = 2000.0
 exclusive_track_hours_per_trainset = 16.0
 test_track_land_width_m = 25.0
@@ -23,7 +24,7 @@ rephase_civil_buffer_working_days = 90
 
 # Whole six-car trainset occupation. Conservative engineering assumptions:
 # structural/electrical/fit-out cycles are twice the legacy template's cycles.
-# The first train is within the 831, never an additional purchased prototype.
+# The first train is within the city order, never an additional purchased prototype.
 [[stage]]
 package = "rs-10-material-kit"
 work_center = "Baghdad trainset kitting"

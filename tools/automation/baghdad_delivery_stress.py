@@ -62,7 +62,7 @@ def schedule(tasks, factory, settings):
     if timing not in ('retained', 'earliest'):
         raise ValueError('unknown civil investment timing')
     prototype = min((r for r in tasks if r['asset_type'] == 'rolling-stock'), key=lambda r: r['planned_start_day'])['asset_id']
-    paths = [ready * 8] * 2
+    paths = [ready * 8] * factory.get('test_tracks',2)
     results = {}
     stock = sorted({r['asset_id'] for r in tasks if r['asset_type'] == 'rolling-stock'})
     # Evenly distribute rework over delivery order, not an extra purchased train.
@@ -111,7 +111,7 @@ def schedule(tasks, factory, settings):
             shifts = settings.get('test_shifts', 1)
             # Hours map to an eight-hour primary production calendar; two test
             # shifts deliver twice the test hours per primary working day.
-            duty = math.ceil(16 * (2 if row['asset_id'] in reworked else 1) / (availability * shifts))
+            duty = math.ceil(factory.get('exclusive_track_hours_per_trainset',16) * (2 if row['asset_id'] in reworked else 1) / (availability * shifts))
             candidates = []
             for index, clock in enumerate(paths):
                 outages = [(900 * 8, (900 + settings['path_outage_days']) * 8)] if index == 1 and settings.get('path_outage_days') else []
@@ -187,7 +187,7 @@ def finance(delivery, settings, context):
     shift_stages = [s for s in factory['stages'] if s['package'] in settings.get('production_shift_stages', [])]
     extra_production_fte = sum(s['direct_crew_fte'] for s in shift_stages) * (settings.get('production_hours_factor', 1.) - 1)
     if settings.get('test_shifts', 1) > 1:
-        added_direct += recovery['test_shift_direct_usd']
+        added_direct += recovery['test_shift_direct_usd_per_path']*factory.get('test_tracks',2)
     if shift_stages:
         added_direct += len(shift_stages) * recovery['production_shift_direct_usd_per_stage'] + extra_production_fte * recovery['recruitment_training_usd_per_fte']
     if settings.get('recruitment_recovery'):
@@ -252,7 +252,7 @@ def finance(delivery, settings, context):
     if settings.get('test_shifts', 1) > 1:
         # Existing train CAPEX contains baseline manufacturing labour. This is
         # incremental test crew only, including before passenger revenue starts.
-        annual = programme['comparison']['operating_labour_annual_iqd'] / programme['comparison']['operating_fte'] * 52 / config['model']['iqd_per_usd']
+        annual = programme['comparison']['operating_labour_annual_iqd'] / programme['comparison']['operating_fte'] * (26*factory.get('test_tracks',2)) / config['model']['iqd_per_usd']
         first = math.floor((delivery['factory_ready_day'] + 30) * 12 / 260)
         last = math.ceil((max(p['fleet_completion_day'] for p in delivery['phases']) + 31) * 12 / 260)
         for row in operating:
@@ -436,7 +436,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     report = dict(schema='baghdad-frozen-delivery-stress-v2', status='unqualified-deterministic-planning-study',
                   financing_committed=False, operational_release=False, capacity=factory['resource_capacity'],
-                  factory_cells={s['package']: s['cells'] for s in factory['stages']}, test_paths=2,
+                  factory_cells={s['package']: s['cells'] for s in factory['stages']}, test_paths=factory.get('test_tracks',2),
                   canonical_opening_months=[p['opening_month'] for p in city_finance['structured_financing']['phased_opening']['phases']],
                   sources_sha256={p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
                   cases={})
@@ -469,8 +469,8 @@ def main():
         print(name, table[-1]['first_opening_month'], table[-1]['full_opening_month'], flush=True)
     write_csv(OUT / 'scenario-comparison.csv', table)
     lines = ['# Baghdad frozen-resource delivery and funding study', '',
-             'These are deterministic disturbances, not P80/P90 dates or measured failure rates. All 831 planned six-car trains must pass acceptance before their line opens. Selected stage cells, civil crew lanes and dispatch order remain fixed in every stress. No stress calls the capacity-sizing search.', '',
-             'The explicit two-path calendar books 16 exclusive running hours per train at the case availability, inside acceptance-bay occupation, with setup and clearance. This adds a conservative calendar audit to the published average-throughput check. Baseline lane order is preserved; a replanned optimal dispatch might recover some delay. Financial-close months include 30 pre-NTP working days and three commissioning months.', '',
+             'These are deterministic disturbances, not P80/P90 dates or measured failure rates. All planned six-car trains must pass acceptance before their line opens. Selected stage cells, civil crew lanes and dispatch order remain fixed in every stress. No stress calls the capacity-sizing search.', '',
+             'The explicit segregated-path calendar books 16 exclusive running hours per train at the case availability, inside acceptance-bay occupation, with setup and clearance. This adds a conservative calendar audit to the published average-throughput check. Baseline lane order is preserved; a replanned optimal dispatch might recover some delay. Financial-close months include 30 pre-NTP working days and three commissioning months.', '',
              '| Case | First/full month | Peak IQD gap debt, tn | Interest/fees USD eq, bn | Debt cleared month |',
              '|---|---:|---:|---:|---:|']
     for row in table:
@@ -481,7 +481,7 @@ def main():
              acceptance_rule=rule, status='not-demonstrated', quotation_received=False, operational_release=False)
         for label, evidence, owner, rule in (
             ('Six-car production cycles and tooling', 'Timed first-article travellers; mould duplication/cure tests; lifting and process layouts; vendor equipment quotes', 'Factory process engineer / independent inspector', 'Prove each stage cycle and 85% availability with traceable measurements; no series before first-article acceptance'),
-            ('Imported bogies, batteries, doors and windows', 'Lot-level RFQs, origin certificates, qualified suppliers, delivery slots, warranty and lender eligibility', 'Procurement lead / lender technical adviser', 'Match 831 complete six-car kits, financed invoice origin and delivery calendar'),
+            ('Imported bogies, batteries, doors and windows', 'Lot-level RFQs, origin certificates, qualified suppliers, delivery slots, warranty and lender eligibility', 'Procurement lead / lender technical adviser', 'Match the current full-fleet quantity of six-car kits, financed invoice origin and delivery calendar'),
             ('Staffing and extra shifts', 'Iraqi wage/shift quotes, recruitment cohorts, competency and fatigue roster, measured labour-hours', 'Factory operator / training lead', 'Demonstrate 1044 baseline cell positions plus option-specific incremental FTE without duplicate payroll'),
             ('Two segregated running paths', 'Land/geometry drawings, braking and electrical tests, safe access segregation, witnessed test duty and outage recovery', 'Test manager / independent assessor', 'Demonstrate 16 exclusive test-hours/train and coexistence with acceptance bay use; no shared route counted twice'),
             ('Civil quantities and access', 'Geotechnical survey, utility/land permits, precast curing/output tests, foundations and track installation records, Iraqi contractor RFQs', 'Civil lead / owner engineer', 'Validate access and crew-lane dependencies and quantity-based rates before adopting 20% cycle improvement'),
@@ -500,7 +500,7 @@ def main():
     lines += ['', '## Separate productivity from investment timing', '',
               'The corrected civil_cycles_20pct_faster case retains every rephased start floor and changes only civil occupation durations. A 1.0 multiplier is tested as an exact schedule identity, including running-path reservations and line openings. Civil_earliest_unchanged_cycles removes the spending delays at original durations; civil_earliest_20pct_faster changes both. Their costs must not be attributed to productivity alone. Earlier completion may still advance completion/retention invoices even when mobilisation timing is retained. These are diagnostic cycle assumptions with no added crews or accepted acceleration price.', '',
               '## Recovery comparisons and priced assumptions', '',
-              'Factory cells and dispatch lane order remain fixed. Fixed curing, bonding, inspection and test holds are listed in baghdad-delivery-risk.toml as unqualified working-calendar equivalents. Shift compression applies only to the remaining staffed occupation; the additional 60-day first-article qualification is unchanged. At one shift the original schedule is preserved exactly. Cure elapsed hours and batch/test evidence must replace these assumed splits before adoption. The test-only option uses the same two segregated paths with a second eight-hour test shift: 52 incremental staff, USD 1.5m direct lighting/training plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.', '',
+              'Factory cells and dispatch lane order remain fixed. Fixed curing, bonding, inspection and test holds are listed in baghdad-delivery-risk.toml as unqualified working-calendar equivalents. Shift compression applies only to the remaining staffed occupation; the additional 60-day first-article qualification is unchanged. At one shift the original schedule is preserved exactly. Cure elapsed hours and batch/test evidence must replace these assumed splits before adoption. The test-only option uses the same selected segregated paths with a second eight-hour test shift: 26 incremental staff and USD 0.75m direct lighting/training per selected path plus 7% EPC, and indexed payroll before and after fares. It does not repair upstream stage throughput. The single structural, electrical and composite options add four staffed hours/day to the named stage at unchanged bay count; the coordinated option applies this to all seven stages and funds the second test shift. Incremental production FTE is half each selected stage crew, paid at a 25% premium, with nonlabour shift costs equal to 25% of added payroll. Each stage adds a USD 1m installation/training allowance and USD 10,000 per added FTE plus EPC. These assumed shift efficiencies, relief and wage premiums need qualification.', '',
               'Use availability_75pct_costed, hiring_ramp_costed and supplier_shortage_costed as matching delay-cost baselines for their respective recovery options. Recruitment recovery funds USD 10,000 per delayed half of the 1044 production positions plus EPC and tests a six-month rather than twelve-month staffing ramp. Supplier recovery charges an assumed IQD local logistics fee of 2% of city imported invoice value, indexed to payment, and tests a shortage cut from 130 to 65 working days; this is a causal scenario assumption, not a guaranteed delivery improvement. Foreign-currency freight reimbursement and invoice eligibility need quotations. Neither purchases another train nor credits an unspecified subsidy.', '',
               'The temporary first-article option adds USD 35m direct facility/tooling and 7% EPC, ready at day 260 (12 planning months from NTP), plus 60 incremental support FTE until the permanent plant is ready. Only the already-planned prototype assembles there. Acceptance still waits for permanent bays and running paths at day 390, and series still waits for first-article qualification. All line fleets remain complete at opening. The temporary site and staff must have their own RFQs and acceptance; no shorter passenger section is folded into this option.', '',
               '## Delay costs and combined financial downside', '',
@@ -509,7 +509,7 @@ def main():
               f"Lower demand with combined delays leaves IQD {slow['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt. Joint_downside applies all of those assumptions together and 7% rail OPEX inflation: IQD {joint['uncovered_support_iqd']/1e12:.3f}tn cumulative uncovered cash and IQD {joint['terminal_supplemental_balance_iqd']/1e12:.3f}tn terminal gap debt. Uncovered support is a balancing requirement, not an extra government appropriation, loan or cash source. Its presence blocks any unconditional repayment claim even if the simulated debt eventually amortizes. Interest totals in such cases also assume the missing cash is supplied; they do not establish an executable financed programme.", '',
               'Base fare and OPEX sensitivities remain 5% from financial close, with existing kiosks/advertising, separate receipts and each line revenue ramp included. No tickets are sold before opening. Capital escalation is absent from reference cases and explicit in the named escalation cases. Green/grant/rights and all financing availability remain uncommitted. No future national city cashflow supports Baghdad debt.', '',
               '## Evidence needed before adopting a recovery plan', '',
-              'The [qualification register](qualification-register.csv) assigns owners, required measurements/RFQs and acceptance rules for production, suppliers, recruitment, civil quantities, depot/site fit, demand, funding and operation. Every row remains not demonstrated. No measurements or quotations were obtained by running this model. The baseline still has only 20 working days of fleet margin and 2.71% test-throughput margin. Shorter passenger sections require a separate route, turnback, charging, depot, fleet duty and safety/operating acceptance study; the present comparisons retain full fleets and existing operating scope.', '',
+              'The [qualification register](qualification-register.csv) assigns owners, required measurements/RFQs and acceptance rules for production, suppliers, recruitment, civil quantities, depot/site fit, demand, funding and operation. Every row remains not demonstrated. No measurements or quotations were obtained by running this model. The baseline fleet and test-path margins follow the current [factory sizing](../factory/summary.json); they require measured cycles and acceptance trials. Shorter passenger sections require a separate route, turnback, charging, depot, fleet duty and safety/operating acceptance study; the present comparisons retain full fleets and existing operating scope.', '',
               'Regenerate after the city controls, factory plan and Baghdad funding programme are current with `.venv/bin/python tools/automation/baghdad_delivery_stress.py`, then regenerate the proposal. Verify source/output bindings with `--check`.', '',
               '[Scenario comparison](scenario-comparison.csv) · [Machine-readable assumptions/results](summary.json) · [Baseline half-year funding](calendar_baseline-six-month-finance.csv) · [Combined stress half-year funding](combined-six-month-finance.csv) · [Joint downside half-year funding](joint_downside-six-month-finance.csv)', '']
     (OUT / 'README.md').write_text('\n'.join(lines))

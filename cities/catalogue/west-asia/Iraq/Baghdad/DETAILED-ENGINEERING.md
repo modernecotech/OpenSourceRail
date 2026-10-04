@@ -2,7 +2,7 @@
 
 Baghdad uses a **six-car, 111 m metro family**. The next design stage retains ballastless slab track and expands the civil, mechanical, electronics and software packages into controlled interfaces, parts and manufacturing operations. The [component register](engineering/detail/README.md), [parts CSV](engineering/detail/parts.csv) and [source-bound JSON](engineering/detail/register.json) contain the calculated city quantities and open supplier positions. These are engineering references; production drawings, surveys, qualified suppliers and operational approvals remain required.
 
-The current city allocation is 831 trainsets, 4,986 cars, 182 stations and 158 energy sites. The two-bogie-per-car reference gives 9,972 bogies and 19,944 wheelsets. Wheelsets are children of complete bogies, not extra purchases. Doors, cooling loops, fixtures, harnesses and equipment repeats are reference allocations that must pass the six-car family review. The detailed three-car LM3 manufacturing package is useful process evidence; it is not a released Baghdad production package and cannot be doubled to obtain qualified six-car interfaces.
+The current city allocation, six-car trainsets, cars, stations, energy sites, bogies and wheelsets are regenerated in the [quantity register](engineering/detail/register.json) from the main design and scenario. Wheelsets are children of complete bogies, not extra purchases. Doors, cooling loops, fixtures, harnesses and equipment repeats are reference allocations that must pass the six-car family review. The detailed three-car LM3 manufacturing package is useful process evidence; it is not a released Baghdad production package and cannot be doubled to obtain qualified six-car interfaces.
 
 ## Reference architecture and drawing package
 
@@ -98,7 +98,7 @@ A quantity example for **one kilometre of double track wholly assigned to ST6** 
 | River/highway bridges | Survey/navigation, scour, traffic/diversion, foundations and special spans | Separate bridge design; standard Pi spans do not release major crossings |
 | Elevated evacuation | Walkway/barrier loads, clear width, station access and rescue route | Outer 1 m cassette reference checked against obstruction and fire/evacuation rules |
 | Station boarding | Six-car swept envelope, floor height, tolerance and accessibility | Surveyed step/gap and dwell/evacuation capacity; LM3 offsets cannot be copied blindly |
-| Depot/stabling | 831-train circulation and storage, workshop equipment, wash/drainage/recovery | Existing USD8m depot allowance needs detailed scope and pricing; workshop bays are not parking |
+| Depot/stabling | Full-fleet circulation and storage, workshop equipment, wash/drainage/recovery | One depot per line is priced by fleet and workload in the [current programme](engineering/programme-recalculation/README.md); workshop bays are not parking |
 | Plant/logistics | Crane charts, rig loads, haul route, curing, power/water/waste and laydown | 12.699 t concrete panel is not the certified shipping/lift weight; steel/rigging included |
 
 Keep the existing construction-method and foundation catalogs. Their “actual length and cost required” gates prevent generic deep-pile lengths from being adopted as surveyed Baghdad foundations. Release each geotechnical zone and map it to the alignment segments before recalculating quantities and installed costs.

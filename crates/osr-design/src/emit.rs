@@ -50,6 +50,12 @@ pub fn write_all(
         (elevated_junctions.len() as f64) * junction_premium_eur() / 1_000_000.0
     );
 
+    if let Some(policy) = crate::alignment_policy::Policy::load(out_dir)? {
+        for (line, segments) in lines.iter().zip(civil_mut.iter_mut()) {
+            *segments = policy.classify(&line.name, &bundle.grid, &line.cells, segments);
+        }
+    }
+
     write_design_toml(
         out_dir,
         slug,

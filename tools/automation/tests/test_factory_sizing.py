@@ -88,14 +88,14 @@ def test_published_baghdad_factory_reconciles_actual_fleet_space_budget_and_sour
     directory=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory'
     p=json.loads((directory/'summary.json').read_text())
     deliveries=list(csv.DictReader((directory/'deliveries.csv').open()))
-    assert len(deliveries)==len({r['trainset'] for r in deliveries})==p['total_trainsets']==831
-    assert sum(int(r['cars']) for r in deliveries)==4986
+    assert len(deliveries)==len({r['trainset'] for r in deliveries})==p['total_trainsets']==sum(f['trainset_count'] for f in __import__('tomllib').loads((directory.parents[1]/'design.toml').read_text())['fleets'])
+    assert sum(int(r['cars']) for r in deliveries)==p['total_trainsets']*6
     assert max(int(r['working_day']) for r in deliveries)==p['stock_finish_working_day']<=p['infrastructure_target_working_day']
     assert p['readiness_months_from_ntp']==18
     assert p['budgeted_plant_direct_usd']>=p['plant_cost_envelope_usd']
     assert p['incremental_plant_capex_with_epc_usd']>0
     assert p['planning_site_m2']>p['process_and_support_floor_m2']>0
-    assert p['original_lines_civil_complete_before_factory_ready']==['line-1','line-2']
+    assert p['original_lines_civil_complete_before_factory_ready']==[line for line,day in p['original_infrastructure_deadlines'].items() if day<p['factory_ready_working_day']]
     assert p['lines_civil_complete_before_factory_ready']==[]
     for relative,digest in p['sources_sha256'].items():
         assert hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()==digest
@@ -103,3 +103,12 @@ def test_published_baghdad_factory_reconciles_actual_fleet_space_budget_and_sour
     assert funding['factory']['planning_build_working_days']==390
     assert funding['factory']['cost_usd']==p['budgeted_plant_direct_usd']
     assert funding['factory']['epc_usd']==p['budgeted_plant_epc_usd']
+
+
+def test_independent_test_paths_are_sized_and_fully_priced_for_shorter_civil_window():
+    rows=tasks();c=assumptions();c['factory']['exclusive_track_hours_per_trainset']=400
+    plan=size_factory(rows,{},c)
+    assert plan['test_tracks']>c['factory']['test_tracks']
+    assert plan['test_tracks']<=c['factory']['maximum_test_tracks']
+    assert plan['exclusive_test_path_capacity_trainsets_per_year']>=plan['minimum_steady_output_trainsets_per_year']
+    assert plan['cost_allowances_usd']['test_tracks']==pytest.approx(plan['test_tracks']*c['factory']['test_track_length_m']/1000*c['cost_envelope']['test_track_allowance_usd_km'])

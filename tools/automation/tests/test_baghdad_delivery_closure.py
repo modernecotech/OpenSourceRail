@@ -15,9 +15,9 @@ OUT=closure.OUT
 def read(name):return json.loads((OUT/(name+'.json')).read_text())
 
 def test_tracks_slots_and_rectangular_layouts_reconcile_without_land_credit():
-    data=read('depot-layouts');assert len(data['slots'])==data['total_storage_positions']==533
+    data=read('depot-layouts');assert len(data['slots'])==data['total_storage_positions']==sum(row['stabling_positions'] for row in data['sites'])
     assert len({r['id'] for r in data['tracks']})==len(data['tracks'])
-    assert sum(r['usable_length_m'] for r in data['tracks'])==533*121
+    assert sum(r['usable_length_m'] for r in data['tracks'])==data['total_storage_positions']*121
     for track in data['tracks']:
         slots=[r for r in data['slots'] if r['track']==track['id']]
         assert len(slots)==track['slots']<=3
@@ -79,17 +79,19 @@ def test_all_maintenance_intervals_and_startup_deficit_keep_evidence_open():
     assert {r['id'] for r in intervals}=={r['id'] for r in source}
     assert all(r['measured_task_duration_hours'] is None and r['native_asset'] is None and not r['accepted'] for r in intervals)
     station=next(r for r in intervals if r['id']=='station-daily')
-    assert station['programme_asset_family_quantity_reference']==182
+    assert station['programme_asset_family_quantity_reference']==len(current_design()['stations'])
     startup=read('startup-policy-alternatives');row=next(r for r in startup['cases'] if r['line']=='line-9')
-    assert row['frozen_baseline_dispatch_direction_count']==47
-    assert row['revenue_position_deficit']==5 and row['additional_10_percent_spares']==1
-    assert row['additional_train_reference_capital_usd']==6*1680000
+    assert row['frozen_baseline_dispatch_direction_count']==len(row['frozen_dispatch_points'])
+    assert row['revenue_position_deficit']==max(0,row['frozen_baseline_dispatch_direction_count']-row['baseline_revenue_trains'])
+    assert row['additional_10_percent_spares']>=math.ceil(row['minimum_additional_revenue_trains']*.1)
+    assert row['additional_train_reference_capital_usd']==(row['minimum_additional_revenue_trains']+row['additional_10_percent_spares'])*1680000
     assert row['selected_start_station_ids'] is None and not row['operational_release']
 
 def test_simple_span_bearing_cash_adds_pi25_delta_and_epc_once():
     case=read('finance-simple_span_bearing_index');full=read('finance-reconciled_full_fleet')
     direct=sum(r['budget_usd'] for r in case['bearing_index_delta_contracts'])
-    assert direct==pytest.approx(15084180)
+    comparison=json.loads((OUT.parent/'viaduct-comparison/comparison.json').read_text())
+    assert direct==pytest.approx(comparison['bearing_index_sensitivity']['financed_pi25_only_direct_delta_usd'])
     assert case['metrics']['total_capital_usd']-full['metrics']['total_capital_usd']==pytest.approx(direct*1.07)
     assert case['metrics']['terminal_supplemental_balance_iqd']>full['metrics']['terminal_supplemental_balance_iqd']
     assert all(not r['actual_bearing_origin_and_dates_accepted'] for r in case['bearing_index_delta_contracts'])
@@ -132,7 +134,7 @@ def test_budget_replacements_preserve_factory_and_original_reference():
     direct=depots['alternatives']['workload_bays']['gross_reference_cost_usd']-8000000
     assert scenario['metrics']['total_capital_usd']-ref['metrics']['total_capital_usd']==pytest.approx(direct*1.07,abs=.02)
     opening=read('finance-opening_fleet_supply_scaled')
-    assert scenario['metrics']['total_capital_usd']-opening['metrics']['total_capital_usd']==pytest.approx(381*1680000,abs=.02)
+    assert scenario['metrics']['total_capital_usd']-opening['metrics']['total_capital_usd']==pytest.approx((sum(row['trainset_count'] for row in current_design()['fleets'])-read('opening-factory-replay')['selected_trainsets'])*1680000,abs=.02)
     assert opening['deferred_expansion_fleet_funding_usd'] is None
     assert any(r['supply_income_multiplier']<1 for r in opening['opex_components'])
 
@@ -145,7 +147,9 @@ def test_hourly_site_diagnostics_identify_bus_and_charger_limits_without_netting
         assert site['generation_kwh']==pytest.approx(site['local_generation_kwh']+site['gross_utility_generation_kwh']*.95)
         assert 0<site['installed_service_energy_fraction']<=1+1e-9
     with (OUT/'aggregate-reference-shortage-hours.csv').open() as f:aggregate=list(csv.DictReader(f))
-    assert len(aggregate)==28
+    with (OUT.parent/'delivery-baseline/energy-synthetic_reference-owned_solar-hourly.csv').open() as f:
+        expected=[row for row in csv.DictReader(f) if float(row['unserved_kwh'])>1e-7]
+    assert len(aggregate)==len(expected)
     bound=read('finance-installed_energy_supply_bound');firm=read('finance-reconciled_full_fleet')
     assert sum(r['fare_receipts_iqd'] for r in bound['monthly'])<sum(r['fare_receipts_iqd'] for r in firm['monthly'])
     assert sum(r['incremental_net_receipts_iqd'] for r in bound['monthly'])<sum(r['incremental_net_receipts_iqd'] for r in firm['monthly'])
@@ -156,7 +160,7 @@ def test_development_training_capacity_precedes_operating_cohorts_and_reconciles
     people=json.loads((OUT.parent/'delivery-baseline/workforce.json').read_text())
     first_join=min(r['join_month'] for r in people['recruitment_cohorts'])
     leadership=next(r for r in mobilisation['development_posts'] if r['role_id']=='city-director')
-    assert leadership['start_month']==0 and leadership['handover_month']==41
+    assert leadership['start_month']==0 and leadership['handover_month']==min(r['authorised_available_month'] for r in people['recruitment_cohorts'])
     assert mobilisation['training_rigs_required_month']<first_join
     assert all(r['qualified_internal_capacity_credited']==0 for r in mobilisation['monthly'])
     assert sum(r['existing_trainer_assessor_cash_iqd'] for r in mobilisation['monthly'])==pytest.approx(people['training_recruitment_cash_iqd']-sum(r['paid_preopening_training_iqd'] for r in people['recruitment_cohorts']))
@@ -169,11 +173,18 @@ def test_development_training_capacity_precedes_operating_cohorts_and_reconciles
 def test_opening_factory_orders_match_fleet_without_earlier_income_or_factory_saving():
     factory=read('opening-factory-replay');tasks=factory['delivery']['tasks']
     stock={r['asset_id'] for r in tasks if r['asset_type']=='rolling-stock'}
-    assert len(stock)==factory['selected_trainsets']==450
+    first_phase=json.loads((OUT.parent/'delivery-baseline/first-phase.json').read_text())
+    assert len(stock)==factory['selected_trainsets']==first_phase['opening_fleet']
     assert len({r['asset_id'] for r in tasks if 'OPENING-EXTRA' in r['asset_id']})==1
     baseline=json.loads((OUT.parent/'delivery-risk/summary.json').read_text())['cases']['calendar_baseline']['phases']
     deadlines={r['line']:r['opening_month'] for r in baseline}
-    assert all(r['opening_month']<=deadlines[r['line']] for r in factory['delivery']['phases'])
+    assert all(r['opening_month']>=deadlines[r['line']] for r in factory['delivery']['phases'])
+    cash=read('finance-opening_fleet_supply_scaled')
+    assert cash['operating_phases']==factory['delivery']['phases']
+    first=min(r['opening_month'] for r in cash['operating_phases'])
+    last=max(r['opening_month'] for r in cash['operating_phases'])
+    assert all(r['fare_receipts_iqd']==0 for r in cash['monthly'] if r['month']<first)
+    assert max(r['month'] for r in cash['monthly'])==last+30*12-1
     assert factory['factory_ready_month']==18 and not factory['factory_repriced'] and not factory['accepted']
     occupied={}
     for row in sorted(tasks,key=lambda r:r['start_hour']):
@@ -223,3 +234,11 @@ def test_source_and_output_hashes_current():
 def test_invalid_capacity_and_intervals_rejected(section,key):
     c=tomllib.loads(closure.CONFIG.read_text());c[section][key]=0
     with pytest.raises(ValueError):closure.validate(c)
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

@@ -259,7 +259,7 @@ def render_brief(
             position = out.index("## National Programme")
             out[position:position] = ["## Iraq financing", "",
                 "The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled proposal covers **Baghdad only**, including one manufacturing plant. It uses government capital at **25% of total CAPEX**, imports split 50% government USD cash / 50% proposed Chinese USD credit, with the remaining government capital, bonds and bank credit in IQD. Full-basket Chinese eligibility remains unqualified. Additional cash requirements beyond that public contribution remain visible in the [Baghdad funding programme](IRAQ-FUNDING-PROGRAMME.md). Samawah, Mosul and every other Iraqi city are excluded from its cashflows.", ""]
-            out[position:position] = ["The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its 831 six-car trainsets to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.", ""]
+            out[position:position] = ["The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its current six-car trainset order to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.", ""]
         return "\n".join(out)
 
     out = [
@@ -485,7 +485,7 @@ def main() -> int:
         output = country_dir / "NATIONAL-BRIEF.md"
         text = render_brief(code, name, cities)
         if args.check:
-            if not output.is_file() or output.read_text() != text:
+            if not output.is_file() or __import__('re').sub(r'<!-- OSR CURRENT SCOPE CONTEXT -->.*?<!-- END OSR CURRENT SCOPE CONTEXT -->\n\n?', '', output.read_text(), flags=__import__('re').S) != text:
                 drift.append(output)
         else:
             atomic_write(output, text)

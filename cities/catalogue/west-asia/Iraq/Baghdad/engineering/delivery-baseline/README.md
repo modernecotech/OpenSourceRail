@@ -1,6 +1,10 @@
 # Baghdad delivery reconciliation — 4 October 2026
 
-The original Baghdad estimate is **USD 7.880494bn equivalent**, with an incomplete delivery scope. This package turns the attached review into reproducible quantity/cost/workload comparisons and six budgeted evidence workstreams. It adds no assumed passengers, leases, supplier quotes, appointments or approval, and does not replace the published finance case before scope is accepted.
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
+The original Baghdad estimate is **USD 7.515079bn equivalent**, with an incomplete delivery scope. This package turns the attached review into reproducible quantity/cost/workload comparisons and six budgeted evidence workstreams. It adds no assumed passengers, leases, supplier quotes, appointments or approval, and does not replace the published finance case before scope is accepted.
 
 - [Base estimate, exclusions, EPC and correlated cost/schedule sensitivity](ESTIMATE.md)
 - [Line-local storage/depot quantities and alternative workshop scopes](DEPOT-PACKAGE.md)

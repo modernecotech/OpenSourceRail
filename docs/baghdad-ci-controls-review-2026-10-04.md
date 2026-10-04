@@ -1,5 +1,7 @@
 # Baghdad review follow-up: controls, CI and deliverable-service sensitivity
 
+> **Historical revision review.** Its figures describe the revision reviewed below. The reworked central alignment, current staffing/depot scope and current cashflows are in the [Baghdad city summary](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) and [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md).
+
 The attached review examined `aff4fbc9`; the subsequent continuation already integrated depot, energy, payroll and replacement-reserve cash. This follow-up strengthens that implementation and preserves the original financing case as a comparator. None of the engineering alternatives has field acceptance or committed finance.
 
 ## Financing and service

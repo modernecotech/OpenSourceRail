@@ -32,7 +32,9 @@ def test_shift_does_not_compress_fixed_holds_or_qualification():
     with pytest.raises(ValueError):production_duration(stage,.75,1.5,11)
     with pytest.raises(ValueError):production_duration(stage,.75,0,6)
     report=json.loads((CITY/'engineering/delivery-risk/summary.json').read_text())
-    assert report['cases']['calendar_baseline']['metrics']['unlevered_project_npv_usd']==pytest.approx(-3298914052.415263,abs=.02)
+    ledger=list(csv.DictReader((CITY/'engineering/delivery-risk/calendar_baseline-monthly-finance.csv').open()))
+    expected=sum(((float(row['revenue_iqd'])-float(row['opex_iqd']))/1300-float(row['capex_usd']))/1.134**(int(row['month'])/12) for row in ledger)
+    assert report['cases']['calendar_baseline']['metrics']['unlevered_project_npv_usd']==pytest.approx(expected,abs=.02)
     rows=list(csv.DictReader((CITY/'engineering/delivery-risk/availability_75pct_all_stage_shifts-schedule.csv').open()))
     prototype=min((r for r in rows if r['asset_type']=='rolling-stock'),key=lambda r:int(r['start_hour']))['asset_id']
     acceptance=next(r for r in rows if r['asset_id']==prototype and r['manufacturing_uid'].endswith('rs-50-dynamic-commissioning'))
@@ -83,7 +85,7 @@ def test_section_is_complete_on_its_own_and_does_not_buy_another_fleet():
     assert s['station_ids'][-1].endswith('s014034')
     assert s['total_trainsets']==s['peak_trains']+s['spare_trains']+s['cold_reserve']==16
     assert len(set(s['allocated_existing_trainsets']))==16
-    assert s['ultimate_city_trainsets']==831
+    assert s['ultimate_city_trainsets']==current_fleet()
     assert s['terminal_berths_per_end']==2
     assert s['terminal_grid_kw_per_end']==4000
     assert s['round_trip_charge_delivered_kwh']>s['round_trip_energy_kwh']
@@ -92,7 +94,7 @@ def test_section_is_complete_on_its_own_and_does_not_buy_another_fleet():
     assert s['round_trip_energy_kwh']/2 <= s['usable_soc_window_kwh']
     assert s['round_trip_charging_margin_fraction']<.025
     assert s['degraded_charge_margin_fraction']<0 and not s['degraded_charge_qualified']
-    assert s['conditional_opening_month']<s['full_line_opening_month']==41
+    assert s['conditional_opening_month']<s['full_line_opening_month']==next(p['opening_month'] for p in json.loads((CITY/'engineering/delivery-risk/summary.json').read_text())['cases']['calendar_baseline']['phases'] if p['line']==s['line'])
     assert s['extra_capital_with_epc_usd']==29.96e6
     rows=list(csv.DictReader((OUT/'first-section-monthly-finance.csv').open()))
     assert all(float(r['fare_receipts_iqd'])==0 for r in rows if int(r['month'])<s['conditional_opening_month'])
@@ -101,7 +103,7 @@ def test_section_is_complete_on_its_own_and_does_not_buy_another_fleet():
     assert metrics['maximum_cash_residual_usd']<.02
     assert metrics['maximum_principal_balance_residual_usd']<.02
     assert sum(float(r['capex_usd']) for r in rows)==pytest.approx(metrics['total_capital_usd'])
-    assert metrics['total_capital_usd']==pytest.approx(7880493587.2149935+29.96e6)
+    assert metrics['total_capital_usd']==pytest.approx(json.loads((CITY.parent/'finance/baghdad-programme.json').read_text())['total_capex_usd']+s['extra_capital_with_epc_usd'])
     # Allocated stock and advanced civil are still serialised in frozen lanes.
     from collections import defaultdict
     lanes=defaultdict(list)
@@ -195,3 +197,11 @@ def test_erp_refresh_preserves_owner_status_and_task_identity():
     applied=module.reconcile_tasks(Frappe(),payload,True)
     assert applied['tasks'][0]['task']=='TASK-TEST'
     assert doc.description=='new' and doc.status=='Completed' and doc.owner=='actual-user'
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

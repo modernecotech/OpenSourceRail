@@ -1,7 +1,7 @@
 # Baghdad drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 9 / 182
+- Lines/stations: 9 / 164
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

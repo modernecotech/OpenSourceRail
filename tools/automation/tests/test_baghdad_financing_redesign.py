@@ -93,7 +93,7 @@ def test_all_company_native_cash_principal_capital_and_insured_tenors_reconcile(
 
 def test_factory_receipts_are_matched_resources_not_extra_programme_income():
     case=json.loads((OUT/'integrated.json').read_text());f=case['factory']; rows=case['intercompany_monthly']
-    assert f['train_invoice_total_usd']==pytest.approx(831*1.68e6,abs=.02)
+    assert f['train_invoice_total_usd']==pytest.approx(current_fleet()*1.68e6,abs=.02)
     assert f['manufacturing_resource_cost_usd']==pytest.approx(f['train_invoice_total_usd'],abs=.02)
     assert f['future_order_revenue_usd']==0 and f['residual_sale_usd']==0
     assert f['warranty_restricted_cash_peak_usd']==pytest.approx(.05*f['train_invoice_total_usd'])
@@ -135,7 +135,11 @@ def test_additional_income_example_discounts_from_start_of_payment_period():
 def test_factory_equity_return_is_distinct_from_cleared_debt(summary):
     case=json.loads((OUT/'integrated.json').read_text())
     factory=case['entities']['factory']['metrics']
-    assert factory['all_debt_cleared_month'] is not None
+    # Cash at order-book close is net of outstanding debt; clearance is not
+    # assumed merely because the finite project horizon ended.
+    rows=case['entities']['factory']['monthly']
+    terminal=sum(rows[-1][n+'_closing_balance_native']/(1 if n=='chinese_export_credit' else 1300) for n in ('chinese_export_credit','domestic_bonds','bank_credit'))+rows[-1]['closing_liquidity_debt_iqd']/1300
+    assert (factory['all_debt_cleared_month'] is None)==(terminal>.02)
     assert not factory['equity_cash_recovered_at_zero_hurdle']
     assert factory['equity_npv_at_15pct_orderbook_or_sale_close_usd'] < 0
     assert factory['equity_distribution_assumption_usd'] < factory['private_equity_iqd']/1300
@@ -157,3 +161,11 @@ def test_private_equity_and_working_capital_remain_balanced_when_equity_starts_l
     rows[1]['restricted_working_capital_usd']=-1.
     with pytest.raises(ValueError,match='restricted'):
         simulate(cap,rows,cfg,options)
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])

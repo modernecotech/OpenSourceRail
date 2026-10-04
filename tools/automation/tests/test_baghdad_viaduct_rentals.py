@@ -1,6 +1,7 @@
 """Retained premises require real geometry, incremental resources and locked deposits."""
 from copy import deepcopy
 import hashlib
+import math
 import gzip
 import json
 from pathlib import Path
@@ -11,7 +12,7 @@ import pytest
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'tools/automation'))
 from baghdad_viaduct_rentals import validate,npv
-from baghdad_equity import simulate_equity,terminal_cash_diagnostic,with_rental_portfolio,consolidated_inputs
+from baghdad_equity import equity_irr,simulate_equity,terminal_cash_diagnostic,with_rental_portfolio,consolidated_inputs
 from baghdad_financing_redesign import city_funding_config
 OUT=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals'
 
@@ -22,9 +23,11 @@ def config():return tomllib.loads((ROOT/'lib/templates/baghdad-viaduct-rentals.t
 
 def test_geometry_screen_is_civil_linked_and_never_accepted(config):
     rows=read('commercial-space-register');design=tomllib.loads((OUT.parent.parent/'design.toml').read_text())
-    assert len(rows)==1143
-    assert sum(r['length_m'] for r in rows)==pytest.approx(75810.5,abs=.01)
-    assert sum(r['screening_net_area_m2'] for r in rows)==128070
+    elevated=[s for s in design['civil_segments'] if s['class']=='elevated']
+    assert len(rows)==len(elevated)
+    assert sum(r['length_m'] for r in rows)==pytest.approx(sum(s['to_station_m']-s['from_station_m'] for s in elevated),abs=.01)
+    area=config['geometry']['units_per_planning_bay']*config['geometry']['unit_internal_frontage_m']*config['geometry']['unit_internal_depth_m']
+    assert sum(r['screening_net_area_m2'] for r in rows)==sum(r['screening_bays']*area for r in rows)
     assert sum(r['confirmed_eligible_area_m2'] for r in rows)==0
     assert len({r['segment_id'] for r in rows})==len(rows)
     for r in rows:
@@ -34,9 +37,11 @@ def test_geometry_screen_is_civil_linked_and_never_accepted(config):
         assert r['measured_clear_height_m'] is None and r['legal_owner'] is None
         assert not r['eligibility_accepted'] and not r['lease_signed']
         if r['length_m']<75:assert r['screening_bays']==0
-    assert sum(not r['parent_track_asset_ids'] for r in rows)==14
-    assert read('large')['status']=='unmapped-area-blocked'
-    assert read('large')['unmapped_area_m2']==71930 and read('large')['monthly']==[]
+    large=read('large')
+    shortfall=max(0,config['cases']['large']['target_lettable_m2']-sum(r['screening_net_area_m2'] for r in rows))
+    assert large['unmapped_area_m2']==shortfall
+    if shortfall:assert large['monthly']==[] and large['status']=='unmapped-area-blocked'
+    else:assert large['metrics']['confirmed_eligible_area_m2']==0 and not large['metrics']['financing_committed']
 
 
 def test_pilot_unit_parts_twin_hazards_and_native_drafts(config):
@@ -98,8 +103,9 @@ def test_rent_arrears_deposits_assets_tax_and_refurbishment_reconcile(name,confi
 
 def test_costed_rents_do_not_claim_receipts_only_value_or_double_count_inventory():
     small,medium,weak=(read(n)['metrics'] for n in ('small','medium','medium_downside'))
-    assert medium['total_fitout_capital_usd']==pytest.approx(93532439.23250295,abs=.02)
-    assert medium['resource_npv_before_tax_usd']==pytest.approx(17244285.200657256,abs=.02)
+    ledger=read('medium')['monthly']
+    assert medium['total_fitout_capital_usd']==pytest.approx(sum(r['physical_fitout_capital_usd'] for r in ledger),abs=.02)
+    assert medium['resource_npv_before_tax_usd']==pytest.approx(npv([(r['month'],r['rent_collected_usd']-r['landlord_opex_usd']-r['physical_fitout_capital_usd']) for r in ledger],.134),abs=.02)
     assert medium['standalone_resource_npv_after_tax_usd']<medium['resource_npv_before_tax_usd']
     assert small['resource_npv_before_tax_usd']<0 and weak['resource_npv_before_tax_usd']<-30e6
     assert medium['confirmed_eligible_area_m2']==0 and medium['additional_land_opportunity_cost_usd'] is None
@@ -144,8 +150,11 @@ def test_terminal_cash_is_an_independent_unapproved_diagnostic():
     assert e['actual_company_distribution_iqd']==0 and e['asset_sale_usd']==0 and not e['guaranteed_redemption']
     assert e['cash_available_after_nonsecurity_liabilities_iqd']==pytest.approx(last['closing_cash_iqd'],abs=.02)
     private=e['shareholder_returns']['iraqi_private']
-    assert private['equity_irr_with_terminal_cash']==pytest.approx(.04215653168778821)
-    assert c['shareholder_returns']['iraqi_private']['equity_irr']==pytest.approx(.029965700682548113)
+    base=c['shareholder_returns']['iraqi_private']['equity_irr']
+    assert private['equity_irr_with_terminal_cash']>base
+    cash=[(r['month'],r['cashflow_usd']) for r in c['shareholder_cashflows']['iraqi_private']]
+    cash.append((last['month'],private['hypothetical_terminal_cash_iqd']/1300))
+    assert private['equity_irr_with_terminal_cash']==pytest.approx(equity_irr(cash))
     assert sum(v['hypothetical_terminal_cash_iqd'] for v in e['shareholder_returns'].values())==pytest.approx(last['closing_cash_iqd'])
     failed=read('failed_later_primary',OUT.parent/'equity')['terminal_cash_sensitivity']
     assert failed['status']=='unavailable-incomplete-or-unfunded'

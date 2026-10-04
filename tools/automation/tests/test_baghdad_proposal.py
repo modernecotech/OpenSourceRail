@@ -9,7 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
 CITY = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
-PROPOSAL = CITY/'proposal'
+PROPOSAL = CITY
 
 
 def data(name):
@@ -42,7 +42,7 @@ def test_proposal_sources_outputs_and_complete_archive_are_current():
 def test_every_baghdad_document_and_financial_case_is_included():
     manifest = data('manifest.json')
     chapters = set(data('appendix-sources.json'))
-    docs = {p.relative_to(ROOT).as_posix() for p in CITY.rglob('*.md') if PROPOSAL not in p.parents}
+    docs = {p.relative_to(ROOT).as_posix() for p in CITY.rglob('*.md') if p.name not in ('BAGHDAD-PROPOSAL.md','DETAILED-SCHEDULES.md')}
     assert docs <= chapters
     inputs = set(manifest['inputs'])
     financial = {p.relative_to(ROOT).as_posix() for p in (CITY.parent/'finance').glob('baghdad-*') if p.is_file()}
@@ -102,9 +102,9 @@ def test_latest_scope_and_every_native_cashflow_are_published():
     manifest=data('manifest.json')
     inputs=set(manifest['inputs'])
     assert manifest['facts']['programme_recalculation']==summary['finance_cases']
-    assert manifest['facts']['programme_operating_fte']==3762
+    assert manifest['facts']['programme_operating_fte']==summary['operating_fte']
     assert manifest['facts']['programme_depot_count']==9
-    assert manifest['facts']['programme_depot_slots']==831
+    assert manifest['facts']['programme_depot_slots']==current_fleet()
     assert not manifest['facts']['programme_budget_complete']
     for case in summary['finance_cases']:
         for suffix in ('.json','-monthly.csv','-semiannual.csv','-contracts.csv'):
@@ -114,7 +114,7 @@ def test_latest_scope_and_every_native_cashflow_are_published():
     current=summary['finance_cases']['local_positive']
     assert f"IQD {current['terminal_all_debt_iqd']/1e12:.3f}tn total debt" in narrative
     assert f"{current['usd_capital_intensity']:.2%} USD capital intensity" in narrative
-    assert '85 defaulted draw vintages' in narrative
+    assert f"{summary['finance_cases']['local_positive_mezzanine']['junior_defaulted_vintages']} defaulted draw vintages" in narrative
 
 
 def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_scope():
@@ -141,11 +141,11 @@ def test_network_registers_preserve_complete_counts_and_optional_civil_fields():
             return list(csv.DictReader(handle))
     import tomllib
     design = tomllib.loads((CITY/'design.toml').read_text())
-    assert len(rows('stations.csv')) == len(design['stations']) == 182
+    assert len(rows('stations.csv')) == len(design['stations'])
     assert {r['id'] for r in rows('stations.csv')} == {r['id'] for r in design['stations']}
-    assert len(rows('civil-segments.csv')) == len(design['civil_segments']) == 2312
+    assert len(rows('civil-segments.csv')) == len(design['civil_segments'])
     assert any(r['viaduct_product'] for r in rows('civil-segments.csv'))
-    assert sum(int(r['trainset_count']) for r in rows('fleets.csv')) == 831
+    assert sum(int(r['trainset_count']) for r in rows('fleets.csv')) == current_fleet()
     assert len(rows('interchanges.csv')) == len(design['interchanges'])
     assert len(rows('junctions.csv')) == len(design['junctions'])
     narrative = (PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
@@ -154,7 +154,7 @@ def test_network_registers_preserve_complete_counts_and_optional_civil_fields():
     for name in ('cost_priority','loans_then_bonds'):
         assert name in analysis['cases']
     assert '18 months from NTP' in narrative
-    assert '../engineering/factory/README.md' in narrative
+    assert '(engineering/factory/README.md)' in narrative
     assert '14 deployment gates remain open' in narrative
     assert 'future national' in narrative.lower()
 
@@ -206,5 +206,15 @@ def test_retained_rental_evidence_and_exact_dividend_exit_comparisons_are_publis
     narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
     assert 'Confirmed eligible area remains **zero**' in narrative
     assert f"{c['shareholder_returns']['iraqi_private']['equity_irr']:.2%}" in narrative
-    assert '4.22%' in narrative and 'Tenant fire' in narrative
+    exit_case=json.loads((CITY/'engineering/equity/primary_1000m.json').read_text())
+    expected=exit_case['terminal_cash_sensitivity']['shareholder_returns']['iraqi_private']['equity_irr_with_terminal_cash']
+    assert f'{expected:.2%}' in narrative and 'Tenant fire' in narrative
     assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
+
+
+def current_design():
+    import tomllib
+    return tomllib.loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+
+def current_fleet():
+    return sum(r['trainset_count'] for r in current_design()['fleets'])
