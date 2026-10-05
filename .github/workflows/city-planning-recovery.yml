@@ -1,0 +1,42 @@
+name: city-planning-recovery
+on:
+  push:
+    branches: ['validation/recovery/**']
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: Comma-separated cities requiring actual full-day revalidation
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  cities:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      OSR_RESILIENCE_JOBS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: cargo build --release -p osr-sim --bin osr-sim
+      - name: Run actual selected-city nominal and degraded planning screens
+        env:
+          CITIES: ${{ inputs.cities }}
+        run: |
+          if [ -z "$CITIES" ]; then
+            CITIES=$(cat engineering/assurance/catalogue-geography/recovery-cities.txt)
+          fi
+          test -n "$CITIES"
+          python3 tools/automation/city-planning-ci.py run --partition 0/1 --cities "$CITIES" --jobs 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: city-planning-recovery
+          path: build/city-planning/partition/
+          if-no-files-found: error
+          retention-days: 14
