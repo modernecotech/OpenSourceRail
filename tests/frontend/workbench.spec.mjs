@@ -4,14 +4,23 @@ test("Workbench generates and opens a catalogue city delivery twin without a she
   test.setTimeout(120_000);
   await page.goto("http://127.0.0.1:4177/?module=operations&mode=design&role=designer");
   const portfolio = await page.request.get("http://127.0.0.1:4177/api/portfolio").then(response => response.json());
-  const usd = value => new Intl.NumberFormat("en", {style:"currency",currency:"USD",notation:"compact",maximumFractionDigits:1}).format(value);
-  const pct = value => new Intl.NumberFormat("en", {style:"percent",minimumFractionDigits:1,maximumFractionDigits:1}).format(value);
-  await expect(page.locator("#portfolioHeadline")).toHaveText(`${pct(portfolio.open_source_rail.local_domestic_share)} domestic value · ${usd(portfolio.open_source_rail.imported_external_capital_usd)} external capital`);
+  // Format expected API quantities in Chromium: Node's ICU version can render
+  // compact currency differently (for example, $872.0B versus $872B).
+  const expected = await page.evaluate(portfolio => {
+    const usd = value => new Intl.NumberFormat("en", {style:"currency",currency:"USD",notation:"compact",maximumFractionDigits:1}).format(value);
+    const pct = value => new Intl.NumberFormat("en", {style:"percent",minimumFractionDigits:1,maximumFractionDigits:1}).format(value);
+    return {
+      headline: `${pct(portfolio.open_source_rail.local_domestic_share)} domestic value · ${usd(portfolio.open_source_rail.imported_external_capital_usd)} external capital`,
+      turnkey: usd(portfolio.foreign_turnkey_comparator.cases.default.turnkey_total_usd),
+      reduction: pct(portfolio.foreign_turnkey_comparator.cases.default.external_capital_reduction),
+    };
+  }, portfolio);
+  await expect(page.locator("#portfolioHeadline")).toHaveText(expected.headline);
   await page.locator("#portfolioPanel summary").click();
   await expect(page.locator("#portfolioScope")).toContainText(`${portfolio.scope.city_count} cities in ${portfolio.scope.country_count} countries`);
   await expect(page.locator("#portfolioCases tr")).toHaveCount(3);
-  await expect(page.locator("#portfolioCases")).toContainText(usd(portfolio.foreign_turnkey_comparator.cases.default.turnkey_total_usd));
-  await expect(page.locator("#portfolioCases")).toContainText(pct(portfolio.foreign_turnkey_comparator.cases.default.external_capital_reduction));
+  await expect(page.locator("#portfolioCases")).toContainText(expected.turnkey);
+  await expect(page.locator("#portfolioCases")).toContainText(expected.reduction);
   await expect(page.locator("#twinCity option")).toHaveCount(portfolio.scope.city_count + 1);
   await page.locator("#twinCity").selectOption("samawah");
   await page.locator("#generateTwin").click();
