@@ -147,9 +147,14 @@ def transfer_recovery_candidates(design):
             for x in a:
                 for y in b:
                     p,q=xyz([x['lat'],y['lat']],[x['lon'],y['lon']])
-                    distance=float(2*EARTH_RADIUS_M*math.asin(min(1.,float(np.linalg.norm(p-q))/2)))
-                    if best is None or distance<best[0]:best=(distance,x,y)
-            distance,x,y=best
+                    # Survey candidates do not justify sub-millimetre precision.
+                    # Quantize before selection/serialization so platform libm
+                    # differences cannot change retained reports or tied choices.
+                    distance=round(float(2*EARTH_RADIUS_M*math.asin(min(1.,float(np.linalg.norm(p-q))/2))),3)
+                    key=(distance,str(x['id']),str(y['id']))
+                    if best is None or key<best[0]:best=(key,x,y)
+            key,x,y=best
+            distance=key[0]
             candidates.append(dict(components=[i,j],stations=[x['id'],y['id']],lines=[x['line'],y['line']],
                 straight_distance_m=distance,walk_time_minutes=None,accessible_path_accepted=False,
                 barrier_and_height_clearance_accepted=False,transfer_created=False,

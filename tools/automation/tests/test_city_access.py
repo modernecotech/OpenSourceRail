@@ -85,3 +85,15 @@ def test_disconnected_recovery_candidates_never_create_a_transfer():
     assert all(100<r['straight_distance_m']<120 and not r['transfer_created'] for r in candidates)
     assert before==transfer_audit(design)
     assert before['reachable_line_pair_fraction']==0
+
+
+def test_recovery_candidate_ties_are_stable_and_precision_is_survey_scale():
+    from city_access import transfer_recovery_candidates
+    design=dict(lines=[dict(id='a'),dict(id='b')],stations=[
+        dict(id='a2',line='a',lat=0,lon=0),dict(id='a1',line='a',lat=0,lon=0),
+        dict(id='b2',line='b',lat=0,lon=.001),dict(id='b1',line='b',lat=0,lon=.001)])
+    before=transfer_recovery_candidates(design)
+    design['stations'].reverse()
+    assert before==transfer_recovery_candidates(design)
+    assert before[0]['stations']==['a1','b1']
+    assert before[0]['straight_distance_m']==111.195

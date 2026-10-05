@@ -28,6 +28,25 @@ def encoded(value):
     return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + '\n').encode()
 
 
+def first_difference(expected, actual, location='$'):
+    """Explain exact drift without dumping an entire population/source report."""
+    if isinstance(expected, dict) and isinstance(actual, dict):
+        for key in sorted(expected.keys() | actual.keys()):
+            if key not in expected or key not in actual:
+                return location + '.' + key + ': missing key'
+            if expected[key] != actual[key]:
+                return first_difference(expected[key], actual[key], location + '.' + key)
+    elif isinstance(expected, list) and isinstance(actual, list):
+        if len(expected) != len(actual):
+            return location + ': list length differs'
+        for index, (left, right) in enumerate(zip(expected, actual)):
+            if left != right:
+                return first_difference(left, right, f'{location}[{index}]')
+    elif expected != actual:
+        return f'{location}: retained={expected!r}; calculated={actual!r}'
+    return location + ': serialization differs'
+
+
 def pack(raw):
     result = bytearray(gzip.compress(raw, mtime=0))
     result[9] = 255
@@ -148,7 +167,10 @@ def report(design_path, fetch=False, check=False):
     for path, raw in ((directory / 'summary.json', encoded(summary)), (directory / 'README.md', text.encode())):
         if check:
             if not path.is_file() or path.read_bytes() != raw:
-                raise ValueError('Stale access report: ' + str(path))
+                detail = ''
+                if path.is_file() and path.suffix == '.json':
+                    detail = '; ' + first_difference(json.loads(path.read_bytes()), json.loads(raw))
+                raise ValueError('Stale access report: ' + str(path) + detail)
         else:
             path.write_bytes(raw)
     return summary
