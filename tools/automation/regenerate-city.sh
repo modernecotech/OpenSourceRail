@@ -216,6 +216,8 @@ elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
 fi
 
 echo "8) per-network README → $DESIGN_DIR/README.md"
+"$PYTHON" "$REPO/tools/automation/audit-city-access.py" --city "$SLUG" --fetch-population
+"$PYTHON" "$REPO/tools/automation/audit-viaduct-clearance.py" --city "$SLUG" --retain-inputs --fetch-terrain
 "$PYTHON" "$REPO/tools/automation/publish-city-summary.py" \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \

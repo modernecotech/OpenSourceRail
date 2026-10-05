@@ -1,0 +1,130 @@
+{
+  "city": "lubango",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.415,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 560493.077409327,
+    "catchments": [
+      {
+        "covered_population_2020": 21895.454678058624,
+        "fraction_of_raster_population": 0.03906462998483818,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 54948.30560040474,
+        "fraction_of_raster_population": 0.09803565434631782,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 85492.48034071922,
+        "fraction_of_raster_population": 0.15253084076591408,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 175433.4913868904,
+        "fraction_of_raster_population": 0.3129984980327806,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 251992.0736926198,
+        "fraction_of_raster_population": 0.44958998397867894,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 22,
+    "planning_city_population": 700000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 13.5951,
+        "north": -14.8181,
+        "south": -15.0163,
+        "west": 13.3899
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "1d7e5d9d6b8aa88895da2e749adc9862b74dea12cde8faa2a7baad8bbe7e59cc",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299993288,
+        0.0008333333300006096
+      ],
+      "source_sha256": "bbafe0854a916e08e787478ccccf88d6d8d5a99eb750072305635f50c1f503c0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/AGO/ago_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 12,
+    "valid_pixels": 58764
+  },
+  "population_source_country": "AO",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Lubango/design.toml": "0d12d0237392d519c7db3386ae8988b3ee3ce89cd487b7f7060bc435cdc0a309",
+    "cities/catalogue/east-africa/Angola/Lubango/engineering/access/population-pixels.npz.gz": "1d7e5d9d6b8aa88895da2e749adc9862b74dea12cde8faa2a7baad8bbe7e59cc",
+    "cities/catalogue/east-africa/Angola/Lubango/engineering/access/population-source.json": "d8c0dd14c8aceb4701975b34cf5cd7c9257167e888cbdbc0a9d85d4a2e8bd7bc",
+    "cities/catalogue/east-africa/Angola/Lubango/lubango.design-quality.yaml": "2ca5eb01f8a0cc7c9607d85bc61e1ca366c22c5fa825937c5f0560bbfb7f65bf",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

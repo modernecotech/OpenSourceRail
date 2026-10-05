@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 6080,
-      "sha256": "d1b3cb1f1d526ec09e0072cdd348341ac3d5049affbf730195a19074ef5127d0"
+      "bytes": 6505,
+      "sha256": "c2d9bbeee31a3429bb3c2707edd8ba2d5ea18dc7ba892637065f4c3a95cc1897"
     },
     "alignment-policy.toml": {
       "bytes": 283,
@@ -12,6 +12,22 @@
     "design.toml": {
       "bytes": 11650,
       "sha256": "c660c013d4eee9dbb3bf76a3fa76220a11981ab91d1171ec6d6d3c41b186df2b"
+    },
+    "engineering/access/README.md": {
+      "bytes": 1931,
+      "sha256": "9d7d3262fa4e1cd1c2a1da9627bf3ad847d47292cc9d7a51b7fdbb0b243f7416"
+    },
+    "engineering/access/population-pixels.npz.gz": {
+      "bytes": 205373,
+      "sha256": "164a15661586e780582a2311a36a9e40df322198720cc3547fdaa2da162c5a10"
+    },
+    "engineering/access/population-source.json": {
+      "bytes": 934,
+      "sha256": "cb160d7fd03bd38ab4c4d8a98123e9988478b65c3c3931a6126ffff4cd9d21ce"
+    },
+    "engineering/access/summary.json": {
+      "bytes": 5160,
+      "sha256": "ad641b9cc57c7817cc482a0b6fcbc76d1698dd0adca5cf9c26abf43750866e28"
     },
     "engineering/alignment/README.md": {
       "bytes": 903,
@@ -64,6 +80,34 @@
     "engineering/alignment/water-source-receipt.json": {
       "bytes": 2553,
       "sha256": "761f1ffa71720771b48e437370d1d4ec7128409f87d07181090e2f793171e383"
+    },
+    "engineering/clearance/README.md": {
+      "bytes": 3187,
+      "sha256": "42d1af9eb4c401d169808e11f500fe93028152d391a013fc5b8070010260e873"
+    },
+    "engineering/clearance/building-footprints.json.gz": {
+      "bytes": 16827,
+      "sha256": "9e48af421c492697a8a1883718a95b3fb2e93af3c8ae6b72d6652f44e269a918"
+    },
+    "engineering/clearance/building-source.json": {
+      "bytes": 876,
+      "sha256": "2e182c6777e1c4aef871f94fa84744a412df3219e966ef9ed9178d10090fb71c"
+    },
+    "engineering/clearance/clearance-register.json.gz": {
+      "bytes": 16964,
+      "sha256": "1600234d6e31cf389e01301289777d5e448af7e8c120fe79f159e865128521a9"
+    },
+    "engineering/clearance/summary.json": {
+      "bytes": 5105,
+      "sha256": "58658638d4317b8ef1db995a2163b42ebf753fab5e2bc1e26f00ecc09be8fd41"
+    },
+    "engineering/clearance/terrain-elevation.f32.gz": {
+      "bytes": 8847,
+      "sha256": "23cc6293430604e919d4ea560d50a5ad5f6ddde9a441e1e7e96042b4fa91810a"
+    },
+    "engineering/clearance/terrain-source.json": {
+      "bytes": 1379,
+      "sha256": "aa68c33a7d80d3a03f3cc399a7c84b5e5710532e2686a379891fc44dbeba12a2"
     },
     "engineering/delivery/README.md": {
       "bytes": 12330,
@@ -323,10 +367,11 @@
   ],
   "failed_summaries": [
     "engineering/depot-scope/summary.json",
-    "engineering/stabling/summary.json"
+    "engineering/stabling/summary.json",
+    "engineering/clearance/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "cbf337ddb2bcc249ef2003fb670c6f179c10bca76e69cc06d578ee5d05ff8a6b",
+  "generator_sha256": "2af775a87a436bb21b7d976f31fe626f1aa1401f105314b16f15d13feb9bf504",
   "local_reproducible_artifacts": {
     "engineering/gis/malanje.gpkg": {
       "bytes": 233472,
@@ -371,11 +416,12 @@
   "passed": false,
   "planning_example_complete": true,
   "planning_example_open_gates": [
+    "engineering/clearance/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "schema_version": "1.0",
   "selected_stabling_configuration": "full-fleet-line-depot-planning-requirement",
-  "source_revision": "d483891b6cb762c3f05c5fbea74ffff683759ae8",
+  "source_revision": "6d7713d36d83204f8c03733cec6624e023d598df",
   "stale_analysis_sources": []
 }

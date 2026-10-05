@@ -1,0 +1,130 @@
+{
+  "city": "beira",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.33,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 414334.66712903976,
+    "catchments": [
+      {
+        "covered_population_2020": 41272.40274524689,
+        "fraction_of_raster_population": 0.0996112708386843,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 101800.30596256256,
+        "fraction_of_raster_population": 0.24569584454022533,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 148506.37185382843,
+        "fraction_of_raster_population": 0.3584213044079602,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 260778.4534921646,
+        "fraction_of_raster_population": 0.629390862461789,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 331313.47243642807,
+        "fraction_of_raster_population": 0.7996276892110606,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 33258,
+    "planning_city_population": 535000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 35,
+        "north": -19.72,
+        "south": -19.92,
+        "west": 34.78
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "f7dede29621a070fc9dad189fd883a0758f7e3eb6c87ce1b9ec8d296f6855a76",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299858782,
+        0.0008333333300132128
+      ],
+      "source_sha256": "6b99b086320c15e0ab2baa0305ee1f6687ce7477bab6ee8404106a5d4b580c43",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/MOZ/moz_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 15,
+    "valid_pixels": 30102
+  },
+  "population_source_country": "MZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Beira/beira.design-quality.yaml": "de809b3c35b163f4ff1b679a47780cd4d4e2cf3c03cb51f4a2dcb86567be8b30",
+    "cities/catalogue/east-africa/Mozambique/Beira/design.toml": "295170acd3598e96dc3d7e2771ae60436d09f1404980e3eabe83e2ada4406723",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/access/population-pixels.npz.gz": "f7dede29621a070fc9dad189fd883a0758f7e3eb6c87ce1b9ec8d296f6855a76",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/access/population-source.json": "4556555be5254727d4791d0f3724e65a32ca90dc7c7b22f088cba15bc7f95446",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

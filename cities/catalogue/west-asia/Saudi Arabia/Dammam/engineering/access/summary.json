@@ -1,0 +1,217 @@
+{
+  "city": "dammam",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.418,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 2271278.569422722,
+    "catchments": [
+      {
+        "covered_population_2020": 257029.58561897278,
+        "fraction_of_raster_population": 0.11316515247370143,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 620387.4665775299,
+        "fraction_of_raster_population": 0.27314459570461685,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 892235.7239551544,
+        "fraction_of_raster_population": 0.39283412258053796,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 1444566.9660758972,
+        "fraction_of_raster_population": 0.6360148796908935,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 1796827.6967668533,
+        "fraction_of_raster_population": 0.7911084624126679,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 84062,
+    "planning_city_population": 1500000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 50.2498,
+        "north": 26.5648,
+        "south": 26.2766,
+        "west": 49.9278
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "29117312ce8cfb739ba3b7abc21a907cb9f5bb45e9a90093724ac07d08b3666a",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300019752,
+        0.0008333333300190615
+      ],
+      "source_sha256": "68e6da9516b80cc242760f996776a169c70a1cc03fc0996bc0953ca91853cce0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/SAU/sau_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 84,
+    "valid_pixels": 49494
+  },
+  "population_source_country": "SA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/dammam.design-quality.yaml": "73b1d004e557faceb74b56ff9cb8dde92cc389aa2a3d8acd5c7279db32f30c3f",
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/design.toml": "c7c162340ee0e6e06954109f71652a9ddc975000f9da0726eb5902481b8f92d6",
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/access/population-pixels.npz.gz": "29117312ce8cfb739ba3b7abc21a907cb9f5bb45e9a90093724ac07d08b3666a",
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/access/population-source.json": "dd161d146ca64d2eaf505f7fd97779e40c7308f8904360ece9dc93d504632376",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6"
+      ]
+    ],
+    "direct_transfer_fraction": 0.9333333333333333,
+    "line_count": 6,
+    "line_pair_count": 15,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

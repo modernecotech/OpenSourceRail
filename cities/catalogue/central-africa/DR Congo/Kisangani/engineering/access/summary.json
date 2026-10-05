@@ -1,0 +1,115 @@
+{
+  "city": "kisangani",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.482,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 839165.4428240508,
+    "catchments": [
+      {
+        "covered_population_2020": 33752.11354351044,
+        "fraction_of_raster_population": 0.04022104798539387,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 75774.9284992218,
+        "fraction_of_raster_population": 0.09029796108406916,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 107698.34376811981,
+        "fraction_of_raster_population": 0.12833982224730517,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 194126.5829691887,
+        "fraction_of_raster_population": 0.23133290893854352,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 272316.78216695786,
+        "fraction_of_raster_population": 0.3245090518152509,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 4856,
+    "planning_city_population": 1300000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 25.3351,
+        "north": 0.6594,
+        "south": 0.3712,
+        "west": 25.0469
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "40cdc3bc1a7fb497d5a7ccdb7ff83850717d6e157f19f3a32b2ee9d9ae82b01f",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.000833333330002618,
+        0.0008333333299867315
+      ],
+      "source_sha256": "6f54238d06b8b7ea253345707a7440fae359ebed871b1f6a993a3e18b802139f",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/COD/cod_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 17,
+    "valid_pixels": 114860
+  },
+  "population_source_country": "CD",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Kisangani/design.toml": "03f7c21fe9cfc725d4eba9e8f56bf29a6f4bc1fb20e95d24b8983f1a7c6d2503",
+    "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/access/population-pixels.npz.gz": "40cdc3bc1a7fb497d5a7ccdb7ff83850717d6e157f19f3a32b2ee9d9ae82b01f",
+    "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/access/population-source.json": "d3218cef2abbb218333bcb00242a05cb0bd5a8c8e3361f7bc8a02766ed736ae5",
+    "cities/catalogue/central-africa/DR Congo/Kisangani/kisangani.design-quality.yaml": "720b2168ba9cd68a380cddc3e09d5adcfcd2024ef2764db8f2a821bb26458251",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 2,
+    "line_pair_count": 1,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

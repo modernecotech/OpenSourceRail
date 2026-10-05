@@ -1,6 +1,6 @@
 # Waw — Urban Rail Network
 
-**Country:** SD · **Population:** 300,000 · [National brief](../NATIONAL-BRIEF.md)
+**Recorded country:** SD (jurisdiction mismatch; see below) · **Population:** 300,000 · [National brief](../NATIONAL-BRIEF.md)
 
 This page contains only Waw-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
@@ -13,7 +13,9 @@ This page contains only Waw-specific results. Shared routing, service, energy, c
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
+
+**Input discrepancy:** The retained Waw/Wau bbox is in South Sudan, while the canonical planning seed incorrectly records SD/Sudan. Use South Sudan population evidence; canonical jurisdiction and country-specific finance remain unreleased pending full city regeneration. [Evidence](https://unmiss.unmissions.org/en/news/wau-political-parties-and-security-actors-pledge-collaborate-creating-inclusive-civic).
 
 ## Network
 
@@ -23,8 +25,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Lines / unique stations / interchanges | 3 / 10 / 1 |
 | Route length | 15.3 km double track |
-| Coverage / transfer reachability | 72.9% / 33% |
-| Estimated station catchment | 218,700 residents |
+| Direct transfers / reachable line pairs | 33.3% / 33.3% |
+| Residents within 800 m radial station catchments | 745 (2020 raster; 6.9% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 40 × 2-car `tram-2car` trainsets (34 peak revenue) |
 | Peak network throughput | 28,800 passengers/hour |

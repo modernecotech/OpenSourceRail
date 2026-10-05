@@ -370,6 +370,8 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-deployment-evidence.py"), "--design", str(design_path), "--reuse-sumo", "--fetch-soils"],
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_delivery.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_deployment.py"), "--design", str(design_path)],
+        [sys.executable, str(REPO_ROOT / "tools/automation/audit-city-access.py"), "--city", slug, "--fetch-population"],
+        [sys.executable, str(REPO_ROOT / "tools/automation/audit-viaduct-clearance.py"), "--city", slug, "--retain-inputs", "--fetch-terrain"],
         [
             sys.executable,
             str(REPO_ROOT / "tools/automation/publish-city-summary.py"),
@@ -613,7 +615,7 @@ def main() -> int:
     failures = sorted((set(selected) - complete) | set(ignored_artifacts))
     portfolio_return_codes = {}
     if not failures:
-        for name in ('generate-national-briefs.py', 'generate-portfolio-summary.py'):
+        for name in ('generate-national-briefs.py', 'generate-portfolio-summary.py', 'generate-access-clearance-review.py'):
             portfolio_return_codes[name] = run_logged(
                 [sys.executable, str(REPO_ROOT / 'tools/automation' / name)],
                 LOG_ROOT / ('package-' + name.removesuffix('.py') + '.log'),

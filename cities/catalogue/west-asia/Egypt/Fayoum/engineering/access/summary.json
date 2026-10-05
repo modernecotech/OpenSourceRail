@@ -1,0 +1,130 @@
+{
+  "city": "fayoum",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.551,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1494121.2567195892,
+    "catchments": [
+      {
+        "covered_population_2020": 148470.56146621704,
+        "fraction_of_raster_population": 0.09936982075483677,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 333314.3625564575,
+        "fraction_of_raster_population": 0.2230838769326288,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 472992.1425933838,
+        "fraction_of_raster_population": 0.31656877945225104,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 729608.3630867004,
+        "fraction_of_raster_population": 0.4883193782334565,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 871786.847454071,
+        "fraction_of_raster_population": 0.5834779764582952,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 52627,
+    "planning_city_population": 500000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 30.9564,
+        "north": 29.4075,
+        "south": 29.2093,
+        "west": 30.7292
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "eb61de774c819a4a9008635d91d41805f7c60d3fd04e4c4f062d7a0d6540f181",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299889881,
+        0.000833333329996745
+      ],
+      "source_sha256": "c88cf3e4558a543e2a1186099bb1b366c79f7eb45ba91cd5d056839c4551bc8a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/EGY/egy_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 20,
+    "valid_pixels": 11837
+  },
+  "population_source_country": "EG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Fayoum/design.toml": "d66f53f7e2930adaf02decf41b72855ff76cf364122e4b7fa8147704b3430075",
+    "cities/catalogue/west-asia/Egypt/Fayoum/engineering/access/population-pixels.npz.gz": "eb61de774c819a4a9008635d91d41805f7c60d3fd04e4c4f062d7a0d6540f181",
+    "cities/catalogue/west-asia/Egypt/Fayoum/engineering/access/population-source.json": "27cab50c4c48ff50e09dcfcc06bd4b2e0bb72ccc9addbb51ac66f66d59d524ab",
+    "cities/catalogue/west-asia/Egypt/Fayoum/fayoum.design-quality.yaml": "d1592cc1ef5c65cc6209ebf64856b4859a2fe32237f5a857c1ff4235ce0b570f",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

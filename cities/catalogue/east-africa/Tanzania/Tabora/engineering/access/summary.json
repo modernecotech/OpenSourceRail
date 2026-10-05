@@ -1,0 +1,130 @@
+{
+  "city": "tabora",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.578,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 194940.78129433095,
+    "catchments": [
+      {
+        "covered_population_2020": 25036.204510569572,
+        "fraction_of_raster_population": 0.1284297946501441,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 56309.235347509384,
+        "fraction_of_raster_population": 0.2888530300003825,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 74865.98090183735,
+        "fraction_of_raster_population": 0.38404473607193096,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 116599.28081178665,
+        "fraction_of_raster_population": 0.5981266723033158,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 149302.45039355755,
+        "fraction_of_raster_population": 0.7658861804197529,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 15,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 32.8944,
+        "north": -4.9486,
+        "south": -5.0838,
+        "west": 32.7588
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "c3e742871b2faf90951b0ad220b67bd7ecec47157991bdb1c40ffaed8060063c",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300104933,
+        0.0008333333299783215
+      ],
+      "source_sha256": "130234bb5e1dc9c83950b5f1ab65c5fb5c389b95af641921813d2d1f1f06c785",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/TZA/tza_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 8,
+    "valid_pixels": 26391
+  },
+  "population_source_country": "TZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Tabora/design.toml": "4accf1e8716cc70f432d22b2d390a3ea206cb188bb00ed995ee3700d520490b4",
+    "cities/catalogue/east-africa/Tanzania/Tabora/engineering/access/population-pixels.npz.gz": "c3e742871b2faf90951b0ad220b67bd7ecec47157991bdb1c40ffaed8060063c",
+    "cities/catalogue/east-africa/Tanzania/Tabora/engineering/access/population-source.json": "8c2000972c5fb6583d21ee7956365bcb0547c712aa2ac8c32a6ef97fd1a4a382",
+    "cities/catalogue/east-africa/Tanzania/Tabora/tabora.design-quality.yaml": "b6b4b04cace8476d17c4e470ac3e99397c18097bdbc1e617ad4d124abb94390c",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

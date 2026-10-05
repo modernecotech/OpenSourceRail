@@ -1,0 +1,130 @@
+{
+  "city": "agadir",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.458,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 955041.6369349957,
+    "catchments": [
+      {
+        "covered_population_2020": 122643.73772382736,
+        "fraction_of_raster_population": 0.128417163169374,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 305534.4545226097,
+        "fraction_of_raster_population": 0.3199174179496069,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 447310.4467587471,
+        "fraction_of_raster_population": 0.46836748206527984,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 747990.4179844856,
+        "fraction_of_raster_population": 0.7832018930452109,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 853591.7281253338,
+        "fraction_of_raster_population": 0.8937743603145473,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 52557,
+    "planning_city_population": 900000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": -9.4832,
+        "north": 30.5269,
+        "south": 30.3287,
+        "west": -9.713
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "9abd328d72cf7ec17ee27727888f1f55e362b4c7bfff06793e86b2c8a4ab670b",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299780882,
+        0.0008333333299676896
+      ],
+      "source_sha256": "84960c7fe252e79c06e07b8141f21c064971aefb6908f4772946f2f7447893aa",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/MAR/mar_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 24,
+    "valid_pixels": 13131
+  },
+  "population_source_country": "MA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Agadir/agadir.design-quality.yaml": "748f1aec90e3ad60cd53f00619dfda6d532d1858cc5f596bf3b8e869c66716d0",
+    "cities/catalogue/north-africa/Morocco/Agadir/design.toml": "5968eb84e3dea7980fa09440631a2e9a989b96094cd83ababe17ad09b9ff822a",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/access/population-pixels.npz.gz": "9abd328d72cf7ec17ee27727888f1f55e362b4c7bfff06793e86b2c8a4ab670b",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/access/population-source.json": "6e52f64c9f0da5a544f7c109d2a024ae37da14e8fa8b3713f1f034e12380f857",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

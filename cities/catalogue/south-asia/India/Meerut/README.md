@@ -13,7 +13,7 @@ This page contains only Meerut-specific results. Shared routing, service, energy
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
 
 ## Network
 
@@ -23,8 +23,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Lines / unique stations / interchanges | 4 / 46 / 10 |
 | Route length | 127.2 km double track |
-| Coverage / transfer reachability | 32.1% / 100% |
-| Estimated station catchment | 513,600 residents |
+| Direct transfers / reachable line pairs | 100.0% / 100.0% |
+| Residents within 800 m radial station catchments | unavailable — native population evidence required |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 150 × 4-car `metro-4car` trainsets (134 peak revenue) |
 | Peak network throughput | 76,800 passengers/hour |

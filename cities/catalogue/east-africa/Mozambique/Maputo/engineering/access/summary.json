@@ -1,0 +1,217 @@
+{
+  "city": "maputo",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.603,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 2068572.7817987502,
+    "catchments": [
+      {
+        "covered_population_2020": 251598.38834762573,
+        "fraction_of_raster_population": 0.12162897557263883,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 584166.6069917083,
+        "fraction_of_raster_population": 0.28240079930073325,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 827943.9186863005,
+        "fraction_of_raster_population": 0.4002488701250109,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 1277042.836193651,
+        "fraction_of_raster_population": 0.617354558384542,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 1506938.9607426226,
+        "fraction_of_raster_population": 0.7284921149509892,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 22439,
+    "planning_city_population": 1530000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 32.78,
+        "north": -25.78,
+        "south": -25.95,
+        "west": 32.45
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "0bc2fa95f59c0a1ba01bc6dc7138110c7980ee2e76a86e018b5f08fb045377d6",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299858782,
+        0.0008333333300132128
+      ],
+      "source_sha256": "6b99b086320c15e0ab2baa0305ee1f6687ce7477bab6ee8404106a5d4b580c43",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/MOZ/moz_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 56,
+    "valid_pixels": 58345
+  },
+  "population_source_country": "MZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Maputo/design.toml": "f936b5145e8b19603e77ba7fb871872ca2c078708269e6e1c9c4dc9fef650a72",
+    "cities/catalogue/east-africa/Mozambique/Maputo/engineering/access/population-pixels.npz.gz": "0bc2fa95f59c0a1ba01bc6dc7138110c7980ee2e76a86e018b5f08fb045377d6",
+    "cities/catalogue/east-africa/Mozambique/Maputo/engineering/access/population-source.json": "c0e9ecc2eae5b3da80766dda4c2b5ff9ae52ec5e0b3018064ca5747c0ab51608",
+    "cities/catalogue/east-africa/Mozambique/Maputo/maputo.design-quality.yaml": "c5806a369c44ce078ba1a429ecca2bf312f5f0af177cf5fa6a5004abc5e28c62",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6"
+      ]
+    ],
+    "direct_transfer_fraction": 0.8666666666666667,
+    "line_count": 6,
+    "line_pair_count": 15,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

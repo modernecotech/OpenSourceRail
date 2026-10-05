@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 6250,
-      "sha256": "992df0ec0bbc917f3423b9ab389e9a7b4ff90221bf9296263e3e93bfde717809"
+      "bytes": 6676,
+      "sha256": "0f6e8ed678b4957295a846d0e1c1655ea885a4f4e20041677e5dbddbce048768"
     },
     "alignment-policy.toml": {
       "bytes": 285,
@@ -32,6 +32,22 @@
     "east-london-za.toml": {
       "bytes": 21041,
       "sha256": "0134fc91712f6ec75ddd1df57718a610971c8e4b3a114fe47e0c20781c281ce6"
+    },
+    "engineering/access/README.md": {
+      "bytes": 1946,
+      "sha256": "2f38082da06f7b8f4d3fef34664149ecce97c43c8529a22344977f4afc4a63d2"
+    },
+    "engineering/access/population-pixels.npz.gz": {
+      "bytes": 164627,
+      "sha256": "df65ea39464765dba340327102de0c83af85f47a2e8dbe2426308f07a2dcd272"
+    },
+    "engineering/access/population-source.json": {
+      "bytes": 936,
+      "sha256": "4f6f89f4cb373cc533fdba8b22c60ad540c84d6a7c7a1f33449b9f2d5625486f"
+    },
+    "engineering/access/summary.json": {
+      "bytes": 5485,
+      "sha256": "fdd963cb8e6058fecbb4a99ce1ccc6889fa1cd2e29d33e6f181ad5db7bdc5a8c"
     },
     "engineering/alignment/README.md": {
       "bytes": 1037,
@@ -88,6 +104,34 @@
     "engineering/alignment/water-source-receipt.json": {
       "bytes": 3224,
       "sha256": "35852af78e6b783ebe6d39914aac461c0cd3c2b139289c8113a6f0c8005fc4a1"
+    },
+    "engineering/clearance/README.md": {
+      "bytes": 3341,
+      "sha256": "bea3a1b19658b432985f2c45ea1cd8a6eacc2499d844d6ec0fa1e567fe047188"
+    },
+    "engineering/clearance/building-footprints.json.gz": {
+      "bytes": 8627,
+      "sha256": "e49bdf929036f44ca21a24696f8903d6e3da6d92c6d5c63935e68c1f0242943a"
+    },
+    "engineering/clearance/building-source.json": {
+      "bytes": 1069,
+      "sha256": "2d1f1c0aeab08862b40117aa2f20e9b674d9ab1268fe5fb7b47a2e9e2fdef1fb"
+    },
+    "engineering/clearance/clearance-register.json.gz": {
+      "bytes": 40042,
+      "sha256": "62ca9788f6c66153bed7fb1c0d81b07e5367884b4e6260b81c5cf9729d404117"
+    },
+    "engineering/clearance/summary.json": {
+      "bytes": 5869,
+      "sha256": "ecbb43b120f6b0b2cc47bd721c46d8d64395a0b1cf67a0bbef3efe061752f66d"
+    },
+    "engineering/clearance/terrain-elevation.f32.gz": {
+      "bytes": 27161,
+      "sha256": "75edaa75b2c2aa32c3ed122c2cf1e2add717800dc482f5f8bd7574b9a4aca1a8"
+    },
+    "engineering/clearance/terrain-source.json": {
+      "bytes": 1553,
+      "sha256": "0996bfc324acb25b70e14df49c7c41265ac6caaec7f9b1b7c57c2e5ff715ea7a"
     },
     "engineering/delivery/README.md": {
       "bytes": 13324,
@@ -327,10 +371,11 @@
   ],
   "failed_summaries": [
     "engineering/depot-scope/summary.json",
-    "engineering/stabling/summary.json"
+    "engineering/stabling/summary.json",
+    "engineering/clearance/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "cbf337ddb2bcc249ef2003fb670c6f179c10bca76e69cc06d578ee5d05ff8a6b",
+  "generator_sha256": "2af775a87a436bb21b7d976f31fe626f1aa1401f105314b16f15d13feb9bf504",
   "local_reproducible_artifacts": {
     "engineering/gis/east-london-za.gpkg": {
       "bytes": 307200,
@@ -375,11 +420,12 @@
   "passed": false,
   "planning_example_complete": true,
   "planning_example_open_gates": [
+    "engineering/clearance/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "schema_version": "1.0",
   "selected_stabling_configuration": "full-fleet-line-depot-planning-requirement",
-  "source_revision": "c8e7fbf98cdb80be3689872c6dcb0a9d5849d93b",
+  "source_revision": "6d7713d36d83204f8c03733cec6624e023d598df",
   "stale_analysis_sources": []
 }

@@ -1,0 +1,130 @@
+{
+  "city": "baqubah",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.48,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 159991.725605011,
+    "catchments": [
+      {
+        "covered_population_2020": 17399.58288669586,
+        "fraction_of_raster_population": 0.10875301720072768,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 40687.753933906555,
+        "fraction_of_raster_population": 0.25431161380405914,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 59575.27505302429,
+        "fraction_of_raster_population": 0.37236472591154035,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 92436.04103374481,
+        "fraction_of_raster_population": 0.5777551350496196,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 108566.66144275665,
+        "fraction_of_raster_population": 0.6785767265913927,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 53938,
+    "planning_city_population": 470000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 44.78,
+        "north": 33.85,
+        "south": 33.65,
+        "west": 44.55
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "622302cfe0ea8948643fa10ec9a43be26f2be13f6276e3621f8b8f45086802a3",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300358177,
+        0.0008333333300228421
+      ],
+      "source_sha256": "f5cab141422e0f047f84d37f481a7be273e6c7ad4a115860f71596bc6ed85cda",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IRQ/irq_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 21,
+    "valid_pixels": 12302
+  },
+  "population_source_country": "IQ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Baqubah/baqubah.design-quality.yaml": "1720109197cdb52780b8150f1acad83b8ad6f87ba7019828b924a16315b5c6cc",
+    "cities/catalogue/west-asia/Iraq/Baqubah/design.toml": "28012d59ba17300b050cd835006902174bfd41b78ccbc784ab478bf0af18eef8",
+    "cities/catalogue/west-asia/Iraq/Baqubah/engineering/access/population-pixels.npz.gz": "622302cfe0ea8948643fa10ec9a43be26f2be13f6276e3621f8b8f45086802a3",
+    "cities/catalogue/west-asia/Iraq/Baqubah/engineering/access/population-source.json": "bb37316a42a4b4ba623cf811496984623ef3c76013a9352f93d0346ad9fa2b20",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

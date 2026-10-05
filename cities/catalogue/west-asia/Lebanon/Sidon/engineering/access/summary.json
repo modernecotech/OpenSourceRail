@@ -1,0 +1,132 @@
+{
+  "city": "sidon",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.428,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 496111.3405865133,
+    "catchments": [
+      {
+        "covered_population_2020": 65603.05154132843,
+        "fraction_of_raster_population": 0.1322345332073464,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 168653.6219728589,
+        "fraction_of_raster_population": 0.33995115244387086,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 240808.69809952378,
+        "fraction_of_raster_population": 0.4853924480235317,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 371505.50175616145,
+        "fraction_of_raster_population": 0.7488349315235564,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 432462.86747929454,
+        "fraction_of_raster_population": 0.8717052647255107,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 24963,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 35.454,
+        "north": 33.6247,
+        "south": 33.4895,
+        "west": 35.2918
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "6790ca6d270e10cd77ae328a985e24bf5678a38df9d2c6c9ff398daa6c1dd2da",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333298969066,
+        0.0008333333297709917
+      ],
+      "source_sha256": "f18201eb312c7f1888e8528e5b8c51c8976ad51487f9173d5cdba9ff29f4885a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/LBN/lbn_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 11,
+    "valid_pixels": 6465
+  },
+  "population_source_country": "LB",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Lebanon/Sidon/design.toml": "ffa2229e9f7304874961d6be724b99175206e3fcb9696fe7520477d472b5a479",
+    "cities/catalogue/west-asia/Lebanon/Sidon/engineering/access/population-pixels.npz.gz": "6790ca6d270e10cd77ae328a985e24bf5678a38df9d2c6c9ff398daa6c1dd2da",
+    "cities/catalogue/west-asia/Lebanon/Sidon/engineering/access/population-source.json": "5a43fa3767b6c803c1e5fb66d18e81d22aa938443fcd6f6df14d8c8aafc58404",
+    "cities/catalogue/west-asia/Lebanon/Sidon/sidon.design-quality.yaml": "825850c2cff39d3a2620ab05d89de92287b559317b3bde7026cc50cb6f43f1c6",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2"
+      ],
+      [
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.3333333333333333,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      }
+    ],
+    "reachable_line_pair_fraction": 0.3333333333333333,
+    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "city": "jos",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.317,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 739018.2613165379,
+    "catchments": [
+      {
+        "covered_population_2020": 41308.53122091293,
+        "fraction_of_raster_population": 0.05589649590975341,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 103555.1926484108,
+        "fraction_of_raster_population": 0.14012535016919672,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 159895.41343832016,
+        "fraction_of_raster_population": 0.21636192474252464,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 320056.0116035938,
+        "fraction_of_raster_population": 0.43308268327960403,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 415202.0753147602,
+        "fraction_of_raster_population": 0.5618292497604738,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 226,
+    "planning_city_population": 900000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 8.9589,
+        "north": 9.9956,
+        "south": 9.7974,
+        "west": 8.7577
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "c74dc028b80784be467d8cc0f83b4661d0b50535f3ae87b98c3a4f2a31b84f7c",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299798793,
+        0.0008333333299844101
+      ],
+      "source_sha256": "56c5adbe7379468841642f767105e36c576145ce1790dce4beaafdecd0c72924",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/NGA/nga_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 15,
+    "valid_pixels": 57132
+  },
+  "population_source_country": "NG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Jos/design.toml": "993d9acfeeef618b4142cf1dad09218d73b8f9d3a3d682afc864b4a2d90ab596",
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-pixels.npz.gz": "c74dc028b80784be467d8cc0f83b4661d0b50535f3ae87b98c3a4f2a31b84f7c",
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-source.json": "e54151c5b33ccd8158594b4ff59815654e4101e3af99bbbbdf08d12de5702bce",
+    "cities/catalogue/west-africa/Nigeria/Jos/jos.design-quality.yaml": "91b4dbd02c7f27063eb58052f45031326e556370d4e58c29b48032a88b3039de",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1"
+      ],
+      [
+        "line-2"
+      ],
+      [
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 0,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      }
+    ],
+    "reachable_line_pair_fraction": 0.0,
+    "reachable_with_at_most_two_transfers_fraction": 0.0
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "city": "galle",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.4,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 400805.0693192482,
+    "catchments": [
+      {
+        "covered_population_2020": 39225.59898853302,
+        "fraction_of_raster_population": 0.09786702312711806,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 97660.83157730103,
+        "fraction_of_raster_population": 0.24366166761107624,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 140861.3242301941,
+        "fraction_of_raster_population": 0.35144596466666844,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 217724.06235694885,
+        "fraction_of_raster_population": 0.5432168378677064,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 257541.0442404747,
+        "fraction_of_raster_population": 0.6425593485578865,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 49454,
+    "planning_city_population": 500000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 80.3207,
+        "north": 6.1526,
+        "south": 5.9544,
+        "west": 80.1213
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "8d87c817fde6c6d13599073ff53bee4ffff4b7868bbb37b081ba7c65cc346ca1",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299701098,
+        0.00083333333
+      ],
+      "source_sha256": "34259d3b80607a015a2a5ad351fbab038fbb9c923d060eeabee51c51f40b7671",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/LKA/lka_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 19,
+    "valid_pixels": 7428
+  },
+  "population_source_country": "LK",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Sri Lanka/Galle/design.toml": "b07fc85ddefd925939713ba643f7d6035cb262c4a6080e07847cd71a050f17a4",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/access/population-pixels.npz.gz": "8d87c817fde6c6d13599073ff53bee4ffff4b7868bbb37b081ba7c65cc346ca1",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/access/population-source.json": "abb47b4a2082278b536613a31a27725820a9d0dd5205e5d94131950c366655c5",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/galle.design-quality.yaml": "5c55ef9dbfee4c5afa8d702a67d10d3e795ec9f6f03bb1d2ec3e23ff8a1d5c67",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

@@ -14,8 +14,8 @@ Programme capital is **USD 15.233bn**, including line-local depots, final assemb
 |---|---:|
 | Lines / unique stations / interchanges | 9 / 186 / 36 |
 | Route length | 479.0 km double track |
-| Coverage / transfer reachability | 39.4% / 81% |
-| Estimated station catchment | 3,853,489 residents |
+| Direct transfers / reachable line pairs | 80.6% / 100.0% |
+| Residents within 800 m radial station catchments | 1,698,960 (2020 raster; 28.4% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 772 × 6-car `metro-6car` trainsets (697 peak revenue) |
 | Peak network throughput | 259,200 passengers/hour |
@@ -37,7 +37,7 @@ Programme capital is **USD 15.233bn**, including line-local depots, final assemb
 | line-9 | 97.7 km | 35 | 47 | NW Mid ↔ NW Mid |
 | **Total** | **479.0 km** | **186 unique** | **772** | |
 
-Coverage is an anchor-weighted planning proxy, not measured pedestrian access. Straighter core routes change station catchments; OD counts, walk/feeder access and property clearance require review.
+Population access uses retained native count pixels where available; radial catchments require pedestrian/feeder validation. The former demand-score resident proxy is retired. [Access and transfers](engineering/access/README.md) · [Building, support and terrain clearance](engineering/clearance/README.md).
 
 ## Energy
 

@@ -1,0 +1,130 @@
+{
+  "city": "meknes",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.33,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 742817.0022646189,
+    "catchments": [
+      {
+        "covered_population_2020": 81383.92604732513,
+        "fraction_of_raster_population": 0.10956120524868274,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 203372.99029374123,
+        "fraction_of_raster_population": 0.27378612723419093,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 289108.13784229755,
+        "fraction_of_raster_population": 0.38920506256708776,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 517169.12633919716,
+        "fraction_of_raster_population": 0.6962268294378141,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 615649.7911478281,
+        "fraction_of_raster_population": 0.8288041190103386,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 58410,
+    "planning_city_population": 700000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": -5.4279,
+        "north": 33.9926,
+        "south": 33.7944,
+        "west": -5.6667
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "4e1aa67ceb5694a3be222c91ef957bf0ff15db58a30111b2575649f6147de7be",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299780882,
+        0.0008333333299676896
+      ],
+      "source_sha256": "84960c7fe252e79c06e07b8141f21c064971aefb6908f4772946f2f7447893aa",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/MAR/mar_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 12,
+    "valid_pixels": 9896
+  },
+  "population_source_country": "MA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Meknes/design.toml": "65ed87fa8a6db1e41b2a3ef4cf6e3f6f9ee279c6d92f57c2d0d148e49e74877d",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/access/population-pixels.npz.gz": "4e1aa67ceb5694a3be222c91ef957bf0ff15db58a30111b2575649f6147de7be",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/access/population-source.json": "6cdf7ac65607c90942df9ec08dfa65f9457d22617461a1f7b40e4affb414b64a",
+    "cities/catalogue/north-africa/Morocco/Meknes/meknes.design-quality.yaml": "85f6196a8336341fddb19e3ef5ea955b80c46c1d7a26f87bf2265e500b3ea25b",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

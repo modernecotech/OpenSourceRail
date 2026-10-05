@@ -35,9 +35,21 @@ the upstream catalogue.
 The standard spacing policy is 1.6 km in central areas, 3 km in ordinary urban
 areas, and up to 7 km on low-demand outer approaches. Cross-line platforms
 inside the 600 m station-complex envelope are consolidated as one interchange.
-Coverage, transfer reachability, civil mix and source hits are reported in each
-city's `*.design-quality.yaml`; they are planning indicators rather than survey
-acceptance.
+The retained `*.design-quality.yaml` coverage score is the fraction of
+high-demand cells within 20 routing cells of a track, irrespective of station
+access. It is not anchor-weighted resident coverage and must not be multiplied
+by the catalogue population. Each city's `engineering/access/README.md` instead
+separates direct transfers, reachability through intermediate lines, and native
+population counts within the union of station circles at 500/800/1,000/1,500/2,000 m.
+Population year, source-pixel resolution, bbox denominator and missing evidence
+remain explicit. Wider radii are access/feeder sensitivities; radial distance
+does not prove a walkable route across rivers or other barriers or create fare
+demand. No current population total is inferred by rebasing a 2020 raster.
+
+Straight viaducts also require separate beam, support/foundation and vertical
+terrain checks. Every city retains a source-bound `engineering/clearance`
+screen; missing heights or mapping prevent an obstacle-clearance claim. See
+the [viaduct obstacle-clearance policy](civil/viaduct-obstacle-clearance.md).
 
 ## Service, Fleet And Capacity
 

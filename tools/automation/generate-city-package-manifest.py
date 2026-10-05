@@ -210,6 +210,23 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
             if actual is None or recorded != actual:
                 findings.append({"artifact": f"engineering/stabling/{screen_name}.json", "source": key,
                                  "expected_sha256": actual, "recorded_sha256": recorded})
+    for relative, generator, helper in (
+        ('access/summary.json', 'audit-city-access.py', 'city_access.py'),
+        ('clearance/summary.json', 'audit-viaduct-clearance.py', 'viaduct_clearance.py'),
+    ):
+        path = city_dir/'engineering'/relative
+        if not path.is_file():
+            continue
+        report = json.loads(path.read_text())
+        recorded = report.get('sources_sha256', {})
+        required = {(city_dir/'design.toml').relative_to(REPO_ROOT).as_posix(),
+                    'tools/automation/'+generator, 'tools/automation/'+helper}
+        for source in sorted(set(recorded) | required):
+            source_path = REPO_ROOT/source
+            actual = sha256(source_path) if source_path.is_file() else None
+            if actual is None or recorded.get(source) != actual:
+                findings.append({'artifact': 'engineering/'+relative, 'source': source,
+                                 'expected_sha256': actual, 'recorded_sha256': recorded.get(source)})
     return findings
 
 
@@ -235,6 +252,11 @@ def main() -> int:
 
     required = [
         city_dir / "README.md",
+        city_dir / "engineering/access/README.md",
+        city_dir / "engineering/access/summary.json",
+        city_dir / "engineering/clearance/README.md",
+        city_dir / "engineering/clearance/summary.json",
+        city_dir / "engineering/clearance/clearance-register.json.gz",
         design_path,
         city_dir / f"{slug}.toml",
         city_dir / f"{slug}-network-map.png",
@@ -301,6 +323,11 @@ def main() -> int:
     if design.get("city", {}).get("country") == "IQ":
         required.extend(city_dir / "engineering/finance" / name for name in (
             "FUNDING-MODEL.md", "funding-input.csv", "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv", "funding-cashflows.png"))
+    for relative in ('engineering/access/population-source.json','engineering/access/population-pixels.npz.gz',
+                     'engineering/clearance/building-source.json','engineering/clearance/building-footprints.json.gz',
+                     'engineering/clearance/terrain-source.json','engineering/clearance/terrain-elevation.f32.gz'):
+        path=city_dir/relative
+        if path.is_file():required.append(path)
     local_reproducible = [
         city_dir / "engineering/gis" / f"{slug}.gpkg",
         city_dir / "operations" / f"{slug}-acceptance-evidence-matrix.csv",
@@ -373,8 +400,11 @@ def main() -> int:
         )
 
     stale_sources = stale_analysis_sources(city_dir, slug)
+    clearance_path=city_dir/'engineering/clearance/summary.json'
+    if not clearance_path.is_file() or json.loads(clearance_path.read_text()).get('physical_release') is not True:
+        failed_summaries.append('engineering/clearance/summary.json')
     passed = not missing and not failed_summaries and not stale_sources and not local_path_files and operations_hash_current
-    documented_open_gates = {"engineering/depot-scope/summary.json", "engineering/stabling/summary.json"}
+    documented_open_gates = {"engineering/depot-scope/summary.json", "engineering/stabling/summary.json", "engineering/clearance/summary.json"}
     planning_complete = not missing and not stale_sources and not local_path_files and operations_hash_current and not (set(failed_summaries) - documented_open_gates)
     # A physically unaccepted proposal may be a fully generated example only
     # when its quantities/generation reconcile. Operational acceptance stays

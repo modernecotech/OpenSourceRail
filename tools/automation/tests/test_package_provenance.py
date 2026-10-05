@@ -44,6 +44,28 @@ def test_missing_provenance_is_not_accepted(tmp_path):
     assert {row["source"] for row in findings} == {"design_sha256", "scenario_sha256", "generator_sha256"}
 
 
+def test_changed_obstacle_evidence_invalidates_the_planning_package(tmp_path, monkeypatch):
+    monkeypatch.setattr(manifest, 'REPO_ROOT', tmp_path)
+    city = tmp_path/'city'
+    report = city/'engineering/clearance/summary.json'
+    report.parent.mkdir(parents=True)
+    design = city/'design.toml'
+    design.write_text('[city]\nslug = "test"\n')
+    sources = [design, tmp_path/'tools/automation/audit-viaduct-clearance.py',
+               tmp_path/'tools/automation/viaduct_clearance.py', city/'footprints.json']
+    for path in sources[1:]:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text('original evidence')
+    report.write_text(json.dumps({'physical_release': False, 'sources_sha256': {
+        path.relative_to(tmp_path).as_posix(): manifest.sha256(path) for path in sources}}))
+    assert manifest.stale_analysis_sources(city, 'test') == []
+    sources[-1].write_text('changed building heights')
+    findings = manifest.stale_analysis_sources(city, 'test')
+    assert len(findings) == 1
+    assert findings[0]['artifact'] == 'engineering/clearance/summary.json'
+    assert findings[0]['source'] == 'city/footprints.json'
+
+
 def test_historical_failures_and_staleness_do_not_block_selected_hybrid(tmp_path, monkeypatch):
     import sys
     (tmp_path / 'design.toml').write_text('[city]\nslug = "audit"\n')

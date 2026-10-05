@@ -1,0 +1,134 @@
+{
+  "city": "abha",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.23,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 144009.89474964142,
+    "catchments": [
+      {
+        "covered_population_2020": 5610.224027633667,
+        "fraction_of_raster_population": 0.03895721219286313,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 14557.857330560684,
+        "fraction_of_raster_population": 0.10108928525966396,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 23313.34769487381,
+        "fraction_of_raster_population": 0.16188712404382796,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 50811.29448771477,
+        "fraction_of_raster_population": 0.35283196738702766,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 76267.35979247093,
+        "fraction_of_raster_population": 0.5295980524467457,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 35471,
+    "planning_city_population": 450000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 42.616,
+        "north": 18.3456,
+        "south": 18.1474,
+        "west": 42.4074
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "7f92f89919c5cd33899bc168af3b693377840c88db33f9e5e2d74c377623a3c6",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300019752,
+        0.0008333333300190615
+      ],
+      "source_sha256": "68e6da9516b80cc242760f996776a169c70a1cc03fc0996bc0953ca91853cce0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/SAU/sau_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 18,
+    "valid_pixels": 24267
+  },
+  "population_source_country": "SA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/abha.design-quality.yaml": "c4b4cc1679bb42d73447e56a033e6f2df9939aca167293a2af12043d4de35f97",
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/design.toml": "61cc51320ce8fb5298d8d6fd3139d9d4312c0098ba072840c1dd17beec70515e",
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/access/population-pixels.npz.gz": "7f92f89919c5cd33899bc168af3b693377840c88db33f9e5e2d74c377623a3c6",
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/access/population-source.json": "28c796f98f7fe47cffef431c53b3a8e7c8d9ee13c617afe4f50c8346aee772dc",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1"
+      ],
+      [
+        "line-2"
+      ],
+      [
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 0,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      }
+    ],
+    "reachable_line_pair_fraction": 0.0,
+    "reachable_with_at_most_two_transfers_fraction": 0.0
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "city": "sohag",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.469,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1514494.0828151703,
+    "catchments": [
+      {
+        "covered_population_2020": 112242.68221855164,
+        "fraction_of_raster_population": 0.0741123279992701,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 253975.3100566864,
+        "fraction_of_raster_population": 0.1676964690311581,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 358976.34631729126,
+        "fraction_of_raster_population": 0.23702723595328892,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 612985.9698448181,
+        "fraction_of_raster_population": 0.40474636170607425,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 755594.0638828278,
+        "fraction_of_raster_population": 0.49890856125255717,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 45067,
+    "planning_city_population": 550000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 31.8065,
+        "north": 26.6582,
+        "south": 26.46,
+        "west": 31.5849
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "057362b51efa135a30f037b99338111e9a9962b1f203f65d6115203c7130259f",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299889881,
+        0.000833333329996745
+      ],
+      "source_sha256": "c88cf3e4558a543e2a1186099bb1b366c79f7eb45ba91cd5d056839c4551bc8a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/EGY/egy_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 13,
+    "valid_pixels": 18241
+  },
+  "population_source_country": "EG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Sohag/design.toml": "d5389e9cbc19eaf98c7d3767e5e7bb9c911a10aa4261468126d00321c430bc96",
+    "cities/catalogue/west-asia/Egypt/Sohag/engineering/access/population-pixels.npz.gz": "057362b51efa135a30f037b99338111e9a9962b1f203f65d6115203c7130259f",
+    "cities/catalogue/west-asia/Egypt/Sohag/engineering/access/population-source.json": "d9083f2fb9f2059d01a4b44c166dd5eb98bab0d89dc12b9585786f0338e67993",
+    "cities/catalogue/west-asia/Egypt/Sohag/sohag.design-quality.yaml": "01e6827787c91b8e2ece787d414b5ce399486f27c1eb5b0f60cd629bbf89aaf3",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1"
+      ],
+      [
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.3333333333333333,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 0.3333333333333333,
+    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+  }
+}

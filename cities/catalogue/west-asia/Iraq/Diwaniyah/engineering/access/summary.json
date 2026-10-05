@@ -1,0 +1,132 @@
+{
+  "city": "diwaniyah",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.299,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 689922.4680862427,
+    "catchments": [
+      {
+        "covered_population_2020": 66125.30936813354,
+        "fraction_of_raster_population": 0.09584455127480739,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 151924.93273162842,
+        "fraction_of_raster_population": 0.22020580537556472,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 210926.42988204956,
+        "fraction_of_raster_population": 0.30572483088879926,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 388958.6098937988,
+        "fraction_of_raster_population": 0.5637714785151448,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 530693.4610328674,
+        "fraction_of_raster_population": 0.7692073900781108,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 59723,
+    "planning_city_population": 440000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 45.05,
+        "north": 32.09,
+        "south": 31.89,
+        "west": 44.81
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "3dc02a7fb4a97889afa5eed30900a87f065c85bc61e5c1b60420c9e953cec0a5",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300358177,
+        0.0008333333300228421
+      ],
+      "source_sha256": "f5cab141422e0f047f84d37f481a7be273e6c7ad4a115860f71596bc6ed85cda",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IRQ/irq_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 15,
+    "valid_pixels": 9397
+  },
+  "population_source_country": "IQ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/design.toml": "68ecfe6f33a12848ccafca43ba7d1805ab759cc8c0a01b934f95856f80e3cace",
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/diwaniyah.design-quality.yaml": "4d3d3723ace1878124e20d3bf9aa49d2ce81ecb9db5e9c12bb869c48d5764c9f",
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/access/population-pixels.npz.gz": "3dc02a7fb4a97889afa5eed30900a87f065c85bc61e5c1b60420c9e953cec0a5",
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/access/population-source.json": "656ee17b9e0daece93c12d540feec84c288e42b18c79b58fae20b673196bec2d",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2"
+      ],
+      [
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.3333333333333333,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      }
+    ],
+    "reachable_line_pair_fraction": 0.3333333333333333,
+    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+  }
+}

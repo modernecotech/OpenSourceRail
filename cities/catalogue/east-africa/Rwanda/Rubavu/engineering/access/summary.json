@@ -1,0 +1,130 @@
+{
+  "city": "rubavu",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.401,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 302440.0912952423,
+    "catchments": [
+      {
+        "covered_population_2020": 28440.021293640137,
+        "fraction_of_raster_population": 0.09403522255214822,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 69989.8078660965,
+        "fraction_of_raster_population": 0.23141709674254918,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 105680.53445243835,
+        "fraction_of_raster_population": 0.349426340932006,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 195963.01790046692,
+        "fraction_of_raster_population": 0.6479399508882162,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 237624.6536474228,
+        "fraction_of_raster_population": 0.785691647657431,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 13415,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 29.3287,
+        "north": -1.6116,
+        "south": -1.7468,
+        "west": 29.1935
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "555934295b883667253cbafd282efa9a3f5eca4168fa5aa59e1b684f7a237df0",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333302002449,
+        0.0008333333299256504
+      ],
+      "source_sha256": "4846c3c5470389a9a70eb2b8b04333cebc948c2ab1afd6e96ef80ec89feb8723",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/RWA/rwa_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 14,
+    "valid_pixels": 12991
+  },
+  "population_source_country": "RW",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Rwanda/Rubavu/design.toml": "64cf76228759539542a3602db4838cbd10ffdcde1d5a716647bf55be4478ef29",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/access/population-pixels.npz.gz": "555934295b883667253cbafd282efa9a3f5eca4168fa5aa59e1b684f7a237df0",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/access/population-source.json": "1205435df9675bc68f06cf9bcd30ff517835c0ff5f9ab746d8156ba84c36db6a",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/rubavu.design-quality.yaml": "67513293980eab800b3e650ce7cacfd9f8ab6c5d7a36f81c44355d6856fae741",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

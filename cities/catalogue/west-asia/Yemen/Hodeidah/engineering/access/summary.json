@@ -1,0 +1,130 @@
+{
+  "city": "hodeidah",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.49,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 629647.5778961182,
+    "catchments": [
+      {
+        "covered_population_2020": 70469.00008392334,
+        "fraction_of_raster_population": 0.11191816272745134,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 171594.28272628784,
+        "fraction_of_raster_population": 0.2725243274970529,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 247275.55541992188,
+        "fraction_of_raster_population": 0.39272056957029766,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 362471.2725830078,
+        "fraction_of_raster_population": 0.5756732580377047,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 395603.7583885193,
+        "fraction_of_raster_population": 0.6282939413669715,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 50885,
+    "planning_city_population": 750000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 43.057,
+        "north": 14.8969,
+        "south": 14.6987,
+        "west": 42.852
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "a383f2f7dbf51d6b18ef15bfa4202afaf936eefd366974c3b115ed332e90e78b",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300144111,
+        0.0008333333299879081
+      ],
+      "source_sha256": "acd2ed93b6fe11e32452e88423f08bd97c29c4cc91887fe0f295bb0aa2cf8b63",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/YEM/yem_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 11,
+    "valid_pixels": 7663
+  },
+  "population_source_country": "YE",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Yemen/Hodeidah/design.toml": "cd90c2717e91aa1309f2bedd820694767c205b060d0209d4b0395db068f91661",
+    "cities/catalogue/west-asia/Yemen/Hodeidah/engineering/access/population-pixels.npz.gz": "a383f2f7dbf51d6b18ef15bfa4202afaf936eefd366974c3b115ed332e90e78b",
+    "cities/catalogue/west-asia/Yemen/Hodeidah/engineering/access/population-source.json": "0745ef370a8a034fc094069b8a8bafee7bcf07821ecb957adec188914d81c5a7",
+    "cities/catalogue/west-asia/Yemen/Hodeidah/hodeidah.design-quality.yaml": "a99925ee6dc822a102a04b5d2744345a494a16f2285d5c66e594227694290a57",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

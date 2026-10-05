@@ -1,0 +1,130 @@
+{
+  "city": "huye",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.496,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 214770.56053090096,
+    "catchments": [
+      {
+        "covered_population_2020": 16432.716719150543,
+        "fraction_of_raster_population": 0.07651289207668768,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 38145.6364505291,
+        "fraction_of_raster_population": 0.17761110440944602,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 55783.179320812225,
+        "fraction_of_raster_population": 0.25973382563662023,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 100360.98002696037,
+        "fraction_of_raster_population": 0.46729393348359094,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 131734.49591994286,
+        "fraction_of_raster_population": 0.6133731531654174,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 29.807,
+        "north": -2.5291,
+        "south": -2.6643,
+        "west": 29.6718
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "934da6dadd49e14f17201e138ad6d1ecccb9029ba475183eb1badd049078c5ae",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333302002449,
+        0.0008333333299256504
+      ],
+      "source_sha256": "4846c3c5470389a9a70eb2b8b04333cebc948c2ab1afd6e96ef80ec89feb8723",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/RWA/rwa_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 14,
+    "valid_pixels": 26406
+  },
+  "population_source_country": "RW",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Rwanda/Huye/design.toml": "f88c1d102cdb01391e81ee6b039a205e180a2efbe6833b82c9af3350e0f19474",
+    "cities/catalogue/east-africa/Rwanda/Huye/engineering/access/population-pixels.npz.gz": "934da6dadd49e14f17201e138ad6d1ecccb9029ba475183eb1badd049078c5ae",
+    "cities/catalogue/east-africa/Rwanda/Huye/engineering/access/population-source.json": "6744a710b51bd0530da435eaabb8a4f9b6a11cce3e8e03436a1e28d85f78b129",
+    "cities/catalogue/east-africa/Rwanda/Huye/huye.design-quality.yaml": "bf0fd7a97710dae29c3aff2fafe767d4d3d9ad8ddb46832587c145be008135cc",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

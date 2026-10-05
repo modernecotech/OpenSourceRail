@@ -1,0 +1,130 @@
+{
+  "city": "machakos",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.39,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 172061.03584851325,
+    "catchments": [
+      {
+        "covered_population_2020": 15234.347891569138,
+        "fraction_of_raster_population": 0.08854037066812634,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 34084.03062057495,
+        "fraction_of_raster_population": 0.19809267364043634,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 48936.383914113045,
+        "fraction_of_raster_population": 0.28441293331046685,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 76612.6007976532,
+        "fraction_of_raster_population": 0.4452640914303504,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 98075.62222522497,
+        "fraction_of_raster_population": 0.5700048342820228,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 25,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 37.331,
+        "north": -1.4501,
+        "south": -1.5853,
+        "west": 37.1958
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "20f0a55092f18cb8ac41c1a89ad3c76ab5d289264ff2b118983a2877b6cae908",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.000833333329990599,
+        0.0008333333300327333
+      ],
+      "source_sha256": "728c26e3b6afcaf296b6090872ffaebfee230f801504be28d06a5a2d6c2f2b34",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/KEN/ken_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 8,
+    "valid_pixels": 26381
+  },
+  "population_source_country": "KE",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Machakos/design.toml": "48a2458355b3bf62b38bfb6bc905b4cd428e398a8380f10439524e4e6f257294",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-pixels.npz.gz": "20f0a55092f18cb8ac41c1a89ad3c76ab5d289264ff2b118983a2877b6cae908",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-source.json": "02af078bc1fb2416310c69e8dccb21dec324091a58da2e7266cb2e5450cb89d3",
+    "cities/catalogue/east-africa/Kenya/Machakos/machakos.design-quality.yaml": "fc3ff38be6903573a84560ab2e747787e979aa7127935c30d6dc3ec930a6d3f5",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

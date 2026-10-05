@@ -1,0 +1,130 @@
+{
+  "city": "oujda",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.318,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 555917.8777134418,
+    "catchments": [
+      {
+        "covered_population_2020": 83213.35793066025,
+        "fraction_of_raster_population": 0.14968642180195205,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 195531.85871839523,
+        "fraction_of_raster_population": 0.3517279557956324,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 287285.66827487946,
+        "fraction_of_raster_population": 0.5167771712191026,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 437983.11351537704,
+        "fraction_of_raster_population": 0.7878557806359009,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 516023.96344828606,
+        "fraction_of_raster_population": 0.9282377562145612,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 59303,
+    "planning_city_population": 600000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": -1.7881,
+        "north": 34.7805,
+        "south": 34.5823,
+        "west": -2.0291
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "c695eb099b1b28b6aca65115cdb7eab8c15ec0ada2c812aff0811d414af4b9ef",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299780882,
+        0.0008333333299676896
+      ],
+      "source_sha256": "84960c7fe252e79c06e07b8141f21c064971aefb6908f4772946f2f7447893aa",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/MAR/mar_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 13,
+    "valid_pixels": 9479
+  },
+  "population_source_country": "MA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Oujda/design.toml": "cbd0d8ce19cd735aa907001727b17052450a0d801a9155716e38a34f1288c5a0",
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/access/population-pixels.npz.gz": "c695eb099b1b28b6aca65115cdb7eab8c15ec0ada2c812aff0811d414af4b9ef",
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/access/population-source.json": "660e5276033b9caa952e1f4b1b8e83cee9a4e1689c412b0292fe36f1202e1bf8",
+    "cities/catalogue/north-africa/Morocco/Oujda/oujda.design-quality.yaml": "96811f5908835d2315e3bff03018b08d51b55e68f3cc10a1ec3c82d6e426580e",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

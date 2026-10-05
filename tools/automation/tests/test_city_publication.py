@@ -63,7 +63,10 @@ def test_stale_study_stops_publication_without_overwriting_readme(tmp_path,monke
 def test_other_city_keeps_its_own_catalogue_basis(tmp_path):
     city=CITY.parent/'Samawah';output=tmp_path/'README.md'
     publication.publish(city/'design.toml',city/'samawah.toml',output)
-    assert output.read_text()==publication.current_catalogue_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml'))
+    assert output.read_text()==publication.current_catalogue_context(city/'design.toml',publication.access_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml')))
+    assert '| Estimated station catchment |' not in output.read_text()
+    assert '| Direct transfers / reachable line pairs |' in output.read_text()
+    assert '| Residents within 800 m radial station catchments |' in output.read_text()
     assert 'line-local depots' in output.read_text()
     assert 'retained country income proxy' in output.read_text()
     assert 'local_positive' not in output.read_text()

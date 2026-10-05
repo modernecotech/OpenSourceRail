@@ -48,6 +48,7 @@ SHARED = [
     'docs/civil/viaduct-bearing-and-movement-schedule.md',
     'docs/civil/viaduct-transport-and-erection-envelope.md',
     'docs/civil/viaduct-first-article-test-plan.md',
+    'docs/civil/viaduct-obstacle-clearance.md',
     'docs/repository-artifact-policy.md',
     'docs/baghdad-delivery-review-2026-10-04.md',
     'docs/baghdad-continuation-review-2026-10-04.md',
@@ -265,6 +266,9 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     closure=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
     closure_metrics=closure['metrics']
     core_alignment=read_json(CITY/'engineering/alignment/core-realignment.json')
+    access=read_json(CITY/'engineering/access/summary.json')
+    clearance=read_json(CITY/'engineering/clearance/summary.json')
+    access_rows=[[row['radius_m'],f"{row['covered_population_2020']:,.0f}",f"{row['fraction_of_raster_population']:.1%}"] for row in access['population']['catchments']]
     manufactured_viaduct=read_json(CITY/'engineering/viaduct-comparison/comparison.json')
     local_energy=read_json(CITY/'engineering/delivery-closure/site-energy.json')['cases']['reference']
     fare_trials=read_json(CITY/'engineering/delivery-closure/fare-sensitivities.json')
@@ -349,7 +353,13 @@ The proposed IQD mezzanine replaces 10% of residual domestic capital borrowing, 
 
 ## Baghdad network and population access
 
-The design retains a planning population of {comp['planning_population']:,}. The {comp['anchor_weighted_coverage']:.1%} anchor weighted coverage proxy represents {comp['anchor_based_resident_proxy']:,} residents under the model. It is not measured population within an 800 m walking network, nor the number of unique passengers. River crossings, actual entrances, walking barriers and feeders need a surveyed population and access model. A larger network provides a scope to evaluate; it does not prove higher coverage than another proposal.
+The design retains a planning population of {comp['planning_population']:,}. The former {comp['anchor_weighted_coverage']:.1%} routing-demand cell fraction is not population coverage and its resident multiplication is retired. Native WorldPop 2020 pixels give a bbox population of **{access['population']['bbox_population_2020']:,.0f}**, with residents counted once in the union of station circles:
+
+{table(['Radius (m)','Covered residents (2020)','Share of raster bbox population'],access_rows)}
+
+These are potential radial catchments, not verified walksheds or unique passengers. The 1,500–2,000 m cases require actual walking/feeder provision. Population dates and boundaries differ from the catalogue; no rebasing or extra fare demand is assumed. River crossings, entrances, barriers and topography require validation. **Reachable line pairs are {access['transfers']['reachable_line_pair_fraction']:.1%}** through intermediate lines; direct transfers cover {access['transfers']['direct_transfer_fraction']:.1%}. [Source counts, sensitivities and transfer paths](engineering/access/README.md).
+
+**The straight viaduct concept remains obstacle-unreleased.** The [beam/support/terrain register](engineering/clearance/README.md) retains {clearance['mapped_footprints']:,} nearby mapped footprints, including {clearance['known_height_footprints']:,} with source height tags. It flags {clearance['beam_building_status'].get('beam-roof-collision',0):,} provisional roof clashes and {clearance['beam_building_status'].get('height-unresolved',0):,} unresolved-height checks. Low-roof overflight never clears the pier/foundation below; supports, tall-building clearance, terrain/grades, utilities, property/air rights and construction access require survey and redesign. Raising the deck needs grade-compliant approaches and revised capital; moving piers must use verified spans or an independently checked special crossing. Current financial figures include no unpriced adopted obstacle solution.
 
 {table(['Line','Shape','Route km','Stations','Peak fleet','Total fleet','Opening month'],line_rows)}
 
@@ -715,6 +725,10 @@ def source_inputs():
     paths.update(COUNTRY.glob('*/design.toml')); paths.update(p.parent/(tomllib.loads(p.read_text())['city']['slug']+'.toml') for p in COUNTRY.glob('*/design.toml'))
     paths.update(COUNTRY.glob('*/README.md'))
     paths.update(ROOT/p for p in SHARED)
+    for name in ('access','clearance'):
+        report=read_json(CITY/f'engineering/{name}/summary.json')
+        paths.update(ROOT/relative for relative in report['sources_sha256'])
+    paths.add(ROOT/'tools/automation/fetch-clearance-terrain.py')
     paths.update([COUNTRY/'NATIONAL-BRIEF.md',COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',ROOT/'tools/automation/build-baghdad-proposal.py',
                   ROOT/'tools/automation/build-doc-book.py',ROOT/'tools/automation/generate-national-briefs.py',ROOT/'tools/automation/baghdad_funding_analysis.py',
                   ROOT/'tools/automation/generate-iraq-funding-programme.py',ROOT/'design/city-generation/src/osr_scenario/capital.py',

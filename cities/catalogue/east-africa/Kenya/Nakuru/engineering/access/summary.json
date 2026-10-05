@@ -1,0 +1,130 @@
+{
+  "city": "nakuru",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.304,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 636396.1475382051,
+    "catchments": [
+      {
+        "covered_population_2020": 56797.57456981391,
+        "fraction_of_raster_population": 0.08924877183736274,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 126652.82918659784,
+        "fraction_of_raster_population": 0.1990157069248984,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 178082.9948177263,
+        "fraction_of_raster_population": 0.2798304098895183,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 313782.5484040361,
+        "fraction_of_raster_population": 0.4930616717556396,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 408444.28627428506,
+        "fraction_of_raster_population": 0.6418082319547114,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 4786,
+    "planning_city_population": 700000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 36.1791,
+        "north": -0.204,
+        "south": -0.4022,
+        "west": 35.9809
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "b57dd717191e035eb149a97949a39908c17df477b3b84b838228dd86cc2476ed",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.000833333329990599,
+        0.0008333333300327333
+      ],
+      "source_sha256": "728c26e3b6afcaf296b6090872ffaebfee230f801504be28d06a5a2d6c2f2b34",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/KEN/ken_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 15,
+    "valid_pixels": 51620
+  },
+  "population_source_country": "KE",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Nakuru/design.toml": "58a8ddb9aed9c2fa93e5ec832efea9fa87bce3113bf66337a03b5de40a3a8186",
+    "cities/catalogue/east-africa/Kenya/Nakuru/engineering/access/population-pixels.npz.gz": "b57dd717191e035eb149a97949a39908c17df477b3b84b838228dd86cc2476ed",
+    "cities/catalogue/east-africa/Kenya/Nakuru/engineering/access/population-source.json": "b824829c7d39d7838cd9f349aba0fb26df4c46ab67e0da3ab366f0d0fa232385",
+    "cities/catalogue/east-africa/Kenya/Nakuru/nakuru.design-quality.yaml": "56f33850608d475a4b3b7ec0f6d4d34f8e4b8e0bc45ffde6c1c435e9d94d1958",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

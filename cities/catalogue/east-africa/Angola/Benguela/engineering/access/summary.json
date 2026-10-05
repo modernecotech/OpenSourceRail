@@ -1,0 +1,130 @@
+{
+  "city": "benguela",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.328,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 460300.2045432031,
+    "catchments": [
+      {
+        "covered_population_2020": 42161.46466732025,
+        "fraction_of_raster_population": 0.09159558099514821,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 97396.93713569641,
+        "fraction_of_raster_population": 0.21159438161091426,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 139878.24584627151,
+        "fraction_of_raster_population": 0.3038848222652544,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 240976.5448448658,
+        "fraction_of_raster_population": 0.5235203948779651,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 307502.3715877533,
+        "fraction_of_raster_population": 0.6680474363310686,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 24005,
+    "planning_city_population": 600000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 13.507,
+        "north": -12.4772,
+        "south": -12.6754,
+        "west": 13.304
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "f4e59fdf44aeaec3beda8c3779a52b1e9f3d858ec735d06018db10246c9dd684",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299993288,
+        0.0008333333300006096
+      ],
+      "source_sha256": "bbafe0854a916e08e787478ccccf88d6d8d5a99eb750072305635f50c1f503c0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/AGO/ago_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 19,
+    "valid_pixels": 34067
+  },
+  "population_source_country": "AO",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Benguela/benguela.design-quality.yaml": "f62a5b0360db4cadc3ff2e0650168ad1fa50db95b587f68c74ff1b115e415d49",
+    "cities/catalogue/east-africa/Angola/Benguela/design.toml": "2ed866fda20dc6a8d72b6a7a48bdee3d9f8a3334e26da493b0b0950ab1029565",
+    "cities/catalogue/east-africa/Angola/Benguela/engineering/access/population-pixels.npz.gz": "f4e59fdf44aeaec3beda8c3779a52b1e9f3d858ec735d06018db10246c9dd684",
+    "cities/catalogue/east-africa/Angola/Benguela/engineering/access/population-source.json": "8dfe6772b8c95d0ddabb3c51a17633c028bb18e9097aeaaaa5774cddc1941327",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

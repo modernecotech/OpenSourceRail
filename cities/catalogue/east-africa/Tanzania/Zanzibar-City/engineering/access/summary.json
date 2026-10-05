@@ -1,0 +1,130 @@
+{
+  "city": "zanzibar-city",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.502,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 822722.7906846404,
+    "catchments": [
+      {
+        "covered_population_2020": 92691.72022461891,
+        "fraction_of_raster_population": 0.11266458310639989,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 222980.85640215874,
+        "fraction_of_raster_population": 0.2710279317977834,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 331009.9706892967,
+        "fraction_of_raster_population": 0.40233475289269927,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 580186.8792462349,
+        "fraction_of_raster_population": 0.7052033635332068,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 695119.8441164494,
+        "fraction_of_raster_population": 0.8449016509412551,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 29644,
+    "planning_city_population": 500000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 39.3023,
+        "north": -6.0668,
+        "south": -6.265,
+        "west": 39.1029
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "68f0e52aeb1b042da209089272514dd9c7858caa9985ea17e2024181cfd9b5f4",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300104933,
+        0.0008333333299783215
+      ],
+      "source_sha256": "130234bb5e1dc9c83950b5f1ab65c5fb5c389b95af641921813d2d1f1f06c785",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/TZA/tza_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 13,
+    "valid_pixels": 27238
+  },
+  "population_source_country": "TZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/design.toml": "3c8f9e32f42dc47cda68762281adbefa1c3758518fce23df0516e8352a6633e3",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/access/population-pixels.npz.gz": "68f0e52aeb1b042da209089272514dd9c7858caa9985ea17e2024181cfd9b5f4",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/access/population-source.json": "1552d91d6829921e750c3e8c2348c17adfab33589cbaa931bd96fa908394dc44",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/zanzibar-city.design-quality.yaml": "66e5c4c8bf1c085efbe646887cb81f0d3e5db6edd726f1dc5590796ce9f6d9d6",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

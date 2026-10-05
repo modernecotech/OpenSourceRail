@@ -62,6 +62,24 @@ def test_every_baghdad_document_and_financial_case_is_included():
     assert 'docs/rfcs/0032-train-centred-control.md' not in chapters
 
 
+def test_population_and_obstacle_evidence_are_published_without_physical_release():
+    inputs = set(data('manifest.json')['inputs'])
+    for relative in ('engineering/access/summary.json', 'engineering/access/population-pixels.npz.gz',
+                     'engineering/clearance/summary.json', 'engineering/clearance/clearance-register.json.gz'):
+        assert (CITY/relative).relative_to(ROOT).as_posix() in inputs
+    access = data('engineering/access/summary.json')
+    clearance = data('engineering/clearance/summary.json')
+    narrative = (CITY/'BAGHDAD-PROPOSAL.md').read_text()
+    for row in access['population']['catchments']:
+        assert f"{row['covered_population_2020']:,.0f}" in narrative
+        assert f"{row['fraction_of_raster_population']:.1%}" in narrative
+    assert 'not verified walksheds' in narrative
+    assert 'straight viaduct concept remains obstacle-unreleased' in narrative
+    assert not clearance['physical_release']
+    assert f"{clearance['beam_building_status']['beam-roof-collision']:,} provisional roof clashes" in narrative
+    assert 'Current financial figures include no unpriced adopted obstacle solution.' in narrative
+
+
 def test_delivery_reconciliation_and_current_review_are_published():
     manifest=data('manifest.json');inputs=set(manifest['inputs'])
     for suffix in ('summary.json','chronological-energy.json','scope-register.json','six-car.json','workforce.json','rental-delivery-options.json','erpnext-tasks.json'):

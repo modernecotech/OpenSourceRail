@@ -1,0 +1,130 @@
+{
+  "city": "port-said",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.427,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 674944.1536347866,
+    "catchments": [
+      {
+        "covered_population_2020": 106955.58228290081,
+        "fraction_of_raster_population": 0.15846582521962943,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 262053.5850995779,
+        "fraction_of_raster_population": 0.38825965628168924,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 363554.0951464176,
+        "fraction_of_raster_population": 0.5386432243150259,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 554198.2952269912,
+        "fraction_of_raster_population": 0.8211024456504423,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 639918.6008420587,
+        "fraction_of_raster_population": 0.9481059986902556,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 59237,
+    "planning_city_population": 800000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 32.4178,
+        "north": 31.3644,
+        "south": 31.1662,
+        "west": 32.186
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "3ac78955f4850451108382db1cf7d1c7f33d36e9bc92a75e8be8865417eb5f44",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299889881,
+        0.000833333329996745
+      ],
+      "source_sha256": "c88cf3e4558a543e2a1186099bb1b366c79f7eb45ba91cd5d056839c4551bc8a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/EGY/egy_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 9,
+    "valid_pixels": 6927
+  },
+  "population_source_country": "EG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Port-Said/design.toml": "bbcacc0bc0587fd5ce5993363cca5128ebb753328f83100a3eb9f4692b12bb11",
+    "cities/catalogue/west-asia/Egypt/Port-Said/engineering/access/population-pixels.npz.gz": "3ac78955f4850451108382db1cf7d1c7f33d36e9bc92a75e8be8865417eb5f44",
+    "cities/catalogue/west-asia/Egypt/Port-Said/engineering/access/population-source.json": "5c913d1514040bf4c21e1e72613d2e82a771e1764a5073ed0d55cdde79557ac9",
+    "cities/catalogue/west-asia/Egypt/Port-Said/port-said.design-quality.yaml": "daa17d2783bb50f7a609c5913bc69937bc7d4e4e98215767d8b2a5c1d88cd0f9",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

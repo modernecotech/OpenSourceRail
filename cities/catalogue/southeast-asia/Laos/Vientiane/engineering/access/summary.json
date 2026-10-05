@@ -1,0 +1,130 @@
+{
+  "city": "vientiane",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.288,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 591248.6036404967,
+    "catchments": [
+      {
+        "covered_population_2020": 40402.20687627792,
+        "fraction_of_raster_population": 0.06833370366967347,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 100261.98071342707,
+        "fraction_of_raster_population": 0.1695766892235917,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 155847.19454711676,
+        "fraction_of_raster_population": 0.2635899579085995,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 310999.2229578495,
+        "fraction_of_raster_population": 0.5260041563615255,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 401594.8640553653,
+        "fraction_of_raster_population": 0.6792318181939443,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 52919,
+    "planning_city_population": 948000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 102.78,
+        "north": 18.1,
+        "south": 17.92,
+        "west": 102.5
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "c534703fb85fb5d64b3e184ab199ccfb938243537fdd4a9864f156aebbc5404d",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300209787,
+        0.0008333333300358842
+      ],
+      "source_sha256": "1e725f5ba41798155034686181bc42ad2067f543f4ea0808e390fcfc4142ec9a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/LAO/lao_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 20,
+    "valid_pixels": 19657
+  },
+  "population_source_country": "LA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Laos/Vientiane/design.toml": "1c1e93046eb9078b46695de4bf4e5eb0d86cf55fad57cdb55a235b23fa720ff3",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/access/population-pixels.npz.gz": "c534703fb85fb5d64b3e184ab199ccfb938243537fdd4a9864f156aebbc5404d",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/access/population-source.json": "98ad51785205077a65c19c68ae61efb974f4285826b35803856fd51d71a7da92",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/vientiane.design-quality.yaml": "95b7eb7ab958eb494b203641b7c2abe509520e186f8a5a7d8a5899ff7b0ec6bd",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

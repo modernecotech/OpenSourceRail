@@ -13,7 +13,7 @@ This page contains only Surabaya-specific results. Shared routing, service, ener
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
 
 ## Network
 
@@ -23,8 +23,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Lines / unique stations / interchanges | 9 / 157 / 21 |
 | Route length | 291.9 km double track |
-| Coverage / transfer reachability | 50.5% / 92% |
-| Estimated station catchment | 1,519,545 residents |
+| Direct transfers / reachable line pairs | 91.7% / 100.0% |
+| Residents within 800 m radial station catchments | unavailable — native population evidence required |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 544 × 6-car `metro-6car` trainsets (490 peak revenue) |
 | Peak network throughput | 259,200 passengers/hour |

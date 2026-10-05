@@ -13,7 +13,7 @@ This page contains only Yaounde-specific results. Shared routing, service, energ
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
 
 ## Network
 
@@ -23,8 +23,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Lines / unique stations / interchanges | 5 / 68 / 10 |
 | Route length | 191.9 km double track |
-| Coverage / transfer reachability | 45.3% / 90% |
-| Estimated station catchment | 1,857,300 residents |
+| Direct transfers / reachable line pairs | 90.0% / 100.0% |
+| Residents within 800 m radial station catchments | 829,212 (2020 raster; 18.7% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 281 × 6-car `metro-6car` trainsets (253 peak revenue) |
 | Peak network throughput | 144,000 passengers/hour |

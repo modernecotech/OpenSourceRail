@@ -66,6 +66,11 @@ jobs:
       - name: Verify retained water evidence and actual platform geography
         run: |
           python tools/automation/audit-city-geography.py --check
+      - name: Verify retained population, transfers and viaduct obstacle evidence
+        run: |
+          python tools/automation/audit-city-access.py --all --check
+          python tools/automation/audit-viaduct-clearance.py --all --check --jobs 2
+          python tools/automation/generate-access-clearance-review.py --check
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - name: Generate buildable product test prerequisites
         run: |

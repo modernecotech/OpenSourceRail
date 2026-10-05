@@ -1,0 +1,130 @@
+{
+  "city": "rajshahi",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.509,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 897438.7679643631,
+    "catchments": [
+      {
+        "covered_population_2020": 104128.75511741638,
+        "fraction_of_raster_population": 0.11602881314522318,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 228635.205909729,
+        "fraction_of_raster_population": 0.25476412884227884,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 324406.22088623047,
+        "fraction_of_raster_population": 0.3614800613328446,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 499532.79391670227,
+        "fraction_of_raster_population": 0.5566204756785574,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 582881.5389347076,
+        "fraction_of_raster_population": 0.6494944944899612,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 43439,
+    "planning_city_population": 950000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 88.713,
+        "north": 24.4736,
+        "south": 24.2754,
+        "west": 88.4954
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "5f0f5772765adfae37692575e3631884e48d8d3226142c537727b340308b0d3d",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300571842,
+        0.0008333333300330033
+      ],
+      "source_sha256": "2b51c94af1e553d939cb89f0733e6bec950ed894ce5a62ca8914814550d5ccdb",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/BGD/bgd_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 14,
+    "valid_pixels": 18679
+  },
+  "population_source_country": "BD",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/design.toml": "d6b2c6d53707286188ced90d8584577f57008598c4d54c0875c328dfcd275a45",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/access/population-pixels.npz.gz": "5f0f5772765adfae37692575e3631884e48d8d3226142c537727b340308b0d3d",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/access/population-source.json": "37d8d03e17bef27dbc49d3142cb041c0c02428e6999eb6840730e05055ee5556",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/rajshahi.design-quality.yaml": "cf6056465ccd40d538c6ea9f608866dc3fc4a9dc3a47d05c1e8190d071e7d84d",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

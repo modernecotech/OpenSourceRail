@@ -1,0 +1,130 @@
+{
+  "city": "hurghada",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.424,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 112414.46427440643,
+    "catchments": [
+      {
+        "covered_population_2020": 27391.58854484558,
+        "fraction_of_raster_population": 0.2436660506425761,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 55527.699882507324,
+        "fraction_of_raster_population": 0.49395511726109254,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 73142.2864074707,
+        "fraction_of_raster_population": 0.6506483563265365,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 101245.03065109253,
+        "fraction_of_raster_population": 0.9006406008745543,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 110342.26779222488,
+        "fraction_of_raster_population": 0.9815664603700528,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 25255,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 33.8876,
+        "north": 27.3255,
+        "south": 27.1903,
+        "west": 33.7356
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "2d593d31102bfa0117a39ef26636ab239ec656aa98e9de77a9e00f92a40e38e4",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299889881,
+        0.000833333329996745
+      ],
+      "source_sha256": "c88cf3e4558a543e2a1186099bb1b366c79f7eb45ba91cd5d056839c4551bc8a",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/EGY/egy_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 15,
+    "valid_pixels": 4391
+  },
+  "population_source_country": "EG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Hurghada/design.toml": "89de397f784f84059c43434b1bd2234ed93dd1ebafeb802dfbea12d6daf683b3",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-pixels.npz.gz": "2d593d31102bfa0117a39ef26636ab239ec656aa98e9de77a9e00f92a40e38e4",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-source.json": "8332681a813c0878ca45a961aa041ba7e493ba25f41ed8a5ad2bcbc2eebc6c66",
+    "cities/catalogue/west-asia/Egypt/Hurghada/hurghada.design-quality.yaml": "ccbf3146da6f2b9ae430d162c54812a8dddbc45ae04cd351529469778806c386",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

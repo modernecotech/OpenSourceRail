@@ -59,7 +59,19 @@ The proposed IQD mezzanine replaces 10% of residual domestic capital borrowing, 
 
 ## Baghdad network and population access
 
-The design retains a planning population of 9,780,429. The 39.4% anchor weighted coverage proxy represents 3,853,489 residents under the model. It is not measured population within an 800 m walking network, nor the number of unique passengers. River crossings, actual entrances, walking barriers and feeders need a surveyed population and access model. A larger network provides a scope to evaluate; it does not prove higher coverage than another proposal.
+The design retains a planning population of 9,780,429. The former 39.4% routing-demand cell fraction is not population coverage and its resident multiplication is retired. Native WorldPop 2020 pixels give a bbox population of **5,985,974**, with residents counted once in the union of station circles:
+
+| Radius (m) | Covered residents (2020) | Share of raster bbox population |
+| --- | --- | --- |
+| 500 | 716,340 | 12.0% |
+| 800 | 1,698,960 | 28.4% |
+| 1000 | 2,415,357 | 40.4% |
+| 1500 | 3,963,906 | 66.2% |
+| 2000 | 4,796,903 | 80.1% |
+
+These are potential radial catchments, not verified walksheds or unique passengers. The 1,500–2,000 m cases require actual walking/feeder provision. Population dates and boundaries differ from the catalogue; no rebasing or extra fare demand is assumed. River crossings, entrances, barriers and topography require validation. **Reachable line pairs are 100.0%** through intermediate lines; direct transfers cover 80.6%. [Source counts, sensitivities and transfer paths](engineering/access/README.md).
+
+**The straight viaduct concept remains obstacle-unreleased.** The [beam/support/terrain register](engineering/clearance/README.md) retains 844 nearby mapped footprints, including 110 with source height tags. It flags 58 provisional roof clashes and 576 unresolved-height checks. Low-roof overflight never clears the pier/foundation below; supports, tall-building clearance, terrain/grades, utilities, property/air rights and construction access require survey and redesign. Raising the deck needs grade-compliant approaches and revised capital; moving piers must use verified spans or an independently checked special crossing. Current financial figures include no unpriced adopted obstacle solution.
 
 | Line | Shape | Route km | Stations | Peak fleet | Total fleet | Opening month |
 | --- | --- | --- | --- | --- | --- | --- |

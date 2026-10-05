@@ -2,8 +2,8 @@
   "absolute_local_path_artifacts": [],
   "artifacts": {
     "README.md": {
-      "bytes": 6235,
-      "sha256": "e1240e43534ad2138ab44db666b350c39ab657017f4c6c615f986da2c030626b"
+      "bytes": 6662,
+      "sha256": "0deb25cfd21cc4099631b9b230862bd2039e7411a7dc389b30929c4e3367c91a"
     },
     "alignment-policy.toml": {
       "bytes": 283,
@@ -12,6 +12,22 @@
     "design.toml": {
       "bytes": 32310,
       "sha256": "3c8f9e32f42dc47cda68762281adbefa1c3758518fce23df0516e8352a6633e3"
+    },
+    "engineering/access/README.md": {
+      "bytes": 1946,
+      "sha256": "a842890211ce2aa3986ce9ac08965d45e05015e4da590d3ac65267d3789d69a8"
+    },
+    "engineering/access/population-pixels.npz.gz": {
+      "bytes": 109192,
+      "sha256": "68f0e52aeb1b042da209089272514dd9c7858caa9985ea17e2024181cfd9b5f4"
+    },
+    "engineering/access/population-source.json": {
+      "bytes": 933,
+      "sha256": "1552d91d6829921e750c3e8c2348c17adfab33589cbaa931bd96fa908394dc44"
+    },
+    "engineering/access/summary.json": {
+      "bytes": 5472,
+      "sha256": "3621c194a3d19b9c82aefc217083d6d977f200b0a5bbd6c43589a9d03f2e7a61"
     },
     "engineering/alignment/README.md": {
       "bytes": 1030,
@@ -68,6 +84,34 @@
     "engineering/alignment/zanzibar-city-line3.aln.toml": {
       "bytes": 82509,
       "sha256": "7839a9f6435e0297a9fcf315549b723d7ab836d1073b1e381251b872b873d4ac"
+    },
+    "engineering/clearance/README.md": {
+      "bytes": 3303,
+      "sha256": "26dfa9213c145a55b7f593b20051755d415ca5c24400aa21737a288e7e30876c"
+    },
+    "engineering/clearance/building-footprints.json.gz": {
+      "bytes": 154593,
+      "sha256": "813949b7821dc1c48cda328a1b00a2a187bcfea3e1f27bffb495ae640b53fbb6"
+    },
+    "engineering/clearance/building-source.json": {
+      "bytes": 878,
+      "sha256": "2466a14bfa4b30e41f65514c78d7ecdeb5a25a5a24ece51ea7464e37593cee49"
+    },
+    "engineering/clearance/clearance-register.json.gz": {
+      "bytes": 60664,
+      "sha256": "a3e9c61a5aacbfa7dcf6df0888ca7604fff371829957d37f03c19cd80e4776c4"
+    },
+    "engineering/clearance/summary.json": {
+      "bytes": 5243,
+      "sha256": "684e5812e5516a5bbeccc1cc03f86ec6f2a3cba6005763562f39635c1ecd3c6f"
+    },
+    "engineering/clearance/terrain-elevation.f32.gz": {
+      "bytes": 18948,
+      "sha256": "01ac02da2a46eab488adedf2d1970c629b3e698681163fd119804d0bd3bc2cbe"
+    },
+    "engineering/clearance/terrain-source.json": {
+      "bytes": 1379,
+      "sha256": "f555669bb0685268e1dfe54f0eb66b23aa8d21716ba512987ef68ccd72b9d942"
     },
     "engineering/delivery/README.md": {
       "bytes": 15294,
@@ -327,10 +371,11 @@
   ],
   "failed_summaries": [
     "engineering/depot-scope/summary.json",
-    "engineering/stabling/summary.json"
+    "engineering/stabling/summary.json",
+    "engineering/clearance/summary.json"
   ],
   "generator": "tools/automation/generate-city-package-manifest.py",
-  "generator_sha256": "cbf337ddb2bcc249ef2003fb670c6f179c10bca76e69cc06d578ee5d05ff8a6b",
+  "generator_sha256": "2af775a87a436bb21b7d976f31fe626f1aa1401f105314b16f15d13feb9bf504",
   "local_reproducible_artifacts": {
     "engineering/gis/zanzibar-city.gpkg": {
       "bytes": 299008,
@@ -375,11 +420,12 @@
   "passed": false,
   "planning_example_complete": true,
   "planning_example_open_gates": [
+    "engineering/clearance/summary.json",
     "engineering/depot-scope/summary.json",
     "engineering/stabling/summary.json"
   ],
   "schema_version": "1.0",
   "selected_stabling_configuration": "full-fleet-line-depot-planning-requirement",
-  "source_revision": "24d36b70ce9b74a1486560dae1f119b97087a70c",
+  "source_revision": "6d7713d36d83204f8c03733cec6624e023d598df",
   "stale_analysis_sources": []
 }

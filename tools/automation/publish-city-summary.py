@@ -22,7 +22,9 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT/'lib/templates/city-publication.toml'
 sys.path.insert(0, str(ROOT/'design/city-generation/src'))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from osr_scenario.network_readme import render_readme
+from city_access import transfer_audit
 
 BEGIN = '<!-- OSR CURRENT SCOPE CONTEXT -->'
 END = '<!-- END OSR CURRENT SCOPE CONTEXT -->'
@@ -154,7 +156,7 @@ Programme capital is **USD {metrics['total_capital_usd']/1e9:.3f}bn**, including
 
 {sections['Network']}
 
-Coverage is an anchor-weighted planning proxy, not measured pedestrian access. Straighter core routes change station catchments; OD counts, walk/feeder access and property clearance require review.
+Population access uses retained native count pixels where available; radial catchments require pedestrian/feeder validation. The former demand-score resident proxy is retired. [Access and transfers](engineering/access/README.md) · [Building, support and terrain clearance](engineering/clearance/README.md).
 
 {sections['Energy']}
 These energy quantities describe the current regenerated scenario. Zero annual residual grid import is an accounting balance, not accepted hourly autonomy. Depot charging/grid upgrades, duty and launch conflicts remain open.
@@ -230,10 +232,42 @@ Station staffing uses two posts, two normal eight-hour shifts, plus service-wind
     return baseline[:i]+context+baseline[i:] if i>=0 else baseline+context
 
 
+def access_context(design_path, baseline):
+    """Correct public accounting without changing certified operating inputs."""
+    design=tomllib.loads(design_path.read_text())
+    city=design_path.parent
+    path=city/'engineering/access/summary.json'
+    report=read(path) if path.is_file() else None
+    graph=transfer_audit(design)
+    if report:
+        for relative,digest in report['sources_sha256'].items():
+            source=ROOT/relative
+            if not source.is_file() or sha(source.read_bytes())!=digest:
+                raise ValueError('Stale access accounting: '+relative)
+        if report['transfers']!=graph:raise ValueError('Changed transfer topology')
+    population=report['population'] if report else {'status':'unavailable','catchments':[]}
+    selected=next((row for row in population['catchments'] if row['radius_m']==800),None)
+    population_text=(f"{selected['covered_population_2020']:,.0f} (2020 raster; {selected['fraction_of_raster_population']:.1%} of bbox)"
+                     if selected and selected['fraction_of_raster_population'] is not None else 'unavailable — native population evidence required')
+    fmt=lambda value:f'{value:.1%}' if value is not None else 'unavailable'
+    baseline=re.sub(r'^\| Coverage / transfer reachability \|.*$',
+        '| Direct transfers / reachable line pairs | '+fmt(graph['direct_transfer_fraction'])+' / '+fmt(graph['reachable_line_pair_fraction'])+' |',baseline,flags=re.M)
+    baseline=re.sub(r'^\| Estimated station catchment \|.*$',
+        '| Residents within 800 m radial station catchments | '+population_text+' |',baseline,flags=re.M)
+    if report and report.get('input_findings'):
+        for finding in report['input_findings']:
+            baseline=baseline.replace('## Network\n',f"**Input discrepancy:** {finding['finding']} [Evidence]({finding['evidence']}).\n\n## Network\n",1)
+        baseline=baseline.replace('**Country:** SD','**Recorded country:** SD (jurisdiction mismatch; see below)')
+    details=('Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. '
+             '[Population radii, denominator and transfer paths](engineering/access/README.md) · '
+             '[Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).')
+    return re.sub(r'^(Auto-planned.*)$',lambda match:match[0]+' '+details,baseline,count=1,flags=re.M)
+
+
 def publish(design, scenario, output, *, check=False, allow_stale_evidence=False):
     registry=tomllib.loads(CONFIG.read_text())['city']
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
-    baseline=render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)
+    baseline=access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None))
     if not entry:
         expected=current_catalogue_context(design,baseline).encode()
         if check:
@@ -258,6 +292,8 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
     manifest=city/'publication-manifest.json'
     sources={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in (Path(__file__),CONFIG,design,scenario,
         ROOT/'design/city-generation/src/osr_scenario/network_readme.py')}
+    for path in (city/'engineering/access/summary.json',city/'engineering/clearance/summary.json',ROOT/'tools/automation/city_access.py'):
+        if path.is_file():sources[path.relative_to(ROOT).as_posix()]=sha(path.read_bytes())
     study_summary=study/'summary.json'
     sources[study_summary.relative_to(ROOT).as_posix()]=sha(planned.get(study_summary,study_summary.read_bytes()))
     receipt=dict(schema=1,case=entry['case'],scope='Baghdad current study; original reference math and release gates retained',

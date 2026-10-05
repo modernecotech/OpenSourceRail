@@ -68,7 +68,7 @@ def main() -> int:
             f"| [{city.get('name', design_path.parent.name)}]({target}) "
             f"| `{family}` | {len(lines)} | {len(design.get('stations', []))} | "
             f"{route_km:.1f} | {sum(int(item.get('trainset_count', 0)) for item in fleets)} "
-            f"| {_coverage(design_path.parent):.0%} "
+            f"| [{_coverage(design_path.parent):.0%} routing demand; access report]({target}engineering/access/README.md) "
             f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
             f"| [{package_label}; {stale_count} stale sources]({target}package-manifest.json) |"
             f" [full-fleet depot planning]({target}{depot_report}); [station-stabling diagnostic]({target}engineering/stabling/README.md) |"
@@ -137,6 +137,9 @@ def main() -> int:
         "Generated city READMEs contain local values and evidence only. Shared methodology",
         "and limitations live in the",
         "[deployment planning reference](../../docs/deployment-planning-reference.md).",
+        "Population access and multi-hop transfer paths are reported separately in each city's `engineering/access/README.md`.",
+        "The routing-demand column is a high-demand cell fraction near tracks, not population coverage. Do not multiply it by city population.",
+        "Each city also retains a [beam/support/terrain clearance screen](../../docs/civil/viaduct-obstacle-clearance.md); unresolved mapping or height data blocks physical release.",
         "",
         "Every city retains its design, simulator scenario, map, engineering review layers,",
         "validation summaries, operations asset index, acceptance report, and integrity",
@@ -178,7 +181,7 @@ def main() -> int:
         "[`engineering-batch-summary-aleppo-amman.json`](engineering-batch-summary-aleppo-amman.json)",
         "is explicitly scoped to those two cities and is not catalogue-wide evidence.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Planning package / open gates | Depot requirements |",
+        "| City | Train family | Lines | Stations | Route km | Fleet | Routing demand / population access | Electrical screen | Planning package / open gates | Depot requirements |",
         "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *public_rows,
         "",
@@ -188,7 +191,7 @@ def main() -> int:
         "inspection. It is excluded from the public programme, portfolio, national",
         "briefs, reader-book city evidence, and front-page examples.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Planning package / open gates | Depot requirements |",
+        "| City | Train family | Lines | Stations | Route km | Fleet | Routing demand / population access | Electrical screen | Planning package / open gates | Depot requirements |",
         "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *comparison_rows,
         "",

@@ -1,0 +1,130 @@
+{
+  "city": "hoima",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.707,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 128906.99068272114,
+    "catchments": [
+      {
+        "covered_population_2020": 17510.99395763874,
+        "fraction_of_raster_population": 0.13584208168150136,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 39327.231912732124,
+        "fraction_of_raster_population": 0.3050822279260887,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 51538.93955338001,
+        "fraction_of_raster_population": 0.39981493075292435,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 69917.02817988396,
+        "fraction_of_raster_population": 0.5423835263672455,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 84502.96299254894,
+        "fraction_of_raster_population": 0.6555343705178577,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 200000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 31.4201,
+        "north": 1.4995,
+        "south": 1.3643,
+        "west": 31.2849
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "5654ed33da17778c6e40d3c924092bcfe5304d5ddff11672652c11a63fbbd25f",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.000833333330007675,
+        0.0008333333299299883
+      ],
+      "source_sha256": "5a8afb30489c67c5421ad9127c6c35b917d041574337fa0a07e769fdf6556c07",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/UGA/uga_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 10,
+    "valid_pixels": 26406
+  },
+  "population_source_country": "UG",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Hoima/design.toml": "4d88832aa673f51ae3cb58b57be6144e1768dd16abfda37982ccfc482c4fbd57",
+    "cities/catalogue/east-africa/Uganda/Hoima/engineering/access/population-pixels.npz.gz": "5654ed33da17778c6e40d3c924092bcfe5304d5ddff11672652c11a63fbbd25f",
+    "cities/catalogue/east-africa/Uganda/Hoima/engineering/access/population-source.json": "379defa49a5b62414e6c2c8b50f617dced561a6e190ece94b8e0aabf8077fdcb",
+    "cities/catalogue/east-africa/Uganda/Hoima/hoima.design-quality.yaml": "ef1df19f969b62d78119ef710158429cb913a3b1e734ca448e2fe63d0d70502f",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "city": "al-kharj",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.502,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 300849.79246377945,
+    "catchments": [
+      {
+        "covered_population_2020": 29706.67905521393,
+        "fraction_of_raster_population": 0.09874256123607078,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 71598.32245922089,
+        "fraction_of_raster_population": 0.23798694316148117,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 104846.68569946289,
+        "fraction_of_raster_population": 0.34850177173409824,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 172020.98247289658,
+        "fraction_of_raster_population": 0.5717836168811946,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 208496.33460235596,
+        "fraction_of_raster_population": 0.6930246914744264,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 42756,
+    "planning_city_population": 400000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 47.4206,
+        "north": 24.2547,
+        "south": 24.0565,
+        "west": 47.2034
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "fe457e51309dc4d57a6359f00906d454e31f28d148d805852b6cf683dff8a446",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300019752,
+        0.0008333333300190615
+      ],
+      "source_sha256": "68e6da9516b80cc242760f996776a169c70a1cc03fc0996bc0953ca91853cce0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/SAU/sau_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 25,
+    "valid_pixels": 19124
+  },
+  "population_source_country": "SA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/al-kharj.design-quality.yaml": "3d0772fdf40817f8a03b16620120d2dcad6b68844161dfdbaedd69d664cafd32",
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/design.toml": "56d72295db2f0965f573e870d38b30559b981dd134d8be966d3e33066ceb3aa9",
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/access/population-pixels.npz.gz": "fe457e51309dc4d57a6359f00906d454e31f28d148d805852b6cf683dff8a446",
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/access/population-source.json": "4f825a35a8b5fe7c194f140baaa57624b457e16b05083310598f5749a2772e54",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

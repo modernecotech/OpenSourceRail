@@ -1,0 +1,106 @@
+{
+  "city": "quelimane",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.0,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 337461.6190841794,
+    "catchments": [
+      {
+        "covered_population_2020": 20107.753549575806,
+        "fraction_of_raster_population": 0.05958530515009457,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 46325.77671909332,
+        "fraction_of_raster_population": 0.1372771719782966,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 62395.409536361694,
+        "fraction_of_raster_population": 0.18489631415179464,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 100703.65908050537,
+        "fraction_of_raster_population": 0.2984151482287085,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 138385.20394086838,
+        "fraction_of_raster_population": 0.4100768683455773,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 3727,
+    "planning_city_population": 350000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 36.9924,
+        "north": -17.7795,
+        "south": -17.9777,
+        "west": 36.7842
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "dc238457644361e766dce88610b86535542981f972981b594fbeac063d3d0578",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299858782,
+        0.0008333333300132128
+      ],
+      "source_sha256": "6b99b086320c15e0ab2baa0305ee1f6687ce7477bab6ee8404106a5d4b580c43",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/MOZ/moz_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 5,
+    "valid_pixels": 55535
+  },
+  "population_source_country": "MZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "8f54e86df643fa4431f50c9ce9e91aaf6a28929662a7ffa5b51bf4d68bbc4844",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-pixels.npz.gz": "dc238457644361e766dce88610b86535542981f972981b594fbeac063d3d0578",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-source.json": "1e11aecfacc04ed739f73d99d45316a28f90e304e0c352dcf3c31565e2b42adb",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.design-quality.yaml": "ee13c4e116e83c73d6dffe56958a6e461ad00dac43c7efe840b7a8c7606c4a90",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 1,
+    "line_pair_count": 0,
+    "maximum_required_transfers": 0,
+    "pairs": [],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

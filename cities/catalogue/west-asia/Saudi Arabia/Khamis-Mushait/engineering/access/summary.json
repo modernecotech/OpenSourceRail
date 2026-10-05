@@ -1,0 +1,134 @@
+{
+  "city": "khamis-mushait",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.364,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 524230.6232070923,
+    "catchments": [
+      {
+        "covered_population_2020": 50861.58458805084,
+        "fraction_of_raster_population": 0.09702139160984966,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 117363.14426493645,
+        "fraction_of_raster_population": 0.2238769332988265,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 169304.01664566994,
+        "fraction_of_raster_population": 0.3229571283148562,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 295811.1766707897,
+        "fraction_of_raster_population": 0.564276796462408,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 356509.7767879963,
+        "fraction_of_raster_population": 0.6800628597523967,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 36420,
+    "planning_city_population": 600000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 42.8336,
+        "north": 18.4055,
+        "south": 18.2073,
+        "west": 42.6248
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "3659f97f2995711276611eb79790ac04eae70302b996c74df9cbd948b33eb142",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300019752,
+        0.0008333333300190615
+      ],
+      "source_sha256": "68e6da9516b80cc242760f996776a169c70a1cc03fc0996bc0953ca91853cce0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/SAU/sau_ppp_2020_constrained.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 23,
+    "valid_pixels": 23318
+  },
+  "population_source_country": "SA",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/design.toml": "6a55b916b108b8739792ba955052e9c2c6846ad041c3eda61d49f42892681d49",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-pixels.npz.gz": "3659f97f2995711276611eb79790ac04eae70302b996c74df9cbd948b33eb142",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-source.json": "973f89c05af63c74e2bd1992bfbd5fa1b81e824a6ab4de60a331e1c21b496756",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/khamis-mushait.design-quality.yaml": "1830ccb2114b6641d659f9a522edbaf77c0041faaca0d74b807a163aed8711a4",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1"
+      ],
+      [
+        "line-2"
+      ],
+      [
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.0,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 0,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      }
+    ],
+    "reachable_line_pair_fraction": 0.0,
+    "reachable_with_at_most_two_transfers_fraction": 0.0
+  }
+}

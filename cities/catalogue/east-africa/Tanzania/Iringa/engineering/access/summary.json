@@ -1,0 +1,130 @@
+{
+  "city": "iringa",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.507,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 198016.79148690403,
+    "catchments": [
+      {
+        "covered_population_2020": 29552.50615656376,
+        "fraction_of_raster_population": 0.1492424250219115,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 69604.17162770033,
+        "fraction_of_raster_population": 0.35150641066873184,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 101463.70098441839,
+        "fraction_of_raster_population": 0.5123994799760644,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 146917.84866148233,
+        "fraction_of_raster_population": 0.7419464155452637,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 162218.55488687754,
+        "fraction_of_raster_population": 0.8192161567146995,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 1,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 35.7582,
+        "north": -7.703,
+        "south": -7.8382,
+        "west": 35.6218
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "964dec0357e4303dff5dc1423503b05d851d14e9a4d7c6a4af4e507544eb3523",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333300104933,
+        0.0008333333299783215
+      ],
+      "source_sha256": "130234bb5e1dc9c83950b5f1ab65c5fb5c389b95af641921813d2d1f1f06c785",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/TZA/tza_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 11,
+    "valid_pixels": 26405
+  },
+  "population_source_country": "TZ",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Iringa/design.toml": "9016b6eebd491154427a56fd03e02bd48ace3369ce7d71fe206c7c7c9d81b5cf",
+    "cities/catalogue/east-africa/Tanzania/Iringa/engineering/access/population-pixels.npz.gz": "964dec0357e4303dff5dc1423503b05d851d14e9a4d7c6a4af4e507544eb3523",
+    "cities/catalogue/east-africa/Tanzania/Iringa/engineering/access/population-source.json": "3537b5bcd3386632fbe45c9d37a29126375e474369a79f5fd0bc8af3587f787e",
+    "cities/catalogue/east-africa/Tanzania/Iringa/iringa.design-quality.yaml": "6f5653b58261f40a05ff8b115fbddf748d35c0b7b5769fff3f36ddd453868132",
+    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
+    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
+    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+  },
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2",
+        "line-3"
+      ]
+    ],
+    "direct_transfer_fraction": 0.6666666666666666,
+    "line_count": 3,
+    "line_pair_count": 3,
+    "maximum_required_transfers": 2,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 2
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}
