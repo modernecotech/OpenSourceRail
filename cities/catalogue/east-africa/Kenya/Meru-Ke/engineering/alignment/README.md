@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`meru-ke-line1.aln.toml`](meru-ke-line1.aln.toml) | `line-1` | 13,573.2 m | 4 |
-| [`meru-ke-line2.aln.toml`](meru-ke-line2.aln.toml) | `line-2` | 5,187.6 m | 3 |
-| [`meru-ke-line3.aln.toml`](meru-ke-line3.aln.toml) | `line-3` | 9,213.2 m | 4 |
+| [`meru-ke-line1.aln.toml`](meru-ke-line1.aln.toml) | `line-1` | 11,477.0 m | 4 |
+| [`meru-ke-line2.aln.toml`](meru-ke-line2.aln.toml) | `line-2` | 3,221.9 m | 2 |
+| [`meru-ke-line3.aln.toml`](meru-ke-line3.aln.toml) | `line-3` | 8,080.1 m | 3 |
 
 ## Status
 

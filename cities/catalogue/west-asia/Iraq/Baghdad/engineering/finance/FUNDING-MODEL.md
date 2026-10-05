@@ -66,53 +66,53 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 | 4 | 1591.10 | 0.00 | 0.00 | 250.57 | 656.96 | 0.00 |
 | 5 | 1581.50 | 0.00 | 0.00 | 385.19 | 789.13 | 0.00 |
 | 6 | 1509.05 | 0.00 | 0.00 | 528.61 | 914.00 | 0.00 |
-| 7 | 84.11 | 110.92 | 85.17 | 619.41 | 932.86 | 0.04 |
-| 8 | 0.00 | 277.31 | 170.33 | 649.77 | 554.75 | 0.16 |
-| 9 | 0.00 | 388.24 | 170.33 | 656.08 | 433.10 | 0.33 |
-| 10 | 0.00 | 443.70 | 170.33 | 634.25 | 345.02 | 0.43 |
-| 11 | 0.00 | 443.70 | 170.33 | 592.25 | 295.18 | 0.46 |
-| 12 | 0.00 | 443.70 | 170.33 | 544.08 | 246.62 | 0.50 |
-| 13 | 0.00 | 443.70 | 170.33 | 496.24 | 199.50 | 0.55 |
-| 14 | 0.00 | 443.70 | 170.33 | 469.95 | 193.78 | 0.58 |
-| 15 | 0.00 | 443.70 | 170.33 | 469.60 | 196.23 | 0.58 |
-| 16 | 0.00 | 443.70 | 170.33 | 469.60 | 196.23 | 0.58 |
-| 17 | 0.00 | 443.70 | 170.33 | 469.60 | 196.23 | 0.58 |
-| 18 | 0.00 | 443.70 | 170.33 | 462.02 | 179.83 | 0.59 |
-| 19 | 0.00 | 443.70 | 170.33 | 432.70 | 139.94 | 0.63 |
-| 20 | 0.00 | 443.70 | 170.33 | 377.38 | 67.34 | 0.72 |
-| 21 | 0.00 | 443.70 | 170.33 | 290.77 | 1.92 | 0.94 |
-| 22 | 0.00 | 443.70 | 170.33 | 195.93 | 0.00 | 1.40 |
-| 23 | 0.00 | 443.70 | 170.33 | 93.39 | 0.00 | 2.93 |
-| 24 | 0.00 | 443.70 | 170.33 | 28.36 | 0.00 | 9.64 |
-| 25 | 0.00 | 443.70 | 170.33 | 9.75 | 0.00 | 28.03 |
-| 26 | 0.00 | 443.70 | 170.33 | 0.13 | 0.00 | 2081.27 |
-| 27 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 28 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 29 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 30 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 31 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 32 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 33 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 34 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 35 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 36 | 0.00 | 443.70 | 170.33 | 0.00 | 0.00 | — |
-| 37 | 0.00 | 221.85 | 85.17 | 0.00 | 0.00 | — |
+| 7 | 84.11 | 110.92 | 96.29 | 619.41 | 943.99 | 0.02 |
+| 8 | 0.00 | 277.31 | 192.58 | 649.77 | 577.00 | 0.13 |
+| 9 | 0.00 | 388.24 | 192.58 | 656.08 | 455.35 | 0.30 |
+| 10 | 0.00 | 443.70 | 192.58 | 634.25 | 367.27 | 0.40 |
+| 11 | 0.00 | 443.70 | 192.58 | 592.25 | 317.42 | 0.42 |
+| 12 | 0.00 | 443.70 | 192.58 | 544.08 | 268.87 | 0.46 |
+| 13 | 0.00 | 443.70 | 192.58 | 496.24 | 221.74 | 0.51 |
+| 14 | 0.00 | 443.70 | 192.58 | 469.95 | 216.03 | 0.53 |
+| 15 | 0.00 | 443.70 | 192.58 | 469.60 | 218.48 | 0.53 |
+| 16 | 0.00 | 443.70 | 192.58 | 469.60 | 218.48 | 0.53 |
+| 17 | 0.00 | 443.70 | 192.58 | 469.60 | 218.48 | 0.53 |
+| 18 | 0.00 | 443.70 | 192.58 | 462.02 | 202.08 | 0.54 |
+| 19 | 0.00 | 443.70 | 192.58 | 432.70 | 162.19 | 0.58 |
+| 20 | 0.00 | 443.70 | 192.58 | 377.38 | 89.58 | 0.67 |
+| 21 | 0.00 | 443.70 | 192.58 | 290.77 | 8.83 | 0.86 |
+| 22 | 0.00 | 443.70 | 192.58 | 195.93 | 0.00 | 1.28 |
+| 23 | 0.00 | 443.70 | 192.58 | 93.39 | 0.00 | 2.69 |
+| 24 | 0.00 | 443.70 | 192.58 | 28.36 | 0.00 | 8.86 |
+| 25 | 0.00 | 443.70 | 192.58 | 9.75 | 0.00 | 25.75 |
+| 26 | 0.00 | 443.70 | 192.58 | 0.13 | 0.00 | 1911.90 |
+| 27 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 28 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 29 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 30 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 31 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 32 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 33 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 34 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 35 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 36 | 0.00 | 443.70 | 192.58 | 0.00 | 0.00 | — |
+| 37 | 0.00 | 221.85 | 96.29 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 932.86 | 0.04 | 0.00 |
-| high capacity use | 914.00 | 0.14 | 0.00 |
-| capex plus 25 percent | 1172.52 | 0.03 | 0.00 |
-| demand minus 40 percent | 977.23 | -0.03 | 0.00 |
-| iqd depreciation 35 percent | 800.33 | 0.04 | 0.00 |
-| commissioning delay two years | 954.96 | 0.04 | 0.00 |
-| china credit unavailable | 874.02 | 0.04 | 17.30 |
-| four year bullet bonds | 1726.02 | 0.02 | 0.00 |
-| government payment delay six months | 1114.19 | 0.04 | 14.34 |
-| interest plus three points | 1123.19 | 0.03 | 0.00 |
-| combined downside | 1194.09 | -0.02 | 0.00 |
+| base low demand | 943.99 | 0.02 | 0.00 |
+| high capacity use | 914.00 | 0.13 | 0.00 |
+| capex plus 25 percent | 1183.64 | 0.02 | 0.00 |
+| demand minus 40 percent | 988.36 | -0.05 | 0.00 |
+| iqd depreciation 35 percent | 800.33 | 0.02 | 0.00 |
+| commissioning delay two years | 966.08 | 0.02 | 0.00 |
+| china credit unavailable | 874.02 | 0.03 | 17.30 |
+| four year bullet bonds | 1737.14 | 0.01 | 0.00 |
+| government payment delay six months | 1125.32 | 0.02 | 14.34 |
+| interest plus three points | 1134.31 | 0.02 | 0.00 |
+| combined downside | 1202.33 | -0.03 | 0.00 |
 
 ## Assumptions and evidence
 
@@ -143,7 +143,7 @@ The base above withholds all fares until every capital milestone. This separate 
 
 Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.
 
-First / last planned opening: month 40 / 76 from financial close (month zero). City additional funding requirement: USD 5,157.02 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
+First / last planned opening: month 40 / 76 from financial close (month zero). City additional funding requirement: USD 5,509.68 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
 
 | Line | Opening month | Revenue / variable OPEX share |
 |---|---:|---:|

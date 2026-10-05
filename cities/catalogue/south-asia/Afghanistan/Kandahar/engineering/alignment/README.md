@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kandahar-line1.aln.toml`](kandahar-line1.aln.toml) | `line-1` | 23,123.7 m | 9 |
-| [`kandahar-line2.aln.toml`](kandahar-line2.aln.toml) | `line-2` | 16,492.7 m | 7 |
-| [`kandahar-line3.aln.toml`](kandahar-line3.aln.toml) | `line-3` | 13,272.1 m | 5 |
+| [`kandahar-line1.aln.toml`](kandahar-line1.aln.toml) | `line-1` | 17,667.1 m | 6 |
+| [`kandahar-line2.aln.toml`](kandahar-line2.aln.toml) | `line-2` | 14,053.6 m | 5 |
+| [`kandahar-line3.aln.toml`](kandahar-line3.aln.toml) | `line-3` | 10,915.1 m | 5 |
 
 ## Status
 

@@ -1,16 +1,22 @@
 slug: gaza-city
 pass: true
 metrics:
-  total_route_m: 38834.9
+  total_route_m: 28222.1
   n_lines: 3
-  n_stations: 15
-  anchor_hit_rate: 0.800
-  high_demand_coverage: 0.617
+  n_stations: 11
+  anchor_hit_rate: 0.818
+  high_demand_coverage: 0.438
   civil_mix_m:
-    at_grade: 36349.6
-    elevated: 2485.3
-    bridge:   0.0
-  elevated_fraction: 0.064
+    at_grade: 6853.2
+    elevated: 21224.1
+    bridge:   144.9
+  elevated_fraction: 0.757
+  viaduct_products_m:
+    osr_pi20_pi25: 21224.1
+    osr_us:      0.0
+    special:     144.9
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

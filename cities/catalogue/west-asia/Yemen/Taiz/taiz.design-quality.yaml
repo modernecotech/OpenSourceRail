@@ -1,16 +1,22 @@
 slug: taiz
 pass: true
 metrics:
-  total_route_m: 42791.9
+  total_route_m: 37877.3
   n_lines: 3
-  n_stations: 18
-  anchor_hit_rate: 0.833
-  high_demand_coverage: 0.653
+  n_stations: 17
+  anchor_hit_rate: 0.706
+  high_demand_coverage: 0.426
   civil_mix_m:
-    at_grade: 41622.8
-    elevated: 1169.1
-    bridge:   0.0
-  elevated_fraction: 0.027
+    at_grade: 8205.8
+    elevated: 29514.9
+    bridge:   156.6
+  elevated_fraction: 0.783
+  viaduct_products_m:
+    osr_pi20_pi25: 29514.9
+    osr_us:      0.0
+    special:     156.6
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

@@ -1,16 +1,22 @@
 slug: tangier
 pass: true
 metrics:
-  total_route_m: 156573.3
+  total_route_m: 136586.8
   n_lines: 5
-  n_stations: 52
-  anchor_hit_rate: 0.212
-  high_demand_coverage: 0.581
+  n_stations: 49
+  anchor_hit_rate: 0.224
+  high_demand_coverage: 0.338
   civil_mix_m:
-    at_grade: 145769.3
-    elevated: 10804.1
-    bridge:   0.0
-  elevated_fraction: 0.069
+    at_grade: 11548.3
+    elevated: 123537.7
+    bridge:   1500.8
+  elevated_fraction: 0.915
+  viaduct_products_m:
+    osr_pi20_pi25: 123537.7
+    osr_us:      0.0
+    special:     1500.8
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

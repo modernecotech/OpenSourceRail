@@ -1,16 +1,22 @@
 slug: kenitra
 pass: true
 metrics:
-  total_route_m: 60065.1
+  total_route_m: 50515.8
   n_lines: 3
-  n_stations: 24
-  anchor_hit_rate: 0.667
-  high_demand_coverage: 0.662
+  n_stations: 19
+  anchor_hit_rate: 0.737
+  high_demand_coverage: 0.598
   civil_mix_m:
-    at_grade: 59765.1
-    elevated: 300.0
-    bridge:   0.0
-  elevated_fraction: 0.005
+    at_grade: 9687.8
+    elevated: 40043.8
+    bridge:   784.3
+  elevated_fraction: 0.808
+  viaduct_products_m:
+    osr_pi20_pi25: 40043.8
+    osr_us:      0.0
+    special:     784.3
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

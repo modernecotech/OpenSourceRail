@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`arish-line1.aln.toml`](arish-line1.aln.toml) | `line-1` | 12,932.8 m | 5 |
-| [`arish-line2.aln.toml`](arish-line2.aln.toml) | `line-2` | 4,327.6 m | 3 |
+| [`arish-line1.aln.toml`](arish-line1.aln.toml) | `line-1` | 8,462.7 m | 3 |
+| [`arish-line2.aln.toml`](arish-line2.aln.toml) | `line-2` | 1,957.4 m | 2 |
 
 ## Status
 

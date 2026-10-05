@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`duhok-line1.aln.toml`](duhok-line1.aln.toml) | `line-1` | 18,535.9 m | 8 |
-| [`duhok-line2.aln.toml`](duhok-line2.aln.toml) | `line-2` | 18,319.8 m | 7 |
-| [`duhok-line3.aln.toml`](duhok-line3.aln.toml) | `line-3` | 20,428.0 m | 7 |
+| [`duhok-line1.aln.toml`](duhok-line1.aln.toml) | `line-1` | 16,578.0 m | 7 |
+| [`duhok-line2.aln.toml`](duhok-line2.aln.toml) | `line-2` | 16,597.2 m | 7 |
+| [`duhok-line3.aln.toml`](duhok-line3.aln.toml) | `line-3` | 18,430.5 m | 6 |
 
 ## Status
 

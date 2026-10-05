@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`faisalabad-line1.aln.toml`](faisalabad-line1.aln.toml) | `line-1` | 32,259.4 m | 12 |
-| [`faisalabad-line2.aln.toml`](faisalabad-line2.aln.toml) | `line-2` | 22,906.6 m | 8 |
-| [`faisalabad-line3.aln.toml`](faisalabad-line3.aln.toml) | `line-3` | 23,068.2 m | 8 |
-| [`faisalabad-line4.aln.toml`](faisalabad-line4.aln.toml) | `line-4` | 22,795.9 m | 8 |
-| [`faisalabad-line5.aln.toml`](faisalabad-line5.aln.toml) | `line-5` | 24,748.2 m | 9 |
-| [`faisalabad-line6.aln.toml`](faisalabad-line6.aln.toml) | `line-6` | 43,938.3 m | 15 |
+| [`faisalabad-line1.aln.toml`](faisalabad-line1.aln.toml) | `line-1` | 26,922.5 m | 8 |
+| [`faisalabad-line2.aln.toml`](faisalabad-line2.aln.toml) | `line-2` | 19,565.3 m | 7 |
+| [`faisalabad-line3.aln.toml`](faisalabad-line3.aln.toml) | `line-3` | 19,586.0 m | 8 |
+| [`faisalabad-line4.aln.toml`](faisalabad-line4.aln.toml) | `line-4` | 20,927.4 m | 7 |
+| [`faisalabad-line5.aln.toml`](faisalabad-line5.aln.toml) | `line-5` | 24,136.4 m | 7 |
+| [`faisalabad-line6.aln.toml`](faisalabad-line6.aln.toml) | `line-6` | 39,189.3 m | 14 |
 
 ## Status
 

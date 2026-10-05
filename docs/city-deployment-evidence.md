@@ -13,10 +13,10 @@ finish maintenance, and climate-informed movement calculations.
 
 ## Soil inputs used for civil planning
 
-The retained catalogue extraction covers **67,033 scope locations**: all
+The historical extraction before the current core-layout regeneration covered **67,033 scope locations**: all
 **10,215 station features** and **10,597 civil segments**, using 54,594 distinct
-coordinates. Complete profiles exist at 64,805 locations; 2,228 have missing
-values, spread across 126 cities. Repeated coordinates at shared scope boundaries
+coordinates. That extraction had complete profiles at 64,805 locations; 2,228 had missing
+values, spread across 126 cities. Current geometry and soil samples are bound together in each city’s `engineering/soil/summary.json`; historical coverage totals do not describe the regenerated layouts. Repeated coordinates at shared scope boundaries
 are sampled once and retained against each applicable station or segment.
 
 [OpenLandMap soilDB](https://github.com/openlandmap/soildb) supplies shallow

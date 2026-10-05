@@ -139,7 +139,7 @@ The original procurement allocation assigns USD 5.831bn equivalent locally. This
 
 ## Operating organisation and digital management
 
-The latest operating establishment is 3,430 FTE with IQD 80.292bn annual loaded payroll, replacing the original 2,184 FTE / IQD 18.125bn allowance. It includes OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. It remains a planning workload/roster model; legal duties, appointments and competence require acceptance. Construction and factory populations are priced separately as explained above, with measured work hours, crew mixes and throughput still required.
+The latest operating establishment is 3,430 FTE with IQD 80.292bn annual loaded payroll, replacing the original 3,217 FTE / IQD 47.044bn allowance. It includes OCC/remote assistance, fleet maintenance, infrastructure/energy, stations, passenger service, administration and training. It remains a planning workload/roster model; legal duties, appointments and competence require acceptance. Construction and factory populations are priced separately as explained above, with measured work hours, crew mixes and throughput still required.
 
 | Operating role | Required FTE | Wage grade |
 | --- | --- | --- |
@@ -185,20 +185,20 @@ Shift compression now excludes fixed curing/bonding/inspection holds and the add
 
 Funding interruptions halt procurement/construction/production and defer invoices, adding local remobilisation and carrying/prolongation costs. Recovered domestic placement and delayed export credit are conditional on re-placement; permanent refusal has **no opening or debt-clearance date**, and is never filled by an automatic government or gap-loan replacement. The separate first-section study uses 14.034 km and five actual line-1 stations, 16 already-planned six-car trains at six-minute headways, independent turnbacks/charging/maintenance and USD 29.96m extra capital. Conditional section service is month 36, with surveyed demand and physical acceptance still required; the full 762-train baseline remains unchanged. Earlier small-section fares alone do not establish better finance: the study includes advanced invoices, additional support costs, phase demand deducted from later full-line receipts, and native-currency reserves/debt.
 
-Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD 22.799tn cumulative uncovered cash** and **IQD 4.000tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
+Combined delay-cost cases add extended staffing, supervision, carrying, storage/insurance and construction prolongation allowances without buying baseline crew-months twice. The financial downside ladder tests 30% fewer paid trips, 25% lower retail/advertising receipts, 5% annual invoice escalation, 7% rail OPEX growth, no assumed green/grant/rights enhancements, core rates two percentage points higher and an 8% IQD gap facility limited to IQD 4tn. The joint case leaves **IQD 27.732tn cumulative uncovered cash** and **IQD 4.000tn terminal gap debt**. Uncovered cash is a missing funding requirement; it is not an additional government contribution or secured credit. Reported repayment in such a case is conditional on filling that gap. The [physical qualification register](engineering/delivery-risk/qualification-register.csv) remains entirely not demonstrated; no model run supplies measured production/civil evidence or lender commitments.
 
 | Scenario | First/full month | Peak IQD gap tn | Interest/fees USD eq bn | Debt cleared month |
 | --- | --- | --- | --- | --- |
-| Baseline | 40/76 | 3.843 | 4.658 | 286 |
-| Faster civil; retained starts | 40/76 | 3.847 | 4.660 | 286 |
-| Earliest civil; original cycles | 40/76 | 4.194 | 4.801 | 288 |
-| Earliest civil; faster cycles | 40/76 | 4.466 | 4.911 | 289 |
-| 75% availability, costed | 42/83 | 4.055 | 4.722 | 289 |
-| 75% availability + test shift | 42/83 | 4.063 | 4.727 | 289 |
-| 75% availability + all stages | 40/76 | 3.918 | 4.696 | 287 |
-| Temporary first-article facility | 36/76 | 3.775 | 4.678 | 285 |
-| Combined delays, costed | 53/97 | 4.541 | 4.829 | 297 |
-| Joint downside | 53/97 | 4.000 | 14.808 | Unfunded |
+| Baseline | 40/76 | 4.371 | 4.906 | 303 |
+| Faster civil; retained starts | 40/76 | 4.375 | 4.907 | 303 |
+| Earliest civil; original cycles | 40/76 | 4.741 | 5.040 | 305 |
+| Earliest civil; faster cycles | 40/76 | 5.025 | 5.147 | 307 |
+| 75% availability, costed | 42/83 | 4.587 | 4.971 | 306 |
+| 75% availability + test shift | 42/83 | 4.600 | 4.977 | 307 |
+| 75% availability + all stages | 40/76 | 4.495 | 4.958 | 305 |
+| Temporary first-article facility | 36/76 | 4.323 | 4.926 | 302 |
+| Combined delays, costed | 53/97 | 5.057 | 5.080 | 314 |
+| Joint downside | 53/97 | 4.000 | 14.810 | Unfunded |
 
 ![Baghdad project twin](engineering/screenshots/baghdad-project-twin.png)
 
@@ -288,7 +288,7 @@ These fare sensitivities retain annual 5% fare/OPEX/income increases and variabl
 
 ## Early deficits and additional financing
 
-The independent flat price reconstruction requires USD 5.610bn gross early additional cash and retains USD 4.018bn later. Their difference is USD 1591.297m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
+The independent flat price reconstruction requires USD 5.963bn gross early additional cash and retains USD 3.662bn later. Their difference is USD 2300.383m net nominal deficit before pricing gap finance. These figures cannot be added to construction capital as though they were new infrastructure. Later revenue cannot fund an earlier payment without a priced and available facility.
 
 The candidate replaces eligible ordinary capital bonds with IQD green debt at 4% plus arrangement and 0.5% annual guarantee charges; it also tests an uncommitted USD 25m equivalent climate grant, USD 300m equivalent net development rights and USD 25m equivalent annual additional net local receipts. A green label alone changes no coupon. Grants replace eligible domestic capital borrowing; guarantees enhance credit rather than provide cash. Supplemental IQD credit at 2% and a 0.5% draw fee is capped at IQD 13tn outstanding, not treated as proven market capacity. All these conditional sources require legal, donor, investor and valuation evidence.
 
@@ -296,39 +296,39 @@ Additional routes to qualify include climate/renewable energy grants or concessi
 
 | Financing and pricing sensitivity | Peak gap IQD tn | Uncovered IQD tn | Terminal gap IQD tn |
 | --- | --- | --- | --- |
-| blended candidate | 7.187 | 0.000 | 3.797 |
-| commercial gap credit | 13.000 | 16.781 | 13.000 |
-| concessional gap credit | 9.347 | 0.000 | 6.640 |
-| fare 5pct flat costs elastic | 3.567 | 0.000 | 0.000 |
-| fare 5pct flat costs fixed demand | 2.974 | 0.000 | 0.000 |
-| fare 5pct opex 5pct | 3.767 | 0.000 | 0.000 |
-| fare 5pct opex 5pct income 2pct | 4.657 | 0.000 | 0.000 |
-| fare 5pct opex 5pct rents indexed | 3.649 | 0.000 | 0.000 |
-| fare 5pct opex 7pct | 4.757 | 0.000 | 0.000 |
-| fixed fare 5pct opex | 13.000 | 6.823 | 13.000 |
-| green concessional only | 8.463 | 0.000 | 6.069 |
-| green label only | 0.000 | 7.293 | 0.000 |
-| unfunded reference | 0.000 | 7.293 | 0.000 |
-| variable fare 5pct opex 5pct | 3.607 | 0.000 | 0.000 |
-| zero cost liquidity bound | 7.293 | 0.000 | 2.069 |
+| blended candidate | 7.784 | 0.000 | 5.091 |
+| commercial gap credit | 13.000 | 17.914 | 13.000 |
+| concessional gap credit | 9.950 | 0.000 | 7.934 |
+| fare 5pct flat costs elastic | 3.837 | 0.000 | 0.000 |
+| fare 5pct flat costs fixed demand | 3.178 | 0.000 | 0.000 |
+| fare 5pct opex 5pct | 4.256 | 0.000 | 0.000 |
+| fare 5pct opex 5pct income 2pct | 5.439 | 0.000 | 0.000 |
+| fare 5pct opex 5pct rents indexed | 4.071 | 0.000 | 0.000 |
+| fare 5pct opex 7pct | 5.786 | 0.000 | 0.000 |
+| fixed fare 5pct opex | 13.000 | 9.741 | 13.000 |
+| green concessional only | 9.085 | 0.000 | 7.363 |
+| green label only | 0.000 | 7.751 | 0.000 |
+| unfunded reference | 0.000 | 7.751 | 0.000 |
+| variable fare 5pct opex 5pct | 4.028 | 0.000 | 0.000 |
+| zero cost liquidity bound | 7.751 | 0.000 | 2.990 |
 
 ## Rail, property, energy and industrial financing redesign
 
 The [twelve-case financing redesign](engineering/financing-redesign/README.md) tests opening-linked principal, longer civil amortisation, a 15-year total insured green tenor and USD 1bn-equivalent **total** station rights replacing USD 300m, plus three retained viaduct-rental variants. Separate rail, solar, factory and developer monthly/native-currency accounts cancel PPA payments, train invoices, plant capacity fees and rights transfers on consolidation. The rental variants add a fifth borrower with zero extra operating-gap cap and no unapproved transfers to rail. Six-month placement envelopes and loan-vintage dates accompany every borrower. Fares/kiosks/advertising remain included; no future national order, surplus-power sale or unawarded climate grant services the integrated case.
 
-The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD 6.589tn**, cumulative missing funding **IQD 0.000tn**, and resource NPV **USD -2.721bn**, or **USD -3.188bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
+The integrated sensitivity leaves peak aggregate IQD liquidity of **IQD 7.929tn**, cumulative missing funding **IQD 0.000tn**, and resource NPV **USD -2.906bn**, or **USD -3.372bn** after unverified public-land opportunity cost. Company cash balances and an assumed credit cap cannot establish bankability. Longer grace still pays interest, and changing finance terms leaves the core unlevered NPV unchanged.
 
-Government remains 25% of the original rail/energy/factory capital. Import cash/Chinese credit still split 50:50 in USD; other credit, equity, fares, rights and payments are IQD. Private property construction is an additional explicitly priced scope, with its own IQD debt and equity. Optional indexed availability payments add public obligations **outside** the 25% capital limit; resource NPV cancels those government transfers. The combined downside retains delayed openings, weaker fare/nonfare demand, inflation and restricted financing, and adds weaker property sales/rights: **IQD 41.844tn** remains missing. Fifteen station candidates and six 90-day evidence workstreams have no invented title, valuation, investor term or named owner.
+Government remains 25% of the original rail/energy/factory capital. Import cash/Chinese credit still split 50:50 in USD; other credit, equity, fares, rights and payments are IQD. Private property construction is an additional explicitly priced scope, with its own IQD debt and equity. Optional indexed availability payments add public obligations **outside** the 25% capital limit; resource NPV cancels those government transfers. The combined downside retains delayed openings, weaker fare/nonfare demand, inflation and restricted financing, and adds weaker property sales/rights: **IQD 46.788tn** remains missing. Fifteen station candidates and six 90-day evidence workstreams have no invented title, valuation, investor term or named owner.
 
 ## Iraqi mixed joint-stock holding and staged ordinary equity
 
 The [eighteen-case ordinary-equity study](engineering/equity/README.md) proposes a holding company with 100%-owned rail, energy, factory and station-development businesses, including retained viaduct premises. It replaces the prior subsidiary private equity rather than adding it twice. Government's original USD 1.970bn-equivalent cash remains 25% of original capital; converting it into shares creates **zero new money**. Same-price private subscriptions of USD 500m/1bn/2bn equivalent leave government ownership of 79.0%/65.3%/48.4%. IQD subscriptions, paid share registers, premium/dilution and fees are explicit. A secondary government share sale gives cash to the seller and zero to the company.
 
-The $1bn primary sensitivity requests six founder calls and a conditional later issue at month 60, with 2% fees. Monthly paid state capital constrains actual settlement; listing at that date is unproven. Against a matched tax-stressed holding reference, peak IQD liquidity falls from **4.352tn to 2.074tn**. Domestic principal waits for full-network opening. Subscription failure cannot silently expand agreed six-month capital-credit placements or draw operating rescue for construction: the next unfunded invoice is withheld and no opening is reported. Whole-programme subscription delay and joint downside have separate cash/debt ledgers. Government's USD cash and Chinese USD credit remain the import split; other money remains IQD.
+The $1bn primary sensitivity requests six founder calls and a conditional later issue at month 60, with 2% fees. Monthly paid state capital constrains actual settlement; listing at that date is unproven. Against a matched tax-stressed holding reference, peak IQD liquidity falls from **5.404tn to 2.525tn**. Domestic principal waits for full-network opening. Subscription failure cannot silently expand agreed six-month capital-credit placements or draw operating rescue for construction: the next unfunded invoice is withheld and no opening is reported. Whole-programme subscription delay and joint downside have separate cash/debt ledgers. Government's USD cash and Chinese USD credit remain the import split; other money remains IQD.
 
-The $1bn case's illustrative private equity return is **3.80% nominal IRR**, below the assumed 15% hurdle, with first dividend at month **299**. Dividends require profit, cleared debt, intact reserves and no missing cash; shares have no guaranteed redemption. Tax, depreciation, property inventory, factory impairment, retained earnings and internal-charge eliminations reconcile in pro-forma accounts. The base tax sensitivity avoids assumed group loss relief; a separate aggregate-profit proxy is explicitly unqualified. Resource NPV after land remains **USD -3.188bn**; changing financing does not create additional resources or financial feasibility.
+The $1bn case's illustrative private equity return is **2.75% nominal IRR**, below the assumed 15% hurdle, with first dividend at month **323**. Dividends require profit, cleared debt, intact reserves and no missing cash; shares have no guaranteed redemption. Tax, depreciation, property inventory, factory impairment, retained earnings and internal-charge eliminations reconcile in pro-forma accounts. The base tax sensitivity avoids assumed group loss relief; a separate aggregate-profit proxy is explicitly unqualified. Resource NPV after land remains **USD -3.372bn**; changing financing does not create additional resources or financial feasibility.
 
-Current Iraqi corporate/admission rules require an accepted mandate, legal/capital approvals, eligible audited business/accounts and actual investors. The 2019 liabilities restriction also needs entity-level assessment: the consolidated screening proxy flags **173 months** in the $1bn sensitivity. The structure therefore needs capitalisation/legal resolution before execution. Incorporated status, listing approval, public-land equity valuation and independent audit are all absent. Six additional source-bound ERP evidence packages cover legal/tax, mandate, subscriptions, accounts, governance and admission. Open licences are retained; no exclusive design valuation, national train order or uncontracted export income is assumed.
+Current Iraqi corporate/admission rules require an accepted mandate, legal/capital approvals, eligible audited business/accounts and actual investors. The 2019 liabilities restriction also needs entity-level assessment: the consolidated screening proxy flags **209 months** in the $1bn sensitivity. The structure therefore needs capitalisation/legal resolution before execution. Incorporated status, listing approval, public-land equity valuation and independent audit are all absent. Six additional source-bound ERP evidence packages cover legal/tax, mandate, subscriptions, accounts, governance and admission. Open licences are retained; no exclusive design valuation, national train order or uncontracted export income is assumed.
 
 ## Retained premises beneath suitable viaducts
 
@@ -336,9 +336,9 @@ The [commercial-space register, open unit plan, pilot and rental model](engineer
 
 The medium 100,000 m² scenario adds **USD 87.523m equivalent** of indexed fit-out capital. Leasing follows civil/rail readiness, rent-free periods, occupancy ramp, tenant turnover and arrears. Occupied/vacant maintenance, insurance, 12-year refurbishment, depreciation and tax are visible. Security deposits are liabilities backed by restricted cash; they supply no revenue, capital or dividends. Existing kiosks are unchanged and station buildings assumed sold cannot also generate rent. Additional under-viaduct land/rights cost is unverified; no free land value is asserted.
 
-Before-tax incremental rental resource NPV is **USD 19.166m**, with the lower-rent/prolonged-vacancy case **USD -38.539m**. In the wholly owned $1bn holding case, medium rents give private nominal IRR **4.02%**, first dividend month **287** and peak IQD liquidity **2.098tn**. Recurring rent adds value only after its resources/costs; it does not close the multibillion-dollar financial deficit.
+Before-tax incremental rental resource NPV is **USD 19.166m**, with the lower-rent/prolonged-vacancy case **USD -38.539m**. In the wholly owned $1bn holding case, medium rents give private nominal IRR **3.00%**, first dividend month **323** and peak IQD liquidity **2.555tn**. Recurring rent adds value only after its resources/costs; it does not close the multibillion-dollar financial deficit.
 
-The independent lender-policy comparison allows annual dividends with at least 1.30 historical/projected debt coverage, positive profit, completed capital, intact operating/tax/forward-service/renewal reserves and conservative leverage. These terms are unapproved and do not produce earlier distributions under the current tested assumptions: the non-rental first dividend remains **month 299**. A separately labelled final-cash diagnostic leaves actual accounts unchanged: proportional unrestricted terminal cash raises the original $1bn private IRR from 3.80% to **4.88%**, with no guaranteed redemption, unvalued asset sale or quoted share-exit price.
+The independent lender-policy comparison allows annual dividends with at least 1.30 historical/projected debt coverage, positive profit, completed capital, intact operating/tax/forward-service/renewal reserves and conservative leverage. These terms are unapproved and do not produce earlier distributions under the current tested assumptions: the non-rental first dividend remains **month 323**. A separately labelled final-cash diagnostic leaves actual accounts unchanged: proportional unrestricted terminal cash raises the original $1bn private IRR from 2.75% to **4.07%**, with no guaranteed redemption, unvalued asset sale or quoted share-exit price.
 
 Each pilot unit carries lease/meter/inspection/use fields, civil-parent links and five common physical hazard paths. Tenant fire, flooding, impact, blocked bearing/inspection access and utility faults can affect piers, spans and railway operation; controller redundancy provides no mitigation for these hazards. Six additional native ERP evidence drafts require actual site, civil/fire, market, quote, maintenance/lease and finance evidence before occupancy or construction release.
 
@@ -348,12 +348,12 @@ Base model average paid trip yield is IQD 1,317. At full steady operation, exist
 
 Low capacity use assumes 1,138,320 paid trips/day, not unique travellers or a demand survey. The proposed fare design should evaluate concession funding, student and low income access, commuter caps, transfer integration, peak/off peak tiers and collection costs before adopting a tariff. Neither a fare increase nor future kiosk rent places the early financing by itself.
 
-The base full network operating allowance totals USD 170.333m/year equivalent, before the separate inflation sensitivities. Existing maintenance includes a battery renewal reserve on a 12 year reference cycle and fixed asset renewal allowances; it is not an accepted lifecycle replacement plan. Do not add the same battery reserve as new CAPEX. Condition based renewal quantities, inflation, dedicated concession costs, tax and supplier maintenance terms need qualification.
+The base full network operating allowance totals USD 192.579m/year equivalent, before the separate inflation sensitivities. Existing maintenance includes a battery renewal reserve on a 12 year reference cycle and fixed asset renewal allowances; it is not an accepted lifecycle replacement plan. Do not add the same battery reserve as new CAPEX. Condition based renewal quantities, inflation, dedicated concession costs, tax and supplier maintenance terms need qualification.
 
 | Base steady annual OPEX | USD equivalent m |
 | --- | --- |
 | civil station depot maintenance | 92.788 |
-| labour | 13.943 |
+| labour | 36.188 |
 | residual grid energy | 0.000 |
 | rolling stock maintenance including battery renewal reserve | 51.206 |
 | signalling maintenance | 1.185 |
@@ -365,7 +365,7 @@ The requested paired sensitivity indexes fares, OPEX and income 5% annually from
 
 Variable pricing tests 40% of baseline trips at 1.25 times the standard fare and 60% at 0.90 times it, with separate demand response and the same capacity limit. If OPEX grows 7% while fares/income grow 5%, the model leaves **IQD 0.000tn uncovered cash** and **IQD 0.000tn terminal unpaid gap debt**. This sensitivity still needs additional financing before later surpluses; repayment remains conditional on that funding being available. Existing rent is flat unless the rental indexation sensitivity is chosen; new net rights/receipt targets are held nominal.
 
-The paired case's unlevered NPV is USD -3.077bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
+The paired case's unlevered NPV is USD -3.262bn at 13.4% nominal discount, excluding new grant/rights/net income targets and with un-escalated capital. Paying debt under a nominal model is not evidence of positive discounted project value. CAPEX escalation, renewal inflation, future FX, floating rates and surveyed demand remain material appraisal work.
 
 ![Fare and OPEX sensitivities](../finance/baghdad-fare-inflation-sensitivities.png)
 
@@ -375,14 +375,14 @@ Surplus first pays OPEX, scheduled principal, interest and fees, then debt servi
 
 | Repayment policy | All debt cleared month | Net saving vs buffered gap only USD eq m | Premium USD eq m |
 | --- | --- | --- | --- |
-| cost priority | 286 | 230.473 | 26.678 |
-| cost priority noncallable bonds | 365 | 87.961 | 5.559 |
-| cost priority zero premium | 285 | 265.185 | 0.000 |
+| cost priority | 303 | 168.132 | 21.169 |
+| cost priority noncallable bonds | 365 | 71.442 | 4.683 |
+| cost priority zero premium | 303 | 195.771 | 0.000 |
 | gap only buffered | 365 | 0.000 | 0.000 |
-| gap then core | 289 | 22.067 | 2.471 |
-| loans then bonds | 288 | 111.154 | 7.977 |
+| gap then core | 306 | 9.839 | 1.572 |
+| loans then bonds | 305 | 81.916 | 6.310 |
 
-Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 230.473m equivalent after premiums and clears debt in month 286 versus 365 for buffered gap only. Loans first saves USD 111.154m. All retain IQD 0.321tn operating buffer at the horizon.
+Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD 168.132m equivalent after premiums and clears debt in month 303 versus 365 for buffered gap only. Loans first saves USD 81.916m. All retain IQD 0.362tn operating buffer at the horizon.
 
 Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw ages 6/12/24 months respectively. Eligible vintages are oldest first, retaining instalments and shortening maturity. Calls, notice, compensation, tax and market buyback prices need actual terms. The noncallable case makes no early bond payments; cost ordering is a heuristic rather than a globally best solution. Savings are nominal finance costs, not principal savings or present value wealth. Month numbers run from financial close, with no calendar commencement date assumed.
 
@@ -405,32 +405,32 @@ The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entir
 
 ## Future national development
 
-Baghdad can establish manufacturing, maintenance, training, procurement and digital delivery capacity that later Iraqi cities can reuse. The existing catalogue contains 18 cities representing 29,491,199 planning residents, 3,581 trainsets and 15,582 vehicle modules across several standard families. These are proposed urban networks; national intercity rail and freight connections are a future feasibility topic, without routes, budgets, revenues or approvals in these totals.
+Baghdad can establish manufacturing, maintenance, training, procurement and digital delivery capacity that later Iraqi cities can reuse. The existing catalogue contains 18 cities representing 29,491,199 planning residents, 3,652 trainsets and 15,530 vehicle modules across several standard families. These are proposed urban networks; national intercity rail and freight connections are a future feasibility topic, without routes, budgets, revenues or approvals in these totals.
 
 | Future catalogue city | Planning population | Fleet family | Route km | Trainsets | City CAPEX USD eq m |
 | --- | --- | --- | --- | --- | --- |
 | Baghdad | 9,780,429 | metro-6car | 474.2 | 762 | 7,168.534 |
-| Basra | 3,955,000 | metro-6car | 305.4 | 450 | 3,114.674 |
-| Sulaymaniyah | 2,150,000 | metro-4car | 119.8 | 129 | 1,026.507 |
-| Erbil | 1,952,000 | metro-4car | 138.1 | 212 | 1,020.570 |
-| Mosul | 1,940,000 | metro-4car | 207.3 | 256 | 1,926.740 |
-| Kirkuk | 1,780,000 | metro-4car | 143.9 | 179 | 1,167.046 |
-| Najaf | 1,540,000 | metro-4car | 165.1 | 229 | 1,521.180 |
-| Karbala | 1,390,000 | metro-4car | 168.5 | 198 | 1,373.564 |
-| Nasiriyah | 705,000 | light-metro-3car | 51.1 | 147 | 538.681 |
-| Hillah | 700,000 | light-metro-3car | 57.9 | 125 | 461.207 |
-| Amarah | 660,000 | light-metro-3car | 46.6 | 101 | 433.015 |
-| Ramadi | 525,000 | light-metro-3car | 48.0 | 104 | 430.330 |
-| Baqubah | 470,000 | light-metro-3car | 60.9 | 130 | 479.224 |
-| Diwaniyah | 440,000 | light-metro-3car | 49.8 | 106 | 434.542 |
-| Kut | 410,000 | light-metro-3car | 46.4 | 101 | 426.622 |
-| Samawah | 373,770 | light-metro-3car | 50.4 | 108 | 415.341 |
-| Duhok | 360,000 | light-metro-3car | 57.3 | 122 | 518.450 |
-| Fallujah | 360,000 | light-metro-3car | 55.8 | 122 | 452.393 |
+| Basra | 3,955,000 | metro-6car | 268.0 | 396 | 4,733.790 |
+| Sulaymaniyah | 2,150,000 | metro-4car | 106.0 | 121 | 1,631.553 |
+| Erbil | 1,952,000 | metro-4car | 119.2 | 198 | 1,661.148 |
+| Mosul | 1,940,000 | metro-4car | 190.4 | 246 | 3,106.334 |
+| Kirkuk | 1,780,000 | metro-4car | 128.0 | 151 | 1,968.390 |
+| Najaf | 1,540,000 | metro-4car | 140.2 | 196 | 2,169.549 |
+| Karbala | 1,390,000 | metro-4car | 154.0 | 188 | 3,310.017 |
+| Nasiriyah | 705,000 | light-metro-3car | 43.0 | 136 | 830.408 |
+| Hillah | 700,000 | light-metro-3car | 52.3 | 161 | 809.252 |
+| Amarah | 660,000 | light-metro-3car | 40.9 | 130 | 817.343 |
+| Ramadi | 525,000 | light-metro-3car | 37.7 | 118 | 683.366 |
+| Baqubah | 470,000 | light-metro-3car | 52.6 | 164 | 850.661 |
+| Diwaniyah | 440,000 | light-metro-3car | 38.8 | 120 | 653.229 |
+| Kut | 410,000 | light-metro-3car | 41.9 | 131 | 793.032 |
+| Samawah | 373,770 | light-metro-3car | 41.7 | 133 | 690.584 |
+| Duhok | 360,000 | light-metro-3car | 51.6 | 162 | 789.021 |
+| Fallujah | 360,000 | light-metro-3car | 43.9 | 139 | 697.337 |
 
-Original catalogue city capital totals sum to USD 22.909bn. Adding one shared factory at USD 323.874m and its EPC at USD 22.671m produces **USD 23.255bn equivalent** nationally on that original basis. Original Baghdad capital already contains this same plant and EPC. Additional city capital beyond that original Baghdad reference is **USD 15.740bn**, with no second plant added. These national figures have not been repriced with Baghdad's new staffing, depot or upstream plants. Imported/local procurement in the generic national origin model is USD 5.453bn / USD 17.802bn; this is procurement composition, not a national loan programme.
+Current catalogue city capital totals sum to USD 33.364bn. Adding one shared factory at USD 769.581m and its EPC at USD 53.871m produces **USD 34.187bn equivalent** nationally on the catalogue basis. The Baghdad funding reference already contains USD 323.874m of plant and USD 22.671m of plant EPC. The national allowance uses the larger city-order envelope or module allowance. Future scope beyond that Baghdad reference totals **USD 26.672bn**, including only USD 476.906m of additional shared-plant/EPC allowance, with no second full plant added. Other cities now use current depot and staffing calculations; Baghdad's optional upstream plants remain separate sensitivities. Imported/local procurement in the generic national origin model is USD 7.046bn / USD 27.141bn; this is procurement composition, not a national loan programme.
 
-No national factory expansion or replacement, intercity connection, research/training institution, shared governance or additional capital acceleration is priced. Sizing by the largest city's module order is not proof of annual production capacity. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
+The additional national plant allowance is an unquoted planning envelope; the actual expansion, renewal and concurrent production programme remain unpriced. Intercity connections, research/training institutions, shared governance and capital acceleration also require separate budgets. Independent city-order factory plans do not prove simultaneous national throughput. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
 ### National industrial and institutional programme
 

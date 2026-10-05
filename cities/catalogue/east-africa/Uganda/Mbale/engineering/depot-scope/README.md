@@ -2,22 +2,24 @@
 
 Depot energy quantities reconciled: **yes**. Physical/cost/stabling closure: **open**.
 
-The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to storage on its own line. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.
+The adopted planning requirement stores the full line fleet in one line-local depot, with storage slots separate from workshop bays. See the [current line-depot requirements](../line-depots/README.md). The station/distributed-stabling candidate below remains an unaccepted diagnostic, not capacity credited to the adopted depot plan.
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-0176-0341-s014506 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0539-0355-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-2-0513-0369-s010251 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-3-0318-0463-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
-The equipment reference is an unapproved sensitivity using existing repository rates. It is not added to CAPEX; allowance inclusion and installed scope remain unverified.
+Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0539-0355-s000000 | line-1 | 15 | 585.0 | 735.0 | unverified |
-| line-1-0176-0341-s014506 | line-1 | 15 | 585.0 | 735.0 | unverified |
-| line-2-0075-0508-s000000 | line-2 | 14 | 546.0 | 686.0 | unverified |
-| line-2-0513-0369-s014439 | line-2 | 14 | 546.0 | 686.0 | unverified |
-| line-3-0318-0463-s000000 | line-3 | 7 | 273.0 | 343.0 | unverified |
-| line-3-0290-0295-s005200 | line-3 | 6 | 234.0 | 294.0 | unverified |
+| line-1-0539-0355-s000000 | line-1 | 9 | 351.0 | 441.0 | unverified |
+| line-1-0176-0341-s007376 | line-1 | 8 | 312.0 | 392.0 | unverified |
+| line-2-0075-0508-s000000 | line-2 | 11 | 429.0 | 539.0 | unverified |
+| line-2-0513-0369-s010251 | line-2 | 10 | 390.0 | 490.0 | unverified |
+| line-3-0318-0463-s000000 | line-3 | 5 | 195.0 | 245.0 | unverified |
+| line-3-0290-0295-s003592 | line-3 | 4 | 156.0 | 196.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

@@ -6,8 +6,6 @@
 
 OpenSourceRail is an open urban-rail reference platform for countries that want to retain design authority, software, fabrication, integration, operations and maintenance capability in-country. It connects city planning, GIS, CAD/IFC, simulation, project controls, local manufacturing, ERP, equipment supervision and assurance around the same city, asset and engineering-revision identities.
 
-This is not only a route visualizer, a train model or an operations dashboard. It is a reproducible **city → design → build → operate** workflow with source data, generators, applications, engineering models and verification evidence in one public repository.
-
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
 
@@ -27,7 +25,7 @@ This is not only a route visualizer, a train model or an operations dashboard. I
 | Operations | Deterministic Rust simulation and evaluators, OCC applications, observation-only supervision gateway, FUXA views, history/alarms, condition-to-maintenance cases and recovery-tested Workbench integration. |
 | Assurance | A fail-closed G0–G4 passport for every controlled engineering and owner/operator item; a reviewed standards registry; cross-domain control objectives; deterministic evidence hashes and change impact; explicit physical-test, independent-assessment and approval boundaries. |
 
-The modelled civil strategy prefers simple construction—**at least 70% at grade, at most 25% elevated and at most 5% bridge, with no tunnel in the upstream reference system**—and the terrain/water planner exposes departures. [Baghdad](cities/catalogue/west-asia/Iraq/Baghdad/README.md) uses a separate central elevated alignment policy to straighten radial routes and smooth ring connections; its current city summary reports the actual civil mix and revised costs.
+The city catalogue uses **elevated land sections in its controlled central study areas**, straight radial tangents and curved ring connections where suitable; mapped water crossings remain bridges. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
 
 ## Feature Highlights
 
@@ -110,7 +108,7 @@ These are implemented paths through the repository, not promises that simulation
 
 ### Scenario 5 — Rehearse degraded operation and recovery
 
-1. Run normal, peak, continuously degraded and recovery profiles against the full 108-train Samawah model using the [multi-day soak harness](docs/certification/software-soak-report.md).
+1. Run normal, peak, continuously degraded and recovery profiles against the current controlled Samawah scenario using the [multi-day soak harness](docs/certification/software-soak-report.md).
 2. Exercise shared battery/cabin thermal control: pack cooling, traction derate and protection take priority over comfort.
 3. Remove the network path. Stored plan plus sensor localisation may retain route intent only when two fresh, trusted inputs match exactly; disagreement holds.
 4. Rehearse corridor recovery from every-third-station sidings with the fail-held shunt-robot model, while retaining separation, route locking, detected points, speed supervision and emergency braking requirements.
@@ -150,17 +148,19 @@ These are captures of the installed simulation platform and generated engineerin
 
 ## The economic case
 
-The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified. The reference model uses about **$0.9M per 3-car light-metro trainset** (current build record: $885k) and **$60k per supported vehicle/car module** for a shared country factory; qualification, homologation, warranty and deployment are separate gates.
+The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified. The reference model uses about **$0.9M per 3-car light-metro trainset** (current build record: $885k) and **$60k per supported vehicle/car module** as a shared country factory module allowance. National factory capital uses the larger of that allowance and the largest physical city-order factory envelope; qualification, homologation, warranty and deployment are separate gates.
 
+<!-- GENERATED: portfolio economics -->
 For an illustrative **$100M OpenSourceRail scope**, the editable default comparison applies a 2.0× foreign-turnkey price with 90% requiring foreign currency or international capital:
 
 | Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
 |---|---:|---:|
 | Programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $75.5M | $20.0M |
-| External-capital requirement | **$24.5M** | **$180.0M** |
+| Value not requiring external capital | $79.3M | $20.0M |
+| External-capital requirement | **$20.7M** | **$180.0M** |
 
-In that scenario, the external-capital requirement is **$155.5M (86.4%)** lower before interest. Across the 265-city model, **about $205B—roughly 76% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+In that scenario, the external-capital requirement is **$159.3M (88.5%)** lower before interest. Across the 265-city model, **about $346B—roughly 79% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+<!-- END GENERATED: portfolio economics -->
 
 ## Run it
 

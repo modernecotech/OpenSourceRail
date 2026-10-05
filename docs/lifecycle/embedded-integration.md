@@ -135,7 +135,7 @@ station, depot, rolling-stock, switch and declared level-crossing assets.
 `--first-site --first-vehicle` deliberately limits the Samawah and Mosul local
 demonstrations to ten equipment positions each: five station views, four vehicle
 views and the first station's real switch. The all-city readiness compile reuses
-10,215 stations and 9,097 switches already in the asset registers. No generated
+the current station and switch identities already in the asset registers. No generated
 package includes a crossing until its city declares a stable `level-crossing`
 asset. Generic rules live in
 [generic.json](../../deployment/supervision/config/generic.json); city

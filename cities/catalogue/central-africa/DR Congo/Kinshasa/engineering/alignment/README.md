@@ -4,15 +4,15 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kinshasa-line1.aln.toml`](kinshasa-line1.aln.toml) | `line-1` | 39,726.1 m | 17 |
-| [`kinshasa-line2.aln.toml`](kinshasa-line2.aln.toml) | `line-2` | 36,303.0 m | 15 |
-| [`kinshasa-line3.aln.toml`](kinshasa-line3.aln.toml) | `line-3` | 33,945.8 m | 11 |
-| [`kinshasa-line4.aln.toml`](kinshasa-line4.aln.toml) | `line-4` | 35,537.9 m | 13 |
-| [`kinshasa-line5.aln.toml`](kinshasa-line5.aln.toml) | `line-5` | 52,817.0 m | 19 |
-| [`kinshasa-line6.aln.toml`](kinshasa-line6.aln.toml) | `line-6` | 42,311.2 m | 14 |
-| [`kinshasa-line7.aln.toml`](kinshasa-line7.aln.toml) | `line-7` | 41,604.8 m | 14 |
-| [`kinshasa-line8.aln.toml`](kinshasa-line8.aln.toml) | `line-8` | 35,879.8 m | 11 |
-| [`kinshasa-line9.aln.toml`](kinshasa-line9.aln.toml) | `line-9` | 84,007.0 m | 33 |
+| [`kinshasa-line1.aln.toml`](kinshasa-line1.aln.toml) | `line-1` | 32,412.1 m | 13 |
+| [`kinshasa-line2.aln.toml`](kinshasa-line2.aln.toml) | `line-2` | 30,636.8 m | 12 |
+| [`kinshasa-line3.aln.toml`](kinshasa-line3.aln.toml) | `line-3` | 30,514.1 m | 10 |
+| [`kinshasa-line4.aln.toml`](kinshasa-line4.aln.toml) | `line-4` | 26,943.3 m | 11 |
+| [`kinshasa-line5.aln.toml`](kinshasa-line5.aln.toml) | `line-5` | 47,615.4 m | 15 |
+| [`kinshasa-line6.aln.toml`](kinshasa-line6.aln.toml) | `line-6` | 38,864.1 m | 13 |
+| [`kinshasa-line7.aln.toml`](kinshasa-line7.aln.toml) | `line-7` | 37,289.8 m | 12 |
+| [`kinshasa-line8.aln.toml`](kinshasa-line8.aln.toml) | `line-8` | 34,492.0 m | 10 |
+| [`kinshasa-line9.aln.toml`](kinshasa-line9.aln.toml) | `line-9` | 73,490.1 m | 24 |
 
 ## Status
 

@@ -1,16 +1,22 @@
 slug: nablus
 pass: true
 metrics:
-  total_route_m: 71727.8
+  total_route_m: 60560.7
   n_lines: 3
-  n_stations: 24
-  anchor_hit_rate: 0.667
-  high_demand_coverage: 0.714
+  n_stations: 19
+  anchor_hit_rate: 0.579
+  high_demand_coverage: 0.411
   civil_mix_m:
-    at_grade: 70409.6
-    elevated: 1318.2
+    at_grade: 16846.3
+    elevated: 43714.4
     bridge:   0.0
-  elevated_fraction: 0.018
+  elevated_fraction: 0.722
+  viaduct_products_m:
+    osr_pi20_pi25: 43714.4
+    osr_us:      0.0
+    special:     0.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

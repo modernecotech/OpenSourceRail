@@ -2,7 +2,7 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `41b4d631f145f8eb90e19fcbf07537412505cb2d661f9156e99eed52dde0c8a7`
+- Design fingerprint: `492d3e5e1e6c179d25769c6aae1f364f58cf4932aa3034c668933e33bf5e9307`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**

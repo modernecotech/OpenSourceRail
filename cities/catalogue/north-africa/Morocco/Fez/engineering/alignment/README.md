@@ -4,10 +4,10 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`fez-line1.aln.toml`](fez-line1.aln.toml) | `line-1` | 22,346.5 m | 10 |
-| [`fez-line2.aln.toml`](fez-line2.aln.toml) | `line-2` | 20,339.7 m | 9 |
-| [`fez-line3.aln.toml`](fez-line3.aln.toml) | `line-3` | 19,754.2 m | 8 |
-| [`fez-line4.aln.toml`](fez-line4.aln.toml) | `line-4` | 51,984.5 m | 18 |
+| [`fez-line1.aln.toml`](fez-line1.aln.toml) | `line-1` | 18,883.4 m | 8 |
+| [`fez-line2.aln.toml`](fez-line2.aln.toml) | `line-2` | 15,062.6 m | 7 |
+| [`fez-line3.aln.toml`](fez-line3.aln.toml) | `line-3` | 17,336.8 m | 7 |
+| [`fez-line4.aln.toml`](fez-line4.aln.toml) | `line-4` | 40,916.5 m | 14 |
 
 ## Status
 

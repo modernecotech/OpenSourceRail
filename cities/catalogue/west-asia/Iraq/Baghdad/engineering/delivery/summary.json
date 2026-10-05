@@ -352,13 +352,13 @@
     }
   ],
   "design_release_ready": false,
-  "generator_sha256": "a7c05249b1c6f09f8600667bb82a005ac7c7ee3a6066ed527f4fc606c4fcc9c1",
+  "generator_sha256": "390b1f299170291a058e6b9f2cf047f492f2380616335690952555b673952bc2",
   "input_sha256": {
     "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "766cada099ccfa7000384e2cc461d343df6e8d202f3708d4163466d7ad9ab20c",
     "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "ae82b6cf9fa818442a4f220cc6860c6c72a148ffe1bfa02b7882414f063dc021",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "d4cec6b915752767072a68a9effab83aad2fc0331ad189da459b6f2de729b42d",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "d6bf0ca646064555e283618893d16707d8bfb0580d74091f1031dea5c4b7f4cb",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/summary.json": "6cb88dcece6573c1fe526b85543395e2cdca44a2d48b26a3b7a399124832413e",
-    "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations-manifest.json": "48a2bd5a85e0110b9fb6b6d49cb975869c08c37e9a35b43a5b7c955a50ff7384",
+    "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations-manifest.json": "8eaf9defeedd23661cc488deda88b0ce6ad7b882d3ba4de71c51e81816db3d9c",
     "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json": "2cdcc7db5fed7ec2c34b52a14fde0a914407e1077715e34eeb87cd80e8a90c4a",
     "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json": "eb8181a99ad409069aeb940d8c3ce4fd402c844a75fc294b9ba40a03db135401",
     "design/component-catalogue/src/osr_mech/civil/continuity.py": "9041270819c1e166c8e3b02a44fc8203e9bca837ce875a7037953b666cd6be59",
@@ -368,7 +368,7 @@
     "lib/templates/maintenance-schedule.toml": "a3b41173383d272949a3857fb4d8621348ff34ffc3d92cce5a2f31183e318706",
     "lib/templates/manufacturing-schedule.toml": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa",
     "lib/templates/workforce.toml": "90a5be91161dce010a1b5c88a31e2bfc9590af56b8953532e7c712c42b5466f1",
-    "tools/automation/generate-qa-maintenance-data.py": "9a47b53416972d6415d6248dfed5f995bc8ea3205a37e57dd24d2ed5d2290fdf",
+    "tools/automation/generate-qa-maintenance-data.py": "3a091c57226b82658708f7076a5d89b132d6c8eb289e77d4e390247454dbd297",
     "tools/automation/project_twin.py": "707dea0ff4aaeb7a8a4fd9e7c2539cf65379bf8e1ba7bb5e1c3188d708ca61e2"
   },
   "maintenance_task_counts": {
@@ -18850,21 +18850,43 @@
   },
   "organisation": {
     "finance_basis": {
-      "annual_cost_per_fte_usd": 6384.0,
-      "annual_labour_usd": 13942656.0,
-      "basis": "Existing driverless operating labour allowance; indicative FTE, not an accepted roster.",
+      "annual_cost_per_fte_usd": 11249.004041032018,
+      "annual_labour_usd": 36188046.0,
+      "basis": "Two continuously covered station posts; annual productive hours and graded country-income proxy wages. Indicative FTE, not an accepted roster.",
       "groups_fte": {
         "admin_training": 33,
         "fleet_maintenance": 490,
         "infrastructure_energy": 370,
-        "occ_remote_assist": 393,
+        "occ_remote_assist": 478,
         "passenger_service": 231,
-        "station_platform": 667
+        "station_platform": 1615
       },
-      "relief_multiplier": 1.35,
+      "monthly_country_income_proxy_usd": 380.0,
+      "productive_hours_per_fte_year": 1520,
       "service_hours_per_day": 20.5,
       "shift_hours": 8,
-      "total_fte": 2184
+      "total_fte": 3217,
+      "wage_multipliers": {
+        "admin_training": 3.0,
+        "fleet_maintenance": 2.25,
+        "infrastructure_energy": 2.25,
+        "occ_remote_assist": 2.25,
+        "passenger_service": 1.5,
+        "station_platform": 1.5
+      },
+      "workforce_rules": {
+        "employer_cost_fraction": 0.25,
+        "leave_hours": 240,
+        "normal_shifts": 2,
+        "overtime_allowance_fraction": 0.1,
+        "paid_hours_per_year": 2080,
+        "service_days": 365,
+        "shift_hours": 8,
+        "sickness_hours": 80,
+        "station_posts": 2,
+        "training_hours": 80,
+        "travel_handover_hours": 160
+      }
     },
     "open_work": [
       "named duty and leave roster including service-depot turnaround crews",
@@ -19052,7 +19074,7 @@
       },
       {
         "competence_evidence": "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed.",
-        "fte": 60,
+        "fte": 72,
         "group": "occ_remote_assist",
         "id": "occ-lead",
         "minimum_fte": 1,
@@ -19064,7 +19086,7 @@
       },
       {
         "competence_evidence": "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed.",
-        "fte": 157,
+        "fte": 191,
         "group": "occ_remote_assist",
         "id": "dispatcher",
         "minimum_fte": 1,
@@ -19076,7 +19098,7 @@
       },
       {
         "competence_evidence": "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed.",
-        "fte": 176,
+        "fte": 215,
         "group": "occ_remote_assist",
         "id": "remote-assist",
         "minimum_fte": 1,
@@ -19112,7 +19134,7 @@
       },
       {
         "competence_evidence": "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed.",
-        "fte": 101,
+        "fte": 243,
         "group": "station_platform",
         "id": "station-lead",
         "minimum_fte": 1,
@@ -19124,7 +19146,7 @@
       },
       {
         "competence_evidence": "Observed task assessment, authorisation scope and expiry; apprentices supervised until assessed.",
-        "fte": 566,
+        "fte": 1372,
         "group": "station_platform",
         "id": "platform-assistance",
         "minimum_fte": 1,

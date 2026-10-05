@@ -7,9 +7,9 @@
 This page contains only Iraq-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$36.41 B (87.0%) of external capital** and **$44.76 B of external interest**. Capital plus saved interest totals **$81.17 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$54.49 B (88.6%) of external capital** and **$66.99 B of external interest**. Capital plus saved interest totals **$121.49 B**.
 
-The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its current six-car trainset order to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the larger of that physical capital envelope and the original module allowance, counted once. Future city loads are not concurrent factory commitments or part of Baghdad finance.
+The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its current six-car trainset order to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the largest physical city-order capital envelope across Iraq or the original module allowance, counted once. Any allowance above the Baghdad plant belongs to future national scope. Future city loads are not concurrent factory commitments or part of Baghdad finance.
 
 ## Iraq financing
 
@@ -21,59 +21,59 @@ The catalogue-wide figures below are generic capital/benchmark aggregations. The
 |---|---:|
 | Catalogue cities | 18 |
 | Represented population | 29,491,199 |
-| Trainsets / vehicle modules | 3,581 / 15,582 |
-| City infrastructure and fleet CAPEX | $22.91 B |
-| Shared national factory | $323.9 M |
+| Trainsets / vehicle modules | 3,652 / 15,530 |
+| City infrastructure and fleet CAPEX | $33.36 B |
+| Shared national factory | $769.6 M |
 | Factory sizing basis | 4,572 modules for Baghdad, then reused nationally |
-| **Total national programme** | **$23.26 B** |
+| **Total national programme** | **$34.19 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.45 B (23.5%) |
-| Domestic / local capital | $17.80 B (76.5%) |
-| Default foreign-turnkey external capital | $41.86 B |
-| External capital saved | $36.41 B |
-| Capital + lifetime external interest saved | $81.17 B |
+| Imported / external capital | $7.05 B (20.6%) |
+| Domestic / local capital | $27.14 B (79.4%) |
+| Default foreign-turnkey external capital | $61.54 B |
+| External capital saved | $54.49 B |
+| Capital + lifetime external interest saved | $121.49 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $10.31 B | $1.55 B | $8.76 B |
-| Stations | $3.81 B | $762.9 M | $3.05 B |
-| Depots | $144.0 M | $36.0 M | $108.0 M |
+| Civil works | $20.16 B | $3.02 B | $17.14 B |
+| Stations | $3.02 B | $603.6 M | $2.41 B |
+| Depots | $1.33 B | $332.1 M | $996.3 M |
 | Rolling stock | $4.43 B | $1.55 B | $2.88 B |
-| Dedicated solar plants | $2.55 B | $1.15 B | $1.40 B |
-| Residual train control | $112.3 M | $56.2 M | $56.2 M |
-| Charging microgrids | $208.8 M | $83.5 M | $125.3 M |
-| EPC / project services | $1.35 B | $203.2 M | $1.15 B |
-| Shared national trainset factory | $323.9 M | $64.8 M | $259.1 M |
-| **Total** | **$23.26 B** | **$5.45 B** | **$17.80 B** |
+| Dedicated solar plants | $2.09 B | $941.1 M | $1.15 B |
+| Residual train control | $101.2 M | $50.6 M | $50.6 M |
+| Charging microgrids | $184.8 M | $73.9 M | $110.9 M |
+| EPC / project services | $2.10 B | $315.0 M | $1.78 B |
+| Shared national trainset factory | $769.6 M | $153.9 M | $615.7 M |
+| **Total** | **$34.19 B** | **$7.05 B** | **$27.14 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
 | [Baghdad](Baghdad/README.md) | 9,780,429 | 762 | $7.17 B | $1.62 B | $5.55 B |
-| [Basra](Basra/README.md) | 3,955,000 | 450 | $3.11 B | $793.5 M | $2.32 B |
-| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 129 | $1.03 B | $243.5 M | $783.0 M |
-| [Erbil](Erbil/README.md) | 1,952,000 | 212 | $1.02 B | $262.0 M | $758.5 M |
-| [Mosul](Mosul/README.md) | 1,940,000 | 256 | $1.93 B | $431.6 M | $1.50 B |
-| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 179 | $1.17 B | $273.5 M | $893.6 M |
-| [Najaf](Najaf/README.md) | 1,540,000 | 229 | $1.52 B | $354.4 M | $1.17 B |
-| [Karbala](Karbala/README.md) | 1,390,000 | 198 | $1.37 B | $319.5 M | $1.05 B |
-| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 147 | $538.7 M | $125.7 M | $413.0 M |
-| [Hillah](Hillah/README.md) | 700,000 | 125 | $461.2 M | $111.8 M | $349.4 M |
-| [Amarah](Amarah/README.md) | 660,000 | 101 | $433.0 M | $99.4 M | $333.6 M |
-| [Ramadi](Ramadi/README.md) | 525,000 | 104 | $430.3 M | $101.4 M | $328.9 M |
-| [Baqubah](Baqubah/README.md) | 470,000 | 130 | $479.2 M | $116.4 M | $362.8 M |
-| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 106 | $434.5 M | $101.5 M | $333.1 M |
-| [Kut](Kut/README.md) | 410,000 | 101 | $426.6 M | $97.9 M | $328.7 M |
-| [Samawah](Samawah/README.md) | 373,770 | 108 | $415.3 M | $100.0 M | $315.4 M |
-| [Duhok](Duhok/README.md) | 360,000 | 122 | $518.5 M | $127.7 M | $390.8 M |
-| [Fallujah](Fallujah/README.md) | 360,000 | 122 | $452.4 M | $109.5 M | $342.9 M |
+| [Basra](Basra/README.md) | 3,955,000 | 396 | $4.73 B | $1.00 B | $3.73 B |
+| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 121 | $1.63 B | $325.7 M | $1.31 B |
+| [Erbil](Erbil/README.md) | 1,952,000 | 198 | $1.66 B | $350.0 M | $1.31 B |
+| [Mosul](Mosul/README.md) | 1,940,000 | 246 | $3.11 B | $602.7 M | $2.50 B |
+| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 151 | $1.97 B | $380.7 M | $1.59 B |
+| [Najaf](Najaf/README.md) | 1,540,000 | 196 | $2.17 B | $433.3 M | $1.74 B |
+| [Karbala](Karbala/README.md) | 1,390,000 | 188 | $3.31 B | $602.1 M | $2.71 B |
+| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 136 | $830.4 M | $165.1 M | $665.3 M |
+| [Hillah](Hillah/README.md) | 700,000 | 161 | $809.3 M | $170.7 M | $638.6 M |
+| [Amarah](Amarah/README.md) | 660,000 | 130 | $817.3 M | $162.1 M | $655.2 M |
+| [Ramadi](Ramadi/README.md) | 525,000 | 118 | $683.4 M | $139.2 M | $544.2 M |
+| [Baqubah](Baqubah/README.md) | 470,000 | 164 | $850.7 M | $176.5 M | $674.2 M |
+| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 120 | $653.2 M | $134.1 M | $519.1 M |
+| [Kut](Kut/README.md) | 410,000 | 131 | $793.0 M | $158.1 M | $634.9 M |
+| [Samawah](Samawah/README.md) | 373,770 | 133 | $690.6 M | $144.5 M | $546.1 M |
+| [Duhok](Duhok/README.md) | 360,000 | 162 | $789.0 M | $174.0 M | $615.1 M |
+| [Fallujah](Fallujah/README.md) | 360,000 | 139 | $697.3 M | $146.0 M | $551.3 M |
 
 ## Local Basis And Regeneration
 

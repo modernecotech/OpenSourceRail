@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`san-salvador-line1.aln.toml`](san-salvador-line1.aln.toml) | `line-1` | 30,191.5 m | 11 |
-| [`san-salvador-line2.aln.toml`](san-salvador-line2.aln.toml) | `line-2` | 36,884.9 m | 13 |
-| [`san-salvador-line3.aln.toml`](san-salvador-line3.aln.toml) | `line-3` | 38,450.0 m | 12 |
-| [`san-salvador-line4.aln.toml`](san-salvador-line4.aln.toml) | `line-4` | 40,357.9 m | 12 |
-| [`san-salvador-line5.aln.toml`](san-salvador-line5.aln.toml) | `line-5` | 34,240.6 m | 11 |
-| [`san-salvador-line6.aln.toml`](san-salvador-line6.aln.toml) | `line-6` | 76,493.6 m | 22 |
+| [`san-salvador-line1.aln.toml`](san-salvador-line1.aln.toml) | `line-1` | 27,294.6 m | 11 |
+| [`san-salvador-line2.aln.toml`](san-salvador-line2.aln.toml) | `line-2` | 32,129.7 m | 12 |
+| [`san-salvador-line3.aln.toml`](san-salvador-line3.aln.toml) | `line-3` | 34,348.7 m | 10 |
+| [`san-salvador-line4.aln.toml`](san-salvador-line4.aln.toml) | `line-4` | 36,195.1 m | 12 |
+| [`san-salvador-line5.aln.toml`](san-salvador-line5.aln.toml) | `line-5` | 29,744.3 m | 9 |
+| [`san-salvador-line6.aln.toml`](san-salvador-line6.aln.toml) | `line-6` | 72,382.4 m | 22 |
 
 ## Status
 

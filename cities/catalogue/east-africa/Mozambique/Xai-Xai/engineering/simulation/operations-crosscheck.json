@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,28 +16,28 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 919.728,
-      "sumo_mean_trip_time_s": 930.5,
-      "delta_s": 10.772,
-      "delta_percent_of_osr": 1.171,
-      "tolerance_s": 137.959,
+      "osr_reference_trip_time_s": 464.253,
+      "sumo_mean_trip_time_s": 464.5,
+      "delta_s": 0.247,
+      "delta_percent_of_osr": 0.053,
+      "tolerance_s": 120.0,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 728.299,
-      "sumo_mean_trip_time_s": 737.5,
-      "delta_s": 9.201,
-      "delta_percent_of_osr": 1.263,
+      "osr_reference_trip_time_s": 532.516,
+      "sumo_mean_trip_time_s": 533.0,
+      "delta_s": 0.484,
+      "delta_percent_of_osr": 0.091,
       "tolerance_s": 120.0,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 243.303,
-      "sumo_mean_trip_time_s": 240.0,
-      "delta_s": -3.303,
-      "delta_percent_of_osr": -1.358,
+      "osr_reference_trip_time_s": 241.349,
+      "sumo_mean_trip_time_s": 238.0,
+      "delta_s": -3.349,
+      "delta_percent_of_osr": -1.388,
       "tolerance_s": 120.0,
       "passed": true
     }
@@ -50,19 +51,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "82eb0874c144c0361e1c056424ac1070520b0ac5984ad1357fbb75f2271a40b8",
-    "sumo_summary_sha256": "361858ceaff59721fba348ddc2de1cec607bb311adeaa2053febee1682037bb9",
-    "simulation_summary_sha256": "e1137f8966fb7bec1d532ec9e0b9bd8269e3e3a213d623d024f3a6adec72ec23",
-    "native_timing_reference_sha256": "a1bc1b12fa64e7519c253be73bb680dbd33a4d3d39f0995e9022c836ade82382"
+    "design_sha256": "318015b6dae98f70d6ee306960f7970fa697781b3d7e76545c0a83c54639103f",
+    "sumo_summary_sha256": "388bef1d08b84946a8723aa6d4091e859ae9385d627e226708e69e0d971a43fb",
+    "simulation_summary_sha256": "5308aa7ae10ef7b76e44dd121a7e2d9386ee7a73916f0d37b1e66186458bb87b",
+    "native_timing_reference_sha256": "7986a80d80267d3964f62f88d54c96f2c4fb15499d912130360c6c23b082f137",
+    "ci_execution_sha256": "ed8f808be99607e331de293bf91afc0f00768750a726a098a3507eaf52832e49",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/east-africa/Mozambique/Xai-Xai/design.toml",
     "sumo_summary": "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

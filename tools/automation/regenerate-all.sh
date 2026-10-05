@@ -8,6 +8,7 @@
 #   tools/automation/regenerate-all.sh --only tunis,lyon  # subset (comma-separated)
 #   tools/automation/regenerate-all.sh --from-scratch   # refetch OSM and resynthesise designs
 #   tools/automation/regenerate-all.sh --resynthesise-corridors  # reroute from cached rasters
+#   tools/automation/regenerate-all.sh --current-design-logic  # adopt elevated cores and fleet-sized depots
 #   tools/automation/regenerate-all.sh --resynthesise-design  # explicitly replace controlled layouts
 #
 # Reads slugs from lib/city-batches/world-sample.toml so new entries
@@ -30,6 +31,7 @@ SKIP=()
 ONLY=()
 FROM_SCRATCH=false
 RESYNTHESISE_CORRIDORS=false
+CURRENT_DESIGN_LOGIC=false
 if [[ -z "${PYTHON:-}" ]]; then
     if [[ -x "$REPO/.venv/bin/python" ]]; then
         PYTHON="$REPO/.venv/bin/python"
@@ -62,6 +64,9 @@ while [[ $# -gt 0 ]]; do
             shift ;;
         --resynthesise-corridors)
             RESYNTHESISE_CORRIDORS=true
+            shift ;;
+        --current-design-logic)
+            CURRENT_DESIGN_LOGIC=true
             shift ;;
         --resynthesise-design)
             RESYNTHESISE_DESIGN=true
@@ -131,5 +136,8 @@ if [[ "$RESYNTHESISE_CORRIDORS" == true ]]; then
 fi
 if [[ "${RESYNTHESISE_DESIGN:-false}" == true ]]; then
     COMMAND+=(--resynthesise-design)
+fi
+if [[ "$CURRENT_DESIGN_LOGIC" == true ]]; then
+    COMMAND+=(--current-design-logic)
 fi
 exec "${COMMAND[@]}"

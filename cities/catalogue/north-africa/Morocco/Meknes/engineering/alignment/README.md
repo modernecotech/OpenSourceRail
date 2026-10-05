@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`meknes-line1.aln.toml`](meknes-line1.aln.toml) | `line-1` | 15,726.2 m | 6 |
-| [`meknes-line2.aln.toml`](meknes-line2.aln.toml) | `line-2` | 12,219.1 m | 5 |
-| [`meknes-line3.aln.toml`](meknes-line3.aln.toml) | `line-3` | 11,412.8 m | 6 |
+| [`meknes-line1.aln.toml`](meknes-line1.aln.toml) | `line-1` | 12,651.9 m | 5 |
+| [`meknes-line2.aln.toml`](meknes-line2.aln.toml) | `line-2` | 9,034.2 m | 4 |
+| [`meknes-line3.aln.toml`](meknes-line3.aln.toml) | `line-3` | 7,198.5 m | 4 |
 
 ## Status
 

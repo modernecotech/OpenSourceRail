@@ -1,22 +1,22 @@
 {
   "city": "hurghada",
-  "closed_gate_count": 3,
+  "closed_gate_count": 4,
   "deployment_release_ready": false,
-  "design_sha256": "9792a0513ae189cbebfea2c139d8c4ee7a98bd68870fcff5bc010d0094858136",
+  "design_sha256": "0f5dce5c880c334237d61bf8195595498afa8e72d4ce49597b427a7d120f75aa",
   "evidence_sha256": {
-    "delivery/summary.json": "fb9f3f491618c4c060e45b5ef0994dfec514f136fe1c06313b4228d13c6e59d2",
-    "depot-scope/summary.json": "012f773dcb255e94aa01f2745094737049d6bef6a6254529bb7a0f225a28c59e",
-    "energy/summary.json": "edafd68a0c2358b03f7e283c31686eda97fd6270538e67a0bec13c008a02ce38",
-    "simulation/operations-crosscheck.json": "89e79970ee2ac78ef3b82789b170ab74c94fdb543f52f753f20c73cc2c49f52b",
-    "simulation/validation-summary.json": "dd1b8a5ac3fd85a4fd532d3c425a3c68694838a293014216a035fd2c17412972",
-    "soil/summary.json": "15b44dff10e0c03bd41b58aa2873746b04c304c4a623c4fbfbddeb5c41b5d804",
-    "stabling/summary.json": "2af555ddd9d60db632b4efe71251b50d9eebc47e2083a0d4b6bd7981daea9aa7",
+    "delivery/summary.json": "4417e3ac84b23ae95142a6f3d4c93e870f257d843bcd21ddb0a07fc2f61bc52c",
+    "depot-scope/summary.json": "9828951cb2db324b2512077a981f4a6c0c8653b89c18f7026f9c1b9423a26094",
+    "energy/summary.json": "0ab7ce2f195d7463a88ba8cb69c6268db46045588aa18899a9c9ada3b1d17b1b",
+    "simulation/operations-crosscheck.json": "82fb91055b801b96ae1720253a3eff1e8ac5a130929639839fee979444e17a39",
+    "simulation/validation-summary.json": "d3930ab1b11b9bbafb5e1c106ea0590863f1a12b441219385f91ee20b9488c3f",
+    "soil/summary.json": "e9a458959d814c2c1f19dc1985f34a287ed46a8cc39fb7547bc0d63b7cfe2e42",
+    "stabling/summary.json": "459bc3168b745c610d985a05c3fb22e3027922f8b0582830c825c0d16c802fbb",
     "survey/control-processing-readiness.json": "10a7ca908b32c3d798b5f3d16adf6f635ab5cf85130ab9df5ebcf06c4e48769e",
-    "survey/drainage-ground-readiness.json": "79688c84afa436a6945681e26bfb940ec2cd93fb8455a525f33c0ef6720a7420",
+    "survey/drainage-ground-readiness.json": "6ea6adc412dd5f2101a302f42148240da68645e620bf9256381c00cb98a8f4de",
     "survey/ground-model-readiness.json": "8e5614cba53dedc42b5f48d107c28635b536f82f9d02939721f87376946e3fae",
-    "survey/route-station-fit-readiness.json": "d9a09b2a1c2f2c26aa04db69006f040c088388d66f7e133dd78fb93b45beba82",
-    "survey/structural-release-readiness.json": "0c5d7a8ca85aaf02c2d86ee9abcba4c4c71f858e97c2efdeb88d1377c59eabc7",
-    "survey/surveyed-alignment-readiness.json": "fb6c907024d9729f6c9cae759c0cef596e8a745f9dd50ac99f825268694d7432"
+    "survey/route-station-fit-readiness.json": "f207cec06f5ee17dc493b0b3bb8255358dc7c70852c41b874faeca88de540a83",
+    "survey/structural-release-readiness.json": "53770e37dbd48edeef95277cfde2ecf134061a6cb9be31f981151ea7b09aebf0",
+    "survey/surveyed-alignment-readiness.json": "8756a9e918ae47266906e8e426a71b2043ffd80d1793ece164e5a47723aef719"
   },
   "gates": [
     {
@@ -30,7 +30,7 @@
     {
       "closure_action": "Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct.",
       "detail": {
-        "missing_profiles": 8
+        "missing_profiles": 4
       },
       "evidence": "soil/civil-investigation-plan.json",
       "id": "soil-coverage",
@@ -178,7 +178,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -191,9 +191,9 @@
     {
       "closure_action": "Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.",
       "detail": {
-        "depot_trainsets": 46,
+        "depot_trainsets": 41,
         "missing_morning_directions": [],
-        "station_trainsets": 34
+        "station_trainsets": 28
       },
       "evidence": "stabling/summary.json",
       "id": "morning-fleet-allocation",
@@ -230,10 +230,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 100216.54313331269,
+        "retained_run_delivered_kwh": 83270.14905185941,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 63296.033419382366,
-        "retained_run_pv_generated_kwh": 59051.381522866075,
+        "retained_run_grid_imported_kwh": 46949.378001435914,
+        "retained_run_pv_generated_kwh": 110269.42080625251,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -259,7 +259,7 @@
     {
       "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
       "detail": {
-        "planning_fte": 290
+        "planning_fte": 347
       },
       "evidence": "delivery/summary.json",
       "id": "workforce-duty-and-workload",
@@ -268,7 +268,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 14,
+  "open_gate_count": 13,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

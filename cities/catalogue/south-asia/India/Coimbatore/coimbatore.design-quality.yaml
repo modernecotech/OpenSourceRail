@@ -1,16 +1,22 @@
 slug: coimbatore
 pass: true
 metrics:
-  total_route_m: 341959.1
+  total_route_m: 295253.2
   n_lines: 9
-  n_stations: 111
-  anchor_hit_rate: 0.459
-  high_demand_coverage: 0.735
+  n_stations: 94
+  anchor_hit_rate: 0.468
+  high_demand_coverage: 0.582
   civil_mix_m:
-    at_grade: 298449.5
-    elevated: 43509.6
-    bridge:   0.0
-  elevated_fraction: 0.127
+    at_grade: 58720.9
+    elevated: 204134.4
+    bridge:   32397.9
+  elevated_fraction: 0.801
+  viaduct_products_m:
+    osr_pi20_pi25: 204134.4
+    osr_us:      0.0
+    special:     32397.9
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

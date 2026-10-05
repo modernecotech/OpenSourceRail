@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`polokwane-line1.aln.toml`](polokwane-line1.aln.toml) | `line-1` | 19,613.1 m | 8 |
-| [`polokwane-line2.aln.toml`](polokwane-line2.aln.toml) | `line-2` | 14,571.3 m | 6 |
-| [`polokwane-line3.aln.toml`](polokwane-line3.aln.toml) | `line-3` | 17,121.4 m | 6 |
+| [`polokwane-line1.aln.toml`](polokwane-line1.aln.toml) | `line-1` | 16,054.8 m | 6 |
+| [`polokwane-line2.aln.toml`](polokwane-line2.aln.toml) | `line-2` | 9,205.7 m | 4 |
+| [`polokwane-line3.aln.toml`](polokwane-line3.aln.toml) | `line-3` | 15,850.1 m | 5 |
 
 ## Status
 

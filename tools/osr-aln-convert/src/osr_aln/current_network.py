@@ -412,7 +412,7 @@ def export_network(
     if check:
         drift = [path for path in output_paths if not path.exists() or path.read_text() != package[path.name]]
         unexpected = sorted(output_dir.iterdir()) if output_dir.exists() else []
-        unexpected = [path for path in unexpected if path.is_file() and path.name not in package]
+        unexpected = [path for path in unexpected if path.is_file() and path.name.endswith(".aln.toml") and path.name not in package]
         if drift or unexpected:
             names = [str(path) for path in drift + unexpected]
             raise ValueError("current-network OSR-ALN drift: " + ", ".join(names))

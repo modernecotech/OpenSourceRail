@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ouagadougou-line1.aln.toml`](ouagadougou-line1.aln.toml) | `line-1` | 38,354.2 m | 12 |
-| [`ouagadougou-line2.aln.toml`](ouagadougou-line2.aln.toml) | `line-2` | 24,219.0 m | 10 |
-| [`ouagadougou-line3.aln.toml`](ouagadougou-line3.aln.toml) | `line-3` | 28,451.8 m | 11 |
-| [`ouagadougou-line4.aln.toml`](ouagadougou-line4.aln.toml) | `line-4` | 32,682.0 m | 12 |
-| [`ouagadougou-line5.aln.toml`](ouagadougou-line5.aln.toml) | `line-5` | 32,412.1 m | 10 |
-| [`ouagadougou-line6.aln.toml`](ouagadougou-line6.aln.toml) | `line-6` | 65,447.6 m | 22 |
+| [`ouagadougou-line1.aln.toml`](ouagadougou-line1.aln.toml) | `line-1` | 33,799.0 m | 11 |
+| [`ouagadougou-line2.aln.toml`](ouagadougou-line2.aln.toml) | `line-2` | 20,008.2 m | 8 |
+| [`ouagadougou-line3.aln.toml`](ouagadougou-line3.aln.toml) | `line-3` | 25,365.8 m | 10 |
+| [`ouagadougou-line4.aln.toml`](ouagadougou-line4.aln.toml) | `line-4` | 27,503.2 m | 10 |
+| [`ouagadougou-line5.aln.toml`](ouagadougou-line5.aln.toml) | `line-5` | 26,794.4 m | 8 |
+| [`ouagadougou-line6.aln.toml`](ouagadougou-line6.aln.toml) | `line-6` | 60,577.6 m | 20 |
 
 ## Status
 

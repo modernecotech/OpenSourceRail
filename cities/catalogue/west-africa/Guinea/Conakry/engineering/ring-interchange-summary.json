@@ -6,15 +6,32 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "conakry",
-      "corridor_sha256": "29cefa4afbde8bc99a3d2e968ef225472f5e4835e5e72fa85cb6243d879983e0",
-      "design_sha256": "e13de7b69cefd3feefec3fc4f23b564fe4b984a56cc4c4cc309ab4cb5c309e75",
+      "corridor_sha256": "32b91c476f10f3f0916ed3e325bcf9de18741101ca1916c6882dda4339ffc668",
+      "design_sha256": "4beb171d9484bfe25ecf35cdd5ae14c2383763ea17de978a3480788b999a0bc9",
       "failures": [],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
       "passed": true,
       "radial_count": 2,
-      "review_findings": [],
+      "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1251.7,
+          "radial": "line-1",
+          "ring": "line-3",
+          "severity": "review",
+          "terminus_distance_m": 1251.7
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 627.6,
+          "radial": "line-2",
+          "ring": "line-3",
+          "severity": "review",
+          "terminus_distance_m": 1498.9
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 2
 }

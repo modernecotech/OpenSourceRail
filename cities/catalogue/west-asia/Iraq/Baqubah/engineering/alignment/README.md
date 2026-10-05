@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`baqubah-line1.aln.toml`](baqubah-line1.aln.toml) | `line-1` | 15,557.8 m | 5 |
-| [`baqubah-line2.aln.toml`](baqubah-line2.aln.toml) | `line-2` | 21,939.4 m | 7 |
-| [`baqubah-line3.aln.toml`](baqubah-line3.aln.toml) | `line-3` | 23,376.3 m | 10 |
+| [`baqubah-line1.aln.toml`](baqubah-line1.aln.toml) | `line-1` | 11,135.7 m | 4 |
+| [`baqubah-line2.aln.toml`](baqubah-line2.aln.toml) | `line-2` | 20,796.0 m | 6 |
+| [`baqubah-line3.aln.toml`](baqubah-line3.aln.toml) | `line-3` | 20,718.1 m | 7 |
 
 ## Status
 

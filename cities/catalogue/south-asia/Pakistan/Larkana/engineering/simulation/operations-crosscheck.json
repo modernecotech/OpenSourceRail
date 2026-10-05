@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "exact-local-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,20 +16,20 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 2692.727,
-      "sumo_mean_trip_time_s": 2612.5,
-      "delta_s": -80.227,
-      "delta_percent_of_osr": -2.979,
-      "tolerance_s": 403.909,
+      "osr_reference_trip_time_s": 2282.136,
+      "sumo_mean_trip_time_s": 2187.5,
+      "delta_s": -94.636,
+      "delta_percent_of_osr": -4.147,
+      "tolerance_s": 342.32,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 1540.227,
-      "sumo_mean_trip_time_s": 1478.5,
-      "delta_s": -61.727,
-      "delta_percent_of_osr": -4.008,
-      "tolerance_s": 231.034,
+      "osr_reference_trip_time_s": 1065.409,
+      "sumo_mean_trip_time_s": 1001.0,
+      "delta_s": -64.409,
+      "delta_percent_of_osr": -6.045,
+      "tolerance_s": 159.811,
       "passed": true
     }
   ],
@@ -41,19 +42,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "0fd00925168745929443ac89deb8d7ec065871c8e45cf655723b44d8fe453214",
-    "sumo_summary_sha256": "663b4c20360380688910326e78d27f1e2c7393d6bbbcef116d07b7d1fe836fb6",
-    "simulation_summary_sha256": "132665a59bf38de28a45fa5cc25b825bf34f98a23d057e396bad1566abf1e871",
-    "native_timing_reference_sha256": "56054355b2492a0f16faa0ccb1ef95398eb3162dee37c70177362bee6560a024"
+    "design_sha256": "5746c549b53440ba391d4b994760a7fd7d68fd543eda41d2c2786f26a73779b6",
+    "sumo_summary_sha256": "f18ef8311a1ad6906557090e4c88285f49cf8feb1be9000a8cc131179b351bbf",
+    "simulation_summary_sha256": "1a2a4de0818a8aad62eded3a3f57d6d5605406c318708077906b836f3363bf9d",
+    "native_timing_reference_sha256": "b43a185401793c0931e7d85c1f8ed89b0e7b0c2dbabcda7ae5d1735e861fcc0f",
+    "ci_execution_sha256": "ddffdb3ba0d24320e4a269bfe12f25b777ab29afed2fb988a249a46934e7f07b",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/south-asia/Pakistan/Larkana/design.toml",
     "sumo_summary": "cities/catalogue/south-asia/Pakistan/Larkana/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

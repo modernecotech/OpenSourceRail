@@ -1,0 +1,115 @@
+{
+  "core": {
+    "east": 35.690767,
+    "north": -10.642357,
+    "south": -10.723477,
+    "west": 35.608207
+  },
+  "core_analytical_length_m": 7793.73674,
+  "core_original_length_m": 13038.03174,
+  "core_selection": {
+    "centre_basis": "controlled-design-centroid",
+    "centred_bbox_fraction": 0.6
+  },
+  "limitations": [
+    "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
+    "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
+    "Water crossings remain bridges. Survey, vertical alignment, transitions, cant, structures and independent checking remain open.",
+    "Unacceptable ring fillets retain raster geometry and special-product/realignment gates; they are never labelled straight tangents.",
+    "Coverage, stations, fleet, energy, depots, staffing, cost and delivery evidence must be regenerated for the actual candidate."
+  ],
+  "lines": [
+    {
+      "core_runs": [
+        {
+          "analytical_length_m": 3581.563904,
+          "control_points": [
+            [
+              6940.0,
+              7000.0
+            ],
+            [
+              3440.0,
+              7760.0
+            ]
+          ],
+          "controls": [
+            {
+              "end": [
+                3440.0,
+                7760.0
+              ],
+              "kind": "tangent",
+              "length_m": 3581.563904,
+              "start": [
+                6940.0,
+                7000.0
+              ]
+            }
+          ],
+          "geometry_basis": "analytical-tangents-and-circular-fillets",
+          "original_length_m": 5672.203461,
+          "seed_from_index": 0,
+          "seed_to_index": 260,
+          "simplification_tolerance_m": 600.0
+        }
+      ],
+      "line": "line-1",
+      "original_cells": 261,
+      "original_route_m": 5672.203461,
+      "reworked_cells": 177,
+      "reworked_route_m": 3826.518036
+    },
+    {
+      "core_runs": [
+        {
+          "analytical_length_m": 4212.172836,
+          "control_points": [
+            [
+              6180.0,
+              2960.0
+            ],
+            [
+              6500.0,
+              7160.0
+            ]
+          ],
+          "controls": [
+            {
+              "end": [
+                6500.0,
+                7160.0
+              ],
+              "kind": "tangent",
+              "length_m": 4212.172836,
+              "start": [
+                6180.0,
+                2960.0
+              ]
+            }
+          ],
+          "geometry_basis": "analytical-tangents-and-circular-fillets",
+          "original_length_m": 7365.828278,
+          "seed_from_index": 185,
+          "seed_to_index": 504,
+          "simplification_tolerance_m": 600.0
+        }
+      ],
+      "line": "line-2",
+      "original_cells": 505,
+      "original_route_m": 11140.38672,
+      "reworked_cells": 396,
+      "reworked_route_m": 8107.106781
+    }
+  ],
+  "schema_version": 2,
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Songea/alignment-policy.toml": "960abcbae6989abd79372a979a0ae72f12a9230117312053bd375905c5968fd2",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-grid.json": "a7cba34c374bd54c555d1aa803c3bd2eca0ca0e8aee3a4c8627a20db175e0b95",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/pre-rework-corridors.json.gz": "99fa80af3ce6ce1690d3d4fad9b59332ff476dfff3b15f9a5309be59d2aa4ff4",
+    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
+    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
+    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+  },
+  "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
+}

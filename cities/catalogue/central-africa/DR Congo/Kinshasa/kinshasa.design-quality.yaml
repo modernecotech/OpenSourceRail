@@ -1,16 +1,22 @@
 slug: kinshasa
 pass: true
 metrics:
-  total_route_m: 402132.7
+  total_route_m: 352257.8
   n_lines: 9
-  n_stations: 147
-  anchor_hit_rate: 0.388
-  high_demand_coverage: 0.569
+  n_stations: 120
+  anchor_hit_rate: 0.317
+  high_demand_coverage: 0.419
   civil_mix_m:
-    at_grade: 371117.3
-    elevated: 31015.4
-    bridge:   0.0
-  elevated_fraction: 0.077
+    at_grade: 56985.1
+    elevated: 283565.2
+    bridge:   11707.5
+  elevated_fraction: 0.838
+  viaduct_products_m:
+    osr_pi20_pi25: 283565.2
+    osr_us:      0.0
+    special:     11707.5
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

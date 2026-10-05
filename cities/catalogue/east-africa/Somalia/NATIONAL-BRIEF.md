@@ -3,7 +3,7 @@
 This page contains only Somalia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$1.73 B (87.2%) of external capital** and **$2.23 B of external interest**. Capital plus saved interest totals **$3.96 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$4.80 B (89.9%) of external capital** and **$6.20 B of external interest**. Capital plus saved interest totals **$11.00 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Somalia-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 2,610,000 |
-| Trainsets / vehicle modules | 149 / 596 |
-| City infrastructure and fleet CAPEX | $1.06 B |
-| Shared national factory | $35.8 M |
-| Factory sizing basis | 596 modules for Mogadishu, then reused nationally |
-| **Total national programme** | **$1.10 B** |
+| Trainsets / vehicle modules | 132 / 528 |
+| City infrastructure and fleet CAPEX | $2.49 B |
+| Shared national factory | $446.5 M |
+| Factory sizing basis | 528 modules for Mogadishu, then reused nationally |
+| **Total national programme** | **$2.97 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $253.9 M (23.0%) |
-| Domestic / local capital | $848.1 M (77.0%) |
-| Annual external capital draw | $25.4 M / yr |
-| Annual local capital draw | $84.8 M / yr |
-| Annual public construction commitment | $130.2 M / yr for 10 years |
-| Annual post-grace debt service | $118.9 M / yr |
-| Default foreign-turnkey external capital | $1.98 B |
-| External capital saved | $1.73 B |
-| Capital + lifetime external interest saved | $3.96 B |
+| Imported / external capital | $541.8 M (18.3%) |
+| Domestic / local capital | $2.43 B (81.7%) |
+| Annual external capital draw | $54.2 M / yr |
+| Annual local capital draw | $242.6 M / yr |
+| Annual public construction commitment | $364.0 M / yr for 10 years |
+| Annual post-grace debt service | $328.8 M / yr |
+| Default foreign-turnkey external capital | $5.34 B |
+| External capital saved | $4.80 B |
+| Capital + lifetime external interest saved | $11.00 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $401.0 M | $60.2 M | $340.9 M |
-| Stations | $297.9 M | $59.6 M | $238.3 M |
-| Depots | $8.0 M | $2.0 M | $6.0 M |
-| Rolling stock | $166.9 M | $58.4 M | $108.5 M |
-| Dedicated solar plants | $106.4 M | $47.9 M | $58.5 M |
-| Residual train control | $6.0 M | $3.0 M | $3.0 M |
-| Charging microgrids | $15.0 M | $6.0 M | $9.0 M |
-| EPC / project services | $65.1 M | $9.8 M | $55.4 M |
-| Shared national trainset factory | $35.8 M | $7.2 M | $28.6 M |
-| **Total** | **$1.10 B** | **$253.9 M** | **$848.1 M** |
+| Civil works | $1.84 B | $276.3 M | $1.57 B |
+| Stations | $172.3 M | $34.5 M | $137.8 M |
+| Depots | $72.8 M | $18.2 M | $54.6 M |
+| Rolling stock | $147.8 M | $51.7 M | $96.1 M |
+| Dedicated solar plants | $80.6 M | $36.3 M | $44.3 M |
+| Residual train control | $5.4 M | $2.7 M | $2.7 M |
+| Charging microgrids | $11.2 M | $4.5 M | $6.8 M |
+| EPC / project services | $188.9 M | $28.3 M | $160.5 M |
+| Shared national trainset factory | $446.5 M | $89.3 M | $357.2 M |
+| **Total** | **$2.97 B** | **$541.8 M** | **$2.43 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Mogadishu](Mogadishu/README.md) | 2,610,000 | 149 | $1.06 B | $246.4 M | $817.4 M |
+| [Mogadishu](Mogadishu/README.md) | 2,610,000 | 132 | $2.49 B | $447.8 M | $2.04 B |
 
 ## Local Basis And Regeneration
 

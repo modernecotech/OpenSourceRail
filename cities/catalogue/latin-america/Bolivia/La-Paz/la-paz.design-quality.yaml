@@ -1,16 +1,22 @@
 slug: la-paz
 pass: true
 metrics:
-  total_route_m: 223908.2
+  total_route_m: 192405.0
   n_lines: 6
-  n_stations: 79
-  anchor_hit_rate: 0.722
-  high_demand_coverage: 0.607
+  n_stations: 62
+  anchor_hit_rate: 0.613
+  high_demand_coverage: 0.387
   civil_mix_m:
-    at_grade: 197970.2
-    elevated: 25938.0
-    bridge:   0.0
-  elevated_fraction: 0.116
+    at_grade: 31141.1
+    elevated: 134160.2
+    bridge:   27103.8
+  elevated_fraction: 0.838
+  viaduct_products_m:
+    osr_pi20_pi25: 134160.2
+    osr_us:      0.0
+    special:     27103.8
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

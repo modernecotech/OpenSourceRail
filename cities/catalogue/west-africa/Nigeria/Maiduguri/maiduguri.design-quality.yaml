@@ -1,16 +1,22 @@
 slug: maiduguri
 pass: true
 metrics:
-  total_route_m: 168361.7
+  total_route_m: 157012.8
   n_lines: 5
-  n_stations: 58
-  anchor_hit_rate: 0.414
-  high_demand_coverage: 0.492
+  n_stations: 51
+  anchor_hit_rate: 0.294
+  high_demand_coverage: 0.353
   civil_mix_m:
-    at_grade: 135633.8
-    elevated: 32728.0
-    bridge:   0.0
-  elevated_fraction: 0.194
+    at_grade: 12982.4
+    elevated: 122122.6
+    bridge:   21907.8
+  elevated_fraction: 0.917
+  viaduct_products_m:
+    osr_pi20_pi25: 98270.8
+    osr_us:      23851.8
+    special:     21907.8
+    realign:     0.0
+  max_elevated_cost_multiplier: 5.294
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

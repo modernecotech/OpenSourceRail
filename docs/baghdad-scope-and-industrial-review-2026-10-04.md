@@ -1,5 +1,8 @@
 # Baghdad scope and industrial review — 4 October 2026
 
+> Historical review: numeric quantities and funding figures below describe the reviewed revision. Use the current city README, proposal and source-bound catalogue review for the regenerated planning basis.
+
+
 > **Historical revision review.** Its figures describe the revision reviewed below. The reworked central alignment, current staffing/depot scope and current cashflows are in the [Baghdad city summary](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) and [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md).
 
 The [programme recalculation](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md) is the latest Baghdad staffing, depot, procurement-origin and financing study. The [complete proposal](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) publishes it alongside its source files, twelve monthly cashflows, contract registers and six-month placement schedules. It supersedes the earlier staffing/depot assumptions for this study; the original catalogue design, generic city pages and financing cases remain separately identified comparators. No national borrowing or future factory sales are credited to Baghdad.

@@ -1,22 +1,29 @@
 slug: najran
 pass: true
 metrics:
-  total_route_m: 56705.8
+  total_route_m: 50708.5
   n_lines: 3
-  n_stations: 20
-  anchor_hit_rate: 0.450
-  high_demand_coverage: 0.465
+  n_stations: 19
+  anchor_hit_rate: 0.526
+  high_demand_coverage: 0.295
   civil_mix_m:
-    at_grade: 44124.1
-    elevated: 12581.7
-    bridge:   0.0
-  elevated_fraction: 0.222
+    at_grade: 7809.8
+    elevated: 22037.0
+    bridge:   20861.7
+  elevated_fraction: 0.846
+  viaduct_products_m:
+    osr_pi20_pi25: 22037.0
+    osr_us:      0.0
+    special:     20861.7
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   true
+    coverage_ge_0.30:   false
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

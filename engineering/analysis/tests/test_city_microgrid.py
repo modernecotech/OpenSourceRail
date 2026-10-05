@@ -66,7 +66,11 @@ def test_grid_only_contingency_does_not_fail_buffered_snapshot(tmp_path, monkeyp
     assert report["deployment_release_ready"] is False
     assert report["design_findings"] == []
     findings = [row for row in report["contingency_findings"] if row["code"] == "site-grid-connection-limit-exceeded"]
-    assert len(findings) == 7
+    expected={row['station'] for row in report['cases']['peak_charge_grid_only']['site_connections']
+              if row['grid_import_kw']>row['grid_import_limit_kw']+microgrid.CONNECTION_TOLERANCE_KW
+              or row['grid_export_kw']>row['grid_export_limit_kw']+microgrid.CONNECTION_TOLERANCE_KW}
+    assert expected
+    assert {row['station'] for row in findings}==expected
     assert all(row["case"] == "peak_charge_grid_only" for row in findings)
     assert all(row["import_exceedance_kw"] > 500 / 0.97 - 500 for row in findings)
     assert json.loads((tmp_path / "summary.json").read_text())["passed"] is True
@@ -117,6 +121,10 @@ def test_failed_coordinated_snapshot_still_blocks_its_screen(tmp_path, monkeypat
     report = microgrid.generate(REPO_ROOT / 'cities/catalogue/west-asia/Iraq/Samawah/design.toml', tmp_path)
     assert report['solver_passed']
     assert not report['passed']
-    assert len(report['design_findings']) == 7
+    expected={row['station'] for row in report['cases']['coordinated_daylight']['site_connections']
+              if row['grid_import_kw']>row['grid_import_limit_kw']+microgrid.CONNECTION_TOLERANCE_KW
+              or row['grid_export_kw']>row['grid_export_limit_kw']+microgrid.CONNECTION_TOLERANCE_KW}
+    assert expected
+    assert {row['station'] for row in report['design_findings']}==expected
     assert all(row['case'] == 'coordinated_daylight' for row in report['design_findings'])
-    assert len(report['contingency_findings']) == 7
+    assert {row['station'] for row in report['contingency_findings']}==expected

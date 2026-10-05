@@ -1,16 +1,22 @@
 slug: jinja
 pass: true
 metrics:
-  total_route_m: 42064.5
+  total_route_m: 35911.2
   n_lines: 3
-  n_stations: 17
-  anchor_hit_rate: 0.706
-  high_demand_coverage: 0.706
+  n_stations: 16
+  anchor_hit_rate: 0.750
+  high_demand_coverage: 0.646
   civil_mix_m:
-    at_grade: 40616.5
-    elevated: 1447.9
-    bridge:   0.0
-  elevated_fraction: 0.034
+    at_grade: 9952.6
+    elevated: 25029.5
+    bridge:   929.1
+  elevated_fraction: 0.723
+  viaduct_products_m:
+    osr_pi20_pi25: 25029.5
+    osr_us:      0.0
+    special:     929.1
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

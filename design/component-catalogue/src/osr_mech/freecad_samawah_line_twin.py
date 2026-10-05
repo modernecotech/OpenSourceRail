@@ -23,6 +23,7 @@ from osr_mech.samawah_line_twin import (
     SamawahLineTwin,
     assert_twin_checks,
     default_city_dir,
+    digital_twin_manifest,
     load_samawah_line_twin,
     point_at_chainage,
     representative_train_states,
@@ -37,6 +38,7 @@ STATION_COLOURS: dict[str, tuple[float, float, float]] = {
     "terminal": (0.88, 0.31, 0.18),
     "standard": (0.96, 0.70, 0.20),
     "major": (0.94, 0.45, 0.12),
+    "interchange": (0.48, 0.23, 0.74),
     "interchange-elevated": (0.48, 0.23, 0.74),
     "halt": (0.45, 0.55, 0.62),
     "depot-terminal": (0.78, 0.12, 0.20),
@@ -762,7 +764,9 @@ def _build_document(twin: SamawahLineTwin, model_path: Path):
         road = Part.makeBox(1_100.0, 18.0, 6.0, App.Vector(-550.0, offset - 9.0, 54.0))
         depot_parts.append(_placed_shape(road, depot_x, depot_y, depot_heading))
     depot = doc.addObject("Part::Feature", "MainDepot")
-    depot.Label = "Al-Jaraa main-heavy depot — 17 fleet stalls and 40 MWh storage"
+    depot_plan = next(a['engineering'] for a in digital_twin_manifest(twin)['assets']
+                      if a['asset_class'] == 'depot.main-heavy')
+    depot.Label = f"Line 1 planning depot — {depot_plan['storage_slots']} storage slots / {depot_plan['workshop_bays']} workshop bays; schematic marker"
     depot.Shape = Part.makeCompound(depot_parts)
     depot.ViewObject.ShapeColor = (0.52, 0.19, 0.12)
     depot.ViewObject.LineColor = (0.20, 0.12, 0.08)
@@ -771,9 +775,9 @@ def _build_document(twin: SamawahLineTwin, model_path: Path):
         asset_id="OSR-SAM-L1-DEPOT-001",
         asset_class="depot.main-heavy",
         state={
-            "availability": "available",
-            "fleet_stalls": 17,
-            "storage_capacity_kwh": 40_000,
+            "availability": "planning-unaccepted",
+            "representation": "schematic marker; not a surveyed depot layout",
+            **depot_plan,
         },
     )
     groups["Depot"].addObject(depot)
@@ -983,4 +987,8 @@ if __name__ == "__main__":
         arguments = [] if os.environ.get("OSR_SAMAWAH_TWIN_RUN") == "1" else sys.argv[1:]
         sys.exit(main(arguments))
     finally:
+        # An exception during construction must not leave an unsaved-document
+        # dialog blocking the headless generator.
+        for document_name in list(App.listDocuments()):
+            App.closeDocument(document_name)
         QtCore.QCoreApplication.quit()

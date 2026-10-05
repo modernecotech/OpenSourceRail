@@ -1,22 +1,22 @@
 {
   "city": "conakry",
-  "closed_gate_count": 2,
+  "closed_gate_count": 3,
   "deployment_release_ready": false,
-  "design_sha256": "e13de7b69cefd3feefec3fc4f23b564fe4b984a56cc4c4cc309ab4cb5c309e75",
+  "design_sha256": "4beb171d9484bfe25ecf35cdd5ae14c2383763ea17de978a3480788b999a0bc9",
   "evidence_sha256": {
-    "delivery/summary.json": "69f89e99fe906ab1e99defcdf785338cfc885b2ef20a76772a518764fb7d177f",
-    "depot-scope/summary.json": "e381770382fa4e5aaa3823fec100179666478b58bf9510b2635712cad1f27f5f",
-    "energy/summary.json": "d7bf4fdd51c943a8607796c15f538b4fb238c6f5a3c59738e4f7e15ef5821e9e",
-    "simulation/operations-crosscheck.json": "f97521ad079f09c074ff9d810ef8ef83261166f9965d7d5856c9b31ecc0a8865",
-    "simulation/validation-summary.json": "c70fee6802a41fc42b2c364dcf03ade1c2aa42049a89633772a0b2728b648b30",
-    "soil/summary.json": "943893443b91a7b7b6fc40be6961f4a99496e6911fdbd44d043e11b6b1c8ce9e",
-    "stabling/summary.json": "1a3f795e8cd19bd405527a09770f586936a9250571c09447be5699942d78e2fe",
+    "delivery/summary.json": "9b2f326f262fd01efe0b6c564f4dc09fe4697aab9ee90cb156c346781516c65c",
+    "depot-scope/summary.json": "9a1725beb9992c3b8e79cdea81d58b9b29246733678fc28294c95ca0fd376cca",
+    "energy/summary.json": "f50364bca8b479157d5e61e8c7bda23cb7f6b219d2777917949aab6efd5752fa",
+    "simulation/operations-crosscheck.json": "e08c285c2ae64072e9a78a9b4889360c46ea1ab5bacc39259f55c2c5df25f8a6",
+    "simulation/validation-summary.json": "e34c042bf4892bb77c3579d1df27d5578f60d0fde77d887ea455eb00f4049374",
+    "soil/summary.json": "c6ed488b0d49433d06d37e5a1300b047a1bfe07cf025153288db4b50e08836a4",
+    "stabling/summary.json": "186597e9e061a78b2581c0b9a43aebc93624e5810465358a90b9f1eabea256a9",
     "survey/control-processing-readiness.json": "e8f44a3e31e86f4d359e93dede7049881375d133f69fa3898a1f9921c945766e",
-    "survey/drainage-ground-readiness.json": "0b0c0659c70f07c4f5f0c2ff65eb74a98e6fa8fe201f34e7ba50e83a6767b59e",
+    "survey/drainage-ground-readiness.json": "89452df765acc91a91c1f4357cb747302d16dcb1c64b5efe9b91fe3cfd61b920",
     "survey/ground-model-readiness.json": "259eeae86c70fa830af4a185fd03ddf6adc46eef711b8d97984c442bb7532851",
-    "survey/route-station-fit-readiness.json": "9783bb597f63d43b6856412bc9870f109be31a95b3a06d37f610df1aeef521a2",
-    "survey/structural-release-readiness.json": "f22b888bb0f1ee35439ae018473b633a1fed3e583fdae40b62b5830e2f5d8aa1",
-    "survey/surveyed-alignment-readiness.json": "11e626ac89c697a4fb9835668b098edc41bed481f62aee74dd5b90e734086b3d"
+    "survey/route-station-fit-readiness.json": "eba3fc3742aa182e6f728a35562af80bf141cfd18beef03531c43e6f3f61fe37",
+    "survey/structural-release-readiness.json": "cce6b0a8f8b821f74a5f7be60e2ff9f739c7de8a6aa5ede96c74bdcdcf8a0107",
+    "survey/surveyed-alignment-readiness.json": "9ab3f4689f1e3b8f4f6ccb31cacda1522bf5f69a31922f7bce1223fdb736a58f"
   },
   "gates": [
     {
@@ -30,7 +30,7 @@
     {
       "closure_action": "Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct.",
       "detail": {
-        "missing_profiles": 39
+        "missing_profiles": 30
       },
       "evidence": "soil/civil-investigation-plan.json",
       "id": "soil-coverage",
@@ -178,7 +178,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -191,20 +191,20 @@
     {
       "closure_action": "Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.",
       "detail": {
-        "depot_trainsets": 42,
+        "depot_trainsets": 44,
         "missing_morning_directions": [
           {
-            "heading": "forward",
+            "heading": "reverse",
             "line": "line-3",
-            "station": "line-3-0570-0502-s027949"
+            "station": "line-3-0564-0508-s027267"
           },
           {
             "heading": "forward",
             "line": "line-3",
-            "station": "line-3-0336-0645-s033814"
+            "station": "line-3-0336-0645-s032880"
           }
         ],
-        "station_trainsets": 42
+        "station_trainsets": 38
       },
       "evidence": "stabling/summary.json",
       "id": "morning-fleet-allocation",
@@ -241,10 +241,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 281481.7625678228,
+        "retained_run_delivered_kwh": 262991.40250898566,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 227709.1141933417,
-        "retained_run_pv_generated_kwh": 60256.511757584056,
+        "retained_run_grid_imported_kwh": 201574.22330339902,
+        "retained_run_pv_generated_kwh": 98338.63134570194,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -270,7 +270,7 @@
     {
       "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
       "detail": {
-        "planning_fte": 356
+        "planning_fte": 491
       },
       "evidence": "delivery/summary.json",
       "id": "workforce-duty-and-workload",
@@ -279,7 +279,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 15,
+  "open_gate_count": 14,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

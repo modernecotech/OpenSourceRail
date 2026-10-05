@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mandalay-line1.aln.toml`](mandalay-line1.aln.toml) | `line-1` | 43,875.8 m | 15 |
-| [`mandalay-line2.aln.toml`](mandalay-line2.aln.toml) | `line-2` | 32,265.1 m | 9 |
-| [`mandalay-line3.aln.toml`](mandalay-line3.aln.toml) | `line-3` | 31,964.0 m | 10 |
-| [`mandalay-line4.aln.toml`](mandalay-line4.aln.toml) | `line-4` | 25,810.7 m | 10 |
-| [`mandalay-line5.aln.toml`](mandalay-line5.aln.toml) | `line-5` | 27,266.7 m | 11 |
-| [`mandalay-line6.aln.toml`](mandalay-line6.aln.toml) | `line-6` | 60,730.8 m | 20 |
+| [`mandalay-line1.aln.toml`](mandalay-line1.aln.toml) | `line-1` | 36,152.6 m | 12 |
+| [`mandalay-line2.aln.toml`](mandalay-line2.aln.toml) | `line-2` | 29,843.5 m | 9 |
+| [`mandalay-line3.aln.toml`](mandalay-line3.aln.toml) | `line-3` | 29,032.5 m | 9 |
+| [`mandalay-line4.aln.toml`](mandalay-line4.aln.toml) | `line-4` | 21,607.3 m | 7 |
+| [`mandalay-line5.aln.toml`](mandalay-line5.aln.toml) | `line-5` | 23,752.3 m | 8 |
+| [`mandalay-line6.aln.toml`](mandalay-line6.aln.toml) | `line-6` | 58,829.2 m | 16 |
 
 ## Status
 

@@ -86,9 +86,9 @@ def test_candidate_reconciles_declared_roles_and_rejects_conflicting_inventory()
     design = tomllib.loads((city / 'design.toml').read_text())
     text = (city / 'samawah.toml').read_text()
     candidate, rows = distributed_candidate(text, design['fleets'])
-    assert sum(row['trainset_count'] for row in rows if row['service_role'] == 'revenue') == 97
-    assert sum(row['trainset_count'] for row in rows if row['service_role'] == 'spare') == 8
-    assert sum(row['trainset_count'] for row in rows if row['service_role'] == 'cold_reserve') == 3
+    assert sum(row['trainset_count'] for row in rows if row['service_role']=='revenue')==sum(f['peak_count']+f.get('service_rotation_count',0) for f in design['fleets'])
+    for role,key in [('spare','spare_count'),('cold_reserve','cold_reserve_count')]:
+        assert sum(row['trainset_count'] for row in rows if row['service_role']==role)==sum(f[key] for f in design['fleets'])
     assert distributed_candidate(candidate)[0] == candidate
     design['fleets'][0]['spare_count'] += 1
     with pytest.raises(ValueError, match='role counts do not reconcile'):

@@ -7,3 +7,8 @@ not create Git history by themselves.
 Review a candidate in a branch, commit the project inputs and revision file,
 then submit a pull request. After approval, tag the merge using the prefix
 `city/samawah/design/` declared in `project.osr.toml`.
+
+The regenerated core alignment uses new station positions and IDs. The older
+revision JSON and reviews remain historical records; they do not approve the
+current candidate. Previous platform locks are retained separately in
+`../network/historical-pre-core-overrides.toml` and are inactive.

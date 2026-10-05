@@ -15,7 +15,7 @@ SPEC.loader.exec_module(manifest)
 
 def test_changed_scenario_invalidates_passing_simulation_evidence(tmp_path):
     design, scenario = tmp_path / "design.toml", tmp_path / "test.toml"
-    design.write_text("design input")
+    design.write_text('[city]\nslug = "test"\n')
     scenario.write_text("original scenario")
     output = tmp_path / "engineering/simulation/validation-summary.json"
     output.parent.mkdir(parents=True)

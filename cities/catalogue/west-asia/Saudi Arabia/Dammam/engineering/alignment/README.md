@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`dammam-line1.aln.toml`](dammam-line1.aln.toml) | `line-1` | 45,782.0 m | 17 |
-| [`dammam-line2.aln.toml`](dammam-line2.aln.toml) | `line-2` | 37,718.7 m | 15 |
-| [`dammam-line3.aln.toml`](dammam-line3.aln.toml) | `line-3` | 29,821.2 m | 11 |
-| [`dammam-line4.aln.toml`](dammam-line4.aln.toml) | `line-4` | 31,876.2 m | 11 |
-| [`dammam-line5.aln.toml`](dammam-line5.aln.toml) | `line-5` | 40,518.3 m | 15 |
-| [`dammam-line6.aln.toml`](dammam-line6.aln.toml) | `line-6` | 87,199.1 m | 28 |
+| [`dammam-line1.aln.toml`](dammam-line1.aln.toml) | `line-1` | 42,289.0 m | 17 |
+| [`dammam-line2.aln.toml`](dammam-line2.aln.toml) | `line-2` | 34,118.6 m | 13 |
+| [`dammam-line3.aln.toml`](dammam-line3.aln.toml) | `line-3` | 25,663.2 m | 9 |
+| [`dammam-line4.aln.toml`](dammam-line4.aln.toml) | `line-4` | 28,426.2 m | 10 |
+| [`dammam-line5.aln.toml`](dammam-line5.aln.toml) | `line-5` | 32,954.8 m | 12 |
+| [`dammam-line6.aln.toml`](dammam-line6.aln.toml) | `line-6` | 79,745.7 m | 22 |
 
 ## Status
 

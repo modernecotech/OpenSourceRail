@@ -83,7 +83,8 @@ def test_samawah_historical_continuous_evidence_is_not_an_acceptance_gate():
     folder = root / 'cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling'
     report = json.loads((folder / 'service-cycle-screen.json').read_text())
     plan = json.loads((folder / 'summary.json').read_text())
-    assert report['candidate_sha256'] == report['scenario_sha256'] == plan['candidate_sha256']
+    assert report['candidate_sha256'] == report['scenario_sha256']
+    assert report['candidate_sha256'] != plan['candidate_sha256']  # retained pre-rework experiment
     assert report['service_days'] == 2
     assert report['passed'] is False
     assert report['operating_behavior_passed'] is True

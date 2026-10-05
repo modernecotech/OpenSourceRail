@@ -5,7 +5,13 @@
 This page contains only Nador-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$422 M (87.8%) of external capital** and **$518 M of external interest**. Capital plus saved interest totals **$940 M**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$658 M (89.5%) of external capital** and **$809 M of external interest**. Capital plus saved interest totals **$1.47 bn**. See the common reference for interpretation and limitations.
+
+**Current alignment, depot and production basis.** Core corridors change from **28.851 km to 21.110 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **12 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+
+**3 line-local depots** provide **62 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **62 tram-2car trainsets / 124 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+
+Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
 Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
 
@@ -15,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 16 / 1 |
-| Route length | 34.3 km double track |
-| Coverage / transfer reachability | 69.6% / 100% |
-| Estimated station catchment | 174,000 residents |
+| Lines / unique stations / interchanges | 3 / 12 / 1 |
+| Route length | 29.0 km double track |
+| Coverage / transfer reachability | 59.5% / 33% |
+| Estimated station catchment | 148,750 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 72 × 2-car `tram-2car` trainsets (65 peak revenue) |
+| Fleet | 62 × 2-car `tram-2car` trainsets (55 peak revenue) |
 | Peak network throughput | 28,800 passengers/hour |
 | Practical service capacity | 267,840 passenger-trips/day |
 | Annual paid-trip planning range | 48.9–78.2 M |
@@ -29,62 +35,59 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 10.0 km | 5 | 21 | E Inner ↔ W Outer |
-| line-2 | 15.4 km | 7 | 32 | NW Outer ↔ SE Mid |
-| line-3 |  9.0 km | 4 | 19 | SE Outer ↔ NW Inner |
-| **Total** | **34.3 km** | **16 unique** | **72** | |
+| line-1 |  9.1 km | 4 | 20 | NE Inner ↔ W Outer |
+| line-2 | 12.4 km | 4 | 25 | NW Outer ↔ SE Mid |
+| line-3 |  7.6 km | 4 | 17 | SE Outer ↔ NW Inner |
+| **Total** | **29.0 km** | **12 unique** | **62** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 1,395 one-way journeys / 15,971 train-km/day |
-| Annual traction demand | 50.4 GWh |
-| Station/depot PV / storage | 9.2 MW / 47.0 MWh |
-| Aggregate charging power | 7.5 MW |
-| Dedicated solar plant | 18.3 MW |
+| Scheduled service | 1,395 one-way journeys / 13,498 train-km/day |
+| Annual traction demand | 42.6 GWh |
+| Station/depot PV / storage | 17.7 MW / 124.5 MWh |
+| Aggregate charging power | 6.0 MW |
+| Dedicated solar plant | 4.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-2: 7.0 km / 34 kWh |
-| Lowest traversal charging margin | line-3: 42 kWh |
+| Worst powered-stop gap | line-2: 6.4 km / 31 kWh |
+| Lowest traversal charging margin | line-2: 41 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $103 M |
-| Stations | $81 M |
-| Depots | $8.0 M |
-| Rolling stock | $40 M |
-| Dedicated solar plant | $15 M |
-| Residual train control | $1.7 M |
-| Charging microgrids | $1.7 M |
-| EPC / project services | $16 M |
-| **Total city programme** | **$267 M** |
+| Civil works | $243 M |
+| Stations | $56 M |
+| Depots | $42 M |
+| Rolling stock | $35 M |
+| Dedicated solar plant | $3.2 M |
+| Residual train control | $1.5 M |
+| Charging microgrids | $1.4 M |
+| EPC / project services | $27 M |
+| **Total city programme** | **$408 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $58 M (21.9%) |
-| Domestic / local capital | $208 M (78.1%) |
-| Annual public construction commitment | $18 M / yr for 5 years |
-| Annual post-grace debt service | $13 M / yr |
-| External capital saved vs default turnkey sensitivity | $422 M |
-| Capital + lifetime external interest saved | $940 M |
-| Annual OPEX | $7.5 M / yr |
+| Imported / external capital | $77 M (18.9%) |
+| Domestic / local capital | $331 M (81.1%) |
+| Annual public construction commitment | $29 M / yr for 5 years |
+| Annual post-grace debt service | $20 M / yr |
+| External capital saved vs default turnkey sensitivity | $658 M |
+| Capital + lifetime external interest saved | $1.47 bn |
+| Annual OPEX | $12 M / yr |
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 723777d11123337b77d6eee2d76a2b11ea9b28cd20bb526169128374ef64e303, but nador.toml is 126be42f76f58eb311d7cc66ff5e1d54824de11c7d2d18cfe36804e656e5c68a; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 5 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 166 assets / 934 tasks | [`nador-operations-manifest.json`](operations/nador-operations-manifest.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 3 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 139 assets / 775 tasks | [`nador-operations-manifest.json`](operations/nador-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

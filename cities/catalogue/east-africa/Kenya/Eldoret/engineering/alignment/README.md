@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`eldoret-line1.aln.toml`](eldoret-line1.aln.toml) | `line-1` | 22,573.6 m | 7 |
-| [`eldoret-line2.aln.toml`](eldoret-line2.aln.toml) | `line-2` | 14,309.2 m | 5 |
-| [`eldoret-line3.aln.toml`](eldoret-line3.aln.toml) | `line-3` | 22,099.0 m | 8 |
+| [`eldoret-line1.aln.toml`](eldoret-line1.aln.toml) | `line-1` | 20,073.8 m | 6 |
+| [`eldoret-line2.aln.toml`](eldoret-line2.aln.toml) | `line-2` | 13,797.9 m | 5 |
+| [`eldoret-line3.aln.toml`](eldoret-line3.aln.toml) | `line-3` | 20,373.0 m | 6 |
 
 ## Status
 

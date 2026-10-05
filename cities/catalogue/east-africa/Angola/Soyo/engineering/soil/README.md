@@ -1,6 +1,6 @@
 # Soyo civil soil screening
 
-65 route/station sample locations; 65 complete profiles; 0 profiles with missing data.
+72 route/station sample locations; 72 complete profiles; 0 profiles with missing data.
 
 Published soilDB 2020–2022 predictions, 120 m pixels, 0–30 / 30–60 / 60–100 cm depths. Mean and p16–p84 are retained for clay, sand, silt, bulk density, organic carbon and pH.
 
@@ -8,10 +8,9 @@ The [samples](samples.csv), [source receipt](source-receipt.json), [map](sample-
 
 | Investigation trigger | Sample locations |
 |---|---:|
-| acidic-soil-durability-testing | 2 |
-| fine-soil-plasticity-and-shrink-swell-tests | 65 |
-| granular-density-and-groundwater-tests | 65 |
-| organic-content-and-compressibility-tests | 11 |
+| fine-soil-plasticity-and-shrink-swell-tests | 72 |
+| granular-density-and-groundwater-tests | 72 |
+| organic-content-and-compressibility-tests | 23 |
 
 - No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.
 - Desert, water, urban fill and other nodata remain unknown; no nearest-pixel or climate-based substitution.
@@ -27,21 +26,21 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 
 | Depth | Property | Unit | Mean range | Uncertainty envelope | Available locations |
 |---|---|---|---:|---:|---:|
-| 0..30cm | clay | % | 21–26 | 4–42 | 65 |
-| 0..30cm | sand | % | 53–62 | 23–94 | 65 |
-| 0..30cm | silt | % | 16–21 | 0–38 | 65 |
-| 0..30cm | bd.core | kg/m3 | 940–1380 | 650–1600 | 65 |
-| 0..30cm | soc | g/kg | 5.1–22.2 | 2.2–72.6 | 65 |
-| 0..30cm | ph.h2o | pH | 6.5–7 | 5–8.2 | 65 |
-| 30..60cm | clay | % | 20–27 | 3–44 | 65 |
-| 30..60cm | sand | % | 50–62 | 17–95 | 65 |
-| 30..60cm | silt | % | 16–23 | 0–41 | 65 |
-| 30..60cm | bd.core | kg/m3 | 1010–1470 | 700–1640 | 65 |
-| 30..60cm | soc | g/kg | 3.5–19.3 | 1.3–71.9 | 65 |
-| 30..60cm | ph.h2o | pH | 6.7–7.2 | 5.4–8.3 | 65 |
-| 60..100cm | clay | % | 21–28 | 4–46 | 65 |
-| 60..100cm | sand | % | 49–61 | 17–94 | 65 |
-| 60..100cm | silt | % | 17–23 | 0–43 | 65 |
-| 60..100cm | bd.core | kg/m3 | 980–1480 | 610–1760 | 65 |
-| 60..100cm | soc | g/kg | 3.1–16.5 | 0.7–104.1 | 65 |
-| 60..100cm | ph.h2o | pH | 6.8–7.3 | 5.5–8.5 | 65 |
+| 0..30cm | clay | % | 21–27 | 2–42 | 72 |
+| 0..30cm | sand | % | 51–63 | 24–95 | 72 |
+| 0..30cm | silt | % | 15–22 | 0–41 | 72 |
+| 0..30cm | bd.core | kg/m3 | 900–1390 | 580–1620 | 72 |
+| 0..30cm | soc | g/kg | 5.4–22.8 | 2.4–56.6 | 72 |
+| 0..30cm | ph.h2o | pH | 6.5–7 | 5.5–8.1 | 72 |
+| 30..60cm | clay | % | 20–28 | 3–44 | 72 |
+| 30..60cm | sand | % | 50–64 | 19–95 | 72 |
+| 30..60cm | silt | % | 15–23 | 0–41 | 72 |
+| 30..60cm | bd.core | kg/m3 | 1020–1470 | 630–1630 | 72 |
+| 30..60cm | soc | g/kg | 3.7–20.3 | 1.5–57.7 | 72 |
+| 30..60cm | ph.h2o | pH | 6.8–7.2 | 5.6–8.2 | 72 |
+| 60..100cm | clay | % | 20–28 | 3–44 | 72 |
+| 60..100cm | sand | % | 50–64 | 14–95 | 72 |
+| 60..100cm | silt | % | 16–23 | 0–43 | 72 |
+| 60..100cm | bd.core | kg/m3 | 1010–1480 | 600–1750 | 72 |
+| 60..100cm | soc | g/kg | 3.5–18.3 | 0.8–106.2 | 72 |
+| 60..100cm | ph.h2o | pH | 7–7.3 | 5.5–8.4 | 72 |

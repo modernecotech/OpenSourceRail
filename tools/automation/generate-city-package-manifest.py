@@ -92,7 +92,7 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
         if funding is not None and funding.get("schedule_status") != "linked-to-budget-work-packages":
             findings.append({"artifact": "engineering/finance/summary.json", "source": "funding_schedule", "expected_sha256": "current schedule-linked appraisal", "recorded_sha256": funding.get("schedule_status")})
     if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
-        for relative in ('alignment/core-realignment.json','alignment/station-water-screen.json','line-depots/summary.json','factory/summary.json'):
+        for relative in ('alignment/core-realignment.json','alignment/station-water-screen.json','alignment/station-infill.json','line-depots/summary.json','factory/summary.json'):
             path=city_dir/'engineering'/relative
             if not path.is_file():continue
             report=json.loads(path.read_text())

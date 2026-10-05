@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5067**.
+Indexed Markdown files: **5599**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **5067**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 4367 |
+| [cities](#cities) | 4897 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 190 |
+| [docs](#docs) | 192 |
 | [engineering](#engineering) | 27 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -65,6 +65,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/delivery/README.md) | Bukavu organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/deployment/README.md) | Bukavu deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/depot-scope/README.md) | bukavu depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/factory/README.md) | Bukavu city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/simulation/operations-crosscheck.md) | Bukavu operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/soil/README.md) | Bukavu civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -82,6 +84,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/delivery/README.md) | Goma organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/deployment/README.md) | Goma deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/depot-scope/README.md) | goma depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Goma/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/factory/README.md) | Goma city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Goma/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/simulation/operations-crosscheck.md) | Goma operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/soil/README.md) | Goma civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -98,6 +102,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/delivery/README.md) | Kananga organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/deployment/README.md) | Kananga deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/depot-scope/README.md) | kananga depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/factory/README.md) | Kananga city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/simulation/operations-crosscheck.md) | Kananga operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/soil/README.md) | Kananga civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -114,6 +120,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/delivery/README.md) | Kinshasa organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/deployment/README.md) | Kinshasa deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/depot-scope/README.md) | kinshasa depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/factory/README.md) | Kinshasa city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/simulation/operations-crosscheck.md) | Kinshasa operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/soil/README.md) | Kinshasa civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -130,6 +138,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/delivery/README.md) | Kisangani organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/deployment/README.md) | Kisangani deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/depot-scope/README.md) | kisangani depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/factory/README.md) | Kisangani city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/simulation/operations-crosscheck.md) | Kisangani operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/soil/README.md) | Kisangani civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -146,6 +156,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/delivery/README.md) | Lubumbashi organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/deployment/README.md) | Lubumbashi deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/depot-scope/README.md) | lubumbashi depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/factory/README.md) | Lubumbashi city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/simulation/operations-crosscheck.md) | Lubumbashi operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/soil/README.md) | Lubumbashi civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -162,6 +174,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/delivery/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/delivery/README.md) | Mbuji-Mayi organisation and design work |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/deployment/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/deployment/README.md) | Mbuji-Mayi deployment gaps |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/depot-scope/README.md) | mbuji-mayi depot scope reconciliation |
+| [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/factory/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/factory/README.md) | Mbuji-Mayi city-order factory requirement |
+| [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/line-depots/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/simulation/operations-crosscheck.md) | Mbuji-Mayi operations cross-check |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/soil/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/soil/README.md) | Mbuji-Mayi civil soil screening |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/stabling/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -179,6 +193,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md) | Benguela organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md) | Benguela deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md) | benguela depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Benguela/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/factory/README.md) | Benguela city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Benguela/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md) | Benguela operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/soil/README.md) | Benguela civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Benguela/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -195,6 +211,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md) | Huambo organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md) | Huambo deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md) | huambo depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Huambo/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/factory/README.md) | Huambo city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Huambo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md) | Huambo operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/soil/README.md) | Huambo civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Huambo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -211,6 +229,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md) | Lobito organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md) | Lobito deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md) | lobito depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Lobito/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/factory/README.md) | Lobito city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Lobito/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md) | Lobito operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/soil/README.md) | Lobito civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Lobito/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -227,6 +247,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md) | Luanda organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md) | Luanda deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md) | luanda depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Luanda/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/factory/README.md) | Luanda city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Luanda/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md) | Luanda operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/soil/README.md) | Luanda civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Luanda/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -243,6 +265,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md) | Lubango organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md) | Lubango deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md) | lubango depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Lubango/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/factory/README.md) | Lubango city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Lubango/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md) | Lubango operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/soil/README.md) | Lubango civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Lubango/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -259,6 +283,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md) | Malanje organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md) | Malanje deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md) | malanje depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Malanje/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/factory/README.md) | Malanje city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Malanje/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md) | Malanje operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md) | Malanje civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Malanje/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -276,6 +302,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md) | Namibe organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md) | Namibe deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md) | namibe depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Namibe/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/factory/README.md) | Namibe city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Namibe/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md) | Namibe operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md) | Namibe civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Namibe/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -292,6 +320,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md) | Soyo organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md) | Soyo deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md) | soyo depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Soyo/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/factory/README.md) | Soyo city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Soyo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md) | Soyo operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md) | Soyo civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Soyo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -308,6 +338,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md) | Uige organisation and design work |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) | Uige deployment gaps |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md) | uige depot scope reconciliation |
+| [`cities/catalogue/east-africa/Angola/Uige/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/factory/README.md) | Uige city-order factory requirement |
+| [`cities/catalogue/east-africa/Angola/Uige/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md) | Uige operations cross-check |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md) | Uige civil soil screening |
 | [`cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -325,6 +357,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/delivery/README.md) | Eldoret organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md) | Eldoret deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/depot-scope/README.md) | eldoret depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/factory/README.md) | Eldoret city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/simulation/operations-crosscheck.md) | Eldoret operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/soil/README.md) | Eldoret civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -341,6 +375,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/delivery/README.md) | Garissa organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md) | Garissa deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/depot-scope/README.md) | garissa depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Garissa/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/factory/README.md) | Garissa city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Garissa/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/simulation/operations-crosscheck.md) | Garissa operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/soil/README.md) | Garissa civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -357,6 +393,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/delivery/README.md) | Kakamega organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md) | Kakamega deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/depot-scope/README.md) | kakamega depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/factory/README.md) | Kakamega city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/simulation/operations-crosscheck.md) | Kakamega operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/soil/README.md) | Kakamega civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -373,6 +411,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/delivery/README.md) | Kisii organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/deployment/README.md) | Kisii deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/depot-scope/README.md) | kisii depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Kisii/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/factory/README.md) | Kisii city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Kisii/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/simulation/operations-crosscheck.md) | Kisii operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/soil/README.md) | Kisii civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -389,6 +429,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/delivery/README.md) | Kisumu organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/deployment/README.md) | Kisumu deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/depot-scope/README.md) | kisumu depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/factory/README.md) | Kisumu city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/simulation/operations-crosscheck.md) | Kisumu operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/soil/README.md) | Kisumu civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -405,6 +447,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/delivery/README.md) | Kitale organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/deployment/README.md) | Kitale deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/depot-scope/README.md) | kitale depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Kitale/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/factory/README.md) | Kitale city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Kitale/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/simulation/operations-crosscheck.md) | Kitale operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/soil/README.md) | Kitale civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -421,6 +465,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/delivery/README.md) | Machakos organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/deployment/README.md) | Machakos deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/depot-scope/README.md) | machakos depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Machakos/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/factory/README.md) | Machakos city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Machakos/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/simulation/operations-crosscheck.md) | Machakos operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/soil/README.md) | Machakos civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -437,6 +483,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/delivery/README.md) | Malindi organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/deployment/README.md) | Malindi deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/depot-scope/README.md) | malindi depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Malindi/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/factory/README.md) | Malindi city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Malindi/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/simulation/operations-crosscheck.md) | Malindi operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/soil/README.md) | Malindi civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -453,6 +501,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/delivery/README.md) | Meru-Ke organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/deployment/README.md) | Meru-Ke deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/depot-scope/README.md) | meru-ke depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/factory/README.md) | Meru-Ke city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/simulation/operations-crosscheck.md) | Meru-Ke operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/soil/README.md) | Meru-Ke civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -469,6 +519,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/delivery/README.md) | Mombasa organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/deployment/README.md) | Mombasa deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/depot-scope/README.md) | mombasa depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/factory/README.md) | Mombasa city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/simulation/operations-crosscheck.md) | Mombasa operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/soil/README.md) | Mombasa civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -486,6 +538,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/delivery/README.md) | Nairobi organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/deployment/README.md) | Nairobi deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/depot-scope/README.md) | nairobi depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/factory/README.md) | Nairobi city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/simulation/operations-crosscheck.md) | Nairobi operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/soil/README.md) | Nairobi civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -502,6 +556,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/delivery/README.md) | Naivasha organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/deployment/README.md) | Naivasha deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/depot-scope/README.md) | naivasha depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/factory/README.md) | Naivasha city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/simulation/operations-crosscheck.md) | Naivasha operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/soil/README.md) | Naivasha civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -518,6 +574,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/delivery/README.md) | Nakuru organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/deployment/README.md) | Nakuru deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/depot-scope/README.md) | nakuru depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/factory/README.md) | Nakuru city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/simulation/operations-crosscheck.md) | Nakuru operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/soil/README.md) | Nakuru civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -534,6 +592,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/delivery/README.md) | Nyeri organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/deployment/README.md) | Nyeri deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/depot-scope/README.md) | nyeri depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/factory/README.md) | Nyeri city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/simulation/operations-crosscheck.md) | Nyeri operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/soil/README.md) | Nyeri civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -550,6 +610,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/delivery/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/delivery/README.md) | Thika organisation and design work |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/deployment/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/deployment/README.md) | Thika deployment gaps |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/depot-scope/README.md) | thika depot scope reconciliation |
+| [`cities/catalogue/east-africa/Kenya/Thika/engineering/factory/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/factory/README.md) | Thika city-order factory requirement |
+| [`cities/catalogue/east-africa/Kenya/Thika/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/simulation/operations-crosscheck.md) | Thika operations cross-check |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/soil/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/soil/README.md) | Thika civil soil screening |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/stabling/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -566,6 +628,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/delivery/README.md) | Antananarivo organisation and design work |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/deployment/README.md) | Antananarivo deployment gaps |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/depot-scope/README.md) | antananarivo depot scope reconciliation |
+| [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/factory/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/factory/README.md) | Antananarivo city-order factory requirement |
+| [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/simulation/operations-crosscheck.md) | Antananarivo operations cross-check |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/soil/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/soil/README.md) | Antananarivo civil soil screening |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -583,6 +647,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/delivery/README.md) | Beira organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/deployment/README.md) | Beira deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/depot-scope/README.md) | beira depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Beira/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/factory/README.md) | Beira city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Beira/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/simulation/operations-crosscheck.md) | Beira operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/soil/README.md) | Beira civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -599,6 +665,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/delivery/README.md) | Chimoio organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/deployment/README.md) | Chimoio deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/depot-scope/README.md) | chimoio depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/factory/README.md) | Chimoio city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/simulation/operations-crosscheck.md) | Chimoio operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/soil/README.md) | Chimoio civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -615,6 +683,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/delivery/README.md) | Lichinga organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/deployment/README.md) | Lichinga deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/depot-scope/README.md) | lichinga depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/factory/README.md) | Lichinga city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/simulation/operations-crosscheck.md) | Lichinga operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/soil/README.md) | Lichinga civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -631,6 +701,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/delivery/README.md) | Maputo organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/deployment/README.md) | Maputo deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/depot-scope/README.md) | maputo depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/factory/README.md) | Maputo city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/simulation/operations-crosscheck.md) | Maputo operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/soil/README.md) | Maputo civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -648,6 +720,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/delivery/README.md) | Nacala organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/deployment/README.md) | Nacala deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/depot-scope/README.md) | nacala depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/factory/README.md) | Nacala city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/simulation/operations-crosscheck.md) | Nacala operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/soil/README.md) | Nacala civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -664,6 +738,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/delivery/README.md) | Nampula organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/deployment/README.md) | Nampula deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/depot-scope/README.md) | nampula depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/factory/README.md) | Nampula city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/simulation/operations-crosscheck.md) | Nampula operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/soil/README.md) | Nampula civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -680,6 +756,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/delivery/README.md) | Pemba-Mz organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/deployment/README.md) | Pemba-Mz deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/depot-scope/README.md) | pemba-mz depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/factory/README.md) | Pemba-Mz city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/simulation/operations-crosscheck.md) | Pemba-Mz operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/soil/README.md) | Pemba-Mz civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -696,6 +774,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/delivery/README.md) | Quelimane organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/deployment/README.md) | Quelimane deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/depot-scope/README.md) | quelimane depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/factory/README.md) | Quelimane city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/simulation/operations-crosscheck.md) | Quelimane operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/soil/README.md) | Quelimane civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -713,6 +793,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/delivery/README.md) | Tete organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/deployment/README.md) | Tete deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/depot-scope/README.md) | tete depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Tete/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/factory/README.md) | Tete city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Tete/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/simulation/operations-crosscheck.md) | Tete operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/soil/README.md) | Tete civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -729,6 +811,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/delivery/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/delivery/README.md) | Xai-Xai organisation and design work |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/deployment/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/deployment/README.md) | Xai-Xai deployment gaps |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/depot-scope/README.md) | xai-xai depot scope reconciliation |
+| [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/factory/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/factory/README.md) | Xai-Xai city-order factory requirement |
+| [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/simulation/operations-crosscheck.md) | Xai-Xai operations cross-check |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/soil/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/soil/README.md) | Xai-Xai civil soil screening |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/stabling/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -745,6 +829,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/delivery/README.md) | Huye organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/deployment/README.md) | Huye deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/depot-scope/README.md) | huye depot scope reconciliation |
+| [`cities/catalogue/east-africa/Rwanda/Huye/engineering/factory/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/factory/README.md) | Huye city-order factory requirement |
+| [`cities/catalogue/east-africa/Rwanda/Huye/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/simulation/operations-crosscheck.md) | Huye operations cross-check |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/soil/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/soil/README.md) | Huye civil soil screening |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/stabling/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -761,6 +847,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/delivery/README.md) | Kigali organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/deployment/README.md) | Kigali deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/depot-scope/README.md) | kigali depot scope reconciliation |
+| [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/factory/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/factory/README.md) | Kigali city-order factory requirement |
+| [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/simulation/operations-crosscheck.md) | Kigali operations cross-check |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/soil/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/soil/README.md) | Kigali civil soil screening |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/stabling/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -778,6 +866,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/delivery/README.md) | Rubavu organisation and design work |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/deployment/README.md) | Rubavu deployment gaps |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/depot-scope/README.md) | rubavu depot scope reconciliation |
+| [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/factory/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/factory/README.md) | Rubavu city-order factory requirement |
+| [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/simulation/operations-crosscheck.md) | Rubavu operations cross-check |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/soil/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/soil/README.md) | Rubavu civil soil screening |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/stabling/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -794,6 +884,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/delivery/README.md) | Mogadishu organisation and design work |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/deployment/README.md) | Mogadishu deployment gaps |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/depot-scope/README.md) | mogadishu depot scope reconciliation |
+| [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/factory/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/factory/README.md) | Mogadishu city-order factory requirement |
+| [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/operations-crosscheck.md) | Mogadishu operations cross-check |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/soil/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/soil/README.md) | Mogadishu civil soil screening |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/stabling/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -811,6 +903,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/delivery/README.md) | Arusha organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/deployment/README.md) | Arusha deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/depot-scope/README.md) | arusha depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/factory/README.md) | Arusha city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/simulation/operations-crosscheck.md) | Arusha operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/soil/README.md) | Arusha civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -827,6 +921,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/delivery/README.md) | Dar-Es-Salaam organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/deployment/README.md) | Dar-Es-Salaam deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/depot-scope/README.md) | dar-es-salaam depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/factory/README.md) | Dar-Es-Salaam city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/simulation/operations-crosscheck.md) | Dar-Es-Salaam operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/soil/README.md) | Dar-Es-Salaam civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -843,6 +939,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/delivery/README.md) | Dodoma organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/deployment/README.md) | Dodoma deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/depot-scope/README.md) | dodoma depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/factory/README.md) | Dodoma city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/simulation/operations-crosscheck.md) | Dodoma operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/soil/README.md) | Dodoma civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -859,6 +957,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/delivery/README.md) | Iringa organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/deployment/README.md) | Iringa deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/depot-scope/README.md) | iringa depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/factory/README.md) | Iringa city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/simulation/operations-crosscheck.md) | Iringa operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/soil/README.md) | Iringa civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -875,6 +975,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/delivery/README.md) | Kigoma organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/deployment/README.md) | Kigoma deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/depot-scope/README.md) | kigoma depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/factory/README.md) | Kigoma city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/simulation/operations-crosscheck.md) | Kigoma operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/soil/README.md) | Kigoma civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -891,6 +993,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/delivery/README.md) | Mbeya organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/deployment/README.md) | Mbeya deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/depot-scope/README.md) | mbeya depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/factory/README.md) | Mbeya city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/simulation/operations-crosscheck.md) | Mbeya operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/soil/README.md) | Mbeya civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -907,6 +1011,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/delivery/README.md) | Morogoro organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/deployment/README.md) | Morogoro deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/depot-scope/README.md) | morogoro depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/factory/README.md) | Morogoro city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/simulation/operations-crosscheck.md) | Morogoro operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/soil/README.md) | Morogoro civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -923,6 +1029,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/delivery/README.md) | Moshi organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/deployment/README.md) | Moshi deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/depot-scope/README.md) | moshi depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/factory/README.md) | Moshi city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/simulation/operations-crosscheck.md) | Moshi operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/soil/README.md) | Moshi civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -939,6 +1047,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/delivery/README.md) | Mwanza organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/deployment/README.md) | Mwanza deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/depot-scope/README.md) | mwanza depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/factory/README.md) | Mwanza city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/simulation/operations-crosscheck.md) | Mwanza operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/soil/README.md) | Mwanza civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -956,6 +1066,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/delivery/README.md) | Shinyanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/deployment/README.md) | Shinyanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/depot-scope/README.md) | shinyanga depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/factory/README.md) | Shinyanga city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/simulation/operations-crosscheck.md) | Shinyanga operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/soil/README.md) | Shinyanga civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -972,6 +1084,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/delivery/README.md) | Songea organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/deployment/README.md) | Songea deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/depot-scope/README.md) | songea depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Songea/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/factory/README.md) | Songea city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Songea/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/simulation/operations-crosscheck.md) | Songea operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/soil/README.md) | Songea civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -988,6 +1102,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/delivery/README.md) | Sumbawanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/deployment/README.md) | Sumbawanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/depot-scope/README.md) | sumbawanga depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/factory/README.md) | Sumbawanga city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/simulation/operations-crosscheck.md) | Sumbawanga operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/soil/README.md) | Sumbawanga civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1005,6 +1121,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/delivery/README.md) | Tabora organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/deployment/README.md) | Tabora deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/depot-scope/README.md) | tabora depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/factory/README.md) | Tabora city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/simulation/operations-crosscheck.md) | Tabora operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/soil/README.md) | Tabora civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1021,6 +1139,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/delivery/README.md) | Tanga organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/deployment/README.md) | Tanga deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/depot-scope/README.md) | tanga depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/factory/README.md) | Tanga city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/simulation/operations-crosscheck.md) | Tanga operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/soil/README.md) | Tanga civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1037,6 +1157,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/delivery/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/delivery/README.md) | Zanzibar-City organisation and design work |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/deployment/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/deployment/README.md) | Zanzibar-City deployment gaps |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/depot-scope/README.md) | zanzibar-city depot scope reconciliation |
+| [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/factory/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/factory/README.md) | Zanzibar-City city-order factory requirement |
+| [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/simulation/operations-crosscheck.md) | Zanzibar-City operations cross-check |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/soil/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/soil/README.md) | Zanzibar-City civil soil screening |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/stabling/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1053,6 +1175,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/delivery/README.md) | Arua organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/deployment/README.md) | Arua deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/depot-scope/README.md) | arua depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Arua/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/factory/README.md) | Arua city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Arua/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/simulation/operations-crosscheck.md) | Arua operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/soil/README.md) | Arua civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1069,6 +1193,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/delivery/README.md) | Entebbe organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/deployment/README.md) | Entebbe deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/depot-scope/README.md) | entebbe depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/factory/README.md) | Entebbe city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/simulation/operations-crosscheck.md) | Entebbe operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/soil/README.md) | Entebbe civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1085,6 +1211,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/delivery/README.md) | Fort-Portal organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/deployment/README.md) | Fort-Portal deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/depot-scope/README.md) | fort-portal depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/factory/README.md) | Fort-Portal city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/simulation/operations-crosscheck.md) | Fort-Portal operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/soil/README.md) | Fort-Portal civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1101,6 +1229,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/delivery/README.md) | Gulu organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/deployment/README.md) | Gulu deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/depot-scope/README.md) | gulu depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Gulu/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/factory/README.md) | Gulu city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Gulu/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/simulation/operations-crosscheck.md) | Gulu operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/soil/README.md) | Gulu civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1117,6 +1247,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/delivery/README.md) | Hoima organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/deployment/README.md) | Hoima deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/depot-scope/README.md) | hoima depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Hoima/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/factory/README.md) | Hoima city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Hoima/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/simulation/operations-crosscheck.md) | Hoima operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/soil/README.md) | Hoima civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1133,6 +1265,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/delivery/README.md) | Jinja organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/deployment/README.md) | Jinja deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/depot-scope/README.md) | jinja depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Jinja/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/factory/README.md) | Jinja city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Jinja/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/simulation/operations-crosscheck.md) | Jinja operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/soil/README.md) | Jinja civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1149,6 +1283,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/delivery/README.md) | Kampala organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/deployment/README.md) | Kampala deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/depot-scope/README.md) | kampala depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Kampala/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/factory/README.md) | Kampala city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Kampala/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/simulation/operations-crosscheck.md) | Kampala operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/soil/README.md) | Kampala civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1165,6 +1301,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/delivery/README.md) | Lira organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/deployment/README.md) | Lira deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/depot-scope/README.md) | lira depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Lira/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/factory/README.md) | Lira city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Lira/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/simulation/operations-crosscheck.md) | Lira operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/soil/README.md) | Lira civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1181,6 +1319,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/delivery/README.md) | Masaka organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/deployment/README.md) | Masaka deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/depot-scope/README.md) | masaka depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Masaka/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/factory/README.md) | Masaka city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Masaka/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/simulation/operations-crosscheck.md) | Masaka operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/soil/README.md) | Masaka civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1197,6 +1337,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/delivery/README.md) | Mbale organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/deployment/README.md) | Mbale deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/depot-scope/README.md) | mbale depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Mbale/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/factory/README.md) | Mbale city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Mbale/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/simulation/operations-crosscheck.md) | Mbale operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/soil/README.md) | Mbale civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1213,6 +1355,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/delivery/README.md) | Mbarara organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/deployment/README.md) | Mbarara deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/depot-scope/README.md) | mbarara depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/factory/README.md) | Mbarara city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/simulation/operations-crosscheck.md) | Mbarara operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/soil/README.md) | Mbarara civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1230,6 +1374,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/delivery/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/delivery/README.md) | Soroti organisation and design work |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/deployment/README.md) | Soroti deployment gaps |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/depot-scope/README.md) | soroti depot scope reconciliation |
+| [`cities/catalogue/east-africa/Uganda/Soroti/engineering/factory/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/factory/README.md) | Soroti city-order factory requirement |
+| [`cities/catalogue/east-africa/Uganda/Soroti/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/simulation/operations-crosscheck.md) | Soroti operations cross-check |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/soil/README.md) | Soroti civil soil screening |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1247,6 +1393,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/delivery/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/delivery/README.md) | Lusaka organisation and design work |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/deployment/README.md) | Lusaka deployment gaps |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/depot-scope/README.md) | lusaka depot scope reconciliation |
+| [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/factory/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/factory/README.md) | Lusaka city-order factory requirement |
+| [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/simulation/operations-crosscheck.md) | Lusaka operations cross-check |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/soil/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/soil/README.md) | Lusaka civil soil screening |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/stabling/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1264,6 +1412,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/europe/France/Lyon/engineering/delivery/README.md`](../cities/catalogue/europe/France/Lyon/engineering/delivery/README.md) | Lyon organisation and design work |
 | [`cities/catalogue/europe/France/Lyon/engineering/deployment/README.md`](../cities/catalogue/europe/France/Lyon/engineering/deployment/README.md) | Lyon deployment gaps |
 | [`cities/catalogue/europe/France/Lyon/engineering/depot-scope/README.md`](../cities/catalogue/europe/France/Lyon/engineering/depot-scope/README.md) | lyon depot scope reconciliation |
+| [`cities/catalogue/europe/France/Lyon/engineering/factory/README.md`](../cities/catalogue/europe/France/Lyon/engineering/factory/README.md) | Lyon city-order factory requirement |
+| [`cities/catalogue/europe/France/Lyon/engineering/line-depots/README.md`](../cities/catalogue/europe/France/Lyon/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/europe/France/Lyon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/europe/France/Lyon/engineering/simulation/operations-crosscheck.md) | Lyon operations cross-check |
 | [`cities/catalogue/europe/France/Lyon/engineering/soil/README.md`](../cities/catalogue/europe/France/Lyon/engineering/soil/README.md) | Lyon civil soil screening |
 | [`cities/catalogue/europe/France/Lyon/engineering/stabling/README.md`](../cities/catalogue/europe/France/Lyon/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1280,6 +1430,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/delivery/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/delivery/README.md) | La-Paz organisation and design work |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/deployment/README.md) | La-Paz deployment gaps |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/depot-scope/README.md) | la-paz depot scope reconciliation |
+| [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/factory/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/factory/README.md) | La-Paz city-order factory requirement |
+| [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/line-depots/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/simulation/operations-crosscheck.md) | La-Paz operations cross-check |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/soil/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/soil/README.md) | La-Paz civil soil screening |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/stabling/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1297,6 +1449,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/delivery/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/delivery/README.md) | Cuenca organisation and design work |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/deployment/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/deployment/README.md) | Cuenca deployment gaps |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/depot-scope/README.md) | cuenca depot scope reconciliation |
+| [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/factory/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/factory/README.md) | Cuenca city-order factory requirement |
+| [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/line-depots/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/simulation/operations-crosscheck.md) | Cuenca operations cross-check |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/soil/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/soil/README.md) | Cuenca civil soil screening |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/stabling/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1315,6 +1469,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/delivery/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/delivery/README.md) | San-Salvador organisation and design work |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/deployment/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/deployment/README.md) | San-Salvador deployment gaps |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/depot-scope/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/depot-scope/README.md) | san-salvador depot scope reconciliation |
+| [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/factory/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/factory/README.md) | San-Salvador city-order factory requirement |
+| [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/line-depots/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/simulation/operations-crosscheck.md) | San-Salvador operations cross-check |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/soil/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/soil/README.md) | San-Salvador civil soil screening |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/stabling/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1331,6 +1487,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/delivery/README.md) | Agadir organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/deployment/README.md) | Agadir deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/depot-scope/README.md) | agadir depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Agadir/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/factory/README.md) | Agadir city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Agadir/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/simulation/operations-crosscheck.md) | Agadir operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/soil/README.md) | Agadir civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1347,6 +1505,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/delivery/README.md) | Beni-Mellal organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/deployment/README.md) | Beni-Mellal deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/depot-scope/README.md) | beni-mellal depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/factory/README.md) | Beni-Mellal city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/simulation/operations-crosscheck.md) | Beni-Mellal operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/soil/README.md) | Beni-Mellal civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1363,6 +1523,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/delivery/README.md) | Fez organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/deployment/README.md) | Fez deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/depot-scope/README.md) | fez depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Fez/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/factory/README.md) | Fez city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Fez/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/simulation/operations-crosscheck.md) | Fez operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/soil/README.md) | Fez civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1379,6 +1541,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/delivery/README.md) | Kenitra organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/deployment/README.md) | Kenitra deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/depot-scope/README.md) | kenitra depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/factory/README.md) | Kenitra city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/simulation/operations-crosscheck.md) | Kenitra operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/soil/README.md) | Kenitra civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1395,6 +1559,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/delivery/README.md) | Khouribga organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/deployment/README.md) | Khouribga deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/depot-scope/README.md) | khouribga depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/factory/README.md) | Khouribga city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/simulation/operations-crosscheck.md) | Khouribga operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/soil/README.md) | Khouribga civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1411,6 +1577,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/delivery/README.md) | Marrakech organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/deployment/README.md) | Marrakech deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/depot-scope/README.md) | marrakech depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/factory/README.md) | Marrakech city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/simulation/operations-crosscheck.md) | Marrakech operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/soil/README.md) | Marrakech civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1427,6 +1595,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/delivery/README.md) | Meknes organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/deployment/README.md) | Meknes deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/depot-scope/README.md) | meknes depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Meknes/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/factory/README.md) | Meknes city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Meknes/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/simulation/operations-crosscheck.md) | Meknes operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/soil/README.md) | Meknes civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1444,6 +1614,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/delivery/README.md) | Nador organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/deployment/README.md) | Nador deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/depot-scope/README.md) | nador depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Nador/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/factory/README.md) | Nador city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Nador/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/simulation/operations-crosscheck.md) | Nador operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/soil/README.md) | Nador civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1460,6 +1632,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/delivery/README.md) | Oujda organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/deployment/README.md) | Oujda deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/depot-scope/README.md) | oujda depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Oujda/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/factory/README.md) | Oujda city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Oujda/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/simulation/operations-crosscheck.md) | Oujda operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/soil/README.md) | Oujda civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1476,6 +1650,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/delivery/README.md) | Safi organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/deployment/README.md) | Safi deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/depot-scope/README.md) | safi depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Safi/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/factory/README.md) | Safi city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Safi/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/simulation/operations-crosscheck.md) | Safi operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/soil/README.md) | Safi civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1492,6 +1668,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/delivery/README.md) | Tangier organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/deployment/README.md) | Tangier deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/depot-scope/README.md) | tangier depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Tangier/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/factory/README.md) | Tangier city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Tangier/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/simulation/operations-crosscheck.md) | Tangier operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/soil/README.md) | Tangier civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1508,6 +1686,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/delivery/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/delivery/README.md) | Tetouan organisation and design work |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/deployment/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/deployment/README.md) | Tetouan deployment gaps |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/depot-scope/README.md) | tetouan depot scope reconciliation |
+| [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/factory/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/factory/README.md) | Tetouan city-order factory requirement |
+| [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/simulation/operations-crosscheck.md) | Tetouan operations cross-check |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/soil/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/soil/README.md) | Tetouan civil soil screening |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/stabling/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1524,6 +1704,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/delivery/README.md) | El-Obeid organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/deployment/README.md) | El-Obeid deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/depot-scope/README.md) | el-obeid depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/factory/README.md) | El-Obeid city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/simulation/operations-crosscheck.md) | El-Obeid operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/soil/README.md) | El-Obeid civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1540,6 +1722,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/delivery/README.md) | Kassala organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/deployment/README.md) | Kassala deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/depot-scope/README.md) | kassala depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Kassala/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/factory/README.md) | Kassala city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Kassala/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/simulation/operations-crosscheck.md) | Kassala operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/soil/README.md) | Kassala civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1556,6 +1740,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/delivery/README.md) | Khartoum organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/deployment/README.md) | Khartoum deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/depot-scope/README.md) | khartoum depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/factory/README.md) | Khartoum city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/simulation/operations-crosscheck.md) | Khartoum operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/soil/README.md) | Khartoum civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1573,6 +1759,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/delivery/README.md) | Nyala organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/deployment/README.md) | Nyala deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/depot-scope/README.md) | nyala depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Nyala/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/factory/README.md) | Nyala city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Nyala/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/simulation/operations-crosscheck.md) | Nyala operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/soil/README.md) | Nyala civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1589,6 +1777,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/delivery/README.md) | Omdurman organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/deployment/README.md) | Omdurman deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/depot-scope/README.md) | omdurman depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/factory/README.md) | Omdurman city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/simulation/operations-crosscheck.md) | Omdurman operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/soil/README.md) | Omdurman civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1605,6 +1795,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/delivery/README.md) | Port-Sudan organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/deployment/README.md) | Port-Sudan deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/depot-scope/README.md) | port-sudan depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/factory/README.md) | Port-Sudan city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/simulation/operations-crosscheck.md) | Port-Sudan operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/soil/README.md) | Port-Sudan civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1621,6 +1813,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md) | Waw organisation and design work |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md) | Waw deployment gaps |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md) | waw depot scope reconciliation |
+| [`cities/catalogue/north-africa/Sudan/Waw/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/factory/README.md) | Waw city-order factory requirement |
+| [`cities/catalogue/north-africa/Sudan/Waw/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md) | Waw operations cross-check |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/soil/README.md) | Waw civil soil screening |
 | [`cities/catalogue/north-africa/Sudan/Waw/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1638,6 +1832,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/delivery/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/delivery/README.md) | Tunis organisation and design work |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/deployment/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/deployment/README.md) | Tunis deployment gaps |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/depot-scope/README.md) | tunis depot scope reconciliation |
+| [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/factory/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/factory/README.md) | Tunis city-order factory requirement |
+| [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/simulation/operations-crosscheck.md) | Tunis operations cross-check |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/soil/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/soil/README.md) | Tunis civil soil screening |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/stabling/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1654,6 +1850,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/delivery/README.md) | Bloemfontein organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/deployment/README.md) | Bloemfontein deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/depot-scope/README.md) | bloemfontein depot scope reconciliation |
+| [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/factory/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/factory/README.md) | Bloemfontein city-order factory requirement |
+| [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/line-depots/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/operations-crosscheck.md) | Bloemfontein operations cross-check |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/soil/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/soil/README.md) | Bloemfontein civil soil screening |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/stabling/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1670,6 +1868,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/delivery/README.md) | Durban organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/deployment/README.md) | Durban deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/depot-scope/README.md) | durban depot scope reconciliation |
+| [`cities/catalogue/south-africa/South Africa/Durban/engineering/factory/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/factory/README.md) | Durban city-order factory requirement |
+| [`cities/catalogue/south-africa/South Africa/Durban/engineering/line-depots/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/simulation/operations-crosscheck.md) | Durban operations cross-check |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/soil/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/soil/README.md) | Durban civil soil screening |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/stabling/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1686,6 +1886,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/delivery/README.md) | East-London-Za organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/deployment/README.md) | East-London-Za deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/depot-scope/README.md) | east-london-za depot scope reconciliation |
+| [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/factory/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/factory/README.md) | East-London-Za city-order factory requirement |
+| [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/line-depots/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/simulation/operations-crosscheck.md) | East-London-Za operations cross-check |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/soil/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/soil/README.md) | East-London-Za civil soil screening |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/stabling/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1703,6 +1905,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/delivery/README.md) | Nelspruit organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/deployment/README.md) | Nelspruit deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/depot-scope/README.md) | nelspruit depot scope reconciliation |
+| [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/factory/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/factory/README.md) | Nelspruit city-order factory requirement |
+| [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/line-depots/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/simulation/operations-crosscheck.md) | Nelspruit operations cross-check |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/soil/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/soil/README.md) | Nelspruit civil soil screening |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/stabling/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1719,6 +1923,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/delivery/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/delivery/README.md) | Polokwane organisation and design work |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/deployment/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/deployment/README.md) | Polokwane deployment gaps |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/depot-scope/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/depot-scope/README.md) | polokwane depot scope reconciliation |
+| [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/factory/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/factory/README.md) | Polokwane city-order factory requirement |
+| [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/line-depots/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/simulation/operations-crosscheck.md) | Polokwane operations cross-check |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/soil/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/soil/README.md) | Polokwane civil soil screening |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/stabling/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1735,6 +1941,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/delivery/README.md) | Herat organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/deployment/README.md) | Herat deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/depot-scope/README.md) | herat depot scope reconciliation |
+| [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/factory/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/factory/README.md) | Herat city-order factory requirement |
+| [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/simulation/operations-crosscheck.md) | Herat operations cross-check |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/soil/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/soil/README.md) | Herat civil soil screening |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/stabling/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1751,6 +1959,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/delivery/README.md) | Jalalabad-Af organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/deployment/README.md) | Jalalabad-Af deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/depot-scope/README.md) | jalalabad-af depot scope reconciliation |
+| [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/factory/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/factory/README.md) | Jalalabad-Af city-order factory requirement |
+| [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/simulation/operations-crosscheck.md) | Jalalabad-Af operations cross-check |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/soil/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/soil/README.md) | Jalalabad-Af civil soil screening |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/stabling/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1767,6 +1977,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/delivery/README.md) | Kabul organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/deployment/README.md) | Kabul deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/depot-scope/README.md) | kabul depot scope reconciliation |
+| [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/factory/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/factory/README.md) | Kabul city-order factory requirement |
+| [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/simulation/operations-crosscheck.md) | Kabul operations cross-check |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/soil/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/soil/README.md) | Kabul civil soil screening |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/stabling/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1783,6 +1995,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/delivery/README.md) | Kandahar organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/deployment/README.md) | Kandahar deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/depot-scope/README.md) | kandahar depot scope reconciliation |
+| [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/factory/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/factory/README.md) | Kandahar city-order factory requirement |
+| [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/simulation/operations-crosscheck.md) | Kandahar operations cross-check |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/soil/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/soil/README.md) | Kandahar civil soil screening |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/stabling/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1799,6 +2013,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/delivery/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/delivery/README.md) | Mazar-E-Sharif organisation and design work |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/deployment/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/deployment/README.md) | Mazar-E-Sharif deployment gaps |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/depot-scope/README.md) | mazar-e-sharif depot scope reconciliation |
+| [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/factory/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/factory/README.md) | Mazar-E-Sharif city-order factory requirement |
+| [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/simulation/operations-crosscheck.md) | Mazar-E-Sharif operations cross-check |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/soil/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/soil/README.md) | Mazar-E-Sharif civil soil screening |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/stabling/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1816,6 +2032,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/delivery/README.md) | Barisal organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/deployment/README.md) | Barisal deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/depot-scope/README.md) | barisal depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/factory/README.md) | Barisal city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/simulation/operations-crosscheck.md) | Barisal operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/soil/README.md) | Barisal civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1832,6 +2050,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/delivery/README.md) | Chittagong organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/deployment/README.md) | Chittagong deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/depot-scope/README.md) | chittagong depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/factory/README.md) | Chittagong city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/simulation/operations-crosscheck.md) | Chittagong operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/soil/README.md) | Chittagong civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1848,6 +2068,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/delivery/README.md) | Comilla organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/deployment/README.md) | Comilla deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/depot-scope/README.md) | comilla depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/factory/README.md) | Comilla city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/simulation/operations-crosscheck.md) | Comilla operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/soil/README.md) | Comilla civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1864,6 +2086,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/delivery/README.md) | Gazipur organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/deployment/README.md) | Gazipur deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/depot-scope/README.md) | gazipur depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/factory/README.md) | Gazipur city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/simulation/operations-crosscheck.md) | Gazipur operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/soil/README.md) | Gazipur civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1880,6 +2104,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/delivery/README.md) | Khulna organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/deployment/README.md) | Khulna deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/depot-scope/README.md) | khulna depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/factory/README.md) | Khulna city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/simulation/operations-crosscheck.md) | Khulna operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/soil/README.md) | Khulna civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1896,6 +2122,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/delivery/README.md) | Mymensingh organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/deployment/README.md) | Mymensingh deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/depot-scope/README.md) | mymensingh depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/factory/README.md) | Mymensingh city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/simulation/operations-crosscheck.md) | Mymensingh operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/soil/README.md) | Mymensingh civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1913,6 +2141,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/delivery/README.md) | Narayanganj organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/deployment/README.md) | Narayanganj deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/depot-scope/README.md) | narayanganj depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/factory/README.md) | Narayanganj city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/simulation/operations-crosscheck.md) | Narayanganj operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/soil/README.md) | Narayanganj civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1929,6 +2159,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/delivery/README.md) | Rajshahi organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/deployment/README.md) | Rajshahi deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/depot-scope/README.md) | rajshahi depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/factory/README.md) | Rajshahi city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/simulation/operations-crosscheck.md) | Rajshahi operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/soil/README.md) | Rajshahi civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1945,6 +2177,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/delivery/README.md) | Rangpur organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/deployment/README.md) | Rangpur deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/depot-scope/README.md) | rangpur depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/factory/README.md) | Rangpur city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/simulation/operations-crosscheck.md) | Rangpur operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/soil/README.md) | Rangpur civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1961,6 +2195,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/delivery/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/delivery/README.md) | Sylhet organisation and design work |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/deployment/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/deployment/README.md) | Sylhet deployment gaps |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/depot-scope/README.md) | sylhet depot scope reconciliation |
+| [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/factory/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/factory/README.md) | Sylhet city-order factory requirement |
+| [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/simulation/operations-crosscheck.md) | Sylhet operations cross-check |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/soil/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/soil/README.md) | Sylhet civil soil screening |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/stabling/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1977,6 +2213,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Agra/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/delivery/README.md) | Agra organisation and design work |
 | [`cities/catalogue/south-asia/India/Agra/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/deployment/README.md) | Agra deployment gaps |
 | [`cities/catalogue/south-asia/India/Agra/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/depot-scope/README.md) | agra depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Agra/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/factory/README.md) | Agra city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Agra/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Agra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Agra/engineering/simulation/operations-crosscheck.md) | Agra operations cross-check |
 | [`cities/catalogue/south-asia/India/Agra/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/soil/README.md) | Agra civil soil screening |
 | [`cities/catalogue/south-asia/India/Agra/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -1993,6 +2231,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/delivery/README.md) | Bhopal organisation and design work |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/deployment/README.md) | Bhopal deployment gaps |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/depot-scope/README.md) | bhopal depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Bhopal/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/factory/README.md) | Bhopal city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Bhopal/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/simulation/operations-crosscheck.md) | Bhopal operations cross-check |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/soil/README.md) | Bhopal civil soil screening |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2009,6 +2249,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/delivery/README.md) | Coimbatore organisation and design work |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/deployment/README.md) | Coimbatore deployment gaps |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/depot-scope/README.md) | coimbatore depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Coimbatore/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/factory/README.md) | Coimbatore city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Coimbatore/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/simulation/operations-crosscheck.md) | Coimbatore operations cross-check |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/soil/README.md) | Coimbatore civil soil screening |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2025,6 +2267,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Indore/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/delivery/README.md) | Indore organisation and design work |
 | [`cities/catalogue/south-asia/India/Indore/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/deployment/README.md) | Indore deployment gaps |
 | [`cities/catalogue/south-asia/India/Indore/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/depot-scope/README.md) | indore depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Indore/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/factory/README.md) | Indore city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Indore/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Indore/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Indore/engineering/simulation/operations-crosscheck.md) | Indore operations cross-check |
 | [`cities/catalogue/south-asia/India/Indore/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/soil/README.md) | Indore civil soil screening |
 | [`cities/catalogue/south-asia/India/Indore/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2041,6 +2285,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/delivery/README.md) | Jodhpur organisation and design work |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/deployment/README.md) | Jodhpur deployment gaps |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/depot-scope/README.md) | jodhpur depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Jodhpur/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/factory/README.md) | Jodhpur city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Jodhpur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/simulation/operations-crosscheck.md) | Jodhpur operations cross-check |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/soil/README.md) | Jodhpur civil soil screening |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2057,6 +2303,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/delivery/README.md) | Kanpur organisation and design work |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/deployment/README.md) | Kanpur deployment gaps |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/depot-scope/README.md) | kanpur depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Kanpur/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/factory/README.md) | Kanpur city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Kanpur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/simulation/operations-crosscheck.md) | Kanpur operations cross-check |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/soil/README.md) | Kanpur civil soil screening |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2073,6 +2321,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/delivery/README.md) | Lucknow organisation and design work |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/deployment/README.md) | Lucknow deployment gaps |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/depot-scope/README.md) | lucknow depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Lucknow/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/factory/README.md) | Lucknow city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Lucknow/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/simulation/operations-crosscheck.md) | Lucknow operations cross-check |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/soil/README.md) | Lucknow civil soil screening |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2089,6 +2339,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Madurai/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/delivery/README.md) | Madurai organisation and design work |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/deployment/README.md) | Madurai deployment gaps |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/depot-scope/README.md) | madurai depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Madurai/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/factory/README.md) | Madurai city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Madurai/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Madurai/engineering/simulation/operations-crosscheck.md) | Madurai operations cross-check |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/soil/README.md) | Madurai civil soil screening |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2105,6 +2357,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Meerut/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/delivery/README.md) | Meerut organisation and design work |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/deployment/README.md) | Meerut deployment gaps |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/depot-scope/README.md) | meerut depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Meerut/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/factory/README.md) | Meerut city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Meerut/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Meerut/engineering/simulation/operations-crosscheck.md) | Meerut operations cross-check |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/soil/README.md) | Meerut civil soil screening |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2122,6 +2376,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Patna/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/delivery/README.md) | Patna organisation and design work |
 | [`cities/catalogue/south-asia/India/Patna/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/deployment/README.md) | Patna deployment gaps |
 | [`cities/catalogue/south-asia/India/Patna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/depot-scope/README.md) | patna depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Patna/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/factory/README.md) | Patna city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Patna/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Patna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Patna/engineering/simulation/operations-crosscheck.md) | Patna operations cross-check |
 | [`cities/catalogue/south-asia/India/Patna/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/soil/README.md) | Patna civil soil screening |
 | [`cities/catalogue/south-asia/India/Patna/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2138,6 +2394,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Raipur/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/delivery/README.md) | Raipur organisation and design work |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/deployment/README.md) | Raipur deployment gaps |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/depot-scope/README.md) | raipur depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Raipur/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/factory/README.md) | Raipur city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Raipur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Raipur/engineering/simulation/operations-crosscheck.md) | Raipur operations cross-check |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/soil/README.md) | Raipur civil soil screening |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2154,6 +2412,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/delivery/README.md) | Rajkot organisation and design work |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/deployment/README.md) | Rajkot deployment gaps |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/depot-scope/README.md) | rajkot depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Rajkot/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/factory/README.md) | Rajkot city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Rajkot/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/simulation/operations-crosscheck.md) | Rajkot operations cross-check |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/soil/README.md) | Rajkot civil soil screening |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2170,6 +2430,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/delivery/README.md) | Ranchi organisation and design work |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/deployment/README.md) | Ranchi deployment gaps |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/depot-scope/README.md) | ranchi depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Ranchi/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/factory/README.md) | Ranchi city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Ranchi/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/simulation/operations-crosscheck.md) | Ranchi operations cross-check |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/soil/README.md) | Ranchi civil soil screening |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2186,6 +2448,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/delivery/README.md) | Vadodara organisation and design work |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/deployment/README.md) | Vadodara deployment gaps |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/depot-scope/README.md) | vadodara depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Vadodara/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/factory/README.md) | Vadodara city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Vadodara/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/simulation/operations-crosscheck.md) | Vadodara operations cross-check |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/soil/README.md) | Vadodara civil soil screening |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2202,6 +2466,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/delivery/README.md) | Varanasi organisation and design work |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/deployment/README.md) | Varanasi deployment gaps |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/depot-scope/README.md) | varanasi depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Varanasi/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/factory/README.md) | Varanasi city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Varanasi/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/simulation/operations-crosscheck.md) | Varanasi operations cross-check |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/soil/README.md) | Varanasi civil soil screening |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2218,6 +2484,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/delivery/README.md) | Vijayawada organisation and design work |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/deployment/README.md) | Vijayawada deployment gaps |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/depot-scope/README.md) | vijayawada depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Vijayawada/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/factory/README.md) | Vijayawada city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Vijayawada/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/simulation/operations-crosscheck.md) | Vijayawada operations cross-check |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/soil/README.md) | Vijayawada civil soil screening |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2234,6 +2502,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/delivery/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/delivery/README.md) | Visakhapatnam organisation and design work |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/deployment/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/deployment/README.md) | Visakhapatnam deployment gaps |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/depot-scope/README.md) | visakhapatnam depot scope reconciliation |
+| [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/factory/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/factory/README.md) | Visakhapatnam city-order factory requirement |
+| [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/line-depots/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/simulation/operations-crosscheck.md) | Visakhapatnam operations cross-check |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/soil/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/soil/README.md) | Visakhapatnam civil soil screening |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/stabling/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2250,6 +2520,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/delivery/README.md) | Biratnagar organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/deployment/README.md) | Biratnagar deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/depot-scope/README.md) | biratnagar depot scope reconciliation |
+| [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/factory/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/factory/README.md) | Biratnagar city-order factory requirement |
+| [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/simulation/operations-crosscheck.md) | Biratnagar operations cross-check |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/soil/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/soil/README.md) | Biratnagar civil soil screening |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/stabling/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2266,6 +2538,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/delivery/README.md) | Kathmandu organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/deployment/README.md) | Kathmandu deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/depot-scope/README.md) | kathmandu depot scope reconciliation |
+| [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/factory/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/factory/README.md) | Kathmandu city-order factory requirement |
+| [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/simulation/operations-crosscheck.md) | Kathmandu operations cross-check |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/soil/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/soil/README.md) | Kathmandu civil soil screening |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/stabling/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2283,6 +2557,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/delivery/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/delivery/README.md) | Pokhara organisation and design work |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/deployment/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/deployment/README.md) | Pokhara deployment gaps |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/depot-scope/README.md) | pokhara depot scope reconciliation |
+| [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/factory/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/factory/README.md) | Pokhara city-order factory requirement |
+| [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/simulation/operations-crosscheck.md) | Pokhara operations cross-check |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/soil/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/soil/README.md) | Pokhara civil soil screening |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/stabling/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2299,6 +2575,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/delivery/README.md) | Bahawalpur organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/deployment/README.md) | Bahawalpur deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/depot-scope/README.md) | bahawalpur depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/factory/README.md) | Bahawalpur city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/simulation/operations-crosscheck.md) | Bahawalpur operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/soil/README.md) | Bahawalpur civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2315,6 +2593,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/delivery/README.md) | Faisalabad organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/deployment/README.md) | Faisalabad deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/depot-scope/README.md) | faisalabad depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/factory/README.md) | Faisalabad city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/simulation/operations-crosscheck.md) | Faisalabad operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/soil/README.md) | Faisalabad civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2331,6 +2611,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/delivery/README.md) | Gujranwala organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/deployment/README.md) | Gujranwala deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/depot-scope/README.md) | gujranwala depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/factory/README.md) | Gujranwala city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/simulation/operations-crosscheck.md) | Gujranwala operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/soil/README.md) | Gujranwala civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2347,6 +2629,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/delivery/README.md) | Hyderabad-Pk organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/deployment/README.md) | Hyderabad-Pk deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/depot-scope/README.md) | hyderabad-pk depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/factory/README.md) | Hyderabad-Pk city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/simulation/operations-crosscheck.md) | Hyderabad-Pk operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/soil/README.md) | Hyderabad-Pk civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2363,6 +2647,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/delivery/README.md) | Karachi organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/deployment/README.md) | Karachi deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/depot-scope/README.md) | karachi depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/factory/README.md) | Karachi city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/simulation/operations-crosscheck.md) | Karachi operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/soil/README.md) | Karachi civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2379,6 +2665,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/delivery/README.md) | Larkana organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/deployment/README.md) | Larkana deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/depot-scope/README.md) | larkana depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/factory/README.md) | Larkana city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/simulation/operations-crosscheck.md) | Larkana operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/soil/README.md) | Larkana civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2395,6 +2683,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/delivery/README.md) | Multan organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/deployment/README.md) | Multan deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/depot-scope/README.md) | multan depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Multan/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/factory/README.md) | Multan city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Multan/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/simulation/operations-crosscheck.md) | Multan operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/soil/README.md) | Multan civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2412,6 +2702,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/delivery/README.md) | Peshawar organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/deployment/README.md) | Peshawar deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/depot-scope/README.md) | peshawar depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/factory/README.md) | Peshawar city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/simulation/operations-crosscheck.md) | Peshawar operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/soil/README.md) | Peshawar civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2428,6 +2720,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/delivery/README.md) | Quetta organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/deployment/README.md) | Quetta deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/depot-scope/README.md) | quetta depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/factory/README.md) | Quetta city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/simulation/operations-crosscheck.md) | Quetta operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/README.md) | Quetta civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2444,6 +2738,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/delivery/README.md) | Rahim-Yar-Khan organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/deployment/README.md) | Rahim-Yar-Khan deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/depot-scope/README.md) | rahim-yar-khan depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/factory/README.md) | Rahim-Yar-Khan city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/simulation/operations-crosscheck.md) | Rahim-Yar-Khan operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/soil/README.md) | Rahim-Yar-Khan civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2460,6 +2756,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/delivery/README.md) | Sheikhupura organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/deployment/README.md) | Sheikhupura deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/depot-scope/README.md) | sheikhupura depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/factory/README.md) | Sheikhupura city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/simulation/operations-crosscheck.md) | Sheikhupura operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/soil/README.md) | Sheikhupura civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2477,6 +2775,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/delivery/README.md) | Sialkot organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/deployment/README.md) | Sialkot deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/depot-scope/README.md) | sialkot depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/factory/README.md) | Sialkot city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/simulation/operations-crosscheck.md) | Sialkot operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/soil/README.md) | Sialkot civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2493,6 +2793,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/delivery/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/delivery/README.md) | Sukkur organisation and design work |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/deployment/README.md) | Sukkur deployment gaps |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/depot-scope/README.md) | sukkur depot scope reconciliation |
+| [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/factory/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/factory/README.md) | Sukkur city-order factory requirement |
+| [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/simulation/operations-crosscheck.md) | Sukkur operations cross-check |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/soil/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/soil/README.md) | Sukkur civil soil screening |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/stabling/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2509,6 +2811,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/delivery/README.md) | Colombo organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/deployment/README.md) | Colombo deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/depot-scope/README.md) | colombo depot scope reconciliation |
+| [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/factory/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/factory/README.md) | Colombo city-order factory requirement |
+| [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/simulation/operations-crosscheck.md) | Colombo operations cross-check |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/soil/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/soil/README.md) | Colombo civil soil screening |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/stabling/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2525,6 +2829,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/delivery/README.md) | Galle organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/deployment/README.md) | Galle deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/depot-scope/README.md) | galle depot scope reconciliation |
+| [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/factory/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/factory/README.md) | Galle city-order factory requirement |
+| [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/simulation/operations-crosscheck.md) | Galle operations cross-check |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/soil/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/soil/README.md) | Galle civil soil screening |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/stabling/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2541,6 +2847,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/delivery/README.md) | Jaffna organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/deployment/README.md) | Jaffna deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/depot-scope/README.md) | jaffna depot scope reconciliation |
+| [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/factory/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/factory/README.md) | Jaffna city-order factory requirement |
+| [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/simulation/operations-crosscheck.md) | Jaffna operations cross-check |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/soil/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/soil/README.md) | Jaffna civil soil screening |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/stabling/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2557,6 +2865,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/delivery/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/delivery/README.md) | Kandy organisation and design work |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/deployment/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/deployment/README.md) | Kandy deployment gaps |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/depot-scope/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/depot-scope/README.md) | kandy depot scope reconciliation |
+| [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/factory/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/factory/README.md) | Kandy city-order factory requirement |
+| [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/line-depots/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/simulation/operations-crosscheck.md) | Kandy operations cross-check |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/soil/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/soil/README.md) | Kandy civil soil screening |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/stabling/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2575,6 +2885,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/delivery/README.md) | Phnom-Penh organisation and design work |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/deployment/README.md) | Phnom-Penh deployment gaps |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/depot-scope/README.md) | phnom-penh depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/factory/README.md) | Phnom-Penh city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/simulation/operations-crosscheck.md) | Phnom-Penh operations cross-check |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/soil/README.md) | Phnom-Penh civil soil screening |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2591,6 +2903,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/delivery/README.md) | Bandung organisation and design work |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/deployment/README.md) | Bandung deployment gaps |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/depot-scope/README.md) | bandung depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/factory/README.md) | Bandung city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/simulation/operations-crosscheck.md) | Bandung operations cross-check |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/soil/README.md) | Bandung civil soil screening |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2608,6 +2922,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/delivery/README.md) | Surabaya organisation and design work |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/deployment/README.md) | Surabaya deployment gaps |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/depot-scope/README.md) | surabaya depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/factory/README.md) | Surabaya city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/simulation/operations-crosscheck.md) | Surabaya operations cross-check |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/soil/README.md) | Surabaya civil soil screening |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2625,6 +2941,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/delivery/README.md) | Vientiane organisation and design work |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/deployment/README.md) | Vientiane deployment gaps |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/depot-scope/README.md) | vientiane depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/factory/README.md) | Vientiane city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/simulation/operations-crosscheck.md) | Vientiane operations cross-check |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/soil/README.md) | Vientiane civil soil screening |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2641,6 +2959,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/delivery/README.md) | Mandalay organisation and design work |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/deployment/README.md) | Mandalay deployment gaps |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/depot-scope/README.md) | mandalay depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/factory/README.md) | Mandalay city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/simulation/operations-crosscheck.md) | Mandalay operations cross-check |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/soil/README.md) | Mandalay civil soil screening |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2658,6 +2978,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/delivery/README.md) | Yangon organisation and design work |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/deployment/README.md) | Yangon deployment gaps |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/depot-scope/README.md) | yangon depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/factory/README.md) | Yangon city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/simulation/operations-crosscheck.md) | Yangon operations cross-check |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/soil/README.md) | Yangon civil soil screening |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2674,6 +2996,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/delivery/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/delivery/README.md) | Davao organisation and design work |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/deployment/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/deployment/README.md) | Davao deployment gaps |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/depot-scope/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/depot-scope/README.md) | davao depot scope reconciliation |
+| [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/factory/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/factory/README.md) | Davao city-order factory requirement |
+| [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/line-depots/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/simulation/operations-crosscheck.md) | Davao operations cross-check |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/soil/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/soil/README.md) | Davao civil soil screening |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/stabling/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2692,6 +3016,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/delivery/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/delivery/README.md) | Ouagadougou organisation and design work |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/deployment/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/deployment/README.md) | Ouagadougou deployment gaps |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/depot-scope/README.md) | ouagadougou depot scope reconciliation |
+| [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/factory/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/factory/README.md) | Ouagadougou city-order factory requirement |
+| [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/simulation/operations-crosscheck.md) | Ouagadougou operations cross-check |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/soil/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/soil/README.md) | Ouagadougou civil soil screening |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/stabling/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2708,6 +3034,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/delivery/README.md) | Bafoussam organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/deployment/README.md) | Bafoussam deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/depot-scope/README.md) | bafoussam depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/factory/README.md) | Bafoussam city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/simulation/operations-crosscheck.md) | Bafoussam operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/soil/README.md) | Bafoussam civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2724,6 +3052,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/delivery/README.md) | Bamenda organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/deployment/README.md) | Bamenda deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/depot-scope/README.md) | bamenda depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/factory/README.md) | Bamenda city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/simulation/operations-crosscheck.md) | Bamenda operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/soil/README.md) | Bamenda civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2740,6 +3070,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/delivery/README.md) | Bertoua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/deployment/README.md) | Bertoua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/depot-scope/README.md) | bertoua depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/factory/README.md) | Bertoua city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/simulation/operations-crosscheck.md) | Bertoua operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/soil/README.md) | Bertoua civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2756,6 +3088,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/delivery/README.md) | Douala organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/deployment/README.md) | Douala deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/depot-scope/README.md) | douala depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Douala/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/factory/README.md) | Douala city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Douala/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/simulation/operations-crosscheck.md) | Douala operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/soil/README.md) | Douala civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2772,6 +3106,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/delivery/README.md) | Edea organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/deployment/README.md) | Edea deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/depot-scope/README.md) | edea depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Edea/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/factory/README.md) | Edea city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Edea/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/simulation/operations-crosscheck.md) | Edea operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/soil/README.md) | Edea civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2789,6 +3125,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/delivery/README.md) | Garoua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/deployment/README.md) | Garoua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/depot-scope/README.md) | garoua depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/factory/README.md) | Garoua city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/simulation/operations-crosscheck.md) | Garoua operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/soil/README.md) | Garoua civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2805,6 +3143,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/delivery/README.md) | Kumba organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/deployment/README.md) | Kumba deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/depot-scope/README.md) | kumba depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/factory/README.md) | Kumba city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/simulation/operations-crosscheck.md) | Kumba operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/soil/README.md) | Kumba civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2821,6 +3161,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/delivery/README.md) | Maroua organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/deployment/README.md) | Maroua deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/depot-scope/README.md) | maroua depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/factory/README.md) | Maroua city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/simulation/operations-crosscheck.md) | Maroua operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/soil/README.md) | Maroua civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2838,6 +3180,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/delivery/README.md) | Ngaoundere organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/deployment/README.md) | Ngaoundere deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/depot-scope/README.md) | ngaoundere depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/factory/README.md) | Ngaoundere city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/simulation/operations-crosscheck.md) | Ngaoundere operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/soil/README.md) | Ngaoundere civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2854,6 +3198,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/delivery/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/delivery/README.md) | Yaounde organisation and design work |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/deployment/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/deployment/README.md) | Yaounde deployment gaps |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/depot-scope/README.md) | yaounde depot scope reconciliation |
+| [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/factory/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/factory/README.md) | Yaounde city-order factory requirement |
+| [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/simulation/operations-crosscheck.md) | Yaounde operations cross-check |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/soil/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/soil/README.md) | Yaounde civil soil screening |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/stabling/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2870,6 +3216,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/delivery/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/delivery/README.md) | Conakry organisation and design work |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/deployment/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/deployment/README.md) | Conakry deployment gaps |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/depot-scope/README.md) | conakry depot scope reconciliation |
+| [`cities/catalogue/west-africa/Guinea/Conakry/engineering/factory/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/factory/README.md) | Conakry city-order factory requirement |
+| [`cities/catalogue/west-africa/Guinea/Conakry/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/simulation/operations-crosscheck.md) | Conakry operations cross-check |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/soil/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/soil/README.md) | Conakry civil soil screening |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/stabling/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2887,6 +3235,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/delivery/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/delivery/README.md) | Bamako organisation and design work |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/deployment/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/deployment/README.md) | Bamako deployment gaps |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/depot-scope/README.md) | bamako depot scope reconciliation |
+| [`cities/catalogue/west-africa/Mali/Bamako/engineering/factory/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/factory/README.md) | Bamako city-order factory requirement |
+| [`cities/catalogue/west-africa/Mali/Bamako/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/simulation/operations-crosscheck.md) | Bamako operations cross-check |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/soil/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/soil/README.md) | Bamako civil soil screening |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/stabling/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2905,6 +3255,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/delivery/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/delivery/README.md) | Niamey organisation and design work |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/deployment/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/deployment/README.md) | Niamey deployment gaps |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/depot-scope/README.md) | niamey depot scope reconciliation |
+| [`cities/catalogue/west-africa/Niger/Niamey/engineering/factory/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/factory/README.md) | Niamey city-order factory requirement |
+| [`cities/catalogue/west-africa/Niger/Niamey/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/simulation/operations-crosscheck.md) | Niamey operations cross-check |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/soil/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/soil/README.md) | Niamey civil soil screening |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/stabling/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2921,6 +3273,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/delivery/README.md) | Aba-Ng organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/deployment/README.md) | Aba-Ng deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/depot-scope/README.md) | aba-ng depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/factory/README.md) | Aba-Ng city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/operations-crosscheck.md) | Aba-Ng operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/soil/README.md) | Aba-Ng civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2937,6 +3291,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/delivery/README.md) | Benin-City organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/deployment/README.md) | Benin-City deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/depot-scope/README.md) | benin-city depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/factory/README.md) | Benin-City city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/simulation/operations-crosscheck.md) | Benin-City operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/soil/README.md) | Benin-City civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2953,6 +3309,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/delivery/README.md) | Ibadan organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/deployment/README.md) | Ibadan deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/depot-scope/README.md) | ibadan depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/factory/README.md) | Ibadan city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/simulation/operations-crosscheck.md) | Ibadan operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/soil/README.md) | Ibadan civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2969,6 +3327,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/delivery/README.md) | Ilorin organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/deployment/README.md) | Ilorin deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/depot-scope/README.md) | ilorin depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/factory/README.md) | Ilorin city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/simulation/operations-crosscheck.md) | Ilorin operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/soil/README.md) | Ilorin civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -2985,6 +3345,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/delivery/README.md) | Jos organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/deployment/README.md) | Jos deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/depot-scope/README.md) | jos depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Jos/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/factory/README.md) | Jos city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Jos/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/simulation/operations-crosscheck.md) | Jos operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/soil/README.md) | Jos civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3001,6 +3363,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/delivery/README.md) | Kano organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/deployment/README.md) | Kano deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/depot-scope/README.md) | kano depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Kano/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/factory/README.md) | Kano city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Kano/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/simulation/operations-crosscheck.md) | Kano operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/soil/README.md) | Kano civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3017,6 +3381,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/delivery/README.md) | Maiduguri organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/deployment/README.md) | Maiduguri deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/depot-scope/README.md) | maiduguri depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/factory/README.md) | Maiduguri city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/simulation/operations-crosscheck.md) | Maiduguri operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/soil/README.md) | Maiduguri civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3034,6 +3400,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/delivery/README.md) | Onitsha organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/deployment/README.md) | Onitsha deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/depot-scope/README.md) | onitsha depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/factory/README.md) | Onitsha city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/simulation/operations-crosscheck.md) | Onitsha operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/soil/README.md) | Onitsha civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3050,6 +3418,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/delivery/README.md) | Port-Harcourt organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/deployment/README.md) | Port-Harcourt deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/depot-scope/README.md) | port-harcourt depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/factory/README.md) | Port-Harcourt city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/simulation/operations-crosscheck.md) | Port-Harcourt operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/soil/README.md) | Port-Harcourt civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3066,6 +3436,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/delivery/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/delivery/README.md) | Uyo organisation and design work |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/deployment/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/deployment/README.md) | Uyo deployment gaps |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/depot-scope/README.md) | uyo depot scope reconciliation |
+| [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/factory/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/factory/README.md) | Uyo city-order factory requirement |
+| [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/simulation/operations-crosscheck.md) | Uyo operations cross-check |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/soil/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/soil/README.md) | Uyo civil soil screening |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/stabling/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3082,6 +3454,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/delivery/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/delivery/README.md) | Dakar organisation and design work |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/deployment/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/deployment/README.md) | Dakar deployment gaps |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/depot-scope/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/depot-scope/README.md) | dakar depot scope reconciliation |
+| [`cities/catalogue/west-africa/Senegal/Dakar/engineering/factory/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/factory/README.md) | Dakar city-order factory requirement |
+| [`cities/catalogue/west-africa/Senegal/Dakar/engineering/line-depots/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/simulation/operations-crosscheck.md) | Dakar operations cross-check |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/soil/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/soil/README.md) | Dakar civil soil screening |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/stabling/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3099,6 +3473,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/delivery/README.md) | Arish organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/deployment/README.md) | Arish deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/depot-scope/README.md) | arish depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Arish/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/factory/README.md) | Arish city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Arish/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/operations-crosscheck.md) | Arish operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/soil/README.md) | Arish civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3115,6 +3491,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/delivery/README.md) | Asyut organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/deployment/README.md) | Asyut deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/depot-scope/README.md) | asyut depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Asyut/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/factory/README.md) | Asyut city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Asyut/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/simulation/operations-crosscheck.md) | Asyut operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/soil/README.md) | Asyut civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3131,6 +3509,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/delivery/README.md) | Beni-Suef organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/deployment/README.md) | Beni-Suef deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/depot-scope/README.md) | beni-suef depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/factory/README.md) | Beni-Suef city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/simulation/operations-crosscheck.md) | Beni-Suef operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/soil/README.md) | Beni-Suef civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3147,6 +3527,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/delivery/README.md) | Damanhur organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/deployment/README.md) | Damanhur deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/depot-scope/README.md) | damanhur depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/factory/README.md) | Damanhur city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/simulation/operations-crosscheck.md) | Damanhur operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/soil/README.md) | Damanhur civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3163,6 +3545,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/delivery/README.md) | Damietta organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/deployment/README.md) | Damietta deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/depot-scope/README.md) | damietta depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Damietta/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/factory/README.md) | Damietta city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Damietta/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/simulation/operations-crosscheck.md) | Damietta operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/soil/README.md) | Damietta civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3179,6 +3563,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/delivery/README.md) | Fayoum organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/deployment/README.md) | Fayoum deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/depot-scope/README.md) | fayoum depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/factory/README.md) | Fayoum city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/simulation/operations-crosscheck.md) | Fayoum operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/soil/README.md) | Fayoum civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3195,6 +3581,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/delivery/README.md) | Hurghada organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/deployment/README.md) | Hurghada deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/depot-scope/README.md) | hurghada depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/factory/README.md) | Hurghada city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/simulation/operations-crosscheck.md) | Hurghada operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/soil/README.md) | Hurghada civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3211,6 +3599,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/delivery/README.md) | Ismailia organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/deployment/README.md) | Ismailia deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/depot-scope/README.md) | ismailia depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/factory/README.md) | Ismailia city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/simulation/operations-crosscheck.md) | Ismailia operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/soil/README.md) | Ismailia civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3227,6 +3617,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/delivery/README.md) | Kafr-El-Sheikh organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/deployment/README.md) | Kafr-El-Sheikh deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/depot-scope/README.md) | kafr-el-sheikh depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/factory/README.md) | Kafr-El-Sheikh city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/simulation/operations-crosscheck.md) | Kafr-El-Sheikh operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/soil/README.md) | Kafr-El-Sheikh civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3243,6 +3635,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/delivery/README.md) | Luxor organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/deployment/README.md) | Luxor deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/depot-scope/README.md) | luxor depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Luxor/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/factory/README.md) | Luxor city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Luxor/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/simulation/operations-crosscheck.md) | Luxor operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/soil/README.md) | Luxor civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3259,6 +3653,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/delivery/README.md) | Mahalla organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/deployment/README.md) | Mahalla deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/depot-scope/README.md) | mahalla depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/factory/README.md) | Mahalla city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/simulation/operations-crosscheck.md) | Mahalla operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/soil/README.md) | Mahalla civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3275,6 +3671,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/delivery/README.md) | Mansoura-Eg organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/deployment/README.md) | Mansoura-Eg deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/depot-scope/README.md) | mansoura-eg depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/factory/README.md) | Mansoura-Eg city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/simulation/operations-crosscheck.md) | Mansoura-Eg operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/soil/README.md) | Mansoura-Eg civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3291,6 +3689,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/delivery/README.md) | Minya organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/deployment/README.md) | Minya deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/depot-scope/README.md) | minya depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Minya/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/factory/README.md) | Minya city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Minya/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/simulation/operations-crosscheck.md) | Minya operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/soil/README.md) | Minya civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3308,6 +3708,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/delivery/README.md) | Port-Said organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/deployment/README.md) | Port-Said deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/depot-scope/README.md) | port-said depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/factory/README.md) | Port-Said city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/simulation/operations-crosscheck.md) | Port-Said operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/soil/README.md) | Port-Said civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3324,6 +3726,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/delivery/README.md) | Qena organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/deployment/README.md) | Qena deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/depot-scope/README.md) | qena depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Qena/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/factory/README.md) | Qena city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Qena/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/simulation/operations-crosscheck.md) | Qena operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/soil/README.md) | Qena civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3340,6 +3744,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/delivery/README.md) | Sohag organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/deployment/README.md) | Sohag deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/depot-scope/README.md) | sohag depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Sohag/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/factory/README.md) | Sohag city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Sohag/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/simulation/operations-crosscheck.md) | Sohag operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/soil/README.md) | Sohag civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3356,6 +3762,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/delivery/README.md) | Suez organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/deployment/README.md) | Suez deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/depot-scope/README.md) | suez depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Suez/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/factory/README.md) | Suez city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Suez/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/simulation/operations-crosscheck.md) | Suez operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/soil/README.md) | Suez civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3372,6 +3780,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/delivery/README.md) | Tanta organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/deployment/README.md) | Tanta deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/depot-scope/README.md) | tanta depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Tanta/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/factory/README.md) | Tanta city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Tanta/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/simulation/operations-crosscheck.md) | Tanta operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/soil/README.md) | Tanta civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3388,6 +3798,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/delivery/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/delivery/README.md) | Zagazig organisation and design work |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/deployment/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/deployment/README.md) | Zagazig deployment gaps |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/depot-scope/README.md) | zagazig depot scope reconciliation |
+| [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/factory/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/factory/README.md) | Zagazig city-order factory requirement |
+| [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/simulation/operations-crosscheck.md) | Zagazig operations cross-check |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/soil/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/soil/README.md) | Zagazig civil soil screening |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/stabling/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3404,7 +3816,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md) | Amarah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md) | Amarah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md) | amarah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Amarah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/factory/README.md) | Amarah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/finance/FUNDING-MODEL.md) | Amarah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Amarah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/simulation/operations-crosscheck.md) | Amarah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/soil/README.md) | Amarah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3469,7 +3883,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/delivery/README.md) | Baqubah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/deployment/README.md) | Baqubah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/depot-scope/README.md) | baqubah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/factory/README.md) | Baqubah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/finance/FUNDING-MODEL.md) | Baqubah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/simulation/operations-crosscheck.md) | Baqubah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/soil/README.md) | Baqubah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3486,7 +3902,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/delivery/README.md) | Basra organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/deployment/README.md) | Basra deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/depot-scope/README.md) | basra depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Basra/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/factory/README.md) | Basra city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/finance/FUNDING-MODEL.md) | Basra — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Basra/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/simulation/operations-crosscheck.md) | Basra operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/soil/README.md) | Basra civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3503,7 +3921,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/delivery/README.md) | Diwaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/deployment/README.md) | Diwaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/depot-scope/README.md) | diwaniyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/factory/README.md) | Diwaniyah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/finance/FUNDING-MODEL.md) | Diwaniyah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/simulation/operations-crosscheck.md) | Diwaniyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/soil/README.md) | Diwaniyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3520,7 +3940,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/delivery/README.md) | Duhok organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/deployment/README.md) | Duhok deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/depot-scope/README.md) | duhok depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Duhok/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/factory/README.md) | Duhok city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/finance/FUNDING-MODEL.md) | Duhok — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Duhok/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/simulation/operations-crosscheck.md) | Duhok operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/soil/README.md) | Duhok civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3537,7 +3959,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/delivery/README.md) | Erbil organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/deployment/README.md) | Erbil deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/depot-scope/README.md) | erbil depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Erbil/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/factory/README.md) | Erbil city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/finance/FUNDING-MODEL.md) | Erbil — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Erbil/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/simulation/operations-crosscheck.md) | Erbil operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/soil/README.md) | Erbil civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3554,7 +3978,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/delivery/README.md) | Fallujah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/deployment/README.md) | Fallujah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/depot-scope/README.md) | fallujah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/factory/README.md) | Fallujah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/finance/FUNDING-MODEL.md) | Fallujah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/simulation/operations-crosscheck.md) | Fallujah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/soil/README.md) | Fallujah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3571,7 +3997,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/delivery/README.md) | Hillah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/deployment/README.md) | Hillah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/depot-scope/README.md) | hillah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Hillah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/factory/README.md) | Hillah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/finance/FUNDING-MODEL.md) | Hillah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Hillah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/simulation/operations-crosscheck.md) | Hillah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/soil/README.md) | Hillah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3589,7 +4017,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/delivery/README.md) | Karbala organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/deployment/README.md) | Karbala deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/depot-scope/README.md) | karbala depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Karbala/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/factory/README.md) | Karbala city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/finance/FUNDING-MODEL.md) | Karbala — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Karbala/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/simulation/operations-crosscheck.md) | Karbala operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/soil/README.md) | Karbala civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3606,7 +4036,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/delivery/README.md) | Kirkuk organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/deployment/README.md) | Kirkuk deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/depot-scope/README.md) | kirkuk depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/factory/README.md) | Kirkuk city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/finance/FUNDING-MODEL.md) | Kirkuk — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/operations-crosscheck.md) | Kirkuk operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/soil/README.md) | Kirkuk civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3623,7 +4055,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/delivery/README.md) | Kut organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/deployment/README.md) | Kut deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/depot-scope/README.md) | kut depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Kut/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/factory/README.md) | Kut city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/finance/FUNDING-MODEL.md) | Kut — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Kut/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/simulation/operations-crosscheck.md) | Kut operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/soil/README.md) | Kut civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3640,7 +4074,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/delivery/README.md) | Mosul organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/deployment/README.md) | Mosul deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/depot-scope/README.md) | mosul depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Mosul/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/factory/README.md) | Mosul city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/finance/FUNDING-MODEL.md) | Mosul — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Mosul/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/simulation/operations-crosscheck.md) | Mosul operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/soil/README.md) | Mosul civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3658,7 +4094,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/delivery/README.md) | Najaf organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/deployment/README.md) | Najaf deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/depot-scope/README.md) | najaf depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Najaf/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/factory/README.md) | Najaf city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/finance/FUNDING-MODEL.md) | Najaf — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Najaf/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/simulation/operations-crosscheck.md) | Najaf operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/soil/README.md) | Najaf civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3675,7 +4113,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/delivery/README.md) | Nasiriyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/deployment/README.md) | Nasiriyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/depot-scope/README.md) | nasiriyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/factory/README.md) | Nasiriyah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/finance/FUNDING-MODEL.md) | Nasiriyah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/simulation/operations-crosscheck.md) | Nasiriyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/soil/README.md) | Nasiriyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3692,7 +4132,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/delivery/README.md) | Ramadi organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/deployment/README.md) | Ramadi deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/depot-scope/README.md) | ramadi depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/factory/README.md) | Ramadi city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/finance/FUNDING-MODEL.md) | Ramadi — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/simulation/operations-crosscheck.md) | Ramadi operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/soil/README.md) | Ramadi civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3710,7 +4152,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | Samawah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | samawah depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/factory/README.md) | Samawah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/FUNDING-MODEL.md) | Samawah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) | Samawah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | Samawah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3731,7 +4175,9 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/delivery/README.md) | Sulaymaniyah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/deployment/README.md) | Sulaymaniyah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/depot-scope/README.md) | sulaymaniyah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/factory/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/factory/README.md) | Sulaymaniyah city-order factory requirement |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/finance/FUNDING-MODEL.md) | Sulaymaniyah — Iraq funding appraisal |
+| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/simulation/operations-crosscheck.md) | Sulaymaniyah operations cross-check |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/soil/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/soil/README.md) | Sulaymaniyah civil soil screening |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3748,6 +4194,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/delivery/README.md) | Amman organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/deployment/README.md) | Amman deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/depot-scope/README.md) | amman depot scope reconciliation |
+| [`cities/catalogue/west-asia/Jordan/Amman/engineering/factory/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/factory/README.md) | Amman city-order factory requirement |
+| [`cities/catalogue/west-asia/Jordan/Amman/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/simulation/operations-crosscheck.md) | Amman operations cross-check |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/soil/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/soil/README.md) | Amman civil soil screening |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/stabling/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3764,6 +4212,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/delivery/README.md) | Aqaba organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/deployment/README.md) | Aqaba deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/depot-scope/README.md) | aqaba depot scope reconciliation |
+| [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/factory/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/factory/README.md) | Aqaba city-order factory requirement |
+| [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/simulation/operations-crosscheck.md) | Aqaba operations cross-check |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/soil/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/soil/README.md) | Aqaba civil soil screening |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/stabling/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3780,6 +4230,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/delivery/README.md) | Irbid organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/deployment/README.md) | Irbid deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/depot-scope/README.md) | irbid depot scope reconciliation |
+| [`cities/catalogue/west-asia/Jordan/Irbid/engineering/factory/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/factory/README.md) | Irbid city-order factory requirement |
+| [`cities/catalogue/west-asia/Jordan/Irbid/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/simulation/operations-crosscheck.md) | Irbid operations cross-check |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/soil/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/soil/README.md) | Irbid civil soil screening |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/stabling/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3797,6 +4249,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/delivery/README.md) | Zarqa organisation and design work |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/deployment/README.md) | Zarqa deployment gaps |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/depot-scope/README.md) | zarqa depot scope reconciliation |
+| [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/factory/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/factory/README.md) | Zarqa city-order factory requirement |
+| [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/simulation/operations-crosscheck.md) | Zarqa operations cross-check |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/soil/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/soil/README.md) | Zarqa civil soil screening |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/stabling/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3813,6 +4267,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/delivery/README.md) | Beirut organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/deployment/README.md) | Beirut deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/depot-scope/README.md) | beirut depot scope reconciliation |
+| [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/factory/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/factory/README.md) | Beirut city-order factory requirement |
+| [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/simulation/operations-crosscheck.md) | Beirut operations cross-check |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/soil/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/soil/README.md) | Beirut civil soil screening |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/stabling/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3830,6 +4286,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/delivery/README.md) | Sidon organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/deployment/README.md) | Sidon deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/depot-scope/README.md) | sidon depot scope reconciliation |
+| [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/factory/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/factory/README.md) | Sidon city-order factory requirement |
+| [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/simulation/operations-crosscheck.md) | Sidon operations cross-check |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/soil/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/soil/README.md) | Sidon civil soil screening |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/stabling/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3846,6 +4304,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/delivery/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/delivery/README.md) | Tripoli-Lb organisation and design work |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/deployment/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/deployment/README.md) | Tripoli-Lb deployment gaps |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/depot-scope/README.md) | tripoli-lb depot scope reconciliation |
+| [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/factory/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/factory/README.md) | Tripoli-Lb city-order factory requirement |
+| [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/simulation/operations-crosscheck.md) | Tripoli-Lb operations cross-check |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/soil/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/soil/README.md) | Tripoli-Lb civil soil screening |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/stabling/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3862,6 +4322,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/delivery/README.md) | Gaza-City organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/deployment/README.md) | Gaza-City deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/depot-scope/README.md) | gaza-city depot scope reconciliation |
+| [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/factory/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/factory/README.md) | Gaza-City city-order factory requirement |
+| [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/simulation/operations-crosscheck.md) | Gaza-City operations cross-check |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/soil/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/soil/README.md) | Gaza-City civil soil screening |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/stabling/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3878,6 +4340,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/delivery/README.md) | Hebron organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/deployment/README.md) | Hebron deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/depot-scope/README.md) | hebron depot scope reconciliation |
+| [`cities/catalogue/west-asia/Palestine/Hebron/engineering/factory/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/factory/README.md) | Hebron city-order factory requirement |
+| [`cities/catalogue/west-asia/Palestine/Hebron/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/simulation/operations-crosscheck.md) | Hebron operations cross-check |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/soil/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/soil/README.md) | Hebron civil soil screening |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/stabling/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3895,6 +4359,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/delivery/README.md) | Nablus organisation and design work |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/deployment/README.md) | Nablus deployment gaps |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/depot-scope/README.md) | nablus depot scope reconciliation |
+| [`cities/catalogue/west-asia/Palestine/Nablus/engineering/factory/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/factory/README.md) | Nablus city-order factory requirement |
+| [`cities/catalogue/west-asia/Palestine/Nablus/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/simulation/operations-crosscheck.md) | Nablus operations cross-check |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/soil/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/soil/README.md) | Nablus civil soil screening |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/stabling/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3911,6 +4377,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/delivery/README.md) | Abha organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/deployment/README.md) | Abha deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/depot-scope/README.md) | abha depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/factory/README.md) | Abha city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/simulation/operations-crosscheck.md) | Abha operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/soil/README.md) | Abha civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3927,6 +4395,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/delivery/README.md) | Al-Kharj organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/deployment/README.md) | Al-Kharj deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/depot-scope/README.md) | al-kharj depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/factory/README.md) | Al-Kharj city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/simulation/operations-crosscheck.md) | Al-Kharj operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/soil/README.md) | Al-Kharj civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3943,6 +4413,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/delivery/README.md) | Buraidah organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/deployment/README.md) | Buraidah deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/depot-scope/README.md) | buraidah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/factory/README.md) | Buraidah city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/simulation/operations-crosscheck.md) | Buraidah operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/soil/README.md) | Buraidah civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3959,6 +4431,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/delivery/README.md) | Dammam organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/deployment/README.md) | Dammam deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/depot-scope/README.md) | dammam depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/factory/README.md) | Dammam city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/simulation/operations-crosscheck.md) | Dammam operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/soil/README.md) | Dammam civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3975,6 +4449,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/delivery/README.md) | Hail organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/deployment/README.md) | Hail deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/depot-scope/README.md) | hail depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/factory/README.md) | Hail city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/simulation/operations-crosscheck.md) | Hail operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/soil/README.md) | Hail civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -3991,6 +4467,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/delivery/README.md) | Hofuf organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/deployment/README.md) | Hofuf deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/depot-scope/README.md) | hofuf depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/factory/README.md) | Hofuf city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/simulation/operations-crosscheck.md) | Hofuf operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/soil/README.md) | Hofuf civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4007,6 +4485,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/delivery/README.md) | Jeddah organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/deployment/README.md) | Jeddah deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/depot-scope/README.md) | jeddah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/factory/README.md) | Jeddah city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/simulation/operations-crosscheck.md) | Jeddah operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/soil/README.md) | Jeddah civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4023,6 +4503,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/delivery/README.md) | Jizan organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/deployment/README.md) | Jizan deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/depot-scope/README.md) | jizan depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/factory/README.md) | Jizan city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/simulation/operations-crosscheck.md) | Jizan operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/soil/README.md) | Jizan civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4039,6 +4521,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/delivery/README.md) | Khamis-Mushait organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/deployment/README.md) | Khamis-Mushait deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/depot-scope/README.md) | khamis-mushait depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/factory/README.md) | Khamis-Mushait city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/simulation/operations-crosscheck.md) | Khamis-Mushait operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/soil/README.md) | Khamis-Mushait civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4055,6 +4539,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/delivery/README.md) | Mecca organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/deployment/README.md) | Mecca deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/depot-scope/README.md) | mecca depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/factory/README.md) | Mecca city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/simulation/operations-crosscheck.md) | Mecca operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/soil/README.md) | Mecca civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4071,6 +4557,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/delivery/README.md) | Medina organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/deployment/README.md) | Medina deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/depot-scope/README.md) | medina depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/factory/README.md) | Medina city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/simulation/operations-crosscheck.md) | Medina operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/soil/README.md) | Medina civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4088,6 +4576,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/delivery/README.md) | Najran organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/deployment/README.md) | Najran deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/depot-scope/README.md) | najran depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/factory/README.md) | Najran city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/simulation/operations-crosscheck.md) | Najran operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/soil/README.md) | Najran civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4104,6 +4594,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/delivery/README.md) | Tabuk organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/deployment/README.md) | Tabuk deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/depot-scope/README.md) | tabuk depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/factory/README.md) | Tabuk city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/simulation/operations-crosscheck.md) | Tabuk operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/soil/README.md) | Tabuk civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4120,6 +4612,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/delivery/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/delivery/README.md) | Taif organisation and design work |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/deployment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/deployment/README.md) | Taif deployment gaps |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/depot-scope/README.md) | taif depot scope reconciliation |
+| [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/factory/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/factory/README.md) | Taif city-order factory requirement |
+| [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/simulation/operations-crosscheck.md) | Taif operations cross-check |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/soil/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/soil/README.md) | Taif civil soil screening |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/stabling/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4136,6 +4630,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/delivery/README.md) | Aleppo organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/deployment/README.md) | Aleppo deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/depot-scope/README.md) | aleppo depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Aleppo/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/factory/README.md) | Aleppo city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Aleppo/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/simulation/operations-crosscheck.md) | Aleppo operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/soil/README.md) | Aleppo civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4152,6 +4648,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/delivery/README.md) | Damascus organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/deployment/README.md) | Damascus deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/depot-scope/README.md) | damascus depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Damascus/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/factory/README.md) | Damascus city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Damascus/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/simulation/operations-crosscheck.md) | Damascus operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/soil/README.md) | Damascus civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4168,6 +4666,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/delivery/README.md) | Deir-Ez-Zor organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/deployment/README.md) | Deir-Ez-Zor deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/depot-scope/README.md) | deir-ez-zor depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/factory/README.md) | Deir-Ez-Zor city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/simulation/operations-crosscheck.md) | Deir-Ez-Zor operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/soil/README.md) | Deir-Ez-Zor civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4184,6 +4684,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/delivery/README.md) | Hama organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/deployment/README.md) | Hama deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/depot-scope/README.md) | hama depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Hama/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/factory/README.md) | Hama city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Hama/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/simulation/operations-crosscheck.md) | Hama operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/soil/README.md) | Hama civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4200,6 +4702,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/delivery/README.md) | Homs organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/deployment/README.md) | Homs deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/depot-scope/README.md) | homs depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Homs/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/factory/README.md) | Homs city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Homs/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/simulation/operations-crosscheck.md) | Homs operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/soil/README.md) | Homs civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4216,6 +4720,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/delivery/README.md) | Idlib organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/deployment/README.md) | Idlib deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/depot-scope/README.md) | idlib depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Idlib/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/factory/README.md) | Idlib city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Idlib/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/simulation/operations-crosscheck.md) | Idlib operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/soil/README.md) | Idlib civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4232,6 +4738,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/delivery/README.md) | Latakia organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/deployment/README.md) | Latakia deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/depot-scope/README.md) | latakia depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Latakia/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/factory/README.md) | Latakia city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Latakia/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/simulation/operations-crosscheck.md) | Latakia operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/soil/README.md) | Latakia civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4249,6 +4757,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/delivery/README.md) | Raqqa organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/deployment/README.md) | Raqqa deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/depot-scope/README.md) | raqqa depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Raqqa/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/factory/README.md) | Raqqa city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Raqqa/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/simulation/operations-crosscheck.md) | Raqqa operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/soil/README.md) | Raqqa civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4265,6 +4775,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/delivery/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/delivery/README.md) | Tartus organisation and design work |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/deployment/README.md) | Tartus deployment gaps |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/depot-scope/README.md) | tartus depot scope reconciliation |
+| [`cities/catalogue/west-asia/Syria/Tartus/engineering/factory/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/factory/README.md) | Tartus city-order factory requirement |
+| [`cities/catalogue/west-asia/Syria/Tartus/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/simulation/operations-crosscheck.md) | Tartus operations cross-check |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/soil/README.md) | Tartus civil soil screening |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4282,6 +4794,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/delivery/README.md) | Aden organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/deployment/README.md) | Aden deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/depot-scope/README.md) | aden depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Aden/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/factory/README.md) | Aden city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Aden/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/simulation/operations-crosscheck.md) | Aden operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/soil/README.md) | Aden civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4298,6 +4812,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/delivery/README.md) | Dhamar organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/deployment/README.md) | Dhamar deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/depot-scope/README.md) | dhamar depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/factory/README.md) | Dhamar city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/simulation/operations-crosscheck.md) | Dhamar operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/soil/README.md) | Dhamar civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4314,6 +4830,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/delivery/README.md) | Hodeidah organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/deployment/README.md) | Hodeidah deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/depot-scope/README.md) | hodeidah depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/factory/README.md) | Hodeidah city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/simulation/operations-crosscheck.md) | Hodeidah operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/soil/README.md) | Hodeidah civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4330,6 +4848,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/delivery/README.md) | Ibb organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/deployment/README.md) | Ibb deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/depot-scope/README.md) | ibb depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Ibb/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/factory/README.md) | Ibb city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Ibb/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/simulation/operations-crosscheck.md) | Ibb operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/soil/README.md) | Ibb civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4346,6 +4866,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/delivery/README.md) | Lahij organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/deployment/README.md) | Lahij deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/depot-scope/README.md) | lahij depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Lahij/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/factory/README.md) | Lahij city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Lahij/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/simulation/operations-crosscheck.md) | Lahij operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/soil/README.md) | Lahij civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4362,6 +4884,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/delivery/README.md) | Mukalla organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/deployment/README.md) | Mukalla deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/depot-scope/README.md) | mukalla depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/factory/README.md) | Mukalla city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/simulation/operations-crosscheck.md) | Mukalla operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/soil/README.md) | Mukalla civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4379,6 +4903,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/delivery/README.md) | Sanaa organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/deployment/README.md) | Sanaa deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/depot-scope/README.md) | sanaa depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/factory/README.md) | Sanaa city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/simulation/operations-crosscheck.md) | Sanaa operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/soil/README.md) | Sanaa civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4395,6 +4921,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/delivery/README.md) | Sayun organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/deployment/README.md) | Sayun deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/depot-scope/README.md) | sayun depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Sayun/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/factory/README.md) | Sayun city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Sayun/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/simulation/operations-crosscheck.md) | Sayun operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/soil/README.md) | Sayun civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4411,6 +4939,8 @@ Indexed Markdown files: **5067**.
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/delivery/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/delivery/README.md) | Taiz organisation and design work |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/deployment/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/deployment/README.md) | Taiz deployment gaps |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/depot-scope/README.md) | taiz depot scope reconciliation |
+| [`cities/catalogue/west-asia/Yemen/Taiz/engineering/factory/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/factory/README.md) | Taiz city-order factory requirement |
+| [`cities/catalogue/west-asia/Yemen/Taiz/engineering/line-depots/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/simulation/operations-crosscheck.md) | Taiz operations cross-check |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/soil/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/soil/README.md) | Taiz civil soil screening |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/stabling/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/stabling/README.md) | Station and depot overnight allocation |
@@ -4929,6 +5459,7 @@ Indexed Markdown files: **5067**.
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
+| [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/component-assurance-register.md`](../docs/certification/component-assurance-register.md) | All-component assurance register |
@@ -5029,6 +5560,7 @@ Indexed Markdown files: **5067**.
 | [`docs/owner-builder-operator-mobilisation-status.md`](../docs/owner-builder-operator-mobilisation-status.md) | Owner–Builder–Operator Mobilisation Status |
 | [`docs/owner-builder-operator-setup.md`](../docs/owner-builder-operator-setup.md) | Owner–Builder–Operator Setup Plan |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
+| [`docs/reference/history/samawah-pre-core-planning.md`](../docs/reference/history/samawah-pre-core-planning.md) | Historical Samawah planning reference |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
 | [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |
 | [`docs/release-v0.4.md`](../docs/release-v0.4.md) | OpenSourceRail v0.4.0 |
@@ -5036,7 +5568,7 @@ Indexed Markdown files: **5067**.
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing Method |
-| [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Context And Pilot Rationale |
+| [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Current Reference Deployment |
 | [`docs/rfcs/0004-osr-interlocking-plan.md`](../docs/rfcs/0004-osr-interlocking-plan.md) | RFC 0004 — `osr-interlocking` Implementation Plan |
 | [`docs/rfcs/0005-sbc-software-architecture.md`](../docs/rfcs/0005-sbc-software-architecture.md) | RFC 0005 — SBC Software Architecture |
 | [`docs/rfcs/0006-osr-tcn-design.md`](../docs/rfcs/0006-osr-tcn-design.md) | RFC 0006 — `osr-tcn` design |

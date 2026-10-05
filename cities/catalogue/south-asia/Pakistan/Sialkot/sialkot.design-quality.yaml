@@ -1,16 +1,22 @@
 slug: sialkot
 pass: true
 metrics:
-  total_route_m: 55401.8
+  total_route_m: 53070.7
   n_lines: 3
-  n_stations: 21
-  anchor_hit_rate: 0.762
-  high_demand_coverage: 0.456
+  n_stations: 18
+  anchor_hit_rate: 0.778
+  high_demand_coverage: 0.347
   civil_mix_m:
-    at_grade: 24120.0
-    elevated: 31281.8
-    bridge:   0.0
-  elevated_fraction: 0.565
+    at_grade: 2670.9
+    elevated: 18806.4
+    bridge:   31593.5
+  elevated_fraction: 0.950
+  viaduct_products_m:
+    osr_pi20_pi25: 18806.4
+    osr_us:      0.0
+    special:     31593.5
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -19,4 +25,5 @@ gates:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
+    elevated_geometry_constructible: true
     soft_pass_all:      false

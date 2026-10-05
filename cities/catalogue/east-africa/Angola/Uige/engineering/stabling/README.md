@@ -1,28 +1,24 @@
 # Station and depot overnight allocation
 
-Plan: **12 trainsets at stations + 15 at depots = 27 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
+The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.
+
+Plan: **6 trainsets at stations + 18 at depots = 24 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
-| line-1-0674-0519-s012025 | line-1 | declared-depot | 15 | 892.5 | 5 |
+| line-1-0674-0519-s007015 | line-1 | declared-depot | 18 | 1,071.0 | 4 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
-| line-1 | line-1-0484-0474-s006033 | station | forward | revenue | 1 |
-| line-1 | line-1-0484-0474-s006033 | station | reverse | revenue | 1 |
 | line-1 | line-1-0510-0252-s000000 | station | forward | revenue | 2 |
-| line-1 | line-1-0544-0356-s003018 | station | forward | revenue | 1 |
-| line-1 | line-1-0544-0356-s003018 | station | reverse | revenue | 1 |
-| line-1 | line-1-0551-0546-s008251 | station | forward | revenue | 1 |
-| line-1 | line-1-0551-0546-s008251 | station | reverse | revenue | 1 |
-| line-1 | line-1-0605-0541-s010131 | station | forward | revenue | 1 |
-| line-1 | line-1-0605-0541-s010131 | station | reverse | revenue | 1 |
-| line-1 | line-1-0674-0519-s012025 | station | reverse | revenue | 2 |
-| line-1 | line-1-0674-0519-s012025 | depot | — | revenue | 12 |
-| line-1 | line-1-0674-0519-s012025 | depot | — | spare | 2 |
-| line-1 | line-1-0674-0519-s012025 | depot | — | cold_reserve | 1 |
+| line-1 | line-1-0619-0429-s004654 | station | forward | revenue | 1 |
+| line-1 | line-1-0619-0429-s004654 | station | reverse | revenue | 1 |
+| line-1 | line-1-0674-0519-s007015 | station | reverse | revenue | 2 |
+| line-1 | line-1-0674-0519-s007015 | depot | — | revenue | 15 |
+| line-1 | line-1-0674-0519-s007015 | depot | — | spare | 2 |
+| line-1 | line-1-0674-0519-s007015 | depot | — | cold_reserve | 1 |
 
 Native hybrid candidate: `build/engineering/stabling/uige-hybrid.toml`; generation only, operating validation pending.
 
@@ -31,42 +27,33 @@ Native hybrid candidate: `build/engineering/stabling/uige-hybrid.toml`; generati
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
-Operating allocation: **27 trainsets at 6 stations**; largest initial station queue **6**. Physical release: **open**.
+Operating allocation: **24 trainsets at 3 stations**; largest initial station queue **12**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-Fleet roles: **24 revenue, 2 spare, 1 cold reserve**. Reserves are held out of routine dispatch.
+Fleet roles: **21 revenue, 2 spare, 1 cold reserve**. Reserves are held out of routine dispatch.
 
-Two-train station-capacity check: **FAIL**. Selected stations provide **12 positions**; **15 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **5 stations**. Four-berth reference platforms do not override the two-train provision.
+Two-train station-capacity check: **FAIL**. Selected stations provide **6 positions**; **18 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **3 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
-| line-1 | line-1-0510-0252-s000000 | forward | revenue | 3 | pending |
-| line-1 | line-1-0544-0356-s003018 | forward | revenue | 3 | pending |
-| line-1 | line-1-0544-0356-s003018 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0484-0474-s006033 | forward | revenue | 3 | pending |
-| line-1 | line-1-0484-0474-s006033 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0551-0546-s008251 | forward | revenue | 2 | pending |
-| line-1 | line-1-0551-0546-s008251 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0605-0541-s010131 | forward | revenue | 2 | pending |
-| line-1 | line-1-0605-0541-s010131 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0674-0519-s012025 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0484-0474-s006033 | reverse | spare | 1 | pending |
-| line-1 | line-1-0551-0546-s008251 | forward | spare | 1 | pending |
-| line-1 | line-1-0551-0546-s008251 | reverse | cold_reserve | 1 | pending |
+| line-1 | line-1-0510-0252-s000000 | forward | revenue | 6 | pending |
+| line-1 | line-1-0619-0429-s004654 | forward | revenue | 5 | pending |
+| line-1 | line-1-0619-0429-s004654 | reverse | revenue | 5 | pending |
+| line-1 | line-1-0674-0519-s007015 | reverse | revenue | 5 | pending |
+| line-1 | line-1-0619-0429-s004654 | forward | spare | 1 | pending |
+| line-1 | line-1-0619-0429-s004654 | reverse | spare | 1 | pending |
+| line-1 | line-1-0674-0519-s007015 | reverse | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
 
-**15 trainsets exceed the reference platform envelope**, requiring **892.5 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**18 trainsets exceed the reference platform envelope**, requiring **1,071.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
-| line-1-0484-0474-s006033 | 6 | 2 | 4 | 238.0 |
-| line-1-0510-0252-s000000 | 3 | 2 | 1 | 59.5 |
-| line-1-0544-0356-s003018 | 6 | 2 | 4 | 238.0 |
-| line-1-0551-0546-s008251 | 6 | 2 | 4 | 238.0 |
-| line-1-0605-0541-s010131 | 4 | 2 | 2 | 119.0 |
-| line-1-0674-0519-s012025 | 2 | 2 | 0 | 0.0 |
+| line-1-0510-0252-s000000 | 6 | 2 | 4 | 238.0 |
+| line-1-0619-0429-s004654 | 12 | 2 | 10 | 595.0 |
+| line-1-0674-0519-s007015 | 6 | 2 | 4 | 238.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
 - Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.
@@ -74,6 +61,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **12 posit
 - Reference platform berths are an optimistic length/count comparison, not verified parking capacity; dedicated sidings and workshop bays receive no automatic credit.
 - Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.
 - Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.
+- Distributed/hybrid candidate outputs do not replace the full-fleet depot requirement or qualify actual yard, access, charging or launch capacity.
 
 Regenerate this report and its local runnable scenario with:
 

@@ -1,16 +1,22 @@
 slug: lahij
 pass: true
 metrics:
-  total_route_m: 28929.3
+  total_route_m: 23592.0
   n_lines: 3
-  n_stations: 14
-  anchor_hit_rate: 0.571
-  high_demand_coverage: 0.821
+  n_stations: 13
+  anchor_hit_rate: 0.538
+  high_demand_coverage: 0.642
   civil_mix_m:
-    at_grade: 25590.3
-    elevated: 3339.1
-    bridge:   0.0
-  elevated_fraction: 0.115
+    at_grade: 2701.3
+    elevated: 20402.4
+    bridge:   488.3
+  elevated_fraction: 0.885
+  viaduct_products_m:
+    osr_pi20_pi25: 20402.4
+    osr_us:      0.0
+    special:     488.3
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

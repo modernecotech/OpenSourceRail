@@ -1,16 +1,22 @@
 slug: masaka
 pass: true
 metrics:
-  total_route_m: 32057.9
+  total_route_m: 27670.7
   n_lines: 3
-  n_stations: 16
-  anchor_hit_rate: 0.500
-  high_demand_coverage: 0.558
+  n_stations: 11
+  anchor_hit_rate: 0.636
+  high_demand_coverage: 0.472
   civil_mix_m:
-    at_grade: 30931.6
-    elevated: 1126.3
+    at_grade: 2877.9
+    elevated: 24792.8
     bridge:   0.0
-  elevated_fraction: 0.035
+  elevated_fraction: 0.896
+  viaduct_products_m:
+    osr_pi20_pi25: 24792.8
+    osr_us:      0.0
+    special:     0.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

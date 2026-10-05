@@ -125,12 +125,16 @@ def test_national_capital_counts_the_existing_factory_once_and_keeps_baghdad_sco
     assert m['baghdad_financing_scope'] == p['included_cities'] == ['Baghdad']
     assert not n['baghdad_financing_includes_national_expansion']
     assert n['city_count'] == len(list(CITY.parent.glob('*/design.toml'))) == 18
-    assert n['shared_factory_usd'] == p['factory']['cost_usd']
-    assert n['shared_factory_epc_usd'] == p['factory']['epc_usd']
+    assert n['shared_factory_usd'] >= p['factory']['cost_usd']
+    assert n['shared_factory_epc_usd'] >= p['factory']['epc_usd']
+    assert n['baghdad_factory_reference_usd'] == p['factory']['cost_usd']
+    assert n['baghdad_factory_epc_reference_usd'] == p['factory']['epc_usd']
+    plant_increment = n['future_shared_factory_increment_usd']+n['future_shared_factory_epc_increment_usd']
+    assert plant_increment == pytest.approx(n['shared_factory_usd']+n['shared_factory_epc_usd']-p['factory']['cost_usd']-p['factory']['epc_usd'])
     assert sum(c['city_capex_usd'] for c in n['cities'])+n['shared_factory_usd']+n['shared_factory_epc_usd'] == pytest.approx(n['total_national_capital_usd'])
     others = sum(c['city_capex_usd'] for c in n['cities'] if c['city'] != 'Baghdad')
-    assert n['future_incremental_city_capital_after_baghdad_usd'] == pytest.approx(others)
-    assert n['total_national_capital_usd'] == pytest.approx(p['total_capex_usd']+others)
+    assert n['future_incremental_city_capital_after_baghdad_usd'] == pytest.approx(others+plant_increment)
+    assert n['total_national_capital_usd'] == pytest.approx(p['total_capex_usd']+others+plant_increment)
     assert m['facts']['baghdad_total_capex_usd'] == p['total_capex_usd']
     assert m['facts']['baghdad_government_share'] == .25
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nyala-line1.aln.toml`](nyala-line1.aln.toml) | `line-1` | 19,446.9 m | 8 |
-| [`nyala-line2.aln.toml`](nyala-line2.aln.toml) | `line-2` | 15,312.3 m | 7 |
-| [`nyala-line3.aln.toml`](nyala-line3.aln.toml) | `line-3` | 11,921.8 m | 5 |
+| [`nyala-line1.aln.toml`](nyala-line1.aln.toml) | `line-1` | 16,336.7 m | 6 |
+| [`nyala-line2.aln.toml`](nyala-line2.aln.toml) | `line-2` | 11,557.9 m | 5 |
+| [`nyala-line3.aln.toml`](nyala-line3.aln.toml) | `line-3` | 10,857.7 m | 5 |
 
 ## Status
 

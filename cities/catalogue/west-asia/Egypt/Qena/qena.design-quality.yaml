@@ -1,22 +1,29 @@
 slug: qena
 pass: true
 metrics:
-  total_route_m: 49258.0
+  total_route_m: 41398.8
   n_lines: 3
-  n_stations: 15
-  anchor_hit_rate: 0.533
-  high_demand_coverage: 0.820
+  n_stations: 12
+  anchor_hit_rate: 0.500
+  high_demand_coverage: 0.187
   civil_mix_m:
-    at_grade: 45735.8
-    elevated: 3522.2
-    bridge:   0.0
-  elevated_fraction: 0.072
+    at_grade: 6653.6
+    elevated: 18534.2
+    bridge:   16211.0
+  elevated_fraction: 0.839
+  viaduct_products_m:
+    osr_pi20_pi25: 18534.2
+    osr_us:      0.0
+    special:     16211.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   true
+    coverage_ge_0.30:   false
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

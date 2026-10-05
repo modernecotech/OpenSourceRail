@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`rajshahi-line1.aln.toml`](rajshahi-line1.aln.toml) | `line-1` | 17,955.4 m | 6 |
-| [`rajshahi-line2.aln.toml`](rajshahi-line2.aln.toml) | `line-2` | 10,333.8 m | 6 |
-| [`rajshahi-line3.aln.toml`](rajshahi-line3.aln.toml) | `line-3` | 14,089.4 m | 6 |
+| [`rajshahi-line1.aln.toml`](rajshahi-line1.aln.toml) | `line-1` | 16,255.2 m | 7 |
+| [`rajshahi-line2.aln.toml`](rajshahi-line2.aln.toml) | `line-2` | 5,435.0 m | 3 |
+| [`rajshahi-line3.aln.toml`](rajshahi-line3.aln.toml) | `line-3` | 10,073.2 m | 4 |
 
 ## Status
 

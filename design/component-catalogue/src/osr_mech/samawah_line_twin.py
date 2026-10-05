@@ -2,7 +2,7 @@
 
 The model keeps the full planning alignment and asset/state register in real
 engineering units.  FreeCAD uses a declared 1:1000 overview representation so
-the complete 25.6 km route remains readable in one review scene.
+the complete current route remains readable in one review scene.
 """
 
 from __future__ import annotations
@@ -276,6 +276,7 @@ def load_samawah_line_twin(city_dir: Path | None = None) -> SamawahLineTwin:
             stations_path,
             energy_path,
             simulation_path,
+            city_dir / "engineering/line-depots/summary.json",
         ),
     )
     assert_twin_checks(twin)
@@ -402,6 +403,12 @@ def station_stop_motion(elapsed_s: float) -> StationStopMotion:
 
 
 def twin_checks(twin: SamawahLineTwin) -> tuple[dict[str, Any], ...]:
+    design = _read_toml(twin.city_dir / "design.toml")
+    expected_stations = {s['id'] for s in design['stations'] if s['line'] == twin.line_id}
+    expected_fleet = next(f for f in design['fleets'] if f['line'] == twin.line_id)
+    scenario = _read_toml(twin.city_dir / "samawah.toml")
+    expected_energy = {s['id'] for s in scenario['stations']
+                       if s['id'] in expected_stations and s.get('charging_power_kw', 0) > 0}
     civil_contiguous = all(
         math.isclose(left.end_m, right.start_m, abs_tol=0.1)
         for left, right in zip(twin.civil_segments, twin.civil_segments[1:])
@@ -422,22 +429,25 @@ def twin_checks(twin: SamawahLineTwin) -> tuple[dict[str, Any], ...]:
         },
         {
             "name": "all-line-stations-present",
-            "passed": len(twin.stations) == 9
+            "passed": len(twin.stations) == len(expected_stations)
+            and {s.asset_id for s in twin.stations} == expected_stations
             and all(station.platform_length_m >= twin.fleet.train_length_m for station in twin.stations),
-            "detail": "nine stations with platforms long enough for the 49.5 m LM3 consist",
+            "detail": f"All {len(expected_stations)} controlled stations with platforms long enough for the {twin.fleet.train_length_m:g} m consist",
         },
         {
             "name": "energy-and-depot-assets-present",
-            "passed": len(twin.energy_sites) == 8
+            "passed": len(twin.energy_sites) == len(expected_energy)
+            and {s.station_id for s in twin.energy_sites} == expected_energy
             and sum(station.is_depot for station in twin.stations) == 1,
-            "detail": "eight charging/PV/storage sites and one main depot terminal",
+            "detail": f"All {len(expected_energy)} controlled charging/PV/storage sites and one main depot terminal",
         },
         {
             "name": "complete-line-fleet-register",
-            "passed": twin.fleet.trainset_count == 53
+            "passed": all(getattr(twin.fleet, key) == expected_fleet[key]
+                          for key in ('trainset_count', 'peak_count', 'spare_count', 'cold_reserve_count'))
             and twin.fleet.peak_count + twin.fleet.spare_count + twin.fleet.cold_reserve_count
             == twin.fleet.trainset_count,
-            "detail": "48 peak-service + 4 spare + 1 cold-reserve LM3 trainsets",
+            "detail": f"{twin.fleet.peak_count} peak-service + {twin.fleet.spare_count} spare + {twin.fleet.cold_reserve_count} cold-reserve trainsets; current controlled order",
         },
         {
             "name": "city-simulation-evidence-passes",
@@ -556,13 +566,17 @@ def digital_twin_manifest(
         )
 
     depot_station = next(station for station in twin.stations if station.is_depot)
+    depot = next(site for site in _read_json(twin.city_dir / 'engineering/line-depots/summary.json')['sites']
+                 if site['line'] == twin.line_id)
     assets.append(
         {
             "asset_id": "OSR-SAM-L1-DEPOT-001",
             "asset_class": "depot.main-heavy",
-            "name": "Al-Jaraa Line 1 main-heavy depot",
+            "name": f"{depot_station.name} Line 1 full-fleet planning depot",
             "parent_asset_id": depot_station.asset_id,
-            "engineering": {"fleet_stalls": 17, "storage_capacity_kwh": 40_000},
+            "engineering": {key: depot[key] for key in (
+                'storage_slots', 'storage_tracks', 'storage_track_m', 'workshop_bays',
+                'train_length_m', 'planning_land_area_m2', 'site_accepted', 'physical_release')},
             "state": {"availability": "available", "health": "nominal"},
         }
     )

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`deir-ez-zor-line1.aln.toml`](deir-ez-zor-line1.aln.toml) | `line-1` | 21,693.9 m | 7 |
-| [`deir-ez-zor-line2.aln.toml`](deir-ez-zor-line2.aln.toml) | `line-2` | 13,378.7 m | 5 |
-| [`deir-ez-zor-line3.aln.toml`](deir-ez-zor-line3.aln.toml) | `line-3` | 16,292.5 m | 6 |
+| [`deir-ez-zor-line1.aln.toml`](deir-ez-zor-line1.aln.toml) | `line-1` | 20,624.5 m | 7 |
+| [`deir-ez-zor-line2.aln.toml`](deir-ez-zor-line2.aln.toml) | `line-2` | 12,804.4 m | 5 |
+| [`deir-ez-zor-line3.aln.toml`](deir-ez-zor-line3.aln.toml) | `line-3` | 15,888.4 m | 6 |
 
 ## Status
 

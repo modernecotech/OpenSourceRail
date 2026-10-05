@@ -3,7 +3,7 @@
 This page contains only Yemen-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$7.58 B (86.2%) of external capital** and **$9.80 B of external interest**. Capital plus saved interest totals **$17.38 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$13.71 B (88.3%) of external capital** and **$17.70 B of external interest**. Capital plus saved interest totals **$31.41 B**.
 
 ## National Programme
 
@@ -11,54 +11,54 @@ This page contains only Yemen-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 9 |
 | Represented population | 8,337,500 |
-| Trainsets / vehicle modules | 1,054 / 4,060 |
-| City infrastructure and fleet CAPEX | $4.75 B |
-| Shared national factory | $128.9 M |
-| Factory sizing basis | 2,148 modules for Sanaa, then reused nationally |
-| **Total national programme** | **$4.89 B** |
+| Trainsets / vehicle modules | 1,109 / 4,164 |
+| City infrastructure and fleet CAPEX | $7.53 B |
+| Shared national factory | $1.02 B |
+| Factory sizing basis | 1,974 modules for Sanaa, then reused nationally |
+| **Total national programme** | **$8.62 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.21 B (24.8%) |
-| Domestic / local capital | $3.68 B (75.2%) |
-| Annual external capital draw | $121.1 M / yr |
-| Annual local capital draw | $367.6 M / yr |
-| Annual public construction commitment | $657.3 M / yr for 10 years |
-| Annual post-grace debt service | $607.3 M / yr |
-| Default foreign-turnkey external capital | $8.80 B |
-| External capital saved | $7.58 B |
-| Capital + lifetime external interest saved | $17.38 B |
+| Imported / external capital | $1.81 B (21.0%) |
+| Domestic / local capital | $6.81 B (79.0%) |
+| Annual external capital draw | $180.8 M / yr |
+| Annual local capital draw | $681.1 M / yr |
+| Annual public construction commitment | $1.20 B / yr for 10 years |
+| Annual post-grace debt service | $1.10 B / yr |
+| Default foreign-turnkey external capital | $15.51 B |
+| External capital saved | $13.71 B |
+| Capital + lifetime external interest saved | $31.41 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.62 B | $243.1 M | $1.38 B |
-| Stations | $1.01 B | $201.7 M | $806.7 M |
-| Depots | $72.0 M | $18.0 M | $54.0 M |
-| Rolling stock | $1.17 B | $408.8 M | $759.2 M |
-| Dedicated solar plants | $535.6 M | $241.0 M | $294.6 M |
-| Residual train control | $27.3 M | $13.7 M | $13.7 M |
-| Charging microgrids | $40.9 M | $16.4 M | $24.5 M |
-| EPC / project services | $284.6 M | $42.7 M | $241.9 M |
-| Shared national trainset factory | $128.9 M | $25.8 M | $103.1 M |
-| **Total** | **$4.89 B** | **$1.21 B** | **$3.68 B** |
+| Civil works | $4.12 B | $618.0 M | $3.50 B |
+| Stations | $747.5 M | $149.5 M | $598.0 M |
+| Depots | $552.9 M | $138.2 M | $414.7 M |
+| Rolling stock | $1.20 B | $421.3 M | $782.4 M |
+| Dedicated solar plants | $378.8 M | $170.4 M | $208.3 M |
+| Residual train control | $23.7 M | $11.9 M | $11.9 M |
+| Charging microgrids | $35.5 M | $14.2 M | $21.3 M |
+| EPC / project services | $539.1 M | $80.9 M | $458.2 M |
+| Shared national trainset factory | $1.02 B | $203.6 M | $814.5 M |
+| **Total** | **$8.62 B** | **$1.81 B** | **$6.81 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Sanaa](Sanaa/README.md) | 3,937,500 | 358 | $2.15 B | $574.5 M | $1.58 B |
-| [Aden](Aden/README.md) | 985,000 | 97 | $376.8 M | $90.4 M | $286.4 M |
-| [Hodeidah](Hodeidah/README.md) | 750,000 | 71 | $291.3 M | $68.5 M | $222.8 M |
-| [Ibb](Ibb/README.md) | 750,000 | 106 | $409.3 M | $98.1 M | $311.2 M |
-| [Taiz](Taiz/README.md) | 615,000 | 94 | $359.0 M | $86.0 M | $273.1 M |
-| [Mukalla](Mukalla/README.md) | 550,000 | 152 | $462.3 M | $117.1 M | $345.2 M |
-| [Dhamar](Dhamar/README.md) | 300,000 | 63 | $204.6 M | $45.3 M | $159.3 M |
-| [Lahij](Lahij/README.md) | 250,000 | 59 | $288.8 M | $59.8 M | $229.0 M |
-| [Sayun](Sayun/README.md) | 200,000 | 54 | $206.6 M | $44.3 M | $162.3 M |
+| [Sanaa](Sanaa/README.md) | 3,937,500 | 329 | $3.38 B | $742.8 M | $2.63 B |
+| [Aden](Aden/README.md) | 985,000 | 125 | $655.0 M | $136.3 M | $518.7 M |
+| [Hodeidah](Hodeidah/README.md) | 750,000 | 78 | $428.7 M | $87.7 M | $341.0 M |
+| [Ibb](Ibb/README.md) | 750,000 | 124 | $621.7 M | $129.9 M | $491.7 M |
+| [Taiz](Taiz/README.md) | 615,000 | 125 | $600.2 M | $127.2 M | $473.1 M |
+| [Mukalla](Mukalla/README.md) | 550,000 | 178 | $813.3 M | $174.9 M | $638.5 M |
+| [Dhamar](Dhamar/README.md) | 300,000 | 48 | $320.0 M | $60.6 M | $259.4 M |
+| [Lahij](Lahij/README.md) | 250,000 | 54 | $386.7 M | $72.6 M | $314.1 M |
+| [Sayun](Sayun/README.md) | 200,000 | 48 | $327.2 M | $61.7 M | $265.4 M |
 
 ## Local Basis And Regeneration
 

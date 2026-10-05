@@ -1,16 +1,22 @@
 slug: vadodara
 pass: true
 metrics:
-  total_route_m: 150232.5
+  total_route_m: 111667.6
   n_lines: 6
-  n_stations: 61
-  anchor_hit_rate: 0.590
-  high_demand_coverage: 0.657
+  n_stations: 46
+  anchor_hit_rate: 0.696
+  high_demand_coverage: 0.559
   civil_mix_m:
-    at_grade: 141944.6
-    elevated: 8287.8
-    bridge:   0.0
-  elevated_fraction: 0.055
+    at_grade: 7543.7
+    elevated: 101835.4
+    bridge:   2288.5
+  elevated_fraction: 0.932
+  viaduct_products_m:
+    osr_pi20_pi25: 101835.4
+    osr_us:      0.0
+    special:     2288.5
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

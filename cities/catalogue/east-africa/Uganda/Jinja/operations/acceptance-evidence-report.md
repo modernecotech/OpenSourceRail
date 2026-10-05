@@ -10,22 +10,22 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 189 |
-| Manufacturing schedule rows | 823 |
-| Manufacturing material/BOM rows | 1,575 |
-| Manufacturing QA verification rows | 823 |
-| Construction QA action rows | 692 |
-| Maintenance handover schedule rows | 1,090 |
-| Manufacturing rows with material refs | 823 / 823 |
-| Manufacturing rows with verification refs | 823 / 823 |
-| Manufacturing rows linked to QA actions | 823 / 823 |
+| Assets in register | 170 |
+| Manufacturing schedule rows | 714 |
+| Manufacturing material/BOM rows | 1,430 |
+| Manufacturing QA verification rows | 714 |
+| Construction QA action rows | 601 |
+| Maintenance handover schedule rows | 943 |
+| Manufacturing rows with material refs | 714 / 714 |
+| Manufacturing rows with verification refs | 714 / 714 |
+| Manufacturing rows linked to QA actions | 714 / 714 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 1,575 |
+| `project_kit` | 1,430 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -36,17 +36,17 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 261 |
-| `qa-11-bogie-wheelset` | 87 |
-| `qa-12-traction-brake-battery` | 87 |
-| `qa-13-passenger-systems` | 87 |
-| `qa-15-first-article-trainset` | 87 |
-| `qa-20-survey-geotech` | 14 |
-| `qa-21-earthworks-drainage` | 14 |
-| `qa-22-trackform-rail` | 54 |
-| `qa-24-stations-depots-plant` | 36 |
+| `qa-10-carbody-structure` | 219 |
+| `qa-11-bogie-wheelset` | 73 |
+| `qa-12-traction-brake-battery` | 73 |
+| `qa-13-passenger-systems` | 73 |
+| `qa-15-first-article-trainset` | 73 |
+| `qa-20-survey-geotech` | 13 |
+| `qa-21-earthworks-drainage` | 13 |
+| `qa-22-trackform-rail` | 47 |
+| `qa-24-stations-depots-plant` | 38 |
 | `qa-25-power-energy` | 33 |
-| `qa-26-wayside-comms-safety` | 62 |
+| `qa-26-wayside-comms-safety` | 58 |
 
 ## Acceptance Control Logic
 

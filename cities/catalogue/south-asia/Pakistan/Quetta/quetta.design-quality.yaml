@@ -1,22 +1,29 @@
 slug: quetta
 pass: true
 metrics:
-  total_route_m: 120673.9
+  total_route_m: 105697.4
   n_lines: 4
-  n_stations: 41
-  anchor_hit_rate: 0.317
-  high_demand_coverage: 0.498
+  n_stations: 36
+  anchor_hit_rate: 0.194
+  high_demand_coverage: 0.226
   civil_mix_m:
-    at_grade: 109929.8
-    elevated: 10744.1
-    bridge:   0.0
-  elevated_fraction: 0.089
+    at_grade: 4223.2
+    elevated: 101066.6
+    bridge:   407.6
+  elevated_fraction: 0.960
+  viaduct_products_m:
+    osr_pi20_pi25: 101066.6
+    osr_us:      0.0
+    special:     407.6
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    coverage_ge_0.30:   false
+    anchor_hit_ge_0.20: false
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

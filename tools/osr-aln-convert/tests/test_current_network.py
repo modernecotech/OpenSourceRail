@@ -87,3 +87,14 @@ def test_check_detects_drift(tmp_path: Path) -> None:
             design_date=DESIGN_DATE,
             check=True,
         )
+
+
+def test_shared_alignment_evidence_is_preserved_and_is_not_export_drift(tmp_path: Path) -> None:
+    export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE)
+    evidence=tmp_path/'station-water-screen.json'
+    evidence.write_text('{"physical_release":false}\n')
+    assert len(export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE,check=True))==4
+    assert evidence.read_text()=='{"physical_release":false}\n'
+    (tmp_path/'removed-line.aln.toml').write_text('obsolete\n')
+    with pytest.raises(ValueError,match='removed-line'):
+        export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE,check=True)

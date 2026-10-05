@@ -2,18 +2,19 @@
 
 - Status: **running-time-screen-passed-awaiting-junction-evidence**
 - Automatic running-time cross-check: **passed**
-- Retained full-service replay matches current inputs/tools: **no**
+- Retained full-service replay matches current inputs/tools: **yes**
+- Service execution basis: **source-bound-CI-executable**
 - Junction occupancy evidence: **pending**
 - Authority accepted: **no**
 
 | Line | OSR reference | SUMO mean | Difference | Tolerance | Result |
 |---|---:|---:|---:|---:|---|
-| line-1 | 3633.5 s | 3498.0 s | -135.5 s | 545.0 s | pass |
-| line-2 | 3088.5 s | 2943.0 s | -145.5 s | 463.3 s | pass |
-| line-3 | 3346.0 s | 3196.0 s | -150.0 s | 501.9 s | pass |
-| line-4 | 2776.7 s | 2648.0 s | -128.7 s | 416.5 s | pass |
-| line-5 | 2138.9 s | 2040.5 s | -98.4 s | 320.8 s | pass |
-| line-6 | 7859.0 s | 7590.5 s | -268.5 s | 1178.8 s | pass |
+| line-1 | 2884.8 s | 2766.5 s | -118.3 s | 432.7 s | pass |
+| line-2 | 2694.6 s | 2567.0 s | -127.6 s | 404.2 s | pass |
+| line-3 | 2757.3 s | 2631.0 s | -126.3 s | 413.6 s | pass |
+| line-4 | 2497.5 s | 2379.0 s | -118.5 s | 374.6 s | pass |
+| line-5 | 2052.5 s | 1963.5 s | -89.0 s | 307.9 s | pass |
+| line-6 | 6665.1 s | 6538.5 s | -126.6 s | 999.8 s | pass |
 
 > The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.
 

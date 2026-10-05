@@ -4,7 +4,7 @@ Generated from current city CAPEX and procurement milestones. All facilities and
 
 This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Construction cash runs through month **54**; full-network operations start in month **54** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
+Construction cash runs through month **41**; full-network operations start in month **41** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
@@ -12,11 +12,11 @@ USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds a
 
 | Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
 |---|---|---:|---:|
-| chinese export credit | USD | 53,344,372.60 | 53,344,372.60 |
-| domestic bonds | IQD | 181,391,376,435.95 | 139,531,828.03 |
-| bank credit | IQD | 60,463,792,145.32 | 46,510,609.34 |
-| government | IQD | 362,782,752,871.91 | 279,063,656.06 |
-| **Total city capital uses** | Mixed | — | **518,450,466.03** |
+| chinese export credit | USD | 56,401,306.47 | 56,401,306.47 |
+| domestic bonds | IQD | 285,721,555,939.09 | 219,785,812.26 |
+| bank credit | IQD | 95,240,518,646.36 | 73,261,937.42 |
+| government | IQD | 571,443,111,878.17 | 439,571,624.52 |
+| **Total city capital uses** | Mixed | — | **789,020,680.68** |
 
 Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 
@@ -34,13 +34,13 @@ These allocations divide existing imported budgets; they are not additional cost
 
 | Bucket | Component | Assumed eligible invoice USD |
 |---|---|---:|
-| rolling_stock | bogies | 15,372,000.00 |
-| rolling_stock | traction_batteries | 11,529,000.00 |
-| rolling_stock | windows | 1,921,500.00 |
-| rolling_stock | doors | 3,843,000.00 |
-| solar_plant | solar_panels_and_inverters | 29,350,085.41 |
-| charging_microgrid | solar_panels_and_inverters | 346,500.00 |
-| charging_microgrid | station_batteries | 396,000.00 |
+| rolling_stock | bogies | 20,412,000.00 |
+| rolling_stock | traction_batteries | 15,309,000.00 |
+| rolling_stock | windows | 2,551,500.00 |
+| rolling_stock | doors | 5,103,000.00 |
+| solar_plant | solar_panels_and_inverters | 22,333,978.20 |
+| charging_microgrid | solar_panels_and_inverters | 301,000.00 |
+| charging_microgrid | station_batteries | 344,000.00 |
 
 ## Annual cash requirements
 
@@ -48,57 +48,56 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 420.77 | 0.00 | 0.00 | 9.12 | 244.09 | 0.00 |
-| 2 | 36.49 | 0.00 | 0.00 | 19.35 | 37.00 | 0.00 |
-| 3 | 30.33 | 0.00 | 0.00 | 22.60 | 36.61 | 0.00 |
-| 4 | 29.19 | 0.00 | 0.00 | 26.31 | 39.78 | 0.00 |
-| 5 | 1.67 | 19.42 | 7.00 | 27.94 | 30.67 | 0.44 |
-| 6 | 0.00 | 48.54 | 13.99 | 29.08 | 2.20 | 1.19 |
-| 7 | 0.00 | 67.96 | 13.99 | 29.54 | 0.00 | 1.83 |
-| 8 | 0.00 | 77.67 | 13.99 | 26.40 | 0.00 | 2.41 |
-| 9 | 0.00 | 77.67 | 13.99 | 22.22 | 0.00 | 2.87 |
-| 10 | 0.00 | 77.67 | 13.99 | 21.76 | 0.00 | 2.93 |
-| 11 | 0.00 | 77.67 | 13.99 | 21.31 | 0.00 | 2.99 |
-| 12 | 0.00 | 77.67 | 13.99 | 21.07 | 0.00 | 3.02 |
-| 13 | 0.00 | 77.67 | 13.99 | 21.06 | 0.00 | 3.02 |
-| 14 | 0.00 | 77.67 | 13.99 | 21.06 | 0.00 | 3.02 |
-| 15 | 0.00 | 77.67 | 13.99 | 21.06 | 0.00 | 3.02 |
-| 16 | 0.00 | 77.67 | 13.99 | 21.06 | 0.00 | 3.02 |
-| 17 | 0.00 | 77.67 | 13.99 | 21.06 | 0.00 | 3.02 |
-| 18 | 0.00 | 77.67 | 13.99 | 14.90 | 0.00 | 4.28 |
-| 19 | 0.00 | 77.67 | 13.99 | 7.12 | 0.00 | 8.94 |
-| 20 | 0.00 | 77.67 | 13.99 | 4.86 | 0.00 | 13.09 |
-| 21 | 0.00 | 77.67 | 13.99 | 2.20 | 0.00 | 29.00 |
-| 22 | 0.00 | 77.67 | 13.99 | 1.07 | 0.00 | 59.29 |
-| 23 | 0.00 | 77.67 | 13.99 | 0.39 | 0.00 | 165.21 |
-| 24 | 0.00 | 77.67 | 13.99 | 0.01 | 0.00 | 10897.81 |
-| 25 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 26 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 27 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 28 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 29 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 30 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 31 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 32 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 33 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 34 | 0.00 | 77.67 | 13.99 | 0.00 | 0.00 | — |
-| 35 | 0.00 | 38.84 | 7.00 | 0.00 | 0.00 | — |
+| 1 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | — |
+| 2 | 124.81 | 0.00 | 0.00 | 0.64 | 75.64 | 0.00 |
+| 3 | 659.88 | 0.00 | 0.00 | 23.42 | 388.51 | 0.00 |
+| 4 | 4.32 | 22.45 | 13.88 | 34.63 | 45.76 | 0.25 |
+| 5 | 0.00 | 49.71 | 23.79 | 39.66 | 17.10 | 0.65 |
+| 6 | 0.00 | 68.95 | 23.79 | 42.17 | 3.47 | 1.07 |
+| 7 | 0.00 | 76.97 | 23.79 | 43.23 | 0.00 | 1.23 |
+| 8 | 0.00 | 76.97 | 23.79 | 44.69 | 0.00 | 1.19 |
+| 9 | 0.00 | 76.97 | 23.79 | 44.49 | 0.00 | 1.20 |
+| 10 | 0.00 | 76.97 | 23.79 | 35.21 | 0.00 | 1.51 |
+| 11 | 0.00 | 76.97 | 23.79 | 30.57 | 0.00 | 1.74 |
+| 12 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 13 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 14 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 15 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 16 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 17 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 18 | 0.00 | 76.97 | 23.79 | 30.56 | 0.00 | 1.74 |
+| 19 | 0.00 | 76.97 | 23.79 | 30.19 | 0.00 | 1.76 |
+| 20 | 0.00 | 76.97 | 23.79 | 13.64 | 0.00 | 3.90 |
+| 21 | 0.00 | 76.97 | 23.79 | 5.37 | 0.00 | 9.91 |
+| 22 | 0.00 | 76.97 | 23.79 | 3.11 | 0.00 | 17.11 |
+| 23 | 0.00 | 76.97 | 23.79 | 0.02 | 0.00 | 3371.57 |
+| 24 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 25 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 26 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 27 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 28 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 29 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 30 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 31 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 32 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 33 | 0.00 | 76.97 | 23.79 | 0.00 | 0.00 | — |
+| 34 | 0.00 | 32.07 | 9.91 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 244.09 | 0.44 | 0.00 |
-| high capacity use | 244.09 | 0.84 | 0.00 |
-| capex plus 25 percent | 305.11 | 0.36 | 0.00 |
-| demand minus 40 percent | 244.09 | 0.17 | 0.00 |
-| iqd depreciation 35 percent | 244.09 | 0.44 | 0.00 |
-| commissioning delay two years | 244.09 | 0.42 | 0.00 |
-| china credit unavailable | 242.89 | 0.50 | 4.11 |
-| four year bullet bonds | 244.09 | 0.09 | 0.00 |
-| government payment delay six months | 141.15 | 0.44 | 29.29 |
-| interest plus three points | 246.73 | 0.37 | 0.00 |
-| combined downside | 308.41 | 0.10 | 0.00 |
+| base low demand | 388.51 | 0.25 | 0.00 |
+| high capacity use | 388.51 | 0.62 | 0.00 |
+| capex plus 25 percent | 485.63 | 0.20 | 0.00 |
+| demand minus 40 percent | 388.51 | -0.01 | 0.00 |
+| iqd depreciation 35 percent | 388.51 | 0.25 | 0.00 |
+| commissioning delay two years | 388.51 | 0.20 | 0.00 |
+| china credit unavailable | 386.52 | 0.27 | 9.20 |
+| four year bullet bonds | 388.51 | 0.25 | 0.00 |
+| government payment delay six months | 367.19 | 0.25 | 46.61 |
+| interest plus three points | 394.94 | 0.19 | 0.00 |
+| combined downside | 493.67 | -0.01 | 0.00 |
 
 ## Assumptions and evidence
 

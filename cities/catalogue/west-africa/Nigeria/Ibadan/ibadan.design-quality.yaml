@@ -1,16 +1,22 @@
 slug: ibadan
 pass: true
 metrics:
-  total_route_m: 135301.9
+  total_route_m: 106368.8
   n_lines: 5
-  n_stations: 55
-  anchor_hit_rate: 0.345
-  high_demand_coverage: 0.385
+  n_stations: 40
+  anchor_hit_rate: 0.350
+  high_demand_coverage: 0.347
   civil_mix_m:
-    at_grade: 120318.2
-    elevated: 14983.6
-    bridge:   0.0
-  elevated_fraction: 0.111
+    at_grade: 10293.7
+    elevated: 93781.1
+    bridge:   2294.0
+  elevated_fraction: 0.903
+  viaduct_products_m:
+    osr_pi20_pi25: 93611.6
+    osr_us:      169.4
+    special:     2294.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 3.482
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

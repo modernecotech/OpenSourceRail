@@ -142,6 +142,12 @@ if [[ "$SLUG" == "baghdad" ]]; then
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
         --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
         --out-dir "$DESIGN_DIR" --design-only
+elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
+    "$PYTHON" "$REPO/tools/automation/rework-city-alignment.py" --design "$DESIGN_DIR/design.toml"
+    "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml" --prepare-grid
+    "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
+        --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
+        --out-dir "$DESIGN_DIR" --design-only
 elif [[ -f "$DESIGN_DIR/design.toml" ]]; then
     "$PYTHON" "$REPO/tools/automation/refresh-city-design-costs.py" --design "$DESIGN_DIR/design.toml"
 else
@@ -153,6 +159,10 @@ fi
 
 echo "4) scenario file → $DESIGN_DIR/$SLUG.toml"
 "$PYTHON" "$REPO/tools/automation/apply-city-overrides.py" --design "$DESIGN_DIR/design.toml"
+if [[ "$SLUG" != "baghdad" && -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
+    "$PYTHON" "$REPO/tools/automation/apply-city-depot-scope.py" --design "$DESIGN_DIR/design.toml"
+    "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml"
+fi
 "$PYTHON" -m osr_scenario --design "$DESIGN_DIR/design.toml" \
     --out "$DESIGN_DIR/$SLUG.toml"
 
@@ -196,6 +206,9 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
 if [[ "$SLUG" == "baghdad" ]]; then
     "$PYTHON" "$REPO/tools/automation/render-baghdad-alignment-review.py"
     "$PYTHON" "$REPO/tools/automation/regenerate-baghdad-studies.py"
+elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
+    "$PYTHON" "$REPO/tools/automation/generate-city-factory-plan.py" --design "$DESIGN_DIR/design.toml"
+    "$PYTHON" "$REPO/tools/automation/render-baghdad-alignment-review.py" --design "$DESIGN_DIR/design.toml"
 fi
 
 echo "8) per-network README → $DESIGN_DIR/README.md"

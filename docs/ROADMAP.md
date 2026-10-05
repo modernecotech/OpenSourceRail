@@ -121,7 +121,7 @@ direct amendment, stop, native corrective Job Cards with accepted inspections,
 performed stock inspections and movement tracing. Later changes make verification
 stale. These checks do not accept manufacturing configuration or grant railway release. See [revision exposure](lifecycle/README.md#engineering-revision-exposure).
 
-Native operating supervision now also covers the catalogue's 9,097 identified
+Native operating supervision now also covers the catalogue's identified
 switches through the existing fail-restrictive points evaluator, plus one clearly
 labelled AFC aggregate per station. The same adapter and template contract is
 ready for level crossings, but zero city asset registers currently identify one;

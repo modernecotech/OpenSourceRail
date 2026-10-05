@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kigoma-line1.aln.toml`](kigoma-line1.aln.toml) | `line-1` | 12,324.5 m | 6 |
-| [`kigoma-line2.aln.toml`](kigoma-line2.aln.toml) | `line-2` | 14,733.7 m | 6 |
-| [`kigoma-line3.aln.toml`](kigoma-line3.aln.toml) | `line-3` | 8,868.6 m | 5 |
+| [`kigoma-line1.aln.toml`](kigoma-line1.aln.toml) | `line-1` | 9,195.5 m | 4 |
+| [`kigoma-line2.aln.toml`](kigoma-line2.aln.toml) | `line-2` | 11,549.4 m | 5 |
+| [`kigoma-line3.aln.toml`](kigoma-line3.aln.toml) | `line-3` | 6,067.9 m | 4 |
 
 ## Status
 

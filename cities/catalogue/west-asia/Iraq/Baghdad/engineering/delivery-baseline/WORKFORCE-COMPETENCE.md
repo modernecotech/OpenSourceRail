@@ -4,7 +4,7 @@
 > **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
 <!-- END OSR CURRENT SCOPE CONTEXT -->
 
-The prior **2,184 FTE / USD 13.943m/year** allowance is USD 532.00/person/month. The existing 21-role weighted split remains a budget allocation, not shift cover. This separate [establishment](workforce-establishment.csv) derives posts/task hours, 1520 productive hours per FTE after leave, training, sickness and travel/handovers, integer cover and editable grade pay with employer/overtime allowances.
+The prior **3,217 FTE / USD 36.188m/year** allowance is USD 937.42/person/month. The existing 21-role weighted split remains a budget allocation, not shift cover. This separate [establishment](workforce-establishment.csv) derives posts/task hours, 1520 productive hours per FTE after leave, training, sickness and travel/handovers, integer cover and editable grade pay with employer/overtime allowances.
 
 | Function | Annual workload h | Concurrent posts | Reference FTE | Loaded annual IQD m |
 | --- | --- | --- | --- | --- |

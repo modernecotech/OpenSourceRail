@@ -3,7 +3,7 @@
 This page contains only Angola-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$10.32 B (85.8%) of external capital** and **$12.69 B of external interest**. Capital plus saved interest totals **$23.01 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$16.00 B (88.0%) of external capital** and **$19.68 B of external interest**. Capital plus saved interest totals **$35.68 B**.
 
 ## National Programme
 
@@ -11,54 +11,54 @@ This page contains only Angola-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 9 |
 | Represented population | 13,135,000 |
-| Trainsets / vehicle modules | 1,254 / 5,481 |
-| City infrastructure and fleet CAPEX | $6.45 B |
-| Shared national factory | $223.9 M |
-| Factory sizing basis | 3,732 modules for Luanda, then reused nationally |
-| **Total national programme** | **$6.69 B** |
+| Trainsets / vehicle modules | 1,248 / 5,285 |
+| City infrastructure and fleet CAPEX | $9.62 B |
+| Shared national factory | $453.5 M |
+| Factory sizing basis | 3,318 modules for Luanda, then reused nationally |
+| **Total national programme** | **$10.11 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.71 B (25.6%) |
-| Domestic / local capital | $4.97 B (74.4%) |
-| Annual external capital draw | $342.8 M / yr |
-| Annual local capital draw | $994.5 M / yr |
-| Annual public construction commitment | $733.5 M / yr for 5 years |
-| Annual post-grace debt service | $566.0 M / yr |
-| Default foreign-turnkey external capital | $12.04 B |
-| External capital saved | $10.32 B |
-| Capital + lifetime external interest saved | $23.01 B |
+| Imported / external capital | $2.19 B (21.7%) |
+| Domestic / local capital | $7.92 B (78.3%) |
+| Annual external capital draw | $438.2 M / yr |
+| Annual local capital draw | $1.58 B / yr |
+| Annual public construction commitment | $1.14 B / yr for 5 years |
+| Annual post-grace debt service | $870.4 M / yr |
+| Default foreign-turnkey external capital | $18.20 B |
+| External capital saved | $16.00 B |
+| Capital + lifetime external interest saved | $35.68 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.07 B | $310.8 M | $1.76 B |
-| Stations | $1.33 B | $266.0 M | $1.06 B |
-| Depots | $72.0 M | $18.0 M | $54.0 M |
-| Rolling stock | $1.56 B | $547.3 M | $1.02 B |
-| Dedicated solar plants | $952.7 M | $428.7 M | $524.0 M |
-| Residual train control | $34.1 M | $17.1 M | $17.1 M |
-| Charging microgrids | $63.0 M | $25.2 M | $37.8 M |
-| EPC / project services | $375.1 M | $56.3 M | $318.8 M |
-| Shared national trainset factory | $223.9 M | $44.8 M | $179.1 M |
-| **Total** | **$6.69 B** | **$1.71 B** | **$4.97 B** |
+| Civil works | $5.19 B | $778.5 M | $4.41 B |
+| Stations | $930.9 M | $186.2 M | $744.7 M |
+| Depots | $590.4 M | $147.6 M | $442.8 M |
+| Rolling stock | $1.51 B | $530.0 M | $984.4 M |
+| Dedicated solar plants | $730.9 M | $328.9 M | $402.0 M |
+| Residual train control | $29.0 M | $14.5 M | $14.5 M |
+| Charging microgrids | $56.2 M | $22.5 M | $33.7 M |
+| EPC / project services | $613.5 M | $92.0 M | $521.5 M |
+| Shared national trainset factory | $453.5 M | $90.7 M | $362.8 M |
+| **Total** | **$10.11 B** | **$2.19 B** | **$7.92 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Luanda](Luanda/README.md) | 9,085,000 | 622 | $4.06 B | $1.11 B | $2.95 B |
-| [Huambo](Huambo/README.md) | 800,000 | 112 | $409.3 M | $98.6 M | $310.8 M |
-| [Lubango](Lubango/README.md) | 700,000 | 119 | $442.1 M | $105.9 M | $336.2 M |
-| [Benguela](Benguela/README.md) | 600,000 | 110 | $393.2 M | $95.0 M | $298.2 M |
-| [Lobito](Lobito/README.md) | 500,000 | 83 | $299.3 M | $72.4 M | $226.9 M |
-| [Malanje](Malanje/README.md) | 500,000 | 34 | $163.1 M | $37.6 M | $125.5 M |
-| [Uige](Uige/README.md) | 400,000 | 27 | $98.0 M | $24.1 M | $73.9 M |
-| [Namibe](Namibe/README.md) | 300,000 | 84 | $285.0 M | $62.5 M | $222.5 M |
-| [Soyo](Soyo/README.md) | 250,000 | 63 | $295.4 M | $62.7 M | $232.7 M |
+| [Luanda](Luanda/README.md) | 9,085,000 | 553 | $5.72 B | $1.31 B | $4.41 B |
+| [Huambo](Huambo/README.md) | 800,000 | 136 | $709.8 M | $146.0 M | $563.8 M |
+| [Lubango](Lubango/README.md) | 700,000 | 141 | $761.5 M | $155.9 M | $605.6 M |
+| [Benguela](Benguela/README.md) | 600,000 | 146 | $725.2 M | $151.9 M | $573.2 M |
+| [Lobito](Lobito/README.md) | 500,000 | 86 | $470.2 M | $96.0 M | $374.2 M |
+| [Malanje](Malanje/README.md) | 500,000 | 44 | $250.1 M | $51.5 M | $198.6 M |
+| [Uige](Uige/README.md) | 400,000 | 24 | $129.2 M | $26.9 M | $102.2 M |
+| [Namibe](Namibe/README.md) | 300,000 | 72 | $475.7 M | $88.4 M | $387.3 M |
+| [Soyo](Soyo/README.md) | 250,000 | 46 | $381.0 M | $72.7 M | $308.3 M |
 
 ## Local Basis And Regeneration
 

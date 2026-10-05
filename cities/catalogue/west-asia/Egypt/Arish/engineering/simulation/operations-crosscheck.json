@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,19 +16,19 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 1189.214,
-      "sumo_mean_trip_time_s": 1210.0,
-      "delta_s": 20.786,
-      "delta_percent_of_osr": 1.748,
-      "tolerance_s": 178.382,
+      "osr_reference_trip_time_s": 652.31,
+      "sumo_mean_trip_time_s": 656.0,
+      "delta_s": 3.69,
+      "delta_percent_of_osr": 0.566,
+      "tolerance_s": 120.0,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 379.653,
-      "sumo_mean_trip_time_s": 382.0,
-      "delta_s": 2.347,
-      "delta_percent_of_osr": 0.618,
+      "osr_reference_trip_time_s": 119.206,
+      "sumo_mean_trip_time_s": 113.0,
+      "delta_s": -6.206,
+      "delta_percent_of_osr": -5.206,
       "tolerance_s": 120.0,
       "passed": true
     }
@@ -41,19 +42,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "b95acb231d476292ac506a5537d6f7aa7596f353bffcd6a7528d86638c1c9040",
-    "sumo_summary_sha256": "4a570a88cd50d45066b5ec91cf176dad511b881118a78845fa08a7f37174c64f",
-    "simulation_summary_sha256": "63e758da54cc43944fb4aebd19f7dfe16e66848ed06d7f5a885775bf73961778",
-    "native_timing_reference_sha256": "e8e5cd2533a3ac621296eadbf844f4600acaccbcb20873d7a822eb11ef0ca028"
+    "design_sha256": "55ab6784f324e1f53e1608d5ec051fd9d7570856c962ce0a0743f78343f09c02",
+    "sumo_summary_sha256": "ce87b182ebe321caad0d4189d22c7cc981b43570a14f53b227acd6a16f095d09",
+    "simulation_summary_sha256": "5441216abd079a58bf7463dea71fa266bd7c0d7181ba37a511051e06d38e33b4",
+    "native_timing_reference_sha256": "07a14c64f8185ae12a484cb8371c2aafee71880e1697acee0ddb8ee629ab7ed1",
+    "ci_execution_sha256": "0932096ca7d8c12936fea963ff12e60b0bfcc1fe0f74580285d556132c01cace",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/west-asia/Egypt/Arish/design.toml",
     "sumo_summary": "cities/catalogue/west-asia/Egypt/Arish/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/west-asia/Egypt/Arish/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

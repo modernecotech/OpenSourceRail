@@ -1,16 +1,22 @@
 slug: sanaa
 pass: true
 metrics:
-  total_route_m: 233084.5
+  total_route_m: 211821.2
   n_lines: 7
-  n_stations: 75
+  n_stations: 71
   anchor_hit_rate: 0.507
-  high_demand_coverage: 0.728
+  high_demand_coverage: 0.577
   civil_mix_m:
-    at_grade: 224437.0
-    elevated: 8647.5
+    at_grade: 30732.7
+    elevated: 181088.5
     bridge:   0.0
-  elevated_fraction: 0.037
+  elevated_fraction: 0.855
+  viaduct_products_m:
+    osr_pi20_pi25: 181088.5
+    osr_us:      0.0
+    special:     0.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

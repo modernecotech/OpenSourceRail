@@ -75,7 +75,8 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict, *, allow_civ
     for r in infra:
         if r.get('line'):
             deadlines[r['line']] = max(deadlines[r['line']],r['planned_finish_day'],shared)
-    target = max(deadlines.values())
+    original_infrastructure_target = max(deadlines.values())
+    target = original_infrastructure_target
     ready = int(f['ready_months_from_ntp']*f['working_days_per_year']/12)
     cycles = {s['package']:math.ceil(s['cycle_working_days']/f['productive_availability']) for s in stages}
     lead = sum(cycles.values())
@@ -116,21 +117,33 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict, *, allow_civ
     resource_ready={s['work_center']:ready for s in stages}
     rate=(count-1)/window
     result=None
+    per_track_capacity=f['shift_hours']*f['shifts_per_day']*f['productive_availability']/f['exclusive_track_hours_per_trainset']
+    maximum_path_capacity=int(f['maximum_test_tracks'])*per_track_capacity
+    path_limited=False
     for _ in range(500):
         cells={s['work_center']:max(1,math.ceil(rate*cycles[s['package']])) for s in stages}
+        if allow_civil_delay and min(cells[s['work_center']]/cycles[s['package']] for s in stages)>maximum_path_capacity:
+            # Keep the physical path limit. Delay opening instead of buying
+            # production bays whose trainsets cannot receive acceptance tests.
+            path_limited=True
+            for stage in stages:
+                maximum_cells=max(1,math.floor(maximum_path_capacity*cycles[stage['package']]+1e-12))
+                cells[stage['work_center']]=min(cells[stage['work_center']],maximum_cells)
+            if min(cells[stage['work_center']]/cycles[stage['package']] for stage in stages)>maximum_path_capacity+1e-12:
+                raise ValueError('test-track path capacity cannot support one whole-family cell')
         trial=deepcopy(rs)
         # Physical asset IDs and UIDs stay unchanged. Baseline-freeze is an
         # external, completed prerequisite by the 18-month factory readiness.
         apply_resource_cpm(trial,{**capacities,**cells},resource_ready)
         finish=max(r['planned_finish_day'] for r in trial)
+        if path_limited:target=max(target,finish)
         if finish <= target:
             result=trial;break
         rate+=f['capacity_search_step_trainsets_per_day']
     if result is None:
         raise ValueError('no factory sizing solution within search limit')
     bottleneck=min(cells[s['work_center']]/cycles[s['package']] for s in stages)
-    per_track_capacity=f['shift_hours']*f['shifts_per_day']*f['productive_availability']/f['exclusive_track_hours_per_trainset']
-    test_tracks=max(int(f['test_tracks']),math.ceil(bottleneck/per_track_capacity))
+    test_tracks=max(int(f['test_tracks']),math.ceil(bottleneck/per_track_capacity-1e-12))
     if test_tracks>f['maximum_test_tracks']:
         raise ValueError('required test-track path capacity exceeds the controlled site limit')
     track_capacity=test_tracks*per_track_capacity
@@ -160,6 +173,8 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict, *, allow_civ
         factory_ready_working_day=ready,readiness_months_from_ntp=f['ready_months_from_ntp'],
         total_trainsets=count,vehicle_modules=count*f.get('cars',6),
         infrastructure_deadlines=dict(deadlines),infrastructure_target_working_day=target,
+        original_infrastructure_target_working_day=original_infrastructure_target,
+        integrated_target_working_day=target,test_path_limited_integrated_delay=path_limited,
         serial_release_working_day=serial_ready,stock_finish_working_day=max(finishes.values()),
         line_stock_finish_working_day=finishes,line_priority=order,
         lines_civil_complete_before_factory_ready=[line for line in order if deadlines[line]<ready],
@@ -174,7 +189,7 @@ def size_factory(tasks: list[dict], capacities: dict, config: dict, *, allow_civ
         cost_allowances_usd=costs,plant_cost_envelope_usd=sum(costs.values()),
         cost_basis='Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.',
         construction_phases=config['construction_phase'],
-        limitations=['Overall full-fleet delivery matches infrastructure target, not every early line civil date.',
+        limitations=['Full-fleet delivery follows the integrated target; short civil programmes or the physical test-path limit can delay opening beyond unchanged infrastructure dates.',
           'First-article, production cycles, availability, test-track duty and cell layout require measured qualification.',
           'Infra dates retain the existing conditional resource model; civil buildability, risk and calendar approval remain open.',
           'Supplier qualification, order lead times, imports/customs and funding must support the derived manufacturing rate.',

@@ -145,13 +145,14 @@
     "line-9": 1550
   },
   "infrastructure_target_working_day": 1550,
+  "integrated_target_working_day": 1550,
   "legacy_module_plant_allowance_usd": 274320000,
   "limitations": [
-    "Overall full-fleet delivery matches infrastructure target, not every early line civil date.",
+    "Full-fleet delivery follows the integrated target; short civil programmes or the physical test-path limit can delay opening beyond unchanged infrastructure dates.",
     "First-article, production cycles, availability, test-track duty and cell layout require measured qualification.",
     "Infra dates retain the existing conditional resource model; civil buildability, risk and calendar approval remain open.",
     "Supplier qualification, order lead times, imports/customs and funding must support the derived manufacturing rate.",
-    "No future national city consumes Baghdad capacity; expansion requires a new factory loading assessment."
+    "National reuse and concurrent city loads require a separate factory loading assessment."
   ],
   "line_priority": [
     "line-1",
@@ -178,7 +179,7 @@
   "lines_civil_complete_before_factory_ready": [],
   "minimum_steady_output_trainsets_per_year": 224.13793103448273,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "c408a348a99a7ffe869a3a7a35c7a91c0899dc94b2ed298fa5f3ce345f754a84",
+  "operations_payload_sha256": "e6ef85ca6c82e3c9c192bd65abaf2a3a8908e10c3b611162b5d5b6f35af48ce6",
   "original_infrastructure_deadlines": {
     "line-1": 196,
     "line-2": 589,
@@ -190,6 +191,7 @@
     "line-8": 1262,
     "line-9": 1550
   },
+  "original_infrastructure_target_working_day": 1550,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1"
   ],
@@ -220,18 +222,18 @@
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.toml": "766cada099ccfa7000384e2cc461d343df6e8d202f3708d4163466d7ad9ab20c",
     "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "ae82b6cf9fa818442a4f220cc6860c6c72a148ffe1bfa02b7882414f063dc021",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "d4cec6b915752767072a68a9effab83aad2fc0331ad189da459b6f2de729b42d",
-    "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations-manifest.json": "48a2bd5a85e0110b9fb6b6d49cb975869c08c37e9a35b43a5b7c955a50ff7384",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "d6bf0ca646064555e283618893d16707d8bfb0580d74091f1031dea5c4b7f4cb",
+    "cities/catalogue/west-asia/Iraq/Baghdad/operations/baghdad-operations-manifest.json": "8eaf9defeedd23661cc488deda88b0ce6ad7b882d3ba4de71c51e81816db3d9c",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/baghdad-factory.toml": "d5fd5735be4f0ec3e3cd0e5c405364abea9c6e351bf23af96f4ac3c07b98c9ab",
-    "lib/templates/capex-costs.toml": "9e811b8eaae14be9c57aaef4ca6ad9577703ad20ec54ae71f861de85dd689446",
+    "lib/templates/capex-costs.toml": "a3d72157395371f8cbd3ea60b49c7576c31041fecec9fb95383deb603c484b19",
     "lib/templates/iraq-funding.toml": "347c7a3553f04bfa2f291dec82ad07c45300b1a313aca49dfb10e47e551c8875",
     "lib/templates/manufacturing-schedule.toml": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa",
     "tools/automation/delivery_rephasing.py": "8881ac220d90e08e2ef2ce72367e895d4f3359406ce17f930fd8374f514c7357",
-    "tools/automation/factory_sizing.py": "c6a4f49e7c00079c3943db74906cfa72aca74bd58eea0b9c7568a0d28d1d18b3",
+    "tools/automation/factory_sizing.py": "912f53a1c26ba58df43f6288edb49e9d2bab1ca303eadb9d8161bd9f531fdd12",
     "tools/automation/generate-factory-plan.py": "47f257b20c112fc01d86fca8d08aced045440dbebcd6afd0e039f8a1885f761a",
-    "tools/automation/generate-qa-maintenance-data.py": "9a47b53416972d6415d6248dfed5f995bc8ea3205a37e57dd24d2ed5d2290fdf",
+    "tools/automation/generate-qa-maintenance-data.py": "3a091c57226b82658708f7076a5d89b132d6c8eb289e77d4e390247454dbd297",
     "tools/automation/project_twin.py": "707dea0ff4aaeb7a8a4fd9e7c2539cf65379bf8e1ba7bb5e1c3188d708ca61e2"
   },
   "stages": [
@@ -330,6 +332,7 @@
     }
   ],
   "stock_finish_working_day": 1542,
+  "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 3,
   "total_trainsets": 762,

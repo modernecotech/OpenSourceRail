@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`maiduguri-line1.aln.toml`](maiduguri-line1.aln.toml) | `line-1` | 26,679.7 m | 10 |
-| [`maiduguri-line2.aln.toml`](maiduguri-line2.aln.toml) | `line-2` | 25,387.4 m | 10 |
-| [`maiduguri-line3.aln.toml`](maiduguri-line3.aln.toml) | `line-3` | 27,924.6 m | 11 |
-| [`maiduguri-line4.aln.toml`](maiduguri-line4.aln.toml) | `line-4` | 26,322.5 m | 9 |
-| [`maiduguri-line5.aln.toml`](maiduguri-line5.aln.toml) | `line-5` | 62,047.5 m | 18 |
+| [`maiduguri-line1.aln.toml`](maiduguri-line1.aln.toml) | `line-1` | 24,636.3 m | 9 |
+| [`maiduguri-line2.aln.toml`](maiduguri-line2.aln.toml) | `line-2` | 21,962.4 m | 8 |
+| [`maiduguri-line3.aln.toml`](maiduguri-line3.aln.toml) | `line-3` | 26,664.5 m | 8 |
+| [`maiduguri-line4.aln.toml`](maiduguri-line4.aln.toml) | `line-4` | 24,191.8 m | 8 |
+| [`maiduguri-line5.aln.toml`](maiduguri-line5.aln.toml) | `line-5` | 59,557.8 m | 18 |
 
 ## Status
 

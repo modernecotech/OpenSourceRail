@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mazar-e-sharif-line1.aln.toml`](mazar-e-sharif-line1.aln.toml) | `line-1` | 15,953.7 m | 7 |
-| [`mazar-e-sharif-line2.aln.toml`](mazar-e-sharif-line2.aln.toml) | `line-2` | 26,308.9 m | 8 |
-| [`mazar-e-sharif-line3.aln.toml`](mazar-e-sharif-line3.aln.toml) | `line-3` | 21,873.8 m | 7 |
+| [`mazar-e-sharif-line1.aln.toml`](mazar-e-sharif-line1.aln.toml) | `line-1` | 13,185.7 m | 6 |
+| [`mazar-e-sharif-line2.aln.toml`](mazar-e-sharif-line2.aln.toml) | `line-2` | 23,005.4 m | 6 |
+| [`mazar-e-sharif-line3.aln.toml`](mazar-e-sharif-line3.aln.toml) | `line-3` | 19,384.8 m | 7 |
 
 ## Status
 

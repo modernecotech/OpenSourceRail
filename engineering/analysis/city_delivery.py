@@ -168,7 +168,7 @@ def generate(city):
     detail = report['mechanical_civil']
     lines=[f'# {city.name} organisation and design work', '',
         f"{workforce['total_fte']} indicative operating FTE, including management; annual labour allowance ${workforce['annual_labour_usd']:,.0f}. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.", '',
-        'GoA 4 control and remote assistance; local station batteries supply train top-ups. Two revenue trainsets per selected station with same-line depot overflow. Shared domestic design/software/factory capability serves city teams.', '',
+        ('GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.' if any('storage_slots' in depot for depot in design.get('depots',[])) else 'GoA 4 control and remote assistance; local station batteries supply train top-ups. Two revenue trainsets per selected station with same-line depot overflow. Shared domestic design/software/factory capability serves city teams.'), '',
         '## City operating organisation', '',
         '| Function | FTE | Reports to | Skills | Tasks |','|---|---:|---|---|---|']
     for r in rows: lines.append(f"| {r['title']} | {r['fte']} | {r['reports_to']} | {r['skills']} | {r['tasks']} |")

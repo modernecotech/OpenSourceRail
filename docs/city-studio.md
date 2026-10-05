@@ -228,7 +228,9 @@ ordered topology records in every generated simulator scenario.
 The layer catalogue comes from `/api/gis/manifest`; each layer is retrieved by
 stable ID from `/api/gis/layers/<id>` with a SHA-256 digest, feature count,
 provenance class and default presentation. Planning rasters are aggregated into
-500 m display cells without changing the locked 100 m routing inputs. The map
+display cells at least 500 m wide, with at most 10,000 tiles per surface,
+without changing the locked 20 m routing inputs. Layer properties state both
+resolutions; aggregate water coverage cannot permit a station site. The map
 does not call a public tile service, so a revision or test cannot drift with a
 remote basemap. The Samawah bundle includes source-locked NASA/NGA SRTM
 elevation from the AWS Open Data Terrain Tiles service, derived terrain slope,
@@ -245,7 +247,7 @@ snapshot with `python3 tools/automation/export-gis-context.py
 stable GeoJSON, ODbL attribution and fetch provenance, then refreshes the five
 matching entries in `sources.lock.json`.
 
-The Samawah routing bundle is a committed 100 m planning surface derived from
+The Samawah routing bundle is a committed 20 m planning surface retaining
 the pipeline's 20 m cost, demand, buildability, water, elevation and slope
 rasters. Every component, upstream terrain tile and derivation record is
 SHA-256 locked. This is appropriate for comparing planning alternatives, not
@@ -271,8 +273,11 @@ The compiler assigns each flow to a deterministic shortest scheduled-time route.
 Adjacent stations form directed ride sections; rings include their closing
 section. Travel time uses the declared planning speed and station dwell, with
 half the conservative scheduled headway at boarding. Transfers require both
-stations to be tagged as interchanges and within one metre of each other;
-they add a five-minute planning walk and the next line's expected wait. Nearby
+stations to be tagged as interchanges. Co-located platforms within one metre
+add five minutes; platforms in the same explicitly declared junction group
+within 700 m add five minutes plus walking at the planning assumption of
+80 m/min. Both add the next line's expected wait. Group access paths and measured
+walking times still require project verification. Nearby
 unconnected stations do not create a route. A line must have service for the
 whole period, including intervals crossing midnight.
 

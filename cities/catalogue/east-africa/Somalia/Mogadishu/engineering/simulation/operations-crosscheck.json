@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,38 +16,38 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 3266.727,
-      "sumo_mean_trip_time_s": 3135.5,
-      "delta_s": -131.227,
-      "delta_percent_of_osr": -4.017,
-      "tolerance_s": 490.009,
+      "osr_reference_trip_time_s": 2706.318,
+      "sumo_mean_trip_time_s": 2579.0,
+      "delta_s": -127.318,
+      "delta_percent_of_osr": -4.704,
+      "tolerance_s": 405.948,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 2411.0,
-      "sumo_mean_trip_time_s": 2326.0,
-      "delta_s": -85.0,
-      "delta_percent_of_osr": -3.526,
-      "tolerance_s": 361.65,
+      "osr_reference_trip_time_s": 1939.818,
+      "sumo_mean_trip_time_s": 1874.0,
+      "delta_s": -65.818,
+      "delta_percent_of_osr": -3.393,
+      "tolerance_s": 290.973,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 1618.182,
-      "sumo_mean_trip_time_s": 1570.5,
-      "delta_s": -47.682,
-      "delta_percent_of_osr": -2.947,
-      "tolerance_s": 242.727,
+      "osr_reference_trip_time_s": 1243.136,
+      "sumo_mean_trip_time_s": 1185.0,
+      "delta_s": -58.136,
+      "delta_percent_of_osr": -4.677,
+      "tolerance_s": 186.47,
       "passed": true
     },
     {
       "line_id": "line-4",
-      "osr_reference_trip_time_s": 3770.045,
-      "sumo_mean_trip_time_s": 3623.5,
-      "delta_s": -146.545,
-      "delta_percent_of_osr": -3.887,
-      "tolerance_s": 565.507,
+      "osr_reference_trip_time_s": 3658.591,
+      "sumo_mean_trip_time_s": 3523.5,
+      "delta_s": -135.091,
+      "delta_percent_of_osr": -3.692,
+      "tolerance_s": 548.789,
       "passed": true
     }
   ],
@@ -59,19 +60,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "d70113dc348ddcd627de462f06c49de50a5a5182d932c1cf6c2e3a99c6d971b1",
-    "sumo_summary_sha256": "3d12a53d48b5ff091d3e1694f1820d9a9b924f16aa023a436280944c827d55ed",
-    "simulation_summary_sha256": "da3565242499713337eb168061291b7d8b5b055b98a9147ac308a9c04e993fc3",
-    "native_timing_reference_sha256": "b138685b8f2195160a6b1dc3f12ab23b337ba779ed87867a83d8464d3f4a4893"
+    "design_sha256": "b3fb4b463e74c76f15e1b6a8b5ee1e042e829f551d874b139d7ce9eecebe552d",
+    "sumo_summary_sha256": "e65a2d2eac5a74b3851f7fa6358f229aa2a4d69ad7e999adf769435502aefe6e",
+    "simulation_summary_sha256": "1a7b0f130165aa9222c8206c14e82a7e8cf8c57ee606fbe5ed227805d1218db4",
+    "native_timing_reference_sha256": "3ed434a1c7a73aa742ee0f101afa8c2604531f1a3842fc9612b64f52668f071c",
+    "ci_execution_sha256": "78d9a90979328699d23eec28d860223ac64b1c1def0c73529b746fcb44bd90a3",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/east-africa/Somalia/Mogadishu/design.toml",
     "sumo_summary": "cities/catalogue/east-africa/Somalia/Mogadishu/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/east-africa/Somalia/Mogadishu/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

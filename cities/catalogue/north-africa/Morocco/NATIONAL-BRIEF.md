@@ -3,7 +3,7 @@
 This page contains only Morocco-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$11.32 B (86.9%) of external capital** and **$13.92 B of external interest**. Capital plus saved interest totals **$25.25 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$19.62 B (88.9%) of external capital** and **$24.13 B of external interest**. Capital plus saved interest totals **$43.75 B**.
 
 ## National Programme
 
@@ -11,57 +11,57 @@ This page contains only Morocco-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 12 |
 | Represented population | 8,050,000 |
-| Trainsets / vehicle modules | 1,421 / 4,643 |
-| City infrastructure and fleet CAPEX | $7.17 B |
-| Shared national factory | $61.2 M |
-| Factory sizing basis | 1,020 modules for Marrakech, then reused nationally |
-| **Total national programme** | **$7.24 B** |
+| Trainsets / vehicle modules | 1,472 / 4,762 |
+| City infrastructure and fleet CAPEX | $11.51 B |
+| Shared national factory | $709.5 M |
+| Factory sizing basis | 912 modules for Marrakech, then reused nationally |
+| **Total national programme** | **$12.26 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.70 B (23.5%) |
-| Domestic / local capital | $5.54 B (76.5%) |
-| Annual external capital draw | $340.1 M / yr |
-| Annual local capital draw | $1.11 B / yr |
-| Annual public construction commitment | $497.2 M / yr for 5 years |
-| Annual post-grace debt service | $351.0 M / yr |
-| Default foreign-turnkey external capital | $13.02 B |
-| External capital saved | $11.32 B |
-| Capital + lifetime external interest saved | $25.25 B |
+| Imported / external capital | $2.45 B (20.0%) |
+| Domestic / local capital | $9.81 B (80.0%) |
+| Annual external capital draw | $490.7 M / yr |
+| Annual local capital draw | $1.96 B / yr |
+| Annual public construction commitment | $856.0 M / yr for 5 years |
+| Annual post-grace debt service | $590.0 M / yr |
+| Default foreign-turnkey external capital | $22.08 B |
+| External capital saved | $19.62 B |
+| Capital + lifetime external interest saved | $43.75 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.75 B | $413.0 M | $2.34 B |
-| Stations | $1.73 B | $345.8 M | $1.38 B |
-| Depots | $96.0 M | $24.0 M | $72.0 M |
-| Rolling stock | $1.34 B | $469.1 M | $871.3 M |
-| Dedicated solar plants | $721.7 M | $324.8 M | $397.0 M |
-| Residual train control | $43.0 M | $21.5 M | $21.5 M |
-| Charging microgrids | $64.8 M | $25.9 M | $38.9 M |
-| EPC / project services | $426.1 M | $63.9 M | $362.2 M |
-| Shared national trainset factory | $61.2 M | $12.2 M | $49.0 M |
-| **Total** | **$7.24 B** | **$1.70 B** | **$5.54 B** |
+| Civil works | $6.94 B | $1.04 B | $5.90 B |
+| Stations | $1.16 B | $232.9 M | $931.6 M |
+| Depots | $722.0 M | $180.5 M | $541.5 M |
+| Rolling stock | $1.38 B | $483.8 M | $898.4 M |
+| Dedicated solar plants | $485.4 M | $218.4 M | $267.0 M |
+| Residual train control | $36.7 M | $18.3 M | $18.3 M |
+| Charging microgrids | $52.0 M | $20.8 M | $31.2 M |
+| EPC / project services | $770.6 M | $115.6 M | $655.0 M |
+| Shared national trainset factory | $709.5 M | $141.9 M | $567.6 M |
+| **Total** | **$12.26 B** | **$2.45 B** | **$9.81 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Fez](Fez/README.md) | 1,300,000 | 128 | $1.04 B | $236.3 M | $803.5 M |
-| [Marrakech](Marrakech/README.md) | 1,200,000 | 255 | $1.55 B | $371.0 M | $1.18 B |
-| [Tangier](Tangier/README.md) | 1,200,000 | 181 | $1.26 B | $296.4 M | $961.5 M |
-| [Agadir](Agadir/README.md) | 900,000 | 172 | $656.0 M | $158.5 M | $497.5 M |
-| [Meknes](Meknes/README.md) | 700,000 | 89 | $343.3 M | $83.0 M | $260.4 M |
-| [Oujda](Oujda/README.md) | 600,000 | 81 | $339.4 M | $80.0 M | $259.4 M |
-| [Kenitra](Kenitra/README.md) | 500,000 | 130 | $461.7 M | $114.9 M | $346.8 M |
-| [Tetouan](Tetouan/README.md) | 500,000 | 115 | $486.3 M | $114.1 M | $372.2 M |
-| [Safi](Safi/README.md) | 350,000 | 86 | $347.2 M | $83.3 M | $263.8 M |
-| [Beni Mellal](Beni-Mellal/README.md) | 300,000 | 66 | $242.5 M | $53.0 M | $189.5 M |
-| [Khouribga](Khouribga/README.md) | 250,000 | 46 | $181.8 M | $38.6 M | $143.2 M |
-| [Nador](Nador/README.md) | 250,000 | 72 | $266.7 M | $58.3 M | $208.4 M |
+| [Fez](Fez/README.md) | 1,300,000 | 109 | $1.44 B | $281.0 M | $1.15 B |
+| [Marrakech](Marrakech/README.md) | 1,200,000 | 228 | $2.76 B | $538.3 M | $2.22 B |
+| [Tangier](Tangier/README.md) | 1,200,000 | 165 | $1.99 B | $393.8 M | $1.59 B |
+| [Agadir](Agadir/README.md) | 900,000 | 215 | $1.01 B | $217.4 M | $796.1 M |
+| [Meknes](Meknes/README.md) | 700,000 | 93 | $522.8 M | $107.7 M | $415.1 M |
+| [Oujda](Oujda/README.md) | 600,000 | 89 | $499.4 M | $102.3 M | $397.2 M |
+| [Kenitra](Kenitra/README.md) | 500,000 | 158 | $782.8 M | $166.3 M | $616.5 M |
+| [Tetouan](Tetouan/README.md) | 500,000 | 148 | $862.6 M | $175.6 M | $687.0 M |
+| [Safi](Safi/README.md) | 350,000 | 111 | $572.3 M | $120.2 M | $452.1 M |
+| [Beni Mellal](Beni-Mellal/README.md) | 300,000 | 55 | $380.0 M | $71.6 M | $308.4 M |
+| [Khouribga](Khouribga/README.md) | 250,000 | 39 | $278.9 M | $53.0 M | $225.9 M |
+| [Nador](Nador/README.md) | 250,000 | 62 | $408.4 M | $77.0 M | $331.4 M |
 
 ## Local Basis And Regeneration
 

@@ -18,12 +18,12 @@ can provide.
 | Lifecycle governance, HR/admin and QR identity template | 266/266 |
 | Full ERP task plan from a local operations payload | 2/266 |
 
-The supervision result covers **248,738 equipment records**
+The supervision result covers **241,295 equipment records**
 derived from the 266 tracked city
 asset registers. A compressed operations payload is no longer required to
 prepare FUXA/gateway packages.
 
-The lifecycle-governance compile covers **105,707 asset identity
+The lifecycle-governance compile covers **97,321 asset identity
 templates** across the catalogue. It produces
 **0 printable labels**: labels stay blocked until a
 real operator provisions an HTTPS resolver, binds the physical asset and verifies

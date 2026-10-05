@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,47 +16,47 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 2053.091,
-      "sumo_mean_trip_time_s": 1964.5,
-      "delta_s": -88.591,
-      "delta_percent_of_osr": -4.315,
-      "tolerance_s": 307.964,
+      "osr_reference_trip_time_s": 1538.182,
+      "sumo_mean_trip_time_s": 1464.5,
+      "delta_s": -73.682,
+      "delta_percent_of_osr": -4.79,
+      "tolerance_s": 230.727,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 2117.909,
-      "sumo_mean_trip_time_s": 2046.0,
-      "delta_s": -71.909,
-      "delta_percent_of_osr": -3.395,
-      "tolerance_s": 317.686,
+      "osr_reference_trip_time_s": 1537.045,
+      "sumo_mean_trip_time_s": 1463.5,
+      "delta_s": -73.545,
+      "delta_percent_of_osr": -4.785,
+      "tolerance_s": 230.557,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 1926.818,
-      "sumo_mean_trip_time_s": 1853.0,
-      "delta_s": -73.818,
-      "delta_percent_of_osr": -3.831,
-      "tolerance_s": 289.023,
+      "osr_reference_trip_time_s": 1622.136,
+      "sumo_mean_trip_time_s": 1565.5,
+      "delta_s": -56.636,
+      "delta_percent_of_osr": -3.491,
+      "tolerance_s": 243.32,
       "passed": true
     },
     {
       "line_id": "line-4",
-      "osr_reference_trip_time_s": 1857.818,
-      "sumo_mean_trip_time_s": 1753.0,
-      "delta_s": -104.818,
-      "delta_percent_of_osr": -5.642,
-      "tolerance_s": 278.673,
+      "osr_reference_trip_time_s": 1838.227,
+      "sumo_mean_trip_time_s": 1748.5,
+      "delta_s": -89.727,
+      "delta_percent_of_osr": -4.881,
+      "tolerance_s": 275.734,
       "passed": true
     },
     {
       "line_id": "line-5",
-      "osr_reference_trip_time_s": 5156.182,
-      "sumo_mean_trip_time_s": 4906.0,
-      "delta_s": -250.182,
-      "delta_percent_of_osr": -4.852,
-      "tolerance_s": 773.427,
+      "osr_reference_trip_time_s": 4781.5,
+      "sumo_mean_trip_time_s": 4534.0,
+      "delta_s": -247.5,
+      "delta_percent_of_osr": -5.176,
+      "tolerance_s": 717.225,
       "passed": true
     }
   ],
@@ -68,19 +69,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "570a8183c946242a3b0545c3defb3341cf82427b228f5645ea16db38af3307af",
-    "sumo_summary_sha256": "9a6a86d369b0c01e600c30bc13bac77d2c167519248178feacc86453043146cb",
-    "simulation_summary_sha256": "524ab699f6db355fa00ccd06b70e0183248f01dc11df9ff46cd43b037a9e32e6",
-    "native_timing_reference_sha256": "81281a3b34849021b79600c8ce88364433fcdd4a1c06742d2ed09bfb4f5c034e"
+    "design_sha256": "58eecfbf346b0726d7915e5698b311fe421dce2fdee1eb42a14445ed5dfacecc",
+    "sumo_summary_sha256": "170bc21723f15936217bf498822f663ce6023ba136cabe2dae95a7d0216e081b",
+    "simulation_summary_sha256": "260c6cdc714b9ee4f33173f4507de00178b78e0ee7fff6b8a885665c4a20463b",
+    "native_timing_reference_sha256": "954da67796f0e996bb1e420ace59fae8992477bab38dd162d73d0c7d67b726ef",
+    "ci_execution_sha256": "87f0c8c694ac856a98e8045736ae7ec0f84044d1436642f99903961cc400dbef",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/west-asia/Iraq/Kirkuk/design.toml",
     "sumo_summary": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

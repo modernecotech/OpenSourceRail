@@ -3,7 +3,7 @@
 This page contains only Ecuador-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$902.7 M (85.9%) of external capital** and **$1.11 B of external interest**. Capital plus saved interest totals **$2.01 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$2.36 B (88.4%) of external capital** and **$2.90 B of external interest**. Capital plus saved interest totals **$5.26 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Ecuador-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 817,100 |
-| Trainsets / vehicle modules | 169 / 507 |
-| City infrastructure and fleet CAPEX | $551.1 M |
-| Shared national factory | $30.4 M |
-| Factory sizing basis | 507 modules for Cuenca, then reused nationally |
-| **Total national programme** | **$583.7 M** |
+| Trainsets / vehicle modules | 185 / 555 |
+| City infrastructure and fleet CAPEX | $889.1 M |
+| Shared national factory | $554.0 M |
+| Factory sizing basis | 555 modules for Cuenca, then reused nationally |
+| **Total national programme** | **$1.48 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $148.0 M (25.3%) |
-| Domestic / local capital | $435.7 M (74.7%) |
-| Annual external capital draw | $29.6 M / yr |
-| Annual local capital draw | $87.1 M / yr |
-| Annual public construction commitment | $57.2 M / yr for 5 years |
-| Annual post-grace debt service | $43.0 M / yr |
-| Default foreign-turnkey external capital | $1.05 B |
-| External capital saved | $902.7 M |
-| Capital + lifetime external interest saved | $2.01 B |
+| Imported / external capital | $309.5 M (20.9%) |
+| Domestic / local capital | $1.17 B (79.1%) |
+| Annual external capital draw | $61.9 M / yr |
+| Annual local capital draw | $234.5 M / yr |
+| Annual public construction commitment | $149.9 M / yr for 5 years |
+| Annual post-grace debt service | $110.7 M / yr |
+| Default foreign-turnkey external capital | $2.67 B |
+| External capital saved | $2.36 B |
+| Capital + lifetime external interest saved | $5.26 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $196.6 M | $29.5 M | $167.1 M |
-| Stations | $85.4 M | $17.1 M | $68.3 M |
-| Depots | $8.0 M | $2.0 M | $6.0 M |
-| Rolling stock | $152.1 M | $53.2 M | $98.9 M |
-| Dedicated solar plants | $72.0 M | $32.4 M | $39.6 M |
-| Residual train control | $3.5 M | $1.8 M | $1.8 M |
-| Charging microgrids | $2.1 M | $860 k | $1.3 M |
-| EPC / project services | $33.5 M | $5.0 M | $28.5 M |
-| Shared national trainset factory | $30.4 M | $6.1 M | $24.3 M |
-| **Total** | **$583.7 M** | **$148.0 M** | **$435.7 M** |
+| Civil works | $480.5 M | $72.1 M | $408.4 M |
+| Stations | $70.4 M | $14.1 M | $56.3 M |
+| Depots | $62.1 M | $15.5 M | $46.6 M |
+| Rolling stock | $166.5 M | $58.3 M | $108.2 M |
+| Dedicated solar plants | $49.9 M | $22.4 M | $27.4 M |
+| Residual train control | $2.9 M | $1.5 M | $1.5 M |
+| Charging microgrids | $1.9 M | $740 k | $1.1 M |
+| EPC / project services | $93.7 M | $14.1 M | $79.6 M |
+| Shared national trainset factory | $554.0 M | $110.8 M | $443.2 M |
+| **Total** | **$1.48 B** | **$309.5 M** | **$1.17 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Cuenca](Cuenca/README.md) | 817,100 | 169 | $551.1 M | $141.6 M | $409.6 M |
+| [Cuenca](Cuenca/README.md) | 817,100 | 185 | $889.1 M | $192.8 M | $696.2 M |
 
 ## Local Basis And Regeneration
 

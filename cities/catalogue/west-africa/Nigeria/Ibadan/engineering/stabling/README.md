@@ -1,121 +1,94 @@
 # Station and depot overnight allocation
 
-Plan: **96 trainsets at stations + 126 at depots = 222 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
+The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.
+
+Plan: **67 trainsets at stations + 100 at depots = 167 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **FAIL**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
-| line-1-1423-0973-s026869 | line-1 | storage-at-existing-powered-service-point | 30 | 3,630.0 | 0 |
-| line-2-1281-1371-s024107 | line-2 | storage-at-existing-powered-service-point | 28 | 3,388.0 | 0 |
-| line-3-1038-0655-s020433 | line-3 | storage-at-existing-powered-service-point | 23 | 2,783.0 | 0 |
-| line-4-1109-0108-s029722 | line-4 | declared-depot | 43 | 5,203.0 | 34 |
-| line-5-1140-0714-s032192 | line-5 | storage-at-existing-powered-service-point | 2 | 242.0 | 0 |
+| line-1-0397-1020-s000000 | line-1 | declared-depot | 24 | 2,904.0 | 6 |
+| line-2-0798-0780-s000000 | line-2 | declared-depot | 20 | 2,420.0 | 5 |
+| line-3-0921-1394-s000000 | line-3 | declared-depot | 18 | 2,178.0 | 5 |
+| line-4-1109-0108-s025290 | line-4 | declared-depot | 36 | 4,356.0 | 7 |
+| line-5-1014-0807-s001542 | line-5 | declared-depot | 2 | 242.0 | 2 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0397-1020-s000000 | station | forward | revenue | 2 |
-| line-1 | line-1-0592-1023-s004584 | station | forward | revenue | 1 |
-| line-1 | line-1-0592-1023-s004584 | station | reverse | revenue | 1 |
-| line-1 | line-1-0723-1026-s007609 | station | forward | revenue | 1 |
-| line-1 | line-1-0723-1026-s007609 | station | reverse | revenue | 1 |
-| line-1 | line-1-0845-0981-s010619 | station | forward | revenue | 1 |
-| line-1 | line-1-0845-0981-s010619 | station | reverse | revenue | 1 |
-| line-1 | line-1-0905-0977-s011918 | station | forward | revenue | 1 |
-| line-1 | line-1-0905-0977-s011918 | station | reverse | revenue | 1 |
-| line-1 | line-1-0969-1002-s013634 | station | forward | revenue | 1 |
-| line-1 | line-1-0969-1002-s013634 | station | reverse | revenue | 1 |
-| line-1 | line-1-1032-1002-s014993 | station | forward | revenue | 1 |
-| line-1 | line-1-1032-1002-s014993 | station | reverse | revenue | 1 |
-| line-1 | line-1-1086-0950-s017084 | station | forward | revenue | 1 |
-| line-1 | line-1-1086-0950-s017084 | station | reverse | revenue | 1 |
-| line-1 | line-1-1172-0975-s019657 | station | forward | revenue | 1 |
-| line-1 | line-1-1172-0975-s019657 | station | reverse | revenue | 1 |
-| line-1 | line-1-1291-0926-s022672 | station | forward | revenue | 1 |
-| line-1 | line-1-1291-0926-s022672 | station | reverse | revenue | 1 |
-| line-1 | line-1-1375-0920-s024782 | station | forward | revenue | 1 |
-| line-1 | line-1-1375-0920-s024782 | station | reverse | revenue | 1 |
-| line-1 | line-1-1423-0973-s026869 | station | reverse | revenue | 2 |
+| line-1 | line-1-0587-1009-s004277 | station | forward | revenue | 1 |
+| line-1 | line-1-0587-1009-s004277 | station | reverse | revenue | 1 |
+| line-1 | line-1-0746-1002-s007515 | station | forward | revenue | 1 |
+| line-1 | line-1-0746-1002-s007515 | station | reverse | revenue | 1 |
+| line-1 | line-1-0890-0996-s010444 | station | forward | revenue | 1 |
+| line-1 | line-1-0890-0996-s010444 | station | reverse | revenue | 1 |
+| line-1 | line-1-1048-0989-s013662 | station | forward | revenue | 1 |
+| line-1 | line-1-1048-0989-s013662 | station | reverse | revenue | 1 |
+| line-1 | line-1-1190-0983-s016552 | station | forward | revenue | 1 |
+| line-1 | line-1-1190-0983-s016552 | station | reverse | revenue | 1 |
+| line-1 | line-1-1306-0978-s018914 | station | forward | revenue | 1 |
+| line-1 | line-1-1306-0978-s018914 | station | reverse | revenue | 1 |
+| line-1 | line-1-1423-0973-s021295 | station | reverse | revenue | 2 |
 | line-2 | line-2-0798-0780-s000000 | station | forward | revenue | 2 |
-| line-2 | line-2-0859-0830-s002179 | station | forward | revenue | 1 |
-| line-2 | line-2-0859-0830-s002179 | station | reverse | revenue | 1 |
-| line-2 | line-2-0926-0863-s004342 | station | forward | revenue | 1 |
-| line-2 | line-2-0926-0863-s004342 | station | reverse | revenue | 1 |
-| line-2 | line-2-0935-0937-s006124 | station | forward | revenue | 1 |
-| line-2 | line-2-0935-0937-s006124 | station | reverse | revenue | 1 |
-| line-2 | line-2-0958-0963-s007364 | station | forward | revenue | 1 |
-| line-2 | line-2-0958-0963-s007364 | station | reverse | revenue | 1 |
-| line-2 | line-2-1033-1040-s010367 | station | forward | revenue | 1 |
-| line-2 | line-2-1033-1040-s010367 | station | reverse | revenue | 1 |
-| line-2 | line-2-1113-1082-s013372 | station | forward | revenue | 1 |
-| line-2 | line-2-1113-1082-s013372 | station | reverse | revenue | 1 |
-| line-2 | line-2-1137-1206-s016380 | station | forward | revenue | 1 |
-| line-2 | line-2-1137-1206-s016380 | station | reverse | revenue | 1 |
-| line-2 | line-2-1194-1194-s018034 | station | forward | revenue | 1 |
-| line-2 | line-2-1194-1194-s018034 | station | reverse | revenue | 1 |
-| line-2 | line-2-1206-1243-s019391 | station | forward | revenue | 1 |
-| line-2 | line-2-1206-1243-s019391 | station | reverse | revenue | 1 |
-| line-2 | line-2-1251-1295-s021747 | station | forward | revenue | 1 |
-| line-2 | line-2-1251-1295-s021747 | station | reverse | revenue | 1 |
-| line-2 | line-2-1281-1371-s024107 | station | reverse | revenue | 2 |
+| line-2 | line-2-0882-0883-s003002 | station | forward | revenue | 1 |
+| line-2 | line-2-0882-0883-s003002 | station | reverse | revenue | 1 |
+| line-2 | line-2-0967-0987-s006020 | station | forward | revenue | 1 |
+| line-2 | line-2-0967-0987-s006020 | station | reverse | revenue | 1 |
+| line-2 | line-2-1052-1091-s009027 | station | forward | revenue | 1 |
+| line-2 | line-2-1052-1091-s009027 | station | reverse | revenue | 1 |
+| line-2 | line-2-1136-1194-s012029 | station | forward | revenue | 1 |
+| line-2 | line-2-1136-1194-s012029 | station | reverse | revenue | 1 |
+| line-2 | line-2-1208-1282-s014596 | station | forward | revenue | 1 |
+| line-2 | line-2-1208-1282-s014596 | station | reverse | revenue | 1 |
+| line-2 | line-2-1281-1371-s017180 | station | reverse | revenue | 2 |
 | line-3 | line-3-0921-1394-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0927-1216-s005002 | station | forward | revenue | 1 |
-| line-3 | line-3-0927-1216-s005002 | station | reverse | revenue | 1 |
-| line-3 | line-3-0947-1144-s006972 | station | forward | revenue | 1 |
-| line-3 | line-3-0947-1144-s006972 | station | reverse | revenue | 1 |
-| line-3 | line-3-0960-1083-s009023 | station | forward | revenue | 1 |
-| line-3 | line-3-0960-1083-s009023 | station | reverse | revenue | 1 |
-| line-3 | line-3-0977-1283-s003018 | station | forward | revenue | 1 |
-| line-3 | line-3-0977-1283-s003018 | station | reverse | revenue | 1 |
-| line-3 | line-3-1016-0839-s015263 | station | forward | revenue | 1 |
-| line-3 | line-3-1016-0839-s015263 | station | reverse | revenue | 1 |
-| line-3 | line-3-1017-0967-s012030 | station | forward | revenue | 1 |
-| line-3 | line-3-1017-0967-s012030 | station | reverse | revenue | 1 |
-| line-3 | line-3-1038-0655-s020433 | station | reverse | revenue | 2 |
-| line-3 | line-3-1052-0780-s017595 | station | forward | revenue | 1 |
-| line-3 | line-3-1052-0780-s017595 | station | reverse | revenue | 1 |
-| line-4 | line-4-1055-1089-s005048 | station | forward | revenue | 1 |
-| line-4 | line-4-1055-1089-s005048 | station | reverse | revenue | 1 |
-| line-4 | line-4-1059-1183-s003019 | station | forward | revenue | 1 |
-| line-4 | line-4-1059-1183-s003019 | station | reverse | revenue | 1 |
-| line-4 | line-4-1071-0915-s009060 | station | forward | revenue | 1 |
-| line-4 | line-4-1071-0915-s009060 | station | reverse | revenue | 1 |
-| line-4 | line-4-1086-1007-s007046 | station | forward | revenue | 1 |
-| line-4 | line-4-1086-1007-s007046 | station | reverse | revenue | 1 |
-| line-4 | line-4-1109-0108-s029722 | station | reverse | revenue | 2 |
+| line-3 | line-3-0943-1253-s003014 | station | forward | revenue | 1 |
+| line-3 | line-3-0943-1253-s003014 | station | reverse | revenue | 1 |
+| line-3 | line-3-0958-1157-s005058 | station | forward | revenue | 1 |
+| line-3 | line-3-0958-1157-s005058 | station | reverse | revenue | 1 |
+| line-3 | line-3-0973-1064-s007042 | station | forward | revenue | 1 |
+| line-3 | line-3-0973-1064-s007042 | station | reverse | revenue | 1 |
+| line-3 | line-3-0988-0971-s009027 | station | forward | revenue | 1 |
+| line-3 | line-3-0988-0971-s009027 | station | reverse | revenue | 1 |
+| line-3 | line-3-1014-0807-s012522 | station | forward | revenue | 1 |
+| line-3 | line-3-1014-0807-s012522 | station | reverse | revenue | 1 |
+| line-3 | line-3-1038-0655-s015773 | station | reverse | revenue | 2 |
+| line-4 | line-4-1103-0750-s011113 | station | forward | revenue | 1 |
+| line-4 | line-4-1103-0750-s011113 | station | reverse | revenue | 1 |
+| line-4 | line-4-1107-0855-s008979 | station | forward | revenue | 1 |
+| line-4 | line-4-1107-0855-s008979 | station | reverse | revenue | 1 |
+| line-4 | line-4-1109-0108-s025290 | station | reverse | revenue | 2 |
+| line-4 | line-4-1111-1000-s006035 | station | forward | revenue | 1 |
+| line-4 | line-4-1111-1000-s006035 | station | reverse | revenue | 1 |
+| line-4 | line-4-1115-1149-s003021 | station | forward | revenue | 1 |
+| line-4 | line-4-1115-1149-s003021 | station | reverse | revenue | 1 |
 | line-4 | line-4-1120-1298-s000000 | station | forward | revenue | 2 |
-| line-4 | line-4-1140-0714-s014303 | station | forward | revenue | 1 |
-| line-4 | line-4-1140-0714-s014303 | station | reverse | revenue | 1 |
-| line-4 | line-4-1142-0811-s012067 | station | forward | revenue | 1 |
-| line-4 | line-4-1142-0811-s012067 | station | reverse | revenue | 1 |
-| line-5 | line-5-0883-1117-s010121 | station | forward | revenue | 1 |
-| line-5 | line-5-0883-1117-s010121 | station | reverse | revenue | 1 |
-| line-5 | line-5-0884-1211-s013130 | station | reverse | revenue | 1 |
-| line-5 | line-5-0904-0986-s007117 | station | forward | revenue | 1 |
-| line-5 | line-5-0926-0863-s004093 | station | reverse | revenue | 1 |
-| line-5 | line-5-0947-1144-s015681 | station | forward | revenue | 1 |
-| line-5 | line-5-1027-1080-s018151 | station | forward | revenue | 1 |
-| line-5 | line-5-1027-1080-s018151 | station | reverse | revenue | 1 |
-| line-5 | line-5-1037-0979-s020321 | station | reverse | revenue | 1 |
-| line-5 | line-5-1052-0780-s000681 | station | forward | revenue | 1 |
-| line-5 | line-5-1052-0780-s000681 | station | reverse | revenue | 1 |
-| line-5 | line-5-1072-0905-s022173 | station | forward | revenue | 1 |
-| line-5 | line-5-1155-0796-s025174 | station | forward | revenue | 1 |
-| line-5 | line-5-1155-0796-s025174 | station | reverse | revenue | 1 |
-| line-1 | line-1-1423-0973-s026869 | depot | — | revenue | 25 |
-| line-1 | line-1-1423-0973-s026869 | depot | — | spare | 4 |
-| line-1 | line-1-1423-0973-s026869 | depot | — | cold_reserve | 1 |
-| line-2 | line-2-1281-1371-s024107 | depot | — | revenue | 23 |
-| line-2 | line-2-1281-1371-s024107 | depot | — | spare | 4 |
-| line-2 | line-2-1281-1371-s024107 | depot | — | cold_reserve | 1 |
-| line-3 | line-3-1038-0655-s020433 | depot | — | revenue | 19 |
-| line-3 | line-3-1038-0655-s020433 | depot | — | spare | 3 |
-| line-3 | line-3-1038-0655-s020433 | depot | — | cold_reserve | 1 |
-| line-4 | line-4-1109-0108-s029722 | depot | — | revenue | 37 |
-| line-4 | line-4-1109-0108-s029722 | depot | — | spare | 5 |
-| line-4 | line-4-1109-0108-s029722 | depot | — | cold_reserve | 1 |
-| line-5 | line-5-1140-0714-s032192 | depot | — | spare | 1 |
-| line-5 | line-5-1140-0714-s032192 | depot | — | cold_reserve | 1 |
+| line-5 | line-5-0886-1142-s009829 | station | forward | revenue | 1 |
+| line-5 | line-5-0886-1142-s009829 | station | reverse | revenue | 1 |
+| line-5 | line-5-0890-0996-s006876 | station | forward | revenue | 1 |
+| line-5 | line-5-0898-0902-s004918 | station | reverse | revenue | 1 |
+| line-5 | line-5-0958-1157-s012091 | station | reverse | revenue | 1 |
+| line-5 | line-5-1014-0807-s001542 | station | forward | revenue | 1 |
+| line-5 | line-5-1014-0807-s001542 | station | reverse | revenue | 1 |
+| line-5 | line-5-1030-1064-s014805 | station | forward | revenue | 1 |
+| line-5 | line-5-1048-0989-s016466 | station | forward | revenue | 1 |
+| line-5 | line-5-1048-0989-s016466 | station | reverse | revenue | 1 |
+| line-5 | line-5-1107-0855-s019787 | station | reverse | revenue | 1 |
+| line-1 | line-1-0397-1020-s000000 | depot | — | revenue | 20 |
+| line-1 | line-1-0397-1020-s000000 | depot | — | spare | 3 |
+| line-1 | line-1-0397-1020-s000000 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0798-0780-s000000 | depot | — | revenue | 16 |
+| line-2 | line-2-0798-0780-s000000 | depot | — | spare | 3 |
+| line-2 | line-2-0798-0780-s000000 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-0921-1394-s000000 | depot | — | revenue | 15 |
+| line-3 | line-3-0921-1394-s000000 | depot | — | spare | 2 |
+| line-3 | line-3-0921-1394-s000000 | depot | — | cold_reserve | 1 |
+| line-4 | line-4-1109-0108-s025290 | depot | — | revenue | 31 |
+| line-4 | line-4-1109-0108-s025290 | depot | — | spare | 4 |
+| line-4 | line-4-1109-0108-s025290 | depot | — | cold_reserve | 1 |
+| line-5 | line-5-1014-0807-s001542 | depot | — | spare | 1 |
+| line-5 | line-5-1014-0807-s001542 | depot | — | cold_reserve | 1 |
 
 Native hybrid candidate unavailable: morning station allocation is incomplete.
 
@@ -124,186 +97,138 @@ Native hybrid candidate unavailable: morning station allocation is incomplete.
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
-Operating allocation: **222 trainsets at 53 stations**; largest initial station queue **10**. Physical release: **open**.
+Operating allocation: **167 trainsets at 38 stations**; largest initial station queue **10**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-Fleet roles: **200 revenue, 17 spare, 5 cold reserve**. Reserves are held out of routine dispatch.
+Fleet roles: **149 revenue, 13 spare, 5 cold reserve**. Reserves are held out of routine dispatch.
 
-Two-train station-capacity check: **FAIL**. Selected stations provide **106 positions**; **116 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **38 stations**. Four-berth reference platforms do not override the two-train provision.
+Two-train station-capacity check: **FAIL**. Selected stations provide **76 positions**; **91 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **25 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
 | line-1 | line-1-0397-1020-s000000 | forward | revenue | 3 | pending |
-| line-1 | line-1-0592-1023-s004584 | forward | revenue | 3 | pending |
-| line-1 | line-1-0592-1023-s004584 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0723-1026-s007609 | forward | revenue | 3 | pending |
-| line-1 | line-1-0723-1026-s007609 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0845-0981-s010619 | forward | revenue | 2 | pending |
-| line-1 | line-1-0845-0981-s010619 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0905-0977-s011918 | forward | revenue | 2 | pending |
-| line-1 | line-1-0905-0977-s011918 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0969-1002-s013634 | forward | revenue | 2 | pending |
-| line-1 | line-1-0969-1002-s013634 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1032-1002-s014993 | forward | revenue | 2 | pending |
-| line-1 | line-1-1032-1002-s014993 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1086-0950-s017084 | forward | revenue | 2 | pending |
-| line-1 | line-1-1086-0950-s017084 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1172-0975-s019657 | forward | revenue | 2 | pending |
-| line-1 | line-1-1172-0975-s019657 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1291-0926-s022672 | forward | revenue | 2 | pending |
-| line-1 | line-1-1291-0926-s022672 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1375-0920-s024782 | forward | revenue | 2 | pending |
-| line-1 | line-1-1375-0920-s024782 | reverse | revenue | 2 | pending |
-| line-1 | line-1-1423-0973-s026869 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0845-0981-s010619 | forward | spare | 1 | pending |
-| line-1 | line-1-0845-0981-s010619 | reverse | spare | 1 | pending |
-| line-1 | line-1-0905-0977-s011918 | forward | spare | 1 | pending |
-| line-1 | line-1-0905-0977-s011918 | reverse | spare | 1 | pending |
-| line-1 | line-1-0969-1002-s013634 | forward | cold_reserve | 1 | pending |
+| line-1 | line-1-0587-1009-s004277 | forward | revenue | 3 | pending |
+| line-1 | line-1-0587-1009-s004277 | reverse | revenue | 3 | pending |
+| line-1 | line-1-0746-1002-s007515 | forward | revenue | 3 | pending |
+| line-1 | line-1-0746-1002-s007515 | reverse | revenue | 3 | pending |
+| line-1 | line-1-0890-0996-s010444 | forward | revenue | 3 | pending |
+| line-1 | line-1-0890-0996-s010444 | reverse | revenue | 3 | pending |
+| line-1 | line-1-1048-0989-s013662 | forward | revenue | 3 | pending |
+| line-1 | line-1-1048-0989-s013662 | reverse | revenue | 2 | pending |
+| line-1 | line-1-1190-0983-s016552 | forward | revenue | 2 | pending |
+| line-1 | line-1-1190-0983-s016552 | reverse | revenue | 2 | pending |
+| line-1 | line-1-1306-0978-s018914 | forward | revenue | 2 | pending |
+| line-1 | line-1-1306-0978-s018914 | reverse | revenue | 2 | pending |
+| line-1 | line-1-1423-0973-s021295 | reverse | revenue | 2 | pending |
+| line-1 | line-1-1048-0989-s013662 | reverse | spare | 1 | pending |
+| line-1 | line-1-1190-0983-s016552 | forward | spare | 1 | pending |
+| line-1 | line-1-1190-0983-s016552 | reverse | spare | 1 | pending |
+| line-1 | line-1-1306-0978-s018914 | forward | cold_reserve | 1 | pending |
 | line-2 | line-2-0798-0780-s000000 | forward | revenue | 3 | pending |
-| line-2 | line-2-0859-0830-s002179 | forward | revenue | 3 | pending |
-| line-2 | line-2-0859-0830-s002179 | reverse | revenue | 3 | pending |
-| line-2 | line-2-0926-0863-s004342 | forward | revenue | 2 | pending |
-| line-2 | line-2-0926-0863-s004342 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0935-0937-s006124 | forward | revenue | 2 | pending |
-| line-2 | line-2-0935-0937-s006124 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0958-0963-s007364 | forward | revenue | 2 | pending |
-| line-2 | line-2-0958-0963-s007364 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1033-1040-s010367 | forward | revenue | 2 | pending |
-| line-2 | line-2-1033-1040-s010367 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1113-1082-s013372 | forward | revenue | 2 | pending |
-| line-2 | line-2-1113-1082-s013372 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1137-1206-s016380 | forward | revenue | 2 | pending |
-| line-2 | line-2-1137-1206-s016380 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1194-1194-s018034 | forward | revenue | 2 | pending |
-| line-2 | line-2-1194-1194-s018034 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1206-1243-s019391 | forward | revenue | 2 | pending |
-| line-2 | line-2-1206-1243-s019391 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1251-1295-s021747 | forward | revenue | 2 | pending |
-| line-2 | line-2-1251-1295-s021747 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1281-1371-s024107 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0926-0863-s004342 | forward | spare | 1 | pending |
-| line-2 | line-2-0926-0863-s004342 | reverse | spare | 1 | pending |
-| line-2 | line-2-0935-0937-s006124 | forward | spare | 1 | pending |
-| line-2 | line-2-0935-0937-s006124 | reverse | spare | 1 | pending |
-| line-2 | line-2-0958-0963-s007364 | forward | cold_reserve | 1 | pending |
+| line-2 | line-2-0882-0883-s003002 | forward | revenue | 3 | pending |
+| line-2 | line-2-0882-0883-s003002 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0967-0987-s006020 | forward | revenue | 3 | pending |
+| line-2 | line-2-0967-0987-s006020 | reverse | revenue | 3 | pending |
+| line-2 | line-2-1052-1091-s009027 | forward | revenue | 3 | pending |
+| line-2 | line-2-1052-1091-s009027 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1136-1194-s012029 | forward | revenue | 2 | pending |
+| line-2 | line-2-1136-1194-s012029 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1208-1282-s014596 | forward | revenue | 2 | pending |
+| line-2 | line-2-1208-1282-s014596 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1281-1371-s017180 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1052-1091-s009027 | reverse | spare | 1 | pending |
+| line-2 | line-2-1136-1194-s012029 | forward | spare | 1 | pending |
+| line-2 | line-2-1136-1194-s012029 | reverse | spare | 1 | pending |
+| line-2 | line-2-1208-1282-s014596 | forward | cold_reserve | 1 | pending |
 | line-3 | line-3-0921-1394-s000000 | forward | revenue | 3 | pending |
-| line-3 | line-3-0977-1283-s003018 | forward | revenue | 3 | pending |
-| line-3 | line-3-0977-1283-s003018 | reverse | revenue | 3 | pending |
-| line-3 | line-3-0927-1216-s005002 | forward | revenue | 3 | pending |
-| line-3 | line-3-0927-1216-s005002 | reverse | revenue | 3 | pending |
-| line-3 | line-3-0947-1144-s006972 | forward | revenue | 2 | pending |
-| line-3 | line-3-0947-1144-s006972 | reverse | revenue | 2 | pending |
-| line-3 | line-3-0960-1083-s009023 | forward | revenue | 2 | pending |
-| line-3 | line-3-0960-1083-s009023 | reverse | revenue | 2 | pending |
-| line-3 | line-3-1017-0967-s012030 | forward | revenue | 2 | pending |
-| line-3 | line-3-1017-0967-s012030 | reverse | revenue | 2 | pending |
-| line-3 | line-3-1016-0839-s015263 | forward | revenue | 2 | pending |
-| line-3 | line-3-1016-0839-s015263 | reverse | revenue | 2 | pending |
-| line-3 | line-3-1052-0780-s017595 | forward | revenue | 2 | pending |
-| line-3 | line-3-1052-0780-s017595 | reverse | revenue | 2 | pending |
-| line-3 | line-3-1038-0655-s020433 | reverse | revenue | 2 | pending |
-| line-3 | line-3-0947-1144-s006972 | forward | spare | 1 | pending |
-| line-3 | line-3-0947-1144-s006972 | reverse | spare | 1 | pending |
-| line-3 | line-3-0960-1083-s009023 | forward | spare | 1 | pending |
-| line-3 | line-3-0960-1083-s009023 | reverse | cold_reserve | 1 | pending |
-| line-4 | line-4-1120-1298-s000000 | forward | revenue | 4 | pending |
-| line-4 | line-4-1059-1183-s003019 | forward | revenue | 4 | pending |
-| line-4 | line-4-1059-1183-s003019 | reverse | revenue | 4 | pending |
-| line-4 | line-4-1055-1089-s005048 | forward | revenue | 4 | pending |
-| line-4 | line-4-1055-1089-s005048 | reverse | revenue | 4 | pending |
-| line-4 | line-4-1086-1007-s007046 | forward | revenue | 4 | pending |
-| line-4 | line-4-1086-1007-s007046 | reverse | revenue | 4 | pending |
-| line-4 | line-4-1071-0915-s009060 | forward | revenue | 4 | pending |
-| line-4 | line-4-1071-0915-s009060 | reverse | revenue | 4 | pending |
-| line-4 | line-4-1142-0811-s012067 | forward | revenue | 4 | pending |
-| line-4 | line-4-1142-0811-s012067 | reverse | revenue | 4 | pending |
-| line-4 | line-4-1140-0714-s014303 | forward | revenue | 3 | pending |
-| line-4 | line-4-1140-0714-s014303 | reverse | revenue | 3 | pending |
-| line-4 | line-4-1109-0108-s029722 | reverse | revenue | 3 | pending |
-| line-4 | line-4-1140-0714-s014303 | forward | spare | 1 | pending |
-| line-4 | line-4-1140-0714-s014303 | reverse | spare | 1 | pending |
-| line-4 | line-4-1109-0108-s029722 | reverse | spare | 1 | pending |
-| line-4 | line-4-1120-1298-s000000 | forward | spare | 1 | pending |
-| line-4 | line-4-1059-1183-s003019 | forward | spare | 1 | pending |
-| line-4 | line-4-1059-1183-s003019 | reverse | cold_reserve | 1 | pending |
-| line-5 | line-5-1052-0780-s000681 | forward | revenue | 1 | pending |
-| line-5 | line-5-1052-0780-s000681 | reverse | revenue | 1 | pending |
-| line-5 | line-5-0926-0863-s004093 | reverse | revenue | 1 | pending |
-| line-5 | line-5-0904-0986-s007117 | forward | revenue | 1 | pending |
-| line-5 | line-5-0883-1117-s010121 | forward | revenue | 1 | pending |
-| line-5 | line-5-0883-1117-s010121 | reverse | revenue | 1 | pending |
-| line-5 | line-5-0884-1211-s013130 | reverse | revenue | 1 | pending |
-| line-5 | line-5-0947-1144-s015681 | forward | revenue | 1 | pending |
-| line-5 | line-5-1027-1080-s018151 | forward | revenue | 1 | pending |
-| line-5 | line-5-1027-1080-s018151 | reverse | revenue | 1 | pending |
-| line-5 | line-5-1037-0979-s020321 | reverse | revenue | 1 | pending |
-| line-5 | line-5-1072-0905-s022173 | forward | revenue | 1 | pending |
-| line-5 | line-5-1155-0796-s025174 | forward | revenue | 1 | pending |
-| line-5 | line-5-1155-0796-s025174 | reverse | revenue | 1 | pending |
-| line-5 | line-5-1241-0722-s028188 | reverse | spare | 1 | pending |
-| line-5 | line-5-1140-0714-s032192 | forward | cold_reserve | 1 | pending |
+| line-3 | line-3-0943-1253-s003014 | forward | revenue | 3 | pending |
+| line-3 | line-3-0943-1253-s003014 | reverse | revenue | 3 | pending |
+| line-3 | line-3-0958-1157-s005058 | forward | revenue | 3 | pending |
+| line-3 | line-3-0958-1157-s005058 | reverse | revenue | 3 | pending |
+| line-3 | line-3-0973-1064-s007042 | forward | revenue | 2 | pending |
+| line-3 | line-3-0973-1064-s007042 | reverse | revenue | 2 | pending |
+| line-3 | line-3-0988-0971-s009027 | forward | revenue | 2 | pending |
+| line-3 | line-3-0988-0971-s009027 | reverse | revenue | 2 | pending |
+| line-3 | line-3-1014-0807-s012522 | forward | revenue | 2 | pending |
+| line-3 | line-3-1014-0807-s012522 | reverse | revenue | 2 | pending |
+| line-3 | line-3-1038-0655-s015773 | reverse | revenue | 2 | pending |
+| line-3 | line-3-0973-1064-s007042 | forward | spare | 1 | pending |
+| line-3 | line-3-0973-1064-s007042 | reverse | spare | 1 | pending |
+| line-3 | line-3-0988-0971-s009027 | forward | cold_reserve | 1 | pending |
+| line-4 | line-4-1120-1298-s000000 | forward | revenue | 5 | pending |
+| line-4 | line-4-1115-1149-s003021 | forward | revenue | 5 | pending |
+| line-4 | line-4-1115-1149-s003021 | reverse | revenue | 5 | pending |
+| line-4 | line-4-1111-1000-s006035 | forward | revenue | 4 | pending |
+| line-4 | line-4-1111-1000-s006035 | reverse | revenue | 4 | pending |
+| line-4 | line-4-1107-0855-s008979 | forward | revenue | 4 | pending |
+| line-4 | line-4-1107-0855-s008979 | reverse | revenue | 4 | pending |
+| line-4 | line-4-1103-0750-s011113 | forward | revenue | 4 | pending |
+| line-4 | line-4-1103-0750-s011113 | reverse | revenue | 4 | pending |
+| line-4 | line-4-1109-0108-s025290 | reverse | revenue | 4 | pending |
+| line-4 | line-4-1111-1000-s006035 | forward | spare | 1 | pending |
+| line-4 | line-4-1111-1000-s006035 | reverse | spare | 1 | pending |
+| line-4 | line-4-1107-0855-s008979 | forward | spare | 1 | pending |
+| line-4 | line-4-1107-0855-s008979 | reverse | spare | 1 | pending |
+| line-4 | line-4-1103-0750-s011113 | forward | cold_reserve | 1 | pending |
+| line-5 | line-5-1014-0807-s001542 | forward | revenue | 1 | pending |
+| line-5 | line-5-1014-0807-s001542 | reverse | revenue | 1 | pending |
+| line-5 | line-5-0898-0902-s004918 | reverse | revenue | 1 | pending |
+| line-5 | line-5-0890-0996-s006876 | forward | revenue | 1 | pending |
+| line-5 | line-5-0886-1142-s009829 | forward | revenue | 1 | pending |
+| line-5 | line-5-0886-1142-s009829 | reverse | revenue | 1 | pending |
+| line-5 | line-5-0958-1157-s012091 | reverse | revenue | 1 | pending |
+| line-5 | line-5-1030-1064-s014805 | forward | revenue | 1 | pending |
+| line-5 | line-5-1048-0989-s016466 | forward | revenue | 1 | pending |
+| line-5 | line-5-1048-0989-s016466 | reverse | revenue | 1 | pending |
+| line-5 | line-5-1107-0855-s019787 | reverse | revenue | 1 | pending |
+| line-5 | line-5-1172-0789-s021880 | forward | spare | 1 | pending |
+| line-5 | line-5-1103-0750-s026015 | forward | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
 
-**104 trainsets exceed the reference platform envelope**, requiring **12,584.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**78 trainsets exceed the reference platform envelope**, requiring **9,438.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0397-1020-s000000 | 3 | 2 | 1 | 121.0 |
-| line-1-0592-1023-s004584 | 6 | 2 | 4 | 484.0 |
-| line-1-0723-1026-s007609 | 6 | 2 | 4 | 484.0 |
-| line-1-0845-0981-s010619 | 6 | 2 | 4 | 484.0 |
-| line-1-0905-0977-s011918 | 6 | 4 | 2 | 242.0 |
-| line-1-0969-1002-s013634 | 5 | 2 | 3 | 363.0 |
-| line-1-1032-1002-s014993 | 4 | 4 | 0 | 0.0 |
-| line-1-1086-0950-s017084 | 4 | 2 | 2 | 242.0 |
-| line-1-1172-0975-s019657 | 4 | 2 | 2 | 242.0 |
-| line-1-1291-0926-s022672 | 4 | 2 | 2 | 242.0 |
-| line-1-1375-0920-s024782 | 4 | 2 | 2 | 242.0 |
-| line-1-1423-0973-s026869 | 2 | 2 | 0 | 0.0 |
+| line-1-0587-1009-s004277 | 6 | 2 | 4 | 484.0 |
+| line-1-0746-1002-s007515 | 6 | 2 | 4 | 484.0 |
+| line-1-0890-0996-s010444 | 6 | 4 | 2 | 242.0 |
+| line-1-1048-0989-s013662 | 6 | 4 | 2 | 242.0 |
+| line-1-1190-0983-s016552 | 6 | 2 | 4 | 484.0 |
+| line-1-1306-0978-s018914 | 5 | 2 | 3 | 363.0 |
+| line-1-1423-0973-s021295 | 2 | 2 | 0 | 0.0 |
 | line-2-0798-0780-s000000 | 3 | 2 | 1 | 121.0 |
-| line-2-0859-0830-s002179 | 6 | 2 | 4 | 484.0 |
-| line-2-0926-0863-s004342 | 6 | 4 | 2 | 242.0 |
-| line-2-0935-0937-s006124 | 6 | 2 | 4 | 484.0 |
-| line-2-0958-0963-s007364 | 5 | 2 | 3 | 363.0 |
-| line-2-1033-1040-s010367 | 4 | 2 | 2 | 242.0 |
-| line-2-1113-1082-s013372 | 4 | 2 | 2 | 242.0 |
-| line-2-1137-1206-s016380 | 4 | 2 | 2 | 242.0 |
-| line-2-1194-1194-s018034 | 4 | 2 | 2 | 242.0 |
-| line-2-1206-1243-s019391 | 4 | 2 | 2 | 242.0 |
-| line-2-1251-1295-s021747 | 4 | 2 | 2 | 242.0 |
-| line-2-1281-1371-s024107 | 2 | 2 | 0 | 0.0 |
+| line-2-0882-0883-s003002 | 6 | 4 | 2 | 242.0 |
+| line-2-0967-0987-s006020 | 6 | 4 | 2 | 242.0 |
+| line-2-1052-1091-s009027 | 6 | 4 | 2 | 242.0 |
+| line-2-1136-1194-s012029 | 6 | 2 | 4 | 484.0 |
+| line-2-1208-1282-s014596 | 5 | 2 | 3 | 363.0 |
+| line-2-1281-1371-s017180 | 2 | 2 | 0 | 0.0 |
 | line-3-0921-1394-s000000 | 3 | 2 | 1 | 121.0 |
-| line-3-0927-1216-s005002 | 6 | 2 | 4 | 484.0 |
-| line-3-0947-1144-s006972 | 6 | 4 | 2 | 242.0 |
-| line-3-0960-1083-s009023 | 6 | 2 | 4 | 484.0 |
-| line-3-0977-1283-s003018 | 6 | 2 | 4 | 484.0 |
-| line-3-1016-0839-s015263 | 4 | 2 | 2 | 242.0 |
-| line-3-1017-0967-s012030 | 4 | 4 | 0 | 0.0 |
-| line-3-1038-0655-s020433 | 2 | 2 | 0 | 0.0 |
-| line-3-1052-0780-s017595 | 4 | 4 | 0 | 0.0 |
-| line-4-1055-1089-s005048 | 8 | 4 | 4 | 484.0 |
-| line-4-1059-1183-s003019 | 10 | 2 | 8 | 968.0 |
-| line-4-1071-0915-s009060 | 8 | 4 | 4 | 484.0 |
-| line-4-1086-1007-s007046 | 8 | 2 | 6 | 726.0 |
-| line-4-1109-0108-s029722 | 4 | 2 | 2 | 242.0 |
+| line-3-0943-1253-s003014 | 6 | 2 | 4 | 484.0 |
+| line-3-0958-1157-s005058 | 6 | 4 | 2 | 242.0 |
+| line-3-0973-1064-s007042 | 6 | 2 | 4 | 484.0 |
+| line-3-0988-0971-s009027 | 5 | 4 | 1 | 121.0 |
+| line-3-1014-0807-s012522 | 4 | 4 | 0 | 0.0 |
+| line-3-1038-0655-s015773 | 2 | 2 | 0 | 0.0 |
+| line-4-1103-0750-s011113 | 9 | 4 | 5 | 605.0 |
+| line-4-1107-0855-s008979 | 10 | 4 | 6 | 726.0 |
+| line-4-1109-0108-s025290 | 4 | 2 | 2 | 242.0 |
+| line-4-1111-1000-s006035 | 10 | 2 | 8 | 968.0 |
+| line-4-1115-1149-s003021 | 10 | 2 | 8 | 968.0 |
 | line-4-1120-1298-s000000 | 5 | 2 | 3 | 363.0 |
-| line-4-1140-0714-s014303 | 8 | 4 | 4 | 484.0 |
-| line-4-1142-0811-s012067 | 8 | 4 | 4 | 484.0 |
-| line-5-0883-1117-s010121 | 2 | 2 | 0 | 0.0 |
-| line-5-0884-1211-s013130 | 1 | 2 | 0 | 0.0 |
-| line-5-0904-0986-s007117 | 1 | 4 | 0 | 0.0 |
-| line-5-0926-0863-s004093 | 1 | 4 | 0 | 0.0 |
-| line-5-0947-1144-s015681 | 1 | 4 | 0 | 0.0 |
-| line-5-1027-1080-s018151 | 2 | 4 | 0 | 0.0 |
-| line-5-1037-0979-s020321 | 1 | 4 | 0 | 0.0 |
-| line-5-1052-0780-s000681 | 2 | 4 | 0 | 0.0 |
-| line-5-1072-0905-s022173 | 1 | 4 | 0 | 0.0 |
-| line-5-1140-0714-s032192 | 1 | 4 | 0 | 0.0 |
-| line-5-1155-0796-s025174 | 2 | 4 | 0 | 0.0 |
-| line-5-1241-0722-s028188 | 1 | 2 | 0 | 0.0 |
+| line-5-0886-1142-s009829 | 2 | 2 | 0 | 0.0 |
+| line-5-0890-0996-s006876 | 1 | 4 | 0 | 0.0 |
+| line-5-0898-0902-s004918 | 1 | 4 | 0 | 0.0 |
+| line-5-0958-1157-s012091 | 1 | 4 | 0 | 0.0 |
+| line-5-1014-0807-s001542 | 2 | 4 | 0 | 0.0 |
+| line-5-1030-1064-s014805 | 1 | 4 | 0 | 0.0 |
+| line-5-1048-0989-s016466 | 2 | 4 | 0 | 0.0 |
+| line-5-1103-0750-s026015 | 1 | 4 | 0 | 0.0 |
+| line-5-1107-0855-s019787 | 1 | 4 | 0 | 0.0 |
+| line-5-1172-0789-s021880 | 1 | 2 | 0 | 0.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
 - Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.
@@ -311,6 +236,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **106 posi
 - Reference platform berths are an optimistic length/count comparison, not verified parking capacity; dedicated sidings and workshop bays receive no automatic credit.
 - Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.
 - Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.
+- Distributed/hybrid candidate outputs do not replace the full-fleet depot requirement or qualify actual yard, access, charging or launch capacity.
 
 Regenerate this report and its local runnable scenario with:
 

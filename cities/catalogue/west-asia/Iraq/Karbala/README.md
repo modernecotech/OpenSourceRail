@@ -5,7 +5,13 @@
 This page contains only Karbala-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$2.15 bn (87.1%) of external capital** and **$2.65 bn of external interest**. Capital plus saved interest totals **$4.80 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$5.36 bn (89.9%) of external capital** and **$6.58 bn of external interest**. Capital plus saved interest totals **$11.94 bn**. See the common reference for interpretation and limitations.
+
+**Current alignment, depot and production basis.** Core corridors change from **145.452 km to 121.284 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 1 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **50 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+
+**6 line-local depots** provide **188 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **188 metro-4car trainsets / 752 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+
+Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
 Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
 
@@ -15,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 6 / 56 / 10 |
-| Route length | 168.5 km double track |
-| Coverage / transfer reachability | 60.0% / 60% |
-| Estimated station catchment | 834,000 residents |
+| Lines / unique stations / interchanges | 6 / 50 / 11 |
+| Route length | 154.0 km double track |
+| Coverage / transfer reachability | 35.6% / 47% |
+| Estimated station catchment | 494,840 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 198 × 4-car `metro-4car` trainsets (177 peak revenue) |
+| Fleet | 188 × 4-car `metro-4car` trainsets (168 peak revenue) |
 | Peak network throughput | 115,200 passengers/hour |
 | Practical service capacity | 982,080 passenger-trips/day |
 | Annual paid-trip planning range | 179.2–286.8 M |
@@ -29,40 +35,40 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 25.3 km | 11 | 43 | SE Outer ↔ W Outer |
-| line-2 | 20.1 km | 9 | 36 | S Mid ↔ NE Mid |
-| line-3 | 18.1 km | 6 | 28 | SE Mid ↔ W Outer |
-| line-4 | 20.1 km | 6 | 31 | E Outer ↔ NW Mid |
-| line-5 | 23.0 km | 8 | 35 | SW Mid ↔ NE Outer |
-| line-6 | 61.8 km | 16 | 25 | W Outer ↔ W Outer |
-| **Total** | **168.5 km** | **56 unique** | **198** | |
+| line-1 | 23.3 km | 9 | 40 | SE Outer ↔ W Outer |
+| line-2 | 18.2 km | 7 | 31 | S Mid ↔ NE Outer |
+| line-3 | 16.8 km | 5 | 28 | S Mid ↔ W Mid |
+| line-4 | 18.1 km | 7 | 31 | E Outer ↔ NW Mid |
+| line-5 | 21.9 km | 6 | 35 | SW Mid ↔ NE Outer |
+| line-6 | 55.6 km | 16 | 23 | W Mid ↔ W Mid |
+| **Total** | **154.0 km** | **50 unique** | **188** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 2,558 one-way journeys / 63,961 train-km/day |
-| Annual traction demand | 403.4 GWh |
-| Station/depot PV / storage | 19.7 MW / 113.5 MWh |
-| Aggregate charging power | 75.0 MW |
-| Dedicated solar plant | 189.2 MW |
+| Scheduled service | 2,558 one-way journeys / 58,715 train-km/day |
+| Annual traction demand | 370.3 GWh |
+| Station/depot PV / storage | 42.0 MW / 300.0 MWh |
+| Aggregate charging power | 69.0 MW |
+| Dedicated solar plant | 146.2 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-6: 12.6 km / 135 kWh |
-| Lowest traversal charging margin | line-4: 93 kWh |
+| Worst powered-stop gap | line-6: 11.7 km / 126 kWh |
+| Lowest traversal charging margin | line-3: 132 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $572 M |
-| Stations | $315 M |
-| Depots | $8.0 M |
-| Rolling stock | $222 M |
-| Dedicated solar plant | $151 M |
-| Residual train control | $8.4 M |
-| Charging microgrids | $17 M |
-| EPC / project services | $80 M |
-| **Total city programme** | **$1.37 bn** |
+| Civil works | $2.42 bn |
+| Stations | $230 M |
+| Depots | $106 M |
+| Rolling stock | $211 M |
+| Dedicated solar plant | $117 M |
+| Residual train control | $7.7 M |
+| Charging microgrids | $14 M |
+| EPC / project services | $209 M |
+| **Total city programme** | **$3.31 bn** |
 
 ## Iraq funding
 
@@ -70,14 +76,14 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 
 | Capital source | Planning USD equivalent |
 |---|---:|
-| bank credit | $126 M |
-| chinese export credit | $118 M |
-| domestic bonds | $377 M |
-| government | $753 M |
+| bank credit | $321 M |
+| chinese export credit | $102 M |
+| domestic bonds | $963 M |
+| government | $1.93 bn |
 
-The procurement schedule requires **82 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
+The procurement schedule requires **41 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$352 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$1.03 bn**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 
@@ -85,22 +91,19 @@ The model includes actual scheduled draws, native-currency principal/interest, f
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) . This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Annual operating allowance: $34 M; demand remains capacity-led.
+Annual operating allowance: $78 M; demand remains capacity-led.
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 a069dd34393232c1a23b5cb1e9530008db82544dc0fd5fb45aa4815aad316adc, but karbala.toml is 3cf64c3f0987c93c387a7a32aef86e898565efede1f9925af15985eaae259bca; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 17 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 513 assets / 2,791 tasks | [`karbala-operations-manifest.json`](operations/karbala-operations-manifest.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 17 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 474 assets / 2,585 tasks | [`karbala-operations-manifest.json`](operations/karbala-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

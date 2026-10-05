@@ -149,15 +149,18 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
     for output, expected in rendered.items():
         assert output.read_text(encoding="utf-8") == expected
     actual = "\n".join(rendered.values())
+    portfolio = json.loads((REPO_ROOT / 'docs/portfolio-summary.json').read_text())
+    capital = portfolio['open_source_rail']
+    external = 100 * capital['imported_external_capital_usd'] / capital['total_capex_usd']
     for current_metric in (
         "265",
         "43",
         "$900k",
         "$885k",
-        "$24.5M",
+        f"${external:.1f}M",
         "$180.0M",
-        "$155.5M",
-        "86.4%",
+        f"${180-external:.1f}M",
+        f"{(180-external)/180:.1%}",
     ):
         assert current_metric in actual
     for excluded in ("$2.98M", "Lyon", "campaign", "hayder@modernecotech.com"):
@@ -185,7 +188,8 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     for case in ("Low", "Default", "High"):
         assert f"| {case} |" in portfolio
     for case in portfolio_json['foreign_turnkey_comparator']['cases'].values():
-        assert f"${case['turnkey_total_usd']/1e9:.2f}B" in portfolio
+        value = case['turnkey_total_usd']
+        assert (f"${value/1e12:.2f}T" if value >= 1e12 else f"${value/1e9:.2f}B") in portfolio
     assert portfolio_json["schema_version"] == 1
     assert portfolio_json["scope"]["city_count"] == 265
     assert portfolio_json["scope"]["country_count"] == 43

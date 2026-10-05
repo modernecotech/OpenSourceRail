@@ -175,8 +175,12 @@ def national_context(programme):
     factory = national.factory_budget('IQ',cities)
     aggregate = national.aggregate_breakdowns([c.breakdown for c in cities], national_factory_usd=factory)
     factory_epc = factory*float(tomllib.loads((ROOT/'lib/templates/capex-costs.toml').read_text())['overhead']['epc_fraction'])
-    if abs(factory-programme['factory']['cost_usd']) > .02 or abs(factory_epc-programme['factory']['epc_usd']) > .02:
-        raise ValueError('National shared factory differs from the single Baghdad plant')
+    baghdad_factory = programme['factory']['cost_usd']
+    baghdad_factory_epc = programme['factory']['epc_usd']
+    if factory < baghdad_factory-.02 or factory_epc < baghdad_factory_epc-.02:
+        raise ValueError('National shared factory cannot omit the Baghdad plant allowance')
+    factory_increment = factory-baghdad_factory
+    factory_epc_increment = factory_epc-baghdad_factory_epc
     rows = []
     for c in sorted(cities, key=lambda c: (-c.population, c.name)):
         path = COUNTRY/c.name/'design.toml'
@@ -192,13 +196,17 @@ def national_context(programme):
             'represented_population': sum(c.population for c in cities),
             'trainsets': sum(c.fleet_trainsets for c in cities), 'vehicle_modules': sum(c.vehicle_modules for c in cities),
             'city_capital_usd': city_total, 'shared_factory_usd': factory, 'shared_factory_epc_usd': factory_epc,
+            'baghdad_factory_reference_usd': baghdad_factory,
+            'baghdad_factory_epc_reference_usd': baghdad_factory_epc,
+            'future_shared_factory_increment_usd': factory_increment,
+            'future_shared_factory_epc_increment_usd': factory_epc_increment,
             'total_national_capital_usd': aggregate.total_usd,
             'future_incremental_city_capital_after_baghdad_usd': aggregate.total_usd-programme['total_capex_usd'],
             'imported_procurement_usd': aggregate.imported_usd, 'local_procurement_usd': aggregate.local_usd,
             'factory_count': 1, 'baghdad_financing_includes_national_expansion': False,
             'limitations': ['Catalogue budgets, un-escalated and unquoted; no national debt or appropriations agreed.',
-                            'The factory and its EPC are included once in both scopes; incremental expansion adds other cities only.',
-                            'Expansion capacity, factory renewal/expansion, intercity links and national governance costs remain unpriced.',
+                            'One shared factory is counted once. Future scope adds other cities and only the difference above the Baghdad plant/EPC reference; it does not add a second full factory.',
+                            'The larger national factory allowance is an unquoted city-order envelope, not a priced expansion or proof of concurrent throughput. Renewal, intercity links and national governance costs remain unpriced.',
                             'Represented population is a sum of planning city populations, not measured rail catchment or unique national beneficiaries.']}
 
 
@@ -581,9 +589,9 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 
 {table(['Future catalogue city','Planning population','Fleet family','Route km','Trainsets','City CAPEX USD eq m'],national_rows)}
 
-Original catalogue city capital totals sum to USD {n['city_capital_usd']/1e9:.3f}bn. Adding one shared factory at USD {usd_m(n['shared_factory_usd'])}m and its EPC at USD {usd_m(n['shared_factory_epc_usd'])}m produces **USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent** nationally on that original basis. Original Baghdad capital already contains this same plant and EPC. Additional city capital beyond that original Baghdad reference is **USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn**, with no second plant added. These national figures have not been repriced with Baghdad's new staffing, depot or upstream plants. Imported/local procurement in the generic national origin model is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn; this is procurement composition, not a national loan programme.
+Current catalogue city capital totals sum to USD {n['city_capital_usd']/1e9:.3f}bn. Adding one shared factory at USD {usd_m(n['shared_factory_usd'])}m and its EPC at USD {usd_m(n['shared_factory_epc_usd'])}m produces **USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent** nationally on the catalogue basis. The Baghdad funding reference already contains USD {usd_m(n['baghdad_factory_reference_usd'])}m of plant and USD {usd_m(n['baghdad_factory_epc_reference_usd'])}m of plant EPC. The national allowance uses the larger city-order envelope or module allowance. Future scope beyond that Baghdad reference totals **USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn**, including only USD {usd_m(n['future_shared_factory_increment_usd']+n['future_shared_factory_epc_increment_usd'])}m of additional shared-plant/EPC allowance, with no second full plant added. Other cities now use current depot and staffing calculations; Baghdad's optional upstream plants remain separate sensitivities. Imported/local procurement in the generic national origin model is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn; this is procurement composition, not a national loan programme.
 
-No national factory expansion or replacement, intercity connection, research/training institution, shared governance or additional capital acceleration is priced. Sizing by the largest city's module order is not proof of annual production capacity. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
+The additional national plant allowance is an unquoted planning envelope; the actual expansion, renewal and concurrent production programme remain unpriced. Intercity connections, research/training institutions, shared governance and capital acceleration also require separate budgets. Independent city-order factory plans do not prove simultaneous national throughput. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
 ### National industrial and institutional programme
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`masaka-line1.aln.toml`](masaka-line1.aln.toml) | `line-1` | 10,141.5 m | 6 |
-| [`masaka-line2.aln.toml`](masaka-line2.aln.toml) | `line-2` | 9,822.6 m | 4 |
-| [`masaka-line3.aln.toml`](masaka-line3.aln.toml) | `line-3` | 12,093.8 m | 6 |
+| [`masaka-line1.aln.toml`](masaka-line1.aln.toml) | `line-1` | 9,336.1 m | 4 |
+| [`masaka-line2.aln.toml`](masaka-line2.aln.toml) | `line-2` | 6,739.8 m | 3 |
+| [`masaka-line3.aln.toml`](masaka-line3.aln.toml) | `line-3` | 11,594.7 m | 4 |
 
 ## Status
 

@@ -1,16 +1,22 @@
 slug: najaf
 pass: true
 metrics:
-  total_route_m: 165121.3
+  total_route_m: 140223.1
   n_lines: 6
-  n_stations: 59
-  anchor_hit_rate: 0.542
-  high_demand_coverage: 0.520
+  n_stations: 47
+  anchor_hit_rate: 0.511
+  high_demand_coverage: 0.327
   civil_mix_m:
-    at_grade: 142141.5
-    elevated: 22979.7
-    bridge:   0.0
-  elevated_fraction: 0.139
+    at_grade: 28027.5
+    elevated: 94722.1
+    bridge:   17473.5
+  elevated_fraction: 0.800
+  viaduct_products_m:
+    osr_pi20_pi25: 92222.1
+    osr_us:      2500.0
+    special:     17473.5
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.588
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

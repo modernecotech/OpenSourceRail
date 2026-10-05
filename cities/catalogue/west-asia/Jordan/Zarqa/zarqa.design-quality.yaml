@@ -1,16 +1,22 @@
 slug: zarqa
 pass: true
 metrics:
-  total_route_m: 72535.6
+  total_route_m: 65120.8
   n_lines: 3
-  n_stations: 24
-  anchor_hit_rate: 0.542
-  high_demand_coverage: 0.558
+  n_stations: 23
+  anchor_hit_rate: 0.652
+  high_demand_coverage: 0.400
   civil_mix_m:
-    at_grade: 57102.0
-    elevated: 15433.6
-    bridge:   0.0
-  elevated_fraction: 0.213
+    at_grade: 16175.7
+    elevated: 31270.1
+    bridge:   17674.9
+  elevated_fraction: 0.752
+  viaduct_products_m:
+    osr_pi20_pi25: 29824.6
+    osr_us:      1445.5
+    special:     17674.9
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.107
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

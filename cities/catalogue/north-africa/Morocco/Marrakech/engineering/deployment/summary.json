@@ -1,22 +1,22 @@
 {
   "city": "marrakech",
-  "closed_gate_count": 2,
+  "closed_gate_count": 3,
   "deployment_release_ready": false,
-  "design_sha256": "eecb71c99aba3a2beb310bfaca7e3c88bd82259761168b9368deb4e1bf7a90e6",
+  "design_sha256": "f4105e1662df0e8162ab10b83607db429a4ff802ad819677a837c8e8ecffc4dd",
   "evidence_sha256": {
-    "delivery/summary.json": "5ae03fc187e32ed861ddd7cfa166d5847d47369f8c02077543a7a6d5eb234256",
-    "depot-scope/summary.json": "a93f0e58eb3797bbf205974d4d08a5df73f2497a8cb87ff5d50f2bfa27ed6acd",
-    "energy/summary.json": "b2f13ff106e28e978ce95a2ff2b74463583d6fccc285a351b46440431a341ae5",
-    "simulation/operations-crosscheck.json": "6932a8f50f772725b79bb002961f5fb8e8710209d4e926a8d1c99410f00d1a65",
-    "simulation/validation-summary.json": "a6bb471badd1532157b7bfb95a41bc137b7d0a18cd7ccf981ccfa53aef90e623",
-    "soil/summary.json": "cf4e6b864dff5c1f07684e3543754b53132abf3026a7703b89282e02febd5c91",
-    "stabling/summary.json": "d9613acc958191e6fc4090c8022aa5f2ec06dc418afe60a9cb43f42a8991ee98",
+    "delivery/summary.json": "0a39558498a740261aee0f66985955782ec16bb06dac5ed9f8737fa47de35a97",
+    "depot-scope/summary.json": "27c7c4ff12b1313974203fc3c71b4e98fdabf0b5042016b1020b3baa72f32ef7",
+    "energy/summary.json": "f62e94ed8dd9c542970322a9b09ac1d672e975d290e0cabf5d66d7a1ebd77de8",
+    "simulation/operations-crosscheck.json": "93dae06030a24974c8de6de0fe544bc74b92dd801151f97a3ef86d2f5ef9a64d",
+    "simulation/validation-summary.json": "f939836a1fa625afa1cdb890b2e431510676e1739b40b6a5a20eea2c802025da",
+    "soil/summary.json": "739cf7fc7ea525b154234616fb89c95df1da9e79e5254c786a81da1571ffe071",
+    "stabling/summary.json": "7f3fbafe1425bb857f55ad910622de32a7ef9b464a03b3430660169087ef496d",
     "survey/control-processing-readiness.json": "8c8fad8487d2c9f27db1dc1dcdd8244b393e79c3961a0c93cc9a0c2751dbc481",
-    "survey/drainage-ground-readiness.json": "0a50fec2b2313ac56729880e87fe6a61b82de1830036a976bcb90c9f5d78fc35",
+    "survey/drainage-ground-readiness.json": "03610ef5127aa0147e85d60cb5ffdc6d9bea3278606128932184620e2c316fa2",
     "survey/ground-model-readiness.json": "1cfd6b488c70f099d57a55128878ca46f71bcd4d30a5e96ad3a8e3f33e1a10bf",
-    "survey/route-station-fit-readiness.json": "3ac1ca5d6c6e335e883a48ef5cf4d6d613d289950ead830d26a1a97db6bba5c5",
-    "survey/structural-release-readiness.json": "b8a475029956bbdd7ec0d120c017c81792531e042953bd66ede3f4aa4ec514ca",
-    "survey/surveyed-alignment-readiness.json": "5a76f9e5ec8f845ed006eb2e7c73fb9c3e58e7a5c8f7d0765c8f0689f3ee8cf4"
+    "survey/route-station-fit-readiness.json": "52f08fa6ee2a2ee78bc1c7e16a71ce968078751fe4483acef2b7c6ddf6434ca0",
+    "survey/structural-release-readiness.json": "119ae8152900c8d248d9d2c4cffb4fbc6ae285899615812d326b6a01796f20a8",
+    "survey/surveyed-alignment-readiness.json": "2a16f57f68c1791e232123c27d22cfc200ad5d80b884b015fddcfeed48a969b5"
   },
   "gates": [
     {
@@ -30,7 +30,7 @@
     {
       "closure_action": "Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct.",
       "detail": {
-        "missing_profiles": 13
+        "missing_profiles": 11
       },
       "evidence": "soil/civil-investigation-plan.json",
       "id": "soil-coverage",
@@ -187,7 +187,7 @@
       "evidence": "simulation/validation-summary.json",
       "id": "full-service-validation",
       "owner_role": "simulation engineer",
-      "status": "open"
+      "status": "closed"
     },
     {
       "closure_action": "Complete conflict-aware capacity and degraded-operation review and sign the bound operating evidence.",
@@ -200,20 +200,20 @@
     {
       "closure_action": "Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.",
       "detail": {
-        "depot_trainsets": 167,
+        "depot_trainsets": 148,
         "missing_morning_directions": [
           {
             "heading": "reverse",
             "line": "line-6",
-            "station": "line-6-0840-0496-s037934"
+            "station": "line-6-0911-0429-s038472"
           },
           {
             "heading": "forward",
             "line": "line-6",
-            "station": "line-6-0821-0410-s048793"
+            "station": "line-6-0807-0440-s046429"
           }
         ],
-        "station_trainsets": 88
+        "station_trainsets": 80
       },
       "evidence": "stabling/summary.json",
       "id": "morning-fleet-allocation",
@@ -250,10 +250,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 786773.1501145643,
+        "retained_run_delivered_kwh": 705658.7971242559,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 659172.7206119309,
-        "retained_run_pv_generated_kwh": 111474.5467519427,
+        "retained_run_grid_imported_kwh": 537695.824801448,
+        "retained_run_pv_generated_kwh": 245846.57762854398,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -279,7 +279,7 @@
     {
       "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
       "detail": {
-        "planning_fte": 864
+        "planning_fte": 1152
       },
       "evidence": "delivery/summary.json",
       "id": "workforce-duty-and-workload",
@@ -288,7 +288,7 @@
     }
   ],
   "generator_sha256": "9245829a4029584258419f718608939c21121df3d0ce79ecc74580c4bbd8b17c",
-  "open_gate_count": 15,
+  "open_gate_count": 14,
   "schema_version": 1,
   "scope": "city civil and operating deployment evidence; manufacturing and system certification remain in their own release registers"
 }

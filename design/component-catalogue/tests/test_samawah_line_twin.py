@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+import tomllib
+
 from osr_mech.samawah_line_twin import (
     ANIMATED_TRAIN_COUNT,
     LM3_BODY_HEIGHT_M,
@@ -29,12 +32,15 @@ def test_lm3_s5_render_datums_preserve_level_boarding_interface() -> None:
 def test_samawah_line_twin_loads_the_complete_source_alignment() -> None:
     twin = load_samawah_line_twin()
     assert twin.line_id == "line-1"
-    assert twin.length_m == 25_565.7
-    assert len(twin.alignment) == 135
-    assert len(twin.civil_segments) == 5
-    assert len(twin.stations) == 9
-    assert len(twin.energy_sites) == 8
-    assert twin.fleet.trainset_count == 53
+    design = tomllib.loads((twin.city_dir / 'design.toml').read_text())
+    alignment = tomllib.loads((twin.city_dir / 'engineering/alignment/samawah-line1.aln.toml').read_text())
+    line = next(line for line in design['lines'] if line['name'] == twin.line_id)
+    fleet = next(f for f in design['fleets'] if f['line'] == twin.line_id)
+    assert twin.length_m == line['length_m']
+    assert len(twin.alignment) == len(alignment['horizontal'])
+    assert len(twin.civil_segments) == len(alignment['civil'])
+    assert len(twin.stations) == len(alignment['station'])
+    assert twin.fleet.trainset_count == fleet['trainset_count']
     assert twin.fleet.peak_headway_min == 3
 
 
@@ -42,6 +48,16 @@ def test_samawah_line_twin_source_checks_all_pass() -> None:
     checks = twin_checks(load_samawah_line_twin())
     assert len(checks) == 6
     assert all(item["passed"] for item in checks)
+
+
+def test_missing_assets_and_reduced_fleet_cannot_pass_current_source_checks() -> None:
+    twin = load_samawah_line_twin()
+    for changed, name in (
+        (replace(twin, stations=twin.stations[:-1]), 'all-line-stations-present'),
+        (replace(twin, energy_sites=twin.energy_sites[:-1]), 'energy-and-depot-assets-present'),
+        (replace(twin, fleet=replace(twin.fleet, trainset_count=twin.fleet.trainset_count-1)), 'complete-line-fleet-register'),
+    ):
+        assert not next(c['passed'] for c in twin_checks(changed) if c['name'] == name)
 
 
 def test_chainage_interpolation_preserves_both_alignment_endpoints() -> None:
@@ -66,14 +82,24 @@ def test_manifest_registers_full_infrastructure_energy_signalling_and_fleet() ->
     twin = load_samawah_line_twin()
     manifest = digital_twin_manifest(twin)
     assert manifest["schema"] == "org.opensourcerail.city-line-operational-twin.v1"
-    assert len(manifest["assets"]) == 94
-    assert len(manifest["relationships"]) == 93
     classes = [asset["asset_class"] for asset in manifest["assets"]]
-    assert classes.count("rolling-stock.light-metro-3car") == 53
-    assert classes.count("signalling.movement-authority-block") == 16
-    assert classes.count("energy.station-microgrid") == 8
+    assert len(manifest['relationships']) == len(manifest['assets'])-1
+    assert len({a['asset_id'] for a in manifest['assets']}) == len(manifest['assets'])
+    assert classes.count("rolling-stock.light-metro-3car") == twin.fleet.trainset_count
+    assert classes.count("signalling.movement-authority-block") == 2*(len(twin.stations)-1)
+    blocks = [a['engineering'] for a in manifest['assets'] if a['asset_class'] == 'signalling.movement-authority-block']
+    assert {(b['from_station'], b['to_station'], b['direction']) for b in blocks} == {
+        (left.asset_id, right.asset_id, direction)
+        for left, right in zip(twin.stations, twin.stations[1:])
+        for direction in ('outbound', 'inbound')
+    }
+    assert classes.count("energy.station-microgrid") == len(twin.energy_sites)
     assert "track.double-running-line" in classes
     assert "depot.main-heavy" in classes
+    depot = next(a for a in manifest['assets'] if a['asset_class'] == 'depot.main-heavy')['engineering']
+    assert depot['storage_slots'] == twin.fleet.trainset_count
+    assert depot['workshop_bays'] < depot['storage_slots']
+    assert not depot['physical_release'] and not depot['site_accepted']
 
 
 def test_station_stop_demonstrator_uses_real_time_kinematics() -> None:

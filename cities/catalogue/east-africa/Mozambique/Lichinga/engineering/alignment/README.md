@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lichinga-line1.aln.toml`](lichinga-line1.aln.toml) | `line-1` | 8,726.1 m | 5 |
-| [`lichinga-line2.aln.toml`](lichinga-line2.aln.toml) | `line-2` | 6,213.3 m | 3 |
+| [`lichinga-line1.aln.toml`](lichinga-line1.aln.toml) | `line-1` | 4,316.6 m | 3 |
+| [`lichinga-line2.aln.toml`](lichinga-line2.aln.toml) | `line-2` | 2,825.3 m | 2 |
 
 ## Status
 

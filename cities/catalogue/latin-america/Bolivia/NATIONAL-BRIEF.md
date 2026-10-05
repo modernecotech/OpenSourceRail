@@ -3,7 +3,7 @@
 This page contains only Bolivia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$3.28 B (86.9%) of external capital** and **$4.03 B of external interest**. Capital plus saved interest totals **$7.31 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.08 B (88.9%) of external capital** and **$7.47 B of external interest**. Capital plus saved interest totals **$13.55 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Bolivia-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 1,815,000 |
-| Trainsets / vehicle modules | 285 / 1,140 |
-| City infrastructure and fleet CAPEX | $2.02 B |
-| Shared national factory | $68.4 M |
-| Factory sizing basis | 1,140 modules for La Paz, then reused nationally |
-| **Total national programme** | **$2.10 B** |
+| Trainsets / vehicle modules | 249 / 996 |
+| City infrastructure and fleet CAPEX | $2.97 B |
+| Shared national factory | $774.3 M |
+| Factory sizing basis | 996 modules for La Paz, then reused nationally |
+| **Total national programme** | **$3.80 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $494.3 M (23.6%) |
-| Domestic / local capital | $1.60 B (76.4%) |
-| Annual external capital draw | $98.9 M / yr |
-| Annual local capital draw | $320.5 M / yr |
-| Annual public construction commitment | $221.0 M / yr for 5 years |
-| Annual post-grace debt service | $167.1 M / yr |
-| Default foreign-turnkey external capital | $3.77 B |
-| External capital saved | $3.28 B |
-| Capital + lifetime external interest saved | $7.31 B |
+| Imported / external capital | $759.4 M (20.0%) |
+| Domestic / local capital | $3.04 B (80.0%) |
+| Annual external capital draw | $151.9 M / yr |
+| Annual local capital draw | $608.0 M / yr |
+| Annual public construction commitment | $411.1 M / yr for 5 years |
+| Annual post-grace debt service | $306.9 M / yr |
+| Default foreign-turnkey external capital | $6.84 B |
+| External capital saved | $6.08 B |
+| Capital + lifetime external interest saved | $13.55 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $813.9 M | $122.1 M | $691.8 M |
-| Stations | $471.0 M | $94.2 M | $376.8 M |
-| Depots | $8.0 M | $2.0 M | $6.0 M |
-| Rolling stock | $319.2 M | $111.7 M | $207.5 M |
-| Dedicated solar plants | $260.4 M | $117.2 M | $143.2 M |
-| Residual train control | $11.2 M | $5.6 M | $5.6 M |
-| Charging microgrids | $24.5 M | $9.8 M | $14.7 M |
-| EPC / project services | $120.1 M | $18.0 M | $102.1 M |
-| Shared national trainset factory | $68.4 M | $13.7 M | $54.7 M |
-| **Total** | **$2.10 B** | **$494.3 M** | **$1.60 B** |
+| Civil works | $1.88 B | $281.4 M | $1.59 B |
+| Stations | $285.5 M | $57.1 M | $228.4 M |
+| Depots | $118.7 M | $29.7 M | $89.0 M |
+| Rolling stock | $278.9 M | $97.6 M | $181.3 M |
+| Dedicated solar plants | $203.5 M | $91.6 M | $111.9 M |
+| Residual train control | $9.6 M | $4.8 M | $4.8 M |
+| Charging microgrids | $17.6 M | $7.0 M | $10.5 M |
+| EPC / project services | $235.2 M | $35.3 M | $200.0 M |
+| Shared national trainset factory | $774.3 M | $154.9 M | $619.5 M |
+| **Total** | **$3.80 B** | **$759.4 M** | **$3.04 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [La Paz](La-Paz/README.md) | 1,815,000 | 285 | $2.02 B | $479.9 M | $1.54 B |
+| [La Paz](La-Paz/README.md) | 1,815,000 | 249 | $2.97 B | $596.4 M | $2.37 B |
 
 ## Local Basis And Regeneration
 

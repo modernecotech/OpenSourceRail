@@ -3,7 +3,7 @@
 This page contains only Nepal-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$4.69 B (87.1%) of external capital** and **$5.88 B of external interest**. Capital plus saved interest totals **$10.57 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$7.65 B (88.7%) of external capital** and **$9.59 B of external interest**. Capital plus saved interest totals **$17.24 B**.
 
 ## National Programme
 
@@ -11,48 +11,48 @@ This page contains only Nepal-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 3 |
 | Represented population | 2,342,000 |
-| Trainsets / vehicle modules | 483 / 1,626 |
-| City infrastructure and fleet CAPEX | $2.93 B |
-| Shared national factory | $58.6 M |
-| Factory sizing basis | 976 modules for Kathmandu, then reused nationally |
-| **Total national programme** | **$2.99 B** |
+| Trainsets / vehicle modules | 483 / 1,609 |
+| City infrastructure and fleet CAPEX | $4.08 B |
+| Shared national factory | $669.3 M |
+| Factory sizing basis | 852 modules for Kathmandu, then reused nationally |
+| **Total national programme** | **$4.79 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $695.9 M (23.3%) |
-| Domestic / local capital | $2.30 B (76.7%) |
-| Annual external capital draw | $99.4 M / yr |
-| Annual local capital draw | $328.1 M / yr |
-| Annual public construction commitment | $234.7 M / yr for 7 years |
-| Annual post-grace debt service | $192.6 M / yr |
-| Default foreign-turnkey external capital | $5.39 B |
-| External capital saved | $4.69 B |
-| Capital + lifetime external interest saved | $10.57 B |
+| Imported / external capital | $975.5 M (20.4%) |
+| Domestic / local capital | $3.82 B (79.6%) |
+| Annual external capital draw | $139.4 M / yr |
+| Annual local capital draw | $545.2 M / yr |
+| Annual public construction commitment | $381.9 M / yr for 7 years |
+| Annual post-grace debt service | $309.5 M / yr |
+| Default foreign-turnkey external capital | $8.63 B |
+| External capital saved | $7.65 B |
+| Capital + lifetime external interest saved | $17.24 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.26 B | $189.7 M | $1.07 B |
-| Stations | $612.2 M | $122.4 M | $489.8 M |
-| Depots | $24.0 M | $6.0 M | $18.0 M |
-| Rolling stock | $465.6 M | $163.0 M | $302.6 M |
-| Dedicated solar plants | $354.5 M | $159.5 M | $195.0 M |
-| Residual train control | $15.5 M | $7.8 M | $7.8 M |
-| Charging microgrids | $25.0 M | $10.0 M | $15.0 M |
-| EPC / project services | $172.6 M | $25.9 M | $146.7 M |
-| Shared national trainset factory | $58.6 M | $11.7 M | $46.8 M |
-| **Total** | **$2.99 B** | **$695.9 M** | **$2.30 B** |
+| Civil works | $2.42 B | $362.9 M | $2.06 B |
+| Stations | $433.0 M | $86.6 M | $346.4 M |
+| Depots | $218.5 M | $54.6 M | $163.9 M |
+| Rolling stock | $463.5 M | $162.2 M | $301.3 M |
+| Dedicated solar plants | $257.3 M | $115.8 M | $141.5 M |
+| Residual train control | $13.2 M | $6.6 M | $6.6 M |
+| Charging microgrids | $20.9 M | $8.4 M | $12.6 M |
+| EPC / project services | $296.6 M | $44.5 M | $252.2 M |
+| Shared national trainset factory | $669.3 M | $133.9 M | $535.5 M |
+| **Total** | **$4.79 B** | **$975.5 M** | **$3.82 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Kathmandu](Kathmandu/README.md) | 1,442,000 | 244 | $1.86 B | $446.8 M | $1.41 B |
-| [Pokhara](Pokhara/README.md) | 600,000 | 172 | $638.1 M | $154.4 M | $483.7 M |
-| [Biratnagar](Biratnagar/README.md) | 300,000 | 67 | $433.1 M | $82.4 M | $350.7 M |
+| [Kathmandu](Kathmandu/README.md) | 1,442,000 | 213 | $2.46 B | $513.2 M | $1.95 B |
+| [Pokhara](Pokhara/README.md) | 600,000 | 217 | $1.10 B | $230.9 M | $871.7 M |
+| [Biratnagar](Biratnagar/README.md) | 300,000 | 53 | $508.7 M | $90.6 M | $418.1 M |
 
 ## Local Basis And Regeneration
 

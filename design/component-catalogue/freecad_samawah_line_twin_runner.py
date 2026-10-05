@@ -17,5 +17,8 @@ try:
 except SystemExit:
     raise
 except Exception:
+    error_log = SCRIPT.parents[4] / 'build/samawah-line-twin-error.log'
+    error_log.parent.mkdir(parents=True, exist_ok=True)
+    error_log.write_text(traceback.format_exc())
     traceback.print_exc()
     sys.exit(1)

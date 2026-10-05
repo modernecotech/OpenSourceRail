@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tetouan-line1.aln.toml`](tetouan-line1.aln.toml) | `line-1` | 18,551.5 m | 7 |
-| [`tetouan-line2.aln.toml`](tetouan-line2.aln.toml) | `line-2` | 23,236.2 m | 8 |
-| [`tetouan-line3.aln.toml`](tetouan-line3.aln.toml) | `line-3` | 12,266.6 m | 4 |
+| [`tetouan-line1.aln.toml`](tetouan-line1.aln.toml) | `line-1` | 16,053.1 m | 6 |
+| [`tetouan-line2.aln.toml`](tetouan-line2.aln.toml) | `line-2` | 19,780.4 m | 6 |
+| [`tetouan-line3.aln.toml`](tetouan-line3.aln.toml) | `line-3` | 11,732.8 m | 4 |
 
 ## Status
 

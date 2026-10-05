@@ -1,7 +1,7 @@
 # Mukalla drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 3 / 22
+- Lines/stations: 3 / 19
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

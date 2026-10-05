@@ -1,16 +1,22 @@
 slug: hyderabad-pk
 pass: true
 metrics:
-  total_route_m: 179962.5
+  total_route_m: 159062.0
   n_lines: 6
-  n_stations: 58
-  anchor_hit_rate: 0.431
-  high_demand_coverage: 0.663
+  n_stations: 53
+  anchor_hit_rate: 0.396
+  high_demand_coverage: 0.493
   civil_mix_m:
-    at_grade: 157864.5
-    elevated: 22098.0
-    bridge:   0.0
-  elevated_fraction: 0.123
+    at_grade: 11878.4
+    elevated: 136169.5
+    bridge:   11014.0
+  elevated_fraction: 0.925
+  viaduct_products_m:
+    osr_pi20_pi25: 93023.2
+    osr_us:      43146.3
+    special:     11014.0
+    realign:     0.0
+  max_elevated_cost_multiplier: 5.294
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

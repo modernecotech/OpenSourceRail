@@ -1,16 +1,22 @@
 slug: ramadi
 pass: true
 metrics:
-  total_route_m: 48007.3
+  total_route_m: 37749.7
   n_lines: 3
-  n_stations: 22
-  anchor_hit_rate: 0.727
-  high_demand_coverage: 0.701
+  n_stations: 17
+  anchor_hit_rate: 0.765
+  high_demand_coverage: 0.529
   civil_mix_m:
-    at_grade: 45573.9
-    elevated: 2433.4
-    bridge:   0.0
-  elevated_fraction: 0.051
+    at_grade: 2929.4
+    elevated: 32998.7
+    bridge:   1821.7
+  elevated_fraction: 0.922
+  viaduct_products_m:
+    osr_pi20_pi25: 32224.1
+    osr_us:      774.6
+    special:     1821.7
+    realign:     0.0
+  max_elevated_cost_multiplier: 3.103
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

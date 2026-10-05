@@ -1,16 +1,22 @@
 slug: marrakech
 pass: true
 metrics:
-  total_route_m: 194107.1
+  total_route_m: 175210.5
   n_lines: 6
-  n_stations: 57
-  anchor_hit_rate: 0.421
-  high_demand_coverage: 0.593
+  n_stations: 52
+  anchor_hit_rate: 0.385
+  high_demand_coverage: 0.509
   civil_mix_m:
-    at_grade: 182081.1
-    elevated: 12026.0
-    bridge:   0.0
-  elevated_fraction: 0.062
+    at_grade: 23333.6
+    elevated: 145018.2
+    bridge:   6858.7
+  elevated_fraction: 0.867
+  viaduct_products_m:
+    osr_pi20_pi25: 120940.5
+    osr_us:      24077.7
+    special:     6858.7
+    realign:     0.0
+  max_elevated_cost_multiplier: 2.032
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

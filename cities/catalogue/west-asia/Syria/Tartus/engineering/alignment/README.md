@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tartus-line1.aln.toml`](tartus-line1.aln.toml) | `line-1` | 12,179.1 m | 5 |
-| [`tartus-line2.aln.toml`](tartus-line2.aln.toml) | `line-2` | 10,663.8 m | 5 |
-| [`tartus-line3.aln.toml`](tartus-line3.aln.toml) | `line-3` | 4,983.6 m | 3 |
+| [`tartus-line1.aln.toml`](tartus-line1.aln.toml) | `line-1` | 10,568.6 m | 4 |
+| [`tartus-line2.aln.toml`](tartus-line2.aln.toml) | `line-2` | 6,732.9 m | 2 |
+| [`tartus-line3.aln.toml`](tartus-line3.aln.toml) | `line-3` | 4,244.2 m | 3 |
 
 ## Status
 

@@ -440,16 +440,15 @@ civil contractor can mobilise.
   a city centre has exactly two options: (a) deviate the
   alignment; (b) fork the project. Upstream stays on the
   at-grade / elevated / bridge envelope.
-- **At-grade dominates even where it's unfashionable.** Modern
-  metro vendors push elevated + tunnel because their business
-  model prefers CAPEX depth. OSR's mission is the opposite:
-  every km pushed to at-grade saves 4–10× cost. A Samawah-
-  scale deployment that lands 70 % at-grade is the successful
-  design; any design above 50 % elevated is a red flag.
-- **One reference viaduct.** Operators who want a different
-  girder geometry (ornamental, signature architecture) are free
-  to substitute; the upstream catalogue fixes one shape for
-  CAPEX / spares reasons, not for aesthetic ones.
+- **Choose the civil mix from the actual corridor.** Use at grade where
+  land, access and geometry permit. Controlled central viaduct concepts
+  trade higher civil costs for more direct routes and fewer street conflicts.
+  Report the resulting quantities, property needs and whole-scope costs;
+  the earlier 70% at-grade aspiration is retained as a comparison assumption.
+- **Use the controlled viaduct families.** OSR-Pi20/Pi25 decked beams are
+  the primary products; OSR-US match-cast segments and OSR-SP special
+  crossings address project constraints. Product geometry, complete lift
+  masses, load combinations and independent checking remain release gates.
 - **Special crossings are separate products.** OSR-Pi25 is not stretched to
   40 m. OSR hands off to OSR-SP or a local engineering tender at the approach.
 - **Noise mitigation is structural, not operational.** Acoustic

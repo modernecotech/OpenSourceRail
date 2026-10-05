@@ -3,7 +3,7 @@
 This page contains only Afghanistan-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.51 B (86.1%) of external capital** and **$8.41 B of external interest**. Capital plus saved interest totals **$14.92 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$11.43 B (88.3%) of external capital** and **$14.76 B of external interest**. Capital plus saved interest totals **$26.18 B**.
 
 ## National Programme
 
@@ -11,50 +11,50 @@ This page contains only Afghanistan-specific aggregation. Shared network, servic
 |---|---:|
 | Catalogue cities | 5 |
 | Represented population | 7,051,000 |
-| Trainsets / vehicle modules | 822 / 3,516 |
-| City infrastructure and fleet CAPEX | $4.06 B |
-| Shared national factory | $126.0 M |
-| Factory sizing basis | 2,100 modules for Kabul, then reused nationally |
-| **Total national programme** | **$4.20 B** |
+| Trainsets / vehicle modules | 846 / 3,426 |
+| City infrastructure and fleet CAPEX | $6.13 B |
+| Shared national factory | $990.6 M |
+| Factory sizing basis | 1,776 modules for Kabul, then reused nationally |
+| **Total national programme** | **$7.19 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.05 B (24.9%) |
-| Domestic / local capital | $3.15 B (75.1%) |
-| Annual external capital draw | $104.7 M / yr |
-| Annual local capital draw | $315.1 M / yr |
-| Annual public construction commitment | $563.8 M / yr for 10 years |
-| Annual post-grace debt service | $521.1 M / yr |
-| Default foreign-turnkey external capital | $7.55 B |
-| External capital saved | $6.51 B |
-| Capital + lifetime external interest saved | $14.92 B |
+| Imported / external capital | $1.51 B (21.0%) |
+| Domestic / local capital | $5.68 B (79.0%) |
+| Annual external capital draw | $151.1 M / yr |
+| Annual local capital draw | $567.6 M / yr |
+| Annual public construction commitment | $998.8 M / yr for 10 years |
+| Annual post-grace debt service | $915.8 M / yr |
+| Default foreign-turnkey external capital | $12.94 B |
+| External capital saved | $11.43 B |
+| Capital + lifetime external interest saved | $26.18 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.41 B | $212.0 M | $1.20 B |
-| Stations | $813.7 M | $162.7 M | $651.0 M |
-| Depots | $40.0 M | $10.0 M | $30.0 M |
-| Rolling stock | $1.01 B | $354.5 M | $658.3 M |
-| Dedicated solar plants | $483.8 M | $217.7 M | $266.1 M |
-| Residual train control | $22.1 M | $11.1 M | $11.1 M |
-| Charging microgrids | $42.2 M | $16.9 M | $25.3 M |
-| EPC / project services | $242.9 M | $36.4 M | $206.5 M |
-| Shared national trainset factory | $126.0 M | $25.2 M | $100.8 M |
-| **Total** | **$4.20 B** | **$1.05 B** | **$3.15 B** |
+| Civil works | $3.39 B | $508.2 M | $2.88 B |
+| Stations | $594.7 M | $118.9 M | $475.8 M |
+| Depots | $378.7 M | $94.7 M | $284.0 M |
+| Rolling stock | $992.3 M | $347.3 M | $645.0 M |
+| Dedicated solar plants | $342.9 M | $154.3 M | $188.6 M |
+| Residual train control | $18.6 M | $9.3 M | $9.3 M |
+| Charging microgrids | $33.6 M | $13.4 M | $20.2 M |
+| EPC / project services | $447.8 M | $67.2 M | $380.6 M |
+| Shared national trainset factory | $990.6 M | $198.1 M | $792.5 M |
+| **Total** | **$7.19 B** | **$1.51 B** | **$5.68 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Kabul](Kabul/README.md) | 4,601,000 | 350 | $2.33 B | $601.3 M | $1.73 B |
-| [Herat](Herat/README.md) | 800,000 | 108 | $431.8 M | $102.0 M | $329.7 M |
-| [Kandahar](Kandahar/README.md) | 700,000 | 113 | $440.4 M | $105.9 M | $334.5 M |
-| [Mazar E Sharif](Mazar-E-Sharif/README.md) | 600,000 | 139 | $489.0 M | $119.7 M | $369.3 M |
-| [Jalalabad Af](Jalalabad-Af/README.md) | 350,000 | 112 | $368.7 M | $91.2 M | $277.6 M |
+| [Kabul](Kabul/README.md) | 4,601,000 | 296 | $3.28 B | $710.0 M | $2.57 B |
+| [Herat](Herat/README.md) | 800,000 | 125 | $636.6 M | $133.0 M | $503.6 M |
+| [Kandahar](Kandahar/README.md) | 700,000 | 129 | $681.5 M | $141.2 M | $540.3 M |
+| [Mazar E Sharif](Mazar-E-Sharif/README.md) | 600,000 | 170 | $852.5 M | $178.9 M | $673.6 M |
+| [Jalalabad Af](Jalalabad-Af/README.md) | 350,000 | 126 | $677.5 M | $139.8 M | $537.6 M |
 
 ## Local Basis And Regeneration
 

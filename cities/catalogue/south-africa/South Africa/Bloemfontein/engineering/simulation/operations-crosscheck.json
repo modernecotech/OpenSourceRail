@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,29 +16,29 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 3351.955,
-      "sumo_mean_trip_time_s": 3239.0,
-      "delta_s": -112.955,
-      "delta_percent_of_osr": -3.37,
-      "tolerance_s": 502.793,
+      "osr_reference_trip_time_s": 2611.091,
+      "sumo_mean_trip_time_s": 2514.5,
+      "delta_s": -96.591,
+      "delta_percent_of_osr": -3.699,
+      "tolerance_s": 391.664,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 3025.0,
-      "sumo_mean_trip_time_s": 2928.0,
-      "delta_s": -97.0,
-      "delta_percent_of_osr": -3.207,
-      "tolerance_s": 453.75,
+      "osr_reference_trip_time_s": 2468.273,
+      "sumo_mean_trip_time_s": 2369.5,
+      "delta_s": -98.773,
+      "delta_percent_of_osr": -4.002,
+      "tolerance_s": 370.241,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 2182.818,
-      "sumo_mean_trip_time_s": 2100.5,
-      "delta_s": -82.318,
-      "delta_percent_of_osr": -3.771,
-      "tolerance_s": 327.423,
+      "osr_reference_trip_time_s": 1278.182,
+      "sumo_mean_trip_time_s": 1221.0,
+      "delta_s": -57.182,
+      "delta_percent_of_osr": -4.474,
+      "tolerance_s": 191.727,
       "passed": true
     }
   ],
@@ -50,19 +51,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "d3981f7fc37d38acf198f142c1760a23978ddd0c30c1e876e9352f811f43f6a0",
-    "sumo_summary_sha256": "743ca7fdfcc4f46345543be26effea0aa98dc05f3e1fc16860b0c9e643626ac5",
-    "simulation_summary_sha256": "11802706f1480d53d99aa7935765fa21296cd157d5032d4b6fbe6bb57a4f2cff",
-    "native_timing_reference_sha256": "b31286d3d2ee003f829f55371f6398dc6147efc8a4e61df07e843143af077c2b"
+    "design_sha256": "b34865651ed022e101705a7aae089458a5e55e9fd67515d21512132238f723b6",
+    "sumo_summary_sha256": "cf4ba29b58c5344df5c19f1b72445ce7e886ac339aa747c52b4175dfb2008447",
+    "simulation_summary_sha256": "1d379b166ec33e9a1e407aa9770fbd87d61acf00bb6fd9064b9c7ee28e85abb8",
+    "native_timing_reference_sha256": "8fd683f0c9ccddf2d3818b54cdfd1a7fc8cb22e705f2d907c6eed6089933f4f9",
+    "ci_execution_sha256": "3145ae225037b56c2591f9e439bdc09236b13666f10db821b484638682ebf619",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/south-africa/South Africa/Bloemfontein/design.toml",
     "sumo_summary": "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

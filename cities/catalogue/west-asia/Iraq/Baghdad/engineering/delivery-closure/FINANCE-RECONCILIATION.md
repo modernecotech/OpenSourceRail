@@ -8,7 +8,7 @@ These executable sensitivities preserve the original reference, then replace the
 
 | Case | Capital USD bn | Government USD bn equivalent | Peak gap debt IQD tn | Unfunded support IQD tn | Debt clear without unfunded cash month | Company before-finance cash NPV USD bn |
 | --- | --- | --- | --- | --- | --- | --- |
-| reference | 7.515 | 1.879 | 3.843 | 0.000 | 286 | -3.077 |
+| reference | 7.515 | 1.879 | 4.371 | 0.000 | 303 | -3.262 |
 | reconciled_full_fleet | 7.679 | 1.920 | 9.517 | 0.000 | None | -4.376 |
 | reconciled_fixed_original_government | 7.679 | 1.879 | 9.625 | 0.000 | None | -4.376 |
 | reconciled_without_uncommitted_income | 7.679 | 1.920 | 11.721 | 0.000 | None | -4.376 |

@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kigali-line1.aln.toml`](kigali-line1.aln.toml) | `line-1` | 32,505.5 m | 12 |
-| [`kigali-line2.aln.toml`](kigali-line2.aln.toml) | `line-2` | 22,830.0 m | 11 |
-| [`kigali-line3.aln.toml`](kigali-line3.aln.toml) | `line-3` | 18,536.9 m | 9 |
-| [`kigali-line4.aln.toml`](kigali-line4.aln.toml) | `line-4` | 24,189.6 m | 8 |
-| [`kigali-line5.aln.toml`](kigali-line5.aln.toml) | `line-5` | 24,923.6 m | 7 |
-| [`kigali-line6.aln.toml`](kigali-line6.aln.toml) | `line-6` | 60,246.9 m | 21 |
+| [`kigali-line1.aln.toml`](kigali-line1.aln.toml) | `line-1` | 27,172.1 m | 9 |
+| [`kigali-line2.aln.toml`](kigali-line2.aln.toml) | `line-2` | 15,831.8 m | 8 |
+| [`kigali-line3.aln.toml`](kigali-line3.aln.toml) | `line-3` | 14,343.3 m | 6 |
+| [`kigali-line4.aln.toml`](kigali-line4.aln.toml) | `line-4` | 21,090.1 m | 7 |
+| [`kigali-line5.aln.toml`](kigali-line5.aln.toml) | `line-5` | 21,782.7 m | 7 |
+| [`kigali-line6.aln.toml`](kigali-line6.aln.toml) | `line-6` | 55,189.4 m | 18 |
 
 ## Status
 

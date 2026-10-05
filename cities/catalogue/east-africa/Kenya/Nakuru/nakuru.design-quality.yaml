@@ -1,16 +1,22 @@
 slug: nakuru
 pass: true
 metrics:
-  total_route_m: 54262.8
+  total_route_m: 46919.8
   n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.684
-  high_demand_coverage: 0.468
+  n_stations: 14
+  anchor_hit_rate: 0.571
+  high_demand_coverage: 0.304
   civil_mix_m:
-    at_grade: 53033.7
-    elevated: 1229.1
-    bridge:   0.0
-  elevated_fraction: 0.023
+    at_grade: 7706.9
+    elevated: 37256.3
+    bridge:   1956.6
+  elevated_fraction: 0.836
+  viaduct_products_m:
+    osr_pi20_pi25: 26050.2
+    osr_us:      11206.1
+    special:     1956.6
+    realign:     0.0
+  max_elevated_cost_multiplier: 3.103
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

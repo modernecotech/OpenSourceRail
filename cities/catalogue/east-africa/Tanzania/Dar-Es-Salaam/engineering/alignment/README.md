@@ -4,15 +4,15 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`dar-es-salaam-line1.aln.toml`](dar-es-salaam-line1.aln.toml) | `line-1` | 54,952.2 m | 16 |
-| [`dar-es-salaam-line2.aln.toml`](dar-es-salaam-line2.aln.toml) | `line-2` | 58,982.9 m | 18 |
-| [`dar-es-salaam-line3.aln.toml`](dar-es-salaam-line3.aln.toml) | `line-3` | 49,039.8 m | 15 |
-| [`dar-es-salaam-line4.aln.toml`](dar-es-salaam-line4.aln.toml) | `line-4` | 48,041.9 m | 13 |
-| [`dar-es-salaam-line5.aln.toml`](dar-es-salaam-line5.aln.toml) | `line-5` | 35,918.4 m | 13 |
-| [`dar-es-salaam-line6.aln.toml`](dar-es-salaam-line6.aln.toml) | `line-6` | 39,533.7 m | 12 |
-| [`dar-es-salaam-line7.aln.toml`](dar-es-salaam-line7.aln.toml) | `line-7` | 34,235.5 m | 11 |
-| [`dar-es-salaam-line8.aln.toml`](dar-es-salaam-line8.aln.toml) | `line-8` | 37,385.9 m | 11 |
-| [`dar-es-salaam-line9.aln.toml`](dar-es-salaam-line9.aln.toml) | `line-9` | 85,641.4 m | 23 |
+| [`dar-es-salaam-line1.aln.toml`](dar-es-salaam-line1.aln.toml) | `line-1` | 43,949.8 m | 13 |
+| [`dar-es-salaam-line2.aln.toml`](dar-es-salaam-line2.aln.toml) | `line-2` | 49,653.0 m | 15 |
+| [`dar-es-salaam-line3.aln.toml`](dar-es-salaam-line3.aln.toml) | `line-3` | 45,204.3 m | 13 |
+| [`dar-es-salaam-line4.aln.toml`](dar-es-salaam-line4.aln.toml) | `line-4` | 39,607.5 m | 11 |
+| [`dar-es-salaam-line5.aln.toml`](dar-es-salaam-line5.aln.toml) | `line-5` | 27,927.9 m | 10 |
+| [`dar-es-salaam-line6.aln.toml`](dar-es-salaam-line6.aln.toml) | `line-6` | 31,462.2 m | 10 |
+| [`dar-es-salaam-line7.aln.toml`](dar-es-salaam-line7.aln.toml) | `line-7` | 27,987.3 m | 9 |
+| [`dar-es-salaam-line8.aln.toml`](dar-es-salaam-line8.aln.toml) | `line-8` | 32,886.8 m | 10 |
+| [`dar-es-salaam-line9.aln.toml`](dar-es-salaam-line9.aln.toml) | `line-9` | 80,613.3 m | 22 |
 
 ## Status
 

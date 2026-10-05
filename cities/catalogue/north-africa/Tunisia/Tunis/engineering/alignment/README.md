@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tunis-line1.aln.toml`](tunis-line1.aln.toml) | `line-1` | 36,957.4 m | 13 |
-| [`tunis-line2.aln.toml`](tunis-line2.aln.toml) | `line-2` | 31,209.8 m | 13 |
-| [`tunis-line3.aln.toml`](tunis-line3.aln.toml) | `line-3` | 42,461.5 m | 13 |
-| [`tunis-line4.aln.toml`](tunis-line4.aln.toml) | `line-4` | 33,879.8 m | 12 |
-| [`tunis-line5.aln.toml`](tunis-line5.aln.toml) | `line-5` | 76,551.7 m | 22 |
+| [`tunis-line1.aln.toml`](tunis-line1.aln.toml) | `line-1` | 33,481.3 m | 13 |
+| [`tunis-line2.aln.toml`](tunis-line2.aln.toml) | `line-2` | 24,826.2 m | 8 |
+| [`tunis-line3.aln.toml`](tunis-line3.aln.toml) | `line-3` | 38,158.8 m | 12 |
+| [`tunis-line4.aln.toml`](tunis-line4.aln.toml) | `line-4` | 29,261.9 m | 10 |
+| [`tunis-line5.aln.toml`](tunis-line5.aln.toml) | `line-5` | 71,784.5 m | 20 |
 
 ## Status
 

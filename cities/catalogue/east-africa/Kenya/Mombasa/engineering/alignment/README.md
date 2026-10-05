@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mombasa-line1.aln.toml`](mombasa-line1.aln.toml) | `line-1` | 18,695.3 m | 10 |
-| [`mombasa-line2.aln.toml`](mombasa-line2.aln.toml) | `line-2` | 27,173.2 m | 9 |
-| [`mombasa-line3.aln.toml`](mombasa-line3.aln.toml) | `line-3` | 14,478.3 m | 8 |
-| [`mombasa-line4.aln.toml`](mombasa-line4.aln.toml) | `line-4` | 18,571.8 m | 6 |
-| [`mombasa-line5.aln.toml`](mombasa-line5.aln.toml) | `line-5` | 19,933.7 m | 8 |
-| [`mombasa-line6.aln.toml`](mombasa-line6.aln.toml) | `line-6` | 57,863.6 m | 17 |
+| [`mombasa-line1.aln.toml`](mombasa-line1.aln.toml) | `line-1` | 14,584.8 m | 8 |
+| [`mombasa-line2.aln.toml`](mombasa-line2.aln.toml) | `line-2` | 22,245.9 m | 8 |
+| [`mombasa-line3.aln.toml`](mombasa-line3.aln.toml) | `line-3` | 11,676.0 m | 5 |
+| [`mombasa-line4.aln.toml`](mombasa-line4.aln.toml) | `line-4` | 17,320.6 m | 5 |
+| [`mombasa-line5.aln.toml`](mombasa-line5.aln.toml) | `line-5` | 19,313.1 m | 8 |
+| [`mombasa-line6.aln.toml`](mombasa-line6.aln.toml) | `line-6` | 52,956.3 m | 18 |
 
 ## Status
 

@@ -6,6 +6,7 @@
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
   "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
   "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
@@ -15,29 +16,29 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 3009.909,
-      "sumo_mean_trip_time_s": 2907.5,
-      "delta_s": -102.409,
-      "delta_percent_of_osr": -3.402,
-      "tolerance_s": 451.486,
+      "osr_reference_trip_time_s": 2433.364,
+      "sumo_mean_trip_time_s": 2338.0,
+      "delta_s": -95.364,
+      "delta_percent_of_osr": -3.919,
+      "tolerance_s": 365.005,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 1407.227,
-      "sumo_mean_trip_time_s": 1365.5,
-      "delta_s": -41.727,
-      "delta_percent_of_osr": -2.965,
-      "tolerance_s": 211.084,
+      "osr_reference_trip_time_s": 1100.318,
+      "sumo_mean_trip_time_s": 1053.5,
+      "delta_s": -46.818,
+      "delta_percent_of_osr": -4.255,
+      "tolerance_s": 165.048,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 1372.409,
-      "sumo_mean_trip_time_s": 1325.0,
-      "delta_s": -47.409,
-      "delta_percent_of_osr": -3.454,
-      "tolerance_s": 205.861,
+      "osr_reference_trip_time_s": 933.818,
+      "sumo_mean_trip_time_s": 896.0,
+      "delta_s": -37.818,
+      "delta_percent_of_osr": -4.05,
+      "tolerance_s": 140.073,
       "passed": true
     }
   ],
@@ -50,19 +51,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
-    "sumo_summary_sha256": "7644867aac71168bab62729870353dbff4b755568d96bb79be281a694509ed48",
-    "simulation_summary_sha256": "e4fd32160224c01105797a4678519d6882e9310f7a17ead76c5e76526ef15600",
-    "native_timing_reference_sha256": "ecd079bab04afce11b5b54cb8fb202b0820fcdb44211bee1b5fc4db5000af0e2"
+    "design_sha256": "d6d96d8a741e7ed95bfc7a4f070cad9944691dd7e39df75a681b56bda169bcf0",
+    "sumo_summary_sha256": "9f76715397ab40d0f5ed22e95c240e5d6d8221d66c2c83c869f92de35da07c9b",
+    "simulation_summary_sha256": "5ab58e066df02a86cc15829788d908d1f01b0fcd16ab1404ee614e57f87f5ef6",
+    "native_timing_reference_sha256": "33bf11b3b193010e1b6e1aab36f5e4b0bf7c8a26be261bf3bc9d4d15c3c75cf4",
+    "ci_execution_sha256": "6b7d62fd0b19e5d242b075d22a788ab0cf47d8fd430509f2c0363d25a7326109",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/west-asia/Iraq/Samawah/design.toml",
     "sumo_summary": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

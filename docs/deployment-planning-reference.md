@@ -97,6 +97,34 @@ control, charging interfaces, timetable-sized dedicated solar and EPC/project
 services. The national trainset factory is excluded from cities and counted
 once in each national brief, sized to the largest single-city fleet programme.
 
+The catalogue's controlled core concepts adopt elevated land sections and
+straight radial tangents where analytical geometry permits. Water crossings
+remain bridges; retained unsuitable fragments keep their geometry review
+gates. Core boundaries are design-centroid planning screens requiring survey,
+property and obstacle confirmation. Immutable seeds preserve the original
+line inventory, including rings.
+
+The current line-depot scope stores the full fleet, including spares, in one
+planning depot per line. Train length sets storage track quantities; measured
+maintenance workload remains a release requirement for workshop bays.
+Depot PV/storage reference equipment is included once in depot capital.
+Land, utility upgrades, installation and site acceptance remain open.
+
+Station staffing uses two posts, two normal eight-hour shifts and additional
+cover for the actual service window. Paid hours are reduced for leave,
+training, sickness and handover. Country income proxies are retained estimates:
+basic wages start at 150% of that proxy, technical grades at 225% and
+management at 300%, plus 25% employer and 10% overtime allowances. Baghdad's
+dedicated revised scope retains its separate indexed Iraqi wage evidence.
+
+City-order factory requirements use the actual train family and consist.
+Facility readiness is 18 months; qualification and serial manufacture follow
+it. Short civil programmes explicitly wait for fleet readiness. The national
+factory allowance is the larger of the module-based allowance and independent
+city-order physical envelopes, counted once. Concurrent national loading and
+sequencing require a separate accepted programme.
+
+
 The procurement-origin model separates imported value—the minimum foreign
 currency or international-capital requirement—from locally supplied labour,
 materials, fabrication and services that can use domestic funding. Country

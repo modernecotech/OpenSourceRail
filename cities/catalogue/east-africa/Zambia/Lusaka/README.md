@@ -5,7 +5,13 @@
 This page contains only Lusaka-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$4.35 bn (85.0%) of external capital** and **$5.45 bn of external interest**. Capital plus saved interest totals **$9.80 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$6.17 bn (87.5%) of external capital** and **$7.74 bn of external interest**. Capital plus saved interest totals **$13.91 bn**. See the common reference for interpretation and limitations.
+
+**Current alignment, depot and production basis.** Core corridors change from **231.320 km to 185.337 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **81 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+
+**8 line-local depots** provide **357 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **357 metro-6car trainsets / 2142 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+
+Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
 Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
 
@@ -15,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 8 / 95 / 13 |
-| Route length | 279.5 km double track |
-| Coverage / transfer reachability | 58.4% / 36% |
-| Estimated station catchment | 1,773,608 residents |
+| Lines / unique stations / interchanges | 8 / 81 / 13 |
+| Route length | 238.8 km double track |
+| Coverage / transfer reachability | 49.2% / 36% |
+| Estimated station catchment | 1,494,204 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 418 × 6-car `metro-6car` trainsets (376 peak revenue) |
+| Fleet | 357 × 6-car `metro-6car` trainsets (321 peak revenue) |
 | Peak network throughput | 230,400 passengers/hour |
 | Practical service capacity | 2,008,800 passenger-trips/day |
 | Annual paid-trip planning range | 366.6–586.6 M |
@@ -29,67 +35,64 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 38.5 km | 14 | 74 | NE Outer ↔ W Mid |
-| line-2 | 26.2 km | 9 | 47 | E Mid ↔ SW Mid |
-| line-3 | 27.5 km | 11 | 52 | SE Outer ↔ W Mid |
-| line-4 | 23.8 km | 9 | 45 | E Mid ↔ NW Mid |
-| line-5 | 28.4 km | 10 | 51 | N Inner ↔ S Outer |
-| line-6 | 32.4 km | 10 | 61 | NE Outer ↔ W Mid |
-| line-7 | 28.7 km | 8 | 53 | N Mid ↔ SW Outer |
-| line-8 | 73.9 km | 24 | 35 | N Outer ↔ N Mid |
-| **Total** | **279.5 km** | **95 unique** | **418** | |
+| line-1 | 32.2 km | 12 | 62 | NE Outer ↔ W Mid |
+| line-2 | 21.7 km | 7 | 41 | E Mid ↔ SW Mid |
+| line-3 | 25.2 km | 9 | 46 | SE Outer ↔ W Mid |
+| line-4 | 18.5 km | 8 | 38 | SE Mid ↔ NW Mid |
+| line-5 | 20.3 km | 8 | 39 | N Inner ↔ S Outer |
+| line-6 | 27.6 km | 10 | 52 | NE Outer ↔ W Mid |
+| line-7 | 25.4 km | 7 | 47 | NW Mid ↔ SW Outer |
+| line-8 | 67.8 km | 20 | 32 | N Outer ↔ NW Mid |
+| **Total** | **238.8 km** | **81 unique** | **357** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 3,488 one-way journeys / 112,792 train-km/day |
-| Annual traction demand | 1,067.1 GWh |
-| Station/depot PV / storage | 30.8 MW / 212.0 MWh |
-| Aggregate charging power | 174.0 MW |
-| Dedicated solar plant | 665.0 MW |
+| Scheduled service | 3,488 one-way journeys / 95,273 train-km/day |
+| Annual traction demand | 901.4 GWh |
+| Station/depot PV / storage | 59.8 MW / 452.0 MWh |
+| Aggregate charging power | 148.0 MW |
+| Dedicated solar plant | 522.9 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-6: 11.0 km / 165 kWh |
-| Lowest traversal charging margin | line-7: 214 kWh |
+| Worst powered-stop gap | line-6: 10.2 km / 153 kWh |
+| Lowest traversal charging margin | line-7: 170 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $899 M |
-| Stations | $498 M |
-| Depots | $8.0 M |
-| Rolling stock | $702 M |
-| Dedicated solar plant | $532 M |
-| Residual train control | $14 M |
-| Charging microgrids | $38 M |
-| EPC / project services | $151 M |
-| **Total city programme** | **$2.84 bn** |
+| Civil works | $2.09 bn |
+| Stations | $358 M |
+| Depots | $187 M |
+| Rolling stock | $600 M |
+| Dedicated solar plant | $418 M |
+| Residual train control | $12 M |
+| Charging microgrids | $30 M |
+| EPC / project services | $229 M |
+| **Total city programme** | **$3.92 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $767 M (27.0%) |
-| Domestic / local capital | $2.08 bn (73.0%) |
-| Annual public construction commitment | $368 M / yr for 7 years |
-| Annual post-grace debt service | $321 M / yr |
-| External capital saved vs default turnkey sensitivity | $4.35 bn |
-| Capital + lifetime external interest saved | $9.80 bn |
-| Annual OPEX | $69 M / yr |
+| Imported / external capital | $882 M (22.5%) |
+| Domestic / local capital | $3.04 bn (77.5%) |
+| Annual public construction commitment | $527 M / yr for 7 years |
+| Annual post-grace debt service | $455 M / yr |
+| External capital saved vs default turnkey sensitivity | $6.17 bn |
+| Capital + lifetime external interest saved | $13.91 bn |
+| Annual OPEX | $93 M / yr |
 
 ## Local Evidence
 
-**Evidence refresh required.** Retained passing results below are unverified.
-The strict README generator rejected the evidence: engineering/simulation/validation-summary.json describes scenario SHA-256 ca82416f8354fc53045b2306880b89c29d04318e2dba4537a781f3d202e27fb7, but lusaka.toml is 6c1e8b70a92754c4664a4cab1e33e80a00836f53f21e9dbdd705b255e0fd7278; rerun and update the validation evidence. This audit view does not accept or replace the retained solver results.
-
 | Package | Current status | Evidence |
 |---|---|---|
-| Finance | unverified | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | unverified | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | unverified | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | unverified; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | unverified | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | unverified; 0 findings; 43 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 962 assets / 5,496 tasks | [`lusaka-operations-manifest.json`](operations/lusaka-operations-manifest.json) |
+| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
+| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
+| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
+| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
+| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 31 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 824 assets / 4,671 tasks | [`lusaka-operations-manifest.json`](operations/lusaka-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

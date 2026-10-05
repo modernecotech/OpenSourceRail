@@ -1,16 +1,22 @@
 slug: lyon
 pass: true
 metrics:
-  total_route_m: 269819.9
+  total_route_m: 221094.9
   n_lines: 6
-  n_stations: 85
-  anchor_hit_rate: 0.482
-  high_demand_coverage: 0.535
+  n_stations: 69
+  anchor_hit_rate: 0.435
+  high_demand_coverage: 0.446
   civil_mix_m:
-    at_grade: 250825.0
-    elevated: 18994.9
-    bridge:   0.0
-  elevated_fraction: 0.070
+    at_grade: 50581.4
+    elevated: 159353.0
+    bridge:   11160.4
+  elevated_fraction: 0.771
+  viaduct_products_m:
+    osr_pi20_pi25: 159353.0
+    osr_us:      0.0
+    special:     11160.4
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`shinyanga-line1.aln.toml`](shinyanga-line1.aln.toml) | `line-1` | 15,941.6 m | 6 |
-| [`shinyanga-line2.aln.toml`](shinyanga-line2.aln.toml) | `line-2` | 9,583.2 m | 4 |
-| [`shinyanga-line3.aln.toml`](shinyanga-line3.aln.toml) | `line-3` | 11,258.6 m | 4 |
+| [`shinyanga-line1.aln.toml`](shinyanga-line1.aln.toml) | `line-1` | 13,755.3 m | 5 |
+| [`shinyanga-line2.aln.toml`](shinyanga-line2.aln.toml) | `line-2` | 7,835.8 m | 3 |
+| [`shinyanga-line3.aln.toml`](shinyanga-line3.aln.toml) | `line-3` | 6,714.7 m | 2 |
 
 ## Status
 

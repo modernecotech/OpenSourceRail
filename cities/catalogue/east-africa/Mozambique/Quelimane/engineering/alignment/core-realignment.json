@@ -1,0 +1,74 @@
+{
+  "core": {
+    "east": 36.950771,
+    "north": -17.818751,
+    "south": -17.937671,
+    "west": 36.825851
+  },
+  "core_analytical_length_m": 5373.86267,
+  "core_original_length_m": 10266.214998,
+  "core_selection": {
+    "centre_basis": "controlled-design-centroid",
+    "centred_bbox_fraction": 0.6
+  },
+  "limitations": [
+    "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
+    "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
+    "Water crossings remain bridges. Survey, vertical alignment, transitions, cant, structures and independent checking remain open.",
+    "Unacceptable ring fillets retain raster geometry and special-product/realignment gates; they are never labelled straight tangents.",
+    "Coverage, stations, fleet, energy, depots, staffing, cost and delivery evidence must be regenerated for the actual candidate."
+  ],
+  "lines": [
+    {
+      "core_runs": [
+        {
+          "analytical_length_m": 5373.86267,
+          "control_points": [
+            [
+              7460.0,
+              14320.0
+            ],
+            [
+              8460.0,
+              9040.0
+            ]
+          ],
+          "controls": [
+            {
+              "end": [
+                8460.0,
+                9040.0
+              ],
+              "kind": "tangent",
+              "length_m": 5373.86267,
+              "start": [
+                7460.0,
+                14320.0
+              ]
+            }
+          ],
+          "geometry_basis": "analytical-tangents-and-circular-fillets",
+          "original_length_m": 10266.214998,
+          "seed_from_index": 0,
+          "seed_to_index": 411,
+          "simplification_tolerance_m": 600.0
+        }
+      ],
+      "line": "line-1",
+      "original_cells": 412,
+      "original_route_m": 10266.214998,
+      "reworked_cells": 265,
+      "reworked_route_m": 5694.213562
+    }
+  ],
+  "schema_version": 2,
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Quelimane/alignment-policy.toml": "6c82b9a487f8f434d50234a0804824c95f047e32c2fba05cb2ad7d8a31d9334d",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-grid.json": "1e7109b48b98e9636020dfc659611a170aa16da1ca1fdbd832edd86640fc153d",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/pre-rework-corridors.json.gz": "083d4b1f8d5462957af902dc48359f952442a90e5912f2939a91c66d356850d7",
+    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
+    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
+    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+  },
+  "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
+}

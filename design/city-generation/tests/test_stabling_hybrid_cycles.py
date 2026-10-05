@@ -116,14 +116,22 @@ def test_city_hybrid_screens_are_current_and_keep_physical_release_open():
         plan = json.loads(path.with_name('summary.json').read_text())
         assert report['passed'] and report['service_days'] == 2
         assert not report['deployment_release_ready']
-        assert report['candidate_sha256'] == plan['native_hybrid_candidate']['sha256']
-        for key, relative in report['source_paths'].items():
-            assert report['source_sha256'][key] == hashlib.sha256((root / relative).read_bytes()).hexdigest()
+        current=not plan.get('adopted_line_depot_requirement')
+        if current:
+            assert report['candidate_sha256'] == plan['native_hybrid_candidate']['sha256']
+            for key, relative in report['source_paths'].items():
+                assert report['source_sha256'][key] == hashlib.sha256((root / relative).read_bytes()).hexdigest()
+        else:
+            assert report['candidate_sha256'] != plan['native_hybrid_candidate']['sha256']
         assert not report['reserve_departures'] and not report['invariant_violations']
         for cycle in report['cycles']:
             assert cycle['home_placement_passed'] and cycle['capacity']['passed'] and cycle['morning_launch_passed']
             assert cycle['passenger_departures_after_closing'] == 0
-            assert cycle['station_trainsets'] == plan['hybrid_allocation']['station_trainsets']
-            assert cycle['depot_trainsets'] == plan['hybrid_allocation']['depot_trainsets']
+            if current:
+                assert cycle['station_trainsets'] == plan['hybrid_allocation']['station_trainsets']
+                assert cycle['depot_trainsets'] == plan['hybrid_allocation']['depot_trainsets']
         manifest = json.loads((path.parents[2] / 'package-manifest.json').read_text())
         assert not [s for s in manifest['stale_analysis_sources'] if s['artifact'].endswith('hybrid-cycle-screen.json')]
+        if not current:
+            assert manifest['diagnostic_artifacts']['engineering/stabling/hybrid-cycle-screen.json']['sha256']==hashlib.sha256(path.read_bytes()).hexdigest()
+            assert any(s['artifact'].endswith('hybrid-cycle-screen.json') for s in manifest['diagnostic_stale_sources'])

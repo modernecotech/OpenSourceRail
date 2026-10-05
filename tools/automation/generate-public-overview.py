@@ -7,6 +7,7 @@ import argparse
 import html
 import json
 import runpy
+import re
 import tempfile
 import tomllib
 from pathlib import Path
@@ -302,6 +303,37 @@ For offline printing, [download the landscape HTML edition](open-source-rail-ove
 """
 
 
+def render_brochure_metrics() -> str:
+    """Keep the handwritten brochure, regenerating its quantitative claim."""
+    path=REPO_ROOT/'docs/open-source-rail-brochure.html'
+    return re.sub(r'~\d+% modelled domestic value across the public portfolio',
+                  '~'+overview_values()['local_share']+' modelled domestic value across the public portfolio',path.read_text())
+
+
+def render_readme_economics() -> str:
+    values=overview_values()
+    portfolio=runpy.run_path(str(REPO_ROOT/'tools/automation/generate-portfolio-summary.py'))
+    _,_,capital,_=portfolio['portfolio_metrics']()
+    external=100*capital['external']/capital['total'];local=100-external
+    saving=180-external;reduction=saving/180
+    block=f"""<!-- GENERATED: portfolio economics -->
+For an illustrative **$100M OpenSourceRail scope**, the editable default comparison applies a 2.0× foreign-turnkey price with 90% requiring foreign currency or international capital:
+
+| Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
+|---|---:|---:|
+| Programme price | **$100.0M** | **$200.0M** |
+| Value not requiring external capital | ${local:.1f}M | $20.0M |
+| External-capital requirement | **${external:.1f}M** | **$180.0M** |
+
+In that scenario, the external-capital requirement is **${saving:.1f}M ({reduction:.1%})** lower before interest. Across the {values['cities']}-city model, **{values['local_value']}—roughly {values['local_share']} of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+<!-- END GENERATED: portfolio economics -->
+"""
+    current=(REPO_ROOT/'README.md').read_text()
+    if '<!-- GENERATED: portfolio economics -->' in current:
+        return re.sub(r'(?s)<!-- GENERATED: portfolio economics -->.*?<!-- END GENERATED: portfolio economics -->\n',lambda _:block,current)
+    return re.sub(r'(?s)For an illustrative \*\*\$100M OpenSourceRail scope\*\*.*?(?=\n## Run it)',lambda _:block,current,count=1)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
@@ -309,6 +341,8 @@ def main() -> int:
     expected_outputs = {
         HTML_OUTPUT: render(),
         MARKDOWN_OUTPUT: render_markdown(),
+        REPO_ROOT/"docs/open-source-rail-brochure.html":render_brochure_metrics(),
+        REPO_ROOT/"README.md":render_readme_economics(),
     }
     if args.check:
         stale = [

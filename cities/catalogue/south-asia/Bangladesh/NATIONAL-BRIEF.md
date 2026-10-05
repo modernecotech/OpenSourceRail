@@ -3,7 +3,7 @@
 This page contains only Bangladesh-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$17.27 B (86.2%) of external capital** and **$21.65 B of external interest**. Capital plus saved interest totals **$38.93 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$27.83 B (88.3%) of external capital** and **$34.89 B of external interest**. Capital plus saved interest totals **$62.72 B**.
 
 ## National Programme
 
@@ -11,55 +11,55 @@ This page contains only Bangladesh-specific aggregation. Shared network, service
 |---|---:|
 | Catalogue cities | 10 |
 | Represented population | 13,550,000 |
-| Trainsets / vehicle modules | 1,901 / 7,844 |
-| City infrastructure and fleet CAPEX | $10.93 B |
-| Shared national factory | $186.1 M |
-| Factory sizing basis | 3,102 modules for Chittagong, then reused nationally |
-| **Total national programme** | **$11.13 B** |
+| Trainsets / vehicle modules | 1,955 / 7,744 |
+| City infrastructure and fleet CAPEX | $16.76 B |
+| Shared national factory | $698.7 M |
+| Factory sizing basis | 2,670 modules for Chittagong, then reused nationally |
+| **Total national programme** | **$17.51 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $2.76 B (24.8%) |
-| Domestic / local capital | $8.37 B (75.2%) |
-| Annual external capital draw | $393.7 M / yr |
-| Annual local capital draw | $1.20 B / yr |
-| Annual public construction commitment | $932.5 M / yr for 7 years |
-| Annual post-grace debt service | $772.5 M / yr |
-| Default foreign-turnkey external capital | $20.03 B |
-| External capital saved | $17.27 B |
-| Capital + lifetime external interest saved | $38.93 B |
+| Imported / external capital | $3.68 B (21.0%) |
+| Domestic / local capital | $13.83 B (79.0%) |
+| Annual external capital draw | $525.4 M / yr |
+| Annual local capital draw | $1.98 B / yr |
+| Annual public construction commitment | $1.50 B / yr for 7 years |
+| Annual post-grace debt service | $1.22 B / yr |
+| Default foreign-turnkey external capital | $31.51 B |
+| External capital saved | $27.83 B |
+| Capital + lifetime external interest saved | $62.72 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $4.17 B | $624.8 M | $3.54 B |
-| Stations | $2.10 B | $419.9 M | $1.68 B |
-| Depots | $80.0 M | $20.0 M | $60.0 M |
-| Rolling stock | $2.24 B | $785.4 M | $1.46 B |
-| Dedicated solar plants | $1.57 B | $705.5 M | $862.3 M |
-| Residual train control | $57.9 M | $28.9 M | $28.9 M |
-| Charging microgrids | $101.1 M | $40.4 M | $60.7 M |
-| EPC / project services | $625.4 M | $93.8 M | $531.6 M |
-| Shared national trainset factory | $186.1 M | $37.2 M | $148.9 M |
-| **Total** | **$11.13 B** | **$2.76 B** | **$8.37 B** |
+| Civil works | $9.74 B | $1.46 B | $8.28 B |
+| Stations | $1.56 B | $312.1 M | $1.25 B |
+| Depots | $840.3 M | $210.1 M | $630.2 M |
+| Rolling stock | $2.23 B | $779.2 M | $1.45 B |
+| Dedicated solar plants | $1.24 B | $555.9 M | $679.5 M |
+| Residual train control | $50.7 M | $25.4 M | $25.4 M |
+| Charging microgrids | $84.9 M | $34.0 M | $50.9 M |
+| EPC / project services | $1.06 B | $159.7 M | $904.8 M |
+| Shared national trainset factory | $698.7 M | $139.7 M | $559.0 M |
+| **Total** | **$17.51 B** | **$3.68 B** | **$13.83 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Chittagong](Chittagong/README.md) | 5,200,000 | 517 | $3.50 B | $933.4 M | $2.56 B |
-| [Khulna](Khulna/README.md) | 1,500,000 | 252 | $1.81 B | $428.1 M | $1.38 B |
-| [Gazipur](Gazipur/README.md) | 1,400,000 | 338 | $2.32 B | $560.3 M | $1.76 B |
-| [Narayanganj](Narayanganj/README.md) | 950,000 | 157 | $657.8 M | $158.1 M | $499.7 M |
-| [Rajshahi](Rajshahi/README.md) | 950,000 | 93 | $410.8 M | $97.6 M | $313.2 M |
-| [Sylhet](Sylhet/README.md) | 900,000 | 109 | $408.8 M | $101.4 M | $307.4 M |
-| [Rangpur](Rangpur/README.md) | 800,000 | 99 | $388.7 M | $95.8 M | $293.0 M |
-| [Mymensingh](Mymensingh/README.md) | 700,000 | 92 | $459.0 M | $103.0 M | $356.1 M |
-| [Comilla](Comilla/README.md) | 600,000 | 114 | $444.4 M | $110.3 M | $334.1 M |
-| [Barisal](Barisal/README.md) | 550,000 | 130 | $534.6 M | $128.7 M | $405.8 M |
+| [Chittagong](Chittagong/README.md) | 5,200,000 | 445 | $5.05 B | $1.12 B | $3.93 B |
+| [Khulna](Khulna/README.md) | 1,500,000 | 223 | $2.93 B | $577.6 M | $2.35 B |
+| [Gazipur](Gazipur/README.md) | 1,400,000 | 321 | $3.40 B | $709.4 M | $2.69 B |
+| [Narayanganj](Narayanganj/README.md) | 950,000 | 205 | $1.07 B | $227.8 M | $846.7 M |
+| [Rajshahi](Rajshahi/README.md) | 950,000 | 101 | $536.0 M | $113.0 M | $423.1 M |
+| [Sylhet](Sylhet/README.md) | 900,000 | 126 | $662.9 M | $139.9 M | $523.0 M |
+| [Rangpur](Rangpur/README.md) | 800,000 | 119 | $661.2 M | $138.4 M | $522.8 M |
+| [Mymensingh](Mymensingh/README.md) | 700,000 | 115 | $705.1 M | $143.7 M | $561.4 M |
+| [Comilla](Comilla/README.md) | 600,000 | 137 | $762.7 M | $159.2 M | $603.5 M |
+| [Barisal](Barisal/README.md) | 550,000 | 163 | $968.3 M | $199.3 M | $769.0 M |
 
 ## Local Basis And Regeneration
 

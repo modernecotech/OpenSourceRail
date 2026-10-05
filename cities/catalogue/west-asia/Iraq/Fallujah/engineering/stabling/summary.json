@@ -1,16 +1,33 @@
 {
-  "additional_usable_stabling_length_m": 4403.0,
+  "additional_usable_stabling_length_m": 6366.5,
+  "adopted_line_depot_requirement": [
+    {
+      "line": "line-1",
+      "physical_release": false,
+      "planning_storage_slots": 57
+    },
+    {
+      "line": "line-2",
+      "physical_release": false,
+      "planning_storage_slots": 37
+    },
+    {
+      "line": "line-3",
+      "physical_release": false,
+      "planning_storage_slots": 45
+    }
+  ],
   "candidate_local_path": "build/engineering/stabling/fallujah.toml",
-  "candidate_scope": "station-only native operating benchmark; no depot home allocation selected",
-  "candidate_sha256": "58662002f0297cc4970281149d07ae23705391f6f6e6cad142feb088044b67e1",
+  "candidate_scope": "unaccepted distributed-station diagnostic; adopted planning requirement stores the full fleet in line-local depots",
+  "candidate_sha256": "44d306b70b5ebc4b143098a75fc2cdcd482ad32da1d26a38b1ac75a765347f63",
   "city": "fallujah",
   "deployment_release_ready": false,
   "fleet_roles": {
     "cold_reserve": 3,
-    "revenue": 109,
-    "spare": 10
+    "revenue": 124,
+    "spare": 12
   },
-  "fleet_trainsets": 122,
+  "fleet_trainsets": 139,
   "generation_passed": true,
   "hybrid_allocation": {
     "allocation_passed": true,
@@ -28,7 +45,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0415-0292-s006644",
+        "station": "line-1-0414-0292-s006740",
         "trainset_count": 1
       },
       {
@@ -36,7 +53,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0415-0292-s006644",
+        "station": "line-1-0414-0292-s006740",
         "trainset_count": 1
       },
       {
@@ -44,7 +61,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0450-0414-s009650",
+        "station": "line-1-0504-0391-s009759",
         "trainset_count": 1
       },
       {
@@ -52,7 +69,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0450-0414-s009650",
+        "station": "line-1-0504-0391-s009759",
         "trainset_count": 1
       },
       {
@@ -60,7 +77,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0527-0439-s011625",
+        "station": "line-1-0596-0491-s012778",
         "trainset_count": 1
       },
       {
@@ -68,7 +85,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0527-0439-s011625",
+        "station": "line-1-0596-0491-s012778",
         "trainset_count": 1
       },
       {
@@ -76,7 +93,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0557-0512-s013619",
+        "station": "line-1-0671-0574-s015306",
         "trainset_count": 1
       },
       {
@@ -84,15 +101,7 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0557-0512-s013619",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-1",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-1-0585-0569-s015667",
+        "station": "line-1-0671-0574-s015306",
         "trainset_count": 1
       },
       {
@@ -100,31 +109,15 @@
         "line": "line-1",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0585-0569-s015667",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-1",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-1-0682-0603-s018667",
-        "trainset_count": 1
+        "station": "line-1-0748-0658-s017846",
+        "trainset_count": 2
       },
       {
         "heading": "reverse",
-        "line": "line-1",
+        "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-1-0682-0603-s018667",
-        "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-1",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-1-0748-0658-s021003",
+        "station": "line-2-0524-0761-s011308",
         "trainset_count": 2
       },
       {
@@ -132,7 +125,7 @@
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0518-0325-s004272",
+        "station": "line-2-0526-0648-s009031",
         "trainset_count": 1
       },
       {
@@ -140,23 +133,15 @@
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0518-0325-s004272",
+        "station": "line-2-0526-0648-s009031",
         "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-2",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-2-0524-0761-s015752",
-        "trainset_count": 2
       },
       {
         "heading": "forward",
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0530-0627-s012867",
+        "station": "line-2-0530-0506-s006158",
         "trainset_count": 1
       },
       {
@@ -164,7 +149,7 @@
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0530-0627-s012867",
+        "station": "line-2-0530-0506-s006158",
         "trainset_count": 1
       },
       {
@@ -180,7 +165,7 @@
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0557-0512-s009430",
+        "station": "line-2-0533-0350-s003013",
         "trainset_count": 1
       },
       {
@@ -188,31 +173,7 @@
         "line": "line-2",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-2-0557-0512-s009430",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-2",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-2-0558-0422-s007275",
-        "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-2",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-2-0558-0422-s007275",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0557-0512-s013751",
+        "station": "line-2-0533-0350-s003013",
         "trainset_count": 1
       },
       {
@@ -220,47 +181,7 @@
         "line": "line-3",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-3-0557-0512-s013751",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0605-0473-s015355",
-        "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0605-0473-s015355",
-        "trainset_count": 1
-      },
-      {
-        "heading": "forward",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0609-0652-s009332",
-        "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0609-0652-s009332",
-        "trainset_count": 1
-      },
-      {
-        "heading": "reverse",
-        "line": "line-3",
-        "location_type": "station",
-        "service_role": "revenue",
-        "station": "line-3-0616-0325-s019023",
+        "station": "line-3-0616-0325-s014722",
         "trainset_count": 2
       },
       {
@@ -268,7 +189,7 @@
         "line": "line-3",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-3-0622-0513-s012348",
+        "station": "line-3-0649-0410-s012713",
         "trainset_count": 1
       },
       {
@@ -276,7 +197,7 @@
         "line": "line-3",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-3-0622-0513-s012348",
+        "station": "line-3-0649-0410-s012713",
         "trainset_count": 1
       },
       {
@@ -284,7 +205,7 @@
         "line": "line-3",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-3-0736-0710-s006160",
+        "station": "line-3-0682-0495-s010716",
         "trainset_count": 1
       },
       {
@@ -292,7 +213,23 @@
         "line": "line-3",
         "location_type": "station",
         "service_role": "revenue",
-        "station": "line-3-0736-0710-s006160",
+        "station": "line-3-0682-0495-s010716",
+        "trainset_count": 1
+      },
+      {
+        "heading": "forward",
+        "line": "line-3",
+        "location_type": "station",
+        "service_role": "revenue",
+        "station": "line-3-0762-0700-s005895",
+        "trainset_count": 1
+      },
+      {
+        "heading": "reverse",
+        "line": "line-3",
+        "location_type": "station",
+        "service_role": "revenue",
+        "station": "line-3-0762-0700-s005895",
         "trainset_count": 1
       },
       {
@@ -307,103 +244,103 @@
         "line": "line-1",
         "location_type": "depot",
         "service_role": "revenue",
-        "station": "line-1-0748-0658-s021003",
-        "trainset_count": 25
+        "station": "line-1-0748-0658-s017846",
+        "trainset_count": 39
       },
       {
         "line": "line-1",
         "location_type": "depot",
         "service_role": "spare",
-        "station": "line-1-0748-0658-s021003",
-        "trainset_count": 4
+        "station": "line-1-0748-0658-s017846",
+        "trainset_count": 5
       },
       {
         "line": "line-1",
         "location_type": "depot",
         "service_role": "cold_reserve",
-        "station": "line-1-0748-0658-s021003",
+        "station": "line-1-0748-0658-s017846",
         "trainset_count": 1
       },
       {
         "line": "line-2",
         "location_type": "depot",
         "service_role": "revenue",
-        "station": "line-2-0524-0761-s015752",
-        "trainset_count": 19
-      },
-      {
-        "line": "line-2",
-        "location_type": "depot",
-        "service_role": "spare",
-        "station": "line-2-0524-0761-s015752",
-        "trainset_count": 3
-      },
-      {
-        "line": "line-2",
-        "location_type": "depot",
-        "service_role": "cold_reserve",
-        "station": "line-2-0524-0761-s015752",
-        "trainset_count": 1
-      },
-      {
-        "line": "line-3",
-        "location_type": "depot",
-        "service_role": "revenue",
-        "station": "line-3-0616-0325-s019023",
+        "station": "line-2-0532-0204-s000000",
         "trainset_count": 23
       },
       {
+        "line": "line-2",
+        "location_type": "depot",
+        "service_role": "spare",
+        "station": "line-2-0532-0204-s000000",
+        "trainset_count": 3
+      },
+      {
+        "line": "line-2",
+        "location_type": "depot",
+        "service_role": "cold_reserve",
+        "station": "line-2-0532-0204-s000000",
+        "trainset_count": 1
+      },
+      {
+        "line": "line-3",
+        "location_type": "depot",
+        "service_role": "revenue",
+        "station": "line-3-0868-0951-s000000",
+        "trainset_count": 30
+      },
+      {
         "line": "line-3",
         "location_type": "depot",
         "service_role": "spare",
-        "station": "line-3-0616-0325-s019023",
-        "trainset_count": 3
+        "station": "line-3-0868-0951-s000000",
+        "trainset_count": 4
       },
       {
         "line": "line-3",
         "location_type": "depot",
         "service_role": "cold_reserve",
-        "station": "line-3-0616-0325-s019023",
+        "station": "line-3-0868-0951-s000000",
         "trainset_count": 1
       }
     ],
     "capacity": {
-      "allocated_trainsets": 122,
-      "available_depot_positions": 80,
-      "available_station_positions": 42,
-      "depot_allocated_trainsets": 80,
+      "allocated_trainsets": 139,
+      "available_depot_positions": 107,
+      "available_station_positions": 32,
+      "depot_allocated_trainsets": 107,
       "depots": [
         {
-          "allocated_trainsets": 30,
-          "allowed_trainsets": 30,
+          "allocated_trainsets": 45,
+          "allowed_trainsets": 45,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0748-0658-s021003"
-        },
-        {
-          "allocated_trainsets": 23,
-          "allowed_trainsets": 23,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-2-0524-0761-s015752"
+          "station": "line-1-0748-0658-s017846"
         },
         {
           "allocated_trainsets": 27,
           "allowed_trainsets": 27,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-3-0616-0325-s019023"
+          "station": "line-2-0532-0204-s000000"
+        },
+        {
+          "allocated_trainsets": 35,
+          "allowed_trainsets": 35,
+          "excess_trainsets": 0,
+          "passed": true,
+          "station": "line-3-0868-0951-s000000"
         }
       ],
       "excess_allocated_trainsets": 0,
-      "fleet_trainsets": 122,
+      "fleet_trainsets": 139,
       "inventory_complete": true,
       "inventory_excess_trainsets": 0,
       "over_capacity_station_count": 0,
       "passed": true,
       "scope": "Two trainsets per selected station plus explicitly allocated depot stabling; workshop bays are separate",
-      "selected_station_count": 21,
-      "station_allocated_trainsets": 42,
+      "selected_station_count": 16,
+      "station_allocated_trainsets": 32,
       "station_limit_trainsets": 2,
       "stations": [
         {
@@ -418,70 +355,56 @@
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0415-0292-s006644"
+          "station": "line-1-0414-0292-s006740"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0450-0414-s009650"
+          "station": "line-1-0504-0391-s009759"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0527-0439-s011625"
+          "station": "line-1-0596-0491-s012778"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0557-0512-s013619"
+          "station": "line-1-0671-0574-s015306"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0585-0569-s015667"
+          "station": "line-1-0748-0658-s017846"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0682-0603-s018667"
+          "station": "line-2-0524-0761-s011308"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-1-0748-0658-s021003"
+          "station": "line-2-0526-0648-s009031"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-2-0518-0325-s004272"
-        },
-        {
-          "allocated_trainsets": 2,
-          "allowed_trainsets": 2,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-2-0524-0761-s015752"
-        },
-        {
-          "allocated_trainsets": 2,
-          "allowed_trainsets": 2,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-2-0530-0627-s012867"
+          "station": "line-2-0530-0506-s006158"
         },
         {
           "allocated_trainsets": 2,
@@ -495,56 +418,35 @@
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-2-0557-0512-s009430"
+          "station": "line-2-0533-0350-s003013"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-2-0558-0422-s007275"
+          "station": "line-3-0616-0325-s014722"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-3-0557-0512-s013751"
+          "station": "line-3-0649-0410-s012713"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-3-0605-0473-s015355"
+          "station": "line-3-0682-0495-s010716"
         },
         {
           "allocated_trainsets": 2,
           "allowed_trainsets": 2,
           "excess_trainsets": 0,
           "passed": true,
-          "station": "line-3-0609-0652-s009332"
-        },
-        {
-          "allocated_trainsets": 2,
-          "allowed_trainsets": 2,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-3-0616-0325-s019023"
-        },
-        {
-          "allocated_trainsets": 2,
-          "allowed_trainsets": 2,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-3-0622-0513-s012348"
-        },
-        {
-          "allocated_trainsets": 2,
-          "allowed_trainsets": 2,
-          "excess_trainsets": 0,
-          "passed": true,
-          "station": "line-3-0736-0710-s006160"
+          "station": "line-3-0762-0700-s005895"
         },
         {
           "allocated_trainsets": 2,
@@ -564,78 +466,73 @@
         ],
         "service_roles": {
           "cold_reserve": 1,
-          "revenue": 25,
-          "spare": 4
+          "revenue": 39,
+          "spare": 5
         },
         "site_basis": "declared-depot",
-        "stabling_positions_required": 30,
-        "station": "line-1-0748-0658-s021003",
-        "usable_stabling_length_required_m": 1785.0,
+        "stabling_positions_required": 45,
+        "station": "line-1-0748-0658-s017846",
+        "usable_stabling_length_required_m": 2677.5,
         "verified_stabling_positions": null,
-        "workshop_bays": 19
+        "workshop_bays": 8
       },
       {
-        "archetype": "layup-minimal",
+        "archetype": "main-heavy",
         "lines": [
           "line-2"
-        ],
-        "service_roles": {
-          "cold_reserve": 1,
-          "revenue": 19,
-          "spare": 3
-        },
-        "site_basis": "storage-at-existing-powered-service-point",
-        "stabling_positions_required": 23,
-        "station": "line-2-0524-0761-s015752",
-        "usable_stabling_length_required_m": 1368.5,
-        "verified_stabling_positions": null,
-        "workshop_bays": 0
-      },
-      {
-        "archetype": "layup-minimal",
-        "lines": [
-          "line-3"
         ],
         "service_roles": {
           "cold_reserve": 1,
           "revenue": 23,
           "spare": 3
         },
-        "site_basis": "storage-at-existing-powered-service-point",
+        "site_basis": "declared-depot",
         "stabling_positions_required": 27,
-        "station": "line-3-0616-0325-s019023",
+        "station": "line-2-0532-0204-s000000",
         "usable_stabling_length_required_m": 1606.5,
         "verified_stabling_positions": null,
-        "workshop_bays": 0
+        "workshop_bays": 6
+      },
+      {
+        "archetype": "main-heavy",
+        "lines": [
+          "line-3"
+        ],
+        "service_roles": {
+          "cold_reserve": 1,
+          "revenue": 30,
+          "spare": 4
+        },
+        "site_basis": "declared-depot",
+        "stabling_positions_required": 35,
+        "station": "line-3-0868-0951-s000000",
+        "usable_stabling_length_required_m": 2082.5,
+        "verified_stabling_positions": null,
+        "workshop_bays": 7
       }
     ],
-    "depot_trainsets": 80,
-    "fleet_trainsets": 122,
+    "depot_trainsets": 107,
+    "fleet_trainsets": 139,
     "missing_morning_directions": [],
     "physical_release_ready": false,
     "scope": "Two revenue trainsets per station where fleet permits; all remaining revenue stock and reserves allocated to storage on their own line",
-    "station_trainsets": 42,
+    "station_trainsets": 32,
     "station_trainsets_by_location": {
       "line-1-0297-0015-s000000": 2,
-      "line-1-0415-0292-s006644": 2,
-      "line-1-0450-0414-s009650": 2,
-      "line-1-0527-0439-s011625": 2,
-      "line-1-0557-0512-s013619": 2,
-      "line-1-0585-0569-s015667": 2,
-      "line-1-0682-0603-s018667": 2,
-      "line-1-0748-0658-s021003": 2,
-      "line-2-0518-0325-s004272": 2,
-      "line-2-0524-0761-s015752": 2,
-      "line-2-0530-0627-s012867": 2,
+      "line-1-0414-0292-s006740": 2,
+      "line-1-0504-0391-s009759": 2,
+      "line-1-0596-0491-s012778": 2,
+      "line-1-0671-0574-s015306": 2,
+      "line-1-0748-0658-s017846": 2,
+      "line-2-0524-0761-s011308": 2,
+      "line-2-0526-0648-s009031": 2,
+      "line-2-0530-0506-s006158": 2,
       "line-2-0532-0204-s000000": 2,
-      "line-2-0557-0512-s009430": 2,
-      "line-2-0558-0422-s007275": 2,
-      "line-3-0557-0512-s013751": 2,
-      "line-3-0605-0473-s015355": 2,
-      "line-3-0609-0652-s009332": 2,
-      "line-3-0616-0325-s019023": 2,
-      "line-3-0622-0513-s012348": 2,
-      "line-3-0736-0710-s006160": 2,
+      "line-2-0533-0350-s003013": 2,
+      "line-3-0616-0325-s014722": 2,
+      "line-3-0649-0410-s012713": 2,
+      "line-3-0682-0495-s010716": 2,
+      "line-3-0762-0700-s005895": 2,
       "line-3-0868-0951-s000000": 2
     }
   },
@@ -645,134 +542,86 @@
       "line": "line-1",
       "service_role": "revenue",
       "station": "line-1-0297-0015-s000000",
-      "trainset_count": 3,
+      "trainset_count": 6,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0415-0292-s006644",
-      "trainset_count": 3,
+      "station": "line-1-0414-0292-s006740",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0415-0292-s006644",
-      "trainset_count": 3,
+      "station": "line-1-0414-0292-s006740",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0450-0414-s009650",
-      "trainset_count": 3,
+      "station": "line-1-0504-0391-s009759",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0450-0414-s009650",
-      "trainset_count": 3,
+      "station": "line-1-0504-0391-s009759",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0527-0439-s011625",
-      "trainset_count": 3,
+      "station": "line-1-0596-0491-s012778",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0527-0439-s011625",
-      "trainset_count": 3,
+      "station": "line-1-0596-0491-s012778",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0557-0512-s013619",
-      "trainset_count": 3,
+      "station": "line-1-0671-0574-s015306",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0557-0512-s013619",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-1",
-      "service_role": "revenue",
-      "station": "line-1-0585-0569-s015667",
-      "trainset_count": 3,
+      "station": "line-1-0671-0574-s015306",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-1",
       "service_role": "revenue",
-      "station": "line-1-0585-0569-s015667",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-1",
-      "service_role": "revenue",
-      "station": "line-1-0682-0603-s018667",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-1",
-      "service_role": "revenue",
-      "station": "line-1-0682-0603-s018667",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-1",
-      "service_role": "revenue",
-      "station": "line-1-0748-0658-s021003",
-      "trainset_count": 2,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-1",
-      "service_role": "spare",
-      "station": "line-1-0748-0658-s021003",
-      "trainset_count": 1,
+      "station": "line-1-0748-0658-s017846",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-1",
       "service_role": "spare",
-      "station": "line-1-0297-0015-s000000",
-      "trainset_count": 1,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-1",
-      "service_role": "spare",
-      "station": "line-1-0415-0292-s006644",
+      "station": "line-1-0414-0292-s006740",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -780,15 +629,39 @@
       "heading": "reverse",
       "line": "line-1",
       "service_role": "spare",
-      "station": "line-1-0415-0292-s006644",
+      "station": "line-1-0414-0292-s006740",
       "trainset_count": 1,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
+      "line": "line-1",
+      "service_role": "spare",
+      "station": "line-1-0504-0391-s009759",
+      "trainset_count": 1,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-1",
+      "service_role": "spare",
+      "station": "line-1-0504-0391-s009759",
+      "trainset_count": 1,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-1",
+      "service_role": "spare",
+      "station": "line-1-0596-0491-s012778",
+      "trainset_count": 1,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
       "line": "line-1",
       "service_role": "cold_reserve",
-      "station": "line-1-0450-0414-s009650",
+      "station": "line-1-0596-0491-s012778",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -797,6 +670,22 @@
       "line": "line-2",
       "service_role": "revenue",
       "station": "line-2-0532-0204-s000000",
+      "trainset_count": 5,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-2",
+      "service_role": "revenue",
+      "station": "line-2-0533-0350-s003013",
+      "trainset_count": 4,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-2",
+      "service_role": "revenue",
+      "station": "line-2-0533-0350-s003013",
       "trainset_count": 4,
       "verified_track_slots": null
     },
@@ -804,79 +693,47 @@
       "heading": "forward",
       "line": "line-2",
       "service_role": "revenue",
-      "station": "line-2-0518-0325-s004272",
-      "trainset_count": 3,
+      "station": "line-2-0530-0506-s006158",
+      "trainset_count": 4,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-2",
       "service_role": "revenue",
-      "station": "line-2-0518-0325-s004272",
-      "trainset_count": 3,
+      "station": "line-2-0530-0506-s006158",
+      "trainset_count": 4,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-2",
       "service_role": "revenue",
-      "station": "line-2-0558-0422-s007275",
-      "trainset_count": 3,
+      "station": "line-2-0526-0648-s009031",
+      "trainset_count": 4,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-2",
       "service_role": "revenue",
-      "station": "line-2-0558-0422-s007275",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-2",
-      "service_role": "revenue",
-      "station": "line-2-0557-0512-s009430",
-      "trainset_count": 3,
+      "station": "line-2-0526-0648-s009031",
+      "trainset_count": 4,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-2",
       "service_role": "revenue",
-      "station": "line-2-0557-0512-s009430",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-2",
-      "service_role": "revenue",
-      "station": "line-2-0530-0627-s012867",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-2",
-      "service_role": "revenue",
-      "station": "line-2-0530-0627-s012867",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-2",
-      "service_role": "revenue",
-      "station": "line-2-0524-0761-s015752",
-      "trainset_count": 3,
+      "station": "line-2-0524-0761-s011308",
+      "trainset_count": 4,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-2",
       "service_role": "spare",
-      "station": "line-2-0518-0325-s004272",
+      "station": "line-2-0533-0350-s003013",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -884,7 +741,7 @@
       "heading": "reverse",
       "line": "line-2",
       "service_role": "spare",
-      "station": "line-2-0518-0325-s004272",
+      "station": "line-2-0533-0350-s003013",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -892,7 +749,7 @@
       "heading": "forward",
       "line": "line-2",
       "service_role": "spare",
-      "station": "line-2-0558-0422-s007275",
+      "station": "line-2-0530-0506-s006158",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -900,7 +757,7 @@
       "heading": "reverse",
       "line": "line-2",
       "service_role": "cold_reserve",
-      "station": "line-2-0558-0422-s007275",
+      "station": "line-2-0530-0506-s006158",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -909,110 +766,70 @@
       "line": "line-3",
       "service_role": "revenue",
       "station": "line-3-0868-0951-s000000",
-      "trainset_count": 4,
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0736-0710-s006160",
-      "trainset_count": 3,
+      "station": "line-3-0762-0700-s005895",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0736-0710-s006160",
-      "trainset_count": 3,
+      "station": "line-3-0762-0700-s005895",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0609-0652-s009332",
-      "trainset_count": 3,
+      "station": "line-3-0682-0495-s010716",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0609-0652-s009332",
-      "trainset_count": 3,
+      "station": "line-3-0682-0495-s010716",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0622-0513-s012348",
-      "trainset_count": 3,
+      "station": "line-3-0649-0410-s012713",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0622-0513-s012348",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-3",
-      "service_role": "revenue",
-      "station": "line-3-0557-0512-s013751",
-      "trainset_count": 3,
+      "station": "line-3-0649-0410-s012713",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "reverse",
       "line": "line-3",
       "service_role": "revenue",
-      "station": "line-3-0557-0512-s013751",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "forward",
-      "line": "line-3",
-      "service_role": "revenue",
-      "station": "line-3-0605-0473-s015355",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-3",
-      "service_role": "revenue",
-      "station": "line-3-0605-0473-s015355",
-      "trainset_count": 3,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-3",
-      "service_role": "revenue",
-      "station": "line-3-0616-0325-s019023",
-      "trainset_count": 3,
+      "station": "line-3-0616-0325-s014722",
+      "trainset_count": 5,
       "verified_track_slots": null
     },
     {
       "heading": "forward",
       "line": "line-3",
       "service_role": "spare",
-      "station": "line-3-0736-0710-s006160",
-      "trainset_count": 1,
-      "verified_track_slots": null
-    },
-    {
-      "heading": "reverse",
-      "line": "line-3",
-      "service_role": "spare",
-      "station": "line-3-0736-0710-s006160",
+      "station": "line-3-0868-0951-s000000",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -1020,7 +837,23 @@
       "heading": "forward",
       "line": "line-3",
       "service_role": "spare",
-      "station": "line-3-0609-0652-s009332",
+      "station": "line-3-0762-0700-s005895",
+      "trainset_count": 1,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "reverse",
+      "line": "line-3",
+      "service_role": "spare",
+      "station": "line-3-0762-0700-s005895",
+      "trainset_count": 1,
+      "verified_track_slots": null
+    },
+    {
+      "heading": "forward",
+      "line": "line-3",
+      "service_role": "spare",
+      "station": "line-3-0682-0495-s010716",
       "trainset_count": 1,
       "verified_track_slots": null
     },
@@ -1028,34 +861,29 @@
       "heading": "reverse",
       "line": "line-3",
       "service_role": "cold_reserve",
-      "station": "line-3-0609-0652-s009332",
+      "station": "line-3-0682-0495-s010716",
       "trainset_count": 1,
       "verified_track_slots": null
     }
   ],
-  "initial_station_count": 21,
+  "initial_station_count": 16,
   "initial_station_trainsets": {
-    "line-1-0297-0015-s000000": 4,
-    "line-1-0415-0292-s006644": 8,
-    "line-1-0450-0414-s009650": 7,
-    "line-1-0527-0439-s011625": 6,
-    "line-1-0557-0512-s013619": 6,
-    "line-1-0585-0569-s015667": 6,
-    "line-1-0682-0603-s018667": 6,
-    "line-1-0748-0658-s021003": 3,
-    "line-2-0518-0325-s004272": 8,
-    "line-2-0524-0761-s015752": 3,
-    "line-2-0530-0627-s012867": 6,
-    "line-2-0532-0204-s000000": 4,
-    "line-2-0557-0512-s009430": 6,
-    "line-2-0558-0422-s007275": 8,
-    "line-3-0557-0512-s013751": 6,
-    "line-3-0605-0473-s015355": 6,
-    "line-3-0609-0652-s009332": 8,
-    "line-3-0616-0325-s019023": 3,
-    "line-3-0622-0513-s012348": 6,
-    "line-3-0736-0710-s006160": 8,
-    "line-3-0868-0951-s000000": 4
+    "line-1-0297-0015-s000000": 6,
+    "line-1-0414-0292-s006740": 12,
+    "line-1-0504-0391-s009759": 12,
+    "line-1-0596-0491-s012778": 12,
+    "line-1-0671-0574-s015306": 10,
+    "line-1-0748-0658-s017846": 5,
+    "line-2-0524-0761-s011308": 4,
+    "line-2-0526-0648-s009031": 8,
+    "line-2-0530-0506-s006158": 10,
+    "line-2-0532-0204-s000000": 5,
+    "line-2-0533-0350-s003013": 10,
+    "line-3-0616-0325-s014722": 5,
+    "line-3-0649-0410-s012713": 10,
+    "line-3-0682-0495-s010716": 12,
+    "line-3-0762-0700-s005895": 12,
+    "line-3-0868-0951-s000000": 6
   },
   "limitations": [
     "Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.",
@@ -1063,14 +891,15 @@
     "Returning trains hold at selected powered stations after service ends; no train is teleported back to its initial placement.",
     "Reference platform berths are an optimistic length/count comparison, not verified parking capacity; dedicated sidings and workshop bays receive no automatic credit.",
     "Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.",
-    "Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized."
+    "Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.",
+    "Distributed/hybrid candidate outputs do not replace the full-fleet depot requirement or qualify actual yard, access, charging or launch capacity."
   ],
-  "maximum_initial_trainsets_at_one_station": 8,
+  "maximum_initial_trainsets_at_one_station": 12,
   "native_hybrid_candidate": {
     "generation_passed": true,
     "local_path": "build/engineering/stabling/fallujah-hybrid.toml",
     "scope": "same-line home returns and separate depot storage; yard geometry unverified",
-    "sha256": "ca9a25f113dea785c0bec42869889215f766696b9b09a47ea7c1d75610b115cf"
+    "sha256": "c47769f1c9d6a8891f4eba8ac2ada30b58b37cd7e54295cf6762918c1bc3e5cf"
   },
   "open_gates": [
     "track-by-track capacity and platform/turnout access",
@@ -1082,7 +911,7 @@
   "passed": false,
   "policy": {
     "depot_role": "overnight stabling of remaining revenue trains and reserves, maintenance, inspection and defective trains",
-    "healthy_fleet_location": "two revenue trainsets per selected station; remaining fleet at storage on its own line",
+    "healthy_fleet_location": "full fleet in line-local depots; no station-stabling capacity credited",
     "holding_charge_power_kw_per_train": 150,
     "holding_target_soc": 0.95,
     "start_rule": "line service start, subject to energy, headway and movement-authority gates"
@@ -1107,178 +936,143 @@
     "allocation_model": "d200cd677ace21cfd843186055be6deec1db5576dba72c6304de66993c4b8ee6",
     "capacity_model": "d89fbd985e541465eeb0235494c6c8723c0dad879913024cd6e395a6df31ec38",
     "depot_policy": "d9a8772e27e1b83edcc589deae5555a8f23872d0684cbab97c85bb41941da525",
-    "design": "e945b312f69bf1d389b60d1fa052f9c80bda2abe747ad9b89cace98b1b76fd07",
-    "generator": "7b065fd6baa3e028b767a1aeb8b3c3188533de68fc0f16e370b035c1cd1760f1",
+    "design": "03fa8b5d2ecbca8257001408ccebca10b86f59fe3d5677800c1f56788216bf90",
+    "generator": "cf5c3d5ff2a1c96cd65c2df1ddb2dfed0965b2f8cce5b199f54fa1e263b0d304",
     "hybrid_model": "643919ae2628e693b0012b05a33bf10c2aecd947bc023f4684ccf145e81b8126",
-    "loader": "f2d52b06ae196738925aa7ce3372fe5dde7e654b0c9978b992c5adf178980fc9",
+    "loader": "c76bd18ee3f4fa396db5f48b6bf58809a9daffeede5b016d36280764d2f493ce",
     "rolling_stock_template": "970747dff38b566799ff497a66bd9eb8372b49e129a85f7cc21ed7ab74596bd6",
-    "scenario": "7e874f2163c523a8758c047761abcd5a8750440f9d788ef6c1542df9a5db6188",
+    "scenario": "6ff47fd30057908b873eb11998b71b287f50981992e561b9a95de8c18cc8fe9a",
     "schedule": "420ab2c9e4529d456bb38245e06055c4516ff7510f91b6c1aad015fee6292ef5",
     "simulator": "41dbc76f4e3d6f6e7df1c71ac4ba79a74361c57524912889c25cda7f64f95891",
     "station_template": "fdb0283a5c88e5527c4091fa61c8aa596c000facf9ef18d0c6bce3c0987574bd",
     "train_model": "866b0c613d3174919e999e8ebc0bf13573afe0eef650a75676751fb9590d43a9"
   },
   "station_capacity": {
-    "allocated_trainsets": 122,
+    "allocated_trainsets": 139,
     "available_depot_positions": 0,
-    "available_station_positions": 42,
+    "available_station_positions": 32,
     "depot_allocated_trainsets": 0,
     "depots": [],
-    "excess_allocated_trainsets": 80,
-    "fleet_trainsets": 122,
+    "excess_allocated_trainsets": 107,
+    "fleet_trainsets": 139,
     "inventory_complete": true,
-    "inventory_excess_trainsets": 80,
-    "over_capacity_station_count": 21,
+    "inventory_excess_trainsets": 107,
+    "over_capacity_station_count": 16,
     "passed": false,
     "scope": "Two trainsets per selected station plus explicitly allocated depot stabling; workshop bays are separate",
-    "selected_station_count": 21,
-    "station_allocated_trainsets": 122,
+    "selected_station_count": 16,
+    "station_allocated_trainsets": 139,
     "station_limit_trainsets": 2,
     "stations": [
       {
-        "allocated_trainsets": 4,
+        "allocated_trainsets": 6,
         "allowed_trainsets": 2,
-        "excess_trainsets": 2,
+        "excess_trainsets": 4,
         "passed": false,
         "station": "line-1-0297-0015-s000000"
       },
       {
-        "allocated_trainsets": 8,
+        "allocated_trainsets": 12,
         "allowed_trainsets": 2,
-        "excess_trainsets": 6,
+        "excess_trainsets": 10,
         "passed": false,
-        "station": "line-1-0415-0292-s006644"
+        "station": "line-1-0414-0292-s006740"
       },
       {
-        "allocated_trainsets": 7,
+        "allocated_trainsets": 12,
         "allowed_trainsets": 2,
-        "excess_trainsets": 5,
+        "excess_trainsets": 10,
         "passed": false,
-        "station": "line-1-0450-0414-s009650"
+        "station": "line-1-0504-0391-s009759"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 12,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 10,
         "passed": false,
-        "station": "line-1-0527-0439-s011625"
+        "station": "line-1-0596-0491-s012778"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 10,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 8,
         "passed": false,
-        "station": "line-1-0557-0512-s013619"
+        "station": "line-1-0671-0574-s015306"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 5,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 3,
         "passed": false,
-        "station": "line-1-0585-0569-s015667"
-      },
-      {
-        "allocated_trainsets": 6,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 4,
-        "passed": false,
-        "station": "line-1-0682-0603-s018667"
-      },
-      {
-        "allocated_trainsets": 3,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 1,
-        "passed": false,
-        "station": "line-1-0748-0658-s021003"
-      },
-      {
-        "allocated_trainsets": 8,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 6,
-        "passed": false,
-        "station": "line-2-0518-0325-s004272"
-      },
-      {
-        "allocated_trainsets": 3,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 1,
-        "passed": false,
-        "station": "line-2-0524-0761-s015752"
-      },
-      {
-        "allocated_trainsets": 6,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 4,
-        "passed": false,
-        "station": "line-2-0530-0627-s012867"
+        "station": "line-1-0748-0658-s017846"
       },
       {
         "allocated_trainsets": 4,
         "allowed_trainsets": 2,
         "excess_trainsets": 2,
+        "passed": false,
+        "station": "line-2-0524-0761-s011308"
+      },
+      {
+        "allocated_trainsets": 8,
+        "allowed_trainsets": 2,
+        "excess_trainsets": 6,
+        "passed": false,
+        "station": "line-2-0526-0648-s009031"
+      },
+      {
+        "allocated_trainsets": 10,
+        "allowed_trainsets": 2,
+        "excess_trainsets": 8,
+        "passed": false,
+        "station": "line-2-0530-0506-s006158"
+      },
+      {
+        "allocated_trainsets": 5,
+        "allowed_trainsets": 2,
+        "excess_trainsets": 3,
         "passed": false,
         "station": "line-2-0532-0204-s000000"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 10,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 8,
         "passed": false,
-        "station": "line-2-0557-0512-s009430"
+        "station": "line-2-0533-0350-s003013"
       },
       {
-        "allocated_trainsets": 8,
+        "allocated_trainsets": 5,
         "allowed_trainsets": 2,
-        "excess_trainsets": 6,
+        "excess_trainsets": 3,
         "passed": false,
-        "station": "line-2-0558-0422-s007275"
+        "station": "line-3-0616-0325-s014722"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 10,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 8,
         "passed": false,
-        "station": "line-3-0557-0512-s013751"
+        "station": "line-3-0649-0410-s012713"
       },
       {
-        "allocated_trainsets": 6,
+        "allocated_trainsets": 12,
         "allowed_trainsets": 2,
-        "excess_trainsets": 4,
+        "excess_trainsets": 10,
         "passed": false,
-        "station": "line-3-0605-0473-s015355"
+        "station": "line-3-0682-0495-s010716"
       },
       {
-        "allocated_trainsets": 8,
+        "allocated_trainsets": 12,
         "allowed_trainsets": 2,
-        "excess_trainsets": 6,
+        "excess_trainsets": 10,
         "passed": false,
-        "station": "line-3-0609-0652-s009332"
-      },
-      {
-        "allocated_trainsets": 3,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 1,
-        "passed": false,
-        "station": "line-3-0616-0325-s019023"
+        "station": "line-3-0762-0700-s005895"
       },
       {
         "allocated_trainsets": 6,
         "allowed_trainsets": 2,
         "excess_trainsets": 4,
-        "passed": false,
-        "station": "line-3-0622-0513-s012348"
-      },
-      {
-        "allocated_trainsets": 8,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 6,
-        "passed": false,
-        "station": "line-3-0736-0710-s006160"
-      },
-      {
-        "allocated_trainsets": 4,
-        "allowed_trainsets": 2,
-        "excess_trainsets": 2,
         "passed": false,
         "station": "line-3-0868-0951-s000000"
       }
@@ -1286,17 +1080,110 @@
   },
   "station_capacity_requirements": [
     {
-      "additional_usable_stabling_length_m": 119.0,
+      "additional_usable_stabling_length_m": 238.0,
       "longest_train_m": 49.5,
       "platform_length_m": 59.5,
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
-        "revenue": 3,
-        "spare": 1
+        "revenue": 6
       },
       "slot_length_with_clearance_m": 59.5,
       "station": "line-1-0297-0015-s000000",
+      "trainsets": 6,
+      "trainsets_beyond_reference_platform_berths": 4,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 595.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 10,
+        "spare": 2
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-1-0414-0292-s006740",
+      "trainsets": 12,
+      "trainsets_beyond_reference_platform_berths": 10,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 595.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 10,
+        "spare": 2
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-1-0504-0391-s009759",
+      "trainsets": 12,
+      "trainsets_beyond_reference_platform_berths": 10,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 595.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "cold_reserve": 1,
+        "revenue": 10,
+        "spare": 1
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-1-0596-0491-s012778",
+      "trainsets": 12,
+      "trainsets_beyond_reference_platform_berths": 10,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 476.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 10
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-1-0671-0574-s015306",
+      "trainsets": 10,
+      "trainsets_beyond_reference_platform_berths": 8,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 178.5,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 5
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-1-0748-0658-s017846",
+      "trainsets": 5,
+      "trainsets_beyond_reference_platform_berths": 3,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 119.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 4
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-2-0524-0761-s011308",
       "trainsets": 4,
       "trainsets_beyond_reference_platform_berths": 2,
       "verified_stabling_slots": null
@@ -1308,309 +1195,142 @@
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
-        "revenue": 6,
-        "spare": 2
+        "revenue": 8
       },
       "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0415-0292-s006644",
+      "station": "line-2-0526-0648-s009031",
       "trainsets": 8,
       "trainsets_beyond_reference_platform_berths": 6,
       "verified_stabling_slots": null
     },
     {
-      "additional_usable_stabling_length_m": 297.5,
+      "additional_usable_stabling_length_m": 476.0,
       "longest_train_m": 49.5,
       "platform_length_m": 59.5,
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
         "cold_reserve": 1,
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0450-0414-s009650",
-      "trainsets": 7,
-      "trainsets_beyond_reference_platform_berths": 5,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0527-0439-s011625",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 119.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 4,
-      "reference_platform_count": 4,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0557-0512-s013619",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 2,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0585-0569-s015667",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0682-0603-s018667",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 59.5,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 2,
+        "revenue": 8,
         "spare": 1
       },
       "slot_length_with_clearance_m": 59.5,
-      "station": "line-1-0748-0658-s021003",
-      "trainsets": 3,
-      "trainsets_beyond_reference_platform_berths": 1,
+      "station": "line-2-0530-0506-s006158",
+      "trainsets": 10,
+      "trainsets_beyond_reference_platform_berths": 8,
       "verified_stabling_slots": null
     },
     {
-      "additional_usable_stabling_length_m": 357.0,
+      "additional_usable_stabling_length_m": 178.5,
       "longest_train_m": 49.5,
       "platform_length_m": 59.5,
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
-        "revenue": 6,
-        "spare": 2
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-2-0518-0325-s004272",
-      "trainsets": 8,
-      "trainsets_beyond_reference_platform_berths": 6,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 59.5,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 3
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-2-0524-0761-s015752",
-      "trainsets": 3,
-      "trainsets_beyond_reference_platform_berths": 1,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-2-0530-0627-s012867",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 119.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 4
+        "revenue": 5
       },
       "slot_length_with_clearance_m": 59.5,
       "station": "line-2-0532-0204-s000000",
-      "trainsets": 4,
-      "trainsets_beyond_reference_platform_berths": 2,
+      "trainsets": 5,
+      "trainsets_beyond_reference_platform_berths": 3,
       "verified_stabling_slots": null
     },
     {
-      "additional_usable_stabling_length_m": 119.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 4,
-      "reference_platform_count": 4,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-2-0557-0512-s009430",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 2,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 357.0,
+      "additional_usable_stabling_length_m": 476.0,
       "longest_train_m": 49.5,
       "platform_length_m": 59.5,
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
-        "cold_reserve": 1,
-        "revenue": 6,
-        "spare": 1
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-2-0558-0422-s007275",
-      "trainsets": 8,
-      "trainsets_beyond_reference_platform_berths": 6,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 119.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 4,
-      "reference_platform_count": 4,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0557-0512-s013751",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 2,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0605-0473-s015355",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 357.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "cold_reserve": 1,
-        "revenue": 6,
-        "spare": 1
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0609-0652-s009332",
-      "trainsets": 8,
-      "trainsets_beyond_reference_platform_berths": 6,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 59.5,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 3
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0616-0325-s019023",
-      "trainsets": 3,
-      "trainsets_beyond_reference_platform_berths": 1,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 238.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6
-      },
-      "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0622-0513-s012348",
-      "trainsets": 6,
-      "trainsets_beyond_reference_platform_berths": 4,
-      "verified_stabling_slots": null
-    },
-    {
-      "additional_usable_stabling_length_m": 357.0,
-      "longest_train_m": 49.5,
-      "platform_length_m": 59.5,
-      "reference_platform_berths": 2,
-      "reference_platform_count": 2,
-      "service_roles": {
-        "revenue": 6,
+        "revenue": 8,
         "spare": 2
       },
       "slot_length_with_clearance_m": 59.5,
-      "station": "line-3-0736-0710-s006160",
-      "trainsets": 8,
-      "trainsets_beyond_reference_platform_berths": 6,
+      "station": "line-2-0533-0350-s003013",
+      "trainsets": 10,
+      "trainsets_beyond_reference_platform_berths": 8,
       "verified_stabling_slots": null
     },
     {
-      "additional_usable_stabling_length_m": 119.0,
+      "additional_usable_stabling_length_m": 178.5,
       "longest_train_m": 49.5,
       "platform_length_m": 59.5,
       "reference_platform_berths": 2,
       "reference_platform_count": 2,
       "service_roles": {
-        "revenue": 4
+        "revenue": 5
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-3-0616-0325-s014722",
+      "trainsets": 5,
+      "trainsets_beyond_reference_platform_berths": 3,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 476.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 10
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-3-0649-0410-s012713",
+      "trainsets": 10,
+      "trainsets_beyond_reference_platform_berths": 8,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 595.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "cold_reserve": 1,
+        "revenue": 10,
+        "spare": 1
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-3-0682-0495-s010716",
+      "trainsets": 12,
+      "trainsets_beyond_reference_platform_berths": 10,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 595.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 10,
+        "spare": 2
+      },
+      "slot_length_with_clearance_m": 59.5,
+      "station": "line-3-0762-0700-s005895",
+      "trainsets": 12,
+      "trainsets_beyond_reference_platform_berths": 10,
+      "verified_stabling_slots": null
+    },
+    {
+      "additional_usable_stabling_length_m": 238.0,
+      "longest_train_m": 49.5,
+      "platform_length_m": 59.5,
+      "reference_platform_berths": 2,
+      "reference_platform_count": 2,
+      "service_roles": {
+        "revenue": 5,
+        "spare": 1
       },
       "slot_length_with_clearance_m": 59.5,
       "station": "line-3-0868-0951-s000000",
-      "trainsets": 4,
-      "trainsets_beyond_reference_platform_berths": 2,
+      "trainsets": 6,
+      "trainsets_beyond_reference_platform_berths": 4,
       "verified_stabling_slots": null
     }
   ],
   "status": "operating-candidate-physical-allocation-open",
-  "trainsets_beyond_reference_platform_berths": 74
+  "trainsets_beyond_reference_platform_berths": 107
 }

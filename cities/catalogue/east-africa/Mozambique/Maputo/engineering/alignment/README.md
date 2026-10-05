@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`maputo-line1.aln.toml`](maputo-line1.aln.toml) | `line-1` | 24,332.5 m | 9 |
-| [`maputo-line2.aln.toml`](maputo-line2.aln.toml) | `line-2` | 21,663.5 m | 9 |
-| [`maputo-line3.aln.toml`](maputo-line3.aln.toml) | `line-3` | 21,916.7 m | 9 |
-| [`maputo-line4.aln.toml`](maputo-line4.aln.toml) | `line-4` | 27,543.0 m | 8 |
-| [`maputo-line5.aln.toml`](maputo-line5.aln.toml) | `line-5` | 21,926.3 m | 9 |
-| [`maputo-line6.aln.toml`](maputo-line6.aln.toml) | `line-6` | 57,046.5 m | 20 |
+| [`maputo-line1.aln.toml`](maputo-line1.aln.toml) | `line-1` | 21,501.4 m | 8 |
+| [`maputo-line2.aln.toml`](maputo-line2.aln.toml) | `line-2` | 20,380.6 m | 9 |
+| [`maputo-line3.aln.toml`](maputo-line3.aln.toml) | `line-3` | 19,495.5 m | 8 |
+| [`maputo-line4.aln.toml`](maputo-line4.aln.toml) | `line-4` | 27,379.2 m | 7 |
+| [`maputo-line5.aln.toml`](maputo-line5.aln.toml) | `line-5` | 17,898.1 m | 7 |
+| [`maputo-line6.aln.toml`](maputo-line6.aln.toml) | `line-6` | 51,504.1 m | 17 |
 
 ## Status
 

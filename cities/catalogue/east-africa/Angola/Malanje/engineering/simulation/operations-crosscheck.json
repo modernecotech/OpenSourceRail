@@ -5,8 +5,9 @@
   "passed": true,
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
-  "full_service_evidence_current": false,
-  "full_service_evidence_passed": false,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
   "reference_basis": "separately generated kinematic reference; not a service replay",
@@ -15,19 +16,19 @@
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 954.591,
-      "sumo_mean_trip_time_s": 919.5,
-      "delta_s": -35.091,
-      "delta_percent_of_osr": -3.676,
-      "tolerance_s": 143.189,
+      "osr_reference_trip_time_s": 789.818,
+      "sumo_mean_trip_time_s": 749.0,
+      "delta_s": -40.818,
+      "delta_percent_of_osr": -5.168,
+      "tolerance_s": 120.0,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 485.182,
-      "sumo_mean_trip_time_s": 458.5,
-      "delta_s": -26.682,
-      "delta_percent_of_osr": -5.499,
+      "osr_reference_trip_time_s": 423.364,
+      "sumo_mean_trip_time_s": 395.0,
+      "delta_s": -28.364,
+      "delta_percent_of_osr": -6.7,
       "tolerance_s": 120.0,
       "passed": true
     }
@@ -41,19 +42,23 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "1ba739fb3769688d683419dfbeb1afd81980b6c4151e600c1e7170a853b5efe3",
-    "sumo_summary_sha256": "d101ca079944505b6b8b84ead9f2703f2c846de7c96fce17c5154ddbdbdddab2",
-    "simulation_summary_sha256": "3f603eb60f5eb0adcb6177e0a70f69b2bf77855dc5e0ecb2b6e3815ee0eb452d",
-    "native_timing_reference_sha256": "c19642e899fcc30673fe4c84a3ff91a9a5cd617421c8761b7e8be39e1ff4f568"
+    "design_sha256": "a61e3ab8bda73fcc8b8f77b214d3b660542ddf62dac61c4fef7f4010d684a0e0",
+    "sumo_summary_sha256": "7e16fa28719b942cd8b7bdac0e443b98630d433a9ad2e378887b52f293b2b51a",
+    "simulation_summary_sha256": "6aa65a3904a984990d1c12d277c6a87a8752ecb148c0d1217346a18c915b586f",
+    "native_timing_reference_sha256": "1f24e65ac42f936adbed892b4d7c72f50fb0bcbf3d7236c0ae1e5969c2900bc4",
+    "ci_execution_sha256": "db5c444576389b77739427eaadf357cb8974e00898cfbc674d5e852e284632c6",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
   "generator": "engineering/analysis/operations_crosscheck.py",
-  "generator_sha256": "8074966b96deb6c176563bf7a0985cd964d21a894b8ce6cab77e7801a578b892",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
   "sources": {
     "design": "cities/catalogue/east-africa/Angola/Malanje/design.toml",
     "sumo_summary": "cities/catalogue/east-africa/Angola/Malanje/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/validation-summary.json",
-    "native_timing_reference": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/native-timing-reference.json"
+    "native_timing_reference": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },
   "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
   "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."

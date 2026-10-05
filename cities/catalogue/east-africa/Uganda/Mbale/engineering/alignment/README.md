@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mbale-line1.aln.toml`](mbale-line1.aln.toml) | `line-1` | 14,506.5 m | 6 |
-| [`mbale-line2.aln.toml`](mbale-line2.aln.toml) | `line-2` | 14,438.5 m | 4 |
-| [`mbale-line3.aln.toml`](mbale-line3.aln.toml) | `line-3` | 5,200.1 m | 3 |
+| [`mbale-line1.aln.toml`](mbale-line1.aln.toml) | `line-1` | 7,376.0 m | 4 |
+| [`mbale-line2.aln.toml`](mbale-line2.aln.toml) | `line-2` | 10,250.9 m | 4 |
+| [`mbale-line3.aln.toml`](mbale-line3.aln.toml) | `line-3` | 3,592.0 m | 2 |
 
 ## Status
 

@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`rajkot-line1.aln.toml`](rajkot-line1.aln.toml) | `line-1` | 25,394.4 m | 10 |
-| [`rajkot-line2.aln.toml`](rajkot-line2.aln.toml) | `line-2` | 14,517.4 m | 7 |
-| [`rajkot-line3.aln.toml`](rajkot-line3.aln.toml) | `line-3` | 14,835.1 m | 6 |
-| [`rajkot-line4.aln.toml`](rajkot-line4.aln.toml) | `line-4` | 23,709.1 m | 8 |
-| [`rajkot-line5.aln.toml`](rajkot-line5.aln.toml) | `line-5` | 55,407.1 m | 16 |
+| [`rajkot-line1.aln.toml`](rajkot-line1.aln.toml) | `line-1` | 21,095.4 m | 8 |
+| [`rajkot-line2.aln.toml`](rajkot-line2.aln.toml) | `line-2` | 12,106.9 m | 6 |
+| [`rajkot-line3.aln.toml`](rajkot-line3.aln.toml) | `line-3` | 12,749.1 m | 6 |
+| [`rajkot-line4.aln.toml`](rajkot-line4.aln.toml) | `line-4` | 21,778.9 m | 8 |
+| [`rajkot-line5.aln.toml`](rajkot-line5.aln.toml) | `line-5` | 50,567.6 m | 15 |
 
 ## Status
 

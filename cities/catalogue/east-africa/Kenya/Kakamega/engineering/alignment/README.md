@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kakamega-line1.aln.toml`](kakamega-line1.aln.toml) | `line-1` | 13,606.2 m | 5 |
-| [`kakamega-line2.aln.toml`](kakamega-line2.aln.toml) | `line-2` | 15,424.7 m | 7 |
-| [`kakamega-line3.aln.toml`](kakamega-line3.aln.toml) | `line-3` | 13,132.0 m | 5 |
+| [`kakamega-line1.aln.toml`](kakamega-line1.aln.toml) | `line-1` | 11,581.5 m | 4 |
+| [`kakamega-line2.aln.toml`](kakamega-line2.aln.toml) | `line-2` | 14,743.9 m | 6 |
+| [`kakamega-line3.aln.toml`](kakamega-line3.aln.toml) | `line-3` | 11,723.8 m | 4 |
 
 ## Status
 

@@ -318,7 +318,7 @@ and records which full task payloads are locally materialised. This closes the
 repository configuration/asset-coverage ambiguity; it does not turn simulation
 templates into commissioned physical mappings.
 
-Those packages now reuse all 9,097 catalogue switch identities for read-only
+Those packages now reuse all declared catalogue switch identities for read-only
 points condition views and derive one explicitly aggregate AFC view from each
 station. Native level-crossing evaluation and templates are present, but no city
 currently declares a crossing asset, so the audit creates none. FUXA/ERP expose

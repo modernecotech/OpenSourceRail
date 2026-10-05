@@ -6,6 +6,21 @@
 
 ## 1. Summary
 
+The current city catalogue adopts **one full-fleet planning depot per line**,
+sized to that line's complete stock and actual train length. Storage tracks and
+workload-sized maintenance bays are separate quantities. Depot PV/storage is
+priced once; property, access alignment, yard topology, installed quotations and
+morning launch capacity remain releases. The controlled generic quantities are
+in [`city-operating-scope.toml`](../../lib/templates/city-operating-scope.toml)
+and each city's `engineering/line-depots/summary.json`. Baghdad retains its
+dedicated revised scope and financing ledger.
+
+The distributed-stabling pattern below is retained as the earlier reference
+and simulation comparison. Its passenger-platform parking assumptions do not
+reduce the current full-fleet depot capital requirement.
+
+### 1.1 Retained distributed-stabling reference
+
 OpenSourceRail commits to **three depot archetypes** covering the
 full range of deployment sizes. Every deployment has exactly one
 **main depot** plus optional secondaries and layups. The main
@@ -95,6 +110,11 @@ access, equipment and staffing capacity.
 
 ## 4. Fleet-sizing formula
 
+**Historical distributed-stabling comparison.** The workshop and overnight
+allocation formulas below belong to the earlier reference. Current full-fleet
+line depots use the workload, storage and price controls linked in §1; the
+current Samawah quantities are generated in [RFC 0003](0003-samawah-reference-deployment.md).
+
 Workshop bays are sized for concurrent maintenance and inspection. Two revenue
 sets stable at each selected powered passenger station where fleet permits;
 remaining revenue trains and reserves use separate depot stabling tracks:
@@ -111,7 +131,7 @@ remaining revenue trains and reserves use separate depot stabling tracks:
 The two-train station provision is an overnight allocation constraint. Allocate
 remaining revenue trains and all reserves to same-line storage, preserving total
 fleet inventory. Depot storage positions and usable track lengths are sized
-separately from workshop bays. Samawah allocates 40 trains to stations and 68
+separately from workshop bays. The earlier Samawah comparison allocated 40 trains to stations and 68
 to storage on their own lines: 37 on Line 1, 16 on Line 2 and 15 on Line 3.
 These comprise 57 revenue, eight spare and three cold reserve trains. The
 storage requirement totals 4,046 m of usable slots at 59.5 m per train,
@@ -192,10 +212,12 @@ from the terminal depot. The main-heavy stall formula remains sized for
 maintenance, inspection, overhaul, spares, and growth rather than for
 parking every healthy set every night.
 
-Example (current generated Samawah output, 3-min peak headway):
+Historical Samawah comparison (September 2026, 3-min peak headway):
 
-- The authoritative generated summary is
-  [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../../cities/catalogue/west-asia/Iraq/Samawah/README.md).
+- The earlier figures are retained in the
+  [historical Samawah reference](../reference/history/samawah-pre-core-planning.md).
+  The [current city summary](../../cities/catalogue/west-asia/Iraq/Samawah/README.md)
+  adopts the full-fleet line-depot requirement.
 - The September 2026 design has fleets of 53, 28 and 27 trainsets: 108 total.
   The [depot reconciliation](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md)
   derives initial placements and slot-length requirements from the stored
@@ -427,9 +449,9 @@ defective-train routing, full-day energy duty and deployment acceptance remain o
 |---|---|---|
 | **v0** | This RFC ratified | — |
 | **v1** | Shared energy tier, BOM quantities and layout requirements reconciled (2026-09-09); full equipment placement and installed cost remain open | v0 |
-| **v2** | Current Rust emitter uses one main depot and powered-station stabling; legacy Python planner exception policy still needs alignment | v0, RFC 0010 v2 |
+| **v2** | Retained Rust seed and distributed-stabling studies; catalogue post-processing now prices one full-fleet depot per line | v0, RFC 0010 v2 |
 | **v3** ✅ | `osr-sim` turnaround-service state (clean / inspect / diagnostics / recharge), service countdown and event evidence (done 2026-08-12) | v2 |
-| **v4** | Generated site plan for the current Samawah depot and distributed stabling locations from `cities/catalogue/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
+| **v4** | Accepted site/access/topology plans for all current Samawah line depots, with separately verified launch and maintenance capacity | Current full-fleet scope, v3 |
 | **v5** | Reference depot CAD under CERN-OHL-S v2 | v4 |
 
 ## 11. Relationship to existing work

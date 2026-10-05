@@ -192,21 +192,26 @@ async function createLine(routing, firstIndex, secondIndex) {
   const previousSelection = await cdp.evaluate("selectedLine?.id || null");
   await cdp.evaluate(`document.querySelector('#line-routing').value = ${JSON.stringify(routing)}`);
   await click('[data-mode="line"]');
+  const created = cdp.page.waitForResponse(response =>
+    new URL(response.url()).pathname === "/api/lines"
+    && response.request().method() === "POST", { timeout: 90_000 });
   await cdp.evaluate(`(() => {
     const stations = view.snapshot.stations.filter(item => item.state !== 'retired');
     const chosen = [stations[${firstIndex} % stations.length], stations[${secondIndex} % stations.length]];
     const map = document.querySelector('#network-map');
-    const rect = map.getBoundingClientRect();
     for (const station of chosen) {
       const [x, y] = projection.point(station.lon, station.lat);
+      const screen = new DOMPoint(x, y).matrixTransform(map.getScreenCTM());
       map.dispatchEvent(new MouseEvent('click', {
         bubbles: true,
-        clientX: rect.left + x / 1000 * rect.width,
-        clientY: rect.top + y / 620 * rect.height,
+        clientX: screen.x,
+        clientY: screen.y,
       }));
     }
     return true;
   })()`);
+  const response = await created;
+  if (!response.ok()) throw new Error(`${routing} line API rejected the candidate: ${await response.text()}`);
   await cdp.wait(`view.snapshot.summary.manual_line_count > ${before}`, `${routing} line creation`, 90_000);
   await cdp.wait(`selectedLine?.state === 'manual' && selectedLine?.id !== ${JSON.stringify(previousSelection)}`, `${routing} line inspector`, 60_000);
   return await cdp.evaluate("selectedLine.id");
@@ -254,6 +259,10 @@ async function main() {
     .replace(/^slug = "samawah"$/m, `slug = "${slug}"`)
     .replace(/^tag_prefix = "city\/samawah\/design\/"$/m, `tag_prefix = "city/${slug}/design/"`);
   await writeFile(projectFile, project);
+  const baseDesign = await readFile(path.resolve(sourceProject,
+    project.match(/^base_design = "([^"]+)"$/m)[1]), "utf8");
+  const expectedStations = [...baseDesign.matchAll(/^\[\[stations\]\]\s*$/gm)].length;
+  const expectedLines = [...baseDesign.matchAll(/^\[\[lines\]\]\s*$/gm)].length;
 
   const cityPort = await freePort();
   cityProcess = await startCityStudio(cityPort);
@@ -268,7 +277,8 @@ async function main() {
     demandPeriods: view.snapshot.demand?.periods?.length || 0,
     findings: view.snapshot.findings.filter(item => item.severity === 'error').length,
   })`);
-  assert(baseline.stations >= 20 && baseline.lines >= 3, "initial network rendered", `${baseline.stations} stations, ${baseline.lines} lines`);
+  assert(expectedStations > 0 && baseline.stations === expectedStations && baseline.lines === expectedLines,
+    "initial network rendered", `${baseline.stations} stations, ${baseline.lines} lines match the controlled design`);
   assert(baseline.services >= baseline.lines * 3, "line/day service plans rendered", `${baseline.services} plans`);
   assert(baseline.demandPeriods >= 4, "source-controlled demand periods rendered", `${baseline.demandPeriods} periods`);
   assert(baseline.findings === 0, "baseline validation has no errors");

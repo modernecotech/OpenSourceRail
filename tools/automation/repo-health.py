@@ -841,7 +841,7 @@ def check_city_costs() -> list[Finding]:
             findings.append(Finding(design_path, "charging_microgrid_eur does not match station/depot charging microgrid total"))
 
         pre_epc = (
-            civil
+            int(costs.get("civil_subtotal_eur", 0))
             + int(costs.get("stations_eur", 0))
             + int(costs.get("depots_eur", 0))
             + int(costs.get("rolling_stock_eur", 0))
@@ -850,7 +850,9 @@ def check_city_costs() -> list[Finding]:
             + int(round(actual_charging))
         )
         expected_epc = round(pre_epc * EPC_OVERHEAD_FRAC)
-        expected_total = pre_epc + expected_epc
+        # Audit each published rounded subtotal once. Re-rounding the sum of
+        # separately rounded civil classes can add an artificial euro twice.
+        expected_total = pre_epc + int(costs.get("epc_overhead_eur", 0))
         if not _almost_equal(expected_epc, float(costs.get("epc_overhead_eur", 0))):
             findings.append(Finding(design_path, "epc_overhead_eur does not equal 7% of subtotal"))
         if not _almost_equal(expected_total, float(costs.get("total_eur", 0))):
@@ -2272,10 +2274,20 @@ def check_current_catalogue_scope() -> list[Finding]:
     return []
 
 
+def check_current_reference_rfc() -> list[Finding]:
+    validator=REPO_ROOT/'tools/automation/generate-reference-city-rfc.py'
+    completed=subprocess.run([sys.executable,str(validator),'--check'],cwd=REPO_ROOT,
+                             text=True,capture_output=True,check=False)
+    if completed.returncode:
+        return [Finding(validator,(completed.stdout+completed.stderr).strip())]
+    return []
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
     findings.extend(check_current_catalogue_scope())
+    findings.extend(check_current_reference_rfc())
     findings.extend(check_city_costs())
     findings.extend(check_procurement_origin())
     findings.extend(check_national_briefs())

@@ -3,7 +3,7 @@
 This page contains only Senegal-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$3.55 B (85.9%) of external capital** and **$4.45 B of external interest**. Capital plus saved interest totals **$8.00 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.51 B (88.2%) of external capital** and **$8.17 B of external interest**. Capital plus saved interest totals **$14.68 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Senegal-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 4,030,000 |
-| Trainsets / vehicle modules | 330 / 1,980 |
-| City infrastructure and fleet CAPEX | $2.17 B |
-| Shared national factory | $118.8 M |
-| Factory sizing basis | 1,980 modules for Dakar, then reused nationally |
-| **Total national programme** | **$2.30 B** |
+| Trainsets / vehicle modules | 284 / 1,704 |
+| City infrastructure and fleet CAPEX | $3.08 B |
+| Shared national factory | $960.1 M |
+| Factory sizing basis | 1,704 modules for Dakar, then reused nationally |
+| **Total national programme** | **$4.10 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $585.1 M (25.5%) |
-| Domestic / local capital | $1.71 B (74.5%) |
-| Annual external capital draw | $83.6 M / yr |
-| Annual local capital draw | $244.7 M / yr |
-| Annual public construction commitment | $191.7 M / yr for 7 years |
-| Annual post-grace debt service | $159.3 M / yr |
-| Default foreign-turnkey external capital | $4.14 B |
-| External capital saved | $3.55 B |
-| Capital + lifetime external interest saved | $8.00 B |
+| Imported / external capital | $869.8 M (21.2%) |
+| Domestic / local capital | $3.23 B (78.8%) |
+| Annual external capital draw | $124.3 M / yr |
+| Annual local capital draw | $461.8 M / yr |
+| Annual public construction commitment | $351.3 M / yr for 7 years |
+| Annual post-grace debt service | $286.9 M / yr |
+| Default foreign-turnkey external capital | $7.38 B |
+| External capital saved | $6.51 B |
+| Capital + lifetime external interest saved | $14.68 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $718.1 M | $107.7 M | $610.4 M |
-| Stations | $425.4 M | $85.1 M | $340.3 M |
-| Depots | $8.0 M | $2.0 M | $6.0 M |
-| Rolling stock | $554.4 M | $194.0 M | $360.4 M |
-| Dedicated solar plants | $297.2 M | $133.7 M | $163.5 M |
-| Residual train control | $11.1 M | $5.6 M | $5.6 M |
-| Charging microgrids | $33.9 M | $13.6 M | $20.3 M |
-| EPC / project services | $130.9 M | $19.6 M | $111.2 M |
-| Shared national trainset factory | $118.8 M | $23.8 M | $95.0 M |
-| **Total** | **$2.30 B** | **$585.1 M** | **$1.71 B** |
+| Civil works | $1.68 B | $251.9 M | $1.43 B |
+| Stations | $317.8 M | $63.6 M | $254.2 M |
+| Depots | $142.6 M | $35.6 M | $106.9 M |
+| Rolling stock | $477.1 M | $167.0 M | $310.1 M |
+| Dedicated solar plants | $235.9 M | $106.1 M | $129.7 M |
+| Residual train control | $9.7 M | $4.8 M | $4.8 M |
+| Charging microgrids | $27.0 M | $10.8 M | $16.2 M |
+| EPC / project services | $253.0 M | $37.9 M | $215.0 M |
+| Shared national trainset factory | $960.1 M | $192.0 M | $768.1 M |
+| **Total** | **$4.10 B** | **$869.8 M** | **$3.23 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Dakar](Dakar/README.md) | 4,030,000 | 330 | $2.17 B | $560.1 M | $1.61 B |
+| [Dakar](Dakar/README.md) | 4,030,000 | 284 | $3.08 B | $667.7 M | $2.41 B |
 
 ## Local Basis And Regeneration
 

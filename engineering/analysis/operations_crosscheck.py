@@ -96,6 +96,16 @@ def build_report(
         path.is_file() and simulation.get(field) == sha256(path)
         for field, path in service_bindings.items()
     )
+    service_evidence_basis='exact-local-executable' if service_evidence_current else 'stale-or-unbound'
+    ci_verifier=REPO_ROOT/'tools/automation/planning_ci_evidence.py'
+    ci_execution=simulation_path.with_name('ci-execution.json')
+    if not service_evidence_current and ci_execution.is_file():
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('operations_ci_evidence',ci_verifier)
+        verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
+        if verifier.current(design_path,simulation_path):
+            service_evidence_current=True
+            service_evidence_basis='source-bound-CI-executable'
     runs = simulation.get("runs", [])
     full_run = runs[0] if isinstance(runs, list) and runs and isinstance(runs[0], dict) else {}
     osr_times = pairs(full_run.get("per_line_reference_trip_time_s"))
@@ -149,6 +159,9 @@ def build_report(
     }
     if reference_path is not None:
         hashes["native_timing_reference_sha256"] = sha256(reference_path)
+    if ci_execution.is_file():
+        hashes['ci_execution_sha256']=sha256(ci_execution)
+        hashes['ci_verifier_sha256']=sha256(ci_verifier)
 
     junction_findings = ["independently reviewed junction-occupancy evidence not received"]
     junction_evidence_sha256 = None
@@ -202,6 +215,7 @@ def build_report(
         "status": status,
         "automatic_crosscheck_passed": automatic_passed,
         "full_service_evidence_current": service_evidence_current,
+        "full_service_evidence_basis": service_evidence_basis,
         "full_service_evidence_passed": service_evidence_current and simulation.get("passed") is True and simulation.get("resilience_required") is True and simulation.get("resilience_passed") is True,
         "line_scope_matches": line_scope_matches,
         "reference_findings": reference_findings,
@@ -222,6 +236,7 @@ def build_report(
             "sumo_summary": display_path(sumo_path),
             "simulation_summary": display_path(simulation_path),
             **({"native_timing_reference": display_path(reference_path)} if reference_path else {}),
+            **({'ci_execution':display_path(ci_execution),'ci_verifier':display_path(ci_verifier)} if ci_execution.is_file() else {}),
         },
         "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
         "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release.",
@@ -235,6 +250,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Status: **{report['status']}**",
         f"- Automatic running-time cross-check: **{'passed' if report['automatic_crosscheck_passed'] else 'failed'}**",
         f"- Retained full-service replay matches current inputs/tools: **{'yes' if report.get('full_service_evidence_current') else 'no'}**",
+        f"- Service execution basis: **{report.get('full_service_evidence_basis','unrecorded')}**",
         f"- Junction occupancy evidence: **{'passed' if report['junction_occupancy_passed'] else 'pending'}**",
         f"- Authority accepted: **{'yes' if report['authority_accepted'] else 'no'}**",
         "",

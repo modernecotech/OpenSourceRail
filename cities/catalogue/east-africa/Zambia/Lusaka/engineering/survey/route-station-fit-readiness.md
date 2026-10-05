@@ -2,7 +2,7 @@
 
 - Status: **awaiting-route-fit-evidence**
 - Lines: 8
-- Stations: 95
+- Stations: 81
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

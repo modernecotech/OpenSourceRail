@@ -10,22 +10,22 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 136 |
-| Manufacturing schedule rows | 597 |
-| Manufacturing material/BOM rows | 1,093 |
-| Manufacturing QA verification rows | 597 |
-| Construction QA action rows | 507 |
-| Maintenance handover schedule rows | 788 |
-| Manufacturing rows with material refs | 597 / 597 |
-| Manufacturing rows with verification refs | 597 / 597 |
-| Manufacturing rows linked to QA actions | 597 / 597 |
+| Assets in register | 128 |
+| Manufacturing schedule rows | 545 |
+| Manufacturing material/BOM rows | 1,057 |
+| Manufacturing QA verification rows | 545 |
+| Construction QA action rows | 462 |
+| Maintenance handover schedule rows | 711 |
+| Manufacturing rows with material refs | 545 / 545 |
+| Manufacturing rows with verification refs | 545 / 545 |
+| Manufacturing rows linked to QA actions | 545 / 545 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 1,093 |
+| `project_kit` | 1,057 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -36,16 +36,16 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 195 |
-| `qa-11-bogie-wheelset` | 65 |
-| `qa-12-traction-brake-battery` | 65 |
-| `qa-13-passenger-systems` | 65 |
-| `qa-15-first-article-trainset` | 65 |
+| `qa-10-carbody-structure` | 171 |
+| `qa-11-bogie-wheelset` | 57 |
+| `qa-12-traction-brake-battery` | 57 |
+| `qa-13-passenger-systems` | 57 |
+| `qa-15-first-article-trainset` | 57 |
 | `qa-20-survey-geotech` | 8 |
 | `qa-21-earthworks-drainage` | 8 |
-| `qa-22-trackform-rail` | 40 |
-| `qa-24-stations-depots-plant` | 24 |
-| `qa-25-power-energy` | 23 |
+| `qa-22-trackform-rail` | 38 |
+| `qa-24-stations-depots-plant` | 28 |
+| `qa-25-power-energy` | 25 |
 | `qa-26-wayside-comms-safety` | 38 |
 
 ## Acceptance Control Logic

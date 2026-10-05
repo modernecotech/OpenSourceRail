@@ -1,5 +1,7 @@
 # Engineering and delivery substance review — 2026-09-09
 
+**Historical design snapshot.** Fleet, route, station and distributed-stabling figures below describe the earlier controlled revision. The current [Samawah example](../cities/catalogue/west-asia/Iraq/Samawah/README.md) adopts the regenerated central alignment and full-fleet line depots. These earlier figures and operating experiments cannot release the new layout.
+
 This review follows the repository access, persistence and provenance repairs.
 It examines what the models actually demonstrate, rather than counting files,
 drawings, tests or completed solver runs. The drainage repairs and electrical

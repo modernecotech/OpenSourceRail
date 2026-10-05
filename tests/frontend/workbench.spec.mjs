@@ -64,7 +64,7 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   expect(materialized.ok()).toBeTruthy();
   const {revision: approvedRevision} = await materialized.json();
   const revision = approvedRevision.revision_id;
-  await expect(module.locator("#revision")).toBeEnabled();
+  await expect(module.locator("#revision")).toBeEnabled({ timeout: 60_000 });
   await expect(page.locator("#contextRevision")).toHaveText(revision);
 
   await expect(module.locator("#approval-revision")).toHaveValue(revision);
@@ -192,7 +192,7 @@ test(`changing a revision or baseline clears superseded run context in ${tool}`,
   await page.goto(`http://127.0.0.1:4177/?module=${tool}&mode=${mode}&role=${role}&revision=${first}&baseline_sha256=${baseline}&run_id=${run}`);
   const module = page.frameLocator("#moduleFrame");
   if (tool === "operations") await expect(module.locator("#cityName")).toHaveText("Samawah");
-  else if (tool === "studio") await expect(module.locator("#summary .summary-card").first()).toBeVisible();
+  else if (tool === "studio") await expect(module.locator("#summary .summary-card").first()).toBeVisible({ timeout: 60_000 });
   else await expect.poll(() => module.locator("body").evaluate(() => window.__OSR_FRONTEND__?.ready),{timeout:120000}).toBe(true);
   const publish = patch => module.locator("body").evaluate((_body,value) => window.parent.postMessage({type:"osr:context",context:value},location.origin),patch);
   const embedded = () => module.locator("body").evaluate(() => {

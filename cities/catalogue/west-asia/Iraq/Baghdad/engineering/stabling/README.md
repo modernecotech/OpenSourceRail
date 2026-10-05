@@ -4,6 +4,8 @@
 > **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
 <!-- END OSR CURRENT SCOPE CONTEXT -->
 
+The hybrid allocation below remains a planning candidate; physical release is open.
+
 Plan: **265 trainsets at stations + 497 at depots = 762 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **FAIL**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.

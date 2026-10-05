@@ -1,16 +1,22 @@
 slug: rajshahi
 pass: true
 metrics:
-  total_route_m: 42378.6
+  total_route_m: 31763.5
   n_lines: 3
-  n_stations: 18
-  anchor_hit_rate: 0.556
-  high_demand_coverage: 0.661
+  n_stations: 14
+  anchor_hit_rate: 0.714
+  high_demand_coverage: 0.509
   civil_mix_m:
-    at_grade: 38575.9
-    elevated: 3802.7
-    bridge:   0.0
-  elevated_fraction: 0.090
+    at_grade: 4900.3
+    elevated: 25119.5
+    bridge:   1743.7
+  elevated_fraction: 0.846
+  viaduct_products_m:
+    osr_pi20_pi25: 25119.5
+    osr_us:      0.0
+    special:     1743.7
+    realign:     0.0
+  max_elevated_cost_multiplier: 1.000
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: true
+    soft_pass_all:      false

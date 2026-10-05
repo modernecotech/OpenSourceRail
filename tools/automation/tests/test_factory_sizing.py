@@ -112,3 +112,16 @@ def test_independent_test_paths_are_sized_and_fully_priced_for_shorter_civil_win
     assert plan['test_tracks']<=c['factory']['maximum_test_tracks']
     assert plan['exclusive_test_path_capacity_trainsets_per_year']>=plan['minimum_steady_output_trainsets_per_year']
     assert plan['cost_allowances_usd']['test_tracks']==pytest.approx(plan['test_tracks']*c['factory']['test_track_length_m']/1000*c['cost_envelope']['test_track_allowance_usd_km'])
+
+def test_generic_opening_waits_for_the_physical_test_path_limit():
+    rows=tasks();c=assumptions();c['factory']['maximum_test_tracks']=2;c['factory']['exclusive_track_hours_per_trainset']=100
+    for row in rows:
+        if row['asset_type']=='track-section':row['duration_days']=500
+    p=size_factory(rows,{},c,allow_civil_delay=True)
+    assert p['test_tracks']<=2
+    assert p['factory_ready_working_day']==390
+    assert p['test_path_limited_integrated_delay']
+    assert p['original_infrastructure_target_working_day']==499
+    assert p['stock_finish_working_day']<=p['integrated_target_working_day']
+    assert p['integrated_target_working_day']>p['original_infrastructure_target_working_day']
+    assert p['minimum_steady_output_trainsets_per_year']<=p['exclusive_test_path_capacity_trainsets_per_year']

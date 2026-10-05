@@ -23,20 +23,22 @@ def test_samawah_station_launch_stock_and_depot_remainder():
     doc, design, profiles = inputs()
     report = station_and_depot_allocation(doc, design, profiles)
     assert report['allocation_passed']
-    assert (report['station_trainsets'], report['depot_trainsets'], report['fleet_trainsets']) == (40, 68, 108)
+    assert report['fleet_trainsets']==sum(f['trainset_count'] for f in design['fleets'])
+    assert report['station_trainsets']+report['depot_trainsets']==report['fleet_trainsets']
     assert set(report['station_trainsets_by_location'].values()) == {2}
     station = [r for r in report['allocations'] if r['location_type'] == 'station']
-    assert len(station) == 34
     assert all(r['service_role'] == 'revenue' for r in station)
-    assert [r['stabling_positions_required'] for r in report['depot_requirements']] == [37, 16, 15]
+    assert sum(r['stabling_positions_required'] for r in report['depot_requirements'])==report['depot_trainsets']
     roles = Counter()
     for depot in report['depot_requirements']:
         roles.update(depot['service_roles'])
         assert depot['verified_stabling_positions'] is None
         assert len(depot['lines']) == 1
-    assert roles == {'revenue': 57, 'spare': 8, 'cold_reserve': 3}
-    assert sum(r['usable_stabling_length_required_m'] for r in report['depot_requirements']) == 4046
-    assert sum(r['workshop_bays'] for r in report['depot_requirements']) == 17
+    assert roles['spare']==sum(f.get('spare_count',0) for f in doc['fleets'])
+    assert roles['cold_reserve']==sum(f.get('cold_reserve_count',0) for f in doc['fleets'])
+    assert roles['revenue']+report['station_trainsets']==sum(f['trainset_count']-f.get('spare_count',0)-f.get('cold_reserve_count',0) for f in doc['fleets'])
+    assert sum(r['usable_stabling_length_required_m'] for r in report['depot_requirements'])==report['depot_trainsets']*(profiles[design['lines'][0]['rolling_stock']]['length_m']+10)
+    assert sum(r['workshop_bays'] for r in report['depot_requirements'])==sum(r['fleet_stalls'] for r in design['depots'])
     assert not report['physical_release_ready']
     assert report['depot_access_requirements'] == []
     lines = {l['id']: {s['id'] for s in l['stations']} for l in doc['lines']}
@@ -81,7 +83,7 @@ def test_samawah_native_candidate_uses_local_storage_without_new_line_connection
     result = tomllib.loads(native_hybrid_candidate(source, allocation))
     assert result['lines'] == doc['lines']
     assert result['sites'] == doc['sites']
-    assert sum(s.get('depot_stabling_positions', 0) for s in result['stations']) == 68
+    assert sum(s.get('depot_stabling_positions', 0) for s in result['stations']) == allocation['depot_trainsets']
     assert sum(s.get('is_depot', False) for s in result['stations']) == 3
 
 

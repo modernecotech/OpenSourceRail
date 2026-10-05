@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`homs-line1.aln.toml`](homs-line1.aln.toml) | `line-1` | 13,401.4 m | 7 |
-| [`homs-line2.aln.toml`](homs-line2.aln.toml) | `line-2` | 11,759.9 m | 6 |
-| [`homs-line3.aln.toml`](homs-line3.aln.toml) | `line-3` | 14,802.9 m | 5 |
+| [`homs-line1.aln.toml`](homs-line1.aln.toml) | `line-1` | 10,103.1 m | 5 |
+| [`homs-line2.aln.toml`](homs-line2.aln.toml) | `line-2` | 10,669.4 m | 5 |
+| [`homs-line3.aln.toml`](homs-line3.aln.toml) | `line-3` | 12,511.3 m | 5 |
 
 ## Status
 

@@ -1,46 +1,42 @@
 # Station and depot overnight allocation
 
-Plan: **26 trainsets at stations + 45 at depots = 71 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
+The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.
+
+Plan: **20 trainsets at stations + 27 at depots = 47 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
-| line-1-0176-0341-s014506 | line-1 | declared-depot | 18 | 882.0 | 11 |
-| line-2-0513-0369-s014439 | line-2 | storage-at-existing-powered-service-point | 20 | 980.0 | 0 |
-| line-3-0290-0295-s005200 | line-3 | storage-at-existing-powered-service-point | 7 | 343.0 | 0 |
+| line-1-0539-0355-s000000 | line-1 | declared-depot | 9 | 441.0 | 3 |
+| line-2-0513-0369-s010251 | line-2 | declared-depot | 13 | 637.0 | 3 |
+| line-3-0318-0463-s000000 | line-3 | declared-depot | 5 | 245.0 | 2 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
-| line-1 | line-1-0176-0341-s014506 | station | reverse | revenue | 2 |
-| line-1 | line-1-0255-0370-s011994 | station | forward | revenue | 1 |
-| line-1 | line-1-0255-0370-s011994 | station | reverse | revenue | 1 |
-| line-1 | line-1-0307-0259-s007546 | station | forward | revenue | 1 |
-| line-1 | line-1-0307-0259-s007546 | station | reverse | revenue | 1 |
-| line-1 | line-1-0331-0344-s009495 | station | forward | revenue | 1 |
-| line-1 | line-1-0331-0344-s009495 | station | reverse | revenue | 1 |
-| line-1 | line-1-0432-0333-s003009 | station | forward | revenue | 1 |
-| line-1 | line-1-0432-0333-s003009 | station | reverse | revenue | 1 |
+| line-1 | line-1-0176-0341-s007376 | station | reverse | revenue | 2 |
+| line-1 | line-1-0312-0346-s004615 | station | forward | revenue | 1 |
+| line-1 | line-1-0312-0346-s004615 | station | reverse | revenue | 1 |
+| line-1 | line-1-0371-0349-s003410 | station | forward | revenue | 1 |
+| line-1 | line-1-0371-0349-s003410 | station | reverse | revenue | 1 |
 | line-1 | line-1-0539-0355-s000000 | station | forward | revenue | 2 |
 | line-2 | line-2-0075-0508-s000000 | station | forward | revenue | 2 |
-| line-2 | line-2-0264-0427-s005234 | station | forward | revenue | 1 |
-| line-2 | line-2-0264-0427-s005234 | station | reverse | revenue | 1 |
-| line-2 | line-2-0362-0447-s008254 | station | forward | revenue | 1 |
-| line-2 | line-2-0362-0447-s008254 | station | reverse | revenue | 1 |
-| line-2 | line-2-0513-0369-s014439 | station | reverse | revenue | 2 |
-| line-3 | line-3-0290-0295-s005200 | station | reverse | revenue | 2 |
+| line-2 | line-2-0302-0455-s005248 | station | forward | revenue | 1 |
+| line-2 | line-2-0302-0455-s005248 | station | reverse | revenue | 1 |
+| line-2 | line-2-0409-0411-s007753 | station | forward | revenue | 1 |
+| line-2 | line-2-0409-0411-s007753 | station | reverse | revenue | 1 |
+| line-2 | line-2-0513-0369-s010251 | station | reverse | revenue | 2 |
+| line-3 | line-3-0290-0295-s003592 | station | reverse | revenue | 2 |
 | line-3 | line-3-0318-0463-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0369-0375-s002512 | station | forward | revenue | 1 |
-| line-3 | line-3-0369-0375-s002512 | station | reverse | revenue | 1 |
-| line-1 | line-1-0176-0341-s014506 | depot | — | revenue | 15 |
-| line-1 | line-1-0176-0341-s014506 | depot | — | spare | 2 |
-| line-1 | line-1-0176-0341-s014506 | depot | — | cold_reserve | 1 |
-| line-2 | line-2-0513-0369-s014439 | depot | — | revenue | 17 |
-| line-2 | line-2-0513-0369-s014439 | depot | — | spare | 2 |
-| line-2 | line-2-0513-0369-s014439 | depot | — | cold_reserve | 1 |
-| line-3 | line-3-0290-0295-s005200 | depot | — | revenue | 5 |
-| line-3 | line-3-0290-0295-s005200 | depot | — | spare | 1 |
-| line-3 | line-3-0290-0295-s005200 | depot | — | cold_reserve | 1 |
+| line-1 | line-1-0539-0355-s000000 | depot | — | revenue | 7 |
+| line-1 | line-1-0539-0355-s000000 | depot | — | spare | 1 |
+| line-1 | line-1-0539-0355-s000000 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0513-0369-s010251 | depot | — | revenue | 11 |
+| line-2 | line-2-0513-0369-s010251 | depot | — | spare | 1 |
+| line-2 | line-2-0513-0369-s010251 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-0318-0463-s000000 | depot | — | revenue | 3 |
+| line-3 | line-3-0318-0463-s000000 | depot | — | spare | 1 |
+| line-3 | line-3-0318-0463-s000000 | depot | — | cold_reserve | 1 |
 
 Native hybrid candidate: `build/engineering/stabling/mbale-hybrid.toml`; generation only, operating validation pending.
 
@@ -49,64 +45,53 @@ Native hybrid candidate: `build/engineering/stabling/mbale-hybrid.toml`; generat
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
-Operating allocation: **71 trainsets at 13 stations**; largest initial station queue **10**. Physical release: **open**.
+Operating allocation: **47 trainsets at 10 stations**; largest initial station queue **8**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-Fleet roles: **63 revenue, 5 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
+Fleet roles: **41 revenue, 3 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
 
-Two-train station-capacity check: **FAIL**. Selected stations provide **26 positions**; **45 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **13 stations**. Four-berth reference platforms do not override the two-train provision.
+Two-train station-capacity check: **FAIL**. Selected stations provide **20 positions**; **27 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **9 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
 | line-1 | line-1-0539-0355-s000000 | forward | revenue | 3 | pending |
-| line-1 | line-1-0432-0333-s003009 | forward | revenue | 3 | pending |
-| line-1 | line-1-0432-0333-s003009 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0307-0259-s007546 | forward | revenue | 3 | pending |
-| line-1 | line-1-0307-0259-s007546 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0331-0344-s009495 | forward | revenue | 3 | pending |
-| line-1 | line-1-0331-0344-s009495 | reverse | revenue | 3 | pending |
-| line-1 | line-1-0255-0370-s011994 | forward | revenue | 2 | pending |
-| line-1 | line-1-0255-0370-s011994 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0176-0341-s014506 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0255-0370-s011994 | forward | spare | 1 | pending |
-| line-1 | line-1-0255-0370-s011994 | reverse | spare | 1 | pending |
-| line-1 | line-1-0176-0341-s014506 | reverse | cold_reserve | 1 | pending |
-| line-2 | line-2-0075-0508-s000000 | forward | revenue | 5 | pending |
-| line-2 | line-2-0264-0427-s005234 | forward | revenue | 4 | pending |
-| line-2 | line-2-0264-0427-s005234 | reverse | revenue | 4 | pending |
-| line-2 | line-2-0362-0447-s008254 | forward | revenue | 4 | pending |
-| line-2 | line-2-0362-0447-s008254 | reverse | revenue | 4 | pending |
-| line-2 | line-2-0513-0369-s014439 | reverse | revenue | 4 | pending |
-| line-2 | line-2-0264-0427-s005234 | forward | spare | 1 | pending |
-| line-2 | line-2-0264-0427-s005234 | reverse | spare | 1 | pending |
-| line-2 | line-2-0362-0447-s008254 | forward | cold_reserve | 1 | pending |
-| line-3 | line-3-0318-0463-s000000 | forward | revenue | 3 | pending |
-| line-3 | line-3-0369-0375-s002512 | forward | revenue | 3 | pending |
-| line-3 | line-3-0369-0375-s002512 | reverse | revenue | 3 | pending |
-| line-3 | line-3-0290-0295-s005200 | reverse | revenue | 2 | pending |
-| line-3 | line-3-0290-0295-s005200 | reverse | spare | 1 | pending |
+| line-1 | line-1-0371-0349-s003410 | forward | revenue | 3 | pending |
+| line-1 | line-1-0371-0349-s003410 | reverse | revenue | 3 | pending |
+| line-1 | line-1-0312-0346-s004615 | forward | revenue | 2 | pending |
+| line-1 | line-1-0312-0346-s004615 | reverse | revenue | 2 | pending |
+| line-1 | line-1-0176-0341-s007376 | reverse | revenue | 2 | pending |
+| line-1 | line-1-0312-0346-s004615 | forward | spare | 1 | pending |
+| line-1 | line-1-0312-0346-s004615 | reverse | cold_reserve | 1 | pending |
+| line-2 | line-2-0075-0508-s000000 | forward | revenue | 4 | pending |
+| line-2 | line-2-0302-0455-s005248 | forward | revenue | 3 | pending |
+| line-2 | line-2-0302-0455-s005248 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0409-0411-s007753 | forward | revenue | 3 | pending |
+| line-2 | line-2-0409-0411-s007753 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0513-0369-s010251 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0302-0455-s005248 | forward | spare | 1 | pending |
+| line-2 | line-2-0302-0455-s005248 | reverse | cold_reserve | 1 | pending |
+| line-3 | line-3-0318-0463-s000000 | forward | revenue | 4 | pending |
+| line-3 | line-3-0290-0295-s003592 | reverse | revenue | 3 | pending |
+| line-3 | line-3-0290-0295-s003592 | reverse | spare | 1 | pending |
 | line-3 | line-3-0318-0463-s000000 | forward | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
 
-**45 trainsets exceed the reference platform envelope**, requiring **2,205.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**25 trainsets exceed the reference platform envelope**, requiring **1,225.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
-| line-1-0176-0341-s014506 | 3 | 2 | 1 | 49.0 |
-| line-1-0255-0370-s011994 | 6 | 2 | 4 | 196.0 |
-| line-1-0307-0259-s007546 | 6 | 2 | 4 | 196.0 |
-| line-1-0331-0344-s009495 | 6 | 2 | 4 | 196.0 |
-| line-1-0432-0333-s003009 | 6 | 2 | 4 | 196.0 |
+| line-1-0176-0341-s007376 | 2 | 2 | 0 | 0.0 |
+| line-1-0312-0346-s004615 | 6 | 2 | 4 | 196.0 |
+| line-1-0371-0349-s003410 | 6 | 2 | 4 | 196.0 |
 | line-1-0539-0355-s000000 | 3 | 2 | 1 | 49.0 |
-| line-2-0075-0508-s000000 | 5 | 2 | 3 | 147.0 |
-| line-2-0264-0427-s005234 | 10 | 2 | 8 | 392.0 |
-| line-2-0362-0447-s008254 | 9 | 2 | 7 | 343.0 |
-| line-2-0513-0369-s014439 | 4 | 2 | 2 | 98.0 |
-| line-3-0290-0295-s005200 | 3 | 2 | 1 | 49.0 |
-| line-3-0318-0463-s000000 | 4 | 2 | 2 | 98.0 |
-| line-3-0369-0375-s002512 | 6 | 2 | 4 | 196.0 |
+| line-2-0075-0508-s000000 | 4 | 2 | 2 | 98.0 |
+| line-2-0302-0455-s005248 | 8 | 4 | 4 | 196.0 |
+| line-2-0409-0411-s007753 | 6 | 2 | 4 | 196.0 |
+| line-2-0513-0369-s010251 | 3 | 2 | 1 | 49.0 |
+| line-3-0290-0295-s003592 | 4 | 2 | 2 | 98.0 |
+| line-3-0318-0463-s000000 | 5 | 2 | 3 | 147.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
 - Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.
@@ -114,6 +99,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **26 posit
 - Reference platform berths are an optimistic length/count comparison, not verified parking capacity; dedicated sidings and workshop bays receive no automatic credit.
 - Station berths, crossovers and shared junction conflicts are outside the simplified interstation movement-authority graph.
 - Existing depot/station energy quantities and service schedules are preserved, not accepted as correctly sized.
+- Distributed/hybrid candidate outputs do not replace the full-fleet depot requirement or qualify actual yard, access, charging or launch capacity.
 
 Regenerate this report and its local runnable scenario with:
 

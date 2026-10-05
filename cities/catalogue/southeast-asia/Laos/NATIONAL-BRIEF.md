@@ -3,7 +3,7 @@
 This page contains only Laos-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$954.4 M (86.2%) of external capital** and **$1.20 B of external interest**. Capital plus saved interest totals **$2.15 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$2.51 B (88.6%) of external capital** and **$3.15 B of external interest**. Capital plus saved interest totals **$5.66 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Laos-specific aggregation. Shared network, service, ener
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 948,000 |
-| Trainsets / vehicle modules | 155 / 465 |
-| City infrastructure and fleet CAPEX | $585.0 M |
-| Shared national factory | $27.9 M |
-| Factory sizing basis | 465 modules for Vientiane, then reused nationally |
-| **Total national programme** | **$614.8 M** |
+| Trainsets / vehicle modules | 186 / 558 |
+| City infrastructure and fleet CAPEX | $983.6 M |
+| Shared national factory | $554.0 M |
+| Factory sizing basis | 558 modules for Vientiane, then reused nationally |
+| **Total national programme** | **$1.58 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $152.3 M (24.8%) |
-| Domestic / local capital | $462.6 M (75.2%) |
-| Annual external capital draw | $21.8 M / yr |
-| Annual local capital draw | $66.1 M / yr |
-| Annual public construction commitment | $58.9 M / yr for 7 years |
-| Annual post-grace debt service | $49.3 M / yr |
-| Default foreign-turnkey external capital | $1.11 B |
-| External capital saved | $954.4 M |
-| Capital + lifetime external interest saved | $2.15 B |
+| Imported / external capital | $324.8 M (20.6%) |
+| Domestic / local capital | $1.25 B (79.4%) |
+| Annual external capital draw | $46.4 M / yr |
+| Annual local capital draw | $178.8 M / yr |
+| Annual public construction commitment | $155.5 M / yr for 7 years |
+| Annual post-grace debt service | $128.3 M / yr |
+| Default foreign-turnkey external capital | $2.84 B |
+| External capital saved | $2.51 B |
+| Capital + lifetime external interest saved | $5.66 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $210.5 M | $31.6 M | $178.9 M |
-| Stations | $112.6 M | $22.5 M | $90.1 M |
-| Depots | $8.0 M | $2.0 M | $6.0 M |
-| Rolling stock | $139.5 M | $48.8 M | $90.7 M |
-| Dedicated solar plants | $74.4 M | $33.5 M | $40.9 M |
-| Residual train control | $3.7 M | $1.9 M | $1.9 M |
-| Charging microgrids | $2.8 M | $1.1 M | $1.7 M |
-| EPC / project services | $35.4 M | $5.3 M | $30.1 M |
-| Shared national trainset factory | $27.9 M | $5.6 M | $22.3 M |
-| **Total** | **$614.8 M** | **$152.3 M** | **$462.6 M** |
+| Civil works | $559.5 M | $83.9 M | $475.5 M |
+| Stations | $76.1 M | $15.2 M | $60.9 M |
+| Depots | $62.9 M | $15.7 M | $47.1 M |
+| Rolling stock | $167.4 M | $58.6 M | $108.8 M |
+| Dedicated solar plants | $51.6 M | $23.2 M | $28.4 M |
+| Residual train control | $3.0 M | $1.5 M | $1.5 M |
+| Charging microgrids | $2.1 M | $860 k | $1.3 M |
+| EPC / project services | $99.8 M | $15.0 M | $84.8 M |
+| Shared national trainset factory | $554.0 M | $110.8 M | $443.2 M |
+| **Total** | **$1.58 B** | **$324.8 M** | **$1.25 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Vientiane](Vientiane/README.md) | 948,000 | 155 | $585.0 M | $146.4 M | $438.6 M |
+| [Vientiane](Vientiane/README.md) | 948,000 | 186 | $983.6 M | $208.2 M | $775.4 M |
 
 ## Local Basis And Regeneration
 

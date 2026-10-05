@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ranchi-line1.aln.toml`](ranchi-line1.aln.toml) | `line-1` | 35,590.9 m | 14 |
-| [`ranchi-line2.aln.toml`](ranchi-line2.aln.toml) | `line-2` | 26,562.3 m | 10 |
-| [`ranchi-line3.aln.toml`](ranchi-line3.aln.toml) | `line-3` | 22,881.7 m | 9 |
-| [`ranchi-line4.aln.toml`](ranchi-line4.aln.toml) | `line-4` | 30,202.0 m | 11 |
-| [`ranchi-line5.aln.toml`](ranchi-line5.aln.toml) | `line-5` | 27,069.2 m | 11 |
-| [`ranchi-line6.aln.toml`](ranchi-line6.aln.toml) | `line-6` | 79,190.6 m | 22 |
+| [`ranchi-line1.aln.toml`](ranchi-line1.aln.toml) | `line-1` | 31,737.8 m | 12 |
+| [`ranchi-line2.aln.toml`](ranchi-line2.aln.toml) | `line-2` | 23,242.6 m | 9 |
+| [`ranchi-line3.aln.toml`](ranchi-line3.aln.toml) | `line-3` | 21,408.1 m | 8 |
+| [`ranchi-line4.aln.toml`](ranchi-line4.aln.toml) | `line-4` | 26,888.0 m | 9 |
+| [`ranchi-line5.aln.toml`](ranchi-line5.aln.toml) | `line-5` | 25,014.3 m | 10 |
+| [`ranchi-line6.aln.toml`](ranchi-line6.aln.toml) | `line-6` | 73,475.8 m | 21 |
 
 ## Status
 

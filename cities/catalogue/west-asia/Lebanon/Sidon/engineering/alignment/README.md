@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sidon-line1.aln.toml`](sidon-line1.aln.toml) | `line-1` | 15,039.0 m | 6 |
-| [`sidon-line2.aln.toml`](sidon-line2.aln.toml) | `line-2` | 9,802.9 m | 5 |
-| [`sidon-line3.aln.toml`](sidon-line3.aln.toml) | `line-3` | 12,916.3 m | 5 |
+| [`sidon-line1.aln.toml`](sidon-line1.aln.toml) | `line-1` | 12,781.8 m | 4 |
+| [`sidon-line2.aln.toml`](sidon-line2.aln.toml) | `line-2` | 3,588.2 m | 2 |
+| [`sidon-line3.aln.toml`](sidon-line3.aln.toml) | `line-3` | 9,071.8 m | 4 |
 
 ## Status
 

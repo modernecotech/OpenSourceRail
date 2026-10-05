@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kananga-line1.aln.toml`](kananga-line1.aln.toml) | `line-1` | 15,879.4 m | 6 |
-| [`kananga-line2.aln.toml`](kananga-line2.aln.toml) | `line-2` | 22,231.2 m | 8 |
+| [`kananga-line1.aln.toml`](kananga-line1.aln.toml) | `line-1` | 13,190.5 m | 5 |
+| [`kananga-line2.aln.toml`](kananga-line2.aln.toml) | `line-2` | 21,521.8 m | 8 |
 
 ## Status
 

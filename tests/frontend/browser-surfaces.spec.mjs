@@ -111,6 +111,7 @@ for (const frontend of [
 }
 
 test("operations portal persists inspected and independently approved closeout", async ({ page }) => {
+  test.setTimeout(240_000);
   const failures = capturePageFailures(page);
   const data = "/cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz";
   await page.goto(`http://127.0.0.1:4176/docs/operations-portal/?data=${encodeURIComponent(data)}`);

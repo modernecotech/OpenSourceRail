@@ -33,6 +33,7 @@ def main() -> int:
     public_rows: list[str] = []
     comparison_rows: list[str] = []
     complete_packages = 0
+    planning_packages = 0
     energy_passes = 0
     energy_failed_sites = 0
     stale_packages = 0
@@ -42,6 +43,8 @@ def main() -> int:
         manifest = json.loads(manifest_path.read_text()) if manifest_path.is_file() else {}
         if manifest.get("passed") is True:
             complete_packages += 1
+        planning_packages += manifest.get('planning_example_complete') is True
+        package_label='screening complete' if manifest.get('passed') else 'planning complete; acceptance open' if manifest.get('planning_example_complete') else 'incomplete'
         stale_count = len(manifest.get("stale_analysis_sources", []))
         stale_packages += stale_count > 0
         energy_path = design_path.parent / "engineering/energy/summary.json"
@@ -60,14 +63,15 @@ def main() -> int:
         relative = design_path.parent.relative_to(DESIGNS)
         slug = str(city.get("slug", design_path.parent.name.lower().replace(" ", "-")))
         target = relative.as_posix() + "/"
+        depot_report='engineering/delivery-baseline/DEPOT-PACKAGE.md' if slug=='baghdad' else 'engineering/line-depots/README.md'
         row = (
             f"| [{city.get('name', design_path.parent.name)}]({target}) "
             f"| `{family}` | {len(lines)} | {len(design.get('stations', []))} | "
             f"{route_km:.1f} | {sum(int(item.get('trainset_count', 0)) for item in fleets)} "
             f"| {_coverage(design_path.parent):.0%} "
             f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
-            f"| [{'complete' if manifest.get('passed') else 'incomplete'}; {stale_count} stale sources]({target}package-manifest.json) |"
-            f" [energy scope]({target}engineering/depot-scope/README.md); [station stabling]({target}engineering/stabling/README.md) |"
+            f"| [{package_label}; {stale_count} stale sources]({target}package-manifest.json) |"
+            f" [full-fleet depot planning]({target}{depot_report}); [station-stabling diagnostic]({target}engineering/stabling/README.md) |"
         )
         if relative.parts[0] == "europe":
             comparison_rows.append(row)
@@ -147,7 +151,8 @@ def main() -> int:
         "",
         "## Validation status",
         "",
-        f"Current full-package manifests: **{complete_packages} complete and {len(actual) - complete_packages} incomplete**.",
+        f"Current planning examples: **{planning_packages} complete and {len(actual) - planning_packages} requiring refresh**.",
+        f"Full screening acceptance: **{complete_packages} pass and {len(actual) - complete_packages} retain open gates**. Complete documented planning examples can retain unaccepted depot/stabling requirements.",
         f"**{stale_packages} packages retain stale analysis sources** requiring solver-evidence refresh.",
         "Each city's `package-manifest.json` lists missing evidence, failed summaries and stale sources. Package completeness",
         "is separate from the topology checks below and is not engineering or deployment approval.",
@@ -173,7 +178,7 @@ def main() -> int:
         "[`engineering-batch-summary-aleppo-amman.json`](engineering-batch-summary-aleppo-amman.json)",
         "is explicitly scoped to those two cities and is not catalogue-wide evidence.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package | Depot requirements |",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Planning package / open gates | Depot requirements |",
         "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *public_rows,
         "",
@@ -183,7 +188,7 @@ def main() -> int:
         "inspection. It is excluded from the public programme, portfolio, national",
         "briefs, reader-book city evidence, and front-page examples.",
         "",
-        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Full package | Depot requirements |",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage | Electrical screen | Planning package / open gates | Depot requirements |",
         "|---|---|---:|---:|---:|---:|---:|---|---|---|",
         *comparison_rows,
         "",

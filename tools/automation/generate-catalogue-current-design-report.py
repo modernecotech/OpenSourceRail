@@ -15,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'design/city-generation/src'),str(ROOT/'tools/automation')]
 from osr_scenario.network_readme import _workforce_payroll_usd
 from finance_evidence import stale_finance_sources
+from planning_ci_evidence import current as planning_execution_current
 import importlib.util
 _water_spec=importlib.util.spec_from_file_location('catalogue_water',ROOT/'tools/automation/generate-station-water-screen.py')
 water=importlib.util.module_from_spec(_water_spec);_water_spec.loader.exec_module(water)
@@ -46,6 +47,13 @@ def audit(city_slugs=None):
         if overrides.exists():
             check_charging_requirement(d,tomllib.loads(overrides.read_text()),slug)
             sources[overrides.relative_to(ROOT).as_posix()]=sha(overrides)
+        infill_policy=city/'station-infill-policy.toml'
+        if infill_policy.exists():
+            infill_report=city/'engineering/alignment/station-infill.json'
+            for p in (infill_policy,infill_report):sources[p.relative_to(ROOT).as_posix()]=sha(p)
+            for source,digest in read(infill_report)['sources_sha256'].items():
+                if sha(ROOT/source)!=digest:raise ValueError('Stale station infill source: '+slug)
+                sources[source]=digest
         entry=entries[slug];family={l['rolling_stock'] for l in d['lines']}
         if len(family)!=1:raise ValueError('Mixed family without a configured factory: '+slug)
         paths=[design,city/(slug+'.toml'),city/'README.md',city/'alignment-policy.toml',city/'package-manifest.json',
@@ -61,7 +69,13 @@ def audit(city_slugs=None):
             raise ValueError('Stale package generator: '+slug)
         for relative,receipt in manifest['artifacts'].items():
             if sha(city/relative)!=receipt['sha256']:raise ValueError('Package artifact drift: '+slug+': '+relative)
-        simulation=read(city/'engineering/simulation/validation-summary.json')
+        simulation_path=city/'engineering/simulation/validation-summary.json'
+        if not planning_execution_current(design,simulation_path):
+            raise ValueError('Stale or incomplete source-bound native planning execution: '+slug)
+        execution_path=simulation_path.with_name('ci-execution.json')
+        sources[execution_path.relative_to(ROOT).as_posix()]=sha(execution_path)
+        sources.update(read(execution_path)['inputs'])
+        simulation=read(simulation_path)
         for case in simulation['runs']+simulation['resilience_cases']:
             if case['execution_receipt']['inputs']['simulator_sha256']!=simulation['simulator_sha256']:
                 raise ValueError('Operating cases used different simulator builds: '+slug)
@@ -98,7 +112,7 @@ def audit(city_slugs=None):
         km=math.fsum(l['length_m'] for l in d['lines'])/1000
         if not math.isclose(math.fsum(civil.values()),km,abs_tol=.002):raise ValueError('Civil length mismatch: '+slug)
         row=dict(city=slug,country=d['city']['country'],family=next(iter(family)),lines=len(d['lines']),stations=len(d['stations']),
-            route_km=round(km,4),elevated_km=round(civil['elevated'],4),bridge_km=round(civil['bridge'],4),trainsets=fleet,
+            planning_infill_stations=sum(s.get('anchor_kind')=='planning:infill' for s in d['stations']),route_km=round(km,4),elevated_km=round(civil['elevated'],4),bridge_km=round(civil['bridge'],4),trainsets=fleet,
             cars=factory['vehicle_modules'],depots=len(d['depots']),storage_slots=depot['full_fleet_storage_slots'],
             operating_fte=w['total_fte'],station_fte=w['groups_fte']['station_platform'],annual_payroll_usd=round(pay,2),
             city_capital_usd=round(fin['capex_usd']['reconciled_project_total'],2),shared_factory_envelope_usd=round(factory['plant_cost_envelope_usd'],2),
@@ -113,6 +127,8 @@ def audit(city_slugs=None):
     expected=len(entries)-1 if city_slugs is None else len(city_slugs)
     if len(rows)!=expected:raise ValueError('Catalogue inventory incomplete')
     sources[Path(__file__).relative_to(ROOT).as_posix()]=sha(Path(__file__))
+    for helper in ('tools/automation/planning_ci_evidence.py','tools/automation/city-planning-ci.py'):
+        sources[helper]=sha(ROOT/helper)
     report=dict(schema_version=1,status='complete-regenerated-planning-examples-not-construction-release',cities=rows,
         regenerated_other_city_count=len(rows),developing_world_other_city_count=len(programme_rows),
         excluded_baghdad_reason='Dedicated source-bound funding, make/buy and revised scope remain in the Baghdad publication; its funding terms are not exported.',
@@ -134,7 +150,8 @@ def outputs(report):
         'The adopted core concepts straighten radial routes and use elevated land sections; crossings remain bridges. Rings remain in the controlled inventory and use analytical fillets where suitable. Retained unsuitable fragments keep their geometry and special-product review gates. Cell-centre conversion is inverted explicitly, including the last raster row and column. Immutable seeds retain the original controlled geometry and capture revision.', '',
         'Each line has one full-fleet planning depot sized to its train count and consist length. Storage slots and maintenance bays are separate. Storage roads hold up to three sets; the last road can be shorter, while the land screen retains a rectangular envelope. Depot PV/storage equipment is included once in depot capital; land, utility and installation quotations remain open. Native station dispatch does not validate a full-depot launch.', '',
         'Every listed station/platform record has two posts and two normal eight-hour shifts, with additional cover for the actual service window. Interchange platform nodes are counted separately. FTE cover deducts leave, training, sickness and handover from paid hours. Wages start at 150% of the retained country income proxy; technical and management roles have higher premiums, plus employer/overtime allowances. Finance and role totals reconcile.', '',
-        'Factories are sized to each city order and family. Facility readiness is 18 months; qualification and serial manufacture follow it. Small cities explicitly delay integrated openings if the factory is the critical path. The national brief counts shared factory capital once, using its module allowance or the larger physical city-order envelope. National sequencing and concurrent capacity remain uncommitted.', '',
+        'Factories are sized to each city order and family. Facility readiness is 18 months; qualification and serial manufacture follow it. Integrated openings wait when an 18-month facility, qualification, production or the physical test-path limit is the critical path. Infrastructure deadlines remain distinct from integrated targets. The national brief counts shared factory capital once, using its module allowance or the larger physical city-order envelope. National sequencing and concurrent capacity remain uncommitted.', '',
+        'Every city retains actual source-bound native outputs for the two-hour trace, full nominal service day and eight full-day degraded cases. Aggregate software planning screens pass the unchanged thresholds. Per-line service, depot launch, physical acceptance and operating qualification remain separate release gates.', '',
         'Country finance assumptions stay local. Baghdad’s government share, Chinese credit, IQD bonds and indexed monthly programme are not copied into other cities. Generic finance remains a fixed-price steady-state screen, with fares and commercial income at its recorded country assumptions. Earlier operating studies remain historical diagnostics.', '',
         '[Full city quantities and costs](../engineering/assurance/catalogue-current-design/cities.csv) · [Source-bound audit](../engineering/assurance/catalogue-current-design/summary.json) · [Catalogue index](../cities/catalogue/README.md)', '',
         '| Region/country code | Other programme cities | Largest city-order factory reference USD million |','|---|---:|---:|']

@@ -1,16 +1,22 @@
 slug: aleppo
 pass: true
 metrics:
-  total_route_m: 183936.0
+  total_route_m: 159579.6
   n_lines: 6
-  n_stations: 62
-  anchor_hit_rate: 0.452
-  high_demand_coverage: 0.608
+  n_stations: 56
+  anchor_hit_rate: 0.482
+  high_demand_coverage: 0.562
   civil_mix_m:
-    at_grade: 170789.7
-    elevated: 13146.2
-    bridge:   0.0
-  elevated_fraction: 0.071
+    at_grade: 15653.1
+    elevated: 141849.3
+    bridge:   2077.3
+  elevated_fraction: 0.902
+  viaduct_products_m:
+    osr_pi20_pi25: 141821.0
+    osr_us:      0.0
+    special:     2077.3
+    realign:     28.3
+  max_elevated_cost_multiplier: 7.173
 gates:
   hard:
     has_stations:      true
@@ -18,5 +24,6 @@ gates:
   soft:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
-    elevated_le_0.30:   true
-    soft_pass_all:      true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: false
+    soft_pass_all:      false
