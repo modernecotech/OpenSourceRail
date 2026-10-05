@@ -112,8 +112,8 @@ class GridRef:
     def latlon_to_rc(self, lat: float, lon: float) -> tuple[int, int]:
         dx_m = (lon - self.bbox_west) * self.m_per_deg_lon
         dy_m = (self.bbox_north - lat) * self.m_per_deg_lat
-        col = int(dx_m / self.cell_m)
-        row = int(dy_m / self.cell_m)
+        col = math.floor(dx_m / self.cell_m)
+        row = math.floor(dy_m / self.cell_m)
         return (row, col)
 
     def rc_to_latlon(self, row: int, col: int) -> tuple[float, float]:
@@ -266,7 +266,7 @@ def build_cost_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
 
     # Water — expensive but possible (bridges).
     for feat in city.water:
-        for rc in _fill_polygon(grid, feat["nodes"]):
+        for rc in _water_cells(grid, feat):
             r, c = rc
             if 0 <= r < h and 0 <= c < w:
                 cost[r, c] = max(cost[r, c], COST_WATER)
@@ -288,14 +288,27 @@ def build_cost_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
     return cost
 
 
+def _water_cells(grid: GridRef, feature: dict[str, Any]) -> Iterable[tuple[int, int]]:
+    """Rasterize full multipolygons; rivers remain lines, islands remain dry."""
+    if "outer_rings" in feature:
+        holes = {cell for ring in feature.get("inner_rings", []) for cell in _fill_polygon(grid, ring)}
+        for ring in feature["outer_rings"]:
+            for cell in _fill_polygon(grid, ring):
+                if cell not in holes:
+                    yield cell
+        return
+    nodes = feature.get("nodes", [])
+    if not nodes:
+        raise ValueError(f"Missing water geometry for OSM feature {feature.get('id')}; refresh its source")
+    closed = len(nodes) >= 4 and nodes[0] == nodes[-1]
+    yield from (_fill_polygon(grid, nodes) if closed else _iter_line_cells(grid, nodes))
+
+
 def build_water_mask(city: CityOSM, grid: GridRef) -> np.ndarray:
     """Independent water evidence; unlike cost, its meaning is not blended."""
     water = np.zeros((grid.height, grid.width), dtype=np.uint8)
     for feature in city.water:
-        nodes = feature["nodes"]
-        closed = len(nodes) >= 4 and nodes[0] == nodes[-1]
-        cells = _fill_polygon(grid, nodes) if closed else _iter_line_cells(grid, nodes)
-        for row, col in cells:
+        for row, col in _water_cells(grid, feature):
             if 0 <= row < grid.height and 0 <= col < grid.width:
                 water[row, col] = 100
     return water

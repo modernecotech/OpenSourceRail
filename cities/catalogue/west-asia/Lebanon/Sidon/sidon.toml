@@ -78,16 +78,22 @@ dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
+id = "line-1-0536-0384-s001069"
+name = "line-1-0536-0384-s001069"
+charging_power_kw = 500
+dwell_seconds = 150
+
+[[stations]]
 id = "line-1-0446-0401-s003015"
 name = "بستان القدس"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0307-0428-s006031"
 name = "البستان الكبير"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0055-0553-s012782"
@@ -106,6 +112,12 @@ dwell_seconds = 180
 is_terminal = true
 is_depot = true
 depot_service = true
+
+[[stations]]
+id = "line-2-0536-0384-s001494"
+name = "line-2-0536-0384-s001494"
+charging_power_kw = 500
+dwell_seconds = 120
 
 [[stations]]
 id = "line-2-0587-0461-s003588"
@@ -149,7 +161,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0585-0374-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0446-0401-s003015", distance_from_prev_m = 3015 },
+    { id = "line-1-0536-0384-s001069", distance_from_prev_m = 1068 },
+    { id = "line-1-0446-0401-s003015", distance_from_prev_m = 1946 },
     { id = "line-1-0307-0428-s006031", distance_from_prev_m = 3015 },
     { id = "line-1-0055-0553-s012782", distance_from_prev_m = 6750 },
 ]
@@ -159,7 +172,8 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0499-0328-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0587-0461-s003588", distance_from_prev_m = 3588 },
+    { id = "line-2-0536-0384-s001494", distance_from_prev_m = 1494 },
+    { id = "line-2-0587-0461-s003588", distance_from_prev_m = 2093 },
 ]
 
 [[lines]]
@@ -241,7 +255,7 @@ station = "line-3-0041-0657-s009072"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 25
+trainset_count = 26
 dispatch_points = [
     { station = "line-1-0585-0374-s000000", heading = "forward" },
     { station = "line-1-0055-0553-s012782", heading = "reverse" },
@@ -259,7 +273,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 9
+trainset_count = 11
 dispatch_points = [
     { station = "line-2-0499-0328-s000000", heading = "forward" },
     { station = "line-2-0587-0461-s003588", heading = "reverse" },
@@ -306,6 +320,23 @@ storage_max_discharge_kw = 500.0
 storage_initial_soc = 0.6
 grid_import_kw = 800.0
 grid_export_kw = 800.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-1-0536-0384-s001069"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0
@@ -374,6 +405,23 @@ storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
 grid_import_kw = 3000.0
 grid_export_kw = 3000.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-2-0536-0384-s001494"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0

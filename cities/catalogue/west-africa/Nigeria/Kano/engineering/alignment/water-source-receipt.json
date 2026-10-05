@@ -1,0 +1,64 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kano",
+  "legacy_osm_missing_geometry_ids": [
+    3685879
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "3a9acda29b0975376e5a2923960e402d75297ba9abbc14d93ae9fd0de61ae868",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2ab340a105e6327dea5e3a4d8fd5e7d0a1b5bc14b0371a8b6168a3be7c76c6f2",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Kano/engineering/alignment/independent-landcover-samples.bin.gz": "205d1db818198706b4f92bd46e1294849838e4f30b2b89afcabe0677d7458f9a",
+    "cities/catalogue/west-africa/Nigeria/Kano/engineering/alignment/planning-grid.json": "92c3c1b258dbfb32af4dd4602a3708c3bf032cf90d7f96cfd6f7f9a1fcce1466",
+    "cities/catalogue/west-africa/Nigeria/Kano/engineering/alignment/planning-water-features.json.gz": "6e4f17ab0f5ec43685ac9b9927632b4275f9c705d08542efcc524e87f30080e5",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 53171,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "81038bd3e6701abeaa28d6030ee369cefcfa49df1d8d1e83f9fd305310ca3247",
+      "native_window": [
+        28452,
+        0,
+        5307,
+        2571
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E006_Map.tif",
+      "window_sha256": "6b383c5f5148dad8790d2da3a1b595b02efdbde8d51a7eefd5690a53091b1489"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "0c35200d666b1a38fc46a62dc5b61bafa2a0a3c30089a273ab2def857270e6d6",
+      "native_window": [
+        28452,
+        33379,
+        5307,
+        2621
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E006_Map.tif",
+      "window_sha256": "cd83dbcd2274308bfa04801c4bdfc4bfc83d9e2b85fe5de63b225750f5641da4"
+    }
+  ]
+}

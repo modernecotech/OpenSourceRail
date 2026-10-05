@@ -1,0 +1,57 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "surabaya",
+  "legacy_osm_missing_geometry_ids": [
+    6345293,
+    9481444,
+    9506593,
+    9921511,
+    9921534,
+    9921535,
+    13108187,
+    19053314,
+    19887947,
+    20449749
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "e35d346794b42a3604cc642f339a18d7cc5032d8f1330b42948e5ec2e6f19e68",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "bf4ffdd4e20bc3d866f971ab29673a462dab777428253184ad252a99ba92dce2",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/alignment/independent-landcover-samples.bin.gz": "da98d62f3e46cea9fb22dd20400a16c1466179bfc450f510da0470641589ce9b",
+    "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/alignment/planning-grid.json": "5cfff4b8da3a5cabc926c627048fa1b75dd8333f14c06aa34278e6254deff447",
+    "cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/alignment/planning-water-features.json.gz": "0f9538194a2edfec6857a5f079327e436c47b44e17337c007adbb2c0212e7f3a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1068303,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e8b85b12f763942409bba6ac354e0b90f9e09e94503f4e36e79c38535a20dbd5",
+      "native_window": [
+        19200,
+        13560,
+        3843,
+        3243
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E111_Map.tif",
+      "window_sha256": "7cb28c4ec4a63aa9b8359e1f56d03dd83b031d1daa3a8a919a4749ad3d13f743"
+    }
+  ]
+}

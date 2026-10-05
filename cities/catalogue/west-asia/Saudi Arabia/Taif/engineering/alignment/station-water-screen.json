@@ -1,6 +1,6 @@
 {
   "city": "taif",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,45 +11,51 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 970,
-      "row": 896,
-      "station_id": "line-1-0896-0970-s003508",
+      "col": 983,
+      "row": 895,
+      "station_id": "line-1-0895-0983-s003494",
       "water_coverage_percent": 0
     },
     {
-      "col": 831,
-      "row": 821,
-      "station_id": "line-1-0821-0831-s007014",
+      "col": 860,
+      "row": 849,
+      "station_id": "line-1-0849-0860-s007017",
       "water_coverage_percent": 0
     },
     {
-      "col": 617,
-      "row": 621,
-      "station_id": "line-1-0621-0617-s013595",
+      "col": 746,
+      "row": 742,
+      "station_id": "line-1-0742-0746-s010535",
       "water_coverage_percent": 0
     },
     {
-      "col": 518,
-      "row": 528,
-      "station_id": "line-1-0528-0518-s016603",
+      "col": 633,
+      "row": 636,
+      "station_id": "line-1-0636-0633-s014036",
       "water_coverage_percent": 0
     },
     {
-      "col": 450,
-      "row": 464,
-      "station_id": "line-1-0464-0450-s018716",
+      "col": 545,
+      "row": 554,
+      "station_id": "line-1-0554-0545-s016686",
       "water_coverage_percent": 0
     },
     {
-      "col": 380,
-      "row": 399,
-      "station_id": "line-1-0399-0380-s020842",
+      "col": 502,
+      "row": 513,
+      "station_id": "line-1-0513-0502-s018038",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 407,
+      "row": 424,
+      "station_id": "line-1-0424-0407-s020957",
       "water_coverage_percent": 0
     },
     {
       "col": 312,
       "row": 335,
-      "station_id": "line-1-0335-0312-s022955",
+      "station_id": "line-1-0335-0312-s023887",
       "water_coverage_percent": 0
     },
     {
@@ -71,6 +77,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 350,
+      "row": 587,
+      "station_id": "line-2-0587-0350-s007689",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 236,
       "row": 412,
       "station_id": "line-2-0412-0236-s012368",
@@ -83,50 +95,58 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 825,
-      "row": 356,
-      "station_id": "line-3-0356-0825-s003510",
+      "col": 828,
+      "row": 354,
+      "station_id": "line-3-0354-0828-s003514",
       "water_coverage_percent": 0
     },
     {
-      "col": 682,
-      "row": 425,
-      "station_id": "line-3-0425-0682-s007012",
+      "col": 686,
+      "row": 424,
+      "station_id": "line-3-0424-0686-s007016",
       "water_coverage_percent": 0
     },
     {
-      "col": 559,
-      "row": 485,
-      "station_id": "line-3-0485-0559-s010028",
+      "col": 563,
+      "row": 483,
+      "station_id": "line-3-0483-0563-s010023",
       "water_coverage_percent": 0
     },
     {
-      "col": 436,
-      "row": 545,
-      "station_id": "line-3-0545-0436-s013032",
+      "col": 502,
+      "row": 513,
+      "station_id": "line-3-0513-0502-s011503",
       "water_coverage_percent": 0
     },
     {
-      "col": 314,
-      "row": 605,
-      "station_id": "line-3-0605-0314-s016039",
+      "col": 440,
+      "row": 543,
+      "station_id": "line-3-0543-0440-s013027",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 350,
+      "row": 587,
+      "station_id": "line-3-0587-0350-s015238",
       "water_coverage_percent": 0
     },
     {
       "col": 201,
       "row": 658,
-      "station_id": "line-3-0658-0201-s018785",
+      "station_id": "line-3-0658-0201-s018877",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 19,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Saudi Arabia/Taif/design.toml": "bc51a8274b7fa0a55b8093251b9dec123702fa6fb7f1155ae6207788d17666f0",
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/design.toml": "a2746bab515cd7d243259eabbfe67ac22f5b7f53ca7569b7650af31f09fd0189",
     "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-grid.json": "002cdfd7094690e41425f736892b272e291798bb9f9dc1e165ea31ae19b63ba9",
-    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-water-mask.bin.gz": "ca1432b2c411fff5eda42c4e03e2dc1977c6bc665b63596fbb2548bed027f1e2",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-water-mask.bin.gz": "9a321e62ea19508343b3f45d2ae942f4df809b87347bfd4fc210f8aa570279e6",
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/water-source-receipt.json": "60feb26ec053f8a25645a308d02387ef30a357236889524797fbd96b91865eeb",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "2721429d231f71c7a57ab0d82b3c28b237c77d2e13a23c81c4eb3395c09de1d6",
+  "uncompressed_water_mask_sha256": "2d79a7058c71afea884728828c80faaae5c68924437d93b9222171b05502514e",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

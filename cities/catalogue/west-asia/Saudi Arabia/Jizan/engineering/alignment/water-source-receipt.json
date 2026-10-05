@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "jizan",
+  "legacy_osm_missing_geometry_ids": [
+    5817128
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "0d214fbf47d04fa09482457a1cf1fe4d1c3c70479f67fbec582e39fcdd3e9e5d",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "322cdfb6f3456f74c8fdd854f5b9da1c633914f4a38470adbeaa5d0bcadf8a25",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/alignment/independent-landcover-samples.bin.gz": "7853ddef69f5fa421d9f7c8ea256f1b54a609e2fd7042172af26a81200feeab1",
+    "cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/alignment/planning-grid.json": "f3f3bffa158b4781f3a0e5a944302b99b7e7ee1d0303925bd6bdf5accdbbe1e9",
+    "cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/alignment/planning-water-features.json.gz": "2d32fa5b6e2f0cf443d86061ea3cc905da577ac8ca8aefdc76809dee194b7703",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 711009,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "16a344352d16aa6d043b047aafb2062687511353eccbd07049599cdf8c1799d9",
+      "native_window": [
+        5370,
+        12140,
+        2489,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E042_Map.tif",
+      "window_sha256": "33bd9894d369c5c35eed52db38c812f2fc09d2593d242dc7e5b5091c152b9b76"
+    }
+  ]
+}

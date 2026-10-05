@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 37.303667,
     "north": -1.477297,
@@ -6,6 +7,7 @@
     "west": 37.222547
   },
   "core_analytical_length_m": 18536.986983,
+  "core_final_route_length_m": 19551.168825,
   "core_original_length_m": 24801.830875,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7606.27417,
       "line": "line-1",
       "original_cells": 526,
       "original_route_m": 12206.428423,
       "reworked_cells": 509,
-      "reworked_route_m": 10623.91919
+      "reworked_route_m": 10623.91919,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5738.233765,
       "line": "line-2",
       "original_cells": 351,
       "original_route_m": 7646.173157,
       "reworked_cells": 321,
-      "reworked_route_m": 6830.782105
+      "reworked_route_m": 6830.782105,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6206.66089,
       "line": "line-3",
       "original_cells": 409,
       "original_route_m": 9079.422654,
       "reworked_cells": 255,
-      "reworked_route_m": 6206.66089
+      "reworked_route_m": 6206.66089,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Machakos/alignment-policy.toml": "67bfecf227804aaa7c649150d38187ad893811e255f1297bf5115fe829f78a93",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-grid.json": "5ed6cf48754f27f50c735cc0012a9c2c63c0b209d8b01bc00ea5364496375bb9",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-water-mask.bin.gz": "00f86f8bb646aaa39b1ce6be9e6f882763fd785cdb6e0ec9f3dbb24e5980f7c7",
     "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/pre-rework-corridors.json.gz": "138675d0b358cc3957c31ee3c5cfb2e46d4107fab5a752c2f8a2146a33b29486",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/water-source-receipt.json": "fa679381240e53a7d28771dc527f432aac3dc675bb1ecb38caad56fec20c5e78",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

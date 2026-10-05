@@ -1,29 +1,29 @@
 slug: patna
 pass: true
 metrics:
-  total_route_m: 159513.8
+  total_route_m: 332927.6
   n_lines: 6
-  n_stations: 55
-  anchor_hit_rate: 0.491
-  high_demand_coverage: 0.542
+  n_stations: 242
+  anchor_hit_rate: 0.087
+  high_demand_coverage: 0.543
   civil_mix_m:
-    at_grade: 21531.1
-    elevated: 91779.8
-    bridge:   46202.8
-  elevated_fraction: 0.865
+    at_grade: 30585.4
+    elevated: 233366.9
+    bridge:   68975.3
+  elevated_fraction: 0.908
   viaduct_products_m:
-    osr_pi20_pi25: 91779.8
-    osr_us:      0.0
-    special:     46202.8
-    realign:     0.0
-  max_elevated_cost_multiplier: 1.000
+    osr_pi20_pi25: 13999.7
+    osr_us:      86249.1
+    special:     68975.3
+    realign:     133118.0
+  max_elevated_cost_multiplier: 45.000
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

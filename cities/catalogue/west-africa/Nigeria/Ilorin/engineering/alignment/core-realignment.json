@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 4.604201,
     "north": 8.553749,
@@ -6,6 +7,7 @@
     "west": 4.483961
   },
   "core_analytical_length_m": 34012.06179,
+  "core_final_route_length_m": 36406.012973,
   "core_original_length_m": 51020.732891,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11196.223664,
       "line": "line-1",
       "original_cells": 438,
       "original_route_m": 19866.567514,
-      "reworked_cells": 581,
-      "reworked_route_m": 12819.06658
+      "reworked_cells": 637,
+      "reworked_route_m": 13109.360749,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13590.58008,
       "line": "line-2",
       "original_cells": 459,
       "original_route_m": 20726.6114,
-      "reworked_cells": 643,
-      "reworked_route_m": 15493.992699
+      "reworked_cells": 706,
+      "reworked_route_m": 15814.844148,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -168,21 +174,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11619.20923,
       "line": "line-3",
       "original_cells": 572,
       "original_route_m": 14228.367953,
       "reworked_cells": 527,
-      "reworked_route_m": 11845.4834
+      "reworked_route_m": 11845.4834,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Nigeria/Ilorin/alignment-policy.toml": "ac5adee6b4d66ad0368b7cc177b5f9456d6a739564b34be3546b0f798f036930",
+    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
     "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-grid.json": "16601a3dc1c27f31ee8129831e5dd2840cf99de5e8703e857fe3d84fc1c0d2ba",
+    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-water-mask.bin.gz": "18e4c84d2b860589268beb080d858ef60cfed6278ecf68aca6cd2b06957fbc18",
     "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/pre-rework-corridors.json.gz": "a0e680de11b53a05e39134de43529063aee044d1cbc165519b218b6a5b9944f4",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/water-source-receipt.json": "42ee97ad20abdfd349f297a5da6e566dc2d5a8f2c593ee099c9cbf1c62b6fdcd",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

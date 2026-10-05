@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 44.080085,
     "north": 13.639849,
@@ -6,6 +7,7 @@
     "west": 43.960085
   },
   "core_analytical_length_m": 27436.889239,
+  "core_final_route_length_m": 29711.454532,
   "core_original_length_m": 34228.911786,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12331.269837,
       "line": "line-1",
       "original_cells": 424,
       "original_route_m": 17808.929117,
-      "reworked_cells": 675,
-      "reworked_route_m": 16491.269837
+      "reworked_cells": 780,
+      "reworked_route_m": 16491.269837,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6133.036072,
       "line": "line-2",
       "original_cells": 373,
       "original_route_m": 8748.914857,
       "reworked_cells": 277,
-      "reworked_route_m": 6133.036072
+      "reworked_route_m": 6133.036072,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11247.148622,
       "line": "line-3",
       "original_cells": 642,
       "original_route_m": 15876.89609,
       "reworked_cells": 634,
-      "reworked_route_m": 15252.9769
+      "reworked_route_m": 15252.9769,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Yemen/Taiz/alignment-policy.toml": "a503ba3272f0a2195ebef64e7f05478e88f9f18c8081c9fd513c0314891edaf5",
+    "cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/planning-buildability-mask.bin.gz": "64b4927ecd687c6e9c7712c8b46b478e953e8137fb8fde79e7bb82c268a10364",
     "cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/planning-grid.json": "47e3217a9240e72df03ca0fdac0583c47eac72ba0e5cee365b7fdea7d7b11f48",
+    "cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/planning-water-mask.bin.gz": "2eb985fc7e8313f99d4d2d22c20f09149b644ec937ec7313eec059f846df4067",
     "cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/pre-rework-corridors.json.gz": "9b45f6798a560cb5edb99b7a7f72ed8d6611d7fff18f8a8d02a372db76d372e7",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Yemen/Taiz/engineering/alignment/water-source-receipt.json": "ff32f144b4c8c0fdd0fc2b800e1fcd9a8fbf46c37cbc0c8ce7c1b8b761a9f282",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

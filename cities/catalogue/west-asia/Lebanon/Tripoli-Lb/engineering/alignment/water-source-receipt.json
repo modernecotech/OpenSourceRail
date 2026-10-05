@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "tripoli-lb",
+  "legacy_osm_missing_geometry_ids": [
+    4554316
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "f63d63c57919b7b8efcb39833f9fa96f5c063eba71580975a6af0b0580fd7656",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2c2dad750584bab54f88e30c2c010217ca933580351c53567643eeddd9854afa",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/independent-landcover-samples.bin.gz": "f1cf3a27799b0d4811e0ef765be0530272cd42bf3dbe9523fe1a9d95d74a180f",
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/planning-grid.json": "a410c35272710dfb5effe84248e4de4273674eaf0b2539640f024030c02af16f",
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/planning-water-features.json.gz": "fa9cc74e44f34050294f014db3f3acfc41c8997de4eb22995eea6dc11f5edcef",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 568095,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "61c0d2597683862ceb9ecd472c37d74d02a5563e37a696a3f32156d86efd6ecd",
+      "native_window": [
+        32754,
+        17570,
+        2888,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E033_Map.tif",
+      "window_sha256": "555d8485f804e555d6388b10b101eecd0bafde362063ce8b49741e868a906d37"
+    }
+  ]
+}

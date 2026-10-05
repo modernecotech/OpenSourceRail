@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 85.406573,
     "north": 23.433477,
@@ -6,6 +7,7 @@
     "west": 85.218173
   },
   "core_analytical_length_m": 151884.516333,
+  "core_final_route_length_m": 167999.979695,
   "core_original_length_m": 179054.192391,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 26065.466069,
       "line": "line-1",
       "original_cells": 494,
       "original_route_m": 34245.337421,
-      "reworked_cells": 1150,
-      "reworked_route_m": 31737.82792
+      "reworked_cells": 1326,
+      "reworked_route_m": 32042.177465,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20548.914857,
       "line": "line-2",
       "original_cells": 591,
       "original_route_m": 25574.95341,
-      "reworked_cells": 1026,
-      "reworked_route_m": 23242.578167
+      "reworked_cells": 1122,
+      "reworked_route_m": 23762.051942,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19825.870119,
       "line": "line-3",
       "original_cells": 496,
       "original_route_m": 22188.227139,
       "reworked_cells": 873,
-      "reworked_route_m": 19825.870119
+      "reworked_route_m": 19825.870119,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19546.601718,
       "line": "line-4",
       "original_cells": 426,
       "original_route_m": 28923.399741,
-      "reworked_cells": 932,
-      "reworked_route_m": 26888.037442
+      "reworked_cells": 1186,
+      "reworked_route_m": 27767.577183,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 25014.339085,
       "line": "line-5",
       "original_cells": 569,
       "original_route_m": 26290.210759,
       "reworked_cells": 1021,
-      "reworked_route_m": 25014.339085
+      "reworked_route_m": 25014.339085,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -842,21 +854,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 56998.787848,
       "line": "line-6",
       "original_cells": 427,
       "original_route_m": 75020.807449,
-      "reworked_cells": 2561,
-      "reworked_route_m": 73475.806423
+      "reworked_cells": 3371,
+      "reworked_route_m": 75767.11396,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Ranchi/alignment-policy.toml": "f3ec224ee7b461ed66055bdc7373d96de2182f8bae150a2969f240086053fd4f",
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/planning-buildability-mask.bin.gz": "9b0c04a5db7a2dff3f46b87224012ef3b8b25a401d6c39a1a308c174b067a0c0",
     "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/planning-grid.json": "0cdb4f8ba5bf5958fce0dd85bd189bb3bd5360cb2f0b86645d4544279c5c9a5c",
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/planning-water-mask.bin.gz": "b5f9e40743cf0bb2f479323a00e8f5b5bcc109ec86de7b2e19b48eb1e53f911a",
     "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/pre-rework-corridors.json.gz": "6643b4722bfe4087cadceb0a60fefbe4217dfc716acfe0c520198709430b4ae8",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/water-source-receipt.json": "92550c8658c2633fa774f468ac674b61eefe7ace2e5a0eb1f94de8d937a59070",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

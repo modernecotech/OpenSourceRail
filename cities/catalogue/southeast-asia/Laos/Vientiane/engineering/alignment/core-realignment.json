@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 102.720494,
     "north": 18.061227,
@@ -6,6 +7,7 @@
     "west": 102.552494
   },
   "core_analytical_length_m": 44826.708954,
+  "core_final_route_length_m": 50161.916267,
   "core_original_length_m": 61024.481437,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15568.124087,
       "line": "line-1",
       "original_cells": 516,
       "original_route_m": 22446.581163,
-      "reworked_cells": 700,
-      "reworked_route_m": 17615.556909
+      "reworked_cells": 769,
+      "reworked_route_m": 17936.408358,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15976.652224,
       "line": "line-2",
       "original_cells": 505,
       "original_route_m": 22341.646175,
-      "reworked_cells": 719,
-      "reworked_route_m": 18693.508723
+      "reworked_cells": 804,
+      "reworked_route_m": 19075.474734,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18617.139956,
       "line": "line-3",
       "original_cells": 566,
       "original_route_m": 26821.738519,
-      "reworked_cells": 883,
-      "reworked_route_m": 24370.050784
+      "reworked_cells": 1049,
+      "reworked_route_m": 25118.704166,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/southeast-asia/Laos/Vientiane/alignment-policy.toml": "9526077b8705de02ae8f6c5eca338e397e1eb293ff5e365ddf3533cde3002e91",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-buildability-mask.bin.gz": "af37bc88d4c8e86c4c729450d9ff954aad6d524ac959795ce9989f8f6cd0760d",
     "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-grid.json": "e7b69a5b757553339422b24954d24722b0a8e937b584bae98ff59db04610108c",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-water-mask.bin.gz": "757c5c74a29e723bf14996488d9e11fba417488aa4f2e48df97e86602ab24420",
     "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/pre-rework-corridors.json.gz": "925ea8eaf5abff6973a246136167da22a22d0153f8fbbb2093310892fee98fb1",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/water-source-receipt.json": "941104d5057d793e6642e2cec2e7dbacb292cee259c0df0f5de4b4f6b326c9b6",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,6 +1,6 @@
 {
   "city": "galle",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,45 +11,51 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 867,
-      "row": 840,
-      "station_id": "line-1-0840-0867-s003510",
+      "col": 881,
+      "row": 848,
+      "station_id": "line-1-0848-0881-s003499",
       "water_coverage_percent": 0
     },
     {
-      "col": 734,
-      "row": 757,
-      "station_id": "line-1-0757-0734-s007009",
+      "col": 747,
+      "row": 765,
+      "station_id": "line-1-0765-0747-s007019",
       "water_coverage_percent": 0
     },
     {
-      "col": 621,
-      "row": 686,
-      "station_id": "line-1-0686-0621-s010010",
+      "col": 693,
+      "row": 704,
+      "station_id": "line-1-0704-0693-s010030",
       "water_coverage_percent": 0
     },
     {
-      "col": 506,
-      "row": 615,
-      "station_id": "line-1-0615-0506-s013015",
+      "col": 599,
+      "row": 595,
+      "station_id": "line-1-0595-0599-s013045",
       "water_coverage_percent": 0
     },
     {
-      "col": 411,
-      "row": 556,
-      "station_id": "line-1-0556-0411-s015521",
+      "col": 478,
+      "row": 597,
+      "station_id": "line-1-0597-0478-s016538",
       "water_coverage_percent": 0
     },
     {
-      "col": 315,
-      "row": 496,
-      "station_id": "line-1-0496-0315-s018044",
+      "col": 392,
+      "row": 544,
+      "station_id": "line-1-0544-0392-s018791",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 306,
+      "row": 490,
+      "station_id": "line-1-0490-0306-s021063",
       "water_coverage_percent": 0
     },
     {
       "col": 220,
       "row": 437,
-      "station_id": "line-1-0437-0220-s020538",
+      "station_id": "line-1-0437-0220-s023316",
       "water_coverage_percent": 0
     },
     {
@@ -65,21 +71,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 603,
-      "row": 512,
-      "station_id": "line-2-0512-0603-s007970",
+      "col": 631,
+      "row": 526,
+      "station_id": "line-2-0526-0631-s008681",
       "water_coverage_percent": 0
     },
     {
-      "col": 820,
-      "row": 625,
-      "station_id": "line-2-0625-0820-s013421",
+      "col": 838,
+      "row": 634,
+      "station_id": "line-2-0634-0838-s013856",
       "water_coverage_percent": 0
     },
     {
       "col": 1025,
       "row": 784,
-      "station_id": "line-2-0784-1025-s018855",
+      "station_id": "line-2-0784-1025-s019007",
       "water_coverage_percent": 0
     },
     {
@@ -101,9 +107,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 671,
-      "row": 508,
-      "station_id": "line-3-0508-0671-s010317",
+      "col": 631,
+      "row": 526,
+      "station_id": "line-3-0526-0631-s011277",
       "water_coverage_percent": 0
     },
     {
@@ -113,20 +119,28 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 478,
+      "row": 597,
+      "station_id": "line-3-0597-0478-s014996",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 427,
       "row": 621,
       "station_id": "line-3-0621-0427-s016238",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 19,
-  "schema_version": 1,
+  "platforms_checked": 21,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Sri Lanka/Galle/design.toml": "230ae6e7fd87741e86b4d814ab2608f4bd2a11c49381beaf32dc7d4720df9094",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/design.toml": "b07fc85ddefd925939713ba643f7d6035cb262c4a6080e07847cd71a050f17a4",
     "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/planning-grid.json": "ab792d041dc39d314e76e7dcacc8a1ae5982ffd8322192a01f2fcf70f215dd42",
-    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/planning-water-mask.bin.gz": "bd5493c3a5b1d3608ae32ecefda44635399248d5787ae598c6471669229cfd76",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/planning-water-mask.bin.gz": "1053e95ebbf789c3ac4160c5a65b7b01a7a703eee5c3caebe5e315b5302eac6f",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/water-source-receipt.json": "86750a1ea4ffcabfbe9deb81030aec435aeac8d253fa9a385f6ef73463fb7e05",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "8a4aeb4ead5d65a992cecc5f1e5d24ae33c09b72a31c536f0b2df1023925a674",
+  "uncompressed_water_mask_sha256": "7ca43882a271b64331d4dca25834eb30c6410687a706f8f2f473de5d750528b3",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

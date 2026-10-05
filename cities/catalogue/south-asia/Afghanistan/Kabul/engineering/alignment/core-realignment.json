@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 69.321129,
     "north": 34.639937,
@@ -6,6 +7,7 @@
     "west": 69.111129
   },
   "core_analytical_length_m": 154788.676604,
+  "core_final_route_length_m": 170698.60018,
   "core_original_length_m": 194538.682922,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22256.450199,
       "line": "line-1",
       "original_cells": 427,
       "original_route_m": 27895.466441,
-      "reworked_cells": 934,
-      "reworked_route_m": 23436.714112
+      "reworked_cells": 973,
+      "reworked_route_m": 23499.292911,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21328.754673,
       "line": "line-2",
       "original_cells": 497,
       "original_route_m": 31997.466792,
-      "reworked_cells": 946,
-      "reworked_route_m": 25817.063506
+      "reworked_cells": 1098,
+      "reworked_route_m": 25991.00864,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16211.210665,
       "line": "line-3",
       "original_cells": 492,
       "original_route_m": 22269.040504,
-      "reworked_cells": 720,
-      "reworked_route_m": 18388.981542
+      "reworked_cells": 782,
+      "reworked_route_m": 18511.210665,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22517.972568,
       "line": "line-4",
       "original_cells": 447,
       "original_route_m": 28777.444802,
-      "reworked_cells": 1007,
-      "reworked_route_m": 25910.232066
+      "reworked_cells": 1113,
+      "reworked_route_m": 26025.91196,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21379.940828,
       "line": "line-5",
       "original_cells": 456,
       "original_route_m": 29685.17669,
-      "reworked_cells": 1084,
-      "reworked_route_m": 28644.720296
+      "reworked_cells": 1334,
+      "reworked_route_m": 29103.860018,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -259,11 +271,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16099.494937,
       "line": "line-6",
       "original_cells": 463,
       "original_route_m": 20170.425617,
-      "reworked_cells": 704,
-      "reworked_route_m": 18059.257076
+      "reworked_cells": 777,
+      "reworked_route_m": 18502.337649,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -749,21 +763,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 50904.776311,
       "line": "line-7",
       "original_cells": 440,
       "original_route_m": 56635.113375,
-      "reworked_cells": 2279,
-      "reworked_route_m": 52818.524439
+      "reworked_cells": 2373,
+      "reworked_route_m": 53040.167363,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Afghanistan/Kabul/alignment-policy.toml": "e096d72a05a28e1411b9265ca3c8b4af3066c077aed0e759064c3d1e53f075db",
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/planning-buildability-mask.bin.gz": "e661ca13089d0084b9c657faba29b4d1926efe12c33d598fd21b63a6a4135cc3",
     "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/planning-grid.json": "6226592711aad44d2ecc44b62d8dcfcd1a6cb289fc31dfcb9eba132553528116",
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/planning-water-mask.bin.gz": "376d42ce129bea1e11ad4fd64877047b0d0c551a19f6a93e2ed255520b5ef4c7",
     "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/pre-rework-corridors.json.gz": "38074f6fd733f7e5fdad239da898211022188f05b35309f34ce36ffd222bd872",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/water-source-receipt.json": "60e28577225b85535cb594016f71339bd9625332fd78b8225c182414a44940c1",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -159,6 +159,21 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
+to_station_m    = 5570.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 5570.7
+to_station_m    = 6706.7
+class           = "elevated"
+minimum_curve_radius_m = 145.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.281
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 6706.7
 to_station_m    = 8326.9
 class           = "at-grade"
 
@@ -182,11 +197,12 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0584-0472-s003006"
+id              = "line-1-0569-0470-s003322"
 line            = "line-1"
-lat             = -19.825190224237843
-lon             = 34.87023574894009
-s_m             = 3005.7
+lat             = -19.82249073174243
+lon             = 34.869853798680026
+s_m             = 3322.3
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
@@ -210,15 +226,17 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0188-0418-s011456"
+id              = "line-1-0177-0408-s011770"
 line            = "line-1"
-lat             = -19.753923622358997
-lon             = 34.85992309191836
-s_m             = 11455.9
+lat             = -19.75194399452903
+lon             = 34.858013340618044
+s_m             = 11770.4
+mandatory_crossing = true
 anchor_kind     = "amenity:bus_station"
 anchor_name     = "Terminal de Transportes Semicolectivos de Passageiros"
-archetype       = "standard"
+archetype       = "interchange-elevated"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0096-0402-s013900"
@@ -253,11 +271,12 @@ archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0560-0492-s004605"
+id              = "line-2-0569-0470-s004090"
 line            = "line-2"
-lat             = -19.820871036245183
-lon             = 34.874055251540724
-s_m             = 4604.8
+lat             = -19.82249073174243
+lon             = 34.869853798680026
+s_m             = 4090.2
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
@@ -302,13 +321,17 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0169-0376-s005406"
+id              = "line-3-0177-0408-s006162"
 line            = "line-3"
-lat             = -19.750504265198142
-lon             = 34.85190213645702
-s_m             = 5405.8
-archetype       = "standard"
+lat             = -19.75194399452903
+lon             = 34.858013340618044
+s_m             = 6161.8
+mandatory_crossing = true
+anchor_kind     = "amenity:bus_station"
+anchor_name     = "Terminal de Transportes Semicolectivos de Passageiros"
+archetype       = "interchange-elevated"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0212-0484-s008423"
@@ -343,10 +366,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -19.82303063024151
-lon             = 34.87214550024041
+lat             = -19.82249073174243
+lon             = 34.869853798680026
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0584-0472-s003006", "line-2-0560-0492-s004605"]
+platforms       = ["line-1-0569-0470-s003322", "line-2-0569-0470-s004090"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = -19.75194399452903
+lon             = 34.858013340618044
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0177-0408-s011770", "line-3-0177-0408-s006162"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -561,19 +592,19 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 29102403
-at_grade_eur         = 26774210
-elevated_usd         = 266103998
-elevated_eur         = 244815679
+at_grade_usd         = 26167031
+at_grade_eur         = 24073668
+elevated_usd         = 313505558
+elevated_eur         = 288425114
 bridge_usd           = 2247351
 bridge_eur           = 2067563
-junction_premium_usd = 0  # $4.5 M per elevated interchange.
-junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 297453752
-civil_subtotal_eur   = 273657452
+junction_premium_usd = 4500000  # $4.5 M per elevated interchange.
+junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 346419940
+civil_subtotal_eur   = 318706345
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 68000000
-stations_eur         = 62560000
+stations_usd         = 87000000
+stations_eur         = 80040000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 53366282
 depots_eur           = 49096979
@@ -586,13 +617,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1934285
 signalling_eur       = 1779543
-charging_microgrid_usd = 1850000
-charging_microgrid_eur = 1702000
+charging_microgrid_usd = 1900000
+charging_microgrid_eur = 1748000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 37583302
-epc_overhead_eur     = 34576638
-total_usd            = 574487621  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 528528611  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 42344435
+epc_overhead_eur     = 38956880
+total_usd            = 647264942  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 595483747  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

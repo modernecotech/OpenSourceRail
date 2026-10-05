@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.046274,
     "north": 1.056103,
@@ -6,6 +7,7 @@
     "west": 34.965154
   },
   "core_analytical_length_m": 26793.459078,
+  "core_final_route_length_m": 29599.780644,
   "core_original_length_m": 32966.999837,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8750.336213,
       "line": "line-1",
       "original_cells": 614,
       "original_route_m": 14612.733034,
       "reworked_cells": 525,
-      "reworked_route_m": 12609.057711
+      "reworked_route_m": 12609.057711,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12318.174593,
       "line": "line-2",
       "original_cells": 582,
       "original_route_m": 13914.743136,
       "reworked_cells": 552,
-      "reworked_route_m": 13430.722933
+      "reworked_route_m": 13430.722933,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8531.269837,
       "line": "line-3",
       "original_cells": 500,
       "original_route_m": 11338.48903,
       "reworked_cells": 471,
-      "reworked_route_m": 10410.681092
+      "reworked_route_m": 10410.681092,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Kitale/alignment-policy.toml": "ceac3e26744ced330dff9794678121238d214162329527a2ae6aec4c893b02fc",
+    "cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/planning-grid.json": "8885d05353e7f2f52d84c3614e826232262d856d094f4f7665cc52ae1024af6c",
+    "cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/planning-water-mask.bin.gz": "cd6b81c4d4abdfde08255e6b349b54f0696d435e614e760374e7da71bd629356",
     "cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/pre-rework-corridors.json.gz": "55098a5e0c826ca2d2960dc94cbb4ef44c85e4765713a7bdb222986bc5d5bc69",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Kitale/engineering/alignment/water-source-receipt.json": "4c97ab51f7dfb6121713cafc778fe4487f803b0bebb2a0ebade8cf78abd5cbe1",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

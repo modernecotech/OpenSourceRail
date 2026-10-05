@@ -1,6 +1,6 @@
 {
   "city": "oujda",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,21 +11,27 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 444,
-      "row": 510,
-      "station_id": "line-1-0510-0444-s003000",
+      "col": 425,
+      "row": 506,
+      "station_id": "line-1-0506-0425-s002587",
       "water_coverage_percent": 0
     },
     {
-      "col": 609,
-      "row": 546,
-      "station_id": "line-1-0546-0609-s006598",
+      "col": 511,
+      "row": 525,
+      "station_id": "line-1-0525-0511-s004465",
       "water_coverage_percent": 0
     },
     {
-      "col": 697,
-      "row": 564,
-      "station_id": "line-1-0564-0697-s008508",
+      "col": 598,
+      "row": 543,
+      "station_id": "line-1-0543-0598-s006354",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 691,
+      "row": 563,
+      "station_id": "line-1-0563-0691-s008379",
       "water_coverage_percent": 0
     },
     {
@@ -71,15 +77,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 435,
-      "row": 476,
-      "station_id": "line-3-0476-0435-s003001",
+      "col": 425,
+      "row": 506,
+      "station_id": "line-3-0506-0425-s003684",
       "water_coverage_percent": 0
     },
     {
-      "col": 398,
-      "row": 584,
-      "station_id": "line-3-0584-0398-s005479",
+      "col": 393,
+      "row": 599,
+      "station_id": "line-3-0599-0393-s005821",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +95,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 15,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Morocco/Oujda/design.toml": "d669df32591ba51f1952b2cbb84a2ad89d72b0a98f9f69fd1fcc9146b6326c1f",
+    "cities/catalogue/north-africa/Morocco/Oujda/design.toml": "cbd0d8ce19cd735aa907001727b17052450a0d801a9155716e38a34f1288c5a0",
     "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-grid.json": "efbdf1cb7e6e2ff26118c3b1afb6e77143cfbafb9b4718894a0e784f0a7cad3c",
-    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-water-mask.bin.gz": "17832f18c8a5ab1febbb10606eb197315bf62ec780c158bed208fc79a2720d82",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-water-mask.bin.gz": "95d667e99df180f72b8fc4c0ffd462ad446de398c497aff0b0aa7614b4dff344",
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/water-source-receipt.json": "08fed938c1b002183912fa79d176341f82db4fe41f3741d9ce240478d1640142",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "45e3f382a4a6451e63b634886e8ee3f389d18389d0d9a196a79375a0674ad936",
+  "uncompressed_water_mask_sha256": "ea543e424513df97c8fab46c0c218a767fa0319f500730aee8e206e6fc32a682",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

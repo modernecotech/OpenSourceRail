@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 9.506549,
     "north": 4.695789,
@@ -6,6 +7,7 @@
     "west": 9.387269
   },
   "core_analytical_length_m": 28696.374892,
+  "core_final_route_length_m": 31173.36362,
   "core_original_length_m": 37631.234307,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12250.681092,
       "line": "line-1",
       "original_cells": 418,
       "original_route_m": 19688.98443,
-      "reworked_cells": 655,
-      "reworked_route_m": 16432.415045
+      "reworked_cells": 760,
+      "reworked_route_m": 16646.316011,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10784.650788,
       "line": "line-2",
       "original_cells": 543,
       "original_route_m": 12836.509371,
       "reworked_cells": 491,
-      "reworked_route_m": 11017.787873
+      "reworked_route_m": 11017.787873,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8138.03174,
       "line": "line-3",
       "original_cells": 400,
       "original_route_m": 9540.611544,
       "reworked_cells": 335,
-      "reworked_route_m": 8138.03174
+      "reworked_route_m": 8138.03174,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Kumba/alignment-policy.toml": "2715f9db18cc62cb2c6672a0e1f12fd644a0e39ce88bb979cf1ee13cc396cac9",
+    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-buildability-mask.bin.gz": "7540ee7b156575cb673b5f95f3523ce49875482d4c0fca3a709419368eb8e706",
     "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-grid.json": "febc2f7b7e735285a08eb5cd91b03d55a1a29066edec5aa654fee571b8b9f3ef",
+    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-water-mask.bin.gz": "9ab9d6a85f0b665dd962e9f6dac421a55ecd39e26be65fc6049f00a83d733335",
     "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/pre-rework-corridors.json.gz": "ffc93af5c110ce4454f3ba79443d43a9f6f1a026d690144d150eb01d3d1a76ad",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/water-source-receipt.json": "ae6daa883f7a5c26a297c070fb72e6b434da42acba4ae2baff8edd214125b145",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

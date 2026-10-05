@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`aleppo-line1.aln.toml`](aleppo-line1.aln.toml) | `line-1` | 23,730.1 m | 11 |
-| [`aleppo-line2.aln.toml`](aleppo-line2.aln.toml) | `line-2` | 24,173.9 m | 9 |
-| [`aleppo-line3.aln.toml`](aleppo-line3.aln.toml) | `line-3` | 13,561.8 m | 5 |
-| [`aleppo-line4.aln.toml`](aleppo-line4.aln.toml) | `line-4` | 20,738.0 m | 8 |
-| [`aleppo-line5.aln.toml`](aleppo-line5.aln.toml) | `line-5` | 23,346.4 m | 8 |
-| [`aleppo-line6.aln.toml`](aleppo-line6.aln.toml) | `line-6` | 54,029.5 m | 15 |
+| [`aleppo-line1.aln.toml`](aleppo-line1.aln.toml) | `line-1` | 23,459.0 m | 11 |
+| [`aleppo-line2.aln.toml`](aleppo-line2.aln.toml) | `line-2` | 24,173.9 m | 10 |
+| [`aleppo-line3.aln.toml`](aleppo-line3.aln.toml) | `line-3` | 13,281.0 m | 7 |
+| [`aleppo-line4.aln.toml`](aleppo-line4.aln.toml) | `line-4` | 19,921.4 m | 9 |
+| [`aleppo-line5.aln.toml`](aleppo-line5.aln.toml) | `line-5` | 23,346.4 m | 9 |
+| [`aleppo-line6.aln.toml`](aleppo-line6.aln.toml) | `line-6` | 54,029.5 m | 18 |
 
 ## Status
 

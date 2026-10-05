@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "hurghada",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "342049a17707a356bc645ca57e2429cfb6f8ee0c826d0e30dec958dc9be2ea3e",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "7a0e8ab2a9fa563d5a2f61d256bb69b59065bbf50cddc415db0c11a2ee2fe857",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/independent-landcover-samples.bin.gz": "bcfe5166f6cb882c59564f2d6325b1540b270bd56b01e4ff41c9125095171e6f",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/planning-grid.json": "dc6ab5eb7c4a35dbb20176164bffc47305b1d1992ac215471c23f49b149dd7f3",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/planning-water-features.json.gz": "4d6d0946ea8bf8a20367ee35eea44bd26caf113ffae93b1f233e57ce35dd1bff",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 307704,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e1175f97da47b5ac6b12ea27bb153b42a46aa08d16e5cbd26568dcd40d4ae171",
+      "native_window": [
+        8827,
+        32094,
+        1827,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E033_Map.tif",
+      "window_sha256": "72a1e7973054af9e433bd5bdac97061470b25ba5ca8a890c7405ac3ade52f64e"
+    }
+  ]
+}

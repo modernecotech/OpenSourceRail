@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 10.220147,
     "north": 6.023488,
@@ -6,6 +7,7 @@
     "west": 10.100627
   },
   "core_analytical_length_m": 31462.515272,
+  "core_final_route_length_m": 34606.887425,
   "core_original_length_m": 45380.789116,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11878.03174,
       "line": "line-1",
       "original_cells": 414,
       "original_route_m": 19068.384371,
-      "reworked_cells": 610,
-      "reworked_route_m": 15978.169403
+      "reworked_cells": 748,
+      "reworked_route_m": 16696.265504,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14396.408358,
       "line": "line-2",
       "original_cells": 725,
       "original_route_m": 17180.672427,
       "reworked_cells": 592,
-      "reworked_route_m": 14396.408358
+      "reworked_route_m": 14396.408358,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8332.447327,
       "line": "line-3",
       "original_cells": 675,
       "original_route_m": 15438.388018,
       "reworked_cells": 474,
-      "reworked_route_m": 10478.965363
+      "reworked_route_m": 10478.965363,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Bamenda/alignment-policy.toml": "21b17898edd6d76fdb0f7c4bfb1d52753ff7966418d5f6405d4e925e924b34b6",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-buildability-mask.bin.gz": "45523a2ed623a0505b4ebec363b2f017466f0a3efbdc332db3955e439735e480",
     "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-grid.json": "fc8a20c13f715262c8c47bf7eb1e72b9688d895a48c28351ae2e640f07c5ce4d",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-water-mask.bin.gz": "920070e58ca3e246f25b381194042761a258218cf06bff3d0291bcefae812436",
     "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/pre-rework-corridors.json.gz": "e3a438971145706d40c273c1d475e2aecf6a04354f25cf1fa2696b3db16996c7",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/water-source-receipt.json": "cb5e514f81ee6df2a9b39c4fdd3dcdb02d1e85447b8c6ab1e9a8ce1874fb749d",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

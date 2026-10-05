@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 75.998742,
     "north": 22.849111,
@@ -6,6 +7,7 @@
     "west": 75.717462
   },
   "core_analytical_length_m": 247028.588648,
+  "core_final_route_length_m": 268176.31155,
   "core_original_length_m": 300920.196884,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 31943.842687,
       "line": "line-1",
       "original_cells": 405,
       "original_route_m": 36154.413522,
-      "reworked_cells": 1340,
-      "reworked_route_m": 34812.162076
+      "reworked_cells": 1481,
+      "reworked_route_m": 35448.695501,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 27117.098116,
       "line": "line-2",
       "original_cells": 416,
       "original_route_m": 35971.937093,
-      "reworked_cells": 1324,
-      "reworked_route_m": 32641.412002
+      "reworked_cells": 1593,
+      "reworked_route_m": 33753.666658,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23850.437226,
       "line": "line-3",
       "original_cells": 442,
       "original_route_m": 39696.107172,
-      "reworked_cells": 1267,
-      "reworked_route_m": 33961.900964
+      "reworked_cells": 1703,
+      "reworked_route_m": 35539.453096,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 27144.389591,
       "line": "line-4",
       "original_cells": 463,
       "original_route_m": 40381.99443,
-      "reworked_cells": 1224,
-      "reworked_route_m": 34165.320694
+      "reworked_cells": 1536,
+      "reworked_route_m": 35281.202,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23467.291476,
       "line": "line-5",
       "original_cells": 453,
       "original_route_m": 39904.3956,
-      "reworked_cells": 1186,
-      "reworked_route_m": 36092.786294
+      "reworked_cells": 1754,
+      "reworked_route_m": 38638.805179,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -259,11 +271,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21749.789309,
       "line": "line-6",
       "original_cells": 493,
       "original_route_m": 33117.798229,
-      "reworked_cells": 1048,
-      "reworked_route_m": 28706.188382
+      "reworked_cells": 1266,
+      "reworked_route_m": 29160.470401,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -300,11 +314,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 30133.994206,
       "line": "line-7",
       "original_cells": 425,
       "original_route_m": 37698.839281,
-      "reworked_cells": 1317,
-      "reworked_route_m": 35091.95114
+      "reworked_cells": 1529,
+      "reworked_route_m": 35629.974003,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -780,21 +796,27 @@
           "simplification_tolerance_m": 1350.0
         }
       ],
+      "final_core_route_m": 82769.46894,
       "line": "line-8",
       "original_cells": 407,
       "original_route_m": 88419.5905,
       "reworked_cells": 3741,
-      "reworked_route_m": 82769.46894
+      "reworked_route_m": 82769.46894,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Indore/alignment-policy.toml": "651cd0280ed9d761b733a0cc732f4a06413b6c72e846d32c57e82a6bea02dd3a",
+    "cities/catalogue/south-asia/India/Indore/engineering/alignment/planning-buildability-mask.bin.gz": "4b2095c471893cae595aba5698136a49dc2b5e84d64aaee5c009677a42c27dcb",
     "cities/catalogue/south-asia/India/Indore/engineering/alignment/planning-grid.json": "0f526e0426559c022cccfb677f46a0e4852919c92708590a10adadb23bf3d01f",
+    "cities/catalogue/south-asia/India/Indore/engineering/alignment/planning-water-mask.bin.gz": "5bd77cdccefa4fc7c629bbe272b5ff5d32a823fe637eba0b69a7514a13d7f150",
     "cities/catalogue/south-asia/India/Indore/engineering/alignment/pre-rework-corridors.json.gz": "9817fd7e9977b5988b2d1e8d79fa2d2d6c15031e6b7cabc1de9e6c015066f02b",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Indore/engineering/alignment/water-source-receipt.json": "5c605fae139ffa134500cdc5811a6282b5d1cbc5280983b07e7be207cab9638a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

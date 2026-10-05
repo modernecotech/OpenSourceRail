@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 13.415905,
     "north": -8.696167,
@@ -6,6 +7,7 @@
     "west": 13.175905
   },
   "core_analytical_length_m": 260776.661601,
+  "core_final_route_length_m": 293704.787695,
   "core_original_length_m": 315473.571694,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 38015.945135,
       "line": "line-1",
       "original_cells": 415,
       "original_route_m": 55519.704436,
-      "reworked_cells": 1640,
-      "reworked_route_m": 50339.870102
+      "reworked_cells": 2210,
+      "reworked_route_m": 52373.144264,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 24547.232304,
       "line": "line-2",
       "original_cells": 436,
       "original_route_m": 28575.345788,
-      "reworked_cells": 1041,
-      "reworked_route_m": 26709.793719
+      "reworked_cells": 1114,
+      "reworked_route_m": 26849.486271,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 32296.391027,
       "line": "line-3",
       "original_cells": 465,
       "original_route_m": 42536.844319,
-      "reworked_cells": 1388,
-      "reworked_route_m": 38251.489458
+      "reworked_cells": 1663,
+      "reworked_route_m": 39212.959569,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -156,7 +164,13 @@
               29360.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 31137.286237,
+          "seed_from_index": 0,
+          "seed_to_index": 332,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 40660.0,
@@ -169,19 +183,33 @@
                 16800.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 31137.286237,
-          "seed_from_index": 0,
-          "seed_to_index": 332,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 36325.507909,
       "line": "line-4",
       "original_cells": 442,
       "original_route_m": 40280.655258,
-      "reworked_cells": 1282,
-      "reworked_route_m": 37090.01258
+      "reworked_cells": 2036,
+      "reworked_route_m": 47020.898962,
+      "water_route_changes": [
+        {
+          "detour_route_m": 11347.636354,
+          "from_cell": [
+            951,
+            843
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2968.772004,
+          "search_work_upper_bound": 13201,
+          "to_cell": [
+            1068,
+            911
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -218,11 +246,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 27633.161595,
       "line": "line-5",
       "original_cells": 415,
       "original_route_m": 38018.562199,
-      "reworked_cells": 1229,
-      "reworked_route_m": 35910.870359
+      "reworked_cells": 1617,
+      "reworked_route_m": 37911.883092,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -259,11 +289,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22762.640687,
       "line": "line-6",
       "original_cells": 467,
       "original_route_m": 30278.259952,
-      "reworked_cells": 1148,
-      "reworked_route_m": 27019.972451
+      "reworked_cells": 1288,
+      "reworked_route_m": 27065.4834,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -300,11 +332,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21040.773439,
       "line": "line-7",
       "original_cells": 507,
       "original_route_m": 33063.439823,
-      "reworked_cells": 1115,
-      "reworked_route_m": 31491.585508
+      "reworked_cells": 1465,
+      "reworked_route_m": 31723.860018,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -341,11 +375,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 25275.331881,
       "line": "line-8",
       "original_cells": 494,
       "original_route_m": 32325.615706,
-      "reworked_cells": 1252,
-      "reworked_route_m": 31476.957459
+      "reworked_cells": 1457,
+      "reworked_route_m": 31654.987002,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -576,21 +612,27 @@
           "simplification_tolerance_m": 1350.0
         }
       ],
+      "final_core_route_m": 65807.803718,
       "line": "line-9",
       "original_cells": 408,
       "original_route_m": 73955.860492,
       "reworked_cells": 2907,
-      "reworked_route_m": 65807.803718
+      "reworked_route_m": 65807.803718,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Angola/Luanda/alignment-policy.toml": "fbc074b1300c021f397ad7042e5b46fc6c7a13da963d262db9b4fcf3f2c7b5bf",
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/planning-buildability-mask.bin.gz": "0caf1f734ee3d52c0d604f6decf0063c76e9a1e2ea5bbacb24d3fc214dd55dd2",
     "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/planning-grid.json": "3ef99ed0cd6806f3c4197cf28d81878840b0cf824f0a23112d7547a639084df2",
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/planning-water-mask.bin.gz": "95ec847baafae1fdf0eed654f14bafc3b159441daa566f3b4a4146b786e70743",
     "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/pre-rework-corridors.json.gz": "449c6b02a9584326872460d928105516ae868b88907e2100936a87d067dbee50",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/water-source-receipt.json": "812b88d3b852c7af2120c38d7cf3ba7a3c26d139729aac2e0060d45f4907cb74",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

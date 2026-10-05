@@ -94,11 +94,26 @@ def validate(path: Path) -> dict:
     for station in design.get("stations", []):
         stations.setdefault(str(station["line"]), []).append(station)
     findings: list[dict] = []
+    alignment_path=path.parent/'engineering/alignment/core-realignment.json'
+    controlled_water_lines=set()
+    if alignment_path.is_file():
+        alignment=json.loads(alignment_path.read_text())
+        bindings=alignment.get('sources_sha256',{})
+        if bindings and all((REPO_ROOT/source).is_file()
+            and hashlib.sha256((REPO_ROOT/source).read_bytes()).hexdigest()==digest
+            for source,digest in bindings.items()):
+            controlled_water_lines={line['line'] for line in alignment.get('lines',[])
+                                    if line.get('water_route_changes')}
     for radial in sorted(name for name, shape in shapes.items() if shape != "ring"):
         radial_coords = coords.get(radial, [])
         if radial_coords:
             finding = backtracking_finding(radial, radial_coords)
             if finding is not None:
+                if radial in controlled_water_lines:
+                    finding.update(code='water-constrained-radial-backtracking-requires-geometry-review',
+                        severity='review',physical_release=False,
+                        alignment_report_sha256=hashlib.sha256(alignment_path.read_bytes()).hexdigest(),
+                        basis='Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.')
                 findings.append(finding)
     for ring in sorted(name for name, shape in shapes.items() if shape == "ring"):
         ring_groups = {

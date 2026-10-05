@@ -1,0 +1,52 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mosul",
+  "legacy_osm_missing_geometry_ids": [
+    109282,
+    3825310,
+    6225174,
+    7250782,
+    12702685
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "1db61ec116feb5866ada20cc65c35b8320a1215dcdeac8c03eddbec272e3a5a5",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "ccf2691cd589e9326b0fc87d51c742d789db1f5fa4ca5b9ceccbc6e1c4962f2d",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/independent-landcover-samples.bin.gz": "f6cdba2cd719c3e1ec785a7c2c9c49a4fc13f2b47b82e36b5f5de0d6ba283511",
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/planning-grid.json": "ce1c0840019bfc3b43f3b53116814dc9fd13e9c0a5fa4c36f6e1860e28f91311",
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/planning-water-features.json.gz": "b9fdf017d25b9643910b34dccff2d657245cde417840828458b21e5759097305",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 43597,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "09abaad9470fb1932b570ac82a463ae54424dcd9e0791073cd56d66ababf41f4",
+      "native_window": [
+        11400,
+        30000,
+        4203,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N36E042_Map.tif",
+      "window_sha256": "e587b6a320ae40e9156e45a7b1db9fc7e760b1bd0eda433a6bd91d492838b860"
+    }
+  ]
+}

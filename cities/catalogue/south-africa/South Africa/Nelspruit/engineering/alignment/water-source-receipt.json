@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "nelspruit",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "21a8e775ef14ec8ac58a484592add9b2c96e4aa58244b2cc3839af07147fef80",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "84596ab57ecdb4d3d23ef5d201477bcd46b55d27d087c8129640e1798a391b32",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/independent-landcover-samples.bin.gz": "5e3abaeb354f0d9fa131f505faa584f93f0a906b781cbb0f0122cf38873d2cc5",
+    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/planning-grid.json": "e5d6278934b30d0db5a64a996a98560662147a521ef3dc4f1b64497f7d795a17",
+    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/planning-water-features.json.gz": "420c14399023037398f6cad27cbc8e33fcb0dabf61e5c93aeb9a3db1fd4bd230",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 4825,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "746352176fe22e4ebb0dc573808af47186d25843bc3b36c0056bfa4d06865cf9",
+      "native_window": [
+        10735,
+        16892,
+        1798,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S27E030_Map.tif",
+      "window_sha256": "2bbb0e19cbd725c3a1fde2ee4eba951dd80d433cb2bda8c4ab8f669c0f92e869"
+    }
+  ]
+}

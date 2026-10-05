@@ -7,19 +7,19 @@ The adopted planning requirement stores the full line fleet in one line-local de
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
 | line-1-0601-0847-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-2-0777-0419-s018788 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-2-0777-0419-s019288 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0805-0639-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0601-0847-s000000 | line-1 | 19 | 940.5 | 1,130.5 | unverified |
+| line-1-0601-0847-s000000 | line-1 | 20 | 990.0 | 1,190.0 | unverified |
 | line-1-0417-0352-s011565 | line-1 | 19 | 940.5 | 1,130.5 | unverified |
-| line-2-0179-0919-s000000 | line-2 | 31 | 1,534.5 | 1,844.5 | unverified |
-| line-2-0777-0419-s018788 | line-2 | 30 | 1,485.0 | 1,785.0 | unverified |
-| line-3-0805-0639-s000000 | line-3 | 14 | 693.0 | 833.0 | unverified |
-| line-3-0411-0543-s008675 | line-3 | 13 | 643.5 | 773.5 | unverified |
+| line-2-0179-0920-s000000 | line-2 | 32 | 1,584.0 | 1,904.0 | unverified |
+| line-2-0777-0419-s019288 | line-2 | 31 | 1,534.5 | 1,844.5 | unverified |
+| line-3-0805-0639-s000000 | line-3 | 20 | 990.0 | 1,190.0 | unverified |
+| line-3-0411-0543-s011679 | line-3 | 19 | 940.5 | 1,130.5 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

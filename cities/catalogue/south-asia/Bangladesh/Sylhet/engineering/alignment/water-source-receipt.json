@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "sylhet",
+  "legacy_osm_missing_geometry_ids": [
+    8943986
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "9d67392ec906336b1b5e540f636b54e18cf7aaaee735466ec6854633ebcb7db4",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "fed73b7384caf8dc1504c1e758b0dac5c8b7b70e4a1f6f62b5607dd7edfd19fc",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/independent-landcover-samples.bin.gz": "501efb008b1762b9d1800c97fe913f4ba713245296cf61237c0b8d5292ffff1c",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/planning-grid.json": "daede843c7089effa6a0f21c203e1ad7da23cd8dd771599c10e8d8154ebd635d",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/planning-water-features.json.gz": "0d96accb87620f449f1133efc7009ac5655b97b7e31bd87333f64e8caf4c1316",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 49984,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "df5e6544bc5b096c1c9f40d107410a7ae83d3c8c31ebabaf817a000d261a4924",
+      "native_window": [
+        21112,
+        24072,
+        2627,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E090_Map.tif",
+      "window_sha256": "9d2362b59ae8a3adb03a9fcb90fcbd855157ef5d5f9288a25a69a456287ef0a8"
+    }
+  ]
+}

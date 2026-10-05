@@ -1,22 +1,22 @@
 slug: port-said
 pass: true
 metrics:
-  total_route_m: 20058.4
+  total_route_m: 19621.8
   n_lines: 3
-  n_stations: 10
-  anchor_hit_rate: 0.900
+  n_stations: 11
+  anchor_hit_rate: 0.818
   high_demand_coverage: 0.427
   civil_mix_m:
     at_grade: 0.0
-    elevated: 20058.4
-    bridge:   0.0
+    elevated: 17771.3
+    bridge:   1850.5
   elevated_fraction: 1.000
   viaduct_products_m:
-    osr_pi20_pi25: 20058.4
-    osr_us:      0.0
-    special:     0.0
-    realign:     0.0
-  max_elevated_cost_multiplier: 1.000
+    osr_pi20_pi25: 9976.1
+    osr_us:      6897.8
+    special:     1850.5
+    realign:     897.4
+  max_elevated_cost_multiplier: 10.976
 gates:
   hard:
     has_stations:      true
@@ -25,5 +25,5 @@ gates:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

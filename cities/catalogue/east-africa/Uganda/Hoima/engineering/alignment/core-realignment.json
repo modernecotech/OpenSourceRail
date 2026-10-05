@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 31.392765,
     "north": 1.473023,
@@ -6,6 +7,7 @@
     "west": 31.311645
   },
   "core_analytical_length_m": 17025.588635,
+  "core_final_route_length_m": 18740.42856,
   "core_original_length_m": 24120.188451,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7406.66089,
       "line": "line-1",
       "original_cells": 469,
       "original_route_m": 11384.530734,
       "reworked_cells": 436,
-      "reworked_route_m": 10323.717165
+      "reworked_route_m": 10323.717165,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6048.670991,
       "line": "line-2",
       "original_cells": 447,
       "original_route_m": 10667.981233,
       "reworked_cells": 333,
-      "reworked_route_m": 8106.316011
+      "reworked_route_m": 8106.316011,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5285.09668,
       "line": "line-3",
       "original_cells": 297,
       "original_route_m": 7190.66205,
       "reworked_cells": 257,
-      "reworked_route_m": 5385.09668
+      "reworked_route_m": 5385.09668,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Hoima/alignment-policy.toml": "00b01f9e0eee6a9f2b689b1f32b58f8b3785e429bd57d87359ad6270dfd92c91",
+    "cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/planning-buildability-mask.bin.gz": "cb4b047680b5aa9187da65e325628449c4ce985e47d69e276928ef9b5762be43",
     "cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/planning-grid.json": "64c2fe3107257310d8fa80aa96a85e8f5875fd8608c25d714dde4525e1d48add",
+    "cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/planning-water-mask.bin.gz": "9f7bc1d10c88cecb73716cb8698472b66525ff92d6bd6d16b58d65b0592fd7d6",
     "cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/pre-rework-corridors.json.gz": "16147e647c54ae245c5e8f1c9286db165f1f4ba1eb7ce8faf0e69565bdea1c41",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Hoima/engineering/alignment/water-source-receipt.json": "d58113c40cb20316d87534e72e98ca64803fa02dfff7255dd03e0906252f1777",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

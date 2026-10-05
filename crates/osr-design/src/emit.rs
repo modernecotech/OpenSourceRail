@@ -448,6 +448,9 @@ fn write_design_toml(
         out.push_str(&format!("lat             = {}\n", s.lat));
         out.push_str(&format!("lon             = {}\n", s.lon));
         out.push_str(&format!("s_m             = {:.1}\n", s.s_m));
+        if s.mandatory_crossing {
+            out.push_str("mandatory_crossing = true\n");
+        }
         if let Some(k) = s.anchor_kind.as_deref() {
             out.push_str(&format!("anchor_kind     = \"{k}\"\n"));
         }
@@ -1690,47 +1693,18 @@ fn write_corridor_geojson(
 ) -> Result<()> {
     let mut features: Vec<serde_json::Value> = Vec::new();
 
-    // Shared-track detection: for every cell that two or more lines
-    // pass through, we offset each line's drawn polyline perpendicularly
-    // by `(rank - (n-1)/2) * SHARED_OFFSET_M` so both lines remain
-    // visible instead of stacking on the same pixel. Single-occupant
-    // cells get no offset, so non-shared sections render in their true
-    // location.
-    const SHARED_OFFSET_M: f64 = 12.0;
-    let cell_owners = compute_cell_owners(lines);
-
-    for (li, line) in lines.iter().enumerate() {
-        let step = (line.cells.len() / 400).max(1);
-        let mut coords: Vec<[f64; 2]> = Vec::new();
-        let n = line.cells.len();
-        for i in 0..n {
-            // Decimate identically to the previous behaviour.
-            if i != 0 && i != n - 1 && i % step != 0 {
-                continue;
-            }
-            let (r, c) = line.cells[i];
-            // Tangent from the (i-1, i+1) neighbours when available.
-            let (pr, pc) = line.cells[i.saturating_sub(1)];
-            let (nr, nc) = line.cells[(i + 1).min(n - 1)];
-            let dr = nr as f64 - pr as f64;
-            let dc = nc as f64 - pc as f64;
-            let mag = (dr * dr + dc * dc).sqrt().max(1e-6);
-            // Perpendicular in (row, col) space: (-dc, dr). Row grows
-            // southward, so positive perp_lat = north when perp_row<0;
-            // we just need consistent left/right separation so the
-            // sign convention is fine as long as each line gets a
-            // distinct rank.
-            let perp_r = -dc / mag;
-            let perp_c = dr / mag;
-
-            let offset_m = perp_offset(&cell_owners, (r, c), li, SHARED_OFFSET_M);
-            let (lat, lon) = if offset_m == 0.0 {
-                bundle.grid.reference.rc_to_latlon(r, c)
-            } else {
-                offset_latlon(&bundle.grid.reference, r, c, perp_r, perp_c, offset_m)
-            };
-            coords.push([lon, lat]);
-        }
+    // This is the authoritative geometry for GIS, quantities and checks.
+    // Keep every controlled vertex: decimation can cut a shoreline detour
+    // back through water. Display offsets must never move physical routes.
+    for line in lines {
+        let coords: Vec<[f64; 2]> = line
+            .cells
+            .iter()
+            .map(|&(r, c)| {
+                let (lat, lon) = bundle.grid.reference.rc_to_latlon(r, c);
+                [lon, lat]
+            })
+            .collect();
         features.push(serde_json::json!({
             "type": "Feature",
             "properties": {
@@ -1772,63 +1746,6 @@ fn write_corridor_geojson(
     let path = out_dir.join(format!("{slug}.corridor.geojson"));
     fs::write(&path, serde_json::to_string_pretty(&geojson)?)?;
     Ok(())
-}
-
-/// Map every cell to the sorted list of line indices that pass through
-/// it. Cells touched by only one line are absent (we skip the
-/// allocation for them since the common case in non-trunk areas is
-/// single-occupancy).
-fn compute_cell_owners(lines: &[Line]) -> std::collections::HashMap<(usize, usize), Vec<usize>> {
-    let mut tmp: std::collections::HashMap<(usize, usize), Vec<usize>> =
-        std::collections::HashMap::new();
-    for (li, line) in lines.iter().enumerate() {
-        for &cell in &line.cells {
-            let entry = tmp.entry(cell).or_default();
-            if !entry.contains(&li) {
-                entry.push(li);
-            }
-        }
-    }
-    tmp.retain(|_, v| v.len() >= 2);
-    for v in tmp.values_mut() {
-        v.sort();
-    }
-    tmp
-}
-
-/// Compute the perpendicular offset in metres for line `li` at `cell`.
-/// Returns (0.0, 1) if the cell is single-occupant.
-fn perp_offset(
-    owners: &std::collections::HashMap<(usize, usize), Vec<usize>>,
-    cell: (usize, usize),
-    li: usize,
-    offset_m: f64,
-) -> f64 {
-    let Some(v) = owners.get(&cell) else {
-        return 0.0;
-    };
-    let n = v.len();
-    let rank = v.iter().position(|&i| i == li).unwrap_or(0) as f64;
-    let centred = rank - (n as f64 - 1.0) * 0.5;
-    centred * offset_m
-}
-
-/// Apply a perpendicular metres-offset to a cell centre's lat/lon.
-/// `perp_r` / `perp_c` is the unit perpendicular in (row, col) space.
-fn offset_latlon(
-    gref: &osr_routing::raster::GridRef,
-    row: usize,
-    col: usize,
-    perp_r: f64,
-    perp_c: f64,
-    offset_m: f64,
-) -> (f64, f64) {
-    let (base_lat, base_lon) = gref.rc_to_latlon(row, col);
-    // perp in (row, col) translated to metres; row grows southward so
-    // dlat = -perp_r * offset / m_per_deg_lat.
-    let dlat = -(perp_r * offset_m) / gref.m_per_deg_lat;
-    let dlon = (perp_c * offset_m) / gref.m_per_deg_lon;
-    (base_lat + dlat, base_lon + dlon)
 }
 
 // ---- stations.json ---------------------------------------------------
@@ -2057,6 +1974,66 @@ mod tests {
     use osr_routing::topology::{Line, LineShape};
 
     #[test]
+    fn authoritative_geometry_keeps_shore_detours_and_coincident_routes() {
+        use osr_routing::raster::{Grid, GridRef};
+        let reference = GridRef {
+            height: 2,
+            width: 2001,
+            cell_m: 20.0,
+            lat0: 0.0,
+            bbox_south: 0.0,
+            bbox_north: 1.0,
+            bbox_west: 0.0,
+            bbox_east: 1.0,
+            m_per_deg_lat: 111132.0,
+            m_per_deg_lon: 111320.0,
+        };
+        let bundle = RasterBundle {
+            grid: Grid {
+                reference,
+                cost: vec![1.0; 4002],
+                demand: vec![0.0; 4002],
+                buildability: vec![1; 4002],
+                water: None,
+                elevation_m: None,
+                terrain_slope_percent: None,
+            },
+            anchors: vec![],
+            slug: "shore".into(),
+        };
+        let cells: Vec<_> = (0..2001)
+            .map(|col| (usize::from((1000..=1004).contains(&col)), col))
+            .collect();
+        let lines = vec![
+            Line {
+                name: "A".into(),
+                shape: LineShape::Radial,
+                cells: cells.clone(),
+                anchor_ids: vec![],
+            },
+            Line {
+                name: "B".into(),
+                shape: LineShape::Radial,
+                cells,
+                anchor_ids: vec![],
+            },
+        ];
+        let dir = std::env::temp_dir().join(format!("osr-shore-export-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        write_corridor_geojson(&dir, "shore", &bundle, &lines, &[]).unwrap();
+        let geo: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(dir.join("shore.corridor.geojson")).unwrap())
+                .unwrap();
+        let a = &geo["features"][0]["geometry"]["coordinates"];
+        let b = &geo["features"][1]["geometry"]["coordinates"];
+        assert_eq!(a.as_array().unwrap().len(), 2001);
+        assert_eq!(a, b);
+        let (lat, lon) = bundle.grid.reference.rc_to_latlon(1, 1003);
+        assert_eq!(a[1003], serde_json::json!([lon, lat]));
+        std::fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
     fn family_band_boundaries_match_rfc_0008_section_5() {
         assert_eq!(family_for_population(50_000), "urban-shuttle-1car");
         assert_eq!(family_for_population(150_000), "urban-shuttle-1car");
@@ -2081,6 +2058,7 @@ mod tests {
 
     fn st(line: &str, s_m: f64, lat: f64, lon: f64, demand: f32) -> Station {
         Station {
+            mandatory_crossing: false,
             row: 0,
             col: 0,
             lat,

@@ -1,0 +1,70 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "agra",
+  "legacy_osm_missing_geometry_ids": [
+    409170,
+    1765312,
+    1765313,
+    1826730,
+    1826732,
+    2341720,
+    9082846
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "55dd4645ec5914f05824cd3e65f27e1de41737e641986996ce5e390b2c9a78f0",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "d8d7a3a407bbef93d7b5932d46116c67faf9ef5ef0baed51f92315873638483a",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/independent-landcover-samples.bin.gz": "9ac701ff72a43c3e1858c0813b38bfd9f52a1887e579e1863151156eecbc8cf5",
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/planning-grid.json": "dcb8f490bc7689d4d45ee01c2c0057240743570c5450ab631e21cd9eaa8fa27c",
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/planning-water-features.json.gz": "4caf7518f63db8014c311fbf5c7b9ae7efb14802deee958c4ef68b86f41b56e1",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 48315,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "447f74f2168bb14947a77c99a5a05bdf861300f1e0bdb66dd26e7262620f563f",
+      "native_window": [
+        34153,
+        32150,
+        1847,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E075_Map.tif",
+      "window_sha256": "633a34531147c885de5e5720329ad53749c45cd250c01cb57c7a435e0b087e44"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b1e2b1ed27b3547cc558fa47fbaaabb1600ce210ba5db9790048f9ddd0ea4c0e",
+      "native_window": [
+        0,
+        32150,
+        2044,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E078_Map.tif",
+      "window_sha256": "88d05f32e0b9763776745441cb77d5df24da425fcf5d931bfca67b56564293cd"
+    }
+  ]
+}

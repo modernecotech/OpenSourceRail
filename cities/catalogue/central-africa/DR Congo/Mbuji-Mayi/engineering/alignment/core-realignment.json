@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 23.678617,
     "north": -6.047703,
@@ -6,6 +7,7 @@
     "west": 23.504617
   },
   "core_analytical_length_m": 86027.319148,
+  "core_final_route_length_m": 91046.870094,
   "core_original_length_m": 102734.224527,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19297.989899,
       "line": "line-1",
       "original_cells": 440,
       "original_route_m": 28299.804913,
-      "reworked_cells": 1056,
-      "reworked_route_m": 25023.137657
+      "reworked_cells": 1247,
+      "reworked_route_m": 25077.401154,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14128.528137,
       "line": "line-2",
       "original_cells": 771,
       "original_route_m": 16841.463197,
       "reworked_cells": 759,
-      "reworked_route_m": 15640.487732
+      "reworked_route_m": 15640.487732,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22348.165928,
       "line": "line-3",
       "original_cells": 576,
       "original_route_m": 28096.069275,
-      "reworked_cells": 1051,
-      "reworked_route_m": 28233.463403
+      "reworked_cells": 1252,
+      "reworked_route_m": 29302.968235,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -371,21 +379,27 @@
           "simplification_tolerance_m": 900.0
         }
       ],
+      "final_core_route_m": 35272.18613,
       "line": "line-4",
       "original_cells": 477,
       "original_route_m": 42687.576242,
       "reworked_cells": 1572,
-      "reworked_route_m": 35272.18613
+      "reworked_route_m": 35272.18613,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/alignment-policy.toml": "b5ea13f6cbe4934f34c10497759e8fd723793247f55527c316936611ac0bffab",
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/planning-buildability-mask.bin.gz": "4d4152cd1d10fe7d4d7b6d635493834670ee158589ff72ccbb290247b582d4f1",
     "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/planning-grid.json": "ddd1a4ffb85ea0debfbab0d939e50ec9df7cd73b5724b0d5f44783a56160f0fd",
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/planning-water-mask.bin.gz": "b5e1c69dff98097124a7b6d9ae40736ae038dc7c829f5edd83a68afd15cdca73",
     "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/pre-rework-corridors.json.gz": "5255f5ecec57f33f3ea984b852f75fae7ab0d8a765483f0c2da3a5a1e11c882d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/water-source-receipt.json": "a0f8fa20ab8be0ffc8887ba3ade30e1f88a6aa6944bd6d143e535cd40236d567",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

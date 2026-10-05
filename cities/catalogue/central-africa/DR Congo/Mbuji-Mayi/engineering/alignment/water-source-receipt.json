@@ -1,0 +1,67 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mbuji-mayi",
+  "legacy_osm_missing_geometry_ids": [
+    5979214,
+    6366979,
+    7344089,
+    8211206
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "660fef39d957e40e168717d1bbe8d40d91cb2cd4df3bb570a6e8c097306d02b4",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "7e80d114c7ad66e6db9d04f5e252e8a2ba454a748d5bd8abb4f7812e01fd9e24",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/independent-landcover-samples.bin.gz": "d457ac5ec3d959e9fdafde78b0e433da856110b8a20fb84a14849d116da0742a",
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/planning-grid.json": "ddd1a4ffb85ea0debfbab0d939e50ec9df7cd73b5724b0d5f44783a56160f0fd",
+    "cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/planning-water-features.json.gz": "31ef65b7ff982105d8c0c439044c204a249579ddb0edb41523bf93d6d3918af9",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 24837,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "0b4c04c9a0bf27893dd73275d4740d250c2bb66528ce93b2d01d6c8a3c7738b0",
+      "native_window": [
+        29337,
+        0,
+        3483,
+        3364
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E021_Map.tif",
+      "window_sha256": "0a2f0a5fe5ab841d7cd513232b27661d6a23074fe5f6ff09311ac491ef195a4b"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f653a306681aa160028b4c08d0e43b25f34abd2d93119879752232f1dd3ef7ec",
+      "native_window": [
+        29337,
+        35902,
+        3483,
+        98
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S06E021_Map.tif",
+      "window_sha256": "daae5d67b833d5dd0250a732b4de924681a5b7e53f159432f7e9b986e950b220"
+    }
+  ]
+}

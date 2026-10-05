@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 15.80108,
     "north": -12.716611,
@@ -6,6 +7,7 @@
     "west": 15.67916
   },
   "core_analytical_length_m": 35139.335737,
+  "core_final_route_length_m": 38166.155826,
   "core_original_length_m": 47452.923117,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14684.062043,
       "line": "line-1",
       "original_cells": 500,
       "original_route_m": 22922.421659,
-      "reworked_cells": 756,
-      "reworked_route_m": 18711.544553
+      "reworked_cells": 882,
+      "reworked_route_m": 19276.854249,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9957.442995,
       "line": "line-2",
       "original_cells": 583,
       "original_route_m": 12882.640687,
       "reworked_cells": 421,
-      "reworked_route_m": 9957.442995
+      "reworked_route_m": 9957.442995,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13524.650788,
       "line": "line-3",
       "original_cells": 643,
       "original_route_m": 15880.196094,
       "reworked_cells": 621,
-      "reworked_route_m": 13609.503602
+      "reworked_route_m": 13609.503602,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Angola/Huambo/alignment-policy.toml": "0c202ce4420e97205d974189160d5324e0a2063b26323b1c020132ea6b42abba",
+    "cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/planning-buildability-mask.bin.gz": "fe0da0f5974766ce66eed2b94a91f5288cbac9636aeda9e542726cd525720b63",
     "cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/planning-grid.json": "7138b88b81fb007556d234a9240766df333633224fe1f48a968ce5a286b36e4d",
+    "cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/planning-water-mask.bin.gz": "e0c4aed39faa4ad22139f3d7ad91dc8da49be64ffd86425b0e660a73781d0b46",
     "cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/pre-rework-corridors.json.gz": "8b9fb7cb43d98858fa0742a1a0c3ba5f527f006559806fc6bd9fa46b84b9815e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/water-source-receipt.json": "67e3a1965b710cefe897f9d3fd849eab52bee0fc03a0ab8a226f67113bf53ab6",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

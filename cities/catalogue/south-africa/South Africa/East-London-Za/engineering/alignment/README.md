@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`east-london-za-line1.aln.toml`](east-london-za-line1.aln.toml) | `line-1` | 17,369.0 m | 6 |
 | [`east-london-za-line2.aln.toml`](east-london-za-line2.aln.toml) | `line-2` | 20,164.0 m | 7 |
-| [`east-london-za-line3.aln.toml`](east-london-za-line3.aln.toml) | `line-3` | 20,141.3 m | 6 |
+| [`east-london-za-line3.aln.toml`](east-london-za-line3.aln.toml) | `line-3` | 20,141.3 m | 8 |
 
 ## Status
 

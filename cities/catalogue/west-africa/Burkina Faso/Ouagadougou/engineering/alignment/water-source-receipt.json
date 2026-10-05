@@ -1,0 +1,54 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "ouagadougou",
+  "legacy_osm_missing_geometry_ids": [
+    4192358,
+    4276920,
+    4278096,
+    8651971,
+    11131472,
+    12234103,
+    13606824
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "60d54d381a085e0cf311bef8f96015737c182ccd6b1c29a1eae214f3478bb3f2",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "31b187f07b2c6b50fffe0e6e8e6014c07300dcba45f3fa77d9f97abb306e9764",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/independent-landcover-samples.bin.gz": "b647cf0f25edf61d47b1754414966b4aef215b45b69cd22b8239f5cd0ea52c1c",
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/planning-grid.json": "2acec01725b930fb3d79e2839ca800b2018614a1a241f737f3fd71b4b2d18b2f",
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/planning-water-features.json.gz": "cfb9f9fc0b950efde3572137c2cd4c68263286e3a55874431a727ec472da2240",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 47950,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "096a268ace2dbc0182318325c3497d27bd79666e316e995cbb9087269d2ae42a",
+      "native_window": [
+        16200,
+        29400,
+        3603,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12W003_Map.tif",
+      "window_sha256": "79467473ab78042e89ca3dee49dc2d378715f8008a5e3dabf7227a36d88b4e1e"
+    }
+  ]
+}

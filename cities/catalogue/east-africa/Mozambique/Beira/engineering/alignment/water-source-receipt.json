@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "beira",
+  "legacy_osm_missing_geometry_ids": [
+    3320603,
+    9452198,
+    9795383
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "68df3ac9ed3635529ee56815e9866b44d6c64041cb53f93088fe686641cd5b11",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "315c6045a036308bdcda6cd8a8979a67b2cbf18524ad11a0aaeb18649d4d9af7",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/independent-landcover-samples.bin.gz": "e332b285ffeb5ba8d317ade440e3e7541b56394ac9c778928bf36dc3c13607ff",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/planning-grid.json": "ebb7c80b9ac83c37fe34d44a274f366513bea94f5596b816192cd6261c6fc46c",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/planning-water-features.json.gz": "a17eedba83d8f93b7ba43eccb4c21b5dd48faa9a5e6b6c3f2d5a32b7922a8ffa",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 682772,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e426e19e7f01da6e0f817f6d972e30d8c183cf9b079a39a1467e6cb36bde459a",
+      "native_window": [
+        21360,
+        20640,
+        2643,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S21E033_Map.tif",
+      "window_sha256": "fc0e314b2dd459fd776bc986bdfef3ea97ee6473c42a6ca12a962c2501f82301"
+    }
+  ]
+}

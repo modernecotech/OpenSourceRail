@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "latakia",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "c0dda344a0e6faef6b3ae160c51870028d167700bd5847f0da0b45cbf794e7ff",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "659cd749d50c76cfe484d31f8785ac67fe3dfd9bca25881999eac2fbd1d7062e",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/independent-landcover-samples.bin.gz": "7d409c3fb51e1fdbac743ef27d511698e20a84af4f234efe4f6ab4e88a0f60a4",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-grid.json": "a7f890c1e85a1973b5c04f373cd1b79de5290a20dd2925fd1014ba3f42e46071",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-water-features.json.gz": "78b1d895bc3baee299ee0ff149f6599e863b07a6be93051418d26e48fe9cb698",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 633918,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "61c0d2597683862ceb9ecd472c37d74d02a5563e37a696a3f32156d86efd6ecd",
+      "native_window": [
+        32019,
+        4430,
+        2927,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E033_Map.tif",
+      "window_sha256": "809e84fe55c98c20080d77ba53f28ef25bfdc7f74bef73a192c8b20a2c3ae8c8"
+    }
+  ]
+}

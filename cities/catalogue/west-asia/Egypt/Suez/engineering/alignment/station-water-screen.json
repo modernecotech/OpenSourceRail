@@ -1,6 +1,6 @@
 {
   "city": "suez",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,45 +11,51 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 917,
-      "row": 926,
-      "station_id": "line-1-0926-0917-s003503",
+      "col": 928,
+      "row": 940,
+      "station_id": "line-1-0940-0928-s003505",
       "water_coverage_percent": 0
     },
     {
-      "col": 805,
-      "row": 808,
-      "station_id": "line-1-0808-0805-s007018",
+      "col": 836,
+      "row": 829,
+      "station_id": "line-1-0829-0836-s007002",
       "water_coverage_percent": 0
     },
     {
       "col": 636,
       "row": 690,
-      "station_id": "line-1-0690-0636-s011622",
+      "station_id": "line-1-0690-0636-s012447",
       "water_coverage_percent": 0
     },
     {
-      "col": 526,
-      "row": 613,
-      "station_id": "line-1-0613-0526-s014635",
+      "col": 591,
+      "row": 591,
+      "station_id": "line-1-0591-0591-s015467",
       "water_coverage_percent": 0
     },
     {
-      "col": 416,
-      "row": 537,
-      "station_id": "line-1-0537-0416-s017652",
+      "col": 472,
+      "row": 576,
+      "station_id": "line-1-0576-0472-s018481",
       "water_coverage_percent": 0
     },
     {
-      "col": 324,
-      "row": 473,
-      "station_id": "line-1-0473-0324-s020163",
+      "col": 384,
+      "row": 515,
+      "station_id": "line-1-0515-0384-s020910",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 277,
+      "row": 440,
+      "station_id": "line-1-0440-0277-s023812",
       "water_coverage_percent": 0
     },
     {
       "col": 232,
       "row": 409,
-      "station_id": "line-1-0409-0232-s022662",
+      "station_id": "line-1-0409-0232-s025028",
       "water_coverage_percent": 0
     },
     {
@@ -65,21 +71,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 417,
-      "row": 479,
-      "station_id": "line-2-0479-0417-s006014",
+      "col": 384,
+      "row": 515,
+      "station_id": "line-2-0515-0384-s004926",
       "water_coverage_percent": 0
     },
     {
-      "col": 494,
-      "row": 394,
-      "station_id": "line-2-0394-0494-s008562",
+      "col": 469,
+      "row": 421,
+      "station_id": "line-2-0421-0469-s007757",
       "water_coverage_percent": 0
     },
     {
-      "col": 571,
-      "row": 310,
-      "station_id": "line-2-0310-0571-s011126",
+      "col": 555,
+      "row": 328,
+      "station_id": "line-2-0328-0555-s010587",
       "water_coverage_percent": 0
     },
     {
@@ -113,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 18,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Suez/design.toml": "78fbcd5c238b48fc916b078a9a70db40acd1b341a277cd36ec4d4b0fff8484f8",
+    "cities/catalogue/west-asia/Egypt/Suez/design.toml": "c68932af9ba7e1fc6d3f2feb7b27277942463cdf4ee573559093d3c727ff88f1",
     "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/planning-grid.json": "03d804461457ad16986b938dfa00f7fbd9b16344c9cdafb60e64182e1a2b9851",
-    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/planning-water-mask.bin.gz": "b3c0e45b58c831067c819578792b830d5fcccbaf23ab7343da8e9aa260af9d72",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/planning-water-mask.bin.gz": "d02ff86342c623139b5ea178aad8ab68a90e888a4d51d08e5517be9d14e56ebf",
+    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/water-source-receipt.json": "3f7c6e6a5580bba5267e547784b94b37f3f48fc77b007ff7cd6e851c6df9f65d",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "9388ee4e0ce10115fb5de2232088b8f0086dd8354e27103b255bb7a45742cd54",
+  "uncompressed_water_mask_sha256": "0759d859d72f9703063bcda31b8cc1e7a70486f13f66a254c200692680296e2d",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

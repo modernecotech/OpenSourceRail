@@ -1,6 +1,6 @@
 {
   "city": "nelspruit",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,15 +11,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 321,
-      "row": 288,
-      "station_id": "line-1-0288-0321-s003011",
+      "col": 277,
+      "row": 292,
+      "station_id": "line-1-0292-0277-s002086",
       "water_coverage_percent": 0
     },
     {
-      "col": 451,
-      "row": 277,
-      "station_id": "line-1-0277-0451-s005702",
+      "col": 377,
+      "row": 283,
+      "station_id": "line-1-0283-0377-s004173",
       "water_coverage_percent": 0
     },
     {
@@ -35,21 +35,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 379,
-      "row": 309,
-      "station_id": "line-2-0309-0379-s003003",
+      "col": 377,
+      "row": 283,
+      "station_id": "line-2-0283-0377-s002466",
       "water_coverage_percent": 0
     },
     {
-      "col": 384,
-      "row": 374,
-      "station_id": "line-2-0374-0384-s004344",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 391,
-      "row": 455,
-      "station_id": "line-2-0455-0391-s006022",
+      "col": 388,
+      "row": 418,
+      "station_id": "line-2-0418-0388-s005257",
       "water_coverage_percent": 0
     },
     {
@@ -71,15 +65,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 367,
-      "row": 411,
-      "station_id": "line-3-0411-0367-s005242",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 465,
-      "row": 441,
-      "station_id": "line-3-0441-0465-s007474",
+      "col": 388,
+      "row": 418,
+      "station_id": "line-3-0418-0388-s005732",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +77,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 12,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-africa/South Africa/Nelspruit/design.toml": "8e429e5915534147205796d0bbf75a266c79d42ee027ee0f242ab64a92874438",
+    "cities/catalogue/south-africa/South Africa/Nelspruit/design.toml": "2f32e0bd7d2b40b92c478306e51ccf8850d2e6dcf56741756fdea122f4dc7f4b",
     "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/planning-grid.json": "e5d6278934b30d0db5a64a996a98560662147a521ef3dc4f1b64497f7d795a17",
-    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/planning-water-mask.bin.gz": "e1cfbcced06cf77e7b94149b1da194341a81a8750f47ca3a427cca1373750295",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/planning-water-mask.bin.gz": "716717515f8f8acb6867aaba192c348bf75194a74212bd4f091a695dc53eaf68",
+    "cities/catalogue/south-africa/South Africa/Nelspruit/engineering/alignment/water-source-receipt.json": "c2cc6192d951015c6bb81992b88dc9544a0eb840acf48d6ea7d7dabc06d1e926",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "83cd70654f1931ce8641a1f889e5f8743e74821f86593ba215f395a9fa5dced7",
+  "uncompressed_water_mask_sha256": "21a8e775ef14ec8ac58a484592add9b2c96e4aa58244b2cc3839af07147fef80",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

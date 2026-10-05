@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 80.694356,
     "north": 7.350269,
@@ -6,6 +7,7 @@
     "west": 80.574476
   },
   "core_analytical_length_m": 42482.856267,
+  "core_final_route_length_m": 47083.98554,
   "core_original_length_m": 58907.072232,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14101.56421,
       "line": "line-1",
       "original_cells": 564,
       "original_route_m": 26145.183217,
-      "reworked_cells": 811,
-      "reworked_route_m": 20991.870797
+      "reworked_cells": 1039,
+      "reworked_route_m": 22168.326112,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19377.139956,
       "line": "line-2",
       "original_cells": 546,
       "original_route_m": 24648.320917,
-      "reworked_cells": 837,
-      "reworked_route_m": 20927.459377
+      "reworked_cells": 899,
+      "reworked_route_m": 21339.982669,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13605.281374,
       "line": "line-3",
       "original_cells": 471,
       "original_route_m": 21699.491379,
-      "reworked_cells": 667,
-      "reworked_route_m": 18594.010104
+      "reworked_cells": 828,
+      "reworked_route_m": 19373.220767,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Sri Lanka/Kandy/alignment-policy.toml": "63e442c95232f92404f7770ea5e0e5b2b0f92afb53ba7dc4b2c5a32be02fef98",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/planning-buildability-mask.bin.gz": "f8c9c3f7904d7ffa6de37f397e9cd5379082e0205cdb2ca67bd3c178f5163524",
     "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/planning-grid.json": "f7058acd0da85702cfe18ff8efbe7169a9a2012c9e2b2483799760e54a285fa4",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/planning-water-mask.bin.gz": "5edcc9c8c210a0a3463c5c558f517e81e7198fe445f4408fd73aa5408d570528",
     "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/pre-rework-corridors.json.gz": "e09283653e55c589ea635281acdbf55ee4f12f701c27cc502e971de8bdd74759",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/water-source-receipt.json": "6206fc5a853a53ce116bed0c5b6671938da1b26960c9d51320dce6d74e099e4f",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

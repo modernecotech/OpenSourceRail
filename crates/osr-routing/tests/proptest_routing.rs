@@ -203,12 +203,12 @@ proptest! {
     }
 
     #[test]
-    fn any_mapped_water_is_bridge_but_station_exclusion_needs_majority(
+    fn any_mapped_water_requires_bridge_and_excludes_station(
         coverage in 1_u8..=100,
     ) {
         let mut value = grid(1, 1);
         value.water = Some(vec![coverage]);
         prop_assert_eq!(classify_segments(&value, &[(0, 0)])[0].class, CivilClass::Bridge);
-        prop_assert_eq!(value.excludes_station_for_water(0, 0), coverage >= 50);
+        prop_assert!(value.excludes_station_for_water(0, 0));
     }
 }

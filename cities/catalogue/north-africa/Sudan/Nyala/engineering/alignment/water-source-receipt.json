@@ -1,0 +1,66 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "nyala",
+  "legacy_osm_missing_geometry_ids": [
+    18890476,
+    19105275,
+    19441364
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "aa5e9d4f137b10fe445d9288d9d866859b126197d7280346ce63d6982a2a169c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "63df43988d4635935adf457f09d0551108432a40916060834359952ba2adf77b",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/independent-landcover-samples.bin.gz": "16232f77229cd5c75636d590ee18f7803e6ba53a2def936b097c15902c3e8cc6",
+    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/planning-grid.json": "bbdf11420fce1bd62abbf9e1f67313c5cc5c2789483dd44a30cdb0e5a8e6e1f2",
+    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/planning-water-features.json.gz": "178b049ca41ff90c478b9b33790a157f2bde943e7e0eb4d2f5c653861bbad668",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 3897,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "17abb592ef13964e49f9aa67f9d4b17b318ea7dd2927b9d6a11936f685f050e5",
+      "native_window": [
+        9352,
+        0,
+        2435,
+        605
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E024_Map.tif",
+      "window_sha256": "864bf86c8aeb8b91f9a1658df505b8cafb5bb3476ea4c325efeda405ec8f303e"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ac61fe630d36491cd23ab67521a4b7aaefc1ae2cff969ffc42c137631bca008f",
+      "native_window": [
+        9352,
+        34224,
+        2435,
+        1776
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E024_Map.tif",
+      "window_sha256": "c6a8cd0c10e2bc0e4d52980dc2e6c0aa42fc0e6be21006f3050f74ef7be1ead6"
+    }
+  ]
+}

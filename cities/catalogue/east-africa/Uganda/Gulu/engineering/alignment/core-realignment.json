@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 32.35888,
     "north": 2.834089,
@@ -6,6 +7,7 @@
     "west": 32.23984
   },
   "core_analytical_length_m": 39783.704667,
+  "core_final_route_length_m": 44422.707038,
   "core_original_length_m": 48303.700844,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12274.499269,
       "line": "line-1",
       "original_cells": 638,
       "original_route_m": 14943.616152,
       "reworked_cells": 512,
-      "reworked_route_m": 12274.499269
+      "reworked_route_m": 12274.499269,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19265.668094,
       "line": "line-2",
       "original_cells": 406,
       "original_route_m": 27295.99765,
-      "reworked_cells": 884,
-      "reworked_route_m": 26064.364592
+      "reworked_cells": 1090,
+      "reworked_route_m": 26270.075016,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12882.539674,
       "line": "line-3",
       "original_cells": 683,
       "original_route_m": 16423.515139,
       "reworked_cells": 693,
-      "reworked_route_m": 16374.987002
+      "reworked_route_m": 16374.987002,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Gulu/alignment-policy.toml": "b4d1e70e27142e8d0cb42989eee1f9dd2806b47f3e87eb47796f73cb3247c102",
+    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-buildability-mask.bin.gz": "0cc8dfda1f118f4a10a0012da229b0529146ded0aae60c91629cd2471a7aa8be",
     "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-grid.json": "2cf39ffafedd9e2ea9df339fd9d403c8063b84477c919f7fe74284867a2b8771",
+    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-water-mask.bin.gz": "4f6596e0a730f52769f5f4a19d78445f09e9e48760d6ff83109f84dcb2c195fa",
     "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/pre-rework-corridors.json.gz": "3bae08f99706a5b07fc724105243dc2162b69f066fd84372cbd9a95ea3609045",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/water-source-receipt.json": "43f13c5a33474e696fbde008c55f6b54a05ead14c097953cd282952497fd5c29",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

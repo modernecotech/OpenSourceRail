@@ -1,6 +1,6 @@
 {
   "city": "sayun",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,21 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 368,
-      "row": 357,
-      "station_id": "line-1-0357-0368-s005383",
+      "col": 387,
+      "row": 350,
+      "station_id": "line-1-0350-0387-s004945",
       "water_coverage_percent": 0
     },
     {
-      "col": 284,
-      "row": 387,
-      "station_id": "line-1-0387-0284-s007311",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 203,
-      "row": 416,
-      "station_id": "line-1-0416-0203-s009218",
+      "col": 309,
+      "row": 378,
+      "station_id": "line-1-0378-0309-s006737",
       "water_coverage_percent": 0
     },
     {
@@ -47,6 +41,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 309,
+      "row": 378,
+      "station_id": "line-2-0378-0309-s001748",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 307,
       "row": 283,
       "station_id": "line-2-0283-0307-s003677",
@@ -59,9 +59,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 390,
-      "row": 372,
-      "station_id": "line-3-0372-0390-s001748",
+      "col": 387,
+      "row": 350,
+      "station_id": "line-3-0350-0387-s002213",
       "water_coverage_percent": 0
     },
     {
@@ -72,13 +72,15 @@
     }
   ],
   "platforms_checked": 11,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Yemen/Sayun/design.toml": "7923c60c06a142a7f7e48b205a92b5ae174713c8d01848a0dd2eede2590c6797",
+    "cities/catalogue/west-asia/Yemen/Sayun/design.toml": "08c0b504116fd8fec365661471f28260592be4a1c03992a5f38ad66ff9f7e173",
     "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-grid.json": "bbd78d058fb0151884044b8ef5377c1fb89d13c978e334036a67b0c3eaad37cd",
-    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-water-mask.bin.gz": "bf90d786803652570537e1512234f393f76f15ac0c6536e5a9a6574226713d3c",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-water-mask.bin.gz": "fea719e683c18080ea85380c8f5b6bc01955b2cb1cd514f80b8758ea47ff7a84",
+    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/water-source-receipt.json": "4a2a69f813c1d68ac1411fd71702d507bc2b61a4a257f9d64e3279ae2b9fd6ca",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "e10d95733c4e68ac1f7774a3fed0a19255ed0e3b22ba17cc6d918b6dbac01976",
+  "uncompressed_water_mask_sha256": "1e19e91d87e7dbaada29eaa051d9a7227e4b4707cad8b5fb1719de5e00e3c74f",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

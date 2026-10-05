@@ -50,7 +50,7 @@ length_m        = 11748.5
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 7953.6
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 8582.2
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 240
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -124,22 +124,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0212-0567-s003510"
+id              = "line-1-0295-0475-s006248"
 line            = "line-1"
-lat             = 35.95995718964834
-lon             = 36.6764166941918
-s_m             = 3509.6
-archetype       = "halt"
-platform_length_m = 45.0
-
-[[stations]]
-id              = "line-1-0318-0450-s007009"
-line            = "line-1"
-lat             = 35.940880776014104
-lon             = 36.65045677662274
-s_m             = 7008.9
-archetype       = "standard"
+lat             = 35.945019997840404
+lon             = 36.6560037675563
+s_m             = 6248.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-1-0379-0381-s009047"
@@ -149,6 +142,17 @@ lon             = 36.63514708164612
 s_m             = 9046.6
 archetype       = "major"
 platform_length_m = 49.0
+
+[[stations]]
+id              = "line-1-0417-0339-s010307"
+line            = "line-1"
+lat             = 35.92306412554439
+lon             = 36.625828136877736
+s_m             = 10306.8
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0461-0291-s011748"
@@ -173,24 +177,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0414-0339-s002001"
+id              = "line-2-0417-0339-s002061"
 line            = "line-2"
-lat             = 35.92360402404348
+lat             = 35.92306412554439
 lon             = 36.625828136877736
-s_m             = 2000.8
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "حي المعلمين"
-archetype       = "major"
+s_m             = 2060.8
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
-
-[[stations]]
-id              = "line-2-0506-0355-s003985"
-line            = "line-2"
-lat             = 35.90704713673829
-lon             = 36.62937821107521
-s_m             = 3985.1
-archetype       = "standard"
-platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0690-0365-s007954"
@@ -215,13 +210,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0274-0553-s004296"
+id              = "line-3-0295-0475-s006030"
 line            = "line-3"
-lat             = 35.948799287333976
-lon             = 36.673310379269004
-s_m             = 4296.2
-archetype       = "halt"
-platform_length_m = 45.0
+lat             = 35.945019997840404
+lon             = 36.6560037675563
+s_m             = 6030.2
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0325-0361-s008582"
@@ -234,20 +231,36 @@ anchor_name     = "مستوصف حي الجامعة"
 archetype       = "terminal"
 platform_length_m = 49.0
 
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = 35.945019997840404
+lon             = 36.6560037675563
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0295-0475-s006248", "line-3-0295-0475-s006030"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 35.92306412554439
+lon             = 36.625828136877736
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0417-0339-s010307", "line-2-0417-0339-s002061"]
+
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
 station = "line-1-0461-0291-s011748"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 26
+storage_slots = 25
 storage_tracks = 9
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 1274.0
+storage_track_m = 1225.0
 workshop_bays = 4
 planning_land_area_m2 = 19567.0
-reference_cost_usd = 14772745
+reference_cost_usd = 14760495
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -306,11 +319,6 @@ kit = "no-9-mainline"
 station = "line-1-0461-0291-s011748"
 side = "yard-throat"
 [[depots.switches]]
-id = "sw-line-1-0461-0291-s011748-yd-10"
-kit = "no-9-mainline"
-station = "line-1-0461-0291-s011748"
-side = "yard-throat"
-[[depots.switches]]
 id = "sw-line-2-0321-0322-s000000-tb"
 kit = "no-9-mainline"
 station = "line-2-0321-0322-s000000"
@@ -336,14 +344,14 @@ station = "line-2-0321-0322-s000000"
 line = "line-2"
 archetype = "main-heavy"
 fleet_stalls = 3
-storage_slots = 17
+storage_slots = 16
 storage_tracks = 6
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 833.0
+storage_track_m = 784.0
 workshop_bays = 3
 planning_land_area_m2 = 15108.0
-reference_cost_usd = 13744830
+reference_cost_usd = 13732580
 site_accepted = false
 physical_release = false
 
@@ -365,19 +373,19 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 23
+peak_count         = 22
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 26
+trainset_count     = 25
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 15
+peak_count         = 14
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 17
+trainset_count     = 16
 
 [[fleets]]
 line               = "line-3"
@@ -408,27 +416,27 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 221529391
 civil_subtotal_eur   = 203807040
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 42700000
-stations_eur         = 39284000
+stations_usd         = 64000000
+stations_eur         = 58880000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 42274655
-depots_eur           = 38892683
+depots_usd           = 42250155
+depots_eur           = 38870143
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 34160000
-rolling_stock_eur    = 31427200
+rolling_stock_usd    = 33040000
+rolling_stock_eur    = 30396800
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1414212
 signalling_eur       = 1301075
-charging_microgrid_usd = 1150000
-charging_microgrid_eur = 1058000
+charging_microgrid_usd = 1250000
+charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 24025978
-epc_overhead_eur     = 22103900
-total_usd            = 367254236  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 337873897  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 25443863
+epc_overhead_eur     = 23408354
+total_usd            = 388927621  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 357813411  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -443,7 +451,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 6222000
+fleet_core_electrical_usd = 6018000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

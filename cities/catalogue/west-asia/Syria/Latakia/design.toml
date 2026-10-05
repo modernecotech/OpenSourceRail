@@ -64,11 +64,11 @@ charging_dwell_seconds = 150
 [[lines]]
 name            = "line-3"
 shape           = "radial"
-length_m        = 8659.6
+length_m        = 9265.2
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 270
 
 [[civil_segments]]
 line            = "line-1"
@@ -95,10 +95,28 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
-to_station_m    = 8659.6
+to_station_m    = 578.0
 class           = "elevated"
-viaduct_product = "OSR-Pi25"
+minimum_curve_radius_m = 170.3
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 3.103
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 578.0
+to_station_m    = 842.8
+class           = "bridge"
+viaduct_product = "OSR-SP"
 elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 842.8
+to_station_m    = 9265.2
+class           = "elevated"
+minimum_curve_radius_m = 64.1
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 21.902
 
 [[stations]]
 id              = "line-1-0693-0490-s000000"
@@ -195,29 +213,22 @@ platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0586-0443-s002180"
+id              = "line-3-0547-0470-s003013"
 line            = "line-3"
-lat             = 35.525249843429435
-lon             = 35.7662119907342
-s_m             = 2180.2
+lat             = 35.5322685239175
+lon             = 35.772172810914185
+s_m             = 3013.4
+anchor_kind     = "amenity:college"
+anchor_name     = "Arab Academy for Science and Technologe and Maritime Transport"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0491-0414-s004344"
-line            = "line-3"
-lat             = 35.542346629233705
-lon             = 35.75980962831866
-s_m             = 4343.9
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0301-0356-s008660"
+id              = "line-3-0301-0356-s009265"
 line            = "line-3"
 lat             = 35.576540200842246
 lon             = 35.74700490348758
-s_m             = 8659.6
+s_m             = 9265.2
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز صحي"
 archetype       = "terminal"
@@ -343,9 +354,9 @@ kit = "no-9-mainline"
 station = "line-3-0682-0473-s000000"
 side = "turnback"
 [[depots.switches]]
-id = "sw-line-3-0301-0356-s008660-tb"
+id = "sw-line-3-0301-0356-s009265-tb"
 kit = "no-9-mainline"
-station = "line-3-0301-0356-s008660"
+station = "line-3-0301-0356-s009265"
 side = "turnback"
 
 [[depots]]
@@ -369,14 +380,14 @@ station = "line-3-0682-0473-s000000"
 line = "line-3"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 27
-storage_tracks = 9
+storage_slots = 29
+storage_tracks = 10
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 1606.5
+storage_track_m = 1725.5
 workshop_bays = 4
-planning_land_area_m2 = 22538.5
-reference_cost_usd = 15312672
+planning_land_area_m2 = 24145.0
+reference_cost_usd = 15448650
 site_accepted = false
 physical_release = false
 
@@ -398,11 +409,11 @@ trainset_count     = 23
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 24
+peak_count         = 26
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 27
+trainset_count     = 29
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -416,36 +427,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 7407713
 at_grade_eur         = 6815096
-elevated_usd         = 251011323
-elevated_eur         = 230930418
-bridge_usd           = 0
-bridge_eur           = 0
+elevated_usd         = 1982234720
+elevated_eur         = 1823655942
+bridge_usd           = 4767351
+bridge_eur           = 4385963
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 258419036
-civil_subtotal_eur   = 237745513
+civil_subtotal_usd   = 1994409783
+civil_subtotal_eur   = 1834857000
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 44500000
-stations_eur         = 40940000
+stations_usd         = 42000000
+stations_eur         = 38640000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 47938052
-depots_eur           = 44103008
+depots_usd           = 48074030
+depots_eur           = 44228108
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 81000000
-rolling_stock_eur    = 74520000
+rolling_stock_usd    = 82800000
+rolling_stock_eur    = 76176000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_usd       = 1430840
-signalling_eur       = 1316373
-charging_microgrid_usd = 1350000
-charging_microgrid_eur = 1242000
+signalling_usd       = 1461124
+signalling_eur       = 1344234
+charging_microgrid_usd = 1250000
+charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 30424655
-epc_overhead_eur     = 27990683
-total_usd            = 465062583  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 427857576  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 151899646
+epc_overhead_eur     = 139747674
+total_usd            = 2321894583  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 2136143016  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -460,7 +471,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 13770000
+fleet_core_electrical_usd = 14076000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

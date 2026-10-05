@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "tetouan",
+  "legacy_osm_missing_geometry_ids": [
+    1359756
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "ff2083bcee4eb7c2b4cd32b2b08e050931f53769622819fda983743dabbe4d1b",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "e92d6f29ae22a5c343004554f11ab3a7f44fb67ad901dfaa0e9d11d478b7d682",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Tetouan/engineering/alignment/independent-landcover-samples.bin.gz": "2a355ff3df105b12d0bfd0eed4beaa3e430f34dffe07d93b8e6f57c286e5f4d8",
+    "cities/catalogue/north-africa/Morocco/Tetouan/engineering/alignment/planning-grid.json": "bb07eb84847581adb0df480aba6b4476edbd7f7e3a3e46ce89f37ae2117cc100",
+    "cities/catalogue/north-africa/Morocco/Tetouan/engineering/alignment/planning-water-features.json.gz": "96e5c4faa677089082d7a708a9f44c4c84808d5a866ecb0d05160fb8c9f68a8b",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 82493,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "9af7a063b715f6d7e15af46820fbda9cd7ce47aa5f3f720ac08c64d9ff037f13",
+      "native_window": [
+        6117,
+        3868,
+        2927,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W006_Map.tif",
+      "window_sha256": "50da94d1694bc29be0b2c201d82addd6e34e25fa65f6a979360ba7ecec49fed3"
+    }
+  ]
+}

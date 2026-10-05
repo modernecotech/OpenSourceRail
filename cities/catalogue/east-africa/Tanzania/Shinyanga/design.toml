@@ -50,7 +50,7 @@ length_m        = 13755.3
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 7835.8
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 120
 
 [[lines]]
 name            = "line-3"
@@ -166,6 +166,17 @@ archetype       = "major"
 platform_length_m = 49.0
 
 [[stations]]
+id              = "line-1-0446-0356-s012528"
+line            = "line-1"
+lat             = -3.6766548932800633
+lon             = 33.417680767151744
+s_m             = 12528.2
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
 id              = "line-1-0494-0328-s013755"
 line            = "line-1"
 lat             = -3.685293269265378
@@ -196,6 +207,17 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
+id              = "line-2-0446-0356-s007052"
+line            = "line-2"
+lat             = -3.6766548932800633
+lon             = 33.417680767151744
+s_m             = 7051.5
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
 id              = "line-2-0468-0382-s007836"
 line            = "line-2"
 lat             = -3.6806141489399993
@@ -205,6 +227,7 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "Makula Transport"
 archetype       = "terminal"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0422-0428-s000000"
@@ -228,20 +251,28 @@ anchor_name     = "Shinyanga Referral Hospital"
 archetype       = "terminal"
 platform_length_m = 49.0
 
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = -3.677974645166709
+lon             = 33.41924102890579
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0446-0356-s012528", "line-2-0446-0356-s007052", "line-2-0468-0382-s007836"]
+
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
 station = "line-1-0494-0328-s013755"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 29
+storage_slots = 28
 storage_tracks = 10
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 1421.0
+storage_track_m = 1372.0
 workshop_bays = 4
 planning_land_area_m2 = 20890.0
-reference_cost_usd = 14905800
+reference_cost_usd = 14893550
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -325,14 +356,14 @@ station = "line-2-0254-0114-s000000"
 line = "line-2"
 archetype = "main-heavy"
 fleet_stalls = 3
-storage_slots = 16
+storage_slots = 17
 storage_tracks = 6
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 784.0
+storage_track_m = 833.0
 workshop_bays = 3
 planning_land_area_m2 = 15108.0
-reference_cost_usd = 13732580
+reference_cost_usd = 13744830
 site_accepted = false
 physical_release = false
 
@@ -354,19 +385,19 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 26
+peak_count         = 25
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 29
+trainset_count     = 28
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 14
+peak_count         = 15
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 16
+trainset_count     = 17
 
 [[fleets]]
 line               = "line-3"
@@ -397,8 +428,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 234248066
 civil_subtotal_eur   = 215508220
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 37600000
-stations_eur         = 34592000
+stations_usd         = 53600000
+stations_eur         = 49312000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 42262405
 depots_eur           = 38881413
@@ -411,13 +442,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1415291
 signalling_eur       = 1302067
-charging_microgrid_usd = 1050000
-charging_microgrid_eur = 966000
+charging_microgrid_usd = 1250000
+charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 24512303
-epc_overhead_eur     = 22551319
-total_usd            = 374688064  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 344713019  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 25646303
+epc_overhead_eur     = 23594599
+total_usd            = 392022064  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 360660299  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

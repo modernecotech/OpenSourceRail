@@ -1,6 +1,6 @@
 {
   "city": "xai-xai",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,6 +17,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 536,
+      "row": 414,
+      "station_id": "line-1-0414-0536-s004348",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 573,
       "row": 351,
       "station_id": "line-1-0351-0573-s005973",
@@ -29,9 +35,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 510,
-      "row": 400,
-      "station_id": "line-2-0400-0510-s003265",
+      "col": 562,
+      "row": 428,
+      "station_id": "line-2-0428-0562-s001947",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 536,
+      "row": 414,
+      "station_id": "line-2-0414-0536-s002606",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 454,
+      "row": 370,
+      "station_id": "line-2-0370-0454-s004657",
       "water_coverage_percent": 0
     },
     {
@@ -47,20 +65,28 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 562,
+      "row": 428,
+      "station_id": "line-3-0428-0562-s002156",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 616,
       "row": 348,
       "station_id": "line-3-0348-0616-s004332",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 8,
-  "schema_version": 1,
+  "platforms_checked": 12,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Xai-Xai/design.toml": "318015b6dae98f70d6ee306960f7970fa697781b3d7e76545c0a83c54639103f",
+    "cities/catalogue/east-africa/Mozambique/Xai-Xai/design.toml": "7882e3c4c8700c35054c3b2f590c38a214c0f1e7efa7521dcc4b619f3857d5e6",
     "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/planning-grid.json": "ac8fab18e0e725bb694db76b960bd2c6f4b608553c9aa1f33fbff01c2c5a645e",
-    "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/planning-water-mask.bin.gz": "fcbfbb137413e89e7393edcf891d1ac00d6834fde5717469d8c2b475c40e42f5",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/planning-water-mask.bin.gz": "a1fc2d078005fbba037e5ac5cd89a645ffcd71f680c3ad006768ae63a14af9a0",
+    "cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/alignment/water-source-receipt.json": "5b8cf7676bbd96caabb51c4e081ecc24b74f47d2cb9af727a126e2e85fc4554a",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "1f6421f4e4e59f16f4100be3bb753b64f55577d3508c9fb5829242756c690022",
+  "uncompressed_water_mask_sha256": "4e97b18231e0872685049d3bccebbe8f02f1dba266bb7b3b0c8f269671ec03e3",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

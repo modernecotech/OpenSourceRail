@@ -1,6 +1,6 @@
 {
   "city": "sukkur",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -35,15 +35,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 676,
-      "row": 591,
-      "station_id": "line-1-0591-0676-s016646",
+      "col": 691,
+      "row": 602,
+      "station_id": "line-1-0602-0691-s017037",
       "water_coverage_percent": 0
     },
     {
-      "col": 750,
-      "row": 648,
-      "station_id": "line-1-0648-0750-s018704",
+      "col": 695,
+      "row": 606,
+      "station_id": "line-1-0606-0695-s017162",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 698,
+      "row": 607,
+      "station_id": "line-1-0607-0698-s017231",
       "water_coverage_percent": 0
     },
     {
@@ -65,6 +71,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 503,
+      "row": 800,
+      "station_id": "line-2-0800-0503-s008586",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 509,
       "row": 814,
       "station_id": "line-2-0814-0509-s008927",
@@ -77,26 +89,52 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 503,
+      "row": 800,
+      "station_id": "line-3-0800-0503-s001865",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 620,
       "row": 676,
       "station_id": "line-3-0676-0620-s005736",
       "water_coverage_percent": 0
     },
     {
+      "col": 698,
+      "row": 607,
+      "station_id": "line-3-0607-0698-s008313",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 695,
+      "row": 606,
+      "station_id": "line-3-0606-0695-s008381",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 691,
+      "row": 602,
+      "station_id": "line-3-0602-0691-s008735",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 702,
       "row": 590,
-      "station_id": "line-3-0590-0702-s008381",
+      "station_id": "line-3-0590-0702-s009101",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 20,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Pakistan/Sukkur/design.toml": "6a4443ec90c97e67cc87a32d97aa912c631dc73c2b37e68f881e9336694675f2",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/design.toml": "13c52eed72f1760371f29a5f5ca9b6b202922ce4cf56a4d1f13ab4aa70e58990",
     "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-grid.json": "f70d721bd8329a42a38b88015bdd2f8e4524c5f14beb48c9f47d9eb12bbda998",
-    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-water-mask.bin.gz": "3d75c46ac937440de4c0132e4db916948e63f32511443b69bd0dddcffdd0d094",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-water-mask.bin.gz": "fda9cc015d91313349024fa2c414c3c95ab0e40c5a25acc7961851f429700426",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/water-source-receipt.json": "344ed58c6ee5d240db136f1b75d32dd9e7b0505a58a017240af95a786b3a2b95",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "f6d8b7fee617de1cc257ff880ac2b6a32f323142d4b7519a05a1c75e138858e0",
+  "uncompressed_water_mask_sha256": "4e43debad4238901ad9579ecbc13a314da432b07e0b3e090d135369eeb70eca9",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

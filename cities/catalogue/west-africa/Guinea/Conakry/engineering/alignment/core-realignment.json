@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -13.556178,
     "north": 9.607151,
@@ -6,6 +7,7 @@
     "west": -13.724178
   },
   "core_analytical_length_m": 54966.903044,
+  "core_final_route_length_m": 61101.958108,
   "core_original_length_m": 60568.249681,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18025.424228,
       "line": "line-1",
       "original_cells": 539,
       "original_route_m": 25726.153288,
-      "reworked_cells": 881,
-      "reworked_route_m": 25183.169031
+      "reworked_cells": 1097,
+      "reworked_route_m": 26252.673862,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10323.128419,
       "line": "line-2",
       "original_cells": 407,
       "original_route_m": 18813.192569,
-      "reworked_cells": 577,
-      "reworked_route_m": 16962.6585
+      "reworked_cells": 788,
+      "reworked_route_m": 18001.606051,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +121,13 @@
               14120.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 1431.840643,
+          "seed_from_index": 0,
+          "seed_to_index": 22,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 4760.0,
@@ -128,12 +140,7 @@
                 13500.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 1431.840643,
-          "seed_from_index": 0,
-          "seed_to_index": 22,
-          "simplification_tolerance_m": 600.0
+          ]
         },
         {
           "analytical_length_m": 28462.622335,
@@ -1680,28 +1687,68 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-raster-requires-geometry-review",
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
           "original_length_m": 28462.622335,
           "seed_from_index": 86,
           "seed_to_index": 470,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
+      "final_core_route_m": 32753.405461,
       "line": "line-3",
       "original_cells": 471,
       "original_route_m": 34385.379985,
-      "reworked_cells": 503,
-      "reworked_route_m": 34265.498937
+      "reworked_cells": 1586,
+      "reworked_route_m": 37424.431432,
+      "water_route_changes": [
+        {
+          "detour_route_m": 13988.468966,
+          "from_cell": [
+            228,
+            691
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 12291.555544,
+          "search_work_upper_bound": 57529,
+          "to_cell": [
+            718,
+            370
+          ]
+        },
+        {
+          "detour_route_m": 12981.362184,
+          "from_cell": [
+            742,
+            337
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 12081.261172,
+          "search_work_upper_bound": 32173,
+          "to_cell": [
+            289,
+            674
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Guinea/Conakry/alignment-policy.toml": "5dd47ba1b25e2eaa81326f19cdb730bf830036b3a78764f0c33289eb377acce0",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/planning-buildability-mask.bin.gz": "0d5b1f2458549753cf6c6c12d92d8383e5fe5edbce4f33e8475c8e7bace21fc9",
     "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/planning-grid.json": "ca74687d44cd21a49dae05859c3badb0c1bbf7c93c6bf6df9cdd31d7cbee8534",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/planning-water-mask.bin.gz": "7a865a68715c1a60b1ac36887fea2908ca329fc6287f36fecf0bbd0e1b82fd4f",
     "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/pre-rework-corridors.json.gz": "81e4baeb75ba63e9c5cff2994a74202d323e36ad618709990531b472c0e79d5e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/water-source-receipt.json": "bf890e895e7a9ba5b251ac875e399cb1354dccf8eeccaebbf66917a33ddddc08",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

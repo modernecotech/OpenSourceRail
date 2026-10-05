@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "aden"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "aden",
-      "corridor_sha256": "dcec65f3c7e8c00b05c245477de6dd6b3e0064a280b1a75c939068d5de8dc212",
-      "design_sha256": "47d0fefa2280b06fd66acc4a7d633ae585d22b50eccba4109610e197c6568ba7",
-      "failures": [],
+      "corridor_sha256": "3a0e4c35149efed69be04fe298aa59a744707dac4176813eb31d536a9f9c1911",
+      "design_sha256": "0a178a336bb63d4ee440d323d35c4beeea4ad04d230c8e08c9ef4e83f1ee9060",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1297.3,
+          "radial": "line-1",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 3,
       "review_findings": [],
       "ring_count": 0

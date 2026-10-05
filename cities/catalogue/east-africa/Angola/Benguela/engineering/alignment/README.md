@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`benguela-line1.aln.toml`](benguela-line1.aln.toml) | `line-1` | 19,688.8 m | 7 |
-| [`benguela-line2.aln.toml`](benguela-line2.aln.toml) | `line-2` | 16,318.8 m | 6 |
-| [`benguela-line3.aln.toml`](benguela-line3.aln.toml) | `line-3` | 10,842.5 m | 4 |
+| [`benguela-line1.aln.toml`](benguela-line1.aln.toml) | `line-1` | 19,688.8 m | 8 |
+| [`benguela-line2.aln.toml`](benguela-line2.aln.toml) | `line-2` | 16,590.1 m | 7 |
+| [`benguela-line3.aln.toml`](benguela-line3.aln.toml) | `line-3` | 10,842.5 m | 5 |
 
 ## Status
 

@@ -18,7 +18,7 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 | line-1-1021-0661-s022389 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
 | line-2-0988-0288-s000000 | line-2 | 38 | 1,881.0 | 2,261.0 | unverified |
 | line-2-0316-1070-s023719 | line-2 | 37 | 1,831.5 | 2,201.5 | unverified |
-| line-3-0018-0425-s000000 | line-3 | 34 | 1,683.0 | 2,023.0 | unverified |
+| line-3-0018-0425-s000000 | line-3 | 35 | 1,732.5 | 2,082.5 | unverified |
 | line-3-0973-0739-s022429 | line-3 | 34 | 1,683.0 | 2,023.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.

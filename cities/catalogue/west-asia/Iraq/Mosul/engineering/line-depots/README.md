@@ -7,9 +7,9 @@ Reference rates are shared USD-equivalent targets, not local installed quotation
 
 | Line | Train length m | Storage slots | Workshop bays | Reference USD million |
 |---|---:|---:|---:|---:|
-| line-1 | 75 | 52 | 8 | 22.073 |
-| line-2 | 75 | 48 | 7 | 20.784 |
-| line-3 | 75 | 47 | 7 | 20.763 |
-| line-4 | 75 | 40 | 6 | 19.410 |
-| line-5 | 75 | 38 | 6 | 19.237 |
-| line-6 | 75 | 21 | 3 | 15.262 |
+| line-1 | 75 | 54 | 8 | 22.116 |
+| line-2 | 75 | 49 | 7 | 20.936 |
+| line-3 | 75 | 46 | 7 | 20.741 |
+| line-4 | 75 | 49 | 7 | 20.936 |
+| line-5 | 75 | 35 | 5 | 18.099 |
+| line-6 | 75 | 23 | 4 | 16.379 |

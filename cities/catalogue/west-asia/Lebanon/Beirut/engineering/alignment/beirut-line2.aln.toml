@@ -14,8 +14,8 @@ crs            = "EPSG:32636"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "cd0f0436dbce53e870154126ca501d658bdeb0788fb748ddfdf73bdd4a7745b4"
-source_geojson_sha256 = "a490e10cd09f6b7fe51735c9a23b97faa4740a6dbd8b73ea3a7fe4b887ec41b6"
+source_design_sha256 = "f888506bfa2e52d2dc628c347976fad725cd5e17ed9c607d777192607cecce08"
+source_geojson_sha256 = "99c904024f13d6d064d1196be16385e2dbb5c9d1ab81f085867ecc4dfd54ae29"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -1154,6 +1154,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 11206.600
+to_station_m   = 12442.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 12442.500
+to_station_m   = 12462.500
+class          = "bridge"
+
+[[civil]]
+from_station_m = 12462.500
 to_station_m   = 13721.400
 class          = "at-grade"
 
@@ -1165,13 +1175,18 @@ station_m         = 0.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0672-0452-s003016"
-station_m         = 3015.600
+id                = "line-2-0650-0440-s002453"
+station_m         = 2452.800
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0748-0496-s004994"
-station_m         = 4993.900
+id                = "line-2-0730-0486-s004528"
+station_m         = 4527.600
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-2-0810-0533-s006611"
+station_m         = 6610.700
 platform_length_m = 85.000
 
 [[station]]
@@ -1185,8 +1200,8 @@ station_m         = 8685.500
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0987-0635-s011207"
-station_m         = 11206.600
+id                = "line-2-0942-0609-s010044"
+station_m         = 10044.300
 platform_length_m = 85.000
 
 [[station]]

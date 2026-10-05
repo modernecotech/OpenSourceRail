@@ -1,6 +1,6 @@
 {
   "city": "vientiane",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -23,21 +23,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 761,
-      "row": 704,
-      "station_id": "line-1-0704-0761-s012696",
+      "col": 772,
+      "row": 687,
+      "station_id": "line-1-0687-0772-s012230",
       "water_coverage_percent": 0
     },
     {
-      "col": 704,
-      "row": 799,
-      "station_id": "line-1-0799-0704-s015162",
+      "col": 706,
+      "row": 796,
+      "station_id": "line-1-0796-0706-s015085",
       "water_coverage_percent": 0
     },
     {
       "col": 663,
       "row": 890,
-      "station_id": "line-1-0890-0663-s017616",
+      "station_id": "line-1-0890-0663-s017936",
       "water_coverage_percent": 0
     },
     {
@@ -49,37 +49,37 @@
     {
       "col": 868,
       "row": 233,
-      "station_id": "line-2-0233-0868-s003231",
+      "station_id": "line-2-0233-0868-s003613",
       "water_coverage_percent": 0
     },
     {
       "col": 787,
       "row": 342,
-      "station_id": "line-2-0342-0787-s006235",
+      "station_id": "line-2-0342-0787-s006617",
       "water_coverage_percent": 0
     },
     {
       "col": 708,
       "row": 450,
-      "station_id": "line-2-0450-0708-s009248",
+      "station_id": "line-2-0450-0708-s009630",
       "water_coverage_percent": 0
     },
     {
-      "col": 628,
-      "row": 557,
-      "station_id": "line-2-0557-0628-s012250",
+      "col": 618,
+      "row": 572,
+      "station_id": "line-2-0572-0618-s013033",
       "water_coverage_percent": 0
     },
     {
       "col": 548,
       "row": 665,
-      "station_id": "line-2-0665-0548-s015272",
+      "station_id": "line-2-0665-0548-s015654",
       "water_coverage_percent": 0
     },
     {
       "col": 457,
       "row": 789,
-      "station_id": "line-2-0789-0457-s018694",
+      "station_id": "line-2-0789-0457-s019075",
       "water_coverage_percent": 0
     },
     {
@@ -89,56 +89,64 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 289,
-      "row": 324,
-      "station_id": "line-3-0324-0289-s003498",
+      "col": 269,
+      "row": 311,
+      "station_id": "line-3-0311-0269-s003515",
       "water_coverage_percent": 0
     },
     {
-      "col": 417,
-      "row": 420,
-      "station_id": "line-3-0420-0417-s007017",
+      "col": 394,
+      "row": 403,
+      "station_id": "line-3-0403-0394-s007012",
       "water_coverage_percent": 0
     },
     {
       "col": 570,
       "row": 535,
-      "station_id": "line-3-0535-0570-s011299",
+      "station_id": "line-3-0535-0570-s011895",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 618,
+      "row": 572,
+      "station_id": "line-3-0572-0618-s013300",
       "water_coverage_percent": 0
     },
     {
       "col": 673,
       "row": 612,
-      "station_id": "line-3-0612-0673-s014301",
+      "station_id": "line-3-0612-0673-s014897",
       "water_coverage_percent": 0
     },
     {
-      "col": 780,
-      "row": 693,
-      "station_id": "line-3-0693-0780-s017323",
+      "col": 772,
+      "row": 687,
+      "station_id": "line-3-0687-0772-s017710",
       "water_coverage_percent": 0
     },
     {
-      "col": 910,
-      "row": 791,
-      "station_id": "line-3-0791-0910-s020841",
+      "col": 909,
+      "row": 790,
+      "station_id": "line-3-0790-0909-s021408",
       "water_coverage_percent": 0
     },
     {
       "col": 994,
       "row": 905,
-      "station_id": "line-3-0905-0994-s024370",
+      "station_id": "line-3-0905-0994-s025119",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 21,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/southeast-asia/Laos/Vientiane/design.toml": "649bc605e5f19518f8b2733bddda19f684fad04a4026ea64f61d5818617bb385",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/design.toml": "1c1e93046eb9078b46695de4bf4e5eb0d86cf55fad57cdb55a235b23fa720ff3",
     "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-grid.json": "e7b69a5b757553339422b24954d24722b0a8e937b584bae98ff59db04610108c",
-    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-water-mask.bin.gz": "57aae6ac2cbe35df6433a8c93d4fa48a52e00a88760f8cc6677c9cad119016a2",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-water-mask.bin.gz": "757c5c74a29e723bf14996488d9e11fba417488aa4f2e48df97e86602ab24420",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/water-source-receipt.json": "941104d5057d793e6642e2cec2e7dbacb292cee259c0df0f5de4b4f6b326c9b6",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "a7844afa6451924e95e3b2c15c5e4772731901b96728d7f3638e441d73190237",
+  "uncompressed_water_mask_sha256": "07c6805234917d9d1a3a27736f164e6048495230cbbbbd469301f0f87e9b2fac",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

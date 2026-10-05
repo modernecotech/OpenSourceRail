@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 33.651913,
     "north": 1.755543,
@@ -6,6 +7,7 @@
     "west": 33.570793
   },
   "core_analytical_length_m": 4423.132651,
+  "core_final_route_length_m": 4975.29004,
   "core_original_length_m": 7899.797975,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 2794.213562,
       "line": "line-1",
       "original_cells": 257,
       "original_route_m": 5757.888886,
       "reworked_cells": 120,
-      "reworked_route_m": 2794.213562
+      "reworked_route_m": 2794.213562,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,21 +99,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 2181.076477,
       "line": "line-2",
       "original_cells": 82,
       "original_route_m": 2141.909089,
       "reworked_cells": 91,
-      "reworked_route_m": 2181.076477
+      "reworked_route_m": 2181.076477,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Soroti/alignment-policy.toml": "0c4b09208f8183ed24ab8f2293898aadb9d72b5491e133bf02df8eeae64aebac",
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-buildability-mask.bin.gz": "2c04432e268fffa9a51d98af100b3fbb92aaba6d60073bc660c16c8875f9e56f",
     "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-grid.json": "23c99aa5d2770d41933e48c3bf76c7d8ec2fbad5b04c42679c44d96ac7975834",
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-water-mask.bin.gz": "a12f3fcf5c07e32ff4a55bdc50c59dc68cdf082aec13232dc14cc6f1fcfdaef9",
     "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/pre-rework-corridors.json.gz": "e7aa3c5d6d7ee6bc8151c87f624f3e2c59439e676328ea1965400007e131826b",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/water-source-receipt.json": "2df86b2989d5284fdd5c87815d40b8d89c64feef66fbe73eb9b0b5454e58e4ac",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

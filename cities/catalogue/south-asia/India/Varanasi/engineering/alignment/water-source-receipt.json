@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "varanasi",
+  "legacy_osm_missing_geometry_ids": [
+    1463365,
+    6594443,
+    12500089
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "1e02ac2d0bd637100d3e256fe6964e3d89460785ff59bf5ace8ba29b45fe72fe",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "5a94873c8c71f7fdf2aafc617713217b07f464b5e44a24be00acd6825b935129",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Varanasi/engineering/alignment/independent-landcover-samples.bin.gz": "5842d731b7d44c24a4905b5a0fce014987c5ced3b4c463ffa18ebd72e031b67c",
+    "cities/catalogue/south-asia/India/Varanasi/engineering/alignment/planning-grid.json": "24e08f90091ecf5e88497ac6b6c3e9f34ac1f2095b606849ebdd0f8f8f4dd5af",
+    "cities/catalogue/south-asia/India/Varanasi/engineering/alignment/planning-water-features.json.gz": "0f68de2c0006e0edda67084b9095aa17c36b1850d20aa331f8a2dc356e8e96c5",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 92919,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "c55e245d83af125cd95c17c9c367174d5318a9560ebc4e58493007eafcd24959",
+      "native_window": [
+        21772,
+        18459,
+        3832,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E081_Map.tif",
+      "window_sha256": "4eefe913d90327272f9cd679bd3e261e055f73b21962e958c0bc91c516714713"
+    }
+  ]
+}

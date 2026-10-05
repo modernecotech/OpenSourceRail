@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 62.2758,
     "north": 34.412389,
@@ -6,6 +7,7 @@
     "west": 62.1318
   },
   "core_analytical_length_m": 30848.353112,
+  "core_final_route_length_m": 33946.887425,
   "core_original_length_m": 43190.733307,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9206.559877,
       "line": "line-1",
       "original_cells": 620,
       "original_route_m": 13954.011537,
       "reworked_cells": 376,
-      "reworked_route_m": 9206.559877
+      "reworked_route_m": 9206.559877,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10283.961031,
       "line": "line-2",
       "original_cells": 642,
       "original_route_m": 14286.316011,
       "reworked_cells": 422,
-      "reworked_route_m": 10283.961031
+      "reworked_route_m": 10283.961031,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14456.366517,
       "line": "line-3",
       "original_cells": 466,
       "original_route_m": 20816.423026,
-      "reworked_cells": 796,
-      "reworked_route_m": 20209.246699
+      "reworked_cells": 961,
+      "reworked_route_m": 20682.884553,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Afghanistan/Herat/alignment-policy.toml": "c1eb6175c2b20778cdbc346dc29a10cd663f824e2fdcecffbbcccdbb5a1bbbc0",
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-buildability-mask.bin.gz": "af2118c41f4ff32bd5426ff8990531bdfa9f35cadabeb3cfad3933ab56c9df8b",
     "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-grid.json": "d7d537fbcbd422b2f1aba7f3644c16b0422ad0c6eb8eccaa2efd0a2962295f11",
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-water-mask.bin.gz": "37bafc6a11053aa582b95676e539c88d9a7717d0a8b32dff8f22b79333433d22",
     "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/pre-rework-corridors.json.gz": "9fbb18b3ace12767ef7c308d6f939a7607f19303273ebed0d8ab073a29f51529",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/water-source-receipt.json": "a788804730f986f169ad0b454d7f3b78032d02dd23f007e0140e85d5064d9373",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

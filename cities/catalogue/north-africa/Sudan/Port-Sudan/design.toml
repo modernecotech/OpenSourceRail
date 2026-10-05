@@ -159,6 +159,22 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
+to_station_m    = 20.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 20.0
+to_station_m    = 48.3
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 48.3
 to_station_m    = 1732.0
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -231,14 +247,14 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 2286.5
-to_station_m    = 2627.9
+to_station_m    = 2772.8
 class           = "bridge"
 viaduct_product = "OSR-SP"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-3"
-from_station_m  = 2627.9
+from_station_m  = 2772.8
 to_station_m    = 6538.1
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -533,14 +549,14 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 1415245
 at_grade_eur         = 1302026
-elevated_usd         = 228893941
-elevated_eur         = 210582426
-bridge_usd           = 22098519
-bridge_eur           = 20330638
+elevated_usd         = 227206201
+elevated_eur         = 209029705
+bridge_usd           = 25214987
+bridge_eur           = 23197788
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 252407706
-civil_subtotal_eur   = 232215090
+civil_subtotal_usd   = 253836433
+civil_subtotal_eur   = 233529519
 # Stations (RFC 0010 archetype catalogue).
 stations_usd         = 42000000
 stations_eur         = 38640000
@@ -559,10 +575,10 @@ signalling_eur       = 1161799
 charging_microgrid_usd = 1250000
 charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 29225019
-epc_overhead_eur     = 26887017
-total_usd            = 446725295  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 410987271  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 29325030
+epc_overhead_eur     = 26979028
+total_usd            = 448254033  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 412393710  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

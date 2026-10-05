@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 32.370197,
     "north": 31.323349,
@@ -6,6 +7,7 @@
     "west": 32.231117
   },
   "core_analytical_length_m": 18837.865964,
+  "core_final_route_length_m": 19621.849917,
   "core_original_length_m": 29276.292059,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               6180.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 12150.673449,
+          "seed_from_index": 0,
+          "seed_to_index": 504,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 10480.0,
@@ -46,19 +54,31 @@
                 12500.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 12150.673449,
-          "seed_from_index": 0,
-          "seed_to_index": 504,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 8649.158723,
       "line": "line-1",
       "original_cells": 505,
       "original_route_m": 12150.673449,
-      "reworked_cells": 377,
-      "reworked_route_m": 9152.001436
+      "reworked_cells": 356,
+      "reworked_route_m": 8649.158723,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            781,
+            625
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 502.842712,
+          "to_cell": [
+            767,
+            608
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -95,11 +115,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5984.995667,
       "line": "line-2",
       "original_cells": 333,
       "original_route_m": 8172.590181,
       "reworked_cells": 258,
-      "reworked_route_m": 5984.995667
+      "reworked_route_m": 5984.995667,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +137,13 @@
               8280.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 8953.028429,
+          "seed_from_index": 0,
+          "seed_to_index": 364,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 13400.0,
@@ -128,29 +156,45 @@
                 13540.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 8953.028429,
-          "seed_from_index": 0,
-          "seed_to_index": 364,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 4987.695526,
       "line": "line-3",
       "original_cells": 365,
       "original_route_m": 8953.028429,
-      "reworked_cells": 264,
-      "reworked_route_m": 5375.979797
+      "reworked_cells": 245,
+      "reworked_route_m": 4987.695526,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            684,
+            677
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 388.284271,
+          "to_cell": [
+            683,
+            658
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Port-Said/alignment-policy.toml": "d9da7512d663f439f6c76416d799d090a6ca23503273d820b68744dae0a3aa0f",
+    "cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/planning-buildability-mask.bin.gz": "1746d963efebd11f42eecef4f34203167c0fb7e3e460962119b97103066c42f7",
     "cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/planning-grid.json": "f15920029353f6fbcb915675332c1178c5ecb3aac256b1957544f4de29719e93",
+    "cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/planning-water-mask.bin.gz": "5469289ca6d7d5438bda9edeb023cd7000308c4ea4827f6b32c72795a6c0cf7f",
     "cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/pre-rework-corridors.json.gz": "80843e4b86084d2f1e413fff5b18d4e4652284dbd0c3615e688c94855f0998eb",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Egypt/Port-Said/engineering/alignment/water-source-receipt.json": "f3d380f7333a215f435324f5414d8d18d23a6272b6eb5cdad87bd6db3189f427",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

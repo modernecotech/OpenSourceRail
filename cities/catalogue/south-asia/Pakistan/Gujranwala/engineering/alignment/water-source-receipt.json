@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "gujranwala",
+  "legacy_osm_missing_geometry_ids": [
+    12048271,
+    12634266,
+    20948734
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "a5f88505226b272fb414029dc1e6afaf4fa0ea604da209d36c9631d758f2f801",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "265b95d594e036a4852e9b69b8dfa4aeb29f065d574d735c070fafa4e19f1daa",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/alignment/independent-landcover-samples.bin.gz": "a5818dd139d019175e6b7fd29993a6f5bf120e3083923083e2bcc2e83836813f",
+    "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/alignment/planning-grid.json": "8a91bb34b0409504dba16f06044e74216e3bb3540816a64a67fd0a96f53f9916",
+    "cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/alignment/planning-water-features.json.gz": "716f83b2f54cd3914434d2bae911f3a275d5d001f01016fd020b7cfee2d11693",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 11236,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "54c7fcb36c475831bc74767a817f3221b4058d4f05cde4a86181ed83f072e957",
+      "native_window": [
+        24290,
+        8018,
+        4091,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E072_Map.tif",
+      "window_sha256": "79952edaffa5c29d6846cb556a74ffcf5a1a27a210062be4eaea1994213a84fa"
+    }
+  ]
+}

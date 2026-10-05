@@ -1,6 +1,6 @@
 {
   "city": "rajshahi",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,9 +11,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 636,
-      "row": 566,
-      "station_id": "line-1-0566-0636-s003017",
+      "col": 663,
+      "row": 569,
+      "station_id": "line-1-0569-0663-s002453",
       "water_coverage_percent": 0
     },
     {
@@ -29,21 +29,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 373,
-      "row": 530,
-      "station_id": "line-1-0530-0373-s008576",
+      "col": 411,
+      "row": 535,
+      "station_id": "line-1-0535-0411-s007774",
       "water_coverage_percent": 0
     },
     {
-      "col": 251,
-      "row": 514,
-      "station_id": "line-1-0514-0251-s011148",
+      "col": 198,
+      "row": 518,
+      "station_id": "line-1-0518-0198-s012401",
       "water_coverage_percent": 0
     },
     {
       "col": 14,
       "row": 540,
-      "station_id": "line-1-0540-0014-s016255",
+      "station_id": "line-1-0540-0014-s017034",
       "water_coverage_percent": 0
     },
     {
@@ -53,9 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 642,
-      "row": 494,
-      "station_id": "line-2-0494-0642-s002722",
+      "col": 663,
+      "row": 569,
+      "station_id": "line-2-0569-0663-s001048",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 636,
+      "row": 470,
+      "station_id": "line-2-0470-0636-s003251",
       "water_coverage_percent": 0
     },
     {
@@ -83,20 +89,28 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 411,
+      "row": 535,
+      "station_id": "line-3-0535-0411-s009021",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 391,
       "row": 577,
       "station_id": "line-3-0577-0391-s010073",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 16,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Bangladesh/Rajshahi/design.toml": "0621e68b065a9d7428203c546e869448ffab973cd62188a41dc562442ee6459e",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/design.toml": "d6b2c6d53707286188ced90d8584577f57008598c4d54c0875c328dfcd275a45",
     "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/planning-grid.json": "6883e4ff26073418d15d7dd004118d401e9efcc04264ef948cdef4b6ba1ec2af",
-    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/planning-water-mask.bin.gz": "b37221c397667195d64dfa1f318a6c5243289ed20b345d7eb174a9e298a549e6",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/planning-water-mask.bin.gz": "e68b3edda762eda0760b2fff5b09850b18f12eb0c33cee87fe72264b1caa5f80",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/water-source-receipt.json": "176650860e48feda7ab7d53525bbce890976b34796b9eb4bd8bed74ebf92fa9c",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "1c4797db7f7af8d99ea1944555da75c7a068e66e8d5e79ca5479a75b075c1170",
+  "uncompressed_water_mask_sha256": "4d217ed2c4a07bdcef503b2c9ca15818457e523ef43eececc5c043cedb24aee5",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

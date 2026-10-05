@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -5.476342,
     "north": 33.952269,
@@ -6,6 +7,7 @@
     "west": -5.619622
   },
   "core_analytical_length_m": 26692.41073,
+  "core_final_route_length_m": 28884.591617,
   "core_original_length_m": 39366.310079,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12651.900423,
       "line": "line-1",
       "original_cells": 685,
       "original_route_m": 15750.936358,
       "reworked_cells": 523,
-      "reworked_route_m": 12651.900423
+      "reworked_route_m": 12651.900423,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9034.213562,
       "line": "line-2",
       "original_cells": 520,
       "original_route_m": 12219.108217,
       "reworked_cells": 432,
-      "reworked_route_m": 9034.213562
+      "reworked_route_m": 9034.213562,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7198.477631,
       "line": "line-3",
       "original_cells": 483,
       "original_route_m": 11396.265504,
       "reworked_cells": 334,
-      "reworked_route_m": 7198.477631
+      "reworked_route_m": 7198.477631,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Meknes/alignment-policy.toml": "ba5dcbc8e16272516263afae451fdb1f9a012f56a137e87ae832ef2b8fcb6378",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-buildability-mask.bin.gz": "614e937eb8db76800c57c456b178d72549e11e6c247cfd9a0213554d80284915",
     "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-grid.json": "38ba0c61cbc8a6a59c24ef40d54f77175e7e17474fd9750b78caf1d94b144567",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-water-mask.bin.gz": "ac152403c030e9d7ad76de730dfff1362b6ae2b5ca78501b5aa40b25cdae9a54",
     "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/pre-rework-corridors.json.gz": "2d6593316d5aa5586e7a96131a409b80c78d91020c509d2bb46ee5c9d8e71428",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/water-source-receipt.json": "8944cc37150a77d1b775992933d6df264e967c53960e0acbfe9f2f5790188b94",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

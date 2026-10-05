@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "zarqa",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "77daa3a42fda989bb689c740390f5622dd8f52d1d7a1faf3d2179d495b260f07",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "33584316530f45384c29dd1fa29838b64db1fdfcbabc063a063336fd7a2d70ed",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/independent-landcover-samples.bin.gz": "3d86ae851e124c6d285e9f61aa619e79a4b98dfbaf14fdd3ff94ccce37573bca",
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/planning-grid.json": "a1d2d93405b85d6e19771df64c7cbae5aa278c106642f3b0d85d73f3223d7fdb",
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/planning-water-features.json.gz": "10349e528269558434d5b53b607b3cd0a111e8f604161fb810cd7abe1886e2df",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 9070,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ebf8b8bde6240429c9246abc936f17a5219699f8315057410480f7ea89b59bae",
+      "native_window": [
+        35641,
+        9937,
+        359,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E033_Map.tif",
+      "window_sha256": "b95849194654c32a027078ffaf72be90540c2b92f54264bf09f758ea03bfd966"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "487ee45d8ce1fd4639452cd59c18b1523b20944330985851df9f48744b7e259f",
+      "native_window": [
+        0,
+        9937,
+        2450,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E036_Map.tif",
+      "window_sha256": "70242b58f43ea6c1bea99559e053da38c9d8e94831bbc31c3f746d1bd3b89774"
+    }
+  ]
+}

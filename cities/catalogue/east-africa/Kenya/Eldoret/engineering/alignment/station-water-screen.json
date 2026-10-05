@@ -1,6 +1,6 @@
 {
   "city": "eldoret",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 539,
-      "row": 562,
-      "station_id": "line-1-0562-0539-s005504",
+      "col": 544,
+      "row": 568,
+      "station_id": "line-1-0568-0544-s005320",
       "water_coverage_percent": 0
     },
     {
@@ -29,15 +29,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 253,
-      "row": 278,
-      "station_id": "line-1-0278-0253-s014561",
+      "col": 249,
+      "row": 274,
+      "station_id": "line-1-0274-0249-s014686",
       "water_coverage_percent": 0
     },
     {
       "col": 39,
       "row": 160,
-      "station_id": "line-1-0160-0039-s020074",
+      "station_id": "line-1-0160-0039-s020318",
       "water_coverage_percent": 0
     },
     {
@@ -47,15 +47,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 653,
-      "row": 515,
-      "station_id": "line-2-0515-0653-s003011",
+      "col": 647,
+      "row": 518,
+      "station_id": "line-2-0518-0647-s003156",
       "water_coverage_percent": 0
     },
     {
-      "col": 559,
-      "row": 560,
-      "station_id": "line-2-0560-0559-s005310",
+      "col": 544,
+      "row": 568,
+      "station_id": "line-2-0568-0544-s005688",
       "water_coverage_percent": 0
     },
     {
@@ -77,44 +77,58 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 161,
-      "row": 126,
-      "station_id": "line-3-0126-0161-s003515",
+      "col": 150,
+      "row": 125,
+      "station_id": "line-3-0125-0150-s003510",
       "water_coverage_percent": 0
     },
     {
-      "col": 285,
-      "row": 221,
-      "station_id": "line-3-0221-0285-s007013",
+      "col": 262,
+      "row": 198,
+      "station_id": "line-3-0198-0262-s007007",
       "water_coverage_percent": 0
     },
     {
-      "col": 520,
-      "row": 414,
-      "station_id": "line-3-0414-0520-s013803",
+      "col": 385,
+      "row": 302,
+      "station_id": "line-3-0302-0385-s010516",
       "water_coverage_percent": 0
     },
     {
-      "col": 624,
-      "row": 499,
-      "station_id": "line-3-0499-0624-s016810",
+      "col": 505,
+      "row": 402,
+      "station_id": "line-3-0402-0505-s014026",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 576,
+      "row": 460,
+      "station_id": "line-3-0460-0576-s016102",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 647,
+      "row": 518,
+      "station_id": "line-3-0518-0647-s018155",
       "water_coverage_percent": 0
     },
     {
       "col": 747,
       "row": 601,
-      "station_id": "line-3-0601-0747-s020373",
+      "station_id": "line-3-0601-0747-s021030",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 17,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Eldoret/design.toml": "a04f3ff7babba8b1cc113f9d8f861769ee2fec15b13e111409a262676952d8ca",
+    "cities/catalogue/east-africa/Kenya/Eldoret/design.toml": "9749e9180433195f70781f5c11b6a2ea9bd287e418ed1f5c22cd15abff73f4aa",
     "cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/planning-grid.json": "83b6c2a8621a5fc8199619741bb876f98858e35deffb472cc05c79462c9f1cbd",
-    "cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/planning-water-mask.bin.gz": "7390d5c2647a98fb7b26034ab673391d44739a7e04d3ab3708322b6d199996d3",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/planning-water-mask.bin.gz": "ddf437a251764c3417c4671d5435993a853ae4668e5d17742cfaae8971080671",
+    "cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/water-source-receipt.json": "42f22fbb78a310968ffdb65bfa83fa767e5c500391e73f7e57debd4fc16aaec9",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "5a9a8e702014cf3cb7769c0c055dfb8879995ba8efc9e4e769cdc74f374029d8",
+  "uncompressed_water_mask_sha256": "c83c997d2f780ff862f7df22d88b1e42a52268dc36d12bd87e805beada989cfd",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

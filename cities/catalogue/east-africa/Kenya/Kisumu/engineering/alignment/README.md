@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`kisumu-line1.aln.toml`](kisumu-line1.aln.toml) | `line-1` | 12,767.7 m | 6 |
-| [`kisumu-line2.aln.toml`](kisumu-line2.aln.toml) | `line-2` | 19,672.5 m | 7 |
-| [`kisumu-line3.aln.toml`](kisumu-line3.aln.toml) | `line-3` | 7,929.1 m | 4 |
+| [`kisumu-line2.aln.toml`](kisumu-line2.aln.toml) | `line-2` | 23,033.7 m | 8 |
+| [`kisumu-line3.aln.toml`](kisumu-line3.aln.toml) | `line-3` | 7,929.1 m | 5 |
 
 ## Status
 

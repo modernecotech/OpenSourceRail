@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 48.829342,
     "north": 15.983583,
@@ -6,6 +7,7 @@
     "west": 48.744982
   },
   "core_analytical_length_m": 17171.584787,
+  "core_final_route_length_m": 18300.874452,
   "core_original_length_m": 21788.004032,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10455.777772,
       "line": "line-1",
       "original_cells": 601,
       "original_route_m": 14145.626253,
       "reworked_cells": 570,
-      "reworked_route_m": 13053.422792
+      "reworked_route_m": 13053.422792,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 3676.568542,
       "line": "line-2",
       "original_cells": 225,
       "original_route_m": 5366.417023,
       "reworked_cells": 184,
-      "reworked_route_m": 3676.568542
+      "reworked_route_m": 3676.568542,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4168.528137,
       "line": "line-3",
       "original_cells": 208,
       "original_route_m": 4893.605775,
       "reworked_cells": 197,
-      "reworked_route_m": 4168.528137
+      "reworked_route_m": 4168.528137,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Yemen/Sayun/alignment-policy.toml": "753d9f8abc10652086e4e56684faac6f6f4425fde76cae43897e6f96c9fa4172",
+    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-grid.json": "bbd78d058fb0151884044b8ef5377c1fb89d13c978e334036a67b0c3eaad37cd",
+    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/planning-water-mask.bin.gz": "fea719e683c18080ea85380c8f5b6bc01955b2cb1cd514f80b8758ea47ff7a84",
     "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/pre-rework-corridors.json.gz": "48025aab5acfb8e8d5225cbeb8c2a3e649ae4757958fc5aeae9206f6d98f410a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Yemen/Sayun/engineering/alignment/water-source-receipt.json": "4a2a69f813c1d68ac1411fd71702d507bc2b61a4a257f9d64e3279ae2b9fd6ca",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

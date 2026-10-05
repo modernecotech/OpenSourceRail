@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ismailia-line1.aln.toml`](ismailia-line1.aln.toml) | `line-1` | 11,564.9 m | 5 |
-| [`ismailia-line2.aln.toml`](ismailia-line2.aln.toml) | `line-2` | 18,788.1 m | 8 |
-| [`ismailia-line3.aln.toml`](ismailia-line3.aln.toml) | `line-3` | 8,675.3 m | 4 |
+| [`ismailia-line1.aln.toml`](ismailia-line1.aln.toml) | `line-1` | 11,564.9 m | 6 |
+| [`ismailia-line2.aln.toml`](ismailia-line2.aln.toml) | `line-2` | 19,287.5 m | 9 |
+| [`ismailia-line3.aln.toml`](ismailia-line3.aln.toml) | `line-3` | 11,678.6 m | 7 |
 
 ## Status
 

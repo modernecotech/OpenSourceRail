@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "benin-city",
+  "legacy_osm_missing_geometry_ids": [
+    14939290
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "05e806ab8a0b156e8a0c2f1dadbb8d202913aa05df4b5e925ff5c313625fba4b",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "8031841f541e13fef64d7f8ed40b76f373ca51f930373bd93b4ca792f3b7fc0f",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Benin-City/engineering/alignment/independent-landcover-samples.bin.gz": "8649466126930014b9b2f1fc8e891bf1cc3ae03d2c000496a5b2f501515a9f43",
+    "cities/catalogue/west-africa/Nigeria/Benin-City/engineering/alignment/planning-grid.json": "cb2b41e8c14650b47d3df6f79c4be9b8599d18946fbbd2475a580a7a583b0986",
+    "cities/catalogue/west-africa/Nigeria/Benin-City/engineering/alignment/planning-water-features.json.gz": "f7af0423657eac7cc0961a5c025f980b359c5445c1d29fccdbb0f997c7916aae",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 3092,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "af809d544729ccb064605793ddb5bcde86f399da6b4a5e23baaff2b52637a1c2",
+      "native_window": [
+        29504,
+        30250,
+        3483,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E003_Map.tif",
+      "window_sha256": "ed34eae624ec89a430a262598786fa218e3dbea14d4e8d025fc0a4fe414b4bbe"
+    }
+  ]
+}

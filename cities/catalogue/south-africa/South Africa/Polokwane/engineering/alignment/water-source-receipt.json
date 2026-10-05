@@ -1,0 +1,65 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "polokwane",
+  "legacy_osm_missing_geometry_ids": [
+    17062151,
+    17062152
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "be778e45d477deba731d5929555ffdbeca766ab1701f0faafe794ef7f21498a2",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "7f34bbab50c7d4cc80787ffff80984bc0e2823508bd2fc5c7125d99e4b9ce9e3",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/independent-landcover-samples.bin.gz": "e705df2e9e1b91d469ed175339e4b1a37f60e1b9e09c091df58b205709205b79",
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/planning-grid.json": "80e5180bada7c46c2e8b98aefb36768dbf104322ee02c5224ce3905336ffee8a",
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/planning-water-features.json.gz": "bdba5236302b788904cc778bc1e6eca09700bf33c85235e933d6759623f27e9e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 4705,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "92d501e71e9e5f215bfc787cd1eb9b0ba1b86ea36f7c1abd41b84484dffda123",
+      "native_window": [
+        28326,
+        0,
+        2604,
+        46
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S27E027_Map.tif",
+      "window_sha256": "851cf408ffecc68a2f65dde1f7b28c0240f0aae3029db2654c4d6f99da0fe96a"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "6f975ddea4bbf30e3f4cb3212cdd0af0670d78b8e96ade2a9c1b40bd6e305ae9",
+      "native_window": [
+        28326,
+        33664,
+        2604,
+        2336
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S24E027_Map.tif",
+      "window_sha256": "be77f5b3c5c375f094cf3ea4d77b1784fc93e531a05ecedaef096039dffed957"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 91.934412,
     "north": 24.954209,
@@ -6,6 +7,7 @@
     "west": 91.803252
   },
   "core_analytical_length_m": 31622.695101,
+  "core_final_route_length_m": 34437.526676,
   "core_original_length_m": 42948.403986,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10195.878785,
       "line": "line-1",
       "original_cells": 601,
       "original_route_m": 14228.468966,
       "reworked_cells": 476,
-      "reworked_route_m": 10195.878785
+      "reworked_route_m": 10195.878785,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14571.656557,
       "line": "line-2",
       "original_cells": 515,
       "original_route_m": 23155.07142,
-      "reworked_cells": 751,
-      "reworked_route_m": 20310.378666
+      "reworked_cells": 930,
+      "reworked_route_m": 21181.261172,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9669.991334,
       "line": "line-3",
       "original_cells": 487,
       "original_route_m": 11343.58571,
       "reworked_cells": 400,
-      "reworked_route_m": 9669.991334
+      "reworked_route_m": 9669.991334,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Bangladesh/Sylhet/alignment-policy.toml": "ff6f239218f1c3df57fed9ac0d1efc17bea4db00e246e6e3d910f9ae8f3432b9",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/planning-buildability-mask.bin.gz": "18fe4e7ad1e18a81a00eb328f0e373ddbd24427a47b1e0fe39af38c5927b13db",
     "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/planning-grid.json": "daede843c7089effa6a0f21c203e1ad7da23cd8dd771599c10e8d8154ebd635d",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/planning-water-mask.bin.gz": "5b26e21723e6ae49a63c930d29c48b3e617a60a19900f6e10af28957a04c5055",
     "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/pre-rework-corridors.json.gz": "8cf643b365e748fa5a3889e2804795f74de03140a14f1840d93ee852d6d83121",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/alignment/water-source-receipt.json": "dbf24e8999827bdd9f9bc943ab48ded65d85e59b8088bf418643a8ffa658de92",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

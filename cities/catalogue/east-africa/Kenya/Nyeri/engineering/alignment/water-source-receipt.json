@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "nyeri",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "8576678f566c41f71bb022ef73eea06126c96c8c3500165e4ebf1c9e578b4e07",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "f9fbe726f66e2277beb05a584f3307ad0725ea810fb6cf8e17d8c651402a9caf",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/independent-landcover-samples.bin.gz": "958f2614291594468c90722065aaa8a79d8f484d73f1729c82447d4753b55409",
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/planning-grid.json": "36ac5589a7b27c745f73be18b91d88a47284d1da06198ced9f50a5086fa9af10",
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/planning-water-features.json.gz": "68cde79994e5893acdce3918c794fab0f390f66fb4e62bcc3c9592c7ef15a70c",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 3438,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "89db764127e7d49d00247ae92a76e3f2d6147df41f7058653ba9882700cbf31d",
+      "native_window": [
+        10560,
+        4230,
+        1625,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E036_Map.tif",
+      "window_sha256": "a73f4cb1ef23f17032e3a078d205a686081e76d32754b17d47e6656af7470e01"
+    }
+  ]
+}

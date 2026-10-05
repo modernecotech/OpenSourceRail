@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 29.532741,
     "north": -23.843572,
@@ -6,6 +7,7 @@
     "west": 29.402661
   },
   "core_analytical_length_m": 33821.171969,
+  "core_final_route_length_m": 36530.764774,
   "core_original_length_m": 45998.381469,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14206.559877,
       "line": "line-1",
       "original_cells": 406,
       "original_route_m": 18986.923385,
-      "reworked_cells": 666,
-      "reworked_route_m": 16054.781424
+      "reworked_cells": 722,
+      "reworked_route_m": 16283.961031,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9205.685425,
       "line": "line-2",
       "original_cells": 614,
       "original_route_m": 14571.311678,
       "reworked_cells": 453,
-      "reworked_route_m": 9205.685425
+      "reworked_route_m": 9205.685425,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13118.519472,
       "line": "line-3",
       "original_cells": 686,
       "original_route_m": 17088.26694,
       "reworked_cells": 668,
-      "reworked_route_m": 15850.134188
+      "reworked_route_m": 15850.134188,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-africa/South Africa/Polokwane/alignment-policy.toml": "e959e1ac02aa93e30d38506bc3497e839d8ff9f90401e6bacccde1465f9e7bb6",
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/planning-buildability-mask.bin.gz": "18bba75b013cc98af249e3abb1e7dc7bc5b396e6dcdb22e8a1c8c9ff456832cb",
     "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/planning-grid.json": "80e5180bada7c46c2e8b98aefb36768dbf104322ee02c5224ce3905336ffee8a",
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/planning-water-mask.bin.gz": "64d8cd030836124aafec6ac622b759c8596a2761719d9042180e29f27f02bcaa",
     "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/pre-rework-corridors.json.gz": "7a147e5199da39d8a660f21e4f73e78f553a4399d4ead018b8ad9bcec3f892cf",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-africa/South Africa/Polokwane/engineering/alignment/water-source-receipt.json": "3dae4616258d977fdcfa51999db1361d9e40c7d018bead0b1f610d42a4157281",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

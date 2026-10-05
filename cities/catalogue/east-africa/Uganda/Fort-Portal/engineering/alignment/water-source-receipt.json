@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "fort-portal",
+  "legacy_osm_missing_geometry_ids": [
+    17427082,
+    17427084,
+    17427159
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "cf8313220db7a4b87c11d60baae8029d94383accaf30abb56494964468210a44",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "af73c0cf7ac264bb36c1d1cc800a001927afc1f996678c3b88f13184377ac82b",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/independent-landcover-samples.bin.gz": "77f0ddc293fbcb99ce09532155b1669228d2f95de9641916ae8d5ed9a0e90298",
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/planning-grid.json": "cd8cc593054f9e066e168e0946fb20c28b7c7612e3edc8419daa7deaa766a236",
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/planning-water-features.json.gz": "a06767406a5c44880f785e8089195215edfdc14b94d674b5b262c44c8ed0c455",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 2949,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8a14bec944542a09dcfe457b1c46a1f867ced59fd91246978a61fabb2faeb485",
+      "native_window": [
+        2488,
+        27136,
+        1626,
+        1626
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E030_Map.tif",
+      "window_sha256": "ac014743d155fea47cddf1cb3f68c52904bbb54ce71b9752cdfaca04eaf6053f"
+    }
+  ]
+}

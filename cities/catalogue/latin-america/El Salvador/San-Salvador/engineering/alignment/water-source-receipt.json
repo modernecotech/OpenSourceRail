@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "san-salvador",
+  "legacy_osm_missing_geometry_ids": [
+    3553081,
+    6480618,
+    6480779,
+    6879201
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "4752e0ad825ba465897364576756a120e342a317ce26aec6d3e5b3c5fbdbcbeb",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "77764510b300fe136fa34bd740541abcbfd4fb857ceee5d8d8e2e2936e5ec1c1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/alignment/independent-landcover-samples.bin.gz": "e0443867d05fc326e9d80b4a472bab2def38dce532e1228dc710cc08253d999d",
+    "cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/alignment/planning-grid.json": "fcb94ef54f0cb89a1c1976bb810a8a667757500f126983f6c0c32602f3f8c00f",
+    "cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/alignment/planning-water-features.json.gz": "d9fad9a4982e0bff027a7be20385b9302fda951996d46b6c2d9a7dd97127c8a0",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 91200,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e0743bf8b5592ac25856d76b0f49f0d7c30441f654643a2850d1204bb8836683",
+      "native_window": [
+        7800,
+        13800,
+        3603,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12W090_Map.tif",
+      "window_sha256": "96c5c52d99006cf7484b0fdaf5757fac7d79ab9dab0104e99eb1b8f2e5f334b6"
+    }
+  ]
+}

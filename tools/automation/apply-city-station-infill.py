@@ -33,13 +33,22 @@ def infill(stations, lines, geometry, grid, mask, maximum_gap_m, minimum_gap_m):
             gap=last['s_m']-first['s_m'];bays=math.ceil(gap/maximum_gap_m)
             if bays<=1:continue
             if gap/bays<minimum_gap_m:raise ValueError('No compliant station spacing within controlled gap')
+            previous_chainage=first['s_m']
             for i in range(1,bays):
-                chainage=first['s_m']+gap*i/bays
-                lat,lon=interpolate(geometry[line['name']],chainage,line['length_m'],grid)
-                row=math.floor((grid['bbox_north']-lat)*grid['m_per_deg_lat']/grid['cell_m'])
-                col=math.floor((lon-grid['bbox_west'])*grid['m_per_deg_lon']/grid['cell_m'])
-                if not 0<=row<grid['height'] or not 0<=col<grid['width'] or mask[row*grid['width']+col]>=50:
+                target=first['s_m']+gap*i/bays
+                chosen=None
+                for offset in [0,*[signed*delta for delta in range(20,401,20) for signed in [-1,1]]]:
+                    chainage=target+offset
+                    remaining=last['s_m']-chainage;future_bays=bays-i
+                    if not minimum_gap_m<=chainage-previous_chainage<=maximum_gap_m or not future_bays*minimum_gap_m<=remaining<=future_bays*maximum_gap_m:continue
+                    lat,lon=interpolate(geometry[line['name']],chainage,line['length_m'],grid)
+                    row=math.floor((grid['bbox_north']-lat)*grid['m_per_deg_lat']/grid['cell_m'])
+                    col=math.floor((lon-grid['bbox_west'])*grid['m_per_deg_lon']/grid['cell_m'])
+                    if 0<=row<grid['height'] and 0<=col<grid['width'] and mask[row*grid['width']+col]==0:
+                        chosen=(chainage,lat,lon);break
+                if chosen is None:
                     raise ValueError('Infill platform requires a dry in-grid point and survey review')
+                chainage,lat,lon=chosen;previous_chainage=chainage
                 additions.append(dict(id=f"{line['name']}-planning-infill-s{round(chainage):06d}",line=line['name'],lat=lat,lon=lon,s_m=round(chainage,1),anchor_kind='planning:infill',anchor_name=f'Planning infill {i}',archetype='standard',platform_length_m=first['platform_length_m']))
     return additions
 

@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "coimbatore",
+  "legacy_osm_missing_geometry_ids": [
+    1853329,
+    1853333,
+    2138727,
+    6743775
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "81efc68a8b4b04b52a31894298d6b7fa115073d12894cd1435cab75b25a5d446",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "8a7b627fdce337abfd964fab50cef5071dbb90b52aed69e4926b43e9beec0f82",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Coimbatore/engineering/alignment/independent-landcover-samples.bin.gz": "63a6d7857940479b91342a5047d085c26b63f786350f483ba49bee25f669b3c5",
+    "cities/catalogue/south-asia/India/Coimbatore/engineering/alignment/planning-grid.json": "ceeb378b3b556ac3364db114c6ab83a154b166a0f4da06417bcec0415837e08e",
+    "cities/catalogue/south-asia/India/Coimbatore/engineering/alignment/planning-water-features.json.gz": "e4f5ead9646c2c8ab58dbc4e7c4d7b8a984117e6c62756a797b8ec4185a7806d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 37306,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "913f22dd9ba2b05f52eeb104ca88aa5162ec2d0a5dcef1124d4f19546ac49558",
+      "native_window": [
+        22199,
+        10200,
+        3604,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E075_Map.tif",
+      "window_sha256": "24adb4547a99d9cc4e94426f64c2cd65bc246e2c9e2d5655fc56cfbb87024dc6"
+    }
+  ]
+}

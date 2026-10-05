@@ -1,6 +1,6 @@
 {
   "city": "songea",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -8,6 +8,12 @@
       "col": 350,
       "row": 347,
       "station_id": "line-1-0347-0350-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 355,
+      "row": 325,
+      "station_id": "line-1-0325-0355-s000481",
       "water_coverage_percent": 0
     },
     {
@@ -35,14 +41,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 5,
-  "schema_version": 1,
+  "platforms_checked": 6,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Tanzania/Songea/design.toml": "8d64578b48394c02006ba18bf3706c66a6375d37eab39e1fa5c92f054451b63a",
+    "cities/catalogue/east-africa/Tanzania/Songea/design.toml": "aa61c9d7ad1bc19022c0c73c9abf666616fa9f7e6946a0ddba44bd3fc62c9c6c",
     "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-grid.json": "a7cba34c374bd54c555d1aa803c3bd2eca0ca0e8aee3a4c8627a20db175e0b95",
-    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-water-mask.bin.gz": "b323cfff382ba369cb4986d67d3ed703965b8d1ccaf5cdee34e575bcf98329c6",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-water-mask.bin.gz": "7793ca7ccee7f4b47ec09fdf25927a0422deefb6c03d1faa1728d620731b2d94",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/water-source-receipt.json": "567235d0a5b47f93a354b7684d6ddf9a7c79e1be69718501273846f47e9f4860",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "9baf51d7f3b5e2811dde390334ea765d6f799140722b5f88b384ba4e3b5197ff",
+  "uncompressed_water_mask_sha256": "8fb1e8f64e53a49410e8aa5a8eedb5b65c2650f1f7b481f2394f8c45b4c05b1d",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

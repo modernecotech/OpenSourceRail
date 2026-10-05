@@ -50,7 +50,7 @@ length_m        = 12609.1
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 240
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -68,7 +68,7 @@ length_m        = 10410.7
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 150
 
 [[civil_segments]]
 line            = "line-1"
@@ -101,22 +101,6 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 4349.0
-to_station_m    = 4369.0
-class           = "bridge"
-viaduct_product = "OSR-SP"
-elevated_cost_multiplier = 1.000
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 4369.0
-to_station_m    = 4389.0
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 4389.0
 to_station_m    = 4465.6
 class           = "bridge"
 viaduct_product = "OSR-SP"
@@ -228,6 +212,17 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
+id              = "line-1-0438-0308-s001505"
+line            = "line-1"
+lat             = 1.0043848360508223
+lon             = 34.99403450962382
+s_m             = 1505.1
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
 id              = "line-1-0468-0368-s003000"
 line            = "line-1"
 lat             = 0.9989858510600007
@@ -237,11 +232,22 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0566-0560-s007805"
+id              = "line-1-0502-0434-s004672"
 line            = "line-1"
-lat             = 0.9813491667566496
-lon             = 35.039316507760624
-s_m             = 7804.7
+lat             = 0.9928670014037361
+lon             = 35.016675508692224
+s_m             = 4672.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 1
+
+[[stations]]
+id              = "line-1-0584-0595-s008654"
+line            = "line-1"
+lat             = 0.9781097757621566
+lon             = 35.04560567416851
+s_m             = 8653.8
 archetype       = "halt"
 platform_length_m = 45.0
 
@@ -268,23 +274,28 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0451-0292-s005368"
+id              = "line-2-0438-0308-s005842"
 line            = "line-2"
-lat             = 1.0020452758881329
-lon             = 34.99115946212307
-s_m             = 5367.8
-archetype       = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-2-0380-0374-s007807"
-line            = "line-2"
-lat             = 1.0148228736997444
-lon             = 35.00589408056441
-s_m             = 7806.9
+lat             = 1.0043848360508223
+lon             = 34.99403450962382
+s_m             = 5842.4
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
+
+[[stations]]
+id              = "line-2-0364-0393-s008355"
+line            = "line-2"
+lat             = 1.017702332361516
+lon             = 35.009308199471555
+s_m             = 8354.6
+mandatory_crossing = true
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Kitale County Referal Hospital"
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 2
 
 [[stations]]
 id              = "line-2-0216-0565-s013431"
@@ -307,16 +318,31 @@ anchor_kind     = "amenity:college"
 anchor_name     = "Jomo Kenyatta University(Robinson's)"
 archetype       = "terminal"
 platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
-id              = "line-3-0369-0394-s003609"
+id              = "line-3-0502-0434-s000606"
 line            = "line-3"
-lat             = 1.0168025015297124
-lon             = 35.009487889940345
-s_m             = 3609.4
+lat             = 0.9928670014037361
+lon             = 35.016675508692224
+s_m             = 606.3
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
-junction_group  = 0
+junction_group  = 1
+
+[[stations]]
+id              = "line-3-0364-0393-s003718"
+line            = "line-3"
+lat             = 1.017702332361516
+lon             = 35.009308199471555
+s_m             = 3717.6
+mandatory_crossing = true
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Kitale County Referal Hospital"
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 2
 
 [[stations]]
 id              = "line-3-0068-0325-s010411"
@@ -332,10 +358,26 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 1.0158126876147284
-lon             = 35.00769098525238
+lat             = 1.0043848360508223
+lon             = 34.99403450962382
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0438-0308-s001505", "line-2-0438-0308-s005842"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 0.9912473059064896
+lon             = 35.017154683275685
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0502-0434-s004672", "line-3-0502-0434-s000606", "line-3-0529-0442-s000000"]
+
+[[interchanges]]
+id              = "interchange-002"
+junction_group  = 2
+lat             = 1.017702332361516
+lon             = 35.009308199471555
 lines           = ["line-2", "line-3"]
-platforms       = ["line-2-0380-0374-s007807", "line-3-0369-0394-s003609"]
+platforms       = ["line-2-0364-0393-s008355", "line-3-0364-0393-s003718"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -343,14 +385,14 @@ station = "line-1-0406-0246-s000000"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 26
+storage_slots = 27
 storage_tracks = 9
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 1274.0
+storage_track_m = 1323.0
 workshop_bays = 4
 planning_land_area_m2 = 19567.0
-reference_cost_usd = 14772745
+reference_cost_usd = 14784995
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -478,11 +520,11 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 23
+peak_count         = 24
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 26
+trainset_count     = 27
 
 [[fleets]]
 line               = "line-2"
@@ -512,36 +554,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 17702160
 at_grade_eur         = 16285987
-elevated_usd         = 277275910
-elevated_eur         = 255093837
-bridge_usd           = 20797039
-bridge_eur           = 19133276
+elevated_usd         = 277080950
+elevated_eur         = 254914474
+bridge_usd           = 21157039
+bridge_eur           = 19464476
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 315775109
-civil_subtotal_eur   = 290513100
+civil_subtotal_usd   = 315940149
+civil_subtotal_eur   = 290664937
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 49100000
-stations_eur         = 45172000
+stations_usd         = 78600000
+stations_eur         = 72312000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 43447875
-depots_eur           = 39972045
+depots_usd           = 43460125
+depots_eur           = 39983315
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 41440000
-rolling_stock_eur    = 38124800
+rolling_stock_usd    = 42000000
+rolling_stock_eur    = 38640000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1822523
 signalling_eur       = 1676721
-charging_microgrid_usd = 2300000
-charging_microgrid_eur = 2116000
+charging_microgrid_usd = 2900000
+charging_microgrid_eur = 2668000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 31771985
-epc_overhead_eur     = 29230226
-total_usd            = 485657492  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 446804893  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 33930596
+epc_overhead_eur     = 31216148
+total_usd            = 518653393  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 477161122  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -556,7 +598,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 7548000
+fleet_core_electrical_usd = 7650000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

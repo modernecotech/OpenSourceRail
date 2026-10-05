@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 43.373519,
     "north": 33.480209,
@@ -6,6 +7,7 @@
     "west": 43.241519
   },
   "core_analytical_length_m": 31992.488483,
+  "core_final_route_length_m": 34065.769107,
   "core_original_length_m": 44266.828253,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12523.086579,
       "line": "line-1",
       "original_cells": 690,
       "original_route_m": 16406.113985,
       "reworked_cells": 614,
-      "reworked_route_m": 12599.655121
+      "reworked_route_m": 12599.655121,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11926.214998,
       "line": "line-2",
       "original_cells": 616,
       "original_route_m": 14321.362184,
       "reworked_cells": 495,
-      "reworked_route_m": 11926.214998
+      "reworked_route_m": 11926.214998,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9616.46753,
       "line": "line-3",
       "original_cells": 737,
       "original_route_m": 17263.271273,
       "reworked_cells": 610,
-      "reworked_route_m": 13223.818177
+      "reworked_route_m": 13223.818177,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Ramadi/alignment-policy.toml": "a0345e6c2a3d42bf79335df32bc34f9c9e51bac8adf9e1270516d38a04307d76",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/planning-buildability-mask.bin.gz": "6a20e95ad82bbb8327087a911e1557556ed24962ffaaca5c9e81e2c84c4e087e",
     "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/planning-grid.json": "607aa9c6b6ebbfae2816b060bef6bb81f80b8efd186bcc678135e3b94c99aa37",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/planning-water-mask.bin.gz": "54d4698ddfd6a15e1cb916269bbd22341e22ec9644df383aa4da2f45752b200d",
     "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/pre-rework-corridors.json.gz": "9533a68c42a75762bd2b1c5751df4bc70b3efa7b2cfc74f11b946db7a4b83e4e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/water-source-receipt.json": "62a11abc8835ee6e183324ecaaf289f39e28e12ca72eec4a2f4aa14297356c38",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -14,8 +14,8 @@ crs            = "EPSG:32636"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "1a86ca820d21d65273d9d830ec9fbc356e7bc8dab3621a5511d5302c0d3c98c5"
-source_geojson_sha256 = "c44e5003ba52db97bd38a318f6b4adf750a7fd0dc0c1462b2d5fed76f8a0b013"
+source_design_sha256 = "72cce50f0238eaeef26660a28b1c442fcf220ba9b3d3f7b851b8c0aa52f13a50"
+source_geojson_sha256 = "afd2a7a623f10bcd3e2f3eeaa66f7a0d762bc131e79b292ea92d207999b6aa96"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -925,7 +925,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8806.890
+station_m           = 8806.891
 easting_m           = 261238.593
 northing_m          = 3434914.521
 bearing_in_deg      = 316.194
@@ -1096,7 +1096,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9966.299
+station_m           = 9966.300
 easting_m           = 260183.350
 northing_m          = 3435197.865
 bearing_in_deg      = 271.295
@@ -1397,43 +1397,43 @@ station_m           = 11867.014
 easting_m           = 258472.036
 northing_m          = 3435695.887
 bearing_in_deg      = 316.211
-bearing_out_deg     = 279.409
+bearing_out_deg     = 271.305
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12010.922
-easting_m           = 258332.353
-northing_m          = 3435719.034
-bearing_in_deg      = 279.409
-bearing_out_deg     = 316.212
+station_m           = 11928.073
+easting_m           = 258411.977
+northing_m          = 3435697.255
+bearing_in_deg      = 271.305
+bearing_out_deg     = 316.211
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12039.658
-easting_m           = 258312.788
-northing_m          = 3435739.444
-bearing_in_deg      = 316.212
+station_m           = 11956.809
+easting_m           = 258392.412
+northing_m          = 3435717.665
+bearing_in_deg      = 316.211
 bearing_out_deg     = 271.306
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12100.717
-easting_m           = 258252.729
-northing_m          = 3435740.814
+station_m           = 12017.868
+easting_m           = 258332.353
+northing_m          = 3435719.034
 bearing_in_deg      = 271.306
 bearing_out_deg     = 316.212
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12129.454
-easting_m           = 258233.164
-northing_m          = 3435761.224
+station_m           = 12046.605
+easting_m           = 258312.788
+northing_m          = 3435739.444
 bearing_in_deg      = 316.212
-bearing_out_deg     = 271.307
+bearing_out_deg     = 279.410
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
@@ -1441,7 +1441,7 @@ transition_length_m = 0.000
 station_m           = 12190.513
 easting_m           = 258173.105
 northing_m          = 3435762.594
-bearing_in_deg      = 271.307
+bearing_in_deg      = 279.410
 bearing_out_deg     = 297.797
 curve_radius_m      = 0.000
 transition_length_m = 0.000
@@ -2027,6 +2027,16 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 4667.400
+to_station_m   = 10735.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 10735.600
+to_station_m   = 10775.600
+class          = "bridge"
+
+[[civil]]
+from_station_m = 10775.600
 to_station_m   = 15824.400
 class          = "elevated"
 
@@ -2053,8 +2063,13 @@ station_m         = 10021.000
 platform_length_m = 59.500
 
 [[station]]
-id                = "line-2-0569-0546-s012108"
-station_m         = 12108.100
+id                = "line-2-0571-0554-s011932"
+station_m         = 11931.600
+platform_length_m = 59.500
+
+[[station]]
+id                = "line-2-0549-0466-s013874"
+station_m         = 13873.800
 platform_length_m = 59.500
 
 [[station]]

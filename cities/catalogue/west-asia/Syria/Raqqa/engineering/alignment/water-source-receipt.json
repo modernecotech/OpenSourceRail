@@ -1,0 +1,102 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "raqqa",
+  "legacy_osm_missing_geometry_ids": [
+    12756683,
+    12756719,
+    12756811,
+    12757492,
+    12757806,
+    12761024,
+    12761262
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "ea37ed3db77819ff3737750bd0e775fe6f76ada776e18d3abe622df694db4e4c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "af2efa84f3b24fdf808b69d230fa389835ba12c8ac681f22f18f0751f37e4208",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Raqqa/engineering/alignment/independent-landcover-samples.bin.gz": "1ae2116a3ece2954f99a0d344ab18d9c1660578fb1951a36b34cf695315d161c",
+    "cities/catalogue/west-asia/Syria/Raqqa/engineering/alignment/planning-grid.json": "f492926745c1ca304b940c9fe13ad5df4e5ff53bee4ded6e100bafe570d4d841",
+    "cities/catalogue/west-asia/Syria/Raqqa/engineering/alignment/planning-water-features.json.gz": "dffa2b2fa710287cc09f864b31b97fd27f432f7f43d431f0856a445e1a8cf77e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 29674,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d32692b1cae17f5f5a97186c2c33fa80196bd3672b8e53cacb4338d43bae40d7",
+      "native_window": [
+        34731,
+        0,
+        1269,
+        1792
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E036_Map.tif",
+      "window_sha256": "43c08893093c7982eb7c993039a25fe20a4b8b03dc12cd066ebba85ab28aefd2"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "af2997ce0174d3078c6be6e85482a67284de3ceabf4f9112f7e9cd4cd4913909",
+      "native_window": [
+        0,
+        0,
+        1672,
+        1792
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E039_Map.tif",
+      "window_sha256": "980795cd2f8650c68c0d5576e8fb364056d6a76786e7cfef876727e60d16e34f"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "fc99cebce0651a46b44307afbfb5e4465a0161478a8c9869eaaa981e8eb9efcf",
+      "native_window": [
+        34731,
+        35410,
+        1269,
+        590
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N36E036_Map.tif",
+      "window_sha256": "807c149cbf387072a4d3c5e77b4f8b5db46968372f53eba18f7fca58caa46d11"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "33e9a1280b3254270489ca8fea3d355dbc9cb83d83fc8a3ef743372fb9e6c5b2",
+      "native_window": [
+        0,
+        35410,
+        1672,
+        590
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N36E039_Map.tif",
+      "window_sha256": "a4fef0115662122ad77b056ea10b34680b92aa14c5e9d66a39257d1299389ad7"
+    }
+  ]
+}

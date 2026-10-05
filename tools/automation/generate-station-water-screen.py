@@ -49,31 +49,27 @@ def screen(design_path, *, check=False):
     grid_path = out / 'planning-grid.json'
     grid = json.loads(grid_path.read_text())
     mask_path = out / 'planning-water-mask.bin.gz'
-    cached = ROOT / f'.cache/osr-pipeline/rasters/{slug}.water.npy'
-    if not check and not cached.is_file() and not mask_path.is_file():
-        sys.path.insert(0, str(ROOT / 'design/city-generation/src'))
-        from osr_geo.cli import _load_city
-        from osr_geo.rasterize import GridRef, build_water_mask
-        cached_grid = cached.with_name(slug + '.grid.json')
-        reference = GridRef(**json.loads(cached_grid.read_text())['grid'])
-        osm_path = ROOT / f'.cache/osr-pipeline/osm/{slug}.json'
-        mask = build_water_mask(_load_city(osm_path), reference).tobytes()
-        mask_path.write_bytes(packed_bytes(mask))
-    if check or not cached.is_file():
+    receipt_path = out / 'water-source-receipt.json'
+    if receipt_path.is_file():
+        receipt = json.loads(receipt_path.read_text())
+        for name, digest in receipt['sources_sha256'].items():
+            if sha((ROOT/name).read_bytes()) != digest:
+                raise ValueError('Stale independent water source: ' + name)
         mask = gzip.decompress(mask_path.read_bytes())
+        if sha(mask) != receipt['mask_sha256']:
+            raise ValueError('Water mask differs from its independent source: ' + slug)
     else:
-        mask = cached.read_bytes()
-        packed = packed_bytes(mask)
-        if not mask_path.is_file() or mask_path.read_bytes() != packed:
-            mask_path.write_bytes(packed)
+        raise ValueError('Missing independently complete water evidence: '+slug+'; run refresh-city-water-evidence.py')
+    cached = ROOT / f'.cache/osr-pipeline/rasters/{slug}.water.npy'
     cells = platform_water_cells(design['stations'], grid, mask)
-    wet = [r['station_id'] for r in cells if r['water_coverage_percent'] >= 50]
-    report = dict(schema_version=1, city=slug, passed=not wet, physical_release=False,
-        method='Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.',
-        platforms_checked=len(cells), wet_platforms=wet, platforms=cells,
+    wet = [r['station_id'] for r in cells if 0 < r['water_coverage_percent'] <= 100]
+    unknown = [r['station_id'] for r in cells if r['water_coverage_percent'] == 255]
+    report = dict(schema_version=2, city=slug, passed=not wet and not unknown, physical_release=False,
+        method='Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.',
+        platforms_checked=len(cells), wet_platforms=wet, unknown_platforms=unknown, platforms=cells,
         uncompressed_water_mask_sha256=sha(mask), sources_sha256={
             p.relative_to(ROOT).as_posix(): sha(p.read_bytes())
-            for p in [design_path, grid_path, mask_path, Path(__file__)]})
+            for p in [design_path, grid_path, mask_path, receipt_path, Path(__file__)]})
     path = out / 'station-water-screen.json'
     data = (json.dumps(report, indent=2, sort_keys=True) + '\n').encode()
     if check:
@@ -94,7 +90,7 @@ def main():
     count = platforms = 0
     findings = []
     for path in paths:
-        if not (path.parent / 'alignment-policy.toml').is_file() or path.parent.name == 'Baghdad':
+        if not args.design and (not (path.parent / 'alignment-policy.toml').is_file() or path.parent.name == 'Baghdad'):
             continue
         if args.prepare_grid:
             slug=tomllib.loads(path.read_text())['city']['slug']
@@ -105,6 +101,9 @@ def main():
             cached=ROOT/f'.cache/osr-pipeline/rasters/{slug}.water.npy'
             sidecar=cached.with_name(slug+'.grid.json')
             data=json.loads(sidecar.read_text());grid=data['grid']
+            controlled=json.loads((path.parent/'engineering/alignment/planning-grid.json').read_text())
+            if any(grid[k] != controlled[k] for k in ['height','width','cell_m','bbox_north','bbox_west']):
+                raise ValueError('Retained water transform and local design grid differ: '+slug)
             if len(mask)!=grid['height']*grid['width']:
                 raise ValueError('Retained water mask and local design grid differ: '+slug)
             cached.write_bytes(mask)

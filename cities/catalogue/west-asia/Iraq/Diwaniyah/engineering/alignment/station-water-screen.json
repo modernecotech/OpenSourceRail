@@ -1,6 +1,6 @@
 {
   "city": "diwaniyah",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,33 +11,39 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 754,
-      "row": 508,
-      "station_id": "line-1-0508-0754-s006914",
+      "col": 944,
+      "row": 473,
+      "station_id": "line-1-0473-0944-s003493",
       "water_coverage_percent": 0
     },
     {
-      "col": 614,
-      "row": 531,
-      "station_id": "line-1-0531-0614-s009916",
+      "col": 788,
+      "row": 503,
+      "station_id": "line-1-0503-0788-s007002",
       "water_coverage_percent": 0
     },
     {
-      "col": 553,
-      "row": 542,
-      "station_id": "line-1-0542-0553-s011227",
+      "col": 648,
+      "row": 526,
+      "station_id": "line-1-0526-0648-s010005",
       "water_coverage_percent": 0
     },
     {
-      "col": 413,
-      "row": 565,
-      "station_id": "line-1-0565-0413-s014218",
+      "col": 507,
+      "row": 549,
+      "station_id": "line-1-0549-0507-s013015",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 442,
+      "row": 560,
+      "station_id": "line-1-0560-0442-s014406",
       "water_coverage_percent": 0
     },
     {
       "col": 273,
       "row": 588,
-      "station_id": "line-1-0588-0273-s017208",
+      "station_id": "line-1-0588-0273-s018018",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 461,
-      "row": 495,
-      "station_id": "line-2-0495-0461-s002990",
+      "col": 462,
+      "row": 492,
+      "station_id": "line-2-0492-0462-s002910",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 442,
+      "row": 560,
+      "station_id": "line-2-0560-0442-s004447",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +101,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 16,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Diwaniyah/design.toml": "a9cafda963e890938cd4543e28396c3974d3fad0a9c8ab2de204c587688a7164",
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/design.toml": "68ecfe6f33a12848ccafca43ba7d1805ab759cc8c0a01b934f95856f80e3cace",
     "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/planning-grid.json": "e19128e58ad95595d92ebd35f7e6d341abebfe3da1f762424d121fb5c074b567",
-    "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/planning-water-mask.bin.gz": "9740b99b1324d762531db10dc07074f94269f7e750c9d2cd828d44974e0a5135",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/planning-water-mask.bin.gz": "e9f5a994eb1508c685631fd5ae0f76b1908df906bce7f25d4ff92b2338fca591",
+    "cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/water-source-receipt.json": "d1a58d3d6769d7ce60573037ee3147f2a63c54e858b6c6de405b2b83e347669e",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "329a98a01f2a0631781beb0ae5819113c2f31591d3857edc7f8c4440cbf99d3d",
+  "uncompressed_water_mask_sha256": "9b38c69316b3a837829ee327ccb3bc3477f8c32876cab77da84b4da0fe99710a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

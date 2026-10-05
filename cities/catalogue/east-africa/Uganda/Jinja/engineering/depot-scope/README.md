@@ -6,19 +6,19 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-0555-0342-s013233 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-2-0648-0466-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0143-0732-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-2-0277-0213-s017376 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0732-0095-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0143-0732-s000000 | line-1 | 13 | 507.0 | 637.0 | unverified |
-| line-1-0555-0342-s013233 | line-1 | 13 | 507.0 | 637.0 | unverified |
-| line-2-0648-0466-s000000 | line-2 | 11 | 429.0 | 539.0 | unverified |
-| line-2-0277-0213-s009891 | line-2 | 10 | 390.0 | 490.0 | unverified |
-| line-3-0732-0095-s000000 | line-3 | 13 | 507.0 | 637.0 | unverified |
+| line-1-0143-0732-s000000 | line-1 | 14 | 546.0 | 686.0 | unverified |
+| line-1-0547-0349-s012992 | line-1 | 14 | 546.0 | 686.0 | unverified |
+| line-2-0648-0466-s000000 | line-2 | 18 | 702.0 | 882.0 | unverified |
+| line-2-0277-0213-s017376 | line-2 | 17 | 663.0 | 833.0 | unverified |
+| line-3-0732-0095-s000000 | line-3 | 14 | 546.0 | 686.0 | unverified |
 | line-3-0315-0459-s012787 | line-3 | 13 | 507.0 | 637.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.

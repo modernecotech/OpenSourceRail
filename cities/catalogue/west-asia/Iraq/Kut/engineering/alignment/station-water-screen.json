@@ -1,6 +1,6 @@
 {
   "city": "kut",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,33 +11,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 398,
-      "row": 551,
-      "station_id": "line-1-0551-0398-s004527",
+      "col": 303,
+      "row": 447,
+      "station_id": "line-1-0447-0303-s005638",
       "water_coverage_percent": 0
     },
     {
-      "col": 508,
-      "row": 631,
-      "station_id": "line-1-0631-0508-s007542",
+      "col": 410,
+      "row": 554,
+      "station_id": "line-1-0554-0410-s008664",
       "water_coverage_percent": 0
     },
     {
-      "col": 635,
-      "row": 724,
-      "station_id": "line-1-0724-0635-s011063",
+      "col": 471,
+      "row": 604,
+      "station_id": "line-1-0604-0471-s010462",
       "water_coverage_percent": 0
     },
     {
-      "col": 761,
-      "row": 817,
-      "station_id": "line-1-0817-0761-s014565",
+      "col": 515,
+      "row": 637,
+      "station_id": "line-1-0637-0515-s011674",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 640,
+      "row": 728,
+      "station_id": "line-1-0728-0640-s015139",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 769,
+      "row": 822,
+      "station_id": "line-1-0822-0769-s018697",
       "water_coverage_percent": 0
     },
     {
       "col": 979,
       "row": 1038,
-      "station_id": "line-1-1038-0979-s021231",
+      "station_id": "line-1-1038-0979-s025563",
       "water_coverage_percent": 0
     },
     {
@@ -47,15 +59,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 474,
-      "row": 547,
-      "station_id": "line-2-0547-0474-s003018",
+      "col": 478,
+      "row": 469,
+      "station_id": "line-2-0469-0478-s001425",
       "water_coverage_percent": 0
     },
     {
-      "col": 470,
-      "row": 645,
-      "station_id": "line-2-0645-0470-s005011",
+      "col": 471,
+      "row": 604,
+      "station_id": "line-2-0604-0471-s004183",
       "water_coverage_percent": 0
     },
     {
@@ -83,9 +95,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 455,
-      "row": 454,
-      "station_id": "line-3-0454-0455-s011523",
+      "col": 478,
+      "row": 469,
+      "station_id": "line-3-0469-0478-s010938",
       "water_coverage_percent": 0
     },
     {
@@ -95,14 +107,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 15,
-  "schema_version": 1,
+  "platforms_checked": 17,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Kut/design.toml": "e0d9b1c54f48403329b4a93fe47413aba4fb95315b2b4dc359e31ced702ef9f5",
+    "cities/catalogue/west-asia/Iraq/Kut/design.toml": "d6b6c2b447d73120b385e61c7b80e9412169b0cd40395e293bd42b1058ea3253",
     "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-grid.json": "c52ab8aa401bb083b6ceaf615073fd22540c1f243c6d6f3662d7c1204a5613d1",
-    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-water-mask.bin.gz": "9de719f75556989614f492e17d85d2f871ed2f5bd60267782252fbcae45c643f",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-water-mask.bin.gz": "35f91b6cd970e02cd4c9a1f90477fbc1056538b805ba416f8a0f14ce74be0d85",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/water-source-receipt.json": "839bda88660fe028d7b0d50b4a7b38a451fada6bdb678719a221f6124fd5f6c3",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "7150e99c037e49a5b3f7fcd6e9d02485cd4448f9efd99f42d0f1f0356bae48c2",
+  "uncompressed_water_mask_sha256": "8eee00df13051d9ba48d4dab4c5457a415f20dc447b239bfe82868a31fccca01",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

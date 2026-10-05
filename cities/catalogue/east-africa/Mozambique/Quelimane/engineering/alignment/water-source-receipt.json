@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "quelimane",
+  "legacy_osm_missing_geometry_ids": [
+    3290766,
+    3290770,
+    5676695,
+    10650249
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "a30d3ddbdf6ebd83d6dbfd2ad5046bcde5e6ab321bc9fff05ccbde6a35524a83",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "1615463e03a36316c93f4dacd609fdbed9b3abac5e77488e16812f346ae0c721",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/independent-landcover-samples.bin.gz": "6bda5b33346e30d6a72451aa04abbd44afe651256643bf60afc698a9f9184310",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-grid.json": "1e7109b48b98e9636020dfc659611a170aa16da1ca1fdbd832edd86640fc153d",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-water-features.json.gz": "b6739295a5a873e62e75d8ac1869a1bf1fbc2483b31dadc1834e02a9a5c7df06",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 110522,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "7e678dac7d44d2c400cc0099d223ecc3a62e78db46c7620f9a5808d301392b35",
+      "native_window": [
+        9410,
+        33353,
+        2502,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S18E036_Map.tif",
+      "window_sha256": "a130bb61d68dcafb9a6e7149cf93ca2171d521ec1b9090f16acbbbca042bdee3"
+    }
+  ]
+}

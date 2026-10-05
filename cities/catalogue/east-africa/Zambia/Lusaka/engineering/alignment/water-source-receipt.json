@@ -1,0 +1,74 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "lusaka",
+  "legacy_osm_missing_geometry_ids": [
+    7778960,
+    7778964,
+    8050673,
+    8168403,
+    8291212,
+    8347746,
+    9077983,
+    9106835,
+    9353615,
+    9470582,
+    9691124,
+    12413755,
+    12467027,
+    12899028,
+    12899084,
+    12998651,
+    13319375,
+    14223228,
+    15646597,
+    15980495,
+    16120433,
+    16120434,
+    16206577,
+    16206578,
+    19734692,
+    19925023,
+    20284632
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "c6324bd38efaef73e7f68907971e13eb1936116090c5f093c434bcbb5b9a723c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2fab61beded5fd2ff925ae35b9472484ef6235aa18276a4638e0036f0576bc3c",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/independent-landcover-samples.bin.gz": "528310b9a81225845c46d2d8c2722af8a3990d318ca48283bfd0bdc7d2fb7d33",
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/planning-grid.json": "0dd331e8b255a3a8e29944330680e5fb80ee7175a06678962ac4a812bb8eb1b7",
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/planning-water-features.json.gz": "1962d1ac609c6fe9c7eac334a6dd9e211c558ca0fa424ba14618c3c36b2b3f15",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 7743,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "fb4695ab15af5ff77640b16d2869b5b6100f9b80294931a2fecd04e7af544921",
+      "native_window": [
+        13200,
+        3000,
+        4203,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S18E027_Map.tif",
+      "window_sha256": "86de2809ff3a6e71cd253bd029264dd642d762e088f5fe2f6a23ef90b6e0e6d0"
+    }
+  ]
+}

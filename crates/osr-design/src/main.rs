@@ -377,6 +377,17 @@ fn main() -> Result<()> {
         &bundle.grid,
         alignment_policy::bank_endpoint_limit(&args.out_dir)?,
     )?;
+    for line in &lines {
+        anyhow::ensure!(
+            line.cells.iter().all(|&(r, c)| bundle
+                .grid
+                .water
+                .as_ref()
+                .is_none_or(|values| values[bundle.grid.idx(r, c)] != 255)),
+            "{} traverses unknown water coverage; review alignment",
+            line.name
+        );
+    }
     // Per-line station placement + civil classification.
     let mut all_stations: Vec<osr_routing::station::Station> = Vec::new();
     let mut civil_per_line: Vec<Vec<osr_routing::civil::CivilSegment>> = Vec::new();
@@ -428,6 +439,12 @@ fn main() -> Result<()> {
         &bundle.grid,
         &bundle.anchors,
         HUB_RADIUS_CELLS,
+    );
+    osr_routing::force_geometric_crossings(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        &bundle.anchors,
     );
 
     // Force a station on each (radial, ring) pair where they cross or pass
@@ -624,6 +641,39 @@ fn main() -> Result<()> {
         eprintln!("merged into {merged_count} interchange complexes");
     }
 
+    // Crossings created by straightened radials are reasserted after the
+    // legacy hub/ring settling passes. Nearby ordinary stops are replaced,
+    // rather than accepted as a transfer several hundred metres away.
+    osr_routing::force_geometric_crossings(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        &bundle.anchors,
+    );
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    // Legacy hub/near-miss forcing can leave a wet speculative platform in
+    // a complex that already has a dry platform at its actual crossing.
+    // Remove that redundant record rather than move the real crossing away.
+    let dry_crossings = all_stations
+        .iter()
+        .filter(|s| s.mandatory_crossing)
+        .map(|s| (s.line_name.clone(), s.junction_group))
+        .collect::<Vec<_>>();
+    all_stations.retain(|s| {
+        let operational_endpoint = lines.iter().any(|line|
+            line.name == s.line_name && matches!(line.shape, osr_routing::LineShape::Radial)
+            && (line.cells.first() == Some(&(s.row,s.col)) || line.cells.last() == Some(&(s.row,s.col))));
+        let redundant=!s.mandatory_crossing && !operational_endpoint && s.junction_group.is_some()
+            && bundle.grid.excludes_station_for_water(s.row,s.col)
+            && dry_crossings.iter().any(|(line,group)| *line==s.line_name && *group==s.junction_group);
+        if redundant {
+            water_platform_moves.push(serde_json::json!({"kind":"redundant-wet-near-crossing-platform-removed",
+                "line":s.line_name,"removed_cell":[s.row,s.col],"removed_chainage_m":s.s_m,
+                "basis":"Retain the dry actual crossing platform; remove speculative wet hub/near-miss platform and recalculate the retained layout."}));
+        }
+        !redundant
+    });
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
     water_platform_moves.extend(alignment_policy::relocate_water_platforms_with_limit(
         &mut all_stations,
         &lines,
@@ -673,7 +723,16 @@ fn main() -> Result<()> {
             600.0,
         );
     }
-    let layout_issues = osr_routing::station_layout_issues(
+    // Rebuild groups from the retained physical points after the legacy
+    // ring-group repair, which can otherwise split an exact crossing pair.
+    osr_routing::consolidate_ring_wrap_station_clusters(
+        &mut all_stations,
+        &lines,
+        bundle.grid.reference.cell_m,
+        1200.0,
+    );
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    let mut layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,
         bundle.grid.reference.cell_m,
@@ -681,6 +740,11 @@ fn main() -> Result<()> {
         1200.0,
         1200.0 - bundle.grid.reference.cell_m,
     );
+    layout_issues.extend(osr_routing::geometric_crossing_issues(
+        &all_stations,
+        &lines,
+        &bundle.grid,
+    ));
     if !layout_issues.is_empty() {
         return Err(anyhow!(
             "generated station layout failed hard invariants:\n  - {}",

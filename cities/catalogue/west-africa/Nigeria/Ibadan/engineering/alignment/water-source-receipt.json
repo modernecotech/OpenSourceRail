@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "ibadan",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "0136a234f86b7bc1c36a2bf8d0c1b9adaaf43862bf44265310b6f9add2f8ef10",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "ef2657a306f4ba7af7559d4c63d1db7944cc51ad206d0245518f4c40c005da1c",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Ibadan/engineering/alignment/independent-landcover-samples.bin.gz": "8342a048d966bd8396945816d6167b9140e1390a43bff21b441a6cff563db771",
+    "cities/catalogue/west-africa/Nigeria/Ibadan/engineering/alignment/planning-grid.json": "5bc778a6c1800c18a3a56d4614fac1b9c73b3e77a0ffaef9c01f928936279d44",
+    "cities/catalogue/west-africa/Nigeria/Ibadan/engineering/alignment/planning-water-features.json.gz": "5d369a7d4eb696c561a2cb8b1447726ff76c6d93fe4593c330b2a4c00d94551a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 35534,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "af809d544729ccb064605793ddb5bcde86f399da6b4a5e23baaff2b52637a1c2",
+      "native_window": [
+        8748,
+        16875,
+        5235,
+        5192
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E003_Map.tif",
+      "window_sha256": "553c865d0ee6e0d6d3629ecf52f1455bba127aeab62b9e1c00db6e2788a82058"
+    }
+  ]
+}

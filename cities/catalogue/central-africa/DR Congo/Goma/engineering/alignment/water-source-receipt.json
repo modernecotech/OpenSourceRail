@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "goma",
+  "legacy_osm_missing_geometry_ids": [
+    9072
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "8b9bd4c7616672c848d8ca4100c77c53828a24bff0bc7837938ca892752d160f",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "374ef8e2ccf3140c4bda8776b08ae1ad32e7f0662ee5ffbb60c126e0c96c64ff",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/independent-landcover-samples.bin.gz": "dbae9529f5a426f95ac14c30ce2e45cac27807da1723914e3a24877984baf7f2",
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-grid.json": "9727af0a7d903a37d7e85509eefa234cd737dc06504034074a3704e2707cce24",
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-water-features.json.gz": "bd0e08d3f8af50f3be8926bbb0a71ee8525039207cf44c4b168822205e6f3711",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 493568,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "79e03e9e79c7ab0b65f7c1767f6a6e0abdfc5973690eff8d60267b6687478b36",
+      "native_window": [
+        25484,
+        18961,
+        2381,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E027_Map.tif",
+      "window_sha256": "ee7a00081cdd1c61ec429d1ebc83c4f648ddadda94ae26da8c4090a93b67dc53"
+    }
+  ]
+}

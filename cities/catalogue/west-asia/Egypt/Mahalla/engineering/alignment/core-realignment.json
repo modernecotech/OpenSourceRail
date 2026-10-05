@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 31.237057,
     "north": 31.029009,
@@ -6,6 +7,7 @@
     "west": 31.098337
   },
   "core_analytical_length_m": 24917.547725,
+  "core_final_route_length_m": 27445.323215,
   "core_original_length_m": 32101.202,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9263.574311,
       "line": "line-1",
       "original_cells": 532,
       "original_route_m": 12268.569978,
       "reworked_cells": 459,
-      "reworked_route_m": 10038.132752
+      "reworked_route_m": 10038.132752,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12680.773439,
       "line": "line-2",
       "original_cells": 779,
       "original_route_m": 18641.748904,
       "reworked_cells": 736,
-      "reworked_route_m": 18088.26694
+      "reworked_route_m": 18088.26694,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5500.975465,
       "line": "line-3",
       "original_cells": 310,
       "original_route_m": 7372.93506,
       "reworked_cells": 228,
-      "reworked_route_m": 5500.975465
+      "reworked_route_m": 5500.975465,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Mahalla/alignment-policy.toml": "3f689a80bfdb5a66040d41b3cbdf94ab584c89c83a3dc0148bdf9069671df313",
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-grid.json": "a765722abb6bb29fd8e217ddfbee10f582f8b75373dfdf40e070a5c1b9905f35",
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-water-mask.bin.gz": "76e79043568c1ce3ca515bf5408fc7de523e9d646be57ece9ba4e83af9fdb6c2",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/pre-rework-corridors.json.gz": "67ea9d195a20ff13a014d32d66ed995775d0a6e08773bc041378ec72d1b19e95",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/water-source-receipt.json": "f272b6d4fe118c3e441dc657360672769b32300bd5c80c69654a634da88a7a28",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

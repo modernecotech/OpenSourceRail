@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 70.52029,
     "north": 34.493329,
@@ -6,6 +7,7 @@
     "west": 70.37605
   },
   "core_analytical_length_m": 33823.845477,
+  "core_final_route_length_m": 37000.268376,
   "core_original_length_m": 43024.972529,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8245.09668,
       "line": "line-1",
       "original_cells": 518,
       "original_route_m": 11925.464357,
       "reworked_cells": 400,
-      "reworked_route_m": 8245.09668
+      "reworked_route_m": 8245.09668,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16812.388155,
       "line": "line-2",
       "original_cells": 439,
       "original_route_m": 20159.203626,
-      "reworked_cells": 777,
-      "reworked_route_m": 20047.628915
+      "reworked_cells": 869,
+      "reworked_route_m": 20383.759005,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11942.783541,
       "line": "line-3",
       "original_cells": 617,
       "original_route_m": 14175.545305,
       "reworked_cells": 495,
-      "reworked_route_m": 11942.783541
+      "reworked_route_m": 11942.783541,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/alignment-policy.toml": "fc831df2a691422239aaa356b82be32641a5a7acff16a86cdbec16b58a895111",
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/planning-buildability-mask.bin.gz": "abe86a0de4d0feb7c52f2c2d09cc40c0b46b8d976bcba39fcbaf0720df49830d",
     "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/planning-grid.json": "be6bbc9a012abb877022017b36ab7cdb8231520d3ee2afd71de947d34244f2b9",
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/planning-water-mask.bin.gz": "173d2778cde77d1363c8f53afa0d2a1e4ed67e59dbf82564f2c1ede60e6b65be",
     "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/pre-rework-corridors.json.gz": "c2ddab701e0537f08c5342d3efce4a137e9473edb8a77c31f7f5d0f74a319bcd",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/water-source-receipt.json": "f963e62914b09477fee40e03151644117b283169d05422d1ea713add362a8878",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

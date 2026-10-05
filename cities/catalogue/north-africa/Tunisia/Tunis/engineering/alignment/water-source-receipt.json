@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "tunis",
+  "legacy_osm_missing_geometry_ids": [
+    1431499,
+    1477484,
+    1502880,
+    8031768
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "50da7a99e115274a1e64263d078515def980ddc65a7fab225a803cae079cda71",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "c731e25f9d2269f428eef7ba1e18345150671d5c8791fbd8cd922e8938877a3c",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Tunisia/Tunis/engineering/alignment/independent-landcover-samples.bin.gz": "8215370b5e8760c29ccde539195f7a65e46cb6a707e3eb18a67aa9adb1eb0845",
+    "cities/catalogue/north-africa/Tunisia/Tunis/engineering/alignment/planning-grid.json": "ce7c886234e6396d87a139b89493a6674339b9901e579a2a78ef51054455a170",
+    "cities/catalogue/north-africa/Tunisia/Tunis/engineering/alignment/planning-water-features.json.gz": "c264cb77465a28fdafb6170e1d550a84b4cac942f57a89d31f39e00396076629",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 799137,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "cf7477ae5d22fb6ccf14f47e27ae24d78c8b2eec1c298079c7b8dba22aece8eb",
+      "native_window": [
+        11399,
+        24360,
+        5404,
+        3843
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N36E009_Map.tif",
+      "window_sha256": "ce0a79f892decaeec68113036f9e518f8f3539c75ca03e308a8a4265636c677c"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "durban",
+  "legacy_osm_missing_geometry_ids": [
+    253624,
+    2560078,
+    2995666,
+    10352599,
+    11725285,
+    14641951,
+    14656601,
+    14656602,
+    14656603,
+    14674720,
+    14674721,
+    20155410,
+    20156230,
+    20156231
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "f27242592387247e7a02eca568ff031cd45741970372850b06a81f7d4b15d270",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2adfd997cff3fe68a9e1b91bc3570a2456bf9874b11c4b131ed73f9cf1bf49d1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-africa/South Africa/Durban/engineering/alignment/independent-landcover-samples.bin.gz": "3de6e4210f1bf5cf7063699bfff0bf7073be7f66b45963ccea75e04b2ca96c46",
+    "cities/catalogue/south-africa/South Africa/Durban/engineering/alignment/planning-grid.json": "99205240c4f8917f9f6a7807e2f51c4d85b78cd432c51a2739118603cf2d82e6",
+    "cities/catalogue/south-africa/South Africa/Durban/engineering/alignment/planning-water-features.json.gz": "990fa6ca58ba8370d1695daf9cae712b920333b36af176b51a09f1fd8e6eb638",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 3185711,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "5875a8b5611ad56e7e53004f234b98dde072d51ae77cf82f3475827c93bbe567",
+      "native_window": [
+        9145,
+        0,
+        6236,
+        1009
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S33E030_Map.tif",
+      "window_sha256": "b7657a7d91dfd7edceadb8a2b22c0dc26647c1b29369e2a2977e9a727fc511e5"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "dc8ba0a97922560640137dd0a351cc231ce0160627d3c17001b11d99b373caff",
+      "native_window": [
+        9145,
+        31602,
+        6236,
+        4398
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S30E030_Map.tif",
+      "window_sha256": "016ef5ff420a2a69cdb0553104285c9542c4f9668d69f738f6fe62f5ad7e1a6b"
+    }
+  ]
+}

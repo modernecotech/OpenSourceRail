@@ -1,0 +1,72 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "phnom-penh",
+  "legacy_osm_missing_geometry_ids": [
+    253294,
+    2270448,
+    2366022,
+    6603146,
+    12896996,
+    13337078,
+    14706632,
+    17501485,
+    20573861
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "6a41b7eec7aa759298b5478ee2a62d4e139f018ccb17c2fa8a3217ef8170615e",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "51a3befd7d9eabb120e0cdcdc17d5cd84d9c28a1c8f15e5514eff93475d40fbd",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/independent-landcover-samples.bin.gz": "11c655237a11ab94d381c636d758299a08ba52ffcb0f81df64ab0b3490a6973d",
+    "cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/planning-grid.json": "a93340c65d9f36f97a52108fbde975164efb6b7b702f35d7c2d2e3acea1a756b",
+    "cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/planning-water-features.json.gz": "73d34bc1773bab31a98d18b6f7ba91c3be92c2a584bbeeb6049b573e645b99d6",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 387022,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e212faf44afc6c60a6eca287ed078c86bf01c2f55a9eac0b6f09d319520f5c27",
+      "native_window": [
+        33360,
+        3600,
+        2640,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E102_Map.tif",
+      "window_sha256": "0dfbd918f33fd8cbf7dfbef721983080adcd957f127edb6b4d04dc1c3a83f47f"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "7e9c655b7eefe460f92f0a15122295d33b33c3e1493afd56a463fb973dcc1cbc",
+      "native_window": [
+        0,
+        3600,
+        843,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E105_Map.tif",
+      "window_sha256": "618b939f49b8cc6795a433437363926aa618f9f4e11516bc81e3b42e1f442762"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "maroua",
+  "legacy_osm_missing_geometry_ids": [
+    6093561
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "d87d6bb52ac98120be7f7c595db856cf93d61a6d80a9cb73672f4ad2e9b1da68",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "0f61ad3059295d6a51f2462983c232b9f901fc0b7d95dee32f832591a48c5089",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/independent-landcover-samples.bin.gz": "05288017ccd30688b8f5e2aaf4f4dbff26cf34c5a6150db8614cb6862b6f3654",
+    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/planning-grid.json": "768c9d553100de23b58eb520549668722cfbf64208708b3651b8db17dbedfddf",
+    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/planning-water-features.json.gz": "2df463ccc3fcd784d022e70f80730b915c8fe22ff54c477874171979ef5ad231",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 12980,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f0debd002fc9a6915302025fb9cb68700a7e97d565c696fdfa2dbc1b916cd463",
+      "native_window": [
+        26581,
+        15720,
+        2422,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E012_Map.tif",
+      "window_sha256": "de8ea4ef0e745450919ea3301c8893af8270a2ec39d4132dfd6a86ceceace41b"
+    }
+  ]
+}

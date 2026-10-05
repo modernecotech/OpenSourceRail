@@ -1,6 +1,6 @@
 {
   "city": "uyo",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,15 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 643,
-      "row": 653,
-      "station_id": "line-1-0653-0643-s005607",
+      "col": 604,
+      "row": 664,
+      "station_id": "line-1-0664-0604-s004724",
       "water_coverage_percent": 0
     },
     {
-      "col": 739,
-      "row": 627,
-      "station_id": "line-1-0627-0739-s007754",
+      "col": 767,
+      "row": 619,
+      "station_id": "line-1-0619-0767-s008392",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +47,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 550,
-      "row": 609,
-      "station_id": "line-2-0609-0550-s004976",
+      "col": 539,
+      "row": 598,
+      "station_id": "line-2-0598-0539-s004606",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 604,
+      "row": 664,
+      "station_id": "line-2-0664-0604-s006734",
       "water_coverage_percent": 0
     },
     {
@@ -65,15 +71,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 571,
-      "row": 569,
-      "station_id": "line-3-0569-0571-s001413",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 518,
-      "row": 616,
-      "station_id": "line-3-0616-0518-s003003",
+      "col": 539,
+      "row": 598,
+      "station_id": "line-3-0598-0539-s002387",
       "water_coverage_percent": 0
     },
     {
@@ -84,13 +84,15 @@
     }
   ],
   "platforms_checked": 13,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Nigeria/Uyo/design.toml": "18ff59b8d587aaa6fa37d4e02d15869ecb0be1dbe6edb18a4cf6045e98f7ff64",
+    "cities/catalogue/west-africa/Nigeria/Uyo/design.toml": "a6e37ee65949024508de2529793722ec6f536eff69cd121e826b7bb3077bc6e0",
     "cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/planning-grid.json": "18c6f4dec9be6009942ab81269fd0fc6755286d5c0c2e591429b6cbb06741d72",
-    "cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/planning-water-mask.bin.gz": "4a5fef82d83d3b270f78423e4ec32736c912f346b18f5237c47ae091f57439b9",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/planning-water-mask.bin.gz": "a9a6e95b9b41b943dfb7b8fc8f97ee5fb2359d763cda2789c5b498b46eac5fa2",
+    "cities/catalogue/west-africa/Nigeria/Uyo/engineering/alignment/water-source-receipt.json": "e856bec850808ad67ef80e287178120ae53f62d8e658425b7724985f5e2ab7fe",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "9b47e37dfdd59c496968171543e032d2c1232b69ee5481496261aea184e4b09e",
+  "uncompressed_water_mask_sha256": "5d0e21a9af8ae8932a1acdb601be66586c7a9bb9858f7c4c7e7ee8131b0b0e22",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "kanpur"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "kanpur",
-      "corridor_sha256": "b917ffeffbcd5940815bc2a6f45aefb86e28da6d77d90b0a5460777aa1eb5874",
-      "design_sha256": "3d97dd84714bf00874329744050d5ceec52952be25be8e1eb6ca53d3429b6a58",
-      "failures": [],
+      "corridor_sha256": "5ad3c517570d28b20d4059f649420130e717260751073b878b8d23d15ecb3203",
+      "design_sha256": "b591f35fd585e7761738f05120997ed6dcc3f627a799d31256b46fc2c5f90515",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 7292.1,
+          "radial": "line-3",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 7,
       "review_findings": [],
       "ring_count": 1

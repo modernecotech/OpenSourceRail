@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 30.315248,
     "north": 0.709603,
@@ -6,6 +7,7 @@
     "west": 30.234128
   },
   "core_analytical_length_m": 22474.240012,
+  "core_final_route_length_m": 24517.383823,
   "core_original_length_m": 32031.496372,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9294.255403,
       "line": "line-1",
       "original_cells": 527,
       "original_route_m": 12218.275606,
       "reworked_cells": 375,
-      "reworked_route_m": 9294.255403
+      "reworked_route_m": 9294.255403,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5792.102448,
       "line": "line-2",
       "original_cells": 377,
       "original_route_m": 9152.001436,
       "reworked_cells": 271,
-      "reworked_route_m": 6667.493501
+      "reworked_route_m": 6667.493501,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9431.025971,
       "line": "line-3",
       "original_cells": 662,
       "original_route_m": 14918.275606,
       "reworked_cells": 593,
-      "reworked_route_m": 12784.406922
+      "reworked_route_m": 12784.406922,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Fort-Portal/alignment-policy.toml": "3a44d8b57be5b4bc2e97b2bfe2e1c9f652f228d8affdebfde67d4f64e83d579a",
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/planning-buildability-mask.bin.gz": "5958676ca34289ee7aa4986d2e9e804f402b0fd1517c66aa76933ee921e6138e",
     "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/planning-grid.json": "cd8cc593054f9e066e168e0946fb20c28b7c7612e3edc8419daa7deaa766a236",
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/planning-water-mask.bin.gz": "7082bbbcfd1c564ddcb9b83af969aa8bc91a93147a916f2cde30e34ab04761fd",
     "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/pre-rework-corridors.json.gz": "1868d988fed17d5380dc7686973d1a4bece62387b579f7e965cba3f1e0ab7944",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/alignment/water-source-receipt.json": "425bca752952c18b1bdf5feb3a20b6f5ed451bdf1bea0914b04a23ac62045b4c",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

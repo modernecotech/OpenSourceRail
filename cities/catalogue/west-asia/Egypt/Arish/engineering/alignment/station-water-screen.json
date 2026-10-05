@@ -1,6 +1,6 @@
 {
   "city": "arish",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -36,13 +36,15 @@
     }
   ],
   "platforms_checked": 5,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Arish/design.toml": "55ab6784f324e1f53e1608d5ec051fd9d7570856c962ce0a0743f78343f09c02",
     "cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/planning-grid.json": "b3bdcf2c09f33b87bf9736a2de06614585d0f27179bf3c68cefc2d7639520647",
-    "cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/planning-water-mask.bin.gz": "4e4f2cc26f4922c8d9354a79f7a63b22e7e247c56bb895a375e906598baf1d05",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/planning-water-mask.bin.gz": "76eb121c2f1eab6c77762298400155b11de0991ccdcf9d9892e0b22846988e53",
+    "cities/catalogue/west-asia/Egypt/Arish/engineering/alignment/water-source-receipt.json": "da6f3ebe1e4e888a9dbd3a50a88b20d8f54da352111961c7af97b61a53ee8725",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "804a84431ea016cb7a33b29c0e26f7d3384c68821bfa32e6d67eeb3f3a75048b",
+  "uncompressed_water_mask_sha256": "08ee5723ea2cd3d945f60b8478a1547aeb4218f5283536b548f1a2ab595ff20c",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

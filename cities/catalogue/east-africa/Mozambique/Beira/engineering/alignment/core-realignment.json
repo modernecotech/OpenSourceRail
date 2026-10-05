@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 34.951896,
     "north": -19.757632,
@@ -6,6 +7,7 @@
     "west": 34.819896
   },
   "core_analytical_length_m": 25360.834614,
+  "core_final_route_length_m": 27403.17026,
   "core_original_length_m": 33540.167363,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10944.751801,
       "line": "line-1",
       "original_cells": 725,
       "original_route_m": 17512.043277,
       "reworked_cells": 643,
-      "reworked_route_m": 13900.38672
+      "reworked_route_m": 13900.38672,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9812.346315,
       "line": "line-2",
       "original_cells": 524,
       "original_route_m": 12174.844148,
       "reworked_cells": 427,
-      "reworked_route_m": 9812.346315
+      "reworked_route_m": 9812.346315,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6646.072145,
       "line": "line-3",
       "original_cells": 624,
       "original_route_m": 15135.819613,
       "reworked_cells": 620,
-      "reworked_route_m": 14972.9769
+      "reworked_route_m": 14972.9769,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Beira/alignment-policy.toml": "6d09f0c59b7c628c28326243788b8504cfc5a8c626382c9e37f0b2fc17ea42e8",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/planning-buildability-mask.bin.gz": "c6657866e0a7ae599cf691c6fac2d1f2ed1a6000c44c863aa057849d4c6870e6",
     "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/planning-grid.json": "ebb7c80b9ac83c37fe34d44a274f366513bea94f5596b816192cd6261c6fc46c",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/planning-water-mask.bin.gz": "d8f4e56a26bb2444e930ba8738ceab440246d25ae6e38aa4025805c22a58c535",
     "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/pre-rework-corridors.json.gz": "5316797960c6256a8f1790e754d50f8d63527049e35f314f80c2f2d2c600d5be",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/alignment/water-source-receipt.json": "07d960ecf9596dc8994d69f832315feec28aa5aa531ff4c0dd4803e4ff1f476b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

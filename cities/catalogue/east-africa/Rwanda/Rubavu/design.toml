@@ -59,7 +59,7 @@ length_m        = 12440.8
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 120
 
 [[lines]]
 name            = "line-3"
@@ -133,6 +133,20 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-1"
 from_station_m  = 885.7
+to_station_m    = 2117.6
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2117.6
+to_station_m    = 2137.6
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2137.6
 to_station_m    = 3969.6
 class           = "at-grade"
 
@@ -147,12 +161,72 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 0.0
+to_station_m    = 76.6
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 76.6
+to_station_m    = 104.9
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 104.9
+to_station_m    = 133.1
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 133.1
+to_station_m    = 474.6
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 474.6
 to_station_m    = 2992.2
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 2992.2
+to_station_m    = 3656.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 3656.5
+to_station_m    = 3676.5
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 3676.5
+to_station_m    = 3744.8
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 3744.8
+to_station_m    = 3793.0
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 3793.0
 to_station_m    = 5125.0
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -208,25 +282,26 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0331-0211-s006030"
+id              = "line-1-0321-0238-s006664"
 line            = "line-1"
-lat             = -1.67125878414858
-lon             = 29.23151488766551
-s_m             = 6029.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centre Médical Évangélique"
-archetype       = "major"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0293-0319-s008528"
-line            = "line-1"
-lat             = -1.6644200698268725
-lon             = 29.25092674519684
-s_m             = 8528.1
+lat             = -1.6694591224849726
+lon             = 29.236367852048343
+s_m             = 6664.4
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
+
+[[stations]]
+id              = "line-1-0287-0338-s008964"
+line            = "line-1"
+lat             = -1.663340272828708
+lon             = 29.25434179420698
+s_m             = 8963.6
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0255-0427-s011038"
@@ -281,6 +356,17 @@ archetype       = "major"
 platform_length_m = 49.0
 
 [[stations]]
+id              = "line-2-0321-0238-s010569"
+line            = "line-2"
+lat             = -1.6694591224849726
+lon             = 29.236367852048343
+s_m             = 10569.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
 id              = "line-2-0253-0189-s012441"
 line            = "line-2"
 lat             = -1.6572214231724436
@@ -303,14 +389,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0278-0325-s003017"
+id              = "line-3-0287-0338-s003361"
 line            = "line-3"
-lat             = -1.6617205773314616
-lon             = 29.252005181726357
-s_m             = 3017.1
+lat             = -1.663340272828708
+lon             = 29.25434179420698
+s_m             = 3360.9
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
-junction_group  = 0
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0351-0437-s006026"
@@ -344,10 +431,18 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -1.663070323579167
-lon             = 29.251465963461598
+lat             = -1.6694591224849726
+lon             = 29.236367852048343
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0321-0238-s006664", "line-2-0321-0238-s010569"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = -1.663340272828708
+lon             = 29.25434179420698
 lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0293-0319-s008528", "line-3-0278-0325-s003017"]
+platforms       = ["line-1-0287-0338-s008964", "line-3-0287-0338-s003361"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -522,19 +617,19 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 27171879
-at_grade_eur         = 24998128
-elevated_usd         = 256875924
-elevated_eur         = 236325850
-bridge_usd           = 1229117
-bridge_eur           = 1130788
+at_grade_usd         = 26164879
+at_grade_eur         = 24071689
+elevated_usd         = 256210289
+elevated_eur         = 235713466
+bridge_usd           = 9472935
+bridge_eur           = 8715100
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 285276920
-civil_subtotal_eur   = 262454766
+civil_subtotal_usd   = 291848103
+civil_subtotal_eur   = 268500255
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 65100000
-stations_eur         = 59892000
+stations_usd         = 76600000
+stations_eur         = 70472000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 44197430
 depots_eur           = 40661636
@@ -547,13 +642,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1839393
 signalling_eur       = 1692242
-charging_microgrid_usd = 1550000
-charging_microgrid_eur = 1426000
+charging_microgrid_usd = 1650000
+charging_microgrid_eur = 1518000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 30836662
-epc_overhead_eur     = 28369729
-total_usd            = 471360405  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 433651573  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 32108645
+epc_overhead_eur     = 29539953
+total_usd            = 490803571  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 451539285  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

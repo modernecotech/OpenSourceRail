@@ -1,6 +1,6 @@
 {
   "city": "bahawalpur",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,15 +17,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 590,
-      "row": 622,
-      "station_id": "line-1-0622-0590-s009787",
+      "col": 561,
+      "row": 657,
+      "station_id": "line-1-0657-0561-s008788",
       "water_coverage_percent": 0
     },
     {
-      "col": 656,
-      "row": 542,
-      "station_id": "line-1-0542-0656-s012133",
+      "col": 619,
+      "row": 587,
+      "station_id": "line-1-0587-0619-s010821",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 650,
+      "row": 550,
+      "station_id": "line-1-0550-0650-s011912",
       "water_coverage_percent": 0
     },
     {
@@ -59,6 +65,18 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 650,
+      "row": 550,
+      "station_id": "line-2-0550-0650-s011276",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 687,
+      "row": 602,
+      "station_id": "line-2-0602-0687-s012717",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 693,
       "row": 611,
       "station_id": "line-2-0611-0693-s012958",
@@ -71,15 +89,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 723,
-      "row": 610,
-      "station_id": "line-3-0610-0723-s003878",
+      "col": 687,
+      "row": 602,
+      "station_id": "line-3-0602-0687-s004664",
       "water_coverage_percent": 0
     },
     {
-      "col": 634,
-      "row": 590,
-      "station_id": "line-3-0590-0634-s005823",
+      "col": 619,
+      "row": 587,
+      "station_id": "line-3-0587-0619-s006148",
       "water_coverage_percent": 0
     },
     {
@@ -95,14 +113,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 15,
-  "schema_version": 1,
+  "platforms_checked": 18,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Pakistan/Bahawalpur/design.toml": "2b384e5336197cf0827de363ba938496b8eb02abaee8cc6def2c34206354b207",
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/design.toml": "b9bbac14855a250ed65eb3ed74324c2159fd37494c5760bf8945e4b748b6a8fd",
     "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-grid.json": "11fdd1b8e4911289f9d8f4c1656633f96c0e1c12b919e8d52299da4d189b8b30",
-    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-water-mask.bin.gz": "3c44c0ff60585b73cac8151c55a5e22d5049af2827e467ae0936a91886aa4cd8",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-water-mask.bin.gz": "8f6ca433b9e3fc75c7f641d6324c755d89f61e684e0e6cc494d159e0f1dffe7c",
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/water-source-receipt.json": "7eee3ad3c442fa44ba98496f851a3734cca195ea9b1b546fea7f6e3e34a840b9",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "0b9ee87451b86dd467516b493f130e9ef1eeb66be2c3abe303b827f3b6a65ae9",
+  "uncompressed_water_mask_sha256": "03332001a29fc7d8004a2f7f6d22e480f616fd4afbf72f782b0e7c23493d4e7a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

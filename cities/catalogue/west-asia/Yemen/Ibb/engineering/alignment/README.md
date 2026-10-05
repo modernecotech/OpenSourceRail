@@ -5,7 +5,7 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`ibb-line1.aln.toml`](ibb-line1.aln.toml) | `line-1` | 10,413.4 m | 4 |
-| [`ibb-line2.aln.toml`](ibb-line2.aln.toml) | `line-2` | 17,640.6 m | 5 |
+| [`ibb-line2.aln.toml`](ibb-line2.aln.toml) | `line-2` | 17,640.6 m | 6 |
 | [`ibb-line3.aln.toml`](ibb-line3.aln.toml) | `line-3` | 11,322.2 m | 5 |
 
 ## Status

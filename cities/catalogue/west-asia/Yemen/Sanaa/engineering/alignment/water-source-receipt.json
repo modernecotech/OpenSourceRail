@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "sanaa",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "f6590224807a04e3af1e1273960bd911a839049cf3edac49b1b135fc56cfebb3",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "1f40224344154882468efb5aecff7fe2a490a1fc46c2721702612b8823c6da46",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Yemen/Sanaa/engineering/alignment/independent-landcover-samples.bin.gz": "11b6063afadcf4029d618d7e5dec55a7bd362a84bbcce5e53bd87d3dc4d1bf93",
+    "cities/catalogue/west-asia/Yemen/Sanaa/engineering/alignment/planning-grid.json": "2c21139e0dbb25dbf27b06cdd2fe19dbd7af45cd7d47aaacbee425d3c2f62739",
+    "cities/catalogue/west-asia/Yemen/Sanaa/engineering/alignment/planning-water-features.json.gz": "114da8b1fa28f99e1856fd1a606753370fff37eb90ee18d313aca19dd4c17344",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1318,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "16a344352d16aa6d043b047aafb2062687511353eccbd07049599cdf8c1799d9",
+      "native_window": [
+        24600,
+        30000,
+        4203,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E042_Map.tif",
+      "window_sha256": "31d855cf3f72bb9895e7220f2fd5a4a482e2b2ce625b44a7c7fcdc77acfc8e98"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "city": "east-london-za",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,33 +11,39 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 847,
+      "row": 297,
+      "station_id": "line-1-0297-0847-s003023",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 845,
-      "row": 300,
-      "station_id": "line-1-0300-0845-s003020",
+      "row": 299,
+      "station_id": "line-1-0299-0845-s003091",
       "water_coverage_percent": 0
     },
     {
-      "col": 759,
-      "row": 401,
-      "station_id": "line-1-0401-0759-s006045",
+      "col": 762,
+      "row": 398,
+      "station_id": "line-1-0398-0762-s006040",
       "water_coverage_percent": 0
     },
     {
-      "col": 674,
-      "row": 501,
-      "station_id": "line-1-0501-0674-s009054",
+      "col": 681,
+      "row": 493,
+      "station_id": "line-1-0493-0681-s008904",
       "water_coverage_percent": 0
     },
     {
-      "col": 588,
-      "row": 601,
-      "station_id": "line-1-0601-0588-s012071",
+      "col": 591,
+      "row": 598,
+      "station_id": "line-1-0598-0591-s012066",
       "water_coverage_percent": 0
     },
     {
       "col": 438,
       "row": 778,
-      "station_id": "line-1-0778-0438-s017369",
+      "station_id": "line-1-0778-0438-s017461",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +53,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 688,
-      "row": 498,
-      "station_id": "line-2-0498-0688-s003010",
+      "col": 681,
+      "row": 493,
+      "station_id": "line-2-0493-0681-s003203",
       "water_coverage_percent": 0
     },
     {
@@ -72,14 +78,14 @@
     },
     {
       "col": 208,
-      "row": 129,
-      "station_id": "line-2-0129-0208-s016592",
+      "row": 115,
+      "station_id": "line-2-0115-0208-s016995",
       "water_coverage_percent": 0
     },
     {
       "col": 177,
       "row": 0,
-      "station_id": "line-2-0000-0177-s020164",
+      "station_id": "line-2-0000-0177-s020745",
       "water_coverage_percent": 0
     },
     {
@@ -89,44 +95,58 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 374,
-      "row": 188,
-      "station_id": "line-3-0188-0374-s006716",
+      "col": 208,
+      "row": 115,
+      "station_id": "line-3-0115-0208-s002726",
       "water_coverage_percent": 0
     },
     {
-      "col": 510,
-      "row": 220,
-      "station_id": "line-3-0220-0510-s009724",
+      "col": 361,
+      "row": 185,
+      "station_id": "line-3-0185-0361-s007027",
       "water_coverage_percent": 0
     },
     {
-      "col": 647,
-      "row": 252,
-      "station_id": "line-3-0252-0647-s012729",
+      "col": 497,
+      "row": 216,
+      "station_id": "line-3-0216-0497-s010027",
       "water_coverage_percent": 0
     },
     {
-      "col": 784,
-      "row": 284,
-      "station_id": "line-3-0284-0784-s015746",
+      "col": 634,
+      "row": 249,
+      "station_id": "line-3-0249-0634-s013040",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 771,
+      "row": 281,
+      "station_id": "line-3-0281-0771-s016045",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 846,
+      "row": 299,
+      "station_id": "line-3-0299-0846-s017718",
       "water_coverage_percent": 0
     },
     {
       "col": 981,
       "row": 308,
-      "station_id": "line-3-0308-0981-s020141",
+      "station_id": "line-3-0308-0981-s020966",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 19,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-africa/South Africa/East-London-Za/design.toml": "64fcc33e2384d8400f83b5d5d5a42353d7577b35902a9d0151472620b09d2a39",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/design.toml": "4b6cbcd22fbeb3bb546aa71fe051015119d2469d2223f5b49837bedecf0e0b86",
     "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-grid.json": "f16b382de69cbbde15dccb449f5f6aef50dabedd1b3f8e97a7e5982c03a9b754",
-    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-water-mask.bin.gz": "9b969a7dfda0d45536df618d2a020770ac73c2ed2c2302efa39c33f8ebee120d",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-water-mask.bin.gz": "6a414af0ac2feb4baf86c331020f2fe288cae3d8073c1ba948a8df027c3749c9",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/water-source-receipt.json": "35852af78e6b783ebe6d39914aac461c0cd3c2b139289c8113a6f0c8005fc4a1",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "ec0bc56233d916a8494c4069491d70f28fe8c92a0ea4a93aa3c988f21dc463ad",
+  "uncompressed_water_mask_sha256": "f9b28d4d56a70348874aa57a7c7405b9e9c4dbee027b1f8f69ed37b997b1a914",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

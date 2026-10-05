@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 45.099268,
     "north": 12.862188,
@@ -6,6 +7,7 @@
     "west": 44.961268
   },
   "core_analytical_length_m": 31887.861457,
+  "core_final_route_length_m": 42877.568517,
   "core_original_length_m": 41033.203436,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               12420.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 13823.027407,
+          "seed_from_index": 112,
+          "seed_to_index": 688,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 14040.0,
@@ -46,19 +54,33 @@
                 7540.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 13823.027407,
-          "seed_from_index": 112,
-          "seed_to_index": 688,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 17475.575747,
       "line": "line-1",
       "original_cells": 689,
       "original_route_m": 16543.515139,
-      "reworked_cells": 637,
-      "reworked_route_m": 14956.753237
+      "reworked_cells": 865,
+      "reworked_route_m": 20196.063479,
+      "water_route_changes": [
+        {
+          "detour_route_m": 10308.326112,
+          "from_cell": [
+            304,
+            424
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 5044.873734,
+          "search_work_upper_bound": 306443,
+          "to_cell": [
+            508,
+            525
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -74,7 +96,13 @@
               5980.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 14202.539674,
+          "seed_from_index": 0,
+          "seed_to_index": 619,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 12980.0,
@@ -87,19 +115,33 @@
                 13920.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 14202.539674,
-          "seed_from_index": 0,
-          "seed_to_index": 619,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 13690.235201,
       "line": "line-2",
       "original_cells": 620,
       "original_route_m": 14202.539674,
-      "reworked_cells": 470,
-      "reworked_route_m": 11467.636354
+      "reworked_cells": 589,
+      "reworked_route_m": 13690.235201,
+      "water_route_changes": [
+        {
+          "detour_route_m": 6912.447327,
+          "from_cell": [
+            455,
+            537
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 4661.56421,
+          "search_work_upper_bound": 9270,
+          "to_cell": [
+            588,
+            374
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -136,21 +178,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11711.75757,
       "line": "line-3",
       "original_cells": 629,
       "original_route_m": 15094.987002,
       "reworked_cells": 599,
-      "reworked_route_m": 13799.108217
+      "reworked_route_m": 13799.108217,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Yemen/Aden/alignment-policy.toml": "999eb93c787ebb4ddc3daf740c5f16cf7aa09aaa28aeac275038c867686af758",
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/planning-buildability-mask.bin.gz": "a6494994b559452925428fd63c333a882e30938c27a956d0f8867c85992fcfb4",
     "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/planning-grid.json": "a14bfc003199c74a1b39f30f58b07a8a18d76b5ce619cff447fb643235d2d9f1",
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/planning-water-mask.bin.gz": "53ce7d196851e161439170275632e4eccfba21f4a61349a4a0e8a26809f9424b",
     "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/pre-rework-corridors.json.gz": "17d2e5b05d98985adeae93301be327a2210c9f10c22737fd4def043e0205ab1d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/water-source-receipt.json": "9d04b85f6aa6e16fa5fb5dac61a159f9447e6b1b75a52f942e3a83fa77302d3f",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

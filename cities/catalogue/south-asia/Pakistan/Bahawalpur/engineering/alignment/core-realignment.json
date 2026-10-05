@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 71.751433,
     "north": 29.454729,
@@ -6,6 +7,7 @@
     "west": 71.614993
   },
   "core_analytical_length_m": 29459.963002,
+  "core_final_route_length_m": 32539.435765,
   "core_original_length_m": 39814.238072,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12288.468966,
       "line": "line-1",
       "original_cells": 744,
       "original_route_m": 16690.823946,
       "reworked_cells": 603,
-      "reworked_route_m": 14492.144289
+      "reworked_route_m": 14492.144289,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10587.392488,
       "line": "line-2",
       "original_cells": 636,
       "original_route_m": 14878.763338,
       "reworked_cells": 547,
-      "reworked_route_m": 12957.930727
+      "reworked_route_m": 12957.930727,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9663.574311,
       "line": "line-3",
       "original_cells": 579,
       "original_route_m": 13274.844148,
       "reworked_cells": 460,
-      "reworked_route_m": 10091.269837
+      "reworked_route_m": 10091.269837,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Bahawalpur/alignment-policy.toml": "11bcbbb21083551a9744f5864ddca98afc13cdc86b1ad3003cf0fd92a6086526",
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-buildability-mask.bin.gz": "c1acb8307a1f24af34bc442a10cc421846263477abd04e08a1b070638ad4a469",
     "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-grid.json": "11fdd1b8e4911289f9d8f4c1656633f96c0e1c12b919e8d52299da4d189b8b30",
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/planning-water-mask.bin.gz": "8f6ca433b9e3fc75c7f641d6324c755d89f61e684e0e6cc494d159e0f1dffe7c",
     "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/pre-rework-corridors.json.gz": "50422966d8f81b7bd210ec09ce596a3b8a19d1c59f0c4bd2548eedb1a33ad5c3",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/alignment/water-source-receipt.json": "7eee3ad3c442fa44ba98496f851a3734cca195ea9b1b546fea7f6e3e34a840b9",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

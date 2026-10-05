@@ -1,0 +1,54 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "jalalabad-af",
+  "legacy_osm_missing_geometry_ids": [
+    48411,
+    3291706,
+    3291707,
+    12701935,
+    12726006,
+    12726031,
+    12726085
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "869d8d82f008fdcff2f4546d4c2a10cc4be34bd6be8f40e34bff0cb01bdc01ab",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "9a91ce59ff728f6f2677a935e252422635ee4221c979dd08e8a4a9f657436894",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/independent-landcover-samples.bin.gz": "45a3bce2bc4080dec512c53338e887bc9803012674b798cb6d5ae982f9dfb8ad",
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/planning-grid.json": "be6bbc9a012abb877022017b36ab7cdb8231520d3ee2afd71de947d34244f2b9",
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/alignment/planning-water-features.json.gz": "bd4312b59e0f55cfa744daa85dcc454a5d3569c9c59947c5431772d54baa571f",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 49377,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "6702a032b3a9df67041b566f6a96094bc69c822507dcf041874e61bce37578b4",
+      "native_window": [
+        15931,
+        17600,
+        2888,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E069_Map.tif",
+      "window_sha256": "de58850774d18c1c4acdd92fcb9a27a1286cd82cb6e4466e8835d438a0f258ca"
+    }
+  ]
+}

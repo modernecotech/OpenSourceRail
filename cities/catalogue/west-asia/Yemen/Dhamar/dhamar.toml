@@ -80,16 +80,10 @@ is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-1-0255-0310-s003135"
-name = "حارة الجيش"
+id = "line-1-0306-0321-s004246"
+name = "line-1-0306-0321-s004246"
 charging_power_kw = 500
-dwell_seconds = 120
-
-[[stations]]
-id = "line-1-0338-0328-s004944"
-name = "حارة الأمير"
-charging_power_kw = 500
-dwell_seconds = 120
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0445-0352-s007294"
@@ -136,8 +130,8 @@ is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-3-0314-0356-s001957"
-name = "حارة الصلعة"
+id = "line-3-0306-0321-s002724"
+name = "line-3-0306-0321-s002724"
 charging_power_kw = 500
 dwell_seconds = 120
 
@@ -156,9 +150,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0115-0301-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0255-0310-s003135", distance_from_prev_m = 3134 },
-    { id = "line-1-0338-0328-s004944", distance_from_prev_m = 1809 },
-    { id = "line-1-0445-0352-s007294", distance_from_prev_m = 2350 },
+    { id = "line-1-0306-0321-s004246", distance_from_prev_m = 4245 },
+    { id = "line-1-0445-0352-s007294", distance_from_prev_m = 3048 },
 ]
 
 [[lines]]
@@ -176,8 +169,8 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0333-0446-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0314-0356-s001957", distance_from_prev_m = 1957 },
-    { id = "line-3-0295-0267-s003895", distance_from_prev_m = 1937 },
+    { id = "line-3-0306-0321-s002724", distance_from_prev_m = 2723 },
+    { id = "line-3-0295-0267-s003895", distance_from_prev_m = 1171 },
 ]
 
 
@@ -318,25 +311,8 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0255-0310-s003135"
-tier = "standard"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0338-0328-s004944"
-tier = "major"
+station = "line-1-0306-0321-s004246"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
@@ -454,8 +430,8 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0314-0356-s001957"
-tier = "major"
+station = "line-3-0306-0321-s002724"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0

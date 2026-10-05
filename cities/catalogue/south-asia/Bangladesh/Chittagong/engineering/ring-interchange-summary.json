@@ -1,29 +1,29 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "chittagong"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "chittagong",
-      "corridor_sha256": "6d28112152ed7c05358863c6826d073b838f3e92cbc9fc95c3f31e7c0eb7977d",
-      "design_sha256": "3b2cffeae799c0fe139e929f54b69d7e212a25d4c39ec05a4175e08ea8433498",
-      "failures": [],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
-      "radial_count": 7,
-      "review_findings": [
+      "corridor_sha256": "2b325baa22494c53b244f27ebabaebb366956f69d793f0847b1282080f3d6e60",
+      "design_sha256": "69b4d577287b09430bc6aea32d412b8936577a12cde7807d64342a6b352abbae",
+      "failures": [
         {
-          "code": "ring-radial-layout-disconnected",
-          "geometry_distance_m": 1318.8,
-          "radial": "line-1",
-          "ring": "line-8",
-          "severity": "review",
-          "terminus_distance_m": 1764.4
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1488.7,
+          "radial": "line-3",
+          "severity": "fail"
         }
       ],
+      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
+      "passed": false,
+      "radial_count": 7,
+      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 0
 }

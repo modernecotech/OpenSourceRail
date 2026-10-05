@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 34.791066,
     "north": 0.323823,
@@ -6,6 +7,7 @@
     "west": 34.709946
   },
   "core_analytical_length_m": 27989.412499,
+  "core_final_route_length_m": 30699.881656,
   "core_original_length_m": 34909.366216,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10426.072145,
       "line": "line-1",
       "original_cells": 579,
       "original_route_m": 13705.363345,
       "reworked_cells": 508,
-      "reworked_route_m": 11581.463197
+      "reworked_route_m": 11581.463197,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11128.225099,
       "line": "line-2",
       "original_cells": 643,
       "original_route_m": 15424.692629,
       "reworked_cells": 616,
-      "reworked_route_m": 14743.860018
+      "reworked_route_m": 14743.860018,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9145.584412,
       "line": "line-3",
       "original_cells": 576,
       "original_route_m": 13176.854249,
       "reworked_cells": 535,
-      "reworked_route_m": 11723.818177
+      "reworked_route_m": 11723.818177,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Kakamega/alignment-policy.toml": "1fc3788fc818a0055b776af98a817d87d2695c5cc1401add42cbd02b8487a1ab",
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/planning-grid.json": "34c3844b24d9ecdcda39f38239739ce5fd5fb4be536d1ba351073978b40f082a",
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/planning-water-mask.bin.gz": "af7dc39eb7fbf1cfbbaf8d4659905964d18d69e98393567f1229f7b451407e27",
     "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/pre-rework-corridors.json.gz": "cded9e33981ceba38841dd9eaafee2bc9871a4de5c03bb7af9dfced4e1e333ad",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/water-source-receipt.json": "63be50428c5a793bc5954013ebe3666c3ccbc295ea423fa7d145445eb178d404",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

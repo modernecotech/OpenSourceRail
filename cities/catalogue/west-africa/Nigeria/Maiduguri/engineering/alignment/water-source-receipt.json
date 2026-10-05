@@ -1,0 +1,49 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "maiduguri",
+  "legacy_osm_missing_geometry_ids": [
+    18095188,
+    18095211
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "f98c87f2fc02058846317ad61e5600a6e7ca5fa26dae4b962bd01dd438c1ed11",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "651ffa84071037c2d2e5f60577799a9ceb48c23dee344a7577b4f719a58b3edb",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/alignment/independent-landcover-samples.bin.gz": "f5ac09df4b6f3c845d1f6bb476d7f49fef2d119c046156d056dfa17d2fe6192b",
+    "cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/alignment/planning-grid.json": "3b243207583bd7f97c881071594d62d59b85ca5d790736923ffb23a5e1f697bd",
+    "cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/alignment/planning-water-features.json.gz": "4c387df52e9b58766c170cc3bd33df345ad6d9a9bd2fbd01a3bef9a6fc62bc83",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 51939,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f0debd002fc9a6915302025fb9cb68700a7e97d565c696fdfa2dbc1b916cd463",
+      "native_window": [
+        12032,
+        271,
+        3538,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E012_Map.tif",
+      "window_sha256": "0792928fe771c7c9ebf737f18083da63e580057cb4a9d3306e76ab7850d2b084"
+    }
+  ]
+}

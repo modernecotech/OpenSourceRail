@@ -1,6 +1,6 @@
 {
   "city": "shinyanga",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -29,6 +29,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 356,
+      "row": 446,
+      "station_id": "line-1-0446-0356-s012528",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 328,
       "row": 494,
       "station_id": "line-1-0494-0328-s013755",
@@ -44,6 +50,12 @@
       "col": 299,
       "row": 397,
       "station_id": "line-2-0397-0299-s005330",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 356,
+      "row": 446,
+      "station_id": "line-2-0446-0356-s007052",
       "water_coverage_percent": 0
     },
     {
@@ -65,14 +77,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 10,
-  "schema_version": 1,
+  "platforms_checked": 12,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Tanzania/Shinyanga/design.toml": "431fe2cd9832c7016e6020f351fb9f51f7d5cb190aa6a167dde1e59307c564ab",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/design.toml": "ac2e2c108a461dd6f9a4c0d1196f36dca3a83857147ed49298d1317e1c4444c0",
     "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-grid.json": "0d329a16f349dbd80a8296d8fc323c0f487a0631aba4bad0707780289a6b4b38",
-    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-water-mask.bin.gz": "00b1a6dd614cb5d28288df3a7b1b7432aa6b839735057884a18518195c5be131",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-water-mask.bin.gz": "63739d73eefe545bd34c6291320f73aef17884601d0d79e48aa5a19edb6dbb47",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/water-source-receipt.json": "f9906b55f0c074114fec7f255afda4c8260d4e3eab5632c2bc7663973306fe2a",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "ae0e839f009a1b437b0abc02521cdf97216dc226a2f7718da0578dcbc6c58f12",
+  "uncompressed_water_mask_sha256": "4632c0f8fe3048872782e2934519cba38a2fb0d7ce14dd01ba3c555404a60614",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

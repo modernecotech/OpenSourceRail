@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 11.628865,
     "north": 3.986339,
@@ -6,6 +7,7 @@
     "west": 11.418865
   },
   "core_analytical_length_m": 147648.499473,
+  "core_final_route_length_m": 161694.25243,
   "core_original_length_m": 179500.69165,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 29886.197667,
       "line": "line-1",
       "original_cells": 482,
       "original_route_m": 42143.001961,
-      "reworked_cells": 1309,
-      "reworked_route_m": 37700.965863
+      "reworked_cells": 1622,
+      "reworked_route_m": 38666.340521,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 32820.655096,
       "line": "line-2",
       "original_cells": 489,
       "original_route_m": 44907.580133,
-      "reworked_cells": 1435,
-      "reworked_route_m": 42109.91409
+      "reworked_cells": 1831,
+      "reworked_route_m": 43625.062018,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23049.890322,
       "line": "line-3",
       "original_cells": 498,
       "original_route_m": 33245.94528,
-      "reworked_cells": 1130,
-      "reworked_route_m": 29155.095548
+      "reworked_cells": 1338,
+      "reworked_route_m": 29772.043277,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16347.594514,
       "line": "line-4",
       "original_cells": 444,
       "original_route_m": 19545.115717,
       "reworked_cells": 784,
-      "reworked_route_m": 16347.594514
+      "reworked_route_m": 16347.594514,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -638,21 +648,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 59589.914832,
       "line": "line-5",
       "original_cells": 434,
       "original_route_m": 66320.339911,
-      "reworked_cells": 2639,
-      "reworked_route_m": 62619.131055
+      "reworked_cells": 2775,
+      "reworked_route_m": 62968.981208,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Yaounde/alignment-policy.toml": "a810c512ca7560930dfa4c28df7dd9ce878ff4c51e2ae2604af38309a8df3384",
+    "cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/planning-buildability-mask.bin.gz": "87b4a3d61ff57a65680fd0268c316fafc51bc66557633eeb4ffbbfcbc7fdd89b",
     "cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/planning-grid.json": "dfdeed67906b9098969d282482c020acd52be3c45944bf0cf3c5da3ff6a08b8d",
+    "cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/planning-water-mask.bin.gz": "92ada9afaa58ab7120a64ea26b9da2ecf3630d5fe7d7967fa5f65244651cdc4e",
     "cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/pre-rework-corridors.json.gz": "73956802779dd67549208f03a50d3079726ff86f0dc8790bb5c0de3ab8321142",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Yaounde/engineering/alignment/water-source-receipt.json": "27bd5c073d1ad49a2dec282203a4f025ea5ba762313cdcba4cfe9c0ee9574437",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

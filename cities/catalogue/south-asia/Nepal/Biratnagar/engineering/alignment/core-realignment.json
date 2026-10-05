@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 87.317554,
     "north": 26.493803,
@@ -6,6 +7,7 @@
     "west": 87.226954
   },
   "core_analytical_length_m": 19193.576652,
+  "core_final_route_length_m": 20217.199128,
   "core_original_length_m": 26683.657993,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9265.09668,
       "line": "line-1",
       "original_cells": 586,
       "original_route_m": 13389.991334,
       "reworked_cells": 575,
-      "reworked_route_m": 12018.477631
+      "reworked_route_m": 12018.477631,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4279.411255,
       "line": "line-2",
       "original_cells": 313,
       "original_route_m": 7474.356416,
       "reworked_cells": 210,
-      "reworked_route_m": 4279.411255
+      "reworked_route_m": 4279.411255,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6672.691193,
       "line": "line-3",
       "original_cells": 478,
       "original_route_m": 10964.894655,
       "reworked_cells": 382,
-      "reworked_route_m": 9044.894655
+      "reworked_route_m": 9044.894655,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Nepal/Biratnagar/alignment-policy.toml": "818a330d6b40c27f2f8c90e49552503b347dfbde8169f2ccaa1ba4dc6e7ab3ae",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-grid.json": "307fe22f394d1d23ade2a1c463771c2dda37d8829bfa2fa433b8f2229d4a8a4b",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-water-mask.bin.gz": "c18ef2d9c76bbf88d3527fceaa25caad46b0dac490fa858cef246175259e471c",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/pre-rework-corridors.json.gz": "3ba169625d57b112e0219eb8bb2caa76ba15ee304400685905c4383e06cf2bea",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/water-source-receipt.json": "7e8be7594580e79b0942eef01a28996876ed13f9f0a28706a957c95be170fb9b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

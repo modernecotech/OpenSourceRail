@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "agadir",
+  "legacy_osm_missing_geometry_ids": [
+    1365175,
+    5451391,
+    6033333
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "456b0a1496b03fab5afc33dcc49cd82a662cc9257013a1209f86bcbbc3fdbc0c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "d98b8c32d9e9e4e3f3716876bc6d08c9e523e09ce207aaa043cd096bb0de6aec",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/independent-landcover-samples.bin.gz": "8bfdeac279e2d5db037a701ff80f5bdebcf4e09a88b62a3f25b821a3d0ae04ce",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/planning-grid.json": "2206ea53a789ba1163c323f046d7b6a1555b59c538d3eb8efc5ba11a14ac06f8",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/planning-water-features.json.gz": "e3c613a77e1d0373419999e2661ae77e71297f940f4dee1912278d40ae3081ea",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 396779,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "87b837cf380b82fbf76b904d8e9f2b058b1e439723aa9d604add375c3d1461ca",
+      "native_window": [
+        27444,
+        29677,
+        2761,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30W012_Map.tif",
+      "window_sha256": "5d329f8c96dfbe135396a041421c5030969bab6486265797e0af4842bd0eab51"
+    }
+  ]
+}

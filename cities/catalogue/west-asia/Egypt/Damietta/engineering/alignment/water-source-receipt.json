@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "damietta",
+  "legacy_osm_missing_geometry_ids": [
+    2063788,
+    6311481,
+    10334380,
+    10334602
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "3ef6b07df0bf93a9d1b4d2f340b5f738a880b51f9a16506fc04b4b61f59c1ea3",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "630d4e58908d912c47ca90850fe2bcb477f231c29176f50f992c5cb8d3d8ff05",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/independent-landcover-samples.bin.gz": "9af9eddca819225a2c1aa29983ab7b0d6aecfd15c7a6617b7a9a1817bb6178c5",
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/planning-grid.json": "e70c7b571d140feee7879e36de75e2c8883efa75ece79521de19dbb1437174db",
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/planning-water-features.json.gz": "eba0b19d3e6acf6a8aadf787cb3c15b739ece152bfdc2be40f23584cac2870fb",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 563319,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "7109008952637b4f7ecd17e03e25d28c0df14f741d5b9d7b553072cf8de616ee",
+      "native_window": [
+        20366,
+        17812,
+        2790,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E030_Map.tif",
+      "window_sha256": "9a04e959a5efa087d45f49293c7319951af28535645466d339246905aa72a703"
+    }
+  ]
+}

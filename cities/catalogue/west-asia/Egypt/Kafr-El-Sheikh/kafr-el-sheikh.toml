@@ -74,20 +74,26 @@ dust_loss_recovery_frac = 0.75
 id = "line-1-0120-0669-s000000"
 name = "line-1-0120-0669-s000000"
 charging_power_kw = 500
-dwell_seconds = 210
+dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
 id = "line-1-0279-0458-s005818"
 name = "الملحقات"
 charging_power_kw = 500
-dwell_seconds = 210
+dwell_seconds = 150
 
 [[stations]]
-id = "line-1-0352-0363-s008499"
-name = "line-1-0352-0363-s008499"
+id = "line-1-0331-0390-s007726"
+name = "مستشفى كفر الشيخ العام"
 charging_power_kw = 500
-dwell_seconds = 210
+dwell_seconds = 150
+
+[[stations]]
+id = "line-1-0383-0323-s009620"
+name = "line-1-0383-0323-s009620"
+charging_power_kw = 500
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0490-0183-s013582"
@@ -114,8 +120,8 @@ charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0424-0353-s005742"
-name = "الشوادفي اللقاني"
+id = "line-2-0383-0323-s004601"
+name = "line-2-0383-0323-s004601"
 charging_power_kw = 500
 dwell_seconds = 120
 
@@ -157,8 +163,9 @@ name = "line-1"
 stations = [
     { id = "line-1-0120-0669-s000000", distance_from_prev_m = 0 },
     { id = "line-1-0279-0458-s005818", distance_from_prev_m = 5818 },
-    { id = "line-1-0352-0363-s008499", distance_from_prev_m = 2680 },
-    { id = "line-1-0490-0183-s013582", distance_from_prev_m = 5082 },
+    { id = "line-1-0331-0390-s007726", distance_from_prev_m = 1907 },
+    { id = "line-1-0383-0323-s009620", distance_from_prev_m = 1893 },
+    { id = "line-1-0490-0183-s013582", distance_from_prev_m = 3961 },
 ]
 
 [[lines]]
@@ -167,8 +174,8 @@ name = "line-2"
 stations = [
     { id = "line-2-0217-0202-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0339-0291-s003341", distance_from_prev_m = 3341 },
-    { id = "line-2-0424-0353-s005742", distance_from_prev_m = 2401 },
-    { id = "line-2-0512-0417-s008161", distance_from_prev_m = 2419 },
+    { id = "line-2-0383-0323-s004601", distance_from_prev_m = 1259 },
+    { id = "line-2-0512-0417-s008161", distance_from_prev_m = 3560 },
 ]
 
 [[lines]]
@@ -249,7 +256,7 @@ station = "line-3-0505-0432-s004495"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 28
+trainset_count = 27
 dispatch_points = [
     { station = "line-1-0120-0669-s000000", heading = "forward" },
     { station = "line-1-0490-0183-s013582", heading = "reverse" },
@@ -339,8 +346,25 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0352-0363-s008499"
+station = "line-1-0331-0390-s007726"
 tier = "major"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-1-0383-0323-s009620"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
@@ -407,8 +431,8 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0424-0353-s005742"
-tier = "major"
+station = "line-2-0383-0323-s004601"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 13.457216,
     "north": 9.362688,
@@ -6,6 +7,7 @@
     "west": 13.336736
   },
   "core_analytical_length_m": 23046.637234,
+  "core_final_route_length_m": 25155.373721,
   "core_original_length_m": 32977.080785,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10218.519472,
       "line": "line-1",
       "original_cells": 601,
       "original_route_m": 14236.753237,
       "reworked_cells": 415,
-      "reworked_route_m": 10218.519472
+      "reworked_route_m": 10218.519472,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7924.507935,
       "line": "line-2",
       "original_cells": 462,
       "original_route_m": 10934.844148,
       "reworked_cells": 379,
-      "reworked_route_m": 7924.507935
+      "reworked_route_m": 7924.507935,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7012.346315,
       "line": "line-3",
       "original_cells": 325,
       "original_route_m": 7805.4834,
       "reworked_cells": 287,
-      "reworked_route_m": 7012.346315
+      "reworked_route_m": 7012.346315,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Garoua/alignment-policy.toml": "b1aea06b559b0d1c236c2197c27828b2460ccd097f82de8d8afe17fd6d9c419d",
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/planning-buildability-mask.bin.gz": "7577db776cef72fc0eb9e1c2cb64b01f3f965d514927a20246f953550c9e2981",
     "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/planning-grid.json": "b990e51da4adc4355a7bcd83e904657a2af8706a1fe99bbbace1b3fb0add2078",
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/planning-water-mask.bin.gz": "4e756f45db6b7ca39fb2802405ba0a1e1872082255b680db3483cf8eae75bdcb",
     "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/pre-rework-corridors.json.gz": "47b3ee422b6354ed3d9f1d95d0a6d8bde09c96acf193cd60e0ca726339213f2a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/water-source-receipt.json": "76462417e8470655c63270517b23c61a6e1d412b4842e4431fbd8cfd6dd776e9",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

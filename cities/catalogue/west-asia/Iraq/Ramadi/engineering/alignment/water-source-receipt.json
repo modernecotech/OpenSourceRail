@@ -1,0 +1,54 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "ramadi",
+  "legacy_osm_missing_geometry_ids": [
+    86599,
+    8233700,
+    12758225,
+    12760611,
+    12760737,
+    12766312,
+    12766417
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "d60ff027d78d9f3751f9aca241fa1a7efb9ae1932ef8014dd37c6256f509e133",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "3585190d8e740e4c4f36dab4e80d07858f6df2757c99f1654089207fa3d5cedc",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/independent-landcover-samples.bin.gz": "ae80f2dfbae622fc070924d32e7af726875ece53432d2cedbd041c469168438b",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/planning-grid.json": "607aa9c6b6ebbfae2816b060bef6bb81f80b8efd186bcc678135e3b94c99aa37",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/planning-water-features.json.gz": "fe32745e3c260754c71b5ff7ecdf2ccc59cbc35cc5b85dc07327f9cd5aca3bbc",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 173435,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "1a95e75fbc6c749849ffe3241180709a8ad9455603ceba1527b3491a6e4d8fb4",
+      "native_window": [
+        14400,
+        29759,
+        2643,
+        2404
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E042_Map.tif",
+      "window_sha256": "d191eb5cf06bf8405102adf705f0594fc2d11be0936908aba6e72cba533d9828"
+    }
+  ]
+}

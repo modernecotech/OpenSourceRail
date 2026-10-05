@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -4.902978,
     "north": 34.105317,
@@ -6,6 +7,7 @@
     "west": -5.111658
   },
   "core_analytical_length_m": 80992.588413,
+  "core_final_route_length_m": 87636.861428,
   "core_original_length_m": 106602.989433,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18883.414126,
       "line": "line-1",
       "original_cells": 468,
       "original_route_m": 21682.772136,
       "reworked_cells": 777,
-      "reworked_route_m": 18883.414126
+      "reworked_route_m": 18883.414126,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14296.955262,
       "line": "line-2",
       "original_cells": 430,
       "original_route_m": 19377.557854,
       "reworked_cells": 662,
-      "reworked_route_m": 14296.955262
+      "reworked_route_m": 14296.955262,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13540.0,
       "line": "line-3",
       "original_cells": 435,
       "original_route_m": 19180.74463,
-      "reworked_cells": 748,
-      "reworked_route_m": 16607.063303
+      "reworked_cells": 850,
+      "reworked_route_m": 17095.979797,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -511,21 +519,27 @@
           "simplification_tolerance_m": 900.0
         }
       ],
+      "final_core_route_m": 40916.49204,
       "line": "line-4",
       "original_cells": 436,
       "original_route_m": 49428.978117,
       "reworked_cells": 1778,
-      "reworked_route_m": 40916.49204
+      "reworked_route_m": 40916.49204,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Fez/alignment-policy.toml": "aa1e57efef1e730c8f5a0dba6de1d3b2009a8a0c98a058479b8fbd22d895e208",
+    "cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/planning-buildability-mask.bin.gz": "0d8683ee0d5b368f8cb84a6b3d5b02a93f0b1ca47a16d0fd860e301d1ff2b531",
     "cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/planning-grid.json": "72b90b475b2f41d939781a83c15f257cf8445ba63e27d1fc9d25e9960e5c6297",
+    "cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/planning-water-mask.bin.gz": "e35442af6b854dc978d3abefaeb457bf90804b326777a986fd3b3de556c149ed",
     "cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/pre-rework-corridors.json.gz": "2778741acb08d546c33a9d0b5d2b4dea6189242a9789283bd14e9546d5d26398",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Morocco/Fez/engineering/alignment/water-source-receipt.json": "1cc7389f17cc667a25011989a7b82e3334b441b0c707299a79a11904c848218e",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -4,13 +4,13 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`basra-line1.aln.toml`](basra-line1.aln.toml) | `line-1` | 38,796.4 m | 12 |
-| [`basra-line2.aln.toml`](basra-line2.aln.toml) | `line-2` | 17,314.0 m | 6 |
-| [`basra-line3.aln.toml`](basra-line3.aln.toml) | `line-3` | 38,893.4 m | 12 |
-| [`basra-line4.aln.toml`](basra-line4.aln.toml) | `line-4` | 34,392.5 m | 11 |
-| [`basra-line5.aln.toml`](basra-line5.aln.toml) | `line-5` | 35,280.4 m | 13 |
-| [`basra-line6.aln.toml`](basra-line6.aln.toml) | `line-6` | 26,070.7 m | 8 |
-| [`basra-line7.aln.toml`](basra-line7.aln.toml) | `line-7` | 77,293.1 m | 23 |
+| [`basra-line1.aln.toml`](basra-line1.aln.toml) | `line-1` | 38,591.5 m | 16 |
+| [`basra-line2.aln.toml`](basra-line2.aln.toml) | `line-2` | 17,314.0 m | 8 |
+| [`basra-line3.aln.toml`](basra-line3.aln.toml) | `line-3` | 42,556.3 m | 17 |
+| [`basra-line4.aln.toml`](basra-line4.aln.toml) | `line-4` | 34,392.5 m | 12 |
+| [`basra-line5.aln.toml`](basra-line5.aln.toml) | `line-5` | 35,280.4 m | 14 |
+| [`basra-line6.aln.toml`](basra-line6.aln.toml) | `line-6` | 26,070.7 m | 9 |
+| [`basra-line7.aln.toml`](basra-line7.aln.toml) | `line-7` | 90,803.3 m | 28 |
 
 ## Status
 

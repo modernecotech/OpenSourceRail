@@ -35,6 +35,11 @@ pub struct Station {
     /// stand-alone stops. Set by `merge_interchanges`.
     #[serde(default)]
     pub junction_group: Option<u32>,
+    /// Actual geometric crossing platform; an ordinary stop must not
+    /// replace it during spacing consolidation. Close distinct crossings
+    /// retain separate priced stops and require a spacing/site review.
+    #[serde(default)]
+    pub mandatory_crossing: bool,
 }
 
 /// Spacing thresholds come from the recipe defaults (Step 5) but are
@@ -228,6 +233,7 @@ fn make_station(
         s_m,
         demand,
         junction_group: None,
+        mandatory_crossing: false,
     }
 }
 
@@ -334,6 +340,7 @@ pub fn force_hub_stations(
             s_m: s_m_hub,
             demand,
             junction_group: None,
+            mandatory_crossing: false,
         });
     }
 
@@ -463,6 +470,243 @@ pub fn force_ring_radial_crossings(
                 .unwrap_or(std::cmp::Ordering::Equal),
         )
     });
+}
+
+/// Actual crossings of distinct route polylines, including radial/radial
+/// crossings created when a core route is straightened. Parallel approaches
+/// are not crossings. Each platform remains on its own routed cell.
+struct GeometricCrossing {
+    first: usize,
+    second: usize,
+    cell: (usize, usize),
+    point: (f64, f64),
+    chainage_first: f64,
+    chainage_second: f64,
+}
+
+fn geometric_crossings(lines: &[Line], cell_m: f64) -> Vec<GeometricCrossing> {
+    let mut crossings = Vec::new();
+    let chainages: Vec<Vec<f64>> = lines
+        .iter()
+        .map(|line| {
+            let mut distances = vec![0.0];
+            for edge in line.cells.windows(2) {
+                distances.push(
+                    distances.last().unwrap()
+                        + (edge[1].0 as f64 - edge[0].0 as f64)
+                            .hypot(edge[1].1 as f64 - edge[0].1 as f64)
+                            * cell_m,
+                );
+            }
+            distances
+        })
+        .collect();
+    for first in 0..lines.len() {
+        for second in first + 1..lines.len() {
+            let mut candidates = Vec::new();
+            let mut shared = Vec::<((f64, f64), (f64, f64))>::new();
+            for (i, a) in lines[first].cells.windows(2).enumerate() {
+                let p = (a[0].0 as f64, a[0].1 as f64);
+                let r = (a[1].0 as f64 - p.0, a[1].1 as f64 - p.1);
+                for (j, b) in lines[second].cells.windows(2).enumerate() {
+                    if a[0].0.min(a[1].0) > b[0].0.max(b[1].0)
+                        || b[0].0.min(b[1].0) > a[0].0.max(a[1].0)
+                        || a[0].1.min(a[1].1) > b[0].1.max(b[1].1)
+                        || b[0].1.min(b[1].1) > a[0].1.max(a[1].1)
+                    {
+                        continue;
+                    }
+                    let q = (b[0].0 as f64, b[0].1 as f64);
+                    let v = (b[1].0 as f64 - q.0, b[1].1 as f64 - q.1);
+                    let offset = (q.0 - p.0, q.1 - p.1);
+                    let cross = |x: (f64, f64), y: (f64, f64)| x.0 * y.1 - x.1 * y.0;
+                    let dot = |x: (f64, f64), y: (f64, f64)| x.0 * y.0 + x.1 * y.1;
+                    let denominator = cross(r, v);
+                    let mut sites = Vec::new();
+                    if denominator.abs() < 1e-9 {
+                        if cross(offset, r).abs() > 1e-9 || dot(r, r) == 0.0 || dot(v, v) == 0.0 {
+                            continue;
+                        }
+                        let t0 = dot(offset, r) / dot(r, r);
+                        let t1 = dot((b[1].0 as f64 - p.0, b[1].1 as f64 - p.1), r) / dot(r, r);
+                        let lo = t0.min(t1).max(0.0);
+                        let hi = t0.max(t1).min(1.0);
+                        if lo > hi + 1e-9 {
+                            continue;
+                        }
+                        if hi - lo > 1e-9 {
+                            shared.push((
+                                (p.0 + lo * r.0, p.1 + lo * r.1),
+                                (p.0 + hi * r.0, p.1 + hi * r.1),
+                            ));
+                        }
+                        for t in [lo, hi] {
+                            let point = (p.0 + t * r.0, p.1 + t * r.1);
+                            sites.push((t, dot((point.0 - q.0, point.1 - q.1), v) / dot(v, v)));
+                        }
+                    } else {
+                        let t = cross(offset, v) / denominator;
+                        let u = cross(offset, r) / denominator;
+                        if !(-1e-9..=1.0 + 1e-9).contains(&t) || !(-1e-9..=1.0 + 1e-9).contains(&u)
+                        {
+                            continue;
+                        }
+                        sites.push((t, u));
+                    }
+                    for (t, u) in sites {
+                        candidates.push(GeometricCrossing {
+                            first,
+                            second,
+                            point: (p.0 + t * r.0, p.1 + t * r.1),
+                            cell: (
+                                (p.0 + t * r.0).round() as usize,
+                                (p.1 + t * r.1).round() as usize,
+                            ),
+                            chainage_first: chainages[first][i] + t * r.0.hypot(r.1) * cell_m,
+                            chainage_second: chainages[second][j] + u * v.0.hypot(v.1) * cell_m,
+                        });
+                    }
+                }
+            }
+            // Shared bends are continuous co-running geometry, not a new
+            // interchange at every raster corner. Keep actual shared-run
+            // entry/exit junctions and isolated transverse crossings.
+            let key = |p: (f64, f64)| ((p.0 * 1e6).round() as i64, (p.1 * 1e6).round() as i64);
+            let mut neighbours =
+                std::collections::BTreeMap::<_, std::collections::BTreeSet<_>>::new();
+            for &(a, b) in &shared {
+                neighbours.entry(key(a)).or_default().insert(key(b));
+                neighbours.entry(key(b)).or_default().insert(key(a));
+            }
+            let mut pair_sites = Vec::<(f64, f64)>::new();
+            for site in candidates {
+                if neighbours
+                    .get(&key(site.point))
+                    .is_some_and(|next| next.len() == 2)
+                    || shared.iter().any(|&(a, b)| {
+                        let v = (b.0 - a.0, b.1 - a.1);
+                        let p = (site.point.0 - a.0, site.point.1 - a.1);
+                        let length2 = v.0 * v.0 + v.1 * v.1;
+                        let t = (p.0 * v.0 + p.1 * v.1) / length2;
+                        (p.0 * v.1 - p.1 * v.0).abs() < 1e-9 && t > 1e-9 && t < 1.0 - 1e-9
+                    })
+                {
+                    continue;
+                }
+                if pair_sites.iter().any(|&(a, b)| {
+                    (a - site.chainage_first).abs() < 1e-6
+                        && (b - site.chainage_second).abs() < 1e-6
+                }) {
+                    continue;
+                }
+                pair_sites.push((site.chainage_first, site.chainage_second));
+                crossings.push(site);
+            }
+        }
+    }
+    crossings
+}
+
+pub fn force_geometric_crossings(
+    stations: &mut Vec<Station>,
+    lines: &[Line],
+    grid: &Grid,
+    anchors: &[Anchor],
+) {
+    for crossing in geometric_crossings(lines, grid.reference.cell_m) {
+        let sites = [
+            (crossing.first, crossing.chainage_first),
+            (crossing.second, crossing.chainage_second),
+        ];
+        // Water crossings have bank-access release gates; never insert a
+        // wet station just because two projected bridge routes intersect.
+        if grid.excludes_station_for_water(crossing.cell.0, crossing.cell.1) {
+            continue;
+        }
+        for (line, chainage_m) in sites {
+            let route_length = cumulative_m(
+                &lines[line].cells,
+                lines[line].cells.len() - 1,
+                grid.reference.cell_m,
+            );
+            let chainage_m = if matches!(lines[line].shape, LineShape::Ring)
+                && (chainage_m - route_length).abs() < 1.0
+            {
+                0.0
+            } else {
+                chainage_m
+            };
+            if let Some(station) = stations.iter_mut().find(|station| {
+                station.line_name == lines[line].name
+                    && !grid.excludes_station_for_water(station.row, station.col)
+                    && (station.row as f64 - crossing.cell.0 as f64)
+                        .hypot(station.col as f64 - crossing.cell.1 as f64)
+                        * grid.reference.cell_m
+                        <= 60.0
+                    && (station.s_m - chainage_m).abs() <= 60.0
+            }) {
+                station.mandatory_crossing = true;
+                continue;
+            }
+            replace_station_near(
+                stations,
+                &lines[line].name,
+                grid,
+                anchors,
+                ReplacementSite {
+                    cell: crossing.cell,
+                    chainage_m,
+                    preserve_route_endpoints: matches!(lines[line].shape, LineShape::Radial),
+                    radius_cells: 3,
+                    chainage_window_m: 1200.0,
+                },
+            );
+            if let Some(station) = stations.iter_mut().find(|station| {
+                station.line_name == lines[line].name
+                    && (station.row, station.col) == crossing.cell
+                    && (station.s_m - chainage_m).abs() < 1.0
+            }) {
+                station.mandatory_crossing = true;
+            }
+        }
+    }
+}
+
+/// Check the actual emitted platform geometry, rather than accepting two
+/// ordinary stations elsewhere along crossing radial lines as a transfer.
+#[must_use]
+pub fn geometric_crossing_issues(stations: &[Station], lines: &[Line], grid: &Grid) -> Vec<String> {
+    let mut issues = Vec::new();
+    let tolerance_m = 3.0 * grid.reference.cell_m;
+    for crossing in geometric_crossings(lines, grid.reference.cell_m) {
+        let first = crossing.first;
+        let second = crossing.second;
+        let cell = crossing.cell;
+        if grid.excludes_station_for_water(cell.0, cell.1) {
+            continue;
+        }
+        let nearby = |line: usize, cell: (usize, usize)| {
+            stations.iter().filter(move |station| {
+                station.line_name == lines[line].name
+                    && (station.row as f64 - cell.0 as f64)
+                        .hypot(station.col as f64 - cell.1 as f64)
+                        * grid.reference.cell_m
+                        <= tolerance_m
+            })
+        };
+        if !nearby(first, cell).any(|one| {
+            nearby(second, cell)
+                .any(|two| one.junction_group.is_some() && one.junction_group == two.junction_group)
+        }) {
+            issues.push(format!(
+                "{} / {} crossing at cells {:?}/{:?} lacks grouped platforms within {:.0} m",
+                lines[first].name, lines[second].name, cell, cell, tolerance_m
+            ));
+        }
+    }
+    issues.sort();
+    issues.dedup();
+    issues
 }
 
 /// Restore exact route endpoints after forced interchange insertion.
@@ -613,8 +857,7 @@ pub fn force_ring_radial_terminal_interchanges(
 
 /// Extend radial endpoints that stop just short of a ring onto the ring.
 ///
-/// A 600 m or shorter separation is handled as one station complex by
-/// `force_ring_radial_crossings`. For a 600–1200 m endpoint near-miss, route a
+/// For an endpoint near-miss of up to the extension envelope, route a
 /// short physical connector through the same buildability/cost grid and make
 /// the ring cell the new terminus. Longer gaps are left for topology review;
 /// silently adding kilometres of scope is not an interchange correction.
@@ -629,11 +872,11 @@ pub fn connect_radial_termini_to_rings(
         .iter()
         .filter(|line| matches!(line.shape, LineShape::Ring))
         .flat_map(|line| line.cells.iter().copied())
+        .filter(|&(r, c)| !grid.excludes_station_for_water(r, c))
         .collect();
     if ring_cells.is_empty() {
         return 0;
     }
-    let transfer2 = (transfer_threshold_cells * transfer_threshold_cells) as i64;
     let extension2 = (extension_threshold_cells * extension_threshold_cells) as i64;
     let mut extended = 0;
     for line in lines.iter_mut() {
@@ -646,6 +889,9 @@ pub fn connect_radial_termini_to_rings(
             } else {
                 *line.cells.last().unwrap()
             };
+            if ring_cells.contains(&endpoint) {
+                continue;
+            }
             let mut targets: Vec<(i64, (usize, usize))> = ring_cells
                 .iter()
                 .map(|&cell| {
@@ -653,7 +899,7 @@ pub fn connect_radial_termini_to_rings(
                     let dc = endpoint.1 as i64 - cell.1 as i64;
                     (dr * dr + dc * dc, cell)
                 })
-                .filter(|(distance2, _)| *distance2 > transfer2 && *distance2 <= extension2)
+                .filter(|(distance2, _)| *distance2 > 0 && *distance2 <= extension2)
                 .collect();
             targets.sort_by_key(|item| item.0);
             if targets.is_empty() {
@@ -676,6 +922,14 @@ pub fn connect_radial_termini_to_rings(
                 else {
                     continue;
                 };
+                if connector
+                    .iter()
+                    .any(|&(r, c)| grid.excludes_station_for_water(r, c))
+                    || cumulative_m(&connector, connector.len() - 1, grid.reference.cell_m)
+                        > extension_threshold_cells as f64 * grid.reference.cell_m
+                {
+                    continue;
+                }
                 let mut candidate = line.cells.clone();
                 if at_start {
                     connector.reverse();
@@ -685,8 +939,9 @@ pub fn connect_radial_termini_to_rings(
                 } else {
                     candidate.extend(connector.into_iter().skip(1));
                 }
+                let old_backtrack = maximum_axis_backtrack_m(&line.cells, grid.reference.cell_m);
                 if maximum_axis_backtrack_m(&candidate, grid.reference.cell_m)
-                    >= MAX_RADIAL_BACKTRACK_M
+                    > old_backtrack.max(MAX_RADIAL_BACKTRACK_M - 1.0)
                 {
                     continue;
                 }
@@ -745,14 +1000,19 @@ fn replace_station_near(
             }
             let dr = station.row as isize - cr;
             let dc = station.col as isize - cc;
-            dr * dr + dc * dc <= 36
+            dr * dr + dc * dc <= (site.radius_cells.min(6).pow(2)) as isize
         })
     {
         return;
     }
     let replacement_radius2 = (site.radius_cells * site.radius_cells) as isize;
     stations.retain(|s| {
-        if s.line_name != line_name {
+        if s.line_name != line_name || s.mandatory_crossing {
+            return true;
+        }
+        if site.preserve_route_endpoints
+            && (s.s_m <= 1.0 || (line_end_chainage - s.s_m).abs() <= 1.0)
+        {
             return true;
         }
         let dr = s.row as isize - cr;
@@ -796,6 +1056,7 @@ fn replace_station_near(
         s_m: site.chainage_m,
         demand,
         junction_group: None,
+        mandatory_crossing: false,
     });
 }
 
@@ -805,10 +1066,9 @@ fn replace_station_near(
 /// *different* lines are grouped into one interchange. Neighbouring
 /// interchange groups on the same line are then amalgamated into one
 /// multi-line complex. Each grouped
-/// station has its (lat, lon) snapped to the group centroid and its
-/// `junction_group` set to a stable id, so downstream emitters can
-/// render them as a single interchange complex with one platform per
-/// line. Ordinary stations on the same line are never merged.
+/// station retains its actual platform coordinates and receives a stable
+/// `junction_group`. Complex centroids are descriptive metadata, not physical
+/// platform positions. Ordinary stations on the same line are never merged.
 ///
 /// This addresses the "multiple stations in close proximity in central
 /// zones" failure mode — when 3 radial lines all pass through downtown
@@ -1122,6 +1382,11 @@ pub fn station_layout_issues(
         }
     }
     for (line_name, line_stations) in &mut by_line {
+        let route_length = lines
+            .iter()
+            .find(|line| line.name == *line_name)
+            .map(|line| cumulative_m(&line.cells, line.cells.len() - 1, cell_m))
+            .unwrap_or(0.0);
         line_stations.sort_by(|a, b| {
             a.s_m
                 .partial_cmp(&b.s_m)
@@ -1129,7 +1394,14 @@ pub fn station_layout_issues(
         });
         for pair in line_stations.windows(2) {
             let gap = pair[1].s_m - pair[0].s_m;
-            if gap < minimum_inline_chainage_m - 1e-6 {
+            if gap < minimum_inline_chainage_m - 1e-6
+                && !(pair[0].mandatory_crossing
+                    && pair[1].mandatory_crossing
+                    && gap >= cell_m * 2.0)
+                && !(gap >= cell_m * 2.0
+                    && (pair[0].mandatory_crossing || pair[1].mandatory_crossing)
+                    && (pair[0].s_m < 1.0 || (route_length - pair[1].s_m).abs() < 1.0))
+            {
                 issues.push(format!(
                     "{line_name}: stations at {:.1} m ({:?}) and {:.1} m ({:?}) are only {:.1} m apart",
                     pair[0].s_m,
@@ -1162,7 +1434,11 @@ pub fn station_layout_issues(
             .sum::<f64>();
         let wrap_gap_m =
             route_length_m - line_stations.last().unwrap().s_m + line_stations.first().unwrap().s_m;
-        if wrap_gap_m < minimum_inline_chainage_m - 1e-6 {
+        if wrap_gap_m < minimum_inline_chainage_m - 1e-6
+            && !(line_stations.first().unwrap().mandatory_crossing
+                && line_stations.last().unwrap().mandatory_crossing
+                && wrap_gap_m >= cell_m * 2.0)
+        {
             issues.push(format!(
                 "{}: stations around the ring origin are only {:.1} m apart",
                 line.name, wrap_gap_m
@@ -1252,8 +1528,10 @@ pub fn station_layout_issues(
                         .unwrap_or(false)
                 {
                     issues.push(format!(
-                        "{} terminal within {:.0} m of {} has no endpoint interchange",
-                        radial.name, transfer_envelope_m, ring.name
+                        "{} terminal at {:.0} m within {:.0} m of {} has no endpoint interchange (terminal group {:?}; ring platforms {:?})",
+                        radial.name, endpoint_chainage, transfer_envelope_m, ring.name,
+                        terminal_group, by_line.get(ring.name.as_str()).into_iter().flatten()
+                            .map(|s| (s.row,s.col,s.junction_group)).collect::<Vec<_>>()
                     ));
                 }
             }
@@ -1335,6 +1613,9 @@ pub fn consolidate_inline_station_clusters(
             .unwrap_or_default();
         let line_end = *line_ends.get(line_name).unwrap_or(&0.0);
         let is_radial = radial_lines.contains(line_name);
+        let endpoint = |station: &Station| {
+            is_radial && (station.s_m.abs() <= 1.0 || (line_end - station.s_m).abs() <= 1.0)
+        };
         let mut kept: Vec<Station> = Vec::with_capacity(line_stations.len());
         for candidate in line_stations.drain(..) {
             let Some(previous) = kept.last() else {
@@ -1345,12 +1626,18 @@ pub fn consolidate_inline_station_clusters(
                 kept.push(candidate);
                 continue;
             }
-            let endpoint = |station: &Station| {
-                is_radial && (station.s_m.abs() <= 1.0 || (line_end - station.s_m).abs() <= 1.0)
-            };
+            if ((candidate.mandatory_crossing && previous.mandatory_crossing)
+                || (candidate.mandatory_crossing && endpoint(previous)
+                    || previous.mandatory_crossing && endpoint(&candidate)))
+                && candidate.s_m - previous.s_m >= 40.0
+            {
+                kept.push(candidate);
+                continue;
+            }
             let score = |station: &Station| {
                 (
                     endpoint(station),
+                    station.mandatory_crossing,
                     station.junction_group.is_some(),
                     (station.demand * 1_000_000.0).round() as i64,
                     station.anchor_name.is_some(),
@@ -1443,11 +1730,16 @@ pub fn consolidate_ring_wrap_station_clusters(
                 break;
             }
             let wrap_gap_m = route_length_m - stations[last].s_m + stations[first].s_m;
-            if wrap_gap_m >= minimum_spacing_m {
+            if wrap_gap_m >= minimum_spacing_m
+                || (stations[first].mandatory_crossing
+                    && stations[last].mandatory_crossing
+                    && wrap_gap_m >= 40.0)
+            {
                 break;
             }
             let score = |station: &Station| {
                 (
+                    station.mandatory_crossing,
                     station.junction_group.is_some(),
                     (station.demand * 1_000_000.0).round() as i64,
                     station.anchor_name.is_some(),
@@ -1654,7 +1946,157 @@ mod tests {
             s_m: 0.0,
             demand: 0.0,
             junction_group: None,
+            mandatory_crossing: false,
         }
+    }
+
+    #[test]
+    fn radial_crossings_insert_grouped_platforms_at_the_actual_intersection() {
+        let grid = uniform_grid(201, 201);
+        let lines = vec![
+            line("A", LineShape::Radial, vec![(100, 0), (100, 200)]),
+            line("B", LineShape::Radial, vec![(0, 100), (200, 100)]),
+        ];
+        let mut stations = Vec::new();
+        for route in &lines {
+            stations.extend(place_stations(
+                &grid,
+                &[],
+                &route.name,
+                &route.cells,
+                SpacingConfig::default(),
+            ));
+        }
+        assert!(!geometric_crossing_issues(&stations, &lines, &grid).is_empty());
+        force_geometric_crossings(&mut stations, &lines, &grid, &[]);
+        merge_interchanges(&mut stations, 700.0);
+        consolidate_inline_station_clusters(&mut stations, &lines, 1200.0);
+        assert!(geometric_crossing_issues(&stations, &lines, &grid).is_empty());
+        let crossing: Vec<_> = stations
+            .iter()
+            .filter(|s| s.row == 100 && s.col == 100)
+            .collect();
+        assert_eq!(crossing.len(), 2);
+        assert_eq!(crossing[0].junction_group, crossing[1].junction_group);
+        assert!(crossing.iter().all(|s| (s.s_m - 2000.0).abs() < 1e-6));
+    }
+
+    #[test]
+    fn nearby_shared_run_exit_keeps_its_platform_coverage() {
+        let grid = uniform_grid(20, 25);
+        let lines = vec![
+            line(
+                "A",
+                LineShape::Radial,
+                vec![
+                    (8, 5),
+                    (7, 6),
+                    (7, 7),
+                    (6, 8),
+                    (6, 9),
+                    (5, 9),
+                    (5, 10),
+                    (4, 11),
+                    (4, 12),
+                    (3, 13),
+                    (2, 14),
+                    (1, 15),
+                ],
+            ),
+            line(
+                "B",
+                LineShape::Radial,
+                vec![
+                    (5, 4),
+                    (5, 5),
+                    (5, 6),
+                    (5, 7),
+                    (5, 8),
+                    (5, 9),
+                    (4, 10),
+                    (4, 11),
+                    (4, 12),
+                    (4, 13),
+                ],
+            ),
+        ];
+        let mut stations = Vec::new();
+        force_geometric_crossings(&mut stations, &lines, &grid, &[]);
+        merge_interchanges(&mut stations, 700.0);
+        assert!(geometric_crossing_issues(&stations, &lines, &grid).is_empty());
+        // Coalescing the shared entry and exit before placement leaves an
+        // earlier platform 63 m from the exit, beyond its 60 m envelope.
+        for name in ["A", "B"] {
+            assert!(stations
+                .iter()
+                .any(|s| s.line_name == name && (s.row, s.col) == (4, 12)));
+        }
+    }
+
+    #[test]
+    fn crossing_beyond_the_terminal_tolerance_keeps_the_actual_crossing_platform() {
+        let grid = uniform_grid(201, 201);
+        let lines = vec![
+            line("A", LineShape::Radial, vec![(100, 0), (100, 200)]),
+            line("B", LineShape::Radial, vec![(0, 195), (200, 195)]),
+        ];
+        let mut stations = Vec::new();
+        for route in &lines {
+            stations.extend(place_stations(
+                &grid,
+                &[],
+                &route.name,
+                &route.cells,
+                SpacingConfig::default(),
+            ));
+        }
+        force_geometric_crossings(&mut stations, &lines, &grid, &[]);
+        merge_interchanges(&mut stations, 700.0);
+        consolidate_inline_station_clusters(&mut stations, &lines, 1200.0);
+        assert!(geometric_crossing_issues(&stations, &lines, &grid).is_empty());
+        assert!(station_layout_issues(&stations, &lines, 20.0, 600.0, 1200.0, 1180.0).is_empty());
+        assert!(stations
+            .iter()
+            .any(|s| s.line_name == "A" && s.col == 195 && s.mandatory_crossing));
+        assert!(stations.iter().any(|s| s.line_name == "A" && s.col == 200));
+    }
+
+    #[test]
+    fn shared_bends_force_only_the_shared_run_ends() {
+        let grid = uniform_grid(201, 201);
+        let common = vec![(100, 20), (100, 80), (140, 80), (140, 140)];
+        let lines = vec![
+            line("A", LineShape::Radial, common.clone()),
+            line("B", LineShape::Radial, common),
+        ];
+        let mut stations = Vec::new();
+        force_geometric_crossings(&mut stations, &lines, &grid, &[]);
+        merge_interchanges(&mut stations, 700.0);
+        assert_eq!(stations.len(), 4);
+        assert!(stations
+            .iter()
+            .all(|s| (s.row, s.col) == (100, 20) || (s.row, s.col) == (140, 140)));
+        assert!(geometric_crossing_issues(&stations, &lines, &grid).is_empty());
+    }
+
+    #[test]
+    fn parallel_routes_and_water_crossings_do_not_create_false_platforms() {
+        let mut grid = uniform_grid(201, 201);
+        let parallel = vec![
+            line("A", LineShape::Radial, vec![(100, 0), (100, 200)]),
+            line("B", LineShape::Radial, vec![(101, 0), (101, 200)]),
+        ];
+        assert!(geometric_crossings(&parallel, 20.0).is_empty());
+        let crossing = vec![
+            parallel[0].clone(),
+            line("B", LineShape::Radial, vec![(0, 100), (200, 100)]),
+        ];
+        let mut water = vec![0; 201 * 201];
+        water[100 * 201 + 100] = 100;
+        grid.water = Some(water);
+        let mut stations = Vec::new();
+        force_geometric_crossings(&mut stations, &crossing, &grid, &[]);
+        assert!(stations.is_empty());
     }
 
     #[test]
@@ -2067,6 +2509,25 @@ mod tests {
         let count = connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0));
         assert_eq!(count, 1);
         assert_eq!(lines[0].cells.last(), Some(&(10, 10)));
+    }
+
+    #[test]
+    fn terminal_inside_transfer_envelope_connects_at_a_real_dry_junction() {
+        let grid = uniform_grid(30, 30);
+        let mut lines = vec![
+            line("L1", LineShape::Radial, vec![(10, 0), (10, 4), (10, 8)]),
+            line("R1", LineShape::Ring, vec![(10, 10), (11, 10), (12, 10)]),
+        ];
+        assert_eq!(
+            connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0)),
+            1
+        );
+        assert_eq!(lines[0].cells.last(), Some(&(10, 10)));
+        // Already-connected endpoints must not acquire redundant extensions.
+        assert_eq!(
+            connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0)),
+            0
+        );
     }
 
     #[test]

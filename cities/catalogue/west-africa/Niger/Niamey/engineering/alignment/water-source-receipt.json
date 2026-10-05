@@ -1,0 +1,55 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "niamey",
+  "legacy_osm_missing_geometry_ids": [
+    4145700,
+    5727587,
+    6064759,
+    6629601,
+    8115553,
+    10557095,
+    16476520,
+    17710088
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "c72e1d15c43a82de55a93b03315fdc12120bd0f8e4535dcb5a0d24c3aa4fc75a",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "479dfa97af2a8e2c9bdf1efc280e4d71a278a7dfbf8f4030d292f90a5e996e84",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/independent-landcover-samples.bin.gz": "4cc4e709cf12e40453fa4b45c737870d8e0db30d1814a3555c3f350cbbae7dd0",
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/planning-grid.json": "fd795de324a600f2d9a2127a041d258baaf017574261e1446e8764ef3721e117",
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/planning-water-features.json.gz": "83bc554d4e6cae71cc26b8186ee65633a0f200c7c6e645d40ba940894346a136",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 84230,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "a6882cbe49eff84c49d4558620b6b9af9f6e5d886c63d6322ea9e4281893a247",
+      "native_window": [
+        24000,
+        16200,
+        3003,
+        3003
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E000_Map.tif",
+      "window_sha256": "f8d2fce65d9011c013ae7dfc2c4bedd3d3f91ed55628a64eae37303f29643442"
+    }
+  ]
+}

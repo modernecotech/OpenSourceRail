@@ -1,0 +1,60 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "vadodara",
+  "legacy_osm_missing_geometry_ids": [
+    1817046,
+    1817047,
+    1817048,
+    1817049,
+    1817050,
+    1817051,
+    1817052,
+    1817053,
+    1817054,
+    7239384,
+    9049957,
+    9049958,
+    12626635
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "2551e477adf1b067115ca7c6c771b048e4d62f523ef7f659dcb8d5d2a0ee6889",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "c3adee11703c08264735ef329a17b166f5fba4a444139c48800839d700557e57",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Vadodara/engineering/alignment/independent-landcover-samples.bin.gz": "305a050fa31d8c81c2ead924ae09e5839f02aa3189471d7136e0d9d5c6010760",
+    "cities/catalogue/south-asia/India/Vadodara/engineering/alignment/planning-grid.json": "fe5665601f3caaebd19c9799804f08a29c8e990eb16248c9f190d5a63ce846c2",
+    "cities/catalogue/south-asia/India/Vadodara/engineering/alignment/planning-water-features.json.gz": "4763794e3c718bb61234e00d49feda0132fd0b75a55b49bd7e5e05c019b3f249",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 45864,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "76d26bcf59645b0dc60c824a5a8c4237aa53ac6b880bd22df4c069bd8d91677e",
+      "native_window": [
+        12304,
+        18584,
+        3743,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E072_Map.tif",
+      "window_sha256": "6765492783c0bef8693e8ee7dab18352246884ba9f2788d90c17cae38ab6f309"
+    }
+  ]
+}

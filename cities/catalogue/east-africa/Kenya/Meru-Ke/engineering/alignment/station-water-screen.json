@@ -1,6 +1,6 @@
 {
   "city": "meru-ke",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -60,13 +60,15 @@
     }
   ],
   "platforms_checked": 9,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Meru-Ke/design.toml": "5bd04008a533c57a5239517bd07f56ce0e852bede43292b0a4e945bce1996b53",
     "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-grid.json": "cb308443f244e10f49011378d7787064f575569c2feb5322b0ed263a1d3f6038",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-water-mask.bin.gz": "5334c1554e16ffafa8749e8882a83c8a06a83ed190f47367632d7725f9212d24",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-water-mask.bin.gz": "681dfb0bd7149653b497fecbe5fe4790a1ba40ee6ccf740a171e2d12c542db06",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/water-source-receipt.json": "3c69a8805a7bef66cb9eaca6c17a6ea0bfde1bfc89bf0fd092008de112f9339d",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "a39f38333dbddb659088b4cb2ddf092c4a380ce6520a93a24f044ae8a1af554e",
+  "uncompressed_water_mask_sha256": "1b0ee06921c174373720e34916f254672a9d2f6f41b2e7f3c509386687169a30",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

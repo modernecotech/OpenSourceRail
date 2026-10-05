@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "medina",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "b1fdfa97488b3f00c33c50a1b4de2465e31b00858dff5a661cfc713cb6c9ebe6",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "dd1247f83b93fda7dedc0ecb847e80e91b39c9244695e1bedcca75106dfd8006",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/independent-landcover-samples.bin.gz": "5b908a315389897248dac9d552843f7fd676115ff398046b22ebb59a427edf1d",
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/planning-grid.json": "72b15eacd534987d8afc0c04113046fc0b908e8a861fba3853696be35c8a3913",
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/planning-water-features.json.gz": "b20eeb2f87eef9e296d6891d4cff71df1e6907462cbbebd0a4e69812bf710726",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 12469,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "379946bc6a3279eaffc24c13082a24125bce64d5b42b2261f6e6547e532309bb",
+      "native_window": [
+        4929,
+        27974,
+        3805,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E039_Map.tif",
+      "window_sha256": "e3684db29583886512ea14da89a2fa1155eefc7359bf673532ead09cae588252"
+    }
+  ]
+}

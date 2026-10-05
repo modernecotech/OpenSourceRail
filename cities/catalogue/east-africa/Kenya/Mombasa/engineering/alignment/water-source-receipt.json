@@ -1,0 +1,52 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mombasa",
+  "legacy_osm_missing_geometry_ids": [
+    4288937,
+    7827849,
+    12896488,
+    13410119,
+    14248642
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "253a4febf151fa2f1babe3c7e35cd1616222ecfbf162599f9fa4c98d881bbd8f",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "09bfb71ccd709fcbad0d77739c21441cd2abf6f339a3d96dc277b0f3fa599b72",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Mombasa/engineering/alignment/independent-landcover-samples.bin.gz": "03428754c11f9fee4ac4ec2a0e8a0f4a22f16a025d58ef867da5d3e5817ca925",
+    "cities/catalogue/east-africa/Kenya/Mombasa/engineering/alignment/planning-grid.json": "82937c01c51d12861969ba4ac9211212bc2e1e94c87d73dfdcfbdeb4de090b41",
+    "cities/catalogue/east-africa/Kenya/Mombasa/engineering/alignment/planning-water-features.json.gz": "45e5525e47d9dc22d14873bc79d9bd2d79e10d6c217858711447a207282cd040",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1035047,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b121a3598cffe6e29cf2fbafc856b44aa75ce2794a02fb34c57981ee602f2f04",
+      "native_window": [
+        6284,
+        10792,
+        3471,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S06E039_Map.tif",
+      "window_sha256": "45acb76c5be67486e8a6f39f764e05724a03fedd7822041bf6ba0eb14e0efe47"
+    }
+  ]
+}

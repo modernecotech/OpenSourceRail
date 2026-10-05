@@ -38,6 +38,16 @@ geotiff = [
     "rasterio>=1.3",
 ]
 
+# Water-aware alignment, independent shoreline screening and map rendering.
+geography = [
+    "rasterio>=1.3",
+    "scipy>=1.11",
+    "scikit-image>=0.24",
+    "shapely>=2.0",
+    "staticmap>=0.5.7",
+    "Pillow>=10",
+]
+
 # Extras for the batch driver pulling city lists from public datasets.
 batch = [
     "pycountry>=23",

@@ -21,8 +21,16 @@ def test_infill_follows_the_bent_corridor_and_preserves_original_stations():
     assert all(s['anchor_kind']=='planning:infill' for s in new)
 
 def test_infill_does_not_invent_a_dry_site_for_a_wet_point():
-    args=fixture();args[-1][10*12+2]=100
+    args=fixture();args[-1][:]=bytes([100])*len(args[-1])
     with pytest.raises(ValueError,match='dry in-grid'):module.infill(*args,1500,1200)
+
+def test_partial_water_moves_infill_only_to_a_real_dry_point_with_legal_spacing():
+    args=list(fixture());args[3]={**args[3],'width':120,'height':120,'cell_m':.1};args[4]=bytearray(14400);args[-1][100*120+25]=25
+    new=module.infill(*args,1500,1200)
+    assert new[0]['s_m']!=1250
+    points=[0,*[s['s_m'] for s in new],5000]
+    assert all(1200<=b-a<=1500 for a,b in zip(points,points[1:]))
+    assert all(args[-1][int((10-s['lat'])/.1)*120+int(s['lon']/.1)]==0 for s in new)
 
 def test_spacing_cannot_be_packed_below_the_controlled_minimum():
     args=fixture();args[0][-1]['s_m']=1800

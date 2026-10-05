@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`hoima-line1.aln.toml`](hoima-line1.aln.toml) | `line-1` | 10,323.7 m | 5 |
 | [`hoima-line2.aln.toml`](hoima-line2.aln.toml) | `line-2` | 8,106.3 m | 3 |
-| [`hoima-line3.aln.toml`](hoima-line3.aln.toml) | `line-3` | 5,385.1 m | 2 |
+| [`hoima-line3.aln.toml`](hoima-line3.aln.toml) | `line-3` | 5,385.1 m | 4 |
 
 ## Status
 

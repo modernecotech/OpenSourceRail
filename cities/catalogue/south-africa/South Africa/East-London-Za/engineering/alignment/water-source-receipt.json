@@ -1,0 +1,66 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "east-london-za",
+  "legacy_osm_missing_geometry_ids": [
+    2789475,
+    17062142,
+    20453767
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "f9b28d4d56a70348874aa57a7c7405b9e9c4dbee027b1f8f69ed37b997b1a914",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "e52ccdcf396d3c07336097faf0c1df4f1879a892954f50889fc8c46b69a4ca96",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/independent-landcover-samples.bin.gz": "664df08b44e3c37418cc2f5017f14dd521251f1e4c0021510c1923b41499826e",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-grid.json": "f16b382de69cbbde15dccb449f5f6aef50dabedd1b3f8e97a7e5982c03a9b754",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-water-features.json.gz": "823617dd9c67343087706e8be1a613192bf37c0b55269c430aaa317fdfa06b31",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 446627,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "dba8d498350b86630f878388fb6d31e01bef3d08a1997e96e02128af3b30a839",
+      "native_window": [
+        8836,
+        0,
+        2841,
+        1542
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S36E027_Map.tif",
+      "window_sha256": "9afcb86442a38dd915d80b00547723570d70c73f60d9bdf80496afae1f3a237e"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "03410bab3377cd6b010112cdfded6783e8d4c13ab896eb8d9a95412443057738",
+      "native_window": [
+        8836,
+        35161,
+        2841,
+        839
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S33E027_Map.tif",
+      "window_sha256": "cb1499573d29d4149927c02af4901418799e19cecf2c9f31b1f37e642b0e49cd"
+    }
+  ]
+}

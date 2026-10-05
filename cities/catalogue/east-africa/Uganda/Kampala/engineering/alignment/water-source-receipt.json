@@ -1,0 +1,53 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kampala",
+  "legacy_osm_missing_geometry_ids": [
+    2606941,
+    8102118,
+    8151475,
+    8473264,
+    10555191,
+    17062284
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "1fd17500b2ea88a45f7e251c9aaef351d47d161c33212f5858d29b5b2175eee1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "d617149d4901289e1a759edb4ee6d0cef952cf760f64c6b747efdd2ba818e16f",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Kampala/engineering/alignment/independent-landcover-samples.bin.gz": "3845387192eff08fa749792bbe255da815619a7b675899b473e01151e13a72a3",
+    "cities/catalogue/east-africa/Uganda/Kampala/engineering/alignment/planning-grid.json": "37f4baee9a46a05c57cd80a3a4a68dead95c5a188a2e99b5a278fae33a9b297e",
+    "cities/catalogue/east-africa/Uganda/Kampala/engineering/alignment/planning-water-features.json.gz": "0a9fbd2c71081c80b7b0ec44c8028de33a97b800321e50d0bd7f02dbb5fed21e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 89272,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8a14bec944542a09dcfe457b1c46a1f867ced59fd91246978a61fabb2faeb485",
+      "native_window": [
+        29400,
+        30600,
+        3243,
+        2883
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E030_Map.tif",
+      "window_sha256": "2b6eb31b2ec1a4d2e6cb1ca6836e0caee3c53ed3ab94904e81b91c72029d3c90"
+    }
+  ]
+}

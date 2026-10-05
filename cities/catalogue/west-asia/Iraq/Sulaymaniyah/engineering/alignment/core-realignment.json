@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 45.533643,
     "north": 35.644076,
@@ -6,6 +7,7 @@
     "west": 45.335643
   },
   "core_analytical_length_m": 88724.23086,
+  "core_final_route_length_m": 96868.517985,
   "core_original_length_m": 107874.578802,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13067.83838,
       "line": "line-1",
       "original_cells": 756,
       "original_route_m": 17287.047609,
       "reworked_cells": 608,
-      "reworked_route_m": 13067.83838
+      "reworked_route_m": 13067.83838,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12294.356416,
       "line": "line-2",
       "original_cells": 630,
       "original_route_m": 15139.839815,
       "reworked_cells": 554,
-      "reworked_route_m": 12294.356416
+      "reworked_route_m": 12294.356416,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20436.206333,
       "line": "line-3",
       "original_cells": 567,
       "original_route_m": 27487.059411,
-      "reworked_cells": 947,
-      "reworked_route_m": 26037.66434
+      "reworked_cells": 1106,
+      "reworked_route_m": 26755.760441,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -699,21 +707,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 51070.116857,
       "line": "line-4",
       "original_cells": 424,
       "original_route_m": 55991.951193,
-      "reworked_cells": 2268,
-      "reworked_route_m": 53271.693805
+      "reworked_cells": 2363,
+      "reworked_route_m": 53403.497808,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Sulaymaniyah/alignment-policy.toml": "a2bd180a471426bc25260d389a723fcfa6980eab037efa12c5de9fff6abadbdb",
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/planning-buildability-mask.bin.gz": "8a5993e3df67412807b6c53ea1bcb9aacfaded9ebf4dc57eacc61fe47777b2a1",
     "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/planning-grid.json": "2035766a44f1f123cb58b2a8297fd798eea659ebbeef7b4fe06298b34efc48e6",
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/planning-water-mask.bin.gz": "9fb38fc0c5cb388f526b1b51663d2c88294f10148b7b14d1f370f1f728319477",
     "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/pre-rework-corridors.json.gz": "d3338f106184e6c93815912d3c8394104ea77ede552942d9d277b49b362df60f",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/water-source-receipt.json": "d10b315986f4077b6a5f071ffa10ba6353ac62a1582d89a4fca67a3b8642e54c",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

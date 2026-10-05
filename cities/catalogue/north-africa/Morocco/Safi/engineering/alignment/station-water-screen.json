@@ -1,6 +1,6 @@
 {
   "city": "safi",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,39 +11,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 891,
-      "row": 845,
-      "station_id": "line-1-0845-0891-s003499",
+      "col": 906,
+      "row": 864,
+      "station_id": "line-1-0864-0906-s003508",
       "water_coverage_percent": 0
     },
     {
-      "col": 785,
-      "row": 732,
-      "station_id": "line-1-0732-0785-s007011",
+      "col": 809,
+      "row": 754,
+      "station_id": "line-1-0754-0809-s007015",
       "water_coverage_percent": 0
     },
     {
-      "col": 686,
-      "row": 640,
-      "station_id": "line-1-0640-0686-s010023",
+      "col": 692,
+      "row": 645,
+      "station_id": "line-1-0645-0692-s010598",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 627,
+      "row": 586,
+      "station_id": "line-1-0586-0627-s012565",
       "water_coverage_percent": 0
     },
     {
       "col": 568,
       "row": 532,
-      "station_id": "line-1-0532-0568-s013617",
+      "station_id": "line-1-0532-0568-s014366",
       "water_coverage_percent": 0
     },
     {
       "col": 496,
       "row": 465,
-      "station_id": "line-1-0465-0496-s015799",
+      "station_id": "line-1-0465-0496-s016548",
       "water_coverage_percent": 0
     },
     {
       "col": 426,
       "row": 400,
-      "station_id": "line-1-0400-0426-s017961",
+      "station_id": "line-1-0400-0426-s018709",
       "water_coverage_percent": 0
     },
     {
@@ -53,21 +59,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 582,
-      "row": 489,
-      "station_id": "line-2-0489-0582-s002095",
+      "col": 568,
+      "row": 532,
+      "station_id": "line-2-0532-0568-s003083",
       "water_coverage_percent": 0
     },
     {
-      "col": 560,
-      "row": 556,
-      "station_id": "line-2-0556-0560-s003629",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 527,
-      "row": 659,
-      "station_id": "line-2-0659-0527-s005974",
+      "col": 531,
+      "row": 647,
+      "station_id": "line-2-0647-0531-s005690",
       "water_coverage_percent": 0
     },
     {
@@ -80,6 +80,12 @@
       "col": 652,
       "row": 543,
       "station_id": "line-3-0543-0652-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 627,
+      "row": 586,
+      "station_id": "line-3-0586-0627-s001108",
       "water_coverage_percent": 0
     },
     {
@@ -101,14 +107,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 17,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Morocco/Safi/design.toml": "86fab325005e076f2a098e1f2ce32dbacce8b6ccc4e0e1ab01711166ff014ec5",
+    "cities/catalogue/north-africa/Morocco/Safi/design.toml": "7bb3ac0e324eae89a00cb2f79854c4a59dd9cdf76e1491b75901f67f030f5be4",
     "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/planning-grid.json": "13a03aee25583131f69c2443851e4f796ee14d70c9bcc070ed39273909f1eb93",
-    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/planning-water-mask.bin.gz": "ee29ee7d4b7a64c46d00a117b477f64cdcda5a4ab47d90985963a0d45375b457",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/planning-water-mask.bin.gz": "099ddda209eddc2fd56adf4250cefd594f70f8d2262460ac9afeb349c4c0e0ed",
+    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/water-source-receipt.json": "ee50958e10d69b783ab2fbe50d4420e1cbd7243c368c87eecf057c716b0adafb",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "321a028185bb0fb8729ca7673a805801b7779dfaddde367da4a98673503653d9",
+  "uncompressed_water_mask_sha256": "fd5f9e709470e1d7fc247d4cd43aae5ae1d0c900c9f84d1d24288f7ff4e75d80",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

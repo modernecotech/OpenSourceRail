@@ -1,29 +1,29 @@
 slug: onitsha
 pass: true
 metrics:
-  total_route_m: 173864.6
+  total_route_m: 195433.8
   n_lines: 5
-  n_stations: 55
-  anchor_hit_rate: 0.200
-  high_demand_coverage: 0.656
+  n_stations: 65
+  anchor_hit_rate: 0.138
+  high_demand_coverage: 0.673
   civil_mix_m:
-    at_grade: 51732.7
-    elevated: 110288.6
-    bridge:   11843.4
-  elevated_fraction: 0.702
+    at_grade: 56447.6
+    elevated: 115816.2
+    bridge:   23170.0
+  elevated_fraction: 0.711
   viaduct_products_m:
-    osr_pi20_pi25: 110288.6
-    osr_us:      0.0
-    special:     11843.4
-    realign:     0.0
-  max_elevated_cost_multiplier: 1.000
+    osr_pi20_pi25: 50523.4
+    osr_us:      27126.4
+    special:     23170.0
+    realign:     38166.4
+  max_elevated_cost_multiplier: 34.615
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

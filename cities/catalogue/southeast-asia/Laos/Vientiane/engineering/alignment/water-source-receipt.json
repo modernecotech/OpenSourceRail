@@ -1,0 +1,79 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "vientiane",
+  "legacy_osm_missing_geometry_ids": [
+    215650,
+    5200209,
+    10298424,
+    10298499,
+    10300952,
+    10305308,
+    10305547,
+    10433417,
+    12447410,
+    12487205,
+    12487482,
+    15522828,
+    15532888,
+    20053458,
+    20053459,
+    20116026
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "07c6805234917d9d1a3a27736f164e6048495230cbbbbd469301f0f87e9b2fac",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "fbcd13b42d9040075b70693f50bb9441ef13cb7628bd28f3fb02361d886b202d",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/independent-landcover-samples.bin.gz": "6d0e89e582bdf5da4e633dbe14bafd43dbd540cd0e11b9a6f86d95974a02d779",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-grid.json": "e7b69a5b757553339422b24954d24722b0a8e937b584bae98ff59db04610108c",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/engineering/alignment/planning-water-features.json.gz": "36d5a4e4efe79596b00e0d0ef7c64eb2502eb04b4cfdea0f813f004d89f0043f",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 63305,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d5aca8e17900f1cfc74f383104aa171fea5857f845e5fba39abdc3440c233e0f",
+      "native_window": [
+        6000,
+        0,
+        3363,
+        963
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E102_Map.tif",
+      "window_sha256": "199bcd4799c29b63c149a71bedd37787a453873dbbf8d01406665912f24ddc72"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "91cb1b3ebf3ac5815119e25dad860b96bf6df7616d6863252a9e625247d50eeb",
+      "native_window": [
+        6000,
+        34799,
+        3363,
+        1201
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N18E102_Map.tif",
+      "window_sha256": "9bae87cd537ac9202952cc9482351200d7b5999ce2b860306516dfd165c30a8b"
+    }
+  ]
+}

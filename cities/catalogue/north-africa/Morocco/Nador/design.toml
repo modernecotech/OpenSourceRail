@@ -140,25 +140,26 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0358-0358-s001575"
+id              = "line-1-0362-0348-s001809"
 line            = "line-1"
-lat             = 35.17188212935968
-lon             = -2.9374083574689944
-s_m             = 1575.4
+lat             = 35.17116226469424
+lon             = -2.9396061717655355
+s_m             = 1808.5
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0385-0299-s003002"
+id              = "line-1-0378-0314-s002645"
 line            = "line-1"
-lat             = 35.167023042867946
-lon             = -2.950375461818588
-s_m             = 3002.5
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Hay Oulad Boutaïeb"
-archetype       = "standard"
+lat             = 35.16828280603247
+lon             = -2.947078740373776
+s_m             = 2644.5
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-1-0440-0045-s009051"
@@ -192,11 +193,12 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0378-0362-s009468"
+id              = "line-2-0362-0348-s008985"
 line            = "line-2"
-lat             = 35.16828280603247
-lon             = -2.9365292317503777
-s_m             = 9468.0
+lat             = 35.17116226469424
+lon             = -2.9396061717655355
+s_m             = 8985.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
@@ -233,15 +235,15 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0406-0328-s005290"
+id              = "line-3-0378-0314-s005990"
 line            = "line-3"
-lat             = 35.16324375337437
-lon             = -2.944001800358618
-s_m             = 5290.4
-anchor_kind     = "amenity:college"
-anchor_name     = "Lycée Fayd"
-archetype       = "major"
+lat             = 35.16828280603247
+lon             = -2.947078740373776
+s_m             = 5989.8
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0313-0282-s007590"
@@ -257,10 +259,10 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 35.170082467696076
-lon             = -2.936968794609686
-lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0358-0358-s001575", "line-2-0378-0362-s009468"]
+lat             = 35.169722535363356
+lon             = -2.9433424560696557
+lines           = ["line-1", "line-2", "line-3"]
+platforms       = ["line-1-0362-0348-s001809", "line-1-0378-0314-s002645", "line-2-0362-0348-s008985", "line-3-0378-0314-s005990"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -436,8 +438,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 243290845
 civil_subtotal_eur   = 223827577
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 55500000
-stations_eur         = 51060000
+stations_usd         = 64500000
+stations_eur         = 59340000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 42383210
 depots_eur           = 38992553
@@ -453,10 +455,10 @@ signalling_eur       = 1335264
 charging_microgrid_usd = 1350000
 charging_microgrid_eur = 1242000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 26508680
-epc_overhead_eur     = 24387986
-total_usd            = 405204109  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 372787780  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 27138680
+epc_overhead_eur     = 24967586
+total_usd            = 414834109  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 381647380  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

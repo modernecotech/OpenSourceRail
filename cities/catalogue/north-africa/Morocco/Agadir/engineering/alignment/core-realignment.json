@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -9.523315,
     "north": 30.482789,
@@ -6,6 +7,7 @@
     "west": -9.661195
   },
   "core_analytical_length_m": 44733.575748,
+  "core_final_route_length_m": 50138.930701,
   "core_original_length_m": 57668.753297,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               5200.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 20951.245057,
+          "seed_from_index": 88,
+          "seed_to_index": 401,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 8700.0,
@@ -46,19 +54,33 @@
                 17240.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 20951.245057,
-          "seed_from_index": 88,
-          "seed_to_index": 401,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 17518.906192,
       "line": "line-1",
       "original_cells": 402,
       "original_route_m": 27071.131566,
-      "reworked_cells": 791,
-      "reworked_route_m": 23208.498328
+      "reworked_cells": 1026,
+      "reworked_route_m": 24393.607486,
+      "water_route_changes": [
+        {
+          "detour_route_m": 2358.233765,
+          "from_cell": [
+            637,
+            520
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 1939.655121,
+          "search_work_upper_bound": 2007,
+          "to_cell": [
+            583,
+            451
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -95,11 +117,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17096.652224,
       "line": "line-2",
       "original_cells": 513,
       "original_route_m": 25081.811827,
-      "reworked_cells": 849,
-      "reworked_route_m": 23674.854114
+      "reworked_cells": 1036,
+      "reworked_route_m": 24469.343418,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +160,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15523.372286,
       "line": "line-3",
       "original_cells": 563,
       "original_route_m": 26412.07535,
-      "reworked_cells": 859,
-      "reworked_route_m": 23664.980789
+      "reworked_cells": 1082,
+      "reworked_route_m": 24337.240969,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Agadir/alignment-policy.toml": "e605d5eb317d1c8db494b9a9eb6f3d32399c59a1655c7d0f08127fd4472f81d8",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/planning-buildability-mask.bin.gz": "94f4062f35f229715a0a592a92f1d558b27560aa81fd882e4e775127bd9ef5e4",
     "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/planning-grid.json": "2206ea53a789ba1163c323f046d7b6a1555b59c538d3eb8efc5ba11a14ac06f8",
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/planning-water-mask.bin.gz": "a9190e44c59e2cb0da4e5e14101d9cf9c04098ad88f16da474f8909ced62a2bb",
     "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/pre-rework-corridors.json.gz": "3bac38040307e22a88324e67ebdc07f562505960fb85580c9f669fdfd987b83d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Morocco/Agadir/engineering/alignment/water-source-receipt.json": "68e79a5726f59f275c1f8cf544310a25021b5e72dd0542fcd9001d155c465c98",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

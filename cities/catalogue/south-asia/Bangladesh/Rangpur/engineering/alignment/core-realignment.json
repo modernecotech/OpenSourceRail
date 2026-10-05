@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 89.339606,
     "north": 25.803749,
@@ -6,6 +7,7 @@
     "west": 89.207606
   },
   "core_analytical_length_m": 32812.738411,
+  "core_final_route_length_m": 35574.196231,
   "core_original_length_m": 44142.545142,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11635.189027,
       "line": "line-1",
       "original_cells": 583,
       "original_route_m": 13396.13405,
       "reworked_cells": 514,
-      "reworked_route_m": 11635.189027
+      "reworked_route_m": 11635.189027,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13921.362184,
       "line": "line-2",
       "original_cells": 757,
       "original_route_m": 17696.408358,
       "reworked_cells": 649,
-      "reworked_route_m": 15221.606051
+      "reworked_route_m": 15221.606051,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10017.64502,
       "line": "line-3",
       "original_cells": 608,
       "original_route_m": 14923.383685,
       "reworked_cells": 509,
-      "reworked_route_m": 10590.782105
+      "reworked_route_m": 10590.782105,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Bangladesh/Rangpur/alignment-policy.toml": "d33ac1ff2056ced5af855ef7000e4ffffbcecaa701e37fc78061cd4a7994098c",
+    "cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/planning-buildability-mask.bin.gz": "3880a009edab6edcd2d7e250ae13fad4e0440a1fad6f1f46841d579d1fdf0afc",
     "cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/planning-grid.json": "98b7bbac4c92d9bf23548398da487ecc8db881ea683cbff0fbb23584d0171298",
+    "cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/planning-water-mask.bin.gz": "527f8135788063ded4b9cdd1e47c144b38579b1558683ce56fd43c1583a114bd",
     "cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/pre-rework-corridors.json.gz": "d3843a2176d134953b68af592a245df3f5e9abb376cfb7de7104d5dd05974bc0",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/alignment/water-source-receipt.json": "4b67e9f18b8390eae577df89426ae80059b40a29ac5ca87d8a2803bbda6d5f36",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

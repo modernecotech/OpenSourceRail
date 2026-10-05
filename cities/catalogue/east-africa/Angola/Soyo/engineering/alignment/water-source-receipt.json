@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "soyo",
+  "legacy_osm_missing_geometry_ids": [
+    9529414,
+    9529415,
+    9529416,
+    9615906
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "143539150862f39ee06e03364d3febb85a216b3bb2c2d0dfcf23c82bbd424576",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "3afbdcfc9ae257edea1314a99b0e777f7262e307d84db21e251a074808ed1983",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/independent-landcover-samples.bin.gz": "027838dbc70b19d0d3a533f6ce4e3327747de016ceec068395a1b11141c891bc",
+    "cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/planning-grid.json": "4b9b51b1231dd0f7aa5703fdeba1042e92468f8c4bb6505a01a708b33e8f8678",
+    "cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/planning-water-features.json.gz": "db5fc9f75c4c7ec6e7c25181f19102ccd8422a65aa5e2c67dc1b3bcb20690421",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 207277,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f2f77fac96bc940e7e6d4076e8dc75f7b1e47848528a15b4d84ce4aa6feb99ce",
+      "native_window": [
+        3610,
+        807,
+        1635,
+        1626
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E012_Map.tif",
+      "window_sha256": "3a52f76ee0602baa00942c505803a2398c1b5902743bd14ca15019a4ff4f5b82"
+    }
+  ]
+}

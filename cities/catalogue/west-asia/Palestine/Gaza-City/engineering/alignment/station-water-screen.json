@@ -1,6 +1,6 @@
 {
   "city": "gaza-city",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -14,6 +14,12 @@
       "col": 713,
       "row": 525,
       "station_id": "line-1-0525-0713-s003000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 663,
+      "row": 551,
+      "station_id": "line-1-0551-0663-s004274",
       "water_coverage_percent": 0
     },
     {
@@ -35,15 +41,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 695,
-      "row": 619,
-      "station_id": "line-2-0619-0695-s003010",
+      "col": 722,
+      "row": 581,
+      "station_id": "line-2-0581-0722-s001968",
       "water_coverage_percent": 0
     },
     {
-      "col": 545,
-      "row": 817,
-      "station_id": "line-2-0817-0545-s008471",
+      "col": 671,
+      "row": 651,
+      "station_id": "line-2-0651-0671-s003931",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 530,
+      "row": 834,
+      "station_id": "line-2-0834-0530-s008935",
       "water_coverage_percent": 0
     },
     {
@@ -59,9 +71,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 662,
-      "row": 535,
-      "station_id": "line-3-0535-0662-s003003",
+      "col": 671,
+      "row": 651,
+      "station_id": "line-3-0651-0671-s000597",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 663,
+      "row": 551,
+      "station_id": "line-3-0551-0663-s002663",
       "water_coverage_percent": 0
     },
     {
@@ -71,14 +89,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 11,
-  "schema_version": 1,
+  "platforms_checked": 14,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "416cbe46b37ab5101ba724a8a5941d73983928afbdcfc8dc9c798c2e61ddf86c",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "6d61a1086d8c07cc35256f42c9a917e6a8855209bc0f8e893bfb9c500f9a07e6",
     "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/planning-grid.json": "69ec38a877827364705e692ba55c5e0c5737d796ec541a4cfb173fe5c981a1d2",
-    "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/planning-water-mask.bin.gz": "a41a4f226dff661da55f18e9ab8a3b9ff1c074901a12196a7cd016b91f96ab92",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/planning-water-mask.bin.gz": "14c8a693d033f6ee8a8f52d3a4f7f5b4caad74c7dcbab898bece7d12b68815a5",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/alignment/water-source-receipt.json": "16af22aa0262de3e9624c6e1bee3533de21edf0acbd1d6a74238e2ab58c123b1",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "ec3f88004825f3f792e111c5a086e4b125bb84aead64fa7967a757132363fff1",
+  "uncompressed_water_mask_sha256": "df6a07e1b5576b820bffaf90eafef4a2e2a26317ca4f6858954247e64dc5120a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

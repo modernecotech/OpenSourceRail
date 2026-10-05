@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 25.277545,
     "north": 0.601797,
@@ -6,6 +7,7 @@
     "west": 25.104625
   },
   "core_analytical_length_m": 30816.540692,
+  "core_final_route_length_m": 33374.92783,
   "core_original_length_m": 43120.698693,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               22660.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 22234.651601,
+          "seed_from_index": 57,
+          "seed_to_index": 559,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 18620.0,
@@ -46,19 +54,31 @@
                 6420.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 22234.651601,
-          "seed_from_index": 57,
-          "seed_to_index": 559,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 19590.378054,
       "line": "line-1",
       "original_cells": 560,
       "original_route_m": 24852.75432,
-      "reworked_cells": 900,
-      "reworked_route_m": 22208.480773
+      "reworked_cells": 968,
+      "reworked_route_m": 22214.642123,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            541,
+            230
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 589.705627,
+          "to_cell": [
+            560,
+            244
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -90,7 +110,13 @@
               12560.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 20886.047091,
+          "seed_from_index": 0,
+          "seed_to_index": 456,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 13675.06622,
@@ -246,29 +272,47 @@
               ],
               "turn": -1
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 20886.047091,
-          "seed_from_index": 0,
-          "seed_to_index": 456,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 13784.549776,
       "line": "line-2",
       "original_cells": 457,
       "original_route_m": 20886.047091,
-      "reworked_cells": 613,
-      "reworked_route_m": 14294.499269
+      "reworked_cells": 602,
+      "reworked_route_m": 13784.549776,
+      "water_route_changes": [
+        {
+          "detour_route_m": 3291.959595,
+          "from_cell": [
+            853,
+            842
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 3055.634919,
+          "search_work_upper_bound": 1851,
+          "to_cell": [
+            827,
+            689
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/central-africa/DR Congo/Kisangani/alignment-policy.toml": "3e2b6cd6bee6899889f1768209aa023c6994b0e8ae9199d9dc75a75f4c2889c6",
+    "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/planning-buildability-mask.bin.gz": "7d1c3304034e5e24816ada7b1f701e11d5d27a3752a03a1a1ea04aeba5bc5407",
     "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/planning-grid.json": "e542a53b7cf827e90439663561bb20999b814d27908ddd583d58d2fe6d4f10e3",
+    "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/planning-water-mask.bin.gz": "4e0b93fb883849dda476197e12bbcee198427aa98a694d4646261c98a9835903",
     "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/pre-rework-corridors.json.gz": "d3de08c1e00eb41895039dbab5e8ee4a63333c3539e3380b419d0db3aede675d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/water-source-receipt.json": "a873f7c745e972311302659013c34558e2d9b297d988a0194540436bbdc6c971",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

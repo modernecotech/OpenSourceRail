@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 13.643056,
     "north": 7.376908,
@@ -6,6 +7,7 @@
     "west": 13.523176
   },
   "core_analytical_length_m": 19337.73223,
+  "core_final_route_length_m": 21038.418459,
   "core_original_length_m": 29426.950353,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8167.939392,
       "line": "line-1",
       "original_cells": 534,
       "original_route_m": 12924.7746,
       "reworked_cells": 392,
-      "reworked_route_m": 8167.939392
+      "reworked_route_m": 8167.939392,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6725.239533,
       "line": "line-2",
       "original_cells": 368,
       "original_route_m": 8648.914857,
       "reworked_cells": 283,
-      "reworked_route_m": 6725.239533
+      "reworked_route_m": 6725.239533,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6145.239533,
       "line": "line-3",
       "original_cells": 339,
       "original_route_m": 7853.260896,
       "reworked_cells": 254,
-      "reworked_route_m": 6145.239533
+      "reworked_route_m": 6145.239533,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Ngaoundere/alignment-policy.toml": "012e11d1bbdf2c08f3a5e062e186c0c017c43506b84b0bcfefe7c58168950fd8",
+    "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/planning-buildability-mask.bin.gz": "c3d026c7241438ad92cd75f7bb2cc2cafde090824c7d15ae801e5448e93fdc80",
     "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/planning-grid.json": "8fdeb41acb4ed26dd741b42aed9cf4d46a37c8fce39111446b4303f52cbe6ffe",
+    "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/planning-water-mask.bin.gz": "650bad43d0ee7775d9efea8f91470bc4dbcd860541af64d768ccad5ef92e134c",
     "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/pre-rework-corridors.json.gz": "2bc7ae1115c9140fc6833a145824c77e48b5c3a2bb6ccab63738b3ea28e0c368",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/alignment/water-source-receipt.json": "8b748e1a881fd139fb48836a32a8ce02e96b99db9a828003bbc20286e0d83a8a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 44.041925,
     "north": 26.416169,
@@ -6,6 +7,7 @@
     "west": 43.909205
   },
   "core_analytical_length_m": 42581.735757,
+  "core_final_route_length_m": 47142.707038,
   "core_original_length_m": 56903.01571,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17514.297244,
       "line": "line-1",
       "original_cells": 410,
       "original_route_m": 28048.113518,
-      "reworked_cells": 845,
-      "reworked_route_m": 26440.005361
+      "reworked_cells": 1133,
+      "reworked_route_m": 27030.663761,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15211.79941,
       "line": "line-2",
       "original_cells": 457,
       "original_route_m": 19909.287231,
       "reworked_cells": 622,
-      "reworked_route_m": 15211.79941
+      "reworked_route_m": 15211.79941,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14416.610383,
       "line": "line-3",
       "original_cells": 785,
       "original_route_m": 19026.71413,
       "reworked_cells": 695,
-      "reworked_route_m": 15512.001436
+      "reworked_route_m": 15512.001436,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Buraidah/alignment-policy.toml": "f841f3defef4e0fcbac68690e35ba008323a405909ba986a2b6c0f3d4bcea0bb",
+    "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/planning-buildability-mask.bin.gz": "8cdccacb021edb36e3c1b126288e6a4523219f49e48fa3f8cb2fa1a7c8668c15",
     "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/planning-grid.json": "1a9876f8b3814c43acc8de9cc590c98e4bc2b5969cacc3a0d5360520e410cdeb",
+    "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/planning-water-mask.bin.gz": "eb0d813948c1a81c124322a7b45516d1bcf1f89bccee1b4456e66ceaebceb740",
     "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/pre-rework-corridors.json.gz": "85834ead57955b262ddefba5778353df0991d560a8fe0c57b5ff677fc923ef04",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/alignment/water-source-receipt.json": "dbb1d4236439dc31f8393fabac3b85cf431b5e694f51f93f7eca6c412811a5d3",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

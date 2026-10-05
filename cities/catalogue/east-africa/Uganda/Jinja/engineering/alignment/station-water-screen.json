@@ -1,6 +1,6 @@
 {
   "city": "jinja",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -23,21 +23,27 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 449,
-      "row": 434,
-      "station_id": "line-1-0434-0449-s009599",
+      "col": 424,
+      "row": 463,
+      "station_id": "line-1-0463-0424-s010456",
       "water_coverage_percent": 0
     },
     {
-      "col": 396,
-      "row": 495,
-      "station_id": "line-1-0495-0396-s011422",
+      "col": 384,
+      "row": 508,
+      "station_id": "line-1-0508-0384-s011828",
       "water_coverage_percent": 0
     },
     {
-      "col": 342,
-      "row": 555,
-      "station_id": "line-1-0555-0342-s013233",
+      "col": 380,
+      "row": 512,
+      "station_id": "line-1-0512-0380-s011941",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 349,
+      "row": 547,
+      "station_id": "line-1-0547-0349-s012992",
       "water_coverage_percent": 0
     },
     {
@@ -47,27 +53,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 393,
-      "row": 531,
-      "station_id": "line-2-0531-0393-s003027",
+      "col": 313,
+      "row": 513,
+      "station_id": "line-2-0513-0313-s005634",
       "water_coverage_percent": 0
     },
     {
-      "col": 333,
-      "row": 446,
-      "station_id": "line-2-0446-0333-s005318",
+      "col": 345,
+      "row": 469,
+      "station_id": "line-2-0469-0345-s007508",
       "water_coverage_percent": 0
     },
     {
-      "col": 273,
-      "row": 362,
-      "station_id": "line-2-0362-0273-s007600",
+      "col": 384,
+      "row": 508,
+      "station_id": "line-2-0508-0384-s008611",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 380,
+      "row": 512,
+      "station_id": "line-2-0512-0380-s011023",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 348,
+      "row": 467,
+      "station_id": "line-2-0467-0348-s012261",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 281,
+      "row": 372,
+      "station_id": "line-2-0372-0281-s014807",
       "water_coverage_percent": 0
     },
     {
       "col": 213,
       "row": 277,
-      "station_id": "line-2-0277-0213-s009891",
+      "station_id": "line-2-0277-0213-s017376",
       "water_coverage_percent": 0
     },
     {
@@ -77,15 +101,27 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 220,
-      "row": 655,
-      "station_id": "line-3-0655-0220-s003515",
+      "col": 223,
+      "row": 649,
+      "station_id": "line-3-0649-0223-s003660",
       "water_coverage_percent": 0
     },
     {
-      "col": 305,
-      "row": 524,
-      "station_id": "line-3-0524-0305-s007027",
+      "col": 313,
+      "row": 513,
+      "station_id": "line-3-0513-0313-s007313",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 345,
+      "row": 469,
+      "station_id": "line-3-0469-0345-s008517",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 348,
+      "row": 467,
+      "station_id": "line-3-0467-0348-s008588",
       "water_coverage_percent": 0
     },
     {
@@ -101,14 +137,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Uganda/Jinja/design.toml": "3edbe7586029a73d10af8e31fa3c701ea30699e3590ae7d8360e4d82d69a4693",
+    "cities/catalogue/east-africa/Uganda/Jinja/design.toml": "9ca25f1ac1335f51195ded8a878fc6169f94f57b7f548f248ad3704f58a60b6a",
     "cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/planning-grid.json": "252f5719ad53ea5d7c3bba3c621e982d553fad85c27c0ab8053ee5fe15254461",
-    "cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/planning-water-mask.bin.gz": "44371dac363cca0a86e8a135e7baeaca13b81845e6938395f3023acdfdfac415",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/planning-water-mask.bin.gz": "61340cd1c59898b0984c402fef9c1990eb4fe6427cb78323cb8233ce69b67fda",
+    "cities/catalogue/east-africa/Uganda/Jinja/engineering/alignment/water-source-receipt.json": "f2a556a101f31e1801a79e7f65b626ed700cda5b305c950570ed86abb0abe122",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "5cff3807af5c2672e28f71ec39c16d7bd24e5a3eb7b1b1db445b48a54b98d4b8",
+  "uncompressed_water_mask_sha256": "5734b5aa9c8f5977eab406c4df5e713e43a5c7552dffac55cba53dc604f36606",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

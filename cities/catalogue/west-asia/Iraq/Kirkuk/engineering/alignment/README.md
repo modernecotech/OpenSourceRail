@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kirkuk-line1.aln.toml`](kirkuk-line1.aln.toml) | `line-1` | 18,003.7 m | 7 |
-| [`kirkuk-line2.aln.toml`](kirkuk-line2.aln.toml) | `line-2` | 17,977.7 m | 7 |
-| [`kirkuk-line3.aln.toml`](kirkuk-line3.aln.toml) | `line-3` | 16,769.8 m | 8 |
-| [`kirkuk-line4.aln.toml`](kirkuk-line4.aln.toml) | `line-4` | 22,843.2 m | 8 |
-| [`kirkuk-line5.aln.toml`](kirkuk-line5.aln.toml) | `line-5` | 52,399.8 m | 15 |
+| [`kirkuk-line1.aln.toml`](kirkuk-line1.aln.toml) | `line-1` | 17,500.3 m | 9 |
+| [`kirkuk-line2.aln.toml`](kirkuk-line2.aln.toml) | `line-2` | 17,328.6 m | 9 |
+| [`kirkuk-line3.aln.toml`](kirkuk-line3.aln.toml) | `line-3` | 16,243.5 m | 10 |
+| [`kirkuk-line4.aln.toml`](kirkuk-line4.aln.toml) | `line-4` | 22,250.6 m | 8 |
+| [`kirkuk-line5.aln.toml`](kirkuk-line5.aln.toml) | `line-5` | 52,399.8 m | 18 |
 
 ## Status
 

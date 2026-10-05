@@ -242,6 +242,10 @@ def main() -> int:
         city_dir / f"{slug}.stations.json",
         city_dir / f"{slug}.design-quality.yaml",
         city_dir / "engineering/alignment/README.md",
+        *[city_dir / 'engineering/alignment' / name for name in (
+            'planning-grid.json','planning-water-mask.bin.gz','water-source-receipt.json',
+            'independent-landcover-samples.bin.gz','planning-water-features.json.gz',
+            'planning-buildability-mask.bin.gz')],
         city_dir / "engineering/soil/summary.json",
         city_dir / "engineering/soil/samples.csv",
         city_dir / "engineering/soil/source-receipt.json",

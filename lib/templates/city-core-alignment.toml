@@ -10,5 +10,20 @@ maximum_simplification_tolerance_m = 2000.0
 preferred_fillet_radius_m = 1000.0
 minimum_analytical_radius_m = 300.0
 sample_spacing_m = 20.0
+[water_crossings]
+# Longer open-water runs require a separately approved crossing concept;
+# generic straightening must instead find a land route. Short candidates
+# remain bridges with site/structure releases, never ordinary viaducts.
+maximum_unapproved_run_m = 1000.0
+maximum_endpoint_trim_m = 600.0
+# A long wet coastline tail may instead retain its geographic service area
+# with a nearby dry endpoint and a priced, bounded shore-route replacement.
+maximum_endpoint_relocation_m = 600.0
+# Extend a detour along its existing approaches to clear protected cells;
+# this changes priced scope and remains subject to land/curve review.
+maximum_approach_replacement_m = 3000.0
+# Tiny isolated satellite land patches are not accepted as a generic rail
+# terminal/approach. This planning screen does not release site footprints.
+minimum_shore_component_area_m2 = 100000.0
 [release]
 status = "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"

@@ -15,6 +15,21 @@ def coordinates(nodes: list[list[float]]) -> list[list[float]]:
 
 
 def feature(item: dict, category: str) -> dict | None:
+    if category == "water" and "outer_rings" in item:
+        # Keep inner rings with the containing outer; distinct lake lobes
+        # stay distinct polygons. Coordinates are lon/lat in GeoJSON.
+        def contains(ring, point):
+            x, y = point
+            inside = False
+            for a, b in zip(ring, ring[1:]):
+                if (a[1] > y) != (b[1] > y) and x < (b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0]:
+                    inside = not inside
+            return inside
+        outers = [coordinates(r) for r in item["outer_rings"]]
+        inners = [coordinates(r) for r in item.get("inner_rings", [])]
+        polygons = [[outer, *[hole for hole in inners if contains(outer, hole[0])]] for outer in outers]
+        return {"type": "Feature", "geometry": {"type": "MultiPolygon", "coordinates": polygons},
+                "properties": {"osm_id": item.get("id"), "osm_type": "relation", "kind": item.get("kind", "water")}}
     points = coordinates(item.get("nodes", []))
     if len(points) < 2:
         return None

@@ -1,6 +1,6 @@
 {
   "city": "ilorin",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -8,6 +8,12 @@
       "col": 351,
       "row": 669,
       "station_id": "line-1-0669-0351-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 371,
+      "row": 667,
+      "station_id": "line-1-0667-0371-s000417",
       "water_coverage_percent": 0
     },
     {
@@ -29,15 +35,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 880,
-      "row": 627,
-      "station_id": "line-1-0627-0880-s010928",
+      "col": 887,
+      "row": 626,
+      "station_id": "line-1-0626-0887-s011076",
       "water_coverage_percent": 0
     },
     {
       "col": 925,
       "row": 628,
-      "station_id": "line-1-0628-0925-s012819",
+      "station_id": "line-1-0628-0925-s013109",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +53,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 435,
-      "row": 514,
-      "station_id": "line-2-0514-0435-s003020",
+      "col": 416,
+      "row": 520,
+      "station_id": "line-2-0520-0416-s002578",
       "water_coverage_percent": 0
     },
     {
@@ -59,15 +65,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 771,
-      "row": 398,
-      "station_id": "line-2-0398-0771-s010759",
+      "col": 778,
+      "row": 395,
+      "station_id": "line-2-0395-0778-s010924",
       "water_coverage_percent": 0
     },
     {
       "col": 976,
       "row": 332,
-      "station_id": "line-2-0332-0976-s015494",
+      "station_id": "line-2-0332-0976-s015815",
       "water_coverage_percent": 0
     },
     {
@@ -83,9 +89,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 376,
-      "row": 651,
-      "station_id": "line-3-0651-0376-s006034",
+      "col": 371,
+      "row": 667,
+      "station_id": "line-3-0667-0371-s006396",
       "water_coverage_percent": 0
     },
     {
@@ -95,14 +101,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 15,
-  "schema_version": 1,
+  "platforms_checked": 16,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Nigeria/Ilorin/design.toml": "9064d3048c674278f253a9a46c9b1c5211203cc9ed5f2defa759d6e13f89564b",
+    "cities/catalogue/west-africa/Nigeria/Ilorin/design.toml": "302943e2db29bed5b0259f98fbcac6c167fc2d7d3f70ca52db2646405d5e44ec",
     "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-grid.json": "16601a3dc1c27f31ee8129831e5dd2840cf99de5e8703e857fe3d84fc1c0d2ba",
-    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-water-mask.bin.gz": "c8284467c617d2cbe842f468dcf1213230ac4389a5ff80a01560cda457460c71",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/planning-water-mask.bin.gz": "18e4c84d2b860589268beb080d858ef60cfed6278ecf68aca6cd2b06957fbc18",
+    "cities/catalogue/west-africa/Nigeria/Ilorin/engineering/alignment/water-source-receipt.json": "42ee97ad20abdfd349f297a5da6e566dc2d5a8f2c593ee099c9cbf1c62b6fdcd",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "672ab484992dbbac0cb48b6df369a783df13e7fba10b814dbf6ebbfcb23a8b3e",
+  "uncompressed_water_mask_sha256": "dd4175f96886350af2c86d6813a0e76656f38447d7ffbed953c7a21ee2c7aeb3",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

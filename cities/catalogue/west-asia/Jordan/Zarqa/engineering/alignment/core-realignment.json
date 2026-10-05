@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.15399,
     "north": 32.12761,
@@ -6,6 +7,7 @@
     "west": 36.01371
   },
   "core_analytical_length_m": 42390.810357,
+  "core_final_route_length_m": 47476.575721,
   "core_original_length_m": 53070.457813,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17870.033175,
       "line": "line-1",
       "original_cells": 414,
       "original_route_m": 28663.954189,
-      "reworked_cells": 888,
-      "reworked_route_m": 27658.070044
+      "reworked_cells": 1212,
+      "reworked_route_m": 28370.419895,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17701.160159,
       "line": "line-2",
       "original_cells": 568,
       "original_route_m": 27182.006209,
-      "reworked_cells": 890,
-      "reworked_route_m": 25557.308266
+      "reworked_cells": 1121,
+      "reworked_route_m": 26550.419895,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11905.382387,
       "line": "line-3",
       "original_cells": 657,
       "original_route_m": 15016.966661,
       "reworked_cells": 501,
-      "reworked_route_m": 11905.382387
+      "reworked_route_m": 11905.382387,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Jordan/Zarqa/alignment-policy.toml": "c60062fbbbd86f2731e6fb15c8d2378d0f1d981e7946704f92cc450ebf356da8",
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/planning-buildability-mask.bin.gz": "809d4ab548d11a5c5e6a199577d759622ecccb6040fea6a435edee919cd4905e",
     "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/planning-grid.json": "a1d2d93405b85d6e19771df64c7cbae5aa278c106642f3b0d85d73f3223d7fdb",
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/planning-water-mask.bin.gz": "7aa29de9050370a66187058ec595a4d55c4fa0021d26db0092c5f3d2f7979c77",
     "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/pre-rework-corridors.json.gz": "5440ad7c738eaed928f02e15692a520937989d0b200e252115c547567c0aacd1",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Jordan/Zarqa/engineering/alignment/water-source-receipt.json": "23be44f24f64d560da2d9aa2705736f1894b27045ed2d2a2c860fe3cb6d93364",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,6 +1,6 @@
 {
   "city": "lichinga",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -36,13 +36,15 @@
     }
   ],
   "platforms_checked": 5,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "b511d8036d602a651f7658004126891a84bae24e4e64c970f8241e9ef7d29e58",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-grid.json": "dd52bc0685c7620070639698c462dd182f25951c19d50aabb446d85c03144465",
-    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-water-mask.bin.gz": "df8a9e64221ecfb885fb17b9b06fca9ecd765f29d70b33c18552bf55508c9bad",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-water-mask.bin.gz": "5f50e0b807816943e843d11ea011f851b533cf75d99c13fe36697205c79faf6b",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/water-source-receipt.json": "4a77d68a8d53fea06a6f8c6ec5f6227a05c6da008b8d4c9549b1a6c188ea6f3c",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "82a9fc3cbfae89640855908358174e54126ff9a237f599a2a30f160432467393",
+  "uncompressed_water_mask_sha256": "4470382801d909bf84077ecfcac33849433f3264b241a1d999e3895a26647f99",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

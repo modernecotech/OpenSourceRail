@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "lira",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "2048f63b3617a592ec59048263c99a908eb406823c91722e75aa74bdf9dd5363",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "886761f024dba18727247d5a3a93890e2288268eb365c14faaae60054d53d29c",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/independent-landcover-samples.bin.gz": "b50b9d027db134f4798fb09c2a92ac32da93ebe5570df8af4aa0388996933c0f",
+    "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/planning-grid.json": "d536ad413ebfa95ba8cf600c3f41772a86c87b4e3280c9d12ad16ea639306763",
+    "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/planning-water-features.json.gz": "9a102e3f4b085bbc0a883dc518b65312958cfa81ac3ecb77d9c2660c14412f65",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 469,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8a14bec944542a09dcfe457b1c46a1f867ced59fd91246978a61fabb2faeb485",
+      "native_window": [
+        33987,
+        8190,
+        1626,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E030_Map.tif",
+      "window_sha256": "2c08889a60cef704c37692b9270077293f4b5066cd674c66278964495c7611a8"
+    }
+  ]
+}

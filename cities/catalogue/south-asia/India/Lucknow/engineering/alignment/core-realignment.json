@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 81.090617,
     "north": 26.976751,
@@ -6,6 +7,7 @@
     "west": 80.799857
   },
   "core_analytical_length_m": 252187.808653,
+  "core_final_route_length_m": 274127.825254,
   "core_original_length_m": 304094.411624,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 29524.103884,
       "line": "line-1",
       "original_cells": 420,
       "original_route_m": 45867.895041,
-      "reworked_cells": 1452,
-      "reworked_route_m": 42025.313136
+      "reworked_cells": 2029,
+      "reworked_route_m": 44296.206333,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 26591.75757,
       "line": "line-2",
       "original_cells": 529,
       "original_route_m": 33816.952383,
       "reworked_cells": 1261,
-      "reworked_route_m": 26591.75757
+      "reworked_route_m": 26591.75757,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21051.109653,
       "line": "line-3",
       "original_cells": 572,
       "original_route_m": 26151.889834,
       "reworked_cells": 880,
-      "reworked_route_m": 21051.109653
+      "reworked_route_m": 21051.109653,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17298.82251,
       "line": "line-4",
       "original_cells": 482,
       "original_route_m": 21501.494862,
       "reworked_cells": 856,
-      "reworked_route_m": 17298.82251
+      "reworked_route_m": 17298.82251,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 37022.80805,
       "line": "line-5",
       "original_cells": 454,
       "original_route_m": 51872.973606,
-      "reworked_cells": 1617,
-      "reworked_route_m": 49464.562279
+      "reworked_cells": 2151,
+      "reworked_route_m": 51217.997077,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -259,11 +271,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 33855.516575,
       "line": "line-6",
       "original_cells": 416,
       "original_route_m": 45521.563833,
-      "reworked_cells": 1542,
-      "reworked_route_m": 42054.865881
+      "reworked_cells": 1921,
+      "reworked_route_m": 43378.84702,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -300,11 +314,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23109.301577,
       "line": "line-7",
       "original_cells": 405,
       "original_route_m": 35852.048048,
-      "reworked_cells": 1157,
-      "reworked_route_m": 34513.677487
+      "reworked_cells": 1696,
+      "reworked_route_m": 37172.287143,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -1073,21 +1089,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 85674.405435,
       "line": "line-8",
       "original_cells": 444,
       "original_route_m": 89178.976326,
-      "reworked_cells": 3739,
-      "reworked_route_m": 86094.256336
+      "reworked_cells": 3766,
+      "reworked_route_m": 86160.679605,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Lucknow/alignment-policy.toml": "b06af75f120febd532cc3749357af8f107af6ff02cca1bd0de6cc609bf11fea0",
+    "cities/catalogue/south-asia/India/Lucknow/engineering/alignment/planning-buildability-mask.bin.gz": "a1d1d4fbd0f785a6e980ed26741cf71331cb8ec47645b18a333b9ef630de5b59",
     "cities/catalogue/south-asia/India/Lucknow/engineering/alignment/planning-grid.json": "73781a59c409d0758bf1425eee4263fc89d263671fd644ba499c2bc8acc9eb36",
+    "cities/catalogue/south-asia/India/Lucknow/engineering/alignment/planning-water-mask.bin.gz": "67abfaf582ddc0f7547955fe36a5974f4b772df72b6c839cd269c705ab8428fa",
     "cities/catalogue/south-asia/India/Lucknow/engineering/alignment/pre-rework-corridors.json.gz": "cc96d8925cca768506de1fc30a39e8ec32fce9778f59dc09f5224e30db4cec91",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Lucknow/engineering/alignment/water-source-receipt.json": "3510304947fe5383234460ccf8a9578f0955c33ad079e457d0c3a975b67e71af",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,0 +1,68 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "galle",
+  "legacy_osm_missing_geometry_ids": [
+    1412066,
+    1412092,
+    2044080,
+    17473711,
+    17859367
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "7ca43882a271b64331d4dca25834eb30c6410687a706f8f2f473de5d750528b3",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "19d793c94110c868a457e5f4813aa2ca3958dc6bbe68297a9ffbc2d23187cd4d",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/independent-landcover-samples.bin.gz": "4531de4d5160cdb0dea627c211e89201d271294d9282ffaec202fdb0a9919f0e",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/planning-grid.json": "ab792d041dc39d314e76e7dcacc8a1ae5982ffd8322192a01f2fcf70f215dd42",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/engineering/alignment/planning-water-features.json.gz": "3513f619874f78ee0d39aff2f6ccc48deae83d13719919e3bf9f7278992ee7c6",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 507173,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e6ee55a91412731880f25f33634d260a910a577ec21725aaa8cdb50062cf5b4a",
+      "native_window": [
+        25455,
+        0,
+        2396,
+        550
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N03E078_Map.tif",
+      "window_sha256": "49761a54a4cd8fd6a849e346aeb2b9514073eb4ba08ac79dee81954ac6c83551"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "a2de57f330a5a2e36014a3d0e86e8538f3b014d6ed8d7070165a2288a8e4b899",
+      "native_window": [
+        25455,
+        34168,
+        2396,
+        1832
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E078_Map.tif",
+      "window_sha256": "d0deaf2f71bf44257b8396595e14952f4a4f29f5ac36b738fe4031283c88fb06"
+    }
+  ]
+}

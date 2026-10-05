@@ -1,0 +1,88 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "basra",
+  "legacy_osm_missing_geometry_ids": [
+    3108,
+    6149272,
+    10554842,
+    10693766,
+    12650209,
+    12681497,
+    13035771,
+    13035772,
+    13035773,
+    13035774,
+    13155246,
+    15931428,
+    15931429,
+    16250979,
+    16529233,
+    18101753,
+    20162533,
+    20448067,
+    20501435,
+    20665447,
+    20814165,
+    20818598,
+    20818604,
+    20818663,
+    21062065
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "a80939d73a49cd184d700a18fcbc3496b1186fb64beacd9422f574ee87dc3ea3",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "b1c6507ba329b2a138bc172043943d13349a2d3fe7cbda51ba68251c8bc4754b",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/independent-landcover-samples.bin.gz": "a13f599be4c6b819e589683bf725b56adf98ce9fed310f19269647769faff070",
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/planning-grid.json": "9fd3a208ee96cc0b0e9153c51577fb6b275ac87011bd7f3430c487260fb7d980",
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/planning-water-features.json.gz": "bae54a957e37efebc1ed8856e011d4a7bd0cfb6292aeca69a4e61ba80249ab5c",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 471003,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "27bbb131d2c9936c263fee4ae6e9be8df8ac82040a721c589b5aecee33ed45c5",
+      "native_window": [
+        30600,
+        27000,
+        5400,
+        5403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E045_Map.tif",
+      "window_sha256": "f5f00604e360515f73b0e9863c27e6425e6c0ddc4e8a861c544129e791b26295"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "3bb85e83847bfd23bdf0b47fb8b98e7b7bf71564ee40f47ed516b7e36669e44d",
+      "native_window": [
+        0,
+        27000,
+        603,
+        5403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E048_Map.tif",
+      "window_sha256": "7820af81f6e5d5f274bd81de4c99388e6fc4889fe7b5a93b7f17098119a53cfa"
+    }
+  ]
+}

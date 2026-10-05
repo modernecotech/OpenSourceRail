@@ -68,7 +68,7 @@ length_m        = 10590.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 240
 
 [[civil_segments]]
 line            = "line-1"
@@ -262,11 +262,12 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0547-0631-s003016"
+id              = "line-1-0544-0622-s003221"
 line            = "line-1"
-lat             = 25.744468523917504
-lon             = 89.2911588073863
-s_m             = 3016.2
+lat             = 25.745008422416586
+lon             = 89.28936366998887
+s_m             = 3221.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
@@ -283,13 +284,12 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0456-0383-s008824"
+id              = "line-1-0455-0381-s008872"
 line            = "line-1"
-lat             = 25.76084544505633
-lon             = 89.24169279910159
-s_m             = 8823.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Kabir Uddin Memorial College Hospital"
+lat             = 25.76102541122269
+lon             = 89.24129387967993
+s_m             = 8872.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 1
@@ -335,21 +335,22 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0562-0614-s009746"
+id              = "line-2-0544-0622-s009308"
 line            = "line-2"
-lat             = 25.74176903142209
-lon             = 89.28776799230226
-s_m             = 9746.3
+lat             = 25.745008422416586
+lon             = 89.28936366998887
+s_m             = 9308.3
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-2-0674-0560-s012481"
+id              = "line-2-0666-0564-s012276"
 line            = "line-2"
-lat             = 25.72161282078969
-lon             = 89.2769971679177
-s_m             = 12480.5
+lat             = 25.723052550120578
+lon             = 89.277795006761
+s_m             = 12275.7
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -385,25 +386,15 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0463-0382-s004899"
+id              = "line-3-0455-0381-s005079"
 line            = "line-3"
-lat             = 25.759585681891803
-lon             = 89.24149333939076
-s_m             = 4898.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Kabir Uddin Memorial College Hospital"
+lat             = 25.76102541122269
+lon             = 89.24129387967993
+s_m             = 5078.8
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 1
-
-[[stations]]
-id              = "line-3-0372-0373-s006805"
-line            = "line-3"
-lat             = 25.77596260303063
-lon             = 89.23969820199332
-s_m             = 6805.1
-archetype       = "standard"
-platform_length_m = 59.5
 
 [[stations]]
 id              = "line-3-0191-0361-s010591"
@@ -419,18 +410,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 25.7431187776698
-lon             = 89.28946339984428
+lat             = 25.745008422416586
+lon             = 89.28936366998887
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0547-0631-s003016", "line-2-0562-0614-s009746"]
+platforms       = ["line-1-0544-0622-s003221", "line-2-0544-0622-s009308"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = 25.760215563474066
-lon             = 89.24159306924616
+lat             = 25.76102541122269
+lon             = 89.24129387967993
 lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0456-0383-s008824", "line-3-0463-0382-s004899"]
+platforms       = ["line-1-0455-0381-s008872", "line-3-0455-0381-s005079"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -590,14 +581,14 @@ station = "line-3-0698-0406-s000000"
 line = "line-3"
 archetype = "main-heavy"
 fleet_stalls = 5
-storage_slots = 34
+storage_slots = 35
 storage_tracks = 12
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 2023.0
+storage_track_m = 2082.5
 workshop_bays = 5
 planning_land_area_m2 = 27953.0
-reference_cost_usd = 16456105
+reference_cost_usd = 16470980
 site_accepted = false
 physical_release = false
 
@@ -619,11 +610,11 @@ trainset_count     = 47
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 30
+peak_count         = 31
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 34
+trainset_count     = 35
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -646,27 +637,27 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 356191841
 civil_subtotal_eur   = 327696493
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 74500000
-stations_eur         = 68540000
+stations_usd         = 72000000
+stations_eur         = 66240000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 52314203
-depots_eur           = 48129067
+depots_usd           = 52329078
+depots_eur           = 48142752
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 107100000
-rolling_stock_eur    = 98532000
+rolling_stock_usd    = 108000000
+rolling_stock_eur    = 99360000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1872379
 signalling_eur       = 1722589
-charging_microgrid_usd = 1750000
-charging_microgrid_eur = 1610000
+charging_microgrid_usd = 1650000
+charging_microgrid_eur = 1518000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 41560990
-epc_overhead_eur     = 38236111
-total_usd            = 635289413  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 584466260  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 41443031
+epc_overhead_eur     = 38127589
+total_usd            = 633486329  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 582807423  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -681,7 +672,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 18207000
+fleet_core_electrical_usd = 18360000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

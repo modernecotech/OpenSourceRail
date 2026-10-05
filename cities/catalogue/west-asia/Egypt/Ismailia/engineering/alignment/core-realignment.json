@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 32.34224,
     "north": 30.656708,
@@ -6,6 +7,7 @@
     "west": 32.20412
   },
   "core_analytical_length_m": 32736.845987,
+  "core_final_route_length_m": 39014.481938,
   "core_original_length_m": 43605.843837,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11564.894655,
       "line": "line-1",
       "original_cells": 670,
       "original_route_m": 15517.341982,
       "reworked_cells": 508,
-      "reworked_route_m": 11564.894655
+      "reworked_route_m": 11564.894655,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -74,7 +78,13 @@
               17280.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 503.606798,
+          "seed_from_index": 40,
+          "seed_to_index": 52,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 4320.0,
@@ -87,12 +97,7 @@
                 17760.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 503.606798,
-          "seed_from_index": 40,
-          "seed_to_index": 52,
-          "simplification_tolerance_m": 600.0
+          ]
         },
         {
           "analytical_length_m": 13574.166641,
@@ -106,7 +111,13 @@
               8380.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 17923.563314,
+          "seed_from_index": 85,
+          "seed_to_index": 487,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 15540.0,
@@ -119,19 +130,31 @@
                 16020.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 17923.563314,
-          "seed_from_index": 85,
-          "seed_to_index": 487,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 15770.966799,
       "line": "line-2",
       "original_cells": 488,
       "original_route_m": 21524.264879,
-      "reworked_cells": 726,
-      "reworked_route_m": 18788.061566
+      "reworked_cells": 832,
+      "reworked_route_m": 19287.535342,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            179,
+            919
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 20.0,
+          "to_cell": [
+            179,
+            920
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -147,7 +170,13 @@
               10860.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 9661.331743,
+          "seed_from_index": 0,
+          "seed_to_index": 411,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 8220.0,
@@ -160,29 +189,47 @@
                 12780.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 9661.331743,
-          "seed_from_index": 0,
-          "seed_to_index": 411,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 11678.620485,
       "line": "line-3",
       "original_cells": 412,
       "original_route_m": 9661.331743,
-      "reworked_cells": 395,
-      "reworked_route_m": 8675.29004
+      "reworked_cells": 517,
+      "reworked_route_m": 11678.620485,
+      "water_route_changes": [
+        {
+          "detour_route_m": 5310.437226,
+          "from_cell": [
+            703,
+            614
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2287.106781,
+          "search_work_upper_bound": 14057,
+          "to_cell": [
+            598,
+            589
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Ismailia/alignment-policy.toml": "965689c02ed5acc97422b9fd8546989c6b8d0f14342603106d9343c0b195151f",
+    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-buildability-mask.bin.gz": "1dfa1ec0f7e28bb12e933fb612c87e799285a62b33a5831caeb09f28a9ca597d",
     "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-grid.json": "bce7a967b911fa78d8031ae803c15905b3f99a4e8ebde6a0dbb7a6fdbf4cffc1",
+    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-water-mask.bin.gz": "099f1993764ad0cfac39c6d5fab4ce233049b7f6b1a7e639560cbd81d36b5efc",
     "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/pre-rework-corridors.json.gz": "cff6d0f24a1a483a61fc5aa894b440514b2851a7e59721d0d1b6484cae880fe1",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/water-source-receipt.json": "69d46cb19d1288b8b34b510fa3a0fed3a070340c43d200e0f887579b382e4ef5",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

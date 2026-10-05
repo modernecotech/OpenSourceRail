@@ -1,0 +1,49 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "dammam",
+  "legacy_osm_missing_geometry_ids": [
+    15998429,
+    15999480
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "b02c6bd8c9d003dfb1af80a89631aac3fb254954e5c08431af268fbd0959964c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "63dc485e2e5c062a932148fc9730e35929e8c63e89f1d381207386cb5cce47a0",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/alignment/independent-landcover-samples.bin.gz": "627ae437751acbdbdee40d090408a8839c261997d63f4bba217b10e489df9173",
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/alignment/planning-grid.json": "17154e693581af950a62fadf31dbf57eb84d2be20fd7fa5c7990ceb5e02d6dce",
+    "cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/alignment/planning-water-features.json.gz": "fc2b1c1fc46e38d633d24bf9de05302f2113f52a006789a2895962c25674ea91",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 670674,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b8cbdfcced2a796fb5341d6102551fc13d2fb8521ea5b8895a9b7bfe71bb4899",
+      "native_window": [
+        23133,
+        5222,
+        3868,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E048_Map.tif",
+      "window_sha256": "087f0cd9b81e46acfaac9a687998d15f7a0db4b6dbf0a13532aeafcda098d352"
+    }
+  ]
+}

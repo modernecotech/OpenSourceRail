@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "rajshahi",
+  "legacy_osm_missing_geometry_ids": [
+    9462652,
+    9462889,
+    14272132,
+    17802257
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "4d217ed2c4a07bdcef503b2c9ca15818457e523ef43eececc5c043cedb24aee5",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "04a8dd4d87baf3693d9b4b8ce9314c6a6c3519491da4d3ec3357a9976177de43",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/independent-landcover-samples.bin.gz": "baca315686cb18888aec80f5202acaeb8f08c55e975c0092d8fdaeb5af7f31c7",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/planning-grid.json": "6883e4ff26073418d15d7dd004118d401e9efcc04264ef948cdef4b6ba1ec2af",
+    "cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/alignment/planning-water-features.json.gz": "17596cf855458803f80222a4fe664c375466319d205178e9908b66af27e70631",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 191553,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f9979e90b9b6247a3229efc31493383b4f3333c235c6ced4439726c1b585300e",
+      "native_window": [
+        17944,
+        30316,
+        2615,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E087_Map.tif",
+      "window_sha256": "dfe8e0b7e1ce475559edd6f597ac856e390688874b68b91801716036c4326aa6"
+    }
+  ]
+}

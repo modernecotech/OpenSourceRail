@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 39.666884,
     "north": 24.607058,
@@ -6,6 +7,7 @@
     "west": 39.476804
   },
   "core_analytical_length_m": 130019.85647,
+  "core_final_route_length_m": 143976.851276,
   "core_original_length_m": 148772.468493,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 25006.054814,
       "line": "line-1",
       "original_cells": 471,
       "original_route_m": 32986.791333,
-      "reworked_cells": 1115,
-      "reworked_route_m": 31908.533353
+      "reworked_cells": 1344,
+      "reworked_route_m": 32733.548314,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19119.393924,
       "line": "line-2",
       "original_cells": 452,
       "original_route_m": 20755.927651,
       "reworked_cells": 783,
-      "reworked_route_m": 19119.393924
+      "reworked_route_m": 19119.393924,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15804.936495,
       "line": "line-3",
       "original_cells": 457,
       "original_route_m": 20019.060569,
-      "reworked_cells": 704,
-      "reworked_route_m": 18299.607553
+      "reworked_cells": 778,
+      "reworked_route_m": 18605.180362,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20224.591617,
       "line": "line-4",
       "original_cells": 514,
       "original_route_m": 23716.240043,
-      "reworked_cells": 924,
-      "reworked_route_m": 23348.48637
+      "reworked_cells": 1024,
+      "reworked_route_m": 23806.845584,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -197,7 +207,13 @@
               25920.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 13189.265946,
+          "seed_from_index": 0,
+          "seed_to_index": 293,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 16600.0,
@@ -210,19 +226,31 @@
                 14500.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 13189.265946,
-          "seed_from_index": 0,
-          "seed_to_index": 293,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 13255.432893,
       "line": "line-5",
       "original_cells": 410,
       "original_route_m": 18261.620719,
-      "reworked_cells": 700,
-      "reworked_route_m": 18347.787667
+      "reworked_cells": 887,
+      "reworked_route_m": 19443.128419,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            623,
+            725
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 20.0,
+          "to_cell": [
+            623,
+            726
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -848,21 +876,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 50566.441533,
       "line": "line-6",
       "original_cells": 439,
       "original_route_m": 58130.961126,
-      "reworked_cells": 2285,
-      "reworked_route_m": 57640.048373
+      "reworked_cells": 2601,
+      "reworked_route_m": 58528.005743,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Medina/alignment-policy.toml": "4b9c5ace3e2080048a99776d9293eb5c7869555879ed4973800b68f41d2f94c4",
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/planning-buildability-mask.bin.gz": "c863f7c18d579c37448ee5005b36cdcfe3f810fa8b94b6f46b0b0b0a4f1f0616",
     "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/planning-grid.json": "72b15eacd534987d8afc0c04113046fc0b908e8a861fba3853696be35c8a3913",
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/planning-water-mask.bin.gz": "242fa2165586374538e1b28987bf33755cbf0e95d17f4e8d56a4c9b1621df3c7",
     "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/pre-rework-corridors.json.gz": "e6bd284548d833f0e466555f533ee10703a918dcf967c0f79e2744183b57409c",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/alignment/water-source-receipt.json": "2420a973649bca95b01477e0572f6d9c155c79a087500d8793f8dae4e908a478",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

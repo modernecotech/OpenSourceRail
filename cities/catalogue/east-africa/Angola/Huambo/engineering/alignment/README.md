@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`huambo-line1.aln.toml`](huambo-line1.aln.toml) | `line-1` | 18,711.5 m | 6 |
-| [`huambo-line2.aln.toml`](huambo-line2.aln.toml) | `line-2` | 9,957.4 m | 5 |
-| [`huambo-line3.aln.toml`](huambo-line3.aln.toml) | `line-3` | 13,609.5 m | 6 |
+| [`huambo-line1.aln.toml`](huambo-line1.aln.toml) | `line-1` | 18,711.5 m | 7 |
+| [`huambo-line2.aln.toml`](huambo-line2.aln.toml) | `line-2` | 9,957.4 m | 6 |
+| [`huambo-line3.aln.toml`](huambo-line3.aln.toml) | `line-3` | 13,609.5 m | 4 |
 
 ## Status
 

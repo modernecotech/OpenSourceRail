@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "safi",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "fd5f9e709470e1d7fc247d4cd43aae5ae1d0c900c9f84d1d24288f7ff4e75d80",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "70c4900dedfdf77d6283eb8541336e87884d37463765be8c82a19a9824004005",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/independent-landcover-samples.bin.gz": "5c5dfb41a0949f9c2878eec3a62e9f79f6223853f042865ce5e9e9478fbc43c1",
+    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/planning-grid.json": "13a03aee25583131f69c2443851e4f796ee14d70c9bcc070ed39273909f1eb93",
+    "cities/catalogue/north-africa/Morocco/Safi/engineering/alignment/planning-water-features.json.gz": "5d9b693a0eda4aa95bfc36166f3536d3403f55805af3924a150d9eda2f114f42",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 471635,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "87b837cf380b82fbf76b904d8e9f2b058b1e439723aa9d604add375c3d1461ca",
+      "native_window": [
+        31747,
+        7218,
+        2816,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30W012_Map.tif",
+      "window_sha256": "1ff942095fc6088a4f11dc5fe2adbf1b648bbaeca2d424fc77f7037371380ce2"
+    }
+  ]
+}

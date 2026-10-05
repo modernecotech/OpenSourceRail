@@ -1,6 +1,6 @@
 {
   "city": "malindi",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -14,6 +14,12 @@
       "col": 271,
       "row": 239,
       "station_id": "line-1-0239-0271-s003551",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 307,
+      "row": 280,
+      "station_id": "line-1-0280-0307-s004798",
       "water_coverage_percent": 0
     },
     {
@@ -35,9 +41,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 305,
-      "row": 290,
-      "station_id": "line-2-0290-0305-s003000",
+      "col": 307,
+      "row": 280,
+      "station_id": "line-2-0280-0307-s003217",
       "water_coverage_percent": 0
     },
     {
@@ -59,14 +65,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 9,
-  "schema_version": 1,
+  "platforms_checked": 10,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "47afdc66ae07cf9068f08aea47b8d88c85af42a49f5ad122f9fa2fbc757a7408",
+    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "6edc971dffed1f29cedcde33d3befba0e508f2f33e033742c34d3d73810b7746",
     "cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/planning-grid.json": "415f43a6cb2e1d0322761770ec3b1a6ed02176c5c8e8cfe181c592809ceabb83",
-    "cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/planning-water-mask.bin.gz": "e019c7ba613ff09e2716ce3f19657c50d33c223157fc0364f2569ce6105cd9f6",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/planning-water-mask.bin.gz": "5f37bd52d168f24085c539ccd8ef9024435e064f051dc03b29325d0e2d0e9948",
+    "cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/water-source-receipt.json": "0332f3eb4769665fd0ded3317c64a991a5988aae756b9ce9ee45e01b8bd16382",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "3e6949f2e09daef5c497165d08b34029ef1fee575e37e52875617564b9eacaf2",
+  "uncompressed_water_mask_sha256": "27fda3c0cb19979b0df4a490006b05cdd193eb8ec64f988d140181bc2526b62f",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

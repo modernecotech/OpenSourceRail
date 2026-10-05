@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "herat",
+  "legacy_osm_missing_geometry_ids": [
+    17065315
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "eba7f22e997e135946d8198c75f2d2bfeb08831edf25af5b7f359656abb93aad",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "74630ad0151f16f29952edd4b5488e818971dca6184d41d679f6a7d85983a307",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/independent-landcover-samples.bin.gz": "14f0f2e0d563e0cc83bd0d4b3402e1ef2b538916912f90cbec0811278c5a3e7e",
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-grid.json": "d7d537fbcbd422b2f1aba7f3644c16b0422ad0c6eb8eccaa2efd0a2962295f11",
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-water-features.json.gz": "d5407b508e328a546454bd667a1fd2a9d8a71a1bcf357d0616ec089d28901526",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 5556,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "175fef3a3568b0beb90b3395bb497a9609e39c3de5cc0344433b73c4872e44a5",
+      "native_window": [
+        25008,
+        18576,
+        2883,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E060_Map.tif",
+      "window_sha256": "06573b78e56eac26c774c77e44d463de90fa8c0cca13795dc28ba3299dd3e80c"
+    }
+  ]
+}

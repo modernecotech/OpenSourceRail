@@ -1,6 +1,6 @@
 {
   "city": "arua",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,21 +11,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 306,
-      "row": 322,
-      "station_id": "line-1-0322-0306-s002076",
+      "col": 333,
+      "row": 353,
+      "station_id": "line-1-0353-0333-s003002",
       "water_coverage_percent": 0
     },
     {
-      "col": 366,
-      "row": 392,
-      "station_id": "line-1-0392-0366-s004137",
+      "col": 380,
+      "row": 409,
+      "station_id": "line-1-0409-0380-s004617",
       "water_coverage_percent": 0
     },
     {
-      "col": 433,
-      "row": 471,
-      "station_id": "line-1-0471-0433-s006448",
+      "col": 408,
+      "row": 443,
+      "station_id": "line-1-0443-0408-s005599",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +47,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 374,
-      "row": 408,
-      "station_id": "line-2-0408-0374-s008208",
+      "col": 414,
+      "row": 414,
+      "station_id": "line-2-0414-0414-s007346",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 380,
+      "row": 409,
+      "station_id": "line-2-0409-0380-s008079",
       "water_coverage_percent": 0
     },
     {
@@ -71,15 +77,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 426,
-      "row": 353,
-      "station_id": "line-3-0353-0426-s006216",
+      "col": 414,
+      "row": 414,
+      "station_id": "line-3-0414-0414-s007548",
       "water_coverage_percent": 0
     },
     {
-      "col": 406,
-      "row": 451,
-      "station_id": "line-3-0451-0406-s008366",
+      "col": 408,
+      "row": 443,
+      "station_id": "line-3-0443-0408-s008189",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +95,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 15,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Uganda/Arua/design.toml": "2070cec83c68eb8c11738b11dba2d26030f2825b215f314f6cf64ee83551cdcb",
+    "cities/catalogue/east-africa/Uganda/Arua/design.toml": "86cedc1a280cf85fa332ec7d9392c4f0869a94961c5e72311abf8a443a5334e6",
     "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/planning-grid.json": "46624c86e6996af81a73381d51b8da7e9c30d864eba98967929159f9c2c0f834",
-    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/planning-water-mask.bin.gz": "8d8109ec406fd0f75cdbf5e024d7b617605ec1a5b1e841485301eef0a30fd85b",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/planning-water-mask.bin.gz": "50c087a6fc3c7b6d90a5ee6af9790a6e119a150b4db645a74e2bb1f2585f1029",
+    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/water-source-receipt.json": "cc2b563828264aed807c8e57d2363b4795ffe470f2afb9d1f575b81a1fc9a4aa",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "688024333a58e5983f48a4b2e17bb908599319d0a6801c75554106247bea93c6",
+  "uncompressed_water_mask_sha256": "4904e3d23143b550a3cdea12dd0cd006729c3409c3fc20ef0fd1e251e4cddb6a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

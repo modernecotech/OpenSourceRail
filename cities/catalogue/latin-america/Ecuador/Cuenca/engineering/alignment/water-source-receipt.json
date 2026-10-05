@@ -1,0 +1,68 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "cuenca",
+  "legacy_osm_missing_geometry_ids": [
+    3553806,
+    6077527,
+    6087833,
+    6087895,
+    18080622
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "88681eb29bbb1e129f492e6aae1f9b8b77e95bf12202fd8640cd479b4087b30c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "bedbeb8a0821e2165733bb927d46cdff3d6256442f566397351a139cb5ed1819",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/latin-america/Ecuador/Cuenca/engineering/alignment/independent-landcover-samples.bin.gz": "6a75e120a33707b0dbed32576a217003f192a6fc9286ea6189afe8c1f60620ec",
+    "cities/catalogue/latin-america/Ecuador/Cuenca/engineering/alignment/planning-grid.json": "2d57153b1a43e8ee8b2425d3b1fd634f3670c2d5f356a8db3e46be9dcf839c93",
+    "cities/catalogue/latin-america/Ecuador/Cuenca/engineering/alignment/planning-water-features.json.gz": "77131e7fedb7999207927c333056362b60e43ba446d3d28543f555f2ad3924fa",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 10837,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ceb08f5f69376cedaf591f0d478b8141cf3dda0aebee20fe147e0ea29b6d4436",
+      "native_window": [
+        22800,
+        0,
+        2403,
+        3
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S06W081_Map.tif",
+      "window_sha256": "a64dfc5f5bfb4b0b133a5ea9a8caaa63d4bb153af3530f363253ecb3b3ed991e"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d8298afcbb9c97aa8c2e9824dbc64b31648a98bd727b1894dbf3a873017c4412",
+      "native_window": [
+        22800,
+        33600,
+        2403,
+        2400
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03W081_Map.tif",
+      "window_sha256": "21de231a21d17cf09be2275f54760cac27596c1f23fdf2fd39033b4920d0a26b"
+    }
+  ]
+}

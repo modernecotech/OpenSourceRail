@@ -166,6 +166,13 @@ pub fn relocate_water_platforms_with_limit(
 ) -> Result<Vec<serde_json::Value>> {
     type Candidate = (f64, f64, usize, usize); // shift, chainage, row, col
     let candidates = |station: &osr_routing::station::Station| -> Result<Vec<Candidate>> {
+        if station.mandatory_crossing {
+            ensure!(
+                !grid.excludes_station_for_water(station.row, station.col),
+                "Mandatory crossing platform is wet; review alignment"
+            );
+            return Ok(vec![(0.0, station.s_m, station.row, station.col)]);
+        }
         let line = lines
             .iter()
             .find(|l| l.name == station.line_name)
@@ -187,6 +194,7 @@ pub fn relocate_water_platforms_with_limit(
                 let shift = (s - station.s_m).abs();
                 (shift <= maximum_shift_m
                     && (!endpoint || shift < 1.0)
+                    && (!station.mandatory_crossing || shift < 1.0)
                     && !grid.excludes_station_for_water(r, c))
                 .then_some((shift, s, r, c))
             })
@@ -423,9 +431,13 @@ impl Policy {
                 .ok_or_else(|| anyhow::anyhow!("Missing core runs"))?;
             // A retained raster fragment has no analytical radius certificate.
             // Keep its raster curvature and special-product gates after elevating.
-            if runs.iter().any(|run| {
-                run["geometry_basis"].as_str() == Some("retained-raster-requires-geometry-review")
-            }) {
+            if runs.is_empty()
+                || runs.iter().any(|run| {
+                    run["geometry_basis"]
+                        .as_str()
+                        .is_some_and(|basis| basis != "analytical-tangents-and-circular-fillets")
+                })
+            {
                 continue;
             }
             let radius = runs
@@ -566,6 +578,7 @@ mod tests {
             terrain_slope_percent: None,
         };
         let mut stations = vec![Station {
+            mandatory_crossing: false,
             row: 0,
             col: 1,
             lat: 0.5,
@@ -664,6 +677,7 @@ mod tests {
                     s_m: c as f64 * 100.0,
                     demand: 1.0,
                     junction_group: Some(0),
+                    mandatory_crossing: false,
                 }
             })
             .collect();
@@ -818,6 +832,7 @@ mod tests {
             s_m: col as f64 * 100.0,
             demand: 1.0,
             junction_group: group,
+            mandatory_crossing: false,
         };
         let mut stations = vec![
             make(0, None),
@@ -851,9 +866,10 @@ mod tests {
         )
         .unwrap();
         std::fs::write(directory.join("engineering/alignment/core-realignment.json"),
-            r#"{"lines":[{"line":"retained","core_runs":[{"geometry_basis":"retained-raster-requires-geometry-review","controls":[]}]},{"line":"arc","core_runs":[{"controls":[{"radius_m":1000.0}]}]}]}"#).unwrap();
+            r#"{"lines":[{"line":"retained","core_runs":[{"geometry_basis":"retained-raster-requires-geometry-review","controls":[]}]},{"line":"detoured","core_runs":[{"geometry_basis":"superseded-by-water-constrained-route-requires-geometry-review","controls":[],"superseded_analytical_controls":[{"radius_m":1000.0}]}]},{"line":"arc","core_runs":[{"controls":[{"radius_m":1000.0}]}]}]}"#).unwrap();
         let policy = Policy::load(&directory).unwrap().unwrap();
         assert!(!policy.analytical_radius.contains_key("retained"));
+        assert!(!policy.analytical_radius.contains_key("detoured"));
         assert_eq!(policy.analytical_radius["arc"], 1000.0);
         std::fs::remove_dir_all(directory).unwrap();
     }

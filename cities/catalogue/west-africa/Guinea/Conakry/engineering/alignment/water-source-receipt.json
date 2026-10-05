@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "conakry",
+  "legacy_osm_missing_geometry_ids": [
+    3830634,
+    9629113,
+    18080210
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "64756cc73f7e1d1dbda0ae66ce9b9bdffb1ba94fe43ff63fd148d663a3f10631",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "e35480093bf31fa38c1a018b058d7d1afd454ba77774fbe483146f50513643a3",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/independent-landcover-samples.bin.gz": "f86d5558cf936863ce425624e72770828f5e1fe161977e8108f94e863420fca8",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/planning-grid.json": "ca74687d44cd21a49dae05859c3badb0c1bbf7c93c6bf6df9cdd31d7cbee8534",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/planning-water-features.json.gz": "f8775f9061cfe4e544f4e79a5c04f65d7a575340c47a05fc4432a4bb651486b3",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1432374,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "dec47ab3ccc4ada5116a25d41984a0ca7cb3e978e5028db902cc07b043651e7a",
+      "native_window": [
+        14640,
+        28200,
+        3363,
+        2763
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09W015_Map.tif",
+      "window_sha256": "839bd81b7fd64644539178e5f8a01e598c40826683a83767ff980422df2592b1"
+    }
+  ]
+}

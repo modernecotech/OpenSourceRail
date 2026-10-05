@@ -1,0 +1,49 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "lubumbashi",
+  "legacy_osm_missing_geometry_ids": [
+    3588106,
+    5684209
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "35e1c8c33551bde9a68299e1bb6955f22581f168771dd9e7639b4ab1fa190e9c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "954fa4f23dcc789a111fee7b8c87eb27cb282fa7e8cf0bacc13b488434a8467f",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/independent-landcover-samples.bin.gz": "a6f796554fafad7fab5027b25289d7dc0b36150eb9c5541b3cbb3e61073419f7",
+    "cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/planning-grid.json": "43eb721d30151ff8eb9bcbe07eb097887837ab220e1601ba1d09004ca995b838",
+    "cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/planning-water-features.json.gz": "2fa8786c88bfd7b741c2e77181f99d72382a68df1af68ea95abc85c76351904a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 19594,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "61379bc26172eba1ab71240c31b5bb697d1759ba22eb137dcdef136575c1f949",
+      "native_window": [
+        3840,
+        30000,
+        3963,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S12E027_Map.tif",
+      "window_sha256": "f3728c4c6ca5ecc5352c340f701fa79333db3f733e42ce0810258f36313b0db0"
+    }
+  ]
+}

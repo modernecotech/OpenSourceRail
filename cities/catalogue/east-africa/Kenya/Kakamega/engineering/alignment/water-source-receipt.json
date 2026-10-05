@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kakamega",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "9d3824b092202510c3667c7fd57a551be8420ab722d039aa1f8500cba86d9445",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "896de00da90126ed3a8fae6eb1b5c2c3d1be07c150f69dc1890b9652af17b9a7",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/independent-landcover-samples.bin.gz": "50865f8452ff55c15f14eba425a36631f6afe25bdabb4a4423abd64bbb7cc104",
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/planning-grid.json": "34c3844b24d9ecdcda39f38239739ce5fd5fb4be536d1ba351073978b40f082a",
+    "cities/catalogue/east-africa/Kenya/Kakamega/engineering/alignment/planning-water-features.json.gz": "ee48de7d9f29d2d8e402748cc1b28c1f7c7461e21fdd2eba5d3d505d7f39c939",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 2809,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "a0d0c2f03bc2afd0d1c797da983b98c89994c8081a1decb8655efd5ecd9dbfc1",
+      "native_window": [
+        20211,
+        31796,
+        1626,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E033_Map.tif",
+      "window_sha256": "c71325597002cd24b948a31b29893002ed937839877ad6ef33de41b0a3872e7b"
+    }
+  ]
+}

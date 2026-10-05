@@ -1,22 +1,22 @@
 slug: port-harcourt
 pass: true
 metrics:
-  total_route_m: 171738.4
+  total_route_m: 173916.0
   n_lines: 5
-  n_stations: 52
-  anchor_hit_rate: 0.269
+  n_stations: 63
+  anchor_hit_rate: 0.206
   high_demand_coverage: 0.320
   civil_mix_m:
-    at_grade: 25293.9
-    elevated: 129180.4
-    bridge:   17264.2
-  elevated_fraction: 0.853
+    at_grade: 27169.8
+    elevated: 122289.9
+    bridge:   24456.3
+  elevated_fraction: 0.844
   viaduct_products_m:
-    osr_pi20_pi25: 129180.4
-    osr_us:      0.0
-    special:     17264.2
-    realign:     0.0
-  max_elevated_cost_multiplier: 1.000
+    osr_pi20_pi25: 108521.3
+    osr_us:      13720.3
+    special:     24456.3
+    realign:     48.3
+  max_elevated_cost_multiplier: 17.894
 gates:
   hard:
     has_stations:      true
@@ -25,5 +25,5 @@ gates:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

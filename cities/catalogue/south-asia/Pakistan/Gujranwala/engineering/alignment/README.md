@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`gujranwala-line1.aln.toml`](gujranwala-line1.aln.toml) | `line-1` | 35,081.9 m | 10 |
-| [`gujranwala-line2.aln.toml`](gujranwala-line2.aln.toml) | `line-2` | 31,332.2 m | 9 |
-| [`gujranwala-line3.aln.toml`](gujranwala-line3.aln.toml) | `line-3` | 18,056.2 m | 6 |
-| [`gujranwala-line4.aln.toml`](gujranwala-line4.aln.toml) | `line-4` | 28,985.8 m | 8 |
-| [`gujranwala-line5.aln.toml`](gujranwala-line5.aln.toml) | `line-5` | 59,835.0 m | 17 |
+| [`gujranwala-line1.aln.toml`](gujranwala-line1.aln.toml) | `line-1` | 35,081.9 m | 11 |
+| [`gujranwala-line2.aln.toml`](gujranwala-line2.aln.toml) | `line-2` | 30,566.0 m | 9 |
+| [`gujranwala-line3.aln.toml`](gujranwala-line3.aln.toml) | `line-3` | 17,592.8 m | 7 |
+| [`gujranwala-line4.aln.toml`](gujranwala-line4.aln.toml) | `line-4` | 28,238.1 m | 9 |
+| [`gujranwala-line5.aln.toml`](gujranwala-line5.aln.toml) | `line-5` | 59,835.0 m | 18 |
 
 ## Status
 

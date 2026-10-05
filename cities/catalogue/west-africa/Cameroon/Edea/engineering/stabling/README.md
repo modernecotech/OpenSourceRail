@@ -13,8 +13,8 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0355-0117-s000000 | station | forward | revenue | 2 |
-| line-1 | line-1-0373-0242-s003013 | station | forward | revenue | 1 |
-| line-1 | line-1-0373-0242-s003013 | station | reverse | revenue | 1 |
+| line-1 | line-1-0371-0236-s002876 | station | forward | revenue | 1 |
+| line-1 | line-1-0371-0236-s002876 | station | reverse | revenue | 1 |
 | line-1 | line-1-0408-0337-s005226 | station | forward | revenue | 1 |
 | line-1 | line-1-0408-0337-s005226 | station | reverse | revenue | 1 |
 | line-1 | line-1-0442-0432-s007420 | station | reverse | revenue | 2 |
@@ -40,8 +40,8 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **8 positi
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
 | line-1 | line-1-0355-0117-s000000 | forward | revenue | 3 | pending |
-| line-1 | line-1-0373-0242-s003013 | forward | revenue | 3 | pending |
-| line-1 | line-1-0373-0242-s003013 | reverse | revenue | 3 | pending |
+| line-1 | line-1-0371-0236-s002876 | forward | revenue | 3 | pending |
+| line-1 | line-1-0371-0236-s002876 | reverse | revenue | 3 | pending |
 | line-1 | line-1-0408-0337-s005226 | forward | revenue | 2 | pending |
 | line-1 | line-1-0408-0337-s005226 | reverse | revenue | 2 | pending |
 | line-1 | line-1-0442-0432-s007420 | reverse | revenue | 2 | pending |
@@ -55,7 +55,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **8 positi
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0355-0117-s000000 | 3 | 2 | 1 | 49.0 |
-| line-1-0373-0242-s003013 | 6 | 2 | 4 | 196.0 |
+| line-1-0371-0236-s002876 | 6 | 2 | 4 | 196.0 |
 | line-1-0408-0337-s005226 | 6 | 2 | 4 | 196.0 |
 | line-1-0442-0432-s007420 | 2 | 2 | 0 | 0.0 |
 

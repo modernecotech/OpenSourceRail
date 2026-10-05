@@ -1,6 +1,6 @@
 {
   "city": "kumba",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,27 +11,33 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 637,
+      "row": 752,
+      "station_id": "line-1-0752-0637-s000658",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 660,
       "row": 644,
       "station_id": "line-1-0644-0660-s003009",
       "water_coverage_percent": 0
     },
     {
-      "col": 690,
-      "row": 506,
-      "station_id": "line-1-0506-0690-s006017",
+      "col": 679,
+      "row": 555,
+      "station_id": "line-1-0555-0679-s004946",
       "water_coverage_percent": 0
     },
     {
-      "col": 742,
-      "row": 267,
-      "station_id": "line-1-0267-0742-s011228",
+      "col": 737,
+      "row": 287,
+      "station_id": "line-1-0287-0737-s010786",
       "water_coverage_percent": 0
     },
     {
       "col": 779,
       "row": 51,
-      "station_id": "line-1-0051-0779-s016432",
+      "station_id": "line-1-0051-0779-s016646",
       "water_coverage_percent": 0
     },
     {
@@ -47,15 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 499,
-      "row": 611,
-      "station_id": "line-2-0611-0499-s006589",
+      "col": 524,
+      "row": 603,
+      "station_id": "line-2-0603-0524-s007155",
       "water_coverage_percent": 0
     },
     {
-      "col": 596,
-      "row": 581,
-      "station_id": "line-2-0581-0596-s008801",
+      "col": 679,
+      "row": 555,
+      "station_id": "line-2-0555-0679-s010676",
       "water_coverage_percent": 0
     },
     {
@@ -71,15 +77,21 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 637,
+      "row": 752,
+      "station_id": "line-3-0752-0637-s000539",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 570,
       "row": 664,
       "station_id": "line-3-0664-0570-s003018",
       "water_coverage_percent": 0
     },
     {
-      "col": 500,
-      "row": 573,
-      "station_id": "line-3-0573-0500-s005582",
+      "col": 524,
+      "row": 603,
+      "station_id": "line-3-0603-0524-s004760",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +101,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 16,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Kumba/design.toml": "589d2672c3aab84351ed3a8163cb25351d6a5749bb3ed1a6139e1db96d1a6313",
+    "cities/catalogue/west-africa/Cameroon/Kumba/design.toml": "ba2e45c1ed60b388fc01f91f372698c12a96ad92cdc88a29c3fcdca3fd63825c",
     "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-grid.json": "febc2f7b7e735285a08eb5cd91b03d55a1a29066edec5aa654fee571b8b9f3ef",
-    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-water-mask.bin.gz": "30161bfcc5c764e658aba68290d0f309c26bebed9a4c5f644a015d1b675925cd",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/planning-water-mask.bin.gz": "9ab9d6a85f0b665dd962e9f6dac421a55ecd39e26be65fc6049f00a83d733335",
+    "cities/catalogue/west-africa/Cameroon/Kumba/engineering/alignment/water-source-receipt.json": "ae6daa883f7a5c26a297c070fb72e6b434da42acba4ae2baff8edd214125b145",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "82579643c3749bea6b99bdcd7ab10f837a835b0c0d6e2bc896dc0a650e35a8a9",
+  "uncompressed_water_mask_sha256": "32b39283362293550a30d2375e9bd0b67220bdc7d951138cef465274e76a28f4",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

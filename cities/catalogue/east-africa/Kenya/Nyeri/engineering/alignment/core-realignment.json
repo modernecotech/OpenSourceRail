@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.990361,
     "north": -0.378977,
@@ -6,6 +7,7 @@
     "west": 36.909241
   },
   "core_analytical_length_m": 25141.310579,
+  "core_final_route_length_m": 27745.323215,
   "core_original_length_m": 31390.431294,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8655.533906,
       "line": "line-1",
       "original_cells": 432,
       "original_route_m": 10437.555407,
       "reworked_cells": 382,
-      "reworked_route_m": 8655.533906
+      "reworked_route_m": 8655.533906,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10419.20923,
       "line": "line-2",
       "original_cells": 630,
       "original_route_m": 15065.281374,
       "reworked_cells": 609,
-      "reworked_route_m": 14355.331881
+      "reworked_route_m": 14355.331881,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8670.58008,
       "line": "line-3",
       "original_cells": 465,
       "original_route_m": 11185.382387,
       "reworked_cells": 408,
-      "reworked_route_m": 10003.961031
+      "reworked_route_m": 10003.961031,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Nyeri/alignment-policy.toml": "e03e81c8a90be30337157bfddc8e974c3059907c4256f1fcf2a04b0f18bdab09",
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/planning-buildability-mask.bin.gz": "f52c14874763ab9cbf0c9d47d70fdb27531e664488b8aef37f11a3330eac3925",
     "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/planning-grid.json": "36ac5589a7b27c745f73be18b91d88a47284d1da06198ced9f50a5086fa9af10",
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/planning-water-mask.bin.gz": "8c33bc74dc67fd59ee4e75cf665f1aca45c82d1e449ac18a82dd5daed390f83d",
     "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/pre-rework-corridors.json.gz": "dcd282463836701260f70f346295b795e4f7d1c24af038adccbf748330a87b09",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Nyeri/engineering/alignment/water-source-receipt.json": "37f3e9873b7bc376eb084e31be5a04b2de6a0815ece758cf7798d0d2df04bafc",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 68.92354,
     "north": 27.764509,
@@ -6,6 +7,7 @@
     "west": 68.78926
   },
   "core_analytical_length_m": 30820.193516,
+  "core_final_route_length_m": 35091.538213,
   "core_original_length_m": 40006.138495,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17063.17026,
       "line": "line-1",
       "original_cells": 759,
       "original_route_m": 20445.365056,
       "reworked_cells": 829,
-      "reworked_route_m": 20751.841251
+      "reworked_route_m": 20751.841251,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8927.493501,
       "line": "line-2",
       "original_cells": 514,
       "original_route_m": 12041.118318,
       "reworked_cells": 384,
-      "reworked_route_m": 8927.493501
+      "reworked_route_m": 8927.493501,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +121,13 @@
               14040.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 11236.610383,
+          "seed_from_index": 0,
+          "seed_to_index": 491,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 11800.0,
@@ -128,29 +140,47 @@
                 8900.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 11236.610383,
-          "seed_from_index": 0,
-          "seed_to_index": 491,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 9100.874452,
       "line": "line-3",
       "original_cells": 492,
       "original_route_m": 11236.610383,
-      "reworked_cells": 343,
-      "reworked_route_m": 8380.874452
+      "reworked_cells": 379,
+      "reworked_route_m": 9100.874452,
+      "water_route_changes": [
+        {
+          "detour_route_m": 1815.391052,
+          "from_cell": [
+            643,
+            652
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 1067.106781,
+          "search_work_upper_bound": 55951,
+          "to_cell": [
+            607,
+            686
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Sukkur/alignment-policy.toml": "ecc14058113ed2a7ef667382a063f45c3aea4d55ba77cd17b299ad3b8605e9e8",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-buildability-mask.bin.gz": "b0013b45a2de21bbd3ab8ac3f8a120ceaaed7052a94cf4eb1f7733562a255407",
     "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-grid.json": "f70d721bd8329a42a38b88015bdd2f8e4524c5f14beb48c9f47d9eb12bbda998",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-water-mask.bin.gz": "fda9cc015d91313349024fa2c414c3c95ab0e40c5a25acc7961851f429700426",
     "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/pre-rework-corridors.json.gz": "225129c16f547a29c55f1265159dc9476b83adf426c1f32685163e8b94ef0c9a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/water-source-receipt.json": "344ed58c6ee5d240db136f1b75d32dd9e7b0505a58a017240af95a786b3a2b95",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,0 +1,64 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kananga",
+  "legacy_osm_missing_geometry_ids": [
+    8257487
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "148783045757db3882d6c56f5267e61fef83ec735b5cda1eb3df708c5ba5795d",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "00ba727311198f5e56199964a0ed543e5d151999ab289abeba1953b1d701acad",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Kananga/engineering/alignment/independent-landcover-samples.bin.gz": "6ae92c76f91f0d8aec03295c72ad8597f577f9302b58284ccdad5ed3a765d4f9",
+    "cities/catalogue/central-africa/DR Congo/Kananga/engineering/alignment/planning-grid.json": "81f6210d23344371b32dcbca1fbdf8489e1bd71f072bb69900202ea264fa5ca7",
+    "cities/catalogue/central-africa/DR Congo/Kananga/engineering/alignment/planning-water-features.json.gz": "86d6f10afab08edc436028178da70252f3d523a2afb9b5ba9c39e8ca5f52af44",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 19833,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "0b4c04c9a0bf27893dd73275d4740d250c2bb66528ce93b2d01d6c8a3c7738b0",
+      "native_window": [
+        15260,
+        0,
+        3481,
+        486
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E021_Map.tif",
+      "window_sha256": "5a70cb3506c8e801d831461c6980d7607017fc772d866dba433502c35e2d976e"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f653a306681aa160028b4c08d0e43b25f34abd2d93119879752232f1dd3ef7ec",
+      "native_window": [
+        15260,
+        33025,
+        3481,
+        2975
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S06E021_Map.tif",
+      "window_sha256": "6e1ca3406bc1c938ebd8ac5433188920d4ace3685b31ee374d85cd316033f728"
+    }
+  ]
+}

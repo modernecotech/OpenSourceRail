@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "karachi"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "karachi",
-      "corridor_sha256": "6922a55fecc9db977d038714148e14c3768c74820f84c26797c2183c93983767",
-      "design_sha256": "1625033483668ecbd0a340f531789108114d70837e2b792824e4510e4724385b",
-      "failures": [],
+      "corridor_sha256": "40a03166143b75f1772b2aa5b38f7e46cc9f130b083c209a538e9b25105f8bc7",
+      "design_sha256": "4fc1398e606e81b37fa74521ca6cb0dce0ea53d7bf92e8093e7b43b67d984e72",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 3247.1,
+          "radial": "line-8",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 8,
       "review_findings": [
         {
@@ -20,7 +29,7 @@
           "ring": "line-9",
           "severity": "review",
           "terminal_station_present": true,
-          "terminus_distance_m": 1098.1
+          "terminus_distance_m": 1103.3
         }
       ],
       "ring_count": 1

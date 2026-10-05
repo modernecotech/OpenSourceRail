@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.920942,
     "north": 32.614189,
@@ -6,6 +7,7 @@
     "west": 35.779822
   },
   "core_analytical_length_m": 32551.785518,
+  "core_final_route_length_m": 34783.759005,
   "core_original_length_m": 45087.114512,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11023.91919,
       "line": "line-1",
       "original_cells": 680,
       "original_route_m": 15858.174593,
       "reworked_cells": 529,
-      "reworked_route_m": 11023.91919
+      "reworked_route_m": 11023.91919,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10386.761902,
       "line": "line-2",
       "original_cells": 598,
       "original_route_m": 13969.646456,
       "reworked_cells": 493,
-      "reworked_route_m": 10386.761902
+      "reworked_route_m": 10386.761902,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13373.077913,
       "line": "line-3",
       "original_cells": 402,
       "original_route_m": 18277.133069,
-      "reworked_cells": 637,
-      "reworked_route_m": 16362.633248
+      "reworked_cells": 727,
+      "reworked_route_m": 16698.763338,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Jordan/Irbid/alignment-policy.toml": "b11b2f37752b798218df702b5203e1476ff254ad5962b7d48fd5c3caa14d2728",
+    "cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/planning-buildability-mask.bin.gz": "1eeda9e737b5bad9c5ab037af4aa2f4feefd5294dc4dc9dd9436f7eb0fb46905",
     "cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/planning-grid.json": "9f4c7839c60217268c2e301085c7fbd048d610bd7f91eeec0d384cdb9a9b1e5a",
+    "cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/planning-water-mask.bin.gz": "a2b1604c9c3315cf3254e8898070e0e7a82a8636fbc330b8869829a637df9adb",
     "cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/pre-rework-corridors.json.gz": "cb441f57cfec8c3e63f5c51d2fe6b2a49a8ce4b6ecce8e277f6eb8ce9c1ffcdc",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Jordan/Irbid/engineering/alignment/water-source-receipt.json": "323d524e155ac3ebbb9354d009aec1410134ba0cf423f0b0bea6a5b1a0dcf220",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

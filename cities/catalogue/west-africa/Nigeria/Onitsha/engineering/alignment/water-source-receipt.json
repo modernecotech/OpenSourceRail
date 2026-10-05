@@ -1,0 +1,60 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "onitsha",
+  "legacy_osm_missing_geometry_ids": [
+    2525274,
+    9467514,
+    9468073,
+    12903333,
+    13309476,
+    13309477,
+    13319726,
+    13321791,
+    13326517,
+    13332758,
+    13350462,
+    14093335,
+    15092695
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "a90719a845b55c10843c7d454f911339ea175127034e82b316ce315e7f53375a",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "6b0730ca855af5e28d54350788670a84759d579439c6bf0bb455ec8e337c4be6",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Onitsha/engineering/alignment/independent-landcover-samples.bin.gz": "82a76e96cf0c51e941e6b07615b2625cac5ccbcb08bab0b2cccc5669bff6b821",
+    "cities/catalogue/west-africa/Nigeria/Onitsha/engineering/alignment/planning-grid.json": "9b256fc651671458b8513296de33e1555c5b62c9e31b46230d41438ded59da36",
+    "cities/catalogue/west-africa/Nigeria/Onitsha/engineering/alignment/planning-water-features.json.gz": "ad718fc8beed539cd8c83f6203836207365551b2f2fca02bb0e19ae9453be48a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 127129,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f5c33a6ab42afaffee0e96103e44dd236bf2678eb71b9e17b0a31e83dcac4630",
+      "native_window": [
+        7659,
+        32270,
+        3483,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E006_Map.tif",
+      "window_sha256": "1b1b97b4323830e91b0bd9587f3523946c694c81257b4416fb99dc1578a509a4"
+    }
+  ]
+}

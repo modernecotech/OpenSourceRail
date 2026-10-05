@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "quetta",
+  "legacy_osm_missing_geometry_ids": [
+    3980892
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "e950e93152e87eadeaf4a532f3749cd58073018491ab8b1d1f3d419dd1e481c1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "5731c3168574d6dffe11d256b9acc7aefebc9382b09fdd55d7c0a389c87c729a",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/alignment/independent-landcover-samples.bin.gz": "6d8942d9c6cfeb116c4ed8a832c6ca0b3c42526e9f78d058db0a46efbb6490c0",
+    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/alignment/planning-grid.json": "23741919cac9b6d4451959069368a84294d2c94e05814a522264130832ea4754",
+    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/alignment/planning-water-features.json.gz": "700dbb48995e332cb72878df2a80c0bd80a9e77e0a53ba86450825d9dc11460c",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 6435,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "260278dfd5b8931c8328899018d7c53d5a00bee9f54d81eb8fb750c914138ded",
+      "native_window": [
+        9699,
+        32113,
+        4004,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E066_Map.tif",
+      "window_sha256": "2350d79d6ab45de1eecef91ecf7f405fffa4c0379a48c8b6e0c25ae6c46ca7ed"
+    }
+  ]
+}

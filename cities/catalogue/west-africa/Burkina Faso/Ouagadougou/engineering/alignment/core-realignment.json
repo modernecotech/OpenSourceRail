@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -1.411452,
     "north": 12.488317,
@@ -6,6 +7,7 @@
     "west": -1.591452
   },
   "core_analytical_length_m": 151206.558841,
+  "core_final_route_length_m": 164810.190386,
   "core_original_length_m": 184546.349841,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 24919.780644,
       "line": "line-1",
       "original_cells": 498,
       "original_route_m": 37368.21437,
-      "reworked_cells": 1129,
-      "reworked_route_m": 33799.022245
+      "reworked_cells": 1353,
+      "reworked_route_m": 33932.513678,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19205.340546,
       "line": "line-2",
       "original_cells": 511,
       "original_route_m": 23482.183391,
-      "reworked_cells": 939,
-      "reworked_route_m": 19345.340546
+      "reworked_cells": 943,
+      "reworked_route_m": 19345.340546,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19198.561313,
       "line": "line-3",
       "original_cells": 406,
       "original_route_m": 27409.804394,
-      "reworked_cells": 890,
-      "reworked_route_m": 25365.824111
+      "reworked_cells": 1090,
+      "reworked_route_m": 25524.490604,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23812.774875,
       "line": "line-4",
       "original_cells": 467,
       "original_route_m": 31348.460316,
-      "reworked_cells": 1059,
-      "reworked_route_m": 27503.159386
+      "reworked_cells": 1179,
+      "reworked_route_m": 27702.135624,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19210.19336,
       "line": "line-5",
       "original_cells": 468,
       "original_route_m": 31258.468804,
-      "reworked_cells": 1050,
-      "reworked_route_m": 26794.447087
+      "reworked_cells": 1306,
+      "reworked_route_m": 27201.808076,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -644,21 +656,27 @@
           "simplification_tolerance_m": 900.0
         }
       ],
+      "final_core_route_m": 58463.539649,
       "line": "line-6",
       "original_cells": 406,
       "original_route_m": 62627.572717,
-      "reworked_cells": 2555,
-      "reworked_route_m": 60577.614075
+      "reworked_cells": 2652,
+      "reworked_route_m": 60666.382361,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/alignment-policy.toml": "4e2b5595512ef9dac12bcd42123a949008db48b45bfa141a730e98787bfbb808",
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/planning-buildability-mask.bin.gz": "4ba403e8edc01f22130fcf858e9b393a34749d1f70392a27f0cf144c2336617f",
     "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/planning-grid.json": "2acec01725b930fb3d79e2839ca800b2018614a1a241f737f3fd71b4b2d18b2f",
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/planning-water-mask.bin.gz": "b76665e7e73b34a7e1a3060be0fb62f47686dc1833783f1d8ac44be512713567",
     "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/pre-rework-corridors.json.gz": "a64b4a01bb09a0db8fb0bd21fb2c5bc3117a66203f4a2785c17f2ccfa5eb932e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/water-source-receipt.json": "b589992bd74f9ddf94efb9b10c6241945262130adbb97749f3cf607c011fffc9",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

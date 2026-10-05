@@ -14,11 +14,11 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0296-0125-s000000 | line-1 | 12 | 468.0 | 588.0 | unverified |
+| line-1-0296-0125-s000000 | line-1 | 13 | 507.0 | 637.0 | unverified |
 | line-1-0477-0623-s011581 | line-1 | 12 | 468.0 | 588.0 | unverified |
 | line-2-0086-0716-s000000 | line-2 | 15 | 585.0 | 735.0 | unverified |
 | line-2-0450-0180-s014744 | line-2 | 15 | 585.0 | 735.0 | unverified |
-| line-3-0181-0288-s000000 | line-3 | 12 | 468.0 | 588.0 | unverified |
+| line-3-0181-0288-s000000 | line-3 | 13 | 507.0 | 637.0 | unverified |
 | line-3-0702-0427-s011724 | line-3 | 12 | 468.0 | 588.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.

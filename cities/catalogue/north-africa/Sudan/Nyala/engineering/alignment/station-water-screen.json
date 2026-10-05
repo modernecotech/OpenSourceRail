@@ -1,6 +1,6 @@
 {
   "city": "nyala",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,27 +17,33 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 657,
-      "row": 633,
-      "station_id": "line-1-0633-0657-s009234",
+      "col": 604,
+      "row": 657,
+      "station_id": "line-1-0657-0604-s007952",
       "water_coverage_percent": 0
     },
     {
-      "col": 754,
-      "row": 587,
-      "station_id": "line-1-0587-0754-s011602",
+      "col": 647,
+      "row": 637,
+      "station_id": "line-1-0637-0647-s008989",
       "water_coverage_percent": 0
     },
     {
-      "col": 852,
+      "col": 749,
+      "row": 590,
+      "station_id": "line-1-0590-0749-s011465",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 851,
       "row": 542,
-      "station_id": "line-1-0542-0852-s013970",
+      "station_id": "line-1-0542-0851-s013950",
       "water_coverage_percent": 0
     },
     {
       "col": 958,
       "row": 512,
-      "station_id": "line-1-0512-0958-s016337",
+      "station_id": "line-1-0512-0958-s016444",
       "water_coverage_percent": 0
     },
     {
@@ -53,15 +59,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 645,
-      "row": 629,
-      "station_id": "line-2-0629-0645-s006023",
+      "col": 647,
+      "row": 637,
+      "station_id": "line-2-0637-0647-s006200",
       "water_coverage_percent": 0
     },
     {
-      "col": 664,
-      "row": 759,
-      "station_id": "line-2-0759-0664-s008780",
+      "col": 654,
+      "row": 687,
+      "station_id": "line-2-0687-0654-s007258",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 668,
+      "row": 789,
+      "station_id": "line-2-0789-0668-s009414",
       "water_coverage_percent": 0
     },
     {
@@ -77,9 +89,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 621,
-      "row": 667,
-      "station_id": "line-3-0667-0621-s003017",
+      "col": 654,
+      "row": 687,
+      "station_id": "line-3-0687-0654-s002168",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 604,
+      "row": 657,
+      "station_id": "line-3-0657-0604-s003452",
       "water_coverage_percent": 0
     },
     {
@@ -101,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/Nyala/design.toml": "e985a1fa20bc908854849beac87c0041ff18bba8d4ba04133206da4d4b515ade",
+    "cities/catalogue/north-africa/Sudan/Nyala/design.toml": "2494c118ea53af317ef6bc955d7b4ab78b71ba9435aa8db62dfe4e05dc818716",
     "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/planning-grid.json": "bbdf11420fce1bd62abbf9e1f67313c5cc5c2789483dd44a30cdb0e5a8e6e1f2",
-    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/planning-water-mask.bin.gz": "8516f28246b2b7d8f8cc35f3cbae15c1ba90cb08273ea7a68acb336c5605d7f8",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/planning-water-mask.bin.gz": "9d406eb81226d22e021c0d35758cec1258cdaf4f74198e619b01446925c74d5a",
+    "cities/catalogue/north-africa/Sudan/Nyala/engineering/alignment/water-source-receipt.json": "592ce5b0ce4e892a7fb05352d9f5bb10b6064dfb6fba9da86fa08b37e5e15fa7",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "69b18a6e5339f6bc4cb08c61143c6519e4ce78fa573c311ddbaf4a49f895f606",
+  "uncompressed_water_mask_sha256": "aa5e9d4f137b10fe445d9288d9d866859b126197d7280346ce63d6982a2a169c",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

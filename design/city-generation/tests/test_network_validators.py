@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import json
 import textwrap
 from pathlib import Path
 
@@ -97,3 +99,25 @@ def test_ring_validator_allows_small_accumulated_street_wiggles() -> None:
         ],
     )
     assert finding is None
+
+
+def test_controlled_water_detour_keeps_backtracking_as_an_open_review(tmp_path):
+    validator=_load_script('tools/automation/validate-ring-interchanges.py')
+    design=tmp_path/'design.toml'
+    design.write_text('[city]\nslug="shore"\n[[lines]]\nname="line-1"\nshape="radial"\n')
+    (tmp_path/'shore.corridor.geojson').write_text(json.dumps({'features':[
+        {'properties':{'kind':'line','name':'line-1'},'geometry':{'type':'LineString',
+         'coordinates':[[0,0],[.03,0],[.015,0],[.06,0]]}}]}))
+    report_path=tmp_path/'engineering/alignment/core-realignment.json'
+    report_path.parent.mkdir(parents=True)
+    source=REPO_ROOT/'tools/automation/water-route-constraints.py'
+    report={'sources_sha256':{source.relative_to(REPO_ROOT).as_posix():hashlib.sha256(source.read_bytes()).hexdigest()},
+            'lines':[{'line':'line-1','water_route_changes':[{'kind':'land-detour-around-unapproved-open-water-crossing'}]}]}
+    report_path.write_text(json.dumps(report))
+    result=validator.validate(design)
+    assert result['passed']
+    assert result['review_findings'][0]['maximum_reverse_excursion_m']>750
+    assert not result['review_findings'][0]['physical_release']
+    report['sources_sha256'][source.relative_to(REPO_ROOT).as_posix()]='0'*64
+    report_path.write_text(json.dumps(report))
+    assert not validator.validate(design)['passed']

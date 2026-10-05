@@ -1,0 +1,55 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kandy",
+  "legacy_osm_missing_geometry_ids": [
+    3553743,
+    6187013,
+    6576557,
+    6776378,
+    6776380,
+    8161133,
+    18077368,
+    20396706
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "21edce025b26cb1e9b45fa471d66d0a57353ce2ed9a0289d6e94fcb8a71a78b7",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "b8b9d7a8481db2c0e73d8b950b60f51abdec4eacc359c4d75230c3e772e04842",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/independent-landcover-samples.bin.gz": "60516cfa59fb3df3b5d9858f92a78489d2f6a3a4f409abf1120e2f633fe75c3b",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/planning-grid.json": "f7058acd0da85702cfe18ff8efbe7169a9a2012c9e2b2483799760e54a285fa4",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/alignment/planning-water-features.json.gz": "6bb9b98a252c221f7b131a150d6165fdd4e0cde22f2dafae1e831e9b3a866315",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 11530,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "a2de57f330a5a2e36014a3d0e86e8538f3b014d6ed8d7070165a2288a8e4b899",
+      "native_window": [
+        30405,
+        19323,
+        2401,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E078_Map.tif",
+      "window_sha256": "5f7367d36fc98762894dea804d823768c32754c4013c7d45e15983e19f2d6fa9"
+    }
+  ]
+}

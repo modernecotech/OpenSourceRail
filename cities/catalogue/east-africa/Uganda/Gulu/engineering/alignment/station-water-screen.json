@@ -1,6 +1,6 @@
 {
   "city": "gulu",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,15 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 607,
-      "row": 569,
-      "station_id": "line-1-0569-0607-s006469",
+      "col": 617,
+      "row": 563,
+      "station_id": "line-1-0563-0617-s006730",
       "water_coverage_percent": 0
     },
     {
-      "col": 718,
-      "row": 498,
-      "station_id": "line-1-0498-0718-s009382",
+      "col": 723,
+      "row": 495,
+      "station_id": "line-1-0495-0723-s009507",
       "water_coverage_percent": 0
     },
     {
@@ -41,45 +41,51 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 910,
-      "row": 871,
-      "station_id": "line-2-0871-0910-s003501",
+      "col": 915,
+      "row": 873,
+      "station_id": "line-2-0873-0915-s003491",
       "water_coverage_percent": 0
     },
     {
-      "col": 796,
-      "row": 763,
-      "station_id": "line-2-0763-0796-s007012",
+      "col": 802,
+      "row": 770,
+      "station_id": "line-2-0770-0802-s007003",
       "water_coverage_percent": 0
     },
     {
       "col": 685,
       "row": 639,
-      "station_id": "line-2-0639-0685-s010739",
+      "station_id": "line-2-0639-0685-s010932",
       "water_coverage_percent": 0
     },
     {
-      "col": 596,
-      "row": 539,
-      "station_id": "line-2-0539-0596-s013758",
+      "col": 617,
+      "row": 563,
+      "station_id": "line-2-0563-0617-s013226",
       "water_coverage_percent": 0
     },
     {
-      "col": 506,
-      "row": 439,
-      "station_id": "line-2-0439-0506-s016773",
+      "col": 560,
+      "row": 498,
+      "station_id": "line-2-0498-0560-s015162",
       "water_coverage_percent": 0
     },
     {
-      "col": 368,
-      "row": 284,
-      "station_id": "line-2-0284-0368-s021426",
+      "col": 503,
+      "row": 435,
+      "station_id": "line-2-0435-0503-s017096",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 366,
+      "row": 281,
+      "station_id": "line-2-0281-0366-s021695",
       "water_coverage_percent": 0
     },
     {
       "col": 216,
       "row": 122,
-      "station_id": "line-2-0122-0216-s026064",
+      "station_id": "line-2-0122-0216-s026270",
       "water_coverage_percent": 0
     },
     {
@@ -101,9 +107,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 490,
-      "row": 441,
-      "station_id": "line-3-0441-0490-s010012",
+      "col": 503,
+      "row": 435,
+      "station_id": "line-3-0435-0503-s010328",
       "water_coverage_percent": 0
     },
     {
@@ -113,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 18,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Uganda/Gulu/design.toml": "b06f77d473c982c908f08ffee948f8d33f93dd77e71b58b2984e17f3b5528da2",
+    "cities/catalogue/east-africa/Uganda/Gulu/design.toml": "0292b0c2102226fe8676606d9177b41bf40adbb1bc3e8b3c43d57161d48ebaf0",
     "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-grid.json": "2cf39ffafedd9e2ea9df339fd9d403c8063b84477c919f7fe74284867a2b8771",
-    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-water-mask.bin.gz": "6b5c034a3a724264697a57ce393d5382cad999b7785179debdec9996725afd9f",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/planning-water-mask.bin.gz": "4f6596e0a730f52769f5f4a19d78445f09e9e48760d6ff83109f84dcb2c195fa",
+    "cities/catalogue/east-africa/Uganda/Gulu/engineering/alignment/water-source-receipt.json": "43f13c5a33474e696fbde008c55f6b54a05ead14c097953cd282952497fd5c29",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "be27484b8b7b4f216f349a90f7d32226010fa6ed80d66c3e80465ee717d33913",
+  "uncompressed_water_mask_sha256": "a32bd8ce26bf496b286e677217b6a5fd301c37edfd0fe185da9b892e8a4cc185",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

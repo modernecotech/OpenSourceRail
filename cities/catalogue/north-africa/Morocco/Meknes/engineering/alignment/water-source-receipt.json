@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "meknes",
+  "legacy_osm_missing_geometry_ids": [
+    20375190
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "16f2ee95144e5c806677423eccef9c82a0b695f3325b9386523e0c2062147a55",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "885c15ae0ccc5a20f45c5ad021ca72b0ef7484baa57bba5026f5121c2a447902",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/independent-landcover-samples.bin.gz": "e4bc1219df0fa79ef868ebe98530fbb72cb8b4da7ebc77eeab9ee2512e415756",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-grid.json": "38ba0c61cbc8a6a59c24ef40d54f77175e7e17474fd9750b78caf1d94b144567",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-water-features.json.gz": "0b07076a16d9492a4feee3584f442fca119125a790785bff2034b95854d2ae6c",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1337,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "9af7a063b715f6d7e15af46820fbda9cd7ce47aa5f3f720ac08c64d9ff037f13",
+      "native_window": [
+        3999,
+        24088,
+        2869,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W006_Map.tif",
+      "window_sha256": "7fa38ff92af13070360c128bc85de69535893267d54fc3b41a52b14e9f3137fe"
+    }
+  ]
+}

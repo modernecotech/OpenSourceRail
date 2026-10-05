@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 40.573653,
     "north": 21.493909,
@@ -6,6 +7,7 @@
     "west": 40.445853
   },
   "core_analytical_length_m": 41015.25076,
+  "core_final_route_length_m": 45671.235175,
   "core_original_length_m": 50030.919225,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17071.454532,
       "line": "line-1",
       "original_cells": 530,
       "original_route_m": 24970.673648,
-      "reworked_cells": 818,
-      "reworked_route_m": 22954.747504
+      "reworked_cells": 999,
+      "reworked_route_m": 23886.744571,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12367.636354,
       "line": "line-2",
       "original_cells": 631,
       "original_route_m": 14521.950929,
       "reworked_cells": 515,
-      "reworked_route_m": 12367.636354
+      "reworked_route_m": 12367.636354,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16232.144289,
       "line": "line-3",
       "original_cells": 401,
       "original_route_m": 18974.423712,
-      "reworked_cells": 744,
-      "reworked_route_m": 18784.980381
+      "reworked_cells": 804,
+      "reworked_route_m": 18876.652224,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Taif/alignment-policy.toml": "94cb5bc1f306908a8fe4914a6f7ca05ad27101b3eb2ffba0b82460f396a84fc9",
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-buildability-mask.bin.gz": "48d766c7f04611ee06eb9b10ebf082ee536c25ba5feee920c710f69481f05b9f",
     "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-grid.json": "002cdfd7094690e41425f736892b272e291798bb9f9dc1e165ea31ae19b63ba9",
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/planning-water-mask.bin.gz": "9a321e62ea19508343b3f45d2ae942f4df809b87347bfd4fc210f8aa570279e6",
     "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/pre-rework-corridors.json.gz": "202b5afd8ab8b6ebf3a36cc77a10b15f02883db6a051d5876fcfca927a071762",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/alignment/water-source-receipt.json": "60feb26ec053f8a25645a308d02387ef30a357236889524797fbd96b91865eeb",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

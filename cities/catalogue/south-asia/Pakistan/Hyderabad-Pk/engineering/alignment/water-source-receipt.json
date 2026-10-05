@@ -1,0 +1,53 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "hyderabad-pk",
+  "legacy_osm_missing_geometry_ids": [
+    416331,
+    12725871,
+    38213,
+    1120431,
+    1141148,
+    1141191
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "b5e54b4790f6c648851efa545b88b7feac477998c63de38c673ed11bf5a08c83",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "b358cf5d58905a568729a6dd6af4017af6d3524dc4f5a349262fa4d9532a1910",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/independent-landcover-samples.bin.gz": "59f101662cb590b432950b9324bcbad48c0605d8796d299bd5b8e4391fe4a5b3",
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/planning-grid.json": "b0a13f941e8f55c914d43fc47046624bc37dc6e480d539849d8f711e2c8b850e",
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/planning-water-features.json.gz": "be60a64a52728c927390c626edc66e3dccd24c7f9c9ea2447634d74c37408d83",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 113730,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "81c6fc838f76d163cfa38a989dd8f69f534ce5bb0b68e19636e7ef161d5544af",
+      "native_window": [
+        26378,
+        17518,
+        3834,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E066_Map.tif",
+      "window_sha256": "f23b92fd834a55fbfe176758df346b96dd8569911fa9a327f6d2e31cc12f9a18"
+    }
+  ]
+}

@@ -96,22 +96,28 @@ is_terminal = true
 id = "line-2-0512-0478-s000000"
 name = "Centre Hospitalier Régional de Bertoua"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 is_terminal = true
 is_depot = true
 depot_service = true
 
 [[stations]]
+id = "line-2-0502-0546-s001443"
+name = "line-2-0502-0546-s001443"
+charging_power_kw = 500
+dwell_seconds = 180
+
+[[stations]]
 id = "line-2-0492-0620-s003006"
 name = "line-2-0492-0620-s003006"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 
 [[stations]]
 id = "line-2-0458-0856-s008007"
 name = "Mandjou"
 charging_power_kw = 500
-dwell_seconds = 240
+dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
@@ -122,14 +128,14 @@ dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
-id = "line-3-0640-0592-s005040"
-name = "line-3-0640-0592-s005040"
+id = "line-3-0617-0584-s005566"
+name = "line-3-0617-0584-s005566"
 charging_power_kw = 500
 dwell_seconds = 180
 
 [[stations]]
-id = "line-3-0548-0561-s007172"
-name = "Délégation de la Santé Publique"
+id = "line-3-0502-0546-s008216"
+name = "line-3-0502-0546-s008216"
 charging_power_kw = 500
 dwell_seconds = 180
 
@@ -159,7 +165,8 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0512-0478-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0492-0620-s003006", distance_from_prev_m = 3005 },
+    { id = "line-2-0502-0546-s001443", distance_from_prev_m = 1442 },
+    { id = "line-2-0492-0620-s003006", distance_from_prev_m = 1562 },
     { id = "line-2-0458-0856-s008007", distance_from_prev_m = 5001 },
 ]
 
@@ -168,9 +175,9 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0860-0665-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0640-0592-s005040", distance_from_prev_m = 5039 },
-    { id = "line-3-0548-0561-s007172", distance_from_prev_m = 2132 },
-    { id = "line-3-0493-0543-s008421", distance_from_prev_m = 1249 },
+    { id = "line-3-0617-0584-s005566", distance_from_prev_m = 5566 },
+    { id = "line-3-0502-0546-s008216", distance_from_prev_m = 2649 },
+    { id = "line-3-0493-0543-s008421", distance_from_prev_m = 204 },
 ]
 
 
@@ -272,7 +279,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 26
+trainset_count = 27
 dispatch_points = [
     { station = "line-2-0512-0478-s000000", heading = "forward" },
     { station = "line-2-0458-0856-s008007", heading = "reverse" },
@@ -378,6 +385,23 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
+station = "line-2-0502-0546-s001443"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
 station = "line-2-0492-0620-s003006"
 tier = "standard"
 pv_nameplate_kw = 300.0
@@ -429,7 +453,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0640-0592-s005040"
+station = "line-3-0617-0584-s005566"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -446,8 +470,8 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0548-0561-s007172"
-tier = "major"
+station = "line-3-0502-0546-s008216"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0

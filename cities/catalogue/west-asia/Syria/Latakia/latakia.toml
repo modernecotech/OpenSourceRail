@@ -130,28 +130,22 @@ is_terminal = true
 id = "line-3-0682-0473-s000000"
 name = "مشفى الأطفال"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 270
 is_terminal = true
 is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-3-0586-0443-s002180"
-name = "line-3-0586-0443-s002180"
+id = "line-3-0547-0470-s003013"
+name = "Arab Academy for Science and Technologe and Maritime Transport"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 270
 
 [[stations]]
-id = "line-3-0491-0414-s004344"
-name = "line-3-0491-0414-s004344"
-charging_power_kw = 500
-dwell_seconds = 180
-
-[[stations]]
-id = "line-3-0301-0356-s008660"
+id = "line-3-0301-0356-s009265"
 name = "مركز صحي"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 270
 is_terminal = true
 
 
@@ -182,9 +176,8 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0682-0473-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0586-0443-s002180", distance_from_prev_m = 2180 },
-    { id = "line-3-0491-0414-s004344", distance_from_prev_m = 2163 },
-    { id = "line-3-0301-0356-s008660", distance_from_prev_m = 4315 },
+    { id = "line-3-0547-0470-s003013", distance_from_prev_m = 3013 },
+    { id = "line-3-0301-0356-s009265", distance_from_prev_m = 6251 },
 ]
 
 
@@ -267,8 +260,8 @@ id = "sw-line-3-0682-0473-s000000-tb"
 station = "line-3-0682-0473-s000000"
 
 [[switches]]
-id = "sw-line-3-0301-0356-s008660-tb"
-station = "line-3-0301-0356-s008660"
+id = "sw-line-3-0301-0356-s009265-tb"
+station = "line-3-0301-0356-s009265"
 
 
 
@@ -312,10 +305,10 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 27
+trainset_count = 29
 dispatch_points = [
     { station = "line-3-0682-0473-s000000", heading = "forward" },
-    { station = "line-3-0301-0356-s008660", heading = "reverse" },
+    { station = "line-3-0301-0356-s009265", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -485,7 +478,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0586-0443-s002180"
+station = "line-3-0547-0470-s003013"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -502,24 +495,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0491-0414-s004344"
-tier = "standard"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-3-0301-0356-s008660"
+station = "line-3-0301-0356-s009265"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bahawalpur-line1.aln.toml`](bahawalpur-line1.aln.toml) | `line-1` | 14,492.1 m | 5 |
-| [`bahawalpur-line2.aln.toml`](bahawalpur-line2.aln.toml) | `line-2` | 12,957.9 m | 5 |
+| [`bahawalpur-line1.aln.toml`](bahawalpur-line1.aln.toml) | `line-1` | 14,492.1 m | 6 |
+| [`bahawalpur-line2.aln.toml`](bahawalpur-line2.aln.toml) | `line-2` | 12,957.9 m | 7 |
 | [`bahawalpur-line3.aln.toml`](bahawalpur-line3.aln.toml) | `line-3` | 10,091.3 m | 5 |
 
 ## Status

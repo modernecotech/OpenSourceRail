@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 68.455949,
     "north": 25.484837,
@@ -6,6 +7,7 @@
     "west": 68.264429
   },
   "core_analytical_length_m": 126296.34245,
+  "core_final_route_length_m": 138033.639175,
   "core_original_length_m": 157379.611047,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13617.341982,
       "line": "line-1",
       "original_cells": 765,
       "original_route_m": 18524.591617,
       "reworked_cells": 575,
-      "reworked_route_m": 13617.341982
+      "reworked_route_m": 13617.341982,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15780.184694,
       "line": "line-2",
       "original_cells": 443,
       "original_route_m": 20291.44456,
       "reworked_cells": 679,
-      "reworked_route_m": 15780.184694
+      "reworked_route_m": 15780.184694,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14649.259736,
       "line": "line-3",
       "original_cells": 420,
       "original_route_m": 18729.686376,
       "reworked_cells": 685,
-      "reworked_route_m": 14649.259736
+      "reworked_route_m": 14649.259736,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21822.926394,
       "line": "line-4",
       "original_cells": 416,
       "original_route_m": 28452.892009,
-      "reworked_cells": 1032,
-      "reworked_route_m": 27801.508963
+      "reworked_cells": 1203,
+      "reworked_route_m": 27859.049045,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20553.523805,
       "line": "line-5",
       "original_cells": 470,
       "original_route_m": 30348.418263,
-      "reworked_cells": 1092,
-      "reworked_route_m": 27835.684612
+      "reworked_cells": 1343,
+      "reworked_route_m": 28124.062043,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -449,21 +461,27 @@
           "simplification_tolerance_m": null
         }
       ],
+      "final_core_route_m": 51610.402564,
       "line": "line-6",
       "original_cells": 421,
       "original_route_m": 57516.150241,
-      "reworked_cells": 2225,
-      "reworked_route_m": 54628.378393
+      "reworked_cells": 2365,
+      "reworked_route_m": 55017.509345,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/alignment-policy.toml": "3c709bc668acaf92a8fe8c0554139ce57d8985c5fe1b57425424b2d0790f975a",
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/planning-buildability-mask.bin.gz": "d97dee4e7b24d46e82795aef2d2e8da8878c5a56c978e356ee7549f5e644478a",
     "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/planning-grid.json": "b0a13f941e8f55c914d43fc47046624bc37dc6e480d539849d8f711e2c8b850e",
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/planning-water-mask.bin.gz": "d202dff63cd4ab90cf64669e009ba77faf8363cd2acd1e77f402fdbd87482715",
     "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/pre-rework-corridors.json.gz": "066e8e2567d9607429c8e3d56d4d610e5c24536bf4201d700871402167ea7065",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/alignment/water-source-receipt.json": "a62129f5f440aa9770cfb513434ee4215ca883b20724d99192fd8a2e44361d1a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

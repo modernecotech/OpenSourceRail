@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 73.233673,
     "north": 31.495156,
@@ -6,6 +7,7 @@
     "west": 73.053673
   },
   "core_analytical_length_m": 119745.392288,
+  "core_final_route_length_m": 132174.067735,
   "core_original_length_m": 146999.415914,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22810.176029,
       "line": "line-1",
       "original_cells": 425,
       "original_route_m": 30806.531596,
-      "reworked_cells": 1006,
-      "reworked_route_m": 26922.53337
+      "reworked_cells": 1158,
+      "reworked_route_m": 27538.948032,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14205.382387,
       "line": "line-2",
       "original_cells": 461,
       "original_route_m": 21971.369207,
-      "reworked_cells": 712,
-      "reworked_route_m": 18850.704299
+      "reworked_cells": 849,
+      "reworked_route_m": 19461.849917,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16348.813844,
       "line": "line-3",
       "original_cells": 479,
       "original_route_m": 22314.2498,
-      "reworked_cells": 799,
-      "reworked_route_m": 19585.996384
+      "reworked_cells": 921,
+      "reworked_route_m": 20288.813844,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20559.738803,
       "line": "line-4",
       "original_cells": 469,
       "original_route_m": 21976.5669,
-      "reworked_cells": 878,
-      "reworked_route_m": 20927.434329
+      "reworked_cells": 885,
+      "reworked_route_m": 20927.434329,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19060.672427,
       "line": "line-5",
       "original_cells": 521,
       "original_route_m": 23751.119947,
-      "reworked_cells": 890,
-      "reworked_route_m": 22771.285197
+      "reworked_cells": 986,
+      "reworked_route_m": 23137.972568,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -523,21 +535,27 @@
           "simplification_tolerance_m": 900.0
         }
       ],
+      "final_core_route_m": 39189.284246,
       "line": "line-6",
       "original_cells": 452,
       "original_route_m": 42449.317096,
       "reworked_cells": 1673,
-      "reworked_route_m": 39189.284246
+      "reworked_route_m": 39189.284246,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Faisalabad/alignment-policy.toml": "97158761522ce71748a45d90bf731d7b057d88afb831e2d1ee3721929e273625",
+    "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/planning-buildability-mask.bin.gz": "b6483c69f5d9bf4c4b9cce52f8ab71261ad9433d9c0a56bd94e9b80eea53aed6",
     "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/planning-grid.json": "1e255b1be48753b69df583628151c69e81e16692dadce3cd28dd92c0bb542b8d",
+    "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/planning-water-mask.bin.gz": "0a15e472fb27400e2fec80f913f5dd35e2d02266a6699d8693d727f0b47b5745",
     "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/pre-rework-corridors.json.gz": "378ecc724d23bd332df7bf8bc6c67a67bb5d6780a61c61fddc4dc1d30fbcf7a1",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/alignment/water-source-receipt.json": "b78f9130267c32db1451254212e398c119a11d13e7d31915ecfeb8cf5e6a2da1",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -5,7 +5,7 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`goma-line1.aln.toml`](goma-line1.aln.toml) | `line-1` | 18,793.2 m | 8 |
-| [`goma-line2.aln.toml`](goma-line2.aln.toml) | `line-2` | 15,718.1 m | 5 |
+| [`goma-line2.aln.toml`](goma-line2.aln.toml) | `line-2` | 15,718.1 m | 6 |
 | [`goma-line3.aln.toml`](goma-line3.aln.toml) | `line-3` | 11,394.8 m | 5 |
 
 ## Status

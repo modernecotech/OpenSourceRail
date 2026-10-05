@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 47.374593,
     "north": 24.215269,
@@ -6,6 +7,7 @@
     "west": 47.244273
   },
   "core_analytical_length_m": 41200.751241,
+  "core_final_route_length_m": 43861.059146,
   "core_original_length_m": 52183.079669,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14051.858582,
       "line": "line-1",
       "original_cells": 488,
       "original_route_m": 22558.708981,
-      "reworked_cells": 788,
-      "reworked_route_m": 19589.591782
+      "reworked_cells": 964,
+      "reworked_route_m": 20353.523805,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16308.956698,
       "line": "line-2",
       "original_cells": 476,
       "original_route_m": 22497.774219,
-      "reworked_cells": 779,
-      "reworked_route_m": 20624.109686
+      "reworked_cells": 887,
+      "reworked_route_m": 20776.89609,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13500.243866,
       "line": "line-3",
       "original_cells": 475,
       "original_route_m": 20578.718774,
-      "reworked_cells": 747,
-      "reworked_route_m": 16979.479985
+      "reworked_cells": 847,
+      "reworked_route_m": 17193.380951,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/alignment-policy.toml": "109f1430d58d6292f9b9a8fa253f0c7484761e50d232fe3ca40387fcef68915f",
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/planning-buildability-mask.bin.gz": "ff99544244a9df1f7633f643806baa5b0935767a8053f2c18c3d857b24ee91d5",
     "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/planning-grid.json": "99841447b6ae809467d403042d6ed5e144ce093fc404571b379160376c64911d",
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/planning-water-mask.bin.gz": "2c7b9388e588e3e75d77ab61e9bd8f63933472619e6263e090b3d2d519d9be4b",
     "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/pre-rework-corridors.json.gz": "b16fa238935599d2ac50bf59c37a206eb2363751fe7b36dc4252d56828c82c0e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/alignment/water-source-receipt.json": "4e516e4f34a759c00a25de63768140944e5a328a861d3bdfe78e7b0fe8637a62",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "dakar",
+  "legacy_osm_missing_geometry_ids": [
+    2383205,
+    7253362,
+    10488239
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "23469c7212453602062c9e319a2eafbf9d0e01dd81f49357f78a9450135a888d",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "9e70305ae88995c6f900361ec662f6e685a5562972a627a181de5654ba7511ac",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Senegal/Dakar/engineering/alignment/independent-landcover-samples.bin.gz": "7bf285d40f0f76894241aade22fab84f705c6e1bed723c684ffc8f23db1db72d",
+    "cities/catalogue/west-africa/Senegal/Dakar/engineering/alignment/planning-grid.json": "e38ebdd94cd1565ac93e5ffc204373fa73f97431b03cd243b98de1a7d7950d2b",
+    "cities/catalogue/west-africa/Senegal/Dakar/engineering/alignment/planning-water-features.json.gz": "e1060213834951dedece5d9ad5ca7001c6fa5414c7b7a3c7f42704efbe2eff61",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1248634,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e902d6b5259e1ef843856e4f176d093959f24f9fc3659814244c61b5b3037a93",
+      "native_window": [
+        5400,
+        1800,
+        4203,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12W018_Map.tif",
+      "window_sha256": "8b3bd84660024763f674b4184004f5a858807b7e86705d7019a10f359080641d"
+    }
+  ]
+}

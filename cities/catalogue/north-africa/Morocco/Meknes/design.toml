@@ -68,7 +68,7 @@ length_m        = 7198.5
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 120
 
 [[civil_segments]]
 line            = "line-1"
@@ -122,19 +122,21 @@ line            = "line-1"
 lat             = 33.88435035093403
 lon             = -5.537809490654259
 s_m             = 6804.7
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0684-0491-s009807"
+id              = "line-1-0700-0472-s010360"
 line            = "line-1"
-lat             = 33.86941315912609
-lon             = -5.5603193361151435
-s_m             = 9806.6
-anchor_kind     = "tourism:attraction"
-archetype       = "standard"
+lat             = 33.866533700464316
+lon             = -5.56443171172819
+s_m             = 10360.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0763-0392-s012652"
@@ -169,11 +171,12 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0611-0596-s006013"
+id              = "line-2-0601-0595-s005805"
 line            = "line-2"
-lat             = 33.88255068927042
-lon             = -5.53759304983252
-s_m             = 6013.4
+lat             = 33.88435035093403
+lon             = -5.537809490654259
+s_m             = 5805.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
@@ -199,6 +202,17 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "Marjane Amicale"
 archetype       = "terminal"
 platform_length_m = 59.5
+
+[[stations]]
+id              = "line-3-0700-0472-s001502"
+line            = "line-3"
+lat             = 33.866533700464316
+lon             = -5.56443171172819
+s_m             = 1501.8
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0630-0458-s003004"
@@ -235,10 +249,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 33.88345052010222
-lon             = -5.537701270243389
+lat             = 33.88435035093403
+lon             = -5.537809490654259
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0601-0595-s006805", "line-2-0611-0596-s006013"]
+platforms       = ["line-1-0601-0595-s006805", "line-2-0601-0595-s005805"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 33.866533700464316
+lon             = -5.56443171172819
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0700-0472-s010360", "line-3-0700-0472-s001502"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -434,8 +456,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 281566999
 civil_subtotal_eur   = 259041639
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 60000000
-stations_eur         = 55200000
+stations_usd         = 73500000
+stations_eur         = 67620000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 48703302
 depots_eur           = 44807038
@@ -448,13 +470,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1444230
 signalling_eur       = 1328691
-charging_microgrid_usd = 1450000
-charging_microgrid_eur = 1334000
+charging_microgrid_usd = 1550000
+charging_microgrid_eur = 1426000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 33380517
-epc_overhead_eur     = 30710076
-total_usd            = 510245048  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 469425444  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 34332517
+epc_overhead_eur     = 31585916
+total_usd            = 524797048  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 482813284  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

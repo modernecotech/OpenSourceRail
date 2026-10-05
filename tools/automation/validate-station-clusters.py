@@ -123,7 +123,14 @@ def validate(path: Path) -> dict:
                 "second_station": second["id"],
             }
             if chainage_gap < MINIMUM_INLINE_CHAINAGE_M:
-                findings.append({**finding, "severity": "fail"})
+                length=next((float(line['length_m']) for line in design['lines'] if line['name']==first['line']),0)
+                terminal=any(abs(float(s['s_m']))<1 or abs(length-float(s['s_m']))<1 for s in (first,second))
+                controlled_pair=(first.get('mandatory_crossing') and second.get('mandatory_crossing')) or (
+                    terminal and (first.get('mandatory_crossing') or second.get('mandatory_crossing')))
+                if controlled_pair and chainage_gap>=40:
+                    review_findings.append({**finding,'code':'distinct-crossing-spacing-requires-site-review','severity':'review'})
+                else:
+                    findings.append({**finding, "severity": "fail"})
             elif chainage_gap < PREFERRED_INLINE_CHAINAGE_M:
                 review_findings.append({**finding, "severity": "review"})
 

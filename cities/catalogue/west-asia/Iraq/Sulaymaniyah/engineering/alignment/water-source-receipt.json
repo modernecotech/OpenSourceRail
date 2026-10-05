@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "sulaymaniyah",
+  "legacy_osm_missing_geometry_ids": [
+    12752646,
+    12752877,
+    17729758
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "751f20fcfaa436beee2bde248981c7cbd099eda1e4a0e92e730adaa1c6b96046",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "0dcddf6ee86ac1a482b03bc42776254a47a6f00af2ea856ec1ec6f0bbb79457f",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/independent-landcover-samples.bin.gz": "8cad639590ff4adee52dbbf00b9af650a3bd967f0f91fbad8f42277c681e61fd",
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/planning-grid.json": "2035766a44f1f123cb58b2a8297fd798eea659ebbeef7b4fe06298b34efc48e6",
+    "cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/alignment/planning-water-features.json.gz": "6eeb530ce029ee81d61a51774c3b4acaf9fd2e449ba6f0836f1e16482fadf9da",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 5226,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "bf1a9fa1532a81415b1308019f4fd5591ae578f9034ba32c6ce9a5c06c89dd68",
+      "native_window": [
+        3240,
+        3599,
+        3963,
+        3364
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E045_Map.tif",
+      "window_sha256": "3e471b709c1b27addd15b14fdd61c07b9d49c5d6a8602932441a75a09a3a4a78"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "city": "bamenda",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,33 +11,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 914,
-      "row": 288,
-      "station_id": "line-1-0288-0914-s003491",
+      "col": 933,
+      "row": 278,
+      "station_id": "line-1-0278-0933-s003515",
       "water_coverage_percent": 0
     },
     {
-      "col": 764,
-      "row": 351,
-      "station_id": "line-1-0351-0764-s007016",
+      "col": 795,
+      "row": 340,
+      "station_id": "line-1-0340-0795-s007012",
       "water_coverage_percent": 0
     },
     {
-      "col": 635,
-      "row": 398,
-      "station_id": "line-1-0398-0635-s010021",
+      "col": 665,
+      "row": 387,
+      "station_id": "line-1-0387-0665-s010024",
       "water_coverage_percent": 0
     },
     {
-      "col": 506,
-      "row": 446,
-      "station_id": "line-1-0446-0506-s013034",
+      "col": 536,
+      "row": 435,
+      "station_id": "line-1-0435-0536-s013049",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 439,
+      "row": 470,
+      "station_id": "line-1-0470-0439-s015302",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 435,
+      "row": 472,
+      "station_id": "line-1-0472-0435-s015405",
       "water_coverage_percent": 0
     },
     {
       "col": 379,
       "row": 492,
-      "station_id": "line-1-0492-0379-s015978",
+      "station_id": "line-1-0492-0379-s016696",
       "water_coverage_percent": 0
     },
     {
@@ -59,15 +71,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 439,
-      "row": 475,
-      "station_id": "line-2-0475-0439-s009047",
+      "col": 441,
+      "row": 476,
+      "station_id": "line-2-0476-0441-s008999",
       "water_coverage_percent": 0
     },
     {
-      "col": 343,
-      "row": 402,
-      "station_id": "line-2-0402-0343-s011724",
+      "col": 435,
+      "row": 472,
+      "station_id": "line-2-0472-0435-s009166",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 341,
+      "row": 401,
+      "station_id": "line-2-0401-0341-s011772",
       "water_coverage_percent": 0
     },
     {
@@ -89,9 +107,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 438,
-      "row": 466,
-      "station_id": "line-3-0466-0438-s007690",
+      "col": 439,
+      "row": 470,
+      "station_id": "line-3-0470-0439-s007779",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 441,
+      "row": 476,
+      "station_id": "line-3-0476-0441-s007915",
       "water_coverage_percent": 0
     },
     {
@@ -101,14 +125,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 20,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Bamenda/design.toml": "1997d73533208fe2730b8db18e1a1ba7ed067ea4bd7c873fdac974a662869a4f",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/design.toml": "d4e0c27615326381a91ac54f6b9cd7d8a9dd9b2ceecb5d76b09622bdeb200de3",
     "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-grid.json": "fc8a20c13f715262c8c47bf7eb1e72b9688d895a48c28351ae2e640f07c5ce4d",
-    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-water-mask.bin.gz": "b70cf6cbee695b05a278e8536365574d28e4bf7297cdaab11dedd3134ae22b37",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-water-mask.bin.gz": "920070e58ca3e246f25b381194042761a258218cf06bff3d0291bcefae812436",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/water-source-receipt.json": "cb5e514f81ee6df2a9b39c4fdd3dcdb02d1e85447b8c6ab1e9a8ce1874fb749d",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "e2814c031aa9d00ec488f80341344d5f2e61912070b05f50e3cae3fe7c612e54",
+  "uncompressed_water_mask_sha256": "c7e9f6c453b45b17ba19a58176e7bd232039dcd38f01470ecae8ba02f95d8c7d",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

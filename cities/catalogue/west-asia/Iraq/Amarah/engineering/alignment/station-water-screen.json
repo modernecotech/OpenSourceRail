@@ -1,6 +1,6 @@
 {
   "city": "amarah",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 421,
-      "row": 547,
-      "station_id": "line-1-0547-0421-s006006",
+      "col": 417,
+      "row": 541,
+      "station_id": "line-1-0541-0417-s005853",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 457,
+      "row": 610,
+      "station_id": "line-1-0610-0457-s007623",
       "water_coverage_percent": 0
     },
     {
@@ -35,15 +41,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 652,
-      "row": 947,
-      "station_id": "line-1-0947-0652-s016248",
+      "col": 662,
+      "row": 968,
+      "station_id": "line-1-0968-0662-s016844",
       "water_coverage_percent": 0
     },
     {
       "col": 749,
       "row": 1131,
-      "station_id": "line-1-1131-0749-s020458",
+      "station_id": "line-1-1131-0749-s021680",
       "water_coverage_percent": 0
     },
     {
@@ -56,6 +62,12 @@
       "col": 386,
       "row": 592,
       "station_id": "line-2-0592-0386-s003017",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 417,
+      "row": 541,
+      "station_id": "line-2-0541-0417-s004352",
       "water_coverage_percent": 0
     },
     {
@@ -89,15 +101,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 412,
-      "row": 597,
-      "station_id": "line-3-0597-0412-s005523",
+      "col": 457,
+      "row": 610,
+      "station_id": "line-3-0610-0457-s004516",
       "water_coverage_percent": 0
     },
     {
-      "col": 300,
-      "row": 565,
-      "station_id": "line-3-0565-0300-s008040",
+      "col": 388,
+      "row": 590,
+      "station_id": "line-3-0590-0388-s006073",
       "water_coverage_percent": 0
     },
     {
@@ -107,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 17,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Amarah/design.toml": "cf77051aba53a71677c5471cf01060c7868a9dd25a8a887b49530f830b7998dc",
+    "cities/catalogue/west-asia/Iraq/Amarah/design.toml": "93ed67de6eeeb672799c05bb5f8f1ad3a1933e86eb2f28e770b8c0488270a074",
     "cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/planning-grid.json": "608e07c69f77bde1ff1ee16a6e30c2ea06f91a718fa0b3e9783eb5933335f6eb",
-    "cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/planning-water-mask.bin.gz": "2080c9c8e9b9b5e2826f95e43d10c1c83c4bf9f7772b635c2a39cab2786b05b8",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/planning-water-mask.bin.gz": "8772830c981976139a503034650fba978dd207883181c3f2150b1685b57d9bd1",
+    "cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/water-source-receipt.json": "4397789791aa702a65bf64add7139c0a6efc33a2447c61c5003c37657765a715",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "5c80d13f143695762c5f89cade5a77d81be612b3039e0bc1ac7b2d1b7007a709",
+  "uncompressed_water_mask_sha256": "6ecdab9daa310ca4245cef20ac3462156b497ba8c242cbd250de87059faadd5d",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

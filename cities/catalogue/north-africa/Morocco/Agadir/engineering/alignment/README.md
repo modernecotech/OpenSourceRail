@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`agadir-line1.aln.toml`](agadir-line1.aln.toml) | `line-1` | 23,208.5 m | 8 |
-| [`agadir-line2.aln.toml`](agadir-line2.aln.toml) | `line-2` | 23,674.9 m | 8 |
+| [`agadir-line1.aln.toml`](agadir-line1.aln.toml) | `line-1` | 24,393.6 m | 8 |
+| [`agadir-line2.aln.toml`](agadir-line2.aln.toml) | `line-2` | 23,674.9 m | 9 |
 | [`agadir-line3.aln.toml`](agadir-line3.aln.toml) | `line-3` | 23,665.0 m | 9 |
 
 ## Status

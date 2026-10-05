@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 8.922653,
     "north": 9.960128,
@@ -6,6 +7,7 @@
     "west": 8.801933
   },
   "core_analytical_length_m": 32215.350516,
+  "core_final_route_length_m": 33594.600282,
   "core_original_length_m": 42443.295907,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14257.544007,
       "line": "line-1",
       "original_cells": 447,
       "original_route_m": 20143.242871,
-      "reworked_cells": 719,
-      "reworked_route_m": 16809.046515
+      "reworked_cells": 791,
+      "reworked_route_m": 17084.062043,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11399.411255,
       "line": "line-2",
       "original_cells": 600,
       "original_route_m": 13305.4834,
       "reworked_cells": 566,
-      "reworked_route_m": 11399.411255
+      "reworked_route_m": 11399.411255,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7937.64502,
       "line": "line-3",
       "original_cells": 519,
       "original_route_m": 11594.356416,
       "reworked_cells": 378,
-      "reworked_route_m": 7937.64502
+      "reworked_route_m": 7937.64502,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Nigeria/Jos/alignment-policy.toml": "e1fd70a23da07407226920b1071a475629be7a524d59c1c96d1a805f374ee63b",
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/planning-buildability-mask.bin.gz": "8209d0bb53fb5ca5e4ac4f1bc786642cbbf9cb28c92857785cf0ed0f55e1e66f",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/planning-grid.json": "7bafa4f3fe168faf3bd03f0b5e57bfc876344dd8a4f0fd2cd91e17dbbc96e5c5",
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/planning-water-mask.bin.gz": "f0b2723bdcc4f7da369a5d68d78c08294f11bb8335d6a8031c4c78cafceac5e5",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/pre-rework-corridors.json.gz": "ca415cfc9fb8c515a9e299380a6e8e9fc55314043306fe76e5590c3692616c67",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/water-source-receipt.json": "d7675e77d7c05b0b8b88d17c07f779591f03fdc4c4692ecee1d86b4fb99eba7e",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

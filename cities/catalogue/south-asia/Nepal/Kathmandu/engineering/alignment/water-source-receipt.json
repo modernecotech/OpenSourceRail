@@ -1,0 +1,54 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kathmandu",
+  "legacy_osm_missing_geometry_ids": [
+    3303738,
+    3681137,
+    5139102,
+    12883246,
+    12955002,
+    13059083,
+    18077383
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "560954614783031504d5e9817f581e545ef7cd7a0a3d96135dcf3208c8b77239",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "9ec50c829ef4c6af133022e2c6016c5acd64f3709607e0f4e2c0c803b5e30093",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Nepal/Kathmandu/engineering/alignment/independent-landcover-samples.bin.gz": "c81561c8cac688459d3949808c5fa278be95b273291dcedf807c922ab53bc396",
+    "cities/catalogue/south-asia/Nepal/Kathmandu/engineering/alignment/planning-grid.json": "41bf646e284ea0b0f867653747ab37af2f7fe66fe4db72bc69136739d4a44863",
+    "cities/catalogue/south-asia/Nepal/Kathmandu/engineering/alignment/planning-water-features.json.gz": "3e6e176271b8273600ba93d171ee9b0cf389bd1cce82f1c51d0348af0e6627ac",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 12881,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "43dd6237600f5a36b8dcd92228ee12fce3db386a07ac7f95defb90e806a21847",
+      "native_window": [
+        14160,
+        26160,
+        3243,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E084_Map.tif",
+      "window_sha256": "3b87803b6059415772e9412bd2d06403e14acbb2a0bcdd8bea9c4f693193f3b7"
+    }
+  ]
+}

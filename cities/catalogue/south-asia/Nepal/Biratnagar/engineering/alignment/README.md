@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`biratnagar-line1.aln.toml`](biratnagar-line1.aln.toml) | `line-1` | 12,018.5 m | 6 |
+| [`biratnagar-line1.aln.toml`](biratnagar-line1.aln.toml) | `line-1` | 12,018.5 m | 5 |
 | [`biratnagar-line2.aln.toml`](biratnagar-line2.aln.toml) | `line-2` | 4,279.4 m | 2 |
-| [`biratnagar-line3.aln.toml`](biratnagar-line3.aln.toml) | `line-3` | 9,044.9 m | 3 |
+| [`biratnagar-line3.aln.toml`](biratnagar-line3.aln.toml) | `line-3` | 9,044.9 m | 4 |
 
 ## Status
 

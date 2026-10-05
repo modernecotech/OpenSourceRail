@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.473549,
     "north": -0.678097,
@@ -6,6 +7,7 @@
     "west": 36.392429
   },
   "core_analytical_length_m": 26810.639427,
+  "core_final_route_length_m": 29418.115421,
   "core_original_length_m": 31688.657416,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10607.981233,
       "line": "line-1",
       "original_cells": 589,
       "original_route_m": 14231.881381,
       "reworked_cells": 570,
-      "reworked_route_m": 13699.595949
+      "reworked_route_m": 13699.595949,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5156.568542,
       "line": "line-2",
       "original_cells": 415,
       "original_route_m": 9969.991334,
       "reworked_cells": 391,
-      "reworked_route_m": 8280.487732
+      "reworked_route_m": 8280.487732,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13653.565645,
       "line": "line-3",
       "original_cells": 575,
       "original_route_m": 14942.562473,
       "reworked_cells": 609,
-      "reworked_route_m": 14893.809512
+      "reworked_route_m": 14893.809512,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Naivasha/alignment-policy.toml": "8e4259a9e71a939b3f4479d7d92ecbf2faf60a270b2ffc00dbe90603b1a1c0e9",
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/planning-buildability-mask.bin.gz": "819c41098257a142ddf8c2244d1bc0992b86c7fce0c51e25dc91b1f80aacc688",
     "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/planning-grid.json": "a4f9c2546fefe2014ef7167f7ca011ffb0c4630481519438013a20c50cb77841",
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/planning-water-mask.bin.gz": "0746f704ed4721d042c53f78dd699edac49f1715fc52d31a30aa95638ada092e",
     "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/pre-rework-corridors.json.gz": "5391fb0ed00a6c197cf6aebef4559d96e898b2924da18c95fd41b7c0d798c55d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/water-source-receipt.json": "f17144a000d8ca0197a23957625530aa110e49de2b5996f7def3ca03da2624a8",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

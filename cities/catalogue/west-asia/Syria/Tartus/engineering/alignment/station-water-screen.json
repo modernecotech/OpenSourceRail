@@ -1,6 +1,6 @@
 {
   "city": "tartus",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 377,
-      "row": 379,
-      "station_id": "line-1-0379-0377-s007619",
+      "col": 378,
+      "row": 383,
+      "station_id": "line-1-0383-0378-s007531",
       "water_coverage_percent": 0
     },
     {
@@ -35,6 +35,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 426,
+      "row": 311,
+      "station_id": "line-2-0311-0426-s006318",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 414,
       "row": 297,
       "station_id": "line-2-0297-0414-s006733",
@@ -47,9 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 381,
-      "row": 378,
-      "station_id": "line-3-0378-0381-s002889",
+      "col": 426,
+      "row": 311,
+      "station_id": "line-3-0311-0426-s001094",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 378,
+      "row": 383,
+      "station_id": "line-3-0383-0378-s003025",
       "water_coverage_percent": 0
     },
     {
@@ -59,14 +71,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 9,
-  "schema_version": 1,
+  "platforms_checked": 11,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Syria/Tartus/design.toml": "360889e46e4fb70751e9149dc28512237521cc1263ad8268deefe842c22f8f63",
+    "cities/catalogue/west-asia/Syria/Tartus/design.toml": "c2fafeed17c4a06b10031535bf2120dab8beb56d027fa67f84ce04f53a33a8a2",
     "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-grid.json": "2597007514ea8f6302fe6983c8a32b9b1e2ad7d3cb7ce144442a9f3b20103f47",
-    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-water-mask.bin.gz": "f77b79116eb0cb3086aaa1a8a7aaf1a8cb4f633c8c6721f35c594eec17206e26",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-water-mask.bin.gz": "2956008f98b7bbae351c0d3d51dd362680b88e89d89ea1c1507c241a3211a276",
+    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/water-source-receipt.json": "4c589feb9d664d35ba558b7f7b23c3d51597b38ecb41cde5e8c1e42695cd9ebe",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "bb6fedbc12bbdd8f67d1790e3368e49aff48e23362333628fa15bec2566c4e7c",
+  "uncompressed_water_mask_sha256": "aa9cea51e76a45e8025c1a561f2c5aa0d86c59dfefcadc1f567e2c957f56f5cf",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

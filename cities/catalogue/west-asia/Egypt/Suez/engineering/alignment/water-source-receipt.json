@@ -1,0 +1,65 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "suez",
+  "legacy_osm_missing_geometry_ids": [
+    7682094,
+    19506245
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "0759d859d72f9703063bcda31b8cc1e7a70486f13f66a254c200692680296e2d",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "58ef5d1bc3b06877a1926278eaff4094c1e75c8a447df81486ea0f47d3aabe86",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/independent-landcover-samples.bin.gz": "eec764e6d69ff8a6529b96b0ece83cc086c1f8e1ab2ab69229b30f9827b4cbce",
+    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/planning-grid.json": "03d804461457ad16986b938dfa00f7fbd9b16344c9cdafb60e64182e1a2b9851",
+    "cities/catalogue/west-asia/Egypt/Suez/engineering/alignment/planning-water-features.json.gz": "ab3dbbc624332e6ecb4af00b93acedc619ac0bcac004dff630b6413a2f3bb298",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 294287,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b6a62c721ffdfe8a02b81f33f604f16412f0d045060f00d6eaa1c14db388a67a",
+      "native_window": [
+        29224,
+        0,
+        2749,
+        1590
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E030_Map.tif",
+      "window_sha256": "e1d93a44fda3853193705697228b2ddd72e077cfc9661bf8358b5b35a9a78d27"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "7109008952637b4f7ecd17e03e25d28c0df14f741d5b9d7b553072cf8de616ee",
+      "native_window": [
+        29224,
+        35209,
+        2749,
+        791
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E030_Map.tif",
+      "window_sha256": "68ebf13f11d65c8fd04fbbacc5c2fc9bf920c3308cd1356b7e81df13d2e11bdb"
+    }
+  ]
+}

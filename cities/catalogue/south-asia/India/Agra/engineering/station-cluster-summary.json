@@ -8,18 +8,37 @@
       "city": "agra",
       "city_centre_cluster_envelope_m": 600.0,
       "city_centre_radius_m": 3000.0,
-      "design_sha256": "9c2390d64bc264796885faf6190500f101e4d7a527fa87837af6e98a3d19e4a5",
+      "design_sha256": "bc64446de50012a4db4d39a62028422a8167f29dbe1cb2de6de90e3c337a1c8e",
       "failures": [],
-      "generator_sha256": "7ed3dd43eeb2b463c0abb2cd2c83a472919af9acad12c5166d2df01c487d4858",
-      "interchange_count": 10,
+      "generator_sha256": "2ca414423f47b3334ca3895460c1c71ea68d800e1b5b9a02d4bda4b0894336f6",
+      "interchange_count": 12,
       "minimum_inline_chainage_m": 1180.0,
       "passed": true,
       "preferred_inline_chainage_m": 1200.0,
-      "review_finding_count": 0,
-      "review_findings": [],
-      "station_count": 51,
+      "review_finding_count": 2,
+      "review_findings": [
+        {
+          "chainage_gap_m": 1180.8,
+          "code": "same-line-stations-too-close",
+          "distance_m": 1082.1,
+          "first_station": "line-2-0903-0860-s005130",
+          "line": "line-2",
+          "second_station": "line-2-0852-0878-s006310",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 200.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 200.1,
+          "first_station": "line-5-0802-0374-s050318",
+          "line": "line-5",
+          "second_station": "line-5-0792-0374-s050518",
+          "severity": "review"
+        }
+      ],
+      "station_count": 53,
       "transfer_envelope_m": 600.0
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 2
 }

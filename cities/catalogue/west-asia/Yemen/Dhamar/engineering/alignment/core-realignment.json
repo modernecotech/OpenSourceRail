@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 44.446319,
     "north": 14.583643,
@@ -6,6 +7,7 @@
     "west": 44.362559
   },
   "core_analytical_length_m": 16230.665647,
+  "core_final_route_length_m": 17655.331881,
   "core_original_length_m": 26173.689457,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6510.19336,
       "line": "line-1",
       "original_cells": 484,
       "original_route_m": 11159.321642,
       "reworked_cells": 333,
-      "reworked_route_m": 7294.457429
+      "reworked_route_m": 7294.457429,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7250.336213,
       "line": "line-2",
       "original_cells": 511,
       "original_route_m": 11964.549776,
       "reworked_cells": 385,
-      "reworked_route_m": 9444.549776
+      "reworked_route_m": 9444.549776,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 3894.802307,
       "line": "line-3",
       "original_cells": 260,
       "original_route_m": 6028.295671,
       "reworked_cells": 180,
-      "reworked_route_m": 3894.802307
+      "reworked_route_m": 3894.802307,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Yemen/Dhamar/alignment-policy.toml": "29a229b798f63e46721a4d79db2d9d11a3d74a4b6d507d6647280a864dfcd50a",
+    "cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/planning-grid.json": "5c524ed2f813c6841ee4224c05a4b6792343af2163bc42e570e342799019c9a7",
+    "cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/planning-water-mask.bin.gz": "fce1f2e4a8eb896fc02064da2525671c324873a78ad4bcbe5149b22d203cdd18",
     "cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/pre-rework-corridors.json.gz": "88b902f2b77d3eea1a4f982c26a92524d9c52b6785caf6e498e7d5d4b7c2b6bc",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/water-source-receipt.json": "016ef36e2396f015b73a06452eadfd9125ad305038cdb1be1f6388bf93353e15",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

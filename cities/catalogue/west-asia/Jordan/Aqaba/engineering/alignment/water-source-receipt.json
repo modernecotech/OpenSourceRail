@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "aqaba",
+  "legacy_osm_missing_geometry_ids": [
+    6229836,
+    18101711,
+    18113321
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "8ef77a17dbe46922f0742dae8744fda2ef2ecce5f734499370864f9bdbdc5f68",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "885dbde1fc1ed67957d333377608344954f4a9b5d317b0f81bcbaa1f1f2ac509",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/independent-landcover-samples.bin.gz": "c529a588bb08feebfb026516d6193c48b0af97b9c4597b51c2f8dc59bbe42987",
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/planning-grid.json": "7c8ef53ff44126a95d7dff0f38d1e8c528792d337e89b6c57b8f2cbb794c65f6",
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/planning-water-features.json.gz": "a8ddda60702038661578becedee33c2ca11c3f3c7edd38c4fd1a59928b1d4364",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 130723,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e1175f97da47b5ac6b12ea27bb153b42a46aa08d16e5cbd26568dcd40d4ae171",
+      "native_window": [
+        23143,
+        4803,
+        1868,
+        1626
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E033_Map.tif",
+      "window_sha256": "8af2fabdfae1b2d37f4483a8c3b34ac52dc0b244bd50f05040ea6be2ae4071a1"
+    }
+  ]
+}

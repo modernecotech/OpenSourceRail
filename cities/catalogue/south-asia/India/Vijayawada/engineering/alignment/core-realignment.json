@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 80.737881,
     "north": 16.592697,
@@ -6,6 +7,7 @@
     "west": 80.557521
   },
   "core_analytical_length_m": 142223.159451,
+  "core_final_route_length_m": 156174.210589,
   "core_original_length_m": 178684.299263,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20444.246738,
       "line": "line-1",
       "original_cells": 465,
       "original_route_m": 31142.008271,
-      "reworked_cells": 926,
-      "reworked_route_m": 25763.475394
+      "reworked_cells": 1099,
+      "reworked_route_m": 26276.10532,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22552.18613,
       "line": "line-2",
       "original_cells": 417,
       "original_route_m": 27423.609411,
       "reworked_cells": 936,
-      "reworked_route_m": 22552.18613
+      "reworked_route_m": 22552.18613,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +121,13 @@
               6380.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 26475.463362,
+          "seed_from_index": 64,
+          "seed_to_index": 368,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 15780.0,
@@ -128,12 +140,7 @@
                 25600.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 26475.463362,
-          "seed_from_index": 64,
-          "seed_to_index": 368,
-          "simplification_tolerance_m": 600.0
+          ]
         },
         {
           "analytical_length_m": 1360.147051,
@@ -147,7 +154,13 @@
               6400.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 1372.310563,
+          "seed_from_index": 371,
+          "seed_to_index": 388,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 17380.0,
@@ -160,19 +173,33 @@
                 6380.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 1372.310563,
-          "seed_from_index": 371,
-          "seed_to_index": 388,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 21486.761902,
       "line": "line-3",
       "original_cells": 472,
       "original_route_m": 40924.699265,
-      "reworked_cells": 1181,
-      "reworked_route_m": 33817.757951
+      "reworked_cells": 1698,
+      "reworked_route_m": 35431.168825,
+      "water_route_changes": [
+        {
+          "detour_route_m": 3074.213562,
+          "from_cell": [
+            786,
+            492
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2456.568542,
+          "search_work_upper_bound": 30317,
+          "to_cell": [
+            788,
+            369
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -209,11 +236,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16768.611819,
       "line": "line-4",
       "original_cells": 527,
       "original_route_m": 24021.89625,
-      "reworked_cells": 817,
-      "reworked_route_m": 22740.752964
+      "reworked_cells": 1000,
+      "reworked_route_m": 23550.520908,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -250,11 +279,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13576.021638,
       "line": "line-5",
       "original_cells": 490,
       "original_route_m": 22625.702212,
-      "reworked_cells": 764,
-      "reworked_route_m": 20439.546873
+      "reworked_cells": 964,
+      "reworked_route_m": 21065.971132,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -950,21 +981,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 61346.382361,
       "line": "line-6",
       "original_cells": 453,
       "original_route_m": 69927.454031,
-      "reworked_cells": 2715,
-      "reworked_route_m": 67187.347891
+      "reworked_cells": 2985,
+      "reworked_route_m": 67765.448738,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Vijayawada/alignment-policy.toml": "c5971e6ed8f5499b570661ce236a03c33079ce2020429a97ace86cf8600cc786",
+    "cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/planning-buildability-mask.bin.gz": "4d4152cd1d10fe7d4d7b6d635493834670ee158589ff72ccbb290247b582d4f1",
     "cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/planning-grid.json": "15ecfe1e4506295ca10c008751eb94ca3dc5e3c8ac76ee852ccc7d8fe6c30aaa",
+    "cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/planning-water-mask.bin.gz": "5b0cee7bc5d8517857670a71a7c2dd9b4fe277c56f4a935d38554907476fe4e2",
     "cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/pre-rework-corridors.json.gz": "ed05603fa7360a9e76306ba968b7c7819c3eb3efbc36fea16afccb7446bb6983",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Vijayawada/engineering/alignment/water-source-receipt.json": "2cde2c3aa11aaf567e64c25176b984ad7ddf39447dc90d6faa24519c178c5bd9",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

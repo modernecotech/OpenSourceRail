@@ -1,6 +1,6 @@
 {
   "city": "tete",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,27 +11,63 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 559,
+      "row": 448,
+      "station_id": "line-1-0448-0559-s005072",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 562,
+      "row": 451,
+      "station_id": "line-1-0451-0562-s005156",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 575,
+      "row": 468,
+      "station_id": "line-1-0468-0575-s005604",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 577,
+      "row": 471,
+      "station_id": "line-1-0471-0577-s005681",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 579,
+      "row": 480,
+      "station_id": "line-1-0480-0579-s005877",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 525,
+      "row": 524,
+      "station_id": "line-1-0524-0525-s008192",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 460,
       "row": 493,
-      "station_id": "line-1-0493-0460-s004308",
+      "station_id": "line-1-0493-0460-s011288",
       "water_coverage_percent": 0
     },
     {
       "col": 479,
       "row": 583,
-      "station_id": "line-1-0583-0479-s006277",
+      "station_id": "line-1-0583-0479-s013257",
       "water_coverage_percent": 0
     },
     {
       "col": 499,
       "row": 672,
-      "station_id": "line-1-0672-0499-s008234",
+      "station_id": "line-1-0672-0499-s015214",
       "water_coverage_percent": 0
     },
     {
       "col": 539,
       "row": 851,
-      "station_id": "line-1-0851-0539-s012169",
+      "station_id": "line-1-0851-0539-s019149",
       "water_coverage_percent": 0
     },
     {
@@ -47,6 +83,36 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 582,
+      "row": 477,
+      "station_id": "line-2-0477-0582-s007574",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 577,
+      "row": 471,
+      "station_id": "line-2-0471-0577-s007759",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 575,
+      "row": 468,
+      "station_id": "line-2-0468-0575-s007835",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 562,
+      "row": 451,
+      "station_id": "line-2-0451-0562-s008306",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 559,
+      "row": 448,
+      "station_id": "line-2-0448-0559-s008391",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 468,
       "row": 329,
       "station_id": "line-2-0329-0468-s011748",
@@ -59,9 +125,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 635,
-      "row": 434,
-      "station_id": "line-3-0434-0635-s003521",
+      "col": 525,
+      "row": 524,
+      "station_id": "line-3-0524-0525-s000318",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 579,
+      "row": 480,
+      "station_id": "line-3-0480-0579-s001891",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 582,
+      "row": 477,
+      "station_id": "line-3-0477-0582-s001988",
       "water_coverage_percent": 0
     },
     {
@@ -77,14 +155,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 12,
-  "schema_version": 1,
+  "platforms_checked": 25,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Tete/design.toml": "932c8357752184bf3188457eb2f169945650e9d7e084bd3d19506877ea5d507b",
+    "cities/catalogue/east-africa/Mozambique/Tete/design.toml": "efbee2fb450b16266f5cd7c9c82173f2c49d581c5f397686fb5ca87d9fd4ee82",
     "cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/planning-grid.json": "726314d0ccf02e221e0933e722c8625840e95ee7ea0691a9cb606d09eb1caed3",
-    "cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/planning-water-mask.bin.gz": "7e2ce062477856360de95a9da121edfba7123aa79978234b285efa518495d93f",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/planning-water-mask.bin.gz": "df8131e141d3ad373c610aa1846f4d56e9091e6be7f3809653e7f0901748335c",
+    "cities/catalogue/east-africa/Mozambique/Tete/engineering/alignment/water-source-receipt.json": "d5c5338bc9138f4af378402ed1a725506225313f7e395cc3fdbb7528a6470097",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "ef8c9b78fe663ac6c4811cc909d3eed18b282965d7f23692ca347a422cf2f41b",
+  "uncompressed_water_mask_sha256": "f5b0a84d4a2a5eafda18e8c5e4964fe40a0329ce62ce3db8d739529fd54072e6",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

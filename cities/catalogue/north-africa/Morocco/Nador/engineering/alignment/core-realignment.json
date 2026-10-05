@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -2.88581,
     "north": 35.209203,
@@ -6,6 +7,7 @@
     "west": -2.98505
   },
   "core_analytical_length_m": 21109.990314,
+  "core_final_route_length_m": 23457.627689,
   "core_original_length_m": 28850.970556,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6840.975465,
       "line": "line-1",
       "original_cells": 425,
       "original_route_m": 10049.027269,
       "reworked_cells": 391,
-      "reworked_route_m": 9050.924958
+      "reworked_route_m": 9050.924958,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9516.265504,
       "line": "line-2",
       "original_cells": 653,
       "original_route_m": 15367.880221,
       "reworked_cells": 506,
-      "reworked_route_m": 12386.458864
+      "reworked_route_m": 12386.458864,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7100.38672,
       "line": "line-3",
       "original_cells": 376,
       "original_route_m": 9023.911547,
       "reworked_cells": 325,
-      "reworked_route_m": 7590.092347
+      "reworked_route_m": 7590.092347,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Nador/alignment-policy.toml": "93e1df18cf916dd1b89c9b85016313b81bcfe113a0f7e8d9138d61b02bb9aa47",
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-buildability-mask.bin.gz": "e3bf963e04ee840f3e8a4034ff02bc3cb4d0b1fc166cc416f28d3e98707f7d7c",
     "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-grid.json": "abaf32e3c26b3e5841dac236da4893135de55db4f8e41c1c66dc5b67c90717c4",
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-water-mask.bin.gz": "8683330b85ebe6bfe4f9569af17a19eadaf69ba089fac4b10d30e83e92289486",
     "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/pre-rework-corridors.json.gz": "d0068b1a9c4545828449887a08bfda337f4325f9458a060de07b1d22639289e9",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/water-source-receipt.json": "866c9bca4dddec47b8c59c34f5249f01271366aeb5709658ba67f404ca638a44",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

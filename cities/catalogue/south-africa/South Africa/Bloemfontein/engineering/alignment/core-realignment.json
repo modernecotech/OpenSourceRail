@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 26.23934,
     "north": -29.03489,
@@ -6,6 +7,7 @@
     "west": 26.10326
   },
   "core_analytical_length_m": 42193.913898,
+  "core_final_route_length_m": 47177.164466,
   "core_original_length_m": 59903.390903,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16622.682528,
       "line": "line-1",
       "original_cells": 577,
       "original_route_m": 26334.03139,
-      "reworked_cells": 830,
-      "reworked_route_m": 22533.816129
+      "reworked_cells": 1048,
+      "reworked_route_m": 23847.779208,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18139.738803,
       "line": "line-2",
       "original_cells": 545,
       "original_route_m": 24966.097187,
-      "reworked_cells": 832,
-      "reworked_route_m": 21832.750439
+      "reworked_cells": 942,
+      "reworked_route_m": 22291.109653,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12414.743136,
       "line": "line-3",
       "original_cells": 419,
       "original_route_m": 18247.407564,
       "reworked_cells": 507,
-      "reworked_route_m": 12414.743136
+      "reworked_route_m": 12414.743136,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-africa/South Africa/Bloemfontein/alignment-policy.toml": "c8ec924998e0fee1b58eed5ab3e07e77deb1a0fa7a296351d08dc186ae036289",
+    "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/planning-buildability-mask.bin.gz": "b11e50bd1129d6b9ecb470967866358142c1e0a9419f93f571f53acb7bb648d5",
     "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/planning-grid.json": "d1b5013408b2ac9aca048dd6951810f5627d5917c2d126a68cee0487c7bd377c",
+    "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/planning-water-mask.bin.gz": "6140d5149af7328bae2360763ef8de9d5c6b2e6e119dd2f7aa4ce8ec5417b4c7",
     "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/pre-rework-corridors.json.gz": "515bc08d4c7926778fd4a71f4980c2675df08d2f4ce9dc7e7bec4b9ac068001a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/alignment/water-source-receipt.json": "ea197faa66c250379ce958fe57fd916bdd942792873d3d1f111748b02e420033",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

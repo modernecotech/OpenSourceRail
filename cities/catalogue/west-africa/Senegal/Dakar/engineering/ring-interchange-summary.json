@@ -1,29 +1,29 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "dakar"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "dakar",
-      "corridor_sha256": "82b5972f547453e8f9e0ad10890c91d95215dd1a0fe8656de2692dcbe299e100",
-      "design_sha256": "22ca407688caa030640014b133215d2d2e8dc72ff1bd1e439d70f56586860be1",
-      "failures": [],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
-      "radial_count": 5,
-      "review_findings": [
+      "corridor_sha256": "3e986bab835dd9e77a517e1799302087c1414b9d89147b653b85ef8f6eee9787",
+      "design_sha256": "0face20436ccb499128c278bf2d8a0100b103c11bbc3661d24d1057facc4b166",
+      "failures": [
         {
-          "code": "ring-radial-layout-disconnected",
-          "geometry_distance_m": 1431.5,
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1153.9,
           "radial": "line-5",
-          "ring": "line-6",
-          "severity": "review",
-          "terminus_distance_m": 1431.5
+          "severity": "fail"
         }
       ],
+      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
+      "passed": false,
+      "radial_count": 5,
+      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 0
 }

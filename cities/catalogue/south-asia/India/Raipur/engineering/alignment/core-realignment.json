@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 81.723961,
     "north": 21.336817,
@@ -6,6 +7,7 @@
     "west": 81.538321
   },
   "core_analytical_length_m": 107146.879341,
+  "core_final_route_length_m": 114131.277016,
   "core_original_length_m": 127023.96026,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19792.203461,
       "line": "line-1",
       "original_cells": 494,
       "original_route_m": 33090.670339,
-      "reworked_cells": 1092,
-      "reworked_route_m": 28669.070662
+      "reworked_cells": 1360,
+      "reworked_route_m": 29010.823946,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19269.848481,
       "line": "line-2",
       "original_cells": 458,
       "original_route_m": 30355.843591,
-      "reworked_cells": 1014,
-      "reworked_route_m": 25282.018689
+      "reworked_cells": 1219,
+      "reworked_route_m": 25842.884553,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12692.447327,
       "line": "line-3",
       "original_cells": 616,
       "original_route_m": 14603.027407,
       "reworked_cells": 600,
-      "reworked_route_m": 12692.447327
+      "reworked_route_m": 12692.447327,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15314.844148,
       "line": "line-4",
       "original_cells": 426,
       "original_route_m": 19913.611571,
-      "reworked_cells": 769,
-      "reworked_route_m": 19810.572641
+      "reworked_cells": 882,
+      "reworked_route_m": 20146.70273,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 21042.539674,
       "line": "line-5",
       "original_cells": 525,
       "original_route_m": 22916.549699,
-      "reworked_cells": 971,
-      "reworked_route_m": 21482.977923
+      "reworked_cells": 983,
+      "reworked_route_m": 21528.813844,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -501,21 +513,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 26019.393924,
       "line": "line-6",
       "original_cells": 413,
       "original_route_m": 29610.353521,
-      "reworked_cells": 1175,
-      "reworked_route_m": 29452.00137
+      "reworked_cells": 1277,
+      "reworked_route_m": 29612.429996,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Raipur/alignment-policy.toml": "48e14bd1653bf539538ec8a4bd821c9804eb43cd49563a6d5753288c561cf7ef",
+    "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-buildability-mask.bin.gz": "f2e7278f1c1ee193bc620a86faedd05a136f9c6cb83c47c3de1b256e73c14aed",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-grid.json": "f1ce63167e54bdfe113a27d01365aef1bffbf61af2f98376f6f3df24091d1428",
+    "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-water-mask.bin.gz": "e6d121eeac812fb61b174b1afe712fde92fd4ad820016c233de1ecc83472a09c",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/pre-rework-corridors.json.gz": "7d9631835a718828a076a2465f94d666825b709ece8120d36fff92bbe1848ba8",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Raipur/engineering/alignment/water-source-receipt.json": "0468610dabefd790f09d8309a4793f35d4964ad92764fa390affd0d6088c0527",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

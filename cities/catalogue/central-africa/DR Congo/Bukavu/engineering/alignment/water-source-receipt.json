@@ -1,0 +1,53 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "bukavu",
+  "legacy_osm_missing_geometry_ids": [
+    9072,
+    2665017,
+    13031338,
+    13047685,
+    13497091,
+    13497092
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "9b2d314c63d028c5d131fbc2d656a031df6692c13dd10fedf6107672bf8d0102",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "4c25efbafa5415aeb1df86845df686c37e538b13a88e3d84760bbc0ba559d183",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/independent-landcover-samples.bin.gz": "79867cdb3b09f4dad0846f952a5d37343869bd2de8aa1f95422dbeb51bf20c1f",
+    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/planning-grid.json": "a0120daad97ba26a256b29206ba996f14ada79c2cd07ec94e231e8d1f1f21903",
+    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/planning-water-features.json.gz": "8ad864f8c8f7dcb0815941552bb0ca4c28c62870d1883119cdd582a6ea7e1f84",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 154804,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "79e03e9e79c7ab0b65f7c1767f6a6e0abdfc5973690eff8d60267b6687478b36",
+      "native_window": [
+        21139,
+        28910,
+        2384,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E027_Map.tif",
+      "window_sha256": "8468d8748ab7e2727b3bd3bb20ebba37add1c9fe7b79363773f326a5033bf4cc"
+    }
+  ]
+}

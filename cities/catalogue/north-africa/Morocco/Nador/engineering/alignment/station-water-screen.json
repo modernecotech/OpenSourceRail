@@ -1,6 +1,6 @@
 {
   "city": "nador",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,15 +11,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 358,
-      "row": 358,
-      "station_id": "line-1-0358-0358-s001575",
+      "col": 348,
+      "row": 362,
+      "station_id": "line-1-0362-0348-s001809",
       "water_coverage_percent": 0
     },
     {
-      "col": 299,
-      "row": 385,
-      "station_id": "line-1-0385-0299-s003002",
+      "col": 314,
+      "row": 378,
+      "station_id": "line-1-0378-0314-s002645",
       "water_coverage_percent": 0
     },
     {
@@ -41,9 +41,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 362,
-      "row": 378,
-      "station_id": "line-2-0378-0362-s009468",
+      "col": 348,
+      "row": 362,
+      "station_id": "line-2-0362-0348-s008985",
       "water_coverage_percent": 0
     },
     {
@@ -65,9 +65,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 328,
-      "row": 406,
-      "station_id": "line-3-0406-0328-s005290",
+      "col": 314,
+      "row": 378,
+      "station_id": "line-3-0378-0314-s005990",
       "water_coverage_percent": 0
     },
     {
@@ -78,13 +78,15 @@
     }
   ],
   "platforms_checked": 12,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Morocco/Nador/design.toml": "e072837c8fc84c85a14fca24254861b1e8d03c28693be5015eeaf958e335afe9",
+    "cities/catalogue/north-africa/Morocco/Nador/design.toml": "2929c062e097f6f8d6b32ab9d5a9c438912858c010df602b382a94030f7f98ff",
     "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-grid.json": "abaf32e3c26b3e5841dac236da4893135de55db4f8e41c1c66dc5b67c90717c4",
-    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-water-mask.bin.gz": "948d6b4103c48a06d7666d7639aae78bbec3597e1db430f768cfacda77290486",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-water-mask.bin.gz": "8683330b85ebe6bfe4f9569af17a19eadaf69ba089fac4b10d30e83e92289486",
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/water-source-receipt.json": "866c9bca4dddec47b8c59c34f5249f01271366aeb5709658ba67f404ca638a44",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "ba015ce472f90df3122ae0b15ec35e2bb0445ba352315b2b5bc59e14e65cd6ce",
+  "uncompressed_water_mask_sha256": "77661bddb01915cd0a88e13296761b2e497f0403c3a75909fd950813de246ae1",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

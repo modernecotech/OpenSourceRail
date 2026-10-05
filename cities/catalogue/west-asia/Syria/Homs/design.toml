@@ -219,23 +219,22 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0647-0540-s005380"
+id              = "line-1-0659-0559-s005871"
 line            = "line-1"
-lat             = 34.723471907281436
-lon             = 36.718157726914605
-s_m             = 5379.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى جمعية باب السباع الخيرية"
+lat             = 34.721312313285104
+lon             = 36.722311282532324
+s_m             = 5870.7
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0704-0630-s007745"
+id              = "line-1-0710-0639-s007987"
 line            = "line-1"
-lat             = 34.713213835798875
-lon             = 36.73783246405117
-s_m             = 7745.5
+lat             = 34.712134038800706
+lon             = 36.73979993776483
+s_m             = 7986.9
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -273,27 +272,26 @@ archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0645-0569-s006011"
+id              = "line-2-0659-0559-s005636"
 line            = "line-2"
-lat             = 34.72383183961416
-lon             = 36.72449736443639
-s_m             = 6010.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "حي المريجة"
+lat             = 34.721312313285104
+lon             = 36.722311282532324
+s_m             = 5636.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-2-0561-0628-s008332"
+id              = "line-2-0524-0655-s009360"
 line            = "line-2"
-lat             = 34.73894899758846
-lon             = 36.73739524767036
-s_m             = 8331.8
-anchor_kind     = "tourism:attraction"
-anchor_name     = "ابو محمد منير العبدالله"
-archetype       = "standard"
+lat             = 34.745607745743804
+lon             = 36.74329766881133
+s_m             = 9359.9
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0476-0688-s010669"
@@ -327,22 +325,24 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0484-0610-s007097"
+id              = "line-3-0464-0586-s006405"
 line            = "line-3"
-lat             = 34.752806392398234
-lon             = 36.733460300243046
-s_m             = 7097.2
+lat             = 34.75640571572545
+lon             = 36.7282137036733
+s_m             = 6404.7
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0564-0701-s009814"
+id              = "line-3-0524-0655-s008420"
 line            = "line-3"
-lat             = 34.738409099089374
-lon             = 36.75335364557002
-s_m             = 9814.3
-archetype       = "standard"
+lat             = 34.745607745743804
+lon             = 36.74329766881133
+s_m             = 8419.9
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0643-0792-s012511"
@@ -358,10 +358,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 34.72365187344779
-lon             = 36.72132754567549
+lat             = 34.721312313285104
+lon             = 36.722311282532324
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0647-0540-s005380", "line-2-0645-0569-s006011"]
+platforms       = ["line-1-0659-0559-s005871", "line-2-0659-0559-s005636"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 34.745607745743804
+lon             = 36.74329766881133
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0524-0655-s009360", "line-3-0524-0655-s008420"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -567,8 +575,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 344167903
 civil_subtotal_eur   = 316634471
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 63000000
-stations_eur         = 57960000
+stations_usd         = 74000000
+stations_eur         = 68080000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 50133565
 depots_eur           = 46122880
@@ -584,10 +592,10 @@ signalling_eur       = 1531057
 charging_microgrid_usd = 1650000
 charging_microgrid_eur = 1518000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 38858096
-epc_overhead_eur     = 35749448
-total_usd            = 593973756  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 546455856  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 39628096
+epc_overhead_eur     = 36457848
+total_usd            = 605743756  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 557284256  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

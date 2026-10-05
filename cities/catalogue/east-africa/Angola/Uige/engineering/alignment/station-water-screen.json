@@ -1,6 +1,6 @@
 {
   "city": "uige",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -24,13 +24,15 @@
     }
   ],
   "platforms_checked": 3,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
     "cities/catalogue/east-africa/Angola/Uige/design.toml": "492725555c4d920c6e47485a39a7956b46b33f3f1c28e9363d23556ff995ac46",
     "cities/catalogue/east-africa/Angola/Uige/engineering/alignment/planning-grid.json": "5df7c1d3c4b2d3877b54389eb04e54a7d773a5738c6c8f1e9643c46c99c4ea68",
-    "cities/catalogue/east-africa/Angola/Uige/engineering/alignment/planning-water-mask.bin.gz": "7e7f171529b65bda2521c2c52009c87e89e7c17331be82ddcfc69f5cb96e4441",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Angola/Uige/engineering/alignment/planning-water-mask.bin.gz": "64962f7b31c24b67948cdea199f9fda7920785d755ebaab9c4a1601cff764e9c",
+    "cities/catalogue/east-africa/Angola/Uige/engineering/alignment/water-source-receipt.json": "6a594d4c1e2943a98b14446783b2c9d98b4349e88bf114de802a59e5f60d5595",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "7e7b0a725a36a00115208aafea437e3347edf0ac51ac36d8e58b99e93826b177",
+  "uncompressed_water_mask_sha256": "098676ebd9f841e624d19c48ddbd1c1d0307bb6c65520841976915ff717d59f8",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

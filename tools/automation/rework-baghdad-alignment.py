@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import hashlib
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -55,10 +56,10 @@ def fillet(points,radius,spacing):
         controls.append(dict(kind='arc',start=start,end=end,center=center,radius_m=actual,turn=turn,angle_rad=angle,length_m=actual*angle))
     tangent(points[-1]);return samples,controls
 
-def rework(seed,grid,config):
+def rework(seed,grid,config,water_mask=None,buildable=None):
     cell=seed['grid_cell_m'];core=config['core'];rows=[];result=json.loads(json.dumps(seed))
     def inside(rc):
-        lat=grid['bbox_north']-rc[0]*cell/grid['m_per_deg_lat'];lon=grid['bbox_west']+rc[1]*cell/grid['m_per_deg_lon']
+        lat=grid['bbox_north']-(rc[0]+.5)*cell/grid['m_per_deg_lat'];lon=grid['bbox_west']+(rc[1]+.5)*cell/grid['m_per_deg_lon']
         return core['south']<=lat<=core['north'] and core['west']<=lon<=core['east']
     for line in result['lines']:
         original=line['cells'];segments=[];new=[];i=0
@@ -70,20 +71,40 @@ def rework(seed,grid,config):
             if len(points)<3:new.extend(original[i:end]);i=end;continue
             waypoints=([points[0],points[-1]] if line['shape']=='Radial' and config['geometry']['straight_core_radials'] else simplify(points,config['geometry']['simplification_tolerance_m']))
             samples,controls=fillet(waypoints,config['geometry']['preferred_fillet_radius_m'],config['geometry']['sample_spacing_m'])
+            basis='analytical-tangents-and-circular-fillets'
+            if any(c.get('radius_m',math.inf)<300 for c in controls):
+                # A boundary fragment can be too short for a normal curve.
+                # Retain it as unreleased raster geometry rather than claim
+                # a subminimum circular fillet is a compliant design.
+                samples=points;controls=[];basis='retained-raster-requires-geometry-review'
             cells=[[round(r/cell),round(c/cell)] for r,c in samples]
             for rc in cells:
                 if not 0<=rc[0]<seed['grid_height'] or not 0<=rc[1]<seed['grid_width']:raise ValueError('Reworked corridor outside grid')
                 if not new or rc!=new[-1]:new.append(rc)
             segments.append(dict(seed_from_index=i,seed_to_index=end-1,control_points=waypoints,controls=controls,
-                original_length_m=sum(distance(a,b) for a,b in zip(points,points[1:])),analytical_length_m=sum(c['length_m'] for c in controls)))
+                geometry_basis=basis,original_length_m=sum(distance(a,b) for a,b in zip(points,points[1:])),
+                analytical_length_m=sum(c['length_m'] for c in controls) if controls else sum(distance(a,b) for a,b in zip(points,points[1:]))))
             i=end
+        water_changes=[]
+        if water_mask is not None:
+            spec=importlib.util.spec_from_file_location('baghdad_water_routes',ROOT/'tools/automation/water-route-constraints.py')
+            water=importlib.util.module_from_spec(spec);spec.loader.exec_module(water)
+            new,water_changes=water.repair(new,water_mask,cell,1000,buildable,600)
+            new=[list(c) for c in water.sampled_cells(new)]
+            if water_changes:
+                for segment in segments:
+                    segment['superseded_analytical_controls']=segment['controls'];segment['controls']=[]
+                    segment['geometry_basis']='superseded-by-water-constrained-route-requires-geometry-review'
         line['cells']=new
         rows.append(dict(line=line['name'],original_cells=len(original),reworked_cells=len(new),
             original_route_m=sum(distance(a,b)*cell for a,b in zip(original,original[1:])),
-            reworked_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:])),core_runs=segments))
-    return result,dict(schema_version=1,status=config['release']['status'],core=core,lines=rows,
+            reworked_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:])),core_runs=segments,water_constraints=water_changes,
+            final_core_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:]) if inside(a) and inside(b))))
+    return result,dict(schema_version=2,status=config['release']['status'],core=core,lines=rows,
         core_original_length_m=sum(s['original_length_m'] for l in rows for s in l['core_runs']),
         core_analytical_length_m=sum(s['analytical_length_m'] for l in rows for s in l['core_runs']),
+        core_final_route_length_m=sum(line['final_core_route_m'] for line in rows),
+        analytical_length_basis='Pre-water-constraint concept; quantities use the final water-constrained corridor.',
         limitations=['Elevated rail does not grant air/property rights or remove buildings. Survey, clearance, heritage/security restrictions, pier access and utilities remain open.',
             'Circular planning fillets need cant, transition curves, vertical alignment and independent review; a rounded raster is not a construction centerline.',
             'Water stays separately engineered bridge scope; station/interchange placement, fleet, civil quantities and cost must be regenerated.'])
@@ -91,8 +112,18 @@ def rework(seed,grid,config):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
     seed=json.loads(gzip.decompress(SEED.read_bytes()));grid=json.loads(GRID.read_text());config=tomllib.loads(CONFIG.read_text())
-    corridors,report=rework(seed,grid,config)
-    report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),CONFIG,SEED,GRID]}
+    import numpy as np
+    mask_path=OUT/'planning-water-mask.bin.gz';receipt_path=OUT/'water-source-receipt.json'
+    raw=gzip.decompress(mask_path.read_bytes())
+    if hashlib.sha256(raw).hexdigest()!=json.loads(receipt_path.read_text())['mask_sha256']:raise ValueError('Changed water evidence')
+    mask=np.frombuffer(raw,dtype=np.uint8).reshape(grid['height'],grid['width'])
+    buildability_path=OUT/'planning-buildability-mask.bin.gz'
+    if not buildability_path.is_file():
+        if args.check:raise ValueError('Missing retained buildability constraints')
+        packed=bytearray(gzip.compress((ROOT/'.cache/osr-pipeline/rasters/baghdad.buildability.npy').read_bytes(),mtime=0));packed[9]=255;buildability_path.write_bytes(packed)
+    buildable=np.frombuffer(gzip.decompress(buildability_path.read_bytes()),dtype=np.uint8).reshape(mask.shape).astype(bool)
+    corridors,report=rework(seed,grid,config,mask,buildable)
+    report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),CONFIG,SEED,GRID,mask_path,receipt_path,buildability_path,ROOT/'tools/automation/water-route-constraints.py']}
     # Sub-micrometre libm differences across supported Python versions must
     # not change planning-report bytes. Grid cells remain exact integers.
     def planning_precision(value):
@@ -107,5 +138,5 @@ def main():
         if args.check:
             if p.read_text()!=text:raise ValueError('Stale core alignment: '+str(p))
         else:p.write_text(text)
-    print(f"Core analytical corridor: {report['core_original_length_m']/1000:.3f} → {report['core_analytical_length_m']/1000:.3f} km; city-centre civil policy: elevated except water")
+    print(f"Core water-constrained corridor: {report['core_original_length_m']/1000:.3f} → {report['core_final_route_length_m']/1000:.3f} km; city-centre civil policy: elevated except water")
 if __name__=='__main__':main()

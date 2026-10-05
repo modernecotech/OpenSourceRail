@@ -1,0 +1,52 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "deir-ez-zor",
+  "legacy_osm_missing_geometry_ids": [
+    12757603,
+    12757605,
+    12757615,
+    12757633,
+    12757636
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "81281dc500f2d348565312622bb519917373a342fa51554c9b57f51083f98a89",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2e0802eab9ce91aabc20785a78d1d61a76391cb1e552bdb679f19fc569a8f49e",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/alignment/independent-landcover-samples.bin.gz": "e54f1ad8fb355c4d17d2d9b622408f8be4fefec661f17d6a4d739a1d60793931",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/alignment/planning-grid.json": "ca97aa86c74edecc9ac411b37d7edd78c67afd1217e5abaf5c81cde609f00d74",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/alignment/planning-water-features.json.gz": "4e727802583fa5c87ccf242cabb09c99368ec60b4397d53b6e2ba945b4d9baf3",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 23133,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "af2997ce0174d3078c6be6e85482a67284de3ceabf4f9112f7e9cd4cd4913909",
+      "native_window": [
+        12231,
+        6780,
+        2920,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E039_Map.tif",
+      "window_sha256": "366c54a1a1f037bba6650e47fa3993d769c5d1a2c78599062e173f618925f000"
+    }
+  ]
+}

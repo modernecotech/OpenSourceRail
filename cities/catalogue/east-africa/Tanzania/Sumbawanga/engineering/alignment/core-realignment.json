@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 31.657541,
     "north": -7.925037,
@@ -6,6 +7,7 @@
     "west": 31.575701
   },
   "core_analytical_length_m": 9227.68255,
+  "core_final_route_length_m": 9860.975465,
   "core_original_length_m": 15698.380375,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 3771.025971,
       "line": "line-1",
       "original_cells": 271,
       "original_route_m": 6662.509233,
       "reworked_cells": 156,
-      "reworked_route_m": 3771.025971
+      "reworked_route_m": 3771.025971,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4129.949494,
       "line": "line-2",
       "original_cells": 232,
       "original_route_m": 5746.66089,
       "reworked_cells": 193,
-      "reworked_route_m": 4129.949494
+      "reworked_route_m": 4129.949494,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 1960.0,
       "line": "line-3",
       "original_cells": 134,
       "original_route_m": 3289.210252,
       "reworked_cells": 99,
-      "reworked_route_m": 1960.0
+      "reworked_route_m": 1960.0,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/alignment-policy.toml": "963cea568bb579f15edcfaba39db5f69f10fb06aee5055714a1a341fc549fa32",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-buildability-mask.bin.gz": "c21af92c3ad10420c269605817a5d639d29aa8723728b15942a9d1e23bcb3cf0",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-grid.json": "9ad42ab8241505d1ad993770b87688a07895bb64f602b52bced0f0b2487a9a50",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-water-mask.bin.gz": "ef805133ee1de4f8bc28747247cad8d0c48011166c3621470ffc12b80e74754a",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/pre-rework-corridors.json.gz": "8fcc706729dbe1d5a77aae139401930bde37071ae6cb414d93c85cea88af44bc",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/water-source-receipt.json": "43ad12d63d82e6796511d5dc4d6be1c1c1acfcda89d60d5a45fed1ad6f737b4e",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

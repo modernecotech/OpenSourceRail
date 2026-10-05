@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": -1.835871,
     "north": 34.740349,
@@ -6,6 +7,7 @@
     "west": -1.980471
   },
   "core_analytical_length_m": 25403.462156,
+  "core_final_route_length_m": 26930.479067,
   "core_original_length_m": 37499.923497,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10424.995667,
       "line": "line-1",
       "original_cells": 582,
       "original_route_m": 12962.051942,
       "reworked_cells": 480,
-      "reworked_route_m": 10424.995667
+      "reworked_route_m": 10424.995667,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8551.37085,
       "line": "line-2",
       "original_cells": 533,
       "original_route_m": 12835.331881,
       "reworked_cells": 412,
-      "reworked_route_m": 8551.37085
+      "reworked_route_m": 8551.37085,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7954.11255,
       "line": "line-3",
       "original_cells": 495,
       "original_route_m": 11702.539674,
       "reworked_cells": 349,
-      "reworked_route_m": 7954.11255
+      "reworked_route_m": 7954.11255,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Oujda/alignment-policy.toml": "bdee9c943ef1a2df0f93e87416db8c06b3dff19b6377357f0957801de226c115",
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-buildability-mask.bin.gz": "6af8d8ba3f2657db272bce8934b4b19bfa18a377448de947594cd646b5f27797",
     "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-grid.json": "efbdf1cb7e6e2ff26118c3b1afb6e77143cfbafb9b4718894a0e784f0a7cad3c",
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/planning-water-mask.bin.gz": "95d667e99df180f72b8fc4c0ffd462ad446de398c497aff0b0aa7614b4dff344",
     "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/pre-rework-corridors.json.gz": "6c4414b230745c6a414accdea3253b780a27908883a3b3318036ae5239a69323",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Morocco/Oujda/engineering/alignment/water-source-receipt.json": "08fed938c1b002183912fa79d176341f82db4fe41f3741d9ce240478d1640142",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

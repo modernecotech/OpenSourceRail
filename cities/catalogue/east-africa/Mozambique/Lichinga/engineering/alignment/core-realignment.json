@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.283274,
     "north": -13.270778,
@@ -6,6 +7,7 @@
     "west": 35.199994
   },
   "core_analytical_length_m": 6797.95902,
+  "core_final_route_length_m": 7141.909089,
   "core_original_length_m": 14939.352083,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4316.568542,
       "line": "line-1",
       "original_cells": 376,
       "original_route_m": 8726.072145,
       "reworked_cells": 216,
-      "reworked_route_m": 4316.568542
+      "reworked_route_m": 4316.568542,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,21 +99,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 2825.340546,
       "line": "line-2",
       "original_cells": 269,
       "original_route_m": 6213.279938,
       "reworked_cells": 117,
-      "reworked_route_m": 2825.340546
+      "reworked_route_m": 2825.340546,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Lichinga/alignment-policy.toml": "59524e4449a372c8cc1d9403ea922fa780dd27640196d74d706841e312f3e42b",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-buildability-mask.bin.gz": "c21af92c3ad10420c269605817a5d639d29aa8723728b15942a9d1e23bcb3cf0",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-grid.json": "dd52bc0685c7620070639698c462dd182f25951c19d50aabb446d85c03144465",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/planning-water-mask.bin.gz": "5f50e0b807816943e843d11ea011f851b533cf75d99c13fe36697205c79faf6b",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/pre-rework-corridors.json.gz": "1e853840bf110209897a39a3560a74993c413da61495f792b0fcfaa1bf7ec970",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/water-source-receipt.json": "4a77d68a8d53fea06a6f8c6ec5f6227a05c6da008b8d4c9549b1a6c188ea6f3c",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

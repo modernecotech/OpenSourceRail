@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hodeidah-line1.aln.toml`](hodeidah-line1.aln.toml) | `line-1` | 7,461.6 m | 4 |
-| [`hodeidah-line2.aln.toml`](hodeidah-line2.aln.toml) | `line-2` | 9,840.5 m | 5 |
+| [`hodeidah-line1.aln.toml`](hodeidah-line1.aln.toml) | `line-1` | 7,461.6 m | 5 |
+| [`hodeidah-line2.aln.toml`](hodeidah-line2.aln.toml) | `line-2` | 9,824.0 m | 5 |
 | [`hodeidah-line3.aln.toml`](hodeidah-line3.aln.toml) | `line-3` | 6,141.3 m | 3 |
 
 ## Status

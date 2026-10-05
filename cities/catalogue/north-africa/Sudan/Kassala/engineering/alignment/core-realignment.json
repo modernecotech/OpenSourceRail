@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.460933,
     "north": 15.510129,
@@ -6,6 +7,7 @@
     "west": 36.337573
   },
   "core_analytical_length_m": 19034.659055,
+  "core_final_route_length_m": 20812.632022,
   "core_original_length_m": 23579.63779,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8852.590181,
       "line": "line-1",
       "original_cells": 448,
       "original_route_m": 10348.326112,
       "reworked_cells": 367,
-      "reworked_route_m": 8852.590181
+      "reworked_route_m": 8852.590181,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5651.959595,
       "line": "line-2",
       "original_cells": 273,
       "original_route_m": 6111.025971,
       "reworked_cells": 272,
-      "reworked_route_m": 5651.959595
+      "reworked_route_m": 5651.959595,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6308.082246,
       "line": "line-3",
       "original_cells": 275,
       "original_route_m": 7120.285707,
       "reworked_cells": 258,
-      "reworked_route_m": 6308.082246
+      "reworked_route_m": 6308.082246,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Sudan/Kassala/alignment-policy.toml": "28927c1dc47fd5cc23a5b4fc1362bf6101f096f2574e413c92e33816c8149846",
+    "cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/planning-buildability-mask.bin.gz": "9412ae8ca002cf260e0c19dbbe7ea40dbb45660fae107897ccdd562f0f275249",
     "cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/planning-grid.json": "9bf7946c21af5d273bbf32186d20c428649715427f450bd7d31c7d3b318660f3",
+    "cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/planning-water-mask.bin.gz": "7cd5f6458c7add207dfa17bf1578e9c8a2a55473a802cee3b7dce40ac9d8a320",
     "cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/pre-rework-corridors.json.gz": "af524c811db9e6e869dfa75bb66131e159ac6edfe03331427b1e80e5b80a1b1d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Sudan/Kassala/engineering/alignment/water-source-receipt.json": "4e9938571be95d3b16874536c563415c3a33629f1bf5ab9594ca2dd4258f5994",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

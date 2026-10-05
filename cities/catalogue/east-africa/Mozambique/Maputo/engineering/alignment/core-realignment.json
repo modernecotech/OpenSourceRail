@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 32.706634,
     "north": -25.818713,
@@ -6,6 +7,7 @@
     "west": 32.508634
   },
   "core_analytical_length_m": 93864.040871,
+  "core_final_route_length_m": 101964.152904,
   "core_original_length_m": 114489.580576,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15893.220767,
       "line": "line-1",
       "original_cells": 521,
       "original_route_m": 23598.157387,
-      "reworked_cells": 773,
-      "reworked_route_m": 21501.429073
+      "reworked_cells": 919,
+      "reworked_route_m": 21913.952365,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14516.753237,
       "line": "line-2",
       "original_cells": 473,
       "original_route_m": 21137.844383,
-      "reworked_cells": 719,
-      "reworked_route_m": 19312.870494
+      "reworked_cells": 853,
+      "reworked_route_m": 19740.672427,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16415.474734,
       "line": "line-3",
       "original_cells": 478,
       "original_route_m": 21185.972764,
-      "reworked_cells": 709,
-      "reworked_route_m": 18091.191827
+      "reworked_cells": 770,
+      "reworked_route_m": 18412.043277,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13960.773439,
       "line": "line-4",
       "original_cells": 583,
       "original_route_m": 26824.092275,
-      "reworked_cells": 866,
-      "reworked_route_m": 26446.696107
+      "reworked_cells": 1235,
+      "reworked_route_m": 27944.002871,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15329.116882,
       "line": "line-5",
       "original_cells": 513,
       "original_route_m": 21498.133772,
-      "reworked_cells": 820,
-      "reworked_route_m": 17898.058629
+      "reworked_cells": 895,
+      "reworked_route_m": 18111.959595,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -463,21 +475,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 25848.813844,
       "line": "line-6",
       "original_cells": 418,
       "original_route_m": 53343.896005,
-      "reworked_cells": 1388,
-      "reworked_route_m": 51504.138511
+      "reworked_cells": 2501,
+      "reworked_route_m": 54142.135624,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Maputo/alignment-policy.toml": "2068107d574127b1e69a05cd89d3b86e8ad367cd3d0f82d116ca9f7e259c7966",
+    "cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/planning-buildability-mask.bin.gz": "d5c1b32f7de0428f83567c473cbaefa3b90d5968867226b70caf1c0ea99b6fe9",
     "cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/planning-grid.json": "57985d2b346d4fdc865d468930bcb859d8c7d5a004aeee5be96008257e4f8e6f",
+    "cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/planning-water-mask.bin.gz": "9f9d9dff4b0b1288506dc3d9127d2794142902bd326f2e798edd1f2e9b8c03c9",
     "cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/pre-rework-corridors.json.gz": "f3695bf107a74d4ebb3503e6e6a792281efe034b3ca0d86dab52254bb5f634ae",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Mozambique/Maputo/engineering/alignment/water-source-receipt.json": "84f892c19af7b65be9209944545580994c4b01e216af2e635c45f767d7425daa",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

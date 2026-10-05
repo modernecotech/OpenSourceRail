@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`cuenca-line1.aln.toml`](cuenca-line1.aln.toml) | `line-1` | 20,309.6 m | 7 |
 | [`cuenca-line2.aln.toml`](cuenca-line2.aln.toml) | `line-2` | 19,025.4 m | 7 |
-| [`cuenca-line3.aln.toml`](cuenca-line3.aln.toml) | `line-3` | 19,138.3 m | 7 |
+| [`cuenca-line3.aln.toml`](cuenca-line3.aln.toml) | `line-3` | 19,138.3 m | 8 |
 
 ## Status
 

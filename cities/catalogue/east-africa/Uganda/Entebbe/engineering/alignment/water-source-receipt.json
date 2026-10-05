@@ -1,0 +1,66 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "entebbe",
+  "legacy_osm_missing_geometry_ids": [
+    2606941,
+    5623028,
+    11926072
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "33558039f69046c310d06fd9bece8e7509ca463caa2cc1d7e1f5935a03de86f8",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "b73effd5011840605c7983f7fdf6f7cb9a6dcf29f3835a254b8fe0717c6dfd49",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/independent-landcover-samples.bin.gz": "d632bbf283c95cd69fc8f32f72c32a0b707f4d762f8880402502b0e3a34aa765",
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/planning-grid.json": "54dc5e3574646692fe988404a36bc368645dbd753275870e51fc32ecff100c6f",
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/planning-water-features.json.gz": "12ced38757563b8c9a47c09aa55eb248f366e49fe6f8b538f78e62e45eeb885e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 332531,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "69734c1e0cb6298f0277136d4233042fad30c3d76a03f2c525c6dfad9a53e69d",
+      "native_window": [
+        28753,
+        0,
+        1625,
+        199
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E030_Map.tif",
+      "window_sha256": "f6a985a438ed2ae9e7c93c0ec2f7e75aa3f0852d5c28e93b0838f888042f46f1"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8a14bec944542a09dcfe457b1c46a1f867ced59fd91246978a61fabb2faeb485",
+      "native_window": [
+        28753,
+        34574,
+        1625,
+        1426
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E030_Map.tif",
+      "window_sha256": "c15aa714b76cc9076c1e763949d5c369ad509e71372b57989e968f6786e12dc8"
+    }
+  ]
+}

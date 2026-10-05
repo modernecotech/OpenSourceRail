@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 27.928932,
     "north": -32.962513,
@@ -6,6 +7,7 @@
     "west": 27.787092
   },
   "core_analytical_length_m": 39236.998108,
+  "core_final_route_length_m": 43775.457403,
   "core_original_length_m": 51305.791407,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16207.535342,
       "line": "line-1",
       "original_cells": 503,
       "original_route_m": 22232.836291,
-      "reworked_cells": 704,
-      "reworked_route_m": 17369.000584
+      "reworked_cells": 739,
+      "reworked_route_m": 17460.672427,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15315.819613,
       "line": "line-2",
       "original_cells": 493,
       "original_route_m": 22532.321669,
-      "reworked_cells": 738,
-      "reworked_route_m": 20164.003279
+      "reworked_cells": 880,
+      "reworked_route_m": 20744.591617,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12252.102448,
       "line": "line-3",
       "original_cells": 477,
       "original_route_m": 20519.449334,
-      "reworked_cells": 741,
-      "reworked_route_m": 20141.269427
+      "reworked_cells": 976,
+      "reworked_route_m": 20966.316011,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-africa/South Africa/East-London-Za/alignment-policy.toml": "9c6b1f81e9b51ec3ac8330952d65713297383790850ced53df9ec69a09ec0893",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-buildability-mask.bin.gz": "90b44afe7702e42c811c5cdd42edd260c8630b0dd63bb7d3f0f94a3f9e778192",
     "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-grid.json": "f16b382de69cbbde15dccb449f5f6aef50dabedd1b3f8e97a7e5982c03a9b754",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/planning-water-mask.bin.gz": "6a414af0ac2feb4baf86c331020f2fe288cae3d8073c1ba948a8df027c3749c9",
     "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/pre-rework-corridors.json.gz": "6b3e1cfa3d4e83229b710732b86edc12c18da255718254a73b20f8704d3c141a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-africa/South Africa/East-London-Za/engineering/alignment/water-source-receipt.json": "35852af78e6b783ebe6d39914aac461c0cd3c2b139289c8113a6f0c8005fc4a1",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

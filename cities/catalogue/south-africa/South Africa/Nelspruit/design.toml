@@ -59,7 +59,7 @@ length_m        = 11955.0
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 9714.1
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[civil_segments]]
 line            = "line-1"
@@ -166,22 +166,24 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0288-0321-s003011"
+id              = "line-1-0292-0277-s002086"
 line            = "line-1"
-lat             = -25.45962023899507
-lon             = 30.95858236301986
-s_m             = 3011.1
+lat             = -25.46034010366051
+lon             = 30.94982583433285
+s_m             = 2086.3
 archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0277-0451-s005702"
+id              = "line-1-0283-0377-s004173"
 line            = "line-1"
-lat             = -25.4576406111651
-lon             = 30.984453925049664
-s_m             = 5702.3
-archetype       = "standard"
+lat             = -25.458720408163263
+lon             = 30.969727035894238
+s_m             = 4172.5
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-1-0266-0580-s008385"
@@ -206,31 +208,26 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0309-0379-s003003"
+id              = "line-2-0283-0377-s002466"
 line            = "line-2"
-lat             = -25.463399528488644
-lon             = 30.970125059925465
-s_m             = 3002.8
-archetype       = "standard"
+lat             = -25.458720408163263
+lon             = 30.969727035894238
+s_m             = 2466.3
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
-id              = "line-2-0374-0384-s004344"
+id              = "line-2-0418-0388-s005257"
 line            = "line-2"
-lat             = -25.47509732930209
-lon             = 30.971120120003533
-s_m             = 4344.3
-archetype       = "major"
+lat             = -25.483015840621963
+lon             = 30.971916168065988
+s_m             = 5257.4
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
-
-[[stations]]
-id              = "line-2-0455-0391-s006022"
-line            = "line-2"
-lat             = -25.48967458877731
-lon             = 30.972513204112833
-s_m             = 6022.3
-archetype       = "standard"
-platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0732-0367-s011955"
@@ -264,22 +261,15 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0411-0367-s005242"
+id              = "line-3-0418-0388-s005732"
 line            = "line-3"
-lat             = -25.481756077457437
-lon             = 30.967736915738097
-s_m             = 5241.9
-archetype       = "standard"
+lat             = -25.483015840621963
+lon             = 30.971916168065988
+s_m             = 5731.6
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
-
-[[stations]]
-id              = "line-3-0441-0465-s007474"
-line            = "line-3"
-lat             = -25.48715506244826
-lon             = 30.98724009326826
-s_m             = 7473.9
-archetype       = "standard"
-platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0471-0564-s009714"
@@ -291,6 +281,22 @@ anchor_kind     = "place:suburb"
 anchor_name     = "Steiltes"
 archetype       = "terminal"
 platform_length_m = 49.0
+
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = -25.458720408163263
+lon             = 30.969727035894238
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0283-0377-s004173", "line-2-0283-0377-s002466"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = -25.483015840621963
+lon             = 30.971916168065988
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0418-0388-s005257", "line-3-0418-0388-s005732"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -466,8 +472,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 310025305
 civil_subtotal_eur   = 285223280
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 49500000
-stations_eur         = 45540000
+stations_usd         = 64500000
+stations_eur         = 59340000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 42383210
 depots_eur           = 38992553
@@ -480,13 +486,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1502713
 signalling_eur       = 1382496
-charging_microgrid_usd = 1550000
-charging_microgrid_eur = 1426000
+charging_microgrid_usd = 1350000
+charging_microgrid_eur = 1242000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 30777686
-epc_overhead_eur     = 28315471
-total_usd            = 470458914  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 432822201  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 31813686
+epc_overhead_eur     = 29268591
+total_usd            = 486294914  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 447391321  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

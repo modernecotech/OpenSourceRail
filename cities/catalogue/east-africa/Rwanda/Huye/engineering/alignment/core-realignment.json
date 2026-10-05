@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 29.780432,
     "north": -2.557197,
@@ -6,6 +7,7 @@
     "west": 29.699312
   },
   "core_analytical_length_m": 22543.876156,
+  "core_final_route_length_m": 25194.339085,
   "core_original_length_m": 30945.435627,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10368.813844,
       "line": "line-1",
       "original_cells": 664,
       "original_route_m": 15861.261172,
       "reworked_cells": 590,
-      "reworked_route_m": 14480.672427
+      "reworked_route_m": 14480.672427,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9076.854249,
       "line": "line-2",
       "original_cells": 615,
       "original_route_m": 14019.696962,
       "reworked_cells": 517,
-      "reworked_route_m": 12457.341982
+      "reworked_route_m": 12457.341982,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5748.670991,
       "line": "line-3",
       "original_cells": 645,
       "original_route_m": 14793.535204,
       "reworked_cells": 505,
-      "reworked_route_m": 11985.382387
+      "reworked_route_m": 11985.382387,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Rwanda/Huye/alignment-policy.toml": "3f5205aba0ceef9f99994f8e8cb1af8c0c02e26e099d747284e850c591c26857",
+    "cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/planning-buildability-mask.bin.gz": "2ff4896e4269c6af26051bf47fcf22434f0b0e556f63ceb1fd4f81c1487c465c",
     "cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/planning-grid.json": "0ada59b12ab1afe40df4ac152cfb5c6a041a46816214a770f4aa552b4c270c81",
+    "cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/planning-water-mask.bin.gz": "85c018158a4ee7cb61d32bf7b25b9973cbc7a1001e3346e807f88b8244956214",
     "cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/pre-rework-corridors.json.gz": "6b50391e528627606608deaae44f45e04bc74d1c09c4813e24ab2abdafc306fc",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Rwanda/Huye/engineering/alignment/water-source-receipt.json": "22c0e22776b98481545678400bdb8d67f5400e79a8aff5faa30bf6c68adad435",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

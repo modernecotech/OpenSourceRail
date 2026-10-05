@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`dhamar-line1.aln.toml`](dhamar-line1.aln.toml) | `line-1` | 7,294.5 m | 4 |
+| [`dhamar-line1.aln.toml`](dhamar-line1.aln.toml) | `line-1` | 7,294.5 m | 3 |
 | [`dhamar-line2.aln.toml`](dhamar-line2.aln.toml) | `line-2` | 9,444.5 m | 4 |
 | [`dhamar-line3.aln.toml`](dhamar-line3.aln.toml) | `line-3` | 3,894.8 m | 3 |
 

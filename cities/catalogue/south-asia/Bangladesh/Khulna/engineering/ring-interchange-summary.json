@@ -1,20 +1,39 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "khulna"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "khulna",
-      "corridor_sha256": "bf00077de19566b0f40c33175358630d546c48604e2f395f26786b7aecbcb3aa",
-      "design_sha256": "06399e06cce85a500b4eff92e91a25c258901f0b513bf3d0a7bdbb5c93eaba30",
-      "failures": [],
+      "corridor_sha256": "4fc514d829ba32192f6920656e91c94082879a0da1a60f25804312111d98076d",
+      "design_sha256": "215c0ea0a3b47cff8b5510ac55eab413f86b0e973aa26166241b7bd51abab216",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1736.1,
+          "radial": "line-3",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 5,
-      "review_findings": [],
+      "review_findings": [
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-2",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1004.1
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

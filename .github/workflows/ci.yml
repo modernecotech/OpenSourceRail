@@ -52,7 +52,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest CairoSVG mistune Pillow reportlab PyYAML
-          python -m pip install -e ./design/city-generation -e ./design/component-catalogue
+          python -m pip install -e './design/city-generation[geography]' -e ./design/component-catalogue
           python -m pip install -e ./tools/osr-aln-convert -e ./tools/reference-ma
           python -m pip install --requirement engineering/toolchain/ifc-python-requirements.txt
           python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
@@ -63,6 +63,9 @@ jobs:
           python tools/automation/rework-baghdad-alignment.py --check
           python tools/automation/publish-city-summary.py --check
       - run: python -m pytest -q design/city-generation/tests
+      - name: Verify retained water evidence and actual platform geography
+        run: |
+          python tools/automation/audit-city-geography.py --check
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - name: Generate buildable product test prerequisites
         run: |

@@ -1,6 +1,6 @@
 {
   "city": "quelimane",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -36,13 +36,15 @@
     }
   ],
   "platforms_checked": 5,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "98261dcda817ef31e251ba59650dd0156a20bc58f0e7d3d8fe9f5163acc2cdbf",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "8f54e86df643fa4431f50c9ce9e91aaf6a28929662a7ffa5b51bf4d68bbc4844",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-grid.json": "1e7109b48b98e9636020dfc659611a170aa16da1ca1fdbd832edd86640fc153d",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-water-mask.bin.gz": "51a3f0d9a4eaac1ddb6ca48ec60634fb65b43a0c34a1d2f2ce6e008f9d80ee42",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-water-mask.bin.gz": "ea6cc74a0492480ac135dd865698ee8e69e9d5ced5b2fae9c3e54e16d0627cf9",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/water-source-receipt.json": "513c415a872f28e8489d5d43e8f173c6d49c3c8294740d68ae5b809b73a84c0a",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "6cc4ca32b24445504fa6905f14bbbb6bf74d95334370a0286763fc02289081d7",
+  "uncompressed_water_mask_sha256": "a30d3ddbdf6ebd83d6dbfd2ad5046bcde5e6ab321bc9fff05ccbde6a35524a83",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

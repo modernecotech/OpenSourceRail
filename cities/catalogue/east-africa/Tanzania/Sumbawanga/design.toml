@@ -106,11 +106,12 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0266-0390-s001900"
+id              = "line-1-0292-0424-s000934"
 line            = "line-1"
-lat             = -7.947060983335133
-lon             = 31.619341812103425
-s_m             = 1899.7
+lat             = -7.951740103660511
+lon             = 31.625509857203337
+s_m             = 934.0
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
@@ -137,13 +138,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0366-0410-s002061"
+id              = "line-2-0292-0424-s003657"
 line            = "line-2"
-lat             = -7.965057599971205
-lon             = 31.6229700739269
-s_m             = 2060.8
-archetype       = "standard"
+lat             = -7.951740103660511
+lon             = 31.625509857203337
+s_m             = 3656.8
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-2-0270-0428-s004130"
@@ -155,6 +158,7 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "Majengo Dispensary"
 archetype       = "depot-terminal"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0277-0363-s000000"
@@ -166,7 +170,6 @@ anchor_kind     = "amenity:bus_station"
 anchor_name     = "Mazwi bus stend"
 archetype       = "terminal"
 platform_length_m = 49.0
-junction_group  = 0
 
 [[stations]]
 id              = "line-3-0375-0363-s001960"
@@ -182,10 +185,10 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -7.948050797250117
-lon             = 31.616892735372573
-lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0266-0390-s001900", "line-3-0277-0363-s000000"]
+lat             = -7.950420351773865
+lon             = 31.625751741324905
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0292-0424-s000934", "line-2-0270-0428-s004130", "line-2-0292-0424-s003657"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -336,8 +339,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 96124789
 civil_subtotal_eur   = 88434806
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 38000000
-stations_eur         = 34960000
+stations_usd         = 43500000
+stations_eur         = 40020000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 38429105
 depots_eur           = 35354777
@@ -353,10 +356,10 @@ signalling_eur       = 453605
 charging_microgrid_usd = 950000
 charging_microgrid_eur = 874000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 13394986
-epc_overhead_eur     = 12323387
-total_usd            = 204751928  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 188371774  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 13779986
+epc_overhead_eur     = 12677587
+total_usd            = 210636928  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 193785974  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

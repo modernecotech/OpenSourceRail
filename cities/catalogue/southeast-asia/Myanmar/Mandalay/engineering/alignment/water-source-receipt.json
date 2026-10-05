@@ -1,0 +1,72 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mandalay",
+  "legacy_osm_missing_geometry_ids": [
+    229825,
+    410827,
+    2874848,
+    3153795,
+    3889262,
+    12327173,
+    12455641,
+    15036735,
+    18931672
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "8b3c6dab12555ee1852fd77d357096904d299cd06785277d03defe252c2c1608",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "acf62277ae50425c0b062c02d81f881c86705ff3cafe876940b0fc8cf459d47e",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/independent-landcover-samples.bin.gz": "6359edd41053aca3c3bc4df642dd9226446ee69a3bb77e8261875b9772d9205c",
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/planning-grid.json": "092464186bcc052ce0555272cafd47e563c67c67327319564ecea2aa3298f748",
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/planning-water-features.json.gz": "f1d7ddb695d237f3c83e55a249f89f1aef40069084b7233abf4ce791953b483e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 190256,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "68cf0fb7e4c661128426a2c68578b022e6164a2e93a7c768284442be0521d10b",
+      "native_window": [
+        35400,
+        22200,
+        600,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E093_Map.tif",
+      "window_sha256": "1100215203e723f563420056b1467a8b73b2edd4d34ee6396c1cdf509787c409"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "69d5fd5c2bd634cfa9acd1a5d983e719a4c223abc619f600d039ae0e34bec5e5",
+      "native_window": [
+        0,
+        22200,
+        2403,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E096_Map.tif",
+      "window_sha256": "1e328d43efa7876606508c64b8cb507fbdf52ffd98516745e21de6291f672f1e"
+    }
+  ]
+}

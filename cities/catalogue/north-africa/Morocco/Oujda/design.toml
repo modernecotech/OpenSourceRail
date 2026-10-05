@@ -50,7 +50,7 @@ length_m        = 10425.0
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -106,34 +106,46 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0510-0444-s003000"
+id              = "line-1-0506-0425-s002587"
 line            = "line-1"
-lat             = 34.68862727207286
-lon             = -1.9319857275767274
-s_m             = 3000.2
-anchor_kind     = "place:suburb"
-anchor_name     = "Hay Ben Ramdan"
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0546-0609-s006598"
-line            = "line-1"
-lat             = 34.68214849008387
-lon             = -1.8959365600855236
-s_m             = 6598.5
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Derb Berrahmoun"
+lat             = 34.6893471367383
+lon             = -1.9361368438332902
+s_m             = 2587.1
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0564-0697-s008508"
+id              = "line-1-0525-0511-s004465"
 line            = "line-1"
-lat             = 34.678909099089374
-lon             = -1.8767103374235483
-s_m             = 8507.6
+lat             = 34.68592777957744
+lon             = -1.9173475807772689
+s_m             = 4464.5
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Village Toba Interieur"
+archetype       = "major"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-1-0543-0598-s006354"
+line            = "line-1"
+lat             = 34.68268838858295
+lon             = -1.8983398379182705
+s_m             = 6353.6
+mandatory_crossing = true
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Hay Hassani"
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
+
+[[stations]]
+id              = "line-1-0563-0691-s008379"
+line            = "line-1"
+lat             = 34.67908906525574
+lon             = -1.8780212162414103
+s_m             = 8379.3
 anchor_kind     = "place:suburb"
 anchor_name     = "Lotissement Laaj"
 archetype       = "major"
@@ -178,11 +190,12 @@ line            = "line-2"
 lat             = 34.68268838858295
 lon             = -1.8983398379182705
 s_m             = 4622.3
+mandatory_crossing = true
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Hay Hassani"
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0637-0607-s006577"
@@ -218,22 +231,22 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0476-0435-s003001"
+id              = "line-3-0506-0425-s003684"
 line            = "line-3"
-lat             = 34.69474612172912
-lon             = -1.9339520458035202
-s_m             = 3001.1
-anchor_kind     = "place:suburb"
-anchor_name     = "Hay Ben Ramdan"
-archetype       = "standard"
+lat             = 34.6893471367383
+lon             = -1.9361368438332902
+s_m             = 3683.9
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
-id              = "line-3-0584-0398-s005479"
+id              = "line-3-0599-0393-s005821"
 line            = "line-3"
-lat             = 34.67530977576216
-lon             = -1.942035798513669
-s_m             = 5479.3
+lat             = 34.67261028326675
+lon             = -1.943128197528554
+s_m             = 5820.7
 anchor_kind     = "place:suburb"
 anchor_name     = "Hay Nour"
 archetype       = "major"
@@ -253,10 +266,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 34.68241843933341
-lon             = -1.8971381990018972
+lat             = 34.6893471367383
+lon             = -1.9361368438332902
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0506-0425-s002587", "line-3-0506-0425-s003684"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 34.68268838858295
+lon             = -1.8983398379182705
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0546-0609-s006598", "line-2-0543-0598-s004622"]
+platforms       = ["line-1-0543-0598-s006354", "line-2-0543-0598-s004622"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -452,8 +473,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 262518310
 civil_subtotal_eur   = 241516845
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 66500000
-stations_eur         = 61180000
+stations_usd         = 82000000
+stations_eur         = 75440000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 47202552
 depots_eur           = 43426348
@@ -466,13 +487,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1346524
 signalling_eur       = 1238802
-charging_microgrid_usd = 1550000
-charging_microgrid_eur = 1426000
+charging_microgrid_usd = 1650000
+charging_microgrid_eur = 1518000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 32145217
-epc_overhead_eur     = 29573600
-total_usd            = 491362603  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 452053595  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 33237217
+epc_overhead_eur     = 30578240
+total_usd            = 508054603  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 467410235  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

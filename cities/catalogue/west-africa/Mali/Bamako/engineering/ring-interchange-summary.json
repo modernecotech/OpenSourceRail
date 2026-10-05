@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "bamako"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "bamako",
-      "corridor_sha256": "b3404935a211778c9f357e3c9f8b469e3d17052229b0abed05082cc95695c7d3",
-      "design_sha256": "293a62f6367e962a358ba173024c8635d1a725e793009d7d4cdc5c72906a2071",
-      "failures": [],
+      "corridor_sha256": "ac7ca76d5c8ebee0eeb925cd0bbc0e9ea0bd955c6a90e870db4bc8d296269513",
+      "design_sha256": "100d03b9d4e9166d50b4128261f031b0059b2b5d480c4abc515803c040d36402",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 7927.4,
+          "radial": "line-4",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 5,
       "review_findings": [],
       "ring_count": 1

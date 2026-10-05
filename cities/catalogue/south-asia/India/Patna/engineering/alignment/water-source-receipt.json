@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "patna",
+  "legacy_osm_missing_geometry_ids": [
+    2336603,
+    4602203,
+    9078919
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "1dd6b7cfd9d4a9aaa43ec09612904a12b198e2d375861ef5b9c7c60e9375b8a8",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "799309cbff9b5fb70408c3b076c7f52a61e7cdb643ab841821edbff561f27b79",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/independent-landcover-samples.bin.gz": "442c898db705ecfe8f229597d8bbae8afe6440b3ce77f24348e2a44c095a8dd5",
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-grid.json": "619df75f825745819eec270198402b2481e08f141470580d94e6fe88515b11ae",
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-water-features.json.gz": "3ef3c5a7ec6ca3d5222097f47f61bcede24b957a99b61ddd48179e5fb001b28d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 280359,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8b1d2333c81cc8ac0de1d9cbdfe5bd8ff85259e919caf8f21502ea8a7f2b4f1b",
+      "native_window": [
+        12000,
+        15000,
+        3603,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E084_Map.tif",
+      "window_sha256": "7ee953453ff8eda059dd7ec1c51c1b6e39ead6fb73e595dc92de72bd676b2979"
+    }
+  ]
+}

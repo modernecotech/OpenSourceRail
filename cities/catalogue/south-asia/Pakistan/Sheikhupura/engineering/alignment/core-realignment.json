@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 74.048808,
     "north": 31.772409,
@@ -6,6 +7,7 @@
     "west": 73.909008
   },
   "core_analytical_length_m": 13808.520961,
+  "core_final_route_length_m": 15015.189027,
   "core_original_length_m": 16553.422792,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8138.721497,
       "line": "line-1",
       "original_cells": 400,
       "original_route_m": 8684.163056,
       "reworked_cells": 369,
-      "reworked_route_m": 8138.721497
+      "reworked_route_m": 8138.721497,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,21 +99,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6876.46753,
       "line": "line-2",
       "original_cells": 346,
       "original_route_m": 7869.259736,
       "reworked_cells": 315,
-      "reworked_route_m": 6876.46753
+      "reworked_route_m": 6876.46753,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Sheikhupura/alignment-policy.toml": "ae4898113d76731380c71030adab40f9a60caf854e76f0ba5ea6ad153af3ea1b",
+    "cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
     "cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/planning-grid.json": "b670a81ab2b936e2de6b7b3eef2c03a6421e6a1513fed33911ff9b234e2296b1",
+    "cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/planning-water-mask.bin.gz": "fe39262c1850c5159717845dd21efc488167e069cbe72d0f7349514c31378d68",
     "cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/pre-rework-corridors.json.gz": "3e8ea10f4ba803606a5ed64fde8eaa35009d2d070e09aaaf286f2850dc14d93c",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/alignment/water-source-receipt.json": "83a2e1df95a5769bd2f18bbc9b7c717e69e1f80f5062692d7c46a0475379c5a1",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

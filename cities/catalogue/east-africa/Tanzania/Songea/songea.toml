@@ -80,6 +80,12 @@ is_depot = true
 depot_service = true
 
 [[stations]]
+id = "line-1-0325-0355-s000481"
+name = "zimamoto stadium"
+charging_power_kw = 500
+dwell_seconds = 120
+
+[[stations]]
 id = "line-1-0172-0388-s003827"
 name = "Msamala"
 charging_power_kw = 500
@@ -115,7 +121,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0347-0350-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0172-0388-s003827", distance_from_prev_m = 3826 },
+    { id = "line-1-0325-0355-s000481", distance_from_prev_m = 481 },
+    { id = "line-1-0172-0388-s003827", distance_from_prev_m = 3345 },
 ]
 
 [[lines]]
@@ -172,7 +179,7 @@ station = "line-2-0325-0358-s008107"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 10
+trainset_count = 11
 dispatch_points = [
     { station = "line-1-0347-0350-s000000", heading = "forward" },
     { station = "line-1-0172-0388-s003827", heading = "reverse" },
@@ -219,6 +226,23 @@ storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
 grid_import_kw = 3000.0
 grid_export_kw = 3000.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-1-0325-0355-s000481"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0

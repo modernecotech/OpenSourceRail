@@ -50,7 +50,7 @@ length_m        = 7294.5
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -118,26 +118,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0255-0310-s003135"
+id              = "line-1-0306-0321-s004246"
 line            = "line-1"
-lat             = 14.564318644494836
-lon             = 44.392931595659654
-s_m             = 3134.8
-anchor_kind     = "place:suburb"
-anchor_name     = "حارة الجيش"
-archetype       = "standard"
+lat             = 14.555140370010438
+lon             = 44.39497329470073
+s_m             = 4245.9
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0338-0328-s004944"
-line            = "line-1"
-lat             = 14.549381452686895
-lon             = 44.39627255772688
-s_m             = 4943.9
-anchor_kind     = "place:suburb"
-anchor_name     = "حارة الأمير"
-archetype       = "major"
-platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-1-0445-0352-s007294"
@@ -149,7 +138,7 @@ anchor_kind     = "amenity:university"
 anchor_name     = "جامعة الحكمة"
 archetype       = "terminal"
 platform_length_m = 49.0
-junction_group  = 0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0381-0463-s000000"
@@ -170,7 +159,7 @@ lon             = 44.406852270939766
 s_m             = 2362.5
 archetype       = "interchange"
 platform_length_m = 49.0
-junction_group  = 0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0523-0306-s004715"
@@ -204,15 +193,15 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0314-0356-s001957"
+id              = "line-3-0306-0321-s002724"
 line            = "line-3"
-lat             = 14.553700640679553
-lon             = 44.40146960983145
-s_m             = 1957.4
-anchor_kind     = "place:suburb"
-anchor_name     = "حارة الصلعة"
-archetype       = "major"
+lat             = 14.555140370010438
+lon             = 44.39497329470073
+s_m             = 2723.7
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0295-0267-s003895"
@@ -228,6 +217,14 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
+lat             = 14.555140370010438
+lon             = 44.39497329470073
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0306-0321-s004246", "line-3-0306-0321-s002724"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
 lat             = 14.529585174387215
 lon             = 44.403789722378136
 lines           = ["line-1", "line-2"]
@@ -397,8 +394,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 179943841
 civil_subtotal_eur   = 165548334
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 49500000
-stations_eur         = 45540000
+stations_usd         = 54000000
+stations_eur         = 49680000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 40472685
 depots_eur           = 37234870
@@ -411,13 +408,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1031690
 signalling_eur       = 949155
-charging_microgrid_usd = 1250000
-charging_microgrid_eur = 1150000
+charging_microgrid_usd = 1150000
+charging_microgrid_eur = 1058000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 20935475
-epc_overhead_eur     = 19260637
-total_usd            = 320013692  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 294412597  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 21243475
+epc_overhead_eur     = 19543997
+total_usd            = 324721692  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 298743957  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

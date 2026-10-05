@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mukalla",
+  "legacy_osm_missing_geometry_ids": [
+    12484428
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "e85d2909f697445bfc0c230c93e49816db8801389d88577acc33bb537b58a0f1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "800a34f0522f3b19a8b3c7a1561858406f0780dd6563e1a0d21997445ee164be",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Yemen/Mukalla/engineering/alignment/independent-landcover-samples.bin.gz": "b906a49a4fa2c833b87a661a260919f1e2bce88b49344c5bdf55f440c753b1ad",
+    "cities/catalogue/west-asia/Yemen/Mukalla/engineering/alignment/planning-grid.json": "7399bc9c3cd3180bdb157cf83ced27ace4bfbfe5092841046ebb82c2b5b8e16c",
+    "cities/catalogue/west-asia/Yemen/Mukalla/engineering/alignment/planning-water-features.json.gz": "6d5a912a664de211ea3d21cb1bae2bbe206509910d7984018af993da3a29d6eb",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 478285,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "302db2fc297f2721db1c1f127f59e64b4fd1554c5e682e2713f74a9a9821577b",
+      "native_window": [
+        12261,
+        4300,
+        2461,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E048_Map.tif",
+      "window_sha256": "35757c1e0abc4d46f80cc6bf9884022d177170c050bbd9316f0feab9a7ab1741"
+    }
+  ]
+}

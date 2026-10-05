@@ -1,6 +1,6 @@
 {
   "city": "sidon",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -8,6 +8,12 @@
       "col": 374,
       "row": 585,
       "station_id": "line-1-0585-0374-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 384,
+      "row": 536,
+      "station_id": "line-1-0536-0384-s001069",
       "water_coverage_percent": 0
     },
     {
@@ -32,6 +38,12 @@
       "col": 328,
       "row": 499,
       "station_id": "line-2-0499-0328-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 384,
+      "row": 536,
+      "station_id": "line-2-0536-0384-s001494",
       "water_coverage_percent": 0
     },
     {
@@ -65,14 +77,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 10,
-  "schema_version": 1,
+  "platforms_checked": 12,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Lebanon/Sidon/design.toml": "a58b959ee026fe36e4333af7ccd7aa1540f0d394590e93cfe61d0f29bf382d02",
+    "cities/catalogue/west-asia/Lebanon/Sidon/design.toml": "ffa2229e9f7304874961d6be724b99175206e3fcb9696fe7520477d472b5a479",
     "cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/planning-grid.json": "02c4038a20814e7c960b5e215cb037044615a02851bf58a17796fb72a8087b7a",
-    "cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/planning-water-mask.bin.gz": "66d59a995d2098e2e3e762488fadf1bde74864cdd632d8fc4d15fac7148a578a",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/planning-water-mask.bin.gz": "cc42ca57385a78f5a0f8cf8aff876873764ccc97bba4781c45b0b301552bd68e",
+    "cities/catalogue/west-asia/Lebanon/Sidon/engineering/alignment/water-source-receipt.json": "34bf20ab2c6aee00bc89f7a5cfd9426264a5bd1c5e72dc1a9ed53c55d46699a7",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "868adc9e6a669342467f5ff0cbaa45721215c4bf41d7a63d3010571044a08ac8",
+  "uncompressed_water_mask_sha256": "b411220a67b19d6b9b9421da469267c1de5f1fd3d36bdde42a3eadc35a891c75",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

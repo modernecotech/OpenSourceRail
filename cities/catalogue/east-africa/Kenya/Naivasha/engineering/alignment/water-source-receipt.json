@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "naivasha",
+  "legacy_osm_missing_geometry_ids": [
+    5609597
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "6be19830c88c8093d784d6e0cce4dea7b293e3895b247dcb3bf65e6410d38b16",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "714d7e2626d87fc94b694167df01049447e006dda0457c5179ce7a8215f47a0d",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/independent-landcover-samples.bin.gz": "02f05bcf89233a58cd71f8eea46dec983f58b997787ef75a672c01bfd0c9ade2",
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/planning-grid.json": "a4f9c2546fefe2014ef7167f7ca011ffb0c4630481519438013a20c50cb77841",
+    "cities/catalogue/east-africa/Kenya/Naivasha/engineering/alignment/planning-water-features.json.gz": "50410efd022d84a859c3dbf3da7e62959cb5d1011b44cf77cba0d7080de83613",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 113786,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "89db764127e7d49d00247ae92a76e3f2d6147df41f7058653ba9882700cbf31d",
+      "native_window": [
+        4388,
+        7789,
+        1625,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E036_Map.tif",
+      "window_sha256": "94f9add621927e6dcb6be3bc78ebfdeb45cffaca0f229cc63fbc93f886b129a9"
+    }
+  ]
+}

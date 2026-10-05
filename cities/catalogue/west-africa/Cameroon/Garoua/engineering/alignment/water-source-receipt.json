@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "garoua",
+  "legacy_osm_missing_geometry_ids": [
+    3394031,
+    10227409,
+    10342981
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "ed30b69b253d2c1ff831d631947028decbd9c5d7fc95c94a9475aefa288c8d2e",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "f50a2862fdc61bf1f05df076cc5abdb92ec526b257d4e9120b59a092c4453e52",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/independent-landcover-samples.bin.gz": "70a5ab547f8319ab67519339b101b713477fa22c3cdf5e3c2de8356308c8f0ab",
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/planning-grid.json": "b990e51da4adc4355a7bcd83e904657a2af8706a1fe99bbbace1b3fb0add2078",
+    "cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/planning-water-features.json.gz": "ae54730b11aa5c10b28187605f9ebaf3c28e2939f13c5c9081e6a1d343340a4f",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 27934,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f0debd002fc9a6915302025fb9cb68700a7e97d565c696fdfa2dbc1b916cd463",
+      "native_window": [
+        15567,
+        31194,
+        2413,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E012_Map.tif",
+      "window_sha256": "459297c3219db7a8b8ab618ff32551302a66a76d1d6f07417be378bde6267fed"
+    }
+  ]
+}

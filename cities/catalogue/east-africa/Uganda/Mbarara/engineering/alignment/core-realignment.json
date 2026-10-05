@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 30.714668,
     "north": -0.547531,
@@ -6,6 +7,7 @@
     "west": 30.595748
   },
   "core_analytical_length_m": 38808.683112,
+  "core_final_route_length_m": 43316.432868,
   "core_original_length_m": 48264.893907,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10182.051942,
       "line": "line-1",
       "original_cells": 576,
       "original_route_m": 13231.412691,
       "reworked_cells": 443,
-      "reworked_route_m": 10182.051942
+      "reworked_route_m": 10182.051942,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13032.733034,
       "line": "line-2",
       "original_cells": 650,
       "original_route_m": 15059.352083,
       "reworked_cells": 535,
-      "reworked_route_m": 13032.733034
+      "reworked_route_m": 13032.733034,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20101.647891,
       "line": "line-3",
       "original_cells": 494,
       "original_route_m": 23892.012829,
-      "reworked_cells": 913,
-      "reworked_route_m": 24019.531588
+      "reworked_cells": 1049,
+      "reworked_route_m": 24737.627689,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Mbarara/alignment-policy.toml": "2c481ea7a20a7c5417f6b58c8e6cded1f2ed11fb286213e3790d452c480cdcea",
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/planning-buildability-mask.bin.gz": "ad687c367fde694aa77d803703fba7d7647b8b3856b45808aa4cd187d1ed0b62",
     "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/planning-grid.json": "c41a94df9c48bd0244b456716198bf6259e4b3a6da29808d3d236ffef08edd5b",
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/planning-water-mask.bin.gz": "b8a9afadbf421528a91900460b8ebc7ad87e3f174f6b684499ed7556129ec29f",
     "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/pre-rework-corridors.json.gz": "38390839b2af97e1478b6b6415377bab1c2de2b59e3a948ec1faf05a721216d1",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/water-source-receipt.json": "00cb81fe4f25e9bd7d9be49ef0bda27113f5665777980d89b9fcc30e46d2de96",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,0 +1,52 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "homs",
+  "legacy_osm_missing_geometry_ids": [
+    2030755,
+    2735536,
+    2735607,
+    12670106,
+    12673427
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "3d4befb52f22fc870d35b5534e92466e7c6f4ec864b8a79d576ac8303196fef2",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "9a80dcc185b228bdcca2e5dc892c53c5dccad3e3a505607c0748bafe0ca5639e",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/independent-landcover-samples.bin.gz": "75c1db75e8f4a97eba2c182d4fa8601935e3553218887f9abf17d752143b4d4c",
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/planning-grid.json": "a3e42cc9ac7c1637714b5814507ed1f1ccf4fe0cc15eac9ae3e81e2fc56f2cab",
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/planning-water-features.json.gz": "05603f71b4207d0ec0ff4c4a2531ed8650ad0eb897f2904a96d6b60e272ae58d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 16143,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d32692b1cae17f5f5a97186c2c33fa80196bd3672b8e53cacb4338d43bae40d7",
+      "native_window": [
+        7200,
+        13919,
+        3003,
+        2644
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E036_Map.tif",
+      "window_sha256": "b07baf6e0013c26f89f3797beafac715823fef6b050f1c7eec203ccbc34894c3"
+    }
+  ]
+}

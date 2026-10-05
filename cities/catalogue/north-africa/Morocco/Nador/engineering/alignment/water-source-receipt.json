@@ -1,0 +1,64 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "nador",
+  "legacy_osm_missing_geometry_ids": [
+    8061262
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "77661bddb01915cd0a88e13296761b2e497f0403c3a75909fd950813de246ae1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "0e34821a9cbc1e3865f5ed5b2189a68c119eade1e6f285d6017e26d70cd714b2",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/independent-landcover-samples.bin.gz": "335874c8b8391c4482f13c81aaeca719614cbde52afadfe9319f4e7e44fca556",
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-grid.json": "abaf32e3c26b3e5841dac236da4893135de55db4f8e41c1c66dc5b67c90717c4",
+    "cities/catalogue/north-africa/Morocco/Nador/engineering/alignment/planning-water-features.json.gz": "2d6ea129a3c0e5a193876551ca86c144140505f0914da4d4be2a6a8213769a0d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 162835,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "9af7a063b715f6d7e15af46820fbda9cd7ce47aa5f3f720ac08c64d9ff037f13",
+      "native_window": [
+        35805,
+        9163,
+        195,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W006_Map.tif",
+      "window_sha256": "eb78c8b333d1d977c155dff201bcadbde4b3c400112ac1aebbd5a09f5b3df202"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "72eb250e8224c6523416735fdefdc141026e416b6f08638281e6364a35edd486",
+      "native_window": [
+        0,
+        9163,
+        1794,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W003_Map.tif",
+      "window_sha256": "384acd2492a5afb9cd15c84a9966eb071b03b850e9a4629fb0f6c80fc2dc0e5b"
+    }
+  ]
+}

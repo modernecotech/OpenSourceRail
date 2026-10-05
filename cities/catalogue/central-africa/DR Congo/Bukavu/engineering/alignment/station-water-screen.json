@@ -1,6 +1,6 @@
 {
   "city": "bukavu",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 693,
-      "row": 469,
-      "station_id": "line-1-0469-0693-s006032",
+      "col": 727,
+      "row": 449,
+      "station_id": "line-1-0449-0727-s005140",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 639,
+      "row": 501,
+      "station_id": "line-1-0501-0639-s007424",
       "water_coverage_percent": 0
     },
     {
@@ -47,39 +53,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 499,
-      "row": 392,
-      "station_id": "line-2-0392-0499-s003010",
+      "col": 462,
+      "row": 422,
+      "station_id": "line-2-0422-0462-s003004",
       "water_coverage_percent": 0
     },
     {
-      "col": 606,
-      "row": 475,
-      "station_id": "line-2-0475-0606-s006037",
+      "col": 565,
+      "row": 506,
+      "station_id": "line-2-0506-0565-s006029",
       "water_coverage_percent": 0
     },
     {
-      "col": 729,
-      "row": 572,
-      "station_id": "line-2-0572-0729-s009547",
+      "col": 639,
+      "row": 501,
+      "station_id": "line-2-0501-0639-s007808",
       "water_coverage_percent": 0
     },
     {
-      "col": 852,
-      "row": 668,
-      "station_id": "line-2-0668-0852-s013048",
+      "col": 683,
+      "row": 535,
+      "station_id": "line-2-0535-0683-s009040",
       "water_coverage_percent": 0
     },
     {
-      "col": 981,
-      "row": 742,
-      "station_id": "line-2-0742-0981-s016564",
+      "col": 806,
+      "row": 631,
+      "station_id": "line-2-0631-0806-s012541",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 930,
+      "row": 713,
+      "station_id": "line-2-0713-0930-s016055",
       "water_coverage_percent": 0
     },
     {
       "col": 1060,
       "row": 859,
-      "station_id": "line-2-0859-1060-s020095",
+      "station_id": "line-2-0859-1060-s022005",
       "water_coverage_percent": 0
     },
     {
@@ -95,15 +107,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 694,
-      "row": 517,
-      "station_id": "line-3-0517-0694-s006051",
+      "col": 684,
+      "row": 537,
+      "station_id": "line-3-0537-0684-s005568",
       "water_coverage_percent": 0
     },
     {
-      "col": 754,
-      "row": 393,
-      "station_id": "line-3-0393-0754-s009075",
+      "col": 727,
+      "row": 449,
+      "station_id": "line-3-0449-0727-s007708",
       "water_coverage_percent": 0
     },
     {
@@ -115,18 +127,20 @@
     {
       "col": 927,
       "row": 104,
-      "station_id": "line-3-0104-0927-s016891",
+      "station_id": "line-3-0104-0927-s017441",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 19,
-  "schema_version": 1,
+  "platforms_checked": 21,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/central-africa/DR Congo/Bukavu/design.toml": "a8391099ca36a8bd47280d1601f0bac15eb847aa249d6d054f2b9daa9ecca58c",
+    "cities/catalogue/central-africa/DR Congo/Bukavu/design.toml": "0f79f356ff5a67678fac0a07528b2df89099405df2cddf5bf09d787b874de899",
     "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/planning-grid.json": "a0120daad97ba26a256b29206ba996f14ada79c2cd07ec94e231e8d1f1f21903",
-    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/planning-water-mask.bin.gz": "7ab079da0d86824cf7995d06a4fb95aebd0b46c985cb2fa95ff4da56cef52d34",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/planning-water-mask.bin.gz": "3d8ae8abd538342c25d3e7dac975f2ee18bc9269d883c6d553bfe4c160a1889d",
+    "cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/water-source-receipt.json": "5a79532e461fa11f52f34e964cb38d9cd79a555c43651b748a3d8973c3168ede",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "e7fdd8511c09f7c34bdf138b3552d34198f41c35966ab62db29feb433dce91c1",
+  "uncompressed_water_mask_sha256": "9b2d314c63d028c5d131fbc2d656a031df6692c13dd10fedf6107672bf8d0102",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

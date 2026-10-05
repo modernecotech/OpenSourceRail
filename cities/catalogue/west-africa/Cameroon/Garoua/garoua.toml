@@ -84,8 +84,8 @@ charging_power_kw = 500
 dwell_seconds = 210
 
 [[stations]]
-id = "line-1-0388-0521-s006040"
-name = "Centre de santé integré de Roumde-adjia"
+id = "line-1-0409-0499-s005391"
+name = "line-1-0409-0499-s005391"
 charging_power_kw = 500
 dwell_seconds = 210
 
@@ -111,13 +111,19 @@ depot_service = true
 id = "line-2-0525-0513-s001615"
 name = "Campus Annexe Faculté Des Sciences Juridiques Et Politiques"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
-id = "line-2-0382-0496-s004615"
-name = "Ecole Pour La Formation Des Specialistes De La Faune"
+id = "line-2-0409-0499-s004051"
+name = "line-2-0409-0499-s004051"
 charging_power_kw = 500
-dwell_seconds = 180
+dwell_seconds = 150
+
+[[stations]]
+id = "line-2-0317-0489-s005973"
+name = "Marché De La Base"
+charging_power_kw = 500
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-0224-0478-s007925"
@@ -136,8 +142,8 @@ is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-3-0415-0377-s003506"
-name = "line-3-0415-0377-s003506"
+id = "line-3-0317-0489-s006827"
+name = "Marché De La Base"
 charging_power_kw = 500
 dwell_seconds = 210
 
@@ -157,8 +163,8 @@ name = "line-1"
 stations = [
     { id = "line-1-0573-0322-s000000", distance_from_prev_m = 0 },
     { id = "line-1-0481-0422-s003020", distance_from_prev_m = 3019 },
-    { id = "line-1-0388-0521-s006040", distance_from_prev_m = 3019 },
-    { id = "line-1-0261-0658-s010219", distance_from_prev_m = 4178 },
+    { id = "line-1-0409-0499-s005391", distance_from_prev_m = 2370 },
+    { id = "line-1-0261-0658-s010219", distance_from_prev_m = 4827 },
 ]
 
 [[lines]]
@@ -167,8 +173,9 @@ name = "line-2"
 stations = [
     { id = "line-2-0602-0522-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0525-0513-s001615", distance_from_prev_m = 1614 },
-    { id = "line-2-0382-0496-s004615", distance_from_prev_m = 3000 },
-    { id = "line-2-0224-0478-s007925", distance_from_prev_m = 3309 },
+    { id = "line-2-0409-0499-s004051", distance_from_prev_m = 2435 },
+    { id = "line-2-0317-0489-s005973", distance_from_prev_m = 1922 },
+    { id = "line-2-0224-0478-s007925", distance_from_prev_m = 1951 },
 ]
 
 [[lines]]
@@ -176,8 +183,8 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0518-0259-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0415-0377-s003506", distance_from_prev_m = 3506 },
-    { id = "line-3-0312-0495-s007012", distance_from_prev_m = 3506 },
+    { id = "line-3-0317-0489-s006827", distance_from_prev_m = 6827 },
+    { id = "line-3-0312-0495-s007012", distance_from_prev_m = 184 },
 ]
 
 
@@ -355,7 +362,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0388-0521-s006040"
+station = "line-1-0409-0499-s005391"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -423,7 +430,24 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0382-0496-s004615"
+station = "line-2-0409-0499-s004051"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-2-0317-0489-s005973"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -474,15 +498,15 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0415-0377-s003506"
-tier = "standard"
+station = "line-3-0317-0489-s006827"
+tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
 storage_max_discharge_kw = 500.0
 storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
+grid_import_kw = 600.0
+grid_export_kw = 600.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0

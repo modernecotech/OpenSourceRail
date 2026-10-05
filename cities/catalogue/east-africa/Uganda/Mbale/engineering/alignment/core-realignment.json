@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 34.219835,
     "north": 1.106063,
@@ -6,6 +7,7 @@
     "west": 34.138715
   },
   "core_analytical_length_m": 18645.752235,
+  "core_final_route_length_m": 19739.453096,
   "core_original_length_m": 32665.709935,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7375.979797,
       "line": "line-1",
       "original_cells": 612,
       "original_route_m": 14506.458864,
       "reworked_cells": 364,
-      "reworked_route_m": 7375.979797
+      "reworked_route_m": 7375.979797,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8771.513703,
       "line": "line-2",
       "original_cells": 626,
       "original_route_m": 14438.519472,
       "reworked_cells": 451,
-      "reworked_route_m": 10250.924958
+      "reworked_route_m": 10250.924958,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 3591.959595,
       "line": "line-3",
       "original_cells": 220,
       "original_route_m": 5200.142853,
       "reworked_cells": 169,
-      "reworked_route_m": 3591.959595
+      "reworked_route_m": 3591.959595,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Mbale/alignment-policy.toml": "10e9c302bab721ff0842944884703dc23b3aa07d7d502784baf73dac6a2cc687",
+    "cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/planning-buildability-mask.bin.gz": "ca677888a9264e04bee5a8192c2dcdde71bcf95bf22bb9bf67e1801bd612b4e8",
     "cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/planning-grid.json": "13783f702fd01a72e4e17886935b8a6d379e20e07cb474635fb42700aa113088",
+    "cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/planning-water-mask.bin.gz": "6b054e2521fbcb079c7fbf50e460c2014fef572919706efeeba8c9b5eba8e6fc",
     "cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/pre-rework-corridors.json.gz": "4e94591d4e0c25263225a6b2563ac314acd4baa1fd736c8b134fab1f373b14f9",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Mbale/engineering/alignment/water-source-receipt.json": "6e9be130c78a28aa2a5eba920a1e640d5bb30c914699cab7f1b581270246b592",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,0 +1,79 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "yangon",
+  "legacy_osm_missing_geometry_ids": [
+    423,
+    447,
+    1772901,
+    1772902,
+    2408989,
+    2517811,
+    2641584,
+    3999272,
+    3999273,
+    6485985,
+    6585897,
+    12273458,
+    12289383,
+    12485005,
+    17450604,
+    18133906
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "689f6e768ee2b08411025653d4f7b11f2f761157cef76620caedbd0aa240294c",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "f65fa88d9d2a09b6b2b387841ccbfb783c9c1fe620ef90ce7e2480cf58acd281",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/independent-landcover-samples.bin.gz": "13d0596eae945db9b4eab47c8e14d28864c4dce0b7c660650fcb76f8f44940a1",
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/planning-grid.json": "82184c893cd7688e778843afb1d7fe54a0bd1cf8b2d1d99371ed80366d416d88",
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/planning-water-features.json.gz": "fd0a9411a8cfa7f22a7f2b4c85fb93eae03212cda3fb844ad2d603f1a67b038d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 384939,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "174c9ad71dd1788669ae75bb2f3c9e1d57564358fa74bfefa66d112f714a71cb",
+      "native_window": [
+        35400,
+        12000,
+        600,
+        4203
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E093_Map.tif",
+      "window_sha256": "45b99ea3dc17260c8451756425146f557550d6bf9c57fc4b1f57b11d1714d310"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "085f32e32868c401dd78bb02a3b41f187667c078732de5c503e2347109653679",
+      "native_window": [
+        0,
+        12000,
+        4203,
+        4203
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E096_Map.tif",
+      "window_sha256": "0349662d8dfdbb342041801f9616d89dae0c3657b2165cc451796a6e0b68d4a8"
+    }
+  ]
+}

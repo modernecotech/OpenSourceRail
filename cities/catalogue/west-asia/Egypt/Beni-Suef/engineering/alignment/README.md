@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`beni-suef-line1.aln.toml`](beni-suef-line1.aln.toml) | `line-1` | 11,237.9 m | 5 |
 | [`beni-suef-line2.aln.toml`](beni-suef-line2.aln.toml) | `line-2` | 10,199.8 m | 4 |
-| [`beni-suef-line3.aln.toml`](beni-suef-line3.aln.toml) | `line-3` | 7,756.4 m | 4 |
+| [`beni-suef-line3.aln.toml`](beni-suef-line3.aln.toml) | `line-3` | 7,756.4 m | 5 |
 
 ## Status
 

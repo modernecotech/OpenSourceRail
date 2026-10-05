@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "tanga",
+  "legacy_osm_missing_geometry_ids": [
+    2270192
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "ce7f9db2295c2937958237751b33e2aa7922c4603c1e5e2c6e258cd243dd33bf",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "81319db6b18cb9204e1bbb54aaf5909dd1f9d494cafd3fd7bbc52428e91439d3",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Tanga/engineering/alignment/independent-landcover-samples.bin.gz": "f55cd2a825403f6bb56126b5a804ceb85eaa1d455f7f9c212afb79597e5b9b94",
+    "cities/catalogue/east-africa/Tanzania/Tanga/engineering/alignment/planning-grid.json": "6d0c06286f0775856cb34aec2d8f3f664f1969549064d81e3856d750ef2355e0",
+    "cities/catalogue/east-africa/Tanzania/Tanga/engineering/alignment/planning-water-features.json.gz": "1939c8986e8cf4bcef7099efb873887e37d888fa0a1ebea70b40294304e196ed",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 506236,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b121a3598cffe6e29cf2fbafc856b44aa75ce2794a02fb34c57981ee602f2f04",
+      "native_window": [
+        33,
+        23886,
+        2391,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S06E039_Map.tif",
+      "window_sha256": "f6ac0bf079a8598b396015b91dc20230ec6e8b8e16930122ea4afc0bda89cc23"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "luanda",
+  "legacy_osm_missing_geometry_ids": [
+    9306972,
+    14556632,
+    14556633
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "415b681ea73085ba657c4474d11a7df27b8d240d4f2aba63623c580107cdb44a",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "2690027120ca9f87c6fd6578ea5bcd9470ac97c107c4e2d2ab41b7ca500168d9",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/independent-landcover-samples.bin.gz": "41c27a5319fabf42cd49e41fcbb1414b682ae8e69446812d1487f6002aa9e84d",
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/planning-grid.json": "3ef99ed0cd6806f3c4197cf28d81878840b0cf824f0a23112d7547a639084df2",
+    "cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/planning-water-features.json.gz": "6cacf924dbc8fd9bb8a3b3d285d7260009294456cd95d636ee91c838f682ec95",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 2140325,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d061e2ad260e4f62b454fb2c13611cad3a7106db205f28d783b88502ee48a5bc",
+      "native_window": [
+        13200,
+        0,
+        4803,
+        603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S12E012_Map.tif",
+      "window_sha256": "f6ea8b281afc9c4acb121b4275d2449d3fa5f2a732162ceefd77a660278255c8"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "f2f77fac96bc940e7e6d4076e8dc75f7b1e47848528a15b4d84ce4aa6feb99ce",
+      "native_window": [
+        13200,
+        31200,
+        4803,
+        4800
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E012_Map.tif",
+      "window_sha256": "470edb4f759c70fd2d18fb2d588437409b147fd9a4e1ca43ac9327203ddc74c3"
+    }
+  ]
+}

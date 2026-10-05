@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 39.263284,
     "north": -6.106591,
@@ -6,6 +7,7 @@
     "west": 39.143644
   },
   "core_analytical_length_m": 35741.727328,
+  "core_final_route_length_m": 32690.966799,
   "core_original_length_m": 50071.790888,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               11560.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 17092.042086,
+          "seed_from_index": 28,
+          "seed_to_index": 419,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 16520.0,
@@ -46,19 +54,33 @@
                 12440.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 17092.042086,
-          "seed_from_index": 28,
-          "seed_to_index": 419,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 12587.350647,
       "line": "line-1",
       "original_cells": 420,
       "original_route_m": 18346.819754,
-      "reworked_cells": 634,
-      "reworked_route_m": 13719.285602
+      "reworked_cells": 675,
+      "reworked_route_m": 14010.19336,
+      "water_route_changes": [
+        {
+          "detour_route_m": 1215.979797,
+          "from_cell": [
+            318,
+            615
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 1073.137085,
+          "search_work_upper_bound": 320,
+          "to_cell": [
+            371,
+            611
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -74,7 +96,13 @@
               17720.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 17256.505609,
+          "seed_from_index": 45,
+          "seed_to_index": 428,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 14380.0,
@@ -87,19 +115,34 @@
                 4520.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 17256.505609,
-          "seed_from_index": 45,
-          "seed_to_index": 428,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 10447.737367,
       "line": "line-2",
       "original_cells": 449,
       "original_route_m": 20249.078996,
-      "reworked_cells": 754,
-      "reworked_route_m": 19039.032252
+      "reworked_cells": 488,
+      "reworked_route_m": 11297.442995,
+      "water_route_changes": [
+        {
+          "detour_route_m": 221.421356,
+          "endpoint_shift_m": 7263.828192,
+          "from_cell": [
+            363,
+            136
+          ],
+          "geometry_basis": "shore-route-requires-survey-access-and-curve-review",
+          "kind": "bounded-endpoint-relocation-with-shore-route",
+          "maximum_relocation_m": 8500.0,
+          "removed_original_route_m": 8375.533906,
+          "search_work_upper_bound": 22,
+          "to_cell": [
+            531,
+            458
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -136,21 +179,28 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9655.878785,
       "line": "line-3",
       "original_cells": 452,
       "original_route_m": 20749.830571,
-      "reworked_cells": 556,
-      "reworked_route_m": 14642.466163
+      "reworked_cells": 736,
+      "reworked_route_m": 15727.249635,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Zanzibar-City/alignment-policy.toml": "0ac29b947278b9525675a22e4693f29702f08e87db48e5d3c408dc64c5075c87",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/planning-buildability-mask.bin.gz": "4f903dff7e9a9315a053fc75ca93f7aab4787eaf588ffc30253258ba5bc2b8f9",
     "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/planning-grid.json": "38ecb2a3915a970e3f892c208df4126be8fe6e516308b83003b15053b1ff3bbe",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/planning-water-mask.bin.gz": "08965209271e725163a32a4945e47f0ea7258a746d6ff5c107bd8f577e81d51b",
     "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/pre-rework-corridors.json.gz": "1c2580b210a79cd63baea7a782cf323f091cd9ddb1fdbefb854d059b5a38bebe",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/alignment/water-source-receipt.json": "a94b68129ed41e6d60e8fc4b39e5b3c67172c1e74c370b9cb2b15ad57df17266",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/water-route-policy.toml": "f54899d5e027ffd1a6ec21bad73f9beaa1a6feaa8fea8987a7811a8908739637",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

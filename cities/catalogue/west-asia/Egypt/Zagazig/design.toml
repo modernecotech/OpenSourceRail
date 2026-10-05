@@ -50,7 +50,7 @@ length_m        = 15772.5
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 240
+charging_dwell_seconds = 210
 
 [[lines]]
 name            = "line-2"
@@ -79,6 +79,22 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-1"
 from_station_m  = 3560.7
+to_station_m    = 11130.6
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 11130.6
+to_station_m    = 11158.9
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 11158.9
 to_station_m    = 15772.5
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -87,6 +103,22 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 0.0
+to_station_m    = 2703.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 2703.7
+to_station_m    = 2743.7
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 2743.7
 to_station_m    = 8552.4
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -144,35 +176,42 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0454-0532-s009062"
+id              = "line-1-0438-0527-s008701"
 line            = "line-1"
-lat             = 30.605005377389052
-lon             = 31.498034340744795
-s_m             = 9062.1
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "قريه بنايوس"
+lat             = 30.607884836050825
+lon             = 31.496990825808226
+s_m             = 8700.6
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0544-0562-s011111"
+id              = "line-1-0496-0546-s010018"
 line            = "line-1"
-lat             = 30.588808422416587
-lon             = 31.50429543036422
-s_m             = 11110.6
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "المساكن التعاونيه"
+lat             = 30.5974467984019
+lon             = 31.500956182567194
+s_m             = 10018.0
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-1-0559-0567-s011452"
+line            = "line-1"
+lat             = 30.586108929921178
+lon             = 31.505338945300792
+s_m             = 11452.0
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0646-0595-s013447"
+id              = "line-1-0652-0598-s013604"
 line            = "line-1"
-lat             = 30.570451873447794
-lon             = 31.51118262894559
-s_m             = 13447.4
+lat             = 30.56937207644963
+lon             = 31.511808737907533
+s_m             = 13604.0
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -199,23 +238,22 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0556-0557-s002784"
+id              = "line-2-0559-0567-s003009"
 line            = "line-2"
-lat             = 30.58664882842026
-lon             = 31.50325191542765
-s_m             = 2783.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "المساكن التعاونيه"
+lat             = 30.586108929921178
+lon             = 31.505338945300792
+s_m             = 3008.5
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 1
 
 [[stations]]
-id              = "line-2-0587-0688-s005660"
+id              = "line-2-0588-0694-s005789"
 line            = "line-2"
-lat             = 30.581069877263076
-lon             = 31.530592006765808
-s_m             = 5660.5
+lat             = 30.580889911096715
+lon             = 31.531844224689692
+s_m             = 5788.8
 anchor_kind     = "amenity:bus_station"
 archetype       = "standard"
 platform_length_m = 59.5
@@ -242,30 +280,31 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0406-0344-s003511"
+id              = "line-3-0408-0354-s003727"
 line            = "line-3"
-lat             = 30.61364375337437
-lon             = 31.458798179129733
-s_m             = 3510.8
+lat             = 30.613283821041644
+lon             = 31.460885209002875
+s_m             = 3727.4
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0435-0507-s007011"
+id              = "line-3-0438-0527-s007436"
 line            = "line-3"
-lat             = 30.608424734549907
-lon             = 31.492816766061942
-s_m             = 7011.0
+lat             = 30.607884836050825
+lon             = 31.496990825808226
+s_m             = 7435.9
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0456-0627-s009585"
+id              = "line-3-0458-0637-s009802"
 line            = "line-3"
-lat             = 30.60464544505633
-lon             = 31.517861124539643
-s_m             = 9585.0
+lat             = 30.60428551272361
+lon             = 31.519948154412784
+s_m             = 9801.6
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "قريه كفر الحصر"
 archetype       = "standard"
@@ -285,18 +324,18 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 30.60671505596948
-lon             = 31.49542555340337
+lat             = 30.607884836050825
+lon             = 31.496990825808226
 lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0454-0532-s009062", "line-3-0435-0507-s007011"]
+platforms       = ["line-1-0438-0527-s008701", "line-3-0438-0527-s007436"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = 30.58772862541842
-lon             = 31.503773672895935
+lat             = 30.586108929921178
+lon             = 31.505338945300792
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0544-0562-s011111", "line-2-0556-0557-s002784"]
+platforms       = ["line-1-0559-0567-s011452", "line-2-0559-0567-s003009"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -304,14 +343,14 @@ station = "line-1-0747-0629-s015772"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 8
-storage_slots = 52
+storage_slots = 53
 storage_tracks = 18
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 3094.0
+storage_track_m = 3153.5
 workshop_bays = 8
 planning_land_area_m2 = 39377.0
-reference_cost_usd = 19523095
+reference_cost_usd = 19537970
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -469,11 +508,11 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 47
+peak_count         = 48
 service_rotation_count = 0
 spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 52
+trainset_count     = 53
 
 [[fleets]]
 line               = "line-2"
@@ -503,36 +542,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 11931734
 at_grade_eur         = 10977195
-elevated_usd         = 310633256
-elevated_eur         = 285782596
-bridge_usd           = 0
-bridge_eur           = 0
+elevated_usd         = 309967621
+elevated_eur         = 285170212
+bridge_usd           = 1229117
+bridge_eur           = 1130788
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 322564990
-civil_subtotal_eur   = 296759791
+civil_subtotal_usd   = 323128472
+civil_subtotal_eur   = 297278194
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 72600000
-stations_eur         = 66792000
+stations_usd         = 75100000
+stations_eur         = 69092000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 52178225
-depots_eur           = 48003967
+depots_usd           = 52193100
+depots_eur           = 48017652
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 105300000
-rolling_stock_eur    = 96876000
+rolling_stock_usd    = 106200000
+rolling_stock_eur    = 97704000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1824195
 signalling_eur       = 1678259
-charging_microgrid_usd = 1650000
-charging_microgrid_eur = 1518000
+charging_microgrid_usd = 1750000
+charging_microgrid_eur = 1610000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 38928219
-epc_overhead_eur     = 35813961
-total_usd            = 595045629  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 547441979  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 39213704
+epc_overhead_eur     = 36076608
+total_usd            = 599409471  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 551456713  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -547,7 +586,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 17901000
+fleet_core_electrical_usd = 18054000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

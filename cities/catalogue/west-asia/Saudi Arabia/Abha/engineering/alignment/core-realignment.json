@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 42.576391,
     "north": 18.303829,
@@ -6,6 +7,7 @@
     "west": 42.451231
   },
   "core_analytical_length_m": 36506.995069,
+  "core_final_route_length_m": 39339.63779,
   "core_original_length_m": 46784.236761,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13294.11255,
       "line": "line-1",
       "original_cells": 451,
       "original_route_m": 20187.263074,
-      "reworked_cells": 694,
-      "reworked_route_m": 16836.980514
+      "reworked_cells": 820,
+      "reworked_route_m": 17539.797975,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15347.392488,
       "line": "line-2",
       "original_cells": 499,
       "original_route_m": 22588.602663,
-      "reworked_cells": 767,
-      "reworked_route_m": 19781.981779
+      "reworked_cells": 897,
+      "reworked_route_m": 20347.291476,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10698.132752,
       "line": "line-3",
       "original_cells": 691,
       "original_route_m": 14818.965363,
       "reworked_cells": 626,
-      "reworked_route_m": 13411.269837
+      "reworked_route_m": 13411.269837,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Abha/alignment-policy.toml": "88af278a4090291d2b0f7a750dc8baaac7b7214712ed23a14d9c08c27162cdfb",
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/planning-buildability-mask.bin.gz": "9b43243e05acabd087efb67956fa58e7517ed180a678b45580f416200cab2fac",
     "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/planning-grid.json": "4b7297d271196e821a48c4fda6c372e99d84e1585d1dd6c68ae13d43333a3e57",
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/planning-water-mask.bin.gz": "c86b3b514059fdf7dc7d520d2ca27a04070aa6219d97b656483e937c9af2e64e",
     "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/pre-rework-corridors.json.gz": "444933e577edc6772b346b0499499a1207ea61f0cf19fdf2b096f4cb2631253b",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/water-source-receipt.json": "246021deca72c33c83f8067f917181a59b4f132536e56673559c749897299d1a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

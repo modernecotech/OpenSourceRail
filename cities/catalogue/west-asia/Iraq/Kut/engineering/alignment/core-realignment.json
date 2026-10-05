@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 45.904152,
     "north": 32.569309,
@@ -6,6 +7,7 @@
     "west": 45.766152
   },
   "core_analytical_length_m": 33998.148559,
+  "core_final_route_length_m": 41354.036047,
   "core_original_length_m": 41349.439722,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               17260.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 17995.933249,
+          "seed_from_index": 0,
+          "seed_to_index": 372,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 17820.0,
@@ -46,19 +54,33 @@
                 4700.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 17995.933249,
-          "seed_from_index": 0,
-          "seed_to_index": 372,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 21352.429996,
       "line": "line-1",
       "original_cells": 447,
       "original_route_m": 21833.847183,
-      "reworked_cells": 791,
-      "reworked_route_m": 21231.378567
+      "reworked_cells": 1036,
+      "reworked_route_m": 25562.867222,
+      "water_route_changes": [
+        {
+          "detour_route_m": 5931.75757,
+          "from_cell": [
+            509,
+            341
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 1984.507935,
+          "search_work_upper_bound": 516465,
+          "to_cell": [
+            563,
+            414
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -95,11 +117,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6992.54834,
       "line": "line-2",
       "original_cells": 367,
       "original_route_m": 9399.352083,
       "reworked_cells": 344,
-      "reworked_route_m": 6992.54834
+      "reworked_route_m": 6992.54834,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +160,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13009.057711,
       "line": "line-3",
       "original_cells": 612,
       "original_route_m": 14647.291476,
       "reworked_cells": 577,
-      "reworked_route_m": 13673.910524
+      "reworked_route_m": 13673.910524,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Kut/alignment-policy.toml": "380a65278062185cf60a7d634b91f0ed2669bd0fca8d3d4f015aead728118b47",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-buildability-mask.bin.gz": "b164f4f6c147a9494e48af0c05060ea8058e451885d58806b0695f7053bba7e9",
     "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-grid.json": "c52ab8aa401bb083b6ceaf615073fd22540c1f243c6d6f3662d7c1204a5613d1",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/planning-water-mask.bin.gz": "35f91b6cd970e02cd4c9a1f90477fbc1056538b805ba416f8a0f14ce74be0d85",
     "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/pre-rework-corridors.json.gz": "d03b92fb9879789862bf82300482157489de4c972ef62089dc24a537588945b6",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/water-source-receipt.json": "839bda88660fe028d7b0d50b4a7b38a451fada6bdb678719a221f6124fd5f6c3",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

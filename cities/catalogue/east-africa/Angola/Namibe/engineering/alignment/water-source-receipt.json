@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "namibe",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "45dadfed13af2741d97c4382d4e87d3808580bd7cc4bc2d82fb58506f73f505b",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "643e6f990b4d11f48dda6d211b76b95def459637812121814025ef757f147af4",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/independent-landcover-samples.bin.gz": "878e4f9625955e1d43d4cf3180e18b887a0fe6543b38ea57eb555b90f2d96439",
+    "cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/planning-grid.json": "510734b05c5794d9a2dd1ade59c9276af0ee26668ab8c68901e0b74f22711cc8",
+    "cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/planning-water-features.json.gz": "a3f3274bd706caa58683219ca225139fe28328b5e69fc9304e1df6c7d3866f2e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 146476,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "9a659c664b9c2e6e2af6a9867ea4f6cff6d3305f0ce83fd5397c6a12417e6abc",
+      "native_window": [
+        986,
+        1542,
+        1683,
+        1625
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S18E012_Map.tif",
+      "window_sha256": "583aa53c3aaf39f795ae8c037b6f63b97d520735d4461e5515a1f1e86318b2f1"
+    }
+  ]
+}

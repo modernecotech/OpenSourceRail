@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "dar-es-salaam"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "dar-es-salaam",
-      "corridor_sha256": "e2bbc6753b816ecd6a6402c531a42d2c0972620bf31d9575c8021bb968a5ec8e",
-      "design_sha256": "acc4320e088e68152787ec6c9a4a4af3599a945aca754614e64dc77344d05bb7",
-      "failures": [],
+      "corridor_sha256": "ac8d3a24955fab6e518ea852881b82e916202795e3b5b4b4570da16e0366f7f8",
+      "design_sha256": "a25497bb692dcc4d47cf16e0af5e65f185bb2c67f9d6a7db9e762b710ce485e7",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 7910.7,
+          "radial": "line-2",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 8,
       "review_findings": [],
       "ring_count": 1

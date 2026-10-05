@@ -1,6 +1,6 @@
 {
   "city": "maroua",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,45 +11,57 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 936,
-      "row": 307,
-      "station_id": "line-1-0307-0936-s003498",
+      "col": 952,
+      "row": 294,
+      "station_id": "line-1-0294-0952-s003494",
       "water_coverage_percent": 0
     },
     {
-      "col": 800,
-      "row": 398,
-      "station_id": "line-1-0398-0800-s007012",
+      "col": 826,
+      "row": 382,
+      "station_id": "line-1-0382-0826-s007012",
       "water_coverage_percent": 0
     },
     {
-      "col": 683,
-      "row": 467,
-      "station_id": "line-1-0467-0683-s010018",
+      "col": 694,
+      "row": 461,
+      "station_id": "line-1-0461-0694-s010424",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 622,
+      "row": 503,
+      "station_id": "line-1-0503-0622-s012259",
       "water_coverage_percent": 0
     },
     {
       "col": 547,
       "row": 548,
-      "station_id": "line-1-0548-0547-s013526",
+      "station_id": "line-1-0548-0547-s014213",
       "water_coverage_percent": 0
     },
     {
-      "col": 450,
-      "row": 605,
-      "station_id": "line-1-0605-0450-s016032",
+      "col": 454,
+      "row": 602,
+      "station_id": "line-1-0602-0454-s016603",
       "water_coverage_percent": 0
     },
     {
-      "col": 313,
-      "row": 686,
-      "station_id": "line-1-0686-0313-s019536",
+      "col": 358,
+      "row": 659,
+      "station_id": "line-1-0659-0358-s019065",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 262,
+      "row": 716,
+      "station_id": "line-1-0716-0262-s021539",
       "water_coverage_percent": 0
     },
     {
       "col": 167,
       "row": 737,
-      "station_id": "line-1-0737-0167-s023039",
+      "station_id": "line-1-0737-0167-s023818",
       "water_coverage_percent": 0
     },
     {
@@ -59,9 +71,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 527,
-      "row": 489,
-      "station_id": "line-2-0489-0527-s003022",
+      "col": 536,
+      "row": 475,
+      "station_id": "line-2-0475-0536-s002667",
       "water_coverage_percent": 0
     },
     {
@@ -89,15 +101,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 549,
-      "row": 474,
-      "station_id": "line-3-0474-0549-s003008",
+      "col": 536,
+      "row": 475,
+      "station_id": "line-3-0475-0536-s002739",
       "water_coverage_percent": 0
     },
     {
-      "col": 656,
-      "row": 465,
-      "station_id": "line-3-0465-0656-s005222",
+      "col": 694,
+      "row": 461,
+      "station_id": "line-3-0461-0694-s006015",
       "water_coverage_percent": 0
     },
     {
@@ -107,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 17,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Maroua/design.toml": "69e8c4563eb179d1d067aadbe563575e06120439192b198461c14dfc979c8de2",
+    "cities/catalogue/west-africa/Cameroon/Maroua/design.toml": "156de371dcd8b6e8c9a08f9ebc9164c5bec380a3f55916ace492e24a04be500e",
     "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/planning-grid.json": "768c9d553100de23b58eb520549668722cfbf64208708b3651b8db17dbedfddf",
-    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/planning-water-mask.bin.gz": "4376b86dc1677cda4881e13a32afb273f29413c9b7a733675c99d1e979add890",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/planning-water-mask.bin.gz": "bafc24c38833abd5bc11e3163baead17d95987049afbeeadc08c25d1fbe381ae",
+    "cities/catalogue/west-africa/Cameroon/Maroua/engineering/alignment/water-source-receipt.json": "81fa8ae82d2fc6aade1bce56f853dff89010e082e5f7ddf7d586f31cb54f3962",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "c0998dd5bceebd75424911c6f1bf334ac438526126d85b7eb5ffb582d7684b0c",
+  "uncompressed_water_mask_sha256": "d87d6bb52ac98120be7f7c595db856cf93d61a6d80a9cb73672f4ad2e9b1da68",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

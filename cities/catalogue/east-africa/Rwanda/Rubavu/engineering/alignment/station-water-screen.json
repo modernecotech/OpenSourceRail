@@ -1,6 +1,6 @@
 {
   "city": "rubavu",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,15 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 211,
-      "row": 331,
-      "station_id": "line-1-0331-0211-s006030",
+      "col": 238,
+      "row": 321,
+      "station_id": "line-1-0321-0238-s006664",
       "water_coverage_percent": 0
     },
     {
-      "col": 319,
-      "row": 293,
-      "station_id": "line-1-0293-0319-s008528",
+      "col": 338,
+      "row": 287,
+      "station_id": "line-1-0287-0338-s008964",
       "water_coverage_percent": 0
     },
     {
@@ -59,6 +59,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 238,
+      "row": 321,
+      "station_id": "line-2-0321-0238-s010569",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 189,
       "row": 253,
       "station_id": "line-2-0253-0189-s012441",
@@ -71,9 +77,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 325,
-      "row": 278,
-      "station_id": "line-3-0278-0325-s003017",
+      "col": 338,
+      "row": 287,
+      "station_id": "line-3-0287-0338-s003361",
       "water_coverage_percent": 0
     },
     {
@@ -95,14 +101,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 15,
-  "schema_version": 1,
+  "platforms_checked": 16,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Rwanda/Rubavu/design.toml": "9d1531385ef78bf15fbc00bc014cf70265dd7b0b028c6579f773051cdff78cfa",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/design.toml": "64cf76228759539542a3602db4838cbd10ffdcde1d5a716647bf55be4478ef29",
     "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/planning-grid.json": "08878bbbb625a5ca8e12cd4409629d0d126a9dacc050f152d848b6b66c130d35",
-    "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/planning-water-mask.bin.gz": "844e209f3e307261a25a1fee38ea0849ab7b1f61d79fe7d433dfdc9db1e451a8",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/planning-water-mask.bin.gz": "48f3f9abb15d65d82a7de4cc664cf208587fdda4f2d83032b8747e34799f67c3",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/engineering/alignment/water-source-receipt.json": "410b64e04d5d309333bcdf291355f8e97813c936743bbc00dac2664649c73147",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "dd5ff5c85f578bf2978787f444f970addbe6ce5cc478b0ee04f6e1099445b506",
+  "uncompressed_water_mask_sha256": "eb393b011e292974d7a32b19e125ec4d5322463cb3a801e96568a036d3822437",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

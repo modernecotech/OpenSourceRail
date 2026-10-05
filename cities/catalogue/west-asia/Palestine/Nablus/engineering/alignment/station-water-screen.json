@@ -1,6 +1,6 @@
 {
   "city": "nablus",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,9 +11,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 678,
+      "col": 682,
       "row": 549,
-      "station_id": "line-1-0549-0678-s003126",
+      "station_id": "line-1-0549-0682-s003046",
       "water_coverage_percent": 0
     },
     {
@@ -29,15 +29,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 242,
-      "row": 571,
-      "station_id": "line-1-0571-0242-s012029",
+      "col": 225,
+      "row": 575,
+      "station_id": "line-1-0575-0225-s012402",
       "water_coverage_percent": 0
     },
     {
       "col": 122,
       "row": 528,
-      "station_id": "line-1-0528-0122-s016109",
+      "station_id": "line-1-0528-0122-s016811",
       "water_coverage_percent": 0
     },
     {
@@ -49,37 +49,49 @@
     {
       "col": 777,
       "row": 626,
-      "station_id": "line-2-0626-0777-s004923",
+      "station_id": "line-2-0626-0777-s005080",
       "water_coverage_percent": 0
     },
     {
-      "col": 672,
-      "row": 541,
-      "station_id": "line-2-0541-0672-s007926",
+      "col": 682,
+      "row": 549,
+      "station_id": "line-2-0549-0682-s007794",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 612,
+      "row": 492,
+      "station_id": "line-2-0492-0612-s009830",
       "water_coverage_percent": 0
     },
     {
       "col": 568,
       "row": 457,
-      "station_id": "line-2-0457-0568-s010936",
+      "station_id": "line-2-0457-0568-s011094",
       "water_coverage_percent": 0
     },
     {
       "col": 447,
       "row": 359,
-      "station_id": "line-2-0359-0447-s014437",
+      "station_id": "line-2-0359-0447-s014595",
       "water_coverage_percent": 0
     },
     {
       "col": 325,
       "row": 260,
-      "station_id": "line-2-0260-0325-s017944",
+      "station_id": "line-2-0260-0325-s018101",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 228,
+      "row": 136,
+      "station_id": "line-2-0136-0228-s021718",
       "water_coverage_percent": 0
     },
     {
       "col": 128,
       "row": 71,
-      "station_id": "line-2-0071-0128-s024816",
+      "station_id": "line-2-0071-0128-s025331",
       "water_coverage_percent": 0
     },
     {
@@ -89,44 +101,52 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 961,
-      "row": 189,
-      "station_id": "line-3-0189-0961-s003510",
+      "col": 964,
+      "row": 177,
+      "station_id": "line-3-0177-0964-s003517",
       "water_coverage_percent": 0
     },
     {
-      "col": 833,
-      "row": 249,
-      "station_id": "line-3-0249-0833-s007023",
+      "col": 850,
+      "row": 230,
+      "station_id": "line-3-0230-0850-s007009",
       "water_coverage_percent": 0
     },
     {
-      "col": 625,
-      "row": 478,
-      "station_id": "line-3-0478-0625-s013947",
+      "col": 731,
+      "row": 362,
+      "station_id": "line-3-0362-0731-s010986",
       "water_coverage_percent": 0
     },
     {
-      "col": 560,
-      "row": 550,
-      "station_id": "line-3-0550-0560-s016113",
+      "col": 612,
+      "row": 492,
+      "station_id": "line-3-0492-0612-s014947",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 556,
+      "row": 555,
+      "station_id": "line-3-0555-0556-s016823",
       "water_coverage_percent": 0
     },
     {
       "col": 454,
       "row": 667,
-      "station_id": "line-3-0667-0454-s019636",
+      "station_id": "line-3-0667-0454-s020201",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 19,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Palestine/Nablus/design.toml": "7df5cbf825ae8618fea2796451b0c8e3095cd5f2ba0107e4bdd0ca5ab45d2916",
+    "cities/catalogue/west-asia/Palestine/Nablus/design.toml": "720d37ad004b031eaef90f90802b824019cb39653cd0a7c3522f91fac14c5da9",
     "cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/planning-grid.json": "784e3641c109ba3c7880a0567256e655985e9c7e8f4ebd4188459627f891f278",
-    "cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/planning-water-mask.bin.gz": "923d58c692d14828313e90b936e29b4713cae43f7e2449164a5a1e1bdca6d12d",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/planning-water-mask.bin.gz": "797b377748fba01653a7a1a72416be14b47ccbdcd2cab2a47da713a8078bc1bc",
+    "cities/catalogue/west-asia/Palestine/Nablus/engineering/alignment/water-source-receipt.json": "7257867eaea883695081c503dc37cddfe42b3a1a4a8260457b1c72e69b4ce577",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "c1defe2e164cc64c2ce1df5924f253125e533034993ae902b2b90882fdcc024e",
+  "uncompressed_water_mask_sha256": "d3c6ab242f4cc91ab400da7e078f8b09674a22eeda0c4e7e2744d4f8db17e450",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.690767,
     "north": -10.642357,
@@ -6,6 +7,7 @@
     "west": 35.608207
   },
   "core_analytical_length_m": 7793.73674,
+  "core_final_route_length_m": 8179.066376,
   "core_original_length_m": 13038.03174,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 3826.518036,
       "line": "line-1",
       "original_cells": 261,
       "original_route_m": 5672.203461,
       "reworked_cells": 177,
-      "reworked_route_m": 3826.518036
+      "reworked_route_m": 3826.518036,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,21 +99,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4352.54834,
       "line": "line-2",
       "original_cells": 505,
       "original_route_m": 11140.38672,
       "reworked_cells": 396,
-      "reworked_route_m": 8107.106781
+      "reworked_route_m": 8107.106781,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Songea/alignment-policy.toml": "960abcbae6989abd79372a979a0ae72f12a9230117312053bd375905c5968fd2",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-grid.json": "a7cba34c374bd54c555d1aa803c3bd2eca0ca0e8aee3a4c8627a20db175e0b95",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/planning-water-mask.bin.gz": "7793ca7ccee7f4b47ec09fdf25927a0422deefb6c03d1faa1728d620731b2d94",
     "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/pre-rework-corridors.json.gz": "99fa80af3ce6ce1690d3d4fad9b59332ff476dfff3b15f9a5309be59d2aa4ff4",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/alignment/water-source-receipt.json": "567235d0a5b47f93a354b7684d6ddf9a7c79e1be69718501273846f47e9f4860",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

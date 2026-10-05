@@ -59,7 +59,7 @@ length_m        = 7924.5
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-3"
@@ -1035,13 +1035,12 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0388-0521-s006040"
+id              = "line-1-0409-0499-s005391"
 line            = "line-1"
-lat             = 9.330583144368857
-lon             = 13.392242177384702
-s_m             = 6039.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centre de santé integré de Roumde-adjia"
+lat             = 9.326803854875283
+lon             = 13.388236946507496
+s_m             = 5390.7
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
@@ -1079,16 +1078,28 @@ archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0382-0496-s004615"
+id              = "line-2-0409-0499-s004051"
 line            = "line-2"
-lat             = 9.331662941367021
-lon             = 13.387690778660604
-s_m             = 4615.4
-anchor_kind     = "amenity:university"
-anchor_name     = "Ecole Pour La Formation Des Specialistes De La Faune"
+lat             = 9.326803854875283
+lon             = 13.388236946507496
+s_m             = 4050.5
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
+
+[[stations]]
+id              = "line-2-0317-0489-s005973"
+line            = "line-2"
+lat             = 9.343360742180469
+lon             = 13.386416387017857
+s_m             = 5973.4
+mandatory_crossing = true
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Marché De La Base"
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0224-0478-s007925"
@@ -1113,13 +1124,17 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0415-0377-s003506"
+id              = "line-3-0317-0489-s006827"
 line            = "line-3"
-lat             = 9.325724057877117
-lon             = 13.366026120733894
-s_m             = 3506.2
-archetype       = "standard"
+lat             = 9.343360742180469
+lon             = 13.386416387017857
+s_m             = 6827.5
+mandatory_crossing = true
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Marché De La Base"
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0312-0495-s007012"
@@ -1131,14 +1146,23 @@ anchor_kind     = "amenity:marketplace"
 anchor_name     = "Marché De La Base"
 archetype       = "terminal"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 9.33112304286794
-lon             = 13.389966478022654
+lat             = 9.326803854875283
+lon             = 13.388236946507496
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0388-0521-s006040", "line-2-0382-0496-s004615"]
+platforms       = ["line-1-0409-0499-s005391", "line-2-0409-0499-s004051"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 9.34366068579107
+lon             = 13.386780498915783
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0317-0489-s005973", "line-3-0312-0495-s007012", "line-3-0317-0489-s006827"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -1329,8 +1353,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 303135085
 civil_subtotal_eur   = 278884278
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 53000000
-stations_eur         = 48760000
+stations_usd         = 66500000
+stations_eur         = 61180000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 46779744
 depots_eur           = 43037364
@@ -1343,13 +1367,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1257769
 signalling_eur       = 1157147
-charging_microgrid_usd = 1250000
-charging_microgrid_eur = 1150000
+charging_microgrid_usd = 1350000
+charging_microgrid_eur = 1242000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 33545582
-epc_overhead_eur     = 30861935
-total_usd            = 512768180  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 471746726  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 34497582
+epc_overhead_eur     = 31737775
+total_usd            = 527320180  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 485134566  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

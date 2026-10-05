@@ -14,8 +14,8 @@ crs            = "EPSG:32646"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "0bc7c742d83ef0c9db6568e5034fd750c6d08692d7012f265bb52ed4f9db0eda"
-source_geojson_sha256 = "a2225da6a72833d98ccc925778d10ec848390d2ae3557c23d8a747cc13255b90"
+source_design_sha256 = "d448f839f99bd18ea7a19a34d0865fc098f5d67548c0f7064a5d5134ae3fdbf8"
+source_geojson_sha256 = "a476c24c40a077a70bbe50d4023e960d758211f8f38070d685ea8d5a0714b942"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -2180,6 +2180,16 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 4105.600
+to_station_m   = 4939.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4939.600
+to_station_m   = 4967.800
+class          = "bridge"
+
+[[civil]]
+from_station_m = 4967.800
 to_station_m   = 5056.100
 class          = "elevated"
 
@@ -2230,16 +2240,26 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 5941.800
-to_station_m   = 6066.700
+to_station_m   = 6038.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6066.700
+from_station_m = 6038.400
 to_station_m   = 6134.900
 class          = "bridge"
 
 [[civil]]
 from_station_m = 6134.900
+to_station_m   = 6421.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6421.200
+to_station_m   = 6441.200
+class          = "bridge"
+
+[[civil]]
+from_station_m = 6441.200
 to_station_m   = 7914.600
 class          = "elevated"
 
@@ -2250,6 +2270,16 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 7934.600
+to_station_m   = 9118.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9118.300
+to_station_m   = 9146.600
+class          = "bridge"
+
+[[civil]]
+from_station_m = 9146.600
 to_station_m   = 9166.600
 class          = "elevated"
 
@@ -2286,8 +2316,8 @@ station_m         = 3023.300
 platform_length_m = 59.500
 
 [[station]]
-id                = "line-3-0540-0485-s006038"
-station_m         = 6038.400
+id                = "line-3-0539-0485-s006018"
+station_m         = 6018.400
 platform_length_m = 59.500
 
 [[station]]

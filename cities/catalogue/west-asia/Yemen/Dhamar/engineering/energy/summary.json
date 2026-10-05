@@ -41,22 +41,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 500.0,
-          "grid_import_kw": 83.748064,
-          "grid_import_limit_kw": 500.0,
-          "import_exceedance_kw": 0.0,
-          "passed": true,
-          "station": "line-1-0255-0310-s003135"
-        },
-        {
-          "export_exceedance_kw": 0.0,
-          "grid_export_kw": 0.0,
           "grid_export_limit_kw": 600.0,
           "grid_import_kw": 83.739109,
           "grid_import_limit_kw": 600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-1-0338-0328-s004944"
+          "station": "line-1-0306-0321-s004246"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -126,7 +116,7 @@
           "grid_import_limit_kw": 600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0314-0356-s001957"
+          "station": "line-3-0306-0321-s002724"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -142,7 +132,7 @@
       "undervoltage_bus_count": 0
     },
     "peak_charge_grid_only": {
-      "connection_limit_exceedance_count": 2,
+      "connection_limit_exceedance_count": 1,
       "converged": true,
       "maximum_bus_voltage_pu": 1.0,
       "maximum_transformer_loading_percent": 82.886,
@@ -164,22 +154,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 500.0,
-          "grid_import_kw": 529.647205,
-          "grid_import_limit_kw": 500.0,
-          "import_exceedance_kw": 29.647205,
-          "passed": false,
-          "station": "line-1-0255-0310-s003135"
-        },
-        {
-          "export_exceedance_kw": 0.0,
-          "grid_export_kw": 0.0,
           "grid_export_limit_kw": 600.0,
           "grid_import_kw": 529.263063,
           "grid_import_limit_kw": 600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-1-0338-0328-s004944"
+          "station": "line-1-0306-0321-s004246"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -249,7 +229,7 @@
           "grid_import_limit_kw": 600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0314-0356-s001957"
+          "station": "line-3-0306-0321-s002724"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -270,20 +250,8 @@
   "climate_input": "lib/templates/climate.toml",
   "climate_preset": "hot-desert",
   "climate_sha256": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
-  "connected_charging_power_kw": 5500.0,
+  "connected_charging_power_kw": 5000.0,
   "contingency_findings": [
-    {
-      "case": "peak_charge_grid_only",
-      "code": "site-grid-connection-limit-exceeded",
-      "export_exceedance_kw": 0.0,
-      "grid_export_kw": 0.0,
-      "grid_export_limit_kw": 500.0,
-      "grid_import_kw": 529.647205,
-      "grid_import_limit_kw": 500.0,
-      "import_exceedance_kw": 29.647205,
-      "passed": false,
-      "station": "line-1-0255-0310-s003135"
-    },
     {
       "case": "peak_charge_grid_only",
       "code": "site-grid-connection-limit-exceeded",
@@ -298,13 +266,13 @@
     }
   ],
   "deployment_release_ready": false,
-  "derated_planning_pv_energy_mwh_per_year": 13375.2,
+  "derated_planning_pv_energy_mwh_per_year": 13144.6,
   "derated_planning_specific_yield_kwh_per_kwp": 768.7,
   "design_findings": [],
   "design_input": "cities/catalogue/west-asia/Yemen/Dhamar/design.toml",
-  "design_sha256": "7eca7c3a0ef077d4a1fa61ca965c0e6e926ced0194de3f4ecb9b69a929d4e15e",
+  "design_sha256": "c82eaae74e9dbf24f6528a1276659ee8c8081a843bc3de0cd657c1b65f29b158",
   "generator_sha256": "c4c8bc6912aab0790c5d682b275afa27369166fd0a5093f55fe61c55adcf50ac",
-  "grid_import_capacity_kw": 14200.0,
+  "grid_import_capacity_kw": 13700.0,
   "limitations": [
     "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
     "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
@@ -313,15 +281,15 @@
   ],
   "operating_energy_validated": false,
   "passed": true,
-  "pv_nameplate_kw": 17400.0,
+  "pv_nameplate_kw": 17100.0,
   "scenario_ambient_c": 28.0,
   "scenario_input": "cities/catalogue/west-asia/Yemen/Dhamar/dhamar.toml",
   "scenario_peak_sun_hours": 6.0,
-  "scenario_sha256": "c9bf194bbe82b22fb9bad6aca169d67a44abd2b6ebd1737caa024cfa6ed6cdf0",
+  "scenario_sha256": "a680a7690c28351801b10dece48fc838b4561b7221d963f4b624c5b6cf3c8aae",
   "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
-  "site_count": 11,
+  "site_count": 10,
   "solver_passed": true,
-  "storage_capacity_kwh": 124000.0,
+  "storage_capacity_kwh": 123500.0,
   "tools": {
     "pandapower": "3.5.3",
     "pvlib": "0.15.2"

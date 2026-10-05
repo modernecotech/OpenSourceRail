@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kitale-line1.aln.toml`](kitale-line1.aln.toml) | `line-1` | 12,609.1 m | 4 |
+| [`kitale-line1.aln.toml`](kitale-line1.aln.toml) | `line-1` | 12,609.1 m | 6 |
 | [`kitale-line2.aln.toml`](kitale-line2.aln.toml) | `line-2` | 13,430.7 m | 4 |
-| [`kitale-line3.aln.toml`](kitale-line3.aln.toml) | `line-3` | 10,410.7 m | 3 |
+| [`kitale-line3.aln.toml`](kitale-line3.aln.toml) | `line-3` | 10,410.7 m | 4 |
 
 ## Status
 

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.38989,
     "north": 33.598754,
@@ -6,6 +7,7 @@
     "west": 36.20989
   },
   "core_analytical_length_m": 131586.978796,
+  "core_final_route_length_m": 141873.520831,
   "core_original_length_m": 165309.600439,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18419.839815,
       "line": "line-1",
       "original_cells": 538,
       "original_route_m": 24316.212168,
-      "reworked_cells": 898,
-      "reworked_route_m": 23268.481181
+      "reworked_cells": 1082,
+      "reworked_route_m": 24444.936495,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17924.936495,
       "line": "line-2",
       "original_cells": 552,
       "original_route_m": 25534.976005,
-      "reworked_cells": 888,
-      "reworked_route_m": 23579.826779
+      "reworked_cells": 1050,
+      "reworked_route_m": 24053.464633,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15532.792206,
       "line": "line-3",
       "original_cells": 427,
       "original_route_m": 27710.043784,
-      "reworked_cells": 838,
-      "reworked_route_m": 20916.617237
+      "reworked_cells": 1034,
+      "reworked_route_m": 21488.427125,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -156,7 +164,13 @@
               18000.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 20843.267511,
+          "seed_from_index": 71,
+          "seed_to_index": 529,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 15620.0,
@@ -169,19 +183,31 @@
                 5580.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 20843.267511,
-          "seed_from_index": 71,
-          "seed_to_index": 529,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 15498.418459,
       "line": "line-4",
       "original_cells": 530,
       "original_route_m": 24201.52612,
-      "reworked_cells": 721,
-      "reworked_route_m": 18848.392797
+      "reworked_cells": 798,
+      "reworked_route_m": 18922.337649,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            781,
+            900
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 48.284271,
+          "to_cell": [
+            780,
+            898
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -218,11 +244,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19584.431432,
       "line": "line-5",
       "original_cells": 591,
       "original_route_m": 27014.677688,
-      "reworked_cells": 752,
-      "reworked_route_m": 22158.620354
+      "reworked_cells": 822,
+      "reworked_route_m": 22326.685399,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -740,21 +768,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 54913.102423,
       "line": "line-6",
       "original_cells": 459,
       "original_route_m": 60173.113939,
-      "reworked_cells": 2393,
-      "reworked_route_m": 55886.55195
+      "reworked_cells": 2458,
+      "reworked_route_m": 56007.660864,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Syria/Damascus/alignment-policy.toml": "8cae420cda1de57029128bf8d6a8829bb9e91bd8e3619b36472d90d693d598c0",
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/planning-buildability-mask.bin.gz": "0e05caf4cf0b31b4351b0b7841b9fc0dd26ef089d977cbc6d72adb87ef49efe5",
     "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/planning-grid.json": "0fc34d432b2061126dcabb712d0266d9809fb475a10f1c0df478abe951f93756",
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/planning-water-mask.bin.gz": "85159a188f2483b158003b5f625cfa9ab80449b7b6ecab8f1beacb19556d449e",
     "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/pre-rework-corridors.json.gz": "7f64b426f12155126e9a0723abcd3ded34ccf63cf36e51fa5746a899f0b6e9e4",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/water-source-receipt.json": "15d609c7fa327f68370e6623238eb0605d3c650791e71da0701f4d8c38970a2d",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

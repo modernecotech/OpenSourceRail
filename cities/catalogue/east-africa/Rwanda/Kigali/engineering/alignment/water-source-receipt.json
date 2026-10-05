@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kigali",
+  "legacy_osm_missing_geometry_ids": [
+    10068024,
+    14458626,
+    14458627
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "76560bcf7d0b54f2628c64774cf8962b93e8aeb5ea252574ddf0f49e264fbff9",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "b9c9b21d7273ac99dae5173c2a46bcff140790327411dbcfa7880cb03ef91bd1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/independent-landcover-samples.bin.gz": "4932a1106707318fbb53f13c02e9874c219b4e16c43a848eb6e7f70ec6a6d7e8",
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/planning-grid.json": "5c32717b0355c1ec2e19ffe6cd522fd594542339d028f6fcc9ddba3fd59db35d",
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/planning-water-features.json.gz": "bf93d076671311e0d080aa9ee457538aa6d49ddcdfbdca3bd702905ea574f04d",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 15287,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "69734c1e0cb6298f0277136d4233042fad30c3d76a03f2c525c6dfad9a53e69d",
+      "native_window": [
+        0,
+        21960,
+        3003,
+        2643
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E030_Map.tif",
+      "window_sha256": "0a869ebbf4227c446ab05d9fd3f64a9473407f8e3cb163c2648f38af018a544b"
+    }
+  ]
+}

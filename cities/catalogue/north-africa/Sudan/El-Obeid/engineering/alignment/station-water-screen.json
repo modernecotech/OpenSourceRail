@@ -1,6 +1,6 @@
 {
   "city": "el-obeid",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,9 +11,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 655,
-      "row": 574,
-      "station_id": "line-1-0574-0655-s003009",
+      "col": 653,
+      "row": 590,
+      "station_id": "line-1-0590-0653-s003346",
       "water_coverage_percent": 0
     },
     {
@@ -44,6 +44,12 @@
       "col": 689,
       "row": 543,
       "station_id": "line-2-0543-0689-s003002",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 653,
+      "row": 590,
+      "station_id": "line-2-0590-0653-s004322",
       "water_coverage_percent": 0
     },
     {
@@ -101,14 +107,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 17,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/El-Obeid/design.toml": "06fbe2f3c9111c312d325577c47ce8aaf81221fe494e94bcd483e443648c2968",
+    "cities/catalogue/north-africa/Sudan/El-Obeid/design.toml": "e1235a48fd1deec996f923f106848c8dad0c1e77f94968089c8ef52583e5d65b",
     "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/planning-grid.json": "06c862149b9b614399c7692f95ab22f31dbc16a3f0af03eb9d953cf364bbb967",
-    "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/planning-water-mask.bin.gz": "8842f0442b0b7632d456772dd8307f47bfc866af99b5abf55e3eec9cabdaa057",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/planning-water-mask.bin.gz": "0745360dab05d13215625c7ff02fa57b2595fac54b2dd2c762f24954c6998a18",
+    "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/water-source-receipt.json": "f341b4435e14e481f5260f7621065c945abeaa6a6d9ad05e65079fc60d762721",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "61d831c4317c5746e6a04011a222e0c7383715e5f611e19a2e6e7253829bcd18",
+  "uncompressed_water_mask_sha256": "2bd5d117c4e9b43ec2ba0cd1a9d7a5d2db88dfa9ef4a767544e0c490de6c5637",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

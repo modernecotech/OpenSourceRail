@@ -6,7 +6,7 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-0702-0621-s014957 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0702-0621-s020196 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0325-0696-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0134-0492-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
@@ -14,12 +14,12 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0110-0325-s000000 | line-1 | 23 | 1,138.5 | 1,368.5 | unverified |
-| line-1-0702-0621-s014957 | line-1 | 23 | 1,138.5 | 1,368.5 | unverified |
-| line-2-0325-0696-s000000 | line-2 | 18 | 891.0 | 1,071.0 | unverified |
-| line-2-0649-0299-s011468 | line-2 | 18 | 891.0 | 1,071.0 | unverified |
-| line-3-0134-0492-s000000 | line-3 | 22 | 1,089.0 | 1,309.0 | unverified |
-| line-3-0710-0680-s013799 | line-3 | 21 | 1,039.5 | 1,249.5 | unverified |
+| line-1-0110-0325-s000000 | line-1 | 33 | 1,633.5 | 1,963.5 | unverified |
+| line-1-0702-0621-s020196 | line-1 | 32 | 1,584.0 | 1,904.0 | unverified |
+| line-2-0325-0696-s000000 | line-2 | 23 | 1,138.5 | 1,368.5 | unverified |
+| line-2-0649-0299-s013690 | line-2 | 22 | 1,089.0 | 1,309.0 | unverified |
+| line-3-0134-0492-s000000 | line-3 | 23 | 1,138.5 | 1,368.5 | unverified |
+| line-3-0710-0680-s013799 | line-3 | 23 | 1,138.5 | 1,368.5 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

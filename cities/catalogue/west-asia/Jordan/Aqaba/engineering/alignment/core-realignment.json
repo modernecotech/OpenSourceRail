@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.04842,
     "north": 29.575922,
@@ -6,6 +7,7 @@
     "west": 34.95518
   },
   "core_analytical_length_m": 21188.226362,
+  "core_final_route_length_m": 25773.666658,
   "core_original_length_m": 28363.882817,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9075.979797,
       "line": "line-1",
       "original_cells": 617,
       "original_route_m": 14987.272433,
       "reworked_cells": 554,
-      "reworked_route_m": 11615.046174
+      "reworked_route_m": 11615.046174,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6455.046174,
       "line": "line-2",
       "original_cells": 438,
       "original_route_m": 9642.985566,
       "reworked_cells": 347,
-      "reworked_route_m": 7549.604615
+      "reworked_route_m": 7549.604615,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +121,13 @@
               2580.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 7387.249635,
+          "seed_from_index": 0,
+          "seed_to_index": 318,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 5920.0,
@@ -128,29 +140,47 @@
                 8640.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 7387.249635,
-          "seed_from_index": 0,
-          "seed_to_index": 318,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 10242.640687,
       "line": "line-3",
       "original_cells": 428,
       "original_route_m": 10006.316011,
-      "reworked_cells": 413,
-      "reworked_route_m": 9300.38672
+      "reworked_cells": 576,
+      "reworked_route_m": 13281.118318,
+      "water_route_changes": [
+        {
+          "detour_route_m": 6949.259736,
+          "from_cell": [
+            326,
+            252
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2948.528137,
+          "search_work_upper_bound": 15014,
+          "to_cell": [
+            296,
+            116
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Jordan/Aqaba/alignment-policy.toml": "087b2fd032bd4304671580c7d305642c0938e9ec3668d09e336247b50bddd951",
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/planning-buildability-mask.bin.gz": "f49d763cd5a966f53216c8a7480ef31b59d7098af99b498efa77e1014ac5cd7f",
     "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/planning-grid.json": "7c8ef53ff44126a95d7dff0f38d1e8c528792d337e89b6c57b8f2cbb794c65f6",
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/planning-water-mask.bin.gz": "17f1f73a569de2d0166ed0d25d40df6b6751e37af2f1a6154634e79df6f34307",
     "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/pre-rework-corridors.json.gz": "f9a427f2d992d6ef97c052559d2a70110f19d5327b494e8ed99982f4965d262d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Jordan/Aqaba/engineering/alignment/water-source-receipt.json": "25e12ef3e6a384104bfb471a9a9bfb79aa0c0c8a9c707dedfbba69d62a80233a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

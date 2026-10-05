@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 43.231336,
     "north": 36.441078,
@@ -6,6 +7,7 @@
     "west": 43.021336
   },
   "core_analytical_length_m": 140645.662635,
+  "core_final_route_length_m": 155914.740162,
   "core_original_length_m": 169781.472466,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22835.272709,
       "line": "line-1",
       "original_cells": 474,
       "original_route_m": 33466.825486,
-      "reworked_cells": 1040,
-      "reworked_route_m": 30772.865693
+      "reworked_cells": 1259,
+      "reworked_route_m": 31016.979772,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20428.855685,
       "line": "line-2",
       "original_cells": 417,
       "original_route_m": 29905.730165,
-      "reworked_cells": 970,
-      "reworked_route_m": 28269.968643
+      "reworked_cells": 1210,
+      "reworked_route_m": 28711.496372,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20222.581515,
       "line": "line-3",
       "original_cells": 406,
       "original_route_m": 28596.723931,
-      "reworked_cells": 937,
-      "reworked_route_m": 27070.015043
+      "reworked_cells": 1138,
+      "reworked_route_m": 27536.593052,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18251.067812,
       "line": "line-4",
       "original_cells": 545,
       "original_route_m": 24676.103807,
-      "reworked_cells": 945,
-      "reworked_route_m": 24183.291335
+      "reworked_cells": 1176,
+      "reworked_route_m": 25604.204897,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18167.291476,
       "line": "line-5",
       "original_cells": 496,
       "original_route_m": 23370.497288,
-      "reworked_cells": 820,
-      "reworked_route_m": 19977.484835
+      "reworked_cells": 852,
+      "reworked_route_m": 19977.484835,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -558,21 +570,27 @@
           "simplification_tolerance_m": 900.0
         }
       ],
+      "final_core_route_m": 56009.670965,
       "line": "line-6",
       "original_cells": 455,
       "original_route_m": 60327.285227,
       "reworked_cells": 2461,
-      "reworked_route_m": 56009.670965
+      "reworked_route_m": 56009.670965,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Mosul/alignment-policy.toml": "47db5b5625d984d77e641f672f4b48f6576065af4248070f486e0a97d9b7c3f4",
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/planning-buildability-mask.bin.gz": "2fb535cee0faecb7af982eb7086d6956a7d338ce70281914b35d91f07139a5a1",
     "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/planning-grid.json": "ce1c0840019bfc3b43f3b53116814dc9fd13e9c0a5fa4c36f6e1860e28f91311",
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/planning-water-mask.bin.gz": "a4c8204b87778f77067749e3e9859ed4c37d40596343d1141b3ec1ca6e4a39c4",
     "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/pre-rework-corridors.json.gz": "803fc1a49e7e377f66fa9cded1569b6fe044002928cec2092c63c39eb5b898f2",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Iraq/Mosul/engineering/alignment/water-source-receipt.json": "9e8462d4e4b276e021d62e458fd9117d7efa0b9300c61c3bc93117316fa60e48",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

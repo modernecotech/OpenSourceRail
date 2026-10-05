@@ -68,7 +68,7 @@ length_m        = 9190.3
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 120
 
 [[civil_segments]]
 line            = "line-1"
@@ -128,34 +128,36 @@ platform_length_m = 49.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0482-0387-s002065"
+id              = "line-1-0537-0388-s000957"
 line            = "line-1"
-lat             = 13.03746632473095
-lon             = 44.883966747619425
-s_m             = 2064.9
+lat             = 13.02756818558111
+lon             = 44.88415117793586
+s_m             = 956.6
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
+id              = "line-1-0395-0384-s003830"
+line            = "line-1"
+lat             = 13.053123381204333
+lon             = 44.88341345667011
+s_m             = 3829.7
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0382-0383-s004110"
+id              = "line-1-0289-0380-s005995"
 line            = "line-1"
-lat             = 13.055462941367022
-lon             = 44.88322902635368
-s_m             = 4109.7
+lat             = 13.07219979483857
+lon             = 44.88267573540437
+s_m             = 5994.6
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 2
-
-[[stations]]
-id              = "line-1-0282-0380-s006135"
-line            = "line-1"
-lat             = 13.073459558003096
-lon             = 44.88267573540437
-s_m             = 6134.6
-archetype       = "interchange"
-platform_length_m = 49.0
-junction_group  = 3
 
 [[stations]]
 id              = "line-1-0181-0377-s008179"
@@ -178,27 +180,31 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "الوحدة الصحية سفيان"
 archetype       = "terminal"
 platform_length_m = 49.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-2-0383-0400-s002126"
-line            = "line-2"
-lat             = 13.055282975200662
-lon             = 44.88636434173311
-s_m             = 2126.3
-archetype       = "interchange"
-platform_length_m = 49.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-2-0482-0393-s004176"
+id              = "line-2-0426-0397-s003011"
 line            = "line-2"
-lat             = 13.03746632473095
-lon             = 44.88507332951805
-s_m             = 4176.0
+lat             = 13.04754443004715
+lon             = 44.8858110507838
+s_m             = 3011.1
+mandatory_crossing = true
+anchor_kind     = "amenity:hospital"
+anchor_name     = "مستشفى أبن خلدون"
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 1
+
+[[stations]]
+id              = "line-2-0537-0388-s005317"
+line            = "line-2"
+lat             = 13.02756818558111
+lon             = 44.88415117793586
+s_m             = 5317.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-2-0581-0385-s006222"
@@ -232,15 +238,26 @@ archetype       = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0441-0402-s006689"
+id              = "line-3-0426-0397-s007030"
 line            = "line-3"
-lat             = 13.04484493755174
-lon             = 44.88673320236599
-s_m             = 6688.7
-anchor_kind     = "tourism:attraction"
-anchor_name     = "مدخل مدينة الحوطة لحج"
-archetype       = "standard"
+lat             = 13.04754443004715
+lon             = 44.8858110507838
+s_m             = 7030.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 1
+
+[[stations]]
+id              = "line-3-0395-0384-s007793"
+line            = "line-3"
+lat             = 13.053123381204333
+lon             = 44.88341345667011
+s_m             = 7792.9
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-3-0336-0362-s009190"
@@ -256,34 +273,26 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 13.019379725011698
-lon             = 44.884058962777644
+lat             = 13.023473955296405
+lon             = 44.88410507035675
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0584-0390-s000000", "line-2-0581-0385-s006222"]
+platforms       = ["line-1-0537-0388-s000957", "line-1-0584-0390-s000000", "line-2-0537-0388-s005317", "line-2-0581-0385-s006222"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = 13.03746632473095
-lon             = 44.88452003856874
-lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0482-0387-s002065", "line-2-0482-0393-s004176"]
+lat             = 13.050333905625742
+lon             = 44.88461225372696
+lines           = ["line-1", "line-2", "line-3"]
+platforms       = ["line-1-0395-0384-s003830", "line-2-0426-0397-s003011", "line-3-0395-0384-s007793", "line-3-0426-0397-s007030"]
 
 [[interchanges]]
 id              = "interchange-002"
 junction_group  = 2
-lat             = 13.055372958283842
-lon             = 44.884796684043394
-lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0382-0383-s004110", "line-2-0383-0400-s002126"]
-
-[[interchanges]]
-id              = "interchange-003"
-junction_group  = 3
-lat             = 13.073639524169456
+lat             = 13.073009642587193
 lon             = 44.88525775983449
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0282-0380-s006135", "line-2-0280-0408-s000000"]
+platforms       = ["line-1-0289-0380-s005995", "line-2-0280-0408-s000000"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -454,8 +463,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 214651893
 civil_subtotal_eur   = 197479741
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 72500000
-stations_eur         = 66700000
+stations_usd         = 86000000
+stations_eur         = 79120000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 41367545
 depots_eur           = 38058141
@@ -468,13 +477,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1179600
 signalling_eur       = 1085232
-charging_microgrid_usd = 1450000
-charging_microgrid_eur = 1334000
+charging_microgrid_usd = 1550000
+charging_microgrid_eur = 1426000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 25297233
-epc_overhead_eur     = 23273454
-total_usd            = 386686270  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 355751368  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 26249233
+epc_overhead_eur     = 24149294
+total_usd            = 401238270  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 369139208  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

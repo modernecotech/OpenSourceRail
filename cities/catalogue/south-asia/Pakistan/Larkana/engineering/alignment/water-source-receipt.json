@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "larkana",
+  "legacy_osm_missing_geometry_ids": [
+    38214,
+    38217,
+    14551902
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "af006b5f5237a8c4b0c02b8dc0e3f99999d2c5533c284ec0f882ff314a9e6c52",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "415559474730d0a3f783d5f22f0f53f28b794444bae5e693e52c933ed2e667e0",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/independent-landcover-samples.bin.gz": "3a1f0f67072bc72f43773cdd406935768ddeb597e548457bbb0e0a0ec1586f4c",
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/planning-grid.json": "f8bf6e47fc56cc7395c269aec8baea0d66ff12ec69a46a0c03e439d87b64329a",
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/planning-water-features.json.gz": "e32c4b419460271af6a79709e63a82c9662255500f76af40988a4cb1163504b1",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 68994,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "3950c6b282cb4f735c94d86c1be8013521d609b47ba224ca538b40afba2812bf",
+      "native_window": [
+        25206,
+        28102,
+        2686,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E066_Map.tif",
+      "window_sha256": "a484791cc74bf968542519fbd5cbf4dab3b4c391d353c980bdea3b03c22beb26"
+    }
+  ]
+}

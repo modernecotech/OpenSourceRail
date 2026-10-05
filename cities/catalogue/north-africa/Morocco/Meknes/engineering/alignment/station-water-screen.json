@@ -1,6 +1,6 @@
 {
   "city": "meknes",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -23,9 +23,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 491,
-      "row": 684,
-      "station_id": "line-1-0684-0491-s009807",
+      "col": 472,
+      "row": 700,
+      "station_id": "line-1-0700-0472-s010360",
       "water_coverage_percent": 0
     },
     {
@@ -47,9 +47,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 596,
-      "row": 611,
-      "station_id": "line-2-0611-0596-s006013",
+      "col": 595,
+      "row": 601,
+      "station_id": "line-2-0601-0595-s005805",
       "water_coverage_percent": 0
     },
     {
@@ -62,6 +62,12 @@
       "col": 485,
       "row": 769,
       "station_id": "line-3-0769-0485-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 472,
+      "row": 700,
+      "station_id": "line-3-0700-0472-s001502",
       "water_coverage_percent": 0
     },
     {
@@ -83,14 +89,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 13,
-  "schema_version": 1,
+  "platforms_checked": 14,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Morocco/Meknes/design.toml": "f4a26a260cca774f60229ebaae8c2fe2f2fdecd8084bbe1261c4a114345a946a",
+    "cities/catalogue/north-africa/Morocco/Meknes/design.toml": "65ed87fa8a6db1e41b2a3ef4cf6e3f6f9ee279c6d92f57c2d0d148e49e74877d",
     "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-grid.json": "38ba0c61cbc8a6a59c24ef40d54f77175e7e17474fd9750b78caf1d94b144567",
-    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-water-mask.bin.gz": "e824beeb090b93963d6ed6cb1c6deb4796e2d54002c366f6c02f869ef8ec0374",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/planning-water-mask.bin.gz": "ac152403c030e9d7ad76de730dfff1362b6ae2b5ca78501b5aa40b25cdae9a54",
+    "cities/catalogue/north-africa/Morocco/Meknes/engineering/alignment/water-source-receipt.json": "8944cc37150a77d1b775992933d6df264e967c53960e0acbfe9f2f5790188b94",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "74b89b8c2ffbab8ac2ad00c43f388cef6ffc45472f5cc220b3b5db8cd0541d53",
+  "uncompressed_water_mask_sha256": "16f2ee95144e5c806677423eccef9c82a0b695f3325b9386523e0c2062147a55",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

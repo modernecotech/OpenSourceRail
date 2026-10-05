@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kenitra-line1.aln.toml`](kenitra-line1.aln.toml) | `line-1` | 15,136.4 m | 7 |
+| [`kenitra-line1.aln.toml`](kenitra-line1.aln.toml) | `line-1` | 15,136.4 m | 8 |
 | [`kenitra-line2.aln.toml`](kenitra-line2.aln.toml) | `line-2` | 16,280.3 m | 6 |
-| [`kenitra-line3.aln.toml`](kenitra-line3.aln.toml) | `line-3` | 19,099.2 m | 6 |
+| [`kenitra-line3.aln.toml`](kenitra-line3.aln.toml) | `line-3` | 19,099.2 m | 7 |
 
 ## Status
 

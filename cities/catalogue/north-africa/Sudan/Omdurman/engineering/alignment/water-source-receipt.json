@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "omdurman",
+  "legacy_osm_missing_geometry_ids": [
+    1229169,
+    11184502,
+    11209789,
+    11209896
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "4f747cb68fd4560836ea5f0678fc1dc0bbf5061f56b5d332fb88301691edd282",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "af3f8dba1703eb17c0b39b18dbfffed72363a3f615f15bfe2769b4e852bbe471",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Sudan/Omdurman/engineering/alignment/independent-landcover-samples.bin.gz": "dbd6e6af5cf4d2ef82e8a1e111bc3a1ad34fcc040b9417b0fbbd357a6e7ef254",
+    "cities/catalogue/north-africa/Sudan/Omdurman/engineering/alignment/planning-grid.json": "6037288e4d721b19fe8c6a98718b8267b357f1be99b91c0cc812cb2a47d02915",
+    "cities/catalogue/north-africa/Sudan/Omdurman/engineering/alignment/planning-water-features.json.gz": "e3ca58f3256422daa9aac3d51f79960d08dcc87157c3768d1da6752483204c53",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 125966,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "7ce7f44a2f1359d22de76a44fba6f470e112ba7aebaad14fc5a75f26e3ecb561",
+      "native_window": [
+        27972,
+        26499,
+        3596,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N15E030_Map.tif",
+      "window_sha256": "0025cf097f80b0b07eee709815a5bfec8d6c1c0dd3a50bc083a519acf1e57b99"
+    }
+  ]
+}

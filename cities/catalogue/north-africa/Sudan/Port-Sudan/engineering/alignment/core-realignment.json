@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 37.279318,
     "north": 19.675469,
@@ -6,6 +7,7 @@
     "west": 37.153078
   },
   "core_analytical_length_m": 23226.668009,
+  "core_final_route_length_m": 24680.529573,
   "core_original_length_m": 33306.71413,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10605.09668,
       "line": "line-1",
       "original_cells": 589,
       "original_route_m": 13449.991334,
       "reworked_cells": 541,
-      "reworked_route_m": 11181.076477
+      "reworked_route_m": 11181.076477,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7537.300141,
       "line": "line-2",
       "original_cells": 526,
       "original_route_m": 11295.29004,
       "reworked_cells": 341,
-      "reworked_route_m": 7537.300141
+      "reworked_route_m": 7537.300141,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6538.132752,
       "line": "line-3",
       "original_cells": 409,
       "original_route_m": 9137.412553,
       "reworked_cells": 284,
-      "reworked_route_m": 6538.132752
+      "reworked_route_m": 6538.132752,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/north-africa/Sudan/Port-Sudan/alignment-policy.toml": "7070db2cd8203613482d324c9e004abed211539d567e719e04e4f6f56ee4ae81",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-buildability-mask.bin.gz": "270432af8d8ed377c1b207d4663d0bc33ac6de2baddf613def6dce4719cce81c",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-grid.json": "c728bf02eba1e4415cf35f5a3ca69410e6f3c90c8e60bca29c7bdaf82f8f43ea",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-water-mask.bin.gz": "8e7e9d06dd98410ad7a5c3f1208d924cb30f3fd048ce9d101932dc7ab2c2644e",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/pre-rework-corridors.json.gz": "8095a103b17a105c037a7d09f68592fb8a709e9afb36859da2be0e1e480b53aa",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/water-source-receipt.json": "e05649c4f990181676fbdbf740eb059c6fde2404a79ca90b55862412e15cd67c",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

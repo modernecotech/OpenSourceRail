@@ -1,0 +1,65 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "pokhara",
+  "legacy_osm_missing_geometry_ids": [
+    7409179,
+    8202581
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "1bbe1fef4a61e9ca1c1eb6a00f93b857a7e0fd81bdcf9d4f20303b098ea51409",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "d4ffc977691c77b01e92ba3dc4857493298bd5497ce2c7161e6bcc261a199d0c",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Nepal/Pokhara/engineering/alignment/independent-landcover-samples.bin.gz": "159d51a44ce6e927a96201997fecfd87134c6e73e803c5d1d2a82ecc165a6afd",
+    "cities/catalogue/south-asia/Nepal/Pokhara/engineering/alignment/planning-grid.json": "ab3cccb2a8a1dc28f21b4dffccdd0e226295fac1d39f547b8d8161295143059e",
+    "cities/catalogue/south-asia/Nepal/Pokhara/engineering/alignment/planning-water-features.json.gz": "4d4b1243af199ee8fa818e3eeae5933807f1c477870f6df27ef84baad74110e2",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 37898,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "53ec713abf379327c053e255d0d5936f81c3ad491ba3b89954c81ba8fa5ee053",
+      "native_window": [
+        34477,
+        20295,
+        1523,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E081_Map.tif",
+      "window_sha256": "c914e509e32ddbe5bfef3fcc58cd9a92895a9f3e0caae91cdfd762469891f966"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "43dd6237600f5a36b8dcd92228ee12fce3db386a07ac7f95defb90e806a21847",
+      "native_window": [
+        0,
+        20295,
+        1180,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E084_Map.tif",
+      "window_sha256": "32e4ad67546e611b56da4f90c7de4b4efcc4efc5966562c71afa17a7e3bc4468"
+    }
+  ]
+}

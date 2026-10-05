@@ -1,6 +1,6 @@
 {
   "city": "benguela",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,45 +11,63 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 950,
-      "row": 207,
-      "station_id": "line-1-0207-0950-s003519",
+      "col": 966,
+      "row": 184,
+      "station_id": "line-1-0184-0966-s003498",
       "water_coverage_percent": 0
     },
     {
-      "col": 844,
-      "row": 332,
-      "station_id": "line-1-0332-0844-s007010",
+      "col": 864,
+      "row": 302,
+      "station_id": "line-1-0302-0864-s007007",
       "water_coverage_percent": 0
     },
     {
-      "col": 768,
-      "row": 443,
-      "station_id": "line-1-0443-0768-s010012",
+      "col": 787,
+      "row": 415,
+      "station_id": "line-1-0415-0787-s010057",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 463,
+      "station_id": "line-1-0463-0755-s011353",
       "water_coverage_percent": 0
     },
     {
       "col": 674,
       "row": 581,
-      "station_id": "line-1-0581-0674-s013750",
+      "station_id": "line-1-0581-0674-s014560",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 644,
+      "row": 625,
+      "station_id": "line-1-0625-0644-s015764",
       "water_coverage_percent": 0
     },
     {
       "col": 598,
       "row": 691,
-      "station_id": "line-1-0691-0598-s016755",
+      "station_id": "line-1-0691-0598-s017565",
       "water_coverage_percent": 0
     },
     {
       "col": 524,
       "row": 800,
-      "station_id": "line-1-0800-0524-s019689",
+      "station_id": "line-1-0800-0524-s020499",
       "water_coverage_percent": 0
     },
     {
       "col": 786,
       "row": 447,
       "station_id": "line-2-0447-0786-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 463,
+      "station_id": "line-2-0463-0755-s000753",
       "water_coverage_percent": 0
     },
     {
@@ -65,21 +83,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 458,
-      "row": 620,
-      "station_id": "line-2-0620-0458-s008239",
+      "col": 456,
+      "row": 621,
+      "station_id": "line-2-0621-0456-s008299",
       "water_coverage_percent": 0
     },
     {
-      "col": 352,
-      "row": 676,
-      "station_id": "line-2-0676-0352-s010929",
+      "col": 347,
+      "row": 683,
+      "station_id": "line-2-0683-0347-s011075",
       "water_coverage_percent": 0
     },
     {
       "col": 111,
-      "row": 742,
-      "station_id": "line-2-0742-0111-s016319",
+      "row": 743,
+      "station_id": "line-2-0743-0111-s016590",
       "water_coverage_percent": 0
     },
     {
@@ -89,15 +107,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 672,
-      "row": 659,
-      "station_id": "line-3-0659-0672-s003007",
+      "col": 644,
+      "row": 625,
+      "station_id": "line-3-0625-0644-s001999",
       "water_coverage_percent": 0
     },
     {
-      "col": 782,
-      "row": 795,
-      "station_id": "line-3-0795-0782-s006919",
+      "col": 726,
+      "row": 726,
+      "station_id": "line-3-0726-0726-s004935",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 809,
+      "row": 828,
+      "station_id": "line-3-0828-0809-s007885",
       "water_coverage_percent": 0
     },
     {
@@ -107,14 +131,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 17,
-  "schema_version": 1,
+  "platforms_checked": 21,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Angola/Benguela/design.toml": "654627064742940f987eba75252640749fb77ba4da5076077ffe0c13b923ce02",
+    "cities/catalogue/east-africa/Angola/Benguela/design.toml": "2ed866fda20dc6a8d72b6a7a48bdee3d9f8a3334e26da493b0b0950ab1029565",
     "cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/planning-grid.json": "0b84bba6299e208cd1e3371d53ea51ada7c4685fb15e1db910b2376915b28588",
-    "cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/planning-water-mask.bin.gz": "515c842bbe7871571559083131a2291d90ee3bd3e1c843f8716c4cf248f9d7e4",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/planning-water-mask.bin.gz": "1982bc53109750597be0d141872f83837706a296ab312296b2b319b1e564e6aa",
+    "cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/water-source-receipt.json": "44d47d5967828cc39b4d61d166b6662da72d170950d2a75595ca085abec0523c",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "840e923a8d66bff2d649591361f562d31021c358fef15c74fb0b922663e0bb1d",
+  "uncompressed_water_mask_sha256": "44331f4e40c24d7591cc8b0f87a0e873ad26d686ac2b5fb3c0512af1a795d713",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

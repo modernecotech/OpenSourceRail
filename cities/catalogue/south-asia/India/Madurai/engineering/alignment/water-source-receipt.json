@@ -1,0 +1,84 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "madurai",
+  "legacy_osm_missing_geometry_ids": [
+    1837918,
+    1837919,
+    1837921,
+    8314938,
+    8315150,
+    13724237,
+    14278817,
+    14405966,
+    14406364,
+    14406366,
+    14406368,
+    14406371,
+    14406373,
+    14406376,
+    14406377,
+    14415116,
+    14415117,
+    14415118,
+    15847474,
+    16021579,
+    18641173
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "b37b363aaaaa486e973b34b3f3538e4982754120f34c90b7f4bd84f6b1c047c0",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "3d829e92196da42c95986b26679b7a819f7666afc2478a00cc2e436471b82ec7",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Madurai/engineering/alignment/independent-landcover-samples.bin.gz": "305e779436b589bf676cf2303ae30d3124955a6ba00907030aa8fd2dc26d347f",
+    "cities/catalogue/south-asia/India/Madurai/engineering/alignment/planning-grid.json": "b843ab800e3100d1238fe78822edbd24553ee7ca57b55a2bba7f44062683fb51",
+    "cities/catalogue/south-asia/India/Madurai/engineering/alignment/planning-water-features.json.gz": "b1dcd563bff7ccc8ab0dc208d09e8c2cb6352d8960f2d6eed59302a9cb710547",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 171724,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "913f22dd9ba2b05f52eeb104ca88aa5162ec2d0a5dcef1124d4f19546ac49558",
+      "native_window": [
+        35682,
+        23168,
+        318,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E075_Map.tif",
+      "window_sha256": "dcedce3813c08e25bcccd85d862c3002e1818d5a1ff3a0aab52a4d47709d4122"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ef5465394f62ee330bbfaaf3f42d67c87e54397e512e742c872a50ad2592fe3a",
+      "native_window": [
+        0,
+        23168,
+        3196,
+        3461
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N09E078_Map.tif",
+      "window_sha256": "55148f669638be50708b7fd101faf4b7dc67238ab9f36aa4850a5fd9568efc68"
+    }
+  ]
+}

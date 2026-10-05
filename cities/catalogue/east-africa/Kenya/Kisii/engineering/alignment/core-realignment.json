@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 34.806409,
     "north": -0.640397,
@@ -6,6 +7,7 @@
     "west": 34.725289
   },
   "core_analytical_length_m": 13878.785327,
+  "core_final_route_length_m": 15158.519472,
   "core_original_length_m": 21211.210665,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6738.376618,
       "line": "line-1",
       "original_cells": 308,
       "original_route_m": 7109.259736,
       "reworked_cells": 282,
-      "reworked_route_m": 6738.376618
+      "reworked_route_m": 6738.376618,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 2951.126984,
       "line": "line-2",
       "original_cells": 275,
       "original_route_m": 6258.721497,
       "reworked_cells": 144,
-      "reworked_route_m": 2951.126984
+      "reworked_route_m": 2951.126984,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 5469.01587,
       "line": "line-3",
       "original_cells": 466,
       "original_route_m": 10882.295808,
       "reworked_cells": 368,
-      "reworked_route_m": 8508.082246
+      "reworked_route_m": 8508.082246,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Kenya/Kisii/alignment-policy.toml": "4edd2ff912d64c217c0f463821a1a4c58ff1c7dc8585dcd0eaab11bc22e6d77b",
+    "cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/planning-grid.json": "6fb6ce9f002858247e508145a10a9b23167c305408e3e1d99694c1a58d3b6414",
+    "cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/planning-water-mask.bin.gz": "1812f72a2a4910e744df4265ccd30f155e29d11f16f0c44749c0cc2f5597581f",
     "cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/pre-rework-corridors.json.gz": "2542c5768e3a14d1bbd7e8f680ce8ee323a2c0f2766a19bcc34d7333d15c8589",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Kenya/Kisii/engineering/alignment/water-source-receipt.json": "ac00d4a16a7f3d972fe576030d26643d00068f2685daddbdfe4011a34240f6b9",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

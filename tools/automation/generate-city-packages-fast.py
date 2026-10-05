@@ -126,6 +126,10 @@ def repository_review_artifacts(slug: str, design_path: Path) -> list[Path]:
     artifacts.extend(sorted((engineering / "alignment").glob("*.aln.toml")))
     artifacts.extend(sorted((engineering / "gis/layers").glob("*.geojson")))
     artifacts.extend(sorted((engineering / "screenshots").glob("*.png")))
+    artifacts.extend(engineering / 'alignment' / name for name in (
+        'planning-grid.json','planning-water-mask.bin.gz','water-source-receipt.json',
+        'independent-landcover-samples.bin.gz','planning-water-features.json.gz',
+        'planning-buildability-mask.bin.gz'))
     return artifacts
 
 
@@ -223,12 +227,16 @@ def prepare_city(
             ["--design-only", "--corridor-cache", str(corridor_cache)]
         )
     if slug != 'baghdad' and (current_design_logic or (city_dir/'alignment-policy.toml').is_file()):
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path),'--prepare-inputs'])
+        if not (city_dir/'engineering/alignment/water-source-receipt.json').is_file():
+            commands.append([sys.executable,str(REPO_ROOT/'tools/automation/refresh-city-water-evidence.py'),'--design',str(design_path)])
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path)])
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path),'--prepare-grid'])
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
     elif slug == 'baghdad':
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-baghdad-alignment.py')])
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path),'--prepare-grid'])
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
     elif design_path.is_file() and not (from_scratch or resynthesise_corridors or resynthesise_design):

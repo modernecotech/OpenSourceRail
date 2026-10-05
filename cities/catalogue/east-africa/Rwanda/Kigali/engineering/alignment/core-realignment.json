@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 30.196072,
     "north": -1.877289,
@@ -6,6 +7,7 @@
     "west": 30.046072
   },
   "core_analytical_length_m": 118815.303009,
+  "core_final_route_length_m": 130731.284195,
   "core_original_length_m": 150301.491164,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19303.027407,
       "line": "line-1",
       "original_cells": 465,
       "original_route_m": 30723.786932,
-      "reworked_cells": 974,
-      "reworked_route_m": 27172.054915
+      "reworked_cells": 1229,
+      "reworked_route_m": 27641.748904,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15711.75757,
       "line": "line-2",
       "original_cells": 495,
       "original_route_m": 21917.470082,
-      "reworked_cells": 720,
-      "reworked_route_m": 15831.75757
+      "reworked_cells": 723,
+      "reworked_route_m": 15831.75757,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13414.802307,
       "line": "line-3",
       "original_cells": 775,
       "original_route_m": 18536.89609,
       "reworked_cells": 690,
-      "reworked_route_m": 14343.330445
+      "reworked_route_m": 14343.330445,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19041.404025,
       "line": "line-4",
       "original_cells": 506,
       "original_route_m": 23359.866903,
-      "reworked_cells": 830,
-      "reworked_route_m": 21090.082863
+      "reworked_cells": 895,
+      "reworked_route_m": 21334.54111,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19545.668094,
       "line": "line-5",
       "original_cells": 520,
       "original_route_m": 24075.520456,
-      "reworked_cells": 835,
-      "reworked_route_m": 21133.626732
+      "reworked_cells": 888,
+      "reworked_route_m": 21393.36362,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -635,21 +647,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 43714.624792,
       "line": "line-6",
       "original_cells": 424,
       "original_route_m": 56571.457056,
-      "reworked_cells": 1937,
-      "reworked_route_m": 55189.379583
+      "reworked_cells": 2479,
+      "reworked_route_m": 56601.63056,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Rwanda/Kigali/alignment-policy.toml": "e374bfa6b97ec0eed70e96335796c0624faf577a02df3daf0c73d880c4c8ddf2",
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/planning-buildability-mask.bin.gz": "9fbd7925c5f7904375f5e51d2edc76a37959b5d9e580daf487e034f09c17e815",
     "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/planning-grid.json": "5c32717b0355c1ec2e19ffe6cd522fd594542339d028f6fcc9ddba3fd59db35d",
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/planning-water-mask.bin.gz": "0a825102f6b46e42c3f9aa7462c94f63a55df16b7199933c8adc5611e149647e",
     "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/pre-rework-corridors.json.gz": "d1776ff8ca5beeb485007b399892ff416eecd8cf7883b1951dc40a49182e7f96",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Rwanda/Kigali/engineering/alignment/water-source-receipt.json": "64fda9a1883a39fb4a68cd6b1a2700fa8a5c4ef791eddd49a1510e97761db132",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

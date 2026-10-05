@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "luxor",
+  "legacy_osm_missing_geometry_ids": [
+    2063478
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "a521cd09296a536ff69518a766309ea98356a3aff7cbaae33023dad4a548313e",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "68b1c05851ef2d6bf06471dc0f01f04ec63f6b3d2b9ee488466a0fe051593c37",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/independent-landcover-samples.bin.gz": "6159ae50cd9f9c77f641f5a748c93e37f08f3712455e95dedcaa31c760a9ce81",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-grid.json": "5045286d3a7cee65ee52433fdfdf2d80ec9ec102ad7f9f0a8a5d37d786dd8a87",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-water-features.json.gz": "05de2e1303429fdc29984314734aad66dc293078812c1880001211817e3883f4",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 56496,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "c728034efb7638ceefcd405d4a6e74c6d2e8229a357828d2d1325537cd435aee",
+      "native_window": [
+        30355,
+        14564,
+        2643,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E030_Map.tif",
+      "window_sha256": "abf8ffe474dca14512cdc276782dbad35eb2361a6825e09880770f619223bfab"
+    }
+  ]
+}

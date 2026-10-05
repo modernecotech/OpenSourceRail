@@ -1,6 +1,6 @@
 {
   "city": "malanje",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,9 +11,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 462,
-      "row": 508,
-      "station_id": "line-1-0508-0462-s003011",
+      "col": 442,
+      "row": 501,
+      "station_id": "line-1-0501-0442-s002542",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 446,
+      "row": 503,
+      "station_id": "line-1-0503-0446-s002650",
       "water_coverage_percent": 0
     },
     {
@@ -41,20 +47,34 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 446,
+      "row": 503,
+      "station_id": "line-2-0503-0446-s003912",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 442,
+      "row": 501,
+      "station_id": "line-2-0501-0442-s004009",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 405,
       "row": 471,
       "station_id": "line-2-0471-0405-s005091",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 7,
-  "schema_version": 1,
+  "platforms_checked": 10,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Angola/Malanje/design.toml": "a61e3ab8bda73fcc8b8f77b214d3b660542ddf62dac61c4fef7f4010d684a0e0",
+    "cities/catalogue/east-africa/Angola/Malanje/design.toml": "c660c013d4eee9dbb3bf76a3fa76220a11981ab91d1171ec6d6d3c41b186df2b",
     "cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/planning-grid.json": "eaf4a89fcb60dd81478d243cf8ce428849607b02466c6e8b79589058c638e70e",
-    "cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/planning-water-mask.bin.gz": "1f938d8d138240bae54edbc63704a854c6f497437d8d23690961c27763556aaa",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/planning-water-mask.bin.gz": "4292f0208be590e385f4257b8e1dfe52536a27e3143a7a12fdf829990b7bd846",
+    "cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/water-source-receipt.json": "761f1ffa71720771b48e437370d1d4ec7128409f87d07181090e2f793171e383",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "0cf972aac1d9563a87959bda67d122bacccaa8802c2c328bbb1aaea0bb55d2a0",
+  "uncompressed_water_mask_sha256": "b1f3127ae040da9df2654b87d64086616fb109acb6f908022f55e3e50c3d7e5c",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

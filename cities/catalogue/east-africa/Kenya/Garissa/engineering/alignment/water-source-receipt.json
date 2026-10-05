@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "garissa",
+  "legacy_osm_missing_geometry_ids": [
+    4758261,
+    10616099,
+    13366191
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "07c788d97abd88b3a5ca0350c6261188d366783209dd5ff394c7e01861ad62d4",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "c9399fdecfcff4a4b88a18ffe453c781058dfa89ced636069460f3d96e5b602a",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/independent-landcover-samples.bin.gz": "f1669fdbb4919ccbce28706ebc6a6b193a9b5d5cd134bf197b76823cadf4b2f3",
+    "cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/planning-grid.json": "b59f7321cb7d21a7802193072cfd8d492bc2d227217df227a1b29d18521f899e",
+    "cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/planning-water-features.json.gz": "d1e2cd0975a32aa153ae5209302b65041b3655eac1f73c2495476c3b45904af0",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 4005,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "bbc4c19c3189834f9c0a83560db3b9c2fee6a87b1d6be7e06d30a5891a5a302d",
+      "native_window": [
+        7088,
+        4671,
+        1625,
+        1626
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E039_Map.tif",
+      "window_sha256": "cb62f2faba7b1848c1a48071636cfacfcaf05e7ef2620ab502d71f825732c2cc"
+    }
+  ]
+}

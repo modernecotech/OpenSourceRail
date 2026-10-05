@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 90.507333,
     "north": 24.077759,
@@ -6,6 +7,7 @@
     "west": 90.317973
   },
   "core_analytical_length_m": 142899.41278,
+  "core_final_route_length_m": 156720.585771,
   "core_original_length_m": 164718.466288,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20751.168825,
       "line": "line-1",
       "original_cells": 423,
       "original_route_m": 35492.220478,
-      "reworked_cells": 1092,
-      "reworked_route_m": 31495.563822
+      "reworked_cells": 1567,
+      "reworked_route_m": 33117.686861,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23499.25107,
       "line": "line-2",
       "original_cells": 518,
       "original_route_m": 34046.830009,
-      "reworked_cells": 1202,
-      "reworked_route_m": 33767.107276
+      "reworked_cells": 1546,
+      "reworked_route_m": 34429.099551,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 29363.598821,
       "line": "line-3",
       "original_cells": 409,
       "original_route_m": 46481.678851,
-      "reworked_cells": 1322,
-      "reworked_route_m": 45036.045802
+      "reworked_cells": 1975,
+      "reworked_route_m": 46869.569953,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 27622.278477,
       "line": "line-4",
       "original_cells": 488,
       "original_route_m": 44929.314138,
-      "reworked_cells": 1292,
-      "reworked_route_m": 42864.613915
+      "reworked_cells": 1916,
+      "reworked_route_m": 45200.797949,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19398.82251,
       "line": "line-5",
       "original_cells": 467,
       "original_route_m": 29590.678933,
-      "reworked_cells": 1091,
-      "reworked_route_m": 27729.977498
+      "reworked_cells": 1357,
+      "reworked_route_m": 27832.447327,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -568,21 +580,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 36085.466069,
       "line": "line-6",
       "original_cells": 407,
       "original_route_m": 63143.754926,
-      "reworked_cells": 1737,
-      "reworked_route_m": 63880.740165
+      "reworked_cells": 2952,
+      "reworked_route_m": 66069.914832,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Bangladesh/Gazipur/alignment-policy.toml": "e2d56944b386c4921dcc009f6d597b4f98181a2d4cd0218a2675a13b6817395c",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/planning-buildability-mask.bin.gz": "545606f75e942cbf1097afc397c1d54a7e9bb37c4afc86670ee048576b78d72c",
     "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/planning-grid.json": "2e2bfb05444b421afdef1a394c59eb09bbc2b367e027376565e7ffad925ae47f",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/planning-water-mask.bin.gz": "76059d67255c7ac6344bde8bd29868a38924e2ea8c6570512f1504fb8de88c49",
     "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/pre-rework-corridors.json.gz": "0be7d9750b0296c53737b6e48d9c67ce1d0ec9c5106c3fd4babc61727f46c5fa",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/water-source-receipt.json": "e67abcefa07aead37468e8bde3102900ab054ef202ec7e0390bdfbc2b421167b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

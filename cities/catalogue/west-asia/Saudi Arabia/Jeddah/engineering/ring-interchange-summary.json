@@ -1,25 +1,34 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "jeddah"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "jeddah",
-      "corridor_sha256": "337ffbcb113101ced783c77e6f468e019463f988ac1459d06bcec42a72136970",
-      "design_sha256": "3cd6d035ee843b6ac7436b9103000dfc9c6c5722e4dfa4fa3443c16ae82ce749",
-      "failures": [],
+      "corridor_sha256": "ff15dcc7fc0d588bc18aca265a7117f53a995acfab57cab903cd0514cccd5f6a",
+      "design_sha256": "b21a1dbd869fc4fad7d1eec18213e737f31d78a143069d3f4cc2d61a3c33680f",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1378.3,
+          "radial": "line-2",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 8,
       "review_findings": [
         {
           "code": "ring-radial-layout-disconnected",
-          "geometry_distance_m": 2148.0,
+          "geometry_distance_m": 1902.7,
           "radial": "line-2",
           "ring": "line-9",
           "severity": "review",
-          "terminus_distance_m": 3723.3
+          "terminus_distance_m": 3719.4
         }
       ],
       "ring_count": 1

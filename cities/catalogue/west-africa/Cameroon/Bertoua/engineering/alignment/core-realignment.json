@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 13.744421,
     "north": 4.636609,
@@ -6,6 +7,7 @@
     "west": 13.625141
   },
   "core_analytical_length_m": 21828.714159,
+  "core_final_route_length_m": 23391.067812,
   "core_original_length_m": 29402.806339,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6962.7417,
       "line": "line-1",
       "original_cells": 419,
       "original_route_m": 9378.965363,
       "reworked_cells": 316,
-      "reworked_route_m": 6962.7417
+      "reworked_route_m": 6962.7417,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8007.350647,
       "line": "line-2",
       "original_cells": 450,
       "original_route_m": 10330.336213,
       "reworked_cells": 379,
-      "reworked_route_m": 8007.350647
+      "reworked_route_m": 8007.350647,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8420.975465,
       "line": "line-3",
       "original_cells": 419,
       "original_route_m": 9693.504762,
       "reworked_cells": 374,
-      "reworked_route_m": 8420.975465
+      "reworked_route_m": 8420.975465,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-africa/Cameroon/Bertoua/alignment-policy.toml": "f40517064f9d79f0eedf8553cdbcae085c4ee3c5d8ba96c78c78030ef040492a",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-buildability-mask.bin.gz": "7540ee7b156575cb673b5f95f3523ce49875482d4c0fca3a709419368eb8e706",
     "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-grid.json": "48e3456ee1fe1c280a2c82bc3881b599b22ca52c729e60360f3475a1cfbdc53b",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-water-mask.bin.gz": "96ef08c6d4b06fd62551d1545661fdcdbe8c7d26826c7389c22c4a35bc9ec46f",
     "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/pre-rework-corridors.json.gz": "5d3ff3aad29b4a589464f3db936eb516f83c74da1a2a700bbb29444f4eb3b1ba",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/water-source-receipt.json": "e5c8c817d2b7994d046b8b26db8aa80d70676e347b8f9e347fa246e0d77ec13a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

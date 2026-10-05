@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.936762,
     "north": 34.929043,
@@ -6,6 +7,7 @@
     "west": 35.837882
   },
   "core_analytical_length_m": 17110.541985,
+  "core_final_route_length_m": 19075.474734,
   "core_original_length_m": 25327.89162,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8306.66089,
       "line": "line-1",
       "original_cells": 518,
       "original_route_m": 12170.692491,
       "reworked_cells": 447,
-      "reworked_route_m": 10568.569978
+      "reworked_route_m": 10568.569978,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6524.650788,
       "line": "line-2",
       "original_cells": 482,
       "original_route_m": 10663.818177,
       "reworked_cells": 278,
-      "reworked_route_m": 6732.93506
+      "reworked_route_m": 6732.93506,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4244.163056,
       "line": "line-3",
       "original_cells": 210,
       "original_route_m": 4983.574311,
       "reworked_cells": 178,
-      "reworked_route_m": 4244.163056
+      "reworked_route_m": 4244.163056,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Syria/Tartus/alignment-policy.toml": "2f8c61405bfe4c66f683b22fab36345c8b9059c26bc6c53f47937ab213ea5aad",
+    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-buildability-mask.bin.gz": "ec9780ba448b80c13de8c2276b5f6ecf091f16970933fd0c35358f82a6b00420",
     "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-grid.json": "2597007514ea8f6302fe6983c8a32b9b1e2ad7d3cb7ce144442a9f3b20103f47",
+    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/planning-water-mask.bin.gz": "2956008f98b7bbae351c0d3d51dd362680b88e89d89ea1c1507c241a3211a276",
     "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/pre-rework-corridors.json.gz": "446bf7b81e51a50e0951ebedcc78a308fe24d80d4deace321c666f5e48636291",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Syria/Tartus/engineering/alignment/water-source-receipt.json": "4c589feb9d664d35ba558b7f7b23c3d51597b38ecb41cde5e8c1e42695cd9ebe",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

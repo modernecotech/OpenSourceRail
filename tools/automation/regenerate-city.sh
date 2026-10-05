@@ -138,11 +138,15 @@ echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,an
 
 echo "3) design synthesis → $DESIGN_DIR/design.toml"
 if [[ "$SLUG" == "baghdad" ]]; then
+    "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
     "$PYTHON" "$REPO/tools/automation/rework-baghdad-alignment.py"
+    "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml" --prepare-grid
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
         --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
         --out-dir "$DESIGN_DIR" --design-only
 elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
+    "$PYTHON" "$REPO/tools/automation/rework-city-alignment.py" --design "$DESIGN_DIR/design.toml" --prepare-inputs
+    "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
     "$PYTHON" "$REPO/tools/automation/rework-city-alignment.py" --design "$DESIGN_DIR/design.toml"
     "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml" --prepare-grid
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \

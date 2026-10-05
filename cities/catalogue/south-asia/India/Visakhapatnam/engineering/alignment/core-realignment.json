@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 83.313838,
     "north": 17.777436,
@@ -6,6 +7,7 @@
     "west": 83.132278
   },
   "core_analytical_length_m": 140369.019447,
+  "core_final_route_length_m": 154527.389515,
   "core_original_length_m": 171318.578064,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23829.099551,
       "line": "line-1",
       "original_cells": 456,
       "original_route_m": 39414.733766,
-      "reworked_cells": 1147,
-      "reworked_route_m": 36049.385631
+      "reworked_cells": 1699,
+      "reworked_route_m": 38309.242405,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 26562.278477,
       "line": "line-2",
       "original_cells": 491,
       "original_route_m": 43643.171621,
-      "reworked_cells": 1209,
-      "reworked_route_m": 38609.168092
+      "reworked_cells": 1658,
+      "reworked_route_m": 39684.574285,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20541.647891,
       "line": "line-3",
       "original_cells": 474,
       "original_route_m": 31411.795351,
-      "reworked_cells": 981,
-      "reworked_route_m": 29921.920412
+      "reworked_cells": 1299,
+      "reworked_route_m": 30831.151494,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13608.569978,
       "line": "line-4",
       "original_cells": 559,
       "original_route_m": 24868.164415,
-      "reworked_cells": 794,
-      "reworked_route_m": 22001.757363
+      "reworked_cells": 1062,
+      "reworked_route_m": 23117.098116,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13869.360749,
       "line": "line-5",
       "original_cells": 467,
       "original_route_m": 20850.543423,
-      "reworked_cells": 785,
-      "reworked_route_m": 18540.970275
+      "reworked_cells": 942,
+      "reworked_route_m": 19259.066376,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -953,21 +965,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 56116.432868,
       "line": "line-6",
       "original_cells": 424,
       "original_route_m": 65577.317545,
-      "reworked_cells": 2474,
-      "reworked_route_m": 63233.345899
+      "reworked_cells": 2818,
+      "reworked_route_m": 64284.616126,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Visakhapatnam/alignment-policy.toml": "bcc5be9cdb0698eb3929afb674bef448cf3aad424b25b017fb05b9507994e566",
+    "cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/planning-buildability-mask.bin.gz": "b9fc4a8e93d109291e0abe6a0bc5854e7a91488348ecd87f4fee5e512ec72564",
     "cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/planning-grid.json": "3c9b39e59ad8cf18ba387495f72df2b54032433016075cc2f219c9e8dfee869e",
+    "cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/planning-water-mask.bin.gz": "8f0a5674dcfa4bdf7af3cc13ccc7d662b06e13606b64623edaaa8e50a5db5519",
     "cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/pre-rework-corridors.json.gz": "ed6c8a85d2718c24c0cc8607970e8f0ec47bb4a9f0152a89df01253936e91533",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Visakhapatnam/engineering/alignment/water-source-receipt.json": "158d52832bf9162ffc42fed0d0c498fde58789b89df7d7baa869edd8e7104898",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

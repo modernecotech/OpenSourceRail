@@ -5,14 +5,14 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`colombo-line1.aln.toml`](colombo-line1.aln.toml) | `line-1` | 28,530.5 m | 11 |
-| [`colombo-line2.aln.toml`](colombo-line2.aln.toml) | `line-2` | 23,506.5 m | 9 |
-| [`colombo-line3.aln.toml`](colombo-line3.aln.toml) | `line-3` | 34,933.5 m | 11 |
-| [`colombo-line4.aln.toml`](colombo-line4.aln.toml) | `line-4` | 22,473.8 m | 9 |
-| [`colombo-line5.aln.toml`](colombo-line5.aln.toml) | `line-5` | 29,218.7 m | 9 |
-| [`colombo-line6.aln.toml`](colombo-line6.aln.toml) | `line-6` | 27,404.3 m | 10 |
-| [`colombo-line7.aln.toml`](colombo-line7.aln.toml) | `line-7` | 24,585.2 m | 9 |
-| [`colombo-line8.aln.toml`](colombo-line8.aln.toml) | `line-8` | 20,433.6 m | 7 |
-| [`colombo-line9.aln.toml`](colombo-line9.aln.toml) | `line-9` | 66,409.7 m | 23 |
+| [`colombo-line2.aln.toml`](colombo-line2.aln.toml) | `line-2` | 22,880.9 m | 10 |
+| [`colombo-line3.aln.toml`](colombo-line3.aln.toml) | `line-3` | 34,933.5 m | 16 |
+| [`colombo-line4.aln.toml`](colombo-line4.aln.toml) | `line-4` | 22,473.8 m | 11 |
+| [`colombo-line5.aln.toml`](colombo-line5.aln.toml) | `line-5` | 28,237.8 m | 13 |
+| [`colombo-line6.aln.toml`](colombo-line6.aln.toml) | `line-6` | 26,673.1 m | 13 |
+| [`colombo-line7.aln.toml`](colombo-line7.aln.toml) | `line-7` | 25,100.9 m | 15 |
+| [`colombo-line8.aln.toml`](colombo-line8.aln.toml) | `line-8` | 19,676.2 m | 9 |
+| [`colombo-line9.aln.toml`](colombo-line9.aln.toml) | `line-9` | 71,145.2 m | 39 |
 
 ## Status
 

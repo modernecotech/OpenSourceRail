@@ -1,0 +1,53 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "beirut",
+  "legacy_osm_missing_geometry_ids": [
+    8148126,
+    18817551,
+    18817552,
+    18817553,
+    18817554,
+    18817555
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "5cf05350a6c71b05ae5c162b6021a9f0155a1baa34e4e9089677c119ee655c1a",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "c5126c7edcbb864c323bce5202ce3ec2a90ce192eb06b4d639395b0f4d954cfe",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Lebanon/Beirut/engineering/alignment/independent-landcover-samples.bin.gz": "66414494bbcf62cd523b40997f7a4df63682ed468f5494a94d1deff490373044",
+    "cities/catalogue/west-asia/Lebanon/Beirut/engineering/alignment/planning-grid.json": "8b7e5cc9bd91d63aebb5d4bf5307f2f151af4943686e1c6054fe6490fa62799f",
+    "cities/catalogue/west-asia/Lebanon/Beirut/engineering/alignment/planning-water-features.json.gz": "44e433e7a867f80be2ebfd3d00eb156b18530ca2a23dea2ea630adf52d8d503c",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 740277,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "61c0d2597683862ceb9ecd472c37d74d02a5563e37a696a3f32156d86efd6ecd",
+      "native_window": [
+        28800,
+        24000,
+        3003,
+        2643
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E033_Map.tif",
+      "window_sha256": "f070c6692c36bd4e3215adca754ff26013a5a10a70899322dcd21e400cd0d378"
+    }
+  ]
+}

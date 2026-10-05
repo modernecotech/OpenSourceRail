@@ -1,6 +1,6 @@
 {
   "city": "kigoma",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 547,
-      "row": 444,
-      "station_id": "line-1-0444-0547-s006461",
+      "col": 485,
+      "row": 465,
+      "station_id": "line-1-0465-0485-s005035",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 550,
+      "row": 443,
+      "station_id": "line-1-0443-0550-s006529",
       "water_coverage_percent": 0
     },
     {
@@ -35,21 +41,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 570,
-      "row": 473,
-      "station_id": "line-2-0473-0570-s004656",
+      "col": 550,
+      "row": 443,
+      "station_id": "line-2-0443-0550-s005446",
       "water_coverage_percent": 0
     },
     {
-      "col": 495,
-      "row": 361,
-      "station_id": "line-2-0361-0495-s007670",
+      "col": 500,
+      "row": 369,
+      "station_id": "line-2-0369-0500-s007457",
       "water_coverage_percent": 0
     },
     {
-      "col": 446,
-      "row": 289,
-      "station_id": "line-2-0289-0446-s009610",
+      "col": 449,
+      "row": 293,
+      "station_id": "line-2-0293-0449-s009493",
       "water_coverage_percent": 0
     },
     {
@@ -66,14 +72,14 @@
     },
     {
       "col": 500,
-      "row": 366,
-      "station_id": "line-3-0366-0500-s002016",
+      "row": 369,
+      "station_id": "line-3-0369-0500-s002076",
       "water_coverage_percent": 0
     },
     {
-      "col": 486,
-      "row": 462,
-      "station_id": "line-3-0462-0486-s004052",
+      "col": 485,
+      "row": 465,
+      "station_id": "line-3-0465-0485-s004120",
       "water_coverage_percent": 0
     },
     {
@@ -83,14 +89,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 13,
-  "schema_version": 1,
+  "platforms_checked": 14,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Tanzania/Kigoma/design.toml": "5dd71a3d93efa00866b49e42a9b21c03864a39a31ce4d731d0c83aa6fcb0fa8b",
+    "cities/catalogue/east-africa/Tanzania/Kigoma/design.toml": "cf05b4594c75a3d905fffe3b533b5c640e9c26ae0c0d4075726b564d0d38d9e0",
     "cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/planning-grid.json": "5c7c51fb933bf81c9ca396c631c3c9d7939559e2817d4ce5be9428b5c8c0a2d1",
-    "cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/planning-water-mask.bin.gz": "2c32dc7a365f6f35df6fc8a4bc0b09e148202f20e35ec5e9846792ee708fa5d7",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/planning-water-mask.bin.gz": "9472ce2239af70ac12ded302f1e458e08c2e866b6d4db2e0b5ff88003945dd99",
+    "cities/catalogue/east-africa/Tanzania/Kigoma/engineering/alignment/water-source-receipt.json": "1c2b3f0903c6670db8bfddb84636a2489660cfab9be38edf23ffaad5207de2d2",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "6fe240ac176bf4d8908a12b45310fb00acf2b3b445f15791ca8b00814fae184b",
+  "uncompressed_water_mask_sha256": "458ada4ef146376269917da7cdc3eeef0058e9c81c6f33de7d923123c56cd35b",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -5,7 +5,7 @@
     "demand": "maximum-demand",
     "elevation": "mean-valid-elevation",
     "terrain_slope": "gradient-of-mean-elevation",
-    "water": "mean-water-coverage-percent"
+    "water": "maximum retained OSM water and independent ESA WorldCover coverage; unknown 255 excludes station sites"
   },
   "factor": 1,
   "generator": "tools/automation/downsample-routing-bundle.py",
@@ -20,5 +20,12 @@
     "samawah.terrain-provenance.json": "dc3077f4f7113c5c8bae44271de455bbf81bfeaa222c2f05b78ebe12039fb8f0",
     "samawah.terrain-slope.npy": "625721f7886f7779200e26e172a1a571f40f8a120f02d3982ce3764d1bc0f513",
     "samawah.water.npy": "094beb35d6c8e20efa972bcbda2e06850dfb1a5efb3272161fb98dab2d504cb1"
+  },
+  "water_refresh": {
+    "mask_sha256": "a4320302aa5bc6606d07a8619685d267d8ca0e77759b944c95a02647d31d8f07",
+    "physical_release": false,
+    "source_receipt": "samawah.water-source-receipt.json",
+    "source_receipt_sha256": "5c1eeba9fe6f96baba83f83db80c78446849262f8ad5f8c53a861228ef65089e",
+    "supersedes_water_in_upstream_sha256": true
   }
 }

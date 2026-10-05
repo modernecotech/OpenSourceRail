@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 78.104967,
     "north": 27.263917,
@@ -6,6 +7,7 @@
     "west": 77.910567
   },
   "core_analytical_length_m": 126375.415293,
+  "core_final_route_length_m": 137208.054763,
   "core_original_length_m": 147193.075503,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 20592.774875,
       "line": "line-1",
       "original_cells": 495,
       "original_route_m": 22313.650268,
       "reworked_cells": 843,
-      "reworked_route_m": 20592.774875
+      "reworked_route_m": 20592.774875,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18726.458864,
       "line": "line-2",
       "original_cells": 507,
       "original_route_m": 23141.589456,
-      "reworked_cells": 877,
-      "reworked_route_m": 21525.11204
+      "reworked_cells": 956,
+      "reworked_route_m": 21891.79941,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19223.128419,
       "line": "line-3",
       "original_cells": 517,
       "original_route_m": 22078.772409,
       "reworked_cells": 876,
-      "reworked_route_m": 19223.128419
+      "reworked_route_m": 19223.128419,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 24094.784976,
       "line": "line-4",
       "original_cells": 439,
       "original_route_m": 29235.35102,
-      "reworked_cells": 1078,
-      "reworked_route_m": 28033.090511
+      "reworked_cells": 1216,
+      "reworked_route_m": 28533.262607,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -832,21 +842,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 54570.907627,
       "line": "line-5",
       "original_cells": 438,
       "original_route_m": 57200.671061,
       "reworked_cells": 2498,
-      "reworked_route_m": 54570.907627
+      "reworked_route_m": 54570.907627,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Agra/alignment-policy.toml": "03fc19a1c4a1ac76d53290fe7c9e1896b4fe06c18019cbd25dcca294187f4678",
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/planning-buildability-mask.bin.gz": "b5d8fcd276046eef5cf8472b5663f994e8911d8bebf412cbfc0dc33e36dff7d4",
     "cities/catalogue/south-asia/India/Agra/engineering/alignment/planning-grid.json": "dcb8f490bc7689d4d45ee01c2c0057240743570c5450ab631e21cd9eaa8fa27c",
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/planning-water-mask.bin.gz": "7678e8dfda6ab9632bc4685fac0627cbc31e3d75da2a74250588589570962fcd",
     "cities/catalogue/south-asia/India/Agra/engineering/alignment/pre-rework-corridors.json.gz": "61782044021261d7dc926a581487975aacaf2489c69a1b2e03e5a329e6ff7c84",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/India/Agra/engineering/alignment/water-source-receipt.json": "dd38e3c717f4cc754e0416a113bed53632fffe1200de35899f157f5208c8bba6",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

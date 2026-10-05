@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "aleppo",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "2264045dac36e38814237fcbac8e21eabfbb0337d5438c35f676269055f5ebe1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "6ff4707f5473d5af921475dfb491dcebdcb304e7b95a64ccc62e7c2767a68942",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Aleppo/engineering/alignment/independent-landcover-samples.bin.gz": "8dd8cbaff7dfd912d4c2a9323654392e56f57cc3851c6a23def500147c24c8cb",
+    "cities/catalogue/west-asia/Syria/Aleppo/engineering/alignment/planning-grid.json": "cfc071c13fa87a4c065bdc987ad2450c0d1149d3f7884ef0717daf13a29015bd",
+    "cities/catalogue/west-asia/Syria/Aleppo/engineering/alignment/planning-water-features.json.gz": "e31f9ce8156c13e109e999df5761e8e0bdca3544bf21d69287ecb16cfffcfe61",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 4861,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "fc99cebce0651a46b44307afbfb5e4465a0161478a8c9869eaaa981e8eb9efcf",
+      "native_window": [
+        12000,
+        32160,
+        3603,
+        3243
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N36E036_Map.tif",
+      "window_sha256": "854b56ee63f6563be60b0f428d583669efcbf37640c864e382dcefd15f6adcef"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`arusha-line1.aln.toml`](arusha-line1.aln.toml) | `line-1` | 14,281.4 m | 6 |
 | [`arusha-line2.aln.toml`](arusha-line2.aln.toml) | `line-2` | 16,754.3 m | 6 |
-| [`arusha-line3.aln.toml`](arusha-line3.aln.toml) | `line-3` | 22,663.1 m | 7 |
+| [`arusha-line3.aln.toml`](arusha-line3.aln.toml) | `line-3` | 22,663.1 m | 8 |
 
 ## Status
 

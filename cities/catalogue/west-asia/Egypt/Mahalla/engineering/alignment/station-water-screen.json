@@ -1,6 +1,6 @@
 {
   "city": "mahalla",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 761,
-      "row": 632,
-      "station_id": "line-1-0632-0761-s006523",
+      "col": 660,
+      "row": 655,
+      "station_id": "line-1-0655-0660-s004313",
       "water_coverage_percent": 0
     },
     {
@@ -53,9 +53,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 648,
-      "row": 663,
-      "station_id": "line-2-0663-0648-s014464",
+      "col": 660,
+      "row": 655,
+      "station_id": "line-2-0655-0660-s014793",
       "water_coverage_percent": 0
     },
     {
@@ -84,13 +84,15 @@
     }
   ],
   "platforms_checked": 13,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Mahalla/design.toml": "46751ecea2ddfd3a10b959daea83c349f1439227b62300e3083e62cb959181c5",
+    "cities/catalogue/west-asia/Egypt/Mahalla/design.toml": "3964081346d4cd1a9fb475f35daf7ce3fe6ba6d798a9b9dda605284028611f3d",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-grid.json": "a765722abb6bb29fd8e217ddfbee10f582f8b75373dfdf40e070a5c1b9905f35",
-    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-water-mask.bin.gz": "ea5c622f89b9772061ad2f24446e3c063c8ff2fe618ed292e0bb51f85ba02bf4",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-water-mask.bin.gz": "76e79043568c1ce3ca515bf5408fc7de523e9d646be57ece9ba4e83af9fdb6c2",
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/water-source-receipt.json": "f272b6d4fe118c3e441dc657360672769b32300bd5c80c69654a634da88a7a28",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "c80d2b27995673dce1f0cd71ef1727d299501d8d26bb76413786db462d4a3388",
+  "uncompressed_water_mask_sha256": "a611d9082f42d909d114ec9ba5a7cfcadb5e2af34fb7cc5fcf17ccb9f21af28c",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

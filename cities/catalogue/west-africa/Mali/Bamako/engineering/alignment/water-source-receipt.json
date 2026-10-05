@@ -1,0 +1,54 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "bamako",
+  "legacy_osm_missing_geometry_ids": [
+    2317459,
+    2317461,
+    2747025,
+    3045355,
+    3603483,
+    9314920,
+    9525018
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "0652ef0565c09aaaf3f3e61a55abfc24efd744c83c8ce01eac90d8aedebe2593",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "0709603f66b14f9d4868cc97512263e56895d1f7f095c3fa90461d2b8d3dbcf2",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/independent-landcover-samples.bin.gz": "7fcdbee785b72cf36556e71da3df094aa40a19860bdeacbd6fcb1aed37aa01db",
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/planning-grid.json": "5bdc4dec3d16e8dbca17883898b16a91e26ed0633353990f2bd7c90f130d8abc",
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/planning-water-features.json.gz": "1073478daeeeb479700ccda806c91f19528caefd01c2a3babdc8c130336598c8",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 75944,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "3109d44dfa59c7c65e823d37109c0b41aa45b70a85d40d82e22fdcae019c47b3",
+      "native_window": [
+        9840,
+        26400,
+        3963,
+        3603
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12W009_Map.tif",
+      "window_sha256": "0ec4c3f3c2b9f3ac1f12cb11f53d2128bf1f05d9e0cf526a062dfa81553194be"
+    }
+  ]
+}

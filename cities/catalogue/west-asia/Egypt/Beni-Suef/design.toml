@@ -68,7 +68,7 @@ length_m        = 7756.4
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 150
 
 [[civil_segments]]
 line            = "line-1"
@@ -81,14 +81,14 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 0.0
-to_station_m    = 5754.5
+to_station_m    = 5597.9
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-2"
-from_station_m  = 5754.5
+from_station_m  = 5597.9
 to_station_m    = 6955.3
 class           = "bridge"
 viaduct_product = "OSR-SP"
@@ -113,14 +113,30 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 3023.9
-to_station_m    = 3277.1
+to_station_m    = 3490.2
 class           = "bridge"
 viaduct_product = "OSR-SP"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-3"
-from_station_m  = 3277.1
+from_station_m  = 3490.2
+to_station_m    = 3731.6
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 3731.6
+to_station_m    = 3976.5
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 3976.5
 to_station_m    = 7756.4
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -149,22 +165,22 @@ archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0660-0668-s006034"
+id              = "line-1-0637-0688-s006706"
 line            = "line-1"
-lat             = 29.04633234711874
-lon             = 31.1234095932063
-s_m             = 6033.5
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "منطقة خدمات"
-archetype       = "major"
+lat             = 29.05047156894504
+lon             = 31.127520575800354
+s_m             = 6706.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
-id              = "line-1-0572-0745-s008642"
+id              = "line-1-0561-0754-s008972"
 line            = "line-1"
-lat             = 29.062169369758482
-lon             = 31.13923687619341
-s_m             = 8642.3
+lat             = 29.06414899758845
+lon             = 31.141086818360737
+s_m             = 8972.0
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "منطقة 3"
 archetype       = "standard"
@@ -204,15 +220,15 @@ archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0585-0516-s004983"
+id              = "line-2-0558-0524-s004377"
 line            = "line-2"
-lat             = 29.059829809595794
-lon             = 31.092166125491477
-s_m             = 4983.3
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "مساكن الاستاد"
-archetype       = "standard"
+lat             = 29.064688896087535
+lon             = 31.0938105185291
+s_m             = 4377.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0815-0443-s010200"
@@ -237,22 +253,35 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0571-0552-s002899"
+id              = "line-3-0558-0524-s002231"
 line            = "line-3"
-lat             = 29.062349335924846
-lon             = 31.09956589416078
-s_m             = 2899.1
-archetype       = "major"
+lat             = 29.064688896087535
+lon             = 31.0938105185291
+s_m             = 2231.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
+
+[[stations]]
+id              = "line-3-0597-0606-s004218"
+line            = "line-3"
+lat             = 29.057670215599465
+lon             = 31.11066554716473
+s_m             = 4217.9
+archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0619-0652-s005332"
+id              = "line-3-0637-0688-s006213"
 line            = "line-3"
-lat             = 29.05371095993953
-lon             = 31.120120807131055
-s_m             = 5331.9
-archetype       = "standard"
+lat             = 29.05047156894504
+lon             = 31.127520575800354
+s_m             = 6212.7
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
 id              = "line-3-0667-0751-s007756"
@@ -264,6 +293,22 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "منطقة ورش الشباب"
 archetype       = "terminal"
 platform_length_m = 59.5
+
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = 29.05047156894504
+lon             = 31.127520575800354
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0637-0688-s006706", "line-3-0637-0688-s006213"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 29.064688896087535
+lon             = 31.0938105185291
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0558-0524-s004377", "line-3-0558-0524-s002231"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -408,14 +453,14 @@ station = "line-3-0514-0433-s000000"
 line = "line-3"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 26
+storage_slots = 27
 storage_tracks = 9
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 1547.0
+storage_track_m = 1606.5
 workshop_bays = 4
 planning_land_area_m2 = 22538.5
-reference_cost_usd = 15297798
+reference_cost_usd = 15312672
 site_accepted = false
 physical_release = false
 
@@ -437,11 +482,11 @@ trainset_count     = 31
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 23
+peak_count         = 24
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 26
+trainset_count     = 27
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -455,36 +500,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 0
 at_grade_eur         = 0
-elevated_usd         = 270410744
-elevated_eur         = 248777884
-bridge_usd           = 26171455
-bridge_eur           = 24077738
+elevated_usd         = 264420028
+elevated_eur         = 243266426
+bridge_usd           = 37233506
+bridge_eur           = 34254826
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 296582198
-civil_subtotal_eur   = 272855622
+civil_subtotal_usd   = 301653534
+civil_subtotal_eur   = 277521252
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 53000000
-stations_eur         = 48760000
+stations_usd         = 73500000
+stations_eur         = 67620000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 48930632
-depots_eur           = 45016181
+depots_usd           = 48945506
+depots_eur           = 45029866
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 84600000
-rolling_stock_eur    = 77832000
+rolling_stock_usd    = 85500000
+rolling_stock_eur    = 78660000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1459705
 signalling_eur       = 1342928
-charging_microgrid_usd = 1450000
-charging_microgrid_eur = 1334000
+charging_microgrid_usd = 1550000
+charging_microgrid_eur = 1426000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 34021577
-epc_overhead_eur     = 31299851
-total_usd            = 520044112  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 478440583  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 35882612
+epc_overhead_eur     = 33012003
+total_usd            = 548491357  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 504612048  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -499,7 +544,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 14382000
+fleet_core_electrical_usd = 14535000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

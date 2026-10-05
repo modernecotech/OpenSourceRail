@@ -1,6 +1,6 @@
 {
   "city": "ibb",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,9 +17,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 421,
-      "row": 662,
-      "station_id": "line-1-0662-0421-s006702",
+      "col": 440,
+      "row": 627,
+      "station_id": "line-1-0627-0440-s005844",
       "water_coverage_percent": 0
     },
     {
@@ -35,9 +35,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 458,
-      "row": 655,
-      "station_id": "line-2-0655-0458-s003023",
+      "col": 486,
+      "row": 698,
+      "station_id": "line-2-0698-0486-s001885",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 440,
+      "row": 627,
+      "station_id": "line-2-0627-0440-s003768",
       "water_coverage_percent": 0
     },
     {
@@ -47,15 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 249,
-      "row": 324,
-      "station_id": "line-2-0324-0249-s011832",
+      "col": 247,
+      "row": 321,
+      "station_id": "line-2-0321-0247-s011908",
       "water_coverage_percent": 0
     },
     {
       "col": 58,
       "row": 113,
-      "station_id": "line-2-0113-0058-s017641",
+      "station_id": "line-2-0113-0058-s017763",
       "water_coverage_percent": 0
     },
     {
@@ -89,14 +95,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 15,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Yemen/Ibb/design.toml": "dcc7a23aeb55fbb77198288da098a15e9e19f67a1d5875569261c87650678033",
+    "cities/catalogue/west-asia/Yemen/Ibb/design.toml": "c2d3881fb8d334b82d6e5360e490340b96c1c25131846b504460da60778ac7b6",
     "cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/planning-grid.json": "c22f24dc3a605f88e45b371f994384472c79852c1fb1258087d73b0ac42d870a",
-    "cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/planning-water-mask.bin.gz": "ac48cdc3d46fd921be8e7d36bc4199aa240280287f7c489c82f124bcc77dfb03",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/planning-water-mask.bin.gz": "02d6654e533ddb8a251fcc890729139bcb20ac2497fce6e7ebec503ce6ae9107",
+    "cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/water-source-receipt.json": "19aed1f58fe8203b2660787ad8394d96b2cda494b14a3bad60ed1536a8a92d36",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "293c4e16f442b440f2f188fa562534f969e8aa77b67d70ba7f9b8b8feed89cee",
+  "uncompressed_water_mask_sha256": "ad45f0d2f64a7f6b953bfd3ba151fb18d055daac3d099a6613efab9cea966592",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

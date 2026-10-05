@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 40.560601,
     "north": -12.932957,
@@ -6,6 +7,7 @@
     "west": 40.477441
   },
   "core_analytical_length_m": 19489.11174,
+  "core_final_route_length_m": 21576.408358,
   "core_original_length_m": 28246.29868,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -33,7 +35,13 @@
               12140.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 11917.686861,
+          "seed_from_index": 0,
+          "seed_to_index": 506,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 6800.0,
@@ -46,19 +54,33 @@
                 3840.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 11917.686861,
-          "seed_from_index": 0,
-          "seed_to_index": 506,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 9071.025971,
       "line": "line-1",
       "original_cells": 603,
       "original_route_m": 14019.940828,
-      "reworked_cells": 512,
-      "reworked_route_m": 10601.076477
+      "reworked_cells": 516,
+      "reworked_route_m": 11144.995667,
+      "water_route_changes": [
+        {
+          "detour_route_m": 3141.909089,
+          "from_cell": [
+            331,
+            454
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2577.989899,
+          "search_work_upper_bound": 2010,
+          "to_cell": [
+            338,
+            581
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -95,11 +117,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6137.544007,
       "line": "line-2",
       "original_cells": 325,
       "original_route_m": 7780.630586,
       "reworked_cells": 296,
-      "reworked_route_m": 6927.249635
+      "reworked_route_m": 6927.249635,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +160,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 6367.83838,
       "line": "line-3",
       "original_cells": 424,
       "original_route_m": 10613.910524,
       "reworked_cells": 319,
-      "reworked_route_m": 7644.062043
+      "reworked_route_m": 7644.062043,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Pemba-Mz/alignment-policy.toml": "51c0664667320ab1b8109aca1135cad0abc181b663ae7a0c5c15a603dee4ac6b",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-buildability-mask.bin.gz": "d20f46b8d976e9fe94e4df5e476aeb4fedcfe284ccc0d0407d1bb21eb76a8246",
     "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-grid.json": "ac0f78c637b5007f971109697e0ae365457f000c182b190c3cc70adc270d48f8",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-water-mask.bin.gz": "c8254363bce339ed5d957f4b33f9f27b0f3c49369e8eff97b1b2bb4769a26c60",
     "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/pre-rework-corridors.json.gz": "8b132e8f3b488f025c06bc6868e1b41e4a6c71d4c51b772f3ed53bd6aecf8d8a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/water-source-receipt.json": "95b124626776ecd0cd96bfb8181abbaf944f72f4a492fcdf10da8ce97d0f1a1a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

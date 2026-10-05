@@ -1,6 +1,6 @@
 {
   "city": "bertoua",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -29,6 +29,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 546,
+      "row": 502,
+      "station_id": "line-2-0502-0546-s001443",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 620,
       "row": 492,
       "station_id": "line-2-0492-0620-s003006",
@@ -47,15 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 592,
-      "row": 640,
-      "station_id": "line-3-0640-0592-s005040",
+      "col": 584,
+      "row": 617,
+      "station_id": "line-3-0617-0584-s005566",
       "water_coverage_percent": 0
     },
     {
-      "col": 561,
-      "row": 548,
-      "station_id": "line-3-0548-0561-s007172",
+      "col": 546,
+      "row": 502,
+      "station_id": "line-3-0502-0546-s008216",
       "water_coverage_percent": 0
     },
     {
@@ -65,14 +71,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 10,
-  "schema_version": 1,
+  "platforms_checked": 11,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Bertoua/design.toml": "ea1243f4e3c68756887c0b49a2bc5a4b8b2067da60afc92d192927a2c7ec0472",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/design.toml": "c336aa7b0aee636a0aaa054cefd8f8db33edfe58ff971eb629c0d00c79f7e0ee",
     "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-grid.json": "48e3456ee1fe1c280a2c82bc3881b599b22ca52c729e60360f3475a1cfbdc53b",
-    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-water-mask.bin.gz": "8f076fec5b7b5440a91ec5fb12d86aa956dcf7422ee6b79481da61803604c639",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/planning-water-mask.bin.gz": "96ef08c6d4b06fd62551d1545661fdcdbe8c7d26826c7389c22c4a35bc9ec46f",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/alignment/water-source-receipt.json": "e5c8c817d2b7994d046b8b26db8aa80d70676e347b8f9e347fa246e0d77ec13a",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "16b4b95099941173819474e46c0bfc3b98d8065cd0db43fc7960c592d0fb051f",
+  "uncompressed_water_mask_sha256": "770d9579c5cb1fdb799677c03710ff2872137cc5fb3a705a6113ff733345503d",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

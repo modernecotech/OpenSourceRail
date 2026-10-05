@@ -46,11 +46,11 @@ late_headway_min             = 24
 [[lines]]
 name            = "line-1"
 shape           = "radial"
-length_m        = 11983.6
+length_m        = 11762.2
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 240
 
 [[lines]]
 name            = "line-2"
@@ -73,42 +73,45 @@ charging_dwell_seconds = 210
 [[civil_segments]]
 line            = "line-1"
 from_station_m  = 0.0
-to_station_m    = 5289.3
+to_station_m    = 5067.8
 class           = "elevated"
-viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
+minimum_curve_radius_m = 115.4
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 6.754
 
 [[civil_segments]]
 line            = "line-1"
-from_station_m  = 5289.3
-to_station_m    = 5442.4
+from_station_m  = 5067.8
+to_station_m    = 5221.0
 class           = "bridge"
 viaduct_product = "OSR-SP"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-1"
-from_station_m  = 5442.4
-to_station_m    = 5828.7
+from_station_m  = 5221.0
+to_station_m    = 5607.2
 class           = "elevated"
+minimum_curve_radius_m = 452.8
 viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-1"
-from_station_m  = 5828.7
-to_station_m    = 6001.8
+from_station_m  = 5607.2
+to_station_m    = 5780.4
 class           = "bridge"
 viaduct_product = "OSR-SP"
 elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
 line            = "line-1"
-from_station_m  = 6001.8
-to_station_m    = 11983.6
+from_station_m  = 5780.4
+to_station_m    = 11762.2
 class           = "elevated"
-viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
+minimum_curve_radius_m = 281.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.134
 
 [[civil_segments]]
 line            = "line-2"
@@ -171,51 +174,43 @@ to_station_m    = 12231.1
 class           = "at-grade"
 
 [[stations]]
-id              = "line-1-0437-0368-s000000"
+id              = "line-1-0444-0375-s000000"
 line            = "line-1"
-lat             = 34.45706480221718
-lon             = 35.809773316043916
+lat             = 34.45580503905266
+lon             = 35.8112981822917
 s_m             = 0.0
 anchor_kind     = "tourism:attraction"
 archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0526-0468-s003007"
+id              = "line-1-0532-0475-s002987"
 line            = "line-1"
-lat             = 34.44104781341108
-lon             = 35.83155711958365
-s_m             = 3006.8
+lat             = 34.43996801641292
+lon             = 35.833081985831434
+s_m             = 2986.8
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى المنلا"
+anchor_name     = "مستشفى سني"
 archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0616-0569-s006030"
+id              = "line-1-0632-0587-s006348"
 line            = "line-1"
-lat             = 34.42485085843862
-lon             = 35.85355876115878
-s_m             = 6030.1
-archetype       = "standard"
+lat             = 34.421971399776844
+lon             = 35.857479845795936
+s_m             = 6348.1
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
-id              = "line-1-0704-0668-s008997"
-line            = "line-1"
-lat             = 34.40901383579887
-lon             = 35.87512472666312
-s_m             = 8996.9
-anchor_kind     = "amenity:university"
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0793-0767-s011984"
+id              = "line-1-0793-0767-s011762"
 line            = "line-1"
 lat             = 34.392996846992766
 lon             = 35.896690692167454
-s_m             = 11983.6
+s_m             = 11762.2
 anchor_kind     = "place:town"
 anchor_name     = "زغرتا"
 archetype       = "terminal"
@@ -260,22 +255,26 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0662-0555-s012356"
+id              = "line-2-0632-0587-s011374"
 line            = "line-2"
-lat             = 34.416572414786025
-lon             = 35.85050902866322
-s_m             = 12356.2
-archetype       = "standard"
+lat             = 34.421971399776844
+lon             = 35.857479845795936
+s_m             = 11373.9
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
-id              = "line-2-0733-0479-s014675"
+id              = "line-2-0687-0528-s013185"
 line            = "line-2"
-lat             = 34.40379481697441
-lon             = 35.83395333797302
-s_m             = 14675.2
-archetype       = "standard"
+lat             = 34.412073260627004
+lon             = 35.84462740170749
+s_m             = 13185.3
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0805-0404-s016994"
@@ -299,31 +298,33 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0659-0493-s003018"
+id              = "line-3-0631-0458-s002005"
 line            = "line-3"
-lat             = 34.4171123132851
-lon             = 35.83700307046858
-s_m             = 3018.5
-anchor_kind     = "amenity:university"
-anchor_name     = "جامعة المنار طرابلس"
+lat             = 34.42215136594321
+lon             = 35.829378739229675
+s_m             = 2004.5
+anchor_kind     = "amenity:hospital"
+anchor_name     = "مستشفى لبنان للقلب"
 archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0723-0573-s005313"
+id              = "line-3-0687-0528-s004021"
 line            = "line-3"
-lat             = 34.405594478638015
-lon             = 35.854430113300374
-s_m             = 5312.7
-archetype       = "standard"
+lat             = 34.412073260627004
+lon             = 35.84462740170749
+s_m             = 4020.7
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 1
 
 [[stations]]
-id              = "line-3-0787-0653-s007619"
+id              = "line-3-0801-0671-s008130"
 line            = "line-3"
-lat             = 34.39407664399093
-lon             = 35.87185715613216
-s_m             = 7618.6
+lat             = 34.39155711766188
+lon             = 35.87577824076931
+s_m             = 8129.7
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -338,31 +339,47 @@ anchor_name     = "Centre Hospitalier du Nord"
 archetype       = "terminal"
 platform_length_m = 59.5
 
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = 34.421971399776844
+lon             = 35.857479845795936
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0632-0587-s006348", "line-2-0632-0587-s011374"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 34.412073260627004
+lon             = 35.84462740170749
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0687-0528-s013185", "line-3-0687-0528-s004021"]
+
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
-station = "line-1-0437-0368-s000000"
+station = "line-1-0444-0375-s000000"
 line = "line-1"
 archetype = "main-heavy"
-fleet_stalls = 6
-storage_slots = 38
-storage_tracks = 13
+fleet_stalls = 5
+storage_slots = 36
+storage_tracks = 12
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 2261.0
-workshop_bays = 6
-planning_land_area_m2 = 30154.5
-reference_cost_usd = 17342458
+storage_track_m = 2142.0
+workshop_bays = 5
+planning_land_area_m2 = 27953.0
+reference_cost_usd = 16485855
 site_accepted = false
 physical_release = false
 [[depots.switches]]
-id = "sw-line-1-0437-0368-s000000-tb"
+id = "sw-line-1-0444-0375-s000000-tb"
 kit = "no-9-mainline"
-station = "line-1-0437-0368-s000000"
+station = "line-1-0444-0375-s000000"
 side = "turnback"
 [[depots.switches]]
-id = "sw-line-1-0793-0767-s011984-tb"
+id = "sw-line-1-0793-0767-s011762-tb"
 kit = "no-9-mainline"
-station = "line-1-0793-0767-s011984"
+station = "line-1-0793-0767-s011762"
 side = "turnback"
 [[depots.switches]]
 id = "sw-line-2-0296-0968-s000000-tb"
@@ -519,11 +536,11 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 34
+peak_count         = 32
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 38
+trainset_count     = 36
 
 [[fleets]]
 line               = "line-2"
@@ -553,36 +570,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 8453852
 at_grade_eur         = 7777544
-elevated_usd         = 356163871
-elevated_eur         = 327670762
+elevated_usd         = 646072469
+elevated_eur         = 594386672
 bridge_usd           = 25204390
 bridge_eur           = 23188038
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 389822113
-civil_subtotal_eur   = 358636344
+civil_subtotal_usd   = 679730711
+civil_subtotal_eur   = 625352255
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 59000000
-stations_eur         = 54280000
+stations_usd         = 78500000
+stations_eur         = 72220000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 54222886
-depots_eur           = 49885055
+depots_usd           = 53366283
+depots_eur           = 49096980
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 116100000
-rolling_stock_eur    = 106812000
+rolling_stock_usd    = 114300000
+rolling_stock_eur    = 105156000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_usd       = 2060449
-signalling_eur       = 1895613
-charging_microgrid_usd = 1850000
-charging_microgrid_eur = 1702000
+signalling_usd       = 2049378
+signalling_eur       = 1885428
+charging_microgrid_usd = 1750000
+charging_microgrid_eur = 1610000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 43613881
-epc_overhead_eur     = 40124771
-total_usd            = 666669330  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 613335784  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 65078746
+epc_overhead_eur     = 59872446
+total_usd            = 994775119  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 915193109  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -597,7 +614,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 19737000
+fleet_core_electrical_usd = 19431000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

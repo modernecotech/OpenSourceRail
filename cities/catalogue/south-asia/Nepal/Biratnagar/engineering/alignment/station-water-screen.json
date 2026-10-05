@@ -1,6 +1,6 @@
 {
   "city": "biratnagar",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -24,14 +24,8 @@
     },
     {
       "col": 403,
-      "row": 265,
-      "station_id": "line-1-0265-0403-s007658",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 410,
-      "row": 159,
-      "station_id": "line-1-0159-0410-s009836",
+      "row": 252,
+      "station_id": "line-1-0252-0403-s007918",
       "water_coverage_percent": 0
     },
     {
@@ -59,9 +53,15 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 239,
-      "row": 330,
-      "station_id": "line-3-0330-0239-s004510",
+      "col": 229,
+      "row": 335,
+      "station_id": "line-3-0335-0229-s004257",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 403,
+      "row": 252,
+      "station_id": "line-3-0252-0403-s008519",
       "water_coverage_percent": 0
     },
     {
@@ -72,13 +72,15 @@
     }
   ],
   "platforms_checked": 11,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "8c9be29318d04daafc7e2a3c976f82e1282bb411ad24df3cda1a56742de7e33e",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "1ca8d59fc00f4fb1715aaf4ac756bb10816658c67a1239d5e47068938c3472e6",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-grid.json": "307fe22f394d1d23ade2a1c463771c2dda37d8829bfa2fa433b8f2229d4a8a4b",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-water-mask.bin.gz": "a8d5e766a930f5d8c536d16679c8a2e9cdf5f786b0154e3167f758de80cbd7ec",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/planning-water-mask.bin.gz": "c18ef2d9c76bbf88d3527fceaa25caad46b0dac490fa858cef246175259e471c",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/water-source-receipt.json": "7e8be7594580e79b0942eef01a28996876ed13f9f0a28706a957c95be170fb9b",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "60476cf34d435018fb99168849a06e1df2f5430caf4b8a5f3aa4863ec36d3cae",
+  "uncompressed_water_mask_sha256": "9104ae28c6d3095d36d66ba3bbd1b12b8a24a771158733f01d8fa9e6019ec7ba",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -360,7 +360,7 @@ The service concept operates 05:30 to 02:00 with a three minute protected peak h
 
 ## City-centre alignment rework
 
-Within the controlled core rectangle ({core_alignment['core']['south']}–{core_alignment['core']['north']}°N, {core_alignment['core']['west']}–{core_alignment['core']['east']}°E), radial corridors use straight tangents and ring connections use broad circular planning fillets. Core land sections are elevated; water crossings retain bridge classification. The analytical core routes shorten from {core_alignment['core_original_length_m']/1000:.3f} to {core_alignment['core_analytical_length_m']/1000:.3f} km. This is the main design used by the updated station, fleet, civil, energy, depot, staffing, delivery and financing calculations. The earlier extra-viaduct cost-only case did not change geometry.
+Within the controlled core rectangle ({core_alignment['core']['south']}–{core_alignment['core']['north']}°N, {core_alignment['core']['west']}–{core_alignment['core']['east']}°E), radial corridors use straight tangents and ring connections use broad circular planning fillets where the water constraints permit. Detoured sections require a new curve and structural review. Core land sections are elevated; water crossings retain bridge classification. The final water-constrained core routes change from {core_alignment['core_original_length_m']/1000:.3f} to {core_alignment['core_final_route_length_m']/1000:.3f} km. This is the main design used by the updated station, fleet, civil, energy, depot, staffing, delivery and financing calculations. The earlier extra-viaduct cost-only case did not change geometry.
 
 ![Before and after core routing](engineering/alignment/core-alignment-comparison.png)
 

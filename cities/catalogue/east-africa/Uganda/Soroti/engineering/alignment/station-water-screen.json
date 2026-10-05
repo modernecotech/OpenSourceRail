@@ -1,6 +1,6 @@
 {
   "city": "soroti",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -30,13 +30,15 @@
     }
   ],
   "platforms_checked": 4,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Soroti/design.toml": "36eb06230f116b00c4a8bbe5cfb6b36970a3b2c07a0b700a08a0db443efdeb90",
     "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-grid.json": "23c99aa5d2770d41933e48c3bf76c7d8ec2fbad5b04c42679c44d96ac7975834",
-    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-water-mask.bin.gz": "9afc2f85c1eb680a700dd5fd405551769f3eec751eab91557264109b4b831d43",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/planning-water-mask.bin.gz": "a12f3fcf5c07e32ff4a55bdc50c59dc68cdf082aec13232dc14cc6f1fcfdaef9",
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/alignment/water-source-receipt.json": "2df86b2989d5284fdd5c87815d40b8d89c64feef66fbe73eb9b0b5454e58e4ac",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "62904ec66fea7a234321a58a349cee73dad88cfc9269d051909ee306ae806783",
+  "uncompressed_water_mask_sha256": "f77cfc8d6eda57b9bdb5c0dca79bf951c3bf131e0232d0bd86e077e29fb5f445",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

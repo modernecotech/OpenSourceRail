@@ -1,0 +1,48 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kisumu",
+  "legacy_osm_missing_geometry_ids": [
+    2606941
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "183d9517cee46d4d08bbd34e2412a2b06ad0cda88dd45476a2351665cfa165d1",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "09e0ffa5871d9a0cd54d208f4dc7d4053d7d0b1a2ee13bd33e85d148dd3adb27",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/independent-landcover-samples.bin.gz": "c87265a0688f52a15fa0d353050b53830fa411884e0f0f285106fce9586c57cb",
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/planning-grid.json": "bb7902dd92792450cefe0fcdaf68081efd005ab4bb13c3056ba00cc2ef5d543a",
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/planning-water-features.json.gz": "672e7cecad56744ecf6536bb67009b8510ce4b3e9c49bca0b30fe6e6c6ceeb33",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 304943,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e81d71525c80bce5102b517054657619f59134c46f57bfd0f36b63e1b02cfdde",
+      "native_window": [
+        19951,
+        37,
+        2381,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E033_Map.tif",
+      "window_sha256": "9e06f141b61033dbd8073a0cdca3f604c921a86c3dfca8b9f4462300c86fd162"
+    }
+  ]
+}

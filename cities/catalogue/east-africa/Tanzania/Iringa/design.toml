@@ -231,6 +231,7 @@ line            = "line-1"
 lat             = -7.761758953316777
 lon             = 35.69804812975621
 s_m             = 3018.5
+mandatory_crossing = true
 anchor_kind     = "place:suburb"
 anchor_name     = "Lugalo"
 archetype       = "interchange"
@@ -245,6 +246,19 @@ lon             = 35.688437782842826
 s_m             = 4415.3
 archetype       = "standard"
 platform_length_m = 49.0
+
+[[stations]]
+id              = "line-1-0407-0296-s006281"
+line            = "line-1"
+lat             = -7.776336212791995
+lon             = 35.67556354452489
+s_m             = 6280.8
+mandatory_crossing = true
+anchor_kind     = "place:suburb"
+anchor_name     = "Mwangata"
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0446-0235-s007865"
@@ -269,26 +283,28 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0452-0349-s002516"
+id              = "line-2-0466-0365-s002045"
 line            = "line-2"
-lat             = -7.784434690278228
-lon             = 35.685173891438275
-s_m             = 2515.6
-anchor_kind     = "shop:mall"
-anchor_name     = "Soko la Mali mbichi mlandege"
+lat             = -7.7869542166072785
+lon             = 35.68807512824232
+s_m             = 2044.5
+anchor_kind     = "amenity:bus_station"
+anchor_name     = "Kapricon Royal bus terminal"
 archetype       = "major"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0378-0262-s005056"
+id              = "line-2-0407-0296-s004080"
 line            = "line-2"
-lat             = -7.771117193967535
-lon             = 35.669398416316305
-s_m             = 5056.1
-anchor_kind     = "amenity:college"
-anchor_name     = "Amani Christian Training Center"
-archetype       = "standard"
+lat             = -7.776336212791995
+lon             = 35.67556354452489
+s_m             = 4079.7
+mandatory_crossing = true
+anchor_kind     = "place:suburb"
+anchor_name     = "Mwangata"
+archetype       = "interchange"
 platform_length_m = 49.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0305-0177-s007572"
@@ -313,13 +329,12 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-3-0320-0406-s002373"
+id              = "line-3-0327-0419-s002702"
 line            = "line-3"
-lat             = -7.760679156318613
-lon             = 35.695509547552675
-s_m             = 2372.8
-anchor_kind     = "place:suburb"
-anchor_name     = "Lugalo"
+lat             = -7.761938919483137
+lon             = 35.697866802455955
+s_m             = 2702.5
+mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 49.0
 junction_group  = 0
@@ -338,10 +353,18 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -7.761219054817695
-lon             = 35.69677883865444
+lat             = -7.761848936399957
+lon             = 35.69795746610608
 lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0326-0420-s003018", "line-3-0320-0406-s002373"]
+platforms       = ["line-1-0326-0420-s003018", "line-3-0327-0419-s002702"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = -7.776336212791995
+lon             = 35.67556354452489
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0407-0296-s006281", "line-2-0407-0296-s004080"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -349,14 +372,14 @@ station = "line-1-0446-0235-s007865"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 3
-storage_slots = 17
-storage_tracks = 6
+storage_slots = 19
+storage_tracks = 7
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 833.0
+storage_track_m = 931.0
 workshop_bays = 3
-planning_land_area_m2 = 15108.0
-reference_cost_usd = 13744830
+planning_land_area_m2 = 16431.0
+reference_cost_usd = 13865635
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -401,6 +424,11 @@ station = "line-1-0446-0235-s007865"
 side = "yard-throat"
 [[depots.switches]]
 id = "sw-line-1-0446-0235-s007865-yd-07"
+kit = "no-9-mainline"
+station = "line-1-0446-0235-s007865"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-1-0446-0235-s007865-yd-08"
 kit = "no-9-mainline"
 station = "line-1-0446-0235-s007865"
 side = "yard-throat"
@@ -459,11 +487,11 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 15
+peak_count         = 17
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 17
+trainset_count     = 19
 
 [[fleets]]
 line               = "line-2"
@@ -502,27 +530,27 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 207753822
 civil_subtotal_eur   = 191133516
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 53000000
-stations_eur         = 48760000
+stations_usd         = 66500000
+stations_eur         = 61180000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 40351880
-depots_eur           = 37123730
+depots_usd           = 40472685
+depots_eur           = 37234870
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 25760000
-rolling_stock_eur    = 23699200
+rolling_stock_usd    = 26880000
+rolling_stock_eur    = 24729600
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1007698
 signalling_eur       = 927082
-charging_microgrid_usd = 1250000
-charging_microgrid_eur = 1150000
+charging_microgrid_usd = 1350000
+charging_microgrid_eur = 1242000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 23038638
-epc_overhead_eur     = 21195547
-total_usd            = 352162038  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 323989075  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 24077494
+epc_overhead_eur     = 22151294
+total_usd            = 368041699  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 338598363  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -537,7 +565,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 4692000
+fleet_core_electrical_usd = 4896000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

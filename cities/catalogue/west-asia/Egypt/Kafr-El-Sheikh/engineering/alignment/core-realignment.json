@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 30.987767,
     "north": 31.152103,
@@ -6,6 +7,7 @@
     "west": 30.893087
   },
   "core_analytical_length_m": 22208.931059,
+  "core_final_route_length_m": 24557.627689,
   "core_original_length_m": 29985.184118,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11900.773439,
       "line": "line-1",
       "original_cells": 649,
       "original_route_m": 15768.236499,
       "reworked_cells": 555,
-      "reworked_route_m": 13581.849917
+      "reworked_route_m": 13581.849917,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8161.463197,
       "line": "line-2",
       "original_cells": 408,
       "original_route_m": 9573.178926,
       "reworked_cells": 337,
-      "reworked_route_m": 8161.463197
+      "reworked_route_m": 8161.463197,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4495.391052,
       "line": "line-3",
       "original_cells": 264,
       "original_route_m": 6353.129442,
       "reworked_cells": 215,
-      "reworked_route_m": 4495.391052
+      "reworked_route_m": 4495.391052,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/alignment-policy.toml": "27d8d7e19cc00214318ff8bbeaa11d67c2f97deef4426b7d1e45d4c951d85ce2",
+    "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/planning-buildability-mask.bin.gz": "c21af92c3ad10420c269605817a5d639d29aa8723728b15942a9d1e23bcb3cf0",
     "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/planning-grid.json": "0e44b52f528167ec041e25011a24db83942d955ef0a5ce0d576895b8f30032d0",
+    "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/planning-water-mask.bin.gz": "a988ff7a27574313b239307370e8be9de704c93183fbbed53314f6e4add41ccf",
     "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/pre-rework-corridors.json.gz": "c33f8a515a6e3115933518abe5660c7d94554a288d2e8fefb2767da0be9e9980",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/water-source-receipt.json": "1a8ad3cbe1225f2ba7fd7f1582d5cd119d724964e8ae028ac7b5863113837e60",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,6 +1,6 @@
 {
   "city": "patna",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -13,43 +13,289 @@
     {
       "col": 1047,
       "row": 279,
-      "station_id": "line-1-0279-1047-s002661",
+      "station_id": "line-1-0279-1047-s002681",
       "water_coverage_percent": 0
     },
     {
-      "col": 885,
-      "row": 401,
-      "station_id": "line-1-0401-0885-s007006",
+      "col": 923,
+      "row": 373,
+      "station_id": "line-1-0373-0923-s006010",
       "water_coverage_percent": 0
     },
     {
-      "col": 802,
-      "row": 464,
-      "station_id": "line-1-0464-0802-s009434",
+      "col": 913,
+      "row": 380,
+      "station_id": "line-1-0380-0913-s006268",
       "water_coverage_percent": 0
     },
     {
-      "col": 684,
-      "row": 553,
-      "station_id": "line-1-0553-0684-s012660",
+      "col": 851,
+      "row": 427,
+      "station_id": "line-1-0427-0851-s008026",
       "water_coverage_percent": 0
     },
     {
-      "col": 563,
-      "row": 644,
-      "station_id": "line-1-0644-0563-s016033",
+      "col": 821,
+      "row": 449,
+      "station_id": "line-1-0449-0821-s008891",
       "water_coverage_percent": 0
     },
     {
-      "col": 353,
-      "row": 802,
-      "station_id": "line-1-0802-0353-s021776",
+      "col": 805,
+      "row": 433,
+      "station_id": "line-1-0433-0805-s009917",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 798,
+      "row": 423,
+      "station_id": "line-1-0423-0798-s010175",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 382,
+      "station_id": "line-1-0382-0755-s011374",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 746,
+      "row": 373,
+      "station_id": "line-1-0373-0746-s011629",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 732,
+      "row": 363,
+      "station_id": "line-1-0363-0732-s011992",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 356,
+      "station_id": "line-1-0356-0692-s012850",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 634,
+      "row": 361,
+      "station_id": "line-1-0361-0634-s014051",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 541,
+      "row": 361,
+      "station_id": "line-1-0361-0541-s015911",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 455,
+      "station_id": "line-1-0455-0413-s019250",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 527,
+      "station_id": "line-1-0527-0343-s021287",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 563,
+      "station_id": "line-1-0563-0343-s022023",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 347,
+      "row": 563,
+      "station_id": "line-1-0563-0347-s022103",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 500,
+      "row": 563,
+      "station_id": "line-1-0563-0500-s025163",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 603,
+      "row": 611,
+      "station_id": "line-1-0611-0603-s027621",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 666,
+      "row": 618,
+      "station_id": "line-1-0618-0666-s028939",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 674,
+      "row": 619,
+      "station_id": "line-1-0619-0674-s029107",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 721,
+      "row": 638,
+      "station_id": "line-1-0638-0721-s030204",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 747,
+      "row": 661,
+      "station_id": "line-1-0661-0747-s030915",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-1-0673-0765-s031374",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-1-0654-0783-s031903",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 776,
+      "row": 637,
+      "station_id": "line-1-0637-0776-s032301",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 769,
+      "row": 619,
+      "station_id": "line-1-0619-0769-s032719",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 614,
+      "station_id": "line-1-0614-0765-s032853",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-1-0541-0755-s034395",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 736,
+      "row": 534,
+      "station_id": "line-1-0534-0736-s034862",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 724,
+      "row": 522,
+      "station_id": "line-1-0522-0724-s035556",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 709,
+      "row": 534,
+      "station_id": "line-1-0534-0709-s035956",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 726,
+      "row": 544,
+      "station_id": "line-1-0544-0726-s037261",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 735,
+      "row": 535,
+      "station_id": "line-1-0535-0735-s037516",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-1-0541-0755-s038010",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 611,
+      "station_id": "line-1-0611-0765-s039493",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 775,
+      "row": 635,
+      "station_id": "line-1-0635-0775-s040056",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 779,
+      "row": 650,
+      "station_id": "line-1-0650-0779-s040389",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-1-0654-0783-s040502",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-1-0673-0765-s041032",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 681,
+      "row": 670,
+      "station_id": "line-1-0670-0681-s042736",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 647,
+      "row": 636,
+      "station_id": "line-1-0636-0647-s043712",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 605,
+      "row": 613,
+      "station_id": "line-1-0613-0605-s044768",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 581,
+      "row": 631,
+      "station_id": "line-1-0631-0581-s045467",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 577,
+      "row": 634,
+      "station_id": "line-1-0634-0577-s045584",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 565,
+      "row": 643,
+      "station_id": "line-1-0643-0565-s045933",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 338,
+      "row": 813,
+      "station_id": "line-1-0813-0338-s052157",
       "water_coverage_percent": 0
     },
     {
       "col": 184,
       "row": 924,
-      "station_id": "line-1-0924-0184-s027505",
+      "station_id": "line-1-0924-0184-s057613",
       "water_coverage_percent": 0
     },
     {
@@ -59,69 +305,417 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 814,
+      "col": 816,
       "row": 919,
-      "station_id": "line-2-0919-0814-s003831",
+      "station_id": "line-2-0919-0816-s004143",
       "water_coverage_percent": 0
     },
     {
-      "col": 786,
-      "row": 877,
-      "station_id": "line-2-0877-0786-s005101",
+      "col": 807,
+      "row": 919,
+      "station_id": "line-2-0919-0807-s004323",
       "water_coverage_percent": 0
     },
     {
-      "col": 761,
-      "row": 737,
-      "station_id": "line-2-0737-0761-s008120",
+      "col": 799,
+      "row": 920,
+      "station_id": "line-2-0920-0799-s004503",
       "water_coverage_percent": 0
     },
     {
-      "col": 728,
-      "row": 558,
-      "station_id": "line-2-0558-0728-s011974",
+      "col": 775,
+      "row": 818,
+      "station_id": "line-2-0818-0775-s006812",
       "water_coverage_percent": 0
     },
     {
-      "col": 695,
-      "row": 372,
-      "station_id": "line-2-0372-0695-s015967",
+      "col": 756,
+      "row": 710,
+      "station_id": "line-2-0710-0756-s009129",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 754,
+      "row": 701,
+      "station_id": "line-2-0701-0754-s009326",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 747,
+      "row": 661,
+      "station_id": "line-2-0661-0747-s010184",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-2-0673-0765-s010683",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-2-0654-0783-s011212",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 776,
+      "row": 637,
+      "station_id": "line-2-0637-0776-s011610",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 769,
+      "row": 619,
+      "station_id": "line-2-0619-0769-s012028",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 614,
+      "station_id": "line-2-0614-0765-s012162",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-2-0541-0755-s013704",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 735,
+      "row": 535,
+      "station_id": "line-2-0535-0735-s014199",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 726,
+      "row": 544,
+      "station_id": "line-2-0544-0726-s015014",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 724,
+      "row": 534,
+      "station_id": "line-2-0534-0724-s015230",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 722,
+      "row": 524,
+      "station_id": "line-2-0524-0722-s015447",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 721,
+      "row": 519,
+      "station_id": "line-2-0519-0721-s015555",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 724,
+      "row": 522,
+      "station_id": "line-2-0522-0724-s016193",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-2-0541-0755-s016999",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 614,
+      "station_id": "line-2-0614-0765-s018541",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 776,
+      "row": 637,
+      "station_id": "line-2-0637-0776-s019093",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 779,
+      "row": 650,
+      "station_id": "line-2-0650-0779-s019377",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-2-0654-0783-s019491",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-2-0673-0765-s020020",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 681,
+      "row": 670,
+      "station_id": "line-2-0670-0681-s021725",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 620,
+      "row": 670,
+      "station_id": "line-2-0670-0620-s022945",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 615,
+      "row": 668,
+      "station_id": "line-2-0668-0615-s023061",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 577,
+      "row": 634,
+      "station_id": "line-2-0634-0577-s024117",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 544,
+      "row": 617,
+      "station_id": "line-2-0617-0544-s024904",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 475,
+      "row": 564,
+      "station_id": "line-2-0564-0475-s026723",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 563,
+      "station_id": "line-2-0563-0343-s029371",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 527,
+      "station_id": "line-2-0527-0343-s030108",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 488,
+      "station_id": "line-2-0488-0413-s031871",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 428,
+      "row": 474,
+      "station_id": "line-2-0474-0428-s032281",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 541,
+      "row": 361,
+      "station_id": "line-2-0361-0541-s035483",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 634,
+      "row": 361,
+      "station_id": "line-2-0361-0634-s037343",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 683,
+      "row": 360,
+      "station_id": "line-2-0360-0683-s038331",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 693,
+      "row": 360,
+      "station_id": "line-2-0360-0693-s038939",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 356,
+      "station_id": "line-2-0356-0692-s039027",
       "water_coverage_percent": 0
     },
     {
       "col": 678,
       "row": 279,
-      "station_id": "line-2-0279-0678-s017979",
+      "station_id": "line-2-0279-0678-s040683",
       "water_coverage_percent": 0
     },
     {
-      "col": 770,
-      "row": 286,
-      "station_id": "line-3-0286-0770-s000000",
+      "col": 788,
+      "row": 262,
+      "station_id": "line-3-0262-0788-s000000",
       "water_coverage_percent": 0
     },
     {
-      "col": 848,
-      "row": 420,
-      "station_id": "line-3-0420-0848-s004413",
+      "col": 830,
+      "row": 373,
+      "station_id": "line-3-0373-0830-s002705",
       "water_coverage_percent": 0
     },
     {
-      "col": 886,
-      "row": 517,
-      "station_id": "line-3-0517-0886-s006691",
+      "col": 851,
+      "row": 427,
+      "station_id": "line-3-0427-0851-s003982",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 868,
+      "row": 471,
+      "station_id": "line-3-0471-0868-s005014",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 860,
+      "row": 488,
+      "station_id": "line-3-0488-0860-s006891",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 849,
+      "row": 477,
+      "station_id": "line-3-0477-0849-s007202",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 821,
+      "row": 449,
+      "station_id": "line-3-0449-0821-s007994",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 805,
+      "row": 433,
+      "station_id": "line-3-0433-0805-s008446",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 798,
+      "row": 423,
+      "station_id": "line-3-0423-0798-s008704",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 382,
+      "station_id": "line-3-0382-0755-s009904",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 742,
+      "row": 373,
+      "station_id": "line-3-0373-0742-s010239",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 732,
+      "row": 363,
+      "station_id": "line-3-0363-0732-s010521",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 356,
+      "station_id": "line-3-0356-0692-s011379",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 634,
+      "row": 361,
+      "station_id": "line-3-0361-0634-s012581",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 541,
+      "row": 361,
+      "station_id": "line-3-0361-0541-s014441",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 455,
+      "station_id": "line-3-0455-0413-s017779",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 342,
+      "row": 528,
+      "station_id": "line-3-0528-0342-s019844",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 563,
+      "station_id": "line-3-0563-0343-s020553",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 347,
+      "row": 563,
+      "station_id": "line-3-0563-0347-s020633",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 500,
+      "row": 563,
+      "station_id": "line-3-0563-0500-s023693",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 603,
+      "row": 611,
+      "station_id": "line-3-0611-0603-s026150",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 678,
+      "row": 670,
+      "station_id": "line-3-0670-0678-s028139",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 749,
+      "row": 710,
+      "station_id": "line-3-0710-0749-s029890",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 756,
+      "row": 710,
+      "station_id": "line-3-0710-0756-s030030",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 869,
+      "row": 713,
+      "station_id": "line-3-0713-0869-s032315",
       "water_coverage_percent": 0
     },
     {
       "col": 973,
       "row": 739,
-      "station_id": "line-3-0739-0973-s011946",
+      "station_id": "line-3-0739-0973-s034611",
       "water_coverage_percent": 0
     },
     {
-      "col": 1037,
-      "row": 903,
-      "station_id": "line-3-0903-1037-s015803",
+      "col": 1021,
+      "row": 863,
+      "station_id": "line-3-0863-1021-s037535",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 1017,
+      "row": 866,
+      "station_id": "line-3-0866-1017-s039373",
       "water_coverage_percent": 0
     },
     {
@@ -133,49 +727,229 @@
     {
       "col": 1012,
       "row": 189,
-      "station_id": "line-4-0189-1012-s002519",
+      "station_id": "line-4-0189-1012-s002809",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 976,
+      "row": 171,
+      "station_id": "line-4-0171-0976-s004667",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 909,
+      "row": 97,
+      "station_id": "line-4-0097-0909-s006841",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 893,
+      "row": 153,
+      "station_id": "line-4-0153-0893-s008258",
       "water_coverage_percent": 0
     },
     {
       "col": 942,
       "row": 321,
-      "station_id": "line-4-0321-0942-s005797",
+      "station_id": "line-4-0321-0942-s012179",
       "water_coverage_percent": 0
     },
     {
-      "col": 879,
+      "col": 917,
+      "row": 373,
+      "station_id": "line-4-0373-0917-s013450",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 913,
+      "row": 380,
+      "station_id": "line-4-0380-0913-s013635",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 868,
+      "row": 471,
+      "station_id": "line-4-0471-0868-s015886",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 860,
+      "row": 488,
+      "station_id": "line-4-0488-0860-s016292",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 849,
+      "row": 477,
+      "station_id": "line-4-0477-0849-s017227",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 823,
       "row": 448,
-      "station_id": "line-4-0448-0879-s008930",
+      "station_id": "line-4-0448-0823-s018022",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 805,
+      "row": 430,
+      "station_id": "line-4-0430-0805-s018532",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 798,
+      "row": 423,
+      "station_id": "line-4-0423-0798-s018730",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 382,
+      "station_id": "line-4-0382-0755-s019929",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 742,
+      "row": 373,
+      "station_id": "line-4-0373-0742-s020264",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 732,
+      "row": 363,
+      "station_id": "line-4-0363-0732-s020547",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 356,
+      "station_id": "line-4-0356-0692-s021405",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 634,
+      "row": 361,
+      "station_id": "line-4-0361-0634-s022606",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 541,
+      "row": 361,
+      "station_id": "line-4-0361-0541-s024466",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 455,
+      "station_id": "line-4-0455-0413-s027805",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 527,
+      "station_id": "line-4-0527-0343-s029841",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 563,
+      "station_id": "line-4-0563-0343-s030578",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 347,
+      "row": 563,
+      "station_id": "line-4-0563-0347-s030658",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 433,
+      "row": 563,
+      "station_id": "line-4-0563-0433-s032378",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 500,
+      "row": 563,
+      "station_id": "line-4-0563-0500-s033718",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 603,
+      "row": 611,
+      "station_id": "line-4-0611-0603-s036175",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 666,
+      "row": 618,
+      "station_id": "line-4-0618-0666-s037493",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 674,
+      "row": 619,
+      "station_id": "line-4-0619-0674-s037662",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 721,
+      "row": 638,
+      "station_id": "line-4-0638-0721-s038759",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 747,
+      "row": 661,
+      "station_id": "line-4-0661-0747-s039470",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 769,
+      "row": 619,
+      "station_id": "line-4-0619-0769-s041274",
       "water_coverage_percent": 0
     },
     {
       "col": 819,
       "row": 570,
-      "station_id": "line-4-0570-0819-s011937",
+      "station_id": "line-4-0570-0819-s043248",
       "water_coverage_percent": 0
     },
     {
-      "col": 759,
-      "row": 692,
-      "station_id": "line-4-0692-0759-s014944",
+      "col": 779,
+      "row": 650,
+      "station_id": "line-4-0650-0779-s045226",
       "water_coverage_percent": 0
     },
     {
-      "col": 698,
-      "row": 813,
-      "station_id": "line-4-0813-0698-s017963",
+      "col": 754,
+      "row": 701,
+      "station_id": "line-4-0701-0754-s046500",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 749,
+      "row": 710,
+      "station_id": "line-4-0710-0749-s046721",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 700,
+      "row": 810,
+      "station_id": "line-4-0810-0700-s049186",
       "water_coverage_percent": 0
     },
     {
       "col": 656,
       "row": 899,
-      "station_id": "line-4-0899-0656-s020078",
+      "station_id": "line-4-0899-0656-s051389",
       "water_coverage_percent": 0
     },
     {
       "col": 603,
       "row": 920,
-      "station_id": "line-4-0920-0603-s021491",
+      "station_id": "line-4-0920-0603-s052879",
       "water_coverage_percent": 0
     },
     {
@@ -185,9 +959,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 673,
-      "row": 778,
-      "station_id": "line-5-0778-0673-s002053",
+      "col": 700,
+      "row": 810,
+      "station_id": "line-5-0810-0700-s001119",
       "water_coverage_percent": 0
     },
     {
@@ -197,152 +971,502 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 562,
-      "row": 640,
-      "station_id": "line-5-0640-0562-s006014",
+      "col": 565,
+      "row": 643,
+      "station_id": "line-5-0643-0565-s005943",
       "water_coverage_percent": 0
     },
     {
-      "col": 478,
-      "row": 536,
-      "station_id": "line-5-0536-0478-s009012",
+      "col": 544,
+      "row": 617,
+      "station_id": "line-5-0617-0544-s006658",
       "water_coverage_percent": 0
     },
     {
-      "col": 365,
-      "row": 396,
-      "station_id": "line-5-0396-0365-s013041",
+      "col": 500,
+      "row": 563,
+      "station_id": "line-5-0563-0500-s008231",
       "water_coverage_percent": 0
     },
     {
-      "col": 177,
-      "row": 191,
-      "station_id": "line-5-0191-0177-s018874",
+      "col": 347,
+      "row": 563,
+      "station_id": "line-5-0563-0347-s011839",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 563,
+      "station_id": "line-5-0563-0343-s011919",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 343,
+      "row": 527,
+      "station_id": "line-5-0527-0343-s012656",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 488,
+      "station_id": "line-5-0488-0413-s014419",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 428,
+      "row": 474,
+      "station_id": "line-5-0474-0428-s015084",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 455,
+      "station_id": "line-5-0455-0413-s015621",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 287,
+      "row": 301,
+      "station_id": "line-5-0301-0287-s020038",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 125,
+      "row": 139,
+      "station_id": "line-5-0139-0125-s024620",
       "water_coverage_percent": 0
     },
     {
       "col": 21,
       "row": 18,
-      "station_id": "line-5-0018-0021-s024684",
+      "station_id": "line-5-0018-0021-s029219",
       "water_coverage_percent": 0
     },
     {
-      "col": 1011,
-      "row": 188,
-      "station_id": "line-6-0188-1011-s002549",
+      "col": 976,
+      "row": 171,
+      "station_id": "line-6-0171-0976-s001755",
       "water_coverage_percent": 0
     },
     {
-      "col": 1062,
-      "row": 303,
-      "station_id": "line-6-0303-1062-s005376",
+      "col": 1012,
+      "row": 189,
+      "station_id": "line-6-0189-1012-s002648",
       "water_coverage_percent": 0
     },
     {
-      "col": 1126,
-      "row": 447,
-      "station_id": "line-6-0447-1126-s008869",
+      "col": 1047,
+      "row": 279,
+      "station_id": "line-6-0279-1047-s004839",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 1125,
+      "row": 432,
+      "station_id": "line-6-0432-1125-s008663",
       "water_coverage_percent": 0
     },
     {
       "col": 1086,
       "row": 597,
-      "station_id": "line-6-0597-1086-s012381",
+      "station_id": "line-6-0597-1086-s012484",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 1022,
+      "row": 542,
+      "station_id": "line-6-0542-1022-s016001",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 991,
+      "row": 380,
+      "station_id": "line-6-0380-0991-s019498",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 923,
+      "row": 373,
+      "station_id": "line-6-0373-0923-s020932",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 917,
+      "row": 373,
+      "station_id": "line-6-0373-0917-s021052",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 830,
+      "row": 373,
+      "station_id": "line-6-0373-0830-s022792",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 746,
+      "row": 373,
+      "station_id": "line-6-0373-0746-s024472",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 742,
+      "row": 373,
+      "station_id": "line-6-0373-0742-s024552",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 732,
+      "row": 363,
+      "station_id": "line-6-0363-0732-s024835",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 356,
+      "station_id": "line-6-0356-0692-s025693",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 455,
+      "station_id": "line-6-0455-0413-s032093",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 364,
+      "row": 506,
+      "station_id": "line-6-0506-0364-s033536",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 347,
+      "row": 563,
+      "station_id": "line-6-0563-0347-s034946",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 500,
+      "row": 563,
+      "station_id": "line-6-0563-0500-s038006",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 603,
+      "row": 611,
+      "station_id": "line-6-0611-0603-s040464",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 749,
+      "row": 710,
+      "station_id": "line-6-0710-0749-s044204",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 756,
+      "row": 710,
+      "station_id": "line-6-0710-0756-s044344",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 869,
+      "row": 713,
+      "station_id": "line-6-0713-0869-s046629",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 973,
+      "row": 739,
+      "station_id": "line-6-0739-0973-s048924",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 1058,
+      "row": 778,
+      "station_id": "line-6-0778-1058-s050947",
       "water_coverage_percent": 0
     },
     {
       "col": 1021,
       "row": 863,
-      "station_id": "line-6-0863-1021-s018942",
+      "station_id": "line-6-0863-1021-s053297",
       "water_coverage_percent": 0
     },
     {
-      "col": 880,
-      "row": 909,
-      "station_id": "line-6-0909-0880-s022423",
+      "col": 1017,
+      "row": 866,
+      "station_id": "line-6-0866-1017-s053402",
       "water_coverage_percent": 0
     },
     {
-      "col": 814,
+      "col": 936,
+      "row": 913,
+      "station_id": "line-6-0913-0936-s055540",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 816,
       "row": 919,
-      "station_id": "line-6-0919-0814-s023815",
+      "station_id": "line-6-0919-0816-s058242",
       "water_coverage_percent": 0
     },
     {
-      "col": 734,
-      "row": 923,
-      "station_id": "line-6-0923-0734-s025430",
+      "col": 807,
+      "row": 919,
+      "station_id": "line-6-0919-0807-s058422",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 799,
+      "row": 920,
+      "station_id": "line-6-0920-0799-s058590",
       "water_coverage_percent": 0
     },
     {
       "col": 656,
       "row": 899,
-      "station_id": "line-6-0899-0656-s027194",
+      "station_id": "line-6-0899-0656-s061754",
       "water_coverage_percent": 0
     },
     {
-      "col": 612,
-      "row": 867,
-      "station_id": "line-6-0867-0612-s028444",
+      "col": 494,
+      "row": 827,
+      "station_id": "line-6-0827-0494-s068589",
       "water_coverage_percent": 0
     },
     {
-      "col": 458,
-      "row": 893,
-      "station_id": "line-6-0893-0458-s031941",
-      "water_coverage_percent": 0
-    },
-    {
-      "col": 553,
-      "row": 800,
-      "station_id": "line-6-0800-0553-s035445",
+      "col": 568,
+      "row": 780,
+      "station_id": "line-6-0780-0568-s070575",
       "water_coverage_percent": 0
     },
     {
       "col": 616,
       "row": 707,
-      "station_id": "line-6-0707-0616-s037990",
+      "station_id": "line-6-0707-0616-s072550",
       "water_coverage_percent": 0
     },
     {
-      "col": 650,
-      "row": 633,
-      "station_id": "line-6-0633-0650-s039931",
+      "col": 615,
+      "row": 668,
+      "station_id": "line-6-0668-0615-s073383",
       "water_coverage_percent": 0
     },
     {
-      "col": 684,
-      "row": 553,
-      "station_id": "line-6-0553-0684-s041883",
+      "col": 647,
+      "row": 636,
+      "station_id": "line-6-0636-0647-s074400",
       "water_coverage_percent": 0
     },
     {
-      "col": 705,
-      "row": 370,
-      "station_id": "line-6-0370-0705-s045717",
+      "col": 666,
+      "row": 618,
+      "station_id": "line-6-0618-0666-s074982",
       "water_coverage_percent": 0
     },
     {
-      "col": 770,
-      "row": 286,
-      "station_id": "line-6-0286-0770-s048064",
+      "col": 674,
+      "row": 619,
+      "station_id": "line-6-0619-0674-s075150",
       "water_coverage_percent": 0
     },
     {
-      "col": 882,
-      "row": 164,
-      "station_id": "line-6-0164-0882-s051514",
+      "col": 721,
+      "row": 638,
+      "station_id": "line-6-0638-0721-s076247",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 747,
+      "row": 661,
+      "station_id": "line-6-0661-0747-s076958",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-6-0673-0765-s077417",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-6-0654-0783-s077946",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 776,
+      "row": 637,
+      "station_id": "line-6-0637-0776-s078344",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 769,
+      "row": 619,
+      "station_id": "line-6-0619-0769-s078762",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 614,
+      "station_id": "line-6-0614-0765-s078896",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-6-0541-0755-s080438",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 736,
+      "row": 534,
+      "station_id": "line-6-0534-0736-s080905",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 724,
+      "row": 534,
+      "station_id": "line-6-0534-0724-s081145",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 709,
+      "row": 534,
+      "station_id": "line-6-0534-0709-s081445",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 721,
+      "row": 519,
+      "station_id": "line-6-0519-0721-s084081",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 724,
+      "row": 522,
+      "station_id": "line-6-0522-0724-s084166",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 736,
+      "row": 534,
+      "station_id": "line-6-0534-0736-s084505",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 755,
+      "row": 541,
+      "station_id": "line-6-0541-0755-s084971",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 614,
+      "station_id": "line-6-0614-0765-s086514",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 776,
+      "row": 637,
+      "station_id": "line-6-0637-0776-s087065",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 779,
+      "row": 650,
+      "station_id": "line-6-0650-0779-s087350",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 783,
+      "row": 654,
+      "station_id": "line-6-0654-0783-s087463",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 765,
+      "row": 673,
+      "station_id": "line-6-0673-0765-s087992",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 682,
+      "row": 670,
+      "station_id": "line-6-0670-0682-s089677",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 620,
+      "row": 670,
+      "station_id": "line-6-0670-0620-s090917",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 581,
+      "row": 631,
+      "station_id": "line-6-0631-0581-s092035",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 501,
+      "row": 564,
+      "station_id": "line-6-0564-0501-s094175",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 475,
+      "row": 564,
+      "station_id": "line-6-0564-0475-s094695",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 413,
+      "row": 488,
+      "station_id": "line-6-0488-0413-s099843",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 428,
+      "row": 474,
+      "station_id": "line-6-0474-0428-s100254",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 683,
+      "row": 360,
+      "station_id": "line-6-0360-0683-s106304",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 693,
+      "row": 360,
+      "station_id": "line-6-0360-0693-s106504",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 788,
+      "row": 262,
+      "station_id": "line-6-0262-0788-s109862",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 893,
+      "row": 153,
+      "station_id": "line-6-0153-0893-s112935",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 55,
-  "schema_version": 1,
+  "platforms_checked": 242,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/India/Patna/design.toml": "9cb58e5830620b887e47ff17d16ec3f4486da63674d1e6d39aa77c4897da0e4f",
+    "cities/catalogue/south-asia/India/Patna/design.toml": "7f314b145b531bc9f917258869ec1c8def18f201a29e8ef1976a88bf48f3eba4",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-grid.json": "619df75f825745819eec270198402b2481e08f141470580d94e6fe88515b11ae",
-    "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-water-mask.bin.gz": "5403699f6d577999781861bd2f0cffbba985f37b7d50371bcdda88df83a86007",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-water-mask.bin.gz": "408e7e4cfd62b2c3e023b5db42f4aabee6d09e0dd129a60bdfbe83f8fa27935d",
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/water-source-receipt.json": "3e3d2b535de3dae5b97242c1318a9a63a73b8bd4ed3df696dda02f06ccc01d66",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "6c4ac790cdf1841372772e7d39e92ac60d81dac7567d5fada647c077831ca3f8",
+  "uncompressed_water_mask_sha256": "1dd6b7cfd9d4a9aaa43ec09612904a12b198e2d375861ef5b9c7c60e9375b8a8",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

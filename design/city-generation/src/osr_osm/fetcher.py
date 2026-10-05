@@ -196,6 +196,8 @@ def _fetch_overpass(query: str) -> dict[str, Any]:
                 headers={"User-Agent": UA},
                 timeout=HTTP_TIMEOUT_S,
             )
+            if r.status_code in {405, 406}:
+                r = requests.get(endpoint, params={"data": query}, headers={"User-Agent": UA}, timeout=HTTP_TIMEOUT_S)
             if r.status_code == 429:
                 # Rate limited. Short sleep + next endpoint.
                 log.warning("overpass 429 from %s; trying next endpoint", endpoint)
@@ -284,6 +286,46 @@ def _anchor_weight(tags: dict[str, str]) -> tuple[str, float] | None:
     return None
 
 
+def _relation_rings(element: dict[str, Any], role: str) -> list[list[tuple[float, float]]]:
+    """Join full member geometry, preserving disconnected rings and islands.
+
+    Relations returned by ``out geom`` carry coordinates on their members,
+    rather than a top-level geometry array. Never close an incomplete chain
+    with an invented edge: that can classify an entire lake as dry land.
+    """
+    chains = []
+    for member in sorted(element.get("members", []), key=lambda m: (m.get("type", ""), m.get("ref", 0))):
+        if member.get("type") != "way" or (member.get("role") or "outer") != role:
+            continue
+        geometry = member.get("geometry", [])
+        if len(geometry) < 2 or any(not g or "lat" not in g or "lon" not in g for g in geometry):
+            raise OverpassError(f"Incomplete {role} geometry in water relation {element['id']}")
+        chains.append([(g["lat"], g["lon"]) for g in geometry])
+    rings = []
+    while chains:
+        chain = chains.pop(0)
+        while chain[0] != chain[-1]:
+            for index, other in enumerate(chains):
+                if chain[-1] == other[0]:
+                    chain.extend(other[1:])
+                elif chain[-1] == other[-1]:
+                    chain.extend(reversed(other[:-1]))
+                elif chain[0] == other[-1]:
+                    chain = other[:-1] + chain
+                elif chain[0] == other[0]:
+                    chain = list(reversed(other[1:])) + chain
+                else:
+                    continue
+                chains.pop(index)
+                break
+            else:
+                raise OverpassError(f"Unclosed {role} ring in water relation {element['id']}")
+        if len(chain) < 4:
+            raise OverpassError(f"Degenerate {role} ring in water relation {element['id']}")
+        rings.append(chain)
+    return rings
+
+
 def _parse_overpass(raw: dict[str, Any], bbox: BBox, slug: str) -> CityOSM:
     city = CityOSM(bbox=bbox, slug=slug, fetched_at=time.time())
     for el in raw.get("elements", []):
@@ -311,7 +353,13 @@ def _parse_overpass(raw: dict[str, Any], bbox: BBox, slug: str) -> CityOSM:
             continue
 
         if tags.get("natural") == "water" or tags.get("waterway") == "river":
-            city.water.append({"id": eid, "kind": tags.get("waterway", "water"), "nodes": nodes})
+            feature = {"id": eid, "kind": tags.get("waterway", "water"), "nodes": nodes}
+            if etype == "relation":
+                outer = _relation_rings(el, "outer")
+                if not outer:
+                    raise OverpassError(f"Water relation {eid} has no outer geometry")
+                feature.update(outer_rings=outer, inner_rings=_relation_rings(el, "inner"), osm_type="relation")
+            city.water.append(feature)
             continue
 
         if tags.get("boundary") == "protected_area" or tags.get("landuse") == "military":

@@ -1,0 +1,51 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "lobito",
+  "legacy_osm_missing_geometry_ids": [
+    1228438,
+    1228442,
+    2726251,
+    2726252
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "b9580edab189a123a7e813937becc0a17e1ca1ba98791c8a3fbb8cb8b0342cbf",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "e4256e59e47c42b7cdfa2ef6d6acb5acf9246ed2f9d468c1475e5c71b200bddd",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/independent-landcover-samples.bin.gz": "b8ba601c518c8857c5bcfa84276b47dc0a655487ce315e0bf508cb84f36f6720",
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/planning-grid.json": "800ff084411971be3d1d25c41004b531fa488e04ed2de0e4a75693e188b5541c",
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/planning-water-features.json.gz": "e15ad52e45e1935bc4d1b163969dfd86ee71fefd1c074535521f053c9cdd1c67",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 688181,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "df54ca066a5214639898b6bdf7b37ed5f3000c06784cd566e264cde35ad6e6da",
+      "native_window": [
+        17330,
+        2988,
+        2437,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S15E012_Map.tif",
+      "window_sha256": "30e2f5114b11f9c990b07d5d980b57d2f72da4d7c39d4f4384db02b43a3ed1e6"
+    }
+  ]
+}

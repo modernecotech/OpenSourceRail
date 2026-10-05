@@ -1,6 +1,6 @@
 {
   "city": "mansoura-eg",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,21 +11,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 652,
-      "row": 635,
-      "station_id": "line-1-0635-0652-s003015",
+      "col": 651,
+      "row": 628,
+      "station_id": "line-1-0628-0651-s003163",
       "water_coverage_percent": 0
     },
     {
       "col": 644,
-      "row": 520,
-      "station_id": "line-1-0520-0644-s005381",
+      "row": 528,
+      "station_id": "line-1-0528-0644-s005221",
       "water_coverage_percent": 0
     },
     {
-      "col": 636,
-      "row": 407,
-      "station_id": "line-1-0407-0636-s007719",
+      "col": 637,
+      "row": 427,
+      "station_id": "line-1-0427-0637-s007299",
       "water_coverage_percent": 0
     },
     {
@@ -41,21 +41,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 588,
-      "row": 444,
-      "station_id": "line-2-0444-0588-s003016",
+      "col": 637,
+      "row": 427,
+      "station_id": "line-2-0427-0637-s001872",
       "water_coverage_percent": 0
     },
     {
-      "col": 500,
-      "row": 475,
-      "station_id": "line-2-0475-0500-s005068",
+      "col": 533,
+      "row": 463,
+      "station_id": "line-2-0463-0533-s004297",
       "water_coverage_percent": 0
     },
     {
-      "col": 412,
-      "row": 505,
-      "station_id": "line-2-0505-0412-s007112",
+      "col": 428,
+      "row": 499,
+      "station_id": "line-2-0499-0428-s006742",
       "water_coverage_percent": 0
     },
     {
@@ -71,44 +71,64 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 697,
-      "row": 586,
-      "station_id": "line-3-0586-0697-s006971",
+      "col": 819,
+      "row": 476,
+      "station_id": "line-3-0476-0819-s003509",
       "water_coverage_percent": 0
     },
     {
-      "col": 598,
-      "row": 676,
-      "station_id": "line-3-0676-0598-s009990",
+      "col": 703,
+      "row": 581,
+      "station_id": "line-3-0581-0703-s007016",
       "water_coverage_percent": 0
     },
     {
-      "col": 481,
-      "row": 781,
-      "station_id": "line-3-0781-0481-s013504",
+      "col": 651,
+      "row": 628,
+      "station_id": "line-3-0628-0651-s008597",
       "water_coverage_percent": 0
     },
     {
-      "col": 365,
-      "row": 887,
-      "station_id": "line-3-0887-0365-s017019",
+      "col": 604,
+      "row": 670,
+      "station_id": "line-3-0670-0604-s010026",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 501,
+      "row": 763,
+      "station_id": "line-3-0763-0501-s013126",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 372,
+      "row": 880,
+      "station_id": "line-3-0880-0372-s017050",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 242,
+      "row": 987,
+      "station_id": "line-3-0987-0242-s020946",
       "water_coverage_percent": 0
     },
     {
       "col": 131,
       "row": 1100,
-      "station_id": "line-3-1100-0131-s023681",
+      "station_id": "line-3-1100-0131-s024858",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 16,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/design.toml": "9184bdfe078de17fc2e36a9467b14370bce93248daf7e5eb226fd261c30eb828",
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/design.toml": "24c6919155181a29c6627c8359df70d1743301e24e2284664659bcc3eff7e468",
     "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/planning-grid.json": "8d0f25211d8aed31657264a3e69f00ef3403976a52ec815c7783e65ad2366155",
-    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/planning-water-mask.bin.gz": "0b1ea600238605eba7ae3b68e2ae9e39a398cdf3c95a169618b05cabe3594768",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/planning-water-mask.bin.gz": "c4ab8f7f4c2a6224068a1e2824e50b79cda35e447948dbd5a811ec749b975575",
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/water-source-receipt.json": "c9b92b12df77fe4df9b9704dce0279bb096c6220d80710b6bb57eaf8208748c8",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "bdb3563971b9abfb0bcb56f1fa6429cabde438e8d0d0882fad38663fbad26ad1",
+  "uncompressed_water_mask_sha256": "8990c348278546030b2f4a4853724aa34f09304b91c43d74fa91fa4773d7dcae",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

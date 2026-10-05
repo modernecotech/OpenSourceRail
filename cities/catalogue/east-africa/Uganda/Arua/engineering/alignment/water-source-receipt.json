@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "arua",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "4904e3d23143b550a3cdea12dd0cd006729c3409c3fc20ef0fd1e251e4cddb6a",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "557a7d802370a1f2d0a1de407a2c27eb0bd722557c579d319d80a5261ed3524e",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/independent-landcover-samples.bin.gz": "e8fcefecfed6d50ef268c71b94a0bceb54ba586df76b62c04c10e649d3394ade",
+    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/planning-grid.json": "46624c86e6996af81a73381d51b8da7e9c30d864eba98967929159f9c2c0f834",
+    "cities/catalogue/east-africa/Uganda/Arua/engineering/alignment/planning-water-features.json.gz": "8f1a2ddcdb4105127daf642e8a4f82c09114494c2cd3da54b80982cbe806146a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1078,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "8a14bec944542a09dcfe457b1c46a1f867ced59fd91246978a61fabb2faeb485",
+      "native_window": [
+        10120,
+        0,
+        1628,
+        573
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N00E030_Map.tif",
+      "window_sha256": "3e95d615c76d6393c5ab39ff91679152bd7a723ac5fdd081b4bb488373311c96"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "254eddbbd4bb9823673d81ee13a8ab6a053ed048e0e4accefc5b194114f19b10",
+      "native_window": [
+        10120,
+        34947,
+        1628,
+        1053
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N03E030_Map.tif",
+      "window_sha256": "a27b74a942698b1659d4864fd17280bfa34fe7d33ac000fef69f10239f8cc69b"
+    }
+  ]
+}

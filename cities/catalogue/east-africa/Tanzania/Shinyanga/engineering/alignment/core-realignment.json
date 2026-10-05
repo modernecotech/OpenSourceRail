@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 33.461541,
     "north": -3.624217,
@@ -6,6 +7,7 @@
     "west": 33.380301
   },
   "core_analytical_length_m": 17987.106559,
+  "core_final_route_length_m": 20189.44443,
   "core_original_length_m": 28737.822071,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8708.326112,
       "line": "line-1",
       "original_cells": 685,
       "original_route_m": 15982.895953,
       "reworked_cells": 579,
-      "reworked_route_m": 13755.331881
+      "reworked_route_m": 13755.331881,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7031.513703,
       "line": "line-2",
       "original_cells": 423,
       "original_route_m": 9583.229432,
       "reworked_cells": 329,
-      "reworked_route_m": 7835.777772
+      "reworked_route_m": 7835.777772,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4449.604615,
       "line": "line-3",
       "original_cells": 496,
       "original_route_m": 11308.063204,
       "reworked_cells": 292,
-      "reworked_route_m": 6714.701295
+      "reworked_route_m": 6714.701295,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Shinyanga/alignment-policy.toml": "ad686a3aec4ab8800967b9698dfa69fbfd02264b5d658801b86ab7d3a6f3d6c9",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
     "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-grid.json": "0d329a16f349dbd80a8296d8fc323c0f487a0631aba4bad0707780289a6b4b38",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/planning-water-mask.bin.gz": "63739d73eefe545bd34c6291320f73aef17884601d0d79e48aa5a19edb6dbb47",
     "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/pre-rework-corridors.json.gz": "48dc8cbf68cf6d7b11a53ce53612fbec2f2d2af5aac1496ecd9387d35dbd606d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/water-source-receipt.json": "f9906b55f0c074114fec7f255afda4c8260d4e3eab5632c2bc7663973306fe2a",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

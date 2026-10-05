@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "bandung",
+  "legacy_osm_missing_geometry_ids": [
+    296847,
+    11993209,
+    16677758
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "6b3e452111a5b964ab2c8ef2d32df7d956c88b20707fcf9ad27503f7e644f47b",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "cef26ef1d290ade19e0ac9890480b47cd4747d3af75f207f9023712acec38cb1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/alignment/independent-landcover-samples.bin.gz": "74fad4211319b452f3757141d6000aa0dca1c17dd5c4eec5e73325fbf4e164f4",
+    "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/alignment/planning-grid.json": "28df528fcdee384bbdcfbcd6d5fb185d702166f78a282c9a44b52b0da84126d2",
+    "cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/alignment/planning-water-features.json.gz": "d5388b20ccc5c92015b1e2b7c30ab9b1af1e5fdb23d399dcbf922aa308148a86",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 27032,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "2578bd221a6817c939222c5e1cc1727f994f675483d3579c057d1e4ccb642f39",
+      "native_window": [
+        29400,
+        9360,
+        3603,
+        2643
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E105_Map.tif",
+      "window_sha256": "687c5fd8b0c35f808c8c2347d61b70cf684b1c2e953db8402c5ccae33f9f5590"
+    }
+  ]
+}

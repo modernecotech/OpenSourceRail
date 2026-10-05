@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kisangani-line1.aln.toml`](kisangani-line1.aln.toml) | `line-1` | 21,735.2 m | 6 |
-| [`kisangani-line2.aln.toml`](kisangani-line2.aln.toml) | `line-2` | 14,294.5 m | 6 |
+| [`kisangani-line1.aln.toml`](kisangani-line1.aln.toml) | `line-1` | 22,214.6 m | 13 |
+| [`kisangani-line2.aln.toml`](kisangani-line2.aln.toml) | `line-2` | 13,784.5 m | 12 |
 
 ## Status
 

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 42.790481,
     "north": 18.364449,
@@ -6,6 +7,7 @@
     "west": 42.665201
   },
   "core_analytical_length_m": 46649.813025,
+  "core_final_route_length_m": 52494.95234,
   "core_original_length_m": 59359.65851,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19509.688296,
       "line": "line-1",
       "original_cells": 414,
       "original_route_m": 28085.783577,
-      "reworked_cells": 892,
-      "reworked_route_m": 25586.324294
+      "reworked_cells": 1107,
+      "reworked_route_m": 26361.546879,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15615.230868,
       "line": "line-2",
       "original_cells": 530,
       "original_route_m": 24781.381425,
-      "reworked_cells": 789,
-      "reworked_route_m": 23098.685328
+      "reworked_cells": 957,
+      "reworked_route_m": 23419.536777,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17370.033175,
       "line": "line-3",
       "original_cells": 557,
       "original_route_m": 25763.479094,
-      "reworked_cells": 837,
-      "reworked_route_m": 23004.359762
+      "reworked_cells": 1017,
+      "reworked_route_m": 23890.520908,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/alignment-policy.toml": "f251ecfcafe05eea6efa19400cbd761f444dc62c87a345d8ced88f164693257a",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-buildability-mask.bin.gz": "9368bce5377c5d21c26c3038b7bf2c9e4ed2e3449af4f963f373441d9d7e62aa",
     "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-grid.json": "00512acad738d4384b494f2c3db0d78226916bb5d652a2348a8ca150eb11f33d",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-water-mask.bin.gz": "1ea684bc3f6c0554a8ced766c619c2160ae6de013bf4bf282fd05d9515a2d20e",
     "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/pre-rework-corridors.json.gz": "514dcc005ae6d06c6bc44cdf6400cfdfc426961cfd567f53ea3d50c7edbd0b56",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/water-source-receipt.json": "73a9ba10b1a81b3feba3c39b9b7fc6a6e2cd483d73a3e89e3686ac2275be2122",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

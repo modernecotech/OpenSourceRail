@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 36.798623,
     "north": 34.795411,
@@ -6,6 +7,7 @@
     "west": 36.648623
   },
   "core_analytical_length_m": 29739.644917,
+  "core_final_route_length_m": 33283.842687,
   "core_original_length_m": 39980.756108,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10103.128419,
       "line": "line-1",
       "original_cells": 570,
       "original_route_m": 13417.930727,
       "reworked_cells": 420,
-      "reworked_route_m": 10103.128419
+      "reworked_route_m": 10103.128419,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10669.402589,
       "line": "line-2",
       "original_cells": 490,
       "original_route_m": 11759.940828,
       "reworked_cells": 445,
-      "reworked_route_m": 10669.402589
+      "reworked_route_m": 10669.402589,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12511.311678,
       "line": "line-3",
       "original_cells": 667,
       "original_route_m": 14802.884553,
       "reworked_cells": 511,
-      "reworked_route_m": 12511.311678
+      "reworked_route_m": 12511.311678,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Syria/Homs/alignment-policy.toml": "36ca28fa0959430181b2b85198bc276d373c40b6a43796345f21096de2078c54",
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/planning-buildability-mask.bin.gz": "77ca3029c58ac0c2b5bae26ea35be037f02dc08fc4612ccdb8e0365ec55c8494",
     "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/planning-grid.json": "a3e42cc9ac7c1637714b5814507ed1f1ccf4fe0cc15eac9ae3e81e2fc56f2cab",
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/planning-water-mask.bin.gz": "36149d47a3a9574a8a74ab5d8c06508a4f58a8ae3915f7a1c1844e4d2f9bd040",
     "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/pre-rework-corridors.json.gz": "a3fd3ea3aeef3a887d00031b4d33c50adb578142cdca934d2dfd8a06394e178a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Syria/Homs/engineering/alignment/water-source-receipt.json": "3b7c3680b0d75db2774001afb9ed8ebba55a514f1a75546b8570015e38af0d9c",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

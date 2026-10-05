@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 45.339991,
     "north": 31.365187,
@@ -6,6 +7,7 @@
     "west": 45.219991
   },
   "core_analytical_length_m": 30883.569065,
+  "core_final_route_length_m": 33375.962466,
   "core_original_length_m": 41553.876309,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 14096.265504,
       "line": "line-1",
       "original_cells": 552,
       "original_route_m": 25005.571488,
-      "reworked_cells": 799,
-      "reworked_route_m": 22385.832239
+      "reworked_cells": 1002,
+      "reworked_route_m": 22737.240969,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10480.874452,
       "line": "line-2",
       "original_cells": 548,
       "original_route_m": 12812.245302,
       "reworked_cells": 448,
-      "reworked_route_m": 10480.874452
+      "reworked_route_m": 10480.874452,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8798.82251,
       "line": "line-3",
       "original_cells": 496,
       "original_route_m": 12045.626253,
       "reworked_cells": 431,
-      "reworked_route_m": 8798.82251
+      "reworked_route_m": 8798.82251,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Iraq/Samawah/alignment-policy.toml": "848b8e2c64666365c235435fd6d6c6c9938e12dade71e6216baefcf782ce21c5",
+    "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/planning-buildability-mask.bin.gz": "7516a2afc35102f6d222ea46d1a71a1cd82d6a813fddb0e7482f67c908fb7cac",
     "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/planning-grid.json": "7a8fc16e572dbe974083fb41e3fc6bf9ab1dda7995dc2c6e7ba603f0a826dbf0",
+    "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/planning-water-mask.bin.gz": "8c59d5b57d8a50b7ca8f12f97fe9385293cda23ab4089faab42ee5f8122136cb",
     "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/pre-rework-corridors.json.gz": "7840de16ba458582b7b1849e2e6e5dbf10238334dfb17ffc2e2fb754b924098e",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/water-source-receipt.json": "5c1eeba9fe6f96baba83f83db80c78446849262f8ad5f8c53a861228ef65089e",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

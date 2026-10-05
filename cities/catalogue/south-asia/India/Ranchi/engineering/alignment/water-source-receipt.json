@@ -1,0 +1,49 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "ranchi",
+  "legacy_osm_missing_geometry_ids": [
+    330719,
+    7681644
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "bf5a2847b486a73e20202b3c793a6dff0378ba68aeaa1fb3e1d85c7f91c836af",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "d1cef238abab4d5aaa2c30c9ade272b8564c8cb0f7140288273e399a2b85150a",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/independent-landcover-samples.bin.gz": "dae85c912c8e103d1ab64b6b3b92cd96afbf0b8b518e1750ac8c9eb821228154",
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/planning-grid.json": "0cdb4f8ba5bf5958fce0dd85bd189bb3bd5360cb2f0b86645d4544279c5c9a5c",
+    "cities/catalogue/south-asia/India/Ranchi/engineering/alignment/planning-water-features.json.gz": "89b13f667ef039fd07e1cb4e471cd757e8361e91419a880898913b17fb7a1b7e",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 31855,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "aca090736006257bb9ecdbac7a1a03597d38bf0ed56504ac9499ec003e84fbbe",
+      "native_window": [
+        13831,
+        6141,
+        3771,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E084_Map.tif",
+      "window_sha256": "f8e018de3a7b199ad4362dbacd590d69e29428ddeecd2649d1afcf7e7a9bf548"
+    }
+  ]
+}

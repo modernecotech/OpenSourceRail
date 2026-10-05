@@ -3668,7 +3668,8 @@ fn station_site_assessment(grid: &Grid, lat: f64, lon: f64) -> Option<StationSit
         terrain_slope_percent: grid.terrain_slope_at(row, col),
         over_water,
         station_permitted: !over_water,
-        basis: "source-locked open DEM and OSM water mask; planning screen only".to_string(),
+        basis: "source-locked terrain and retained water evidence; planning screen only"
+            .to_string(),
     })
 }
 
@@ -4035,7 +4036,7 @@ mod tests {
     }
 
     #[test]
-    fn station_site_screen_excludes_predominantly_water_cells() {
+    fn station_site_screen_excludes_any_detected_water() {
         let grid = Grid {
             reference: GridRef {
                 height: 1,
@@ -4052,7 +4053,7 @@ mod tests {
             cost: vec![8.0, 8.0],
             demand: vec![0.0, 0.0],
             buildability: vec![1, 1],
-            water: Some(vec![20, 80]),
+            water: Some(vec![0, 20]),
             elevation_m: Some(vec![12.0, 10.0]),
             terrain_slope_percent: Some(vec![1.0, 1.0]),
         };

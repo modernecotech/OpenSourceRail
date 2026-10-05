@@ -1,0 +1,50 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "dar-es-salaam",
+  "legacy_osm_missing_geometry_ids": [
+    4597228,
+    9659374,
+    18343558
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "9c34d1ded53fa66d6676fded4540066e355b0f7246b67a6197f76ef7b647289f",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "32f017f55b31a744955587dd971bcb11a2113f94cd9ef0a905da2802d6d516de",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/alignment/independent-landcover-samples.bin.gz": "8f28a624b0d20df8cfb0bc86596f62cb30af6571a2c88aa43de95c4706f97c3e",
+    "cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/alignment/planning-grid.json": "ac6e3bd749b1716970b85516f58180a75400991a2e1718b2c61dfbbc44b14b33",
+    "cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/alignment/planning-water-features.json.gz": "0a7c0938b782bceccc900161e3be8cbc24d27ad0ea6eb88ac41c6a3159d53843",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 2569072,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "361a26949e04cbd6637affff6cad6d68d33091b707d0e0b0d2f6af3cabefcbc8",
+      "native_window": [
+        599,
+        6600,
+        5404,
+        6003
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E039_Map.tif",
+      "window_sha256": "ad2afe9125d635d0983360b0546a8dac04b9ffb9ce7acbb64153c329ae270c47"
+    }
+  ]
+}

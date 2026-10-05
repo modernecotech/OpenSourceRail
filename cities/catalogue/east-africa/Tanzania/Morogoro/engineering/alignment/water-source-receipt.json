@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "morogoro",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "96bf7c334043a004c52de2d110d42372205f4c8f1449c3836a17241522ffd72b",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "0175a2a4f5c65bce61980101c016bfb85c6c1c37b0311f8cfe7000ce4b9bc3b1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Morogoro/engineering/alignment/independent-landcover-samples.bin.gz": "8167b808963c73fa271fa70f46bc70daacca9caf3b1b51620a73369a76756403",
+    "cities/catalogue/east-africa/Tanzania/Morogoro/engineering/alignment/planning-grid.json": "477d703f86dd197f8c3fedae3447689c8c4cb201f0ed3c1990be6245085f5a55",
+    "cities/catalogue/east-africa/Tanzania/Morogoro/engineering/alignment/planning-water-features.json.gz": "0ed6707c34bc62455a1afbb05a188445de527e154aeca18b9763245d857794e1",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 10731,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "344085ea6a69145ead3b88459331cc90fd582fb6fefbf725b8265172d9c400df",
+      "native_window": [
+        18711,
+        8744,
+        2398,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E036_Map.tif",
+      "window_sha256": "968db615abd43c968010dee0aa22afc59f6e4c137b024c96febbe389a4216887"
+    }
+  ]
+}

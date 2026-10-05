@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 30.831838,
     "north": 28.147308,
@@ -6,6 +7,7 @@
     "west": 30.697078
   },
   "core_analytical_length_m": 29258.490493,
+  "core_final_route_length_m": 32349.486271,
   "core_original_length_m": 44569.389015,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13632.733034,
       "line": "line-1",
       "original_cells": 762,
       "original_route_m": 18351.191623,
       "reworked_cells": 607,
-      "reworked_route_m": 14580.42856
+      "reworked_route_m": 14580.42856,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10936.122651,
       "line": "line-2",
       "original_cells": 770,
       "original_route_m": 17716.164492,
       "reworked_cells": 659,
-      "reworked_route_m": 14377.787873
+      "reworked_route_m": 14377.787873,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 7780.630586,
       "line": "line-3",
       "original_cells": 734,
       "original_route_m": 17178.155551,
       "reworked_cells": 509,
-      "reworked_route_m": 11990.823946
+      "reworked_route_m": 11990.823946,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Minya/alignment-policy.toml": "0e0d02685f2e44754b11be3ceba380817a014687f3de816222399a433b3dd0de",
+    "cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/planning-buildability-mask.bin.gz": "dc99de1915b6ef2aec4f0c5e6e48029d2b71a306943c150ad90c72cd9d1ef925",
     "cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/planning-grid.json": "090fe41afc7ab522de04d70c8fc73aa7e11e0057b8513232f6d4761f9739fb1a",
+    "cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/planning-water-mask.bin.gz": "9df99644fa3a2922bf5f21a9ffcfcbce1db67df7cb048d8c90e7d4d719a66a9d",
     "cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/pre-rework-corridors.json.gz": "7043a0c21a7a060f0de44af1d5528c00dfad86612743f1062806d4a811746d09",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/west-asia/Egypt/Minya/engineering/alignment/water-source-receipt.json": "eecad3870f076d56bd11ded71bb099439b66cc7f32addc47118b9303549c813f",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

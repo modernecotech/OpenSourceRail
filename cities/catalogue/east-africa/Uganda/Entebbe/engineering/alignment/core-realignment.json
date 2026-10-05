@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 32.506099,
     "north": 0.095562,
@@ -6,6 +7,7 @@
     "west": 32.424979
   },
   "core_analytical_length_m": 20456.038641,
+  "core_final_route_length_m": 25046.256839,
   "core_original_length_m": 30479.517735,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 9364.894655,
       "line": "line-1",
       "original_cells": 679,
       "original_route_m": 15523.109377,
       "reworked_cells": 535,
-      "reworked_route_m": 12593.666658
+      "reworked_route_m": 12593.666658,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 4505.685425,
       "line": "line-2",
       "original_cells": 330,
       "original_route_m": 7888.914857,
       "reworked_cells": 218,
-      "reworked_route_m": 4505.685425
+      "reworked_route_m": 4505.685425,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -115,7 +121,13 @@
               11880.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 9961.707063,
+          "seed_from_index": 0,
+          "seed_to_index": 414,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 2580.0,
@@ -128,12 +140,7 @@
                 7700.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 9961.707063,
-          "seed_from_index": 0,
-          "seed_to_index": 414,
-          "simplification_tolerance_m": 600.0
+          ]
         },
         {
           "analytical_length_m": 311.126984,
@@ -147,7 +154,13 @@
               12220.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 334.558441,
+          "seed_from_index": 420,
+          "seed_to_index": 433,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 2800.0,
@@ -160,29 +173,47 @@
                 12000.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 334.558441,
-          "seed_from_index": 420,
-          "seed_to_index": 433,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 11175.676759,
       "line": "line-3",
       "original_cells": 641,
       "original_route_m": 15542.093783,
-      "reworked_cells": 567,
-      "reworked_route_m": 13813.565645
+      "reworked_cells": 679,
+      "reworked_route_m": 16401.505038,
+      "water_route_changes": [
+        {
+          "detour_route_m": 5669.848481,
+          "from_cell": [
+            312,
+            468
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 2928.772004,
+          "search_work_upper_bound": 16805,
+          "to_cell": [
+            199,
+            546
+          ]
+        }
+      ]
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Entebbe/alignment-policy.toml": "745b6875f9738e12d4b6a0f8f9e091bdbb6f854ba9c591d9c3fc9d0d1fce99d9",
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/planning-buildability-mask.bin.gz": "a7e0bd4beec8218af1b6010dd6351153253f753a71d2a9f61c49c683977a52b3",
     "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/planning-grid.json": "54dc5e3574646692fe988404a36bc368645dbd753275870e51fc32ecff100c6f",
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/planning-water-mask.bin.gz": "85dda8714efcd92c9f2d7fc054438cd9513a63279b3529d5aab5fa1117852a3f",
     "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/pre-rework-corridors.json.gz": "03407a72f8cc0357ac7b335771ddd06abd2866c1f96c58bba6a53f285142435d",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Uganda/Entebbe/engineering/alignment/water-source-receipt.json": "aa26e80e8207cab6bbecada82646bb1b5a6e20bd1f996f2d6b31917461e40748",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -1,16 +1,25 @@
 {
   "city_count": 1,
-  "failed_cities": [],
-  "passed": true,
+  "failed_cities": [
+    "dammam"
+  ],
+  "passed": false,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "dammam",
-      "corridor_sha256": "e044b29cb748e004ac585d1493877b353b42a5d8a5c7b234af43220e1b5376c7",
-      "design_sha256": "e08be38b9a84d2613b0710931558331e91999a7fc50474f889850d5aa1455b30",
-      "failures": [],
+      "corridor_sha256": "57b04e2f125d0b199bca42ccf610618911403e34c922574462bb18662bcd8906",
+      "design_sha256": "d51d385e4535e69bee550dcf7924e4ddb1da2fc087ef9cc5c1aba129fef16b9c",
+      "failures": [
+        {
+          "code": "radial-corridor-turns-back-on-itself",
+          "maximum_reverse_excursion_m": 1787.9,
+          "radial": "line-5",
+          "severity": "fail"
+        }
+      ],
       "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": true,
+      "passed": false,
       "radial_count": 5,
       "review_findings": [],
       "ring_count": 1

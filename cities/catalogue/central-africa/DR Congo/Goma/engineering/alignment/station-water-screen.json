@@ -1,6 +1,6 @@
 {
   "city": "goma",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -13,43 +13,43 @@
     {
       "col": 319,
       "row": 333,
-      "station_id": "line-1-0333-0319-s006047",
+      "station_id": "line-1-0333-0319-s006688",
       "water_coverage_percent": 0
     },
     {
-      "col": 426,
-      "row": 415,
-      "station_id": "line-1-0415-0426-s009065",
+      "col": 409,
+      "row": 402,
+      "station_id": "line-1-0402-0409-s009212",
       "water_coverage_percent": 0
     },
     {
       "col": 515,
       "row": 484,
-      "station_id": "line-1-0484-0515-s011569",
+      "station_id": "line-1-0484-0515-s012211",
       "water_coverage_percent": 0
     },
     {
       "col": 570,
       "row": 527,
-      "station_id": "line-1-0527-0570-s013131",
+      "station_id": "line-1-0527-0570-s013772",
       "water_coverage_percent": 0
     },
     {
       "col": 621,
       "row": 566,
-      "station_id": "line-1-0566-0621-s014579",
+      "station_id": "line-1-0566-0621-s015221",
       "water_coverage_percent": 0
     },
     {
       "col": 727,
       "row": 648,
-      "station_id": "line-1-0648-0727-s017590",
+      "station_id": "line-1-0648-0727-s018231",
       "water_coverage_percent": 0
     },
     {
       "col": 770,
       "row": 681,
-      "station_id": "line-1-0681-0770-s018793",
+      "station_id": "line-1-0681-0770-s019435",
       "water_coverage_percent": 0
     },
     {
@@ -61,25 +61,31 @@
     {
       "col": 806,
       "row": 717,
-      "station_id": "line-2-0717-0806-s006222",
+      "station_id": "line-2-0717-0806-s006589",
       "water_coverage_percent": 0
     },
     {
       "col": 753,
       "row": 591,
-      "station_id": "line-2-0591-0753-s009240",
+      "station_id": "line-2-0591-0753-s009607",
       "water_coverage_percent": 0
     },
     {
-      "col": 700,
-      "row": 466,
-      "station_id": "line-2-0466-0700-s012249",
+      "col": 717,
+      "row": 506,
+      "station_id": "line-2-0506-0717-s011628",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 682,
+      "row": 421,
+      "station_id": "line-2-0421-0682-s013665",
       "water_coverage_percent": 0
     },
     {
       "col": 639,
       "row": 319,
-      "station_id": "line-2-0319-0639-s015718",
+      "station_id": "line-2-0319-0639-s016085",
       "water_coverage_percent": 0
     },
     {
@@ -89,9 +95,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 669,
-      "row": 420,
-      "station_id": "line-3-0420-0669-s003003",
+      "col": 682,
+      "row": 421,
+      "station_id": "line-3-0421-0682-s002735",
       "water_coverage_percent": 0
     },
     {
@@ -101,9 +107,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 377,
-      "row": 400,
-      "station_id": "line-3-0400-0377-s009009",
+      "col": 409,
+      "row": 402,
+      "station_id": "line-3-0402-0409-s008352",
       "water_coverage_percent": 0
     },
     {
@@ -113,14 +119,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 18,
-  "schema_version": 1,
+  "platforms_checked": 19,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/central-africa/DR Congo/Goma/design.toml": "de0a3d33a1dd034d6a82ed01d26bddb32e3c137a89e9aa02dd5244a6452ba922",
+    "cities/catalogue/central-africa/DR Congo/Goma/design.toml": "79e854540880650d3be274918cf1d380509a2364aa690accdfe3f59266ba311c",
     "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-grid.json": "9727af0a7d903a37d7e85509eefa234cd737dc06504034074a3704e2707cce24",
-    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-water-mask.bin.gz": "ef45a242e7c97a3cfe666f7d62c96d7d21fd2d55574556c880e3fc80b29cb3de",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-water-mask.bin.gz": "441b2e92f061722013f4de112cce7105068ad37e6a37f2dde605b9ca8117c740",
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/water-source-receipt.json": "6dfbceb5e12768c9cb563f98efe1f5915c882dfab23c7d86cf57cd0ddf6bef7e",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "3a5222eb92ec70509ed2e65b099da678258e689a28c7ee00902dd78b5d800deb",
+  "uncompressed_water_mask_sha256": "8b9bd4c7616672c848d8ca4100c77c53828a24bff0bc7837938ca892752d160f",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

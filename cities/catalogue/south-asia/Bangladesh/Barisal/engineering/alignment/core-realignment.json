@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 90.416776,
     "north": 22.759589,
@@ -6,6 +7,7 @@
     "west": 90.287896
   },
   "core_analytical_length_m": 38718.125031,
+  "core_final_route_length_m": 42777.122625,
   "core_original_length_m": 49504.084949,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13725.727266,
       "line": "line-1",
       "original_cells": 661,
       "original_route_m": 15393.77907,
       "reworked_cells": 609,
-      "reworked_route_m": 13725.727266
+      "reworked_route_m": 13725.727266,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -74,7 +78,13 @@
               9780.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "original_length_m": 15315.215095,
+          "seed_from_index": 0,
+          "seed_to_index": 338,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 17700.0,
@@ -87,19 +97,47 @@
                 14460.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 15315.215095,
-          "seed_from_index": 0,
-          "seed_to_index": 338,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
+      "final_core_route_m": 10981.118318,
       "line": "line-2",
       "original_cells": 439,
       "original_route_m": 19572.704428,
-      "reworked_cells": 571,
-      "reworked_route_m": 15347.480668
+      "reworked_cells": 710,
+      "reworked_route_m": 16002.539674,
+      "water_route_changes": [
+        {
+          "from_cell": [
+            445,
+            723
+          ],
+          "geometry_changed": true,
+          "kind": "bounded-water-endpoint-bank-crop",
+          "maximum_crop_m": 600.0,
+          "removed_route_m": 48.284271,
+          "to_cell": [
+            447,
+            722
+          ]
+        },
+        {
+          "detour_route_m": 3774.457429,
+          "from_cell": [
+            713,
+            580
+          ],
+          "geometry_basis": "water-constrained-raster-requires-curve-and-structure-review",
+          "kind": "land-detour-around-unapproved-open-water-crossing",
+          "protected_approach_extended": false,
+          "removed_water_run_m": 3810.904038,
+          "search_work_upper_bound": 611776,
+          "to_cell": [
+            864,
+            500
+          ]
+        }
+      ]
     },
     {
       "core_runs": [
@@ -136,21 +174,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18070.277041,
       "line": "line-3",
       "original_cells": 543,
       "original_route_m": 24712.172311,
-      "reworked_cells": 865,
-      "reworked_route_m": 23967.358568
+      "reworked_cells": 1039,
+      "reworked_route_m": 24670.176029,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Bangladesh/Barisal/alignment-policy.toml": "4f5e213b01bcfb8b66ebb61e9951b8235f4414703d45d6f5cf82891a9a77fb19",
+    "cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/planning-buildability-mask.bin.gz": "b7dba8c99d5a5ad4be6886428cbd02d22ed81060048c5594dca57286b89465c3",
     "cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/planning-grid.json": "d0ae88e39ff7306a3b142d64a9a0c43f8e2daed228b96e0a0c1e72245949dc5d",
+    "cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/planning-water-mask.bin.gz": "2b34b0e7fbab79c88198d41d10a3c28d5b0a0ffc161c9ed2eb36002fabc0aa6a",
     "cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/pre-rework-corridors.json.gz": "1c314f548efcdb87694ce35bb56d01be7bbde5938455bc3ac4ea639aa1643d83",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Bangladesh/Barisal/engineering/alignment/water-source-receipt.json": "e40fd23c5c4cdf11d39cecb33136237837b02ed645385ac30bd419d2b18f2c50",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

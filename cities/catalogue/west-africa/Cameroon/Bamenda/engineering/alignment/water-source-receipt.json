@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "bamenda",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "c7e9f6c453b45b17ba19a58176e7bd232039dcd38f01470ecae8ba02f95d8c7d",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "cf4da926ecce0bfa15cf2e4026e02b4237226af6b5c5bf652a2cacbb751fa187",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/independent-landcover-samples.bin.gz": "9ce6afa881e50426427299f8b2a625b0d2c79c499f477887c3568c3dc8181f8a",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-grid.json": "fc8a20c13f715262c8c47bf7eb1e72b9688d895a48c28351ae2e640f07c5ce4d",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/engineering/alignment/planning-water-features.json.gz": "8810bfa6f3a8d50bb3e5ddf04168fb15d27d8e61836529b43b48a170dac21bc4",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 3839,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "1baef0e8d13e36d7aca5439787f7d65622259b5a31ce74f9b0ca72f0108dd25d",
+      "native_window": [
+        12714,
+        0,
+        2393,
+        1635
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N03E009_Map.tif",
+      "window_sha256": "e2e42ef02ac7a2f94ce9fba328f4c174a042f73fae1f6f1242a027c27f30906a"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "310d4bea0dc7ae5a93c249eeb3909b3596f0dc1ee60f1023ebb2dda081059a79",
+      "native_window": [
+        12714,
+        35253,
+        2393,
+        747
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E009_Map.tif",
+      "window_sha256": "dab7d377b7646ed50a34dec97894b3b0ed75cdd572b6bb88fd5856a4fb5d31dc"
+    }
+  ]
+}

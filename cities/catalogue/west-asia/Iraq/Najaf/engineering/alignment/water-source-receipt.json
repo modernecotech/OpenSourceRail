@@ -1,0 +1,55 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "najaf",
+  "legacy_osm_missing_geometry_ids": [
+    6820205,
+    12756551,
+    12756587,
+    12756612,
+    12756616,
+    12756713,
+    12760806,
+    12766185
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "d2dd4eaf0cef61bd8dd37f03d3c98050efc3dd85118564a32c4ec87ac30f8af8",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "6a2e6c8ba384e2eb28baabbac75eb75d9355e7f6d3036bdadb2a5b9ae1464540",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Najaf/engineering/alignment/independent-landcover-samples.bin.gz": "e30ea5041424e4470eb67d7807099c64373d815858f7bfa926406bfd01a5ec22",
+    "cities/catalogue/west-asia/Iraq/Najaf/engineering/alignment/planning-grid.json": "55c93b2e8ce03b1563357456cdc24efddb48446a4e72294e0e44d52332a3f2f1",
+    "cities/catalogue/west-asia/Iraq/Najaf/engineering/alignment/planning-water-features.json.gz": "9f6f76727532a76bcea938230c8a5a0ef72458b536538e42f8783be370396761",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 306490,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "b2673345a4bf37b962ffddc1577bd15b01cd9a49d28652d0609a3a82bcd58151",
+      "native_window": [
+        26160,
+        10800,
+        3843,
+        3003
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E042_Map.tif",
+      "window_sha256": "c61db140d2f6d86c14a523b4a86fc4eb1bb04c96c7dc78b05d7131719e8edd7c"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 28.384551,
     "north": -15.311442,
@@ -6,6 +7,7 @@
     "west": 28.174551
   },
   "core_analytical_length_m": 185336.927972,
+  "core_final_route_length_m": 202463.69686,
   "core_original_length_m": 231319.783614,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22834.642123,
       "line": "line-1",
       "original_cells": 430,
       "original_route_m": 36457.127582,
-      "reworked_cells": 1108,
-      "reworked_route_m": 32206.882331
+      "reworked_cells": 1524,
+      "reworked_route_m": 33608.023074,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 19946.845584,
       "line": "line-2",
       "original_cells": 568,
       "original_route_m": 25170.632419,
-      "reworked_cells": 855,
-      "reworked_route_m": 21086.344611
+      "reworked_cells": 893,
+      "reworked_route_m": 21269.688296,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,11 +142,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23113.708499,
       "line": "line-3",
       "original_cells": 592,
       "original_route_m": 26454.658423,
-      "reworked_cells": 1033,
-      "reworked_route_m": 25249.036827
+      "reworked_cells": 1091,
+      "reworked_route_m": 25478.216434,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -177,11 +185,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 17725.281374,
       "line": "line-4",
       "original_cells": 523,
       "original_route_m": 22877.620578,
       "reworked_cells": 763,
-      "reworked_route_m": 17725.281374
+      "reworked_route_m": 17725.281374,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -218,11 +228,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 16071.614716,
       "line": "line-5",
       "original_cells": 414,
       "original_route_m": 26997.005119,
-      "reworked_cells": 845,
-      "reworked_route_m": 20289.507993
+      "reworked_cells": 983,
+      "reworked_route_m": 20410.437226,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -259,11 +271,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 23229.44443,
       "line": "line-6",
       "original_cells": 450,
       "original_route_m": 31008.165656,
-      "reworked_cells": 1061,
-      "reworked_route_m": 27622.592985
+      "reworked_cells": 1178,
+      "reworked_route_m": 27657.28281,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -300,11 +314,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 22804.490604,
       "line": "line-7",
       "original_cells": 417,
       "original_route_m": 27610.193159,
-      "reworked_cells": 984,
-      "reworked_route_m": 24659.925121
+      "reworked_cells": 1046,
+      "reworked_route_m": 24694.196231,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -723,21 +739,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 56737.66953,
       "line": "line-8",
       "original_cells": 405,
       "original_route_m": 69365.40604,
-      "reworked_cells": 2630,
-      "reworked_route_m": 67828.582437
+      "reworked_cells": 3161,
+      "reworked_route_m": 69247.518011,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Zambia/Lusaka/alignment-policy.toml": "668b47eaead2ae92efcbe2db777ee3396425d9a2babe3ecdb50587b405c9c976",
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/planning-buildability-mask.bin.gz": "6f1712b988848539642569ee02f6e22421c1f01afd15e3c60ecc4ff5f5ba5614",
     "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/planning-grid.json": "0dd331e8b255a3a8e29944330680e5fb80ee7175a06678962ac4a812bb8eb1b7",
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/planning-water-mask.bin.gz": "d2cbaaa84160b9371e44994c49b49b8b91a551cd60ad99586baeb6b467c74dfd",
     "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/pre-rework-corridors.json.gz": "ed1436423cca069d289112aae3a88956783ff35c28b2b1a549f7dc5157c98201",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Zambia/Lusaka/engineering/alignment/water-source-receipt.json": "f853df6053c0de8d2eec21d1a7e432cb223ffe2d8f55f5ee71e62ce22fd8a98d",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

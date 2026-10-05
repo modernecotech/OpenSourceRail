@@ -50,7 +50,7 @@ length_m        = 12781.8
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -119,6 +119,22 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 0.0
+to_station_m    = 591.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 591.1
+to_station_m    = 611.1
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 611.1
 to_station_m    = 3588.2
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -166,6 +182,17 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
+id              = "line-1-0536-0384-s001069"
+line            = "line-1"
+lat             = 33.528148151747466
+lon             = 35.3746959539195
+s_m             = 1068.7
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
+
+[[stations]]
 id              = "line-1-0446-0401-s003015"
 line            = "line-1"
 lat             = 33.54434510671993
@@ -207,6 +234,17 @@ s_m             = 0.0
 anchor_kind     = "amenity:hospital"
 archetype       = "terminal"
 platform_length_m = 49.0
+
+[[stations]]
+id              = "line-2-0536-0384-s001494"
+line            = "line-2"
+lat             = 33.528148151747466
+lon             = 35.3746959539195
+s_m             = 1494.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 49.0
+junction_group  = 0
 
 [[stations]]
 id              = "line-2-0587-0461-s003588"
@@ -259,20 +297,28 @@ anchor_name     = "Sibline Governmental Hospital"
 archetype       = "terminal"
 platform_length_m = 49.0
 
+[[interchanges]]
+id              = "interchange-000"
+junction_group  = 0
+lat             = 33.528148151747466
+lon             = 35.3746959539195
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0536-0384-s001069", "line-2-0536-0384-s001494"]
+
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
 station = "line-1-0055-0553-s012782"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 25
+storage_slots = 26
 storage_tracks = 9
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 1225.0
+storage_track_m = 1274.0
 workshop_bays = 4
 planning_land_area_m2 = 19567.0
-reference_cost_usd = 14760495
+reference_cost_usd = 14772745
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -356,14 +402,14 @@ station = "line-2-0499-0328-s000000"
 line = "line-2"
 archetype = "main-heavy"
 fleet_stalls = 2
-storage_slots = 9
-storage_tracks = 3
+storage_slots = 11
+storage_tracks = 4
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 441.0
+storage_track_m = 539.0
 workshop_bays = 2
-planning_land_area_m2 = 10649.0
-reference_cost_usd = 12729165
+planning_land_area_m2 = 11972.0
+reference_cost_usd = 12849970
 site_accepted = false
 physical_release = false
 
@@ -385,19 +431,19 @@ physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 22
+peak_count         = 23
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 25
+trainset_count     = 26
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 7
+peak_count         = 9
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 9
+trainset_count     = 11
 
 [[fleets]]
 line               = "line-3"
@@ -419,36 +465,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 16047770
 at_grade_eur         = 14763948
-elevated_usd         = 185389166
-elevated_eur         = 170558033
-bridge_usd           = 3836468
-bridge_eur           = 3529550
+elevated_usd         = 185194206
+elevated_eur         = 170378669
+bridge_usd           = 4196468
+bridge_eur           = 3860750
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 205273403
-civil_subtotal_eur   = 188851531
+civil_subtotal_usd   = 205438443
+civil_subtotal_eur   = 189003368
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 39600000
-stations_eur         = 36432000
+stations_usd         = 55600000
+stations_eur         = 51152000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 41367545
-depots_eur           = 38058141
+depots_usd           = 41500600
+depots_eur           = 38180552
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 30240000
-rolling_stock_eur    = 27820800
+rolling_stock_usd    = 31920000
+rolling_stock_eur    = 29366400
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1272087
 signalling_eur       = 1170320
-charging_microgrid_usd = 1050000
-charging_microgrid_eur = 966000
+charging_microgrid_usd = 1250000
+charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 22316213
-epc_overhead_eur     = 20530916
-total_usd            = 341119249  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 313829709  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 23588679
+epc_overhead_eur     = 21701585
+total_usd            = 360569810  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 331724225  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -463,7 +509,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 5508000
+fleet_core_electrical_usd = 5814000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

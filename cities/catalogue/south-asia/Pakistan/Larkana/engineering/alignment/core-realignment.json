@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 68.279548,
     "north": 27.618849,
@@ -6,6 +7,7 @@
     "west": 68.145388
   },
   "core_analytical_length_m": 24452.479418,
+  "core_final_route_length_m": 27001.303013,
   "core_original_length_m": 29347.935296,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -86,11 +88,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 18661.99277,
       "line": "line-1",
       "original_cells": 459,
       "original_route_m": 21809.008221,
-      "reworked_cells": 822,
-      "reworked_route_m": 21037.077232
+      "reworked_cells": 892,
+      "reworked_route_m": 21266.256839,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -127,21 +131,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8339.310242,
       "line": "line-2",
       "original_cells": 615,
       "original_route_m": 14417.341982,
       "reworked_cells": 580,
-      "reworked_route_m": 12814.356416
+      "reworked_route_m": 12814.356416,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Pakistan/Larkana/alignment-policy.toml": "76eacfe40e5acff442ae67aa59b03888b5f7f7ef75df422a819c38d7cc5eb92f",
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
     "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/planning-grid.json": "f8bf6e47fc56cc7395c269aec8baea0d66ff12ec69a46a0c03e439d87b64329a",
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/planning-water-mask.bin.gz": "63e9cefa76db8dc79c003f12d34e22ef7b3d6a0c926bcf3b32e914939340c715",
     "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/pre-rework-corridors.json.gz": "4998c7bb0408dcad778758b70bc205b84becfb26a541a3a2c7f5d75361be229c",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Pakistan/Larkana/engineering/alignment/water-source-receipt.json": "a7f24906b6af2e4e1c187beb73ba1e9b577ddcea919a83c52940f0b6971fd295",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

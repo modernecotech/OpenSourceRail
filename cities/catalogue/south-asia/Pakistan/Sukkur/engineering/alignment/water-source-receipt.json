@@ -1,0 +1,61 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "sukkur",
+  "legacy_osm_missing_geometry_ids": [
+    37047,
+    37049,
+    1125212,
+    1128289,
+    1129780,
+    1129866,
+    1129867,
+    1130799,
+    1130823,
+    1136382,
+    1136489,
+    3980879,
+    7102775,
+    12619386
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "4e43debad4238901ad9579ecbc13a314da432b07e0b3e090d135369eeb70eca9",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "022e009e913a7e5c8918376c251ff327c1cf25df528e0c2724a48bb174ca353d",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/independent-landcover-samples.bin.gz": "d1cfefaa5992d6505b137d4c3658dfb668aaf343e7d4cbd0b1f170a985edf9bb",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-grid.json": "f70d721bd8329a42a38b88015bdd2f8e4524c5f14beb48c9f47d9eb12bbda998",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/engineering/alignment/planning-water-features.json.gz": "9e4e025c66bf7aa93b030a1d8a55267892ed1b53ae4724e0da1d7e6d02a8f3ef",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 130642,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "3950c6b282cb4f735c94d86c1be8013521d609b47ba224ca538b40afba2812bf",
+      "native_window": [
+        32946,
+        26348,
+        2689,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N27E066_Map.tif",
+      "window_sha256": "75e76dbf203b1bf31a0fc2690f1669a0f2177b28f888c231217afb81ff2c6aa1"
+    }
+  ]
+}

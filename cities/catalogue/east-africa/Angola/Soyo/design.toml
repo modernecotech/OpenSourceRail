@@ -50,7 +50,7 @@ length_m        = 6915.8
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -68,11 +68,27 @@ length_m        = 10159.2
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 120
 
 [[civil_segments]]
 line            = "line-1"
 from_station_m  = 0.0
+to_station_m    = 2503.9
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2503.9
+to_station_m    = 2648.8
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2648.8
 to_station_m    = 6441.2
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -105,6 +121,22 @@ elevated_cost_multiplier = 1.000
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
+to_station_m    = 662.8
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 662.8
+to_station_m    = 682.8
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 682.8
 to_station_m    = 4073.6
 class           = "elevated"
 viaduct_product = "OSR-Pi25"
@@ -176,46 +208,45 @@ archetype = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-1-planning-infill-s001383"
+id = "line-1-planning-infill-s001561"
 line = "line-1"
-lat = -6.132526986253447
-lon = 12.335854092538607
-s_m = 1383.2
+lat = -6.133379318142102
+lon = 12.336890583171419
+s_m = 1560.8
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 1"
 archetype = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-1-planning-infill-s002766"
+id = "line-1-planning-infill-s003122"
 line = "line-1"
-lat = -6.139978438204277
-lon = 12.34387789907841
-s_m = 2766.3
+lat = -6.142086701428571
+lon = 12.345994724808024
+s_m = 3121.6
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 2"
 archetype = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-1-planning-infill-s004149"
+id = "line-1-planning-infill-s004682"
 line = "line-1"
-lat = -6.147780778732346
-lon = 12.352073322213785
-s_m = 4149.5
+lat = -6.15054173721957
+lon = 12.355199472954876
+s_m = 4682.4
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 3"
 archetype = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-1-planning-infill-s005533"
+id = "line-1-0510-0350-s006243"
 line = "line-1"
-lat = -6.155232230683174
-lon = 12.360097128753587
-s_m = 5532.6
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 4"
+lat = -6.15917272792715
+lon = 12.364234327023906
+s_m = 6243.2
+mandatory_crossing = true
 archetype = "interchange-elevated"
 platform_length_m = 49.0
 junction_group = 0
@@ -230,7 +261,7 @@ anchor_kind = "place:suburb"
 anchor_name = "Quindombele"
 archetype = "terminal"
 platform_length_m = 49.0
-junction_group = 1
+junction_group = 0
 
 [[stations]]
 id = "line-2-0593-0351-s000000"
@@ -242,27 +273,27 @@ anchor_kind = "place:suburb"
 anchor_name = "Quintambe"
 archetype = "terminal"
 platform_length_m = 49.0
+junction_group = 1
 
 [[stations]]
-id = "line-2-planning-infill-s001302"
+id = "line-2-0572-0374-s000681"
 line = "line-2"
-lat = -6.166867366703349
-lon = 12.37222908330343
-s_m = 1301.9
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 1"
+lat = -6.170330630241515
+lon = 12.368571056977041
+s_m = 680.8
+mandatory_crossing = true
 archetype = "interchange-elevated"
 platform_length_m = 49.0
 junction_group = 1
 
 [[stations]]
-id = "line-2-planning-infill-s002604"
+id = "line-2-planning-infill-s002293"
 line = "line-2"
-lat = -6.159918828395941
-lon = 12.379928630746516
-s_m = 2603.7
+lat = -6.161512288089839
+lon = 12.377989067847524
+s_m = 2293.2
 anchor_kind = "planning:infill"
-anchor_name = "Planning infill 2"
+anchor_name = "Planning infill 1"
 archetype = "standard"
 platform_length_m = 49.0
 
@@ -289,79 +320,55 @@ archetype = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-3-planning-infill-s001228"
+id = "line-3-0425-0318-s001989"
 line = "line-3"
-lat = -6.137931391314927
-lon = 12.356278304818362
-s_m = 1228.0
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 1"
+lat = -6.143875603786489
+lon = 12.358452020419726
+s_m = 1988.5
 archetype = "standard"
 platform_length_m = 49.0
 
 [[stations]]
-id = "line-3-planning-infill-s002456"
+id = "line-3-0510-0350-s003977"
 line = "line-3"
-lat = -6.147411558280645
-lon = 12.359833970871382
-s_m = 2455.9
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 2"
-archetype = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id = "line-3-0497-0346-s003684"
-line = "line-3"
-lat = -6.156833167764461
-lon = 12.363511538698383
-s_m = 3683.9
+lat = -6.15917272792715
+lon = 12.364234327023906
+s_m = 3977.1
+mandatory_crossing = true
 archetype = "interchange-elevated"
 platform_length_m = 49.0
 junction_group = 0
 
 [[stations]]
-id = "line-3-planning-infill-s004979"
+id = "line-3-0572-0374-s005439"
 line = "line-3"
-lat = -6.166842456839726
-lon = 12.367237081675995
-s_m = 4979.0
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 1"
+lat = -6.170330630241515
+lon = 12.368571056977041
+s_m = 5439.3
+mandatory_crossing = true
 archetype = "interchange-elevated"
 platform_length_m = 49.0
 junction_group = 1
 
 [[stations]]
-id = "line-3-planning-infill-s006274"
+id = "line-3-planning-infill-s007013"
 line = "line-3"
-lat = -6.176683743099051
-lon = 12.370739421953608
-s_m = 6274.0
+lat = -6.182111479531546
+lon = 12.368654442746907
+s_m = 7012.6
+anchor_kind = "planning:infill"
+anchor_name = "Planning infill 1"
+archetype = "standard"
+platform_length_m = 49.0
+
+[[stations]]
+id = "line-3-planning-infill-s008586"
+line = "line-3"
+lat = -6.19503567541842
+lon = 12.371642907360512
+s_m = 8585.9
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 2"
-archetype = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id = "line-3-planning-infill-s007569"
-line = "line-3"
-lat = -6.186649559065711
-lon = 12.36977770870195
-s_m = 7569.1
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 3"
-archetype = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id = "line-3-planning-infill-s008864"
-line = "line-3"
-lat = -6.197238232467782
-lon = 12.372365695686034
-s_m = 8864.1
-anchor_kind = "planning:infill"
-anchor_name = "Planning infill 4"
 archetype = "standard"
 platform_length_m = 49.0
 
@@ -379,18 +386,18 @@ platform_length_m = 49.0
 [[interchanges]]
 id = "interchange-000"
 junction_group = 0
-lat = -6.156032699223817
-lon = 12.361804333725985
+lat = -6.160432491091676
+lon = 12.365559438954032
 lines = ["line-1", "line-3"]
-platforms = ["line-1-planning-infill-s005533", "line-3-0497-0346-s003684"]
+platforms = ["line-1-0510-0350-s006243", "line-1-0531-0372-s006916", "line-3-0510-0350-s003977"]
 
 [[interchanges]]
 id = "interchange-001"
 junction_group = 1
-lat = -6.1655539469879335
-lon = 12.369225275931235
-lines = ["line-1", "line-2", "line-3"]
-platforms = ["line-1-0531-0372-s006916", "line-2-planning-infill-s001302", "line-3-planning-infill-s004979"]
+lat = -6.171590393406039
+lon = 12.367185712686457
+lines = ["line-2", "line-3"]
+platforms = ["line-2-0572-0374-s000681", "line-2-0593-0351-s000000", "line-3-0572-0374-s005439"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -473,20 +480,25 @@ id = "sw-line-3-0744-0445-s010159-yd-07"
 kit = "no-9-mainline"
 station = "line-3-0744-0445-s010159"
 side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-3-0744-0445-s010159-yd-08"
+kit = "no-9-mainline"
+station = "line-3-0744-0445-s010159"
+side = "yard-throat"
 
 [[depots]]
 station = "line-2-0593-0351-s000000"
 line = "line-2"
 archetype = "main-heavy"
 fleet_stalls = 2
-storage_slots = 10
+storage_slots = 12
 storage_tracks = 4
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 490.0
+storage_track_m = 588.0
 workshop_bays = 2
 planning_land_area_m2 = 11972.0
-reference_cost_usd = 12837720
+reference_cost_usd = 12862220
 site_accepted = false
 physical_release = false
 
@@ -516,11 +528,11 @@ trainset_count     = 15
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 8
+peak_count         = 10
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 10
+trainset_count     = 12
 
 [[fleets]]
 line               = "line-3"
@@ -542,36 +554,36 @@ usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 10057454
 at_grade_eur         = 9252857
-elevated_usd         = 165441101
-elevated_eur         = 152205813
-bridge_usd           = 2098234
-bridge_eur           = 1930375
+elevated_usd         = 163834115
+elevated_eur         = 150727386
+bridge_usd           = 5065584
+bridge_eur           = 4660338
 junction_premium_usd = 9000000  # $4.5 M per elevated interchange.
 junction_premium_eur = 8280000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 186596788
-civil_subtotal_eur   = 171669045
+civil_subtotal_usd   = 187957154
+civil_subtotal_eur   = 172920582
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 98000000
-stations_eur         = 90160000
+stations_usd         = 93000000
+stations_eur         = 85560000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 40351880
-depots_eur           = 37123730
+depots_usd           = 40376380
+depots_eur           = 37146270
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 25760000
-rolling_stock_eur    = 23699200
+rolling_stock_usd    = 26880000
+rolling_stock_eur    = 24729600
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1049029
 signalling_eur       = 965106
-charging_microgrid_usd = 4300000
-charging_microgrid_eur = 3956000
+charging_microgrid_usd = 3900000
+charging_microgrid_eur = 3588000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 24924039
-epc_overhead_eur     = 22930116
-total_usd            = 380981736  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 350503197  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 24721379
+epc_overhead_eur     = 22743669
+total_usd            = 377883941  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 347653226  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -586,7 +598,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 4692000
+fleet_core_electrical_usd = 4896000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

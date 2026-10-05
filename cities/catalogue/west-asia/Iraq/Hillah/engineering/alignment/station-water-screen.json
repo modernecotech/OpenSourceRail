@@ -1,6 +1,6 @@
 {
   "city": "hillah",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,6 +17,12 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 609,
+      "row": 486,
+      "station_id": "line-1-0486-0609-s004664",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 589,
       "row": 557,
       "station_id": "line-1-0557-0589-s006261",
@@ -29,21 +35,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 502,
-      "row": 869,
-      "station_id": "line-1-0869-0502-s013269",
+      "col": 500,
+      "row": 877,
+      "station_id": "line-1-0877-0500-s013457",
       "water_coverage_percent": 0
     },
     {
       "col": 482,
-      "row": 968,
-      "station_id": "line-1-0968-0482-s015373",
+      "row": 972,
+      "station_id": "line-1-0972-0482-s015682",
       "water_coverage_percent": 0
     },
     {
       "col": 471,
       "row": 1072,
-      "station_id": "line-1-1072-0471-s017505",
+      "station_id": "line-1-1072-0471-s017902",
       "water_coverage_percent": 0
     },
     {
@@ -53,39 +59,45 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 706,
-      "row": 155,
-      "station_id": "line-2-0155-0706-s003489",
+      "col": 699,
+      "row": 148,
+      "station_id": "line-2-0148-0699-s003493",
       "water_coverage_percent": 0
     },
     {
-      "col": 625,
-      "row": 269,
-      "station_id": "line-2-0269-0625-s007008",
+      "col": 639,
+      "row": 237,
+      "station_id": "line-2-0237-0639-s007004",
       "water_coverage_percent": 0
     },
     {
-      "col": 570,
-      "row": 394,
-      "station_id": "line-2-0394-0570-s010022",
+      "col": 584,
+      "row": 362,
+      "station_id": "line-2-0362-0584-s010007",
       "water_coverage_percent": 0
     },
     {
-      "col": 515,
-      "row": 519,
-      "station_id": "line-2-0519-0515-s013037",
+      "col": 548,
+      "row": 444,
+      "station_id": "line-2-0444-0548-s011992",
       "water_coverage_percent": 0
     },
     {
-      "col": 478,
-      "row": 604,
-      "station_id": "line-2-0604-0478-s015055",
+      "col": 512,
+      "row": 527,
+      "station_id": "line-2-0527-0512-s013985",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 477,
+      "row": 607,
+      "station_id": "line-2-0607-0477-s015899",
       "water_coverage_percent": 0
     },
     {
       "col": 442,
       "row": 687,
-      "station_id": "line-2-0687-0442-s017060",
+      "station_id": "line-2-0687-0442-s017824",
       "water_coverage_percent": 0
     },
     {
@@ -95,50 +107,58 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 214,
-      "row": 646,
-      "station_id": "line-3-0646-0214-s003517",
+      "col": 197,
+      "row": 647,
+      "station_id": "line-3-0647-0197-s003509",
       "water_coverage_percent": 0
     },
     {
-      "col": 360,
-      "row": 590,
-      "station_id": "line-3-0590-0360-s007019",
+      "col": 344,
+      "row": 597,
+      "station_id": "line-3-0597-0344-s007015",
       "water_coverage_percent": 0
     },
     {
-      "col": 487,
-      "row": 537,
-      "station_id": "line-3-0537-0487-s010045",
+      "col": 426,
+      "row": 562,
+      "station_id": "line-3-0562-0426-s009015",
       "water_coverage_percent": 0
     },
     {
-      "col": 596,
-      "row": 492,
-      "station_id": "line-3-0492-0596-s012598",
+      "col": 512,
+      "row": 527,
+      "station_id": "line-3-0527-0512-s011025",
       "water_coverage_percent": 0
     },
     {
-      "col": 702,
-      "row": 448,
-      "station_id": "line-3-0448-0702-s015153",
+      "col": 609,
+      "row": 486,
+      "station_id": "line-3-0486-0609-s013305",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 708,
+      "row": 445,
+      "station_id": "line-3-0445-0708-s015707",
       "water_coverage_percent": 0
     },
     {
       "col": 807,
       "row": 404,
-      "station_id": "line-3-0404-0807-s017723",
+      "station_id": "line-3-0404-0807-s018120",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 21,
-  "schema_version": 1,
+  "platforms_checked": 24,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Hillah/design.toml": "4a1a3601c48df363cbf2e8bff5a488feb5dd48a7639c0b6af230f56317d4e7fb",
+    "cities/catalogue/west-asia/Iraq/Hillah/design.toml": "251c71b46a98d972fe43354baec20b2b87f57503c160ed712d4793adb9866531",
     "cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/planning-grid.json": "653b7cba6ce56737b7253a16c55d621d79d5fcba36569ca0311bee77e26e59e9",
-    "cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/planning-water-mask.bin.gz": "d4580f6c0d30104b52b4b3a7007f4ad5597793f8a5780cc7b752edf56e79b181",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/planning-water-mask.bin.gz": "e5fe0697fe5e2d99f405ac698b993ea8d5fc7ba724a679a08dfe52a0721b38cc",
+    "cities/catalogue/west-asia/Iraq/Hillah/engineering/alignment/water-source-receipt.json": "0914f35c5b42e5617f7c5dcd83c5cc791b7e296cf6785e5ec60159d222411fd4",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "1ee82c5fbf0cac36e7031e32d4d9404a5946676bd8ea3d1db264641dfc627ca1",
+  "uncompressed_water_mask_sha256": "9098891bc4bfc0b17d0539f0e5ecf983be2ee40d987c4533b5b2c982834b671a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -1,6 +1,6 @@
 {
   "city": "qena",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,15 +11,21 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 583,
+      "row": 401,
+      "station_id": "line-1-0401-0583-s003078",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 511,
       "row": 459,
       "station_id": "line-1-0459-0511-s005140",
       "water_coverage_percent": 0
     },
     {
-      "col": 421,
-      "row": 531,
-      "station_id": "line-1-0531-0421-s007712",
+      "col": 386,
+      "row": 559,
+      "station_id": "line-1-0559-0386-s008726",
       "water_coverage_percent": 0
     },
     {
@@ -55,13 +61,19 @@
     {
       "col": 887,
       "row": 949,
-      "station_id": "line-2-0949-0887-s017943",
+      "station_id": "line-2-0949-0887-s018371",
       "water_coverage_percent": 0
     },
     {
       "col": 507,
       "row": 527,
       "station_id": "line-3-0527-0507-s000000",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 583,
+      "row": 401,
+      "station_id": "line-3-0401-0583-s003267",
       "water_coverage_percent": 0
     },
     {
@@ -77,14 +89,16 @@
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 12,
-  "schema_version": 1,
+  "platforms_checked": 14,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Qena/design.toml": "0cb06050e56fa06b81062f6f2749d973b07d66842c22051af1e9a25ba2b82331",
+    "cities/catalogue/west-asia/Egypt/Qena/design.toml": "4566c22b231413be878740c38b6bc8dc548b1dd5cf13ab5a47d2590ed928227e",
     "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-grid.json": "b6d06fd9103fe355a0d4d74cdbbae4ba06928f10d1670f6dc1f4a5cfd280610d",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-water-mask.bin.gz": "7899041c72a11ac94cc314f9a88d16ad0b5c0d674014e1561c0566ed751eaaa9",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-water-mask.bin.gz": "e512d62d95544c312c87d08ee55ef143b2bdc0fd43d41c60683c61ed29d3398c",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/water-source-receipt.json": "0db9a60408fbe776a40d76e352af257f07ca511cf88a41af5b0b01b47d3b1049",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "091125734d60f95daa10af9b893764f8a95593cb0d859184faac74944c38088a",
+  "uncompressed_water_mask_sha256": "acc4f789fe170a12ae0a9471e90438214b22f627faee9fdca7c0182546fabb4a",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

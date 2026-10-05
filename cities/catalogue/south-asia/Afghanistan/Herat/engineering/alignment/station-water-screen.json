@@ -1,6 +1,6 @@
 {
   "city": "herat",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -11,15 +11,21 @@
       "water_coverage_percent": 0
     },
     {
+      "col": 692,
+      "row": 458,
+      "station_id": "line-1-0458-0692-s001127",
+      "water_coverage_percent": 0
+    },
+    {
       "col": 631,
       "row": 516,
       "station_id": "line-1-0516-0631-s003003",
       "water_coverage_percent": 0
     },
     {
-      "col": 534,
-      "row": 609,
-      "station_id": "line-1-0609-0534-s006018",
+      "col": 521,
+      "row": 621,
+      "station_id": "line-1-0621-0521-s006401",
       "water_coverage_percent": 0
     },
     {
@@ -35,9 +41,9 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 512,
-      "row": 613,
-      "station_id": "line-2-0613-0512-s003018",
+      "col": 521,
+      "row": 621,
+      "station_id": "line-2-0621-0521-s002749",
       "water_coverage_percent": 0
     },
     {
@@ -65,38 +71,52 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 463,
-      "row": 410,
-      "station_id": "line-3-0410-0463-s006985",
+      "col": 298,
+      "row": 374,
+      "station_id": "line-3-0374-0298-s003498",
       "water_coverage_percent": 0
     },
     {
-      "col": 601,
-      "row": 439,
-      "station_id": "line-3-0439-0601-s009986",
+      "col": 459,
+      "row": 409,
+      "station_id": "line-3-0409-0459-s007019",
       "water_coverage_percent": 0
     },
     {
-      "col": 835,
-      "row": 489,
-      "station_id": "line-3-0489-0835-s015092",
+      "col": 597,
+      "row": 438,
+      "station_id": "line-3-0438-0597-s010020",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 692,
+      "row": 458,
+      "station_id": "line-3-0458-0692-s012085",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 887,
+      "row": 506,
+      "station_id": "line-3-0506-0887-s016395",
       "water_coverage_percent": 0
     },
     {
       "col": 1078,
       "row": 486,
-      "station_id": "line-3-0486-1078-s020209",
+      "station_id": "line-3-0486-1078-s020683",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 14,
-  "schema_version": 1,
+  "platforms_checked": 17,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/south-asia/Afghanistan/Herat/design.toml": "6fc356cb03f03456af4da9ab9d127a875479ea43230da5bc6463999a1c612892",
+    "cities/catalogue/south-asia/Afghanistan/Herat/design.toml": "881eaa19208c705c7735e21a6e4659fb21e81e9db29aba3b85274375b0be12a7",
     "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-grid.json": "d7d537fbcbd422b2f1aba7f3644c16b0422ad0c6eb8eccaa2efd0a2962295f11",
-    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-water-mask.bin.gz": "c4d4752ec1b3d012009a18f2458f13104a5fdcb8a69438e874eb20255f13395c",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/planning-water-mask.bin.gz": "37bafc6a11053aa582b95676e539c88d9a7717d0a8b32dff8f22b79333433d22",
+    "cities/catalogue/south-asia/Afghanistan/Herat/engineering/alignment/water-source-receipt.json": "a788804730f986f169ad0b454d7f3b78032d02dd23f007e0140e85d5064d9373",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "4ce1a69871f5849f51f957518654e7d60bd5d480da77d88e1047a7bd62c0cf18",
+  "uncompressed_water_mask_sha256": "eba7f22e997e135946d8198c75f2d2bfeb08831edf25af5b7f359656abb93aad",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

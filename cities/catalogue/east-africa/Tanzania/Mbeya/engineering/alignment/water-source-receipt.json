@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mbeya",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "de44d5f17dc952107ccff9fdc493374fe332eade425b2a21c2b5a13269328bde",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "cfe636c8d833f17b0af5dbd599876152b9985a4c99d5c8f417ddd19bf1015daf",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Mbeya/engineering/alignment/independent-landcover-samples.bin.gz": "ca1fb058afd23d037cae484d8ea167bba1b9d867eb5a532ff6f805211f7785b7",
+    "cities/catalogue/east-africa/Tanzania/Mbeya/engineering/alignment/planning-grid.json": "e14b7ee4c2f353ef9480c0e9800cdd82c2c9eb282d493a2db2c6a43111e60b47",
+    "cities/catalogue/east-africa/Tanzania/Mbeya/engineering/alignment/planning-water-features.json.gz": "8cd9db661eb282c725ce32ceef97e5d331e9a3713895dd3eb3991c41ad16932a",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 5436,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ca59dd3bd4263034bba8ef04e3e7f01395635ea72893eaad602d4a2b504b2f74",
+      "native_window": [
+        4326,
+        0,
+        2410,
+        105
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S12E033_Map.tif",
+      "window_sha256": "2d5085e27fe51d60668b32523d85ecf2fb3de0f3177076485a96e4230eac6690"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "e2bbcaf9edc57e8cffee23511e5cd11e6ec5b9ef94a0fe399ea13dacff0fcfe8",
+      "native_window": [
+        4326,
+        33723,
+        2410,
+        2277
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S09E033_Map.tif",
+      "window_sha256": "85dbce000702785dbdbc607a2367fc17401178bc74c975afb1306b5904849ee7"
+    }
+  ]
+}

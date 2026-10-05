@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 80.085445,
     "north": 9.724228,
@@ -6,6 +7,7 @@
     "west": 79.964845
   },
   "core_analytical_length_m": 32719.912321,
+  "core_final_route_length_m": 35480.125522,
   "core_original_length_m": 41479.769647,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 8442.842712,
       "line": "line-1",
       "original_cells": 606,
       "original_route_m": 13831.412691,
       "reworked_cells": 532,
-      "reworked_route_m": 10992.792206
+      "reworked_route_m": 10992.792206,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15183.372286,
       "line": "line-2",
       "original_cells": 487,
       "original_route_m": 21438.385072,
-      "reworked_cells": 754,
-      "reworked_route_m": 19255.595197
+      "reworked_cells": 884,
+      "reworked_route_m": 19805.626253,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11853.910524,
       "line": "line-3",
       "original_cells": 689,
       "original_route_m": 17052.287143,
       "reworked_cells": 653,
-      "reworked_route_m": 16005.769107
+      "reworked_route_m": 16005.769107,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/Sri Lanka/Jaffna/alignment-policy.toml": "9b1bbe6e8bd8574d9b8ff1b8011c4c3b2817145c89474c125305299990a240b7",
+    "cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/planning-buildability-mask.bin.gz": "230f8ad8544836af685e1827163c8ad1936f7667a072a3051cbaa3de188ec51a",
     "cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/planning-grid.json": "74c964ba954868437173b72d0df31fe7f7ded2df3242f57ec25ae749bd9d8411",
+    "cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/planning-water-mask.bin.gz": "addf7270d032ecdeb3115c1c2e1c3a4f380b127216fdb7288b3c3ac4d776c4b1",
     "cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/pre-rework-corridors.json.gz": "2cfdc435da58bda9a5118c828fda036368a91b07ee93a90778582380c755a78a",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/alignment/water-source-receipt.json": "f42967b76a8ff06d493c91d81901970ba811581bc1451b3592274b838aa23628",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

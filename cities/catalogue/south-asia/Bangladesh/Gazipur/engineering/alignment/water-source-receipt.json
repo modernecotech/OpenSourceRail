@@ -1,0 +1,72 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "gazipur",
+  "legacy_osm_missing_geometry_ids": [
+    3400205,
+    5341995,
+    8923452,
+    9761597,
+    13434589,
+    13434590,
+    13434591,
+    14509079,
+    18545806
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "561cc10aaa69d75449d97ba832622cbea72f289a9c1e5e9bb085254df67778b0",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "90afee1c3e143701bcaa4d3a49ec76cdda0a3c33b8a7148b684570d8df7caed3",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/independent-landcover-samples.bin.gz": "98d6a9a2c0ff4239fa4ac0001fe0c2911b40c755753f8b097a2c344d25224c9b",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/planning-grid.json": "2e2bfb05444b421afdef1a394c59eb09bbc2b367e027376565e7ffad925ae47f",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/planning-water-features.json.gz": "b1006e8d306b9fef09f6c41597f67645ea9872adb07b6739de98a5086a2bb263",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 95483,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "29a2d31b7f8d1a66c0910aa78b4dc3d7d26379f15e34c9fd3907aee0d32da9ee",
+      "native_window": [
+        3150,
+        0,
+        3790,
+        1733
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E090_Map.tif",
+      "window_sha256": "28b388a2b819a3415ef4dfea777dda0a798f1a51782b62b8f2434c14b26bcc8e"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "df5e6544bc5b096c1c9f40d107410a7ae83d3c8c31ebabaf817a000d261a4924",
+      "native_window": [
+        3150,
+        34272,
+        3790,
+        1728
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N24E090_Map.tif",
+      "window_sha256": "55d4fb8e93ca5192955b020cc26876fffb5138a75d0ad868b030ed4e540ff7a1"
+    }
+  ]
+}

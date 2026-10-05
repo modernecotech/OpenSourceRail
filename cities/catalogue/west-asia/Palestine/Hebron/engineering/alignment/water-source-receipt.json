@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "hebron",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "63665291f308b624a2522babd1ac99279ea7d017536f5f586f7fbac528a3f732",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "795dec09d60b585d070834b917678c105604b12dfe24917b61b37ce4c7ef3456",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/independent-landcover-samples.bin.gz": "db93dff84709cc5d3a92be69f2dfd72777faeb6dc5292e3565ff0e739da436eb",
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/planning-grid.json": "ef93e1d47bfc81175de10fc88a7e3b4ac085e3c958029b1a3a93ab45b556c996",
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/planning-water-features.json.gz": "a05d87c0c8005e4104a5a1863da4c9bf55c0b1cba61eb1f8f8034f06256197ce",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 54,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "ebf8b8bde6240429c9246abc936f17a5219699f8315057410480f7ea89b59bae",
+      "native_window": [
+        23802,
+        16419,
+        2794,
+        2382
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30E033_Map.tif",
+      "window_sha256": "eeed34d6226ffe04c2c90c04e3d8a72cc4509e88d60c48c7444693933da4f0b4"
+    }
+  ]
+}

@@ -104,6 +104,10 @@ impl Grid {
     #[must_use]
     pub fn is_buildable(&self, row: usize, col: usize) -> bool {
         self.buildability[self.idx(row, col)] != 0
+            && self
+                .water
+                .as_ref()
+                .is_none_or(|values| values[self.idx(row, col)] != 255)
     }
 
     #[inline]
@@ -123,7 +127,7 @@ impl Grid {
     #[inline]
     #[must_use]
     pub fn excludes_station_for_water(&self, row: usize, col: usize) -> bool {
-        self.water_coverage_percent_at(row, col) >= 50.0
+        self.water_coverage_percent_at(row, col) > 0.0
     }
 
     #[inline]
@@ -325,7 +329,7 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
         matches!(value, 0 | 1)
     })?;
     if let Some(values) = &water {
-        validate_values("water", values, |value| *value <= 100)?;
+        validate_values("water", values, |value| *value <= 100 || *value == 255)?;
     }
     if let Some(values) = &elevation_m {
         validate_values("elevation", values, |value| value.is_finite())?;
@@ -602,6 +606,11 @@ mod tests {
         let bundle = load_bundle(&sidecar, "test").unwrap();
         assert_eq!(bundle.grid.cost, vec![8.0]);
         assert_eq!(bundle.grid.water, Some(vec![25]));
+
+        let unknown = write_bundle(root.path(), "declared.cost", 8.0, 255);
+        let unknown = load_bundle(&unknown, "test").unwrap();
+        assert!(!unknown.grid.is_buildable(0, 0));
+        assert!(unknown.grid.excludes_station_for_water(0, 0));
 
         let sidecar = write_bundle(root.path(), "../outside", 8.0, 25);
         assert!(matches!(

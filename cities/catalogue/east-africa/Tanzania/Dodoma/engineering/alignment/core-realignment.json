@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 35.813006,
     "north": -6.104411,
@@ -6,6 +7,7 @@
     "west": 35.693366
   },
   "core_analytical_length_m": 33318.118019,
+  "core_final_route_length_m": 36250.075016,
   "core_original_length_m": 44390.25971,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12932.447327,
       "line": "line-1",
       "original_cells": 723,
       "original_route_m": 16497.930727,
       "reworked_cells": 613,
-      "reworked_route_m": 12960.731599
+      "reworked_route_m": 12960.731599,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 12489.057711,
       "line": "line-2",
       "original_cells": 737,
       "original_route_m": 17586.357852,
       "reworked_cells": 611,
-      "reworked_route_m": 14602.438662
+      "reworked_route_m": 14602.438662,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 10828.569978,
       "line": "line-3",
       "original_cells": 736,
       "original_route_m": 18166.256839,
       "reworked_cells": 678,
-      "reworked_route_m": 16547.190463
+      "reworked_route_m": 16547.190463,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Dodoma/alignment-policy.toml": "3609bfb88961fa2f7edf34fede54406f0d1115de83bab71a29d316cdba28df9a",
+    "cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
     "cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/planning-grid.json": "6911c9f2a9423856b0b60d84855dbf2471c12c692eb57fb8f7c54558aef53859",
+    "cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/planning-water-mask.bin.gz": "19a33f35a97474a517a11fe1bbd600df2def27ace64d0b62b965f34c3428d8e4",
     "cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/pre-rework-corridors.json.gz": "652aad53c87503ef8d72f305d2672074f915f3caf959997e0cfdced89936c437",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/east-africa/Tanzania/Dodoma/engineering/alignment/water-source-receipt.json": "c70bc2b913ee0e063d2b62fd04256beac342d28c4090c1507e7fda34bb68c608",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -9,4 +9,4 @@ Reference rates are shared USD-equivalent targets, not local installed quotation
 |---|---:|---:|---:|---:|
 | line-1 | 49.5 | 29 | 4 | 15.449 |
 | line-2 | 49.5 | 27 | 4 | 15.313 |
-| line-3 | 49.5 | 59 | 9 | 20.560 |
+| line-3 | 49.5 | 62 | 9 | 20.711 |

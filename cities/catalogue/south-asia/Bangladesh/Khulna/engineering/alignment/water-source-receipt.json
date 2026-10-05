@@ -1,0 +1,64 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "khulna",
+  "legacy_osm_missing_geometry_ids": [
+    1451056,
+    1964093,
+    4112827,
+    4117252,
+    4117301,
+    4117415,
+    4117435,
+    4127001,
+    4198758,
+    4198759,
+    4215746,
+    4731789,
+    5227754,
+    5301459,
+    7511351,
+    7870843,
+    12427786
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "8b491cc48f98e93d45f83adf0b9e76c2c9c81cc32c02550c0dd04e54eeda5052",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "56d9a80758698ebf87527ceb7770ff58c45158e9f8dda017e7709b30330c6376",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/independent-landcover-samples.bin.gz": "88dde827fa49716d307baad435512daf1146331da374181a8f861d562a3142de",
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/planning-grid.json": "b280f94df6a39d14cd9312a0c052754fd75f68f261a27fafd099e9503038b4f3",
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/planning-water-features.json.gz": "e6376eb6a649da64d80cee96b7fc75a907b7bceb7c282490259a451e7163f5de",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 226982,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "a652fbd8e327ceb600d309f1934223a8d95d7ab0902dbc524c830aba9587b160",
+      "native_window": [
+        28606,
+        12123,
+        3757,
+        3462
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N21E087_Map.tif",
+      "window_sha256": "eba895f01d7fe538b4166720d8bd56358f268337974848298410c4b68edd687d"
+    }
+  ]
+}

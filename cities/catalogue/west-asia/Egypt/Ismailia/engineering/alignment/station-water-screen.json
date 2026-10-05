@@ -1,6 +1,6 @@
 {
   "city": "ismailia",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -17,15 +17,21 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 597,
-      "row": 508,
-      "station_id": "line-1-0508-0597-s005841",
+      "col": 601,
+      "row": 510,
+      "station_id": "line-1-0510-0601-s005744",
       "water_coverage_percent": 0
     },
     {
-      "col": 474,
-      "row": 462,
-      "station_id": "line-1-0462-0474-s008705",
+      "col": 564,
+      "row": 496,
+      "station_id": "line-1-0496-0564-s006600",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 458,
+      "row": 456,
+      "station_id": "line-1-0456-0458-s009087",
       "water_coverage_percent": 0
     },
     {
@@ -35,51 +41,57 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 919,
+      "col": 920,
       "row": 179,
-      "station_id": "line-2-0179-0919-s000000",
+      "station_id": "line-2-0179-0920-s000000",
       "water_coverage_percent": 0
     },
     {
-      "col": 804,
-      "row": 212,
-      "station_id": "line-2-0212-0804-s003529",
+      "col": 822,
+      "row": 207,
+      "station_id": "line-2-0207-0822-s003513",
       "water_coverage_percent": 0
     },
     {
-      "col": 716,
-      "row": 341,
-      "station_id": "line-2-0341-0716-s007022",
+      "col": 729,
+      "row": 322,
+      "station_id": "line-2-0322-0729-s007010",
       "water_coverage_percent": 0
     },
     {
-      "col": 642,
-      "row": 449,
-      "station_id": "line-2-0449-0642-s009947",
+      "col": 653,
+      "row": 433,
+      "station_id": "line-2-0433-0653-s010012",
       "water_coverage_percent": 0
     },
     {
-      "col": 571,
-      "row": 553,
-      "station_id": "line-2-0553-0571-s012721",
+      "col": 601,
+      "row": 510,
+      "station_id": "line-2-0510-0601-s012065",
       "water_coverage_percent": 0
     },
     {
-      "col": 521,
-      "row": 627,
-      "station_id": "line-2-0627-0521-s014732",
+      "col": 576,
+      "row": 546,
+      "station_id": "line-2-0546-0576-s013039",
       "water_coverage_percent": 0
     },
     {
-      "col": 470,
-      "row": 703,
-      "station_id": "line-2-0703-0470-s016757",
+      "col": 520,
+      "row": 629,
+      "station_id": "line-2-0629-0520-s015280",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 502,
+      "row": 655,
+      "station_id": "line-2-0655-0502-s015972",
       "water_coverage_percent": 0
     },
     {
       "col": 419,
       "row": 777,
-      "station_id": "line-2-0777-0419-s018788",
+      "station_id": "line-2-0777-0419-s019288",
       "water_coverage_percent": 0
     },
     {
@@ -89,32 +101,52 @@
       "water_coverage_percent": 0
     },
     {
-      "col": 602,
-      "row": 654,
-      "station_id": "line-3-0654-0602-s003327",
+      "col": 578,
+      "row": 698,
+      "station_id": "line-3-0698-0578-s003009",
       "water_coverage_percent": 0
     },
     {
-      "col": 569,
-      "row": 517,
-      "station_id": "line-3-0517-0569-s006340",
+      "col": 502,
+      "row": 655,
+      "station_id": "line-3-0655-0502-s004885",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 520,
+      "row": 629,
+      "station_id": "line-3-0629-0520-s005904",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 576,
+      "row": 546,
+      "station_id": "line-3-0546-0576-s008705",
+      "water_coverage_percent": 0
+    },
+    {
+      "col": 564,
+      "row": 496,
+      "station_id": "line-3-0496-0564-s009805",
       "water_coverage_percent": 0
     },
     {
       "col": 543,
       "row": 411,
-      "station_id": "line-3-0411-0543-s008675",
+      "station_id": "line-3-0411-0543-s011679",
       "water_coverage_percent": 0
     }
   ],
-  "platforms_checked": 17,
-  "schema_version": 1,
+  "platforms_checked": 22,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Ismailia/design.toml": "a58215383aa821c524a5dd68b6c0f1a16f252d71d1f52354f7cb4deddc70c1af",
+    "cities/catalogue/west-asia/Egypt/Ismailia/design.toml": "bf32e88fd12b99737951627621565dd6a46eff68d791a6ef6871dcb545decfb5",
     "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-grid.json": "bce7a967b911fa78d8031ae803c15905b3f99a4e8ebde6a0dbb7a6fdbf4cffc1",
-    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-water-mask.bin.gz": "f0b20351e353220077d6cc40e08f97e795518d3110601d078a34d0b55b6c18a7",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/planning-water-mask.bin.gz": "099f1993764ad0cfac39c6d5fab4ce233049b7f6b1a7e639560cbd81d36b5efc",
+    "cities/catalogue/west-asia/Egypt/Ismailia/engineering/alignment/water-source-receipt.json": "69d46cb19d1288b8b34b510fa3a0fed3a070340c43d200e0f887579b382e4ef5",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "86386bc2e7f6ec1599be329a7308404b2d2a760f1228ed259fb48edd60a25cd4",
+  "uncompressed_water_mask_sha256": "3257f3f492880637d8d4fc00d0a2ac99e9875b9305b4e0a210be91c5798fc796",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

@@ -1,0 +1,53 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "kirkuk",
+  "legacy_osm_missing_geometry_ids": [
+    6524116,
+    8525249,
+    9636002,
+    11834847,
+    16302248,
+    16564888
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "27fecd6892fe47fc0353d9d8c164a178ccfa624ee47aff78f2bc6425b4a90987",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "705db3fdf75c22cb3cb076457ec280a6111ccac043ca39eb2d270a7463218c2a",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/alignment/independent-landcover-samples.bin.gz": "2fc77347891c5318e6741bdc80ae2e0681893d1524c02edf0f5f11f9affc2472",
+    "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/alignment/planning-grid.json": "ec3353879d1078e271ea6e82ff1edfe09ee58e44a0d040b59598e279602243fe",
+    "cities/catalogue/west-asia/Iraq/Kirkuk/engineering/alignment/planning-water-features.json.gz": "92c160085eed90e101179ea2d9e3003e4d461d1ddad6ee2c7c6fb9e161a87752",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 23070,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "1a95e75fbc6c749849ffe3241180709a8ad9455603ceba1527b3491a6e4d8fb4",
+      "native_window": [
+        26640,
+        4800,
+        3963,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E042_Map.tif",
+      "window_sha256": "d2285ee7516c3e00828395c21808c5a83e7da40421ab0ee03e6cc68e55ec98b9"
+    }
+  ]
+}

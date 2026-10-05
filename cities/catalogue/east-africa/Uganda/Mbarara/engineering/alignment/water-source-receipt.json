@@ -1,0 +1,46 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "mbarara",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "ee543509ca8b637a9cd3918356591064b7e1a6ffa86ecd0fe78de9fc5f3d6fd0",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "fbd44ee24ed26ad8a25cbecb1e7ba191b3cd2e9c5c8342556fa2d118367451f1",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/independent-landcover-samples.bin.gz": "09b64ce2a608b0fa8c08cee1d551fa471733aa0c13b9bb64ca945c046e5bdd77",
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/planning-grid.json": "c41a94df9c48bd0244b456716198bf6259e4b3a6da29808d3d236ffef08edd5b",
+    "cities/catalogue/east-africa/Uganda/Mbarara/engineering/alignment/planning-water-features.json.gz": "e45efd7c7ac0ba9e1d8e35c29ef73f1e59da437d4bf0286dafcee3a15d457c76",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 2396,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "69734c1e0cb6298f0277136d4233042fad30c3d76a03f2c525c6dfad9a53e69d",
+      "native_window": [
+        6664,
+        6097,
+        2382,
+        2381
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S03E030_Map.tif",
+      "window_sha256": "13c8bb9e0e750872dbeae29f8abf70dd13433ea5dd4dc9ac91b6d98d93235ecd"
+    }
+  ]
+}

@@ -234,9 +234,11 @@ resolutions; aggregate water coverage cannot permit a station site. The map
 does not call a public tile service, so a revision or test cannot drift with a
 remote basemap. The Samawah bundle includes source-locked NASA/NGA SRTM
 elevation from the AWS Open Data Terrain Tiles service, derived terrain slope,
-and an independent OSM water-coverage mask. These drive visible likely
+and a retained water mask combining OSM geometry with independently sampled
+ESA WorldCover 2021 permanent-water classes. The source receipt retains the
+actual source tiles, grid samples and hashes. These drive visible likely
 bridge/viaduct segments, warn on steep station sites, and prohibit a station in
-a predominantly-water cell. Deployment teams may add survey, parcel, utility
+any cell with detected water or unknown coverage. Deployment teams may add survey, parcel, utility
 or licensed local basemap extracts to the same locked project workflow; the
 included DEM, place anchors and planning surfaces are not survey evidence or a
 final vertical alignment.

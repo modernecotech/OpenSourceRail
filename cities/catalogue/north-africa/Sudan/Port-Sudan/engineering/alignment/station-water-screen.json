@@ -1,6 +1,6 @@
 {
   "city": "port-sudan",
-  "method": "Platform point must be in a cell with less than 50% independent OSM water coverage; footprint, bank stability and access require project verification.",
+  "method": "Platform cell must have known land-cover coverage and no independently detected permanent water; OSM river/polygon evidence supplements the mask. Footprints, bank stability and access require project verification.",
   "passed": true,
   "physical_release": false,
   "platforms": [
@@ -72,13 +72,15 @@
     }
   ],
   "platforms_checked": 11,
-  "schema_version": 1,
+  "schema_version": 2,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/design.toml": "2db32395d4d3987d3cf824ae6245759a1de04120690793976ba2efe8d25ebd13",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/design.toml": "fe27a34f0eccfd542334cd5980c5a658454a1d841536fe5e5be02d9077797c2d",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-grid.json": "c728bf02eba1e4415cf35f5a3ca69410e6f3c90c8e60bca29c7bdaf82f8f43ea",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-water-mask.bin.gz": "53ed669ce5f42d15cc9873fcfe945798c54f4494c8742105b0eb57e1908fbf42",
-    "tools/automation/generate-station-water-screen.py": "2665ad7cbfdd1897f342f7d5aa7b1784137d48d2838de99a2031336d41095f59"
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-water-mask.bin.gz": "8e7e9d06dd98410ad7a5c3f1208d924cb30f3fd048ce9d101932dc7ab2c2644e",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/water-source-receipt.json": "e05649c4f990181676fbdbf740eb059c6fde2404a79ca90b55862412e15cd67c",
+    "tools/automation/generate-station-water-screen.py": "df6f267d196501ce6de8be3d36d2429495fd77e0f4bb7d26f08a2e602b2f15f0"
   },
-  "uncompressed_water_mask_sha256": "b0a729ea5c35ad1ec156328bc2a435c2c1d41680205f78818655b829980e08ba",
+  "uncompressed_water_mask_sha256": "c845a6f82fdb974360cef4e58c901aaf054a2cc59c4a657994cedf5f132ed075",
+  "unknown_platforms": [],
   "wet_platforms": []
 }

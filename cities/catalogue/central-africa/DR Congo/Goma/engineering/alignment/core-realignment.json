@@ -1,4 +1,5 @@
 {
+  "analytical_length_basis": "Pre-water-constraint concept; final route quantities use core_final_route_length_m and actual corridor geometry.",
   "core": {
     "east": 29.283185,
     "north": -1.618452,
@@ -6,6 +7,7 @@
     "west": 29.164265
   },
   "core_analytical_length_m": 36863.702427,
+  "core_final_route_length_m": 39994.582951,
   "core_original_length_m": 52172.111587,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -54,11 +56,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 15410.378054,
       "line": "line-1",
       "original_cells": 478,
       "original_route_m": 22062.071387,
-      "reworked_cells": 704,
-      "reworked_route_m": 18793.18309
+      "reworked_cells": 817,
+      "reworked_route_m": 19434.885989,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -95,11 +99,13 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 13189.402589,
       "line": "line-2",
       "original_cells": 431,
       "original_route_m": 19228.572018,
-      "reworked_cells": 626,
-      "reworked_route_m": 15718.106271
+      "reworked_cells": 705,
+      "reworked_route_m": 16084.793642,
+      "water_route_changes": []
     },
     {
       "core_runs": [
@@ -136,21 +142,27 @@
           "simplification_tolerance_m": 600.0
         }
       ],
+      "final_core_route_m": 11394.802307,
       "line": "line-3",
       "original_cells": 712,
       "original_route_m": 16812.9769,
       "reworked_cells": 555,
-      "reworked_route_m": 11394.802307
+      "reworked_route_m": 11394.802307,
+      "water_route_changes": []
     }
   ],
-  "schema_version": 2,
+  "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/central-africa/DR Congo/Goma/alignment-policy.toml": "d6d72b9f8f1b636c7a7132c7575152925a9bd454a307c1a8a9fad7d1c98d9622",
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-buildability-mask.bin.gz": "52951b07e7f72ab20099574f805e66e673843a2c34ada91d029ceb5de42f7c00",
     "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-grid.json": "9727af0a7d903a37d7e85509eefa234cd737dc06504034074a3704e2707cce24",
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/planning-water-mask.bin.gz": "441b2e92f061722013f4de112cce7105068ad37e6a37f2dde605b9ca8117c740",
     "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/pre-rework-corridors.json.gz": "6dde2cb7d280f7a42e829c1c0be8af14411123071e449401c41be7517fca1f9b",
-    "lib/templates/city-core-alignment.toml": "8be8488fbb144abb60bd2d77ab38a8a45d00c8220b78f18d10084329c872c1cc",
-    "tools/automation/rework-baghdad-alignment.py": "a52741c0a9adf99def8c5b010a5783b0508e4c0db6fee88b8a5c3a108fd93296",
-    "tools/automation/rework-city-alignment.py": "f2ac50f12915f9e815e3e43ac342c57c6c55cbff8bfdc49568498f7fdbaee02f"
+    "cities/catalogue/central-africa/DR Congo/Goma/engineering/alignment/water-source-receipt.json": "6dfbceb5e12768c9cb563f98efe1f5915c882dfab23c7d86cf57cd0ddf6bef7e",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

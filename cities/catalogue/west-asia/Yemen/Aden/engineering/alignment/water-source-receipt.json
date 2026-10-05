@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "aden",
+  "legacy_osm_missing_geometry_ids": [],
+  "legacy_osm_status": "retained geometries available",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "958b4e8d163b3019df41023f1e19d6f96003cfae993c681c4ff8aabe97d31633",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "f09e89fd3d038624543bf48296edc4e15a28935ab26275df7054daed3f19c7c8",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/independent-landcover-samples.bin.gz": "3eb930833f21675f60a04f55d4010e0faf1a1b1208bce381120631e50499eb86",
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/planning-grid.json": "a14bfc003199c74a1b39f30f58b07a8a18d76b5ce619cff447fb643235d2d9f1",
+    "cities/catalogue/west-asia/Yemen/Aden/engineering/alignment/planning-water-features.json.gz": "9acc0ef2be0f4ec07ffc08ca3fe0b4db585088d3778c9f3405d649cf07eb65da",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 1012185,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "37da4cf8c045b31d066a6bb3b3f1e53d65442480aea6643596fdb64e7dba57cc",
+      "native_window": [
+        35040,
+        25200,
+        960,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E042_Map.tif",
+      "window_sha256": "d48fd181b26cae9e7080a742bb07a3ad90920bd26993a177180b5b7c994ef036"
+    },
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d796b39286d6043df11b78cb1fddcd656183f72a66ada5960a9ead7798626377",
+      "native_window": [
+        0,
+        25200,
+        1803,
+        2403
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N12E045_Map.tif",
+      "window_sha256": "350b1eef0a7d50a5c531932a974e98e7fc5cb35a54c6952dc2191b75f070f656"
+    }
+  ]
+}

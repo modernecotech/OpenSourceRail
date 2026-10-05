@@ -1,0 +1,49 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "damascus",
+  "legacy_osm_missing_geometry_ids": [
+    15315913,
+    16153003
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "10cfdd30314e7343cb43f0eaef275858d482c03f3e12630be8f68aa865bb2689",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "6dab5f621b33f482ea8c2ac4e2515c684b989d88a9033e30fadb86ee6abbde21",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/independent-landcover-samples.bin.gz": "b972f1d78c7ab9100beadca1e53a264489d5cee39aa075dbe744a6c8d7adada2",
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/planning-grid.json": "0fc34d432b2061126dcabb712d0266d9809fb475a10f1c0df478abe951f93756",
+    "cities/catalogue/west-asia/Syria/Damascus/engineering/alignment/planning-water-features.json.gz": "a3df41c14427b2fd734252174d6e7b9ff0b443ab049f7af23a9a6864d2c251d5",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 5326,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "d32692b1cae17f5f5a97186c2c33fa80196bd3672b8e53cacb4338d43bae40d7",
+      "native_window": [
+        1800,
+        28200,
+        3603,
+        3003
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E036_Map.tif",
+      "window_sha256": "f142cc02b13a70a8cd1748001a5f36d591d8bf12649d568b2fa9f87649320107"
+    }
+  ]
+}

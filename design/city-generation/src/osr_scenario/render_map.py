@@ -65,12 +65,10 @@ def render_city(
 ) -> list[Path]:
     """Render the city + detail maps.
 
-    Default: route along the OSM **arterial** graph between adjacent
-    stations — residential / unclassified streets are excluded from
-    the graph (see `osr_scenario.routing._ARTERIAL_CLASSES`) so the
-    rendered line traces real trunk / primary / secondary / tertiary
-    roads and cannot zigzag through a residential grid. A
-    `corridor.geojson` is emitted alongside the PNGs.
+    The controlled corridor sidecar supplies the full route geometry when
+    present. Markers use each actual platform coordinate. For legacy inputs
+    without a sidecar, road routing uses the OSM arterial graph and emits a
+    separate GeoJSON; residential and unclassified streets are excluded.
 
     With `route_on_roads=False`, draws straight segments between
     stations — useful for debugging the raw station layout.
@@ -80,25 +78,6 @@ def render_city(
     doc = tomllib.loads(design_path.read_text())
     by_id = {s["id"]: s for s in doc["stations"]}
     lines = doc["lines"]
-    interchanges = list(doc.get("interchanges", []))
-    if not interchanges:
-        # Compatibility for designs generated before interchange complexes
-        # became explicit. Newly generated designs are required to carry the
-        # records and the repository validator rejects omissions.
-        grouped: dict[int, list[dict]] = {}
-        for station in doc.get("stations", []):
-            if station.get("junction_group") is not None:
-                grouped.setdefault(int(station["junction_group"]), []).append(station)
-        interchanges = [
-            {
-                "id": f"interchange-{group:03d}",
-                "junction_group": group,
-                "lat": sum(float(member["lat"]) for member in members) / len(members),
-                "lon": sum(float(member["lon"]) for member in members) / len(members),
-            }
-            for group, members in sorted(grouped.items())
-            if len({str(member["line"]) for member in members}) >= 2
-        ]
     # Lowercase the city component for filename stability. Hand-authored
     # designs carry `[design].id = "west-asia/Iraq/Samawah"`; auto-gen
     # designs carry `[city].slug = "samawah"`. Fall through both.
@@ -119,8 +98,7 @@ def render_city(
 
     # Try to compute road-snapped routes (+ save the GeoJSON artefact).
     # Skip when the planner already produced a sidecar — its geometry
-    # is the authoritative one (includes parallel-track offsets for
-    # shared trunks, anti-loop penalty masks, etc.) and shouldn't be
+    # is the authoritative full-resolution centreline and shouldn't be
     # second-guessed by a re-snap pass.
     routes: dict | None = None
     if route_on_roads and not sidecar_geoms:
@@ -235,13 +213,10 @@ def render_city(
                 ]
                 if len(coords) >= 2 and _line_in_range(coords):
                     _draw_line(line_key, is_ring, coords, color)
-        # Draw ordinary stations individually, but render each transfer group
-        # once at its explicit interchange-complex centroid. Per-line platform
-        # records remain in design.toml for routing and simulation.
+        # Draw every actual platform. A transfer-complex centroid can lie
+        # off both tracks or over water; it is not a physical station site.
         big = zoom >= 13
         for s in doc.get("stations", []):
-            if s.get("junction_group") is not None:
-                continue
             if not _in_range(float(s["lat"]), float(s["lon"])):
                 continue
             arch = s.get("archetype", "standard")
@@ -262,15 +237,6 @@ def render_city(
             m.add_marker(CircleMarker((s["lon"], s["lat"]), "#000000", outer_r + 3))
             m.add_marker(CircleMarker((s["lon"], s["lat"]), outer, outer_r))
             m.add_marker(CircleMarker((s["lon"], s["lat"]), "#ffffff", inner_r))
-        for interchange in interchanges:
-            if not _in_range(float(interchange["lat"]), float(interchange["lon"])):
-                continue
-            point = (float(interchange["lon"]), float(interchange["lat"]))
-            outer_r = 32 if big else 24
-            inner_r = 12 if big else 9
-            m.add_marker(CircleMarker(point, "#000000", outer_r + 4))
-            m.add_marker(CircleMarker(point, "#7a3fb8", outer_r))
-            m.add_marker(CircleMarker(point, "#ffffff", inner_r))
         img = m.render(zoom=zoom)
         out = out_dir / f"{slug}-{suffix}"
         img.save(out)

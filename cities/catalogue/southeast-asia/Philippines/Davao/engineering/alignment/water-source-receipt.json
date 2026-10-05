@@ -1,0 +1,62 @@
+{
+  "attribution": "\u00a9 ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium",
+  "city": "davao",
+  "legacy_osm_missing_geometry_ids": [
+    1524286,
+    7842633,
+    9306579,
+    11721987,
+    11961251,
+    13051157,
+    13053935,
+    13054495,
+    14049980,
+    17512732,
+    19720070,
+    19730163,
+    20138649,
+    20173677,
+    20235947
+  ],
+  "legacy_osm_status": "incomplete polygons; independent full-grid layer supplies lake/sea coverage",
+  "license": "CC-BY-4.0; OSM supplement ODbL-1.0",
+  "limitations": [
+    "Historical satellite classification is an independent planning screen, not a current shoreline survey.",
+    "Narrow streams, inundation, wetlands, platform footprints, bank access and foundation stability require site evidence."
+  ],
+  "mask_sha256": "aa97249f4bf8dc0c458a012de197709435ef4c745aa1f895d45021323f5d1913",
+  "method": "Four 10 m class samples per controlled 20 m grid cell; permanent-water class 80; unknown class 0 is excluded, not dry.",
+  "physical_release": false,
+  "processed_osm_snapshot_sha256": "1c4b3d63c0d6342d2a9fda4e204e4400b7599f9ba6f8a03b0a596db5ca542001",
+  "schema_version": 2,
+  "source": "ESA WorldCover 2021 v200 plus retained OSM rivers and water polygons",
+  "source_documentation": "https://esa-worldcover.org/en/data-access",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Philippines/Davao/engineering/alignment/independent-landcover-samples.bin.gz": "63a70ac6b544612727dce6752cb58c4cd2ef9094f26235f3ae1c9f3d9b7fd0d5",
+    "cities/catalogue/southeast-asia/Philippines/Davao/engineering/alignment/planning-grid.json": "5862d12a6cc362ed677bc5d5bbd5a9f1bec663fb8acafb2885ff3da6f0e6b4bb",
+    "cities/catalogue/southeast-asia/Philippines/Davao/engineering/alignment/planning-water-features.json.gz": "0c6621a66b8f3d9c9cf78ba870a80552f5ae013474f4d5bf517a9c90fd2b26e1",
+    "design/city-generation/src/osr_geo/rasterize.py": "61c47dfcabf25a8ad2b1ffa640aeaaa126020484a5511b6fcb49ebd0968252b0",
+    "tools/automation/refresh-city-water-evidence.py": "234553e6780cc8bd8960dd92d601fe9171d15a03b9d10d9897b340e2481d7a59"
+  },
+  "status": "independent-complete-grid-planning-screen",
+  "unknown_cells": 0,
+  "wet_cells": 547756,
+  "worldcover_tiles": [
+    {
+      "crs": "EPSG:4326",
+      "file_sha256": "43d01082bc62bf4ae9576e305af5028531ee40159f0410acd56a34323837a487",
+      "native_window": [
+        28800,
+        20640,
+        3603,
+        3363
+      ],
+      "pixel_size_degrees": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N06E123_Map.tif",
+      "window_sha256": "962ec6d8fcb315406edd45b162183a163c62ebea668db34f292b46a0620fdcee"
+    }
+  ]
+}
