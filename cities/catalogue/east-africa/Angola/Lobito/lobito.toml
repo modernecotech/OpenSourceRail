@@ -73,26 +73,26 @@ dust_loss_recovery_frac = 0.75
 [[stations]]
 id = "line-1-1075-0511-s000000"
 name = "Hospital São Pedro"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 330
 is_terminal = true
 
 [[stations]]
 id = "line-1-0767-0573-s006832"
 name = "line-1-0767-0573-s006832"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 330
 
 [[stations]]
 id = "line-1-0641-0627-s009846"
 name = "line-1-0641-0627-s009846"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 330
 
 [[stations]]
 id = "line-1-0386-0735-s015934"
 name = "Zaire Barco"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 330
 is_terminal = true
 is_depot = true
@@ -101,7 +101,7 @@ depot_service = true
 [[stations]]
 id = "line-2-0695-0574-s000000"
 name = "Hospital Pediatrico do Lobito"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 is_depot = true
@@ -110,20 +110,20 @@ depot_service = true
 [[stations]]
 id = "line-2-0682-0701-s002648"
 name = "line-2-0682-0701-s002648"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 150
 
 [[stations]]
 id = "line-2-0668-0828-s005304"
 name = "Centro de Saúde Gaspar Domingos Matias Lopes"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
 id = "line-3-0722-0711-s000000"
 name = "macon"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 is_depot = true
@@ -132,13 +132,13 @@ depot_service = true
 [[stations]]
 id = "line-3-0655-0593-s003009"
 name = "Ango-Real"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
 id = "line-3-0595-0487-s005720"
 name = "Universidade Católica de Angola"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 
@@ -317,52 +317,52 @@ schedule = [
 station = "line-1-1075-0511-s000000"
 tier = "terminal"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0767-0573-s006832"
 tier = "standard"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0641-0627-s009846"
 tier = "major"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 1200.0
+grid_export_kw = 1200.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0386-0735-s015934"
@@ -372,14 +372,14 @@ storage_capacity_kwh = 40000.0
 storage_max_charge_kw = 10000.0
 storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000.0
-grid_export_kw = 3000.0
+grid_import_kw = 6000.0
+grid_export_kw = 6000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0695-0574-s000000"
@@ -389,48 +389,48 @@ storage_capacity_kwh = 40000.0
 storage_max_charge_kw = 10000.0
 storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000.0
-grid_export_kw = 3000.0
+grid_import_kw = 6000.0
+grid_export_kw = 6000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0682-0701-s002648"
 tier = "standard"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0668-0828-s005304"
 tier = "terminal"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-3-0722-0711-s000000"
@@ -440,45 +440,45 @@ storage_capacity_kwh = 40000.0
 storage_max_charge_kw = 10000.0
 storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000.0
-grid_export_kw = 3000.0
+grid_import_kw = 6000.0
+grid_export_kw = 6000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-3-0655-0593-s003009"
 tier = "major"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 1200.0
+grid_export_kw = 1200.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-3-0595-0487-s005720"
 tier = "terminal"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
