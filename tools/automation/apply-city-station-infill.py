@@ -43,9 +43,13 @@ def infill(stations, lines, geometry, grid, mask, maximum_gap_m, minimum_gap_m):
                 additions.append(dict(id=f"{line['name']}-planning-infill-s{round(chainage):06d}",line=line['name'],lat=lat,lon=lon,s_m=round(chainage,1),anchor_kind='planning:infill',anchor_name=f'Planning infill {i}',archetype='standard',platform_length_m=first['platform_length_m']))
     return additions
 
-def transfer_groups(stations, previous, civil):
+def transfer_groups(stations, previous, civil, lines=None):
     """Retain platforms on their own corridors and identify actual transfer legs."""
-    stations=[dict(s) for s in stations];parent=list(range(len(stations)))
+    stations=[dict(s) for s in stations];parent=list(range(len(stations)));terminals=set()
+    for line in lines or []:
+        if line['shape']=='ring':continue
+        members=sorted((s for s in stations if s['line']==line['name']),key=lambda s:s['s_m'])
+        if members:terminals.update([members[0]['id'],members[-1]['id']])
     def find(i):
         while parent[i]!=i:i=parent[i]
         return i
@@ -64,7 +68,9 @@ def transfer_groups(stations, previous, civil):
         old={s['junction_group'] for s in members if 'junction_group' in s};group=min(old) if old else next_id
         if not old:next_id+=1
         elevated=any(c['line']==s['line'] and c['from_station_m']<=s['s_m']<=c['to_station_m'] and c['class']=='elevated' for s in members for c in civil)
-        for station in members:station.update(junction_group=group,archetype='interchange-elevated' if elevated else 'interchange')
+        for station in members:
+            role=station['archetype'] if station['archetype'] in {'terminal','depot-terminal'} else 'terminal' if station['id'] in terminals else 'interchange-elevated' if elevated else 'interchange'
+            station.update(junction_group=group,archetype=role)
         groups.append(dict(id=existing.get(group,{}).get('id',f'interchange-{group:03d}'),junction_group=group,lat=math.fsum(s['lat'] for s in members)/len(members),lon=math.fsum(s['lon'] for s in members)/len(members),lines=sorted({s['line'] for s in members}),platforms=sorted(s['id'] for s in members)))
     return stations,sorted(groups,key=lambda g:g['junction_group'])
 
@@ -84,14 +90,14 @@ def apply(path):
         if [{k:v[k] for k in fields} for v in sorted(existing,key=lambda s:s['id'])]!=[{k:v[k] for k in fields} for v in sorted(expected,key=lambda s:s['id'])]:raise ValueError('Planning infill differs from controlled corridor/policy')
     capex_path=ROOT/'lib/templates/capex-costs.toml';capex=tomllib.loads(capex_path.read_text())
     all_stations=sorted(d['stations']+additions,key=lambda s:(s['line'],s['s_m'],s['id']))
-    all_stations,interchanges=transfer_groups(all_stations,d.get('interchanges',[]),d['civil_segments'])
+    all_stations,interchanges=transfer_groups(all_stations,d.get('interchanges',[]),d['civil_segments'],d['lines'])
     if additions or all_stations!=d['stations'] or interchanges!=d.get('interchanges',[]):
         blocks='\n'.join('[[stations]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in station.items()) for station in all_stations)+'\n'
         blocks+='\n'.join('[[interchanges]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in group.items()) for group in interchanges)+'\n'
         text=re.sub(r'(?ms)^\[\[stations\]\].*?(?=^# \[\[depots\]\]|^\[\[depots\]\])',lambda _:blocks,text,count=1)
         station_cost=round(sum(capex['station_unit_usd'][s['archetype']] for s in all_stations))
         charging=round(sum(capex['charging_microgrid_unit_usd'][s['archetype']] for s in all_stations)*d['costs']['technology_basis']['station_charging_cabinet_count'])
-        elevated_groups=sum(any(s['junction_group']==g['junction_group'] and s['archetype']=='interchange-elevated' for s in all_stations if 'junction_group' in s) for g in interchanges)
+        elevated_groups=sum(any(c['line']==s['line'] and c['from_station_m']<=s['s_m']<=c['to_station_m'] and c['class']=='elevated' for s in all_stations if s.get('junction_group')==g['junction_group'] for c in d['civil_segments']) for g in interchanges)
         premium=round(elevated_groups*capex['junctions']['elevated_interchange_premium_usd'])
         net=d['costs']['total_usd']-d['costs']['epc_overhead_usd']-d['costs']['stations_usd']-d['costs']['charging_microgrid_usd']-d['costs']['junction_premium_usd']+station_cost+charging+premium
         epc=round(net*capex['overhead']['epc_fraction'])

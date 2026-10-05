@@ -108,6 +108,7 @@ id = "line-1-0531-0372-s006916"
 name = "Quindombele"
 charging_power_kw = 1000
 dwell_seconds = 210
+is_terminal = true
 
 [[stations]]
 id = "line-2-0593-0351-s000000"
@@ -438,14 +439,14 @@ charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0531-0372-s006916"
-tier = "interchange"
+tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0
 storage_max_charge_kw = 1000.0
 storage_max_discharge_kw = 1000.0
-storage_initial_soc = 0.5
-grid_import_kw = 1200.0
-grid_export_kw = 1200.0
+storage_initial_soc = 0.6
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
 charger_max_kw = 1000.0
 charger_max_current_a = 1650.0

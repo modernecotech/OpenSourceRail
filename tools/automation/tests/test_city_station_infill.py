@@ -27,3 +27,21 @@ def test_infill_does_not_invent_a_dry_site_for_a_wet_point():
 def test_spacing_cannot_be_packed_below_the_controlled_minimum():
     args=fixture();args[0][-1]['s_m']=1800
     with pytest.raises(ValueError,match='No compliant'):module.infill(*args,1500,1200)
+
+def test_nearby_cross_line_platforms_get_a_transfer_without_moving_them():
+    platforms=[dict(id='a',line='line-1',lat=0,lon=0,s_m=0,archetype='standard'),dict(id='b',line='line-2',lat=0,lon=.004,s_m=1000,archetype='standard'),dict(id='c',line='line-3',lat=0,lon=.02,s_m=0,archetype='standard')]
+    civil=[dict(line='line-1',from_station_m=0,to_station_m=2000,**{'class':'elevated'})]
+    current,groups=module.transfer_groups(platforms,[],civil)
+    assert len(groups)==1 and groups[0]['platforms']==['a','b']
+    assert [(s['lat'],s['lon'],s['s_m']) for s in current]==[(s['lat'],s['lon'],s['s_m']) for s in platforms]
+    assert current[0]['junction_group']==current[1]['junction_group']
+    assert current[0]['archetype']==current[1]['archetype']=='interchange-elevated'
+    assert 'junction_group' not in current[2]
+    assert module.transfer_groups(current,groups,civil)==(current,groups)
+
+def test_transfer_group_preserves_radial_terminal_and_depot_roles():
+    platforms=[dict(id='a',line='line-1',lat=0,lon=0,s_m=0,archetype='terminal'),dict(id='b',line='line-1',lat=0,lon=.004,s_m=2000,archetype='interchange-elevated'),dict(id='c',line='line-2',lat=0,lon=.006,s_m=2000,archetype='depot-terminal')]
+    lines=[dict(name='line-1',shape='radial'),dict(name='line-2',shape='radial')]
+    current,groups=module.transfer_groups(platforms,[],[],lines)
+    assert current[1]['archetype']=='terminal' and current[2]['archetype']=='depot-terminal'
+    assert current[1]['junction_group']==current[2]['junction_group']
