@@ -80,14 +80,66 @@
   "population_source_country": "SD",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/design.toml": "fe27a34f0eccfd542334cd5980c5a658454a1d841536fe5e5be02d9077797c2d",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/design.toml": "2f8f9323335651ee87de00c5d1b7212eac0b87f1e00b56b62fa1959279078487",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-pixels.npz.gz": "a68e07ae24b6ee68a3ee6dfba68cf0ef926a3ea85a0045cb6f52fc1890083539",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-source.json": "b4b107002f7cc0b0ad24273e21510826ee68b0561da0e9da6c3ec53ab0c3d3c6",
     "cities/catalogue/north-africa/Sudan/Port-Sudan/port-sudan.design-quality.yaml": "05f7210bee1425cfebcb8eaeb225ff3838477a9275e098953f829d44b592b70d",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        2
+      ],
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0727-0529-s007491",
+        "line-3-0761-0556-s006538"
+      ],
+      "straight_distance_m": 868.32890492162,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    },
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        1,
+        2
+      ],
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-2-0777-0508-s007537",
+        "line-3-0761-0556-s006538"
+      ],
+      "straight_distance_m": 1011.1856346683978,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

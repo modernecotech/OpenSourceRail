@@ -8,18 +8,18 @@ Mapped nearby footprints: **685**; source heights: **0**. Building source: retai
 |---|---|---:|
 | Beam/building | ground-collision | 8 |
 | Beam/building | ground-lateral-clearance-conflict | 6 |
-| Beam/building | height-unresolved | 544 |
-| Beam/building | product-depth-unresolved | 13 |
-| Reference support/foundation | foundation-footprint-conflict | 237 |
-| Reference support/foundation | foundation-setback-conflict | 43 |
-| Reference support/foundation | mapped-footprints-only-clear | 1,525 |
-| Terrain | beam-terrain-collision | 16 |
-| Terrain | reference-gradient-exceeded | 1,192 |
-| Terrain | reference-gradient-within-policy | 575 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 38 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 17 |
+| Beam/building | height-unresolved | 543 |
+| Beam/building | product-depth-unresolved | 15 |
+| Reference support/foundation | foundation-footprint-conflict | 238 |
+| Reference support/foundation | foundation-setback-conflict | 45 |
+| Reference support/foundation | mapped-footprints-only-clear | 1,532 |
+| Terrain | beam-terrain-collision | 17 |
+| Terrain | reference-gradient-exceeded | 1,189 |
+| Terrain | reference-gradient-within-policy | 580 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 46 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 23 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

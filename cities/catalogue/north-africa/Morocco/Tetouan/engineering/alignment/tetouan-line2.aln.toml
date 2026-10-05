@@ -14,7 +14,7 @@ crs            = "EPSG:32630"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "73d4a57dd7bf41a229dfff1b2480cc0413bd1d94debd529ac21de736252bc22c"
+source_design_sha256 = "d79021eb4c6cd0bc2ec67d3670ef8f5d94e2fcc545f95017f72dbf8eed556e12"
 source_geojson_sha256 = "d2ebb8a7c430f54138f1f980ff2acc682ed08f73d1a357387340e2dd9d9c21bb"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
@@ -3494,6 +3494,26 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 509.700
+to_station_m   = 669.706
+class          = "elevated"
+
+[[civil]]
+from_station_m = 669.706
+to_station_m   = 709.706
+class          = "elevated"
+
+[[civil]]
+from_station_m = 709.706
+to_station_m   = 769.706
+class          = "elevated"
+
+[[civil]]
+from_station_m = 769.706
+to_station_m   = 809.706
+class          = "elevated"
+
+[[civil]]
+from_station_m = 809.706
 to_station_m   = 1529.700
 class          = "elevated"
 
@@ -3514,6 +3534,36 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 2354.000
+to_station_m   = 4193.625
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4193.625
+to_station_m   = 4213.625
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4213.625
+to_station_m   = 4579.899
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4579.899
+to_station_m   = 4599.899
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4599.899
+to_station_m   = 6544.407
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6544.407
+to_station_m   = 6564.407
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6564.407
 to_station_m   = 8182.600
 class          = "elevated"
 
@@ -3549,11 +3599,6 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 12915.900
-to_station_m   = 18543.200
-class          = "bridge"
-
-[[civil]]
-from_station_m = 18543.200
 to_station_m   = 19956.600
 class          = "bridge"
 

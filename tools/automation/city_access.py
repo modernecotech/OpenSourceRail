@@ -126,3 +126,43 @@ def population_audit(latitudes, longitudes, counts, valid, design,
                 limitations=['Population year/boundary differs from the catalogue; counts are not current census counts.',
                              'Radial access can overstate walking access across rivers, motorways, walls or steep terrain.',
                              'No fare demand, unique passengers, feeder revenue or funding improvement is inferred.'])
+
+
+def transfer_recovery_candidates(design):
+    """Shortest straight-distance component links for walking/connector survey.
+
+    These are investigation candidates, never declared passenger transfers.
+    Barriers, entrances, steps, timing, safety and property rights remain unknown.
+    """
+    components=transfer_audit(design)['components']
+    if len(components)<=1:return []
+    stations=design.get('stations',[])
+    candidates=[]
+    for i,left in enumerate(components):
+        a=[s for s in stations if s['line'] in left]
+        for j in range(i+1,len(components)):
+            b=[s for s in stations if s['line'] in components[j]]
+            if not a or not b:continue
+            best=None
+            for x in a:
+                for y in b:
+                    p,q=xyz([x['lat'],y['lat']],[x['lon'],y['lon']])
+                    distance=float(2*EARTH_RADIUS_M*math.asin(min(1.,float(np.linalg.norm(p-q))/2)))
+                    if best is None or distance<best[0]:best=(distance,x,y)
+            distance,x,y=best
+            candidates.append(dict(components=[i,j],stations=[x['id'],y['id']],lines=[x['line'],y['line']],
+                straight_distance_m=distance,walk_time_minutes=None,accessible_path_accepted=False,
+                barrier_and_height_clearance_accepted=False,transfer_created=False,
+                required_evidence=['surveyed entrances and accessible pedestrian path','river/road/wall crossings',
+                    'walking/vertical access and transfer time','property and operating approval']))
+    # A minimum spanning candidate tree reduces duplicated survey effort while
+    # leaving the actual transfer graph and its reachable pairs unchanged.
+    roots=list(range(len(components)));selected=[]
+    def root(i):
+        while roots[i]!=i:i=roots[i]
+        return i
+    for candidate in sorted(candidates,key=lambda r:(r['straight_distance_m'],r['stations'])):
+        i,j=(root(v) for v in candidate['components'])
+        if i==j:continue
+        roots[j]=i;selected.append(candidate)
+    return selected

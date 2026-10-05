@@ -16,7 +16,7 @@ Mapped nearby footprints: **176**; source heights: **0**. Building source: retai
 | Terrain | reference-gradient-within-policy | 136 |
 | Unresolved geometry/input | boundary-span-layout-unresolved | 2 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

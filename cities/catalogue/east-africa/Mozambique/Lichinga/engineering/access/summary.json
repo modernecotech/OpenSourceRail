@@ -80,14 +80,41 @@
   "population_source_country": "MZ",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "b511d8036d602a651f7658004126891a84bae24e4e64c970f8241e9ef7d29e58",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "e1eceabd0f1e960ccbcec86eff103369e29ae4223935902a879bd70d8f9f669c",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-pixels.npz.gz": "6278f6be313e6d9c3b836cb5c2eaddd5b793ba483b0fca168ddd7ea9ecdc8732",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-source.json": "f43049ef80cf05cf3efbca411af5e57dd688921c1f4918e1029051fb9d0d912c",
     "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.design-quality.yaml": "4bf8c09253b882d5d943eaa443f607e1fcf5f5b78dbf391ab81fd3b1a1f59653",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        1
+      ],
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0266-0473-s002148",
+        "line-2-0306-0456-s002825"
+      ],
+      "straight_distance_m": 869.5289745908631,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

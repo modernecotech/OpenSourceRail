@@ -25,7 +25,11 @@ def refresh(path):
             '--sidecar',str(ROOT/f'.cache/osr-pipeline/rasters/{slug}.grid.json'),
             '--out-dir',str(path.parent),'--civil-register-out',str(output)],
             cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-        rows=json.loads(output.read_text())
+        native=json.loads(output.read_text())
+        for relative,compiled in native['compiled_sources'].items():
+            if (ROOT/relative).read_bytes()!=compiled.encode():
+                raise ValueError('Native civil generator build is stale: '+relative)
+        rows=native['segments']
     def length_by_class(rows):
         result={}
         for r in rows:
@@ -47,13 +51,32 @@ def refresh(path):
     before=length_by_class(design['civil_segments']);after=length_by_class(revised['civil_segments'])
     if before.keys()!=after.keys() or any(abs(before[k]-after[k])>.2 for k in before):
         raise ValueError('Controlled civil class length changed: '+slug)
+    for line in revised['lines']:
+        parts=[r for r in revised['civil_segments'] if r['line']==line['name']]
+        if not parts or abs(parts[-1]['to_station_m']-line['length_m'])>.0001:
+            raise ValueError('Civil endpoint differs from controlled line: '+slug+': '+line['name'])
+        if any(abs(a['to_station_m']-b['from_station_m'])>.0001 for a,b in zip(parts,parts[1:])):
+            raise ValueError('Civil register has a gap: '+slug)
     old_control={k:v for k,v in design.items() if k not in {'civil_segments','costs'}}
     new_control={k:v for k,v in revised.items() if k not in {'civil_segments','costs'}}
     if old_control!=new_control:raise ValueError('Noncivil controlled data changed: '+slug)
     path.write_text(updated);capex.recalculate(path)
     final=tomllib.loads(path.read_text())
+    quality=path.parent/(slug+'.design-quality.yaml')
+    if quality.is_file():
+        content=quality.read_text()
+        quantities={key:sum(r['to_station_m']-r['from_station_m'] for r in final['civil_segments'] if r['class']==key) for key in ('at-grade','elevated','bridge')}
+        products={key:sum(r['to_station_m']-r['from_station_m'] for r in final['civil_segments'] if r.get('viaduct_product') in names) for key,names in {
+            'osr_pi20_pi25':('OSR-Pi20','OSR-Pi25'),'osr_us':('OSR-US',),'special':('OSR-SP',),'realign':('REALIGN-OR-SPECIAL',)}.items()}
+        values={'at_grade':quantities['at-grade'],'elevated':quantities['elevated'],'bridge':quantities['bridge'],**products,
+            'max_elevated_cost_multiplier':max((r.get('elevated_cost_multiplier',1.) for r in final['civil_segments']),default=1.)}
+        for key,value in values.items():
+            content=re.sub(r'(?m)^(\s*'+key+r':\s*)[^\n]+$',lambda m:m[1]+f'{value:.3f}',content)
+        quality.write_text(content)
     receipt=dict(schema='local-civil-cost-refresh/1',city=slug,
         design_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+        native_generator_sha256=hashlib.sha256((ROOT/'target/release/osr-design').read_bytes()).hexdigest(),
+        native_compiled_sources_verified=True,
         previous_design_sha256=hashlib.sha256(original).hexdigest(),
         previous_capital_allowance_usd=design['costs']['total_usd'],
         current_base_capital_allowance_usd=final['costs']['total_usd'],
@@ -67,6 +90,11 @@ def refresh(path):
             'tools/automation/refresh-local-civil-costs.py','tools/automation/recalculate-city-capex.py',
             'lib/templates/civil-cost-model.toml')})
     dest=path.parent/'engineering/local-civil-costs';dest.mkdir(exist_ok=True,parents=True)
+    existing=dest/'summary.json'
+    if existing.is_file():
+        previous=json.loads(existing.read_text())
+        for key in ('previous_design_sha256','previous_capital_allowance_usd'):
+            receipt[key]=previous[key]
     (dest/'summary.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
     print(slug, f"base allowance {receipt['current_base_capital_allowance_usd']/1e9:.3f}bn; installed total unresolved",flush=True)
     return receipt

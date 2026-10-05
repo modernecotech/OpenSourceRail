@@ -104,7 +104,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **20 posit
 Regenerate this report and its local runnable scenario with:
 
 ```bash
-.venv/bin/python tools/automation/generate-stabling-plan.py --design 'cities/catalogue/north-africa/Sudan/Waw/design.toml'
+.venv/bin/python tools/automation/generate-stabling-plan.py --design 'cities/catalogue/east-africa/South Sudan/Wau/design.toml'
 ```
 
 The scenario is generated under `build/engineering/stabling/`; its hash is recorded in `summary.json`. Source-linked operating replay evidence, where available, is in `operating-screen.json` beside this report.

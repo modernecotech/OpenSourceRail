@@ -1,4 +1,4 @@
-# Waw Planning OSR-ALN Package
+# Wau Planning OSR-ALN Package
 
 Deterministic alignment exports for every line in the current generated network.
 

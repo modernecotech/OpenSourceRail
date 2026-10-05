@@ -80,14 +80,41 @@
   "population_source_country": "YE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Yemen/Ibb/design.toml": "c2d3881fb8d334b82d6e5360e490340b96c1c25131846b504460da60778ac7b6",
+    "cities/catalogue/west-asia/Yemen/Ibb/design.toml": "f022c0d7779c9a68393e6e6ec1974098c7c193e6f8ee5bd699d13ac0c78ddb28",
     "cities/catalogue/west-asia/Yemen/Ibb/engineering/access/population-pixels.npz.gz": "664395f589f07524811831656e8400caacdf7618c927fe945195ff9f33078f0d",
     "cities/catalogue/west-asia/Yemen/Ibb/engineering/access/population-source.json": "9e38776ee2b57cdfad9ef04c1bad525ea2320b28d52f227be4b62a2ec01e81d8",
     "cities/catalogue/west-asia/Yemen/Ibb/ibb.design-quality.yaml": "2388c4e820734ee4d47832d0f8891a3cf8bbad7c011864c09d6fcdeb0fb94d4b",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        1
+      ],
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0398-0570-s000000",
+        "line-3-0379-0667-s011322"
+      ],
+      "straight_distance_m": 1974.5282429991016,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

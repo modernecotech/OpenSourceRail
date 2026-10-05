@@ -80,14 +80,41 @@
   "population_source_country": "KE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "6edc971dffed1f29cedcde33d3befba0e508f2f33e033742c34d3d73810b7746",
+    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "a7fe2ef38196e630e80f997ca7af1a128d185ca7d31eef201428d47d6cf2b83a",
     "cities/catalogue/east-africa/Kenya/Malindi/engineering/access/population-pixels.npz.gz": "085de897a4c83ba56e77fa00d184f64c2d14bbdb18e3493252a49bce850773c9",
     "cities/catalogue/east-africa/Kenya/Malindi/engineering/access/population-source.json": "132a338d57d52a3451400ac726f5f5e9aff84a347ca8a970181402e422365cd9",
     "cities/catalogue/east-africa/Kenya/Malindi/malindi.design-quality.yaml": "973a1116a2a50a234d8c4ad5f7f45579d894864dfa5e2e7a507ea7490f0e7a57",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        1
+      ],
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0351-0367-s006891",
+        "line-3-0360-0410-s006709"
+      ],
+      "straight_distance_m": 877.7133918616529,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

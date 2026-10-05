@@ -116,8 +116,7 @@ def test_fabrication_counts_capacity_parent_budgets_and_residual_imports():
 
 
 @pytest.mark.parametrize('name',['revised_scope_buy','local_all','local_positive','local_positive_mezzanine',
-    'local_positive_commercial_gap','local_positive_mezzanine_stress','grade-separation-penalty-0pct',
-    'grade-separation-penalty-25pct','grade-separation-penalty-50pct','local_positive_raw_price_stress',
+    'local_positive_commercial_gap','local_positive_mezzanine_stress','additional_elevation_base_allowance','local_positive_raw_price_stress',
     'local_positive_supplier_delay','construction_wage_content_stress'])
 def test_every_cashflow_and_native_principal_and_six_month_tranche_reconciles(name):
     data=read(name);metrics=data['metrics'];rows=data['monthly']

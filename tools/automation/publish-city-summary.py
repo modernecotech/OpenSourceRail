@@ -152,7 +152,7 @@ def current_readme(city, study, selected, baseline):
 
 **Current planning basis: {summary['as_of']} [programme recalculation]({prefix}/README.md), `{selected}` conditional local-production case.** The main route is the reworked city-centre elevated planning alignment; service remains a capacity-led assumption. Revised scope is unquoted and uncommitted; this is not a construction design or an operating release.
 
-Programme capital is **USD {metrics['total_capital_usd']/1e9:.3f}bn**, including line-local depots, final assembly and selected upstream component plants. {funding_statement}, and the case retains **IQD {metrics['terminal_all_debt_iqd']/1e12:.3f}tn terminal debt**. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
+Base programme planning allowance is **USD {metrics['total_capital_usd']/1e9:.3f}bn**, including line-local depots, final assembly and selected upstream component plants. {funding_statement}, and the case retains **IQD {metrics['terminal_all_debt_iqd']/1e12:.3f}tn terminal debt**. Local special/segmental structures, installed grid/charging upgrades, actual foundations, land and utilities remain unpriced. Removing search penalties establishes no realised saving. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
 
 {sections['Network']}
 

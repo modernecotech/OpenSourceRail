@@ -51,6 +51,7 @@ SHARED = [
     'docs/civil/viaduct-transport-and-erection-envelope.md',
     'docs/civil/viaduct-first-article-test-plan.md',
     'docs/civil/viaduct-obstacle-clearance.md',
+    'docs/finance/civil-allowance-boundary.md',
     'docs/repository-artifact-policy.md',
     'docs/baghdad-delivery-review-2026-10-04.md',
     'docs/baghdad-continuation-review-2026-10-04.md',
@@ -403,7 +404,7 @@ The original USD 8m depot allowance is replaced by the nine full-fleet line depo
 
 The [manufactured-viaduct comparison](engineering/viaduct-comparison/README.md) covers Pi20 and Pi25 with two bearing/connection schemes, plus an OSR-US constrained-access option. Baghdad's infrastructure load seed now explicitly requires the complete 24-axle, 111 m six-car train, with supplier axle positions and loaded distribution still unresolved. A link slab retains independent girder-end bearings; shared bearings require a checked structural continuity connection and staged load path.
 
-Every one of the {len(manufactured_viaduct['alignment_segments'])} elevated segments, including {manufactured_viaduct['special_segment_count']} exceptional segments, has a comparison record. The original elevated model separates USD {manufactured_viaduct['standard_rate_allowance_usd']/1e9:.3f}bn standard-rate allowance from USD {manufactured_viaduct['routing_penalty_usd']/1e9:.3f}bn routing penalties. Penalties discourage difficult routing; they are not supplier-priced structures or savings available merely by deletion. Realignment, station movements, ground/utility investigations and installed whole-life alternatives remain unaccepted.
+Every one of the {len(manufactured_viaduct['alignment_segments'])} elevated segments, including {manufactured_viaduct['special_segment_count']} exceptional segments, has a comparison record. The corrected elevated base allowance separates USD {manufactured_viaduct['standard_rate_allowance_usd']/1e9:.3f}bn standard-rate allowance from USD {manufactured_viaduct['routing_penalty_usd']/1e9:.3f}bn routing penalties. Search deterrents are excluded from monetary estimates. Unknown special/segmental increments remain outside the base allowance; removing the old segment-wide score establishes no realised saving. Realignment, station movements, ground/utility investigations and installed whole-life alternatives remain unaccepted.
 
 Retaining simple-span bearings changes the existing periodic cost index from USD {manufactured_viaduct['bearing_index_sensitivity']['current_conditional_rate_usd_per_km']/1e6:.3f}m/km to USD {manufactured_viaduct['bearing_index_sensitivity']['simple_span_link_slab_rate_usd_per_km']/1e6:.3f}m/km. The USD {manufactured_viaduct['bearing_index_sensitivity']['direct_network_delta_usd']/1e6:.3f}m uniform whole-elevated-network difference is an unadopted rate illustration; Pi bearing quantities are not transferred to OSR-US/special designs. The lower existing rate remains conditional on an unaccepted structural scheme.
 
@@ -727,7 +728,7 @@ def source_inputs():
     paths.update(COUNTRY.glob('*/design.toml')); paths.update(p.parent/(tomllib.loads(p.read_text())['city']['slug']+'.toml') for p in COUNTRY.glob('*/design.toml'))
     paths.update(COUNTRY.glob('*/README.md'))
     paths.update(ROOT/p for p in SHARED)
-    for name in ('access','clearance'):
+    for name in ('access','clearance','demand-bridge','local-civil-costs'):
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])
     paths.add(ROOT/'tools/automation/fetch-clearance-terrain.py')

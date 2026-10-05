@@ -8,18 +8,18 @@ Mapped nearby footprints: **8,029**; source heights: **0**. Building source: ret
 |---|---|---:|
 | Beam/building | ground-collision | 121 |
 | Beam/building | ground-lateral-clearance-conflict | 42 |
-| Beam/building | height-unresolved | 6,206 |
-| Beam/building | product-depth-unresolved | 216 |
-| Reference support/foundation | foundation-footprint-conflict | 2,355 |
-| Reference support/foundation | foundation-setback-conflict | 518 |
-| Reference support/foundation | mapped-footprints-only-clear | 4,271 |
-| Terrain | beam-terrain-collision | 25 |
-| Terrain | reference-gradient-exceeded | 3,840 |
-| Terrain | reference-gradient-within-policy | 3,119 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 185 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 85 |
+| Beam/building | height-unresolved | 6,194 |
+| Beam/building | product-depth-unresolved | 269 |
+| Reference support/foundation | foundation-footprint-conflict | 2,372 |
+| Reference support/foundation | foundation-setback-conflict | 551 |
+| Reference support/foundation | mapped-footprints-only-clear | 4,304 |
+| Terrain | beam-terrain-collision | 27 |
+| Terrain | reference-gradient-exceeded | 3,838 |
+| Terrain | reference-gradient-within-policy | 3,145 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 244 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 118 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

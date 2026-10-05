@@ -2,8 +2,8 @@
   "city": "waw",
   "input_findings": [
     {
-      "evidence": "https://unmiss.unmissions.org/en/news/wau-political-parties-and-security-actors-pledge-collaborate-creating-inclusive-civic",
-      "finding": "The retained Waw/Wau bbox is in South Sudan, while the canonical planning seed incorrectly records SD/Sudan. Use South Sudan population evidence; canonical jurisdiction and country-specific finance remain unreleased pending full city regeneration.",
+      "evidence": "https://www.unmissions.org/en/unmis-0/wau-celebrates-independence-procession-speeches",
+      "finding": "Wau is in South Sudan. The canonical jurisdiction and national aggregation now use SS; the historical slug waw remains an alias. Finance uses an explicitly uncalibrated generic scenario, with SSP currency; Sudan SD/SDG assumptions are excluded.",
       "source_country": "SS"
     }
   ],
@@ -86,14 +86,41 @@
   "population_source_country": "SS",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/Waw/design.toml": "7a402382093fe2acfc675aae261235293702015abb9288f5b8ca2fdffba6ca60",
-    "cities/catalogue/north-africa/Sudan/Waw/engineering/access/population-pixels.npz.gz": "58b31d5e2ecea6099becae80defb768b7b19ae768fa763449874232b6ae5897b",
-    "cities/catalogue/north-africa/Sudan/Waw/engineering/access/population-source.json": "c04d9c759270dc8e61b96c0131f64e52c8cfb70ddb3cd37fc6a87f3a368a760e",
-    "cities/catalogue/north-africa/Sudan/Waw/waw.design-quality.yaml": "a6526f33af59bc0de0e961dc0028a5d76939b5a80d1b90beb08a6a2aee82ece8",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "cities/catalogue/east-africa/South Sudan/Wau/design.toml": "f03218bf852ad3b16e9cc68177fc15ceb0932896d973aadbee4be17e356fcf49",
+    "cities/catalogue/east-africa/South Sudan/Wau/engineering/access/population-pixels.npz.gz": "58b31d5e2ecea6099becae80defb768b7b19ae768fa763449874232b6ae5897b",
+    "cities/catalogue/east-africa/South Sudan/Wau/engineering/access/population-source.json": "c04d9c759270dc8e61b96c0131f64e52c8cfb70ddb3cd37fc6a87f3a368a760e",
+    "cities/catalogue/east-africa/South Sudan/Wau/waw.design-quality.yaml": "a6526f33af59bc0de0e961dc0028a5d76939b5a80d1b90beb08a6a2aee82ece8",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        1
+      ],
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0351-0306-s003014",
+        "line-2-0339-0344-s005807"
+      ],
+      "straight_distance_m": 796.2118459029598,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

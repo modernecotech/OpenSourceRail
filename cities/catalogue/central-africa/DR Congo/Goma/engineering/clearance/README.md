@@ -8,18 +8,18 @@ Mapped nearby footprints: **3,374**; source heights: **0**. Building source: ret
 |---|---|---:|
 | Beam/building | ground-collision | 23 |
 | Beam/building | ground-lateral-clearance-conflict | 14 |
-| Beam/building | height-unresolved | 2,545 |
-| Beam/building | product-depth-unresolved | 6 |
-| Reference support/foundation | foundation-footprint-conflict | 687 |
-| Reference support/foundation | foundation-setback-conflict | 183 |
-| Reference support/foundation | mapped-footprints-only-clear | 767 |
-| Terrain | beam-terrain-collision | 7 |
-| Terrain | reference-gradient-exceeded | 886 |
-| Terrain | reference-gradient-within-policy | 731 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 19 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 11 |
+| Beam/building | height-unresolved | 2,544 |
+| Beam/building | product-depth-unresolved | 9 |
+| Reference support/foundation | foundation-footprint-conflict | 688 |
+| Reference support/foundation | foundation-setback-conflict | 184 |
+| Reference support/foundation | mapped-footprints-only-clear | 768 |
+| Terrain | beam-terrain-collision | 8 |
+| Terrain | reference-gradient-exceeded | 885 |
+| Terrain | reference-gradient-within-policy | 733 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 22 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 13 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

@@ -8,18 +8,18 @@ Mapped nearby footprints: **6,851**; source heights: **0**. Building source: ret
 |---|---|---:|
 | Beam/building | ground-collision | 276 |
 | Beam/building | ground-lateral-clearance-conflict | 105 |
-| Beam/building | height-unresolved | 3,086 |
-| Beam/building | product-depth-unresolved | 2,160 |
-| Reference support/foundation | foundation-footprint-conflict | 1,541 |
-| Reference support/foundation | foundation-setback-conflict | 326 |
-| Reference support/foundation | mapped-footprints-only-clear | 5,629 |
+| Beam/building | height-unresolved | 4,947 |
+| Beam/building | product-depth-unresolved | 337 |
+| Reference support/foundation | foundation-footprint-conflict | 1,551 |
+| Reference support/foundation | foundation-setback-conflict | 346 |
+| Reference support/foundation | mapped-footprints-only-clear | 5,781 |
 | Terrain | beam-terrain-collision | 1 |
-| Terrain | reference-gradient-exceeded | 3,288 |
-| Terrain | reference-gradient-within-policy | 3,909 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 298 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 168 |
+| Terrain | reference-gradient-exceeded | 3,307 |
+| Terrain | reference-gradient-within-policy | 3,941 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 427 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 233 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

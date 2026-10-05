@@ -8,18 +8,18 @@ Mapped nearby footprints: **946**; source heights: **0**. Building source: retai
 |---|---|---:|
 | Beam/building | ground-collision | 34 |
 | Beam/building | ground-lateral-clearance-conflict | 14 |
-| Beam/building | height-unresolved | 682 |
-| Beam/building | product-depth-unresolved | 26 |
-| Reference support/foundation | foundation-footprint-conflict | 254 |
-| Reference support/foundation | foundation-setback-conflict | 55 |
-| Reference support/foundation | mapped-footprints-only-clear | 6,295 |
-| Terrain | beam-terrain-collision | 143 |
-| Terrain | reference-gradient-exceeded | 4,020 |
-| Terrain | reference-gradient-within-policy | 2,492 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 91 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 44 |
+| Beam/building | height-unresolved | 683 |
+| Beam/building | product-depth-unresolved | 32 |
+| Reference support/foundation | foundation-footprint-conflict | 247 |
+| Reference support/foundation | foundation-setback-conflict | 65 |
+| Reference support/foundation | mapped-footprints-only-clear | 6,367 |
+| Terrain | beam-terrain-collision | 135 |
+| Terrain | reference-gradient-exceeded | 4,038 |
+| Terrain | reference-gradient-within-policy | 2,497 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 143 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 71 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

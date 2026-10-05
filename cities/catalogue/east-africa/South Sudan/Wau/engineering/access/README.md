@@ -1,8 +1,8 @@
-# Waw — population access and transfers
+# Wau — population access and transfers
 
 Controlled planning screen; population counts, passenger transfers and routing demand are separate measures.
 
-**Country-input discrepancy:** The retained Waw/Wau bbox is in South Sudan, while the canonical planning seed incorrectly records SD/Sudan. Use South Sudan population evidence; canonical jurisdiction and country-specific finance remain unreleased pending full city regeneration. [Verified jurisdiction](https://unmiss.unmissions.org/en/news/wau-political-parties-and-security-actors-pledge-collaborate-creating-inclusive-civic).
+**Country-input discrepancy:** Wau is in South Sudan. The canonical jurisdiction and national aggregation now use SS; the historical slug waw remains an alias. Finance uses an explicitly uncalibrated generic scenario, with SSP currency; Sudan SD/SDG assumptions are excluded. [Verified jurisdiction](https://www.unmissions.org/en/unmis-0/wau-celebrates-independence-procession-speeches).
 
 | Transfer measure | Value |
 |---|---:|

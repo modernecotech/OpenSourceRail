@@ -8,18 +8,18 @@ Mapped nearby footprints: **10,147**; source heights: **0**. Building source: re
 |---|---|---:|
 | Beam/building | ground-collision | 289 |
 | Beam/building | ground-lateral-clearance-conflict | 102 |
-| Beam/building | height-unresolved | 7,026 |
-| Beam/building | product-depth-unresolved | 1,056 |
-| Reference support/foundation | foundation-footprint-conflict | 3,211 |
-| Reference support/foundation | foundation-setback-conflict | 798 |
-| Reference support/foundation | mapped-footprints-only-clear | 8,292 |
-| Terrain | beam-terrain-collision | 26 |
-| Terrain | reference-gradient-exceeded | 7,650 |
-| Terrain | reference-gradient-within-policy | 4,009 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 639 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 325 |
+| Beam/building | height-unresolved | 7,456 |
+| Beam/building | product-depth-unresolved | 715 |
+| Reference support/foundation | foundation-footprint-conflict | 3,250 |
+| Reference support/foundation | foundation-setback-conflict | 829 |
+| Reference support/foundation | mapped-footprints-only-clear | 8,497 |
+| Terrain | beam-terrain-collision | 21 |
+| Terrain | reference-gradient-exceeded | 7,672 |
+| Terrain | reference-gradient-within-policy | 4,068 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 829 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 424 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

@@ -17,7 +17,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from city_access import population_audit, transfer_audit
+from city_access import population_audit, transfer_audit, transfer_recovery_candidates
 
 
 def sha(path):
@@ -118,6 +118,7 @@ def report(design_path, fetch=False, check=False):
     summary = dict(schema='osr-city-access/1', city=design['city']['slug'],
                    population_source_country=source_country,input_findings=[override] if override else [],
                    sources_sha256=sources, population=population, transfers=transfer_audit(design),
+                   transfer_recovery_candidates=transfer_recovery_candidates(design),
                    legacy_routing_score=dict(high_demand_cell_fraction=legacy,
                        basis='Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.',
                        retired_resident_proxy=None), physical_release=False)

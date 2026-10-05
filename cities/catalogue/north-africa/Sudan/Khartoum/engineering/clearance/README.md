@@ -8,18 +8,18 @@ Mapped nearby footprints: **13,951**; source heights: **0**. Building source: re
 |---|---|---:|
 | Beam/building | ground-collision | 200 |
 | Beam/building | ground-lateral-clearance-conflict | 74 |
-| Beam/building | height-unresolved | 4,745 |
-| Beam/building | product-depth-unresolved | 6,002 |
-| Reference support/foundation | foundation-footprint-conflict | 3,410 |
-| Reference support/foundation | foundation-setback-conflict | 723 |
-| Reference support/foundation | mapped-footprints-only-clear | 10,090 |
-| Terrain | beam-terrain-collision | 13 |
-| Terrain | reference-gradient-exceeded | 6,882 |
-| Terrain | reference-gradient-within-policy | 7,075 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 262 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 151 |
+| Beam/building | height-unresolved | 10,272 |
+| Beam/building | product-depth-unresolved | 603 |
+| Reference support/foundation | foundation-footprint-conflict | 3,456 |
+| Reference support/foundation | foundation-setback-conflict | 760 |
+| Reference support/foundation | mapped-footprints-only-clear | 10,436 |
+| Terrain | beam-terrain-collision | 9 |
+| Terrain | reference-gradient-exceeded | 6,918 |
+| Terrain | reference-gradient-within-policy | 7,166 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 554 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 304 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

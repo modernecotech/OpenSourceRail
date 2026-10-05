@@ -72,3 +72,16 @@ def test_retained_native_window_preserves_pixel_counts(tmp_path):
     with np.load(io.BytesIO(gzip.decompress((tmp_path/'population-pixels.npz.gz').read_bytes()))) as values:
         assert values['counts'].sum() == 60
         assert values['valid'].sum() == 3
+
+
+def test_disconnected_recovery_candidates_never_create_a_transfer():
+    from city_access import transfer_audit,transfer_recovery_candidates
+    design=dict(lines=[dict(name='a'),dict(name='b'),dict(name='c')],interchanges=[],stations=[
+        dict(id='a1',line='a',lat=0,lon=0),dict(id='b1',line='b',lat=0,lon=.001),
+        dict(id='c1',line='c',lat=0,lon=.002)])
+    before=transfer_audit(design)
+    candidates=transfer_recovery_candidates(design)
+    assert len(candidates)==2
+    assert all(100<r['straight_distance_m']<120 and not r['transfer_created'] for r in candidates)
+    assert before==transfer_audit(design)
+    assert before['reachable_line_pair_fraction']==0

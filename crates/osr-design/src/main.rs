@@ -127,6 +127,36 @@ struct Args {
     civil_register_out: Option<PathBuf>,
 }
 
+fn controlled_civil_boundary(chainage: f64, boundaries: &[f64], line_end: f64) -> f64 {
+    boundaries
+        .iter()
+        .copied()
+        .find(|at| (*at - chainage).abs() <= 0.051)
+        .unwrap_or(chainage)
+        .min(line_end)
+}
+
+#[cfg(test)]
+mod civil_register_tests {
+    use super::controlled_civil_boundary;
+
+    #[test]
+    fn subcentimetre_route_precision_cannot_extend_the_controlled_line() {
+        assert_eq!(
+            controlled_civil_boundary(21828.814, &[0.0, 20000.0], 21828.8),
+            21828.8
+        );
+        assert_eq!(
+            controlled_civil_boundary(20000.003, &[0.0, 20000.0], 21828.8),
+            20000.0
+        );
+        assert_eq!(
+            controlled_civil_boundary(1000.123, &[0.0, 20000.0], 21828.8),
+            1000.123
+        );
+    }
+}
+
 fn refresh_civil_register(args: &Args, bundle: &osr_routing::raster::RasterBundle) -> Result<()> {
     use osr_routing::civil::{civil_segments_from_classes, CivilClass};
     let design: toml::Value =
@@ -178,9 +208,14 @@ fn refresh_civil_register(args: &Args, bundle: &osr_routing::raster::RasterBundl
             .iter()
             .filter(|row| row["line"].as_str() == Some(name))
             .collect();
-        let end = intervals.last().context("missing line civil intervals")?["to_station_m"]
+        let end = design["lines"]
+            .as_array()
+            .context("missing controlled lines")?
+            .iter()
+            .find(|row| row["name"].as_str() == Some(name))
+            .context("missing controlled line")?["length_m"]
             .as_float()
-            .context("civil end")?;
+            .context("line length")?;
         anyhow::ensure!(
             (chainages.last().unwrap() - end).abs() <= 0.15,
             "controlled corridor length mismatch: {}",
@@ -203,15 +238,11 @@ fn refresh_civil_register(args: &Args, bundle: &osr_routing::raster::RasterBundl
             })
             .collect();
         let segments = civil_segments_from_classes(&bundle.grid, &cells, &classes);
-        let boundary = |index: usize| {
-            intervals
-                .iter()
-                .find_map(|row| {
-                    let start = row["from_station_m"].as_float().unwrap();
-                    ((start - chainages[index]).abs() <= 0.051).then_some(start)
-                })
-                .unwrap_or(chainages[index])
-        };
+        let boundaries: Vec<_> = intervals
+            .iter()
+            .map(|row| row["from_station_m"].as_float().unwrap())
+            .collect();
+        let boundary = |index: usize| controlled_civil_boundary(chainages[index], &boundaries, end);
         for (i, segment) in segments.iter().enumerate() {
             let from = boundary(segment.from_idx);
             let to = if i + 1 == segments.len() {
@@ -236,7 +267,14 @@ fn refresh_civil_register(args: &Args, bundle: &osr_routing::raster::RasterBundl
     }
     fs::write(
         args.civil_register_out.as_ref().unwrap(),
-        serde_json::to_vec_pretty(&rows)?,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "segments": rows,
+            "compiled_sources": {
+                "crates/osr-design/src/main.rs": include_str!("main.rs"),
+                "crates/osr-design/src/emit.rs": include_str!("emit.rs"),
+                "crates/osr-routing/src/civil.rs": include_str!("../../osr-routing/src/civil.rs")
+            }
+        }))?,
     )?;
     Ok(())
 }

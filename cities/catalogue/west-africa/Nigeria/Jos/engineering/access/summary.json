@@ -80,14 +80,66 @@
   "population_source_country": "NG",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-africa/Nigeria/Jos/design.toml": "993d9acfeeef618b4142cf1dad09218d73b8f9d3a3d682afc864b4a2d90ab596",
+    "cities/catalogue/west-africa/Nigeria/Jos/design.toml": "f0c5093176cbfd75bab4fc8996c1a8ffeb225c3fc026c8ddd3f6ddb3b0e68beb",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-pixels.npz.gz": "c74dc028b80784be467d8cc0f83b4661d0b50535f3ae87b98c3a4f2a31b84f7c",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-source.json": "e54151c5b33ccd8158594b4ff59815654e4101e3af99bbbbdf08d12de5702bce",
     "cities/catalogue/west-africa/Nigeria/Jos/jos.design-quality.yaml": "91b4dbd02c7f27063eb58052f45031326e556370d4e58c29b48032a88b3039de",
-    "docs/data/city-population-source-overrides.json": "8b554de2994fdaacd8689f27d6720285fc84d224ff9e02dee8d11feb8da3009c",
-    "tools/automation/audit-city-access.py": "208b66b5360540528ae806cfd9358a957135187b624da77b03bbaa0e597d6d38",
-    "tools/automation/city_access.py": "f632fb17ee218d2a959941692a934fa1a8dc41dd0c258234d71cf988e48bd186"
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "569539a9e39619b3a103d5f6e8ed8fe7279aa1002d73767f6a857c9a7f2ef769",
+    "tools/automation/city_access.py": "689ba225682cf16edd38840d121d1435dbb7c3f99998bfdea23acabcb0dcf682"
   },
+  "transfer_recovery_candidates": [
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        1
+      ],
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0761-0611-s014287",
+        "line-2-0782-0526-s011399"
+      ],
+      "straight_distance_m": 1749.5163659754205,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    },
+    {
+      "accessible_path_accepted": false,
+      "barrier_and_height_clearance_accepted": false,
+      "components": [
+        0,
+        2
+      ],
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "required_evidence": [
+        "surveyed entrances and accessible pedestrian path",
+        "river/road/wall crossings",
+        "walking/vertical access and transfer time",
+        "property and operating approval"
+      ],
+      "stations": [
+        "line-1-0354-0685-s005487",
+        "line-3-0338-0806-s000000"
+      ],
+      "straight_distance_m": 2438.125038241985,
+      "transfer_created": false,
+      "walk_time_minutes": null
+    }
+  ],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [

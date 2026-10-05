@@ -8,18 +8,18 @@ Mapped nearby footprints: **15,951**; source heights: **0**. Building source: re
 |---|---|---:|
 | Beam/building | ground-collision | 279 |
 | Beam/building | ground-lateral-clearance-conflict | 78 |
-| Beam/building | height-unresolved | 4,462 |
-| Beam/building | product-depth-unresolved | 8,232 |
-| Reference support/foundation | foundation-footprint-conflict | 4,286 |
-| Reference support/foundation | foundation-setback-conflict | 1,225 |
-| Reference support/foundation | mapped-footprints-only-clear | 13,253 |
+| Beam/building | height-unresolved | 11,936 |
+| Beam/building | product-depth-unresolved | 1,238 |
+| Reference support/foundation | foundation-footprint-conflict | 4,573 |
+| Reference support/foundation | foundation-setback-conflict | 1,321 |
+| Reference support/foundation | mapped-footprints-only-clear | 14,291 |
 | Terrain | beam-terrain-collision | 20 |
-| Terrain | reference-gradient-exceeded | 10,445 |
-| Terrain | reference-gradient-within-policy | 7,880 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 418 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 267 |
+| Terrain | reference-gradient-exceeded | 10,461 |
+| Terrain | reference-gradient-within-policy | 8,254 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 1,386 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 882 |
 
-Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities.
+Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
 ## Measures required for a buildable alignment
 

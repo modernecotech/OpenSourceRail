@@ -144,7 +144,7 @@ def screen_line(route, civil, polygons, records, elevation=None, policy=None):
             gaps.append(dict(segment_index=segment_index, kind='special-product-depth-and-support-layout-unresolved',
                              from_m=start, to_m=end))
         span = 20. if segment.get('viaduct_product') == 'OSR-Pi20' else policy['span_m']
-        positions = list(np.arange(start, end, span)) + [end]
+        positions = [float(at) for at in np.arange(start, end, span) if at < end - 1e-6] + [end]
         for chainage in positions:
             point = interpolate(chainage)
             envelope = point.buffer(policy['foundation_radius_m'] + policy['foundation_setback_m'])
@@ -170,7 +170,11 @@ def screen_line(route, civil, polygons, records, elevation=None, policy=None):
             grade = abs(zb - za) / (right - left) * 100
             terrain.append(dict(segment_index=segment_index, from_m=float(left), to_m=float(right),
                                 status='reference-gradient-exceeded' if grade > gradient else 'reference-gradient-within-policy',
-                                gradient_percent=grade))
+                                gradient_percent=grade,
+                                gradient_basis='Unsurveyed DEM difference between provisional supports',
+                                designed_rail_gradient_percent=None,
+                                vertical_alignment_status='unresolved',
+                                terrain_noise_attribution='unresolved: DEM roof/canopy/quantisation and ground slope not separated'))
             for chainage in np.linspace(left, right, max(2, math.ceil((right-left)/policy['terrain_sample_m']) + 1)):
                 point = interpolate(chainage)
                 ground = elevation(point.x, point.y)

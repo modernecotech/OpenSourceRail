@@ -232,12 +232,11 @@ def alignment_options(d,c,comparison,cost):
     total=sum(r['length_m'] for r in d['lines']);elev=sum(r['to_station_m']-r['from_station_m'] for r in d['civil_segments'] if r['class']=='elevated')
     extra=sum(r['length_m'] for r in conversion);simple_rate=comparison['bearing_index_sensitivity']['simple_span_link_slab_rate_usd_per_km']
     incremental=extra/1000*(simple_rate-cost['civil_usd_per_km']['at_grade'])
-    cases=[dict(id=f'grade-separation-penalty-{int(100*fraction)}pct',extra_viaduct_m=extra,
+    cases=[dict(id='additional_elevation_base_allowance',extra_viaduct_m=extra,
         resulting_elevated_fraction=(elev+extra)/total,incremental_standard_civil_allowance_usd=incremental,
-        hypothetical_penalty_removal_usd=comparison['routing_penalty_usd']*fraction,
-        net_direct_allowance_change_usd=incremental-comparison['routing_penalty_usd']*fraction,
-        penalty_removal_fraction=fraction,realignment_design_verified=False,achieved_saving=False)
-        for fraction in cc['penalty_removal_sensitivities']]
+        hypothetical_penalty_removal_usd=0.,net_direct_allowance_change_usd=incremental,
+        penalty_removal_fraction=0.,realignment_design_verified=False,achieved_saving=False,
+        special_structure_increment_usd=None,complete_installed_budget=False)]
     return dict(policy=cc,current_elevated_fraction=elev/total,candidate_intervals=conversion,alternatives=cases,
         candidate_extra_elevated_m=extra,candidate_elevated_fraction=(elev+extra)/total,
         additional_elevated_within_policy=(elev+extra)/total<=cc['maximum_elevated_fraction'],
@@ -453,6 +452,8 @@ def main():
     variants += [(a['id'],'positive',a,False,False) for a in alignment['alternatives']]
     variants += [(name,'positive',None,False,False) for name in ('local_positive_raw_price_stress','local_positive_supplier_delay','construction_wage_content_stress')]
     OUT.mkdir(parents=True,exist_ok=True)
+    for legacy in OUT.glob('grade-separation-penalty-*'):
+        if legacy.is_file():legacy.unlink()  # retired generated monetary-score sensitivities
     (OUT/'core-elevated-stations.json').write_text(json.dumps(core_stations,indent=2,sort_keys=True)+'\n')
     for name,selection,align,mezz,commercial in variants:
         contracts,selected,bridge=revised_contracts(inputs,task_lines,d,depot,industry,c,cost,selection,align,
@@ -545,7 +546,7 @@ The buy case itemises these five imported completed products; the old blanket ve
 
 The current main design adopts the straight central elevated alignment. The screening policy allows up to {alignment['policy']['maximum_elevated_fraction']:.0%} elevated and at least {alignment['policy']['minimum_at_grade_fraction']:.0%} at grade, subject to site/design acceptance. Baghdad currently has {alignment['current_elevated_fraction']:.2%} elevated. Investigation windows around all {alignment['exceptional_segments']} exceptional segments add {alignment['candidate_extra_elevated_m']/1000:.3f} km of candidate at-grade conversion, reaching {alignment['candidate_elevated_fraction']:.2%}; overlapping intervals are merged and existing viaduct/bridge lengths excluded. Approach length is at least {alignment['minimum_gradient_approach_m']:.1f} m from assumed height/gradient.
 
-**Elevation alone removes no horizontal bend.** Wider-radius geometry, station moves, ROW, vertical alignment, ramps, egress, ground/utility evidence, crossings and whole-life costs must be designed together. The finance cases separately test no routing-penalty removal and hypothetical 25%/50% removal; these percentages are unverified counterfactuals, not achieved savings. The added standard civil allowance uses the conservative simple-span bearing index. [Candidate intervals](alignment-candidates.csv).
+**Elevation alone removes no horizontal bend.** Wider-radius geometry, station moves, ROW, vertical alignment, ramps, egress, ground/utility evidence, crossings and whole-life costs must be designed together. The additional-elevation case includes only its base allowance; routing scores are excluded from money and the old 25%/50% penalty-removal cases are retired. Special designs and consequential installed costs remain unknown. The added standard civil allowance uses the conservative simple-span bearing index. [Candidate intervals](alignment-candidates.csv).
 
 ## Funding and mezzanine comparison
 
