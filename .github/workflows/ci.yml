@@ -180,7 +180,7 @@ jobs:
       - name: Verify pinned TLC and execute the declared model
         run: |
           mkdir -p build/toolchain/tla
-          curl -fsSLo build/toolchain/tla/tla2tools-1.8.0.jar https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar
+          cp engineering/toolchain/tla/tla2tools-1.8.0.jar build/toolchain/tla/tla2tools-1.8.0.jar
           echo "c2fe4e56e43bde19f213b4a7e441d037297fda733e503579623e859b79348239  build/toolchain/tla/tla2tools-1.8.0.jar" | sha256sum -c -
           python3 tools/automation/tacs_assurance.py --check
           python3 tools/automation/tacs_assurance.py --run-formal build/toolchain/tla/tla2tools-1.8.0.jar

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6134**.
+Indexed Markdown files: **6135**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6134**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 193 |
-| [engineering](#engineering) | 29 |
+| [engineering](#engineering) | 30 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6207,6 +6207,7 @@ Indexed Markdown files: **6134**.
 | [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 | [`engineering/toolchain/baseline-assurance.md`](../engineering/toolchain/baseline-assurance.md) | Engineering Baseline Assurance |
+| [`engineering/toolchain/tla/README.md`](../engineering/toolchain/tla/README.md) | Retained TLC assurance executable |
 
 ## lib
 

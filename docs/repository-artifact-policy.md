@@ -12,6 +12,9 @@ user inspect or build the system. Reproducible scratch output still belongs in
 - RFCs, engineering requirements, safety evidence authored by people, and
   stable schemas.
 - Small test fixtures with a named consumer.
+- The checksum-pinned [TLC assurance executable](../engineering/toolchain/tla/README.md),
+  retained as a named CI input because its upstream download URL is mutable.
+  Its embedded licences and reviewed byte identity are preserved.
 - The compact machine-readable city core for every entry in
   `lib/city-batches/world-sample.toml`: `design.toml`, simulator scenario,
   quality result, corridor GeoJSON, and station JSON. Routed designs are
