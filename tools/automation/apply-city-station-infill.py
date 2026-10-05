@@ -52,6 +52,10 @@ def apply(path):
     corridor=city/(slug+'.corridor.geojson');grid_path=out/'planning-grid.json';mask_path=out/'planning-water-mask.bin.gz'
     geometry={f['properties']['name']:f['geometry']['coordinates'] for f in json.loads(corridor.read_text())['features'] if f['properties'].get('kind')=='line'}
     additions=infill(d['stations'],d['lines'],geometry,json.loads(grid_path.read_text()),gzip.decompress(mask_path.read_bytes()),policy['maximum_gap_m'],policy['minimum_gap_m'])
+    existing=[s for s in d['stations'] if s.get('anchor_kind')=='planning:infill']
+    if existing:
+        expected=infill([s for s in d['stations'] if s.get('anchor_kind')!='planning:infill'],d['lines'],geometry,json.loads(grid_path.read_text()),gzip.decompress(mask_path.read_bytes()),policy['maximum_gap_m'],policy['minimum_gap_m'])
+        if sorted(existing,key=lambda s:s['id'])!=sorted(expected,key=lambda s:s['id']):raise ValueError('Planning infill differs from controlled corridor/policy')
     capex_path=ROOT/'lib/templates/capex-costs.toml';capex=tomllib.loads(capex_path.read_text())
     if additions:
         all_stations=sorted(d['stations']+additions,key=lambda s:(s['line'],s['s_m'],s['id']))

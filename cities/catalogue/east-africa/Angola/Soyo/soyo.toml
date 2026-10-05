@@ -80,6 +80,30 @@ is_depot = true
 depot_service = true
 
 [[stations]]
+id = "line-1-planning-infill-s001383"
+name = "Planning infill 1"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-1-planning-infill-s002766"
+name = "Planning infill 2"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-1-planning-infill-s004149"
+name = "Planning infill 3"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-1-planning-infill-s005533"
+name = "Planning infill 4"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
 id = "line-1-0531-0372-s006916"
 name = "Quindombele"
 charging_power_kw = 1000
@@ -96,6 +120,18 @@ is_depot = true
 depot_service = true
 
 [[stations]]
+id = "line-2-planning-infill-s001302"
+name = "Planning infill 1"
+charging_power_kw = 1000
+dwell_seconds = 120
+
+[[stations]]
+id = "line-2-planning-infill-s002604"
+name = "Planning infill 2"
+charging_power_kw = 1000
+dwell_seconds = 120
+
+[[stations]]
 id = "line-2-0474-0480-s003906"
 name = "Cajueiro Soyo"
 charging_power_kw = 1000
@@ -110,8 +146,44 @@ dwell_seconds = 210
 is_terminal = true
 
 [[stations]]
+id = "line-3-planning-infill-s001228"
+name = "Planning infill 1"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-3-planning-infill-s002456"
+name = "Planning infill 2"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
 id = "line-3-0497-0346-s003684"
 name = "line-3-0497-0346-s003684"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-3-planning-infill-s004979"
+name = "Planning infill 1"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-3-planning-infill-s006274"
+name = "Planning infill 2"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-3-planning-infill-s007569"
+name = "Planning infill 3"
+charging_power_kw = 1000
+dwell_seconds = 210
+
+[[stations]]
+id = "line-3-planning-infill-s008864"
+name = "Planning infill 4"
 charging_power_kw = 1000
 dwell_seconds = 210
 
@@ -132,7 +204,11 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0319-0148-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0531-0372-s006916", distance_from_prev_m = 6915 },
+    { id = "line-1-planning-infill-s001383", distance_from_prev_m = 1383 },
+    { id = "line-1-planning-infill-s002766", distance_from_prev_m = 1383 },
+    { id = "line-1-planning-infill-s004149", distance_from_prev_m = 1383 },
+    { id = "line-1-planning-infill-s005533", distance_from_prev_m = 1383 },
+    { id = "line-1-0531-0372-s006916", distance_from_prev_m = 1383 },
 ]
 
 [[lines]]
@@ -140,7 +216,9 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0593-0351-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0474-0480-s003906", distance_from_prev_m = 3905 },
+    { id = "line-2-planning-infill-s001302", distance_from_prev_m = 1301 },
+    { id = "line-2-planning-infill-s002604", distance_from_prev_m = 1301 },
+    { id = "line-2-0474-0480-s003906", distance_from_prev_m = 1301 },
 ]
 
 [[lines]]
@@ -148,8 +226,14 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0340-0286-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0497-0346-s003684", distance_from_prev_m = 3683 },
-    { id = "line-3-0744-0445-s010159", distance_from_prev_m = 6475 },
+    { id = "line-3-planning-infill-s001228", distance_from_prev_m = 1228 },
+    { id = "line-3-planning-infill-s002456", distance_from_prev_m = 1227 },
+    { id = "line-3-0497-0346-s003684", distance_from_prev_m = 1228 },
+    { id = "line-3-planning-infill-s004979", distance_from_prev_m = 1295 },
+    { id = "line-3-planning-infill-s006274", distance_from_prev_m = 1295 },
+    { id = "line-3-planning-infill-s007569", distance_from_prev_m = 1295 },
+    { id = "line-3-planning-infill-s008864", distance_from_prev_m = 1295 },
+    { id = "line-3-0744-0445-s010159", distance_from_prev_m = 1295 },
 ]
 
 
@@ -286,6 +370,74 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
+station = "line-1-planning-infill-s001383"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s002766"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s004149"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s005533"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
 station = "line-1-0531-0372-s006916"
 tier = "terminal"
 pv_nameplate_kw = 300.0
@@ -312,6 +464,40 @@ storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
 grid_import_kw = 6000.0
 grid_export_kw = 6000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-2-planning-infill-s001302"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-2-planning-infill-s002604"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
 charger_max_kw = 1000.0
 charger_max_current_a = 1650.0
@@ -354,7 +540,109 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
+station = "line-3-planning-infill-s001228"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-3-planning-infill-s002456"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
 station = "line-3-0497-0346-s003684"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-3-planning-infill-s004979"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-3-planning-infill-s006274"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-3-planning-infill-s007569"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-3-planning-infill-s008864"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0
