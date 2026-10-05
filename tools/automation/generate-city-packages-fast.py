@@ -290,6 +290,10 @@ def prepare_city(
     if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
         commands.insert(1,[sys.executable,str(REPO_ROOT/'tools/automation/apply-city-depot-scope.py'),'--design',str(design_path)])
         commands.insert(2,[sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path)])
+    if (city_dir/'station-infill-policy.toml').is_file():
+        infill_command=[sys.executable,str(REPO_ROOT/'tools/automation/apply-city-station-infill.py'),'--design',str(design_path)]
+        commands.insert(1,infill_command)
+        commands.insert(3,infill_command)  # Bind the final depot-priced design.
     for command in commands:
         return_code = run_logged(command, log_path)
         if return_code:

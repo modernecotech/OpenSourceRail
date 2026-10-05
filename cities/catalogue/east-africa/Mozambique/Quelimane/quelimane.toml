@@ -78,6 +78,24 @@ dwell_seconds = 240
 is_terminal = true
 
 [[stations]]
+id = "line-1-planning-infill-s001424"
+name = "Planning infill 1"
+charging_power_kw = 1000
+dwell_seconds = 240
+
+[[stations]]
+id = "line-1-planning-infill-s002847"
+name = "Planning infill 2"
+charging_power_kw = 1000
+dwell_seconds = 240
+
+[[stations]]
+id = "line-1-planning-infill-s004271"
+name = "Planning infill 3"
+charging_power_kw = 1000
+dwell_seconds = 240
+
+[[stations]]
 id = "line-1-0423-0452-s005694"
 name = "Aeroporto de Quelimane"
 charging_power_kw = 1000
@@ -94,7 +112,10 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0373-0716-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0423-0452-s005694", distance_from_prev_m = 5694 },
+    { id = "line-1-planning-infill-s001424", distance_from_prev_m = 1423 },
+    { id = "line-1-planning-infill-s002847", distance_from_prev_m = 1423 },
+    { id = "line-1-planning-infill-s004271", distance_from_prev_m = 1423 },
+    { id = "line-1-0423-0452-s005694", distance_from_prev_m = 1423 },
 ]
 
 
@@ -159,6 +180,57 @@ storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
 grid_import_kw = 1600.0
 grid_export_kw = 1600.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s001424"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s002847"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-planning-infill-s004271"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
 charger_max_kw = 1000.0
 charger_max_current_a = 1650.0

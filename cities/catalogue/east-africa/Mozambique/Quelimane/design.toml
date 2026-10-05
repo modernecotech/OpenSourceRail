@@ -61,25 +61,58 @@ viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
 
 [[stations]]
-id              = "line-1-0373-0716-s000000"
-line            = "line-1"
-lat             = -17.846717363135728
-lon             = 36.919459804278574
-s_m             = 0.0
-anchor_kind     = "place:town"
-anchor_name     = "Uachave"
-archetype       = "terminal"
+id = "line-1-0373-0716-s000000"
+line = "line-1"
+lat = -17.846717363135728
+lon = 36.919459804278574
+s_m = 0.0
+anchor_kind = "place:town"
+anchor_name = "Uachave"
+archetype = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0423-0452-s005694"
-line            = "line-1"
-lat             = -17.855715671453765
-lon             = 36.86962227695192
-s_m             = 5694.2
-anchor_kind     = "aeroway:aerodrome"
-anchor_name     = "Aeroporto de Quelimane"
-archetype       = "depot-terminal"
+id = "line-1-planning-infill-s001424"
+line = "line-1"
+lat = -17.848903312566932
+lon = 36.906972776473815
+s_m = 1423.5
+anchor_kind = "planning:infill"
+anchor_name = "Planning infill 1"
+archetype = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id = "line-1-planning-infill-s002847"
+line = "line-1"
+lat = -17.85121651729475
+lon = 36.89454104061525
+s_m = 2847.1
+anchor_kind = "planning:infill"
+anchor_name = "Planning infill 2"
+archetype = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id = "line-1-planning-infill-s004271"
+line = "line-1"
+lat = -17.85352972202257
+lon = 36.88210930475668
+s_m = 4270.6
+anchor_kind = "planning:infill"
+anchor_name = "Planning infill 3"
+archetype = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id = "line-1-0423-0452-s005694"
+line = "line-1"
+lat = -17.855715671453765
+lon = 36.86962227695192
+s_m = 5694.2
+anchor_kind = "aeroway:aerodrome"
+anchor_name = "Aeroporto de Quelimane"
+archetype = "depot-terminal"
 platform_length_m = 59.5
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
@@ -158,8 +191,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 55507194
 civil_subtotal_eur   = 51066618
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 9500000
-stations_eur         = 8740000
+stations_usd         = 17000000
+stations_eur         = 15640000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 14139490
 depots_eur           = 13008331
@@ -172,13 +205,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 284711
 signalling_eur       = 261934
-charging_microgrid_usd = 700000
-charging_microgrid_eur = 644000
+charging_microgrid_usd = 1300000
+charging_microgrid_eur = 1196000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 6743198
-epc_overhead_eur     = 6203742
-total_usd            = 103074593  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 94828626  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 7310198
+epc_overhead_eur     = 6725382
+total_usd            = 111741593  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 102802266  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
