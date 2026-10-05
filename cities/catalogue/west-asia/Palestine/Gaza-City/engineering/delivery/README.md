@@ -70,15 +70,18 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–96.6 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
-| line-1 173.1–8568.9 m | 100.0 | 1680 | 252 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 20.0–48.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 48.284–96.6 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 173.1–8548.915 m | 100.0 | 1680 | 252 | 17.6 / 22.0 / 26.4 |
+| line-1 8548.915–8568.9 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 0.0–4269.0 m | 100.0 | 856 | 128 | 17.6 / 22.0 / 26.4 |
 | line-2 4337.3–7074.4 m | 100.0 | 552 | 82 | 17.6 / 22.0 / 26.4 |
 | line-3 0.0–5725.7 m | 100.0 | 1152 | 172 | 17.6 / 22.0 / 26.4 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 63, "granular-density-and-groundwater-tests": 58}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 72, "granular-density-and-groundwater-tests": 67}.
 
 ## Joints, paints, finishes and cleaning
 

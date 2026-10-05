@@ -14,7 +14,7 @@ crs            = "EPSG:32646"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "a5baa054fd1745028a18d6d4cc740d7ecadd825f5a9e1fd540f9356100b05d80"
+source_design_sha256 = "13a1ef660ed9d1e4a3ea121536131a2d1ca77b7343c4090e19d67b386bc90761"
 source_geojson_sha256 = "08256cb85e6e169179d4ca0ed631d339033df8dcaf881ae98dd3611206d13ae8"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
@@ -4184,6 +4184,11 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 120.000
+to_station_m   = 140.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 140.000
 to_station_m   = 160.000
 class          = "elevated"
 
@@ -4474,6 +4479,26 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 9505.900
+to_station_m   = 9534.214
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9534.214
+to_station_m   = 9554.214
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9554.214
+to_station_m   = 9574.214
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9574.214
+to_station_m   = 9622.498
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9622.498
 to_station_m   = 9747.400
 class          = "elevated"
 
@@ -4484,6 +4509,16 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 9823.900
+to_station_m   = 10451.615
+class          = "elevated"
+
+[[civil]]
+from_station_m = 10451.615
+to_station_m   = 10471.615
+class          = "elevated"
+
+[[civil]]
+from_station_m = 10471.615
 to_station_m   = 10633.000
 class          = "elevated"
 
@@ -4494,6 +4529,16 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 10661.300
+to_station_m   = 12589.260
+class          = "elevated"
+
+[[civil]]
+from_station_m = 12589.260
+to_station_m   = 12609.260
+class          = "elevated"
+
+[[civil]]
+from_station_m = 12609.260
 to_station_m   = 14295.800
 class          = "elevated"
 
@@ -4614,6 +4659,16 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 19668.500
+to_station_m   = 20099.596
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20099.596
+to_station_m   = 20119.596
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20119.596
 to_station_m   = 20216.200
 class          = "elevated"
 
@@ -4639,11 +4694,6 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 20948.700
-to_station_m   = 21085.300
-class          = "bridge"
-
-[[civil]]
-from_station_m = 21085.300
 to_station_m   = 21105.300
 class          = "bridge"
 

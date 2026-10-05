@@ -48,6 +48,7 @@ def test_terrain_crest_between_piers_collides_with_straight_beam():
     assert any(row['status'] == 'beam-terrain-collision' for row in result['terrain_checks'])
     steep = screen_line(LineString([(0, 0), (50, 0)]), [segment()], [], [], lambda x, y:x/10)
     assert all(row['status'] == 'reference-gradient-exceeded' for row in steep['terrain_checks'])
+    assert all(row['designed_rail_gradient_percent'] is None for row in steep['terrain_checks'])
 
 
 def test_explicit_units_and_floor_estimates_are_not_measured_heights():

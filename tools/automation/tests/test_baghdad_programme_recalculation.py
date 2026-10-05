@@ -117,7 +117,7 @@ def test_fabrication_counts_capacity_parent_budgets_and_residual_imports():
 
 @pytest.mark.parametrize('name',['revised_scope_buy','local_all','local_positive','local_positive_mezzanine',
     'local_positive_commercial_gap','local_positive_mezzanine_stress','additional_elevation_base_allowance','local_positive_raw_price_stress',
-    'local_positive_supplier_delay','construction_wage_content_stress'])
+    'local_positive_supplier_delay','construction_wage_content_stress','integrated_fare_1_25_boardings','integrated_fare_1_5_boardings','integrated_fare_2_boardings'])
 def test_every_cashflow_and_native_principal_and_six_month_tranche_reconciles(name):
     data=read(name);metrics=data['metrics'];rows=data['monthly']
     assert metrics['government_share']==pytest.approx(.25)
@@ -160,3 +160,14 @@ def current_design():
 
 def current_fleet():
     return sum(r['trainset_count'] for r in current_design()['fleets'])
+
+
+def test_integrated_transfers_reduce_fares_without_reducing_commercial_income_or_costs():
+    original=[dict(month=0,revenue_usd=120,fare_revenue_usd=100,nonfare_revenue_usd=20,opex_usd=80)]
+    corrected=programme.integrated_journey_projection(original,2)
+    assert corrected[0]['fare_revenue_usd']==50
+    assert corrected[0]['nonfare_revenue_usd']==20
+    assert corrected[0]['revenue_usd']==70 and corrected[0]['opex_usd']==80
+    assert original[0]['revenue_usd']==120
+    with pytest.raises(ValueError):programme.integrated_journey_projection(original,float('nan'))
+    with pytest.raises(ValueError):programme.integrated_journey_projection(original,.5)

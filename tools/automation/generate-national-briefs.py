@@ -123,7 +123,7 @@ def factory_budget(country_code: str, cities: list[CityCapital]) -> float:
     return amount
 
 
-def render_brief(
+def _render_brief(
     country_code: str,
     country_name: str,
     cities: list[CityCapital],
@@ -456,6 +456,16 @@ def render_brief(
         ]
     )
     return "\n".join(out)
+
+
+def render_brief(country_code, country_name, cities, *, detailed=False):
+    text=_render_brief(country_code,country_name,cities,detailed=detailed)
+    finance=_load_country_finance(country_code)
+    if finance.get('country_parameters_calibrated') is False:
+        label='**Uncalibrated country scenario.** '+finance['assumption_basis']+'. Numerical XX defaults are illustrative, not South Sudan country estimates or available financing.\n\n'
+        heading,body=text.split('\n\n',1)
+        return heading+'\n\n'+label+body
+    return text
 
 
 def atomic_write(path: Path, text: str) -> None:

@@ -14,7 +14,7 @@ crs            = "EPSG:32631"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "302943e2db29bed5b0259f98fbcac6c167fc2d7d3f70ca52db2646405d5e44ec"
+source_design_sha256 = "ad5c4213857670c1ee834baad563b353e5e79c4392d61f3d388f58e1aa6d7144"
 source_geojson_sha256 = "9ae3412e264a8b6ab182d69bac72caaa4abd8c671af4cbe193d27d3733d61221"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
@@ -1752,6 +1752,16 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
+to_station_m   = 20.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20.000
+to_station_m   = 68.284
+class          = "elevated"
+
+[[civil]]
+from_station_m = 68.284
 to_station_m   = 1417.400
 class          = "elevated"
 
@@ -1762,6 +1772,21 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 1437.400
+to_station_m   = 11454.356
+class          = "elevated"
+
+[[civil]]
+from_station_m = 11454.356
+to_station_m   = 11482.641
+class          = "elevated"
+
+[[civil]]
+from_station_m = 11482.641
+to_station_m   = 11502.641
+class          = "elevated"
+
+[[civil]]
+from_station_m = 11502.641
 to_station_m   = 11530.900
 class          = "elevated"
 
@@ -1772,6 +1797,16 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 11728.900
+to_station_m   = 11797.199
+class          = "elevated"
+
+[[civil]]
+from_station_m = 11797.199
+to_station_m   = 11817.199
+class          = "elevated"
+
+[[civil]]
+from_station_m = 11817.199
 to_station_m   = 11845.500
 class          = "elevated"
 

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6135**.
+Indexed Markdown files: **6140**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **6135**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 5429 |
+| [cities](#cities) | 5432 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 193 |
+| [docs](#docs) | 195 |
 | [engineering](#engineering) | 30 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -990,6 +990,27 @@ Indexed Markdown files: **6135**.
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/survey/surveyed-alignment-readiness.md) | Mogadishu surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md) | Mogadishu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md) | Somalia National OpenSourceRail Strategy |
+| [`cities/catalogue/east-africa/South Sudan/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/South Sudan/NATIONAL-BRIEF.md) | South Sudan National OpenSourceRail Strategy |
+| [`cities/catalogue/east-africa/South Sudan/Wau/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/README.md) | Waw — Urban Rail Network |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/access/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/access/README.md) | Wau — population access and transfers |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/alignment/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/alignment/README.md) | Wau Planning OSR-ALN Package |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/clearance/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/clearance/README.md) | Wau — viaduct obstacle clearance |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/delivery/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/delivery/README.md) | Wau organisation and design work |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/deployment/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/deployment/README.md) | Wau deployment gaps |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/depot-scope/README.md) | waw depot scope reconciliation |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/factory/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/factory/README.md) | Wau city-order factory requirement |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/line-depots/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/simulation/operations-crosscheck.md) | Waw operations cross-check |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/soil/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/soil/README.md) | Wau civil soil screening |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/stabling/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/control-processing-readiness.md) | Waw survey-control processing |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/drainage-ground-readiness.md) | Waw drainage and ground-design gate |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/field-evidence-brief.md) | Waw field-evidence brief |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/ground-model-readiness.md) | Waw surveyed-ground-model gate |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/route-station-fit-readiness.md) | Waw route and station fit gate |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/structural-release-readiness.md) | Waw structural-release gate |
+| [`cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/survey/surveyed-alignment-readiness.md) | Waw surveyed-alignment gate |
+| [`cities/catalogue/east-africa/South Sudan/Wau/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/South Sudan/Wau/operations/acceptance-evidence-report.md) | Waw Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/README.md) | Arusha — Urban Rail Network |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/access/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/access/README.md) | Arusha — population access and transfers |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/alignment/README.md) | Arusha Planning OSR-ALN Package |
@@ -2000,26 +2021,6 @@ Indexed Markdown files: **6135**.
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/survey/structural-release-readiness.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/survey/structural-release-readiness.md) | Port-Sudan structural-release gate |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/survey/surveyed-alignment-readiness.md) | Port-Sudan surveyed-alignment gate |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/operations/acceptance-evidence-report.md) | Port Sudan Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/north-africa/Sudan/Waw/README.md`](../cities/catalogue/north-africa/Sudan/Waw/README.md) | Waw — Urban Rail Network |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/access/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/access/README.md) | Waw — population access and transfers |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/alignment/README.md) | Waw Planning OSR-ALN Package |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/clearance/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/clearance/README.md) | Waw — viaduct obstacle clearance |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/delivery/README.md) | Waw organisation and design work |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/deployment/README.md) | Waw deployment gaps |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/depot-scope/README.md) | waw depot scope reconciliation |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/factory/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/factory/README.md) | Waw city-order factory requirement |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/line-depots/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/simulation/operations-crosscheck.md) | Waw operations cross-check |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/soil/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/soil/README.md) | Waw civil soil screening |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/stabling/README.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/control-processing-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/control-processing-readiness.md) | Waw survey-control processing |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/drainage-ground-readiness.md) | Waw drainage and ground-design gate |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/field-evidence-brief.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/field-evidence-brief.md) | Waw field-evidence brief |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/ground-model-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/ground-model-readiness.md) | Waw surveyed-ground-model gate |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/route-station-fit-readiness.md) | Waw route and station fit gate |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/structural-release-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/structural-release-readiness.md) | Waw structural-release gate |
-| [`cities/catalogue/north-africa/Sudan/Waw/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/north-africa/Sudan/Waw/engineering/survey/surveyed-alignment-readiness.md) | Waw surveyed-alignment gate |
-| [`cities/catalogue/north-africa/Sudan/Waw/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Waw/operations/acceptance-evidence-report.md) | Waw Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/north-africa/Tunisia/NATIONAL-BRIEF.md`](../cities/catalogue/north-africa/Tunisia/NATIONAL-BRIEF.md) | Tunisia National OpenSourceRail Strategy |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/README.md) | Tunis — Urban Rail Network |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/access/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/access/README.md) | Tunis — population access and transfers |
@@ -4251,6 +4252,7 @@ Indexed Markdown files: **6135**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md) | Baghdad — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md) | Baghdad — viaduct obstacle clearance |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad same-alignment cost reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md) | Baghdad line-local depot and stabling quantity package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md) | Baghdad delivery estimate and scope reconciliation |
@@ -4271,6 +4273,7 @@ Indexed Markdown files: **6135**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SIX-CAR-PROCUREMENT.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SIX-CAR-PROCUREMENT.md) | Six-car child parts and procurement/qualification work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/WORKFORCE-PILOT.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/WORKFORCE-PILOT.md) | Workforce, practical training and a rest-limited pilot |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-risk/README.md) | Baghdad frozen-resource delivery and funding study |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/demand-bridge/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/demand-bridge/README.md) | Baghdad access, demand and paid journeys |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/README.md) | Baghdad deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md) | baghdad depot scope reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md) | Baghdad detailed component register |
@@ -5988,7 +5991,8 @@ Indexed Markdown files: **6135**.
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
 | [`docs/baghdad-ci-controls-review-2026-10-04.md`](../docs/baghdad-ci-controls-review-2026-10-04.md) | Baghdad review follow-up: controls, CI and deliverable-service sensitivity |
 | [`docs/baghdad-continuation-review-2026-10-04.md`](../docs/baghdad-continuation-review-2026-10-04.md) | Baghdad continuation: physical packages and revised financial conclusion |
-| [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Current Baghdad delivery review — 4 October 2026 |
+| [`docs/baghdad-cost-and-demand-review-2026-10-05.md`](../docs/baghdad-cost-and-demand-review-2026-10-05.md) | Baghdad cost and demand review — 5 October 2026 |
+| [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Baghdad delivery review — regenerated planning scope |
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
 | [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |
@@ -6046,6 +6050,7 @@ Indexed Markdown files: **6135**.
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/ethos-audit-2026-09-09.md`](../docs/ethos-audit-2026-09-09.md) | Audit of today's corrections against the OpenSourceRail design |
+| [`docs/finance/civil-allowance-boundary.md`](../docs/finance/civil-allowance-boundary.md) | Civil allowances and routing scores |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
 | [`docs/lifecycle/README.md`](../docs/lifecycle/README.md) | Connected OpenSourceRail lifecycle |
 | [`docs/lifecycle/embedded-integration.md`](../docs/lifecycle/embedded-integration.md) | Native embedded software, ERPNext and FUXA |

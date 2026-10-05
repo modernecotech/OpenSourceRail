@@ -21,12 +21,12 @@ This page contains only Burkina Faso-specific aggregation. Shared network, servi
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $746.6 M (19.9%) |
+| Imported / external capital | $746.4 M (19.9%) |
 | Domestic / local capital | $3.01 B (80.1%) |
-| Annual external capital draw | $74.7 M / yr |
-| Annual local capital draw | $301.1 M / yr |
-| Annual public construction commitment | $322.7 M / yr for 10 years |
-| Annual post-grace debt service | $290.8 M / yr |
+| Annual external capital draw | $74.6 M / yr |
+| Annual local capital draw | $301.0 M / yr |
+| Annual public construction commitment | $322.6 M / yr for 10 years |
+| Annual post-grace debt service | $290.7 M / yr |
 | Default foreign-turnkey external capital | $6.76 B |
 | External capital saved | $6.02 B |
 | Capital + lifetime external interest saved | $13.79 B |
@@ -35,7 +35,7 @@ This page contains only Burkina Faso-specific aggregation. Shared network, servi
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.71 B | $257.1 M | $1.46 B |
+| Civil works | $1.71 B | $256.9 M | $1.46 B |
 | Stations | $413.0 M | $82.6 M | $330.4 M |
 | Depots | $119.5 M | $29.9 M | $89.6 M |
 | Rolling stock | $293.4 M | $102.7 M | $190.7 M |
@@ -44,13 +44,13 @@ This page contains only Burkina Faso-specific aggregation. Shared network, servi
 | Charging microgrids | $22.1 M | $8.8 M | $13.2 M |
 | EPC / project services | $236.6 M | $35.5 M | $201.1 M |
 | Shared national trainset factory | $809.0 M | $161.8 M | $647.2 M |
-| **Total** | **$3.76 B** | **$746.6 M** | **$3.01 B** |
+| **Total** | **$3.76 B** | **$746.4 M** | **$3.01 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Ouagadougou](Ouagadougou/README.md) | 2,531,000 | 262 | $2.89 B | $576.3 M | $2.32 B |
+| [Ouagadougou](Ouagadougou/README.md) | 2,531,000 | 262 | $2.89 B | $576.1 M | $2.32 B |
 
 ## Local Basis And Regeneration
 

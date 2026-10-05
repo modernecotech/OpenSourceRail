@@ -35,7 +35,7 @@ This page contains only Ecuador-specific aggregation. Shared network, service, e
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $484.3 M | $72.7 M | $411.7 M |
+| Civil works | $484.3 M | $72.6 M | $411.7 M |
 | Stations | $81.9 M | $16.4 M | $65.5 M |
 | Depots | $62.3 M | $15.6 M | $46.7 M |
 | Rolling stock | $169.2 M | $59.2 M | $110.0 M |
@@ -50,7 +50,7 @@ This page contains only Ecuador-specific aggregation. Shared network, service, e
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Cuenca](Cuenca/README.md) | 817,100 | 188 | $910.0 M | $197.5 M | $712.5 M |
+| [Cuenca](Cuenca/README.md) | 817,100 | 188 | $910.0 M | $197.5 M | $712.4 M |
 
 ## Local Basis And Regeneration
 

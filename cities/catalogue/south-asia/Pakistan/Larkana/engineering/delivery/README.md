@@ -78,7 +78,7 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 52, "granular-density-and-groundwater-tests": 90}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 45, "granular-density-and-groundwater-tests": 83}.
 
 ## Joints, paints, finishes and cleaning
 

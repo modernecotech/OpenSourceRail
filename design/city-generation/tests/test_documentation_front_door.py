@@ -6,6 +6,7 @@ import json
 import math
 import runpy
 import subprocess
+import tomllib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -14,7 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 def test_root_readme_is_a_concise_developing_world_front_door() -> None:
     text = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     assert len(text.splitlines()) <= 220
-    assert "265 cities in 43 developing countries" in text
+    assert "265 cities in 44 developing countries" in text
     assert "one european comparison model" in text.lower()
     assert "Lyon" not in text
     assert "open-source-rail-introduction.html" not in text
@@ -109,9 +110,11 @@ def test_acceptance_reports_link_only_to_published_city_artifacts() -> None:
     )
     for report in reports:
         text = report.read_text(encoding="utf-8")
-        slug = report.parents[1].name.lower().replace(" ", "-")
+        slug = tomllib.loads((report.parents[1] / 'design.toml').read_text())["city"]["slug"]
         assert f"]({slug}-assets.csv)" in text
         assert f"]({slug}-operations-manifest.json)" in text
+        assert (report.parent / f"{slug}-assets.csv").is_file()
+        assert (report.parent / f"{slug}-operations-manifest.json").is_file()
         assert not any(suffix in text for suffix in forbidden_suffixes)
 
 
@@ -154,7 +157,7 @@ def test_public_overview_is_generated_from_current_metrics() -> None:
     external = 100 * capital['imported_external_capital_usd'] / capital['total_capex_usd']
     for current_metric in (
         "265",
-        "43",
+        "44",
         "$900k",
         "$885k",
         f"${external:.1f}M",
@@ -179,9 +182,9 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
         (REPO_ROOT / "docs/portfolio-summary.json").read_text(encoding="utf-8")
     )
     deployment = (REPO_ROOT / "docs/deployment-model.md").read_text(encoding="utf-8")
-    assert "265-city / 43-country" in portfolio
+    assert "265-city / 44-country" in portfolio
     assert "European comparison designs" in portfolio
-    assert "266-city / 44-country" not in portfolio
+    assert "266-city / 45-country" not in portfolio
     assert "Lyon" not in portfolio
     assert "Lyon" not in deployment
     assert "turnkey external capital = turnkey price × 90%" in portfolio
@@ -192,7 +195,7 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
         assert (f"${value/1e12:.2f}T" if value >= 1e12 else f"${value/1e9:.2f}B") in portfolio
     assert portfolio_json["schema_version"] == 1
     assert portfolio_json["scope"]["city_count"] == 265
-    assert portfolio_json["scope"]["country_count"] == 43
+    assert portfolio_json["scope"]["country_count"] == 44
     assert set(portfolio_json["foreign_turnkey_comparator"]["cases"]) == {
         "low",
         "default",
@@ -283,7 +286,7 @@ def test_complete_book_manifest_covers_reader_documentation() -> None:
                 assert rel in included
 
     country_briefs = [path for path in relative if path.endswith("/NATIONAL-BRIEF.md")]
-    assert len(country_briefs) == 43
+    assert len(country_briefs) == 44
     assert not any(path.startswith("cities/catalogue/europe/") for path in country_briefs)
     assert "docs/README.md" not in included
     assert "docs/INDEX.md" not in included

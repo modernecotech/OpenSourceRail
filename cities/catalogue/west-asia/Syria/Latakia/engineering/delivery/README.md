@@ -70,14 +70,50 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–10399.7 m | 100.0 | 2080 | 312 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–28.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 28.284–48.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 48.284–10399.7 m | 100.0 | 2076 | 311 | 17.6 / 22.0 / 26.4 |
 | line-2 0.0–6690.8 m | 100.0 | 1340 | 201 | 17.6 / 22.0 / 26.4 |
-| line-3 0.0–578.0 m | 100.0 | 120 | 18 | 17.6 / 22.0 / 26.4 |
-| line-3 842.8–9265.2 m | 100.0 | 1688 | 252 | 17.6 / 22.0 / 26.4 |
+| line-3 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 68.284–578.0 m | 100.0 | 108 | 15 | 17.6 / 22.0 / 26.4 |
+| line-3 842.8–1300.833 m | 100.0 | 96 | 14 | 17.6 / 22.0 / 26.4 |
+| line-3 1300.833–1409.117 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 1409.117–1833.97 m | 100.0 | 88 | 12 | 17.6 / 22.0 / 26.4 |
+| line-3 1833.97–1882.254 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 1882.254–2331.96 m | 100.0 | 92 | 13 | 17.6 / 22.0 / 26.4 |
+| line-3 2331.96–2351.96 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 2351.96–2791.96 m | 100.0 | 92 | 13 | 17.6 / 22.0 / 26.4 |
+| line-3 2791.96–2908.528 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 2908.528–3041.665 m | 100.0 | 32 | 4 | 17.6 / 22.0 / 26.4 |
+| line-3 3041.665–3081.665 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3081.665–3109.949 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3109.949–3149.949 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3149.949–3278.234 m | 100.0 | 32 | 4 | 17.6 / 22.0 / 26.4 |
+| line-3 3278.234–3386.518 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 3386.518–3563.087 m | 100.0 | 40 | 6 | 17.6 / 22.0 / 26.4 |
+| line-3 3563.087–3591.371 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3591.371–3611.371 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 3611.371–3639.655 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3639.655–4330.193 m | 100.0 | 140 | 21 | 17.6 / 22.0 / 26.4 |
+| line-3 4330.193–4438.478 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 4438.478–4498.478 m | 75.0 | 16 | 2 | 13.2 / 16.5 / 19.8 |
+| line-3 4498.478–4538.478 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 4538.478–4635.046 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 4635.046–4655.046 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 4655.046–4695.046 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 4695.046–4771.615 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 4771.615–5251.026 m | 100.0 | 100 | 15 | 17.6 / 22.0 / 26.4 |
+| line-3 5251.026–5351.026 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 5351.026–5399.31 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 5399.31–5507.595 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-3 5507.595–5555.879 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 5555.879–9216.955 m | 100.0 | 736 | 110 | 17.6 / 22.0 / 26.4 |
+| line-3 9216.955–9265.2 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 
-Mapped soil has 1 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 3 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 1, "fine-soil-plasticity-and-shrink-swell-tests": 45, "granular-density-and-groundwater-tests": 45, "silt-moisture-frost-and-erosion-review": 2}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 3, "fine-soil-plasticity-and-shrink-swell-tests": 139, "granular-density-and-groundwater-tests": 146, "silt-moisture-frost-and-erosion-review": 1}.
 
 ## Joints, paints, finishes and cleaning
 

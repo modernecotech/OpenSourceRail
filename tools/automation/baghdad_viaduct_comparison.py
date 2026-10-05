@@ -340,18 +340,17 @@ def markdown(r):
         'Original civil invoice timing and origin shares are inherited assumptions, not supplier evidence; all consequential costs remain open.','',
         '## Alignment and budget boundary','',
         f"The register covers all {len(r['alignment_segments'])} elevated segments, including {r['special_segment_count']} individual special reviews. "
-        f"It separates USD {r['standard_rate_allowance_usd']/1e9:.3f}bn standard-rate allowance from "
-        f"USD {r['routing_penalty_usd']/1e9:.3f}bn monetary routing penalty. "
+        f"Its standard-rate base allowance is USD {r['standard_rate_allowance_usd']/1e9:.3f}bn. "
         'Search deterrents are excluded from monetary allowances. This base allowance is not a complete installed price or an achieved saving; special/segmental increments remain unknown. Each special segment has '
         'wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. '
         'No alternative is accepted and original capital/debt figures are preserved.','',
-        'The individual special reviews are ranked by existing penalty exposure to direct investigation effort, '
-        'not by achieved savings. Approximate radius is recovered from the rounded routing multiplier; '
-        'it is not a fitted/surveyed radius. The Pi20 chord screen shows where shortening alone still fails '
+        'The individual special reviews are ranked by local search-deterrent weighted metres to direct investigation effort. '
+        'This score is not money or an achieved saving. Radius comes from the local controlled geometry screen; '
+        'it is not a surveyed radius. The Pi20 chord screen shows where shortening alone still fails '
         'the existing catalogue allowance. Nearby station IDs support bounded station/right-of-way studies.','',
-        '| Special priority | Line/chainage m | Length m | Routing penalty USD m | Radius proxy m | Pi20 chord screen |',
+        '| Special priority | Line/chainage m | Length m | Search-deterrent weighted m | Inferred radius m | Pi20 chord screen |',
         '|---|---|---:|---:|---:|---|',
-        *[f"| {row['special_priority_rank']} | {row['line']} {row['from_station_m']:.1f}–{row['to_station_m']:.1f} | {row['length_m']:.1f} | {row['routing_penalty_usd']/1e6:.3f} | {row['radius_proxy_from_routing_multiplier_m']:.1f} | {row['pi20_chord_screen_passed']} |"
+        *[f"| {row['special_priority_rank']} | {row['line']} {row['from_station_m']:.1f}–{row['to_station_m']:.1f} | {row['length_m']:.1f} | {row['search_penalty_equivalent_m']:.1f} | {row['minimum_radius_m']:.1f} | {row['pi20_chord_screen_passed']} |"
           for row in sorted((row for row in r['alignment_segments'] if row['special_priority_rank']),key=lambda row:row['special_priority_rank'])[:10]],'',
         f"A further 20% reduction in beam concrete changes the existing index by only USD {r['beam_concrete_20pct_reduction_index_delta_usd_per_km']/1e6:.3f}m/km "
         'before any offsetting prestress, reinforcement or fabrication changes. No literature percentage is applied again.','',

@@ -74,16 +74,26 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 7903.2–7951.5 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-1 14279.6–14299.6 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-1 14319.6–20896.0 m | 100.0 | 1320 | 198 | 17.6 / 22.0 / 26.4 |
-| line-1 20924.2–25429.2 m | 100.0 | 908 | 135 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–1050.5 m | 100.0 | 216 | 32 | 17.6 / 22.0 / 26.4 |
-| line-2 1183.7–2032.8 m | 100.0 | 172 | 25 | 17.6 / 22.0 / 26.4 |
-| line-2 2081.1–6423.2 m | 100.0 | 872 | 130 | 17.6 / 22.0 / 26.4 |
+| line-1 20924.2–25296.105 m | 100.0 | 876 | 131 | 17.6 / 22.0 / 26.4 |
+| line-1 25296.105–25324.39 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 25324.39–25429.2 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-2 0.0–48.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 48.284–68.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 68.284–945.685 m | 100.0 | 180 | 27 | 17.6 / 22.0 / 26.4 |
+| line-2 945.685–965.685 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 965.685–1050.5 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-2 1183.7–1436.812 m | 100.0 | 56 | 8 | 17.6 / 22.0 / 26.4 |
+| line-2 1436.812–1456.812 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 1456.812–2032.8 m | 100.0 | 120 | 18 | 17.6 / 22.0 / 26.4 |
+| line-2 2081.1–4648.427 m | 100.0 | 516 | 77 | 17.6 / 22.0 / 26.4 |
+| line-2 4648.427–4668.427 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 4668.427–6423.2 m | 100.0 | 356 | 53 | 17.6 / 22.0 / 26.4 |
 | line-2 6906.1–6946.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-2 9087.1–9135.4 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 
-Mapped soil has 15 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 21 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 15, "fine-soil-plasticity-and-shrink-swell-tests": 80, "granular-density-and-groundwater-tests": 107, "silt-moisture-frost-and-erosion-review": 11}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 21, "fine-soil-plasticity-and-shrink-swell-tests": 104, "granular-density-and-groundwater-tests": 124, "silt-moisture-frost-and-erosion-review": 11}.
 
 ## Joints, paints, finishes and cleaning
 

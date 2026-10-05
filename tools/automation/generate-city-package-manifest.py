@@ -227,6 +227,20 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
             if actual is None or recorded.get(source) != actual:
                 findings.append({'artifact': 'engineering/'+relative, 'source': source,
                                  'expected_sha256': actual, 'recorded_sha256': recorded.get(source)})
+    for relative in ('local-civil-costs/summary.json','demand-bridge/summary.json','cost-reconciliation/summary.json'):
+        path=city_dir/'engineering'/relative
+        if not path.is_file():continue
+        report=json.loads(path.read_text())
+        for source,digest in report.get('sources_sha256',{}).items():
+            actual=sha256(REPO_ROOT/source) if (REPO_ROOT/source).is_file() else None
+            if actual!=digest:
+                findings.append({'artifact':'engineering/'+relative,'source':source,
+                    'expected_sha256':actual,'recorded_sha256':digest})
+        if relative.startswith('local-civil-costs/'):
+            actual=sha256(city_dir/'design.toml')
+            if report.get('design_sha256')!=actual or report.get('native_compiled_sources_verified') is not True:
+                findings.append({'artifact':'engineering/'+relative,'source':'native civil build and design',
+                    'expected_sha256':actual,'recorded_sha256':report.get('design_sha256')})
     return findings
 
 
@@ -252,6 +266,7 @@ def main() -> int:
 
     required = [
         city_dir / "README.md",
+        city_dir / "engineering/local-civil-costs/summary.json",
         city_dir / "engineering/access/README.md",
         city_dir / "engineering/access/summary.json",
         city_dir / "engineering/clearance/README.md",

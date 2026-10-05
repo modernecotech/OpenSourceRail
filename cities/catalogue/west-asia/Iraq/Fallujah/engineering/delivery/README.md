@@ -70,15 +70,22 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 4258.2–17953.2 m | 100.0 | 2740 | 411 | 17.6 / 22.0 / 26.4 |
-| line-2 108.3–2473.1 m | 100.0 | 476 | 71 | 17.6 / 22.0 / 26.4 |
+| line-1 4258.2–4334.802 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-1 4334.802–4383.087 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 4383.087–4403.087 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 4403.087–17953.2 m | 100.0 | 2716 | 407 | 17.6 / 22.0 / 26.4 |
+| line-2 108.3–128.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 128.284–168.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 168.284–2473.1 m | 100.0 | 468 | 69 | 17.6 / 22.0 / 26.4 |
 | line-2 3353.1–11307.7 m | 100.0 | 1596 | 239 | 17.6 / 22.0 / 26.4 |
 | line-3 1586.3–1606.3 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
-| line-3 3321.1–13601.7 m | 100.0 | 2060 | 309 | 17.6 / 22.0 / 26.4 |
+| line-3 3321.1–3341.076 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 3341.076–3389.361 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 3389.361–13601.7 m | 100.0 | 2048 | 306 | 17.6 / 22.0 / 26.4 |
 
-Mapped soil has 25 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 32 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 25, "fine-soil-plasticity-and-shrink-swell-tests": 36, "granular-density-and-groundwater-tests": 45, "silt-moisture-frost-and-erosion-review": 24}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 32, "fine-soil-plasticity-and-shrink-swell-tests": 41, "granular-density-and-groundwater-tests": 53, "silt-moisture-frost-and-erosion-review": 30}.
 
 ## Joints, paints, finishes and cleaning
 

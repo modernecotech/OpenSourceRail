@@ -70,7 +70,9 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–746.3 m | 100.0 | 152 | 22 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 68.284–746.3 m | 100.0 | 140 | 21 | 17.6 / 22.0 / 26.4 |
 | line-1 1854.0–2187.1 m | 100.0 | 72 | 10 | 17.6 / 22.0 / 26.4 |
 | line-1 3351.4–13722.1 m | 100.0 | 2076 | 311 | 17.6 / 22.0 / 26.4 |
 | line-2 2291.4–2311.4 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
@@ -94,14 +96,21 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-2 6378.1–6398.1 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 6438.1–6458.1 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 6498.1–6518.1 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
-| line-2 6634.7–8326.7 m | 100.0 | 340 | 51 | 17.6 / 22.0 / 26.4 |
-| line-2 8511.5–17823.9 m | 100.0 | 1868 | 279 | 17.6 / 22.0 / 26.4 |
+| line-2 6634.7–6654.701 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 6654.701–6674.701 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 6674.701–6702.986 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 6702.986–6722.986 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 6722.986–8326.7 m | 100.0 | 328 | 48 | 17.6 / 22.0 / 26.4 |
+| line-2 8511.5–17803.86 m | 100.0 | 1860 | 279 | 17.6 / 22.0 / 26.4 |
+| line-2 17803.86–17823.86 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 17823.86–17823.9 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 4248.5–14405.7 m | 100.0 | 2036 | 305 | 17.6 / 22.0 / 26.4 |
-| line-3 15168.6–18119.9 m | 100.0 | 596 | 89 | 17.6 / 22.0 / 26.4 |
+| line-3 15168.6–18099.941 m | 100.0 | 592 | 88 | 17.6 / 22.0 / 26.4 |
+| line-3 18099.941–18119.9 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 180, "granular-density-and-groundwater-tests": 207, "silt-moisture-frost-and-erosion-review": 18}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 201, "granular-density-and-groundwater-tests": 234, "silt-moisture-frost-and-erosion-review": 21}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -76,18 +76,25 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 3575.4–3595.4 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-1 4012.0–4032.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-1 4621.7–4641.7 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
-| line-1 4838.2–16696.3 m | 100.0 | 2376 | 356 | 8.0 / 10.0 / 12.0 |
+| line-1 4838.2–4858.234 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-1 4858.234–4878.234 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-1 4878.234–16647.981 m | 100.0 | 2356 | 353 | 8.0 / 10.0 / 12.0 |
+| line-1 16647.981–16696.266 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 16696.266–16696.3 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-2 0.0–10878.5 m | 100.0 | 2180 | 327 | 8.0 / 10.0 / 12.0 |
 | line-2 11131.7–14396.4 m | 100.0 | 656 | 98 | 8.0 / 10.0 / 12.0 |
-| line-3 2146.5–6607.6 m | 100.0 | 896 | 134 | 8.0 / 10.0 / 12.0 |
+| line-3 2146.5–2214.802 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
+| line-3 2214.802–6607.6 m | 100.0 | 880 | 132 | 8.0 / 10.0 / 12.0 |
 | line-3 6647.6–6695.9 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-3 6775.9–6804.2 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-3 6864.2–6892.4 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
-| line-3 6912.4–10479.0 m | 100.0 | 716 | 107 | 8.0 / 10.0 / 12.0 |
+| line-3 6912.4–10438.965 m | 100.0 | 712 | 106 | 8.0 / 10.0 / 12.0 |
+| line-3 10438.965–10458.965 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-3 10458.965–10479.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 133, "fine-soil-plasticity-and-shrink-swell-tests": 131, "granular-density-and-groundwater-tests": 80, "organic-content-and-compressibility-tests": 19}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 154, "fine-soil-plasticity-and-shrink-swell-tests": 152, "granular-density-and-groundwater-tests": 101, "organic-content-and-compressibility-tests": 24}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -20,6 +20,7 @@ STEPS=(
     'tools/automation/baghdad_viaduct_comparison.py',
     'tools/automation/baghdad_programme_recalculation.py',
     'tools/automation/baghdad_demand_bridge.py',
+    'tools/automation/baghdad_cost_reconciliation.py',
     'tools/automation/generate-national-briefs.py',
     'tools/automation/generate-portfolio-summary.py',
 )

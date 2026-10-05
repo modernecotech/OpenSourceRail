@@ -128,11 +128,13 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-3 4431.9–6714.4 m | 100.0 | 460 | 69 | 15.2 / 19.0 / 22.8 |
 | line-3 6742.6–6827.5 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
 | line-3 6847.5–6895.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
-| line-3 6944.1–7012.3 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-3 6944.1–6964.062 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 6964.062–6984.062 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 6984.062–7012.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 182, "fine-soil-plasticity-and-shrink-swell-tests": 379, "granular-density-and-groundwater-tests": 380}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 188, "fine-soil-plasticity-and-shrink-swell-tests": 385, "granular-density-and-groundwater-tests": 386}.
 
 ## Joints, paints, finishes and cleaning
 

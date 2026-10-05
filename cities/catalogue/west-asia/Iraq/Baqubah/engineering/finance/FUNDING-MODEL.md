@@ -13,10 +13,10 @@ USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds a
 | Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
 |---|---|---:|---:|
 | chinese export credit | USD | 52,578,753.88 | 52,578,753.88 |
-| domestic bonds | IQD | 340,690,839,027.05 | 262,069,876.17 |
-| bank credit | IQD | 113,563,613,009.02 | 87,356,625.39 |
-| government | IQD | 681,381,678,054.10 | 524,139,752.35 |
-| **Total city capital uses** | Mixed | — | **926,145,007.80** |
+| domestic bonds | IQD | 340,691,019,207.05 | 262,070,014.77 |
+| bank credit | IQD | 113,563,673,069.02 | 87,356,671.59 |
+| government | IQD | 681,382,038,414.10 | 524,140,029.55 |
+| **Total city capital uses** | Mixed | — | **926,145,469.80** |
 
 Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 

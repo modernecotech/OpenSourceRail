@@ -74,15 +74,19 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 2648.8–6441.2 m | 100.0 | 760 | 114 | 8.0 / 10.0 / 12.0 |
 | line-1 6461.2–6915.8 m | 100.0 | 96 | 14 | 8.0 / 10.0 / 12.0 |
 | line-2 0.0–3905.6 m | 100.0 | 788 | 117 | 8.0 / 10.0 / 12.0 |
-| line-3 0.0–662.8 m | 100.0 | 136 | 20 | 8.0 / 10.0 / 12.0 |
+| line-3 0.0–20.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-3 20.0–68.284 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-3 68.284–662.8 m | 100.0 | 120 | 18 | 8.0 / 10.0 / 12.0 |
 | line-3 682.8–4073.6 m | 100.0 | 680 | 102 | 8.0 / 10.0 / 12.0 |
 | line-3 4113.6–4290.2 m | 100.0 | 40 | 6 | 8.0 / 10.0 / 12.0 |
 | line-3 4318.5–4338.5 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
-| line-3 4366.8–6267.0 m | 100.0 | 388 | 57 | 8.0 / 10.0 / 12.0 |
+| line-3 4366.8–6150.437 m | 100.0 | 360 | 54 | 8.0 / 10.0 / 12.0 |
+| line-3 6150.437–6238.721 m | 100.0 | 20 | 3 | 8.0 / 10.0 / 12.0 |
+| line-3 6238.721–6267.0 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 6, "fine-soil-plasticity-and-shrink-swell-tests": 80, "granular-density-and-groundwater-tests": 80, "organic-content-and-compressibility-tests": 33}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 6, "fine-soil-plasticity-and-shrink-swell-tests": 92, "granular-density-and-groundwater-tests": 92, "organic-content-and-compressibility-tests": 39}.
 
 ## Joints, paints, finishes and cleaning
 

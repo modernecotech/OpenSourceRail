@@ -50,11 +50,15 @@ The reworked core has 112 station platforms with raised-structure/access scope. 
 
 The buy case itemises these five imported completed products; the old blanket vehicle import percentage is retained only for other parent scope. This prevents replacing already-local scope with a second import credit. The all-product and positive-margin selections are separate unquoted cases. Whole-order margins are before finance/tax/risk; vendor prices, license, QA, process yield, supply commitments and first articles must validate them. No future national order pays Baghdad debt or makes an uneconomic line look profitable. Serial component qualification is assumed within the 18-month readiness target, not proven. A six-month supplier delay shifts rolling-stock invoices and opening/service cash, extends the full operating horizon and prices idle production payroll. A 25% raw-input price stress preserves the same selected facilities. Rejected/reworked product still needs a measured production replay. Existing final assembly tooling remains priced; upstream machinery is added without an unproven overlap credit.
 
+## Paid journeys and transfers
+
+Revenue remains a capacity-led sensitivity rather than a surveyed OD forecast. The reference uses one boarding per paid journey, a zero-transfer upper-bound assumption. Integrated-fare sensitivities use 1.25, 1.5 and 2 boardings per journey: only fare receipts are divided; kiosk/rental/advertising receipts, service, staffing and energy are retained. These are uncalibrated factors, not estimates of Baghdad travel. Physical access and surveyed OD/section loads must qualify any adopted demand forecast. [Demand handoff](../demand-bridge/README.md).
+
 ## More elevation and fewer bends
 
-The current main design adopts the straight central elevated alignment. The screening policy allows up to 65% elevated and at least 25% at grade, subject to site/design acceptance. Baghdad currently has 55.26% elevated. Investigation windows around all 18 exceptional segments add 7.178 km of candidate at-grade conversion, reaching 56.76%; overlapping intervals are merged and existing viaduct/bridge lengths excluded. Approach length is at least 300.0 m from assumed height/gradient.
+The current main design adopts the straight central elevated alignment. The screening policy allows up to 65% elevated and at least 25% at grade, subject to site/design acceptance. Baghdad currently has 55.26% elevated. Investigation windows around all 40 exceptional segments add 6.767 km of candidate at-grade conversion, reaching 56.68%; overlapping intervals are merged and existing viaduct/bridge lengths excluded. Approach length is at least 300.0 m from assumed height/gradient.
 
-**Elevation alone removes no horizontal bend.** Wider-radius geometry, station moves, ROW, vertical alignment, ramps, egress, ground/utility evidence, crossings and whole-life costs must be designed together. The finance cases separately test no routing-penalty removal and hypothetical 25%/50% removal; these percentages are unverified counterfactuals, not achieved savings. The added standard civil allowance uses the conservative simple-span bearing index. [Candidate intervals](alignment-candidates.csv).
+**Elevation alone removes no horizontal bend.** Wider-radius geometry, station moves, ROW, vertical alignment, ramps, egress, ground/utility evidence, crossings and whole-life costs must be designed together. The additional-elevation case includes only its base allowance; routing scores are excluded from money and the old 25%/50% penalty-removal cases are retired. Special designs and consequential installed costs remain unknown. The added standard civil allowance uses the conservative simple-span bearing index. [Candidate intervals](alignment-candidates.csv).
 
 ## Funding and mezzanine comparison
 
@@ -64,34 +68,35 @@ The positive-margin local-production senior case's **capital-only** sources are 
 
 | Capital source | Currency | Native amount | USD equivalent m |
 | --- | --- | --- | --- |
-| Government import cash | USD | 1,510,440,238 | 1510.440 |
-| Government local cash | IQD | 2,987,175,216,330 | 2297.827 |
-| Chinese capital credit | USD | 1,510,440,238 | 1510.440 |
-| Ordinary capital bonds | IQD | 8,588,305,488,245 | 6606.389 |
+| Government import cash | USD | 991,262,423 | 991.262 |
+| Government local cash | IQD | 1,412,879,525,373 | 1086.830 |
+| Chinese capital credit | USD | 991,262,423 | 991.262 |
+| Ordinary capital bonds | IQD | 4,033,743,445,683 | 3102.880 |
 | Green capital bonds | IQD | 1,053,822,212,230 | 810.632 |
-| Senior bank capital credit | IQD | 3,214,042,566,825 | 2472.340 |
+| Senior bank capital credit | IQD | 1,695,855,219,305 | 1304.504 |
 | Conditional climate capital grant | IQD | 32,500,000,000 | 25.000 |
 
 Mezzanine replaces 10% of domestic residual capital borrowing; it is not extra capital on top of the uses. The IQD case has 6% cash coupon, 4% PIK, 2% arrangement fee and a 15-year balloon from each draw. Deferred cash coupon and PIK increase outstanding debt until maturity. Thereafter the overdue principal is retained with separately disclosed simple 10% contractual-interest sensitivity; arrears are not compounded and the balloon is not silently extended. Cash junior payments require senior DSCR of 1.20, funded reserves and actual residual cash; new gap draws/unfunded support cannot pay junior debt. No conversion, fresh equity or automatic refinancing is invented. Unpaid maturity balances/defaults remain visible. Mezzanine is structurally junior to senior debt and senior to equity, as described by [UNCITRAL](https://digitallibrary.un.org/record/272622/files/A_CN.9_458_Add.1-EN.pdf); the rates here are project sensitivities.
 
 | Matched case / six-month placement schedule | CAPEX USD bn | USD capital intensity | Peak IQD gap tn | Terminal all debt IQD tn | Unfunded IQD tn | Junior defaulted vintages |
 | --- | --- | --- | --- | --- | --- | --- |
-| [revised_scope_buy](revised_scope_buy-semiannual.csv) | 15.341 | 21.43% | 13.000 | 13.000 | 27.482 | 0 |
-| [local_all](local_all-semiannual.csv) | 15.239 | 19.40% | 13.000 | 13.000 | 27.359 | 0 |
-| [local_positive](local_positive-semiannual.csv) | 15.233 | 19.83% | 13.000 | 13.000 | 27.330 | 0 |
-| [local_positive_mezzanine](local_positive_mezzanine-semiannual.csv) | 15.233 | 19.83% | 13.000 | 29.090 | 25.016 | 79 |
-| [local_positive_commercial_gap](local_positive_commercial_gap-semiannual.csv) | 15.233 | 19.83% | 13.000 | 13.000 | 51.331 | 0 |
-| [local_positive_mezzanine_stress](local_positive_mezzanine_stress-semiannual.csv) | 15.233 | 19.83% | 13.000 | 67.444 | 48.845 | 79 |
-| [grade-separation-penalty-0pct](grade-separation-penalty-0pct-semiannual.csv) | 15.292 | 19.81% | 13.000 | 13.000 | 27.433 | 0 |
-| [grade-separation-penalty-25pct](grade-separation-penalty-25pct-semiannual.csv) | 13.555 | 20.48% | 13.000 | 13.000 | 24.364 | 0 |
-| [grade-separation-penalty-50pct](grade-separation-penalty-50pct-semiannual.csv) | 11.818 | 21.29% | 13.000 | 13.000 | 21.267 | 0 |
-| [local_positive_raw_price_stress](local_positive_raw_price_stress-semiannual.csv) | 15.307 | 20.04% | 13.000 | 13.000 | 27.453 | 0 |
-| [local_positive_supplier_delay](local_positive_supplier_delay-semiannual.csv) | 15.233 | 19.83% | 13.000 | 13.000 | 27.652 | 0 |
-| [construction_wage_content_stress](construction_wage_content_stress-semiannual.csv) | 16.499 | 19.44% | 13.000 | 13.000 | 29.555 | 0 |
+| [revised_scope_buy](revised_scope_buy-semiannual.csv) | 8.420 | 26.71% | 13.000 | 11.120 | 0.244 | 0 |
+| [local_all](local_all-semiannual.csv) | 8.318 | 23.06% | 13.000 | 11.175 | 0.060 | 0 |
+| [local_positive](local_positive-semiannual.csv) | 8.312 | 23.85% | 13.000 | 11.162 | 0.033 | 0 |
+| [local_positive_mezzanine](local_positive_mezzanine-semiannual.csv) | 8.312 | 23.85% | 12.399 | 17.384 | 0.000 | 79 |
+| [local_positive_commercial_gap](local_positive_commercial_gap-semiannual.csv) | 8.312 | 23.85% | 13.000 | 13.000 | 20.618 | 0 |
+| [local_positive_mezzanine_stress](local_positive_mezzanine_stress-semiannual.csv) | 8.312 | 23.85% | 13.000 | 41.670 | 18.870 | 79 |
+| [additional_elevation_base_allowance](additional_elevation_base_allowance-semiannual.csv) | 8.368 | 23.79% | 13.000 | 11.162 | 0.152 | 0 |
+| [local_positive_raw_price_stress](local_positive_raw_price_stress-semiannual.csv) | 8.387 | 24.20% | 13.000 | 11.169 | 0.172 | 0 |
+| [local_positive_supplier_delay](local_positive_supplier_delay-semiannual.csv) | 8.312 | 23.85% | 13.000 | 10.993 | 0.156 | 0 |
+| [construction_wage_content_stress](construction_wage_content_stress-semiannual.csv) | 8.883 | 23.31% | 13.000 | 11.162 | 1.216 | 0 |
+| [integrated_fare_1_25_boardings](integrated_fare_1_25_boardings-semiannual.csv) | 8.312 | 23.85% | 13.000 | 13.000 | 8.716 | 0 |
+| [integrated_fare_1_5_boardings](integrated_fare_1_5_boardings-semiannual.csv) | 8.312 | 23.85% | 13.000 | 13.000 | 15.556 | 0 |
+| [integrated_fare_2_boardings](integrated_fare_2_boardings-semiannual.csv) | 8.312 | 23.85% | 13.000 | 13.000 | 24.064 | 0 |
 
-The 3 positive-margin process options reduce capital from USD 15.341bn to USD 15.233bn, and imported invoice exposure from USD 3.287bn to USD 3.021bn. Half of that exposure is government USD cash and half Chinese USD credit; all other capital funding is IQD. The historical 148 km / USD 18bn third-party benchmark has a different scope and assumed full foreign-currency financing; this is a planning comparison, not a like-for-like tender saving. The reworked 479.0 km network's 39.4% legacy routing-demand cell fraction is not population access. Its former resident multiplication is retired; see the [native population and transfer audit](../access/README.md).
+The 3 positive-margin process options reduce capital from USD 8.420bn to USD 8.312bn, and imported invoice exposure from USD 2.249bn to USD 1.983bn. Half of that exposure is government USD cash and half Chinese USD credit; all other capital funding is IQD. The historical 148 km / USD 18bn third-party benchmark has a different scope and assumed full foreign-currency financing; this is a planning comparison, not a like-for-like tender saving. The reworked 479.0 km network's 39.4% legacy routing-demand cell fraction is not population access. Its former resident multiplication is retired; see the [native population and transfer audit](../access/README.md).
 
-**Current financial conclusion:** the positive-margin senior case records IQD 27.330tn of residual unsourced support after assumed facilities and retains IQD 13.000tn of debt at the horizon. Its company NPV before finance is USD -10.591bn at the assumed nominal discount rate. Adding mezzanine does not change the underlying operating return: it leaves IQD 29.090tn of total debt and 79 unpaid junior vintages. It is not recommended as a cure for the funding deficit. Fare and OPEX indexation, kiosks/advertising and inherited additional receipts are already included; new verified capital, affordable revenue or accepted scope savings are still needed.
+**Current financial conclusion:** the positive-margin senior case records IQD 0.033tn of residual unsourced support after assumed facilities and retains IQD 11.162tn of debt at the horizon. Its company NPV before finance is USD -4.848bn at the assumed nominal discount rate. Adding mezzanine does not change the underlying operating return: it leaves IQD 17.384tn of total debt and 79 unpaid junior vintages. It is not recommended as a cure for the funding deficit. Fare and OPEX indexation, kiosks/advertising and inherited additional receipts are already included; new verified capital, affordable revenue or accepted scope savings are still needed.
 
 All cases use the same revised staff, depot and indexed fare/OPEX assumptions. Six months of scheduled senior service are reserved from the first draw; three months of OPEX plus explicit industrial working capital are restricted. This revised reserve policy differs from older reference cases, so compare matched cases in this table when judging mezzanine. Concessional 2% gap funding, grants/rights/additional income and enhanced green coupons are uncommitted; the 8% gap and high mezzanine-rate case expose that dependence. There are zero dividends. Cash/principal/PIK identities, maturity risk, monthly draws and six-month bond denominations are retained for every case.
 

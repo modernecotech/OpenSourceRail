@@ -70,15 +70,23 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–2062.3 m | 100.0 | 416 | 62 | 8.0 / 10.0 / 12.0 |
-| line-1 2230.5–9881.6 m | 100.0 | 1536 | 230 | 8.0 / 10.0 / 12.0 |
-| line-2 0.0–5357.9 m | 100.0 | 1076 | 161 | 8.0 / 10.0 / 12.0 |
+| line-1 0.0–40.0 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 40.0–68.284 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 68.284–2062.3 m | 100.0 | 400 | 60 | 8.0 / 10.0 / 12.0 |
+| line-1 2230.5–9841.564 m | 100.0 | 1528 | 228 | 8.0 / 10.0 / 12.0 |
+| line-1 9841.564–9861.564 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-1 9861.564–9881.6 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-2 20.0–68.284 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-2 68.284–5309.605 m | 100.0 | 1052 | 157 | 8.0 / 10.0 / 12.0 |
+| line-2 5309.605–5357.889 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-2 5357.889–5357.9 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-3 0.0–9286.6 m | 100.0 | 1860 | 279 | 8.0 / 10.0 / 12.0 |
 | line-3 9383.1–10192.2 m | 100.0 | 168 | 24 | 8.0 / 10.0 / 12.0 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 59, "fine-soil-plasticity-and-shrink-swell-tests": 50, "granular-density-and-groundwater-tests": 59, "organic-content-and-compressibility-tests": 15}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 82, "fine-soil-plasticity-and-shrink-swell-tests": 67, "granular-density-and-groundwater-tests": 82, "organic-content-and-compressibility-tests": 15}.
 
 ## Joints, paints, finishes and cleaning
 

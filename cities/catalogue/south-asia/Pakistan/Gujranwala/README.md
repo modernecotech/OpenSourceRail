@@ -5,7 +5,7 @@
 This page contains only Gujranwala-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$4.03 bn (89.0%) of external capital** and **$5.05 bn of external interest**. Capital plus saved interest totals **$9.07 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$3.90 bn (88.9%) of external capital** and **$4.88 bn of external interest**. Capital plus saved interest totals **$8.78 bn**. See the common reference for interpretation and limitations.
 
 **Current alignment, depot and production basis.** Core corridors change from **149.144 km to 140.455 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **56 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
@@ -13,7 +13,7 @@ This page contains only Gujranwala-specific results. Shared routing, service, en
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. [Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).
 
 ## Network
 
@@ -59,25 +59,25 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $1.56 bn |
+| Civil works | $1.49 bn |
 | Stations | $287 M |
 | Depots | $101 M |
 | Rolling stock | $239 M |
 | Dedicated solar plant | $144 M |
 | Residual train control | $8.8 M |
 | Charging microgrids | $15 M |
-| EPC / project services | $155 M |
-| **Total city programme** | **$2.51 bn** |
+| EPC / project services | $150 M |
+| **Total city programme** | **$2.43 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $499 M (19.9%) |
-| Domestic / local capital | $2.01 bn (80.1%) |
-| Annual public construction commitment | $346 M / yr for 7 years |
-| Annual post-grace debt service | $297 M / yr |
-| External capital saved vs default turnkey sensitivity | $4.03 bn |
-| Capital + lifetime external interest saved | $9.07 bn |
-| Annual OPEX | $57 M / yr |
+| Imported / external capital | $487 M (20.0%) |
+| Domestic / local capital | $1.95 bn (80.0%) |
+| Annual public construction commitment | $335 M / yr for 7 years |
+| Annual post-grace debt service | $287 M / yr |
+| External capital saved vs default turnkey sensitivity | $3.90 bn |
+| Capital + lifetime external interest saved | $8.78 bn |
+| Annual OPEX | $55 M / yr |
 
 ## Local Evidence
 

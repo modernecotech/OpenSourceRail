@@ -70,13 +70,16 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 4372.0–21886.3 m | 100.0 | 3508 | 525 | 17.6 / 22.0 / 26.4 |
+| line-1 4372.0–4496.812 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-1 4496.812–21886.3 m | 100.0 | 3480 | 522 | 17.6 / 22.0 / 26.4 |
 | line-2 0.0–15211.8 m | 100.0 | 3048 | 456 | 17.6 / 22.0 / 26.4 |
-| line-3 1095.4–15512.0 m | 100.0 | 2888 | 432 | 17.6 / 22.0 / 26.4 |
+| line-3 1095.4–1143.675 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 1143.675–15463.717 m | 100.0 | 2868 | 429 | 17.6 / 22.0 / 26.4 |
+| line-3 15463.717–15512.0 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 
-Mapped soil has 19 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 25 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 19, "fine-soil-plasticity-and-shrink-swell-tests": 64, "granular-density-and-groundwater-tests": 81, "silt-moisture-frost-and-erosion-review": 7}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 25, "fine-soil-plasticity-and-shrink-swell-tests": 66, "granular-density-and-groundwater-tests": 84, "silt-moisture-frost-and-erosion-review": 4}.
 
 ## Joints, paints, finishes and cleaning
 

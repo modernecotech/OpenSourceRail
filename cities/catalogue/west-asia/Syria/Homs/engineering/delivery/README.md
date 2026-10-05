@@ -70,19 +70,45 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–201.4 m | 100.0 | 48 | 6 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–28.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 28.284–48.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 48.284–201.4 m | 100.0 | 36 | 5 | 17.6 / 22.0 / 26.4 |
 | line-1 229.7–306.3 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
 | line-1 869.1–917.4 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-1 957.4–1005.7 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
-| line-1 1838.2–10103.1 m | 100.0 | 1656 | 248 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–10669.4 m | 100.0 | 2136 | 320 | 17.6 / 22.0 / 26.4 |
-| line-3 857.4–1320.2 m | 100.0 | 96 | 14 | 17.6 / 22.0 / 26.4 |
+| line-1 1838.2–10074.844 m | 100.0 | 1652 | 247 | 17.6 / 22.0 / 26.4 |
+| line-1 10074.844–10103.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 0.0–28.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 28.284–48.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 48.284–10641.118 m | 100.0 | 2120 | 318 | 17.6 / 22.0 / 26.4 |
+| line-2 10641.118–10669.4 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 857.4–877.401 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 877.401–897.401 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 897.401–1320.2 m | 100.0 | 88 | 12 | 17.6 / 22.0 / 26.4 |
 | line-3 1340.2–1425.1 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
-| line-3 1473.4–12511.3 m | 100.0 | 2212 | 331 | 17.6 / 22.0 / 26.4 |
+| line-3 1473.4–2234.214 m | 100.0 | 156 | 23 | 17.6 / 22.0 / 26.4 |
+| line-3 2234.214–2254.214 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 2254.214–4383.574 m | 100.0 | 432 | 64 | 17.6 / 22.0 / 26.4 |
+| line-3 4383.574–4403.574 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 4403.574–5027.838 m | 100.0 | 128 | 18 | 17.6 / 22.0 / 26.4 |
+| line-3 5027.838–5047.838 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 5047.838–6384.651 m | 100.0 | 272 | 40 | 17.6 / 22.0 / 26.4 |
+| line-3 6384.651–6404.651 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 6404.651–7483.473 m | 100.0 | 220 | 33 | 17.6 / 22.0 / 26.4 |
+| line-3 7483.473–7503.473 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 7503.473–8127.737 m | 100.0 | 128 | 18 | 17.6 / 22.0 / 26.4 |
+| line-3 8127.737–8147.737 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 8147.737–10277.098 m | 100.0 | 432 | 64 | 17.6 / 22.0 / 26.4 |
+| line-3 10277.098–10297.098 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 10297.098–11633.911 m | 100.0 | 272 | 40 | 17.6 / 22.0 / 26.4 |
+| line-3 11633.911–11653.911 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 11653.911–12463.027 m | 100.0 | 168 | 24 | 17.6 / 22.0 / 26.4 |
+| line-3 12463.027–12483.027 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 12483.027–12511.3 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 92, "granular-density-and-groundwater-tests": 7, "silt-moisture-frost-and-erosion-review": 50}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 166, "granular-density-and-groundwater-tests": 6, "silt-moisture-frost-and-erosion-review": 103}.
 
 ## Joints, paints, finishes and cleaning
 

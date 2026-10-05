@@ -354,11 +354,11 @@
   "design_release_ready": false,
   "generator_sha256": "390b1f299170291a058e6b9f2cf047f492f2380616335690952555b673952bc2",
   "input_sha256": {
-    "cities/catalogue/south-asia/Sri Lanka/Kandy/design.toml": "d3ae204cd987d0550f1e0771279a64533003235c84c7bac6cb368b8eb59261f9",
-    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/finance/summary.json": "4caf494aaebc508dda1c057683e49f8e5adad3a1a1a811a26364e903d230872f",
-    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/soil/summary.json": "c9354a6697aba005323df2f9930b482711fab4ea0565355a9a0a7cb4e852ada4",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/design.toml": "f7ff085ab9df113895fe063fcd9ca958e0cd953d523de462c0da34948d44cc82",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/finance/summary.json": "0ab9a58b89aade13c6beb28ed6e4b163ee80bf19f751e34fbe747ca02cce3b51",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/soil/summary.json": "6b7402ea81c1b76476459f3950ee682a8ea01e11b25118312a6eba06202ab0f2",
     "cities/catalogue/south-asia/Sri Lanka/Kandy/kandy.toml": "809c350bd874bdb2f362328edd57ccce0693825ff8941f906b5704fc0332627a",
-    "cities/catalogue/south-asia/Sri Lanka/Kandy/operations/kandy-operations-manifest.json": "bf395f6db6941e2e308696b4aff6e799505f5547448152a5427d7d2afe64725c",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/operations/kandy-operations-manifest.json": "e430280f8f712df1c761a6eae4c0024c38ff5cf1dbd39b0c8ff582ebff99da36",
     "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json": "2cdcc7db5fed7ec2c34b52a14fde0a914407e1077715e34eeb87cd80e8a90c4a",
     "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json": "eb8181a99ad409069aeb940d8c3ce4fd402c844a75fc294b9ba40a03db135401",
     "design/component-catalogue/src/osr_mech/civil/continuity.py": "9041270819c1e166c8e3b02a44fc8203e9bca837ce875a7037953b666cd6be59",
@@ -1749,19 +1749,19 @@
         "cold_movement_sensitivity_mm": null,
         "from_chainage_m": 1866.3,
         "hot_movement_sensitivity_mm": {
-          "10": 10.0,
-          "12": 12.0,
-          "8": 8.0
+          "10": 2.5,
+          "12": 3.0,
+          "8": 2.0
         },
         "line": "line-2",
-        "longest_planned_unit_m": 100.0,
+        "longest_planned_unit_m": 25.0,
         "plan": {
-          "bearings": 236,
+          "bearings": 8,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 12,
+          "deck_gaps": 1,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 35,
+          "link_slabs": 0,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -1772,14 +1772,51 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 1150.5000000000002,
+          "route_length_m": 19.973999999999933,
           "span_m": 25.0,
-          "spans": 47,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 83,
+        "to_chainage_m": 1886.274
+      },
+      {
+        "cold_movement_sensitivity_mm": null,
+        "from_chainage_m": 1886.274,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.0,
+          "12": 12.0,
+          "8": 8.0
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 232,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 12,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 34,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 1130.5260000000003,
+          "span_m": 25.0,
+          "spans": 46,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
           "units": 12
         },
-        "segment_index": 83,
+        "segment_index": 84,
         "to_chainage_m": 3016.8
       },
       {
@@ -1816,7 +1853,7 @@
           "unit_spans": 4,
           "units": 12
         },
-        "segment_index": 85,
+        "segment_index": 86,
         "to_chainage_m": 4195.6
       },
       {
@@ -1853,7 +1890,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 87,
+        "segment_index": 88,
         "to_chainage_m": 4340.5
       },
       {
@@ -1890,7 +1927,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 89,
+        "segment_index": 90,
         "to_chainage_m": 4513.6
       },
       {
@@ -1927,7 +1964,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 91,
+        "segment_index": 92,
         "to_chainage_m": 4638.5
       },
       {
@@ -1964,7 +2001,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 93,
+        "segment_index": 94,
         "to_chainage_m": 4803.3
       },
       {
@@ -2001,7 +2038,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 95,
+        "segment_index": 96,
         "to_chainage_m": 4908.2
       },
       {
@@ -2038,7 +2075,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 97,
+        "segment_index": 98,
         "to_chainage_m": 5024.8
       },
       {
@@ -2075,7 +2112,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 99,
+        "segment_index": 100,
         "to_chainage_m": 6147.0
       },
       {
@@ -2112,7 +2149,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 101,
+        "segment_index": 102,
         "to_chainage_m": 6215.3
       },
       {
@@ -2149,7 +2186,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 103,
+        "segment_index": 104,
         "to_chainage_m": 6311.9
       },
       {
@@ -2186,7 +2223,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 105,
+        "segment_index": 106,
         "to_chainage_m": 6368.4
       },
       {
@@ -2223,7 +2260,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 107,
+        "segment_index": 108,
         "to_chainage_m": 6416.7
       },
       {
@@ -2260,7 +2297,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 109,
+        "segment_index": 110,
         "to_chainage_m": 6754.7
       },
       {
@@ -2297,7 +2334,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 111,
+        "segment_index": 112,
         "to_chainage_m": 6879.6
       },
       {
@@ -2334,7 +2371,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 113,
+        "segment_index": 114,
         "to_chainage_m": 7217.5
       },
       {
@@ -2371,7 +2408,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 115,
+        "segment_index": 116,
         "to_chainage_m": 7547.2
       },
       {
@@ -2408,7 +2445,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 117,
+        "segment_index": 118,
         "to_chainage_m": 7933.5
       },
       {
@@ -2445,7 +2482,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 119,
+        "segment_index": 120,
         "to_chainage_m": 8070.1
       },
       {
@@ -2482,7 +2519,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 121,
+        "segment_index": 122,
         "to_chainage_m": 8126.7
       },
       {
@@ -2519,7 +2556,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 123,
+        "segment_index": 124,
         "to_chainage_m": 8223.2
       },
       {
@@ -2556,7 +2593,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 125,
+        "segment_index": 126,
         "to_chainage_m": 8271.5
       },
       {
@@ -2593,7 +2630,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 127,
+        "segment_index": 128,
         "to_chainage_m": 8504.7
       },
       {
@@ -2630,7 +2667,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 129,
+        "segment_index": 130,
         "to_chainage_m": 8629.5
       },
       {
@@ -2667,7 +2704,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 131,
+        "segment_index": 132,
         "to_chainage_m": 8746.1
       },
       {
@@ -2704,7 +2741,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 133,
+        "segment_index": 134,
         "to_chainage_m": 8802.6
       },
       {
@@ -2741,7 +2778,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 135,
+        "segment_index": 136,
         "to_chainage_m": 8870.9
       },
       {
@@ -2778,7 +2815,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 137,
+        "segment_index": 138,
         "to_chainage_m": 8975.8
       },
       {
@@ -2815,7 +2852,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 139,
+        "segment_index": 140,
         "to_chainage_m": 9120.6
       },
       {
@@ -2852,7 +2889,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 141,
+        "segment_index": 142,
         "to_chainage_m": 9217.2
       },
       {
@@ -2889,7 +2926,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 143,
+        "segment_index": 144,
         "to_chainage_m": 9651.8
       },
       {
@@ -2926,7 +2963,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 145,
+        "segment_index": 146,
         "to_chainage_m": 9700.0
       },
       {
@@ -2963,7 +3000,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 147,
+        "segment_index": 148,
         "to_chainage_m": 9740.0
       },
       {
@@ -3000,7 +3037,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 149,
+        "segment_index": 150,
         "to_chainage_m": 9796.6
       },
       {
@@ -3037,7 +3074,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 151,
+        "segment_index": 152,
         "to_chainage_m": 9856.6
       },
       {
@@ -3074,7 +3111,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 153,
+        "segment_index": 154,
         "to_chainage_m": 9969.7
       },
       {
@@ -3111,7 +3148,7 @@
           "unit_spans": 4,
           "units": 2
         },
-        "segment_index": 155,
+        "segment_index": 156,
         "to_chainage_m": 10154.6
       },
       {
@@ -3148,7 +3185,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 157,
+        "segment_index": 158,
         "to_chainage_m": 10222.9
       },
       {
@@ -3185,7 +3222,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 159,
+        "segment_index": 160,
         "to_chainage_m": 10271.2
       },
       {
@@ -3222,7 +3259,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 161,
+        "segment_index": 162,
         "to_chainage_m": 10359.5
       },
       {
@@ -3259,7 +3296,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 163,
+        "segment_index": 164,
         "to_chainage_m": 10416.0
       },
       {
@@ -3296,7 +3333,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 165,
+        "segment_index": 166,
         "to_chainage_m": 10560.9
       },
       {
@@ -3333,7 +3370,7 @@
           "unit_spans": 4,
           "units": 2
         },
-        "segment_index": 167,
+        "segment_index": 168,
         "to_chainage_m": 10745.7
       },
       {
@@ -3370,7 +3407,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 169,
+        "segment_index": 170,
         "to_chainage_m": 10890.6
       },
       {
@@ -3407,7 +3444,7 @@
           "unit_spans": 4,
           "units": 39
         },
-        "segment_index": 171,
+        "segment_index": 172,
         "to_chainage_m": 14838.2
       },
       {
@@ -3444,7 +3481,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 173,
+        "segment_index": 174,
         "to_chainage_m": 15196.2
       },
       {
@@ -3481,7 +3518,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 175,
+        "segment_index": 176,
         "to_chainage_m": 15361.0
       },
       {
@@ -3518,7 +3555,7 @@
           "unit_spans": 4,
           "units": 57
         },
-        "segment_index": 177,
+        "segment_index": 178,
         "to_chainage_m": 21263.4
       },
       {
@@ -3555,7 +3592,7 @@
           "unit_spans": 4,
           "units": 6
         },
-        "segment_index": 179,
+        "segment_index": 180,
         "to_chainage_m": 567.7
       },
       {
@@ -3592,7 +3629,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 181,
+        "segment_index": 182,
         "to_chainage_m": 1192.0
       },
       {
@@ -3629,7 +3666,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 183,
+        "segment_index": 184,
         "to_chainage_m": 1308.5
       },
       {
@@ -3666,7 +3703,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 185,
+        "segment_index": 186,
         "to_chainage_m": 1674.8
       },
       {
@@ -3703,7 +3740,7 @@
           "unit_spans": 4,
           "units": 2
         },
-        "segment_index": 187,
+        "segment_index": 188,
         "to_chainage_m": 1867.9
       },
       {
@@ -3740,7 +3777,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 189,
+        "segment_index": 190,
         "to_chainage_m": 2001.1
       },
       {
@@ -3777,7 +3814,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 191,
+        "segment_index": 192,
         "to_chainage_m": 2194.2
       },
       {
@@ -3814,7 +3851,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 193,
+        "segment_index": 194,
         "to_chainage_m": 2250.8
       },
       {
@@ -3851,7 +3888,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 195,
+        "segment_index": 196,
         "to_chainage_m": 4460.1
       },
       {
@@ -3888,7 +3925,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 197,
+        "segment_index": 198,
         "to_chainage_m": 4625.0
       },
       {
@@ -3925,7 +3962,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 199,
+        "segment_index": 200,
         "to_chainage_m": 4701.6
       },
       {
@@ -3962,7 +3999,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 201,
+        "segment_index": 202,
         "to_chainage_m": 4798.1
       },
       {
@@ -3999,7 +4036,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 203,
+        "segment_index": 204,
         "to_chainage_m": 4971.3
       },
       {
@@ -4036,7 +4073,7 @@
           "unit_spans": 4,
           "units": 2
         },
-        "segment_index": 205,
+        "segment_index": 206,
         "to_chainage_m": 5136.1
       },
       {
@@ -4073,7 +4110,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 207,
+        "segment_index": 208,
         "to_chainage_m": 5329.3
       },
       {
@@ -4110,7 +4147,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 209,
+        "segment_index": 210,
         "to_chainage_m": 5425.8
       },
       {
@@ -4147,7 +4184,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 211,
+        "segment_index": 212,
         "to_chainage_m": 5474.1
       },
       {
@@ -4184,7 +4221,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 213,
+        "segment_index": 214,
         "to_chainage_m": 5599.0
       },
       {
@@ -4221,7 +4258,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 215,
+        "segment_index": 216,
         "to_chainage_m": 5695.5
       },
       {
@@ -4258,7 +4295,7 @@
           "unit_spans": 4,
           "units": 13
         },
-        "segment_index": 217,
+        "segment_index": 218,
         "to_chainage_m": 8062.9
       },
       {
@@ -4295,7 +4332,7 @@
           "unit_spans": 4,
           "units": 2
         },
-        "segment_index": 219,
+        "segment_index": 220,
         "to_chainage_m": 8199.5
       },
       {
@@ -4332,7 +4369,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 221,
+        "segment_index": 222,
         "to_chainage_m": 8304.3
       },
       {
@@ -4369,7 +4406,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 223,
+        "segment_index": 224,
         "to_chainage_m": 8420.9
       },
       {
@@ -4406,7 +4443,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 225,
+        "segment_index": 226,
         "to_chainage_m": 8469.2
       },
       {
@@ -4443,7 +4480,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 227,
+        "segment_index": 228,
         "to_chainage_m": 8537.4
       },
       {
@@ -4480,7 +4517,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 229,
+        "segment_index": 230,
         "to_chainage_m": 8654.0
       },
       {
@@ -4517,7 +4554,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 231,
+        "segment_index": 232,
         "to_chainage_m": 8767.1
       },
       {
@@ -4554,7 +4591,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 233,
+        "segment_index": 234,
         "to_chainage_m": 8980.3
       },
       {
@@ -4591,7 +4628,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 235,
+        "segment_index": 236,
         "to_chainage_m": 9290.0
       },
       {
@@ -4628,7 +4665,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 237,
+        "segment_index": 238,
         "to_chainage_m": 9374.8
       },
       {
@@ -4665,7 +4702,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 239,
+        "segment_index": 240,
         "to_chainage_m": 9443.1
       },
       {
@@ -4702,7 +4739,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 241,
+        "segment_index": 242,
         "to_chainage_m": 9531.4
       },
       {
@@ -4739,7 +4776,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 243,
+        "segment_index": 244,
         "to_chainage_m": 9644.5
       },
       {
@@ -4753,12 +4790,12 @@
         "line": "line-3",
         "longest_planned_unit_m": 100.0,
         "plan": {
-          "bearings": 756,
+          "bearings": 732,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 38,
+          "deck_gaps": 37,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 113,
+          "link_slabs": 109,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -4769,14 +4806,88 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 3755.8999999999996,
+          "route_length_m": 3631.0290000000005,
           "span_m": 25.0,
-          "spans": 151,
+          "spans": 146,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
-          "units": 38
+          "units": 37
         },
-        "segment_index": 245,
+        "segment_index": 246,
+        "to_chainage_m": 13500.429
+      },
+      {
+        "cold_movement_sensitivity_mm": null,
+        "from_chainage_m": 13500.429,
+        "hot_movement_sensitivity_mm": {
+          "10": 2.5,
+          "12": 3.0,
+          "8": 2.0
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 247,
+        "to_chainage_m": 13520.429
+      },
+      {
+        "cold_movement_sensitivity_mm": null,
+        "from_chainage_m": 13520.429,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.0,
+          "12": 12.0,
+          "8": 8.0
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 28,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 3,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 104.87099999999919,
+          "span_m": 25.0,
+          "spans": 5,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 248,
         "to_chainage_m": 13625.3
       },
       {
@@ -4813,7 +4924,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 247,
+        "segment_index": 250,
         "to_chainage_m": 15351.6
       },
       {
@@ -4850,7 +4961,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 249,
+        "segment_index": 252,
         "to_chainage_m": 15431.6
       },
       {
@@ -4887,7 +4998,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 251,
+        "segment_index": 254,
         "to_chainage_m": 15471.6
       },
       {
@@ -4924,7 +5035,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 253,
+        "segment_index": 256,
         "to_chainage_m": 15804.7
       },
       {
@@ -4961,7 +5072,7 @@
           "unit_spans": 4,
           "units": 1
         },
-        "segment_index": 255,
+        "segment_index": 258,
         "to_chainage_m": 18050.4
       }
     ],
@@ -5002,9 +5113,9 @@
     "missing_soil_profiles": 1,
     "scenario_ambient_c": 26,
     "soil_investigation_flags": {
-      "acidic-soil-durability-testing": 778,
+      "acidic-soil-durability-testing": 787,
       "coverage-gap": 1,
-      "fine-soil-plasticity-and-shrink-swell-tests": 825,
+      "fine-soil-plasticity-and-shrink-swell-tests": 834,
       "granular-density-and-groundwater-tests": 73,
       "organic-content-and-compressibility-tests": 3
     },

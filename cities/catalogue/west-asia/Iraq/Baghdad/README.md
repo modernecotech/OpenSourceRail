@@ -4,7 +4,7 @@
 
 **Current planning basis: 2026-10-04 [programme recalculation](engineering/programme-recalculation/README.md), `local_positive` conditional local-production case.** The main route is the reworked city-centre elevated planning alignment; service remains a capacity-led assumption. Revised scope is unquoted and uncommitted; this is not a construction design or an operating release.
 
-Programme capital is **USD 15.233bn**, including line-local depots, final assembly and selected upstream component plants. The model requires **IQD 27.330tn unsourced support** in addition to assumed facilities, and the case retains **IQD 13.000tn terminal debt**. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
+Base programme planning allowance is **USD 8.312bn**, including line-local depots, final assembly and selected upstream component plants. The model requires **IQD 0.033tn unsourced support** in addition to assumed facilities, and the case retains **IQD 11.162tn terminal debt**. Local special/segmental structures, installed grid/charging upgrades, actual foundations, land and utilities remain unpriced. Removing search penalties establishes no realised saving. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
 
 ## Network
 
@@ -57,14 +57,14 @@ These energy quantities describe the current regenerated scenario. Zero annual r
 
 | Revised capital scope | USD equivalent million |
 | --- | --- |
-| Civil and bearing allowance | 10,230.401 |
+| Civil and bearing allowance | 3,762.459 |
 | Stations and core elevated access | 1,345.880 |
 | Rolling stock | 1,205.976 |
 | Final assembly and component plants | 411.941 |
 | Line-local depots | 253.456 |
 | Solar and charging | 813.671 |
-| Signalling and programme overhead | 971.744 |
-| **Total programme** | **15,233.069** |
+| Signalling and programme overhead | 518.988 |
+| **Total programme** | **8,312.371** |
 
 There are **9 depots**, one per line, with **772 storage slots** for all 111 m six-car trains plus clearance. Depot reference capital is **USD 253.456m**, replacing the old USD 8m once. Workshop bays are sized separately by workload. The current case gives no capacity credit to station stabling. Actual land, foundations, connected access, installed charging and morning launch acceptance remain open. [Depot quantities](engineering/programme-recalculation/depots.json) · [Items](engineering/programme-recalculation/depot-items.csv).
 
@@ -83,7 +83,7 @@ Final assembly has 1294 production and 195 support FTE; selected upstream plants
 
 Imported process machinery supports the selected Iraqi fabrication and assembly options shown above. Cells/BMS, wheels/axles/bearings, inverters and other critical inputs retain imports. Products with negative Baghdad-only whole-order margins remain bought in this case. Plant readiness/qualification within 18 months is assumed, not demonstrated. [Make/buy appraisal](engineering/programme-recalculation/component-make-buy.csv).
 
-Compared with the matched bought-component case, capital changes from USD 15.341bn to USD 15.233bn; imported invoice exposure changes from USD 3.287bn (21.43%) to USD 3.021bn (**19.83%**). The historical 148 km / USD 18bn proposal has a different scope and assumed all-USD funding; it is not a matched tender saving.
+Compared with the matched bought-component case, capital changes from USD 8.420bn to USD 8.312bn; imported invoice exposure changes from USD 2.249bn (26.71%) to USD 1.983bn (**23.85%**). The historical 148 km / USD 18bn proposal has a different scope and assumed all-USD funding; it is not a matched tender saving.
 
 ## Current funding and cashflows
 
@@ -91,17 +91,17 @@ Government capital is exactly **25%**. Imports use **50% government USD cash / 5
 
 | Capital-only source | Currency | Native amount |
 | --- | --- | --- |
-| Government import cash | USD | 1,510,440,238 |
-| Government local cash | IQD | 2,987,175,216,330 |
-| Chinese capital credit | USD | 1,510,440,238 |
-| Ordinary capital bonds | IQD | 8,588,305,488,245 |
+| Government import cash | USD | 991,262,423 |
+| Government local cash | IQD | 1,412,879,525,373 |
+| Chinese capital credit | USD | 991,262,423 |
+| Ordinary capital bonds | IQD | 4,033,743,445,683 |
 | Green capital bonds | IQD | 1,053,822,212,230 |
-| Senior bank capital credit | IQD | 3,214,042,566,825 |
+| Senior bank capital credit | IQD | 1,695,855,219,305 |
 | Conditional climate grant | IQD | 32,500,000,000 |
 
 Interest/fees, reserve cash, OPEX and gap facilities are additional cashflows, not capital added twice. Fares, kiosks, advertising, additional receipts and fare/OPEX indexation are included. Green/grant/rights terms and concessional gap credit remain uncommitted. Conditional first/full line revenue is month **40 / 77**; physical and financing gates are open.
 
-The tested IQD mezzanine leaves 79 defaulted draw vintages and increases terminal debt to IQD 29.090tn. It does not cure the operating deficit. [Monthly cashflow](engineering/programme-recalculation/local_positive-monthly.csv) · [Six-month bond/loan placements](engineering/programme-recalculation/local_positive-semiannual.csv) · [All twelve cases](engineering/programme-recalculation/README.md).
+The tested IQD mezzanine leaves 79 defaulted draw vintages and increases terminal debt to IQD 17.384tn. It does not establish sustainable repayment. [Monthly cashflow](engineering/programme-recalculation/local_positive-monthly.csv) · [Six-month bond/loan placements](engineering/programme-recalculation/local_positive-semiannual.csv) · [All 13 cases](engineering/programme-recalculation/README.md) · [Cost and demand review](../../../../../docs/baghdad-cost-and-demand-review-2026-10-05.md).
 
 ## City-centre elevated alignment
 
@@ -109,7 +109,7 @@ The main design uses straight core radial tangents and broad curved ring connect
 
 ![Earlier corridors and current central alignment](engineering/alignment/core-alignment-comparison.png)
 
-Property/air rights, obstacles, protected sites, surveyed heights, utilities, piers, foundations, transition curves and vertical alignment remain open. Existing outer approaches retain street/raster bends; exceptional geometry still requires realignment or special products. Additional outer grade-separation sensitivities add 7.178 km and retain current dates; they are not the adopted core geometry or an achieved routing-penalty saving.
+Property/air rights, obstacles, protected sites, surveyed heights, utilities, piers, foundations, transition curves and vertical alignment remain open. Existing outer approaches retain street/raster bends; exceptional geometry still requires realignment or special products. Additional outer grade-separation sensitivities add 6.767 km and retain current dates; they are not the adopted core geometry or an achieved routing-penalty saving.
 
 ## Evidence, original references and regeneration
 

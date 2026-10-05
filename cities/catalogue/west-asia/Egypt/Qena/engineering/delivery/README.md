@@ -70,14 +70,22 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–7683.5 m | 100.0 | 1540 | 231 | 17.6 / 22.0 / 26.4 |
-| line-2 68.3–116.6 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
-| line-2 14396.2–16351.0 m | 100.0 | 396 | 59 | 17.6 / 22.0 / 26.4 |
-| line-3 0.0–8090.3 m | 100.0 | 1620 | 243 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–48.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 48.284–68.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 68.284–7683.5 m | 100.0 | 1528 | 228 | 17.6 / 22.0 / 26.4 |
+| line-2 68.3–88.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 88.284–116.6 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 14396.2–16262.683 m | 100.0 | 376 | 56 | 17.6 / 22.0 / 26.4 |
+| line-2 16262.683–16282.683 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 16282.683–16302.683 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 16302.683–16351.0 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 0.0–28.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 28.284–48.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 48.284–8090.3 m | 100.0 | 1612 | 241 | 17.6 / 22.0 / 26.4 |
 
-Mapped soil has 5 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 4 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 28, "coverage-gap": 5, "fine-soil-plasticity-and-shrink-swell-tests": 61, "granular-density-and-groundwater-tests": 75, "organic-content-and-compressibility-tests": 23}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 30, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 81, "granular-density-and-groundwater-tests": 100, "organic-content-and-compressibility-tests": 35}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -115,7 +115,7 @@
   },
   "city": "arusha",
   "country_parameter_basis": "Retained indicative country scenario; deployment verification required",
-  "country_parameters_calibrated": true,
+  "country_parameters_calibrated": false,
   "foreign_turnkey_comparator": {
     "basis": "Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.",
     "default_comparison": {
@@ -247,9 +247,12 @@
   },
   "revenue_basis": {
     "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "mean_boardings_calibrated": false,
+    "mean_boardings_per_paid_journey": 1.0,
     "nonfare_revenue_usd_per_year": 1177591.5359999998,
     "operating_neutral_capacity_utilisation": 0.3237422167075462,
     "operating_neutral_paid_trips_per_year": 47474335.639314674,
+    "paid_journey_conversion": "One boarding per paid journey: zero-transfer upper bound; integrated fares require surveyed journey/boarding conversion",
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.44000000000000006
   },
@@ -266,7 +269,7 @@
     "design": "cities/catalogue/east-africa/Tanzania/Arusha/design.toml",
     "design_sha256": "ffd4ac90cac5a5661d9bd829eef0ae285fdf307a7a55a09f6773e9ed2b05fc97",
     "generator": "tools/automation/generate-city-finance.py",
-    "generator_sha256": "e673cdfc5ad4913360375f622514fb97df3fd95d661d72a600dedb29ed77826b",
+    "generator_sha256": "bbd5448cd82b6e1715eec634458693fe0c0156329c876ee1d3becb6d5f1f25d1",
     "network_finance_model": "design/city-generation/src/osr_scenario/network_readme.py",
     "network_finance_model_sha256": "3ff944229d8cecbf0d73109043e47af9f89db079c597dd45dd9b0e9bb4a542ea",
     "operating_scope": "lib/templates/city-operating-scope.toml",

@@ -1,8 +1,8 @@
 {
   "city": "kut",
-  "civil_plan_sha256": "02768754a9ef714882a366804a98240a3a107ddd65e929038f08c5aba64f836d",
-  "civil_segment_count": 16,
-  "complete_profile_count": 103,
+  "civil_plan_sha256": "c332cbae998ba2d88d1a3d1eac0aa26d9743a934edb53c2d9b50f78d05668378",
+  "civil_segment_count": 25,
+  "complete_profile_count": 130,
   "density_unit_reconciliation": "TIFF/filename g/cm3 × 1000 = kg/m3; upstream catalogue unit label differs",
   "deployment_release_ready": false,
   "depth_intervals": [
@@ -14,16 +14,16 @@
   "generator_sha256": "f9cb87c93d9c5fcfaa58854c7af922389c06f38a1498ded9ac0becd02ce5833c",
   "ground_design_validated": false,
   "input_sha256": {
-    "civil_segments": "019d9c68cdadd4b95853e9a81d20b2ccad1d688043e5ef26dfa254f72d563a46",
-    "design": "8c8e7afa822a2a130259a0315caa627d6ef35229e39f8fc4db2bd5afcdf946e3",
+    "civil_segments": "166409b77b0ddeb6a0d75056169add3f85d5a7e21923c8ad71c3cae1f640f8c8",
+    "design": "e523529d1b8d0f819936920ef7b1b0d8eb645129e1a3bb5764223489520174a4",
     "source_lock": "9f7303c6c2d14d3ab992d50a5e99326046493aececc4f90b294036bcf8d6f6e5",
     "stations": "7e4514fcc252f19fb6f030de20cdde0ef0ada49e81a73678bd7fcc3b8a6b53ce"
   },
   "investigation_flag_counts": {
     "coverage-gap": 1,
-    "fine-soil-plasticity-and-shrink-swell-tests": 76,
-    "granular-density-and-groundwater-tests": 75,
-    "silt-moisture-frost-and-erosion-review": 35
+    "fine-soil-plasticity-and-shrink-swell-tests": 103,
+    "granular-density-and-groundwater-tests": 79,
+    "silt-moisture-frost-and-erosion-review": 47
   },
   "limitations": [
     "No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.",
@@ -36,7 +36,7 @@
   "prediction_interval": "p16-p84; nominal 68% prediction interval; not engineering design characteristic values",
   "property_sample_ranges": [
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 31.0,
       "mean_min": 17.0,
@@ -46,7 +46,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 55.0,
       "mean_min": 27.0,
@@ -56,27 +56,27 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 42.0,
       "mean_min": 28.0,
       "p16_min": 12.0,
-      "p84_max": 55.0,
+      "p84_max": 54.0,
       "property": "silt",
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 1500.0,
-      "mean_min": 1450.0,
-      "p16_min": 1270.0,
+      "mean_min": 1440.0,
+      "p16_min": 1250.0,
       "p84_max": 1660.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 5.0,
       "mean_min": 2.4,
@@ -86,17 +86,17 @@
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "0..30cm",
       "mean_max": 8.1,
       "mean_min": 7.7,
-      "p16_min": 7.1,
+      "p16_min": 7.0,
       "p84_max": 8.8,
       "property": "ph.h2o",
       "unit": "pH"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
       "mean_max": 32.0,
       "mean_min": 19.0,
@@ -106,7 +106,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
       "mean_max": 56.0,
       "mean_min": 31.0,
@@ -116,7 +116,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
       "mean_max": 37.0,
       "mean_min": 25.0,
@@ -126,9 +126,9 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
-      "mean_max": 1520.0,
+      "mean_max": 1560.0,
       "mean_min": 1410.0,
       "p16_min": 1180.0,
       "p84_max": 1730.0,
@@ -136,9 +136,9 @@
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
-      "mean_max": 3.4,
+      "mean_max": 3.2,
       "mean_min": 1.8,
       "p16_min": 0.0,
       "p84_max": 8.4,
@@ -146,17 +146,17 @@
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "30..60cm",
       "mean_max": 8.5,
-      "mean_min": 8.0,
-      "p16_min": 7.1,
+      "mean_min": 7.8,
+      "p16_min": 6.7,
       "p84_max": 10.1,
       "property": "ph.h2o",
       "unit": "pH"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
       "mean_max": 32.0,
       "mean_min": 20.0,
@@ -166,7 +166,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
       "mean_max": 56.0,
       "mean_min": 33.0,
@@ -176,7 +176,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
       "mean_max": 36.0,
       "mean_min": 23.0,
@@ -186,17 +186,17 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
-      "mean_max": 1550.0,
+      "mean_max": 1620.0,
       "mean_min": 1400.0,
       "p16_min": 1220.0,
-      "p84_max": 1770.0,
+      "p84_max": 1920.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
       "mean_max": 2.9,
       "mean_min": 1.8,
@@ -206,19 +206,19 @@
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 130,
       "depth_interval": "60..100cm",
       "mean_max": 8.6,
-      "mean_min": 8.0,
-      "p16_min": 7.0,
+      "mean_min": 7.9,
+      "p16_min": 6.7,
       "p84_max": 10.2,
       "property": "ph.h2o",
       "unit": "pH"
     }
   ],
-  "sample_count": 104,
-  "sample_locations_sha256": "2779dba3fe35e6d732cd8e599304d31bfc1d481e9b06939e98ba0ad2a4c06753",
-  "samples_sha256": "e8c65967c11d22cae59055cd09ad89368b09a60a0318aa1fb35a62bc7304fe11",
+  "sample_count": 131,
+  "sample_locations_sha256": "bfac9b398bfe129633416222ed230da675c82bc35aeb05be592d7146450aa558",
+  "samples_sha256": "8996e5a3a115b5101787b9168cdb459001d10980544197c8e52a800be1e642a0",
   "sampling_resolution_m": 120,
   "sampling_spacing_m": 1000,
   "schema_version": 1,
@@ -228,7 +228,7 @@
     "source_lock": "engineering/data/soildb/sources.json",
     "stations": "cities/catalogue/west-asia/Iraq/Kut/engineering/gis/layers/stations.geojson"
   },
-  "source_receipt_sha256": "f4b4cc39edff7b669b6b48e0316e0240f51b457835a609851b86531128fd39b6",
+  "source_receipt_sha256": "d98a898c16d645990f1be1bf735deb5a5934703f933786f4cfb7d7cae07f5729",
   "station_count": 17,
   "status": "desktop-soil-screening-with-coverage-gaps",
   "units": {

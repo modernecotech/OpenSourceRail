@@ -13,7 +13,7 @@ This page contains only Polokwane-specific results. Shared routing, service, ene
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. [Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).
 
 ## Network
 
@@ -57,7 +57,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $373 M |
+| Civil works | $372 M |
 | Stations | $84 M |
 | Depots | $53 M |
 | Rolling stock | $115 M |
@@ -70,7 +70,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Local funding measure | Planning value |
 |---|---:|
 | Imported / external capital | $143 M (20.7%) |
-| Domestic / local capital | $548 M (79.3%) |
+| Domestic / local capital | $547 M (79.3%) |
 | Annual public construction commitment | $74 M / yr for 5 years |
 | Annual post-grace debt service | $56 M / yr |
 | External capital saved vs default turnkey sensitivity | $1.10 bn |

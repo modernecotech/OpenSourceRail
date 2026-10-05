@@ -61,7 +61,7 @@ def depot_plan(design, profile, config, capex, energy):
                     'Reference rates are shared USD-equivalent targets, not local installed quotations; land, grid upgrades, installation and approval remain open.'])
 
 
-def apply(path):
+def apply(path, report_only=False):
     d=tomllib.loads(path.read_text());slug=d['city']['slug']
     if slug=='baghdad':return  # Dedicated revised scope retains its separate ledger.
     families={r['rolling_stock'] for r in d['lines']}
@@ -96,7 +96,11 @@ def apply(path):
             if n!=1:raise ValueError('Missing cost '+name)
     current=tomllib.loads(updated)
     if len(current['depots'])!=len(current['lines']):raise ValueError('Depot count differs from lines')
-    path.write_text(updated)
+    if report_only:
+        if current['depots']!=d['depots'] or abs(plan['gross_reference_cost_usd']-d['costs']['depots_usd'])>.01:
+            raise ValueError('Current depot requirements differ; controlled design regeneration required: '+slug)
+    else:
+        path.write_text(updated)
     plan['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
                            for p in [path,CONFIG,stock,cost,power,Path(__file__)]}
     out=path.parent/'engineering/line-depots';out.mkdir(parents=True,exist_ok=True)
@@ -109,6 +113,6 @@ def apply(path):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--design',type=Path,required=True);a=p.parse_args();apply(a.design.resolve())
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--design',type=Path,required=True);p.add_argument('--report-only',action='store_true');a=p.parse_args();apply(a.design.resolve(),a.report_only)
     print('Line-local depot quantities and capital applied: '+str(a.design))
 if __name__=='__main__':main()

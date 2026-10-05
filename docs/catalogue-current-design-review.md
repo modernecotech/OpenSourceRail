@@ -52,9 +52,10 @@ Country finance assumptions stay local. Baghdad’s government share, Chinese cr
 | PS | 3 | 584.395 |
 | RW | 3 | 664.872 |
 | SA | 14 | 804.754 |
-| SD | 7 | 669.334 |
+| SD | 6 | 669.334 |
 | SN | 1 | 628.139 |
 | SO | 1 | 463.450 |
+| SS | 1 | 181.705 |
 | SV | 1 | 637.132 |
 | SY | 9 | 698.706 |
 | TN | 1 | 769.581 |

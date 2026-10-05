@@ -114,7 +114,7 @@ Build the complete documentation book with one command:
 
 The book includes canonical project and technical prose, software, deployment,
 control-electronics, formal-assurance, engineering and high-level manufacturing
-documentation, 43 developing-country briefs, and concise briefs generated from all 266 city
+documentation, 44 developing-country briefs, and concise briefs generated from all 266 city
 models. `./osr book --list-sources` prints the exact
 validated manifest. Generated search indexes, duplicate city pages, component
 definitions and signable travelers remain linked repository records rather

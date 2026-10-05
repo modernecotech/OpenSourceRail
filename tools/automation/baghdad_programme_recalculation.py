@@ -387,6 +387,16 @@ def operating_projection(inputs,people,bc,depots,industry,selected,c,finance,pha
     return op
 
 
+def integrated_journey_projection(operating, boardings_per_journey):
+    if not math.isfinite(boardings_per_journey) or boardings_per_journey < 1:
+        raise ValueError('Mean boardings per journey must be finite and at least one')
+    result=deepcopy(operating)
+    for row in result:
+        row['fare_revenue_usd']/=boardings_per_journey
+        row['revenue_usd']=row['fare_revenue_usd']+row['nonfare_revenue_usd']
+    return result
+
+
 def construction_people(payload,industry,c,people):
     monthly=defaultdict(lambda:defaultdict(float));productive=people['productive_hours_per_fte'];median=indexed_median(c);lanes={}
     factory_packages={r['package'] for r in read(CITY/'engineering/factory/summary.json')['stages']}
@@ -450,7 +460,8 @@ def main():
         ('local_positive_mezzanine','positive',None,True,False),('local_positive_commercial_gap','positive',None,False,True),
         ('local_positive_mezzanine_stress','positive',None,True,True)]
     variants += [(a['id'],'positive',a,False,False) for a in alignment['alternatives']]
-    variants += [(name,'positive',None,False,False) for name in ('local_positive_raw_price_stress','local_positive_supplier_delay','construction_wage_content_stress')]
+    transfer_cases={'integrated_fare_1_25_boardings':1.25,'integrated_fare_1_5_boardings':1.5,'integrated_fare_2_boardings':2.}
+    variants += [(name,'positive',None,False,False) for name in ('local_positive_raw_price_stress','local_positive_supplier_delay','construction_wage_content_stress',*transfer_cases)]
     OUT.mkdir(parents=True,exist_ok=True)
     for legacy in OUT.glob('grade-separation-penalty-*'):
         if legacy.is_file():legacy.unlink()  # retired generated monetary-score sensitivities
@@ -466,6 +477,7 @@ def main():
         capital=capital_projection(contracts,inputs['config'],set(inputs['options']['green']['candidate_buckets']))
         op=operating_projection(inputs,people,payconfig,depot,industry,selected,c,finance,phases)
         case_phases=phases
+        if name in transfer_cases:op=integrated_journey_projection(op,transfer_cases[name])
         if name=='local_positive_supplier_delay':op,case_phases=delay_operating(op,phases,industry,selected,c)
         settings=deepcopy(c)
         if name.endswith('mezzanine_stress'):
@@ -476,7 +488,10 @@ def main():
             product=r.get('product',''),budget_usd=r['budget_usd'],imported_share=r['imported_share'],
             planned_start_day=r['planned_start_day'],planned_finish_day=r['planned_finish_day']) for i,r in enumerate(contracts)]
         csvout(OUT/(name+'-contracts.csv'),invoice_rows)
-        result.update(capital_bridge=bridge,contract_schedule_file=name+'-contracts.csv',contract_count=len(contracts),
+        result.update(paid_journey_conversion=dict(tariff='integrated-journey',
+            mean_boardings_per_paid_journey=transfer_cases.get(name,1.),mean_boardings_calibrated=False,
+            baseline_is_zero_transfer_capacity_upper_bound=name not in transfer_cases,
+            demand_forecast_accepted=False,nonfare_receipts_and_service_energy_unchanged=True),capital_bridge=bridge,contract_schedule_file=name+'-contracts.csv',contract_count=len(contracts),
             selected_component_factories=[r['id'] for r in selected],
             conditional_alignment=align,opening_phases=case_phases,complete_delivery_budget=False,
             hourly_energy_and_full_service_acceptance=False,uncommitted_enhanced_income_and_green_terms=True,
@@ -541,6 +556,10 @@ The reworked core has {len(core_stations['stations'])} station platforms with ra
 [Make/buy inputs](component-make-buy.csv) price imported process machinery, Iraqi buildings/site work, qualification, residual imported inputs, local materials, graded labour, process overhead, fixed support and plant maintenance. Cells are sized to the existing train factory's required production rate, not a small demonstration line. The order is {industry['battery_gross_network_kwh']/1e6:.3f} GWh of gross onboard packs. Battery **pack assembly** is evaluated; imported cells/BMS remain. Bogie wheels/axles/bearings, motor inverters/magnets, door safety electronics and glazing feedstock also retain imports. Local manufacture does not mean zero USD input.
 
 The buy case itemises these five imported completed products; the old blanket vehicle import percentage is retained only for other parent scope. This prevents replacing already-local scope with a second import credit. The all-product and positive-margin selections are separate unquoted cases. Whole-order margins are before finance/tax/risk; vendor prices, license, QA, process yield, supply commitments and first articles must validate them. No future national order pays Baghdad debt or makes an uneconomic line look profitable. Serial component qualification is assumed within the 18-month readiness target, not proven. A six-month supplier delay shifts rolling-stock invoices and opening/service cash, extends the full operating horizon and prices idle production payroll. A 25% raw-input price stress preserves the same selected facilities. Rejected/reworked product still needs a measured production replay. Existing final assembly tooling remains priced; upstream machinery is added without an unproven overlap credit.
+
+## Paid journeys and transfers
+
+Revenue remains a capacity-led sensitivity rather than a surveyed OD forecast. The reference uses one boarding per paid journey, a zero-transfer upper-bound assumption. Integrated-fare sensitivities use 1.25, 1.5 and 2 boardings per journey: only fare receipts are divided; kiosk/rental/advertising receipts, service, staffing and energy are retained. These are uncalibrated factors, not estimates of Baghdad travel. Physical access and surveyed OD/section loads must qualify any adopted demand forecast. [Demand handoff](../demand-bridge/README.md).
 
 ## More elevation and fewer bends
 

@@ -12,3 +12,8 @@ The regenerated core alignment uses new station positions and IDs. The older
 revision JSON and reviews remain historical records; they do not approve the
 current candidate. Previous platform locks are retained separately in
 `../network/historical-pre-core-overrides.toml` and are inactive.
+
+The current source lock adopts the 5 October local civil-cost correction on
+the retained alignment. Earlier revision source hashes and approval records
+are unchanged; they do not approve the corrected candidate. Compile and
+validate the current project before reviewing any new revision.

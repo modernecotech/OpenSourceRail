@@ -74,16 +74,22 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 422.8–451.1 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-1 797.4–825.7 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-1 865.7–885.7 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
-| line-1 3969.6–11038.0 m | 100.0 | 1416 | 212 | 8.0 / 10.0 / 12.0 |
-| line-2 2992.2–3656.5 m | 100.0 | 136 | 20 | 8.0 / 10.0 / 12.0 |
+| line-1 3969.6–10989.747 m | 100.0 | 1408 | 210 | 8.0 / 10.0 / 12.0 |
+| line-1 10989.747–11038.0 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-2 2992.2–3060.488 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
+| line-2 3060.488–3108.772 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-2 3108.772–3656.5 m | 100.0 | 112 | 16 | 8.0 / 10.0 / 12.0 |
 | line-2 3676.5–3744.8 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
 | line-2 3793.0–5125.0 m | 100.0 | 272 | 40 | 8.0 / 10.0 / 12.0 |
 | line-2 5193.3–12440.8 m | 100.0 | 1452 | 217 | 8.0 / 10.0 / 12.0 |
-| line-3 0.0–9650.6 m | 100.0 | 1936 | 290 | 8.0 / 10.0 / 12.0 |
+| line-3 0.0–28.284 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-3 28.284–48.284 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-3 48.284–9630.58 m | 100.0 | 1920 | 288 | 8.0 / 10.0 / 12.0 |
+| line-3 9630.58–9650.6 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 
 Mapped soil has 7 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 69, "coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 118, "granular-density-and-groundwater-tests": 63, "organic-content-and-compressibility-tests": 15}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 72, "coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 136, "granular-density-and-groundwater-tests": 65, "organic-content-and-compressibility-tests": 15}.
 
 ## Joints, paints, finishes and cleaning
 

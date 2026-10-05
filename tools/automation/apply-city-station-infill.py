@@ -83,7 +83,7 @@ def transfer_groups(stations, previous, civil, lines=None):
         groups.append(dict(id=existing.get(group,{}).get('id',f'interchange-{group:03d}'),junction_group=group,lat=math.fsum(s['lat'] for s in members)/len(members),lon=math.fsum(s['lon'] for s in members)/len(members),lines=sorted({s['line'] for s in members}),platforms=sorted(s['id'] for s in members)))
     return stations,sorted(groups,key=lambda g:g['junction_group'])
 
-def apply(path):
+def apply(path, report_only=False):
     policy_path=path.with_name('station-infill-policy.toml')
     if not policy_path.exists():return False
     policy=tomllib.loads(policy_path.read_text())
@@ -100,6 +100,8 @@ def apply(path):
     capex_path=ROOT/'lib/templates/capex-costs.toml';capex=tomllib.loads(capex_path.read_text())
     all_stations=sorted(d['stations']+additions,key=lambda s:(s['line'],s['s_m'],s['id']))
     all_stations,interchanges=transfer_groups(all_stations,d.get('interchanges',[]),d['civil_segments'],d['lines'])
+    if report_only and (additions or all_stations!=d['stations'] or interchanges!=d.get('interchanges',[])):
+        raise ValueError('Report-only infill differs from the controlled stations or transfers')
     if additions or all_stations!=d['stations'] or interchanges!=d.get('interchanges',[]):
         blocks='\n'.join('[[stations]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in station.items()) for station in all_stations)+'\n'
         blocks+='\n'.join('[[interchanges]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in group.items()) for group in interchanges)+'\n'
@@ -123,9 +125,10 @@ def apply(path):
         fields={k:v for k,v in station.items() if k not in {'archetype','platform_length_m'}}
         if station['id'] in by_id:by_id[station['id']].update(fields)
         else:by_id[station['id']]={**fields,'demand':0.0,'demand_basis':'Uncalibrated planning infill; no observed ridership claimed'}
-    points=sorted(by_id.values(),key=lambda s:(s['line'],s['s_m'],s['id']));points_path.write_text(json.dumps(points,indent=2)+'\n')
+    points=sorted(by_id.values(),key=lambda s:(s['line'],s['s_m'],s['id']))
+    if not report_only:points_path.write_text(json.dumps(points,indent=2)+'\n')
     quality_path=city/(slug+'.design-quality.yaml')
-    if quality_path.exists():
+    if quality_path.exists() and not report_only:
         quality=quality_path.read_text();hit=sum(bool(s.get('anchor_kind')) and s.get('anchor_kind')!='planning:infill' for s in d['stations'])/len(d['stations'])
         quality=re.sub(r'(n_stations:\s*)\d+',lambda m:m[1]+str(len(d['stations'])),quality)
         quality=re.sub(r'(anchor_hit_rate:\s*)[\d.]+',lambda m:m[1]+f'{hit:.3f}',quality)
@@ -135,4 +138,6 @@ def apply(path):
     return bool(additions)
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--design',type=Path,required=True);args=parser.parse_args();print('Planning station infill: '+str(apply(args.design.resolve())))
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--design',type=Path,required=True)
+    parser.add_argument('--report-only',action='store_true',help='verify retained controlled infill and recompute its report without changing design or map inputs')
+    args=parser.parse_args();print('Planning station infill: '+str(apply(args.design.resolve(),args.report_only)))

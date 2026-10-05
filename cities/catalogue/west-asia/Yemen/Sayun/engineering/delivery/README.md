@@ -70,13 +70,15 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–10455.8 m | 100.0 | 2096 | 314 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 68.284–10455.8 m | 100.0 | 2080 | 312 | 17.6 / 22.0 / 26.4 |
 | line-2 0.0–3676.6 m | 100.0 | 740 | 111 | 17.6 / 22.0 / 26.4 |
 | line-3 0.0–4168.5 m | 100.0 | 836 | 125 | 17.6 / 22.0 / 26.4 |
 
 Mapped soil has 7 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 3, "granular-density-and-groundwater-tests": 35}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 7, "granular-density-and-groundwater-tests": 41}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -70,16 +70,25 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–897.4 m | 100.0 | 180 | 27 | 17.6 / 22.0 / 26.4 |
-| line-1 1751.4–8649.2 m | 100.0 | 1380 | 207 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–5985.0 m | 100.0 | 1200 | 180 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 20.0–48.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 48.284–68.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 68.284–897.4 m | 100.0 | 172 | 25 | 17.6 / 22.0 / 26.4 |
+| line-1 1751.4–8600.874 m | 100.0 | 1372 | 205 | 17.6 / 22.0 / 26.4 |
+| line-1 8600.874–8620.874 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 8620.874–8649.2 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 20.0–48.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 48.284–5964.996 m | 100.0 | 1188 | 177 | 17.6 / 22.0 / 26.4 |
+| line-2 5964.996–5984.996 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 5984.996–5985.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 0.0–1064.9 m | 100.0 | 216 | 32 | 17.6 / 22.0 / 26.4 |
 | line-3 1284.9–1413.1 m | 100.0 | 32 | 4 | 17.6 / 22.0 / 26.4 |
 | line-3 2189.7–4987.7 m | 100.0 | 560 | 84 | 17.6 / 22.0 / 26.4 |
 
 Mapped soil has 3 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 3, "fine-soil-plasticity-and-shrink-swell-tests": 29, "granular-density-and-groundwater-tests": 49}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 3, "fine-soil-plasticity-and-shrink-swell-tests": 44, "granular-density-and-groundwater-tests": 76}.
 
 ## Joints, paints, finishes and cleaning
 

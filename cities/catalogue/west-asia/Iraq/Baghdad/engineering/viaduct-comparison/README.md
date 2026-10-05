@@ -22,26 +22,26 @@ A link slab can remove an expansion joint while simply supported girders retain 
 
 Under the existing index only, restoring simple-span bearings changes USD 9.748m/km to USD 10.198m/km: USD 119.124m as a uniform-rate illustration over all current elevation. This is an unadopted counterfactual before connection/end-effect/EPC costs, not a priced scope or a transfer of Pi bearings to segmental/special designs.
 
-The [financed bearing sensitivity](../delivery-closure/finance-simple_span_bearing_index.json) applies only to 195.008 km of existing standard Pi25: USD 87.754m direct plus the existing incremental EPC rate once. Its capital is USD 14.786bn and terminal gap debt IQD 13.000tn. Monthly/six-month cash, debt/reserves/early repayment are recalculated under unchanged government and currency rules. Original civil invoice timing and origin shares are inherited assumptions, not supplier evidence; all consequential costs remain open.
+The [financed bearing sensitivity](../delivery-closure/finance-simple_span_bearing_index.json) applies only to 248.115 km of existing standard Pi25: USD 111.652m direct plus the existing incremental EPC rate once. Its capital is USD 7.865bn and terminal gap debt IQD 3.787tn. Monthly/six-month cash, debt/reserves/early repayment are recalculated under unchanged government and currency rules. Original civil invoice timing and origin shares are inherited assumptions, not supplier evidence; all consequential costs remain open.
 
 ## Alignment and budget boundary
 
-The register covers all 492 elevated segments, including 18 individual special reviews. It separates USD 2.580bn standard-rate allowance from USD 6.492bn routing penalty. Their sum reproduces the original model. A routing deterrent is not a priced structure; removing it is not a saving. Each special segment has wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. No alternative is accepted and original capital/debt figures are preserved.
+The register covers all 938 elevated segments, including 40 individual special reviews. Its standard-rate base allowance is USD 2.580bn. Search deterrents are excluded from monetary allowances. This base allowance is not a complete installed price or an achieved saving; special/segmental increments remain unknown. Each special segment has wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. No alternative is accepted and original capital/debt figures are preserved.
 
-The individual special reviews are ranked by existing penalty exposure to direct investigation effort, not by achieved savings. Approximate radius is recovered from the rounded routing multiplier; it is not a fitted/surveyed radius. The Pi20 chord screen shows where shortening alone still fails the existing catalogue allowance. Nearby station IDs support bounded station/right-of-way studies.
+The individual special reviews are ranked by local search-deterrent weighted metres to direct investigation effort. This score is not money or an achieved saving. Radius comes from the local controlled geometry screen; it is not a surveyed radius. The Pi20 chord screen shows where shortening alone still fails the existing catalogue allowance. Nearby station IDs support bounded station/right-of-way studies.
 
-| Special priority | Line/chainage m | Length m | Routing penalty USD m | Radius proxy m | Pi20 chord screen |
+| Special priority | Line/chainage m | Length m | Search-deterrent weighted m | Inferred radius m | Pi20 chord screen |
 |---|---|---:|---:|---:|---|
-| 1 | line-9 67403.1–97724.2 | 30321.1 | 5024.691 | 70.7 | False |
-| 2 | line-9 0.0–2438.2 | 2438.2 | 716.687 | 53.7 | False |
-| 3 | line-9 27578.9–28665.2 | 1086.3 | 76.401 | 104.7 | False |
-| 4 | line-9 52031.2–52317.5 | 286.3 | 64.695 | 61.0 | False |
-| 5 | line-9 51846.3–51982.9 | 136.6 | 33.917 | 58.3 | False |
-| 6 | line-6 0.0–173.1 | 173.1 | 18.708 | 86.3 | False |
-| 7 | line-1 20148.4–20225.0 | 76.6 | 7.524 | 90.1 | False |
-| 8 | line-4 220.0–296.6 | 76.6 | 6.703 | 95.0 | False |
-| 9 | line-5 48.3–156.6 | 108.3 | 6.253 | 114.0 | False |
-| 10 | line-1 10276.2–10364.5 | 88.3 | 6.032 | 106.0 | False |
+| 1 | line-9 1240.8–1369.1 | 128.3 | 2816.6 | 53.7 | False |
+| 2 | line-9 80079.9–80216.5 | 136.6 | 1283.9 | 79.6 | False |
+| 3 | line-9 94068.5–94176.8 | 108.3 | 1184.4 | 78.9 | False |
+| 4 | line-9 86279.5–86387.8 | 108.3 | 1177.8 | 78.9 | False |
+| 5 | line-9 76814.0–76938.9 | 124.9 | 1042.1 | 91.9 | False |
+| 6 | line-9 51942.9–51982.9 | 40.0 | 1018.6 | 58.3 | False |
+| 7 | line-9 71574.7–71654.7 | 80.0 | 985.3 | 70.7 | False |
+| 8 | line-9 69048.8–69125.3 | 76.6 | 818.1 | 79.6 | False |
+| 9 | line-9 84552.4–84629.0 | 76.6 | 809.3 | 85.4 | False |
+| 10 | line-9 83054.2–83150.7 | 96.6 | 731.9 | 93.0 | False |
 
 A further 20% reduction in beam concrete changes the existing index by only USD 0.450m/km before any offsetting prestress, reinforcement or fabrication changes. No literature percentage is applied again.
 
@@ -57,7 +57,7 @@ Build and measure the first beam and representative pier/cap/connection only aft
 
 ## Review scope and evidence
 
-The older review of `135e249e` predates the integrated USD 14.692bn full-fleet sensitivity and its IQD 13.000tn terminal gap debt. Depot/workforce/site-energy reconciliation, supplier RFQ forms, opening-fleet replay, rental alternatives and clean-checkout bootstrap already exist in [delivery closure](../delivery-closure/README.md). This package closes repository comparison gaps; it does not replace supplier offers, measured demand or a complete delivery budget.
+The older review of `135e249e` predates the integrated USD 7.746bn full-fleet sensitivity and its IQD 3.439tn terminal gap debt. Depot/workforce/site-energy reconciliation, supplier RFQ forms, opening-fleet replay, rental alternatives and clean-checkout bootstrap already exist in [delivery closure](../delivery-closure/README.md). This package closes repository comparison gaps; it does not replace supplier offers, measured demand or a complete delivery budget.
 
 - [FHWA field-cast UHPC connections](https://www.fhwa.dot.gov/publications/research/infrastructure/structures/14084/index.cfm): Link slabs can join simple-span decks while independent bearings remain; highway precedent only (checked 2026-10-04).
 - [FHWA prefabricated bridge selection framework](https://www.fhwa.dot.gov/bridge/prefab/framework.cfm): Compare access, supplier capability, connections and the complete installation system (checked 2026-10-04).

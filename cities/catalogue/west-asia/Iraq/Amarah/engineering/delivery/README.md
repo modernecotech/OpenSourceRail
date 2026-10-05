@@ -70,7 +70,9 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–4951.9 m | 100.0 | 996 | 149 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–28.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 28.284–48.284 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 48.284–4951.9 m | 100.0 | 988 | 147 | 17.6 / 22.0 / 26.4 |
 | line-1 5852.7–5881.0 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-1 7920.6–11210.8 m | 100.0 | 660 | 99 | 17.6 / 22.0 / 26.4 |
 | line-1 11520.5–15957.8 m | 100.0 | 892 | 133 | 17.6 / 22.0 / 26.4 |
@@ -78,15 +80,18 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-2 4324.2–4400.7 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
 | line-2 4489.0–4517.3 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-2 4537.3–4565.6 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
-| line-2 5000.1–9847.1 m | 100.0 | 972 | 145 | 17.6 / 22.0 / 26.4 |
-| line-3 0.0–549.7 m | 100.0 | 112 | 16 | 17.6 / 22.0 / 26.4 |
+| line-2 5000.1–9818.864 m | 100.0 | 968 | 144 | 17.6 / 22.0 / 26.4 |
+| line-2 9818.864–9847.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 68.284–549.7 m | 100.0 | 100 | 15 | 17.6 / 22.0 / 26.4 |
 | line-3 2565.1–2605.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 3143.1–4339.1 m | 100.0 | 240 | 36 | 17.6 / 22.0 / 26.4 |
 | line-3 5503.3–5571.6 m | 75.0 | 16 | 2 | 13.2 / 16.5 / 19.8 |
 
-Mapped soil has 13 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 19 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 13, "fine-soil-plasticity-and-shrink-swell-tests": 98, "granular-density-and-groundwater-tests": 107, "silt-moisture-frost-and-erosion-review": 49}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 19, "fine-soil-plasticity-and-shrink-swell-tests": 103, "granular-density-and-groundwater-tests": 107, "silt-moisture-frost-and-erosion-review": 55}.
 
 ## Joints, paints, finishes and cleaning
 

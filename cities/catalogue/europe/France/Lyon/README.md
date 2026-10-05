@@ -14,7 +14,7 @@ This page contains only Lyon-specific results. Shared routing, service, energy, 
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. [Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).
 
 ## Network
 
@@ -61,25 +61,25 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $2.11 bn |
+| Civil works | $1.94 bn |
 | Stations | $378 M |
 | Depots | $128 M |
 | Rolling stock | $338 M |
 | Dedicated solar plant | $304 M |
 | Residual train control | $11 M |
 | Charging microgrids | $20 M |
-| EPC / project services | $209 M |
-| **Total city programme** | **$3.50 bn** |
+| EPC / project services | $197 M |
+| **Total city programme** | **$3.32 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $724 M (20.7%) |
-| Domestic / local capital | $2.77 bn (79.3%) |
-| Annual public construction commitment | $284 M / yr for 3 years |
-| Annual post-grace debt service | $141 M / yr |
-| External capital saved vs default turnkey sensitivity | $5.57 bn |
-| Capital + lifetime external interest saved | $12.28 bn |
-| Annual OPEX | $197 M / yr |
+| Imported / external capital | $698 M (21.0%) |
+| Domestic / local capital | $2.62 bn (79.0%) |
+| Annual public construction commitment | $269 M / yr for 3 years |
+| Annual post-grace debt service | $134 M / yr |
+| External capital saved vs default turnkey sensitivity | $5.28 bn |
+| Capital + lifetime external interest saved | $11.65 bn |
+| Annual OPEX | $193 M / yr |
 
 ## Local Evidence
 

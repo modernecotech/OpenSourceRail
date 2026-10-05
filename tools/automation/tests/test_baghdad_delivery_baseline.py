@@ -217,6 +217,9 @@ def test_current_front_door_headlines_follow_physical_and_finance_sources():
     assert f"{len(design['lines'])} lines, {sum(r['length_m'] for r in design['lines'])/1000:.4f} km, {len(design['stations'])} stations and {family['trainsets']} six-car trains" in text
     assert f"USD {scope['base_programme_usd']/1e9:.6f}bn" in text
     assert f"capital table has {sum(r['capex_usd']>0 for r in programme['monthly'])} periods" in text
+    assert 'figures below are regenerated from current inputs' in text
+    assert 'not the selected programme total' in text
+    assert 'must not be read as the current depot provision' in text
 
 
 def current_design():

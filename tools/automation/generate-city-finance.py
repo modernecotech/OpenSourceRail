@@ -221,7 +221,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "schema_version": 4,
         "city": slug,
         "status": "planning-screen",
-        "country_parameters_calibrated": fin.get("country_parameters_calibrated", True),
+        "country_parameters_calibrated": fin.get("country_parameters_calibrated", False),
         "country_parameter_basis": fin.get("assumption_basis", "Retained indicative country scenario; deployment verification required"),
         "passed": True,
         "workforce": {
@@ -322,6 +322,9 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "operating_neutral_paid_trips_per_year": neutral_trips,
             "operating_neutral_capacity_utilisation": neutral_trips / (practical_capacity * 365),
             "demand_status": "capacity-led-not-calibrated-od-forecast",
+            "paid_journey_conversion": "One boarding per paid journey: zero-transfer upper bound; integrated fares require surveyed journey/boarding conversion",
+            "mean_boardings_per_paid_journey": 1.0,
+            "mean_boardings_calibrated": False,
         },
         "cases": cases,
         "renewal_policy": {

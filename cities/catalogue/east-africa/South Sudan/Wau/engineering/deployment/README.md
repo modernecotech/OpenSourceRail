@@ -1,4 +1,4 @@
-# Waw deployment gaps
+# Wau deployment gaps
 
 5 closed checks; 12 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
 

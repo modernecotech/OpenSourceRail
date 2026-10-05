@@ -72,7 +72,9 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 |---|---:|---:|---:|---|
 | line-1 0.0–5626.5 m | 100.0 | 1132 | 169 | 17.6 / 22.0 / 26.4 |
 | line-1 5666.5–12835.9 m | 100.0 | 1436 | 215 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–3992.8 m | 100.0 | 800 | 120 | 17.6 / 22.0 / 26.4 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 68.284–3992.8 m | 100.0 | 788 | 117 | 17.6 / 22.0 / 26.4 |
 | line-2 4061.1–12877.8 m | 100.0 | 1768 | 264 | 17.6 / 22.0 / 26.4 |
 | line-2 14434.6–14454.6 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 14594.6–14614.6 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
@@ -80,11 +82,14 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-2 14971.2–14991.2 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 16652.8–16672.8 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 0.0–9197.4 m | 100.0 | 1840 | 276 | 17.6 / 22.0 / 26.4 |
-| line-3 9981.7–15074.4 m | 100.0 | 1020 | 153 | 17.6 / 22.0 / 26.4 |
+| line-3 9981.7–15006.114 m | 100.0 | 1008 | 150 | 17.6 / 22.0 / 26.4 |
+| line-3 15006.114–15026.114 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 15026.114–15054.398 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 15054.398–15074.4 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 
 Mapped soil has 4 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 2, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 132, "granular-density-and-groundwater-tests": 133, "organic-content-and-compressibility-tests": 1}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 2, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 147, "granular-density-and-groundwater-tests": 148, "organic-content-and-compressibility-tests": 1}.
 
 ## Joints, paints, finishes and cleaning
 

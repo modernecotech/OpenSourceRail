@@ -1,6 +1,6 @@
-# Waw organisation and design work
+# Wau organisation and design work
 
-262 indicative operating FTE, including management; annual labour allowance $903,474. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+262 indicative operating FTE, including management; annual labour allowance $4,928,040. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -70,13 +70,33 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–6626.7 m | 100.0 | 1332 | 199 | 15.2 / 19.0 / 22.8 |
-| line-2 1637.4–6605.3 m | 100.0 | 996 | 149 | 15.2 / 19.0 / 22.8 |
+| line-1 0.0–28.284 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-1 28.284–48.284 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 48.284–68.284 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 68.284–88.284 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 88.284–6558.377 m | 100.0 | 1296 | 194 | 15.2 / 19.0 / 22.8 |
+| line-1 6558.377–6578.377 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 6578.377–6598.377 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 6598.377–6626.661 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-1 6626.661–6626.7 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 1637.4–1705.685 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-2 1705.685–1725.685 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 1725.685–2170.538 m | 100.0 | 92 | 13 | 15.2 / 19.0 / 22.8 |
+| line-2 2170.538–2198.823 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-2 2198.823–2287.107 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-2 2287.107–2307.107 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 2307.107–5955.635 m | 100.0 | 732 | 109 | 15.2 / 19.0 / 22.8 |
+| line-2 5955.635–5983.919 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-2 5983.919–6072.203 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-2 6072.203–6092.203 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 6092.203–6537.056 m | 100.0 | 92 | 13 | 15.2 / 19.0 / 22.8 |
+| line-2 6537.056–6565.341 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-2 6565.341–6605.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
 | line-3 0.0–2032.8 m | 100.0 | 412 | 61 | 15.2 / 19.0 / 22.8 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 33, "fine-soil-plasticity-and-shrink-swell-tests": 35, "granular-density-and-groundwater-tests": 35}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 80, "fine-soil-plasticity-and-shrink-swell-tests": 94, "granular-density-and-groundwater-tests": 94, "silt-moisture-frost-and-erosion-review": 6}.
 
 ## Joints, paints, finishes and cleaning
 

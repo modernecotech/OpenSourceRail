@@ -70,10 +70,22 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–12439.5 m | 100.0 | 2492 | 373 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 68.284–12439.5 m | 100.0 | 2476 | 371 | 17.6 / 22.0 / 26.4 |
 | line-1 12604.3–13483.7 m | 100.0 | 180 | 27 | 17.6 / 22.0 / 26.4 |
-| line-2 509.7–1529.7 m | 100.0 | 208 | 30 | 17.6 / 22.0 / 26.4 |
-| line-2 2354.0–8182.6 m | 100.0 | 1172 | 175 | 17.6 / 22.0 / 26.4 |
+| line-2 509.7–669.706 m | 100.0 | 36 | 5 | 17.6 / 22.0 / 26.4 |
+| line-2 669.706–709.706 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 709.706–769.706 m | 75.0 | 16 | 2 | 13.2 / 16.5 / 19.8 |
+| line-2 769.706–809.706 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 809.706–1529.7 m | 100.0 | 148 | 21 | 17.6 / 22.0 / 26.4 |
+| line-2 2354.0–4193.625 m | 100.0 | 372 | 55 | 17.6 / 22.0 / 26.4 |
+| line-2 4193.625–4213.625 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 4213.625–4579.899 m | 100.0 | 76 | 11 | 17.6 / 22.0 / 26.4 |
+| line-2 4579.899–4599.899 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 4599.899–6544.407 m | 100.0 | 392 | 58 | 17.6 / 22.0 / 26.4 |
+| line-2 6544.407–6564.407 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 6564.407–8182.6 m | 100.0 | 328 | 48 | 17.6 / 22.0 / 26.4 |
 | line-2 9945.7–11088.0 m | 100.0 | 232 | 34 | 17.6 / 22.0 / 26.4 |
 | line-2 12782.8–12811.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-2 12895.9–12915.9 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
@@ -83,7 +95,7 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 6, "fine-soil-plasticity-and-shrink-swell-tests": 117, "granular-density-and-groundwater-tests": 107, "organic-content-and-compressibility-tests": 1}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 4, "fine-soil-plasticity-and-shrink-swell-tests": 150, "granular-density-and-groundwater-tests": 134, "organic-content-and-compressibility-tests": 1}.
 
 ## Joints, paints, finishes and cleaning
 

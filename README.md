@@ -17,7 +17,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 | Scope | Current public implementation |
 |---|---|
-| City portfolio | **265 cities in 43 developing countries**, plus one European comparison model excluded from the public programme evidence. |
+| City portfolio | **265 cities in 44 developing countries**, plus one European comparison model excluded from the public programme evidence. |
 | Planning | Interactive route, station, demand and service design over local GIS, open elevation/slope and water evidence, with reproducible source locks and content-addressed revisions. |
 | Physical system | A 49.5 m, three-car, driverless light-metro reference with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** onboard LFP storage; integrated battery-priority/cabin thermal control; seven station archetypes; at-grade, single-track, viaduct and special bridge civil families. |
 | Product definition | **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families, 146 native FreeCAD models and matching split IFC4.3 files** linked to BOMs, methods, QA gates and release evidence. |
@@ -156,10 +156,10 @@ For an illustrative **$100M OpenSourceRail scope**, the editable default compari
 | Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
 |---|---:|---:|
 | Programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $82.4M | $20.0M |
-| External-capital requirement | **$17.6M** | **$180.0M** |
+| Value not requiring external capital | $79.1M | $20.0M |
+| External-capital requirement | **$20.9M** | **$180.0M** |
 
-In that scenario, the external-capital requirement is **$162.4M (90.2%)** lower before interest. Across the 265-city model, **about $886B—roughly 82% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+In that scenario, the external-capital requirement is **$159.1M (88.4%)** lower before interest. Across the 265-city model, **about $381B—roughly 79% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
 <!-- END GENERATED: portfolio economics -->
 
 ## Run it
@@ -186,8 +186,8 @@ Open <http://127.0.0.1:8090/>. The local server is not an authenticated public d
 | A rolling-stock, supplier or manufacturing engineer | [LM3 reference](docs/rolling-stock/light-metro-3car/README.md), [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md), [supplier technical-support package](docs/commercial/supplier-technical-support-package.md), [CAD models](design/component-catalogue/models/cad/README.md) and [factory readiness](design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) |
 | An operator or maintainer | [Operations](docs/operations/README.md), [Workbench](docs/workbench/README.md), [connected lifecycle](docs/lifecycle/README.md) and [example-city deployment](deployment/example-city/README.md) |
 | An ERP/SCADA integrator | [Operating platform](docs/operating/README.md), [ERPNext setup](deployment/erpnext/README.md), [supervision gateway](deployment/supervision/README.md) and [embedded contract](docs/lifecycle/embedded-integration.md) |
-| A software or assurance reviewer | [Rust workspace](crates/README.md), [software architecture](docs/software-architecture-diagrams.md), [formal results](engineering/assurance/formal/results/README.md), [safety case](docs/safety-case/README.md), [assurance/authorization framework](docs/certification/README.md), [latest Baghdad civil review](docs/baghdad-manufactured-viaduct-review-2026-10-04.md), [controls and financial review](docs/baghdad-ci-controls-review-2026-10-04.md) and [historical codebase review](docs/codebase-and-iraq-review-2026-10-03.md) |
-| A public owner, funder or delivery partner | [latest Baghdad staffing, depot, local-production and funding recalculation](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md), [complete Baghdad proposal](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [Baghdad-only original reference funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md), [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md), [owner–builder–operator plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md), [JV/development framework](docs/commercial/joint-development-framework.md), [partnership status](docs/commercial/partnership-readiness.md) and [supplier-support status](docs/commercial/supplier-technical-support-readiness.md) |
+| A software or assurance reviewer | [Rust workspace](crates/README.md), [software architecture](docs/software-architecture-diagrams.md), [formal results](engineering/assurance/formal/results/README.md), [safety case](docs/safety-case/README.md), [assurance/authorization framework](docs/certification/README.md), [manufactured viaduct review](docs/baghdad-manufactured-viaduct-review-2026-10-04.md), [controls and financial review](docs/baghdad-ci-controls-review-2026-10-04.md) and [historical codebase review](docs/codebase-and-iraq-review-2026-10-03.md) |
+| A public owner, funder or delivery partner | [October 5 cost and demand reconciliation](docs/baghdad-cost-and-demand-review-2026-10-05.md), [latest Baghdad staffing, depot, local-production and funding recalculation](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md), [complete Baghdad proposal](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [Baghdad-only original reference funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md), [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md), [owner–builder–operator plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md), [JV/development framework](docs/commercial/joint-development-framework.md), [partnership status](docs/commercial/partnership-readiness.md) and [supplier-support status](docs/commercial/supplier-technical-support-readiness.md) |
 | A contributor | [Contributing guide](CONTRIBUTING.md), [governance](GOVERNANCE.md), [change log](CHANGELOG.md) and [release checklist](docs/releases.md) |
 
 ## Source Of Truth

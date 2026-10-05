@@ -70,12 +70,15 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 751.1–2904.5 m | 100.0 | 436 | 65 | 8.0 / 10.0 / 12.0 |
-| line-1 3499.1–7419.6 m | 100.0 | 788 | 117 | 8.0 / 10.0 / 12.0 |
+| line-1 751.1–799.411 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 799.411–2904.5 m | 100.0 | 428 | 63 | 8.0 / 10.0 / 12.0 |
+| line-1 3499.1–7371.27 m | 100.0 | 776 | 116 | 8.0 / 10.0 / 12.0 |
+| line-1 7371.27–7419.554 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 7419.554–7419.6 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 
 Mapped soil has 4 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 17, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 17}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 26, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 26}.
 
 ## Joints, paints, finishes and cleaning
 

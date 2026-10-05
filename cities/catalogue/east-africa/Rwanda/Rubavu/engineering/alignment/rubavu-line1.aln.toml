@@ -14,7 +14,7 @@ crs            = "EPSG:32735"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "64cf76228759539542a3602db4838cbd10ffdcde1d5a716647bf55be4478ef29"
+source_design_sha256 = "133b49a336b247a93a4510e6f7fb4ebcda9fd73dc4b1d4d679ab322783857e62"
 source_geojson_sha256 = "2b5c33c4102c7f382cd61f5bef0b9bf7326fa9bf0be819621ddf7625c763e851"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
@@ -1663,6 +1663,11 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 3969.600
+to_station_m   = 10989.747
+class          = "elevated"
+
+[[civil]]
+from_station_m = 10989.747
 to_station_m   = 11038.000
 class          = "elevated"
 

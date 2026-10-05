@@ -1,7 +1,7 @@
 # RFC 0003 — Samawah Current Reference Deployment
 
 **Status:** Controlled planning example; construction and operating releases remain open.
-<!-- GENERATED CURRENT REFERENCE: 9e7f562e362f5fe75a90830bdd200f28f48afafde021a92b73006ad64d8487f4 -->
+<!-- GENERATED CURRENT REFERENCE: 2ea1b038c5efb8f92604141dea43fe0bc6722824a3b0b7a2086c987ba7660476 -->
 
 Regenerate with `python3 tools/automation/generate-reference-city-rfc.py`. The city design and scenario are the controlled inputs; this RFC reports their current quantities. [Earlier planning figures and brownfield observations](../reference/history/samawah-pre-core-planning.md) remain explicitly historical.
 

@@ -70,7 +70,9 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–253.1 m | 100.0 | 56 | 8 | 8.0 / 10.0 / 12.0 |
+| line-1 0.0–20.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-1 20.0–68.284 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-1 68.284–253.1 m | 100.0 | 40 | 6 | 8.0 / 10.0 / 12.0 |
 | line-1 321.4–586.3 m | 100.0 | 56 | 8 | 8.0 / 10.0 / 12.0 |
 | line-1 634.6–731.1 m | 100.0 | 20 | 3 | 8.0 / 10.0 / 12.0 |
 | line-1 751.1–799.4 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
@@ -112,7 +114,8 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 11898.6–12240.0 m | 100.0 | 72 | 10 | 8.0 / 10.0 / 12.0 |
 | line-1 12260.0–12553.2 m | 100.0 | 60 | 9 | 8.0 / 10.0 / 12.0 |
 | line-1 12681.5–13520.9 m | 100.0 | 172 | 25 | 8.0 / 10.0 / 12.0 |
-| line-1 13549.2–13725.7 m | 100.0 | 40 | 6 | 8.0 / 10.0 / 12.0 |
+| line-1 13549.2–13677.443 m | 100.0 | 32 | 4 | 8.0 / 10.0 / 12.0 |
+| line-1 13677.443–13725.7 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-2 0.0–20.0 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-2 96.6–269.7 m | 100.0 | 36 | 5 | 8.0 / 10.0 / 12.0 |
 | line-2 298.0–338.0 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
@@ -147,16 +150,22 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-2 8792.6–8820.9 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-2 8877.4–8905.7 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-2 8990.6–9047.1 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
-| line-2 9216.9–9373.4 m | 100.0 | 36 | 5 | 8.0 / 10.0 / 12.0 |
+| line-2 9216.9–9245.139 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
+| line-2 9245.139–9353.423 m | 100.0 | 28 | 3 | 8.0 / 10.0 / 12.0 |
+| line-2 9353.423–9373.4 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-2 9513.4–9573.4 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
 | line-2 9653.4–9693.4 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-2 9773.4–9813.4 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
-| line-2 10470.0–10711.4 m | 100.0 | 52 | 7 | 8.0 / 10.0 / 12.0 |
-| line-2 10739.7–11001.1 m | 100.0 | 56 | 8 | 8.0 / 10.0 / 12.0 |
+| line-2 10470.0–10546.56 m | 100.0 | 20 | 3 | 8.0 / 10.0 / 12.0 |
+| line-2 10546.56–10711.4 m | 100.0 | 36 | 5 | 8.0 / 10.0 / 12.0 |
+| line-2 10739.7–10961.118 m | 100.0 | 48 | 6 | 8.0 / 10.0 / 12.0 |
+| line-2 10961.118–11001.1 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-2 11201.1–11221.1 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-2 11837.7–11857.7 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-3 4926.8–4946.8 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
-| line-3 6599.9–7755.3 m | 100.0 | 236 | 35 | 8.0 / 10.0 / 12.0 |
+| line-3 6599.9–6724.752 m | 100.0 | 28 | 3 | 8.0 / 10.0 / 12.0 |
+| line-3 6724.752–6744.752 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
+| line-3 6744.752–7755.3 m | 100.0 | 208 | 30 | 8.0 / 10.0 / 12.0 |
 | line-3 7783.6–7900.1 m | 100.0 | 28 | 3 | 8.0 / 10.0 / 12.0 |
 | line-3 7968.4–8129.8 m | 100.0 | 36 | 5 | 8.0 / 10.0 / 12.0 |
 | line-3 8226.4–8323.0 m | 100.0 | 20 | 3 | 8.0 / 10.0 / 12.0 |
@@ -210,7 +219,7 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 Mapped soil has 2 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 864, "coverage-gap": 2, "fine-soil-plasticity-and-shrink-swell-tests": 864, "granular-density-and-groundwater-tests": 713, "organic-content-and-compressibility-tests": 359, "silt-moisture-frost-and-erosion-review": 4}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 891, "coverage-gap": 2, "fine-soil-plasticity-and-shrink-swell-tests": 891, "granular-density-and-groundwater-tests": 724, "organic-content-and-compressibility-tests": 371, "silt-moisture-frost-and-erosion-review": 4}.
 
 ## Joints, paints, finishes and cleaning
 

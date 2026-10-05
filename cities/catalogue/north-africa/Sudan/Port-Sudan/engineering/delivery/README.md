@@ -73,20 +73,25 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 0.0–1949.7 m | 100.0 | 392 | 58 | 17.6 / 22.0 / 26.4 |
 | line-1 2149.7–2258.0 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
 | line-1 2378.0–4796.0 m | 100.0 | 488 | 72 | 17.6 / 22.0 / 26.4 |
-| line-1 4864.3–10633.4 m | 100.0 | 1156 | 173 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–726.3 m | 100.0 | 152 | 22 | 17.6 / 22.0 / 26.4 |
-| line-2 971.1–7537.3 m | 100.0 | 1316 | 197 | 17.6 / 22.0 / 26.4 |
+| line-1 4864.3–10545.097 m | 100.0 | 1140 | 171 | 17.6 / 22.0 / 26.4 |
+| line-1 10545.097–10633.4 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 20.0–68.284 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 68.284–726.3 m | 100.0 | 136 | 20 | 17.6 / 22.0 / 26.4 |
+| line-2 971.1–7489.016 m | 100.0 | 1308 | 195 | 17.6 / 22.0 / 26.4 |
+| line-2 7489.016–7537.3 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 0.0–20.0 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 48.3–1732.0 m | 100.0 | 340 | 51 | 17.6 / 22.0 / 26.4 |
 | line-3 1760.2–1848.5 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
 | line-3 1868.5–1896.8 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 1945.1–2041.7 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
 | line-3 2198.2–2286.5 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
-| line-3 2772.8–6538.1 m | 100.0 | 756 | 113 | 17.6 / 22.0 / 26.4 |
+| line-3 2772.8–6518.133 m | 100.0 | 752 | 112 | 17.6 / 22.0 / 26.4 |
+| line-3 6518.133–6538.1 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 
 Mapped soil has 5 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 5, "granular-density-and-groundwater-tests": 96}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 5, "granular-density-and-groundwater-tests": 111}.
 
 ## Joints, paints, finishes and cleaning
 

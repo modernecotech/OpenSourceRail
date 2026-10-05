@@ -82,19 +82,24 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 13728.1–17840.6 m | 100.0 | 828 | 123 | 17.6 / 22.0 / 26.4 |
 | line-1 20018.2–20038.2 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-2 0.0–28.3 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
-| line-2 1183.1–4394.7 m | 100.0 | 648 | 96 | 17.6 / 22.0 / 26.4 |
+| line-2 1183.1–1211.371 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 1211.371–1251.371 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-2 1251.371–4394.7 m | 100.0 | 632 | 94 | 17.6 / 22.0 / 26.4 |
 | line-2 7311.8–8357.4 m | 100.0 | 212 | 31 | 17.6 / 22.0 / 26.4 |
-| line-2 8996.9–12804.4 m | 100.0 | 768 | 114 | 17.6 / 22.0 / 26.4 |
+| line-2 8996.9–12776.164 m | 100.0 | 760 | 114 | 17.6 / 22.0 / 26.4 |
+| line-2 12776.164–12804.4 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 4697.0–8115.4 m | 100.0 | 688 | 102 | 17.6 / 22.0 / 26.4 |
 | line-3 8416.9–8465.1 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 8754.8–8774.8 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 9181.1–9209.4 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
 | line-3 9442.5–9490.8 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
-| line-3 12896.2–15888.4 m | 100.0 | 600 | 90 | 17.6 / 22.0 / 26.4 |
+| line-3 12896.2–15868.368 m | 100.0 | 596 | 89 | 17.6 / 22.0 / 26.4 |
+| line-3 15868.368–15888.368 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 15888.368–15888.4 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 
 Mapped soil has 11 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 11, "fine-soil-plasticity-and-shrink-swell-tests": 164, "granular-density-and-groundwater-tests": 131}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 11, "fine-soil-plasticity-and-shrink-swell-tests": 179, "granular-density-and-groundwater-tests": 147}.
 
 ## Joints, paints, finishes and cleaning
 

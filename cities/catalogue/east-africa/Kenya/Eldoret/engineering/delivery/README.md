@@ -72,13 +72,25 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 |---|---:|---:|---:|---|
 | line-1 0.0–5689.3 m | 100.0 | 1140 | 171 | 15.2 / 19.0 / 22.8 |
 | line-1 7385.5–15473.2 m | 100.0 | 1620 | 243 | 15.2 / 19.0 / 22.8 |
-| line-2 0.0–5029.0 m | 100.0 | 1012 | 151 | 15.2 / 19.0 / 22.8 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 20.0–48.284 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-2 48.284–5029.0 m | 100.0 | 1000 | 150 | 15.2 / 19.0 / 22.8 |
 | line-2 5145.6–13608.2 m | 100.0 | 1696 | 254 | 15.2 / 19.0 / 22.8 |
-| line-3 7572.9–21029.9 m | 100.0 | 2696 | 404 | 15.2 / 19.0 / 22.8 |
+| line-3 7572.9–11135.677 m | 100.0 | 716 | 107 | 15.2 / 19.0 / 22.8 |
+| line-3 11135.677–11155.677 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 11155.677–13285.038 m | 100.0 | 432 | 64 | 15.2 / 19.0 / 22.8 |
+| line-3 13285.038–13305.038 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 13305.038–15317.83 m | 100.0 | 408 | 60 | 15.2 / 19.0 / 22.8 |
+| line-3 15317.83–15337.83 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 15337.83–17467.19 m | 100.0 | 432 | 64 | 15.2 / 19.0 / 22.8 |
+| line-3 17467.19–17487.19 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 17487.19–20981.648 m | 100.0 | 700 | 105 | 15.2 / 19.0 / 22.8 |
+| line-3 20981.648–21001.648 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-3 21001.648–21029.9 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 106, "fine-soil-plasticity-and-shrink-swell-tests": 106, "granular-density-and-groundwater-tests": 24}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 140, "fine-soil-plasticity-and-shrink-swell-tests": 140, "granular-density-and-groundwater-tests": 46}.
 
 ## Joints, paints, finishes and cleaning
 

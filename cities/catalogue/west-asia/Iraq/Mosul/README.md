@@ -5,7 +5,7 @@
 This page contains only Mosul-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$5.32 bn (89.2%) of external capital** and **$6.54 bn of external interest**. Capital plus saved interest totals **$11.85 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$5.23 bn (89.2%) of external capital** and **$6.43 bn of external interest**. Capital plus saved interest totals **$11.67 bn**. See the common reference for interpretation and limitations.
 
 **Current alignment, depot and production basis.** Core corridors change from **169.781 km to 155.915 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **74 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
@@ -13,7 +13,7 @@ This page contains only Mosul-specific results. Shared routing, service, energy,
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).
+Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. [Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).
 
 ## Network
 
@@ -60,15 +60,15 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $2.12 bn |
+| Civil works | $2.07 bn |
 | Stations | $389 M |
 | Depots | $119 M |
 | Rolling stock | $287 M |
 | Dedicated solar plant | $157 M |
 | Residual train control | $9.6 M |
 | Charging microgrids | $20 M |
-| EPC / project services | $206 M |
-| **Total city programme** | **$3.31 bn** |
+| EPC / project services | $203 M |
+| **Total city programme** | **$3.26 bn** |
 
 ## Iraq funding
 
@@ -76,14 +76,14 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 
 | Capital source | Planning USD equivalent |
 |---|---:|
-| bank credit | $317 M |
+| bank credit | $312 M |
 | chinese export credit | $138 M |
-| domestic bonds | $952 M |
-| government | $1.90 bn |
+| domestic bonds | $936 M |
+| government | $1.87 bn |
 
 The procurement schedule requires **41 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$920 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$904 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 
@@ -91,7 +91,7 @@ The model includes actual scheduled draws, native-currency principal/interest, f
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) . This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Annual operating allowance: $83 M; demand remains capacity-led.
+Annual operating allowance: $82 M; demand remains capacity-led.
 
 ## Local Evidence
 

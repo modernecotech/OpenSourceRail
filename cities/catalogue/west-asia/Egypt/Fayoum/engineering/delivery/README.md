@@ -70,19 +70,29 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 3998.5–12501.4 m | 100.0 | 1708 | 255 | 17.6 / 22.0 / 26.4 |
+| line-1 3998.5–4026.762 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 4026.762–4046.762 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 4046.762–4075.046 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 4075.046–12501.4 m | 100.0 | 1692 | 253 | 17.6 / 22.0 / 26.4 |
 | line-1 12569.6–14565.9 m | 100.0 | 400 | 60 | 17.6 / 22.0 / 26.4 |
 | line-1 14634.2–20058.6 m | 100.0 | 1088 | 162 | 17.6 / 22.0 / 26.4 |
 | line-1 20135.1–20782.8 m | 100.0 | 132 | 19 | 17.6 / 22.0 / 26.4 |
-| line-1 20831.1–21731.9 m | 100.0 | 188 | 27 | 17.6 / 22.0 / 26.4 |
-| line-2 2009.1–3054.8 m | 100.0 | 212 | 31 | 17.6 / 22.0 / 26.4 |
-| line-2 3103.1–15242.2 m | 100.0 | 2432 | 364 | 17.6 / 22.0 / 26.4 |
+| line-1 20831.1–21663.658 m | 100.0 | 172 | 25 | 17.6 / 22.0 / 26.4 |
+| line-1 21663.658–21683.658 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-1 21683.658–21711.942 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-1 21711.942–21731.9 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 2009.1–2029.117 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 2029.117–2145.685 m | 100.0 | 28 | 3 | 17.6 / 22.0 / 26.4 |
+| line-2 2145.685–3054.8 m | 100.0 | 188 | 27 | 17.6 / 22.0 / 26.4 |
+| line-2 3103.1–15222.195 m | 100.0 | 2428 | 363 | 17.6 / 22.0 / 26.4 |
+| line-2 15222.195–15242.195 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-2 15242.195–15242.2 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
 | line-3 799.4–9821.1 m | 100.0 | 1808 | 270 | 17.6 / 22.0 / 26.4 |
 | line-3 9869.4–18851.1 m | 100.0 | 1800 | 270 | 17.6 / 22.0 / 26.4 |
 
-Mapped soil has 14 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 23 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 22, "coverage-gap": 14, "fine-soil-plasticity-and-shrink-swell-tests": 105, "granular-density-and-groundwater-tests": 119}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 23, "coverage-gap": 23, "fine-soil-plasticity-and-shrink-swell-tests": 119, "granular-density-and-groundwater-tests": 139}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -74,12 +74,29 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 5585.1–5753.4 m | 100.0 | 36 | 5 | 16.8 / 21.0 / 25.2 |
 | line-1 5841.7–6126.5 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
 | line-1 6274.8–6363.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-1 8007.4–17539.8 m | 100.0 | 1912 | 286 | 16.8 / 21.0 / 25.2 |
-| line-2 0.0–8547.2 m | 100.0 | 1712 | 256 | 16.8 / 21.0 / 25.2 |
+| line-1 8007.4–8203.919 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-1 8203.919–8223.919 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-1 8223.919–9306.762 m | 100.0 | 220 | 33 | 16.8 / 21.0 / 25.2 |
+| line-1 9306.762–9326.762 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-1 9326.762–12518.721 m | 100.0 | 640 | 96 | 16.8 / 21.0 / 25.2 |
+| line-1 12518.721–12547.006 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-1 12547.006–13621.564 m | 100.0 | 216 | 32 | 16.8 / 21.0 / 25.2 |
+| line-1 13621.564–13649.848 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-1 13649.848–14724.407 m | 100.0 | 216 | 32 | 16.8 / 21.0 / 25.2 |
+| line-1 14724.407–14752.691 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-1 14752.691–17539.8 m | 100.0 | 560 | 84 | 16.8 / 21.0 / 25.2 |
+| line-2 0.0–20.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20.0–68.284 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 68.284–8547.2 m | 100.0 | 1700 | 255 | 16.8 / 21.0 / 25.2 |
 | line-2 8860.4–9025.2 m | 100.0 | 36 | 5 | 16.8 / 21.0 / 25.2 |
 | line-2 9045.2–9073.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
 | line-2 9210.1–11836.6 m | 100.0 | 532 | 79 | 16.8 / 21.0 / 25.2 |
-| line-2 12246.3–15347.4 m | 100.0 | 628 | 93 | 16.8 / 21.0 / 25.2 |
+| line-2 12246.3–15219.108 m | 100.0 | 596 | 89 | 16.8 / 21.0 / 25.2 |
+| line-2 15219.108–15239.108 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15239.108–15267.392 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 15267.392–15287.392 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15287.392–15307.392 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15307.392–15347.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
 | line-3 2733.1–3776.0 m | 100.0 | 212 | 31 | 16.8 / 21.0 / 25.2 |
 | line-3 3804.3–3824.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
 | line-3 4020.8–4089.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
@@ -87,7 +104,7 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 147, "granular-density-and-groundwater-tests": 146}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"fine-soil-plasticity-and-shrink-swell-tests": 196, "granular-density-and-groundwater-tests": 195}.
 
 ## Joints, paints, finishes and cleaning
 

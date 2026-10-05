@@ -11,6 +11,20 @@ spec=importlib.util.spec_from_file_location('viaduct_comparison',ROOT/'tools/aut
 comparison=importlib.util.module_from_spec(spec);spec.loader.exec_module(comparison)
 
 
+def test_local_radius_and_search_priority_do_not_become_a_priced_structure():
+    design = dict(civil_segments=[dict(line='L1', **{'class': 'elevated'},
+        from_station_m=0, to_station_m=100, viaduct_product='REALIGN-OR-SPECIAL',
+        minimum_curve_radius_m=90, elevated_cost_multiplier=20)])
+    row = comparison.alignment_register(design, 10_000_000)[0]
+    assert row['minimum_radius_m'] == row['radius_proxy_from_routing_multiplier_m'] == 90
+    assert row['standard_rate_allowance_usd'] == row['original_modelled_cost_usd'] == 1_000_000
+    assert row['routing_penalty_usd'] == 0
+    assert row['search_penalty_equivalent_m'] == 1900
+    assert row['special_structure_increment_usd'] is None
+    assert row['installed_total_usd'] is None
+    assert row['accepted'] is False
+
+
 def test_link_slab_does_not_reduce_bearings_and_finite_end_supports_are_counted():
     simple=comparison.support_layout(1000,25,'simple-span-link-slab')
     structural=comparison.support_layout(1000,25,'structural-continuity')

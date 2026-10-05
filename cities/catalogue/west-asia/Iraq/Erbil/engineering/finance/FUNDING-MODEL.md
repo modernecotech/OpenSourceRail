@@ -13,10 +13,10 @@ USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds a
 | Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
 |---|---|---:|---:|
 | chinese export credit | USD | 109,768,820.72 | 109,768,820.72 |
-| domestic bonds | IQD | 662,826,800,359.58 | 509,866,769.51 |
-| bank credit | IQD | 220,942,266,786.53 | 169,955,589.84 |
-| government | IQD | 1,325,653,600,719.15 | 1,019,733,539.01 |
-| **Total city capital uses** | Mixed | — | **1,809,324,719.08** |
+| domestic bonds | IQD | 662,827,253,539.58 | 509,867,118.11 |
+| bank credit | IQD | 220,942,417,846.53 | 169,955,706.04 |
+| government | IQD | 1,325,654,507,079.15 | 1,019,734,236.21 |
+| **Total city capital uses** | Mixed | — | **1,809,325,881.08** |
 
 Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 
@@ -93,7 +93,7 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 | demand minus 40 percent | 594.89 | 0.01 | 0.00 |
 | iqd depreciation 35 percent | 594.89 | 0.26 | 0.00 |
 | commissioning delay two years | 594.89 | 0.22 | 0.00 |
-| china credit unavailable | 590.69 | 0.28 | 13.89 |
+| china credit unavailable | 590.70 | 0.28 | 13.89 |
 | four year bullet bonds | 594.89 | 0.27 | 0.00 |
 | government payment delay six months | 760.97 | 0.26 | 39.09 |
 | interest plus three points | 611.64 | 0.21 | 0.00 |

@@ -186,7 +186,7 @@ Government capital is exactly **25%**. Imports use **50% government USD cash / 5
 
 Interest/fees, reserve cash, OPEX and gap facilities are additional cashflows, not capital added twice. Fares, kiosks, advertising, additional receipts and fare/OPEX indexation are included. Green/grant/rights terms and concessional gap credit remain uncommitted. Conditional first/full line revenue is month **{first} / {last}**; physical and financing gates are open.
 
-The tested IQD mezzanine leaves {summary['finance_cases']['local_positive_mezzanine']['junior_defaulted_vintages']} defaulted draw vintages and increases terminal debt to IQD {summary['finance_cases']['local_positive_mezzanine']['terminal_all_debt_iqd']/1e12:.3f}tn. It does not cure the operating deficit. [Monthly cashflow]({prefix}/{selected}-monthly.csv) · [Six-month bond/loan placements]({prefix}/{selected}-semiannual.csv) · [All twelve cases]({prefix}/README.md).
+The tested IQD mezzanine leaves {summary['finance_cases']['local_positive_mezzanine']['junior_defaulted_vintages']} defaulted draw vintages and increases terminal debt to IQD {summary['finance_cases']['local_positive_mezzanine']['terminal_all_debt_iqd']/1e12:.3f}tn. It does not establish sustainable repayment. [Monthly cashflow]({prefix}/{selected}-monthly.csv) · [Six-month bond/loan placements]({prefix}/{selected}-semiannual.csv) · [All {len(summary['finance_cases'])} cases]({prefix}/README.md) · [Cost and demand review]({link(ROOT/'docs/baghdad-cost-and-demand-review-2026-10-05.md',city)}).
 
 ## City-centre elevated alignment
 
@@ -260,7 +260,9 @@ def access_context(design_path, baseline):
         baseline=baseline.replace('**Country:** SD','**Recorded country:** SD (jurisdiction mismatch; see below)')
     details=('Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. '
              '[Population radii, denominator and transfer paths](engineering/access/README.md) · '
-             '[Viaduct beam, foundation and terrain checks](engineering/clearance/README.md).')
+             '[Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). '
+             'Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. '
+             '[Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).')
     return re.sub(r'^(Auto-planned.*)$',lambda match:match[0]+' '+details,baseline,count=1,flags=re.M)
 
 

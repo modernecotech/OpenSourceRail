@@ -1,8 +1,8 @@
 {
   "city": "luxor",
-  "civil_plan_sha256": "83b06c7070766261b5ac4df7b13bf2b186f9187dd090b5909ddd31c1f2c70aac",
-  "civil_segment_count": 20,
-  "complete_profile_count": 103,
+  "civil_plan_sha256": "4d80f67de909fff48ccae13a9d55439c7c35770bdeea7c88853e9753408a1d64",
+  "civil_segment_count": 74,
+  "complete_profile_count": 251,
   "density_unit_reconciliation": "TIFF/filename g/cm3 × 1000 = kg/m3; upstream catalogue unit label differs",
   "deployment_release_ready": false,
   "depth_intervals": [
@@ -14,17 +14,17 @@
   "generator_sha256": "f9cb87c93d9c5fcfaa58854c7af922389c06f38a1498ded9ac0becd02ce5833c",
   "ground_design_validated": false,
   "input_sha256": {
-    "civil_segments": "c1c5e88df2f6d8db94a9a17ef479e9fc8b570e9564b1b52142c3b4513a4e7964",
-    "design": "ad389dad950e92d9c6ad9af1f95fda390e58d6fe9e3753383c4a18507156b866",
+    "civil_segments": "c7b9d94f5e2a2120e989a88d399e08b6592493051130629eee9c3138be84f6c1",
+    "design": "728ef27feea74c7c1d85215c0b4a021cb28ba591d15bb47981078dab19d199e5",
     "source_lock": "9f7303c6c2d14d3ab992d50a5e99326046493aececc4f90b294036bcf8d6f6e5",
     "stations": "e082068e69d2eec4c4de6a467452411b51ba38b02e934c3407ba2e27819e9cb6"
   },
   "investigation_flag_counts": {
-    "acidic-soil-durability-testing": 54,
-    "coverage-gap": 9,
-    "fine-soil-plasticity-and-shrink-swell-tests": 89,
-    "granular-density-and-groundwater-tests": 103,
-    "organic-content-and-compressibility-tests": 27
+    "acidic-soil-durability-testing": 137,
+    "coverage-gap": 15,
+    "fine-soil-plasticity-and-shrink-swell-tests": 206,
+    "granular-density-and-groundwater-tests": 251,
+    "organic-content-and-compressibility-tests": 72
   },
   "limitations": [
     "No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.",
@@ -33,11 +33,11 @@
     "Prioritisation thresholds are editable OSR screening rules, not statutory limits or evidence of a hazard.",
     "No excavation depths, foundation dimensions, treatment quantities or civil costs are changed from pedological predictions."
   ],
-  "missing_profile_count": 9,
+  "missing_profile_count": 15,
   "prediction_interval": "p16-p84; nominal 68% prediction interval; not engineering design characteristic values",
   "property_sample_ranges": [
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
       "mean_max": 26.0,
       "mean_min": 10.0,
@@ -47,7 +47,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
       "mean_max": 73.0,
       "mean_min": 42.0,
@@ -57,7 +57,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
       "mean_max": 33.0,
       "mean_min": 17.0,
@@ -67,27 +67,27 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
-      "mean_max": 1500.0,
-      "mean_min": 1380.0,
+      "mean_max": 1490.0,
+      "mean_min": 1370.0,
       "p16_min": 1060.0,
       "p84_max": 1720.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
-      "mean_max": 11.3,
+      "mean_max": 9.2,
       "mean_min": 3.6,
       "p16_min": 0.7,
-      "p84_max": 30.1,
+      "p84_max": 28.5,
       "property": "soc",
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "0..30cm",
       "mean_max": 8.1,
       "mean_min": 6.9,
@@ -97,7 +97,7 @@
       "unit": "pH"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 28.0,
       "mean_min": 12.0,
@@ -107,7 +107,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 72.0,
       "mean_min": 40.0,
@@ -117,7 +117,7 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 32.0,
       "mean_min": 17.0,
@@ -127,17 +127,17 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 1560.0,
       "mean_min": 1400.0,
-      "p16_min": 1160.0,
+      "p16_min": 1130.0,
       "p84_max": 1750.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 16.9,
       "mean_min": 2.2,
@@ -147,7 +147,7 @@
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "30..60cm",
       "mean_max": 8.4,
       "mean_min": 6.9,
@@ -157,7 +157,7 @@
       "unit": "pH"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 27.0,
       "mean_min": 12.0,
@@ -167,17 +167,17 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 71.0,
       "mean_min": 40.0,
       "p16_min": 11.0,
-      "p84_max": 92.0,
+      "p84_max": 91.0,
       "property": "sand",
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 32.0,
       "mean_min": 18.0,
@@ -187,17 +187,17 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 1630.0,
-      "mean_min": 1450.0,
+      "mean_min": 1440.0,
       "p16_min": 1180.0,
       "p84_max": 1900.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 10.6,
       "mean_min": 1.9,
@@ -207,7 +207,7 @@
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 103,
+      "available_mean_count": 251,
       "depth_interval": "60..100cm",
       "mean_max": 8.4,
       "mean_min": 6.6,
@@ -217,9 +217,9 @@
       "unit": "pH"
     }
   ],
-  "sample_count": 112,
-  "sample_locations_sha256": "5b4dacca09df04604ad3da675e77a39051a5b7ef5e634f0ad99446fcf83a8da4",
-  "samples_sha256": "562f875b1edd074da5452df06c39cd414618a8f949ad477752b695527e8b8bd8",
+  "sample_count": 266,
+  "sample_locations_sha256": "862fe6dd29daffc99d3a48ae0465b0ea3187392461ae184a0ffaa8da04d9c1e6",
+  "samples_sha256": "7c952241990e4c76e81e31f36cc1b9d32c90168aa0892bb85e81ac01dff3e26c",
   "sampling_resolution_m": 120,
   "sampling_spacing_m": 1000,
   "schema_version": 1,
@@ -229,7 +229,7 @@
     "source_lock": "engineering/data/soildb/sources.json",
     "stations": "cities/catalogue/west-asia/Egypt/Luxor/engineering/gis/layers/stations.geojson"
   },
-  "source_receipt_sha256": "f979ffff852c36f67ee42e3fbd7a44e6ec6818e9be4925c018e237af55307976",
+  "source_receipt_sha256": "acf84cef63da5d1781b1b61b96340884fef15bd25f56b93c58e2cacef8bf66e2",
   "station_count": 15,
   "status": "desktop-soil-screening-with-coverage-gaps",
   "units": {

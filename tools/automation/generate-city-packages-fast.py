@@ -398,6 +398,9 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
     elif (city_dir/'alignment-policy.toml').is_file():
         position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
         commands[position:position]=[
+            [sys.executable,str(REPO_ROOT/'tools/automation/apply-city-depot-scope.py'),'--design',str(design_path),'--report-only'],
+            [sys.executable,str(REPO_ROOT/'tools/automation/apply-city-station-infill.py'),'--design',str(design_path),'--report-only'],
+            [sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path)],
             [sys.executable,str(REPO_ROOT/'tools/automation/generate-city-factory-plan.py'),'--design',str(design_path)],
             [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py'),'--design',str(design_path)]]
     # Funding reads deterministic procurement CSVs. Refresh it after operations

@@ -354,10 +354,10 @@
   "design_release_ready": false,
   "generator_sha256": "390b1f299170291a058e6b9f2cf047f492f2380616335690952555b673952bc2",
   "input_sha256": {
-    "cities/catalogue/south-asia/Pakistan/Quetta/design.toml": "a438ebe3a7b07d56b02144dee7b76eb01108232db7f613d006faaba133eed83a",
-    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/finance/summary.json": "be181b53ca869d8b1cd1c83c6e448964b2ffec65b5055b3553204122108708df",
-    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/summary.json": "4e345bc1e04043b2e0b57a68e6b568ca271e9106ec641537c6e1bc6c476d1799",
-    "cities/catalogue/south-asia/Pakistan/Quetta/operations/quetta-operations-manifest.json": "90bb4460ef5adb8eb100a61fdf40c625a025be3b02c2ad50fc03641a6b14c85d",
+    "cities/catalogue/south-asia/Pakistan/Quetta/design.toml": "7cbbf447fc11118cd4dca37fc79546039c9a16334c0df96b07a892e06261f6da",
+    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/finance/summary.json": "95e97405f7a1c431e260d5259b6865cb298c49f077d56b73a4ce96cc96303bae",
+    "cities/catalogue/south-asia/Pakistan/Quetta/engineering/soil/summary.json": "63fd753b4ce5d6e9e1a7b5ef76ad3068ffc47b08fc76601221993ddee31fafc2",
+    "cities/catalogue/south-asia/Pakistan/Quetta/operations/quetta-operations-manifest.json": "25414f87849a4c47ae99882d018af2f1833e986fba23409f3f8c79d65ddcf4a9",
     "cities/catalogue/south-asia/Pakistan/Quetta/quetta.toml": "9a56b5199595eac843149625afe93084797ab89e9875afcfd4f9ccccf8f5397c",
     "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json": "2cdcc7db5fed7ec2c34b52a14fde0a914407e1077715e34eeb87cd80e8a90c4a",
     "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json": "eb8181a99ad409069aeb940d8c3ce4fd402c844a75fc294b9ba40a03db135401",
@@ -416,25 +416,25 @@
     "elevated_segments": [
       {
         "cold_movement_sensitivity_mm": {
-          "10": -22.0,
-          "12": -26.4,
-          "8": -17.6
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
         },
         "from_chainage_m": 0.0,
         "hot_movement_sensitivity_mm": {
-          "10": 21.0,
-          "12": 25.2,
-          "8": 16.8
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
         },
         "line": "line-1",
-        "longest_planned_unit_m": 100.0,
+        "longest_planned_unit_m": 25.0,
         "plan": {
-          "bearings": 4160,
+          "bearings": 8,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 208,
+          "deck_gaps": 1,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 624,
+          "link_slabs": 0,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -445,14 +445,178 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 20784.9,
+          "route_length_m": 20.0,
           "span_m": 25.0,
-          "spans": 832,
+          "spans": 1,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
-          "units": 208
+          "units": 1
         },
         "segment_index": 0,
+        "to_chainage_m": 20.0
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 20.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-1",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.284,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 1,
+        "to_chainage_m": 48.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 48.284,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-1",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 4096,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 205,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 614,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20468.368,
+          "span_m": 25.0,
+          "spans": 819,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 205
+        },
+        "segment_index": 2,
+        "to_chainage_m": 20516.652
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -16.5,
+          "12": -19.8,
+          "8": -13.2
+        },
+        "from_chainage_m": 20516.652,
+        "hot_movement_sensitivity_mm": {
+          "10": 15.75,
+          "12": 18.9,
+          "8": 12.6
+        },
+        "line": "line-1",
+        "longest_planned_unit_m": 75.0,
+        "plan": {
+          "bearings": 16,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 2,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 60.0,
+          "span_m": 25.0,
+          "spans": 3,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 3,
+        "to_chainage_m": 20576.652
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 20576.652,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-1",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 48,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 3,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 6,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 208.24800000000323,
+          "span_m": 25.0,
+          "spans": 9,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 3
+        },
+        "segment_index": 4,
         "to_chainage_m": 20784.9
       },
       {
@@ -470,12 +634,12 @@
         "line": "line-2",
         "longest_planned_unit_m": 100.0,
         "plan": {
-          "bearings": 3368,
+          "bearings": 20,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 169,
+          "deck_gaps": 1,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 504,
+          "link_slabs": 3,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -486,15 +650,56 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 16800.9,
+          "route_length_m": 100.0,
           "span_m": 25.0,
-          "spans": 673,
+          "spans": 4,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
-          "units": 169
+          "units": 1
         },
-        "segment_index": 1,
-        "to_chainage_m": 16800.9
+        "segment_index": 5,
+        "to_chainage_m": 100.0
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 100.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 6,
+        "to_chainage_m": 120.0
       },
       {
         "cold_movement_sensitivity_mm": {
@@ -502,7 +707,458 @@
           "12": -26.4,
           "8": -17.6
         },
+        "from_chainage_m": 120.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 28,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 3,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 120.0,
+          "span_m": 25.0,
+          "spans": 5,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 7,
+        "to_chainage_m": 240.0
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 240.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 48.28399999999999,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 8,
+        "to_chainage_m": 288.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 288.284,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 40.0,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 9,
+        "to_chainage_m": 328.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 328.284,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.285000000000025,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 10,
+        "to_chainage_m": 356.569
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 356.569,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 3276,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 164,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 491,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 16356.063000000002,
+          "span_m": 25.0,
+          "spans": 655,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 164
+        },
+        "segment_index": 11,
+        "to_chainage_m": 16712.632
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 16712.632,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 48.28399999999965,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 12,
+        "to_chainage_m": 16760.916
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 16760.916,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 13,
+        "to_chainage_m": 16780.916
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 16780.916,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-2",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 19.98400000000038,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 14,
+        "to_chainage_m": 16800.9
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
         "from_chainage_m": 0.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 18,
+        "to_chainage_m": 20.0
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 20.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 19,
+        "to_chainage_m": 40.0
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -16.5,
+          "12": -19.8,
+          "8": -13.2
+        },
+        "from_chainage_m": 40.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 15.75,
+          "12": 18.9,
+          "8": 12.6
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 75.0,
+        "plan": {
+          "bearings": 16,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 2,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 68.284,
+          "span_m": 25.0,
+          "spans": 3,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 20,
+        "to_chainage_m": 108.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 108.284,
         "hot_movement_sensitivity_mm": {
           "10": 21.0,
           "12": 25.2,
@@ -511,12 +1167,12 @@
         "line": "line-3",
         "longest_planned_unit_m": 100.0,
         "plan": {
-          "bearings": 2400,
+          "bearings": 2352,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 120,
+          "deck_gaps": 118,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 360,
+          "link_slabs": 352,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -527,15 +1183,15 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 11986.1,
+          "route_length_m": 11749.504,
           "span_m": 25.0,
-          "spans": 480,
+          "spans": 470,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
-          "units": 120
+          "units": 118
         },
-        "segment_index": 5,
-        "to_chainage_m": 11986.1
+        "segment_index": 21,
+        "to_chainage_m": 11857.788
       },
       {
         "cold_movement_sensitivity_mm": {
@@ -543,7 +1199,171 @@
           "12": -26.4,
           "8": -17.6
         },
+        "from_chainage_m": 11857.788,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 32,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 4,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 128.28399999999965,
+          "span_m": 25.0,
+          "spans": 6,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 22,
+        "to_chainage_m": 11986.072
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 11986.072,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 0.028000000000247383,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 23,
+        "to_chainage_m": 11986.1
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
         "from_chainage_m": 0.0,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 48.284,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 24,
+        "to_chainage_m": 48.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 48.284,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 40.00000000000001,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 25,
+        "to_chainage_m": 88.284
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 88.284,
         "hot_movement_sensitivity_mm": {
           "10": 21.0,
           "12": 25.2,
@@ -552,12 +1372,12 @@
         "line": "line-4",
         "longest_planned_unit_m": 100.0,
         "plan": {
-          "bearings": 9928,
+          "bearings": 400,
           "connection_scheme": "structural-continuity",
-          "deck_gaps": 497,
+          "deck_gaps": 20,
           "expansion_support_bearings": 8,
           "internal_support_bearings": 4,
-          "link_slabs": 1488,
+          "link_slabs": 60,
           "maximum_unit_length_m": 100.0,
           "release_gates": [
             "continuous-welded-rail interaction analysis",
@@ -568,14 +1388,2146 @@
             "selected connection fatigue and waterproofing detail",
             "structural continuity load path and construction stages where bearings are shared"
           ],
-          "route_length_m": 49607.7,
+          "route_length_m": 1997.9899999999998,
           "span_m": 25.0,
-          "spans": 1985,
+          "spans": 80,
           "structural_continuity_accepted": false,
           "unit_spans": 4,
-          "units": 497
+          "units": 20
         },
-        "segment_index": 6,
+        "segment_index": 26,
+        "to_chainage_m": 2086.274
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 2086.274,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 20,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 3,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 80.0,
+          "span_m": 25.0,
+          "spans": 4,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 27,
+        "to_chainage_m": 2166.274
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 2166.274,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 32,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 4,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 148.2840000000001,
+          "span_m": 25.0,
+          "spans": 6,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 28,
+        "to_chainage_m": 2314.558
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 2314.558,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.284999999999854,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 29,
+        "to_chainage_m": 2342.843
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 2342.843,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 108,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 6,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 15,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 506.27400000000034,
+          "span_m": 25.0,
+          "spans": 21,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 6
+        },
+        "segment_index": 30,
+        "to_chainage_m": 2849.117
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 2849.117,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 31,
+        "to_chainage_m": 2869.117
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 2869.117,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 260,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 13,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 39,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 1275.3909999999996,
+          "span_m": 25.0,
+          "spans": 52,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 13
+        },
+        "segment_index": 32,
+        "to_chainage_m": 4144.508
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 4144.508,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 40.0,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 33,
+        "to_chainage_m": 4184.508
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 4184.508,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 32,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 4,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 148.28400000000056,
+          "span_m": 25.0,
+          "spans": 6,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 34,
+        "to_chainage_m": 4332.792
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -16.5,
+          "12": -19.8,
+          "8": -13.2
+        },
+        "from_chainage_m": 4332.792,
+        "hot_movement_sensitivity_mm": {
+          "10": 15.75,
+          "12": 18.9,
+          "8": 12.6
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 75.0,
+        "plan": {
+          "bearings": 16,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 2,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 60.0,
+          "span_m": 25.0,
+          "spans": 3,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 35,
+        "to_chainage_m": 4392.792
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 4392.792,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 36,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 5,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 168.28399999999965,
+          "span_m": 25.0,
+          "spans": 7,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 36,
+        "to_chainage_m": 4561.076
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 4561.076,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.284999999999854,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 37,
+        "to_chainage_m": 4589.361
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 4589.361,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 436,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 22,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 65,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 2166.518,
+          "span_m": 25.0,
+          "spans": 87,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 22
+        },
+        "segment_index": 38,
+        "to_chainage_m": 6755.879
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 6755.879,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 39,
+        "to_chainage_m": 6775.879
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 6775.879,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 92,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 5,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 13,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 436.5680000000002,
+          "span_m": 25.0,
+          "spans": 18,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 5
+        },
+        "segment_index": 40,
+        "to_chainage_m": 7212.447
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 7212.447,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.284999999999854,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 41,
+        "to_chainage_m": 7240.732
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 7240.732,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 832,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 42,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 124,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 4135.878000000001,
+          "span_m": 25.0,
+          "spans": 166,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 42
+        },
+        "segment_index": 42,
+        "to_chainage_m": 11376.61
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 11376.61,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 43,
+        "to_chainage_m": 11396.61
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 11396.61,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 36,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 5,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 168.28499999999985,
+          "span_m": 25.0,
+          "spans": 7,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 44,
+        "to_chainage_m": 11564.895
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -16.5,
+          "12": -19.8,
+          "8": -13.2
+        },
+        "from_chainage_m": 11564.895,
+        "hot_movement_sensitivity_mm": {
+          "10": 15.75,
+          "12": 18.9,
+          "8": 12.6
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 75.0,
+        "plan": {
+          "bearings": 16,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 2,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 60.0,
+          "span_m": 25.0,
+          "spans": 3,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 45,
+        "to_chainage_m": 11624.895
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 11624.895,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 36,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 5,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 168.28399999999965,
+          "span_m": 25.0,
+          "spans": 7,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 46,
+        "to_chainage_m": 11793.179
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 11793.179,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.28399999999965,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 47,
+        "to_chainage_m": 11821.463
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 11821.463,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 1200,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 60,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 180,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 5990.6810000000005,
+          "span_m": 25.0,
+          "spans": 240,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 60
+        },
+        "segment_index": 48,
+        "to_chainage_m": 17812.144
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 17812.144,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 49,
+        "to_chainage_m": 17832.144
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 17832.144,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 1728,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 87,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 258,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 8618.722000000002,
+          "span_m": 25.0,
+          "spans": 345,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 87
+        },
+        "segment_index": 50,
+        "to_chainage_m": 26450.866
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 26450.866,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.28399999999965,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 51,
+        "to_chainage_m": 26479.15
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 26479.15,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 92,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 5,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 13,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 437.98999999999796,
+          "span_m": 25.0,
+          "spans": 18,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 5
+        },
+        "segment_index": 52,
+        "to_chainage_m": 26917.14
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 26917.14,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 53,
+        "to_chainage_m": 26937.14
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 26937.14,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 56,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 3,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 8,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 273.1369999999988,
+          "span_m": 25.0,
+          "spans": 11,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 3
+        },
+        "segment_index": 54,
+        "to_chainage_m": 27210.277
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 27210.277,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 55,
+        "to_chainage_m": 27230.277
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 27230.277,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 720,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 36,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 108,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 3576.8120000000017,
+          "span_m": 25.0,
+          "spans": 144,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 36
+        },
+        "segment_index": 56,
+        "to_chainage_m": 30807.089
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 30807.089,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.284999999999854,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 57,
+        "to_chainage_m": 30835.374
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 30835.374,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 36,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 5,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 156.5679999999993,
+          "span_m": 25.0,
+          "spans": 7,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 58,
+        "to_chainage_m": 30991.942
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 30991.942,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 59,
+        "to_chainage_m": 31011.942
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 31011.942,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 132,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 7,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 19,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 627.6959999999999,
+          "span_m": 25.0,
+          "spans": 26,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 7
+        },
+        "segment_index": 60,
+        "to_chainage_m": 31639.638
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 31639.638,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 40.0,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 61,
+        "to_chainage_m": 31679.638
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 31679.638,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 60,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 3,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 9,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 300.0,
+          "span_m": 25.0,
+          "spans": 12,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 3
+        },
+        "segment_index": 62,
+        "to_chainage_m": 31979.638
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 31979.638,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.28399999999965,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 63,
+        "to_chainage_m": 32007.922
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 32007.922,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 396,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 20,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 59,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 1970.5380000000005,
+          "span_m": 25.0,
+          "spans": 79,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 20
+        },
+        "segment_index": 64,
+        "to_chainage_m": 33978.46
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 33978.46,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 40.0,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 65,
+        "to_chainage_m": 34018.46
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 34018.46,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 32,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 4,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 148.2850000000035,
+          "span_m": 25.0,
+          "spans": 6,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 66,
+        "to_chainage_m": 34166.745
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 34166.745,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 20,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 3,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 80.0,
+          "span_m": 25.0,
+          "spans": 4,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 67,
+        "to_chainage_m": 34246.745
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 34246.745,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 36,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 2,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 5,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 168.28399999999965,
+          "span_m": 25.0,
+          "spans": 7,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 2
+        },
+        "segment_index": 68,
+        "to_chainage_m": 34415.029
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 34415.029,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.28399999999965,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 69,
+        "to_chainage_m": 34443.313
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 34443.313,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 576,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 29,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 86,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 2853.625,
+          "span_m": 25.0,
+          "spans": 115,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 29
+        },
+        "segment_index": 70,
+        "to_chainage_m": 37296.938
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 37296.938,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 71,
+        "to_chainage_m": 37316.938
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 37316.938,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 116,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 6,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 17,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 571.1270000000004,
+          "span_m": 25.0,
+          "spans": 23,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 6
+        },
+        "segment_index": 72,
+        "to_chainage_m": 37888.065
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 37888.065,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 73,
+        "to_chainage_m": 37908.065
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 37908.065,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 2056,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 103,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 308,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 10272.547999999995,
+          "span_m": 25.0,
+          "spans": 411,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 103
+        },
+        "segment_index": 74,
+        "to_chainage_m": 48180.613
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -11.0,
+          "12": -13.2,
+          "8": -8.8
+        },
+        "from_chainage_m": 48180.613,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.5,
+          "12": 12.6,
+          "8": 8.4
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 50.0,
+        "plan": {
+          "bearings": 12,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 1,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 28.285000000003492,
+          "span_m": 25.0,
+          "spans": 2,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 75,
+        "to_chainage_m": 48208.898
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 48208.898,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 260,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 13,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 39,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 1278.8220000000001,
+          "span_m": 25.0,
+          "spans": 52,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 13
+        },
+        "segment_index": 76,
+        "to_chainage_m": 49487.72
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -5.5,
+          "12": -6.6,
+          "8": -4.4
+        },
+        "from_chainage_m": 49487.72,
+        "hot_movement_sensitivity_mm": {
+          "10": 5.25,
+          "12": 6.3,
+          "8": 4.2
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 25.0,
+        "plan": {
+          "bearings": 8,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 0,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 20.0,
+          "span_m": 25.0,
+          "spans": 1,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 77,
+        "to_chainage_m": 49507.72
+      },
+      {
+        "cold_movement_sensitivity_mm": {
+          "10": -22.0,
+          "12": -26.4,
+          "8": -17.6
+        },
+        "from_chainage_m": 49507.72,
+        "hot_movement_sensitivity_mm": {
+          "10": 21.0,
+          "12": 25.2,
+          "8": 16.8
+        },
+        "line": "line-4",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 20,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 1,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 3,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 99.97999999999593,
+          "span_m": 25.0,
+          "spans": 4,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 1
+        },
+        "segment_index": 78,
         "to_chainage_m": 49607.7
       }
     ],
@@ -616,9 +3568,9 @@
     "missing_soil_profiles": 0,
     "scenario_ambient_c": 17,
     "soil_investigation_flags": {
-      "fine-soil-plasticity-and-shrink-swell-tests": 70,
-      "granular-density-and-groundwater-tests": 153,
-      "silt-moisture-frost-and-erosion-review": 7
+      "fine-soil-plasticity-and-shrink-swell-tests": 147,
+      "granular-density-and-groundwater-tests": 358,
+      "silt-moisture-frost-and-erosion-review": 4
     },
     "soil_use": "Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.",
     "thermal_basis": "Free movement alpha*L*deltaT. 8/10/12 microstrain/K are declared sensitivity cases, not measured concrete properties. Reference is the preset annual mean, not installation temperature; sunlit component temperatures and gradients require separate inputs."
