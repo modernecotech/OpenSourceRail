@@ -65,12 +65,9 @@ def recalculate(path: Path) -> bool:
     for segment in design.get("civil_segments", []):
         civil_class = str(segment["class"])
         length_m = float(segment["to_station_m"]) - float(segment["from_station_m"])
-        multiplier = (
-            float(segment.get("elevated_cost_multiplier", 1.0))
-            if civil_class == "elevated"
-            else 1.0
-        )
-        civil_totals[civil_class] += length_m * multiplier
+        # This is a base planning allowance. Search deterrents never price
+        # structures; special designs and consequential costs remain unquoted.
+        civil_totals[civil_class] += length_m
     at_grade_usd = round(civil_totals["at-grade"] / 1000.0 * CIVIL_RATES["at_grade"])
     elevated_usd = round(civil_totals["elevated"] / 1000.0 * CIVIL_RATES["elevated"])
     bridge_usd = round(civil_totals["bridge"] / 1000.0 * CIVIL_RATES["bridge"])

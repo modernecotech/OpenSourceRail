@@ -29,3 +29,16 @@ def test_outdated_fleet_price_is_corrected_without_rebinding_solver_evidence(tmp
     before.pop("costs"); after.pop("costs")
     assert before == after
     assert evidence.read_bytes() == historical
+
+
+def test_route_search_deterrents_cannot_price_unrelated_civil_kilometres(tmp_path):
+    city=ROOT/'cities/catalogue/west-asia/Iraq/Samawah'
+    path=tmp_path/'design.toml'
+    original=(city/'design.toml').read_text()
+    (tmp_path/'samawah.toml').write_bytes((city/'samawah.toml').read_bytes())
+    path.write_text(original);module.recalculate(path)
+    reference=tomllib.loads(path.read_text())['costs']
+    inflated=re.sub(r'(?m)^elevated_cost_multiplier\s*=.*$', 'elevated_cost_multiplier = 12345', original)
+    assert inflated!=original
+    path.write_text(inflated);module.recalculate(path)
+    assert tomllib.loads(path.read_text())['costs']==reference

@@ -221,6 +221,8 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "schema_version": 4,
         "city": slug,
         "status": "planning-screen",
+        "country_parameters_calibrated": fin.get("country_parameters_calibrated", True),
+        "country_parameter_basis": fin.get("assumption_basis", "Retained indicative country scenario; deployment verification required"),
         "passed": True,
         "workforce": {
             "basis": "Two continuously covered station posts; annual productive hours and graded country-income proxy wages. Indicative FTE, not an accepted roster.",

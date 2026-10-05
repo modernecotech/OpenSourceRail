@@ -1365,7 +1365,6 @@ fn compute_costs(
 ) -> CostSummary {
     let mut at_grade_m = 0.0_f64;
     let mut elevated_m = 0.0_f64;
-    let mut elevated_cost_equivalent_m = 0.0_f64;
     let mut bridge_m = 0.0_f64;
     for segs in civil_per_line {
         for s in segs {
@@ -1373,7 +1372,6 @@ fn compute_costs(
                 CivilClass::AtGrade => at_grade_m += s.length_m,
                 CivilClass::Elevated => {
                     elevated_m += s.length_m;
-                    elevated_cost_equivalent_m += s.length_m * s.elevated_cost_multiplier;
                 }
                 CivilClass::Bridge => bridge_m += s.length_m,
             }
@@ -1382,7 +1380,7 @@ fn compute_costs(
     let rates = cost_config();
     let civil_rates = &civil_cost_config().civil_usd_per_km;
     let at_grade_usd = at_grade_m / 1_000.0 * civil_rates.at_grade;
-    let elevated_usd = elevated_cost_equivalent_m / 1_000.0 * civil_rates.elevated;
+    let elevated_usd = elevated_m / 1_000.0 * civil_rates.elevated;
     let bridge_usd = bridge_m / 1_000.0 * civil_rates.bridge;
     let junction_premium_usd = (elevated_junctions_count as f64) * junction_premium_usd();
     let at_grade_eur = eur_from_usd(at_grade_usd);
@@ -2417,7 +2415,7 @@ mod tests {
     }
 
     #[test]
-    fn elevated_curvature_multiplier_flows_into_production_cost() {
+    fn search_penalty_cannot_become_a_monetary_estimate() {
         let civil_per_line = vec![vec![CivilSegment {
             class: CivilClass::Elevated,
             from_idx: 0,
@@ -2428,7 +2426,7 @@ mod tests {
             elevated_cost_multiplier: 2.0,
         }]];
         let costs = compute_costs(&civil_per_line, &[], &[], 0, 0, "light-metro-3car");
-        let expected = civil_cost_config().civil_usd_per_km.elevated * 2.0;
+        let expected = civil_cost_config().civil_usd_per_km.elevated;
         assert!((costs.elevated_usd - expected).abs() < 1.0);
     }
 

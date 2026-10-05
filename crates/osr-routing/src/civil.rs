@@ -239,7 +239,7 @@ pub struct CivilSegment {
     /// Structural family selected for elevated/bridge work.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub viaduct_product: Option<ElevatedViaductProduct>,
-    /// Constructability factor applied to elevated planning cost.
+    /// Route-search deterrent only; never a monetary cost multiplier.
     #[serde(default = "unit_multiplier")]
     pub elevated_cost_multiplier: f64,
 }
@@ -306,32 +306,52 @@ pub fn civil_segments_from_classes(
         "civil classes must match route cells"
     );
 
-    let mut segments: Vec<CivilSegment> = Vec::new();
+    // Classify local construction methods before collapsing runs. A remote tight
+    // bend must never select the product or price of unrelated tangent spans.
+    let radii: Vec<Option<f64>> = (0..cells.len())
+        .map(|i| local_route_radius_m(cells, i, grid.reference.cell_m))
+        .collect();
+    let products: Vec<Option<ElevatedViaductProduct>> = classes
+        .iter()
+        .enumerate()
+        .map(|(i, class)| match class {
+            CivilClass::AtGrade => None,
+            CivilClass::Bridge => Some(ElevatedViaductProduct::SpecialSpan),
+            CivilClass::Elevated => Some(elevated_product_for_geometry(
+                radii[i].unwrap_or(f64::INFINITY),
+                25.0,
+                true,
+            )),
+        })
+        .collect();
+    let mut segments = Vec::new();
     let mut run_start = 0;
     for i in 1..=classes.len() {
-        if i == classes.len() || classes[i] != classes[run_start] {
-            // Carry the edge into the next run on the preceding span so
-            // every route edge is counted exactly once. The former
-            // `run_start..i` slice dropped one edge at every class
-            // transition and gave single-cell spans zero length.
-            let length_end = if i < cells.len() { i + 1 } else { i };
-            let length_m = segment_length_m(grid, &cells[run_start..length_end]);
+        if i == classes.len()
+            || classes[i] != classes[run_start]
+            || products[i] != products[run_start]
+        {
             let class = classes[run_start];
+            let mut length_m = 0.0;
+            let mut weighted_search_m = 0.0;
+            for edge in run_start..i.min(cells.len().saturating_sub(1)) {
+                let length = segment_length_m(grid, &cells[edge..=edge + 1]);
+                length_m += length;
+                weighted_search_m += length
+                    * if class == CivilClass::Elevated {
+                        elevated_curve_cost_multiplier(radii[edge].unwrap_or(f64::INFINITY))
+                    } else {
+                        1.0
+                    };
+            }
             let minimum_curve_radius_m = if class == CivilClass::Elevated {
-                minimum_route_radius_m(cells, run_start, i.saturating_sub(1), grid.reference.cell_m)
+                radii[run_start..i]
+                    .iter()
+                    .flatten()
+                    .copied()
+                    .reduce(f64::min)
             } else {
                 None
-            };
-            let (viaduct_product, elevated_cost_multiplier) = match class {
-                CivilClass::AtGrade => (None, 1.0),
-                CivilClass::Bridge => (Some(ElevatedViaductProduct::SpecialSpan), 1.0),
-                CivilClass::Elevated => {
-                    let radius_m = minimum_curve_radius_m.unwrap_or(f64::INFINITY);
-                    (
-                        Some(elevated_product_for_geometry(radius_m, 25.0, true)),
-                        elevated_curve_cost_multiplier(radius_m),
-                    )
-                }
             };
             segments.push(CivilSegment {
                 class,
@@ -339,8 +359,12 @@ pub fn civil_segments_from_classes(
                 to_idx: i - 1,
                 length_m,
                 minimum_curve_radius_m,
-                viaduct_product,
-                elevated_cost_multiplier,
+                viaduct_product: products[run_start],
+                elevated_cost_multiplier: if length_m > 0.0 {
+                    weighted_search_m / length_m
+                } else {
+                    1.0
+                },
             });
             run_start = i;
         }
@@ -348,47 +372,34 @@ pub fn civil_segments_from_classes(
     segments
 }
 
-/// Infer minimum radius using route points about 100 m apart.
-///
-/// The window filters 20 m raster stair-steps while retaining the geometry
-/// signal needed to distinguish a broad U25 corridor from OSR-US/realignment.
-fn minimum_route_radius_m(
-    cells: &[(usize, usize)],
-    from_idx: usize,
-    to_idx: usize,
-    cell_m: f64,
-) -> Option<f64> {
-    if cells.len() < 3 || from_idx >= cells.len() || from_idx > to_idx || cell_m <= 0.0 {
+/// Local three-point planning radius with a 100 m window on either side.
+/// Raster stair steps are smoothed; this remains unsurveyed horizontal geometry.
+fn local_route_radius_m(cells: &[(usize, usize)], centre: usize, cell_m: f64) -> Option<f64> {
+    if cells.len() < 3 || cell_m <= 0.0 {
         return None;
     }
     let window = (100.0 / cell_m).round().max(1.0) as usize;
-    let mut minimum = f64::INFINITY;
-    for centre in from_idx..=to_idx.min(cells.len() - 1) {
-        let left = centre.saturating_sub(window);
-        let right = (centre + window).min(cells.len() - 1);
-        if left == centre || centre == right {
-            continue;
-        }
-        let point = |index: usize| {
-            let (row, col) = cells[index];
-            (col as f64 * cell_m, row as f64 * cell_m)
-        };
-        let a = point(left);
-        let b = point(centre);
-        let c = point(right);
-        let ab = (b.0 - a.0).hypot(b.1 - a.1);
-        let bc = (c.0 - b.0).hypot(c.1 - b.1);
-        let ac = (c.0 - a.0).hypot(c.1 - a.1);
-        let twice_area = ((b.0 - a.0) * (c.1 - a.1) - (b.1 - a.1) * (c.0 - a.0)).abs();
-        if twice_area <= 1e-6 {
-            continue;
-        }
-        let radius = ab * bc * ac / (2.0 * twice_area);
-        if radius.is_finite() {
-            minimum = minimum.min(radius);
-        }
+    let left = centre.saturating_sub(window);
+    let right = (centre + window).min(cells.len() - 1);
+    if left == centre || centre == right {
+        return None;
     }
-    minimum.is_finite().then_some(minimum)
+    let point = |index: usize| {
+        let (row, col) = cells[index];
+        (col as f64 * cell_m, row as f64 * cell_m)
+    };
+    let a = point(left);
+    let b = point(centre);
+    let c = point(right);
+    let ab = (b.0 - a.0).hypot(b.1 - a.1);
+    let bc = (c.0 - b.0).hypot(c.1 - b.1);
+    let ac = (c.0 - a.0).hypot(c.1 - a.1);
+    let twice_area = ((b.0 - a.0) * (c.1 - a.1) - (b.1 - a.1) * (c.0 - a.0)).abs();
+    if twice_area <= 1e-6 {
+        return None;
+    }
+    let radius = ab * bc * ac / (2.0 * twice_area);
+    radius.is_finite().then_some(radius)
 }
 
 fn classify_cell(grid: &Grid, r: usize, c: usize) -> CivilClass {
@@ -549,15 +560,40 @@ mod tests {
         let mut cells: Vec<(usize, usize)> = (0..=5).map(|col| (5, col)).collect();
         cells.extend((6..=10).map(|row| (row, 5)));
         let segments = classify_segments(&grid, &cells);
-        assert_eq!(segments.len(), 1);
-        let segment = &segments[0];
+        let segment = segments
+            .iter()
+            .find(|s| s.viaduct_product == Some(ElevatedViaductProduct::RealignOrSpecial))
+            .unwrap();
         assert!(segment.minimum_curve_radius_m.unwrap() < 120.0);
         assert_eq!(
             segment.viaduct_product,
             Some(ElevatedViaductProduct::RealignOrSpecial)
         );
         assert!(segment.elevated_cost_multiplier > 10.0);
-        assert!(route_elevated_constructability_multiplier(&grid, &cells) > 10.0);
+        assert!(route_elevated_constructability_multiplier(&grid, &cells) > 1.0);
+    }
+
+    #[test]
+    fn extending_a_tangent_does_not_spread_a_local_curve_penalty() {
+        let grid = square_grid(201, 45.0);
+        let mut cells: Vec<_> = (0..=20).map(|col| (20, col)).collect();
+        cells.extend((21..=40).map(|row| (row, 20)));
+        let original = classify_segments(&grid, &cells);
+        cells.extend((41..=200).map(|row| (row, 20)));
+        let extended = classify_segments(&grid, &cells);
+        let excess = |segments: &[CivilSegment]| {
+            segments
+                .iter()
+                .map(|s| s.length_m * (s.elevated_cost_multiplier - 1.0))
+                .sum::<f64>()
+        };
+        assert!((excess(&original) - excess(&extended)).abs() < 1e-6);
+        assert_eq!(
+            extended.last().unwrap().viaduct_product,
+            Some(ElevatedViaductProduct::DeckedPi25)
+        );
+        let length: f64 = extended.iter().map(|s| s.length_m).sum();
+        assert!((length - segment_length_m(&grid, &cells)).abs() < 1e-6);
     }
 
     #[test]

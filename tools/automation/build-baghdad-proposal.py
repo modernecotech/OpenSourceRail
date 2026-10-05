@@ -22,6 +22,8 @@ from reportlab.lib.units import cm
 from reportlab.platypus import PageBreak, Paragraph, Spacer
 from reportlab.platypus.tableofcontents import TableOfContents
 
+from baghdad_funding_analysis import debt_clearance_label
+
 ROOT = Path(__file__).resolve().parents[2]
 CITY = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 COUNTRY = CITY.parent
@@ -575,7 +577,7 @@ Surplus first pays OPEX, scheduled principal, interest and fees, then debt servi
 
 {table(['Repayment policy','All debt cleared month','Net saving vs buffered gap only USD eq m','Premium USD eq m'],early_rows)}
 
-Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD {usd_m(early['cost_priority']['net_finance_cost_saving_vs_buffered_gap_only_usd'])}m equivalent after premiums and clears debt in month {early['cost_priority']['all_debt_cleared_month']} versus {early['gap_only_buffered']['all_debt_cleared_month']} for buffered gap only. Loans first saves USD {usd_m(early['loans_then_bonds']['net_finance_cost_saving_vs_buffered_gap_only_usd'])}m. All retain IQD {early['cost_priority']['terminal_operating_buffer_iqd']/1e12:.3f}tn operating buffer at the horizon.
+Cost priority retires bank credit, ordinary bonds, Chinese credit, green bonds, then cheaper gap credit. Under assumed contractual rights it saves USD {usd_m(early['cost_priority']['net_finance_cost_saving_vs_buffered_gap_only_usd'])}m equivalent after premiums and reports debt as {debt_clearance_label(early['cost_priority']['all_debt_cleared_month'])} versus {debt_clearance_label(early['gap_only_buffered']['all_debt_cleared_month'])} for buffered gap only. Loans first saves USD {usd_m(early['loans_then_bonds']['net_finance_cost_saving_vs_buffered_gap_only_usd'])}m. All retain IQD {early['cost_priority']['terminal_operating_buffer_iqd']/1e12:.3f}tn operating buffer at the horizon.
 
 Premiums assume 1% bank/Chinese/green and 2% ordinary bonds, with minimum draw ages 6/12/24 months respectively. Eligible vintages are oldest first, retaining instalments and shortening maturity. Calls, notice, compensation, tax and market buyback prices need actual terms. The noncallable case makes no early bond payments; cost ordering is a heuristic rather than a globally best solution. Savings are nominal finance costs, not principal savings or present value wealth. Month numbers run from financial close, with no calendar commencement date assumed.
 

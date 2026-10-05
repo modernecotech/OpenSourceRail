@@ -162,7 +162,7 @@ def alignment_register(design,rate):
         multiplier=positive(segment.get('elevated_cost_multiplier',1.),'routing factor')
         if multiplier < 1:raise ValueError('Routing factor cannot imply a priced saving')
         base=length/1000*rate
-        proxy_radius=preferred/math.sqrt(multiplier) if multiplier>1 else None
+        proxy_radius=segment.get('minimum_curve_radius_m')
         offsets={span:straight_span_chord_offset_m(span,proxy_radius) if proxy_radius and proxy_radius>span/2 else None for span in (20,25)}
         stations=[s for s in design.get('stations',[]) if s['line']==segment['line']]
         nearest=sorted(stations,key=lambda s:min(abs(s['s_m']-segment['from_station_m']),abs(s['s_m']-segment['to_station_m'])))[:2]
@@ -176,13 +176,18 @@ def alignment_register(design,rate):
             chord_planning_limit_m=chord_limit,
             pi20_chord_screen_passed=None if offsets[20] is None else offsets[20]<=chord_limit,
             special_priority_rank=None,
-            routing_penalty_usd=base*(multiplier-1),original_modelled_cost_usd=base*multiplier,
+            routing_penalty_usd=0.,original_modelled_cost_usd=base,
+            search_penalty_equivalent_m=length*(multiplier-1),search_penalty_is_money=False,
+            special_structure_increment_usd=None if segment.get('viaduct_product') not in ('OSR-Pi25','OSR-Pi20') else 0.,
+            installed_total_usd=None,
+            quantity_basis='Local method length; supplier geometry/support layout and installed unit rates unresolved',
+            bare_pi_concrete_m3=section_area_m2()*length*2 if segment.get('viaduct_product') in ('OSR-Pi25','OSR-Pi20') else None,
             priced_structural_design=False,review_priority='individual-special-review' if segment.get('viaduct_product')=='REALIGN-OR-SPECIAL' else 'corridor-review',
             wider_curve_candidate=None,station_move_candidate=None,alternative_right_of_way=None,
             realignment_installed_cost_usd=None,segmental_installed_cost_usd=None,
             utility_and_land_cost_usd=None,traffic_cost_usd=None,whole_life_cost_usd=None,
             selected_alternative=None,actual_od_count=None,accepted=False))
-    special=sorted((r for r in rows if r['product']=='REALIGN-OR-SPECIAL'),key=lambda r:(-r['routing_penalty_usd'],r['id']))
+    special=sorted((r for r in rows if r['product']=='REALIGN-OR-SPECIAL'),key=lambda r:(-r['search_penalty_equivalent_m'],r['id']))
     for rank,row in enumerate(special,1):row['special_priority_rank']=rank
     return rows
 
@@ -336,8 +341,8 @@ def markdown(r):
         '## Alignment and budget boundary','',
         f"The register covers all {len(r['alignment_segments'])} elevated segments, including {r['special_segment_count']} individual special reviews. "
         f"It separates USD {r['standard_rate_allowance_usd']/1e9:.3f}bn standard-rate allowance from "
-        f"USD {r['routing_penalty_usd']/1e9:.3f}bn routing penalty. Their sum reproduces the original model. "
-        'A routing deterrent is not a priced structure; removing it is not a saving. Each special segment has '
+        f"USD {r['routing_penalty_usd']/1e9:.3f}bn monetary routing penalty. "
+        'Search deterrents are excluded from monetary allowances. This base allowance is not a complete installed price or an achieved saving; special/segmental increments remain unknown. Each special segment has '
         'wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. '
         'No alternative is accepted and original capital/debt figures are preserved.','',
         'The individual special reviews are ranked by existing penalty exposure to direct investigation effort, '

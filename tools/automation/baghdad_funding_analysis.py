@@ -672,6 +672,16 @@ def build_analysis(programme: dict, city_funding: dict, factory_funding: dict,
 
 
 
+def debt_clearance_label(month):
+    return 'not cleared within the model horizon' if month is None else f'cleared in month {month}'
+
+
+def repayment_outcome(metrics):
+    if metrics['terminal_supplemental_balance_iqd'] > .02 or metrics['uncovered_support_iqd'] > .02:
+        return 'The case does not repay the facility and cover all required cash within the model horizon.'
+    return 'The case repays the facility within the model horizon under these conditional assumptions.'
+
+
 def early_repayment_report(analysis: dict, finance_path: str) -> list[str]:
     group = analysis['early_repayment']; cases = group['cases']
     selected = cases['cost_priority']['metrics']; baseline = cases['gap_only_buffered']['metrics']
@@ -684,7 +694,7 @@ def early_repayment_report(analysis: dict, finance_path: str) -> list[str]:
         m = case['metrics']; cleared = m['all_debt_cleared_month']
         lines.append(f"| {name.replace('_', ' ')} | {cleared if cleared is not None else 'not cleared'} | {m['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:,.3f} | {m['early_premiums_usd_equivalent']/1e6:,.3f} | {m['peak_supplemental_balance_iqd']/1e12:,.3f} | {m['terminal_cash_iqd']/1e12:,.3f} |")
     lines += ['',
-        f"Cost priority clears all debt in month **{selected['all_debt_cleared_month']}**, compared with **{baseline['all_debt_cleared_month']}** for buffered gap-only. Net nominal financing savings are **USD {selected['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:,.3f}m equivalent**, after USD {selected['early_premiums_usd_equivalent']/1e6:,.3f}m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD {selected['terminal_operating_buffer_iqd']/1e12:,.3f}tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.", '',
+        f"Cost-priority debt is **{debt_clearance_label(selected['all_debt_cleared_month'])}**; buffered gap-only debt is **{debt_clearance_label(baseline['all_debt_cleared_month'])}**. Net nominal financing savings are **USD {selected['net_finance_cost_saving_vs_buffered_gap_only_usd']/1e6:,.3f}m equivalent**, after USD {selected['early_premiums_usd_equivalent']/1e6:,.3f}m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD {selected['terminal_operating_buffer_iqd']/1e12:,.3f}tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.", '',
         'Assumed premiums are 1% of bank/Chinese/green principal and 2% of ordinary bond principal. A minimum draw age of 6 months (bank), 12 (Chinese) and 24 (both bonds) prevents immediate issue-and-redemption. Eligible vintages are repaid oldest first; contractual instalments are kept and maturity shortens. Notice, issuer call rights, investor consent, buyback price, remaining-maturity compensation, tax and FX require actual agreements. Noncallable-bond sensitivity makes no voluntary bond payments; zero-premium sensitivity removes only the assumed premium, retaining minimum ages.', '',
         '| Facility | Buffered gap-only final principal payment month | Cost-priority final principal payment month | Early principal, native currency | Premium, native currency |', '|---|---:|---:|---:|---:|']
     for name, currency in (('bank_credit', 'IQD'), ('domestic_bonds', 'IQD'), ('chinese_export_credit', 'USD'), ('green_bonds', 'IQD')):
@@ -692,7 +702,7 @@ def early_repayment_report(analysis: dict, finance_path: str) -> list[str]:
         early = sum(r[name+'_early_principal_native'] for r in rows)
         premium = sum(r[name+'_early_premium_native'] for r in rows)
         scale = 1e9 if currency == 'IQD' else 1e6; unit = 'bn' if currency == 'IQD' else 'm'
-        lines.append(f"| {name.replace('_', ' ')} | {baseline[name+'_final_repayment_month']} | {selected[name+'_final_repayment_month']} | {currency} {early/scale:,.3f}{unit} | {currency} {premium/scale:,.3f}{unit} |")
+        lines.append(f"| {name.replace('_', ' ')} | {baseline[name+'_final_repayment_month'] if baseline[name+'_final_repayment_month'] is not None else 'no repayment recorded'} | {selected[name+'_final_repayment_month'] if selected[name+'_final_repayment_month'] is not None else 'no repayment recorded'} | {currency} {early/scale:,.3f}{unit} | {currency} {premium/scale:,.3f}{unit} |")
     lines += ['',
         f"The gap facility's final principal payment is in month {selected['liquidity_final_repayment_month']}. Later surplus remains unrestricted cash after debt retirement. Each month's native debt balance equals prior balance plus draws minus scheduled and early principal. Each six-month closing balance is its final month's balance; payments, premiums, interest and reserve movements are period sums. Contractual repayment windows in tranche files describe the original draw terms; the actual final-payment months above incorporate early repayment.", '',
         f"[Monthly cost-priority repayments]({finance_path}/baghdad-early-cost_priority-monthly.csv) · [six-month repayment tranches]({finance_path}/baghdad-early-cost_priority-six-month-tranches.csv) · [loans-first tranches]({finance_path}/baghdad-early-loans_then_bonds-six-month-tranches.csv) · [all six complete calculations]({finance_path}/baghdad-early-repayment.json)", '',
@@ -862,7 +872,7 @@ def write_outputs(analysis: dict, programme: dict, directory, country) -> None:
         lines.append(f"| {name.replace('_', ' ')} | {policy['annual_fare_increase']:.0%} / {policy['annual_opex_inflation']:.0%} / {policy['annual_income_growth']:.0%} | {opened['average_paid_fare_iqd']:,.0f} | {opened['forty_four_trips_income_share']:.1%} | {m['peak_supplemental_balance_iqd']/1e12:.3f} | {m['uncovered_support_iqd']/1e12:.3f} | {m['terminal_supplemental_balance_iqd']/1e12:.3f} |")
     selected = analysis['cases']['fare_5pct_opex_5pct']; sm = selected['metrics']; sp = selected['fare_policy']
     lines += ['',
-        f"In the paired 5% case, the first line's average nominal fare is IQD {sp['first_opening']['average_paid_fare_iqd']:,.0f} in month {sp['first_opening']['month']}; at full opening in month {sp['full_opening']['month']} it is IQD {sp['full_opening']['average_paid_fare_iqd']:,.0f}. Its maximum supplemental facility is IQD {sm['peak_supplemental_balance_iqd']/1e12:,.3f}tn, with IQD {sm['uncovered_support_iqd']/1e12:,.3f}tn uncovered cash and IQD {sm['terminal_supplemental_balance_iqd']/1e12:,.3f}tn unpaid at the end. Later surplus can repay a priced facility under these assumptions; it does not remove the early borrowing requirement.", '',
+        f"In the paired 5% case, the first line's average nominal fare is IQD {sp['first_opening']['average_paid_fare_iqd']:,.0f} in month {sp['first_opening']['month']}; at full opening in month {sp['full_opening']['month']} it is IQD {sp['full_opening']['average_paid_fare_iqd']:,.0f}. Its maximum supplemental facility is IQD {sm['peak_supplemental_balance_iqd']/1e12:,.3f}tn, with IQD {sm['uncovered_support_iqd']/1e12:,.3f}tn uncovered cash and IQD {sm['terminal_supplemental_balance_iqd']/1e12:,.3f}tn unpaid at the end. {repayment_outcome(sm)} Early borrowing still needs placed facilities.", '',
         f"At an {options['fares']['general_price_inflation']:.0%} general-price assumption, the 8% real discount assumption becomes {sm['pricing_nominal_discount_rate']:.1%} nominal. The paired-case unlevered NPV is USD {sm['pricing_project_npv_usd_equivalent']/1e9:,.3f}bn equivalent before grants/new rights/net-income targets and with capital still un-escalated. Large distant nominal balances are not present-value wealth or proof of project viability.", '',
         'If income rises with fares, the modelled commuting share stays broadly constant. With income rising only 2%, the same ticket policy becomes progressively less affordable and reduces paid trips. If OPEX rises 7% against 5% fares, the tested financing again leaves uncovered requirements and terminal debt. Maintaining an affordable real tariff, collecting revenue and placing the required early IQD facility matter as much as the nominal annual increase.', '',
         '![Fare and OPEX inflation sensitivities](../../../finance/baghdad-fare-inflation-sensitivities.png)', '',

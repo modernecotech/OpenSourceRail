@@ -120,6 +120,125 @@ struct Args {
     /// `{out_dir}/corridors.json`.
     #[arg(long)]
     corridor_cache: Option<PathBuf>,
+
+    /// Reclassify only local civil geometry of the existing controlled alignment.
+    /// Write JSON to this path; preserve stations, routes, fleets and class boundaries.
+    #[arg(long)]
+    civil_register_out: Option<PathBuf>,
+}
+
+fn refresh_civil_register(args: &Args, bundle: &osr_routing::raster::RasterBundle) -> Result<()> {
+    use osr_routing::civil::{civil_segments_from_classes, CivilClass};
+    let design: toml::Value =
+        toml::from_str(&fs::read_to_string(args.out_dir.join("design.toml"))?)?;
+    let corridor: serde_json::Value = serde_json::from_str(&fs::read_to_string(
+        args.out_dir.join(format!("{}.corridor.geojson", args.slug)),
+    )?)?;
+    let old = design["civil_segments"]
+        .as_array()
+        .context("missing civil segments")?;
+    let mut rows = Vec::new();
+    for feature in corridor["features"]
+        .as_array()
+        .context("missing corridor features")?
+    {
+        if feature["geometry"]["type"].as_str() != Some("LineString") {
+            continue;
+        }
+        let name = feature["properties"]["name"]
+            .as_str()
+            .context("missing line name")?;
+        let reference = &bundle.grid.reference;
+        let cell_m = reference.cell_m;
+        let cells: Vec<(usize, usize)> = feature["geometry"]["coordinates"]
+            .as_array()
+            .context("missing corridor coordinates")?
+            .iter()
+            .map(|point| {
+                let col = ((point[0].as_f64().unwrap() - reference.bbox_west)
+                    * reference.m_per_deg_lon
+                    / cell_m
+                    - 0.5)
+                    .round();
+                let row = ((reference.bbox_north - point[1].as_f64().unwrap())
+                    * reference.m_per_deg_lat
+                    / cell_m
+                    - 0.5)
+                    .round();
+                (row as usize, col as usize)
+            })
+            .collect();
+        let mut chainages = vec![0.0];
+        for edge in cells.windows(2) {
+            let dr = edge[1].0 as f64 - edge[0].0 as f64;
+            let dc = edge[1].1 as f64 - edge[0].1 as f64;
+            chainages.push(chainages.last().unwrap() + dr.hypot(dc) * cell_m);
+        }
+        let intervals: Vec<_> = old
+            .iter()
+            .filter(|row| row["line"].as_str() == Some(name))
+            .collect();
+        let end = intervals.last().context("missing line civil intervals")?["to_station_m"]
+            .as_float()
+            .context("civil end")?;
+        anyhow::ensure!(
+            (chainages.last().unwrap() - end).abs() <= 0.15,
+            "controlled corridor length mismatch: {}",
+            name
+        );
+        let classes: Vec<CivilClass> = chainages
+            .iter()
+            .map(|&at| {
+                let row = intervals
+                    .iter()
+                    .rev()
+                    .find(|row| row["from_station_m"].as_float().unwrap() <= at + 0.05)
+                    .unwrap();
+                match row["class"].as_str().unwrap() {
+                    "at-grade" => CivilClass::AtGrade,
+                    "elevated" => CivilClass::Elevated,
+                    "bridge" => CivilClass::Bridge,
+                    other => panic!("unknown controlled civil class: {other}"),
+                }
+            })
+            .collect();
+        let segments = civil_segments_from_classes(&bundle.grid, &cells, &classes);
+        let boundary = |index: usize| {
+            intervals
+                .iter()
+                .find_map(|row| {
+                    let start = row["from_station_m"].as_float().unwrap();
+                    ((start - chainages[index]).abs() <= 0.051).then_some(start)
+                })
+                .unwrap_or(chainages[index])
+        };
+        for (i, segment) in segments.iter().enumerate() {
+            let from = boundary(segment.from_idx);
+            let to = if i + 1 == segments.len() {
+                end
+            } else {
+                boundary(segments[i + 1].from_idx)
+            };
+            if to <= from {
+                continue;
+            }
+            let class = match segment.class {
+                CivilClass::AtGrade => "at-grade",
+                CivilClass::Elevated => "elevated",
+                CivilClass::Bridge => "bridge",
+            };
+            rows.push(serde_json::json!({"line": name, "from_station_m": from,
+                "to_station_m": to, "class": class,
+                "minimum_curve_radius_m": segment.minimum_curve_radius_m,
+                "viaduct_product": segment.viaduct_product.map(|p| p.catalogue_code()),
+                "elevated_cost_multiplier": segment.elevated_cost_multiplier}));
+        }
+    }
+    fs::write(
+        args.civil_register_out.as_ref().unwrap(),
+        serde_json::to_vec_pretty(&rows)?,
+    )?;
+    Ok(())
 }
 
 fn corridor_cache_path(args: &Args) -> PathBuf {
@@ -324,6 +443,10 @@ fn main() -> Result<()> {
         bundle.grid.reference.cell_m,
         bundle.anchors.len()
     );
+
+    if args.civil_register_out.is_some() {
+        return refresh_civil_register(&args, &bundle);
+    }
 
     let cache_path = corridor_cache_path(&args);
     let budget = budget_for_population(population);

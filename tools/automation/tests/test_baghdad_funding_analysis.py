@@ -10,6 +10,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT/'tools/automation'))
 sys.path.insert(0, str(ROOT/'design/city-generation/src'))
+import baghdad_funding_analysis as funding
 from baghdad_funding_analysis import capital_projection, price_operating, simulate, validate_options
 from osr_scenario.iraq_finance import city_funding_config
 
@@ -293,3 +294,12 @@ def test_delivered_early_repayment_cases_reconcile_native_principal_and_cash_sav
         assert priority['all_debt_cleared_month'] is not None
         assert priority['all_debt_cleared_month'] < base['metrics']['all_debt_cleared_month']
     assert data['cases']['cost_priority']['metrics']['net_finance_cost_saving_vs_buffered_gap_only_usd'] > data['cases']['loans_then_bonds']['metrics']['net_finance_cost_saving_vs_buffered_gap_only_usd']
+
+
+def test_repayment_prose_cannot_claim_success_with_terminal_debt_or_missing_cash():
+    assert 'not cleared' in funding.debt_clearance_label(None)
+    assert 'None' not in funding.debt_clearance_label(None)
+    assert funding.debt_clearance_label(303)=='cleared in month 303'
+    assert 'does not repay' in funding.repayment_outcome(dict(terminal_supplemental_balance_iqd=1,uncovered_support_iqd=0))
+    assert 'does not repay' in funding.repayment_outcome(dict(terminal_supplemental_balance_iqd=0,uncovered_support_iqd=1))
+    assert 'case repays' in funding.repayment_outcome(dict(terminal_supplemental_balance_iqd=0,uncovered_support_iqd=0))

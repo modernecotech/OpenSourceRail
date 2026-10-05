@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "design/city-generation/src"))
 from osr_scenario.iraq_finance import build_financing, city_funding_config
 from osr_scenario.network_readme import _station_commercial_revenue_eur, _USD_TO_EUR
 from finance_evidence import stale_finance_sources
-from baghdad_funding_analysis import build_analysis, write_outputs, early_repayment_report
+from baghdad_funding_analysis import build_analysis, write_outputs, early_repayment_report, repayment_outcome
 
 
 def write_comparison_chart(summary: dict, directory: Path) -> None:
@@ -429,7 +429,7 @@ def main() -> int:
     indexed = analysis["cases"]["fare_5pct_opex_5pct"]
     priced = indexed["fare_policy"]
     updated.extend(["## Additional pricing and OPEX inflation sensitivities", "",
-        f"The requested paired sensitivity increases fares and OPEX **5% annually from financial close**, while testing income growth separately. At 5% income growth and assumed -0.30 real-price elasticity, the illustrative blended case peaks at **IQD {indexed['metrics']['peak_supplemental_balance_iqd']/1e12:.3f}tn** supplemental debt and ends with IQD {indexed['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid. This can repay the priced facility under the assumptions, but still requires placed early financing, the candidate grant/rights receipts, fixed nominal debt terms and income growth. It is not a committed funding outcome.", "",
+        f"The requested paired sensitivity increases fares and OPEX **5% annually from financial close**, while testing income growth separately. At 5% income growth and assumed -0.30 real-price elasticity, the illustrative blended case peaks at **IQD {indexed['metrics']['peak_supplemental_balance_iqd']/1e12:.3f}tn** supplemental debt and ends with IQD {indexed['metrics']['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid. {repayment_outcome(indexed['metrics'])} Placed early financing, candidate grant/rights receipts, fixed nominal debt terms and income growth remain assumptions. It is not a committed funding outcome.", "",
         f"Average nominal tickets move from IQD {priced['first_opening']['average_paid_fare_iqd']:,.0f} at first opening to IQD {priced['full_opening']['average_paid_fare_iqd']:,.0f} at full opening; 44 trips remain {priced['full_opening']['forty_four_trips_income_share']:.1%} of the indexed income proxy when incomes grow 5%. Separate cases test 2% income growth, 7% OPEX inflation, peak/off-peak tiers, fixed demand, and rental indexation. Capital escalation and future FX changes remain outside these sensitivities.", "",
         "[Paired 5% six-month financing](finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv) · [monthly tickets and affordability](finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv) · [variable-ticket six-month financing](finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv). The detailed report contains the NPV, all assumptions and downside cases.", ""])
     updated.extend(early_repayment_report(analysis, "finance"))

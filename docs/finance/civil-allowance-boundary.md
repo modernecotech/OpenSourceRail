@@ -1,0 +1,11 @@
+# Civil allowances and routing scores
+
+The civil estimate prices route length at controlled at-grade, elevated and bridge planning rates. A curvature deterrent is a route-search score, never a supplier price or a monetary multiplier. Local three-point radii use a 100 m route window on each side; elevated construction-method runs split at local product changes. The radius remains inferred raster geometry, rather than a surveyed design.
+
+`refresh-local-civil-costs.py` calls the native classifier against the published full corridor geometry and preserves existing civil class boundaries, routes, station positions and fleets. It records an actual cost migration; it does not rewrite previous solver receipts. Changes to Rust or controlled designs require genuine new full-day and degraded planning runs.
+
+The displayed capital is a **base planning allowance**, not a complete installed estimate. Tangent Pi25/Pi20 quantities can use their respective catalogue envelopes. OSR-US and exceptional curves require their own supplier geometry, connection, support, erection and foundation quantities. Missing rates or quantities remain unknown; they are never zero-cost scope or credited savings. Each special crossing is separately engineered. Actual foundations need surveyed ground zones and deep-element lengths. Transport and erection require complete mass budgets and configured equipment proposals.
+
+Removing the old segment-wide search penalty corrects accounting. It establishes no saving against a buildable, priced alternative. Land, rights, utilities, special-structure increments, installed grid/charging upgrades, taxes/duties, escalation, risk and financing must close before the base allowance becomes a complete delivery budget. Maintenance charged on a smaller allowance is a conditional calculation, not evidence of reduced maintenance workload. Staffing, energy, train-km and replacement costs must retain their independent quantities.
+
+Demand coverage, capacity and receipts are separate: population pixels describe residents near stations; network walksheds need verified entrances, accessible paths, crossings and vertical access; surveyed origins/destinations and jobs determine route choice and paid journeys. A transfer creates another boarding, not another paid journey under an integrated fare.

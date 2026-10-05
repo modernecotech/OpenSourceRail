@@ -71,82 +71,89 @@ geometry        = "standard-urban"
 charging_dwell_seconds = 120
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 0.0
-to_station_m    = 1709.4
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-1"
-from_station_m  = 1709.4
-to_station_m    = 4543.0
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "at-grade"
 elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-1"
+to_station_m = 1709.400
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 4543.0
-to_station_m    = 4563.0
-class           = "bridge"
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 1709.400
+line = "line-1"
+minimum_curve_radius_m = 470.106
+to_station_m = 4543.000
+viaduct_product = "OSR-Pi25"
+
+[[civil_segments]]
+class = "bridge"
+elevated_cost_multiplier = 1.000
+from_station_m = 4543.000
+line = "line-1"
+to_station_m = 4563.000
 viaduct_product = "OSR-SP"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 4563.0
-to_station_m    = 6249.5
-class           = "elevated"
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 4563.000
+line = "line-1"
+minimum_curve_radius_m = 470.106
+to_station_m = 6249.500
 viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 6249.5
-to_station_m    = 6269.5
-class           = "bridge"
+class = "bridge"
+elevated_cost_multiplier = 1.000
+from_station_m = 6249.500
+line = "line-1"
+to_station_m = 6269.500
 viaduct_product = "OSR-SP"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 6269.5
-to_station_m    = 13581.8
-class           = "elevated"
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 6269.500
+line = "line-1"
+minimum_curve_radius_m = 403.113
+to_station_m = 13581.800
 viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-2"
-from_station_m  = 0.0
-to_station_m    = 5895.5
-class           = "elevated"
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-2"
+minimum_curve_radius_m = 396.026
+to_station_m = 5895.500
 viaduct_product = "OSR-Pi25"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-2"
-from_station_m  = 5895.5
-to_station_m    = 5923.8
-class           = "bridge"
+class = "bridge"
+elevated_cost_multiplier = 1.000
+from_station_m = 5895.500
+line = "line-2"
+to_station_m = 5923.800
 viaduct_product = "OSR-SP"
-elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-line            = "line-2"
-from_station_m  = 5923.8
-to_station_m    = 8161.5
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "elevated"
 elevated_cost_multiplier = 1.000
+from_station_m = 5923.800
+line = "line-2"
+minimum_curve_radius_m = 403.113
+to_station_m = 8161.500
+viaduct_product = "OSR-Pi25"
 
 [[civil_segments]]
-line            = "line-3"
-from_station_m  = 0.0
-to_station_m    = 4495.4
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "elevated"
 elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-3"
+minimum_curve_radius_m = 310.161
+to_station_m = 4495.400
+viaduct_product = "OSR-Pi25"
 
 [[stations]]
 id              = "line-1-0120-0669-s000000"
@@ -463,16 +470,16 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 4416988
-at_grade_eur         = 4063629
-elevated_usd         = 238446405
-elevated_eur         = 219370692
-bridge_usd           = 1229117
-bridge_eur           = 1130788
+at_grade_usd         = 4417090
+at_grade_eur         = 4063723
+elevated_usd         = 238445828
+elevated_eur         = 219370162
+bridge_usd           = 1229400
+bridge_eur           = 1131048
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 244092510
-civil_subtotal_eur   = 224565109
+civil_subtotal_usd   = 244092318
+civil_subtotal_eur   = 224564933
 # Stations (RFC 0010 archetype catalogue).
 stations_usd         = 63000000
 stations_eur         = 57960000
@@ -491,10 +498,10 @@ signalling_eur       = 1206980
 charging_microgrid_usd = 1350000
 charging_microgrid_eur = 1242000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 26775454
-epc_overhead_eur     = 24633418
-total_usd            = 409281944  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 376539388  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 26775441
+epc_overhead_eur     = 24633406
+total_usd            = 409281739  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 376539200  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

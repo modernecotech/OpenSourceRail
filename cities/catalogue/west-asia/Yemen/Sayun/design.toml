@@ -71,34 +71,55 @@ geometry        = "standard-urban"
 charging_dwell_seconds = 120
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 0.0
-to_station_m    = 10455.8
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "elevated"
 elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-1"
+to_station_m = 20.000
+viaduct_product = "OSR-Pi25"
 
 [[civil_segments]]
-line            = "line-1"
-from_station_m  = 10455.8
-to_station_m    = 13053.4
-class           = "at-grade"
+class = "elevated"
+elevated_cost_multiplier = 2.305
+from_station_m = 20.000
+line = "line-1"
+minimum_curve_radius_m = 170.294
+to_station_m = 68.284
+viaduct_product = "OSR-US"
 
 [[civil_segments]]
-line            = "line-2"
-from_station_m  = 0.0
-to_station_m    = 3676.6
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "elevated"
 elevated_cost_multiplier = 1.000
+from_station_m = 68.284
+line = "line-1"
+minimum_curve_radius_m = 320.225
+to_station_m = 10455.800
+viaduct_product = "OSR-Pi25"
 
 [[civil_segments]]
-line            = "line-3"
-from_station_m  = 0.0
-to_station_m    = 4168.5
-class           = "elevated"
-viaduct_product = "OSR-Pi25"
+class = "at-grade"
 elevated_cost_multiplier = 1.000
+from_station_m = 10455.800
+line = "line-1"
+to_station_m = 13053.400
+
+[[civil_segments]]
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-2"
+minimum_curve_radius_m = 373.363
+to_station_m = 3676.600
+viaduct_product = "OSR-Pi25"
+
+[[civil_segments]]
+class = "elevated"
+elevated_cost_multiplier = 1.000
+from_station_m = 0.000
+line = "line-3"
+minimum_curve_radius_m = 310.161
+to_station_m = 4168.500
+viaduct_product = "OSR-Pi25"
 
 [[stations]]
 id              = "line-1-0273-0600-s000000"
@@ -388,16 +409,16 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 6712315
-at_grade_eur         = 6175330
-elevated_usd         = 178396924
-elevated_eur         = 164125170
+at_grade_usd         = 6712198
+at_grade_eur         = 6175222
+elevated_usd         = 178397173
+elevated_eur         = 164125399
 bridge_usd           = 0
 bridge_eur           = 0
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 185109239
-civil_subtotal_eur   = 170300500
+civil_subtotal_usd   = 185109371
+civil_subtotal_eur   = 170300621
 # Stations (RFC 0010 archetype catalogue).
 stations_usd         = 62000000
 stations_eur         = 57040000
@@ -416,10 +437,10 @@ signalling_eur       = 961332
 charging_microgrid_usd = 1250000
 charging_microgrid_eur = 1150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 22213037
-epc_overhead_eur     = 20435994
-total_usd            = 339542136  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 312378765  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 22213046
+epc_overhead_eur     = 20436002
+total_usd            = 339542278  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 312378896  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
