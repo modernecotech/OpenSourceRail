@@ -216,8 +216,9 @@ lon = 12.360097128753587
 s_m = 5532.6
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 4"
-archetype = "standard"
+archetype = "interchange-elevated"
 platform_length_m = 49.0
+junction_group = 0
 
 [[stations]]
 id = "line-1-0531-0372-s006916"
@@ -227,8 +228,9 @@ lon = 12.36820966281428
 s_m = 6915.8
 anchor_kind = "place:suburb"
 anchor_name = "Quindombele"
-archetype = "terminal"
+archetype = "interchange-elevated"
 platform_length_m = 49.0
+junction_group = 1
 
 [[stations]]
 id = "line-2-0593-0351-s000000"
@@ -249,8 +251,9 @@ lon = 12.37222908330343
 s_m = 1301.9
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 1"
-archetype = "standard"
+archetype = "interchange-elevated"
 platform_length_m = 49.0
+junction_group = 1
 
 [[stations]]
 id = "line-2-planning-infill-s002604"
@@ -313,8 +316,9 @@ line = "line-3"
 lat = -6.156833167764461
 lon = 12.363511538698383
 s_m = 3683.9
-archetype = "standard"
+archetype = "interchange-elevated"
 platform_length_m = 49.0
+junction_group = 0
 
 [[stations]]
 id = "line-3-planning-infill-s004979"
@@ -324,8 +328,9 @@ lon = 12.367237081675995
 s_m = 4979.0
 anchor_kind = "planning:infill"
 anchor_name = "Planning infill 1"
-archetype = "standard"
+archetype = "interchange-elevated"
 platform_length_m = 49.0
+junction_group = 1
 
 [[stations]]
 id = "line-3-planning-infill-s006274"
@@ -370,6 +375,22 @@ anchor_kind = "place:suburb"
 anchor_name = "Conde"
 archetype = "depot-terminal"
 platform_length_m = 49.0
+
+[[interchanges]]
+id = "interchange-000"
+junction_group = 0
+lat = -6.156032699223817
+lon = 12.361804333725985
+lines = ["line-1", "line-3"]
+platforms = ["line-1-planning-infill-s005533", "line-3-0497-0346-s003684"]
+
+[[interchanges]]
+id = "interchange-001"
+junction_group = 1
+lat = -6.1655539469879335
+lon = 12.369225275931235
+lines = ["line-1", "line-2", "line-3"]
+platforms = ["line-1-0531-0372-s006916", "line-2-planning-infill-s001302", "line-3-planning-infill-s004979"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -525,13 +546,13 @@ elevated_usd         = 165441101
 elevated_eur         = 152205813
 bridge_usd           = 2098234
 bridge_eur           = 1930375
-junction_premium_usd = 0  # $4.5 M per elevated interchange.
-junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 177596788
-civil_subtotal_eur   = 163389045
+junction_premium_usd = 9000000  # $4.5 M per elevated interchange.
+junction_premium_eur = 8280000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 186596788
+civil_subtotal_eur   = 171669045
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 60000000
-stations_eur         = 55200000
+stations_usd         = 105500000
+stations_eur         = 97060000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 40351880
 depots_eur           = 37123730
@@ -544,13 +565,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1049029
 signalling_eur       = 965106
-charging_microgrid_usd = 4100000
-charging_microgrid_eur = 3772000
+charging_microgrid_usd = 4350000
+charging_microgrid_eur = 4002000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 21620039
-epc_overhead_eur     = 19890436
-total_usd            = 330477736  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 304039517  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 25452539
+epc_overhead_eur     = 23416336
+total_usd            = 389060236  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 357935417  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

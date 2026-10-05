@@ -43,6 +43,31 @@ def infill(stations, lines, geometry, grid, mask, maximum_gap_m, minimum_gap_m):
                 additions.append(dict(id=f"{line['name']}-planning-infill-s{round(chainage):06d}",line=line['name'],lat=lat,lon=lon,s_m=round(chainage,1),anchor_kind='planning:infill',anchor_name=f'Planning infill {i}',archetype='standard',platform_length_m=first['platform_length_m']))
     return additions
 
+def transfer_groups(stations, previous, civil):
+    """Retain platforms on their own corridors and identify actual transfer legs."""
+    stations=[dict(s) for s in stations];parent=list(range(len(stations)))
+    def find(i):
+        while parent[i]!=i:i=parent[i]
+        return i
+    def union(i,j):parent[find(j)]=find(i)
+    for i,first in enumerate(stations):
+        for j,second in enumerate(stations[:i]):
+            if first['line']==second['line']:continue
+            lat1,lat2=map(math.radians,[first['lat'],second['lat']]);dl=math.radians(first['lon']-second['lon'])
+            distance=6371000*2*math.asin(min(1,math.sqrt(math.sin((lat1-lat2)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin(dl/2)**2)))
+            if distance<=600 or first.get('junction_group') is not None and first.get('junction_group')==second.get('junction_group'):union(i,j)
+    components={}
+    for i,s in enumerate(stations):components.setdefault(find(i),[]).append(s)
+    existing={g['junction_group']:g for g in previous};next_id=max(existing,default=-1)+1;groups=[]
+    for members in components.values():
+        if len({s['line'] for s in members})<2:continue
+        old={s['junction_group'] for s in members if 'junction_group' in s};group=min(old) if old else next_id
+        if not old:next_id+=1
+        elevated=any(c['line']==s['line'] and c['from_station_m']<=s['s_m']<=c['to_station_m'] and c['class']=='elevated' for s in members for c in civil)
+        for station in members:station.update(junction_group=group,archetype='interchange-elevated' if elevated else 'interchange')
+        groups.append(dict(id=existing.get(group,{}).get('id',f'interchange-{group:03d}'),junction_group=group,lat=math.fsum(s['lat'] for s in members)/len(members),lon=math.fsum(s['lon'] for s in members)/len(members),lines=sorted({s['line'] for s in members}),platforms=sorted(s['id'] for s in members)))
+    return stations,sorted(groups,key=lambda g:g['junction_group'])
+
 def apply(path):
     policy_path=path.with_name('station-infill-policy.toml')
     if not policy_path.exists():return False
@@ -55,26 +80,41 @@ def apply(path):
     existing=[s for s in d['stations'] if s.get('anchor_kind')=='planning:infill']
     if existing:
         expected=infill([s for s in d['stations'] if s.get('anchor_kind')!='planning:infill'],d['lines'],geometry,json.loads(grid_path.read_text()),gzip.decompress(mask_path.read_bytes()),policy['maximum_gap_m'],policy['minimum_gap_m'])
-        if sorted(existing,key=lambda s:s['id'])!=sorted(expected,key=lambda s:s['id']):raise ValueError('Planning infill differs from controlled corridor/policy')
+        fields=('id','line','lat','lon','s_m','anchor_kind','anchor_name','platform_length_m')
+        if [{k:v[k] for k in fields} for v in sorted(existing,key=lambda s:s['id'])]!=[{k:v[k] for k in fields} for v in sorted(expected,key=lambda s:s['id'])]:raise ValueError('Planning infill differs from controlled corridor/policy')
     capex_path=ROOT/'lib/templates/capex-costs.toml';capex=tomllib.loads(capex_path.read_text())
-    if additions:
-        all_stations=sorted(d['stations']+additions,key=lambda s:(s['line'],s['s_m'],s['id']))
+    all_stations=sorted(d['stations']+additions,key=lambda s:(s['line'],s['s_m'],s['id']))
+    all_stations,interchanges=transfer_groups(all_stations,d.get('interchanges',[]),d['civil_segments'])
+    if additions or all_stations!=d['stations'] or interchanges!=d.get('interchanges',[]):
         blocks='\n'.join('[[stations]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in station.items()) for station in all_stations)+'\n'
+        blocks+='\n'.join('[[interchanges]]\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in group.items()) for group in interchanges)+'\n'
         text=re.sub(r'(?ms)^\[\[stations\]\].*?(?=^# \[\[depots\]\]|^\[\[depots\]\])',lambda _:blocks,text,count=1)
         station_cost=round(sum(capex['station_unit_usd'][s['archetype']] for s in all_stations))
         charging=round(sum(capex['charging_microgrid_unit_usd'][s['archetype']] for s in all_stations)*d['costs']['technology_basis']['station_charging_cabinet_count'])
-        net=d['costs']['total_usd']-d['costs']['epc_overhead_usd']-d['costs']['stations_usd']-d['costs']['charging_microgrid_usd']+station_cost+charging
+        elevated_groups=sum(any(s['junction_group']==g['junction_group'] and s['archetype']=='interchange-elevated' for s in all_stations if 'junction_group' in s) for g in interchanges)
+        premium=round(elevated_groups*capex['junctions']['elevated_interchange_premium_usd'])
+        net=d['costs']['total_usd']-d['costs']['epc_overhead_usd']-d['costs']['stations_usd']-d['costs']['charging_microgrid_usd']-d['costs']['junction_premium_usd']+station_cost+charging+premium
         epc=round(net*capex['overhead']['epc_fraction'])
-        for key,value in [('stations_usd',station_cost),('charging_microgrid_usd',charging),('epc_overhead_usd',epc),('total_usd',round(net+epc))]:
+        for key,value in [('stations_usd',station_cost),('charging_microgrid_usd',charging),('junction_premium_usd',premium),('civil_subtotal_usd',round(d['costs']['civil_subtotal_usd']-d['costs']['junction_premium_usd']+premium)),('epc_overhead_usd',epc),('total_usd',round(net+epc))]:
             for name,amount in [(key,value),(key.replace('_usd','_eur'),round(value*capex['schema']['usd_to_eur']))]:
                 text,n=re.subn(r'^('+name+r'\s*=\s*)[^\s#]+',lambda m:m[1]+str(amount),text,count=1,flags=re.M)
                 if n!=1:raise ValueError('Missing priced infill field '+name)
         current=tomllib.loads(text)
-        for key in d.keys()-{'stations','costs'}:
+        for key in d.keys()-{'stations','costs','interchanges'}:
             if current[key]!=d[key]:raise ValueError('Infill changed another controlled inventory: '+key)
         path.write_text(text);d=current
-        points_path=city/(slug+'.stations.json');points=json.loads(points_path.read_text());points.extend({k:v for k,v in a.items() if k not in {'archetype','platform_length_m'}}|{'demand':0.0,'demand_basis':'Uncalibrated planning infill; no observed ridership claimed'} for a in additions)
-        points.sort(key=lambda s:(s['line'],s['s_m'],s['id']));points_path.write_text(json.dumps(points,indent=2)+'\n')
+    points_path=city/(slug+'.stations.json');points=json.loads(points_path.read_text());by_id={s['id']:s for s in points}
+    for station in d['stations']:
+        fields={k:v for k,v in station.items() if k not in {'archetype','platform_length_m'}}
+        if station['id'] in by_id:by_id[station['id']].update(fields)
+        else:by_id[station['id']]={**fields,'demand':0.0,'demand_basis':'Uncalibrated planning infill; no observed ridership claimed'}
+    points=sorted(by_id.values(),key=lambda s:(s['line'],s['s_m'],s['id']));points_path.write_text(json.dumps(points,indent=2)+'\n')
+    quality_path=city/(slug+'.design-quality.yaml')
+    if quality_path.exists():
+        quality=quality_path.read_text();hit=sum(bool(s.get('anchor_kind')) and s.get('anchor_kind')!='planning:infill' for s in d['stations'])/len(d['stations'])
+        quality=re.sub(r'(n_stations:\s*)\d+',lambda m:m[1]+str(len(d['stations'])),quality)
+        quality=re.sub(r'(anchor_hit_rate:\s*)[\d.]+',lambda m:m[1]+f'{hit:.3f}',quality)
+        quality_path.write_text(quality)
     report=dict(city=slug,physical_release=False,policy=policy,planning_infill_stations=[s for s in d['stations'] if s.get('anchor_kind')=='planning:infill'],sources_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [path,policy_path,corridor,grid_path,mask_path,capex_path,Path(__file__)]},limitations=['Planning point locations only; footprints, land, structure, utilities, access and ridership require independent project evidence.','Existing fleet is retained conservatively; complete nominal/degraded service and current energy, depot and finance regeneration remain required.'])
     (out/'station-infill.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
     return bool(additions)
