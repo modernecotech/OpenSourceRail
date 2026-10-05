@@ -94,9 +94,10 @@ while True: time.sleep(0.05)
             status = Path(f'/proc/{pid}/stat')
             try:
                 process_state = status.read_text().split()[2]
-            except FileNotFoundError:
+            except (FileNotFoundError, ProcessLookupError):
                 # Process exit can race the procfs read; disappearance is the
-                # successful outcome this assertion is waiting for.
+                # successful outcome this assertion is waiting for. Linux can
+                # also return ESRCH after /proc/stat was successfully opened.
                 break
             if process_state == 'Z':
                 break

@@ -872,22 +872,52 @@ def _city_brief_flowables(
     include_images: bool,
 ) -> list:
     rel = model.path.relative_to(REPO_ROOT).as_posix()
+    publication = next((entry for entry in tomllib.loads((REPO_ROOT/'lib/templates/city-publication.toml').read_text())['city']
+                        if entry['directory'] == rel), None)
     rows = [
         ["Metric", "Value"],
         ["Path", rel],
-        ["ISO / population", f"{model.iso} / {model.population:,}"],
+        ["Recorded ISO / planning population", f"{model.iso} / {model.population:,}"],
         ["Family", model.family],
         ["Lines / stations", f"{model.lines} / {model.stations}"],
         ["Route length", f"{model.route_km:.1f} km"],
         ["Fleet", f"{model.fleet} trainsets"],
-        ["High-demand coverage", f"{model.coverage:.0%}"],
-        ["City CAPEX incl. dedicated solar", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km); shared national factory excluded"],
+        ["Routing-demand cells (legacy)", f"{model.coverage:.0%}; not population access"],
+        ["Original catalogue city CAPEX" if publication else "City CAPEX incl. dedicated solar", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km); shared national factory excluded"],
     ]
+    access_path = model.path / "engineering/access/summary.json"
+    if access_path.is_file():
+        access = json.loads(access_path.read_text())
+        for relative, digest in access['sources_sha256'].items():
+            if hashlib.sha256((REPO_ROOT/relative).read_bytes()).hexdigest() != digest:
+                raise ValueError('Stale reader population/transfer evidence: '+relative)
+        catchment = next((row for row in access['population']['catchments'] if row['radius_m'] == 800), None)
+        rows.append(["Residents within 800 m station circles",
+                     f"{catchment['covered_population_2020']:,.0f} (2020; {catchment['fraction_of_raster_population']:.1%} of raster bbox)"
+                     if catchment and catchment['fraction_of_raster_population'] is not None else "Unavailable native population evidence"])
+        transfers = access['transfers']
+        percentage = lambda value: f'{value:.1%}' if value is not None else 'unavailable'
+        rows.append(["Direct / reachable line pairs", percentage(transfers['direct_transfer_fraction'])+' / '+percentage(transfers['reachable_line_pair_fraction'])])
+        for finding in access.get('input_findings', []):
+            rows.append(["Input discrepancy", finding['finding']])
+    else:
+        rows.append(["Population and transfers", "Unavailable audited evidence; no routing-score resident proxy"])
+    if publication:
+        study = model.path/publication['study']
+        case_name = publication['case']+'.json'
+        case_raw = (study/case_name).read_bytes()
+        expected = json.loads((study/'summary.json').read_text())['outputs_sha256'][case_name]
+        if hashlib.sha256(case_raw).hexdigest() != expected:
+            raise ValueError('Stale reader programme case: '+str(study/case_name))
+        current = json.loads(case_raw)
+        rows.append(["Current conditional programme: "+publication['case'], _usd(current['metrics']['total_capital_usd'])+' including final assembly/component plants; unpriced scope and funding gaps remain'])
     flows: list = [
         Paragraph(html.escape(f"Generated City Model - {model.name}"), styles["h2"]),
         Paragraph(html.escape(f"{model.region} / {model.country_name} / {model.city_dir}"), styles["small"]),
         _simple_table(rows, styles, page_width, header=True),
         Spacer(1, 5),
+        Paragraph("Native station-circle populations are historical radial access, not verified walksheds or paid-trip estimates. Reachability includes intermediate lines; physical interchange access and timetable acceptance remain open.", styles["small"]),
+        Paragraph(f'City evidence: <link href="{REPOSITORY_BLOB_URL}/{quote(rel + "/engineering/access/README.md", safe="/")}">population and transfers</link> · <link href="{REPOSITORY_BLOB_URL}/{quote(rel + "/engineering/clearance/README.md", safe="/")}">building, support and terrain clearance</link>.', styles["small"]),
     ]
     if include_images and model.map_path:
         image_token = {"attrs": {"url": model.map_path.name}, "children": [{"type": "text", "raw": f"{model.name} network map"}]}
