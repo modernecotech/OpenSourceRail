@@ -49,16 +49,16 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | beira light-metro-3car structural assembly | unknown | 41 | 584 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
 | beira trainset acceptance bays | unknown | 21 | 659 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
 | beira trainset kitting | unknown | 6 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
-| corridor civil crew | 2 | 2 | 478 | 252 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 468 | 247 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 467 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
 | energy crew | unknown | 2 | 536 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
 | station civil crew | unknown | 2 | 532 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
 | station systems crew | unknown | 2 | 566 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 549 | 204 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track crew | 2 | 2 | 517 | 201 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
 | track/switch crew | unknown | 2 | 552 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
-| wayside bench | unknown | 3 | 570 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
-| wayside systems crew | unknown | 3 | 590 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
+| wayside bench | unknown | 3 | 569 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
+| wayside systems crew | unknown | 3 | 594 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
 
 ## Civil and mechanical refinements
 
@@ -76,11 +76,12 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 4873.4–10964.8 m | 100.0 | 1220 | 183 | 8.0 / 10.0 / 12.0 |
 | line-2 0.0–2443.1 m | 100.0 | 492 | 73 | 8.0 / 10.0 / 12.0 |
 | line-2 2491.4–9812.3 m | 100.0 | 1468 | 219 | 8.0 / 10.0 / 12.0 |
+| line-3 5570.7–6706.7 m | 100.0 | 232 | 34 | 8.0 / 10.0 / 12.0 |
 | line-3 8326.9–14973.0 m | 100.0 | 1332 | 199 | 8.0 / 10.0 / 12.0 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 91, "fine-soil-plasticity-and-shrink-swell-tests": 91, "granular-density-and-groundwater-tests": 91}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 96, "fine-soil-plasticity-and-shrink-swell-tests": 96, "granular-density-and-groundwater-tests": 96}.
 
 ## Joints, paints, finishes and cleaning
 

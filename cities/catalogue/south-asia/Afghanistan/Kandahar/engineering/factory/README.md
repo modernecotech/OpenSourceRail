@@ -1,14 +1,14 @@
 # Kandahar city-order factory requirement
 
-**129 light-metro-3car trainsets / 387 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**130 light-metro-3car trainsets / 390 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 367.6 trainsets/year, 4 separate test paths, 889 direct production FTE. Plant reference envelope: **USD 409.023m**.
+Planning output: 369.5 trainsets/year, 4 separate test paths, 908 direct production FTE. Plant reference envelope: **USD 417.053m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 52 | 606 | 696 | 696 |
+| line-1 | 53 | 606 | 696 | 696 |
 | line-2 | 43 | 636 | 726 | 726 |
 | line-3 | 34 | 660 | 750 | 750 |
 

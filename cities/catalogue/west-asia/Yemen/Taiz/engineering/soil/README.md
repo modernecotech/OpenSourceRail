@@ -27,7 +27,7 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 |---|---|---|---:|---:|---:|
 | 0..30cm | clay | % | 22–32 | 8–46 | 73 |
 | 0..30cm | sand | % | 36–58 | 16–81 | 73 |
-| 0..30cm | silt | % | 20–32 | 7–44 | 73 |
+| 0..30cm | silt | % | 20–32 | 6–44 | 73 |
 | 0..30cm | bd.core | kg/m3 | 1270–1480 | 1100–1670 | 73 |
 | 0..30cm | soc | g/kg | 4.7–19 | 2.6–35.7 | 73 |
 | 0..30cm | ph.h2o | pH | 7.1–8.2 | 5.9–8.8 | 73 |
@@ -36,10 +36,10 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 | 30..60cm | silt | % | 20–31 | 4–45 | 73 |
 | 30..60cm | bd.core | kg/m3 | 1310–1500 | 1090–1690 | 73 |
 | 30..60cm | soc | g/kg | 3.3–8.2 | 1.3–17.5 | 73 |
-| 30..60cm | ph.h2o | pH | 7.4–8.4 | 6.4–9.2 | 73 |
+| 30..60cm | ph.h2o | pH | 7.4–8.4 | 6.4–9.1 | 73 |
 | 60..100cm | clay | % | 24–35 | 7–48 | 73 |
 | 60..100cm | sand | % | 35–56 | 6–88 | 73 |
-| 60..100cm | silt | % | 20–32 | 4–47 | 73 |
+| 60..100cm | silt | % | 20–32 | 3–47 | 73 |
 | 60..100cm | bd.core | kg/m3 | 1300–1490 | 1000–1730 | 73 |
 | 60..100cm | soc | g/kg | 2.4–5.6 | 0.8–12.8 | 73 |
-| 60..100cm | ph.h2o | pH | 7.4–8.5 | 6.3–9.2 | 73 |
+| 60..100cm | ph.h2o | pH | 7.4–8.5 | 6.3–9.3 | 73 |

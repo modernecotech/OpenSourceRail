@@ -51,12 +51,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 1000.0,
-          "grid_import_kw": 352.518244,
-          "grid_import_limit_kw": 1000.0,
+          "grid_export_limit_kw": 1200.0,
+          "grid_import_kw": 352.435755,
+          "grid_import_limit_kw": 1200.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-1-0632-0761-s006523"
+          "station": "line-1-0655-0660-s004313"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -91,12 +91,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 1000.0,
-          "grid_import_kw": 352.518244,
-          "grid_import_limit_kw": 1000.0,
+          "grid_export_limit_kw": 1200.0,
+          "grid_import_kw": 352.435755,
+          "grid_import_limit_kw": 1200.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-2-0663-0648-s014464"
+          "station": "line-2-0655-0660-s014793"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -142,7 +142,7 @@
       "undervoltage_bus_count": 0
     },
     "peak_charge_grid_only": {
-      "connection_limit_exceedance_count": 4,
+      "connection_limit_exceedance_count": 2,
       "converged": true,
       "maximum_bus_voltage_pu": 1.0,
       "maximum_transformer_loading_percent": 82.822,
@@ -174,12 +174,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 1000.0,
-          "grid_import_kw": 1058.303932,
-          "grid_import_limit_kw": 1000.0,
-          "import_exceedance_kw": 58.303932,
-          "passed": false,
-          "station": "line-1-0632-0761-s006523"
+          "grid_export_limit_kw": 1200.0,
+          "grid_import_kw": 1057.533945,
+          "grid_import_limit_kw": 1200.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0655-0660-s004313"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -214,12 +214,12 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 1000.0,
-          "grid_import_kw": 1058.303932,
-          "grid_import_limit_kw": 1000.0,
-          "import_exceedance_kw": 58.303932,
-          "passed": false,
-          "station": "line-2-0663-0648-s014464"
+          "grid_export_limit_kw": 1200.0,
+          "grid_import_kw": 1057.533945,
+          "grid_import_limit_kw": 1200.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0655-0660-s014793"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -294,31 +294,7 @@
       "grid_import_limit_kw": 1000.0,
       "import_exceedance_kw": 58.303932,
       "passed": false,
-      "station": "line-1-0632-0761-s006523"
-    },
-    {
-      "case": "peak_charge_grid_only",
-      "code": "site-grid-connection-limit-exceeded",
-      "export_exceedance_kw": 0.0,
-      "grid_export_kw": 0.0,
-      "grid_export_limit_kw": 1000.0,
-      "grid_import_kw": 1058.303932,
-      "grid_import_limit_kw": 1000.0,
-      "import_exceedance_kw": 58.303932,
-      "passed": false,
       "station": "line-2-0753-0512-s010810"
-    },
-    {
-      "case": "peak_charge_grid_only",
-      "code": "site-grid-connection-limit-exceeded",
-      "export_exceedance_kw": 0.0,
-      "grid_export_kw": 0.0,
-      "grid_export_limit_kw": 1000.0,
-      "grid_import_kw": 1058.303932,
-      "grid_import_limit_kw": 1000.0,
-      "import_exceedance_kw": 58.303932,
-      "passed": false,
-      "station": "line-2-0663-0648-s014464"
     }
   ],
   "deployment_release_ready": false,
@@ -326,9 +302,9 @@
   "derated_planning_specific_yield_kwh_per_kwp": 768.7,
   "design_findings": [],
   "design_input": "cities/catalogue/west-asia/Egypt/Mahalla/design.toml",
-  "design_sha256": "46751ecea2ddfd3a10b959daea83c349f1439227b62300e3083e62cb959181c5",
+  "design_sha256": "3964081346d4cd1a9fb475f35daf7ce3fe6ba6d798a9b9dda605284028611f3d",
   "generator_sha256": "c4c8bc6912aab0790c5d682b275afa27369166fd0a5093f55fe61c55adcf50ac",
-  "grid_import_capacity_kw": 28000.0,
+  "grid_import_capacity_kw": 28400.0,
   "limitations": [
     "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
     "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
@@ -341,7 +317,7 @@
   "scenario_ambient_c": 28.0,
   "scenario_input": "cities/catalogue/west-asia/Egypt/Mahalla/mahalla.toml",
   "scenario_peak_sun_hours": 6.0,
-  "scenario_sha256": "b3f6f0d25b3a8aa51cf37af7993ac4950d081897b9bf63b9efc367a479361812",
+  "scenario_sha256": "17cd897ed6b72b0d7d9eb9eea1c902f70fb5ea03de7846aa7e77494f7a1070f5",
   "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
   "site_count": 11,
   "solver_passed": true,

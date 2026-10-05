@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`asyut-line1.aln.toml`](asyut-line1.aln.toml) | `line-1` | 7,048.9 m | 4 |
 | [`asyut-line2.aln.toml`](asyut-line2.aln.toml) | `line-2` | 17,867.8 m | 5 |
-| [`asyut-line3.aln.toml`](asyut-line3.aln.toml) | `line-3` | 20,961.3 m | 6 |
+| [`asyut-line3.aln.toml`](asyut-line3.aln.toml) | `line-3` | 21,053.0 m | 6 |
 
 ## Status
 

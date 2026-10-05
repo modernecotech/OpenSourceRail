@@ -27,18 +27,18 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 | Depth | Property | Unit | Mean range | Uncertainty envelope | Available locations |
 |---|---|---|---:|---:|---:|
 | 0..30cm | clay | % | 24–34 | 8–46 | 48 |
-| 0..30cm | sand | % | 44–63 | 18–87 | 48 |
+| 0..30cm | sand | % | 44–62 | 18–87 | 48 |
 | 0..30cm | silt | % | 13–23 | 0–39 | 48 |
 | 0..30cm | bd.core | kg/m3 | 1230–1320 | 960–1520 | 48 |
 | 0..30cm | soc | g/kg | 8.9–14.1 | 3.8–22.7 | 48 |
 | 0..30cm | ph.h2o | pH | 5.2–5.4 | 4.4–6.1 | 48 |
 | 30..60cm | clay | % | 25–36 | 9–48 | 48 |
 | 30..60cm | sand | % | 42–62 | 13–85 | 48 |
-| 30..60cm | silt | % | 12–24 | 0–45 | 48 |
+| 30..60cm | silt | % | 13–24 | 0–45 | 48 |
 | 30..60cm | bd.core | kg/m3 | 1210–1340 | 830–1600 | 48 |
 | 30..60cm | soc | g/kg | 4.4–6.5 | 1.8–15 | 48 |
 | 30..60cm | ph.h2o | pH | 5.1–5.3 | 4.5–6.2 | 48 |
-| 60..100cm | clay | % | 25–36 | 8–48 | 48 |
+| 60..100cm | clay | % | 25–36 | 9–48 | 48 |
 | 60..100cm | sand | % | 41–62 | 14–86 | 48 |
 | 60..100cm | silt | % | 12–24 | 0–45 | 48 |
 | 60..100cm | bd.core | kg/m3 | 1260–1360 | 970–1630 | 48 |

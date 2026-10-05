@@ -8,9 +8,9 @@ Rental income is a conditional addition to the existing station-development **sa
 
 ## Geometry, eligibility and pilot
 
-The controlled design has 497 elevated civil segments totalling 260.1474 km, with median length 48 m. Each [register entry](commercial-space-register.json) carries its civil index, line/chainage, planning coordinates, existing parent track assets and nearest station. 0 segments lack a materialised parent track link and need asset-register reconciliation; no ID is invented. Coordinates interpolate the corridor and **are not surveyed footprints**. Clear height, frontage, ownership, title, utilities, permitted use and street/rail access remain null or unaccepted.
+The controlled design has 492 elevated civil segments totalling 264.7207 km, with median length 48 m. Each [register entry](commercial-space-register.json) carries its civil index, line/chainage, planning coordinates, existing parent track assets and nearest station. 3 segments lack a materialised parent track link and need asset-register reconciliation; no ID is invented. Coordinates interpolate the corridor and **are not surveyed footprints**. Clear height, frontage, ownership, title, utilities, permitted use and street/rail access remain null or unaccepted.
 
-The reference screen excludes segments shorter than 75 m, reserves 10 m at each approach and counts complete 25 m planning bays. Each bay tests three independent 30 m² internal units, with 2 m protected support-end inspection zones and 1.2 m independent access. It suggests **873,810 m²**, before unknown road crossings, utility space, pier positions, access, ownership, flooding, station-sale overlap and fire exclusions. **Confirmed eligible area is zero.** Elevation alone never grants eligibility. Pier height is not usable clear height beneath a cap/deck.
+The reference screen excludes segments shorter than 75 m, reserves 10 m at each approach and counts complete 25 m planning bays. Each bay tests three independent 30 m² internal units, with 2 m protected support-end inspection zones and 1.2 m independent access. It suggests **891,450 m²**, before unknown road crossings, utility space, pier positions, access, ownership, flooding, station-sale overlap and fire exclusions. **Confirmed eligible area is zero.** Elevation alone never grants eligibility. Pier height is not usable clear height beneath a cap/deck.
 
 The 200,000 m² illustration exceeds this screen by 0 m² and is **unmapped-area-blocked**, with no lease receipts in executable integrated cases. It requires a different surveyed footprint/reference layout; there is no automatic widening of a viaduct. Small/medium models allocate assumed area against identified civil segments and phase construction by their infrastructure dates. These are conditional surveys-to-test, not valuations. [Thirty draft pilot units](pilot-digital-twin.json) use one long candidate selected by station-chainage proximity and bay count, without a claim of commercial desirability. Market-test 20–50 units through comparable IQD rents, tenant interest, permissions and costed fit-outs before expansion. No external contact has been made.
 
@@ -32,10 +32,10 @@ These illustrations deduct 25% of occupied receipts and exclude capital, financi
 
 | Executable rental scenario | Status | Fit-out capital USD m eq | First conditional cash month | Resource NPV before tax USD m eq | Standalone after-tax NPV USD m eq |
 | --- | --- | --- | --- | --- | --- |
-| small | conditional-unverified-retained-portfolio | 33.646 | 43 | -5.624 | -6.989 |
-| medium | conditional-unverified-retained-portfolio | 87.523 | 43 | 19.166 | 11.924 |
-| large | conditional-unverified-retained-portfolio | 180.062 | 43 | 98.180 | 75.736 |
-| medium_downside | conditional-unverified-retained-portfolio | 87.523 | 55 | -38.539 | -39.058 |
+| small | conditional-unverified-retained-portfolio | 36.428 | 43 | -4.954 | -6.079 |
+| medium | conditional-unverified-retained-portfolio | 88.697 | 43 | 18.694 | 11.665 |
+| large | conditional-unverified-retained-portfolio | 171.832 | 43 | 105.246 | 81.147 |
+| medium_downside | conditional-unverified-retained-portfolio | 88.697 | 55 | -37.748 | -38.256 |
 
 Monthly ledgers phase fit-outs after the corresponding infrastructure-completion month and delay tenant handover until railway opening or fit-out completion, whichever is later. Six-month enclosures, three initial rent-free months and an 18-month occupancy ramp precede steady receipts. The last fractional module is constructed in full; spare floor area receives no rent. Rent and OPEX escalate 5% from financial close, and unquoted capital escalates 5% to each invoice. The downside uses rent USD 9/m², 55% target occupancy, 12 extra months of vacancy, a 36-month ramp, 8% arrears and 7% OPEX inflation.
 

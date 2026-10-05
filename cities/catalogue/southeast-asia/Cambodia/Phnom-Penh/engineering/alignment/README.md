@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`phnom-penh-line1.aln.toml`](phnom-penh-line1.aln.toml) | `line-1` | 27,764.3 m | 9 |
-| [`phnom-penh-line2.aln.toml`](phnom-penh-line2.aln.toml) | `line-2` | 25,845.8 m | 10 |
-| [`phnom-penh-line3.aln.toml`](phnom-penh-line3.aln.toml) | `line-3` | 36,640.0 m | 11 |
-| [`phnom-penh-line4.aln.toml`](phnom-penh-line4.aln.toml) | `line-4` | 27,718.9 m | 10 |
-| [`phnom-penh-line5.aln.toml`](phnom-penh-line5.aln.toml) | `line-5` | 29,400.7 m | 10 |
-| [`phnom-penh-line6.aln.toml`](phnom-penh-line6.aln.toml) | `line-6` | 63,439.3 m | 16 |
+| [`phnom-penh-line1.aln.toml`](phnom-penh-line1.aln.toml) | `line-1` | 27,274.6 m | 11 |
+| [`phnom-penh-line2.aln.toml`](phnom-penh-line2.aln.toml) | `line-2` | 26,298.3 m | 11 |
+| [`phnom-penh-line3.aln.toml`](phnom-penh-line3.aln.toml) | `line-3` | 55,050.0 m | 33 |
+| [`phnom-penh-line4.aln.toml`](phnom-penh-line4.aln.toml) | `line-4` | 36,880.1 m | 24 |
+| [`phnom-penh-line5.aln.toml`](phnom-penh-line5.aln.toml) | `line-5` | 34,703.0 m | 15 |
+| [`phnom-penh-line6.aln.toml`](phnom-penh-line6.aln.toml) | `line-6` | 64,519.0 m | 24 |
 
 ## Status
 

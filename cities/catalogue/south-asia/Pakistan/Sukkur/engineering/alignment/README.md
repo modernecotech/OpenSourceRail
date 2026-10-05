@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sukkur-line1.aln.toml`](sukkur-line1.aln.toml) | `line-1` | 20,751.8 m | 8 |
-| [`sukkur-line2.aln.toml`](sukkur-line2.aln.toml) | `line-2` | 8,927.5 m | 3 |
-| [`sukkur-line3.aln.toml`](sukkur-line3.aln.toml) | `line-3` | 8,380.9 m | 3 |
+| [`sukkur-line1.aln.toml`](sukkur-line1.aln.toml) | `line-1` | 20,751.8 m | 9 |
+| [`sukkur-line2.aln.toml`](sukkur-line2.aln.toml) | `line-2` | 8,927.5 m | 4 |
+| [`sukkur-line3.aln.toml`](sukkur-line3.aln.toml) | `line-3` | 9,100.9 m | 7 |
 
 ## Status
 

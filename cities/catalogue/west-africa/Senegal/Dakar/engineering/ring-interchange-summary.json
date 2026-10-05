@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "dakar"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "dakar",
-      "corridor_sha256": "3e986bab835dd9e77a517e1799302087c1414b9d89147b653b85ef8f6eee9787",
-      "design_sha256": "0face20436ccb499128c278bf2d8a0100b103c11bbc3661d24d1057facc4b166",
-      "failures": [
+      "corridor_sha256": "b4fcc245a6fe14061d4377d9234d3b66f7362c0647078b1d6abd5daa57f8f667",
+      "design_sha256": "44d5233505abd056fc6132a399c1537f2c8665869caf11b83b2895f26f3eb4e3",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 5,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "e3bc2e72d7e1b058214d8e690a7a026f8525fb87632c65fd7e8a157b5f2e7fc0",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1153.9,
+          "physical_release": false,
           "radial": "line-5",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 5,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

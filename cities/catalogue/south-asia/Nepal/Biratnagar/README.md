@@ -5,11 +5,11 @@
 This page contains only Biratnagar-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$825 M (90.1%) of external capital** and **$1.03 bn of external interest**. Capital plus saved interest totals **$1.86 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$836 M (90.1%) of external capital** and **$1.05 bn of external interest**. Capital plus saved interest totals **$1.88 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **26.684 km to 19.194 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **26.684 km to 20.217 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**3 line-local depots** provide **53 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **53 tram-2car trainsets / 106 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**3 line-local depots** provide **55 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **55 tram-2car trainsets / 110 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -26,7 +26,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Coverage / transfer reachability | 57.5% / 33% |
 | Estimated station catchment | 172,500 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 53 × 2-car `tram-2car` trainsets (46 peak revenue) |
+| Fleet | 55 × 2-car `tram-2car` trainsets (48 peak revenue) |
 | Peak network throughput | 28,800 passengers/hour |
 | Practical service capacity | 267,840 passenger-trips/day |
 | Annual paid-trip planning range | 48.9–78.2 M |
@@ -35,10 +35,10 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 12.0 km | 6 | 25 | S Outer ↔ N Outer |
+| line-1 | 12.0 km | 5 | 25 | S Outer ↔ N Outer |
 | line-2 |  4.3 km | 2 | 10 | SE Outer ↔ E Mid |
-| line-3 |  9.0 km | 3 | 18 | W Outer ↔ NE Mid |
-| **Total** | **25.3 km** | **11 unique** | **53** | |
+| line-3 |  9.0 km | 4 | 20 | W Outer ↔ NE Mid |
+| **Total** | **25.3 km** | **11 unique** | **55** | |
 
 ## Energy
 
@@ -50,32 +50,32 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Aggregate charging power | 5.5 MW |
 | Dedicated solar plant | 4.4 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-3: 4.5 km / 23 kWh |
-| Lowest traversal charging margin | line-3: 24 kWh |
+| Worst powered-stop gap | line-2: 4.3 km / 21 kWh |
+| Lowest traversal charging margin | line-2: 26 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $351 M |
-| Stations | $48 M |
+| Stations | $53 M |
 | Depots | $41 M |
-| Rolling stock | $30 M |
+| Rolling stock | $31 M |
 | Dedicated solar plant | $3.5 M |
 | Residual train control | $1.3 M |
 | Charging microgrids | $1.2 M |
-| EPC / project services | $33 M |
-| **Total city programme** | **$509 M** |
+| EPC / project services | $34 M |
+| **Total city programme** | **$516 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $91 M (17.8%) |
-| Domestic / local capital | $418 M (82.2%) |
-| Annual public construction commitment | $41 M / yr for 7 years |
+| Imported / external capital | $92 M (17.9%) |
+| Domestic / local capital | $424 M (82.1%) |
+| Annual public construction commitment | $42 M / yr for 7 years |
 | Annual post-grace debt service | $33 M / yr |
-| External capital saved vs default turnkey sensitivity | $825 M |
-| Capital + lifetime external interest saved | $1.86 bn |
-| Annual OPEX | $11 M / yr |
+| External capital saved vs default turnkey sensitivity | $836 M |
+| Capital + lifetime external interest saved | $1.88 bn |
+| Annual OPEX | $12 M / yr |
 
 ## Local Evidence
 
@@ -86,8 +86,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 3 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 123 assets / 674 tasks | [`biratnagar-operations-manifest.json`](operations/biratnagar-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 2 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 126 assets / 693 tasks | [`biratnagar-operations-manifest.json`](operations/biratnagar-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

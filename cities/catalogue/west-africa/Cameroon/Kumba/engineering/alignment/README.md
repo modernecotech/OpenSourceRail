@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kumba-line1.aln.toml`](kumba-line1.aln.toml) | `line-1` | 16,432.4 m | 5 |
+| [`kumba-line1.aln.toml`](kumba-line1.aln.toml) | `line-1` | 16,646.3 m | 6 |
 | [`kumba-line2.aln.toml`](kumba-line2.aln.toml) | `line-2` | 11,017.8 m | 5 |
-| [`kumba-line3.aln.toml`](kumba-line3.aln.toml) | `line-3` | 8,138.0 m | 4 |
+| [`kumba-line3.aln.toml`](kumba-line3.aln.toml) | `line-3` | 8,138.0 m | 5 |
 
 ## Status
 

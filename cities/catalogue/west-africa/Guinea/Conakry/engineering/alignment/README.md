@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`conakry-line1.aln.toml`](conakry-line1.aln.toml) | `line-1` | 25,183.2 m | 8 |
-| [`conakry-line2.aln.toml`](conakry-line2.aln.toml) | `line-2` | 16,962.7 m | 7 |
+| [`conakry-line1.aln.toml`](conakry-line1.aln.toml) | `line-1` | 26,252.7 m | 8 |
+| [`conakry-line2.aln.toml`](conakry-line2.aln.toml) | `line-2` | 18,001.6 m | 7 |
 | [`conakry-line3.aln.toml`](conakry-line3.aln.toml) | `line-3` | 37,424.4 m | 13 |
 
 ## Status

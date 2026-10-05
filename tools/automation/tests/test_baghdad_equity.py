@@ -3,6 +3,7 @@ from copy import deepcopy
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 import sys
 import tomllib
@@ -10,7 +11,7 @@ import pytest
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'tools/automation'))
-from baghdad_equity import CORE, equity_irr, validate, consolidated_inputs, simulate_equity
+from baghdad_equity import CORE, equity_irr, validate, consolidated_inputs, simulate_equity, report_text
 from baghdad_financing_redesign import city_funding_config
 OUT=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/equity'
 
@@ -129,9 +130,13 @@ def test_resource_value_matches_prior_group_and_accounting_non_cash_charges(case
         assert m['core_resource_npv_usd']==pytest.approx(old['appraisal']['consolidated_resource_npv_usd'],abs=.02)
         assert m['resource_npv_after_land_usd']==pytest.approx(old['appraisal']['consolidated_resource_npv_after_land_opportunity_usd'],abs=.02)
     with (OUT/'group-resource-monthly.csv').open() as f:resources=list(csv.DictReader(f))
-    ppe=inventory=0.
+    ppe_changes=[];inventory=0.
     for r,s in zip(cases['primary_1000m']['monthly'],resources):
-        ppe+=sum(float(s[k+'_capital_usd']) for k in ('rail','train','solar','factory'))*1300-r['depreciation_iqd']-r['factory_impairment_iqd']
+        # Independent accumulation avoids losing sub-dinar precision when
+        # hundreds of monthly changes are added to trillion-dinar balances.
+        ppe_changes.extend(float(s[k+'_capital_usd'])*1300 for k in ('rail','train','solar','factory'))
+        ppe_changes.extend((-r['depreciation_iqd'],-r['factory_impairment_iqd']))
+        ppe=math.fsum(ppe_changes)
         inventory+=float(s['property_build_usd'])*1300-r['property_cost_of_sales_iqd']
         assert ppe==pytest.approx(r['closing_ppe_iqd'],abs=.1)
         assert inventory==pytest.approx(r['closing_property_inventory_iqd'],abs=.05)
@@ -156,7 +161,11 @@ def test_tax_accrual_payment_and_dividend_lock(cases):
     assert c['metrics']['corporate_cash_tax_iqd']>cases['aggregate_tax_proxy_1000m']['metrics']['corporate_cash_tax_iqd']
     assert cases['joint_downside_1000m']['metrics']['uncovered_support_iqd']>30e12
     assert cases['joint_downside_1000m']['metrics']['total_dividends_iqd']==0
-    assert c['shareholder_returns']['iraqi_private']['equity_irr']<.05
+    returns=c['shareholder_returns']['iraqi_private']
+    if returns['equity_irr'] is None:
+        assert returns['cash_return_usd']==0
+    else:
+        assert returns['equity_irr']<.05
     assert c['shareholder_returns']['iraqi_private']['equity_npv_at_hurdle_usd']<0
 
 
@@ -165,6 +174,20 @@ def test_irr_is_a_shareholder_cash_metric():
     assert equity_irr([(0,-100),(24,121)])==pytest.approx(.10)
     assert equity_irr([(0,-100),(12,0)]) is None
     assert equity_irr([(0,-100),(12,150),(24,-20)]) is None
+
+
+def test_report_preserves_undefined_returns_and_absent_dividends(cases):
+    candidates=deepcopy(cases)
+    for case in candidates.values():
+        case['metrics']['first_dividend_month']=None
+        case['shareholder_returns']['iraqi_private']['equity_irr']=None
+        case['terminal_cash_sensitivity']['shareholder_returns']['iraqi_private']['equity_irr_with_terminal_cash']=None
+    config=tomllib.loads((ROOT/'lib/templates/baghdad-equity.toml').read_text())
+    text=report_text(candidates,config)
+    assert 'undefined' in text
+    assert 'not reached in the modelled horizon' in text
+    assert 'month None' not in text
+    assert 'roughly 3% nominal return' not in text
 
 
 def test_domestic_vintages_wait_for_full_network_and_delay_keeps_scope(cases):
@@ -184,7 +207,11 @@ def test_legal_and_admission_are_pending_even_when_arithmetic_passes(cases):
     for c in cases.values():
         assert not c['company_incorporated'] and not c['listing_approved'] and not c['financing_committed']
     assert cases['primary_1000m']['metrics']['indicative_article28_threshold_failed_months']>0
-    assert cases['primary_2000m']['metrics']['indicative_article28_threshold_failed_months']==0
+    for name in ('primary_1000m','primary_2000m'):
+        case=cases[name]
+        breaches=[r['month'] for r in case['monthly'] if r['liabilities_iqd']>3*r['shareholder_book_equity_iqd']+.02]
+        assert case['metrics']['indicative_article28_threshold_failed_months']==len(breaches)
+        assert case['metrics']['first_indicative_article28_threshold_failed_month']==(breaches[0] if breaches else None)
     gates=read('listing-gates')
     assert gates['actual_shareholder_count'] is None and gates['accepted_audits']==0
     assert gates['open_source_design_exclusivity_valuation_iqd']==0

@@ -5,9 +5,9 @@
 This page contains only Lahij-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$623 M (89.6%) of external capital** and **$805 M of external interest**. Capital plus saved interest totals **$1.43 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$647 M (89.6%) of external capital** and **$835 M of external interest**. Capital plus saved interest totals **$1.48 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **26.298 km to 19.926 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **13 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **26.298 km to 20.891 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **14 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **54 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **54 tram-2car trainsets / 108 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,9 +21,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 13 / 4 |
+| Lines / unique stations / interchanges | 3 / 14 / 3 |
 | Route length | 23.6 km double track |
-| Coverage / transfer reachability | 64.2% / 33% |
+| Coverage / transfer reachability | 64.2% / 100% |
 | Estimated station catchment | 160,500 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 54 × 2-car `tram-2car` trainsets (48 peak revenue) |
@@ -37,8 +37,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|---:|---:|---|
 | line-1 |  8.2 km | 5 | 19 | S Mid ↔ N Outer |
 | line-2 |  6.2 km | 4 | 15 | N Mid ↔ S Mid |
-| line-3 |  9.2 km | 4 | 20 | SE Outer ↔ NW Mid |
-| **Total** | **23.6 km** | **13 unique** | **54** | |
+| line-3 |  9.2 km | 5 | 20 | SE Outer ↔ N Mid |
+| **Total** | **23.6 km** | **14 unique** | **54** | |
 
 ## Energy
 
@@ -46,35 +46,35 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Scheduled service | 1,395 one-way journeys / 10,970 train-km/day |
 | Annual traction demand | 34.6 GWh |
-| Station/depot PV / storage | 18.0 MW / 125.0 MWh |
-| Aggregate charging power | 6.5 MW |
+| Station/depot PV / storage | 18.3 MW / 125.5 MWh |
+| Aggregate charging power | 7.0 MW |
 | Dedicated solar plant | 0.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
 | Worst powered-stop gap | line-3: 4.2 km / 22 kWh |
-| Lowest traversal charging margin | line-3: 44 kWh |
+| Lowest traversal charging margin | line-2: 45 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $215 M |
-| Stations | $72 M |
+| Stations | $86 M |
 | Depots | $41 M |
 | Rolling stock | $30 M |
 | Residual train control | $1.2 M |
-| Charging microgrids | $1.4 M |
-| EPC / project services | $25 M |
-| **Total city programme** | **$387 M** |
+| Charging microgrids | $1.6 M |
+| EPC / project services | $26 M |
+| **Total city programme** | **$401 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $73 M (18.8%) |
-| Domestic / local capital | $314 M (81.2%) |
-| Annual public construction commitment | $55 M / yr for 10 years |
-| Annual post-grace debt service | $50 M / yr |
-| External capital saved vs default turnkey sensitivity | $623 M |
-| Capital + lifetime external interest saved | $1.43 bn |
-| Annual OPEX | $8.6 M / yr |
+| Imported / external capital | $75 M (18.8%) |
+| Domestic / local capital | $326 M (81.2%) |
+| Annual public construction commitment | $57 M / yr for 10 years |
+| Annual post-grace debt service | $52 M / yr |
+| External capital saved vs default turnkey sensitivity | $647 M |
+| Capital + lifetime external interest saved | $1.48 bn |
+| Annual OPEX | $8.9 M / yr |
 
 ## Local Evidence
 
@@ -85,8 +85,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 2 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 135 assets / 720 tasks | [`lahij-operations-manifest.json`](operations/lahij-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 1 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 140 assets / 738 tasks | [`lahij-operations-manifest.json`](operations/lahij-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

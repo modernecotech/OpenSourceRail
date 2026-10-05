@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ngaoundere-line1.aln.toml`](ngaoundere-line1.aln.toml) | `line-1` | 8,167.9 m | 4 |
+| [`ngaoundere-line1.aln.toml`](ngaoundere-line1.aln.toml) | `line-1` | 8,167.9 m | 5 |
 | [`ngaoundere-line2.aln.toml`](ngaoundere-line2.aln.toml) | `line-2` | 6,725.2 m | 4 |
-| [`ngaoundere-line3.aln.toml`](ngaoundere-line3.aln.toml) | `line-3` | 6,145.2 m | 3 |
+| [`ngaoundere-line3.aln.toml`](ngaoundere-line3.aln.toml) | `line-3` | 6,145.2 m | 4 |
 
 ## Status
 

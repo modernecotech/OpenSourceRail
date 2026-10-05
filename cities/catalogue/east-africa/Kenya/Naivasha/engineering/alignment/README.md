@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`naivasha-line1.aln.toml`](naivasha-line1.aln.toml) | `line-1` | 13,699.6 m | 5 |
-| [`naivasha-line2.aln.toml`](naivasha-line2.aln.toml) | `line-2` | 8,280.5 m | 3 |
-| [`naivasha-line3.aln.toml`](naivasha-line3.aln.toml) | `line-3` | 14,893.8 m | 5 |
+| [`naivasha-line1.aln.toml`](naivasha-line1.aln.toml) | `line-1` | 13,699.6 m | 7 |
+| [`naivasha-line2.aln.toml`](naivasha-line2.aln.toml) | `line-2` | 8,280.5 m | 4 |
+| [`naivasha-line3.aln.toml`](naivasha-line3.aln.toml) | `line-3` | 14,893.8 m | 6 |
 
 ## Status
 

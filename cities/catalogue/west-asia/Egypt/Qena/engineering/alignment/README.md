@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`qena-line1.aln.toml`](qena-line1.aln.toml) | `line-1` | 10,279.1 m | 4 |
-| [`qena-line2.aln.toml`](qena-line2.aln.toml) | `line-2` | 17,943.2 m | 5 |
-| [`qena-line3.aln.toml`](qena-line3.aln.toml) | `line-3` | 13,176.5 m | 3 |
+| [`qena-line1.aln.toml`](qena-line1.aln.toml) | `line-1` | 10,279.1 m | 5 |
+| [`qena-line2.aln.toml`](qena-line2.aln.toml) | `line-2` | 18,371.0 m | 5 |
+| [`qena-line3.aln.toml`](qena-line3.aln.toml) | `line-3` | 13,176.5 m | 4 |
 
 ## Status
 

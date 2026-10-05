@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`khulna-line1.aln.toml`](khulna-line1.aln.toml) | `line-1` | 28,254.7 m | 13 |
-| [`khulna-line2.aln.toml`](khulna-line2.aln.toml) | `line-2` | 27,806.4 m | 8 |
-| [`khulna-line3.aln.toml`](khulna-line3.aln.toml) | `line-3` | 24,096.7 m | 11 |
-| [`khulna-line4.aln.toml`](khulna-line4.aln.toml) | `line-4` | 16,350.5 m | 6 |
-| [`khulna-line5.aln.toml`](khulna-line5.aln.toml) | `line-5` | 24,051.4 m | 8 |
-| [`khulna-line6.aln.toml`](khulna-line6.aln.toml) | `line-6` | 51,975.4 m | 17 |
+| [`khulna-line1.aln.toml`](khulna-line1.aln.toml) | `line-1` | 28,717.9 m | 13 |
+| [`khulna-line2.aln.toml`](khulna-line2.aln.toml) | `line-2` | 32,531.5 m | 16 |
+| [`khulna-line3.aln.toml`](khulna-line3.aln.toml) | `line-3` | 31,572.2 m | 17 |
+| [`khulna-line4.aln.toml`](khulna-line4.aln.toml) | `line-4` | 16,610.2 m | 6 |
+| [`khulna-line5.aln.toml`](khulna-line5.aln.toml) | `line-5` | 24,810.6 m | 14 |
+| [`khulna-line6.aln.toml`](khulna-line6.aln.toml) | `line-6` | 59,182.6 m | 25 |
 
 ## Status
 

@@ -10,22 +10,22 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 228 |
-| Manufacturing schedule rows | 1,056 |
-| Manufacturing material/BOM rows | 16,022 |
-| Manufacturing QA verification rows | 1,056 |
-| Construction QA action rows | 894 |
-| Maintenance handover schedule rows | 1,377 |
-| Manufacturing rows with material refs | 1,056 / 1,056 |
-| Manufacturing rows with verification refs | 1,056 / 1,056 |
-| Manufacturing rows linked to QA actions | 1,056 / 1,056 |
+| Assets in register | 233 |
+| Manufacturing schedule rows | 1,067 |
+| Manufacturing material/BOM rows | 16,073 |
+| Manufacturing QA verification rows | 1,067 |
+| Construction QA action rows | 902 |
+| Maintenance handover schedule rows | 1,395 |
+| Manufacturing rows with material refs | 1,067 / 1,067 |
+| Manufacturing rows with verification refs | 1,067 / 1,067 |
+| Manufacturing rows linked to QA actions | 1,067 / 1,067 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 1,272 |
+| `project_kit` | 1,323 |
 | `rolling_stock_bom` | 13,924 |
 | `rolling_stock_cots_fitout` | 826 |
 
@@ -43,12 +43,12 @@ until detailed civil/station/energy BOMs are added.
 | `qa-12-traction-brake-battery` | 118 |
 | `qa-13-passenger-systems` | 118 |
 | `qa-15-first-article-trainset` | 118 |
-| `qa-20-survey-geotech` | 14 |
-| `qa-21-earthworks-drainage` | 14 |
-| `qa-22-trackform-rail` | 62 |
-| `qa-24-stations-depots-plant` | 40 |
-| `qa-25-power-energy` | 37 |
-| `qa-26-wayside-comms-safety` | 62 |
+| `qa-20-survey-geotech` | 15 |
+| `qa-21-earthworks-drainage` | 15 |
+| `qa-22-trackform-rail` | 63 |
+| `qa-24-stations-depots-plant` | 42 |
+| `qa-25-power-energy` | 39 |
+| `qa-26-wayside-comms-safety` | 66 |
 
 ## Acceptance Control Logic
 

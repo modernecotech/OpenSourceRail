@@ -10,24 +10,24 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 181 |
-| Manufacturing schedule rows | 838 |
-| Manufacturing material/BOM rows | 12,746 |
-| Manufacturing QA verification rows | 838 |
-| Construction QA action rows | 712 |
-| Maintenance handover schedule rows | 1,086 |
-| Manufacturing rows with material refs | 838 / 838 |
-| Manufacturing rows with verification refs | 838 / 838 |
-| Manufacturing rows linked to QA actions | 838 / 838 |
+| Assets in register | 187 |
+| Manufacturing schedule rows | 856 |
+| Manufacturing material/BOM rows | 12,924 |
+| Manufacturing QA verification rows | 856 |
+| Construction QA action rows | 726 |
+| Maintenance handover schedule rows | 1,113 |
+| Manufacturing rows with material refs | 856 / 856 |
+| Manufacturing rows with verification refs | 856 / 856 |
+| Manufacturing rows linked to QA actions | 856 / 856 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 996 |
-| `rolling_stock_bom` | 11,092 |
-| `rolling_stock_cots_fitout` | 658 |
+| `project_kit` | 1,049 |
+| `rolling_stock_bom` | 11,210 |
+| `rolling_stock_cots_fitout` | 665 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -38,17 +38,17 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 282 |
-| `qa-11-bogie-wheelset` | 94 |
-| `qa-12-traction-brake-battery` | 94 |
-| `qa-13-passenger-systems` | 94 |
-| `qa-15-first-article-trainset` | 94 |
-| `qa-20-survey-geotech` | 10 |
-| `qa-21-earthworks-drainage` | 10 |
-| `qa-22-trackform-rail` | 52 |
-| `qa-24-stations-depots-plant` | 32 |
-| `qa-25-power-energy` | 29 |
-| `qa-26-wayside-comms-safety` | 46 |
+| `qa-10-carbody-structure` | 285 |
+| `qa-11-bogie-wheelset` | 95 |
+| `qa-12-traction-brake-battery` | 95 |
+| `qa-13-passenger-systems` | 95 |
+| `qa-15-first-article-trainset` | 95 |
+| `qa-20-survey-geotech` | 11 |
+| `qa-21-earthworks-drainage` | 11 |
+| `qa-22-trackform-rail` | 53 |
+| `qa-24-stations-depots-plant` | 34 |
+| `qa-25-power-energy` | 31 |
+| `qa-26-wayside-comms-safety` | 50 |
 
 ## Acceptance Control Logic
 

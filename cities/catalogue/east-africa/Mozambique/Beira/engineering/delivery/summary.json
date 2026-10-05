@@ -147,7 +147,7 @@
       ],
       "peak_concurrent_resources": 2,
       "peak_concurrent_task_slots": 2,
-      "peak_day": 478,
+      "peak_day": 468,
       "required_skills": [
         "civil supervisor",
         "drainage technician",
@@ -157,7 +157,7 @@
         "safety officer",
         "survey lead"
       ],
-      "resource_days": 252,
+      "resource_days": 247,
       "tasks_missing_resource_count": 0,
       "work_center": "corridor civil crew",
       "worker_headcount": null,
@@ -276,14 +276,14 @@
       ],
       "peak_concurrent_resources": 2,
       "peak_concurrent_task_slots": 2,
-      "peak_day": 549,
+      "peak_day": 517,
       "required_skills": [
         "quality technician",
         "rail welder",
         "survey technician",
         "track supervisor"
       ],
-      "resource_days": 204,
+      "resource_days": 201,
       "tasks_missing_resource_count": 0,
       "work_center": "track crew",
       "worker_headcount": null,
@@ -318,7 +318,7 @@
       ],
       "peak_concurrent_resources": null,
       "peak_concurrent_task_slots": 3,
-      "peak_day": 570,
+      "peak_day": 569,
       "required_skills": [
         "quality technician",
         "software technician",
@@ -337,7 +337,7 @@
       ],
       "peak_concurrent_resources": null,
       "peak_concurrent_task_slots": 3,
-      "peak_day": 590,
+      "peak_day": 594,
       "required_skills": [
         "quality technician",
         "radio technician",
@@ -354,11 +354,11 @@
   "design_release_ready": false,
   "generator_sha256": "390b1f299170291a058e6b9f2cf047f492f2380616335690952555b673952bc2",
   "input_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Beira/beira.toml": "03745673ba80e1a430baafbf699a82ae2da5efdcc0025092ca9e558a572a2061",
-    "cities/catalogue/east-africa/Mozambique/Beira/design.toml": "d725c0c9555fc4abf3fb14f58e5ad6d90444540d78aa0b56c74b6d8d04de880c",
-    "cities/catalogue/east-africa/Mozambique/Beira/engineering/finance/summary.json": "ff7b58b26605a50d46603957819750276acecddd3bc494df13e747557b961dc4",
-    "cities/catalogue/east-africa/Mozambique/Beira/engineering/soil/summary.json": "3cadb5f095566847deb979ed34fc149bf23d81a5f35feaa2a69a2a0bcc8a0300",
-    "cities/catalogue/east-africa/Mozambique/Beira/operations/beira-operations-manifest.json": "0df2775cced6a1881adec052739b3508e711c34cdb678ba9f174d0b95ac68590",
+    "cities/catalogue/east-africa/Mozambique/Beira/beira.toml": "6046146e59543d20e540a55cc1520789669e4bb9c852ab2ba517c3b35a025fbe",
+    "cities/catalogue/east-africa/Mozambique/Beira/design.toml": "295170acd3598e96dc3d7e2771ae60436d09f1404980e3eabe83e2ada4406723",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/finance/summary.json": "52aeabf2f72f0b5b79f8bb534bf9173c521c2bbcc78c0e75d9ad699efcb94049",
+    "cities/catalogue/east-africa/Mozambique/Beira/engineering/soil/summary.json": "c8ea0dfad3dbce2f658e2dc552d83a47a40aa06590a451148e4bc2921f1ceb4d",
+    "cities/catalogue/east-africa/Mozambique/Beira/operations/beira-operations-manifest.json": "fbce2b0d03861b06a705dbcc5506248b7ff02af406ac9d2bce12d851324a2610",
     "design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.json": "2cdcc7db5fed7ec2c34b52a14fde0a914407e1077715e34eeb87cd80e8a90c4a",
     "design/component-catalogue/catalog/buildable-trainset/joint-control-schedule.json": "eb8181a99ad409069aeb940d8c3ce4fd402c844a75fc294b9ba40a03db135401",
     "design/component-catalogue/src/osr_mech/civil/continuity.py": "9041270819c1e166c8e3b02a44fc8203e9bca837ce875a7037953b666cd6be59",
@@ -637,6 +637,43 @@
       },
       {
         "cold_movement_sensitivity_mm": null,
+        "from_chainage_m": 5570.7,
+        "hot_movement_sensitivity_mm": {
+          "10": 10.0,
+          "12": 12.0,
+          "8": 8.0
+        },
+        "line": "line-3",
+        "longest_planned_unit_m": 100.0,
+        "plan": {
+          "bearings": 232,
+          "connection_scheme": "structural-continuity",
+          "deck_gaps": 12,
+          "expansion_support_bearings": 8,
+          "internal_support_bearings": 4,
+          "link_slabs": 34,
+          "maximum_unit_length_m": 100.0,
+          "release_gates": [
+            "continuous-welded-rail interaction analysis",
+            "braking and traction load distribution",
+            "temperature and shrinkage movement analysis",
+            "seismic restraint and displacement analysis",
+            "foundation-flexibility and soil-structure interaction analysis",
+            "selected connection fatigue and waterproofing detail",
+            "structural continuity load path and construction stages where bearings are shared"
+          ],
+          "route_length_m": 1136.0,
+          "span_m": 25.0,
+          "spans": 46,
+          "structural_continuity_accepted": false,
+          "unit_spans": 4,
+          "units": 12
+        },
+        "segment_index": 12,
+        "to_chainage_m": 6706.7
+      },
+      {
+        "cold_movement_sensitivity_mm": null,
         "from_chainage_m": 8326.9,
         "hot_movement_sensitivity_mm": {
           "10": 10.0,
@@ -669,7 +706,7 @@
           "unit_spans": 4,
           "units": 67
         },
-        "segment_index": 12,
+        "segment_index": 14,
         "to_chainage_m": 14973.0
       }
     ],
@@ -710,9 +747,9 @@
     "missing_soil_profiles": 0,
     "scenario_ambient_c": 26,
     "soil_investigation_flags": {
-      "acidic-soil-durability-testing": 91,
-      "fine-soil-plasticity-and-shrink-swell-tests": 91,
-      "granular-density-and-groundwater-tests": 91
+      "acidic-soil-durability-testing": 96,
+      "fine-soil-plasticity-and-shrink-swell-tests": 96,
+      "granular-density-and-groundwater-tests": 96
     },
     "soil_use": "Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.",
     "thermal_basis": "Free movement alpha*L*deltaT. 8/10/12 microstrain/K are declared sensitivity cases, not measured concrete properties. Reference is the preset annual mean, not installation temperature; sunlit component temperatures and gradients require separate inputs."

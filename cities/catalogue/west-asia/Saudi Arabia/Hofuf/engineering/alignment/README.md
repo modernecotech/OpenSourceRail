@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hofuf-line1.aln.toml`](hofuf-line1.aln.toml) | `line-1` | 22,388.6 m | 9 |
-| [`hofuf-line2.aln.toml`](hofuf-line2.aln.toml) | `line-2` | 23,718.5 m | 9 |
-| [`hofuf-line3.aln.toml`](hofuf-line3.aln.toml) | `line-3` | 22,429.5 m | 8 |
+| [`hofuf-line1.aln.toml`](hofuf-line1.aln.toml) | `line-1` | 23,534.5 m | 9 |
+| [`hofuf-line2.aln.toml`](hofuf-line2.aln.toml) | `line-2` | 24,788.0 m | 8 |
+| [`hofuf-line3.aln.toml`](hofuf-line3.aln.toml) | `line-3` | 23,957.3 m | 9 |
 
 ## Status
 

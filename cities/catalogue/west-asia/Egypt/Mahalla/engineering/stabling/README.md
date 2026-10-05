@@ -15,14 +15,14 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0594-0921-s010038 | station | reverse | revenue | 2 |
-| line-1 | line-1-0632-0761-s006523 | station | forward | revenue | 1 |
-| line-1 | line-1-0632-0761-s006523 | station | reverse | revenue | 1 |
+| line-1 | line-1-0655-0660-s004313 | station | forward | revenue | 1 |
+| line-1 | line-1-0655-0660-s004313 | station | reverse | revenue | 1 |
 | line-1 | line-1-0668-0600-s003005 | station | forward | revenue | 1 |
 | line-1 | line-1-0668-0600-s003005 | station | reverse | revenue | 1 |
 | line-1 | line-1-0700-0463-s000000 | station | forward | revenue | 2 |
 | line-2 | line-2-0574-0783-s018088 | station | reverse | revenue | 2 |
-| line-2 | line-2-0663-0648-s014464 | station | forward | revenue | 1 |
-| line-2 | line-2-0663-0648-s014464 | station | reverse | revenue | 1 |
+| line-2 | line-2-0655-0660-s014793 | station | forward | revenue | 1 |
+| line-2 | line-2-0655-0660-s014793 | station | reverse | revenue | 1 |
 | line-2 | line-2-0753-0512-s010810 | station | forward | revenue | 1 |
 | line-2 | line-2-0753-0512-s010810 | station | reverse | revenue | 1 |
 | line-2 | line-2-1091-0156-s000000 | station | forward | revenue | 2 |
@@ -60,24 +60,24 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **22 posit
 | line-1 | line-1-0700-0463-s000000 | forward | revenue | 5 | pending |
 | line-1 | line-1-0668-0600-s003005 | forward | revenue | 5 | pending |
 | line-1 | line-1-0668-0600-s003005 | reverse | revenue | 5 | pending |
-| line-1 | line-1-0632-0761-s006523 | forward | revenue | 5 | pending |
-| line-1 | line-1-0632-0761-s006523 | reverse | revenue | 4 | pending |
+| line-1 | line-1-0655-0660-s004313 | forward | revenue | 5 | pending |
+| line-1 | line-1-0655-0660-s004313 | reverse | revenue | 4 | pending |
 | line-1 | line-1-0594-0921-s010038 | reverse | revenue | 4 | pending |
-| line-1 | line-1-0632-0761-s006523 | reverse | spare | 1 | pending |
+| line-1 | line-1-0655-0660-s004313 | reverse | spare | 1 | pending |
 | line-1 | line-1-0594-0921-s010038 | reverse | spare | 1 | pending |
 | line-1 | line-1-0700-0463-s000000 | forward | cold_reserve | 1 | pending |
 | line-2 | line-2-1091-0156-s000000 | forward | revenue | 9 | pending |
 | line-2 | line-2-0753-0512-s010810 | forward | revenue | 9 | pending |
 | line-2 | line-2-0753-0512-s010810 | reverse | revenue | 9 | pending |
-| line-2 | line-2-0663-0648-s014464 | forward | revenue | 9 | pending |
-| line-2 | line-2-0663-0648-s014464 | reverse | revenue | 8 | pending |
+| line-2 | line-2-0655-0660-s014793 | forward | revenue | 9 | pending |
+| line-2 | line-2-0655-0660-s014793 | reverse | revenue | 8 | pending |
 | line-2 | line-2-0574-0783-s018088 | reverse | revenue | 8 | pending |
-| line-2 | line-2-0663-0648-s014464 | reverse | spare | 1 | pending |
+| line-2 | line-2-0655-0660-s014793 | reverse | spare | 1 | pending |
 | line-2 | line-2-0574-0783-s018088 | reverse | spare | 1 | pending |
 | line-2 | line-2-1091-0156-s000000 | forward | spare | 1 | pending |
 | line-2 | line-2-0753-0512-s010810 | forward | spare | 1 | pending |
 | line-2 | line-2-0753-0512-s010810 | reverse | spare | 1 | pending |
-| line-2 | line-2-0663-0648-s014464 | forward | cold_reserve | 1 | pending |
+| line-2 | line-2-0655-0660-s014793 | forward | cold_reserve | 1 | pending |
 | line-3 | line-3-0647-0470-s000000 | forward | revenue | 4 | pending |
 | line-3 | line-3-0577-0568-s002692 | forward | revenue | 4 | pending |
 | line-3 | line-3-0577-0568-s002692 | reverse | revenue | 4 | pending |
@@ -87,16 +87,16 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **22 posit
 
 ## Reference platform capacity comparison
 
-**85 trainsets exceed the reference platform envelope**, requiring **5,057.5 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**81 trainsets exceed the reference platform envelope**, requiring **4,819.5 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0594-0921-s010038 | 5 | 2 | 3 | 178.5 |
-| line-1-0632-0761-s006523 | 10 | 2 | 8 | 476.0 |
+| line-1-0655-0660-s004313 | 10 | 4 | 6 | 357.0 |
 | line-1-0668-0600-s003005 | 10 | 2 | 8 | 476.0 |
 | line-1-0700-0463-s000000 | 6 | 2 | 4 | 238.0 |
 | line-2-0574-0783-s018088 | 9 | 2 | 7 | 416.5 |
-| line-2-0663-0648-s014464 | 19 | 2 | 17 | 1,011.5 |
+| line-2-0655-0660-s014793 | 19 | 4 | 15 | 892.5 |
 | line-2-0753-0512-s010810 | 20 | 2 | 18 | 1,071.0 |
 | line-2-1091-0156-s000000 | 10 | 2 | 8 | 476.0 |
 | line-3-0505-0671-s005501 | 4 | 2 | 2 | 119.0 |

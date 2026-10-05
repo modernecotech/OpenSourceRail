@@ -6,25 +6,25 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-1573-1343-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0039-0318-s045162 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0312-0057-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0634-1301-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-4-1341-0225-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-5-1505-0499-s043696 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-5-0003-0715-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-6-0276-0473-s005584 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-1573-1343-s000000 | line-1 | 37 | 2,775.0 | 3,145.0 | unverified |
-| line-1-0039-0318-s042289 | line-1 | 37 | 2,775.0 | 3,145.0 | unverified |
+| line-1-1573-1343-s000000 | line-1 | 40 | 3,000.0 | 3,400.0 | unverified |
+| line-1-0039-0318-s045162 | line-1 | 40 | 3,000.0 | 3,400.0 | unverified |
 | line-2-0312-0057-s000000 | line-2 | 29 | 2,175.0 | 2,465.0 | unverified |
-| line-2-1016-1325-s033361 | line-2 | 29 | 2,175.0 | 2,465.0 | unverified |
+| line-2-1016-1325-s034502 | line-2 | 29 | 2,175.0 | 2,465.0 | unverified |
 | line-3-0634-1301-s000000 | line-3 | 23 | 1,725.0 | 1,955.0 | unverified |
-| line-3-1063-0237-s025663 | line-3 | 23 | 1,725.0 | 1,955.0 | unverified |
+| line-3-1063-0237-s025733 | line-3 | 23 | 1,725.0 | 1,955.0 | unverified |
 | line-4-1341-0225-s000000 | line-4 | 26 | 1,950.0 | 2,210.0 | unverified |
-| line-4-0878-1333-s027614 | line-4 | 26 | 1,950.0 | 2,210.0 | unverified |
+| line-4-0878-1333-s028289 | line-4 | 26 | 1,950.0 | 2,210.0 | unverified |
 | line-5-0003-0715-s000000 | line-5 | 37 | 2,775.0 | 3,145.0 | unverified |
 | line-5-1505-0499-s043696 | line-5 | 37 | 2,775.0 | 3,145.0 | unverified |
 | line-6-0276-0473-s005584 | line-6 | 18 | 1,350.0 | 1,530.0 | unverified |

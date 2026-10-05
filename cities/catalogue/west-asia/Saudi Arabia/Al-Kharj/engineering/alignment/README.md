@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`al-kharj-line1.aln.toml`](al-kharj-line1.aln.toml) | `line-1` | 19,589.6 m | 9 |
-| [`al-kharj-line2.aln.toml`](al-kharj-line2.aln.toml) | `line-2` | 20,624.1 m | 8 |
-| [`al-kharj-line3.aln.toml`](al-kharj-line3.aln.toml) | `line-3` | 16,979.5 m | 8 |
+| [`al-kharj-line1.aln.toml`](al-kharj-line1.aln.toml) | `line-1` | 20,353.5 m | 9 |
+| [`al-kharj-line2.aln.toml`](al-kharj-line2.aln.toml) | `line-2` | 20,776.9 m | 9 |
+| [`al-kharj-line3.aln.toml`](al-kharj-line3.aln.toml) | `line-3` | 17,193.4 m | 8 |
 
 ## Status
 

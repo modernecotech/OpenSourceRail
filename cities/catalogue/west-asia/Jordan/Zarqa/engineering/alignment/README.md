@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`zarqa-line1.aln.toml`](zarqa-line1.aln.toml) | `line-1` | 27,658.1 m | 9 |
-| [`zarqa-line2.aln.toml`](zarqa-line2.aln.toml) | `line-2` | 25,557.3 m | 9 |
+| [`zarqa-line1.aln.toml`](zarqa-line1.aln.toml) | `line-1` | 28,370.4 m | 11 |
+| [`zarqa-line2.aln.toml`](zarqa-line2.aln.toml) | `line-2` | 26,550.4 m | 10 |
 | [`zarqa-line3.aln.toml`](zarqa-line3.aln.toml) | `line-3` | 11,905.4 m | 5 |
 
 ## Status

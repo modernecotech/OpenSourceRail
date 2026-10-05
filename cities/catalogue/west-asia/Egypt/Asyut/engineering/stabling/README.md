@@ -10,7 +10,7 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 |---|---|---|---:|---:|---:|
 | line-1-0660-0667-s000000 | line-1 | declared-depot | 16 | 952.0 | 4 |
 | line-2-0565-0462-s000000 | line-2 | declared-depot | 51 | 3,034.5 | 8 |
-| line-3-0480-0214-s020961 | line-3 | declared-depot | 59 | 3,510.5 | 10 |
+| line-3-0480-0214-s021053 | line-3 | declared-depot | 59 | 3,510.5 | 10 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
@@ -24,9 +24,9 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0511-0545-s002213 | station | forward | revenue | 1 |
 | line-2 | line-2-0511-0545-s002213 | station | reverse | revenue | 1 |
 | line-2 | line-2-0565-0462-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0480-0214-s020961 | station | reverse | revenue | 2 |
-| line-3 | line-3-0585-0385-s016529 | station | forward | revenue | 1 |
-| line-3 | line-3-0585-0385-s016529 | station | reverse | revenue | 1 |
+| line-3 | line-3-0480-0214-s021053 | station | reverse | revenue | 2 |
+| line-3 | line-3-0584-0383-s016577 | station | forward | revenue | 1 |
+| line-3 | line-3-0584-0383-s016577 | station | reverse | revenue | 1 |
 | line-3 | line-3-0689-0555-s012092 | station | forward | revenue | 1 |
 | line-3 | line-3-0689-0555-s012092 | station | reverse | revenue | 1 |
 | line-3 | line-3-1023-1006-s000000 | station | forward | revenue | 2 |
@@ -36,9 +36,9 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0565-0462-s000000 | depot | — | revenue | 45 |
 | line-2 | line-2-0565-0462-s000000 | depot | — | spare | 5 |
 | line-2 | line-2-0565-0462-s000000 | depot | — | cold_reserve | 1 |
-| line-3 | line-3-0480-0214-s020961 | depot | — | revenue | 52 |
-| line-3 | line-3-0480-0214-s020961 | depot | — | spare | 6 |
-| line-3 | line-3-0480-0214-s020961 | depot | — | cold_reserve | 1 |
+| line-3 | line-3-0480-0214-s021053 | depot | — | revenue | 52 |
+| line-3 | line-3-0480-0214-s021053 | depot | — | spare | 6 |
+| line-3 | line-3-0480-0214-s021053 | depot | — | cold_reserve | 1 |
 
 Native hybrid candidate: `build/engineering/stabling/asyut-hybrid.toml`; generation only, operating validation pending.
 
@@ -78,15 +78,15 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **22 posit
 | line-3 | line-3-1023-1006-s000000 | forward | revenue | 10 | pending |
 | line-3 | line-3-0689-0555-s012092 | forward | revenue | 10 | pending |
 | line-3 | line-3-0689-0555-s012092 | reverse | revenue | 10 | pending |
-| line-3 | line-3-0585-0385-s016529 | forward | revenue | 10 | pending |
-| line-3 | line-3-0585-0385-s016529 | reverse | revenue | 10 | pending |
-| line-3 | line-3-0480-0214-s020961 | reverse | revenue | 10 | pending |
+| line-3 | line-3-0584-0383-s016577 | forward | revenue | 10 | pending |
+| line-3 | line-3-0584-0383-s016577 | reverse | revenue | 10 | pending |
+| line-3 | line-3-0480-0214-s021053 | reverse | revenue | 10 | pending |
 | line-3 | line-3-1023-1006-s000000 | forward | spare | 1 | pending |
 | line-3 | line-3-0689-0555-s012092 | forward | spare | 1 | pending |
 | line-3 | line-3-0689-0555-s012092 | reverse | spare | 1 | pending |
-| line-3 | line-3-0585-0385-s016529 | forward | spare | 1 | pending |
-| line-3 | line-3-0585-0385-s016529 | reverse | spare | 1 | pending |
-| line-3 | line-3-0480-0214-s020961 | reverse | spare | 1 | pending |
+| line-3 | line-3-0584-0383-s016577 | forward | spare | 1 | pending |
+| line-3 | line-3-0584-0383-s016577 | reverse | spare | 1 | pending |
+| line-3 | line-3-0480-0214-s021053 | reverse | spare | 1 | pending |
 | line-3 | line-3-1023-1006-s000000 | forward | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
@@ -102,8 +102,8 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **22 posit
 | line-2-0070-1066-s017868 | 14 | 2 | 12 | 714.0 |
 | line-2-0511-0545-s002213 | 28 | 4 | 24 | 1,428.0 |
 | line-2-0565-0462-s000000 | 15 | 2 | 13 | 773.5 |
-| line-3-0480-0214-s020961 | 11 | 2 | 9 | 535.5 |
-| line-3-0585-0385-s016529 | 22 | 2 | 20 | 1,190.0 |
+| line-3-0480-0214-s021053 | 11 | 2 | 9 | 535.5 |
+| line-3-0584-0383-s016577 | 22 | 2 | 20 | 1,190.0 |
 | line-3-0689-0555-s012092 | 22 | 2 | 20 | 1,190.0 |
 | line-3-1023-1006-s000000 | 12 | 2 | 10 | 595.0 |
 

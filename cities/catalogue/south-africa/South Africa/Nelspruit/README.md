@@ -5,9 +5,9 @@
 This page contains only Nelspruit-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$770 M (89.7%) of external capital** and **$947 M of external interest**. Capital plus saved interest totals **$1.72 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$796 M (89.7%) of external capital** and **$979 M of external interest**. Capital plus saved interest totals **$1.78 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **35.523 km to 25.548 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **14 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **35.523 km to 26.864 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **12 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **62 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **62 tram-2car trainsets / 124 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,9 +21,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 14 / 0 |
+| Lines / unique stations / interchanges | 3 / 12 / 2 |
 | Route length | 30.1 km double track |
-| Coverage / transfer reachability | 37.4% / 0% |
+| Coverage / transfer reachability | 37.4% / 67% |
 | Estimated station catchment | 112,200 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 62 × 2-car `tram-2car` trainsets (55 peak revenue) |
@@ -36,9 +36,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
 | line-1 |  8.4 km | 4 | 17 | W Mid ↔ NE Mid |
-| line-2 | 12.0 km | 5 | 25 | N Mid ↔ S Outer |
-| line-3 |  9.7 km | 5 | 20 | W Mid ↔ SE Mid |
-| **Total** | **30.1 km** | **14 unique** | **62** | |
+| line-2 | 12.0 km | 4 | 25 | N Mid ↔ S Outer |
+| line-3 |  9.7 km | 4 | 20 | W Mid ↔ SE Mid |
+| **Total** | **30.1 km** | **12 unique** | **62** | |
 
 ## Energy
 
@@ -46,11 +46,11 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Scheduled service | 1,395 one-way journeys / 13,975 train-km/day |
 | Annual traction demand | 44.1 GWh |
-| Station/depot PV / storage | 18.3 MW / 125.5 MWh |
-| Aggregate charging power | 7.0 MW |
-| Dedicated solar plant | 7.9 MW |
+| Station/depot PV / storage | 17.7 MW / 124.5 MWh |
+| Aggregate charging power | 6.0 MW |
+| Dedicated solar plant | 8.6 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-2: 5.9 km / 30 kWh |
+| Worst powered-stop gap | line-2: 6.7 km / 33 kWh |
 | Lowest traversal charging margin | line-1: 36 kWh |
 
 ## Capital And Funding
@@ -58,23 +58,23 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $310 M |
-| Stations | $50 M |
+| Stations | $64 M |
 | Depots | $42 M |
 | Rolling stock | $35 M |
-| Dedicated solar plant | $6.3 M |
+| Dedicated solar plant | $6.9 M |
 | Residual train control | $1.5 M |
-| Charging microgrids | $1.6 M |
-| EPC / project services | $31 M |
-| **Total city programme** | **$477 M** |
+| Charging microgrids | $1.4 M |
+| EPC / project services | $32 M |
+| **Total city programme** | **$493 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $88 M (18.5%) |
-| Domestic / local capital | $389 M (81.5%) |
-| Annual public construction commitment | $52 M / yr for 5 years |
-| Annual post-grace debt service | $39 M / yr |
-| External capital saved vs default turnkey sensitivity | $770 M |
-| Capital + lifetime external interest saved | $1.72 bn |
+| Imported / external capital | $91 M (18.5%) |
+| Domestic / local capital | $402 M (81.5%) |
+| Annual public construction commitment | $54 M / yr for 5 years |
+| Annual post-grace debt service | $40 M / yr |
+| External capital saved vs default turnkey sensitivity | $796 M |
+| Capital + lifetime external interest saved | $1.78 bn |
 | Annual OPEX | $15 M / yr |
 
 ## Local Evidence
@@ -86,8 +86,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 7 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 149 assets / 811 tasks | [`nelspruit-operations-manifest.json`](operations/nelspruit-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 2 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 139 assets / 775 tasks | [`nelspruit-operations-manifest.json`](operations/nelspruit-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

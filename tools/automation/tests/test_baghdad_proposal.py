@@ -2,12 +2,15 @@
 import csv
 import hashlib
 import json
+import sys
 from pathlib import Path
 import zipfile
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0,str(ROOT/'tools/automation'))
+from baghdad_equity import return_label, dividend_date
 CITY = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 PROPOSAL = CITY
 
@@ -197,8 +200,8 @@ def test_equity_study_is_published_without_promising_admission_or_return():
     c=json.loads((root/'summary.json').read_text())['cases']['primary_1000m']
     assert {p.relative_to(ROOT).as_posix() for p in root.glob('*') if p.is_file()}<=set(data('manifest.json')['inputs'])
     text=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
-    assert f"{c['shareholder_returns']['iraqi_private']['equity_irr']:.2%} nominal IRR" in text
-    assert f"month **{c['metrics']['first_dividend_month']}**" in text
+    assert f"{return_label(c['shareholder_returns']['iraqi_private']['equity_irr'])} nominal IRR" in text
+    assert f"**{dividend_date(c['metrics']['first_dividend_month'])}**" in text
     assert 'zero new money' in text and 'listing at that date is unproven' in text
     assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
 
@@ -209,10 +212,10 @@ def test_retained_rental_evidence_and_exact_dividend_exit_comparisons_are_publis
     c=json.loads((CITY/'engineering/equity/summary.json').read_text())['cases']['rental_medium_1000m']
     narrative=(PROPOSAL/'BAGHDAD-PROPOSAL.md').read_text()
     assert 'Confirmed eligible area remains **zero**' in narrative
-    assert f"{c['shareholder_returns']['iraqi_private']['equity_irr']:.2%}" in narrative
+    assert return_label(c['shareholder_returns']['iraqi_private']['equity_irr']) in narrative
     exit_case=json.loads((CITY/'engineering/equity/primary_1000m.json').read_text())
     expected=exit_case['terminal_cash_sensitivity']['shareholder_returns']['iraqi_private']['equity_irr_with_terminal_cash']
-    assert f'{expected:.2%}' in narrative and 'Tenant fire' in narrative
+    assert return_label(expected) in narrative and 'Tenant fire' in narrative
     assert (root/'README.md').relative_to(ROOT).as_posix() in data('appendix-sources.json')
 
 

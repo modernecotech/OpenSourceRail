@@ -1,6 +1,6 @@
 # Kananga city-order factory requirement
 
-**33 metro-4car trainsets / 132 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**34 metro-4car trainsets / 136 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 95.8 trainsets/year, 2 separate test paths, 328 direct production FTE. Plant reference envelope: **USD 176.045m**.
 
@@ -9,6 +9,6 @@ This is an independent city-order capacity requirement. Shared factory capital i
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
 | line-1 | 23 | 628 | 718 | 718 |
-| line-2 | 10 | 653 | 743 | 743 |
+| line-2 | 11 | 657 | 747 | 747 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

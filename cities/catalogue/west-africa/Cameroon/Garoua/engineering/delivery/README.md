@@ -1,6 +1,6 @@
 # Garoua organisation and design work
 
-332 indicative operating FTE, including management; annual labour allowance $1,891,755. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+342 indicative operating FTE, including management; annual labour allowance $1,935,495. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -27,8 +27,8 @@ GoA 4 control and remote assistance; local station batteries supply train top-up
 | Remote assistance | 33 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
 | Passenger service and fare support | 27 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
 | Station cleaning and waste | 22 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
-| Station team coordination | 17 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
-| Platform and accessibility assistance | 92 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
+| Station team coordination | 19 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
+| Platform and accessibility assistance | 100 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
 
 Recruit and apprentice locally; assess practical task competence, isolate/hold/release authority and refresher needs. Training duration follows the demonstrated skills gap, not a universal weeks-to-qualification claim.
 
@@ -42,9 +42,9 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 515 | 160 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 506 | 160 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 469 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
-| energy crew | unknown | 2 | 574 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
+| energy crew | unknown | 2 | 571 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
 | garoua light-metro-3car body installation | unknown | 3 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
 | garoua light-metro-3car composite kits | unknown | 11 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
 | garoua light-metro-3car electrical integration | unknown | 22 | 626 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
@@ -53,11 +53,11 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | garoua trainset acceptance bays | unknown | 14 | 660 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
 | garoua trainset kitting | unknown | 4 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
-| station civil crew | unknown | 2 | 568 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
-| station systems crew | unknown | 2 | 594 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 565 | 130 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| station civil crew | unknown | 2 | 566 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
+| station systems crew | unknown | 2 | 584 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
+| track crew | 2 | 2 | 546 | 131 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
 | track/switch crew | unknown | 2 | 527 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
-| wayside bench | unknown | 3 | 593 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
+| wayside bench | unknown | 3 | 581 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
 | wayside systems crew | unknown | 3 | 596 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
 
 ## Civil and mechanical refinements
@@ -132,7 +132,7 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 182, "fine-soil-plasticity-and-shrink-swell-tests": 378, "granular-density-and-groundwater-tests": 379}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 182, "fine-soil-plasticity-and-shrink-swell-tests": 379, "granular-density-and-groundwater-tests": 380}.
 
 ## Joints, paints, finishes and cleaning
 
@@ -142,8 +142,8 @@ Steel, GFRP body and roof finish zones retain their shared qualified process. Pr
 |---|---:|
 | rs-finish-seal-joint | 82 |
 | rs-controlled-wash | 82 |
-| civil-joint-drain-finish | 19 |
-| energy-soiling-cleaning | 11 |
+| civil-joint-drain-finish | 21 |
+| energy-soiling-cleaning | 12 |
 
 The operations bundle carries these inspection/cleaning triggers, owners and required work-order evidence. Cleaning intervals follow measured condition and access; material compatibility and wash-water handling must be qualified locally.
 

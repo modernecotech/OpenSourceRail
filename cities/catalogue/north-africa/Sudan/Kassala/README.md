@@ -5,11 +5,11 @@
 This page contains only Kassala-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$718 M (89.1%) of external capital** and **$927 M of external interest**. Capital plus saved interest totals **$1.64 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$737 M (89.1%) of external capital** and **$952 M of external interest**. Capital plus saved interest totals **$1.69 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **23.580 km to 19.035 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **10 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **23.580 km to 20.813 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**3 line-local depots** provide **66 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **66 light-metro-3car trainsets / 198 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**3 line-local depots** provide **69 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **69 light-metro-3car trainsets / 207 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -21,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 10 / 2 |
+| Lines / unique stations / interchanges | 3 / 11 / 2 |
 | Route length | 20.8 km double track |
 | Coverage / transfer reachability | 69.0% / 67% |
 | Estimated station catchment | 345,000 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 66 × 3-car `light-metro-3car` trainsets (59 peak revenue) |
+| Fleet | 69 × 3-car `light-metro-3car` trainsets (61 peak revenue) |
 | Peak network throughput | 43,200 passengers/hour |
 | Practical service capacity | 401,760 passenger-trips/day |
 | Annual paid-trip planning range | 73.3–117.3 M |
@@ -35,10 +35,10 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 |  8.9 km | 3 | 27 | NE Outer ↔ SW Outer |
-| line-2 |  5.7 km | 4 | 19 | E Outer ↔ W Mid |
-| line-3 |  6.3 km | 3 | 20 | NE Mid ↔ SW Outer |
-| **Total** | **20.8 km** | **10 unique** | **66** | |
+| line-1 |  8.9 km | 3 | 27 | N Outer ↔ SW Outer |
+| line-2 |  5.7 km | 4 | 19 | E Mid ↔ W Mid |
+| line-3 |  6.3 km | 4 | 23 | NE Mid ↔ SW Outer |
+| **Total** | **20.8 km** | **11 unique** | **69** | |
 
 ## Energy
 
@@ -46,35 +46,35 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Scheduled service | 1,395 one-way journeys / 9,678 train-km/day |
 | Annual traction demand | 45.8 GWh |
-| Station/depot PV / storage | 17.1 MW / 123.5 MWh |
-| Aggregate charging power | 5.0 MW |
-| Dedicated solar plant | 4.4 MW |
+| Station/depot PV / storage | 17.4 MW / 124.0 MWh |
+| Aggregate charging power | 5.5 MW |
+| Dedicated solar plant | 4.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 5.8 km / 47 kWh |
-| Lowest traversal charging margin | line-3: 18 kWh |
+| Worst powered-stop gap | line-1: 5.6 km / 45 kWh |
+| Lowest traversal charging margin | line-1: 19 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $256 M |
-| Stations | $54 M |
-| Depots | $44 M |
-| Rolling stock | $59 M |
-| Dedicated solar plant | $3.5 M |
+| Stations | $62 M |
+| Depots | $45 M |
+| Rolling stock | $62 M |
+| Dedicated solar plant | $3.2 M |
 | Residual train control | $1.0 M |
-| Charging microgrids | $1.1 M |
-| EPC / project services | $29 M |
-| **Total city programme** | **$448 M** |
+| Charging microgrids | $1.2 M |
+| EPC / project services | $30 M |
+| **Total city programme** | **$460 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $88 M (19.6%) |
-| Domestic / local capital | $360 M (80.4%) |
-| Annual public construction commitment | $54 M / yr for 10 years |
-| Annual post-grace debt service | $49 M / yr |
-| External capital saved vs default turnkey sensitivity | $718 M |
-| Capital + lifetime external interest saved | $1.64 bn |
+| Imported / external capital | $91 M (19.7%) |
+| Domestic / local capital | $369 M (80.3%) |
+| Annual public construction commitment | $56 M / yr for 10 years |
+| Annual post-grace debt service | $51 M / yr |
+| External capital saved vs default turnkey sensitivity | $737 M |
+| Capital + lifetime external interest saved | $1.69 bn |
 | Annual OPEX | $11 M / yr |
 
 ## Local Evidence
@@ -87,7 +87,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 1 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 133 assets / 775 tasks | [`kassala-operations-manifest.json`](operations/kassala-operations-manifest.json) |
+| Operations, QA and maintenance | 142 assets / 821 tasks | [`kassala-operations-manifest.json`](operations/kassala-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

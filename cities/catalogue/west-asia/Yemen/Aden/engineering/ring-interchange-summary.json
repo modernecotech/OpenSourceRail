@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "aden"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "aden",
       "corridor_sha256": "3a0e4c35149efed69be04fe298aa59a744707dac4176813eb31d536a9f9c1911",
       "design_sha256": "0a178a336bb63d4ee440d323d35c4beeea4ad04d230c8e08c9ef4e83f1ee9060",
-      "failures": [
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 3,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "d5610db5cc4320befc3d3d329ac758dfc4372df65638f3008bb833dea7812208",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1297.3,
+          "physical_release": false,
           "radial": "line-1",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 3,
-      "review_findings": [],
       "ring_count": 0
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

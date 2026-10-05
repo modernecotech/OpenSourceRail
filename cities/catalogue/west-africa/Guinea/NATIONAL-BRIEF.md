@@ -3,7 +3,7 @@
 This page contains only Guinea-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$3.57 B (90.0%) of external capital** and **$4.61 B of external interest**. Capital plus saved interest totals **$8.17 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$16.09 B (91.2%) of external capital** and **$20.78 B of external interest**. Capital plus saved interest totals **$36.88 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Guinea-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 2,010,000 |
-| Trainsets / vehicle modules | 82 / 328 |
-| City infrastructure and fleet CAPEX | $1.87 B |
-| Shared national factory | $306.6 M |
-| Factory sizing basis | 328 modules for Conakry, then reused nationally |
-| **Total national programme** | **$2.20 B** |
+| Trainsets / vehicle modules | 87 / 348 |
+| City infrastructure and fleet CAPEX | $9.45 B |
+| Shared national factory | $321.0 M |
+| Factory sizing basis | 348 modules for Conakry, then reused nationally |
+| **Total national programme** | **$9.80 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $397.3 M (18.0%) |
-| Domestic / local capital | $1.81 B (82.0%) |
-| Annual external capital draw | $39.7 M / yr |
-| Annual local capital draw | $180.5 M / yr |
-| Annual public construction commitment | $198.4 M / yr for 10 years |
-| Annual post-grace debt service | $177.6 M / yr |
-| Default foreign-turnkey external capital | $3.96 B |
-| External capital saved | $3.57 B |
-| Capital + lifetime external interest saved | $8.17 B |
+| Imported / external capital | $1.54 B (15.8%) |
+| Domestic / local capital | $8.25 B (84.2%) |
+| Annual external capital draw | $154.3 M / yr |
+| Annual local capital draw | $825.3 M / yr |
+| Annual public construction commitment | $894.8 M / yr for 10 years |
+| Annual post-grace debt service | $795.1 M / yr |
+| Default foreign-turnkey external capital | $17.63 B |
+| External capital saved | $16.09 B |
+| Capital + lifetime external interest saved | $36.88 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.46 B | $219.5 M | $1.24 B |
-| Stations | $68.5 M | $13.7 M | $54.8 M |
-| Depots | $50.1 M | $12.5 M | $37.5 M |
-| Rolling stock | $91.8 M | $32.1 M | $59.7 M |
-| Dedicated solar plants | $72.5 M | $32.6 M | $39.9 M |
-| Residual train control | $3.8 M | $1.9 M | $1.9 M |
-| Charging microgrids | $6.8 M | $2.7 M | $4.0 M |
-| EPC / project services | $139.3 M | $20.9 M | $118.4 M |
-| Shared national trainset factory | $306.6 M | $61.3 M | $245.3 M |
-| **Total** | **$2.20 B** | **$397.3 M** | **$1.81 B** |
+| Civil works | $8.47 B | $1.27 B | $7.20 B |
+| Stations | $126.1 M | $25.2 M | $100.9 M |
+| Depots | $52.3 M | $13.1 M | $39.2 M |
+| Rolling stock | $97.4 M | $34.1 M | $63.3 M |
+| Dedicated solar plants | $76.5 M | $34.4 M | $42.1 M |
+| Residual train control | $4.1 M | $2.0 M | $2.0 M |
+| Charging microgrids | $8.6 M | $3.4 M | $5.1 M |
+| EPC / project services | $635.9 M | $95.4 M | $540.5 M |
+| Shared national trainset factory | $321.0 M | $64.2 M | $256.8 M |
+| **Total** | **$9.80 B** | **$1.54 B** | **$8.25 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Conakry](Conakry/README.md) | 2,010,000 | 82 | $1.87 B | $332.7 M | $1.54 B |
+| [Conakry](Conakry/README.md) | 2,010,000 | 87 | $9.45 B | $1.48 B | $7.98 B |
 
 ## Local Basis And Regeneration
 

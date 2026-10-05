@@ -1,14 +1,14 @@
 # Samawah city-order factory requirement
 
-**133 light-metro-3car trainsets / 399 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**132 light-metro-3car trainsets / 396 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 379.2 trainsets/year, 4 separate test paths, 923 direct production FTE. Plant reference envelope: **USD 421.092m**.
+Planning output: 376.6 trainsets/year, 4 separate test paths, 914 direct production FTE. Plant reference envelope: **USD 418.562m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 71 | 618 | 708 | 708 |
+| line-1 | 70 | 617 | 707 | 707 |
 | line-2 | 34 | 641 | 731 | 731 |
 | line-3 | 28 | 660 | 750 | 750 |
 

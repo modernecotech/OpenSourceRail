@@ -3,7 +3,7 @@
 This page contains only Cambodia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$7.05 B (89.1%) of external capital** and **$8.84 B of external interest**. Capital plus saved interest totals **$15.90 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$16.57 B (90.3%) of external capital** and **$20.77 B of external interest**. Capital plus saved interest totals **$37.34 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Cambodia-specific aggregation. Shared network, service, 
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 2,281,000 |
-| Trainsets / vehicle modules | 265 / 1,060 |
-| City infrastructure and fleet CAPEX | $3.53 B |
-| Shared national factory | $815.5 M |
-| Factory sizing basis | 1,060 modules for Phnom Penh, then reused nationally |
-| **Total national programme** | **$4.40 B** |
+| Trainsets / vehicle modules | 374 / 1,496 |
+| City infrastructure and fleet CAPEX | $9.62 B |
+| Shared national factory | $534.3 M |
+| Factory sizing basis | 1,496 modules for Phnom Penh, then reused nationally |
+| **Total national programme** | **$10.20 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $866.7 M (19.7%) |
-| Domestic / local capital | $3.53 B (80.3%) |
-| Annual external capital draw | $123.8 M / yr |
-| Annual local capital draw | $504.9 M / yr |
-| Annual public construction commitment | $366.2 M / yr for 7 years |
-| Annual post-grace debt service | $296.5 M / yr |
-| Default foreign-turnkey external capital | $7.92 B |
-| External capital saved | $7.05 B |
-| Capital + lifetime external interest saved | $15.90 B |
+| Imported / external capital | $1.78 B (17.5%) |
+| Domestic / local capital | $8.41 B (82.5%) |
+| Annual external capital draw | $254.7 M / yr |
+| Annual local capital draw | $1.20 B / yr |
+| Annual public construction commitment | $859.0 M / yr for 7 years |
+| Annual post-grace debt service | $689.3 M / yr |
+| Default foreign-turnkey external capital | $18.35 B |
+| External capital saved | $16.57 B |
+| Capital + lifetime external interest saved | $37.34 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.31 B | $346.8 M | $1.97 B |
-| Stations | $321.0 M | $64.2 M | $256.8 M |
-| Depots | $120.7 M | $30.2 M | $90.5 M |
-| Rolling stock | $296.8 M | $103.9 M | $192.9 M |
-| Dedicated solar plants | $234.4 M | $105.5 M | $128.9 M |
-| Residual train control | $10.5 M | $5.3 M | $5.3 M |
-| Charging microgrids | $17.3 M | $6.9 M | $10.4 M |
-| EPC / project services | $272.6 M | $40.9 M | $231.7 M |
-| Shared national trainset factory | $815.5 M | $163.1 M | $652.4 M |
-| **Total** | **$4.40 B** | **$866.7 M** | **$3.53 B** |
+| Civil works | $7.43 B | $1.11 B | $6.32 B |
+| Stations | $703.5 M | $140.7 M | $562.8 M |
+| Depots | $142.0 M | $35.5 M | $106.5 M |
+| Rolling stock | $418.9 M | $146.6 M | $272.3 M |
+| Dedicated solar plants | $272.8 M | $122.8 M | $150.1 M |
+| Residual train control | $12.2 M | $6.1 M | $6.1 M |
+| Charging microgrids | $31.4 M | $12.5 M | $18.8 M |
+| EPC / project services | $649.2 M | $97.4 M | $551.8 M |
+| Shared national trainset factory | $534.3 M | $106.9 M | $427.5 M |
+| **Total** | **$10.20 B** | **$1.78 B** | **$8.41 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 265 | $3.53 B | $695.1 M | $2.83 B |
+| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 374 | $9.62 B | $1.67 B | $7.95 B |
 
 ## Local Basis And Regeneration
 

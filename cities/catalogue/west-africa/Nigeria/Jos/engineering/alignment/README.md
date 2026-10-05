@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jos-line1.aln.toml`](jos-line1.aln.toml) | `line-1` | 16,809.0 m | 7 |
+| [`jos-line1.aln.toml`](jos-line1.aln.toml) | `line-1` | 17,084.1 m | 7 |
 | [`jos-line2.aln.toml`](jos-line2.aln.toml) | `line-2` | 11,399.4 m | 5 |
 | [`jos-line3.aln.toml`](jos-line3.aln.toml) | `line-3` | 7,937.6 m | 3 |
 

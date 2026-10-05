@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`damanhur-line1.aln.toml`](damanhur-line1.aln.toml) | `line-1` | 7,443.7 m | 4 |
-| [`damanhur-line2.aln.toml`](damanhur-line2.aln.toml) | `line-2` | 15,824.4 m | 7 |
-| [`damanhur-line3.aln.toml`](damanhur-line3.aln.toml) | `line-3` | 18,035.4 m | 6 |
+| [`damanhur-line2.aln.toml`](damanhur-line2.aln.toml) | `line-2` | 16,175.8 m | 7 |
+| [`damanhur-line3.aln.toml`](damanhur-line3.aln.toml) | `line-3` | 18,310.4 m | 5 |
 
 ## Status
 

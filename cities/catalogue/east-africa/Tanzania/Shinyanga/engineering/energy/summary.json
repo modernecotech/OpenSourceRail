@@ -60,6 +60,16 @@
         },
         {
           "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 83.739109,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0446-0356-s012528"
+        },
+        {
+          "export_exceedance_kw": 0.0,
           "grid_export_kw": 2404.919432,
           "grid_export_limit_kw": 3000.0,
           "grid_import_kw": 0.0,
@@ -87,6 +97,16 @@
           "import_exceedance_kw": 0.0,
           "passed": true,
           "station": "line-2-0397-0299-s005330"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 83.739109,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0446-0356-s007052"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -164,6 +184,16 @@
         {
           "export_exceedance_kw": 0.0,
           "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 529.263063,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-1-0446-0356-s012528"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
           "grid_export_limit_kw": 3000.0,
           "grid_import_kw": 527.432219,
           "grid_import_limit_kw": 3000.0,
@@ -190,6 +220,16 @@
           "import_exceedance_kw": 29.647205,
           "passed": false,
           "station": "line-2-0397-0299-s005330"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 600.0,
+          "grid_import_kw": 529.263063,
+          "grid_import_limit_kw": 600.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-2-0446-0356-s007052"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -230,7 +270,7 @@
   "climate_input": "lib/templates/climate.toml",
   "climate_preset": "tropical-arid",
   "climate_sha256": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
-  "connected_charging_power_kw": 4500.0,
+  "connected_charging_power_kw": 5500.0,
   "contingency_findings": [
     {
       "case": "peak_charge_grid_only",
@@ -258,13 +298,13 @@
     }
   ],
   "deployment_release_ready": false,
-  "derated_planning_pv_energy_mwh_per_year": 12435.7,
+  "derated_planning_pv_energy_mwh_per_year": 12879.8,
   "derated_planning_specific_yield_kwh_per_kwp": 740.2,
   "design_findings": [],
   "design_input": "cities/catalogue/east-africa/Tanzania/Shinyanga/design.toml",
-  "design_sha256": "431fe2cd9832c7016e6020f351fb9f51f7d5cb190aa6a167dde1e59307c564ab",
+  "design_sha256": "ac2e2c108a461dd6f9a4c0d1196f36dca3a83857147ed49298d1317e1c4444c0",
   "generator_sha256": "c4c8bc6912aab0790c5d682b275afa27369166fd0a5093f55fe61c55adcf50ac",
-  "grid_import_capacity_kw": 13000.0,
+  "grid_import_capacity_kw": 14200.0,
   "limitations": [
     "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
     "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
@@ -273,15 +313,15 @@
   ],
   "operating_energy_validated": false,
   "passed": true,
-  "pv_nameplate_kw": 16800.0,
+  "pv_nameplate_kw": 17400.0,
   "scenario_ambient_c": 29.0,
   "scenario_input": "cities/catalogue/east-africa/Tanzania/Shinyanga/shinyanga.toml",
   "scenario_peak_sun_hours": 6.5,
-  "scenario_sha256": "ddf071852b59353c3b608aa2ad0744810117eaa8c0186db5f9ef60290311f806",
+  "scenario_sha256": "423e937ec1953ec0a4c7c04dad27ac6a1b757a75a8e6ff83567743249dc16165",
   "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
-  "site_count": 9,
+  "site_count": 11,
   "solver_passed": true,
-  "storage_capacity_kwh": 123000.0,
+  "storage_capacity_kwh": 124000.0,
   "tools": {
     "pandapower": "3.5.3",
     "pvlib": "0.15.2"

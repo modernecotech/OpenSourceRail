@@ -93,7 +93,9 @@ def test_simple_span_bearing_cash_adds_pi25_delta_and_epc_once():
     comparison=json.loads((OUT.parent/'viaduct-comparison/comparison.json').read_text())
     assert direct==pytest.approx(comparison['bearing_index_sensitivity']['financed_pi25_only_direct_delta_usd'])
     assert case['metrics']['total_capital_usd']-full['metrics']['total_capital_usd']==pytest.approx(direct*1.07)
-    assert case['metrics']['terminal_supplemental_balance_iqd']>full['metrics']['terminal_supplemental_balance_iqd']
+    # The gap facility can be capped: additional cash then appears as
+    # explicitly uncovered support instead of invented extra credit.
+    assert sum(case['metrics'][k] for k in ('terminal_supplemental_balance_iqd','uncovered_support_iqd'))>sum(full['metrics'][k] for k in ('terminal_supplemental_balance_iqd','uncovered_support_iqd'))
     assert all(not r['actual_bearing_origin_and_dates_accepted'] for r in case['bearing_index_delta_contracts'])
     assert case['metrics']['government_capital_share']==pytest.approx(.25)
 

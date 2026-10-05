@@ -6,10 +6,10 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-1924-1474-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0002-0746-s047300 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-1645-1227-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0230-1106-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-4-2245-0879-s045370 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-4-0594-1322-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-5-1385-2285-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-6-1747-2233-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-7-0301-1712-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
@@ -20,20 +20,20 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-1924-1474-s000000 | line-1 | 44 | 4,884.0 | 5,324.0 | unverified |
-| line-1-0002-0746-s044962 | line-1 | 43 | 4,773.0 | 5,203.0 | unverified |
+| line-1-1924-1474-s000000 | line-1 | 46 | 5,106.0 | 5,566.0 | unverified |
+| line-1-0002-0746-s047300 | line-1 | 45 | 4,995.0 | 5,445.0 | unverified |
 | line-2-1645-1227-s000000 | line-2 | 28 | 3,108.0 | 3,388.0 | unverified |
 | line-2-0561-0795-s030344 | line-2 | 28 | 3,108.0 | 3,388.0 | unverified |
-| line-3-0230-1106-s000000 | line-3 | 35 | 3,885.0 | 4,235.0 | unverified |
-| line-3-1828-1770-s038114 | line-3 | 34 | 3,774.0 | 4,114.0 | unverified |
+| line-3-0230-1106-s000000 | line-3 | 37 | 4,107.0 | 4,477.0 | unverified |
+| line-3-1828-1770-s039191 | line-3 | 36 | 3,996.0 | 4,356.0 | unverified |
 | line-4-0594-1322-s000000 | line-4 | 42 | 4,662.0 | 5,082.0 | unverified |
 | line-4-2245-0879-s045370 | line-4 | 42 | 4,662.0 | 5,082.0 | unverified |
-| line-5-1385-2285-s000000 | line-5 | 30 | 3,330.0 | 3,630.0 | unverified |
-| line-5-1003-0892-s032126 | line-5 | 30 | 3,330.0 | 3,630.0 | unverified |
+| line-5-1385-2285-s000000 | line-5 | 34 | 3,774.0 | 4,114.0 | unverified |
+| line-5-1003-0892-s033184 | line-5 | 33 | 3,663.0 | 3,993.0 | unverified |
 | line-6-1747-2233-s000000 | line-6 | 30 | 3,330.0 | 3,630.0 | unverified |
-| line-6-1120-1060-s029442 | line-6 | 30 | 3,330.0 | 3,630.0 | unverified |
+| line-6-1120-1060-s030162 | line-6 | 30 | 3,330.0 | 3,630.0 | unverified |
 | line-7-0301-1712-s000000 | line-7 | 23 | 2,553.0 | 2,783.0 | unverified |
-| line-7-1276-1338-s022897 | line-7 | 23 | 2,553.0 | 2,783.0 | unverified |
+| line-7-1276-1338-s023266 | line-7 | 23 | 2,553.0 | 2,783.0 | unverified |
 | line-8-0522-1812-s000000 | line-8 | 24 | 2,664.0 | 2,904.0 | unverified |
 | line-8-1273-1056-s023966 | line-8 | 23 | 2,553.0 | 2,783.0 | unverified |
 | line-9-0589-1018-s000361 | line-9 | 18 | 1,998.0 | 2,178.0 | unverified |

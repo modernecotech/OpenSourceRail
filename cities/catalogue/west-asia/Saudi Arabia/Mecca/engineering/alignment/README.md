@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mecca-line1.aln.toml`](mecca-line1.aln.toml) | `line-1` | 27,234.5 m | 11 |
-| [`mecca-line2.aln.toml`](mecca-line2.aln.toml) | `line-2` | 24,026.3 m | 9 |
-| [`mecca-line3.aln.toml`](mecca-line3.aln.toml) | `line-3` | 32,171.7 m | 11 |
-| [`mecca-line4.aln.toml`](mecca-line4.aln.toml) | `line-4` | 29,712.4 m | 11 |
-| [`mecca-line5.aln.toml`](mecca-line5.aln.toml) | `line-5` | 23,257.5 m | 8 |
-| [`mecca-line6.aln.toml`](mecca-line6.aln.toml) | `line-6` | 64,925.0 m | 21 |
+| [`mecca-line1.aln.toml`](mecca-line1.aln.toml) | `line-1` | 27,831.8 m | 11 |
+| [`mecca-line2.aln.toml`](mecca-line2.aln.toml) | `line-2` | 23,404.0 m | 9 |
+| [`mecca-line3.aln.toml`](mecca-line3.aln.toml) | `line-3` | 32,601.1 m | 13 |
+| [`mecca-line4.aln.toml`](mecca-line4.aln.toml) | `line-4` | 30,194.2 m | 12 |
+| [`mecca-line5.aln.toml`](mecca-line5.aln.toml) | `line-5` | 23,296.6 m | 10 |
+| [`mecca-line6.aln.toml`](mecca-line6.aln.toml) | `line-6` | 65,707.4 m | 23 |
 
 ## Status
 

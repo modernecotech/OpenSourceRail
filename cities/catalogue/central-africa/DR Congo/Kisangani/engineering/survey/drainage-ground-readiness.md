@@ -1,7 +1,7 @@
 # Kisangani drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 2 / 12
+- Lines/stations: 2 / 25
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

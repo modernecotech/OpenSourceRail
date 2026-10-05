@@ -7,19 +7,19 @@ The adopted planning requirement stores the full line fleet in one line-local de
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
 | line-1-0316-0690-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-2-0949-0887-s017943 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-2-0949-0887-s018371 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0527-0507-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0316-0690-s000000 | line-1 | 16 | 792.0 | 952.0 | unverified |
-| line-1-0602-0332-s010279 | line-1 | 15 | 742.5 | 892.5 | unverified |
+| line-1-0316-0690-s000000 | line-1 | 17 | 841.5 | 1,011.5 | unverified |
+| line-1-0602-0332-s010279 | line-1 | 17 | 841.5 | 1,011.5 | unverified |
 | line-2-0473-0257-s000000 | line-2 | 29 | 1,435.5 | 1,725.5 | unverified |
-| line-2-0949-0887-s017943 | line-2 | 28 | 1,386.0 | 1,666.0 | unverified |
+| line-2-0949-0887-s018371 | line-2 | 28 | 1,386.0 | 1,666.0 | unverified |
 | line-3-0527-0507-s000000 | line-3 | 20 | 990.0 | 1,190.0 | unverified |
-| line-3-0014-0682-s013177 | line-3 | 19 | 940.5 | 1,130.5 | unverified |
+| line-3-0014-0682-s013177 | line-3 | 20 | 990.0 | 1,190.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

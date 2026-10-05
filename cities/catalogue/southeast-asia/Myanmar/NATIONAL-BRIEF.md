@@ -3,7 +3,7 @@
 This page contains only Myanmar-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$15.36 B (88.0%) of external capital** and **$19.84 B of external interest**. Capital plus saved interest totals **$35.20 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$68.78 B (90.5%) of external capital** and **$88.84 B of external interest**. Capital plus saved interest totals **$157.62 B**.
 
 ## National Programme
 
@@ -11,47 +11,47 @@ This page contains only Myanmar-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 2 |
 | Represented population | 6,926,000 |
-| Trainsets / vehicle modules | 833 / 4,492 |
-| City infrastructure and fleet CAPEX | $8.86 B |
-| Shared national factory | $786.6 M |
-| Factory sizing basis | 3,480 modules for Yangon, then reused nationally |
-| **Total national programme** | **$9.70 B** |
+| Trainsets / vehicle modules | 1,089 / 5,968 |
+| City infrastructure and fleet CAPEX | $41.27 B |
+| Shared national factory | $871.2 M |
+| Factory sizing basis | 4,836 modules for Yangon, then reused nationally |
+| **Total national programme** | **$42.20 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $2.10 B (21.6%) |
-| Domestic / local capital | $7.60 B (78.4%) |
-| Annual external capital draw | $209.6 M / yr |
-| Annual local capital draw | $760.2 M / yr |
-| Annual public construction commitment | $1.04 B / yr for 10 years |
-| Annual post-grace debt service | $940.1 M / yr |
-| Default foreign-turnkey external capital | $17.46 B |
-| External capital saved | $15.36 B |
-| Capital + lifetime external interest saved | $35.20 B |
+| Imported / external capital | $7.19 B (17.0%) |
+| Domestic / local capital | $35.02 B (83.0%) |
+| Annual external capital draw | $718.6 M / yr |
+| Annual local capital draw | $3.50 B / yr |
+| Annual public construction commitment | $4.67 B / yr for 10 years |
+| Annual post-grace debt service | $4.18 B / yr |
+| Default foreign-turnkey external capital | $75.96 B |
+| External capital saved | $68.78 B |
+| Capital + lifetime external interest saved | $157.62 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $5.05 B | $757.2 M | $4.29 B |
-| Stations | $726.4 M | $145.3 M | $581.1 M |
-| Depots | $372.7 M | $93.2 M | $279.5 M |
-| Rolling stock | $1.26 B | $440.2 M | $817.5 M |
-| Dedicated solar plants | $843.6 M | $379.6 M | $464.0 M |
-| Residual train control | $28.1 M | $14.1 M | $14.1 M |
-| Charging microgrids | $56.2 M | $22.5 M | $33.7 M |
-| EPC / project services | $579.3 M | $86.9 M | $492.4 M |
-| Shared national trainset factory | $786.6 M | $157.3 M | $629.2 M |
-| **Total** | **$9.70 B** | **$2.10 B** | **$7.60 B** |
+| Civil works | $33.48 B | $5.02 B | $28.46 B |
+| Stations | $1.91 B | $381.4 M | $1.53 B |
+| Depots | $437.9 M | $109.5 M | $328.4 M |
+| Rolling stock | $1.67 B | $584.9 M | $1.09 B |
+| Dedicated solar plants | $1.00 B | $450.7 M | $550.8 M |
+| Residual train control | $34.0 M | $17.0 M | $17.0 M |
+| Charging microgrids | $105.1 M | $42.0 M | $63.1 M |
+| EPC / project services | $2.70 B | $404.3 M | $2.29 B |
+| Shared national trainset factory | $871.2 M | $174.2 M | $696.9 M |
+| **Total** | **$42.20 B** | **$7.19 B** | **$35.02 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Yangon](Yangon/README.md) | 5,200,000 | 580 | $6.11 B | $1.38 B | $4.72 B |
-| [Mandalay](Mandalay/README.md) | 1,726,000 | 253 | $2.75 B | $547.4 M | $2.20 B |
+| [Yangon](Yangon/README.md) | 5,200,000 | 806 | $26.99 B | $4.71 B | $22.29 B |
+| [Mandalay](Mandalay/README.md) | 1,726,000 | 283 | $14.27 B | $2.30 B | $11.98 B |
 
 ## Local Basis And Regeneration
 

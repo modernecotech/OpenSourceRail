@@ -1,6 +1,6 @@
 # Hodeidah city-order factory requirement
 
-**78 light-metro-3car trainsets / 234 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**79 light-metro-3car trainsets / 237 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 224.1 trainsets/year, 3 separate test paths, 549 direct production FTE. Plant reference envelope: **USD 283.585m**.
 
@@ -8,8 +8,8 @@ This is an independent city-order capacity requirement. Shared factory capital i
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 26 | 598 | 688 | 688 |
-| line-2 | 32 | 635 | 725 | 725 |
-| line-3 | 20 | 659 | 749 | 749 |
+| line-1 | 27 | 600 | 690 | 690 |
+| line-2 | 32 | 636 | 726 | 726 |
+| line-3 | 20 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

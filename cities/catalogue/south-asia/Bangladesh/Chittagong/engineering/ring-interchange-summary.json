@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "chittagong"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "chittagong",
-      "corridor_sha256": "2b325baa22494c53b244f27ebabaebb366956f69d793f0847b1282080f3d6e60",
-      "design_sha256": "69b4d577287b09430bc6aea32d412b8936577a12cde7807d64342a6b352abbae",
-      "failures": [
+      "corridor_sha256": "2432dc929aedea13621bed306e4baae26bc6892687ab28b764d63f73f16a3724",
+      "design_sha256": "eee41e73bea1bdbe85de1864a519a4f20cc1ce540ee5a31adca0ee1ee85a7add",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 7,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "bf96fad32833d15655f3d01a4d10030530e0aea80e8bb25fa6173a2e2728e190",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1488.7,
+          "physical_release": false,
           "radial": "line-3",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 7,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jodhpur-line1.aln.toml`](jodhpur-line1.aln.toml) | `line-1` | 24,219.4 m | 11 |
+| [`jodhpur-line1.aln.toml`](jodhpur-line1.aln.toml) | `line-1` | 24,728.8 m | 12 |
 | [`jodhpur-line2.aln.toml`](jodhpur-line2.aln.toml) | `line-2` | 20,285.7 m | 11 |
-| [`jodhpur-line3.aln.toml`](jodhpur-line3.aln.toml) | `line-3` | 19,360.0 m | 11 |
-| [`jodhpur-line4.aln.toml`](jodhpur-line4.aln.toml) | `line-4` | 24,675.8 m | 10 |
-| [`jodhpur-line5.aln.toml`](jodhpur-line5.aln.toml) | `line-5` | 46,441.1 m | 21 |
+| [`jodhpur-line3.aln.toml`](jodhpur-line3.aln.toml) | `line-3` | 19,635.0 m | 11 |
+| [`jodhpur-line4.aln.toml`](jodhpur-line4.aln.toml) | `line-4` | 24,813.3 m | 10 |
+| [`jodhpur-line5.aln.toml`](jodhpur-line5.aln.toml) | `line-5` | 47,550.7 m | 21 |
 
 ## Status
 

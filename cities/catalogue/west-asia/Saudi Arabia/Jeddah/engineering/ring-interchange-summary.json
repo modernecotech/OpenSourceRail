@@ -1,27 +1,27 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "jeddah"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "jeddah",
-      "corridor_sha256": "ff15dcc7fc0d588bc18aca265a7117f53a995acfab57cab903cd0514cccd5f6a",
-      "design_sha256": "b21a1dbd869fc4fad7d1eec18213e737f31d78a143069d3f4cc2d61a3c33680f",
-      "failures": [
-        {
-          "code": "radial-corridor-turns-back-on-itself",
-          "maximum_reverse_excursion_m": 1378.3,
-          "radial": "line-2",
-          "severity": "fail"
-        }
-      ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
+      "corridor_sha256": "891c701ffa515cc931e30ac5acf6abfc247c63ae35e33b008bd96eab0d257afd",
+      "design_sha256": "763d4f8a3c3ebb0c1a8e150e73760b1c1a6aed342df881695dd094ba51d653ed",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
       "radial_count": 8,
       "review_findings": [
+        {
+          "alignment_report_sha256": "900bd3754c3e28cefa0b1d48e21a3b55b3eb57545288443cb76b1fb232b7bf6e",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
+          "maximum_reverse_excursion_m": 1378.3,
+          "physical_release": false,
+          "radial": "line-2",
+          "severity": "review"
+        },
         {
           "code": "ring-radial-layout-disconnected",
           "geometry_distance_m": 1902.7,
@@ -34,5 +34,5 @@
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 2
 }

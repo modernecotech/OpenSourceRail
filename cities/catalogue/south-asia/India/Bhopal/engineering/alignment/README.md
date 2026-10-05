@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bhopal-line1.aln.toml`](bhopal-line1.aln.toml) | `line-1` | 20,632.1 m | 10 |
-| [`bhopal-line2.aln.toml`](bhopal-line2.aln.toml) | `line-2` | 18,022.0 m | 9 |
-| [`bhopal-line3.aln.toml`](bhopal-line3.aln.toml) | `line-3` | 17,496.9 m | 9 |
-| [`bhopal-line4.aln.toml`](bhopal-line4.aln.toml) | `line-4` | 30,604.1 m | 12 |
-| [`bhopal-line5.aln.toml`](bhopal-line5.aln.toml) | `line-5` | 22,512.7 m | 8 |
+| [`bhopal-line1.aln.toml`](bhopal-line1.aln.toml) | `line-1` | 20,891.9 m | 10 |
+| [`bhopal-line2.aln.toml`](bhopal-line2.aln.toml) | `line-2` | 18,067.8 m | 9 |
+| [`bhopal-line3.aln.toml`](bhopal-line3.aln.toml) | `line-3` | 17,726.1 m | 9 |
+| [`bhopal-line4.aln.toml`](bhopal-line4.aln.toml) | `line-4` | 30,913.1 m | 12 |
+| [`bhopal-line5.aln.toml`](bhopal-line5.aln.toml) | `line-5` | 22,787.7 m | 9 |
 | [`bhopal-line6.aln.toml`](bhopal-line6.aln.toml) | `line-6` | 57,744.2 m | 18 |
 
 ## Status

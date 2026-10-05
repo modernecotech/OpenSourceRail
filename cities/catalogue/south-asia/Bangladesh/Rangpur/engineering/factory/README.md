@@ -1,6 +1,6 @@
 # Rangpur city-order factory requirement
 
-**119 light-metro-3car trainsets / 357 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**120 light-metro-3car trainsets / 360 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 340.7 trainsets/year, 4 separate test paths, 824 direct production FTE. Plant reference envelope: **USD 387.477m**.
 
@@ -10,6 +10,6 @@ This is an independent city-order capacity requirement. Shared factory capital i
 |---|---:|---:|---:|---:|
 | line-1 | 38 | 598 | 688 | 688 |
 | line-2 | 47 | 634 | 724 | 724 |
-| line-3 | 34 | 660 | 750 | 750 |
+| line-3 | 35 | 661 | 751 | 751 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

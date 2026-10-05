@@ -126,17 +126,7 @@
           "grid_import_limit_kw": 500.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0586-0443-s002180"
-        },
-        {
-          "export_exceedance_kw": 0.0,
-          "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 500.0,
-          "grid_import_kw": 83.748064,
-          "grid_import_limit_kw": 500.0,
-          "import_exceedance_kw": 0.0,
-          "passed": true,
-          "station": "line-3-0491-0414-s004344"
+          "station": "line-3-0547-0470-s003013"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -146,13 +136,13 @@
           "grid_import_limit_kw": 800.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0301-0356-s008660"
+          "station": "line-3-0301-0356-s009265"
         }
       ],
       "undervoltage_bus_count": 0
     },
     "peak_charge_grid_only": {
-      "connection_limit_exceedance_count": 5,
+      "connection_limit_exceedance_count": 4,
       "converged": true,
       "maximum_bus_voltage_pu": 1.0,
       "maximum_transformer_loading_percent": 82.886,
@@ -259,17 +249,7 @@
           "grid_import_limit_kw": 500.0,
           "import_exceedance_kw": 29.647205,
           "passed": false,
-          "station": "line-3-0586-0443-s002180"
-        },
-        {
-          "export_exceedance_kw": 0.0,
-          "grid_export_kw": 0.0,
-          "grid_export_limit_kw": 500.0,
-          "grid_import_kw": 529.647205,
-          "grid_import_limit_kw": 500.0,
-          "import_exceedance_kw": 29.647205,
-          "passed": false,
-          "station": "line-3-0491-0414-s004344"
+          "station": "line-3-0547-0470-s003013"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -279,7 +259,7 @@
           "grid_import_limit_kw": 800.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0301-0356-s008660"
+          "station": "line-3-0301-0356-s009265"
         }
       ],
       "undervoltage_bus_count": 0
@@ -290,7 +270,7 @@
   "climate_input": "lib/templates/climate.toml",
   "climate_preset": "mediterranean",
   "climate_sha256": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
-  "connected_charging_power_kw": 6000.0,
+  "connected_charging_power_kw": 5500.0,
   "contingency_findings": [
     {
       "case": "peak_charge_grid_only",
@@ -338,29 +318,17 @@
       "grid_import_limit_kw": 500.0,
       "import_exceedance_kw": 29.647205,
       "passed": false,
-      "station": "line-3-0586-0443-s002180"
-    },
-    {
-      "case": "peak_charge_grid_only",
-      "code": "site-grid-connection-limit-exceeded",
-      "export_exceedance_kw": 0.0,
-      "grid_export_kw": 0.0,
-      "grid_export_limit_kw": 500.0,
-      "grid_import_kw": 529.647205,
-      "grid_import_limit_kw": 500.0,
-      "import_exceedance_kw": 29.647205,
-      "passed": false,
-      "station": "line-3-0491-0414-s004344"
+      "station": "line-3-0547-0470-s003013"
     }
   ],
   "deployment_release_ready": false,
-  "derated_planning_pv_energy_mwh_per_year": 25672.4,
+  "derated_planning_pv_energy_mwh_per_year": 25237.3,
   "derated_planning_specific_yield_kwh_per_kwp": 1450.4,
   "design_findings": [],
   "design_input": "cities/catalogue/west-asia/Syria/Latakia/design.toml",
-  "design_sha256": "14e39c19039f076eeae062063bc415fae01ab44bbb7e3814d23eda6b4a959d9c",
+  "design_sha256": "13bc903d3848c52cf74ed05ef8b678774cfbfd67a93a4d3cead074e1b7fdec24",
   "generator_sha256": "c4c8bc6912aab0790c5d682b275afa27369166fd0a5093f55fe61c55adcf50ac",
-  "grid_import_capacity_kw": 14500.0,
+  "grid_import_capacity_kw": 14000.0,
   "limitations": [
     "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
     "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
@@ -369,15 +337,15 @@
   ],
   "operating_energy_validated": false,
   "passed": true,
-  "pv_nameplate_kw": 17700.0,
+  "pv_nameplate_kw": 17400.0,
   "scenario_ambient_c": 20.0,
   "scenario_input": "cities/catalogue/west-asia/Syria/Latakia/latakia.toml",
   "scenario_peak_sun_hours": 5.5,
-  "scenario_sha256": "55b2ca0ce2fae923b8e77803088c213a50a87ccea65bc8da8981b17b3a534a19",
+  "scenario_sha256": "45321f9130c3ba5a6459ca7aa0bc1a2586fb83266bae5842900b664f5b6c2a30",
   "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
-  "site_count": 12,
+  "site_count": 11,
   "solver_passed": true,
-  "storage_capacity_kwh": 124500.0,
+  "storage_capacity_kwh": 124000.0,
   "tools": {
     "pandapower": "3.5.3",
     "pvlib": "0.15.2"

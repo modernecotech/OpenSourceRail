@@ -4,14 +4,14 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lucknow-line1.aln.toml`](lucknow-line1.aln.toml) | `line-1` | 43,134.4 m | 12 |
-| [`lucknow-line2.aln.toml`](lucknow-line2.aln.toml) | `line-2` | 27,220.0 m | 11 |
-| [`lucknow-line3.aln.toml`](lucknow-line3.aln.toml) | `line-3` | 22,350.5 m | 7 |
-| [`lucknow-line4.aln.toml`](lucknow-line4.aln.toml) | `line-4` | 17,298.8 m | 6 |
-| [`lucknow-line5.aln.toml`](lucknow-line5.aln.toml) | `line-5` | 49,464.6 m | 16 |
-| [`lucknow-line6.aln.toml`](lucknow-line6.aln.toml) | `line-6` | 42,054.9 m | 12 |
-| [`lucknow-line7.aln.toml`](lucknow-line7.aln.toml) | `line-7` | 34,513.7 m | 11 |
-| [`lucknow-line8.aln.toml`](lucknow-line8.aln.toml) | `line-8` | 86,094.3 m | 24 |
+| [`lucknow-line1.aln.toml`](lucknow-line1.aln.toml) | `line-1` | 44,352.8 m | 14 |
+| [`lucknow-line2.aln.toml`](lucknow-line2.aln.toml) | `line-2` | 26,861.5 m | 14 |
+| [`lucknow-line3.aln.toml`](lucknow-line3.aln.toml) | `line-3` | 22,291.4 m | 9 |
+| [`lucknow-line4.aln.toml`](lucknow-line4.aln.toml) | `line-4` | 17,298.8 m | 8 |
+| [`lucknow-line5.aln.toml`](lucknow-line5.aln.toml) | `line-5` | 51,218.0 m | 16 |
+| [`lucknow-line6.aln.toml`](lucknow-line6.aln.toml) | `line-6` | 43,378.8 m | 15 |
+| [`lucknow-line7.aln.toml`](lucknow-line7.aln.toml) | `line-7` | 37,172.3 m | 13 |
+| [`lucknow-line8.aln.toml`](lucknow-line8.aln.toml) | `line-8` | 86,160.7 m | 24 |
 
 ## Status
 

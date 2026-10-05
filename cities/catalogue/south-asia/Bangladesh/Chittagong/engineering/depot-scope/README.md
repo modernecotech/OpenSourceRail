@@ -19,20 +19,20 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-1737-1246-s000000 | line-1 | 36 | 3,996.0 | 4,356.0 | unverified |
-| line-1-0045-0697-s038045 | line-1 | 35 | 3,885.0 | 4,235.0 | unverified |
+| line-1-1737-1246-s000000 | line-1 | 41 | 4,551.0 | 4,961.0 | unverified |
+| line-1-0045-0697-s040888 | line-1 | 40 | 4,440.0 | 4,840.0 | unverified |
 | line-2-1706-1332-s000000 | line-2 | 28 | 3,108.0 | 3,388.0 | unverified |
 | line-2-0682-1418-s022024 | line-2 | 28 | 3,108.0 | 3,388.0 | unverified |
 | line-3-0371-1207-s000000 | line-3 | 57 | 6,327.0 | 6,897.0 | unverified |
 | line-3-2205-1847-s061223 | line-3 | 57 | 6,327.0 | 6,897.0 | unverified |
-| line-4-0617-2159-s000000 | line-4 | 27 | 2,997.0 | 3,267.0 | unverified |
-| line-4-1410-1170-s028415 | line-4 | 27 | 2,997.0 | 3,267.0 | unverified |
-| line-5-1359-1166-s000000 | line-5 | 30 | 3,330.0 | 3,630.0 | unverified |
-| line-5-0210-1918-s031352 | line-5 | 30 | 3,330.0 | 3,630.0 | unverified |
+| line-4-0617-2159-s000000 | line-4 | 29 | 3,219.0 | 3,509.0 | unverified |
+| line-4-1410-1170-s028861 | line-4 | 28 | 3,108.0 | 3,388.0 | unverified |
+| line-5-1359-1166-s000000 | line-5 | 31 | 3,441.0 | 3,751.0 | unverified |
+| line-5-0210-1918-s031768 | line-5 | 30 | 3,330.0 | 3,630.0 | unverified |
 | line-6-1096-1139-s000000 | line-6 | 26 | 2,886.0 | 3,146.0 | unverified |
-| line-6-1529-2226-s025972 | line-6 | 25 | 2,775.0 | 3,025.0 | unverified |
-| line-7-1201-1087-s000000 | line-7 | 33 | 3,663.0 | 3,993.0 | unverified |
-| line-7-2014-2377-s033954 | line-7 | 32 | 3,552.0 | 3,872.0 | unverified |
+| line-6-1529-2226-s026474 | line-6 | 25 | 2,775.0 | 3,025.0 | unverified |
+| line-7-1201-1087-s000000 | line-7 | 34 | 3,774.0 | 4,114.0 | unverified |
+| line-7-2014-2377-s034409 | line-7 | 34 | 3,774.0 | 4,114.0 | unverified |
 | line-8-0585-1316-s002888 | line-8 | 18 | 1,998.0 | 2,178.0 | unverified |
 | line-8-0591-1193-s074168 | line-8 | 17 | 1,887.0 | 2,057.0 | unverified |
 

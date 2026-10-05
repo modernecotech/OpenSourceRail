@@ -4,14 +4,14 @@ Each corridor pays for its own workload/shift cover including central leadership
 
 | Line | Fleet | FTE | OPEX USD m/year | Operating-neutral paid trips m/year | Neutral capacity use | Fare at 20% use IQD |
 | --- | --- | --- | --- | --- | --- | --- |
-| line-1 | 44 | 250 | 23.120 | 20.497 | 32.5% | 2140 |
-| line-2 | 52 | 269 | 25.151 | 22.364 | 35.5% | 2336 |
-| line-3 | 50 | 272 | 23.993 | 21.085 | 33.4% | 2202 |
-| line-4 | 41 | 225 | 20.308 | 17.995 | 28.5% | 1879 |
-| line-5 | 44 | 237 | 22.552 | 20.073 | 31.8% | 2096 |
-| line-6 | 51 | 263 | 25.220 | 22.569 | 35.8% | 2357 |
-| line-7 | 41 | 225 | 19.560 | 17.256 | 27.4% | 1802 |
-| line-8 | 47 | 244 | 23.133 | 20.645 | 32.7% | 2156 |
-| line-9 | 44 | 373 | 39.134 | 34.390 | 56.3% | 3707 |
+| line-1 | 49 | 279 | 36.930 | 33.199 | 52.6% | 3467 |
+| line-2 | 50 | 282 | 39.372 | 35.609 | 56.5% | 3719 |
+| line-3 | 48 | 279 | 37.229 | 33.494 | 53.1% | 3498 |
+| line-4 | 43 | 235 | 31.795 | 28.781 | 45.6% | 3006 |
+| line-5 | 47 | 274 | 35.789 | 32.073 | 50.9% | 3349 |
+| line-6 | 53 | 300 | 39.822 | 35.891 | 56.9% | 3748 |
+| line-7 | 39 | 231 | 30.245 | 27.251 | 43.2% | 2846 |
+| line-8 | 48 | 264 | 36.386 | 32.987 | 52.3% | 3445 |
+| line-9 | 48 | 417 | 67.778 | 61.208 | 100.2% | 6598 |
 
 [Detailed cases and investigation forms](corridor-comparison.json) retain fares, affordability, OD/transfers, paid demand, pedestrian/feeder catchments, interchange and standalone debt-service fields. The affordability column prices 44 monthly trips against the historical model income proxy; it is not surveyed disposable income. Lower vehicle procurement reduces service/capacity; unchanged receipts and earlier openings are not assumed. Surveyed ground, utilities, foundations, drainage, erection/temporary works, evacuation/access and actual shared dependencies must accompany selection. A 10% civil opportunity is not claimed as a saving.

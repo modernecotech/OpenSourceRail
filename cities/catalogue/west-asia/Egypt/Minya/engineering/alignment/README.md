@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`minya-line1.aln.toml`](minya-line1.aln.toml) | `line-1` | 14,580.4 m | 6 |
 | [`minya-line2.aln.toml`](minya-line2.aln.toml) | `line-2` | 14,377.8 m | 4 |
-| [`minya-line3.aln.toml`](minya-line3.aln.toml) | `line-3` | 11,990.8 m | 4 |
+| [`minya-line3.aln.toml`](minya-line3.aln.toml) | `line-3` | 11,990.8 m | 5 |
 
 ## Status
 

@@ -33,7 +33,7 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0449-0483-s004954 | station | reverse | revenue | 1 |
 | line-2 | line-2-0526-0631-s008681 | station | forward | revenue | 1 |
 | line-2 | line-2-0526-0631-s008681 | station | reverse | revenue | 1 |
-| line-2 | line-2-0784-1025-s018855 | station | reverse | revenue | 2 |
+| line-2 | line-2-0784-1025-s019007 | station | reverse | revenue | 2 |
 | line-3 | line-3-0306-1057-s000000 | station | forward | revenue | 2 |
 | line-3 | line-3-0445-0807-s007004 | station | forward | revenue | 1 |
 | line-3 | line-3-0445-0807-s007004 | station | reverse | revenue | 1 |
@@ -97,9 +97,9 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **36 posit
 | line-2 | line-2-0449-0483-s004954 | reverse | revenue | 9 | pending |
 | line-2 | line-2-0526-0631-s008681 | forward | revenue | 9 | pending |
 | line-2 | line-2-0526-0631-s008681 | reverse | revenue | 8 | pending |
-| line-2 | line-2-0784-1025-s018855 | reverse | revenue | 8 | pending |
+| line-2 | line-2-0784-1025-s019007 | reverse | revenue | 8 | pending |
 | line-2 | line-2-0526-0631-s008681 | reverse | spare | 1 | pending |
-| line-2 | line-2-0784-1025-s018855 | reverse | spare | 1 | pending |
+| line-2 | line-2-0784-1025-s019007 | reverse | spare | 1 | pending |
 | line-2 | line-2-0346-0285-s000000 | forward | spare | 1 | pending |
 | line-2 | line-2-0449-0483-s004954 | forward | spare | 1 | pending |
 | line-2 | line-2-0449-0483-s004954 | reverse | spare | 1 | pending |
@@ -137,7 +137,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **36 posit
 | line-2-0346-0285-s000000 | 10 | 2 | 8 | 476.0 |
 | line-2-0449-0483-s004954 | 20 | 2 | 18 | 1,071.0 |
 | line-2-0526-0631-s008681 | 19 | 4 | 15 | 892.5 |
-| line-2-0784-1025-s018855 | 9 | 2 | 7 | 416.5 |
+| line-2-0784-1025-s019007 | 9 | 2 | 7 | 416.5 |
 | line-3-0306-1057-s000000 | 6 | 2 | 4 | 238.0 |
 | line-3-0445-0807-s007004 | 11 | 2 | 9 | 535.5 |
 | line-3-0526-0631-s011277 | 10 | 4 | 6 | 357.0 |

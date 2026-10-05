@@ -1,5 +1,9 @@
 # baghdad depot scope reconciliation
 
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
 Depot energy quantities reconciled: **yes**. Physical/cost/stabling closure: **open**.
 
 The policy assigns two revenue trains per selected powered station for coordinated morning starts and the remaining fleet to storage on its own line. Depot storage tracks are sized separately from maintenance bays; see the [station/depot allocation](../stabling/README.md). The dispatch table below diagnoses the current simulator initialization; it is not a proposed overnight parking allocation or a requirement for more depots.

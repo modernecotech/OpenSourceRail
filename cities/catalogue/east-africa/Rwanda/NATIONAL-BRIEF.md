@@ -3,7 +3,7 @@
 This page contains only Rwanda-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.24 B (88.9%) of external capital** and **$7.82 B of external interest**. Capital plus saved interest totals **$14.05 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.74 B (88.9%) of external capital** and **$8.45 B of external interest**. Capital plus saved interest totals **$15.18 B**.
 
 ## National Programme
 
@@ -11,48 +11,48 @@ This page contains only Rwanda-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 3 |
 | Represented population | 1,708,000 |
-| Trainsets / vehicle modules | 347 / 1,076 |
-| City infrastructure and fleet CAPEX | $3.24 B |
-| Shared national factory | $609.6 M |
-| Factory sizing basis | 764 modules for Kigali, then reused nationally |
-| **Total national programme** | **$3.90 B** |
+| Trainsets / vehicle modules | 369 / 1,158 |
+| City infrastructure and fleet CAPEX | $3.50 B |
+| Shared national factory | $664.9 M |
+| Factory sizing basis | 840 modules for Kigali, then reused nationally |
+| **Total national programme** | **$4.21 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $777.1 M (19.9%) |
-| Domestic / local capital | $3.12 B (80.1%) |
-| Annual external capital draw | $111.0 M / yr |
-| Annual local capital draw | $445.5 M / yr |
-| Annual public construction commitment | $336.1 M / yr for 7 years |
-| Annual post-grace debt service | $273.1 M / yr |
-| Default foreign-turnkey external capital | $7.01 B |
-| External capital saved | $6.24 B |
-| Capital + lifetime external interest saved | $14.05 B |
+| Imported / external capital | $839.8 M (20.0%) |
+| Domestic / local capital | $3.37 B (80.0%) |
+| Annual external capital draw | $120.0 M / yr |
+| Annual local capital draw | $481.4 M / yr |
+| Annual public construction commitment | $363.2 M / yr for 7 years |
+| Annual post-grace debt service | $295.1 M / yr |
+| Default foreign-turnkey external capital | $7.58 B |
+| External capital saved | $6.74 B |
+| Capital + lifetime external interest saved | $15.18 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.95 B | $292.5 M | $1.66 B |
-| Stations | $384.6 M | $76.9 M | $307.7 M |
-| Depots | $195.1 M | $48.8 M | $146.3 M |
-| Rolling stock | $301.3 M | $105.4 M | $195.8 M |
-| Dedicated solar plants | $181.7 M | $81.8 M | $100.0 M |
+| Civil works | $2.01 B | $301.3 M | $1.71 B |
+| Stations | $534.0 M | $106.8 M | $427.2 M |
+| Depots | $199.9 M | $50.0 M | $149.9 M |
+| Rolling stock | $324.2 M | $113.5 M | $210.8 M |
+| Dedicated solar plants | $179.7 M | $80.8 M | $98.8 M |
 | Residual train control | $11.6 M | $5.8 M | $5.8 M |
-| Charging microgrids | $18.9 M | $7.6 M | $11.4 M |
-| EPC / project services | $243.0 M | $36.4 M | $206.5 M |
-| Shared national trainset factory | $609.6 M | $121.9 M | $487.7 M |
-| **Total** | **$3.90 B** | **$777.1 M** | **$3.12 B** |
+| Charging microgrids | $22.6 M | $9.0 M | $13.5 M |
+| EPC / project services | $263.6 M | $39.5 M | $224.1 M |
+| Shared national trainset factory | $664.9 M | $133.0 M | $531.9 M |
+| **Total** | **$4.21 B** | **$839.8 M** | **$3.37 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Kigali](Kigali/README.md) | 1,208,000 | 191 | $2.28 B | $462.8 M | $1.82 B |
-| [Huye](Huye/README.md) | 250,000 | 80 | $480.3 M | $93.0 M | $387.3 M |
-| [Rubavu](Rubavu/README.md) | 250,000 | 76 | $482.9 M | $93.1 M | $389.8 M |
+| [Kigali](Kigali/README.md) | 1,208,000 | 210 | $2.49 B | $504.5 M | $1.98 B |
+| [Huye](Huye/README.md) | 250,000 | 83 | $509.3 M | $98.9 M | $410.4 M |
+| [Rubavu](Rubavu/README.md) | 250,000 | 76 | $502.0 M | $96.5 M | $405.5 M |
 
 ## Local Basis And Regeneration
 

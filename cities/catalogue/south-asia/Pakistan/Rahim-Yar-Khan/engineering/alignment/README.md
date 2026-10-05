@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`rahim-yar-khan-line1.aln.toml`](rahim-yar-khan-line1.aln.toml) | `line-1` | 7,713.2 m | 3 |
-| [`rahim-yar-khan-line2.aln.toml`](rahim-yar-khan-line2.aln.toml) | `line-2` | 17,996.0 m | 5 |
-| [`rahim-yar-khan-line3.aln.toml`](rahim-yar-khan-line3.aln.toml) | `line-3` | 24,391.8 m | 7 |
+| [`rahim-yar-khan-line1.aln.toml`](rahim-yar-khan-line1.aln.toml) | `line-1` | 7,713.2 m | 4 |
+| [`rahim-yar-khan-line2.aln.toml`](rahim-yar-khan-line2.aln.toml) | `line-2` | 17,996.0 m | 7 |
+| [`rahim-yar-khan-line3.aln.toml`](rahim-yar-khan-line3.aln.toml) | `line-3` | 25,262.7 m | 10 |
 
 ## Status
 

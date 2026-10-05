@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "douala"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "douala",
-      "corridor_sha256": "697e56cc6085d66b77c68dfe43fe8e8a5e0f602b8883f609f8f9203bcd2c3fef",
-      "design_sha256": "c3c9738091f6fff6fa0e318c2c3841f2ab48e3c258e2facdc0796564c391789b",
-      "failures": [
+      "corridor_sha256": "5a1b01a43229b549294c4baa23f7e53c31f0e33a33424e80ad30c6d771dd8953",
+      "design_sha256": "06b712ebe829fe4d41186b9c58d845ef586507ef894e33a770bafa5f44f03a61",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 4,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "891c1a71650453dde4bcb47ac8996dc5772e7dfa92795dc294b8dede3a2b1120",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 6689.3,
+          "physical_release": false,
           "radial": "line-4",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 4,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

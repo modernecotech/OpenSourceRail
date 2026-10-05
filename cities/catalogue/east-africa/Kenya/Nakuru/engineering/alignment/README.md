@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`nakuru-line1.aln.toml`](nakuru-line1.aln.toml) | `line-1` | 11,455.8 m | 4 |
-| [`nakuru-line2.aln.toml`](nakuru-line2.aln.toml) | `line-2` | 19,878.4 m | 6 |
-| [`nakuru-line3.aln.toml`](nakuru-line3.aln.toml) | `line-3` | 15,585.7 m | 4 |
+| [`nakuru-line2.aln.toml`](nakuru-line2.aln.toml) | `line-2` | 20,413.1 m | 7 |
+| [`nakuru-line3.aln.toml`](nakuru-line3.aln.toml) | `line-3` | 16,235.0 m | 6 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`raqqa-line1.aln.toml`](raqqa-line1.aln.toml) | `line-1` | 13,339.1 m | 5 |
-| [`raqqa-line2.aln.toml`](raqqa-line2.aln.toml) | `line-2` | 11,917.3 m | 4 |
-| [`raqqa-line3.aln.toml`](raqqa-line3.aln.toml) | `line-3` | 15,229.3 m | 7 |
+| [`raqqa-line1.aln.toml`](raqqa-line1.aln.toml) | `line-1` | 13,339.1 m | 7 |
+| [`raqqa-line2.aln.toml`](raqqa-line2.aln.toml) | `line-2` | 11,917.3 m | 5 |
+| [`raqqa-line3.aln.toml`](raqqa-line3.aln.toml) | `line-3` | 15,672.3 m | 7 |
 
 ## Status
 

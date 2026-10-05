@@ -8,7 +8,7 @@ The [samples](samples.csv), [source receipt](source-receipt.json), [map](sample-
 
 | Investigation trigger | Sample locations |
 |---|---:|
-| acidic-soil-durability-testing | 35 |
+| acidic-soil-durability-testing | 33 |
 | fine-soil-plasticity-and-shrink-swell-tests | 70 |
 | granular-density-and-groundwater-tests | 57 |
 
@@ -27,20 +27,20 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 | Depth | Property | Unit | Mean range | Uncertainty envelope | Available locations |
 |---|---|---|---:|---:|---:|
 | 0..30cm | clay | % | 22–33 | 11–44 | 70 |
-| 0..30cm | sand | % | 37–57 | 15–80 | 70 |
+| 0..30cm | sand | % | 37–57 | 15–78 | 70 |
 | 0..30cm | silt | % | 20–29 | 8–43 | 70 |
-| 0..30cm | bd.core | kg/m3 | 1230–1320 | 1000–1560 | 70 |
-| 0..30cm | soc | g/kg | 7.5–16.7 | 3–28.3 | 70 |
-| 0..30cm | ph.h2o | pH | 6.1–6.4 | 5.5–7.1 | 70 |
+| 0..30cm | bd.core | kg/m3 | 1230–1320 | 1000–1550 | 70 |
+| 0..30cm | soc | g/kg | 9.1–16.7 | 4.5–28.3 | 70 |
+| 0..30cm | ph.h2o | pH | 6.1–6.3 | 5.5–7.1 | 70 |
 | 30..60cm | clay | % | 23–35 | 10–48 | 70 |
 | 30..60cm | sand | % | 35–55 | 14–80 | 70 |
 | 30..60cm | silt | % | 20–30 | 2–47 | 70 |
-| 30..60cm | bd.core | kg/m3 | 1280–1360 | 1090–1590 | 70 |
-| 30..60cm | soc | g/kg | 4.1–7.7 | 2.1–12.9 | 70 |
-| 30..60cm | ph.h2o | pH | 6.1–6.5 | 5.4–7.2 | 70 |
+| 30..60cm | bd.core | kg/m3 | 1280–1360 | 1080–1590 | 70 |
+| 30..60cm | soc | g/kg | 5.2–7.7 | 3–12.9 | 70 |
+| 30..60cm | ph.h2o | pH | 6.1–6.4 | 5.4–7.2 | 70 |
 | 60..100cm | clay | % | 24–35 | 9–48 | 70 |
 | 60..100cm | sand | % | 35–54 | 12–82 | 70 |
 | 60..100cm | silt | % | 20–30 | 3–47 | 70 |
 | 60..100cm | bd.core | kg/m3 | 1270–1380 | 1000–1630 | 70 |
-| 60..100cm | soc | g/kg | 2.9–5.7 | 1.3–11.8 | 70 |
-| 60..100cm | ph.h2o | pH | 6.2–6.8 | 5.2–8 | 70 |
+| 60..100cm | soc | g/kg | 4.4–5.7 | 1.9–11.8 | 70 |
+| 60..100cm | ph.h2o | pH | 6.2–6.6 | 5.2–8 | 70 |

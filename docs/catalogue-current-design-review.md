@@ -2,7 +2,9 @@
 
 **265 other city examples regenerated**, including Lyon as a technical comparison; 264 are developing-world examples. Baghdad retains its dedicated funding and scope publication. All regenerated examples have complete source-bound planning packages. Construction and operational releases remain open.
 
-The adopted core concepts straighten radial routes and use elevated land sections; crossings remain bridges. Rings remain in the controlled inventory and use analytical fillets where suitable. Retained unsuitable fragments keep their geometry and special-product review gates. Cell-centre conversion is inverted explicitly, including the last raster row and column. Immutable seeds retain the original controlled geometry and capture revision.
+The adopted core concepts straighten radial routes where retained water evidence permits and use elevated land sections; short water crossings remain bridge candidates. Shoreline detours keep their actual lengths and geometry review gates. Rings remain in the controlled inventory and use analytical fillets where suitable. Retained unsuitable fragments keep their geometry and special-product review gates. Cell-centre conversion is inverted explicitly, including the last raster row and column. Immutable seeds retain the original controlled geometry and capture revision.
+
+The independent catalogue geography audit covers all 266 cities, including Baghdad: zero wet platforms, zero missed checked dry line junctions and zero unapproved water runs above the 1 km planning limit. Full-resolution centreline exports preserve shoreline detours, and map markers use actual platform coordinates. Historical WorldCover samples and retained OSM geometry remain planning evidence; footprints, bank access, transfer levels and crossing structures require separate releases. [Geography audit](../engineering/assurance/catalogue-geography/README.md).
 
 Each line has one full-fleet planning depot sized to its train count and consist length. Storage slots and maintenance bays are separate. Storage roads hold up to three sets; the last road can be shorter, while the land screen retains a rectangular envelope. Depot PV/storage equipment is included once in depot capital; land, utility and installation quotations remain open. Native station dispatch does not validate a full-depot launch.
 
@@ -18,49 +20,49 @@ Country finance assumptions stay local. Baghdad’s government share, Chinese cr
 
 | Region/country code | Other programme cities | Largest city-order factory reference USD million |
 |---|---:|---:|
-| AF | 5 | 990.636 |
-| AO | 9 | 453.516 |
-| BD | 10 | 698.706 |
-| BF | 1 | 771.601 |
-| BO | 1 | 774.342 |
-| CD | 7 | 490.030 |
-| CM | 10 | 942.143 |
-| EC | 1 | 554.039 |
-| EG | 19 | 624.717 |
-| GN | 1 | 306.593 |
-| ID | 2 | 843.018 |
-| IN | 17 | 815.518 |
-| IQ | 17 | 769.581 |
-| JO | 4 | 603.462 |
-| KE | 15 | 615.009 |
-| KH | 1 | 815.518 |
-| LA | 1 | 554.039 |
-| LB | 3 | 563.287 |
-| LK | 4 | 566.238 |
-| MA | 12 | 709.471 |
-| MG | 1 | 529.813 |
-| ML | 1 | 733.005 |
-| MM | 2 | 786.556 |
-| MZ | 10 | 647.897 |
-| NE | 1 | 573.280 |
-| NG | 10 | 647.897 |
-| NP | 3 | 669.334 |
-| PH | 1 | 568.998 |
-| PK | 13 | 790.644 |
-| PS | 3 | 559.887 |
-| RW | 3 | 609.634 |
-| SA | 14 | 783.815 |
-| SD | 7 | 841.295 |
-| SN | 1 | 960.111 |
-| SO | 1 | 446.475 |
-| SV | 1 | 794.580 |
-| SY | 9 | 662.851 |
-| TN | 1 | 715.682 |
-| TZ | 15 | 609.634 |
-| UG | 12 | 735.746 |
+| AF | 5 | 1018.121 |
+| AO | 9 | 460.694 |
+| BD | 10 | 861.172 |
+| BF | 1 | 809.035 |
+| BO | 1 | 809.035 |
+| CD | 7 | 507.247 |
+| CM | 10 | 990.636 |
+| EC | 1 | 559.887 |
+| EG | 19 | 640.894 |
+| GN | 1 | 321.049 |
+| ID | 2 | 425.536 |
+| IN | 17 | 854.689 |
+| IQ | 17 | 794.580 |
+| JO | 4 | 607.501 |
+| KE | 15 | 635.046 |
+| KH | 1 | 534.324 |
+| LA | 1 | 584.395 |
+| LB | 3 | 603.923 |
+| LK | 4 | 584.395 |
+| MA | 12 | 794.580 |
+| MG | 1 | 504.647 |
+| ML | 1 | 927.370 |
+| MM | 2 | 871.166 |
+| MZ | 10 | 721.685 |
+| NE | 1 | 629.699 |
+| NG | 10 | 696.985 |
+| NP | 3 | 733.005 |
+| PH | 1 | 467.912 |
+| PK | 13 | 837.959 |
+| PS | 3 | 584.395 |
+| RW | 3 | 664.872 |
+| SA | 14 | 804.754 |
+| SD | 7 | 669.334 |
+| SN | 1 | 628.139 |
+| SO | 1 | 463.450 |
+| SV | 1 | 637.132 |
+| SY | 9 | 698.706 |
+| TN | 1 | 769.581 |
+| TZ | 15 | 927.370 |
+| UG | 12 | 753.944 |
 | YE | 9 | 1018.121 |
-| ZA | 5 | 537.362 |
-| ZM | 1 | 802.263 |
+| ZA | 5 | 554.039 |
+| ZM | 1 | 889.270 |
 
 - Core rectangles are design-centroid planning screens, not surveyed city-centre boundaries or property rights.
 - Unaccepted land, foundations, suppliers, installation, commissioning and independent-check gates remain open.

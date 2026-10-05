@@ -21,42 +21,42 @@
     "format": "FreeCAD FCStd",
     "visual_scale": "1 mm visual = 1 m real (1:1000 horizontal overview)",
     "file": "samawah-line1-digital-twin.FCStd",
-    "size_bytes": 787307,
-    "sha256": "d497d437abefa4834288632ff3990ab789b98472ff46743dcaa834caa6dcd538"
+    "size_bytes": 849357,
+    "sha256": "28b8e8785de766c64bb172fbcd1b1e4ae64357879b58dac558f3c746aae9f349"
   },
   "sources": [
     {
       "file": "engineering/alignment/samawah-line1.aln.toml",
-      "sha256": "3a8bdc7fe968dfb395d92e6af4bb9ece897edaf0c9aa0adf5f6d4baf30eaa3c3"
+      "sha256": "a44db970fd2da624c3ef2232d12fe9000c8c1ff9f6d0d8f0b5e85dbca46977ab"
     },
     {
       "file": "design.toml",
-      "sha256": "d6d96d8a741e7ed95bfc7a4f070cad9944691dd7e39df75a681b56bda169bcf0"
+      "sha256": "0d6f3212d33137fa6516d66ac9ab03a647b9eae279608d2796ec82c7c08bee76"
     },
     {
       "file": "samawah.toml",
-      "sha256": "e2f4f10b5c3e16b234dfb13f255e55975cf9928fb577e5a64bb81d9c4123e382"
+      "sha256": "41ade1495c96274461c2f2e375dc332e64f0d5ce1655a10ec0982391b2525c22"
     },
     {
       "file": "samawah.stations.json",
-      "sha256": "d9a995bcf24e68435387f0d3815d4fcbbd1d69a3a2d27161f0ff461127319f6b"
+      "sha256": "2e64a0daa808bd5d1f1a11223ba4c0bd3fe100d06cc02637d1052bcb3d8e912d"
     },
     {
       "file": "engineering/gis/layers/energy_sites.geojson",
-      "sha256": "4e49a57a9113f5383948ae3f21f71799df8c1bca8d592bccf6c6403956287267"
+      "sha256": "de4683fa54f9d6a11805bd5a1c1b611f839f0309f17a7eea42e6369ed69f768b"
     },
     {
       "file": "engineering/simulation/validation-summary.json",
-      "sha256": "5ab58e066df02a86cc15829788d908d1f01b0fcd16ab1404ee614e57f87f5ef6"
+      "sha256": "2a4888fa623666ce754043b656f9ac82c9eae52d2a5ec7e3e0361b581a5b7752"
     },
     {
       "file": "engineering/line-depots/summary.json",
-      "sha256": "666b928c604a8b77d7797d30ef76bd586f3844017e607cab9b19fbfedf3a450a"
+      "sha256": "517b71a27b89f65961f0deffc56f5202aa2d54800cfcb858a3430f15d3890706"
     }
   ],
   "service": {
     "peak_headway_min": 3,
-    "fleet_trainsets": 71,
+    "fleet_trainsets": 70,
     "animated_representatives": 8,
     "windows": [
       {
@@ -97,8 +97,8 @@
       }
     ],
     "validated_nominal": {
-      "service_completion_ratio": 0.9521888806433666,
-      "minimum_soc_percent": 19.999962,
+      "service_completion_ratio": 0.9819454554114173,
+      "minimum_soc_percent": 20.00949,
       "invariant_violations": 0
     }
   },
@@ -112,9 +112,9 @@
         "operating_mode": "peak-service"
       },
       "engineering": {
-        "length_m": 22385.8,
+        "length_m": 22737.2,
         "crs": "EPSG:32638",
-        "alignment_control_points": 218
+        "alignment_control_points": 243
       }
     },
     {
@@ -123,7 +123,7 @@
       "name": "Samawah Line 1 complete double-track alignment",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "length_m": 22385.8,
+        "length_m": 22737.2,
         "gauge_mm": 1435
       },
       "state": {
@@ -134,11 +134,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-001",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 0.0-1289.2 m",
+      "name": "at-grade chainage 0.0-1304.5 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
         "from_chainage_m": 0.0,
-        "to_chainage_m": 1289.2
+        "to_chainage_m": 1304.5
       },
       "state": {
         "health": "nominal",
@@ -148,11 +148,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-002",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 1289.2-2956.3 m",
+      "name": "elevated chainage 1304.5-2971.6 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 1289.2,
-        "to_chainage_m": 2956.3
+        "from_chainage_m": 1304.5,
+        "to_chainage_m": 2971.6
       },
       "state": {
         "health": "nominal",
@@ -162,11 +162,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-003",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 2956.3-3072.9 m",
+      "name": "bridge chainage 2971.6-3088.2 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 2956.3,
-        "to_chainage_m": 3072.9
+        "from_chainage_m": 2971.6,
+        "to_chainage_m": 3088.2
       },
       "state": {
         "health": "nominal",
@@ -176,11 +176,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-004",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 3072.9-3112.9 m",
+      "name": "elevated chainage 3088.2-3128.2 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3072.9,
-        "to_chainage_m": 3112.9
+        "from_chainage_m": 3088.2,
+        "to_chainage_m": 3128.2
       },
       "state": {
         "health": "nominal",
@@ -190,11 +190,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-005",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 3112.9-3132.9 m",
+      "name": "bridge chainage 3128.2-3148.2 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3112.9,
-        "to_chainage_m": 3132.9
+        "from_chainage_m": 3128.2,
+        "to_chainage_m": 3148.2
       },
       "state": {
         "health": "nominal",
@@ -204,11 +204,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-006",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 3132.9-3482.6 m",
+      "name": "elevated chainage 3148.2-3497.9 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3132.9,
-        "to_chainage_m": 3482.6
+        "from_chainage_m": 3148.2,
+        "to_chainage_m": 3497.9
       },
       "state": {
         "health": "nominal",
@@ -218,11 +218,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-007",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 3482.6-3522.6 m",
+      "name": "bridge chainage 3497.9-3537.9 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3482.6,
-        "to_chainage_m": 3522.6
+        "from_chainage_m": 3497.9,
+        "to_chainage_m": 3537.9
       },
       "state": {
         "health": "nominal",
@@ -232,11 +232,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-008",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 3522.6-3570.9 m",
+      "name": "elevated chainage 3537.9-3586.2 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3522.6,
-        "to_chainage_m": 3570.9
+        "from_chainage_m": 3537.9,
+        "to_chainage_m": 3586.2
       },
       "state": {
         "health": "nominal",
@@ -246,11 +246,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-009",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 3570.9-3667.5 m",
+      "name": "bridge chainage 3586.2-3682.7 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3570.9,
-        "to_chainage_m": 3667.5
+        "from_chainage_m": 3586.2,
+        "to_chainage_m": 3682.7
       },
       "state": {
         "health": "nominal",
@@ -260,11 +260,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-010",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 3667.5-5957.4 m",
+      "name": "elevated chainage 3682.7-5904.4 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 3667.5,
-        "to_chainage_m": 5957.4
+        "from_chainage_m": 3682.7,
+        "to_chainage_m": 5904.4
       },
       "state": {
         "health": "nominal",
@@ -274,11 +274,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-011",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 5957.4-6025.7 m",
+      "name": "bridge chainage 5904.4-6109.3 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 5957.4,
-        "to_chainage_m": 6025.7
+        "from_chainage_m": 5904.4,
+        "to_chainage_m": 6109.3
       },
       "state": {
         "health": "nominal",
@@ -288,11 +288,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-012",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 6025.7-6170.5 m",
+      "name": "elevated chainage 6109.3-6185.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 6025.7,
-        "to_chainage_m": 6170.5
+        "from_chainage_m": 6109.3,
+        "to_chainage_m": 6185.8
       },
       "state": {
         "health": "nominal",
@@ -302,11 +302,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-013",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 6170.5-6238.8 m",
+      "name": "bridge chainage 6185.8-6254.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 6170.5,
-        "to_chainage_m": 6238.8
+        "from_chainage_m": 6185.8,
+        "to_chainage_m": 6254.1
       },
       "state": {
         "health": "nominal",
@@ -316,11 +316,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-014",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 6238.8-13979.8 m",
+      "name": "elevated chainage 6254.1-13995.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 6238.8,
-        "to_chainage_m": 13979.8
+        "from_chainage_m": 6254.1,
+        "to_chainage_m": 13995.1
       },
       "state": {
         "health": "nominal",
@@ -330,11 +330,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-015",
       "asset_class": "civil.bridge",
-      "name": "bridge chainage 13979.8-14116.4 m",
+      "name": "bridge chainage 13995.1-14131.7 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 13979.8,
-        "to_chainage_m": 14116.4
+        "from_chainage_m": 13995.1,
+        "to_chainage_m": 14131.7
       },
       "state": {
         "health": "nominal",
@@ -344,11 +344,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-016",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 14116.4-15405.5 m",
+      "name": "elevated chainage 14131.7-15420.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 14116.4,
-        "to_chainage_m": 15405.5
+        "from_chainage_m": 14131.7,
+        "to_chainage_m": 15420.8
       },
       "state": {
         "health": "nominal",
@@ -358,11 +358,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-017",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 15405.5-17739.9 m",
+      "name": "at-grade chainage 15420.8-18040.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 15405.5,
-        "to_chainage_m": 17739.9
+        "from_chainage_m": 15420.8,
+        "to_chainage_m": 18040.8
       },
       "state": {
         "health": "nominal",
@@ -372,11 +372,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-018",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 17739.9-17779.9 m",
+      "name": "elevated chainage 18040.8-18100.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 17739.9,
-        "to_chainage_m": 17779.9
+        "from_chainage_m": 18040.8,
+        "to_chainage_m": 18100.8
       },
       "state": {
         "health": "nominal",
@@ -386,11 +386,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-019",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 17779.9-17864.6 m",
+      "name": "at-grade chainage 18100.8-18160.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 17779.9,
-        "to_chainage_m": 17864.6
+        "from_chainage_m": 18100.8,
+        "to_chainage_m": 18160.8
       },
       "state": {
         "health": "nominal",
@@ -400,11 +400,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-020",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 17864.6-17904.6 m",
+      "name": "elevated chainage 18160.8-18220.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 17864.6,
-        "to_chainage_m": 17904.6
+        "from_chainage_m": 18160.8,
+        "to_chainage_m": 18220.8
       },
       "state": {
         "health": "nominal",
@@ -414,11 +414,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-021",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 17904.6-19097.6 m",
+      "name": "at-grade chainage 18220.8-19449.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 17904.6,
-        "to_chainage_m": 19097.6
+        "from_chainage_m": 18220.8,
+        "to_chainage_m": 19449.1
       },
       "state": {
         "health": "nominal",
@@ -428,11 +428,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-022",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 19097.6-19177.6 m",
+      "name": "elevated chainage 19449.1-19509.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 19097.6,
-        "to_chainage_m": 19177.6
+        "from_chainage_m": 19449.1,
+        "to_chainage_m": 19509.1
       },
       "state": {
         "health": "nominal",
@@ -442,11 +442,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-023",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 19177.6-19697.6 m",
+      "name": "at-grade chainage 19509.1-20049.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 19177.6,
-        "to_chainage_m": 19697.6
+        "from_chainage_m": 19509.1,
+        "to_chainage_m": 20049.1
       },
       "state": {
         "health": "nominal",
@@ -456,11 +456,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-024",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 19697.6-19737.6 m",
+      "name": "elevated chainage 20049.1-20069.1 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 19697.6,
-        "to_chainage_m": 19737.6
+        "from_chainage_m": 20049.1,
+        "to_chainage_m": 20069.1
       },
       "state": {
         "health": "nominal",
@@ -470,11 +470,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-025",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 19737.6-20490.8 m",
+      "name": "at-grade chainage 20069.1-20813.9 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 19737.6,
-        "to_chainage_m": 20490.8
+        "from_chainage_m": 20069.1,
+        "to_chainage_m": 20813.9
       },
       "state": {
         "health": "nominal",
@@ -484,11 +484,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-026",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 20490.8-20547.4 m",
+      "name": "elevated chainage 20813.9-20898.8 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20490.8,
-        "to_chainage_m": 20547.4
+        "from_chainage_m": 20813.9,
+        "to_chainage_m": 20898.8
       },
       "state": {
         "health": "nominal",
@@ -498,11 +498,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-027",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 20547.4-20603.9 m",
+      "name": "at-grade chainage 20898.8-20927.0 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20547.4,
-        "to_chainage_m": 20603.9
+        "from_chainage_m": 20898.8,
+        "to_chainage_m": 20927.0
       },
       "state": {
         "health": "nominal",
@@ -512,11 +512,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-028",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 20603.9-20660.5 m",
+      "name": "elevated chainage 20927.0-20983.6 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20603.9,
-        "to_chainage_m": 20660.5
+        "from_chainage_m": 20927.0,
+        "to_chainage_m": 20983.6
       },
       "state": {
         "health": "nominal",
@@ -526,11 +526,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-029",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 20660.5-20773.6 m",
+      "name": "at-grade chainage 20983.6-21125.0 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20660.5,
-        "to_chainage_m": 20773.6
+        "from_chainage_m": 20983.6,
+        "to_chainage_m": 21125.0
       },
       "state": {
         "health": "nominal",
@@ -540,11 +540,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-030",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 20773.6-20830.2 m",
+      "name": "elevated chainage 21125.0-21153.3 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20773.6,
-        "to_chainage_m": 20830.2
+        "from_chainage_m": 21125.0,
+        "to_chainage_m": 21153.3
       },
       "state": {
         "health": "nominal",
@@ -554,11 +554,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-031",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 20830.2-21056.5 m",
+      "name": "at-grade chainage 21153.3-21407.9 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 20830.2,
-        "to_chainage_m": 21056.5
+        "from_chainage_m": 21153.3,
+        "to_chainage_m": 21407.9
       },
       "state": {
         "health": "nominal",
@@ -568,11 +568,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-032",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 21056.5-21169.6 m",
+      "name": "elevated chainage 21407.9-21492.7 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 21056.5,
-        "to_chainage_m": 21169.6
+        "from_chainage_m": 21407.9,
+        "to_chainage_m": 21492.7
       },
       "state": {
         "health": "nominal",
@@ -582,11 +582,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-033",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 21169.6-21905.0 m",
+      "name": "at-grade chainage 21492.7-22256.4 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 21169.6,
-        "to_chainage_m": 21905.0
+        "from_chainage_m": 21492.7,
+        "to_chainage_m": 22256.4
       },
       "state": {
         "health": "nominal",
@@ -596,11 +596,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-034",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 21905.0-22018.1 m",
+      "name": "elevated chainage 22256.4-22284.7 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 21905.0,
-        "to_chainage_m": 22018.1
+        "from_chainage_m": 22256.4,
+        "to_chainage_m": 22284.7
       },
       "state": {
         "health": "nominal",
@@ -610,11 +610,11 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-035",
       "asset_class": "civil.at-grade",
-      "name": "at-grade chainage 22018.1-22301.0 m",
+      "name": "at-grade chainage 22284.7-22313.0 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 22018.1,
-        "to_chainage_m": 22301.0
+        "from_chainage_m": 22284.7,
+        "to_chainage_m": 22313.0
       },
       "state": {
         "health": "nominal",
@@ -624,11 +624,67 @@
     {
       "asset_id": "OSR-SAM-L1-CIV-036",
       "asset_class": "civil.elevated",
-      "name": "elevated chainage 22301.0-22385.8 m",
+      "name": "elevated chainage 22313.0-22341.3 m",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_chainage_m": 22301.0,
-        "to_chainage_m": 22385.8
+        "from_chainage_m": 22313.0,
+        "to_chainage_m": 22341.3
+      },
+      "state": {
+        "health": "nominal",
+        "lifecycle_state": "planning-reference"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-CIV-037",
+      "asset_class": "civil.at-grade",
+      "name": "at-grade chainage 22341.3-22567.5 m",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_chainage_m": 22341.3,
+        "to_chainage_m": 22567.5
+      },
+      "state": {
+        "health": "nominal",
+        "lifecycle_state": "planning-reference"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-CIV-038",
+      "asset_class": "civil.elevated",
+      "name": "elevated chainage 22567.5-22595.8 m",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_chainage_m": 22567.5,
+        "to_chainage_m": 22595.8
+      },
+      "state": {
+        "health": "nominal",
+        "lifecycle_state": "planning-reference"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-CIV-039",
+      "asset_class": "civil.at-grade",
+      "name": "at-grade chainage 22595.8-22652.4 m",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_chainage_m": 22595.8,
+        "to_chainage_m": 22652.4
+      },
+      "state": {
+        "health": "nominal",
+        "lifecycle_state": "planning-reference"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-CIV-040",
+      "asset_class": "civil.elevated",
+      "name": "elevated chainage 22652.4-22737.2 m",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_chainage_m": 22652.4,
+        "to_chainage_m": 22737.2
       },
       "state": {
         "health": "nominal",
@@ -646,7 +702,7 @@
         "latitude": 31.37345499046179,
         "longitude": 45.297445107193575,
         "charging_power_kw": 500.0,
-        "dwell_seconds": 390
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -654,17 +710,17 @@
       }
     },
     {
-      "asset_id": "line-1-0263-0486-s002936",
+      "asset_id": "line-1-0263-0486-s002952",
       "asset_class": "station.standard",
       "name": "الجربوعية الثالثة",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 2936.3,
+        "chainage_m": 2951.6,
         "platform_length_m": 59.5,
         "latitude": 31.35257891516395,
         "longitude": 45.282304466695926,
         "charging_power_kw": 500.0,
-        "dwell_seconds": 390
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -672,17 +728,17 @@
       }
     },
     {
-      "asset_id": "line-1-0394-0436-s006006",
+      "asset_id": "line-1-0398-0435-s006109",
       "asset_class": "station.interchange",
-      "name": "line-1-0394-0436-s006006",
+      "name": "line-1-0398-0435-s006109",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 6005.7,
+        "chainage_m": 6109.3,
         "platform_length_m": 59.5,
-        "latitude": 31.329003347370694,
-        "longitude": 45.271790133017,
+        "latitude": 31.32828348270525,
+        "longitude": 45.27157984634342,
         "charging_power_kw": 500.0,
-        "dwell_seconds": 390
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -690,17 +746,17 @@
       }
     },
     {
-      "asset_id": "line-1-0521-0387-s009010",
-      "asset_class": "station.major",
-      "name": "حي الصدر",
+      "asset_id": "line-1-0476-0405-s007941",
+      "asset_class": "station.interchange",
+      "name": "line-1-0476-0405-s007941",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 9010.2,
+        "chainage_m": 7941.2,
         "platform_length_m": 59.5,
-        "latitude": 31.30614764424288,
-        "longitude": 45.26148608601166,
+        "latitude": 31.314246121729113,
+        "longitude": 45.26527124613607,
         "charging_power_kw": 500.0,
-        "dwell_seconds": 390
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -708,17 +764,17 @@
       }
     },
     {
-      "asset_id": "line-1-0670-0331-s012501",
-      "asset_class": "station.halt",
-      "name": "line-1-0670-0331-s012501",
+      "asset_id": "line-1-0561-0372-s009961",
+      "asset_class": "station.major",
+      "name": "مستوصف صحي حي العسكري",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 12501.0,
-        "platform_length_m": 55.5,
-        "latitude": 31.279332685455135,
-        "longitude": 45.24971003229126,
-        "charging_power_kw": 0.0,
-        "dwell_seconds": 60
+        "chainage_m": 9961.5,
+        "platform_length_m": 59.5,
+        "latitude": 31.29894899758845,
+        "longitude": 45.25833178590798,
+        "charging_power_kw": 500.0,
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -726,17 +782,17 @@
       }
     },
     {
-      "asset_id": "line-1-0815-0275-s016015",
-      "asset_class": "station.halt",
-      "name": "line-1-0815-0275-s016015",
+      "asset_id": "line-1-0648-0339-s011998",
+      "asset_class": "station.standard",
+      "name": "line-1-0648-0339-s011998",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 16014.9,
-        "platform_length_m": 55.5,
-        "latitude": 31.253237591332827,
-        "longitude": 45.237933978570865,
-        "charging_power_kw": 0.0,
-        "dwell_seconds": 60
+        "chainage_m": 11998.3,
+        "platform_length_m": 59.5,
+        "latitude": 31.28329194111507,
+        "longitude": 45.25139232567989,
+        "charging_power_kw": 500.0,
+        "dwell_seconds": 270
       },
       "state": {
         "availability": "available",
@@ -744,21 +800,39 @@
       }
     },
     {
-      "asset_id": "line-1-0985-0109-s022386",
-      "asset_class": "station.depot-terminal",
-      "name": "الجرعه",
+      "asset_id": "line-1-0815-0276-s016041",
+      "asset_class": "station.halt",
+      "name": "line-1-0815-0276-s016041",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "chainage_m": 22385.8,
-        "platform_length_m": 59.5,
-        "latitude": 31.222643343051505,
-        "longitude": 45.20302639075684,
-        "charging_power_kw": 500.0,
-        "dwell_seconds": 390
+        "chainage_m": 16040.8,
+        "platform_length_m": 55.5,
+        "latitude": 31.253237591332827,
+        "longitude": 45.23814426524444,
+        "charging_power_kw": 0.0,
+        "dwell_seconds": 60
       },
       "state": {
         "availability": "available",
         "station_number": 7
+      }
+    },
+    {
+      "asset_id": "line-1-0985-0109-s022737",
+      "asset_class": "station.depot-terminal",
+      "name": "الجرعه",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "chainage_m": 22737.2,
+        "platform_length_m": 59.5,
+        "latitude": 31.222643343051505,
+        "longitude": 45.20302639075684,
+        "charging_power_kw": 500.0,
+        "dwell_seconds": 270
+      },
+      "state": {
+        "availability": "available",
+        "station_number": 8
       }
     },
     {
@@ -779,8 +853,8 @@
     {
       "asset_id": "OSR-SAM-L1-ENERGY-002",
       "asset_class": "energy.station-microgrid",
-      "name": "standard energy site at line-1-0263-0486-s002936",
-      "parent_asset_id": "line-1-0263-0486-s002936",
+      "name": "standard energy site at line-1-0263-0486-s002952",
+      "parent_asset_id": "line-1-0263-0486-s002952",
       "engineering": {
         "pv_nameplate_kw": 300.0,
         "storage_capacity_kwh": 500.0,
@@ -794,8 +868,8 @@
     {
       "asset_id": "OSR-SAM-L1-ENERGY-003",
       "asset_class": "energy.station-microgrid",
-      "name": "interchange energy site at line-1-0394-0436-s006006",
-      "parent_asset_id": "line-1-0394-0436-s006006",
+      "name": "interchange energy site at line-1-0398-0435-s006109",
+      "parent_asset_id": "line-1-0398-0435-s006109",
       "engineering": {
         "pv_nameplate_kw": 300.0,
         "storage_capacity_kwh": 500.0,
@@ -809,8 +883,8 @@
     {
       "asset_id": "OSR-SAM-L1-ENERGY-004",
       "asset_class": "energy.station-microgrid",
-      "name": "major energy site at line-1-0521-0387-s009010",
-      "parent_asset_id": "line-1-0521-0387-s009010",
+      "name": "interchange energy site at line-1-0476-0405-s007941",
+      "parent_asset_id": "line-1-0476-0405-s007941",
       "engineering": {
         "pv_nameplate_kw": 300.0,
         "storage_capacity_kwh": 500.0,
@@ -824,8 +898,38 @@
     {
       "asset_id": "OSR-SAM-L1-ENERGY-005",
       "asset_class": "energy.station-microgrid",
-      "name": "depot-main energy site at line-1-0985-0109-s022386",
-      "parent_asset_id": "line-1-0985-0109-s022386",
+      "name": "major energy site at line-1-0561-0372-s009961",
+      "parent_asset_id": "line-1-0561-0372-s009961",
+      "engineering": {
+        "pv_nameplate_kw": 300.0,
+        "storage_capacity_kwh": 500.0,
+        "charging_power_kw": 500.0
+      },
+      "state": {
+        "availability": "available",
+        "storage_soc_percent": 50.0
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-ENERGY-006",
+      "asset_class": "energy.station-microgrid",
+      "name": "standard energy site at line-1-0648-0339-s011998",
+      "parent_asset_id": "line-1-0648-0339-s011998",
+      "engineering": {
+        "pv_nameplate_kw": 300.0,
+        "storage_capacity_kwh": 500.0,
+        "charging_power_kw": 500.0
+      },
+      "state": {
+        "availability": "available",
+        "storage_soc_percent": 50.0
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-ENERGY-007",
+      "asset_class": "energy.station-microgrid",
+      "name": "depot-main energy site at line-1-0985-0109-s022737",
+      "parent_asset_id": "line-1-0985-0109-s022737",
       "engineering": {
         "pv_nameplate_kw": 5000.0,
         "storage_capacity_kwh": 40000.0,
@@ -840,11 +944,11 @@
       "asset_id": "OSR-SAM-L1-DEPOT-001",
       "asset_class": "depot.main-heavy",
       "name": "الجرعه Line 1 full-fleet planning depot",
-      "parent_asset_id": "line-1-0985-0109-s022386",
+      "parent_asset_id": "line-1-0985-0109-s022737",
       "engineering": {
-        "storage_slots": 71,
+        "storage_slots": 70,
         "storage_tracks": 24,
-        "storage_track_m": 4224.5,
+        "storage_track_m": 4165.0,
         "workshop_bays": 10,
         "train_length_m": 49.5,
         "planning_land_area_m2": 50206.0,
@@ -863,7 +967,7 @@
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
         "from_station": "line-1-0147-0558-s000000",
-        "to_station": "line-1-0263-0486-s002936",
+        "to_station": "line-1-0263-0486-s002952",
         "direction": "outbound"
       },
       "state": {
@@ -878,7 +982,7 @@
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
         "from_station": "line-1-0147-0558-s000000",
-        "to_station": "line-1-0263-0486-s002936",
+        "to_station": "line-1-0263-0486-s002952",
         "direction": "inbound"
       },
       "state": {
@@ -892,8 +996,8 @@
       "name": "Block 2 outbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0263-0486-s002936",
-        "to_station": "line-1-0394-0436-s006006",
+        "from_station": "line-1-0263-0486-s002952",
+        "to_station": "line-1-0398-0435-s006109",
         "direction": "outbound"
       },
       "state": {
@@ -907,8 +1011,8 @@
       "name": "Block 2 inbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0263-0486-s002936",
-        "to_station": "line-1-0394-0436-s006006",
+        "from_station": "line-1-0263-0486-s002952",
+        "to_station": "line-1-0398-0435-s006109",
         "direction": "inbound"
       },
       "state": {
@@ -922,8 +1026,8 @@
       "name": "Block 3 outbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0394-0436-s006006",
-        "to_station": "line-1-0521-0387-s009010",
+        "from_station": "line-1-0398-0435-s006109",
+        "to_station": "line-1-0476-0405-s007941",
         "direction": "outbound"
       },
       "state": {
@@ -937,8 +1041,8 @@
       "name": "Block 3 inbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0394-0436-s006006",
-        "to_station": "line-1-0521-0387-s009010",
+        "from_station": "line-1-0398-0435-s006109",
+        "to_station": "line-1-0476-0405-s007941",
         "direction": "inbound"
       },
       "state": {
@@ -952,8 +1056,8 @@
       "name": "Block 4 outbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0521-0387-s009010",
-        "to_station": "line-1-0670-0331-s012501",
+        "from_station": "line-1-0476-0405-s007941",
+        "to_station": "line-1-0561-0372-s009961",
         "direction": "outbound"
       },
       "state": {
@@ -967,8 +1071,8 @@
       "name": "Block 4 inbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0521-0387-s009010",
-        "to_station": "line-1-0670-0331-s012501",
+        "from_station": "line-1-0476-0405-s007941",
+        "to_station": "line-1-0561-0372-s009961",
         "direction": "inbound"
       },
       "state": {
@@ -982,8 +1086,8 @@
       "name": "Block 5 outbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0670-0331-s012501",
-        "to_station": "line-1-0815-0275-s016015",
+        "from_station": "line-1-0561-0372-s009961",
+        "to_station": "line-1-0648-0339-s011998",
         "direction": "outbound"
       },
       "state": {
@@ -997,8 +1101,8 @@
       "name": "Block 5 inbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0670-0331-s012501",
-        "to_station": "line-1-0815-0275-s016015",
+        "from_station": "line-1-0561-0372-s009961",
+        "to_station": "line-1-0648-0339-s011998",
         "direction": "inbound"
       },
       "state": {
@@ -1012,8 +1116,8 @@
       "name": "Block 6 outbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0815-0275-s016015",
-        "to_station": "line-1-0985-0109-s022386",
+        "from_station": "line-1-0648-0339-s011998",
+        "to_station": "line-1-0815-0276-s016041",
         "direction": "outbound"
       },
       "state": {
@@ -1027,8 +1131,38 @@
       "name": "Block 6 inbound",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
-        "from_station": "line-1-0815-0275-s016015",
-        "to_station": "line-1-0985-0109-s022386",
+        "from_station": "line-1-0648-0339-s011998",
+        "to_station": "line-1-0815-0276-s016041",
+        "direction": "inbound"
+      },
+      "state": {
+        "occupancy": "clear",
+        "interlocking": "available"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-BLOCK-07-OUTBOUND",
+      "asset_class": "signalling.movement-authority-block",
+      "name": "Block 7 outbound",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_station": "line-1-0815-0276-s016041",
+        "to_station": "line-1-0985-0109-s022737",
+        "direction": "outbound"
+      },
+      "state": {
+        "occupancy": "clear",
+        "interlocking": "available"
+      }
+    },
+    {
+      "asset_id": "OSR-SAM-L1-BLOCK-07-INBOUND",
+      "asset_class": "signalling.movement-authority-block",
+      "name": "Block 7 inbound",
+      "parent_asset_id": "OSR-SAM-L1",
+      "engineering": {
+        "from_station": "line-1-0815-0276-s016041",
+        "to_station": "line-1-0985-0109-s022737",
         "direction": "inbound"
       },
       "state": {
@@ -2119,7 +2253,7 @@
         "max_speed_kmh": 90.0
       },
       "state": {
-        "allocation": "peak-service",
+        "allocation": "spare",
         "health": "nominal",
         "animated_representative": false
       }
@@ -2213,23 +2347,6 @@
       "asset_id": "OSR-SAM-L1-LM3-070",
       "asset_class": "rolling-stock.light-metro-3car",
       "name": "Samawah Line 1 LM3 trainset 070",
-      "parent_asset_id": "OSR-SAM-L1",
-      "engineering": {
-        "car_count": 3,
-        "length_m": 49.5,
-        "battery_capacity_kwh": 675.0,
-        "max_speed_kmh": 90.0
-      },
-      "state": {
-        "allocation": "spare",
-        "health": "nominal",
-        "animated_representative": false
-      }
-    },
-    {
-      "asset_id": "OSR-SAM-L1-LM3-071",
-      "asset_class": "rolling-stock.light-metro-3car",
-      "name": "Samawah Line 1 LM3 trainset 071",
       "parent_asset_id": "OSR-SAM-L1",
       "engineering": {
         "car_count": 3,
@@ -2431,37 +2548,62 @@
       "object": "OSR-SAM-L1"
     },
     {
+      "subject": "OSR-SAM-L1-CIV-037",
+      "predicate": "part-of",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "OSR-SAM-L1-CIV-038",
+      "predicate": "part-of",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "OSR-SAM-L1-CIV-039",
+      "predicate": "part-of",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "OSR-SAM-L1-CIV-040",
+      "predicate": "part-of",
+      "object": "OSR-SAM-L1"
+    },
+    {
       "subject": "line-1-0147-0558-s000000",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0263-0486-s002936",
+      "subject": "line-1-0263-0486-s002952",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0394-0436-s006006",
+      "subject": "line-1-0398-0435-s006109",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0521-0387-s009010",
+      "subject": "line-1-0476-0405-s007941",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0670-0331-s012501",
+      "subject": "line-1-0561-0372-s009961",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0815-0275-s016015",
+      "subject": "line-1-0648-0339-s011998",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
     {
-      "subject": "line-1-0985-0109-s022386",
+      "subject": "line-1-0815-0276-s016041",
+      "predicate": "serves",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "line-1-0985-0109-s022737",
       "predicate": "serves",
       "object": "OSR-SAM-L1"
     },
@@ -2473,27 +2615,37 @@
     {
       "subject": "OSR-SAM-L1-ENERGY-002",
       "predicate": "powers",
-      "object": "line-1-0263-0486-s002936"
+      "object": "line-1-0263-0486-s002952"
     },
     {
       "subject": "OSR-SAM-L1-ENERGY-003",
       "predicate": "powers",
-      "object": "line-1-0394-0436-s006006"
+      "object": "line-1-0398-0435-s006109"
     },
     {
       "subject": "OSR-SAM-L1-ENERGY-004",
       "predicate": "powers",
-      "object": "line-1-0521-0387-s009010"
+      "object": "line-1-0476-0405-s007941"
     },
     {
       "subject": "OSR-SAM-L1-ENERGY-005",
       "predicate": "powers",
-      "object": "line-1-0985-0109-s022386"
+      "object": "line-1-0561-0372-s009961"
+    },
+    {
+      "subject": "OSR-SAM-L1-ENERGY-006",
+      "predicate": "powers",
+      "object": "line-1-0648-0339-s011998"
+    },
+    {
+      "subject": "OSR-SAM-L1-ENERGY-007",
+      "predicate": "powers",
+      "object": "line-1-0985-0109-s022737"
     },
     {
       "subject": "OSR-SAM-L1-DEPOT-001",
       "predicate": "located-at",
-      "object": "line-1-0985-0109-s022386"
+      "object": "line-1-0985-0109-s022737"
     },
     {
       "subject": "OSR-SAM-L1-BLOCK-01-OUTBOUND",
@@ -2552,6 +2704,16 @@
     },
     {
       "subject": "OSR-SAM-L1-BLOCK-06-INBOUND",
+      "predicate": "protects",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "OSR-SAM-L1-BLOCK-07-OUTBOUND",
+      "predicate": "protects",
+      "object": "OSR-SAM-L1"
+    },
+    {
+      "subject": "OSR-SAM-L1-BLOCK-07-INBOUND",
       "predicate": "protects",
       "object": "OSR-SAM-L1"
     },
@@ -2904,11 +3066,6 @@
       "subject": "OSR-SAM-L1-LM3-070",
       "predicate": "allocated-to",
       "object": "OSR-SAM-L1"
-    },
-    {
-      "subject": "OSR-SAM-L1-LM3-071",
-      "predicate": "allocated-to",
-      "object": "OSR-SAM-L1"
     }
   ],
   "validation": {
@@ -2916,27 +3073,27 @@
       {
         "name": "alignment-chainage-complete",
         "passed": true,
-        "detail": "218 UTM control points cover 22385.8 m"
+        "detail": "243 UTM control points cover 22737.2 m"
       },
       {
         "name": "civil-classification-complete",
         "passed": true,
-        "detail": "36 contiguous civil segments"
+        "detail": "40 contiguous civil segments"
       },
       {
         "name": "all-line-stations-present",
         "passed": true,
-        "detail": "All 7 controlled stations with platforms long enough for the 49.5 m consist"
+        "detail": "All 8 controlled stations with platforms long enough for the 49.5 m consist"
       },
       {
         "name": "energy-and-depot-assets-present",
         "passed": true,
-        "detail": "All 5 controlled charging/PV/storage sites and one main depot terminal"
+        "detail": "All 7 controlled charging/PV/storage sites and one main depot terminal"
       },
       {
         "name": "complete-line-fleet-register",
         "passed": true,
-        "detail": "64 peak-service + 6 spare + 1 cold-reserve trainsets; current controlled order"
+        "detail": "63 peak-service + 6 spare + 1 cold-reserve trainsets; current controlled order"
       },
       {
         "name": "city-simulation-evidence-passes",

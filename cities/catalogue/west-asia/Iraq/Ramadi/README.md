@@ -5,9 +5,9 @@
 This page contains only Ramadi-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$1.09 bn (88.7%) of external capital** and **$1.34 bn of external interest**. Capital plus saved interest totals **$2.43 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$1.15 bn (88.8%) of external capital** and **$1.42 bn of external interest**. Capital plus saved interest totals **$2.57 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **44.267 km to 31.992 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **17 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **44.267 km to 34.066 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **18 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **118 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **118 light-metro-3car trainsets / 354 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,9 +21,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 17 / 2 |
+| Lines / unique stations / interchanges | 3 / 18 / 3 |
 | Route length | 37.7 km double track |
-| Coverage / transfer reachability | 52.9% / 67% |
+| Coverage / transfer reachability | 52.9% / 100% |
 | Estimated station catchment | 277,725 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 118 × 3-car `light-metro-3car` trainsets (106 peak revenue) |
@@ -36,9 +36,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
 | line-1 | 12.6 km | 5 | 39 | E Outer ↔ W Outer |
-| line-2 | 11.9 km | 6 | 39 | SW Mid ↔ NE Outer |
+| line-2 | 11.9 km | 7 | 39 | SW Mid ↔ NE Outer |
 | line-3 | 13.2 km | 6 | 40 | W Outer ↔ E Mid |
-| **Total** | **37.7 km** | **17 unique** | **118** | |
+| **Total** | **37.7 km** | **18 unique** | **118** | |
 
 ## Energy
 
@@ -46,26 +46,26 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Scheduled service | 1,395 one-way journeys / 17,554 train-km/day |
 | Annual traction demand | 83.0 GWh |
-| Station/depot PV / storage | 19.2 MW / 127.0 MWh |
-| Aggregate charging power | 8.5 MW |
-| Dedicated solar plant | 21.5 MW |
+| Station/depot PV / storage | 19.5 MW / 127.5 MWh |
+| Aggregate charging power | 9.0 MW |
+| Dedicated solar plant | 21.2 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 3.6 km / 29 kWh |
+| Worst powered-stop gap | line-3: 3.7 km / 30 kWh |
 | Lowest traversal charging margin | line-1: 31 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $382 M |
-| Stations | $78 M |
+| Civil works | $395 M |
+| Stations | $100 M |
 | Depots | $52 M |
 | Rolling stock | $106 M |
 | Dedicated solar plant | $17 M |
 | Residual train control | $1.9 M |
-| Charging microgrids | $1.9 M |
-| EPC / project services | $44 M |
-| **Total city programme** | **$683 M** |
+| Charging microgrids | $2.0 M |
+| EPC / project services | $46 M |
+| **Total city programme** | **$721 M** |
 
 ## Iraq funding
 
@@ -73,14 +73,14 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 
 | Capital source | Planning USD equivalent |
 |---|---:|
-| bank credit | $65 M |
+| bank credit | $69 M |
 | chinese export credit | $34 M |
-| domestic bonds | $195 M |
-| government | $390 M |
+| domestic bonds | $206 M |
+| government | $412 M |
 
 The procurement schedule requires **41 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$393 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$422 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 
@@ -88,7 +88,7 @@ The model includes actual scheduled draws, native-currency principal/interest, f
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) . This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Annual operating allowance: $20 M; demand remains capacity-led.
+Annual operating allowance: $21 M; demand remains capacity-led.
 
 ## Local Evidence
 
@@ -99,8 +99,8 @@ Annual operating allowance: $20 M; demand remains capacity-led.
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 5 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 228 assets / 1,377 tasks | [`ramadi-operations-manifest.json`](operations/ramadi-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 3 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 233 assets / 1,395 tasks | [`ramadi-operations-manifest.json`](operations/ramadi-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

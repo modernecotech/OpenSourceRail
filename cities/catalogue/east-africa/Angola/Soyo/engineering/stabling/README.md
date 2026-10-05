@@ -2,56 +2,53 @@
 
 The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.
 
-Plan: **38 trainsets at stations + 8 at depots = 46 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
+Plan: **34 trainsets at stations + 14 at depots = 48 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
 | line-1-0319-0148-s000000 | line-1 | declared-depot | 3 | 147.0 | 3 |
-| line-2-0593-0351-s000000 | line-2 | declared-depot | 2 | 98.0 | 2 |
-| line-3-0744-0445-s010159 | line-3 | declared-depot | 3 | 147.0 | 3 |
+| line-2-0593-0351-s000000 | line-2 | declared-depot | 4 | 196.0 | 2 |
+| line-3-0744-0445-s010159 | line-3 | declared-depot | 7 | 343.0 | 3 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0319-0148-s000000 | station | forward | revenue | 2 |
+| line-1 | line-1-0510-0350-s006243 | station | forward | revenue | 1 |
+| line-1 | line-1-0510-0350-s006243 | station | reverse | revenue | 1 |
 | line-1 | line-1-0531-0372-s006916 | station | reverse | revenue | 2 |
-| line-1 | line-1-planning-infill-s001383 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s001383 | station | reverse | revenue | 1 |
-| line-1 | line-1-planning-infill-s002766 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s002766 | station | reverse | revenue | 1 |
-| line-1 | line-1-planning-infill-s004149 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s004149 | station | reverse | revenue | 1 |
-| line-1 | line-1-planning-infill-s005533 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s005533 | station | reverse | revenue | 1 |
+| line-1 | line-1-planning-infill-s001561 | station | forward | revenue | 1 |
+| line-1 | line-1-planning-infill-s001561 | station | reverse | revenue | 1 |
+| line-1 | line-1-planning-infill-s003122 | station | forward | revenue | 1 |
+| line-1 | line-1-planning-infill-s003122 | station | reverse | revenue | 1 |
+| line-1 | line-1-planning-infill-s004682 | station | forward | revenue | 1 |
+| line-1 | line-1-planning-infill-s004682 | station | reverse | revenue | 1 |
 | line-2 | line-2-0474-0480-s003906 | station | reverse | revenue | 2 |
+| line-2 | line-2-0572-0374-s000681 | station | forward | revenue | 1 |
+| line-2 | line-2-0572-0374-s000681 | station | reverse | revenue | 1 |
 | line-2 | line-2-0593-0351-s000000 | station | forward | revenue | 2 |
-| line-2 | line-2-planning-infill-s001302 | station | forward | revenue | 1 |
-| line-2 | line-2-planning-infill-s001302 | station | reverse | revenue | 1 |
-| line-2 | line-2-planning-infill-s002604 | station | forward | revenue | 1 |
-| line-2 | line-2-planning-infill-s002604 | station | reverse | revenue | 1 |
+| line-2 | line-2-planning-infill-s002293 | station | forward | revenue | 1 |
+| line-2 | line-2-planning-infill-s002293 | station | reverse | revenue | 1 |
 | line-3 | line-3-0340-0286-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0497-0346-s003684 | station | forward | revenue | 1 |
-| line-3 | line-3-0497-0346-s003684 | station | reverse | revenue | 1 |
+| line-3 | line-3-0425-0318-s001989 | station | forward | revenue | 1 |
+| line-3 | line-3-0425-0318-s001989 | station | reverse | revenue | 1 |
+| line-3 | line-3-0510-0350-s003977 | station | forward | revenue | 1 |
+| line-3 | line-3-0510-0350-s003977 | station | reverse | revenue | 1 |
+| line-3 | line-3-0572-0374-s005439 | station | forward | revenue | 1 |
+| line-3 | line-3-0572-0374-s005439 | station | reverse | revenue | 1 |
 | line-3 | line-3-0744-0445-s010159 | station | reverse | revenue | 2 |
-| line-3 | line-3-planning-infill-s001228 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s001228 | station | reverse | revenue | 1 |
-| line-3 | line-3-planning-infill-s002456 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s002456 | station | reverse | revenue | 1 |
-| line-3 | line-3-planning-infill-s004979 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s004979 | station | reverse | revenue | 1 |
-| line-3 | line-3-planning-infill-s006274 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s006274 | station | reverse | revenue | 1 |
-| line-3 | line-3-planning-infill-s007569 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s007569 | station | reverse | revenue | 1 |
-| line-3 | line-3-planning-infill-s008864 | station | forward | revenue | 1 |
-| line-3 | line-3-planning-infill-s008864 | station | reverse | revenue | 1 |
+| line-3 | line-3-planning-infill-s007013 | station | forward | revenue | 1 |
+| line-3 | line-3-planning-infill-s007013 | station | reverse | revenue | 1 |
+| line-3 | line-3-planning-infill-s008586 | station | forward | revenue | 1 |
+| line-3 | line-3-planning-infill-s008586 | station | reverse | revenue | 1 |
 | line-1 | line-1-0319-0148-s000000 | depot | — | revenue | 1 |
 | line-1 | line-1-0319-0148-s000000 | depot | — | spare | 1 |
 | line-1 | line-1-0319-0148-s000000 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0593-0351-s000000 | depot | — | revenue | 2 |
 | line-2 | line-2-0593-0351-s000000 | depot | — | spare | 1 |
 | line-2 | line-2-0593-0351-s000000 | depot | — | cold_reserve | 1 |
-| line-3 | line-3-0744-0445-s010159 | depot | — | revenue | 1 |
+| line-3 | line-3-0744-0445-s010159 | depot | — | revenue | 5 |
 | line-3 | line-3-0744-0445-s010159 | depot | — | spare | 1 |
 | line-3 | line-3-0744-0445-s010159 | depot | — | cold_reserve | 1 |
 
@@ -62,80 +59,74 @@ Native hybrid candidate: `build/engineering/stabling/soyo-hybrid.toml`; generati
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
-Operating allocation: **46 trainsets at 19 stations**; largest initial station queue **4**. Physical release: **open**.
+Operating allocation: **48 trainsets at 17 stations**; largest initial station queue **4**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-Fleet roles: **40 revenue, 3 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
+Fleet roles: **42 revenue, 3 spare, 3 cold reserve**. Reserves are held out of routine dispatch.
 
-Two-train station-capacity check: **FAIL**. Selected stations provide **38 positions**; **8 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **6 stations**. Four-berth reference platforms do not override the two-train provision.
+Two-train station-capacity check: **FAIL**. Selected stations provide **34 positions**; **14 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **8 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
 | line-1 | line-1-0319-0148-s000000 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s001383 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s001383 | reverse | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s002766 | forward | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s002766 | reverse | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s004149 | forward | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s004149 | reverse | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s005533 | forward | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s005533 | reverse | revenue | 1 | pending |
+| line-1 | line-1-planning-infill-s001561 | forward | revenue | 2 | pending |
+| line-1 | line-1-planning-infill-s001561 | reverse | revenue | 2 | pending |
+| line-1 | line-1-planning-infill-s003122 | forward | revenue | 1 | pending |
+| line-1 | line-1-planning-infill-s003122 | reverse | revenue | 1 | pending |
+| line-1 | line-1-planning-infill-s004682 | forward | revenue | 1 | pending |
+| line-1 | line-1-planning-infill-s004682 | reverse | revenue | 1 | pending |
+| line-1 | line-1-0510-0350-s006243 | forward | revenue | 1 | pending |
+| line-1 | line-1-0510-0350-s006243 | reverse | revenue | 1 | pending |
 | line-1 | line-1-0531-0372-s006916 | reverse | revenue | 1 | pending |
-| line-1 | line-1-planning-infill-s002766 | forward | spare | 1 | pending |
-| line-1 | line-1-planning-infill-s002766 | reverse | cold_reserve | 1 | pending |
+| line-1 | line-1-planning-infill-s003122 | forward | spare | 1 | pending |
+| line-1 | line-1-planning-infill-s003122 | reverse | cold_reserve | 1 | pending |
 | line-2 | line-2-0593-0351-s000000 | forward | revenue | 2 | pending |
-| line-2 | line-2-planning-infill-s001302 | forward | revenue | 2 | pending |
-| line-2 | line-2-planning-infill-s001302 | reverse | revenue | 1 | pending |
-| line-2 | line-2-planning-infill-s002604 | forward | revenue | 1 | pending |
-| line-2 | line-2-planning-infill-s002604 | reverse | revenue | 1 | pending |
+| line-2 | line-2-0572-0374-s000681 | forward | revenue | 2 | pending |
+| line-2 | line-2-0572-0374-s000681 | reverse | revenue | 2 | pending |
+| line-2 | line-2-planning-infill-s002293 | forward | revenue | 2 | pending |
+| line-2 | line-2-planning-infill-s002293 | reverse | revenue | 1 | pending |
 | line-2 | line-2-0474-0480-s003906 | reverse | revenue | 1 | pending |
-| line-2 | line-2-planning-infill-s001302 | reverse | spare | 1 | pending |
-| line-2 | line-2-planning-infill-s002604 | forward | cold_reserve | 1 | pending |
+| line-2 | line-2-planning-infill-s002293 | reverse | spare | 1 | pending |
+| line-2 | line-2-0474-0480-s003906 | reverse | cold_reserve | 1 | pending |
 | line-3 | line-3-0340-0286-s000000 | forward | revenue | 2 | pending |
-| line-3 | line-3-planning-infill-s001228 | forward | revenue | 2 | pending |
-| line-3 | line-3-planning-infill-s001228 | reverse | revenue | 2 | pending |
-| line-3 | line-3-planning-infill-s002456 | forward | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s002456 | reverse | revenue | 1 | pending |
-| line-3 | line-3-0497-0346-s003684 | forward | revenue | 1 | pending |
-| line-3 | line-3-0497-0346-s003684 | reverse | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s004979 | forward | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s004979 | reverse | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s006274 | forward | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s006274 | reverse | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s007569 | forward | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s007569 | reverse | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s008864 | forward | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s008864 | reverse | revenue | 1 | pending |
+| line-3 | line-3-0425-0318-s001989 | forward | revenue | 2 | pending |
+| line-3 | line-3-0425-0318-s001989 | reverse | revenue | 2 | pending |
+| line-3 | line-3-0510-0350-s003977 | forward | revenue | 2 | pending |
+| line-3 | line-3-0510-0350-s003977 | reverse | revenue | 2 | pending |
+| line-3 | line-3-0572-0374-s005439 | forward | revenue | 2 | pending |
+| line-3 | line-3-0572-0374-s005439 | reverse | revenue | 2 | pending |
+| line-3 | line-3-planning-infill-s007013 | forward | revenue | 1 | pending |
+| line-3 | line-3-planning-infill-s007013 | reverse | revenue | 1 | pending |
+| line-3 | line-3-planning-infill-s008586 | forward | revenue | 1 | pending |
+| line-3 | line-3-planning-infill-s008586 | reverse | revenue | 1 | pending |
 | line-3 | line-3-0744-0445-s010159 | reverse | revenue | 1 | pending |
-| line-3 | line-3-planning-infill-s002456 | forward | spare | 1 | pending |
-| line-3 | line-3-planning-infill-s002456 | reverse | cold_reserve | 1 | pending |
+| line-3 | line-3-planning-infill-s007013 | forward | spare | 1 | pending |
+| line-3 | line-3-planning-infill-s007013 | reverse | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
 
-**9 trainsets exceed the reference platform envelope**, requiring **441.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**10 trainsets exceed the reference platform envelope**, requiring **490.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0319-0148-s000000 | 2 | 2 | 0 | 0.0 |
+| line-1-0510-0350-s006243 | 2 | 4 | 0 | 0.0 |
 | line-1-0531-0372-s006916 | 1 | 2 | 0 | 0.0 |
-| line-1-planning-infill-s001383 | 4 | 2 | 2 | 98.0 |
-| line-1-planning-infill-s002766 | 4 | 2 | 2 | 98.0 |
-| line-1-planning-infill-s004149 | 2 | 2 | 0 | 0.0 |
-| line-1-planning-infill-s005533 | 2 | 4 | 0 | 0.0 |
-| line-2-0474-0480-s003906 | 1 | 2 | 0 | 0.0 |
+| line-1-planning-infill-s001561 | 4 | 2 | 2 | 98.0 |
+| line-1-planning-infill-s003122 | 4 | 2 | 2 | 98.0 |
+| line-1-planning-infill-s004682 | 2 | 2 | 0 | 0.0 |
+| line-2-0474-0480-s003906 | 2 | 2 | 0 | 0.0 |
+| line-2-0572-0374-s000681 | 4 | 4 | 0 | 0.0 |
 | line-2-0593-0351-s000000 | 2 | 2 | 0 | 0.0 |
-| line-2-planning-infill-s001302 | 4 | 4 | 0 | 0.0 |
-| line-2-planning-infill-s002604 | 3 | 2 | 1 | 49.0 |
+| line-2-planning-infill-s002293 | 4 | 2 | 2 | 98.0 |
 | line-3-0340-0286-s000000 | 2 | 2 | 0 | 0.0 |
-| line-3-0497-0346-s003684 | 2 | 4 | 0 | 0.0 |
+| line-3-0425-0318-s001989 | 4 | 2 | 2 | 98.0 |
+| line-3-0510-0350-s003977 | 4 | 4 | 0 | 0.0 |
+| line-3-0572-0374-s005439 | 4 | 4 | 0 | 0.0 |
 | line-3-0744-0445-s010159 | 1 | 2 | 0 | 0.0 |
-| line-3-planning-infill-s001228 | 4 | 2 | 2 | 98.0 |
-| line-3-planning-infill-s002456 | 4 | 2 | 2 | 98.0 |
-| line-3-planning-infill-s004979 | 2 | 4 | 0 | 0.0 |
-| line-3-planning-infill-s006274 | 2 | 2 | 0 | 0.0 |
-| line-3-planning-infill-s007569 | 2 | 2 | 0 | 0.0 |
-| line-3-planning-infill-s008864 | 2 | 2 | 0 | 0.0 |
+| line-3-planning-infill-s007013 | 4 | 2 | 2 | 98.0 |
+| line-3-planning-infill-s008586 | 2 | 2 | 0 | 0.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
 - Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.

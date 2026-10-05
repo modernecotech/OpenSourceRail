@@ -1,21 +1,21 @@
 # Kano city-order factory requirement
 
-**635 metro-6car trainsets / 3810 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**678 metro-6car trainsets / 4068 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 260.0 trainsets/year, 3 separate test paths, 1242 direct production FTE. Plant reference envelope: **USD 354.399m**.
+Planning output: 269.0 trainsets/year, 3 separate test paths, 1311 direct production FTE. Plant reference envelope: **USD 369.286m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 71 | 640 | 730 | 730 |
-| line-2 | 81 | 721 | 811 | 811 |
-| line-3 | 75 | 796 | 886 | 886 |
-| line-4 | 71 | 867 | 957 | 957 |
-| line-5 | 69 | 936 | 1026 | 1026 |
-| line-6 | 59 | 995 | 1085 | 1085 |
-| line-7 | 89 | 1100 | 1174 | 1174 |
-| line-8 | 81 | 1165 | 1255 | 1255 |
-| line-9 | 39 | 1297 | 1294 | 1297 |
+| line-1 | 75 | 641 | 731 | 731 |
+| line-2 | 86 | 723 | 813 | 813 |
+| line-3 | 78 | 799 | 889 | 889 |
+| line-4 | 73 | 870 | 960 | 960 |
+| line-5 | 71 | 938 | 1028 | 1028 |
+| line-6 | 65 | 1001 | 1091 | 1091 |
+| line-7 | 100 | 1129 | 1188 | 1188 |
+| line-8 | 89 | 1184 | 1274 | 1274 |
+| line-9 | 41 | 1318 | 1314 | 1318 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

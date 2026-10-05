@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`niamey-line1.aln.toml`](niamey-line1.aln.toml) | `line-1` | 22,309.6 m | 8 |
-| [`niamey-line2.aln.toml`](niamey-line2.aln.toml) | `line-2` | 16,597.2 m | 8 |
-| [`niamey-line3.aln.toml`](niamey-line3.aln.toml) | `line-3` | 15,189.0 m | 7 |
-| [`niamey-line4.aln.toml`](niamey-line4.aln.toml) | `line-4` | 19,088.5 m | 7 |
-| [`niamey-line5.aln.toml`](niamey-line5.aln.toml) | `line-5` | 18,186.8 m | 6 |
-| [`niamey-line6.aln.toml`](niamey-line6.aln.toml) | `line-6` | 50,604.7 m | 15 |
+| [`niamey-line1.aln.toml`](niamey-line1.aln.toml) | `line-1` | 22,676.3 m | 10 |
+| [`niamey-line2.aln.toml`](niamey-line2.aln.toml) | `line-2` | 15,735.8 m | 8 |
+| [`niamey-line3.aln.toml`](niamey-line3.aln.toml) | `line-3` | 14,193.0 m | 8 |
+| [`niamey-line4.aln.toml`](niamey-line4.aln.toml) | `line-4` | 19,280.3 m | 10 |
+| [`niamey-line5.aln.toml`](niamey-line5.aln.toml) | `line-5` | 18,810.8 m | 9 |
+| [`niamey-line6.aln.toml`](niamey-line6.aln.toml) | `line-6` | 51,063.4 m | 19 |
 
 ## Status
 

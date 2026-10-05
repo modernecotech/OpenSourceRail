@@ -14,8 +14,8 @@ crs            = "EPSG:32733"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "2d34566ce5659ab64750e2e8ecb0d64dad4b8b0e4f8e16b6f6fbd7ef1ca824a2"
-source_geojson_sha256 = "a7706f180f950250b6495facff11cdc29aa13211f3415da749bc62fefb9224df"
+source_design_sha256 = "9e9d1d88673ff6929a6813c07b9edc030dc39f5507165f06efa3f5ad9ee4d004"
+source_geojson_sha256 = "7fbe1c8e5b88f04857f9c3aaf839e3fe088bad32774a5728f7e693e1e2d410fd"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -1356,6 +1356,16 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
+to_station_m   = 2503.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2503.900
+to_station_m   = 2648.800
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2648.800
 to_station_m   = 6441.200
 class          = "elevated"
 
@@ -1377,23 +1387,23 @@ station_m         = 0.000
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-1-planning-infill-s001383"
-station_m         = 1383.200
+id                = "line-1-planning-infill-s001561"
+station_m         = 1560.800
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-1-planning-infill-s002766"
-station_m         = 2766.300
+id                = "line-1-planning-infill-s003122"
+station_m         = 3121.600
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-1-planning-infill-s004149"
-station_m         = 4149.500
+id                = "line-1-planning-infill-s004682"
+station_m         = 4682.400
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-1-planning-infill-s005533"
-station_m         = 5532.600
+id                = "line-1-0510-0350-s006243"
+station_m         = 6243.200
 platform_length_m = 49.000
 
 [[station]]

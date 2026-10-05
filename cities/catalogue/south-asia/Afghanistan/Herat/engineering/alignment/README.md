@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`herat-line1.aln.toml`](herat-line1.aln.toml) | `line-1` | 9,206.6 m | 5 |
 | [`herat-line2.aln.toml`](herat-line2.aln.toml) | `line-2` | 10,284.0 m | 5 |
-| [`herat-line3.aln.toml`](herat-line3.aln.toml) | `line-3` | 20,209.2 m | 6 |
+| [`herat-line3.aln.toml`](herat-line3.aln.toml) | `line-3` | 20,682.9 m | 7 |
 
 ## Status
 

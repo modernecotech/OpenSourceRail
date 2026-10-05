@@ -4,15 +4,15 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nairobi-line1.aln.toml`](nairobi-line1.aln.toml) | `line-1` | 51,611.6 m | 17 |
-| [`nairobi-line2.aln.toml`](nairobi-line2.aln.toml) | `line-2` | 43,850.7 m | 14 |
-| [`nairobi-line3.aln.toml`](nairobi-line3.aln.toml) | `line-3` | 44,218.7 m | 13 |
-| [`nairobi-line4.aln.toml`](nairobi-line4.aln.toml) | `line-4` | 27,808.4 m | 9 |
-| [`nairobi-line5.aln.toml`](nairobi-line5.aln.toml) | `line-5` | 42,594.8 m | 10 |
-| [`nairobi-line6.aln.toml`](nairobi-line6.aln.toml) | `line-6` | 55,092.2 m | 16 |
-| [`nairobi-line7.aln.toml`](nairobi-line7.aln.toml) | `line-7` | 46,743.3 m | 14 |
-| [`nairobi-line8.aln.toml`](nairobi-line8.aln.toml) | `line-8` | 38,904.1 m | 10 |
-| [`nairobi-line9.aln.toml`](nairobi-line9.aln.toml) | `line-9` | 100,459.5 m | 29 |
+| [`nairobi-line1.aln.toml`](nairobi-line1.aln.toml) | `line-1` | 53,185.2 m | 19 |
+| [`nairobi-line2.aln.toml`](nairobi-line2.aln.toml) | `line-2` | 44,919.0 m | 15 |
+| [`nairobi-line3.aln.toml`](nairobi-line3.aln.toml) | `line-3` | 45,101.3 m | 17 |
+| [`nairobi-line4.aln.toml`](nairobi-line4.aln.toml) | `line-4` | 28,060.4 m | 13 |
+| [`nairobi-line5.aln.toml`](nairobi-line5.aln.toml) | `line-5` | 43,935.5 m | 14 |
+| [`nairobi-line6.aln.toml`](nairobi-line6.aln.toml) | `line-6` | 57,418.7 m | 20 |
+| [`nairobi-line7.aln.toml`](nairobi-line7.aln.toml) | `line-7` | 48,179.2 m | 17 |
+| [`nairobi-line8.aln.toml`](nairobi-line8.aln.toml) | `line-8` | 40,353.7 m | 14 |
+| [`nairobi-line9.aln.toml`](nairobi-line9.aln.toml) | `line-9` | 100,612.1 m | 31 |
 
 ## Status
 

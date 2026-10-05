@@ -3,7 +3,7 @@
 This page contains only Mali-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.34 B (89.4%) of external capital** and **$8.19 B of external interest**. Capital plus saved interest totals **$14.54 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$17.63 B (90.5%) of external capital** and **$22.77 B of external interest**. Capital plus saved interest totals **$40.40 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Mali-specific aggregation. Shared network, service, ener
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 2,929,000 |
-| Trainsets / vehicle modules | 233 / 932 |
-| City infrastructure and fleet CAPEX | $3.16 B |
-| Shared national factory | $733.0 M |
-| Factory sizing basis | 932 modules for Bamako, then reused nationally |
-| **Total national programme** | **$3.94 B** |
+| Trainsets / vehicle modules | 328 / 1,312 |
+| City infrastructure and fleet CAPEX | $9.83 B |
+| Shared national factory | $927.4 M |
+| Factory sizing basis | 1,312 modules for Bamako, then reused nationally |
+| **Total national programme** | **$10.82 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $755.4 M (19.2%) |
-| Domestic / local capital | $3.19 B (80.8%) |
-| Annual external capital draw | $75.5 M / yr |
-| Annual local capital draw | $318.9 M / yr |
-| Annual public construction commitment | $340.1 M / yr for 10 years |
-| Annual post-grace debt service | $305.8 M / yr |
-| Default foreign-turnkey external capital | $7.10 B |
-| External capital saved | $6.34 B |
-| Capital + lifetime external interest saved | $14.54 B |
+| Imported / external capital | $1.85 B (17.1%) |
+| Domestic / local capital | $8.97 B (82.9%) |
+| Annual external capital draw | $184.6 M / yr |
+| Annual local capital draw | $897.4 M / yr |
+| Annual public construction commitment | $944.5 M / yr for 10 years |
+| Annual post-grace debt service | $843.3 M / yr |
+| Default foreign-turnkey external capital | $19.48 B |
+| External capital saved | $17.63 B |
+| Capital + lifetime external interest saved | $40.40 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.15 B | $322.8 M | $1.83 B |
-| Stations | $265.0 M | $53.0 M | $212.0 M |
-| Depots | $115.8 M | $28.9 M | $86.8 M |
-| Rolling stock | $261.0 M | $91.3 M | $169.6 M |
-| Dedicated solar plants | $140.7 M | $63.3 M | $77.4 M |
-| Residual train control | $9.7 M | $4.8 M | $4.8 M |
-| Charging microgrids | $18.1 M | $7.3 M | $10.9 M |
-| EPC / project services | $248.8 M | $37.3 M | $211.5 M |
-| Shared national trainset factory | $733.0 M | $146.6 M | $586.4 M |
-| **Total** | **$3.94 B** | **$755.4 M** | **$3.19 B** |
+| Civil works | $7.90 B | $1.19 B | $6.72 B |
+| Stations | $586.2 M | $117.2 M | $469.0 M |
+| Depots | $133.2 M | $33.3 M | $99.9 M |
+| Rolling stock | $367.4 M | $128.6 M | $238.8 M |
+| Dedicated solar plants | $164.4 M | $74.0 M | $90.4 M |
+| Residual train control | $11.1 M | $5.6 M | $5.6 M |
+| Charging microgrids | $28.6 M | $11.5 M | $17.2 M |
+| EPC / project services | $697.1 M | $104.6 M | $592.5 M |
+| Shared national trainset factory | $927.4 M | $185.5 M | $741.9 M |
+| **Total** | **$10.82 B** | **$1.85 B** | **$8.97 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Bamako](Bamako/README.md) | 2,929,000 | 233 | $3.16 B | $601.1 M | $2.56 B |
+| [Bamako](Bamako/README.md) | 2,929,000 | 328 | $9.83 B | $1.65 B | $8.18 B |
 
 ## Local Basis And Regeneration
 

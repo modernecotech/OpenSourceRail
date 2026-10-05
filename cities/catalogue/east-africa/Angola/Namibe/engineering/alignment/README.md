@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`namibe-line1.aln.toml`](namibe-line1.aln.toml) | `line-1` | 12,752.3 m | 6 |
 | [`namibe-line2.aln.toml`](namibe-line2.aln.toml) | `line-2` | 10,005.6 m | 5 |
-| [`namibe-line3.aln.toml`](namibe-line3.aln.toml) | `line-3` | 11,125.6 m | 5 |
+| [`namibe-line3.aln.toml`](namibe-line3.aln.toml) | `line-3` | 13,913.6 m | 6 |
 
 ## Status
 

@@ -19,17 +19,17 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
 | line-1-1822-1162-s000000 | line-1 | 40 | 4,440.0 | 4,840.0 | unverified |
-| line-1-0080-0724-s038591 | line-1 | 39 | 4,329.0 | 4,719.0 | unverified |
+| line-1-0080-0724-s039725 | line-1 | 40 | 4,440.0 | 4,840.0 | unverified |
 | line-2-1620-1366-s000000 | line-2 | 19 | 2,109.0 | 2,299.0 | unverified |
 | line-2-0839-1170-s017314 | line-2 | 18 | 1,998.0 | 2,178.0 | unverified |
 | line-3-1713-2270-s000000 | line-3 | 43 | 4,773.0 | 5,203.0 | unverified |
 | line-3-1128-0589-s042556 | line-3 | 42 | 4,662.0 | 5,082.0 | unverified |
-| line-4-1070-0777-s000000 | line-4 | 32 | 3,552.0 | 3,872.0 | unverified |
-| line-4-1405-2361-s034393 | line-4 | 32 | 3,552.0 | 3,872.0 | unverified |
+| line-4-1070-0777-s000000 | line-4 | 33 | 3,663.0 | 3,993.0 | unverified |
+| line-4-1405-2361-s034971 | line-4 | 32 | 3,552.0 | 3,872.0 | unverified |
 | line-5-2152-0348-s000000 | line-5 | 35 | 3,885.0 | 4,235.0 | unverified |
-| line-5-1179-1578-s035280 | line-5 | 35 | 3,885.0 | 4,235.0 | unverified |
-| line-6-1003-0997-s000000 | line-6 | 25 | 2,775.0 | 3,025.0 | unverified |
-| line-6-2118-0683-s026071 | line-6 | 25 | 2,775.0 | 3,025.0 | unverified |
+| line-5-1179-1578-s035665 | line-5 | 35 | 3,885.0 | 4,235.0 | unverified |
+| line-6-1003-0997-s000000 | line-6 | 24 | 2,664.0 | 2,904.0 | unverified |
+| line-6-2118-0683-s026389 | line-6 | 24 | 2,664.0 | 2,904.0 | unverified |
 | line-7-0938-0985-s004704 | line-7 | 22 | 2,442.0 | 2,662.0 | unverified |
 | line-7-0784-0953-s089711 | line-7 | 21 | 2,331.0 | 2,541.0 | unverified |
 

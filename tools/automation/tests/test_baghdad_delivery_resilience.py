@@ -198,7 +198,7 @@ def test_narrative_facts_derive_from_current_sensitivity_and_respond_to_changes(
     programme = json.loads((CITY.parent / 'finance/baghdad-programme.json').read_text())
     facts = builder.financial_narrative_facts(programme)
     assert facts['slow_income_full_opening_burden'] == pytest.approx(.1396, abs=.0001)
-    assert facts['opex_stress_terminal_gap_iqd'] == 0
+    assert facts['opex_stress_terminal_gap_iqd'] == programme['independent_recalculation']['cases']['fare_5pct_opex_7pct']['terminal_supplemental_balance_iqd']
     calculation = programme['independent_recalculation']
     calculation['fare_pricing']['fare_5pct_opex_5pct_income_2pct']['full_opening']['forty_four_trips_income_share'] = .12345
     calculation['cases']['fare_5pct_opex_7pct']['terminal_supplemental_balance_iqd'] = 456e9

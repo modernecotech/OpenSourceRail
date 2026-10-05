@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`suez-line1.aln.toml`](suez-line1.aln.toml) | `line-1` | 22,662.3 m | 8 |
+| [`suez-line1.aln.toml`](suez-line1.aln.toml) | `line-1` | 25,027.6 m | 9 |
 | [`suez-line2.aln.toml`](suez-line2.aln.toml) | `line-2` | 16,232.6 m | 6 |
 | [`suez-line3.aln.toml`](suez-line3.aln.toml) | `line-3` | 14,633.1 m | 4 |
 

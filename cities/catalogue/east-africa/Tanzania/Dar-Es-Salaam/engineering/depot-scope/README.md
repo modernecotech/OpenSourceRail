@@ -21,21 +21,21 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
 | line-1-2684-1282-s000000 | line-1 | 45 | 4,995.0 | 5,445.0 | unverified |
-| line-1-0658-0927-s043950 | line-1 | 44 | 4,884.0 | 5,324.0 | unverified |
-| line-2-1887-1610-s000000 | line-2 | 90 | 9,990.0 | 10,890.0 | unverified |
-| line-2-0122-0312-s092258 | line-2 | 90 | 9,990.0 | 10,890.0 | unverified |
-| line-3-1308-0642-s000000 | line-3 | 46 | 5,106.0 | 5,566.0 | unverified |
-| line-3-2266-2434-s045204 | line-3 | 46 | 5,106.0 | 5,566.0 | unverified |
+| line-1-0658-0927-s044228 | line-1 | 44 | 4,884.0 | 5,324.0 | unverified |
+| line-2-1887-1610-s000000 | line-2 | 91 | 10,101.0 | 11,011.0 | unverified |
+| line-2-0122-0312-s092258 | line-2 | 91 | 10,101.0 | 11,011.0 | unverified |
+| line-3-1308-0642-s000000 | line-3 | 47 | 5,217.0 | 5,687.0 | unverified |
+| line-3-2266-2434-s046645 | line-3 | 46 | 5,106.0 | 5,566.0 | unverified |
 | line-4-0659-0960-s000000 | line-4 | 38 | 4,218.0 | 4,598.0 | unverified |
 | line-4-2367-0715-s038911 | line-4 | 38 | 4,218.0 | 4,598.0 | unverified |
-| line-5-2359-0989-s000000 | line-5 | 35 | 3,885.0 | 4,235.0 | unverified |
-| line-5-1068-1254-s028954 | line-5 | 34 | 3,774.0 | 4,114.0 | unverified |
-| line-6-0517-0217-s000000 | line-6 | 32 | 3,552.0 | 3,872.0 | unverified |
-| line-6-1656-0970-s031462 | line-6 | 31 | 3,441.0 | 3,751.0 | unverified |
+| line-5-2359-0989-s000000 | line-5 | 36 | 3,996.0 | 4,356.0 | unverified |
+| line-5-1068-1254-s029132 | line-5 | 35 | 3,885.0 | 4,235.0 | unverified |
+| line-6-0517-0217-s000000 | line-6 | 33 | 3,663.0 | 3,993.0 | unverified |
+| line-6-1656-0970-s033654 | line-6 | 32 | 3,552.0 | 3,872.0 | unverified |
 | line-7-1176-1256-s000000 | line-7 | 32 | 3,552.0 | 3,872.0 | unverified |
-| line-7-1474-0046-s027284 | line-7 | 31 | 3,441.0 | 3,751.0 | unverified |
-| line-8-1148-1241-s000000 | line-8 | 31 | 3,441.0 | 3,751.0 | unverified |
-| line-8-1975-0139-s032151 | line-8 | 31 | 3,441.0 | 3,751.0 | unverified |
+| line-7-1474-0046-s027604 | line-7 | 31 | 3,441.0 | 3,751.0 | unverified |
+| line-8-1148-1241-s000000 | line-8 | 32 | 3,552.0 | 3,872.0 | unverified |
+| line-8-1975-0139-s033002 | line-8 | 31 | 3,441.0 | 3,751.0 | unverified |
 | line-9-1168-0650-s006204 | line-9 | 31 | 3,441.0 | 3,751.0 | unverified |
 | line-9-1349-0449-s133131 | line-9 | 31 | 3,441.0 | 3,751.0 | unverified |
 

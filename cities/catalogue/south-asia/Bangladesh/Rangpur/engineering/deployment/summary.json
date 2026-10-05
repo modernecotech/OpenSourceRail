@@ -2,21 +2,21 @@
   "city": "rangpur",
   "closed_gate_count": 5,
   "deployment_release_ready": false,
-  "design_sha256": "e9b90455d8dfd6c3edea075d5570f17813ea59758c6971838bebf020c37709b3",
+  "design_sha256": "e9a41c7622b1fb9371c8b2e5aee2f7e37553eb5909df2e9ee5976c404dcbf3aa",
   "evidence_sha256": {
-    "delivery/summary.json": "94716377962d31fbda82e6959b5985e7c9445baf5c87b39214f53a9c881b0dac",
-    "depot-scope/summary.json": "2f400d9f5c663ff8ed7cc1d1c44190c24f71354f04ef0aded45fe503c8450b72",
-    "energy/summary.json": "03596638ffda93cf5f571a30a336805cd750d8206c52585e5b83c673beca414d",
-    "simulation/operations-crosscheck.json": "3bc0f077d9df55c23955d70144664737093e1b224197069a9838310f92e80efa",
-    "simulation/validation-summary.json": "657891f46a4187f466b72aacced79fc4aa06457b94d313a7340cc7700b3efa03",
-    "soil/summary.json": "6a36cb464fcf04204a2db2b0ea2e168eaf2bb1dcad7978d07ecf19f6eb8e1eb5",
-    "stabling/summary.json": "4eab9595f8d6eb3e89ecbe22d52f573eafe5453947c8a2d5862085835f9db9e3",
+    "delivery/summary.json": "0aa4e4ab6406dc0235f80cda90d9f7b9da6a45d36611d858ca54eb0924201aec",
+    "depot-scope/summary.json": "be66914629fbf0fd39eeb33ddd7717b5ad512414e04644a9d6872623b31eff2a",
+    "energy/summary.json": "cf61557cc0299d2b64d2e415a8ad420a9ed3358259348f31ec87b16ae06310e4",
+    "simulation/operations-crosscheck.json": "3f11b7ae9a0593e7872635f80a2fdd41b895895cae9c1877edc79dbb77fcb34e",
+    "simulation/validation-summary.json": "8263a7d8f5820698ddfdf5b46d49223f625ac3a8e422bacadcbbb0598ff1c25b",
+    "soil/summary.json": "fdc6a1e6b3825260477f6e3daee8436bbf0d558c4f226f4b6384237f84bd86a4",
+    "stabling/summary.json": "c7c720d489f5ece6b0a5855738528c15986efab8c6f93119d9ce0080d0e317c9",
     "survey/control-processing-readiness.json": "5a13dc6b1e7b6317500538730f433726a14960afdd3835ed7b6e28f1243465d2",
-    "survey/drainage-ground-readiness.json": "b689742ae0d49f9fead91708ddb7d0bb54c1b66df853c74fe8876112e5d9ebc7",
+    "survey/drainage-ground-readiness.json": "f115e97f22556997c2325ca39bc8c47944bfd81b9065289248f800a8494da664",
     "survey/ground-model-readiness.json": "4a74425c5fe7dca50ffc648813ad55977dca42b0e399b07272a4f9df3775346a",
-    "survey/route-station-fit-readiness.json": "c1d373f8dcbab8077d578e1a2fab6dc065eb9acaab6bab4c53b58d98a5f3670c",
-    "survey/structural-release-readiness.json": "90e5ee640d2c265af9e4261e7d93811330d70e2b83ac744defb9b2e1154fe29e",
-    "survey/surveyed-alignment-readiness.json": "33aec84c0f632c2319ddab3572588337a42df5ba06516e8f9c56a2b5d4f81c2a"
+    "survey/route-station-fit-readiness.json": "b1cd4285989eb47abe0c79af92c1021e0ffbabfb03d7da64c40d934333e5df2d",
+    "survey/structural-release-readiness.json": "1a9f0035ca2b2b1873ea46cab1d546e62d00974f55baa7d388301a16b476999e",
+    "survey/surveyed-alignment-readiness.json": "5d7f38b1167c0e96d132d5c03806712059ddf3999472f057177aa589a67c19f8"
   },
   "gates": [
     {
@@ -191,9 +191,9 @@
     {
       "closure_action": "Reconcile revenue fleet with required morning departures on each line; retain two station berths and same-line overflow storage.",
       "detail": {
-        "depot_trainsets": 87,
+        "depot_trainsets": 90,
         "missing_morning_directions": [],
-        "station_trainsets": 32
+        "station_trainsets": 30
       },
       "evidence": "stabling/summary.json",
       "id": "morning-fleet-allocation",
@@ -230,10 +230,10 @@
       "closure_action": "Bind declared station/ROW/dedicated PV to site storage and actual charging duty, reconcile conversion losses and prove replenishment across adverse weather; specify residual backup duty explicitly.",
       "detail": {
         "interpretation": "Retained-run diagnostics are not a new grid requirement or proof of solar/storage endurance.",
-        "retained_run_delivered_kwh": 132764.38533735654,
+        "retained_run_delivered_kwh": 130191.75867199062,
         "retained_run_duration_s": 90000,
-        "retained_run_grid_imported_kwh": 91391.8258105822,
-        "retained_run_pv_generated_kwh": 91107.84966416744,
+        "retained_run_grid_imported_kwh": 90086.26734446906,
+        "retained_run_pv_generated_kwh": 89661.69332786054,
         "snapshot_passed": true
       },
       "evidence": "energy/summary.json",
@@ -259,7 +259,7 @@
     {
       "closure_action": "Reconcile the funded role plan with named shift/leave cover, measured inspection and cleaning workloads, simultaneous service-depot arrivals and actual local employment inputs.",
       "detail": {
-        "planning_fte": 429
+        "planning_fte": 419
       },
       "evidence": "delivery/summary.json",
       "id": "workforce-duty-and-workload",

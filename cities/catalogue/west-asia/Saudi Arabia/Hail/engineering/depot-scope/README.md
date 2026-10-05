@@ -6,7 +6,7 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-0155-0354-s020788 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-0155-0354-s021506 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0832-0082-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0156-0494-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
@@ -14,10 +14,10 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-1040-0603-s000000 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
-| line-1-0155-0354-s020788 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
+| line-1-1040-0603-s000000 | line-1 | 35 | 1,732.5 | 2,082.5 | unverified |
+| line-1-0155-0354-s021506 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
 | line-2-0832-0082-s000000 | line-2 | 31 | 1,534.5 | 1,844.5 | unverified |
-| line-2-0391-0788-s019158 | line-2 | 30 | 1,485.0 | 1,785.0 | unverified |
+| line-2-0391-0788-s019601 | line-2 | 31 | 1,534.5 | 1,844.5 | unverified |
 | line-3-0156-0494-s000000 | line-3 | 22 | 1,089.0 | 1,309.0 | unverified |
 | line-3-0701-0794-s014505 | line-3 | 21 | 1,039.5 | 1,249.5 | unverified |
 

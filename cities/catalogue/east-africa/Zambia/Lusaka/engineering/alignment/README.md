@@ -4,14 +4,14 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lusaka-line1.aln.toml`](lusaka-line1.aln.toml) | `line-1` | 32,206.9 m | 12 |
-| [`lusaka-line2.aln.toml`](lusaka-line2.aln.toml) | `line-2` | 21,714.6 m | 7 |
-| [`lusaka-line3.aln.toml`](lusaka-line3.aln.toml) | `line-3` | 25,249.0 m | 9 |
-| [`lusaka-line4.aln.toml`](lusaka-line4.aln.toml) | `line-4` | 18,536.4 m | 8 |
-| [`lusaka-line5.aln.toml`](lusaka-line5.aln.toml) | `line-5` | 20,289.5 m | 8 |
-| [`lusaka-line6.aln.toml`](lusaka-line6.aln.toml) | `line-6` | 27,622.6 m | 10 |
-| [`lusaka-line7.aln.toml`](lusaka-line7.aln.toml) | `line-7` | 25,355.9 m | 7 |
-| [`lusaka-line8.aln.toml`](lusaka-line8.aln.toml) | `line-8` | 67,828.6 m | 20 |
+| [`lusaka-line1.aln.toml`](lusaka-line1.aln.toml) | `line-1` | 33,608.0 m | 13 |
+| [`lusaka-line2.aln.toml`](lusaka-line2.aln.toml) | `line-2` | 21,349.7 m | 9 |
+| [`lusaka-line3.aln.toml`](lusaka-line3.aln.toml) | `line-3` | 25,478.2 m | 12 |
+| [`lusaka-line4.aln.toml`](lusaka-line4.aln.toml) | `line-4` | 17,881.8 m | 11 |
+| [`lusaka-line5.aln.toml`](lusaka-line5.aln.toml) | `line-5` | 20,410.4 m | 10 |
+| [`lusaka-line6.aln.toml`](lusaka-line6.aln.toml) | `line-6` | 27,657.3 m | 12 |
+| [`lusaka-line7.aln.toml`](lusaka-line7.aln.toml) | `line-7` | 25,159.0 m | 10 |
+| [`lusaka-line8.aln.toml`](lusaka-line8.aln.toml) | `line-8` | 69,247.5 m | 23 |
 
 ## Status
 

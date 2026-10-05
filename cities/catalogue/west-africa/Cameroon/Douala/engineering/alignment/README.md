@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`douala-line1.aln.toml`](douala-line1.aln.toml) | `line-1` | 32,267.7 m | 12 |
-| [`douala-line2.aln.toml`](douala-line2.aln.toml) | `line-2` | 39,184.9 m | 14 |
-| [`douala-line3.aln.toml`](douala-line3.aln.toml) | `line-3` | 38,267.6 m | 12 |
-| [`douala-line4.aln.toml`](douala-line4.aln.toml) | `line-4` | 26,981.3 m | 7 |
-| [`douala-line5.aln.toml`](douala-line5.aln.toml) | `line-5` | 43,893.8 m | 16 |
+| [`douala-line1.aln.toml`](douala-line1.aln.toml) | `line-1` | 35,711.8 m | 13 |
+| [`douala-line2.aln.toml`](douala-line2.aln.toml) | `line-2` | 39,851.3 m | 15 |
+| [`douala-line3.aln.toml`](douala-line3.aln.toml) | `line-3` | 25,449.2 m | 9 |
+| [`douala-line4.aln.toml`](douala-line4.aln.toml) | `line-4` | 48,532.0 m | 15 |
+| [`douala-line5.aln.toml`](douala-line5.aln.toml) | `line-5` | 43,893.8 m | 17 |
 
 ## Status
 

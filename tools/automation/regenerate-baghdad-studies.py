@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Recompute Baghdad dependencies in order after city engineering regeneration."""
+import argparse
 from pathlib import Path
 import subprocess
 import sys
@@ -22,8 +23,11 @@ STEPS=(
     'tools/automation/generate-portfolio-summary.py',
 )
 def main():
-    if sys.argv[1:]:raise SystemExit('usage: regenerate-baghdad-studies.py')
-    for step in STEPS:
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--skip-portfolio',action='store_true',help='refresh city dependencies only; publish the portfolio after all city packages finish')
+    args=parser.parse_args()
+    steps=STEPS[:-2] if args.skip_portfolio else STEPS
+    for step in steps:
         print('Recomputing '+step,flush=True)
         subprocess.run([sys.executable,str(ROOT/step)],cwd=ROOT,check=True)
 if __name__=='__main__':main()

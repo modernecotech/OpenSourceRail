@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nablus-line1.aln.toml`](nablus-line1.aln.toml) | `line-1` | 16,108.6 m | 6 |
-| [`nablus-line2.aln.toml`](nablus-line2.aln.toml) | `line-2` | 24,816.3 m | 7 |
-| [`nablus-line3.aln.toml`](nablus-line3.aln.toml) | `line-3` | 19,635.9 m | 6 |
+| [`nablus-line1.aln.toml`](nablus-line1.aln.toml) | `line-1` | 16,811.4 m | 6 |
+| [`nablus-line2.aln.toml`](nablus-line2.aln.toml) | `line-2` | 25,331.3 m | 9 |
+| [`nablus-line3.aln.toml`](nablus-line3.aln.toml) | `line-3` | 20,201.2 m | 7 |
 
 ## Status
 

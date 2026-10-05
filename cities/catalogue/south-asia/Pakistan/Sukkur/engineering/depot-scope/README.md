@@ -14,12 +14,12 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0151-0084-s000000 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
+| line-1-0151-0084-s000000 | line-1 | 35 | 1,732.5 | 2,082.5 | unverified |
 | line-1-0703-0822-s020752 | line-1 | 34 | 1,683.0 | 2,023.0 | unverified |
 | line-2-0449-0338-s000000 | line-2 | 15 | 742.5 | 892.5 | unverified |
-| line-2-0814-0509-s008927 | line-2 | 14 | 693.0 | 833.0 | unverified |
-| line-3-0861-0445-s000000 | line-3 | 14 | 693.0 | 833.0 | unverified |
-| line-3-0590-0702-s008381 | line-3 | 13 | 643.5 | 773.5 | unverified |
+| line-2-0814-0509-s008927 | line-2 | 15 | 742.5 | 892.5 | unverified |
+| line-3-0861-0445-s000000 | line-3 | 16 | 792.0 | 952.0 | unverified |
+| line-3-0590-0702-s009101 | line-3 | 15 | 742.5 | 892.5 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

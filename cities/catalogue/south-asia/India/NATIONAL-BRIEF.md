@@ -3,7 +3,7 @@
 This page contains only India-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$86.09 B (88.6%) of external capital** and **$105.85 B of external interest**. Capital plus saved interest totals **$191.94 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$217.50 B (90.2%) of external capital** and **$267.41 B of external interest**. Capital plus saved interest totals **$484.90 B**.
 
 ## National Programme
 
@@ -11,62 +11,62 @@ This page contains only India-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 17 |
 | Represented population | 36,304,000 |
-| Trainsets / vehicle modules | 4,505 / 21,780 |
-| City infrastructure and fleet CAPEX | $53.13 B |
-| Shared national factory | $815.5 M |
-| Factory sizing basis | 2,922 modules for Indore, then reused nationally |
-| **Total national programme** | **$54.01 B** |
+| Trainsets / vehicle modules | 5,272 / 25,198 |
+| City infrastructure and fleet CAPEX | $133.05 B |
+| Shared national factory | $854.7 M |
+| Factory sizing basis | 3,198 modules for Kanpur, then reused nationally |
+| **Total national programme** | **$133.97 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $11.12 B (20.6%) |
-| Domestic / local capital | $42.89 B (79.4%) |
-| Annual external capital draw | $2.22 B / yr |
-| Annual local capital draw | $8.58 B / yr |
-| Annual public construction commitment | $4.69 B / yr for 5 years |
-| Annual post-grace debt service | $3.34 B / yr |
-| Default foreign-turnkey external capital | $97.21 B |
-| External capital saved | $86.09 B |
-| Capital + lifetime external interest saved | $191.94 B |
+| Imported / external capital | $23.65 B (17.6%) |
+| Domestic / local capital | $110.32 B (82.4%) |
+| Annual external capital draw | $4.73 B / yr |
+| Annual local capital draw | $22.06 B / yr |
+| Annual public construction commitment | $11.83 B / yr for 5 years |
+| Annual post-grace debt service | $8.32 B / yr |
+| Default foreign-turnkey external capital | $241.14 B |
+| External capital saved | $217.50 B |
+| Capital + lifetime external interest saved | $484.90 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $32.28 B | $4.84 B | $27.44 B |
-| Stations | $4.99 B | $997.3 M | $3.99 B |
-| Depots | $2.22 B | $555.8 M | $1.67 B |
-| Rolling stock | $6.10 B | $2.13 B | $3.96 B |
-| Dedicated solar plants | $3.82 B | $1.72 B | $2.10 B |
-| Residual train control | $166.4 M | $83.2 M | $83.2 M |
-| Charging microgrids | $329.9 M | $132.0 M | $198.0 M |
-| EPC / project services | $3.28 B | $492.4 M | $2.79 B |
-| Shared national trainset factory | $815.5 M | $163.1 M | $652.4 M |
-| **Total** | **$54.01 B** | **$11.12 B** | **$42.89 B** |
+| Civil works | $101.46 B | $15.22 B | $86.24 B |
+| Stations | $8.97 B | $1.79 B | $7.18 B |
+| Depots | $2.39 B | $597.7 M | $1.79 B |
+| Rolling stock | $7.06 B | $2.47 B | $4.59 B |
+| Dedicated solar plants | $4.09 B | $1.84 B | $2.25 B |
+| Residual train control | $181.1 M | $90.5 M | $90.5 M |
+| Charging microgrids | $467.5 M | $187.0 M | $280.5 M |
+| EPC / project services | $8.50 B | $1.27 B | $7.22 B |
+| Shared national trainset factory | $854.7 M | $170.9 M | $683.8 M |
+| **Total** | **$133.97 B** | **$23.65 B** | **$110.32 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Lucknow](Lucknow/README.md) | 3,500,000 | 478 | $5.37 B | $1.16 B | $4.21 B |
-| [Indore](Indore/README.md) | 3,200,000 | 487 | $5.16 B | $1.13 B | $4.03 B |
-| [Kanpur](Kanpur/README.md) | 3,200,000 | 456 | $5.09 B | $1.10 B | $3.99 B |
-| [Coimbatore](Coimbatore/README.md) | 3,084,000 | 459 | $5.03 B | $1.13 B | $3.90 B |
-| [Patna](Patna/README.md) | 2,520,000 | 199 | $2.74 B | $536.8 M | $2.21 B |
-| [Bhopal](Bhopal/README.md) | 2,400,000 | 207 | $2.47 B | $487.1 M | $1.98 B |
-| [Visakhapatnam](Visakhapatnam/README.md) | 2,300,000 | 265 | $3.08 B | $627.8 M | $2.45 B |
-| [Vadodara](Vadodara/README.md) | 2,200,000 | 172 | $1.77 B | $355.6 M | $1.41 B |
-| [Rajkot](Rajkot/README.md) | 1,800,000 | 143 | $1.88 B | $362.5 M | $1.52 B |
-| [Agra](Agra/README.md) | 1,700,000 | 176 | $2.29 B | $443.2 M | $1.84 B |
-| [Madurai](Madurai/README.md) | 1,600,000 | 247 | $2.94 B | $593.1 M | $2.35 B |
-| [Meerut](Meerut/README.md) | 1,600,000 | 138 | $1.84 B | $357.1 M | $1.48 B |
-| [Raipur](Raipur/README.md) | 1,500,000 | 196 | $2.09 B | $429.4 M | $1.66 B |
-| [Varanasi](Varanasi/README.md) | 1,500,000 | 225 | $3.01 B | $578.5 M | $2.44 B |
-| [Vijayawada](Vijayawada/README.md) | 1,500,000 | 240 | $2.82 B | $571.2 M | $2.25 B |
-| [Ranchi](Ranchi/README.md) | 1,400,000 | 246 | $3.02 B | $608.9 M | $2.42 B |
-| [Jodhpur](Jodhpur/README.md) | 1,300,000 | 171 | $2.53 B | $475.1 M | $2.05 B |
+| [Lucknow](Lucknow/README.md) | 3,500,000 | 507 | $5.61 B | $1.22 B | $4.39 B |
+| [Indore](Indore/README.md) | 3,200,000 | 516 | $5.49 B | $1.21 B | $4.28 B |
+| [Kanpur](Kanpur/README.md) | 3,200,000 | 533 | $28.58 B | $4.70 B | $23.88 B |
+| [Coimbatore](Coimbatore/README.md) | 3,084,000 | 499 | $5.61 B | $1.26 B | $4.35 B |
+| [Patna](Patna/README.md) | 2,520,000 | 618 | $36.43 B | $5.84 B | $30.60 B |
+| [Bhopal](Bhopal/README.md) | 2,400,000 | 225 | $7.48 B | $1.25 B | $6.23 B |
+| [Visakhapatnam](Visakhapatnam/README.md) | 2,300,000 | 276 | $3.30 B | $670.2 M | $2.63 B |
+| [Vadodara](Vadodara/README.md) | 2,200,000 | 195 | $2.00 B | $405.7 M | $1.60 B |
+| [Rajkot](Rajkot/README.md) | 1,800,000 | 155 | $5.43 B | $901.9 M | $4.53 B |
+| [Agra](Agra/README.md) | 1,700,000 | 182 | $2.36 B | $458.2 M | $1.90 B |
+| [Madurai](Madurai/README.md) | 1,600,000 | 262 | $9.41 B | $1.58 B | $7.83 B |
+| [Meerut](Meerut/README.md) | 1,600,000 | 150 | $1.93 B | $377.7 M | $1.55 B |
+| [Raipur](Raipur/README.md) | 1,500,000 | 202 | $2.16 B | $445.0 M | $1.71 B |
+| [Varanasi](Varanasi/README.md) | 1,500,000 | 252 | $6.87 B | $1.17 B | $5.70 B |
+| [Vijayawada](Vijayawada/README.md) | 1,500,000 | 245 | $4.40 B | $816.8 M | $3.58 B |
+| [Ranchi](Ranchi/README.md) | 1,400,000 | 264 | $3.17 B | $641.7 M | $2.53 B |
+| [Jodhpur](Jodhpur/README.md) | 1,300,000 | 191 | $2.82 B | $531.7 M | $2.29 B |
 
 ## Local Basis And Regeneration
 

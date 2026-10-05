@@ -3,7 +3,7 @@
 This page contains only Nigeria-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$34.46 B (88.6%) of external capital** and **$43.20 B of external interest**. Capital plus saved interest totals **$77.66 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$56.78 B (89.6%) of external capital** and **$71.18 B of external interest**. Capital plus saved interest totals **$127.96 B**.
 
 ## National Programme
 
@@ -11,55 +11,55 @@ This page contains only Nigeria-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 10 |
 | Represented population | 19,200,000 |
-| Trainsets / vehicle modules | 1,930 / 8,920 |
-| City infrastructure and fleet CAPEX | $20.91 B |
-| Shared national factory | $647.9 M |
-| Factory sizing basis | 3,810 modules for Kano, then reused nationally |
-| **Total national programme** | **$21.60 B** |
+| Trainsets / vehicle modules | 2,061 / 9,547 |
+| City infrastructure and fleet CAPEX | $34.44 B |
+| Shared national factory | $697.0 M |
+| Factory sizing basis | 4,068 modules for Kano, then reused nationally |
+| **Total national programme** | **$35.19 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $4.42 B (20.5%) |
-| Domestic / local capital | $17.18 B (79.5%) |
-| Annual external capital draw | $632.1 M / yr |
-| Annual local capital draw | $2.45 B / yr |
-| Annual public construction commitment | $2.55 B / yr for 7 years |
-| Annual post-grace debt service | $2.14 B / yr |
-| Default foreign-turnkey external capital | $38.89 B |
-| External capital saved | $34.46 B |
-| Capital + lifetime external interest saved | $77.66 B |
+| Imported / external capital | $6.56 B (18.6%) |
+| Domestic / local capital | $28.63 B (81.4%) |
+| Annual external capital draw | $936.5 M / yr |
+| Annual local capital draw | $4.09 B / yr |
+| Annual public construction commitment | $4.21 B / yr for 7 years |
+| Annual post-grace debt service | $3.53 B / yr |
+| Default foreign-turnkey external capital | $63.33 B |
+| External capital saved | $56.78 B |
+| Capital + lifetime external interest saved | $127.96 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $12.81 B | $1.92 B | $10.89 B |
-| Stations | $1.80 B | $359.7 M | $1.44 B |
-| Depots | $944.6 M | $236.2 M | $708.5 M |
-| Rolling stock | $2.52 B | $882.6 M | $1.64 B |
-| Dedicated solar plants | $1.37 B | $616.8 M | $753.9 M |
-| Residual train control | $62.0 M | $31.0 M | $31.0 M |
-| Charging microgrids | $120.4 M | $48.2 M | $72.2 M |
-| EPC / project services | $1.32 B | $198.5 M | $1.13 B |
-| Shared national trainset factory | $647.9 M | $129.6 M | $518.3 M |
-| **Total** | **$21.60 B** | **$4.42 B** | **$17.18 B** |
+| Civil works | $24.42 B | $3.66 B | $20.76 B |
+| Stations | $2.59 B | $517.1 M | $2.07 B |
+| Depots | $968.2 M | $242.1 M | $726.2 M |
+| Rolling stock | $2.70 B | $944.4 M | $1.75 B |
+| Dedicated solar plants | $1.39 B | $626.6 M | $765.9 M |
+| Residual train control | $63.6 M | $31.8 M | $31.8 M |
+| Charging microgrids | $146.8 M | $58.7 M | $88.1 M |
+| EPC / project services | $2.21 B | $331.6 M | $1.88 B |
+| Shared national trainset factory | $697.0 M | $139.4 M | $557.6 M |
+| **Total** | **$35.19 B** | **$6.56 B** | **$28.63 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Kano](Kano/README.md) | 4,200,000 | 635 | $6.82 B | $1.47 B | $5.35 B |
-| [Ibadan](Ibadan/README.md) | 3,900,000 | 167 | $1.90 B | $421.8 M | $1.47 B |
-| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 204 | $2.58 B | $516.8 M | $2.06 B |
-| [Benin City](Benin-City/README.md) | 1,800,000 | 152 | $1.63 B | $333.4 M | $1.29 B |
-| [Onitsha](Onitsha/README.md) | 1,500,000 | 185 | $2.24 B | $453.5 M | $1.78 B |
-| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 183 | $3.49 B | $623.8 M | $2.86 B |
-| [Ilorin](Ilorin/README.md) | 1,000,000 | 124 | $681.1 M | $143.2 M | $538.0 M |
-| [Aba Ng](Aba-Ng/README.md) | 900,000 | 80 | $473.3 M | $97.8 M | $375.6 M |
-| [Jos](Jos/README.md) | 900,000 | 116 | $642.7 M | $130.3 M | $512.4 M |
-| [Uyo](Uyo/README.md) | 800,000 | 84 | $466.5 M | $97.4 M | $369.2 M |
+| [Kano](Kano/README.md) | 4,200,000 | 678 | $7.85 B | $1.66 B | $6.19 B |
+| [Ibadan](Ibadan/README.md) | 3,900,000 | 182 | $2.01 B | $448.5 M | $1.56 B |
+| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 221 | $3.09 B | $601.5 M | $2.49 B |
+| [Benin City](Benin-City/README.md) | 1,800,000 | 162 | $1.74 B | $358.1 M | $1.38 B |
+| [Onitsha](Onitsha/README.md) | 1,500,000 | 210 | $9.20 B | $1.52 B | $7.68 B |
+| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 191 | $8.19 B | $1.34 B | $6.85 B |
+| [Ilorin](Ilorin/README.md) | 1,000,000 | 130 | $717.9 M | $150.4 M | $567.5 M |
+| [Aba Ng](Aba-Ng/README.md) | 900,000 | 87 | $517.7 M | $107.3 M | $410.5 M |
+| [Jos](Jos/README.md) | 900,000 | 117 | $647.9 M | $131.3 M | $516.6 M |
+| [Uyo](Uyo/README.md) | 800,000 | 83 | $476.4 M | $99.1 M | $377.3 M |
 
 ## Local Basis And Regeneration
 

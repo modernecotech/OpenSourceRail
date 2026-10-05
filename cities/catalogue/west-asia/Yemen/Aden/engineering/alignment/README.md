@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`aden-line1.aln.toml`](aden-line1.aln.toml) | `line-1` | 14,956.8 m | 6 |
-| [`aden-line2.aln.toml`](aden-line2.aln.toml) | `line-2` | 11,467.6 m | 4 |
-| [`aden-line3.aln.toml`](aden-line3.aln.toml) | `line-3` | 13,799.1 m | 5 |
+| [`aden-line1.aln.toml`](aden-line1.aln.toml) | `line-1` | 20,196.1 m | 9 |
+| [`aden-line2.aln.toml`](aden-line2.aln.toml) | `line-2` | 13,690.2 m | 7 |
+| [`aden-line3.aln.toml`](aden-line3.aln.toml) | `line-3` | 13,799.1 m | 7 |
 
 ## Status
 

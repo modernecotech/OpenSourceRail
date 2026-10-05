@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`mbale-line1.aln.toml`](mbale-line1.aln.toml) | `line-1` | 7,376.0 m | 4 |
 | [`mbale-line2.aln.toml`](mbale-line2.aln.toml) | `line-2` | 10,250.9 m | 4 |
-| [`mbale-line3.aln.toml`](mbale-line3.aln.toml) | `line-3` | 3,592.0 m | 2 |
+| [`mbale-line3.aln.toml`](mbale-line3.aln.toml) | `line-3` | 3,592.0 m | 4 |
 
 ## Status
 

@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`machakos-line1.aln.toml`](machakos-line1.aln.toml) | `line-1` | 10,623.9 m | 4 |
-| [`machakos-line2.aln.toml`](machakos-line2.aln.toml) | `line-2` | 6,830.8 m | 4 |
-| [`machakos-line3.aln.toml`](machakos-line3.aln.toml) | `line-3` | 6,206.7 m | 2 |
+| [`machakos-line2.aln.toml`](machakos-line2.aln.toml) | `line-2` | 6,830.8 m | 3 |
+| [`machakos-line3.aln.toml`](machakos-line3.aln.toml) | `line-3` | 6,206.7 m | 3 |
 
 ## Status
 

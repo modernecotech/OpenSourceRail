@@ -14,8 +14,8 @@ crs            = "EPSG:32646"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "2d762c8c5e40b2a09f8ca2d050d76a44980d5d12010271d08ee0ac0e26f42e32"
-source_geojson_sha256 = "dc6a787f3ed0aade0be79e100f492cb51767cd20977788cfea691744d17d4a66"
+source_design_sha256 = "171c50aa47a857cab3c36a8e23a55fc1b1f24424230b3e9cef99c5c549b6d1bc"
+source_geojson_sha256 = "af301e3adcd806aa1b06150bcdc0fbb27f6f04cad903d920505d16e837f103a1"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -762,11 +762,21 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
-to_station_m   = 1042.300
+to_station_m   = 857.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1042.300
+from_station_m = 857.400
+to_station_m   = 877.400
+class          = "bridge"
+
+[[civil]]
+from_station_m = 877.400
+to_station_m   = 994.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 994.000
 to_station_m   = 1292.000
 class          = "bridge"
 
@@ -1063,8 +1073,8 @@ station_m         = 4776.700
 platform_length_m = 59.500
 
 [[station]]
-id                = "line-3-0510-0443-s007227"
-station_m         = 7227.500
+id                = "line-3-0520-0461-s006773"
+station_m         = 6772.900
 platform_length_m = 59.500
 
 [[station]]

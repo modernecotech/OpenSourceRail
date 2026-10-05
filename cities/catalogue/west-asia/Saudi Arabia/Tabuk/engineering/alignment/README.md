@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`tabuk-line1.aln.toml`](tabuk-line1.aln.toml) | `line-1` | 15,818.4 m | 7 |
-| [`tabuk-line2.aln.toml`](tabuk-line2.aln.toml) | `line-2` | 17,336.5 m | 7 |
-| [`tabuk-line3.aln.toml`](tabuk-line3.aln.toml) | `line-3` | 21,863.8 m | 8 |
+| [`tabuk-line2.aln.toml`](tabuk-line2.aln.toml) | `line-2` | 18,161.6 m | 8 |
+| [`tabuk-line3.aln.toml`](tabuk-line3.aln.toml) | `line-3` | 22,856.9 m | 10 |
 
 ## Status
 

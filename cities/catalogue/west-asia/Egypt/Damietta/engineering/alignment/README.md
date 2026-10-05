@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`damietta-line1.aln.toml`](damietta-line1.aln.toml) | `line-1` | 22,348.1 m | 9 |
-| [`damietta-line2.aln.toml`](damietta-line2.aln.toml) | `line-2` | 17,266.1 m | 7 |
-| [`damietta-line3.aln.toml`](damietta-line3.aln.toml) | `line-3` | 25,831.4 m | 8 |
+| [`damietta-line1.aln.toml`](damietta-line1.aln.toml) | `line-1` | 23,096.8 m | 9 |
+| [`damietta-line2.aln.toml`](damietta-line2.aln.toml) | `line-2` | 17,755.0 m | 7 |
+| [`damietta-line3.aln.toml`](damietta-line3.aln.toml) | `line-3` | 27,252.3 m | 8 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`moshi-line1.aln.toml`](moshi-line1.aln.toml) | `line-1` | 12,200.3 m | 5 |
+| [`moshi-line1.aln.toml`](moshi-line1.aln.toml) | `line-1` | 12,200.3 m | 6 |
 | [`moshi-line2.aln.toml`](moshi-line2.aln.toml) | `line-2` | 9,119.9 m | 4 |
-| [`moshi-line3.aln.toml`](moshi-line3.aln.toml) | `line-3` | 6,941.1 m | 2 |
+| [`moshi-line3.aln.toml`](moshi-line3.aln.toml) | `line-3` | 6,941.1 m | 4 |
 
 ## Status
 

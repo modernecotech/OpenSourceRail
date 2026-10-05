@@ -8,18 +8,18 @@ The adopted planning requirement stores the full line fleet in one line-local de
 |---|---:|---:|---:|---:|
 | line-1-0457-0559-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0742-0447-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
-| line-3-0885-0164-s024392 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-3-0885-0164-s025263 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0457-0559-s000000 | line-1 | 12 | 594.0 | 714.0 | unverified |
-| line-1-0717-0786-s007713 | line-1 | 12 | 594.0 | 714.0 | unverified |
-| line-2-0742-0447-s000000 | line-2 | 29 | 1,435.5 | 1,725.5 | unverified |
-| line-2-0181-1033-s017996 | line-2 | 28 | 1,386.0 | 1,666.0 | unverified |
-| line-3-0212-1034-s000000 | line-3 | 38 | 1,881.0 | 2,261.0 | unverified |
-| line-3-0885-0164-s024392 | line-3 | 38 | 1,881.0 | 2,261.0 | unverified |
+| line-1-0457-0559-s000000 | line-1 | 13 | 643.5 | 773.5 | unverified |
+| line-1-0717-0786-s007713 | line-1 | 13 | 643.5 | 773.5 | unverified |
+| line-2-0742-0447-s000000 | line-2 | 30 | 1,485.0 | 1,785.0 | unverified |
+| line-2-0181-1033-s017996 | line-2 | 29 | 1,435.5 | 1,725.5 | unverified |
+| line-3-0212-1034-s000000 | line-3 | 40 | 1,980.0 | 2,380.0 | unverified |
+| line-3-0885-0164-s025263 | line-3 | 40 | 1,980.0 | 2,380.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

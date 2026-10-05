@@ -5,9 +5,9 @@
 This page contains only Sohag-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$896 M (88.4%) of external capital** and **$1.10 bn of external interest**. Capital plus saved interest totals **$2.00 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$913 M (88.5%) of external capital** and **$1.12 bn of external interest**. Capital plus saved interest totals **$2.03 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **34.535 km to 22.537 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **13 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **34.535 km to 24.318 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **13 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **110 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **110 light-metro-3car trainsets / 330 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -50,14 +50,14 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Aggregate charging power | 10.0 MW |
 | Dedicated solar plant | 19.8 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-3: 11.3 km / 91 kWh |
+| Worst powered-stop gap | line-3: 11.1 km / 90 kWh |
 | Lowest traversal charging margin | line-1: 89 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $317 M |
+| Civil works | $326 M |
 | Stations | $41 M |
 | Depots | $50 M |
 | Rolling stock | $99 M |
@@ -65,16 +65,16 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Residual train control | $1.7 M |
 | Charging microgrids | $2.3 M |
 | EPC / project services | $36 M |
-| **Total city programme** | **$563 M** |
+| **Total city programme** | **$573 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $117 M (20.8%) |
-| Domestic / local capital | $446 M (79.2%) |
-| Annual public construction commitment | $61 M / yr for 5 years |
-| Annual post-grace debt service | $45 M / yr |
-| External capital saved vs default turnkey sensitivity | $896 M |
-| Capital + lifetime external interest saved | $2.00 bn |
+| Imported / external capital | $119 M (20.7%) |
+| Domestic / local capital | $454 M (79.3%) |
+| Annual public construction commitment | $62 M / yr for 5 years |
+| Annual post-grace debt service | $46 M / yr |
+| External capital saved vs default turnkey sensitivity | $913 M |
+| Capital + lifetime external interest saved | $2.03 bn |
 | Annual OPEX | $16 M / yr |
 
 ## Local Evidence

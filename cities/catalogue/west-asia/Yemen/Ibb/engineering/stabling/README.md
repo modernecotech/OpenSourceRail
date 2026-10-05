@@ -9,7 +9,7 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
 | line-1-0398-0570-s000000 | line-1 | declared-depot | 26 | 1,547.0 | 5 |
-| line-2-0113-0058-s017641 | line-2 | declared-depot | 46 | 2,737.0 | 8 |
+| line-2-0113-0058-s017763 | line-2 | declared-depot | 46 | 2,737.0 | 8 |
 | line-3-0903-0571-s000000 | line-3 | declared-depot | 27 | 1,606.5 | 6 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
@@ -20,7 +20,7 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0627-0440-s005844 | station | forward | revenue | 1 |
 | line-1 | line-1-0627-0440-s005844 | station | reverse | revenue | 1 |
 | line-1 | line-1-0806-0339-s010413 | station | reverse | revenue | 2 |
-| line-2 | line-2-0113-0058-s017641 | station | reverse | revenue | 2 |
+| line-2 | line-2-0113-0058-s017763 | station | reverse | revenue | 2 |
 | line-2 | line-2-0542-0387-s006036 | station | forward | revenue | 1 |
 | line-2 | line-2-0542-0387-s006036 | station | reverse | revenue | 1 |
 | line-2 | line-2-0627-0440-s003768 | station | forward | revenue | 1 |
@@ -39,9 +39,9 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0398-0570-s000000 | depot | — | revenue | 22 |
 | line-1 | line-1-0398-0570-s000000 | depot | — | spare | 3 |
 | line-1 | line-1-0398-0570-s000000 | depot | — | cold_reserve | 1 |
-| line-2 | line-2-0113-0058-s017641 | depot | — | revenue | 40 |
-| line-2 | line-2-0113-0058-s017641 | depot | — | spare | 5 |
-| line-2 | line-2-0113-0058-s017641 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0113-0058-s017763 | depot | — | revenue | 40 |
+| line-2 | line-2-0113-0058-s017763 | depot | — | spare | 5 |
+| line-2 | line-2-0113-0058-s017763 | depot | — | cold_reserve | 1 |
 | line-3 | line-3-0903-0571-s000000 | depot | — | revenue | 23 |
 | line-3 | line-3-0903-0571-s000000 | depot | — | spare | 3 |
 | line-3 | line-3-0903-0571-s000000 | depot | — | cold_reserve | 1 |
@@ -80,13 +80,13 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **28 posit
 | line-2 | line-2-0627-0440-s003768 | reverse | revenue | 6 | pending |
 | line-2 | line-2-0542-0387-s006036 | forward | revenue | 6 | pending |
 | line-2 | line-2-0542-0387-s006036 | reverse | revenue | 6 | pending |
-| line-2 | line-2-0113-0058-s017641 | reverse | revenue | 6 | pending |
+| line-2 | line-2-0113-0058-s017763 | reverse | revenue | 6 | pending |
 | line-2 | line-2-0698-0486-s001885 | reverse | spare | 1 | pending |
 | line-2 | line-2-0627-0440-s003768 | forward | spare | 1 | pending |
 | line-2 | line-2-0627-0440-s003768 | reverse | spare | 1 | pending |
 | line-2 | line-2-0542-0387-s006036 | forward | spare | 1 | pending |
 | line-2 | line-2-0542-0387-s006036 | reverse | spare | 1 | pending |
-| line-2 | line-2-0113-0058-s017641 | reverse | cold_reserve | 1 | pending |
+| line-2 | line-2-0113-0058-s017763 | reverse | cold_reserve | 1 | pending |
 | line-3 | line-3-0903-0571-s000000 | forward | revenue | 5 | pending |
 | line-3 | line-3-0661-0613-s005211 | forward | revenue | 4 | pending |
 | line-3 | line-3-0661-0613-s005211 | reverse | revenue | 4 | pending |
@@ -110,7 +110,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **28 posit
 | line-1-0515-0504-s003004 | 12 | 2 | 10 | 595.0 |
 | line-1-0627-0440-s005844 | 11 | 4 | 7 | 416.5 |
 | line-1-0806-0339-s010413 | 5 | 2 | 3 | 178.5 |
-| line-2-0113-0058-s017641 | 7 | 2 | 5 | 297.5 |
+| line-2-0113-0058-s017763 | 7 | 2 | 5 | 297.5 |
 | line-2-0542-0387-s006036 | 14 | 2 | 12 | 714.0 |
 | line-2-0627-0440-s003768 | 14 | 4 | 10 | 595.0 |
 | line-2-0698-0486-s001885 | 14 | 2 | 12 | 714.0 |

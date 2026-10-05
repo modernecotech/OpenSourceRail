@@ -1,6 +1,6 @@
 # Uyo city-order factory requirement
 
-**84 light-metro-3car trainsets / 252 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**83 light-metro-3car trainsets / 249 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 238.3 trainsets/year, 3 separate test paths, 581 direct production FTE. Plant reference envelope: **USD 293.293m**.
 
@@ -9,7 +9,7 @@ This is an independent city-order capacity requirement. Shared factory capital i
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
 | line-1 | 38 | 610 | 700 | 700 |
-| line-2 | 23 | 635 | 725 | 725 |
-| line-3 | 23 | 660 | 750 | 750 |
+| line-2 | 24 | 636 | 726 | 726 |
+| line-3 | 21 | 659 | 749 | 749 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

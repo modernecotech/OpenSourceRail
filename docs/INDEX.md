@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **5599**.
+Indexed Markdown files: **5600**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **5599**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 192 |
-| [engineering](#engineering) | 27 |
+| [engineering](#engineering) | 28 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -5651,6 +5651,7 @@ Indexed Markdown files: **5599**.
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/battery-cooling/qualification-report.md`](../engineering/assurance/battery-cooling/qualification-report.md) | Battery-cooling qualification readiness |
+| [`engineering/assurance/catalogue-geography/README.md`](../engineering/assurance/catalogue-geography/README.md) | Catalogue water and junction placement review |
 | [`engineering/assurance/civil-reference/README.md`](../engineering/assurance/civil-reference/README.md) | Civil reference demonstration A |
 | [`engineering/assurance/civil-reference/calculations/README.md`](../engineering/assurance/civil-reference/calculations/README.md) | Civil calculation records |
 | [`engineering/assurance/civil-reference/drainage/README.md`](../engineering/assurance/civil-reference/drainage/README.md) | Synthetic drainage scenarios |

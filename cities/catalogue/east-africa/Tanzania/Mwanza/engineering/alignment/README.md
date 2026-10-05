@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mwanza-line1.aln.toml`](mwanza-line1.aln.toml) | `line-1` | 18,376.1 m | 7 |
-| [`mwanza-line2.aln.toml`](mwanza-line2.aln.toml) | `line-2` | 19,945.4 m | 8 |
-| [`mwanza-line3.aln.toml`](mwanza-line3.aln.toml) | `line-3` | 16,066.1 m | 6 |
-| [`mwanza-line4.aln.toml`](mwanza-line4.aln.toml) | `line-4` | 23,828.5 m | 9 |
-| [`mwanza-line5.aln.toml`](mwanza-line5.aln.toml) | `line-5` | 25,430.2 m | 9 |
-| [`mwanza-line6.aln.toml`](mwanza-line6.aln.toml) | `line-6` | 42,059.4 m | 14 |
+| [`mwanza-line1.aln.toml`](mwanza-line1.aln.toml) | `line-1` | 17,980.5 m | 11 |
+| [`mwanza-line2.aln.toml`](mwanza-line2.aln.toml) | `line-2` | 35,086.0 m | 21 |
+| [`mwanza-line3.aln.toml`](mwanza-line3.aln.toml) | `line-3` | 37,195.0 m | 24 |
+| [`mwanza-line4.aln.toml`](mwanza-line4.aln.toml) | `line-4` | 18,975.1 m | 13 |
+| [`mwanza-line5.aln.toml`](mwanza-line5.aln.toml) | `line-5` | 26,002.0 m | 14 |
+| [`mwanza-line6.aln.toml`](mwanza-line6.aln.toml) | `line-6` | 42,059.4 m | 18 |
 
 ## Status
 

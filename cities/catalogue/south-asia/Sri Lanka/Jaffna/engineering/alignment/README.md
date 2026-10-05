@@ -5,7 +5,7 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`jaffna-line1.aln.toml`](jaffna-line1.aln.toml) | `line-1` | 10,992.8 m | 5 |
-| [`jaffna-line2.aln.toml`](jaffna-line2.aln.toml) | `line-2` | 19,255.6 m | 5 |
+| [`jaffna-line2.aln.toml`](jaffna-line2.aln.toml) | `line-2` | 19,805.6 m | 5 |
 | [`jaffna-line3.aln.toml`](jaffna-line3.aln.toml) | `line-3` | 16,005.8 m | 6 |
 
 ## Status

@@ -1,27 +1,27 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "karachi"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "karachi",
-      "corridor_sha256": "40a03166143b75f1772b2aa5b38f7e46cc9f130b083c209a538e9b25105f8bc7",
-      "design_sha256": "4fc1398e606e81b37fa74521ca6cb0dce0ea53d7bf92e8093e7b43b67d984e72",
-      "failures": [
-        {
-          "code": "radial-corridor-turns-back-on-itself",
-          "maximum_reverse_excursion_m": 3247.1,
-          "radial": "line-8",
-          "severity": "fail"
-        }
-      ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
+      "corridor_sha256": "49dfdf2afed533a5f1c462b92129dd31c4afbfe4c723392a6983e7fb2cb8d9e2",
+      "design_sha256": "0a73947a73b515811c5d53846f7205135632a3a2eca43b66d9dfda4831d9f89c",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
       "radial_count": 8,
       "review_findings": [
+        {
+          "alignment_report_sha256": "839770155976d200c057d6f2884798a087d756ef505c5769ec4ede7f8446b4c6",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
+          "maximum_reverse_excursion_m": 3247.1,
+          "physical_release": false,
+          "radial": "line-8",
+          "severity": "review"
+        },
         {
           "code": "terminus-extension-omitted-to-avoid-poor-alignment",
           "endpoint": "end",
@@ -35,5 +35,5 @@
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 2
 }

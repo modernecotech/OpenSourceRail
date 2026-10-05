@@ -17,18 +17,18 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0032-0412-s000000 | line-1 | 31 | 2,325.0 | 2,635.0 | unverified |
-| line-1-1489-1327-s038996 | line-1 | 31 | 2,325.0 | 2,635.0 | unverified |
-| line-2-1289-0508-s000000 | line-2 | 25 | 1,875.0 | 2,125.0 | unverified |
-| line-2-0547-1265-s023834 | line-2 | 24 | 1,800.0 | 2,040.0 | unverified |
+| line-1-0032-0412-s000000 | line-1 | 35 | 2,625.0 | 2,975.0 | unverified |
+| line-1-1489-1327-s040817 | line-1 | 34 | 2,550.0 | 2,890.0 | unverified |
+| line-2-1289-0508-s000000 | line-2 | 26 | 1,950.0 | 2,210.0 | unverified |
+| line-2-0547-1265-s023834 | line-2 | 25 | 1,875.0 | 2,125.0 | unverified |
 | line-3-1316-0792-s000000 | line-3 | 18 | 1,350.0 | 1,530.0 | unverified |
 | line-3-0729-1227-s016396 | line-3 | 17 | 1,275.0 | 1,445.0 | unverified |
-| line-4-0960-0595-s000000 | line-4 | 53 | 3,975.0 | 4,505.0 | unverified |
-| line-4-1408-1726-s056873 | line-4 | 52 | 3,900.0 | 4,420.0 | unverified |
+| line-4-0960-0595-s000000 | line-4 | 54 | 4,050.0 | 4,590.0 | unverified |
+| line-4-1408-1726-s056873 | line-4 | 53 | 3,975.0 | 4,505.0 | unverified |
 | line-5-0599-1002-s000000 | line-5 | 21 | 1,575.0 | 1,785.0 | unverified |
-| line-5-1531-0939-s019367 | line-5 | 20 | 1,500.0 | 1,700.0 | unverified |
+| line-5-1531-0939-s019825 | line-5 | 20 | 1,500.0 | 1,700.0 | unverified |
 | line-6-0346-0737-s000000 | line-6 | 13 | 975.0 | 1,105.0 | unverified |
-| line-6-0451-0728-s061832 | line-6 | 12 | 900.0 | 1,020.0 | unverified |
+| line-6-0451-0728-s061843 | line-6 | 12 | 900.0 | 1,020.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

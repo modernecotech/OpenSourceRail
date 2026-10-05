@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lyon-line1.aln.toml`](lyon-line1.aln.toml) | `line-1` | 40,209.9 m | 13 |
-| [`lyon-line2.aln.toml`](lyon-line2.aln.toml) | `line-2` | 35,186.1 m | 11 |
-| [`lyon-line3.aln.toml`](lyon-line3.aln.toml) | `line-3` | 20,974.8 m | 8 |
-| [`lyon-line4.aln.toml`](lyon-line4.aln.toml) | `line-4` | 37,380.0 m | 12 |
-| [`lyon-line5.aln.toml`](lyon-line5.aln.toml) | `line-5` | 25,396.4 m | 9 |
-| [`lyon-line6.aln.toml`](lyon-line6.aln.toml) | `line-6` | 61,947.6 m | 16 |
+| [`lyon-line1.aln.toml`](lyon-line1.aln.toml) | `line-1` | 42,913.0 m | 15 |
+| [`lyon-line2.aln.toml`](lyon-line2.aln.toml) | `line-2` | 36,909.0 m | 13 |
+| [`lyon-line3.aln.toml`](lyon-line3.aln.toml) | `line-3` | 20,504.2 m | 9 |
+| [`lyon-line4.aln.toml`](lyon-line4.aln.toml) | `line-4` | 39,830.6 m | 12 |
+| [`lyon-line5.aln.toml`](lyon-line5.aln.toml) | `line-5` | 26,016.7 m | 10 |
+| [`lyon-line6.aln.toml`](lyon-line6.aln.toml) | `line-6` | 62,176.2 m | 18 |
 
 ## Status
 

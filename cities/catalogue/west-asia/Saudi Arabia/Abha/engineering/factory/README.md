@@ -1,14 +1,14 @@
 # Abha city-order factory requirement
 
-**156 light-metro-3car trainsets / 468 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**157 light-metro-3car trainsets / 471 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 444.2 trainsets/year, 5 separate test paths, 1080 direct production FTE. Plant reference envelope: **USD 484.362m**.
+Planning output: 448.3 trainsets/year, 5 separate test paths, 1086 direct production FTE. Plant reference envelope: **USD 486.171m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 52 | 600 | 690 | 690 |
+| line-1 | 53 | 600 | 690 | 690 |
 | line-2 | 62 | 636 | 726 | 726 |
 | line-3 | 42 | 660 | 750 | 750 |
 

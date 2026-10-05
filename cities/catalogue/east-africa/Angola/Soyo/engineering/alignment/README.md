@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`soyo-line1.aln.toml`](soyo-line1.aln.toml) | `line-1` | 6,915.8 m | 6 |
 | [`soyo-line2.aln.toml`](soyo-line2.aln.toml) | `line-2` | 3,905.6 m | 4 |
-| [`soyo-line3.aln.toml`](soyo-line3.aln.toml) | `line-3` | 10,159.2 m | 9 |
+| [`soyo-line3.aln.toml`](soyo-line3.aln.toml) | `line-3` | 10,159.2 m | 7 |
 
 ## Status
 

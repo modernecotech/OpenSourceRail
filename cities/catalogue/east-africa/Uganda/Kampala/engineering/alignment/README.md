@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kampala-line1.aln.toml`](kampala-line1.aln.toml) | `line-1` | 31,606.0 m | 13 |
-| [`kampala-line2.aln.toml`](kampala-line2.aln.toml) | `line-2` | 21,736.4 m | 8 |
-| [`kampala-line3.aln.toml`](kampala-line3.aln.toml) | `line-3` | 24,771.8 m | 10 |
-| [`kampala-line4.aln.toml`](kampala-line4.aln.toml) | `line-4` | 26,384.8 m | 11 |
-| [`kampala-line5.aln.toml`](kampala-line5.aln.toml) | `line-5` | 22,122.5 m | 9 |
-| [`kampala-line6.aln.toml`](kampala-line6.aln.toml) | `line-6` | 57,736.6 m | 15 |
+| [`kampala-line1.aln.toml`](kampala-line1.aln.toml) | `line-1` | 32,463.1 m | 13 |
+| [`kampala-line2.aln.toml`](kampala-line2.aln.toml) | `line-2` | 22,286.5 m | 9 |
+| [`kampala-line3.aln.toml`](kampala-line3.aln.toml) | `line-3` | 25,347.8 m | 10 |
+| [`kampala-line4.aln.toml`](kampala-line4.aln.toml) | `line-4` | 26,992.9 m | 11 |
+| [`kampala-line5.aln.toml`](kampala-line5.aln.toml) | `line-5` | 22,473.9 m | 9 |
+| [`kampala-line6.aln.toml`](kampala-line6.aln.toml) | `line-6` | 57,864.6 m | 15 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mbuji-mayi-line1.aln.toml`](mbuji-mayi-line1.aln.toml) | `line-1` | 25,023.1 m | 9 |
+| [`mbuji-mayi-line1.aln.toml`](mbuji-mayi-line1.aln.toml) | `line-1` | 25,077.4 m | 9 |
 | [`mbuji-mayi-line2.aln.toml`](mbuji-mayi-line2.aln.toml) | `line-2` | 15,640.5 m | 6 |
-| [`mbuji-mayi-line3.aln.toml`](mbuji-mayi-line3.aln.toml) | `line-3` | 28,233.5 m | 9 |
+| [`mbuji-mayi-line3.aln.toml`](mbuji-mayi-line3.aln.toml) | `line-3` | 29,303.0 m | 10 |
 | [`mbuji-mayi-line4.aln.toml`](mbuji-mayi-line4.aln.toml) | `line-4` | 35,272.2 m | 11 |
 
 ## Status

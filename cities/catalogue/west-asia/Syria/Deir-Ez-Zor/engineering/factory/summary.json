@@ -7,32 +7,32 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 697,
+        "fleet_completion_day": 698,
         "line": "line-1",
-        "original_idle_working_days": 544,
+        "original_idle_working_days": 549,
+        "original_infrastructure_day": 149,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 608
+      },
+      {
+        "fleet_completion_day": 721,
+        "line": "line-2",
+        "original_idle_working_days": 568,
         "original_infrastructure_day": 153,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 607
+        "rephased_infrastructure_day": 631
       },
       {
-        "fleet_completion_day": 720,
-        "line": "line-2",
-        "original_idle_working_days": 563,
-        "original_infrastructure_day": 157,
-        "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 630
-      },
-      {
-        "fleet_completion_day": 750,
+        "fleet_completion_day": 751,
         "line": "line-3",
-        "original_idle_working_days": 563,
-        "original_infrastructure_day": 187,
+        "original_idle_working_days": 565,
+        "original_infrastructure_day": 186,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 660
+        "rephased_infrastructure_day": 661
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 246,
+    "shifted_work_packages": 279,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -68,25 +68,25 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 95897655.00000001,
-    "contingency": 80726972.375,
+    "buildings": 97703550.0,
+    "contingency": 81923298.75,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 20737206.875,
+    "serviced_site": 20962943.75,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 202000000.0,
+    "stage_tooling": 205950000.0,
     "test_tracks": 30000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 1080,
+  "direct_production_crew_fte": 1103,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 552.5,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "light-metro-3car",
   "infrastructure_deadlines": {
-    "line-1": 607,
-    "line-2": 630,
-    "line-3": 660
+    "line-1": 608,
+    "line-2": 631,
+    "line-3": 661
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -103,36 +103,36 @@
     "line-3"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 697,
-    "line-2": 720,
-    "line-3": 750
+    "line-1": 698,
+    "line-2": 721,
+    "line-3": 751
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 444.16666666666663,
+  "minimum_steady_output_trainsets_per_year": 455.0,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "d86ac1822cf4bab2c5f76ce87b05ee59f8ede9167f43229922ed63110c8b7598",
+  "operations_payload_sha256": "e2d41f6f0c27a21de970df6d048feb8c3d1cd206e413f0bbc48169b44d26c3c5",
   "original_infrastructure_deadlines": {
-    "line-1": 153,
-    "line-2": 157,
-    "line-3": 187
+    "line-1": 149,
+    "line-2": 153,
+    "line-3": 186
   },
-  "original_infrastructure_target_working_day": 187,
+  "original_infrastructure_target_working_day": 186,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1",
     "line-2",
     "line-3"
   ],
-  "planning_site_m2": 592491.625,
-  "plant_cost_envelope_usd": 484361834.25,
-  "process_and_support_floor_m2": 136996.65000000002,
+  "planning_site_m2": 598941.25,
+  "plant_cost_envelope_usd": 491539792.5,
+  "process_and_support_floor_m2": 139576.5,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
     "deir-ez-zor light-metro-3car body installation": 6,
     "deir-ez-zor light-metro-3car composite kits": 21,
-    "deir-ez-zor light-metro-3car electrical integration": 41,
-    "deir-ez-zor light-metro-3car fitout and static test": 33,
-    "deir-ez-zor light-metro-3car structural assembly": 50,
-    "deir-ez-zor trainset acceptance bays": 26,
+    "deir-ez-zor light-metro-3car electrical integration": 42,
+    "deir-ez-zor light-metro-3car fitout and static test": 34,
+    "deir-ez-zor light-metro-3car structural assembly": 51,
+    "deir-ez-zor trainset acceptance bays": 27,
     "deir-ez-zor trainset kitting": 7
   },
   "resource_ready_days": {
@@ -147,10 +147,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/deir-ez-zor.toml": "21c376129f4c4574551828e92f2e78e3c0fc2bb60ed3f4a7d2b4b37544a3b551",
-    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/design.toml": "a09b24649a125b109df4772effd11212a2a43ab19c575d3b957c9bc4bea4ce32",
-    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/finance/summary.json": "442e1c85c6bc3892297c82158909f067d2e72943f8e86b0b1db3e094392f965e",
-    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/operations/deir-ez-zor-operations-manifest.json": "2f17eaf1c7dd6981540684ee281ec00ba39c1f6ac41ea723a459fe1eeeb29184",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/deir-ez-zor.toml": "da8ffe8b2277ef1693c9a21560501e673a7995ca6df395d5f58353bb4a2d4284",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/design.toml": "f9ccf360196b7e2a9bcc15938d7bf96fc407eeb47267c5b460326b0cf78f2e5f",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/finance/summary.json": "852e7b7fb75bffb29f0069e862d2f85d424ea8c976102035f9a33a261c2012c0",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/operations/deir-ez-zor-operations-manifest.json": "3da11fc47b7295a281e1508ed54475252d79479c7d6f7a77eb41618ccdab55bb",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -177,16 +177,16 @@
       "work_center": "deir-ez-zor trainset kitting"
     },
     {
-      "cells": 50,
+      "cells": 51,
       "crew_per_cell": 9,
       "cycle_working_days": 24,
-      "direct_crew_fte": 450,
+      "direct_crew_fte": 459,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 23887.5,
-      "tooling_allowance_usd": 80000000.0,
+      "process_floor_m2": 24365.25,
+      "tooling_allowance_usd": 81600000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 448.27586206896547,
+      "trainsets_per_year": 457.2413793103448,
       "work_center": "deir-ez-zor light-metro-3car structural assembly"
     },
     {
@@ -217,49 +217,49 @@
       "work_center": "deir-ez-zor light-metro-3car body installation"
     },
     {
-      "cells": 41,
+      "cells": 42,
       "crew_per_cell": 6,
       "cycle_working_days": 20,
-      "direct_crew_fte": 246,
+      "direct_crew_fte": 252,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 19587.75,
-      "tooling_allowance_usd": 41000000.0,
+      "process_floor_m2": 20065.5,
+      "tooling_allowance_usd": 42000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 444.16666666666663,
+      "trainsets_per_year": 455.0,
       "work_center": "deir-ez-zor light-metro-3car electrical integration"
     },
     {
-      "cells": 33,
+      "cells": 34,
       "crew_per_cell": 6,
       "cycle_working_days": 16,
-      "direct_crew_fte": 198,
+      "direct_crew_fte": 204,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 15765.75,
-      "tooling_allowance_usd": 24750000.0,
+      "process_floor_m2": 16243.5,
+      "tooling_allowance_usd": 25500000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 451.5789473684211,
+      "trainsets_per_year": 465.2631578947368,
       "work_center": "deir-ez-zor light-metro-3car fitout and static test"
     },
     {
-      "cells": 26,
+      "cells": 27,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 52,
+      "direct_crew_fte": 54,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 12421.5,
-      "tooling_allowance_usd": 15600000.0,
+      "process_floor_m2": 12899.25,
+      "tooling_allowance_usd": 16200000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 450.6666666666667,
+      "trainsets_per_year": 468.0,
       "work_center": "deir-ez-zor trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 750,
+  "stock_finish_working_day": 751,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 5,
-  "total_trainsets": 155,
-  "vehicle_modules": 465
+  "total_trainsets": 160,
+  "vehicle_modules": 480
 }

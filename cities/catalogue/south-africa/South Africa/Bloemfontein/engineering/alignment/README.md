@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bloemfontein-line1.aln.toml`](bloemfontein-line1.aln.toml) | `line-1` | 22,533.8 m | 9 |
-| [`bloemfontein-line2.aln.toml`](bloemfontein-line2.aln.toml) | `line-2` | 21,832.8 m | 8 |
+| [`bloemfontein-line1.aln.toml`](bloemfontein-line1.aln.toml) | `line-1` | 23,847.8 m | 9 |
+| [`bloemfontein-line2.aln.toml`](bloemfontein-line2.aln.toml) | `line-2` | 22,291.1 m | 9 |
 | [`bloemfontein-line3.aln.toml`](bloemfontein-line3.aln.toml) | `line-3` | 12,414.7 m | 5 |
 
 ## Status

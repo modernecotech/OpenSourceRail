@@ -1,6 +1,6 @@
 {
   "deployment_release_ready": false,
-  "design_sha256": "230ae6e7fd87741e86b4d814ab2608f4bd2a11c49381beaf32dc7d4720df9094",
+  "design_sha256": "b07fc85ddefd925939713ba643f7d6035cb262c4a6080e07847cd71a050f17a4",
   "schema_version": 1,
   "scopes": [
     {
@@ -24,7 +24,8 @@
         "segment:line-1-civil-001:0001",
         "segment:line-1-civil-001:0002",
         "segment:line-1-civil-001:0003",
-        "segment:line-1-civil-001:0004"
+        "segment:line-1-civil-001:0004",
+        "segment:line-1-civil-001:0005"
       ],
       "scope_id": "line-1-civil-001",
       "scope_type": "civil_segment",
@@ -37,7 +38,6 @@
       "groundwater_depth_m": null,
       "investigation_flags": [
         "acidic-soil-durability-testing",
-        "coverage-gap",
         "fine-soil-plasticity-and-shrink-swell-tests",
         "granular-density-and-groundwater-tests",
         "organic-content-and-compressibility-tests",
@@ -64,7 +64,11 @@
         "segment:line-1-civil-002:0012",
         "segment:line-1-civil-002:0013",
         "segment:line-1-civil-002:0014",
-        "segment:line-1-civil-002:0015"
+        "segment:line-1-civil-002:0015",
+        "segment:line-1-civil-002:0016",
+        "segment:line-1-civil-002:0017",
+        "segment:line-1-civil-002:0018",
+        "segment:line-1-civil-002:0019"
       ],
       "scope_id": "line-1-civil-002",
       "scope_type": "civil_segment",
@@ -419,6 +423,53 @@
     },
     {
       "allowable_bearing_kpa": null,
+      "civil_class": "elevated",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-2",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
+        "segment:line-2-civil-016:0000",
+        "segment:line-2-civil-016:0001",
+        "segment:line-2-civil-016:0002"
+      ],
+      "scope_id": "line-2-civil-016",
+      "scope_type": "civil_segment",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
+      "civil_class": "at-grade",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-2",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence."
+      ],
+      "sample_ids": [
+        "segment:line-2-civil-017:0000",
+        "segment:line-2-civil-017:0001",
+        "segment:line-2-civil-017:0002"
+      ],
+      "scope_id": "line-2-civil-017",
+      "scope_type": "civil_segment",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
       "civil_class": "at-grade",
       "foundation_type": null,
       "groundwater_depth_m": null,
@@ -434,71 +485,14 @@
         "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence."
       ],
       "sample_ids": [
-        "segment:line-3-civil-016:0000",
-        "segment:line-3-civil-016:0001",
-        "segment:line-3-civil-016:0002",
-        "segment:line-3-civil-016:0003",
-        "segment:line-3-civil-016:0004",
-        "segment:line-3-civil-016:0005",
-        "segment:line-3-civil-016:0006",
-        "segment:line-3-civil-016:0007"
-      ],
-      "scope_id": "line-3-civil-016",
-      "scope_type": "civil_segment",
-      "status": "desktop-prioritised-field-investigation-required"
-    },
-    {
-      "allowable_bearing_kpa": null,
-      "civil_class": "elevated",
-      "foundation_type": null,
-      "groundwater_depth_m": null,
-      "investigation_flags": [
-        "acidic-soil-durability-testing",
-        "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests",
-        "organic-content-and-compressibility-tests"
-      ],
-      "line": "line-3",
-      "required_field_work": [
-        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
-        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
-      ],
-      "sample_ids": [
-        "segment:line-3-civil-017:0000",
-        "segment:line-3-civil-017:0001",
-        "segment:line-3-civil-017:0002",
-        "segment:line-3-civil-017:0003",
-        "segment:line-3-civil-017:0004",
-        "segment:line-3-civil-017:0005",
-        "segment:line-3-civil-017:0006",
-        "segment:line-3-civil-017:0007",
-        "segment:line-3-civil-017:0008",
-        "segment:line-3-civil-017:0009"
-      ],
-      "scope_id": "line-3-civil-017",
-      "scope_type": "civil_segment",
-      "status": "desktop-prioritised-field-investigation-required"
-    },
-    {
-      "allowable_bearing_kpa": null,
-      "civil_class": "bridge",
-      "foundation_type": null,
-      "groundwater_depth_m": null,
-      "investigation_flags": [
-        "acidic-soil-durability-testing",
-        "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests",
-        "organic-content-and-compressibility-tests"
-      ],
-      "line": "line-3",
-      "required_field_work": [
-        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
-        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
-      ],
-      "sample_ids": [
         "segment:line-3-civil-018:0000",
         "segment:line-3-civil-018:0001",
-        "segment:line-3-civil-018:0002"
+        "segment:line-3-civil-018:0002",
+        "segment:line-3-civil-018:0003",
+        "segment:line-3-civil-018:0004",
+        "segment:line-3-civil-018:0005",
+        "segment:line-3-civil-018:0006",
+        "segment:line-3-civil-018:0007"
       ],
       "scope_id": "line-3-civil-018",
       "scope_type": "civil_segment",
@@ -513,8 +507,7 @@
         "acidic-soil-durability-testing",
         "fine-soil-plasticity-and-shrink-swell-tests",
         "granular-density-and-groundwater-tests",
-        "organic-content-and-compressibility-tests",
-        "silt-moisture-frost-and-erosion-review"
+        "organic-content-and-compressibility-tests"
       ],
       "line": "line-3",
       "required_field_work": [
@@ -526,7 +519,12 @@
         "segment:line-3-civil-019:0001",
         "segment:line-3-civil-019:0002",
         "segment:line-3-civil-019:0003",
-        "segment:line-3-civil-019:0004"
+        "segment:line-3-civil-019:0004",
+        "segment:line-3-civil-019:0005",
+        "segment:line-3-civil-019:0006",
+        "segment:line-3-civil-019:0007",
+        "segment:line-3-civil-019:0008",
+        "segment:line-3-civil-019:0009"
       ],
       "scope_id": "line-3-civil-019",
       "scope_type": "civil_segment",
@@ -539,9 +537,9 @@
       "groundwater_depth_m": null,
       "investigation_flags": [
         "acidic-soil-durability-testing",
-        "coverage-gap",
         "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests"
+        "granular-density-and-groundwater-tests",
+        "organic-content-and-compressibility-tests"
       ],
       "line": "line-3",
       "required_field_work": [
@@ -565,7 +563,9 @@
       "investigation_flags": [
         "acidic-soil-durability-testing",
         "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests"
+        "granular-density-and-groundwater-tests",
+        "organic-content-and-compressibility-tests",
+        "silt-moisture-frost-and-erosion-review"
       ],
       "line": "line-3",
       "required_field_work": [
@@ -575,7 +575,9 @@
       "sample_ids": [
         "segment:line-3-civil-021:0000",
         "segment:line-3-civil-021:0001",
-        "segment:line-3-civil-021:0002"
+        "segment:line-3-civil-021:0002",
+        "segment:line-3-civil-021:0003",
+        "segment:line-3-civil-021:0004"
       ],
       "scope_id": "line-3-civil-021",
       "scope_type": "civil_segment",
@@ -588,6 +590,7 @@
       "groundwater_depth_m": null,
       "investigation_flags": [
         "acidic-soil-durability-testing",
+        "coverage-gap",
         "fine-soil-plasticity-and-shrink-swell-tests",
         "granular-density-and-groundwater-tests"
       ],
@@ -631,6 +634,54 @@
     },
     {
       "allowable_bearing_kpa": null,
+      "civil_class": "bridge",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-3",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
+        "segment:line-3-civil-024:0000",
+        "segment:line-3-civil-024:0001",
+        "segment:line-3-civil-024:0002"
+      ],
+      "scope_id": "line-3-civil-024",
+      "scope_type": "civil_segment",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
+      "civil_class": "elevated",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-3",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
+        "segment:line-3-civil-025:0000",
+        "segment:line-3-civil-025:0001",
+        "segment:line-3-civil-025:0002"
+      ],
+      "scope_id": "line-3-civil-025",
+      "scope_type": "civil_segment",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
       "civil_class": "station",
       "foundation_type": null,
       "groundwater_depth_m": null,
@@ -645,9 +696,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0437-0220-s020538"
+        "station:line-1-0437-0220-s023316"
       ],
-      "scope_id": "line-1-0437-0220-s020538",
+      "scope_id": "line-1-0437-0220-s023316",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -668,9 +719,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0496-0315-s018044"
+        "station:line-1-0490-0306-s021063"
       ],
-      "scope_id": "line-1-0496-0315-s018044",
+      "scope_id": "line-1-0490-0306-s021063",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -691,9 +742,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0556-0411-s015521"
+        "station:line-1-0544-0392-s018791"
       ],
-      "scope_id": "line-1-0556-0411-s015521",
+      "scope_id": "line-1-0544-0392-s018791",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -705,8 +756,7 @@
       "investigation_flags": [
         "acidic-soil-durability-testing",
         "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests",
-        "silt-moisture-frost-and-erosion-review"
+        "granular-density-and-groundwater-tests"
       ],
       "line": "line-1",
       "required_field_work": [
@@ -714,9 +764,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0615-0506-s013015"
+        "station:line-1-0595-0599-s013045"
       ],
-      "scope_id": "line-1-0615-0506-s013015",
+      "scope_id": "line-1-0595-0599-s013045",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -726,7 +776,9 @@
       "foundation_type": null,
       "groundwater_depth_m": null,
       "investigation_flags": [
-        "coverage-gap"
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
       ],
       "line": "line-1",
       "required_field_work": [
@@ -734,9 +786,52 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0686-0621-s010010"
+        "station:line-1-0597-0478-s016538"
       ],
-      "scope_id": "line-1-0686-0621-s010010",
+      "scope_id": "line-1-0597-0478-s016538",
+      "scope_type": "station",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
+      "civil_class": "station",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-1",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
+        "station:line-1-0704-0693-s010030"
+      ],
+      "scope_id": "line-1-0704-0693-s010030",
+      "scope_type": "station",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
+      "civil_class": "station",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests"
+      ],
+      "line": "line-1",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
+        "station:line-1-0765-0747-s007019"
+      ],
+      "scope_id": "line-1-0765-0747-s007019",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -757,32 +852,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-1-0757-0734-s007009"
+        "station:line-1-0848-0881-s003499"
       ],
-      "scope_id": "line-1-0757-0734-s007009",
-      "scope_type": "station",
-      "status": "desktop-prioritised-field-investigation-required"
-    },
-    {
-      "allowable_bearing_kpa": null,
-      "civil_class": "station",
-      "foundation_type": null,
-      "groundwater_depth_m": null,
-      "investigation_flags": [
-        "acidic-soil-durability-testing",
-        "fine-soil-plasticity-and-shrink-swell-tests",
-        "granular-density-and-groundwater-tests",
-        "organic-content-and-compressibility-tests"
-      ],
-      "line": "line-1",
-      "required_field_work": [
-        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
-        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
-      ],
-      "sample_ids": [
-        "station:line-1-0840-0867-s003510"
-      ],
-      "scope_id": "line-1-0840-0867-s003510",
+      "scope_id": "line-1-0848-0881-s003499",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -870,9 +942,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-2-0512-0603-s007970"
+        "station:line-2-0526-0631-s008681"
       ],
-      "scope_id": "line-2-0512-0603-s007970",
+      "scope_id": "line-2-0526-0631-s008681",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -892,9 +964,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-2-0625-0820-s013421"
+        "station:line-2-0634-0838-s013856"
       ],
-      "scope_id": "line-2-0625-0820-s013421",
+      "scope_id": "line-2-0634-0838-s013856",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -914,9 +986,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-2-0784-1025-s018855"
+        "station:line-2-0784-1025-s019007"
       ],
-      "scope_id": "line-2-0784-1025-s018855",
+      "scope_id": "line-2-0784-1025-s019007",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -1004,9 +1076,9 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
-        "station:line-3-0508-0671-s010317"
+        "station:line-3-0526-0631-s011277"
       ],
-      "scope_id": "line-3-0508-0671-s010317",
+      "scope_id": "line-3-0526-0631-s011277",
       "scope_type": "station",
       "status": "desktop-prioritised-field-investigation-required"
     },
@@ -1048,6 +1120,28 @@
         "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
       ],
       "sample_ids": [
+        "station:line-3-0597-0478-s014996"
+      ],
+      "scope_id": "line-3-0597-0478-s014996",
+      "scope_type": "station",
+      "status": "desktop-prioritised-field-investigation-required"
+    },
+    {
+      "allowable_bearing_kpa": null,
+      "civil_class": "station",
+      "foundation_type": null,
+      "groundwater_depth_m": null,
+      "investigation_flags": [
+        "acidic-soil-durability-testing",
+        "fine-soil-plasticity-and-shrink-swell-tests",
+        "granular-density-and-groundwater-tests"
+      ],
+      "line": "line-3",
+      "required_field_work": [
+        "Verify made ground, stratigraphy and groundwater; obtain representative laboratory classification and compaction/CBR evidence.",
+        "Investigate support locations to influence depth; determine bearing, settlement and lateral response before choosing foundation dimensions."
+      ],
+      "sample_ids": [
         "station:line-3-0621-0427-s016238"
       ],
       "scope_id": "line-3-0621-0427-s016238",
@@ -1055,5 +1149,5 @@
       "status": "desktop-prioritised-field-investigation-required"
     }
   ],
-  "soil_samples_sha256": "1ee27ad49b4eb901fe7a1f7474d14ca54410f6659dbab53bede94edbfe68f131"
+  "soil_samples_sha256": "136e0cfab4cdc0f19d30979ab05fbc4c2a0977d5795d0cf09b3e89a51b5a1ccb"
 }

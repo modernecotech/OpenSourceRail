@@ -12,27 +12,27 @@ The original capital sources and uses reconcile. The confusion was combining upf
 
 | Capital source | Native currency | Native amount, billion | USD equivalent, million |
 |---|---|---:|---:|
-| chinese export credit | USD | 0.842170 | 842.170 |
-| government import cash | USD | 0.842170 | 842.170 |
-| government local cash | IQD | 1,347.579172 | 1,036.599 |
-| domestic bonds | IQD | 4,674.285469 | 3,595.604 |
-| bank credit | IQD | 1,558.095156 | 1,198.535 |
-| **Capital uses / sources** | Mixed | — | **7,515.079** |
+| chinese export credit | USD | 1.377654 | 1,377.654 |
+| government import cash | USD | 1.377654 | 1,377.654 |
+| government local cash | IQD | 2,930.305523 | 2,254.081 |
+| domestic bonds | IQD | 9,279.612447 | 7,138.163 |
+| bank credit | IQD | 3,093.204149 | 2,379.388 |
+| **Capital uses / sources** | Mixed | — | **14,526.940** |
 
 Government cash remains 25% of capital, with government USD import cash inside that contribution. Imports are financed 50% government USD cash / 50% Chinese USD loan. Every other loan and bond is IQD. An international green lender must provide confirmed IQD on-lending or a priced currency hedge to preserve that strategy. A green label does not supply additional money.
 
 | Lifetime operating / finance reconciliation | USD equivalent, million |
 |---|---:|
-| Fare and existing nonfare receipts | 13,644.125 |
-| OPEX | 6,138.577 |
-| Repayment of originally drawn capital principal | 5,636.309 |
-| Interest on original capital financing | 4,129.288 |
-| Original financing fees | 40.334 |
-| **Net nominal lifetime liquidity deficit** | **2,300.383** |
-| Gross extra cash required as bills fall due | 5,962.665 |
-| Later unrestricted cash retained if those requirements are met | 3,662.282 |
+| Fare and existing nonfare receipts | 13,920.961 |
+| OPEX | 10,419.245 |
+| Repayment of originally drawn capital principal | 10,895.205 |
+| Interest on original capital financing | 8,013.593 |
+| Original financing fees | 76.462 |
+| **Net nominal lifetime liquidity deficit** | **15,483.544** |
+| Gross extra cash required as bills fall due | 17,208.179 |
+| Later unrestricted cash retained if those requirements are met | 1,724.636 |
 
-**USD 5,962.665m gross injections minus USD 3,662.282m retained cash equals USD 2,300.383m net deficit.** Capital purchases are already financed by their capital sources; principal repayments belong to the lifetime cash ledger and must not be added to the construction budget again. Net reserve deposits are zero at the end. This is a nominal identity, not discounted viability, and assumes city/plant cash can legally be pooled
+**USD 17,208.179m gross injections minus USD 1,724.636m retained cash equals USD 15,483.544m net deficit.** Capital purchases are already financed by their capital sources; principal repayments belong to the lifetime cash ledger and must not be added to the construction budget again. Net reserve deposits are zero at the end. This is a nominal identity, not discounted viability, and assumes city/plant cash can legally be pooled
 
 A zero-interest, zero-fee revolving bridge is only a mathematical lower bound. Real gap funding must charge interest and fees on the borrowing needed to carry early deficits, repay itself from later surplus and show any terminal debt. Later surplus cannot be counted both as retained cash and as loan repayment.
 
@@ -41,11 +41,11 @@ A zero-interest, zero-fee revolving bridge is only a mathematical lower bound. R
 | Full-network steady annual receipts | IQD billion | USD equivalent, million |
 |---|---:|---:|
 | Passenger tickets | 547.335 | 421.027 |
-| Station shops and kiosk leases | 11.542 | 8.878 |
-| Advertising space | 17.932 | 13.794 |
-| Total existing operating receipts | 576.808 | 443.699 |
+| Station shops and kiosk leases | 15.865 | 12.204 |
+| Advertising space | 23.886 | 18.374 |
+| Total existing operating receipts | 587.086 | 451.604 |
 
-Tickets use 415.49m annual paid trips at IQD 1,317 average yield. This is assumed capacity use, not calibrated demand. Shops/kiosks use 27,656 m² at IQD 39,520/m²/month and 88% occupancy; advertising uses 5,084 boards at IQD 345,800/month and 85% occupancy. Rates derive from the retained income proxy, not Baghdad lease quotes. These are gross rental/advertising receipts; dedicated concession costs, tenant demand and collection losses require appraisal.
+Tickets use 415.49m annual paid trips at IQD 1,317 average yield. This is assumed capacity use, not calibrated demand. Shops/kiosks use 38,016 m² at IQD 39,520/m²/month and 88% occupancy; advertising uses 6,772 boards at IQD 345,800/month and 85% occupancy. Rates derive from the retained income proxy, not Baghdad lease quotes. These are gross rental/advertising receipts; dedicated concession costs, tenant demand and collection losses require appraisal.
 
 All three receipts enter the existing operating cashflows and therefore already reduce the financing gap. The phased sensitivity scales the combined receipts by opened-fleet share and the separate 50% / 75% / 100% revenue ramp for each line. Retail and advertising demand may follow different ramps in practice. Proposed naming rights, telecom leases, parking, development proceeds or new commercial receipts must be genuinely additional and net of costs; existing rents cannot be booked again or sold upfront while also retained in future revenue.
 
@@ -55,13 +55,13 @@ The illustrative maximum outstanding facility is IQD 13.000 trillion (USD 10.000
 
 | Scenario | Gross new liquidity draws, IQD tn | Peak facility balance, IQD tn | Uncovered cash beyond facility, IQD tn | Terminal unpaid facility, IQD tn |
 |---|---:|---:|---:|---:|
-| unfunded reference | 0.000 | 0.000 | 7.751 | 0.000 |
-| green label only | 0.000 | 0.000 | 7.751 | 0.000 |
-| zero cost liquidity bound | 7.751 | 7.751 | 0.000 | 2.990 |
-| commercial gap credit | 13.000 | 13.000 | 17.914 | 13.000 |
-| concessional gap credit | 9.950 | 9.950 | 0.000 | 7.934 |
-| blended candidate | 7.959 | 7.784 | 0.000 | 5.091 |
-| green concessional only | 9.085 | 9.085 | 0.000 | 7.363 |
+| unfunded reference | 0.000 | 0.000 | 22.371 | 0.000 |
+| green label only | 0.000 | 0.000 | 22.371 | 0.000 |
+| zero cost liquidity bound | 13.000 | 13.000 | 9.371 | 10.758 |
+| commercial gap credit | 13.000 | 13.000 | 38.869 | 13.000 |
+| concessional gap credit | 13.000 | 13.000 | 14.960 | 13.000 |
+| blended candidate | 13.056 | 13.000 | 13.171 | 13.000 |
+| green concessional only | 13.000 | 13.000 | 14.717 | 13.000 |
 
 Reference and label-only cases have no gap facility: their uncovered column is the required external cash contribution, not an approved government top-up. With a facility, uncovered cash excludes the separate terminal loan balance; both need a solution. Gross draws can exceed the maximum outstanding commitment when a revolving facility is repaid and redrawn. Conditional ledgers do not establish that an unfunded payment occurred.
 
@@ -69,13 +69,13 @@ Commercial gap credit assumes 8% interest and 1.0% draw fees. Concessional gap c
 
 ## Explicit blended sensitivity
 
-Candidate climate expenditure is USD 2,085.33m of electric rolling stock, solar and charging provision, including USD 1,277.84m assigned locally. Climate benefit, supplier qualification and green eligibility require independent review. Candidate green bonds replace only domestic bonds attributable to those expenditures; civil works and unrelated overhead are not automatically relabelled.
+Candidate climate expenditure is USD 2,110.63m of electric rolling stock, solar and charging provision, including USD 1,293.96m assigned locally. Climate benefit, supplier qualification and green eligibility require independent review. Candidate green bonds replace only domestic bonds attributable to those expenditures; civil works and unrelated overhead are not automatically relabelled.
 
 The blended sensitivity replaces that eligible bond portion with proposed IQD green bonds/sukuk at 4%, 48 months' grace and 240 months' amortisation, with 0.75% arrangement fees and 0.5%/year enhancement fees on outstanding principal. The lower rate depends on a concessional or guarantee structure; a green label alone retains the original 8% terms and changes no financial outcome.
 
 Additional targets are a **USD 25m** climate capital grant translated into IQD receipts, replacing domestic borrowing against eligible local capital after month 24; **USD 300m** net development-rights proceeds in 6 six-month instalments from month 24; and **USD 25m/year** genuinely new net local receipts at full opening, scaled with the opened fleet. These are editable targets, not appraisals, GCF approvals, developer contracts or statutory levies. Existing rents, advertising and fares cannot be counted again; transaction/development costs and displaced future rents must be deducted. Public land contribution also needs economic valuation.
 
-Solving the model rather than declaring the targets sufficient requires approximately **USD 113.94m/year additional NET receipts** (IQD 148.13bn/year at full opening) to eliminate both uncovered cash and the terminal facility under the other blended assumptions. This is a break-even funding requirement, not a forecast or a recommended passenger fare increase. Any covenant, inflation, FX or demand change can raise it.
+Solving the model rather than declaring the targets sufficient requires approximately **USD 591.83m/year additional NET receipts** (IQD 769.38bn/year at full opening) to eliminate both uncovered cash and the terminal facility under the other blended assumptions. This is a break-even funding requirement, not a forecast or a recommended passenger fare increase. Any covenant, inflation, FX or demand change can raise it.
 
 ## Variable tickets, annual price changes and OPEX inflation
 
@@ -89,18 +89,18 @@ Variable tickets assume 40% of baseline trips in a peak tier at 1.25 times the s
 
 | Pricing sensitivity | Fare / OPEX / income growth | Full-opening average fare, IQD | 44 trips / income at full opening | Peak facility, IQD tn | Uncovered cash, IQD tn | Terminal debt, IQD tn |
 |---|---|---:|---:|---:|---:|---:|
-| fare 5pct flat costs fixed demand | 5% / 0% / 0% | 1,765 | 15.7% | 3.178 | 0.000 | 0.000 |
-| fare 5pct flat costs elastic | 5% / 0% / 0% | 1,765 | 15.7% | 3.837 | 0.000 | 0.000 |
-| fixed fare 5pct opex | 0% / 5% / 5% | 1,317 | 8.8% | 13.000 | 9.741 | 13.000 |
-| fare 5pct opex 5pct | 5% / 5% / 5% | 1,765 | 11.7% | 4.256 | 0.000 | 0.000 |
-| fare 5pct opex 7pct | 5% / 7% / 5% | 1,765 | 11.7% | 5.786 | 0.000 | 0.000 |
-| fare 5pct opex 5pct income 2pct | 5% / 5% / 2% | 1,765 | 14.0% | 5.439 | 0.000 | 0.000 |
-| variable fare 5pct opex 5pct | 5% / 5% / 5% | 1,822 | 12.1% | 4.028 | 0.000 | 0.000 |
-| fare 5pct opex 5pct rents indexed | 5% / 5% / 5% | 1,765 | 11.7% | 4.071 | 0.000 | 0.000 |
+| fare 5pct flat costs fixed demand | 5% / 0% / 0% | 1,765 | 15.7% | 13.000 | 3.752 | 0.000 |
+| fare 5pct flat costs elastic | 5% / 0% / 0% | 1,765 | 15.7% | 13.000 | 6.416 | 0.000 |
+| fixed fare 5pct opex | 0% / 5% / 5% | 1,317 | 8.8% | 13.000 | 39.254 | 13.000 |
+| fare 5pct opex 5pct | 5% / 5% / 5% | 1,765 | 11.7% | 13.000 | 9.875 | 8.432 |
+| fare 5pct opex 7pct | 5% / 7% / 5% | 1,765 | 11.7% | 13.000 | 29.201 | 13.000 |
+| fare 5pct opex 5pct income 2pct | 5% / 5% / 2% | 1,765 | 14.0% | 13.000 | 15.218 | 13.000 |
+| variable fare 5pct opex 5pct | 5% / 5% / 5% | 1,822 | 12.1% | 13.000 | 9.412 | 7.524 |
+| fare 5pct opex 5pct rents indexed | 5% / 5% / 5% | 1,765 | 11.7% | 13.000 | 9.218 | 6.423 |
 
-In the paired 5% case, the first line's average nominal fare is IQD 1,525 in month 40; at full opening in month 76 it is IQD 1,765. Its maximum supplemental facility is IQD 4.256tn, with IQD 0.000tn uncovered cash and IQD 0.000tn unpaid at the end. Later surplus can repay a priced facility under these assumptions; it does not remove the early borrowing requirement.
+In the paired 5% case, the first line's average nominal fare is IQD 1,525 in month 40; at full opening in month 77 it is IQD 1,765. Its maximum supplemental facility is IQD 13.000tn, with IQD 9.875tn uncovered cash and IQD 8.432tn unpaid at the end. Later surplus can repay a priced facility under these assumptions; it does not remove the early borrowing requirement.
 
-At an 5% general-price assumption, the 8% real discount assumption becomes 13.4% nominal. The paired-case unlevered NPV is USD -3.262bn equivalent before grants/new rights/net-income targets and with capital still un-escalated. Large distant nominal balances are not present-value wealth or proof of project viability.
+At an 5% general-price assumption, the 8% real discount assumption becomes 13.4% nominal. The paired-case unlevered NPV is USD -9.087bn equivalent before grants/new rights/net-income targets and with capital still un-escalated. Large distant nominal balances are not present-value wealth or proof of project viability.
 
 If income rises with fares, the modelled commuting share stays broadly constant. With income rising only 2%, the same ticket policy becomes progressively less affordable and reduces paid trips. If OPEX rises 7% against 5% fares, the tested financing again leaves uncovered requirements and terminal debt. Maintaining an affordable real tariff, collecting revenue and placing the required early IQD facility matter as much as the nominal annual increase.
 
@@ -108,7 +108,7 @@ If income rises with fares, the modelled commuting share stays broadly constant.
 
 [Paired 5% six-month funding requirements](../../../finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv) · [paired monthly prices and affordability](../../../finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv) · [variable-ticket funding requirements](../../../finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv) · [variable monthly tickets](../../../finance/baghdad-variable_fare_5pct_opex_5pct-monthly-prices.csv)
 
-The initial real-fare multiplier required to remove both terminal debt and uncovered cash under paired 5% indices and the other blended assumptions is approximately 1.000 times the existing baseline. This is a conditional break-even sensitivity, not a tariff recommendation; it does not guarantee the facility can be placed or that households' incomes will grow.
+The initial real-fare multiplier required to remove both terminal debt and uncovered cash under paired 5% indices and the other blended assumptions is approximately 1.987 times the existing baseline. This is a conditional break-even sensitivity, not a tariff recommendation; it does not guarantee the facility can be placed or that households' incomes will grow.
 
 ## Surplus cash and early repayment
 
@@ -118,25 +118,25 @@ Compare strategies against **buffered gap-only**, rather than attributing the bu
 
 | Surplus strategy | All debt cleared, month from close | Finance cost saving vs buffered gap-only, USD equivalent m | Early-payment premiums, USD equivalent m | Peak gap debt, IQD tn | Terminal unrestricted cash, IQD tn |
 |---|---:|---:|---:|---:|---:|
-| gap only buffered | 365 | 0.000 | 0.000 | 4.418 | 14.870 |
-| gap then core | 306 | 9.839 | 1.572 | 4.418 | 14.883 |
-| loans then bonds | 305 | 81.916 | 6.310 | 4.372 | 14.976 |
-| cost priority | 303 | 168.132 | 21.169 | 4.371 | 15.088 |
-| cost priority zero premium | 303 | 195.771 | 0.000 | 4.368 | 15.124 |
-| cost priority noncallable bonds | 365 | 71.442 | 4.683 | 4.372 | 14.963 |
+| gap only buffered | not cleared | 0.000 | 0.000 | 13.000 | 0.000 |
+| gap then core | not cleared | 0.000 | 0.000 | 13.000 | 0.000 |
+| loans then bonds | not cleared | 11.932 | 1.070 | 13.000 | 0.000 |
+| cost priority | not cleared | 28.245 | 3.660 | 13.000 | 0.000 |
+| cost priority zero premium | not cleared | 33.292 | 0.000 | 13.000 | 0.000 |
+| cost priority noncallable bonds | not cleared | 11.932 | 1.070 | 13.000 | 0.000 |
 
-Cost priority clears all debt in month **303**, compared with **365** for buffered gap-only. Net nominal financing savings are **USD 168.132m equivalent**, after USD 21.169m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD 0.362tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.
+Cost priority clears all debt in month **None**, compared with **None** for buffered gap-only. Net nominal financing savings are **USD 28.245m equivalent**, after USD 3.660m assumed early-payment premiums. Savings include core interest, annual green guarantee charges and supplemental interest/draw fees; they exclude principal, which is returned once. All cases retain IQD 0.614tn operating buffer separately from unrestricted cash. There is no additional government contribution above 25% of CAPEX in these cases.
 
 Assumed premiums are 1% of bank/Chinese/green principal and 2% of ordinary bond principal. A minimum draw age of 6 months (bank), 12 (Chinese) and 24 (both bonds) prevents immediate issue-and-redemption. Eligible vintages are repaid oldest first; contractual instalments are kept and maturity shortens. Notice, issuer call rights, investor consent, buyback price, remaining-maturity compensation, tax and FX require actual agreements. Noncallable-bond sensitivity makes no voluntary bond payments; zero-premium sensitivity removes only the assumed premium, retaining minimum ages.
 
 | Facility | Buffered gap-only final principal payment month | Cost-priority final principal payment month | Early principal, native currency | Premium, native currency |
 |---|---:|---:|---:|---:|
-| bank credit | 161 | 161 | IQD 179.993bn | IQD 1.800bn |
-| domestic bonds | 281 | 230 | IQD 853.131bn | IQD 17.063bn |
-| chinese export credit | 305 | 235 | USD 239.631m | USD 2.396m |
-| green bonds | 365 | 244 | IQD 554.236bn | IQD 5.542bn |
+| bank credit | 161 | 161 | IQD 56.644bn | IQD 0.566bn |
+| domestic bonds | 281 | 271 | IQD 18.985bn | IQD 0.380bn |
+| chinese export credit | 305 | 277 | USD 65.188m | USD 0.652m |
+| green bonds | 365 | 298 | IQD 296.396bn | IQD 2.964bn |
 
-The gap facility's final principal payment is in month 303. Later surplus remains unrestricted cash after debt retirement. Each month's native debt balance equals prior balance plus draws minus scheduled and early principal. Each six-month closing balance is its final month's balance; payments, premiums, interest and reserve movements are period sums. Contractual repayment windows in tranche files describe the original draw terms; the actual final-payment months above incorporate early repayment.
+The gap facility's final principal payment is in month 436. Later surplus remains unrestricted cash after debt retirement. Each month's native debt balance equals prior balance plus draws minus scheduled and early principal. Each six-month closing balance is its final month's balance; payments, premiums, interest and reserve movements are period sums. Contractual repayment windows in tranche files describe the original draw terms; the actual final-payment months above incorporate early repayment.
 
 [Monthly cost-priority repayments](../../../finance/baghdad-early-cost_priority-monthly.csv) · [six-month repayment tranches](../../../finance/baghdad-early-cost_priority-six-month-tranches.csv) · [loans-first tranches](../../../finance/baghdad-early-loans_then_bonds-six-month-tranches.csv) · [all six complete calculations](../../../finance/baghdad-early-repayment.json)
 
@@ -156,20 +156,20 @@ The government USD cash and Chinese USD loan are separate; government local cash
 
 | Tranche | Months from close | Government USD m | Government IQD bn | Chinese loan USD m | Bond face IQD bn | Bank loan IQD bn | Additional cash need IQD bn |
 |---|---|---:|---:|---:|---:|---:|---:|
-| BGD-H001 | 0–5 | 13.66 | 37.91 | 13.66 | 111.93 | 37.31 | 5.20 |
-| BGD-H002 | 6–11 | 33.85 | 83.24 | 33.85 | 253.29 | 84.43 | 18.17 |
-| BGD-H003 | 12–17 | 24.72 | 73.41 | 24.72 | 213.37 | 71.12 | 36.96 |
-| BGD-H004 | 18–23 | 41.27 | 105.74 | 41.27 | 318.38 | 106.13 | 60.14 |
-| BGD-H005 | 24–29 | 63.11 | 110.25 | 63.11 | 371.12 | 123.71 | 104.09 |
-| BGD-H006 | 30–35 | 93.45 | 131.93 | 93.45 | 479.07 | 159.69 | 126.01 |
-| BGD-H007 | 36–41 | 95.67 | 132.94 | 95.67 | 485.69 | 161.90 | 334.76 |
-| BGD-H008 | 42–47 | 96.39 | 134.48 | 96.39 | 490.54 | 163.51 | 275.72 |
-| BGD-H009 | 48–53 | 95.10 | 132.99 | 95.10 | 484.68 | 161.56 | 310.25 |
-| BGD-H010 | 54–59 | 95.57 | 133.12 | 95.57 | 485.88 | 161.96 | 341.65 |
-| BGD-H011 | 60–65 | 94.87 | 131.37 | 94.87 | 480.60 | 160.20 | 368.52 |
-| BGD-H012 | 66–71 | 84.17 | 126.31 | 84.17 | 448.33 | 149.44 | 383.60 |
-| BGD-H013 | 72–77 | 10.35 | 13.88 | 10.35 | 51.41 | 17.14 | 353.06 |
-| **Total capital envelopes** | — | 842.17 | 1347.58 | 842.17 | 4674.29 | 1558.10 | — |
+| BGD-H001 | 0–5 | 30.23 | 88.15 | 30.23 | 257.29 | 85.76 | 10.78 |
+| BGD-H002 | 6–11 | 59.10 | 158.56 | 59.10 | 471.99 | 157.33 | 39.10 |
+| BGD-H003 | 12–17 | 75.53 | 206.93 | 75.53 | 612.88 | 204.29 | 81.85 |
+| BGD-H004 | 18–23 | 101.25 | 232.53 | 101.25 | 720.63 | 240.21 | 138.36 |
+| BGD-H005 | 24–29 | 111.66 | 256.83 | 111.66 | 795.61 | 265.20 | 213.99 |
+| BGD-H006 | 30–35 | 141.57 | 281.03 | 141.57 | 908.37 | 302.79 | 271.61 |
+| BGD-H007 | 36–41 | 142.44 | 278.71 | 142.44 | 904.86 | 301.62 | 721.27 |
+| BGD-H008 | 42–47 | 143.89 | 284.47 | 143.89 | 920.65 | 306.88 | 570.79 |
+| BGD-H009 | 48–53 | 142.35 | 278.85 | 142.35 | 904.99 | 301.66 | 652.59 |
+| BGD-H010 | 54–59 | 144.02 | 284.39 | 144.02 | 920.72 | 306.91 | 735.26 |
+| BGD-H011 | 60–65 | 142.02 | 280.32 | 142.02 | 907.67 | 302.56 | 811.51 |
+| BGD-H012 | 66–71 | 128.20 | 269.18 | 128.20 | 855.65 | 285.22 | 876.37 |
+| BGD-H013 | 72–77 | 15.40 | 30.35 | 15.40 | 98.32 | 32.77 | 853.74 |
+| **Total capital envelopes** | — | 1377.65 | 2930.31 | 1377.65 | 9279.61 | 3093.20 | — |
 
 Displayed two-decimal values can differ from full-precision totals by rounding. The six-month CSVs continue through the entire operating/repayment horizon, including periods with no new capital but interest, principal, liquidity draws, reserve movements and cash sweeps. Every tranche independently reconciles its capital sources and uses.
 

@@ -8,8 +8,8 @@ This is an independent city-order capacity requirement. Shared factory capital i
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 59 | 608 | 698 | 698 |
-| line-2 | 32 | 630 | 720 | 720 |
-| line-3 | 45 | 660 | 750 | 750 |
+| line-1 | 60 | 609 | 699 | 699 |
+| line-2 | 34 | 632 | 722 | 722 |
+| line-3 | 42 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

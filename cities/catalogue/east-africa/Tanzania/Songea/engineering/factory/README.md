@@ -1,6 +1,6 @@
 # Songea city-order factory requirement
 
-**28 tram-2car trainsets / 56 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**29 tram-2car trainsets / 58 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 80.7 trainsets/year, 2 separate test paths, 138 direct production FTE. Plant reference envelope: **USD 151.752m**.
 
@@ -8,7 +8,7 @@ This is an independent city-order capacity requirement. Shared factory capital i
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 10 | 596 | 686 | 686 |
-| line-2 | 18 | 654 | 744 | 744 |
+| line-1 | 11 | 600 | 690 | 690 |
+| line-2 | 18 | 658 | 748 | 748 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

@@ -5,9 +5,9 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`agra-line1.aln.toml`](agra-line1.aln.toml) | `line-1` | 20,592.8 m | 9 |
-| [`agra-line2.aln.toml`](agra-line2.aln.toml) | `line-2` | 21,525.1 m | 9 |
+| [`agra-line2.aln.toml`](agra-line2.aln.toml) | `line-2` | 21,891.8 m | 9 |
 | [`agra-line3.aln.toml`](agra-line3.aln.toml) | `line-3` | 19,968.0 m | 8 |
-| [`agra-line4.aln.toml`](agra-line4.aln.toml) | `line-4` | 28,033.1 m | 10 |
+| [`agra-line4.aln.toml`](agra-line4.aln.toml) | `line-4` | 28,533.3 m | 11 |
 | [`agra-line5.aln.toml`](agra-line5.aln.toml) | `line-5` | 54,570.9 m | 17 |
 
 ## Status

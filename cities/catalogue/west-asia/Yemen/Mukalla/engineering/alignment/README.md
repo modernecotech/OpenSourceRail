@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mukalla-line1.aln.toml`](mukalla-line1.aln.toml) | `line-1` | 16,052.9 m | 6 |
-| [`mukalla-line2.aln.toml`](mukalla-line2.aln.toml) | `line-2` | 15,983.0 m | 5 |
-| [`mukalla-line3.aln.toml`](mukalla-line3.aln.toml) | `line-3` | 24,545.8 m | 8 |
+| [`mukalla-line1.aln.toml`](mukalla-line1.aln.toml) | `line-1` | 15,724.8 m | 17 |
+| [`mukalla-line2.aln.toml`](mukalla-line2.aln.toml) | `line-2` | 19,038.4 m | 12 |
+| [`mukalla-line3.aln.toml`](mukalla-line3.aln.toml) | `line-3` | 25,814.6 m | 15 |
 
 ## Status
 

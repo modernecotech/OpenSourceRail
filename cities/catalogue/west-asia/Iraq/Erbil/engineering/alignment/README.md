@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`erbil-line1.aln.toml`](erbil-line1.aln.toml) | `line-1` | 28,706.7 m | 12 |
-| [`erbil-line2.aln.toml`](erbil-line2.aln.toml) | `line-2` | 29,912.5 m | 10 |
-| [`erbil-line3.aln.toml`](erbil-line3.aln.toml) | `line-3` | 19,203.0 m | 9 |
-| [`erbil-line4.aln.toml`](erbil-line4.aln.toml) | `line-4` | 23,734.2 m | 11 |
-| [`erbil-line5.aln.toml`](erbil-line5.aln.toml) | `line-5` | 17,619.9 m | 9 |
+| [`erbil-line1.aln.toml`](erbil-line1.aln.toml) | `line-1` | 29,468.6 m | 12 |
+| [`erbil-line2.aln.toml`](erbil-line2.aln.toml) | `line-2` | 30,768.8 m | 10 |
+| [`erbil-line3.aln.toml`](erbil-line3.aln.toml) | `line-3` | 20,012.8 m | 9 |
+| [`erbil-line4.aln.toml`](erbil-line4.aln.toml) | `line-4` | 25,002.3 m | 11 |
+| [`erbil-line5.aln.toml`](erbil-line5.aln.toml) | `line-5` | 18,001.9 m | 9 |
 
 ## Status
 

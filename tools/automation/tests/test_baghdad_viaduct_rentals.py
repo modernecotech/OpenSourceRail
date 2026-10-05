@@ -151,10 +151,18 @@ def test_terminal_cash_is_an_independent_unapproved_diagnostic():
     assert e['cash_available_after_nonsecurity_liabilities_iqd']==pytest.approx(last['closing_cash_iqd'],abs=.02)
     private=e['shareholder_returns']['iraqi_private']
     base=c['shareholder_returns']['iraqi_private']['equity_irr']
-    assert private['equity_irr_with_terminal_cash']>base
+    if e['status']=='unavailable-incomplete-or-unfunded':
+        assert private['equity_irr_with_terminal_cash'] is None
+        assert private['hypothetical_terminal_cash_iqd']==0
+    elif base is not None:
+        assert private['equity_irr_with_terminal_cash']>base
     cash=[(r['month'],r['cashflow_usd']) for r in c['shareholder_cashflows']['iraqi_private']]
     cash.append((last['month'],private['hypothetical_terminal_cash_iqd']/1300))
-    assert private['equity_irr_with_terminal_cash']==pytest.approx(equity_irr(cash))
+    expected=equity_irr(cash)
+    if expected is None:
+        assert private['equity_irr_with_terminal_cash'] is None
+    else:
+        assert private['equity_irr_with_terminal_cash']==pytest.approx(expected)
     assert sum(v['hypothetical_terminal_cash_iqd'] for v in e['shareholder_returns'].values())==pytest.approx(last['closing_cash_iqd'])
     failed=read('failed_later_primary',OUT.parent/'equity')['terminal_cash_sensitivity']
     assert failed['status']=='unavailable-incomplete-or-unfunded'

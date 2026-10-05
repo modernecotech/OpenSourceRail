@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "kanpur"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "kanpur",
-      "corridor_sha256": "5ad3c517570d28b20d4059f649420130e717260751073b878b8d23d15ecb3203",
-      "design_sha256": "b591f35fd585e7761738f05120997ed6dcc3f627a799d31256b46fc2c5f90515",
-      "failures": [
+      "corridor_sha256": "7b3be5c3ba718c377b0d0d36f3a4ab10db8b3e219f98c0fd6e8e95dfcca063bf",
+      "design_sha256": "9b600da8490cac593bf4928fa04e77c654b58604806a94405f4878426aba6446",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 7,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "38f693bdf0578c81598c6e90c9249bd9873af01a83a7722f87712af26f33d897",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 7292.1,
+          "physical_release": false,
           "radial": "line-3",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 7,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

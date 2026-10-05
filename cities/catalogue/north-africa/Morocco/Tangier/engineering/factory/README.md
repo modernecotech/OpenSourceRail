@@ -1,17 +1,17 @@
 # Tangier city-order factory requirement
 
-**165 metro-4car trainsets / 660 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**186 metro-4car trainsets / 744 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 475.2 trainsets/year, 5 separate test paths, 1548 direct production FTE. Plant reference envelope: **USD 542.348m**.
+Planning output: 529.0 trainsets/year, 5 separate test paths, 1729 direct production FTE. Plant reference envelope: **USD 593.158m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 31 | 586 | 676 | 676 |
-| line-2 | 35 | 605 | 695 | 695 |
-| line-3 | 30 | 622 | 712 | 712 |
-| line-4 | 45 | 646 | 736 | 736 |
-| line-5 | 24 | 660 | 750 | 750 |
+| line-1 | 35 | 586 | 676 | 676 |
+| line-2 | 53 | 612 | 702 | 702 |
+| line-3 | 32 | 629 | 719 | 719 |
+| line-4 | 43 | 649 | 739 | 739 |
+| line-5 | 23 | 661 | 751 | 751 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

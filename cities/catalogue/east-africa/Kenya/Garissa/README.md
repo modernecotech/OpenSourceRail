@@ -5,11 +5,11 @@
 This page contains only Garissa-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$446 M (89.5%) of external capital** and **$560 M of external interest**. Capital plus saved interest totals **$1.01 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$477 M (89.4%) of external capital** and **$598 M of external interest**. Capital plus saved interest totals **$1.08 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **24.175 km to 15.335 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **8 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **24.175 km to 16.307 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **10 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**3 line-local depots** provide **41 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **41 tram-2car trainsets / 82 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**3 line-local depots** provide **44 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **44 tram-2car trainsets / 88 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -21,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 8 / 0 |
+| Lines / unique stations / interchanges | 3 / 10 / 1 |
 | Route length | 17.5 km double track |
-| Coverage / transfer reachability | 13.4% / 0% |
+| Coverage / transfer reachability | 13.4% / 33% |
 | Estimated station catchment | 40,200 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 41 × 2-car `tram-2car` trainsets (35 peak revenue) |
+| Fleet | 44 × 2-car `tram-2car` trainsets (38 peak revenue) |
 | Peak network throughput | 28,800 passengers/hour |
 | Practical service capacity | 267,840 passenger-trips/day |
 | Annual paid-trip planning range | 48.9–78.2 M |
@@ -35,10 +35,10 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 |  5.0 km | 2 | 12 | S Mid ↔ NW Mid |
-| line-2 |  9.2 km | 4 | 20 | S Outer ↔ NE Outer |
-| line-3 |  3.3 km | 2 | 9 | NW Inner ↔ W Mid |
-| **Total** | **17.5 km** | **8 unique** | **41** | |
+| line-1 |  5.0 km | 3 | 13 | S Mid ↔ NW Mid |
+| line-2 |  9.2 km | 4 | 20 | SE Outer ↔ NE Outer |
+| line-3 |  3.3 km | 3 | 11 | N Inner ↔ SW Mid |
+| **Total** | **17.5 km** | **10 unique** | **44** | |
 
 ## Energy
 
@@ -46,35 +46,35 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 |---|---:|
 | Scheduled service | 1,395 one-way journeys / 8,154 train-km/day |
 | Annual traction demand | 25.7 GWh |
-| Station/depot PV / storage | 16.5 MW / 122.5 MWh |
-| Aggregate charging power | 4.0 MW |
+| Station/depot PV / storage | 17.1 MW / 123.5 MWh |
+| Aggregate charging power | 5.0 MW |
 | Dedicated solar plant | 0.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 5.0 km / 28 kWh |
-| Lowest traversal charging margin | line-1: 18 kWh |
+| Worst powered-stop gap | line-2: 4.6 km / 26 kWh |
+| Lowest traversal charging margin | line-1: 35 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $162 M |
-| Stations | $32 M |
-| Depots | $39 M |
-| Rolling stock | $23 M |
+| Stations | $48 M |
+| Depots | $40 M |
+| Rolling stock | $25 M |
 | Residual train control | $877 k |
-| Charging microgrids | $950 k |
-| EPC / project services | $18 M |
-| **Total city programme** | **$277 M** |
+| Charging microgrids | $1.1 M |
+| EPC / project services | $19 M |
+| **Total city programme** | **$296 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $52 M (18.9%) |
-| Domestic / local capital | $225 M (81.1%) |
-| Annual public construction commitment | $29 M / yr for 7 years |
-| Annual post-grace debt service | $24 M / yr |
-| External capital saved vs default turnkey sensitivity | $446 M |
-| Capital + lifetime external interest saved | $1.01 bn |
-| Annual OPEX | $7.4 M / yr |
+| Imported / external capital | $56 M (19.0%) |
+| Domestic / local capital | $240 M (81.0%) |
+| Annual public construction commitment | $31 M / yr for 7 years |
+| Annual post-grace debt service | $26 M / yr |
+| External capital saved vs default turnkey sensitivity | $477 M |
+| Capital + lifetime external interest saved | $1.08 bn |
+| Annual OPEX | $8.0 M / yr |
 
 ## Local Evidence
 
@@ -86,7 +86,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 2 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 95 assets / 511 tasks | [`garissa-operations-manifest.json`](operations/garissa-operations-manifest.json) |
+| Operations, QA and maintenance | 108 assets / 574 tasks | [`garissa-operations-manifest.json`](operations/garissa-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

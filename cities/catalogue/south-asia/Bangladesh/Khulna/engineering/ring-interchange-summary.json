@@ -1,27 +1,27 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "khulna"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "khulna",
-      "corridor_sha256": "4fc514d829ba32192f6920656e91c94082879a0da1a60f25804312111d98076d",
-      "design_sha256": "215c0ea0a3b47cff8b5510ac55eab413f86b0e973aa26166241b7bd51abab216",
-      "failures": [
-        {
-          "code": "radial-corridor-turns-back-on-itself",
-          "maximum_reverse_excursion_m": 1736.1,
-          "radial": "line-3",
-          "severity": "fail"
-        }
-      ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
+      "corridor_sha256": "4f4142ee01a386158a4c9f34a74a545e87b666c347dda0e6ca1f574f5e46983d",
+      "design_sha256": "e7447fe61cfa234cba89aefde0d88e57c4ce9c175899198fb52831410857fbc2",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
       "radial_count": 5,
       "review_findings": [
+        {
+          "alignment_report_sha256": "fa00292921cb67814f4cf6a9fd53d1c05d191f764c6119af81f262d2cf2f0849",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
+          "maximum_reverse_excursion_m": 1736.1,
+          "physical_release": false,
+          "radial": "line-3",
+          "severity": "review"
+        },
         {
           "code": "terminus-extension-omitted-to-avoid-poor-alignment",
           "endpoint": "start",
@@ -35,5 +35,5 @@
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 2
 }

@@ -10,24 +10,24 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 236 |
-| Manufacturing schedule rows | 1,126 |
-| Manufacturing material/BOM rows | 17,384 |
-| Manufacturing QA verification rows | 1,126 |
-| Construction QA action rows | 956 |
-| Maintenance handover schedule rows | 1,460 |
-| Manufacturing rows with material refs | 1,126 / 1,126 |
-| Manufacturing rows with verification refs | 1,126 / 1,126 |
-| Manufacturing rows linked to QA actions | 1,126 / 1,126 |
+| Assets in register | 237 |
+| Manufacturing schedule rows | 1,133 |
+| Manufacturing material/BOM rows | 17,511 |
+| Manufacturing QA verification rows | 1,133 |
+| Construction QA action rows | 962 |
+| Maintenance handover schedule rows | 1,469 |
+| Manufacturing rows with material refs | 1,133 / 1,133 |
+| Manufacturing rows with verification refs | 1,133 / 1,133 |
+| Manufacturing rows linked to QA actions | 1,133 / 1,133 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 1,259 |
-| `rolling_stock_bom` | 15,222 |
-| `rolling_stock_cots_fitout` | 903 |
+| `project_kit` | 1,261 |
+| `rolling_stock_bom` | 15,340 |
+| `rolling_stock_cots_fitout` | 910 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -38,11 +38,11 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 387 |
-| `qa-11-bogie-wheelset` | 129 |
-| `qa-12-traction-brake-battery` | 129 |
-| `qa-13-passenger-systems` | 129 |
-| `qa-15-first-article-trainset` | 129 |
+| `qa-10-carbody-structure` | 390 |
+| `qa-11-bogie-wheelset` | 130 |
+| `qa-12-traction-brake-battery` | 130 |
+| `qa-13-passenger-systems` | 130 |
+| `qa-15-first-article-trainset` | 130 |
 | `qa-20-survey-geotech` | 13 |
 | `qa-21-earthworks-drainage` | 13 |
 | `qa-22-trackform-rail` | 65 |

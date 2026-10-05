@@ -3,7 +3,7 @@
 This page contains only Kenya-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$27.37 B (88.3%) of external capital** and **$34.31 B of external interest**. Capital plus saved interest totals **$61.68 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$106.70 B (90.6%) of external capital** and **$133.76 B of external interest**. Capital plus saved interest totals **$240.46 B**.
 
 ## National Programme
 
@@ -11,60 +11,60 @@ This page contains only Kenya-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 15 |
 | Represented population | 11,750,000 |
-| Trainsets / vehicle modules | 2,044 / 7,867 |
-| City infrastructure and fleet CAPEX | $16.56 B |
-| Shared national factory | $615.0 M |
-| Factory sizing basis | 4,188 modules for Nairobi, then reused nationally |
-| **Total national programme** | **$17.22 B** |
+| Trainsets / vehicle modules | 2,343 / 9,093 |
+| City infrastructure and fleet CAPEX | $64.74 B |
+| Shared national factory | $635.0 M |
+| Factory sizing basis | 4,446 modules for Nairobi, then reused nationally |
+| **Total national programme** | **$65.42 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $3.63 B (21.1%) |
-| Domestic / local capital | $13.59 B (78.9%) |
-| Annual external capital draw | $517.9 M / yr |
-| Annual local capital draw | $1.94 B / yr |
-| Annual public construction commitment | $1.80 B / yr for 7 years |
-| Annual post-grace debt service | $1.50 B / yr |
-| Default foreign-turnkey external capital | $31.00 B |
-| External capital saved | $27.37 B |
-| Capital + lifetime external interest saved | $61.68 B |
+| Imported / external capital | $11.05 B (16.9%) |
+| Domestic / local capital | $54.37 B (83.1%) |
+| Annual external capital draw | $1.58 B / yr |
+| Annual local capital draw | $7.77 B / yr |
+| Annual public construction commitment | $7.05 B / yr for 7 years |
+| Annual post-grace debt service | $5.79 B / yr |
+| Default foreign-turnkey external capital | $117.76 B |
+| External capital saved | $106.70 B |
+| Capital + lifetime external interest saved | $240.46 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $9.56 B | $1.43 B | $8.13 B |
-| Stations | $1.44 B | $288.7 M | $1.15 B |
-| Depots | $1.00 B | $250.2 M | $750.6 M |
-| Rolling stock | $2.24 B | $784.5 M | $1.46 B |
-| Dedicated solar plants | $1.17 B | $528.6 M | $646.0 M |
-| Residual train control | $52.4 M | $26.2 M | $26.2 M |
-| Charging microgrids | $81.6 M | $32.6 M | $49.0 M |
-| EPC / project services | $1.05 B | $157.5 M | $892.2 M |
-| Shared national trainset factory | $615.0 M | $123.0 M | $492.0 M |
-| **Total** | **$17.22 B** | **$3.63 B** | **$13.59 B** |
+| Civil works | $52.70 B | $7.90 B | $44.79 B |
+| Stations | $2.75 B | $549.1 M | $2.20 B |
+| Depots | $1.06 B | $264.3 M | $792.8 M |
+| Rolling stock | $2.59 B | $905.4 M | $1.68 B |
+| Dedicated solar plants | $1.32 B | $594.9 M | $727.1 M |
+| Residual train control | $59.7 M | $29.9 M | $29.9 M |
+| Charging microgrids | $123.0 M | $49.2 M | $73.8 M |
+| EPC / project services | $4.19 B | $629.0 M | $3.56 B |
+| Shared national trainset factory | $635.0 M | $127.0 M | $508.0 M |
+| **Total** | **$65.42 B** | **$11.05 B** | **$54.37 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Nairobi](Nairobi/README.md) | 5,700,000 | 698 | $7.15 B | $1.64 B | $5.52 B |
-| [Mombasa](Mombasa/README.md) | 1,350,000 | 171 | $2.17 B | $433.3 M | $1.74 B |
-| [Nakuru](Nakuru/README.md) | 700,000 | 144 | $983.5 M | $190.5 M | $793.0 M |
-| [Kisumu](Kisumu/README.md) | 600,000 | 127 | $678.8 M | $142.9 M | $535.9 M |
-| [Eldoret](Eldoret/README.md) | 500,000 | 167 | $828.0 M | $174.3 M | $653.7 M |
-| [Thika](Thika/README.md) | 350,000 | 207 | $994.9 M | $216.1 M | $778.8 M |
-| [Garissa](Garissa/README.md) | 300,000 | 41 | $277.0 M | $52.3 M | $224.8 M |
-| [Kakamega](Kakamega/README.md) | 300,000 | 78 | $515.7 M | $97.8 M | $417.9 M |
-| [Kisii](Kisii/README.md) | 300,000 | 42 | $278.6 M | $52.8 M | $225.8 M |
-| [Kitale](Kitale/README.md) | 300,000 | 74 | $498.0 M | $94.7 M | $403.3 M |
-| [Machakos](Machakos/README.md) | 300,000 | 50 | $343.1 M | $64.2 M | $278.8 M |
-| [Malindi](Malindi/README.md) | 300,000 | 51 | $358.1 M | $67.1 M | $291.0 M |
+| [Nairobi](Nairobi/README.md) | 5,700,000 | 741 | $7.68 B | $1.75 B | $5.92 B |
+| [Mombasa](Mombasa/README.md) | 1,350,000 | 382 | $46.70 B | $7.25 B | $39.45 B |
+| [Nakuru](Nakuru/README.md) | 700,000 | 152 | $1.92 B | $334.3 M | $1.59 B |
+| [Kisumu](Kisumu/README.md) | 600,000 | 141 | $2.63 B | $440.4 M | $2.19 B |
+| [Eldoret](Eldoret/README.md) | 500,000 | 171 | $842.4 M | $177.7 M | $664.7 M |
+| [Thika](Thika/README.md) | 350,000 | 215 | $1.03 B | $224.2 M | $805.1 M |
+| [Garissa](Garissa/README.md) | 300,000 | 44 | $296.4 M | $56.4 M | $240.0 M |
+| [Kakamega](Kakamega/README.md) | 300,000 | 80 | $558.0 M | $106.2 M | $451.8 M |
+| [Kisii](Kisii/README.md) | 300,000 | 45 | $297.9 M | $56.9 M | $241.0 M |
+| [Kitale](Kitale/README.md) | 300,000 | 75 | $530.2 M | $101.0 M | $429.1 M |
+| [Machakos](Machakos/README.md) | 300,000 | 50 | $354.7 M | $66.5 M | $288.2 M |
+| [Malindi](Malindi/README.md) | 300,000 | 53 | $373.7 M | $70.3 M | $303.4 M |
 | [Meru Ke](Meru-Ke/README.md) | 250,000 | 51 | $407.0 M | $74.1 M | $332.8 M |
-| [Naivasha](Naivasha/README.md) | 250,000 | 74 | $484.7 M | $90.3 M | $394.4 M |
-| [Nyeri](Nyeri/README.md) | 250,000 | 69 | $592.4 M | $107.7 M | $484.7 M |
+| [Naivasha](Naivasha/README.md) | 250,000 | 76 | $531.4 M | $99.4 M | $432.0 M |
+| [Nyeri](Nyeri/README.md) | 250,000 | 67 | $590.8 M | $107.3 M | $483.5 M |
 
 ## Local Basis And Regeneration
 

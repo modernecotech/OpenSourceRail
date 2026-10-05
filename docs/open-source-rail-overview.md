@@ -10,13 +10,13 @@ adopting country.**
 
 The same deterministic workspace connects city design, GIS, CAD/IFC,
 simulation, ERPNext business execution, FUXA supervision, costs and railway assurance. Its 265
-developing-world planning models estimate 79% domestic
+developing-world planning models estimate 82% domestic
 value; all values remain planning sensitivities rather than bids or funding
 commitments.
 
-| about $346B | 265 cities | $900k | 120 rows |
+| about $886B | 265 cities | $900k | 120 rows |
 |---|---|---|---|
-| Roughly 79% modeled domestic value across 43 country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record $885k | Traceable LM3 parts and assemblies with visible supplier and release gaps |
+| Roughly 82% modeled domestic value across 43 country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record $885k | Traceable LM3 parts and assemblies with visible supplier and release gaps |
 
 ## Why local delivery changes finance
 
@@ -33,11 +33,11 @@ capital.
 | Where the money goes | Localisation-first OpenSourceRail | Foreign-vendor turnkey sensitivity |
 |---|---:|---:|
 | Total programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $79.3M | $20.0M |
-| External-capital requirement | **$20.7M** `██░░░░░░░░` | **$180.0M** `█████████░` |
+| Value not requiring external capital | $82.4M | $20.0M |
+| External-capital requirement | **$17.6M** `██░░░░░░░░` | **$180.0M** `█████████░` |
 
-That is **$159.3M less external capital
-(88.5%) before interest**. When debt-financed, the
+That is **$162.4M less external capital
+(90.2%) before interest**. When debt-financed, the
 external requirement becomes loan principal; interest depends on country terms.
 This is a controlled sensitivity—not a vendor quotation or financing offer.
 

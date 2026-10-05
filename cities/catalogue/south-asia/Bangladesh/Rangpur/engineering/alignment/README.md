@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`rangpur-line1.aln.toml`](rangpur-line1.aln.toml) | `line-1` | 11,635.2 m | 5 |
 | [`rangpur-line2.aln.toml`](rangpur-line2.aln.toml) | `line-2` | 15,221.6 m | 6 |
-| [`rangpur-line3.aln.toml`](rangpur-line3.aln.toml) | `line-3` | 10,590.8 m | 5 |
+| [`rangpur-line3.aln.toml`](rangpur-line3.aln.toml) | `line-3` | 10,590.8 m | 4 |
 
 ## Status
 

@@ -38,7 +38,7 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0631-0806-s012541 | station | forward | revenue | 1 |
 | line-2 | line-2-0631-0806-s012541 | station | reverse | revenue | 1 |
 | line-2 | line-2-0859-1060-s022005 | station | reverse | revenue | 2 |
-| line-3 | line-3-0104-0927-s016891 | station | reverse | revenue | 2 |
+| line-3 | line-3-0104-0927-s017441 | station | reverse | revenue | 2 |
 | line-3 | line-3-0270-0813-s012083 | station | forward | revenue | 1 |
 | line-3 | line-3-0270-0813-s012083 | station | reverse | revenue | 1 |
 | line-3 | line-3-0449-0727-s007708 | station | forward | revenue | 1 |
@@ -120,10 +120,10 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **40 posit
 | line-3 | line-3-0449-0727-s007708 | reverse | revenue | 5 | pending |
 | line-3 | line-3-0270-0813-s012083 | forward | revenue | 4 | pending |
 | line-3 | line-3-0270-0813-s012083 | reverse | revenue | 4 | pending |
-| line-3 | line-3-0104-0927-s016891 | reverse | revenue | 4 | pending |
+| line-3 | line-3-0104-0927-s017441 | reverse | revenue | 4 | pending |
 | line-3 | line-3-0270-0813-s012083 | forward | spare | 1 | pending |
 | line-3 | line-3-0270-0813-s012083 | reverse | spare | 1 | pending |
-| line-3 | line-3-0104-0927-s016891 | reverse | spare | 1 | pending |
+| line-3 | line-3-0104-0927-s017441 | reverse | spare | 1 | pending |
 | line-3 | line-3-0764-0574-s000000 | forward | spare | 1 | pending |
 | line-3 | line-3-0641-0634-s003027 | forward | cold_reserve | 1 | pending |
 
@@ -147,7 +147,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **40 posit
 | line-2-0535-0683-s009040 | 12 | 4 | 8 | 476.0 |
 | line-2-0631-0806-s012541 | 10 | 2 | 8 | 476.0 |
 | line-2-0859-1060-s022005 | 5 | 2 | 3 | 178.5 |
-| line-3-0104-0927-s016891 | 5 | 2 | 3 | 178.5 |
+| line-3-0104-0927-s017441 | 5 | 2 | 3 | 178.5 |
 | line-3-0270-0813-s012083 | 10 | 2 | 8 | 476.0 |
 | line-3-0449-0727-s007708 | 10 | 4 | 6 | 357.0 |
 | line-3-0537-0684-s005568 | 10 | 4 | 6 | 357.0 |

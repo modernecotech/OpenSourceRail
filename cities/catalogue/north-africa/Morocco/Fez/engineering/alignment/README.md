@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`fez-line1.aln.toml`](fez-line1.aln.toml) | `line-1` | 18,883.4 m | 9 |
 | [`fez-line2.aln.toml`](fez-line2.aln.toml) | `line-2` | 14,961.2 m | 7 |
-| [`fez-line3.aln.toml`](fez-line3.aln.toml) | `line-3` | 17,336.8 m | 8 |
+| [`fez-line3.aln.toml`](fez-line3.aln.toml) | `line-3` | 17,825.7 m | 8 |
 | [`fez-line4.aln.toml`](fez-line4.aln.toml) | `line-4` | 40,916.5 m | 16 |
 
 ## Status

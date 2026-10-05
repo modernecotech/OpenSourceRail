@@ -25,8 +25,8 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0777-0508-s005124 | station | reverse | revenue | 1 |
 | line-2 | line-2-1096-0417-s012854 | station | reverse | revenue | 2 |
 | line-3 | line-3-0531-0609-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0657-0701-s003505 | station | forward | revenue | 1 |
-| line-3 | line-3-0657-0701-s003505 | station | reverse | revenue | 1 |
+| line-3 | line-3-0661-0704-s003610 | station | forward | revenue | 1 |
+| line-3 | line-3-0661-0704-s003610 | station | reverse | revenue | 1 |
 | line-3 | line-3-1014-1054-s014760 | station | reverse | revenue | 2 |
 | line-1 | line-1-0509-0798-s000000 | depot | — | revenue | 13 |
 | line-1 | line-1-0509-0798-s000000 | depot | — | spare | 1 |
@@ -72,13 +72,13 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **20 posit
 | line-2 | line-2-0777-0508-s005124 | forward | spare | 1 | pending |
 | line-2 | line-2-0777-0508-s005124 | reverse | cold_reserve | 1 | pending |
 | line-3 | line-3-0531-0609-s000000 | forward | revenue | 11 | pending |
-| line-3 | line-3-0657-0701-s003505 | forward | revenue | 11 | pending |
-| line-3 | line-3-0657-0701-s003505 | reverse | revenue | 11 | pending |
+| line-3 | line-3-0661-0704-s003610 | forward | revenue | 11 | pending |
+| line-3 | line-3-0661-0704-s003610 | reverse | revenue | 11 | pending |
 | line-3 | line-3-1014-1054-s014760 | reverse | revenue | 10 | pending |
 | line-3 | line-3-1014-1054-s014760 | reverse | spare | 1 | pending |
 | line-3 | line-3-0531-0609-s000000 | forward | spare | 1 | pending |
-| line-3 | line-3-0657-0701-s003505 | forward | spare | 1 | pending |
-| line-3 | line-3-0657-0701-s003505 | reverse | spare | 1 | pending |
+| line-3 | line-3-0661-0704-s003610 | forward | spare | 1 | pending |
+| line-3 | line-3-0661-0704-s003610 | reverse | spare | 1 | pending |
 | line-3 | line-3-1014-1054-s014760 | reverse | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
@@ -95,7 +95,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **20 posit
 | line-2-0777-0508-s005124 | 14 | 2 | 12 | 714.0 |
 | line-2-1096-0417-s012854 | 6 | 2 | 4 | 238.0 |
 | line-3-0531-0609-s000000 | 12 | 2 | 10 | 595.0 |
-| line-3-0657-0701-s003505 | 24 | 2 | 22 | 1,309.0 |
+| line-3-0661-0704-s003610 | 24 | 2 | 22 | 1,309.0 |
 | line-3-1014-1054-s014760 | 12 | 2 | 10 | 595.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.

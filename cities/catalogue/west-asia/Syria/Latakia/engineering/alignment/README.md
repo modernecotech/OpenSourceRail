@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`latakia-line1.aln.toml`](latakia-line1.aln.toml) | `line-1` | 13,266.5 m | 4 |
 | [`latakia-line2.aln.toml`](latakia-line2.aln.toml) | `line-2` | 6,690.8 m | 4 |
-| [`latakia-line3.aln.toml`](latakia-line3.aln.toml) | `line-3` | 8,659.6 m | 4 |
+| [`latakia-line3.aln.toml`](latakia-line3.aln.toml) | `line-3` | 9,265.2 m | 3 |
 
 ## Status
 

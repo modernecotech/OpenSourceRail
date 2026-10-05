@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`samawah-line1.aln.toml`](samawah-line1.aln.toml) | `line-1` | 22,385.8 m | 7 |
+| [`samawah-line1.aln.toml`](samawah-line1.aln.toml) | `line-1` | 22,737.2 m | 8 |
 | [`samawah-line2.aln.toml`](samawah-line2.aln.toml) | `line-2` | 10,480.9 m | 5 |
 | [`samawah-line3.aln.toml`](samawah-line3.aln.toml) | `line-3` | 8,798.8 m | 5 |
 

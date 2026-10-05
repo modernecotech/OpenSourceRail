@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "bamako"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "bamako",
-      "corridor_sha256": "ac7ca76d5c8ebee0eeb925cd0bbc0e9ea0bd955c6a90e870db4bc8d296269513",
-      "design_sha256": "100d03b9d4e9166d50b4128261f031b0059b2b5d480c4abc515803c040d36402",
-      "failures": [
+      "corridor_sha256": "72da43e5dfdd1ae74edd38a30a31c280994b986f96639befcdc83d35115a3efe",
+      "design_sha256": "c9a98760831e1f969f5c8f43a1d7efe7067fb63426555b8fb44a3ec2f5d75837",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 5,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "3b4d118656d277c03cc73f86f74f361754b44388453e959ad8230fede6fa5ad9",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 7927.4,
+          "physical_release": false,
           "radial": "line-4",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 5,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

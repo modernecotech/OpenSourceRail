@@ -1,6 +1,6 @@
 # Rubavu organisation and design work
 
-370 indicative operating FTE, including management; annual labour allowance $1,502,104. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+380 indicative operating FTE, including management; annual labour allowance $1,533,694. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -27,8 +27,8 @@ GoA 4 control and remote assistance; local station batteries supply train top-up
 | Remote assistance | 31 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
 | Passenger service and fare support | 21 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
 | Station cleaning and waste | 17 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
-| Station team coordination | 23 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
-| Platform and accessibility assistance | 125 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
+| Station team coordination | 24 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
+| Platform and accessibility assistance | 134 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
 
 Recruit and apprentice locally; assess practical task competence, isolate/hold/release authority and refresher needs. Training duration follows the demonstrated skills gap, not a universal weeks-to-qualification claim.
 
@@ -42,7 +42,7 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 502 | 238 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 518 | 236 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 461 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
 | energy crew | unknown | 2 | 553 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
@@ -53,12 +53,12 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | rubavu tram-2car electrical integration | unknown | 20 | 625 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
 | rubavu tram-2car fitout and static test | unknown | 16 | 644 | unknown | HVAC technician; door technician; fit-out lead; quality technician / rs-40-fitout-static-test |
 | rubavu tram-2car structural assembly | unknown | 24 | 580 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
-| station civil crew | unknown | 2 | 548 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
+| station civil crew | unknown | 2 | 539 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
 | station systems crew | unknown | 2 | 576 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 559 | 193 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
-| track/switch crew | unknown | 2 | 579 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
-| wayside bench | unknown | 3 | 574 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
-| wayside systems crew | unknown | 3 | 588 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
+| track crew | 2 | 2 | 545 | 192 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track/switch crew | unknown | 2 | 587 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
+| wayside bench | unknown | 3 | 571 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
+| wayside systems crew | unknown | 3 | 592 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
 
 ## Civil and mechanical refinements
 
@@ -75,13 +75,15 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 797.4–825.7 m | 50.0 | 12 | 1 | 4.0 / 5.0 / 6.0 |
 | line-1 865.7–885.7 m | 25.0 | 8 | 0 | 2.0 / 2.5 / 3.0 |
 | line-1 3969.6–11038.0 m | 100.0 | 1416 | 212 | 8.0 / 10.0 / 12.0 |
-| line-2 2992.2–5125.0 m | 100.0 | 432 | 64 | 8.0 / 10.0 / 12.0 |
+| line-2 2992.2–3656.5 m | 100.0 | 136 | 20 | 8.0 / 10.0 / 12.0 |
+| line-2 3676.5–3744.8 m | 75.0 | 16 | 2 | 6.0 / 7.5 / 9.0 |
+| line-2 3793.0–5125.0 m | 100.0 | 272 | 40 | 8.0 / 10.0 / 12.0 |
 | line-2 5193.3–12440.8 m | 100.0 | 1452 | 217 | 8.0 / 10.0 / 12.0 |
 | line-3 0.0–9650.6 m | 100.0 | 1936 | 290 | 8.0 / 10.0 / 12.0 |
 
-Mapped soil has 2 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 7 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 48, "coverage-gap": 2, "fine-soil-plasticity-and-shrink-swell-tests": 94, "granular-density-and-groundwater-tests": 41, "organic-content-and-compressibility-tests": 4}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 69, "coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 118, "granular-density-and-groundwater-tests": 63, "organic-content-and-compressibility-tests": 15}.
 
 ## Joints, paints, finishes and cleaning
 
@@ -91,8 +93,8 @@ Steel, GFRP body and roof finish zones retain their shared qualified process. Pr
 |---|---:|
 | rs-finish-seal-joint | 76 |
 | rs-controlled-wash | 76 |
-| civil-joint-drain-finish | 27 |
-| energy-soiling-cleaning | 14 |
+| civil-joint-drain-finish | 29 |
+| energy-soiling-cleaning | 15 |
 
 The operations bundle carries these inspection/cleaning triggers, owners and required work-order evidence. Cleaning intervals follow measured condition and access; material compatibility and wash-water handling must be qualified locally.
 

@@ -1,6 +1,6 @@
 # Baghdad controlled six-car planning product
 
-Configuration **M6-A-DRAFT**, family metro-6car, covers **762 consists / 4572 cars** at 111 m, 204 t controlled tare, 720 passengers / 960 crush, 1,350 kWh gross / 1,080 usable battery, 675 V nominal and 50 C HVAC ambient. [Family BOM](six-car-bom.csv) and [interface/qualification register](six-car.json) are separate from LM3's detailed 120-product manufacturing reference. Every quote, supplier part, mass evidence, production BOM and acceptance remains null/unaccepted. Common architectural ideas do not grant six-car applicability.
+Configuration **M6-A-DRAFT**, family metro-6car, covers **772 consists / 4632 cars** at 111 m, 204 t controlled tare, 720 passengers / 960 crush, 1,350 kWh gross / 1,080 usable battery, 675 V nominal and 50 C HVAC ambient. [Family BOM](six-car-bom.csv) and [interface/qualification register](six-car.json) are separate from LM3's detailed 120-product manufacturing reference. Every quote, supplier part, mass evidence, production BOM and acceptance remains null/unaccepted. Common architectural ideas do not grant six-car applicability.
 
 | Six-car cost/mass category | Count / unit | Mass kg/consist | Allocated USD/consist |
 | --- | --- | --- | --- |

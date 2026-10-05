@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`najaf-line1.aln.toml`](najaf-line1.aln.toml) | `line-1` | 18,947.4 m | 6 |
-| [`najaf-line2.aln.toml`](najaf-line2.aln.toml) | `line-2` | 32,209.5 m | 10 |
-| [`najaf-line3.aln.toml`](najaf-line3.aln.toml) | `line-3` | 16,826.0 m | 7 |
-| [`najaf-line4.aln.toml`](najaf-line4.aln.toml) | `line-4` | 22,771.5 m | 7 |
-| [`najaf-line5.aln.toml`](najaf-line5.aln.toml) | `line-5` | 21,448.2 m | 7 |
-| [`najaf-line6.aln.toml`](najaf-line6.aln.toml) | `line-6` | 28,020.5 m | 10 |
+| [`najaf-line1.aln.toml`](najaf-line1.aln.toml) | `line-1` | 19,268.3 m | 9 |
+| [`najaf-line2.aln.toml`](najaf-line2.aln.toml) | `line-2` | 32,421.6 m | 18 |
+| [`najaf-line3.aln.toml`](najaf-line3.aln.toml) | `line-3` | 16,041.7 m | 9 |
+| [`najaf-line4.aln.toml`](najaf-line4.aln.toml) | `line-4` | 23,651.0 m | 10 |
+| [`najaf-line5.aln.toml`](najaf-line5.aln.toml) | `line-5` | 27,384.6 m | 11 |
+| [`najaf-line6.aln.toml`](najaf-line6.aln.toml) | `line-6` | 28,429.2 m | 19 |
 
 ## Status
 

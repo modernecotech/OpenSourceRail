@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kandy-line1.aln.toml`](kandy-line1.aln.toml) | `line-1` | 20,991.9 m | 7 |
-| [`kandy-line2.aln.toml`](kandy-line2.aln.toml) | `line-2` | 20,927.5 m | 7 |
-| [`kandy-line3.aln.toml`](kandy-line3.aln.toml) | `line-3` | 18,594.0 m | 7 |
+| [`kandy-line1.aln.toml`](kandy-line1.aln.toml) | `line-1` | 22,168.3 m | 7 |
+| [`kandy-line2.aln.toml`](kandy-line2.aln.toml) | `line-2` | 21,340.0 m | 7 |
+| [`kandy-line3.aln.toml`](kandy-line3.aln.toml) | `line-3` | 19,373.2 m | 7 |
 
 ## Status
 

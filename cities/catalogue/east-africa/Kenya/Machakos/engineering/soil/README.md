@@ -8,9 +8,9 @@ The [samples](samples.csv), [source receipt](source-receipt.json), [map](sample-
 
 | Investigation trigger | Sample locations |
 |---|---:|
-| acidic-soil-durability-testing | 35 |
+| acidic-soil-durability-testing | 36 |
 | fine-soil-plasticity-and-shrink-swell-tests | 47 |
-| granular-density-and-groundwater-tests | 10 |
+| granular-density-and-groundwater-tests | 9 |
 
 - No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.
 - Desert, water, urban fill and other nodata remain unknown; no nearest-pixel or climate-based substitution.
@@ -38,7 +38,7 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 | 30..60cm | bd.core | kg/m3 | 1280–1350 | 1080–1530 | 47 |
 | 30..60cm | soc | g/kg | 5.6–9.9 | 2.9–18.1 | 47 |
 | 30..60cm | ph.h2o | pH | 5.9–7.4 | 5–8.2 | 47 |
-| 60..100cm | clay | % | 25–36 | 13–46 | 47 |
+| 60..100cm | clay | % | 25–36 | 12–46 | 47 |
 | 60..100cm | sand | % | 27–50 | 8–76 | 47 |
 | 60..100cm | silt | % | 25–37 | 10–49 | 47 |
 | 60..100cm | bd.core | kg/m3 | 1270–1360 | 970–1600 | 47 |

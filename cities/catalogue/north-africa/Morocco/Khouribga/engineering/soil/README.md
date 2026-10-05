@@ -9,7 +9,7 @@ The [samples](samples.csv), [source receipt](source-receipt.json), [map](sample-
 | Investigation trigger | Sample locations |
 |---|---:|
 | fine-soil-plasticity-and-shrink-swell-tests | 32 |
-| granular-density-and-groundwater-tests | 15 |
+| granular-density-and-groundwater-tests | 17 |
 
 - No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.
 - Desert, water, urban fill and other nodata remain unknown; no nearest-pixel or climate-based substitution.
@@ -34,12 +34,12 @@ Ranges below span the sampled locations; they are not a city-wide characteristic
 | 30..60cm | clay | % | 26–31 | 12–45 | 32 |
 | 30..60cm | sand | % | 36–47 | 11–74 | 32 |
 | 30..60cm | silt | % | 27–32 | 11–47 | 32 |
-| 30..60cm | bd.core | kg/m3 | 1470–1570 | 1290–1720 | 32 |
+| 30..60cm | bd.core | kg/m3 | 1490–1570 | 1290–1720 | 32 |
 | 30..60cm | soc | g/kg | 3–5.1 | 1.2–8.3 | 32 |
 | 30..60cm | ph.h2o | pH | 7.7–8.1 | 7–8.6 | 32 |
 | 60..100cm | clay | % | 26–31 | 10–47 | 32 |
 | 60..100cm | sand | % | 37–49 | 13–75 | 32 |
 | 60..100cm | silt | % | 25–31 | 9–48 | 32 |
-| 60..100cm | bd.core | kg/m3 | 1490–1580 | 1290–1750 | 32 |
-| 60..100cm | soc | g/kg | 2.3–3.7 | 0.9–7.1 | 32 |
+| 60..100cm | bd.core | kg/m3 | 1500–1580 | 1330–1750 | 32 |
+| 60..100cm | soc | g/kg | 2.3–3.5 | 0.9–6 | 32 |
 | 60..100cm | ph.h2o | pH | 7.8–8.1 | 6.8–8.8 | 32 |

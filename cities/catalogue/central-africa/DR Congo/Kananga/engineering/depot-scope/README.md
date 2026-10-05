@@ -15,8 +15,8 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 |---|---|---:|---:|---:|---|
 | line-1-1244-1036-s000000 | line-1 | 12 | 900.0 | 1,020.0 | unverified |
 | line-1-0788-0713-s012557 | line-1 | 11 | 825.0 | 935.0 | unverified |
-| line-2-0801-0801-s000000 | line-2 | 5 | 375.0 | 425.0 | unverified |
-| line-2-0788-0713-s019669 | line-2 | 5 | 375.0 | 425.0 | unverified |
+| line-2-0801-0801-s000000 | line-2 | 6 | 450.0 | 510.0 | unverified |
+| line-2-0788-0713-s021930 | line-2 | 5 | 375.0 | 425.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

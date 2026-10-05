@@ -15,12 +15,12 @@ Allocation check: **PASS**. Depot stabling positions are planning requirements, 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0215-0324-s003771 | station | reverse | revenue | 2 |
-| line-1 | line-1-0266-0390-s001900 | station | forward | revenue | 1 |
-| line-1 | line-1-0266-0390-s001900 | station | reverse | revenue | 1 |
+| line-1 | line-1-0292-0424-s000934 | station | forward | revenue | 1 |
+| line-1 | line-1-0292-0424-s000934 | station | reverse | revenue | 1 |
 | line-1 | line-1-0318-0457-s000000 | station | forward | revenue | 2 |
 | line-2 | line-2-0270-0428-s004130 | station | reverse | revenue | 2 |
-| line-2 | line-2-0366-0410-s002061 | station | forward | revenue | 1 |
-| line-2 | line-2-0366-0410-s002061 | station | reverse | revenue | 1 |
+| line-2 | line-2-0292-0424-s003657 | station | forward | revenue | 1 |
+| line-2 | line-2-0292-0424-s003657 | station | reverse | revenue | 1 |
 | line-2 | line-2-0462-0393-s000000 | station | forward | revenue | 2 |
 | line-3 | line-3-0277-0363-s000000 | station | forward | revenue | 2 |
 | line-3 | line-3-0375-0363-s001960 | station | reverse | revenue | 2 |
@@ -52,16 +52,16 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **16 posit
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
 | line-1 | line-1-0318-0457-s000000 | forward | revenue | 3 | pending |
-| line-1 | line-1-0266-0390-s001900 | forward | revenue | 2 | pending |
-| line-1 | line-1-0266-0390-s001900 | reverse | revenue | 2 | pending |
+| line-1 | line-1-0292-0424-s000934 | forward | revenue | 2 | pending |
+| line-1 | line-1-0292-0424-s000934 | reverse | revenue | 2 | pending |
 | line-1 | line-1-0215-0324-s003771 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0266-0390-s001900 | forward | spare | 1 | pending |
-| line-1 | line-1-0266-0390-s001900 | reverse | cold_reserve | 1 | pending |
+| line-1 | line-1-0292-0424-s000934 | forward | spare | 1 | pending |
+| line-1 | line-1-0292-0424-s000934 | reverse | cold_reserve | 1 | pending |
 | line-2 | line-2-0462-0393-s000000 | forward | revenue | 3 | pending |
-| line-2 | line-2-0366-0410-s002061 | forward | revenue | 3 | pending |
-| line-2 | line-2-0366-0410-s002061 | reverse | revenue | 2 | pending |
+| line-2 | line-2-0292-0424-s003657 | forward | revenue | 3 | pending |
+| line-2 | line-2-0292-0424-s003657 | reverse | revenue | 2 | pending |
 | line-2 | line-2-0270-0428-s004130 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0366-0410-s002061 | reverse | spare | 1 | pending |
+| line-2 | line-2-0292-0424-s003657 | reverse | spare | 1 | pending |
 | line-2 | line-2-0270-0428-s004130 | reverse | cold_reserve | 1 | pending |
 | line-3 | line-3-0277-0363-s000000 | forward | revenue | 3 | pending |
 | line-3 | line-3-0375-0363-s001960 | reverse | revenue | 3 | pending |
@@ -70,15 +70,15 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **16 posit
 
 ## Reference platform capacity comparison
 
-**13 trainsets exceed the reference platform envelope**, requiring **637.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**11 trainsets exceed the reference platform envelope**, requiring **539.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0215-0324-s003771 | 2 | 2 | 0 | 0.0 |
-| line-1-0266-0390-s001900 | 6 | 4 | 2 | 98.0 |
+| line-1-0292-0424-s000934 | 6 | 4 | 2 | 98.0 |
 | line-1-0318-0457-s000000 | 3 | 2 | 1 | 49.0 |
 | line-2-0270-0428-s004130 | 3 | 2 | 1 | 49.0 |
-| line-2-0366-0410-s002061 | 6 | 2 | 4 | 196.0 |
+| line-2-0292-0424-s003657 | 6 | 4 | 2 | 98.0 |
 | line-2-0462-0393-s000000 | 3 | 2 | 1 | 49.0 |
 | line-3-0277-0363-s000000 | 4 | 2 | 2 | 98.0 |
 | line-3-0375-0363-s001960 | 4 | 2 | 2 | 98.0 |

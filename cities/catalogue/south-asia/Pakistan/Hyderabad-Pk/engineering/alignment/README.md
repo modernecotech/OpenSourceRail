@@ -7,9 +7,9 @@ Deterministic alignment exports for every line in the current generated network.
 | [`hyderabad-pk-line1.aln.toml`](hyderabad-pk-line1.aln.toml) | `line-1` | 14,532.7 m | 9 |
 | [`hyderabad-pk-line2.aln.toml`](hyderabad-pk-line2.aln.toml) | `line-2` | 16,236.8 m | 8 |
 | [`hyderabad-pk-line3.aln.toml`](hyderabad-pk-line3.aln.toml) | `line-3` | 15,703.8 m | 8 |
-| [`hyderabad-pk-line4.aln.toml`](hyderabad-pk-line4.aln.toml) | `line-4` | 27,801.5 m | 12 |
-| [`hyderabad-pk-line5.aln.toml`](hyderabad-pk-line5.aln.toml) | `line-5` | 27,875.7 m | 10 |
-| [`hyderabad-pk-line6.aln.toml`](hyderabad-pk-line6.aln.toml) | `line-6` | 54,628.4 m | 15 |
+| [`hyderabad-pk-line4.aln.toml`](hyderabad-pk-line4.aln.toml) | `line-4` | 27,859.0 m | 12 |
+| [`hyderabad-pk-line5.aln.toml`](hyderabad-pk-line5.aln.toml) | `line-5` | 28,124.1 m | 10 |
+| [`hyderabad-pk-line6.aln.toml`](hyderabad-pk-line6.aln.toml) | `line-6` | 55,017.5 m | 15 |
 
 ## Status
 

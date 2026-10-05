@@ -42,7 +42,7 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 595 | 49 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 595 | 47 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 602 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
 | edea trainset acceptance bays | unknown | 3 | 655 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
 | edea trainset kitting | unknown | 1 | 390 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
@@ -55,7 +55,7 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
 | station civil crew | unknown | 2 | 609 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
 | station systems crew | unknown | 2 | 627 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 615 | 39 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track crew | 2 | 2 | 616 | 38 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
 | track/switch crew | unknown | 2 | 624 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
 | wayside bench | unknown | 2 | 634 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
 | wayside systems crew | unknown | 3 | 643 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
@@ -70,12 +70,12 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 751.1–3041.1 m | 100.0 | 460 | 69 | 8.0 / 10.0 / 12.0 |
-| line-1 3245.9–7419.6 m | 100.0 | 836 | 125 | 8.0 / 10.0 / 12.0 |
+| line-1 751.1–2904.5 m | 100.0 | 436 | 65 | 8.0 / 10.0 / 12.0 |
+| line-1 3499.1–7419.6 m | 100.0 | 788 | 117 | 8.0 / 10.0 / 12.0 |
 
-Mapped soil has 6 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 4 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 16, "coverage-gap": 6, "fine-soil-plasticity-and-shrink-swell-tests": 16, "silt-moisture-frost-and-erosion-review": 1}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 17, "coverage-gap": 4, "fine-soil-plasticity-and-shrink-swell-tests": 17}.
 
 ## Joints, paints, finishes and cleaning
 

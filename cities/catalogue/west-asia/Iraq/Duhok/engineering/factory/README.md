@@ -1,6 +1,6 @@
 # Duhok city-order factory requirement
 
-**162 light-metro-3car trainsets / 486 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**163 light-metro-3car trainsets / 489 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 465.3 trainsets/year, 5 separate test paths, 1124 direct production FTE. Plant reference envelope: **USD 500.069m**.
 
@@ -8,7 +8,7 @@ This is an independent city-order capacity requirement. Shared factory capital i
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 52 | 598 | 688 | 688 |
+| line-1 | 53 | 599 | 689 | 689 |
 | line-2 | 52 | 628 | 718 | 718 |
 | line-3 | 58 | 660 | 750 | 750 |
 

@@ -5,9 +5,9 @@
 This page contains only Port-Sudan-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$725 M (88.7%) of external capital** and **$936 M of external interest**. Capital plus saved interest totals **$1.66 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$727 M (88.7%) of external capital** and **$939 M of external interest**. Capital plus saved interest totals **$1.67 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **33.307 km to 23.227 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **33.307 km to 24.681 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **82 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **82 light-metro-3car trainsets / 246 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -57,7 +57,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $252 M |
+| Civil works | $254 M |
 | Stations | $42 M |
 | Depots | $47 M |
 | Rolling stock | $74 M |
@@ -65,16 +65,16 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Residual train control | $1.3 M |
 | Charging microgrids | $1.2 M |
 | EPC / project services | $29 M |
-| **Total city programme** | **$454 M** |
+| **Total city programme** | **$456 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
 | Imported / external capital | $93 M (20.4%) |
-| Domestic / local capital | $361 M (79.6%) |
+| Domestic / local capital | $363 M (79.6%) |
 | Annual public construction commitment | $55 M / yr for 10 years |
 | Annual post-grace debt service | $50 M / yr |
-| External capital saved vs default turnkey sensitivity | $725 M |
-| Capital + lifetime external interest saved | $1.66 bn |
+| External capital saved vs default turnkey sensitivity | $727 M |
+| Capital + lifetime external interest saved | $1.67 bn |
 | Annual OPEX | $11 M / yr |
 
 ## Local Evidence

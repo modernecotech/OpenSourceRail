@@ -16,7 +16,7 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 |---|---|---:|---:|---:|---|
 | line-1-0273-0600-s000000 | line-1 | 13 | 507.0 | 637.0 | unverified |
 | line-1-0491-0047-s013053 | line-1 | 13 | 507.0 | 637.0 | unverified |
-| line-2-0465-0310-s000000 | line-2 | 5 | 195.0 | 245.0 | unverified |
+| line-2-0465-0310-s000000 | line-2 | 6 | 234.0 | 294.0 | unverified |
 | line-2-0283-0307-s003677 | line-2 | 5 | 195.0 | 245.0 | unverified |
 | line-3-0454-0403-s000000 | line-3 | 6 | 234.0 | 294.0 | unverified |
 | line-3-0258-0373-s004169 | line-3 | 6 | 234.0 | 294.0 | unverified |

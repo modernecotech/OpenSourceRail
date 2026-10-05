@@ -25,7 +25,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 | Operations | Deterministic Rust simulation and evaluators, OCC applications, observation-only supervision gateway, FUXA views, history/alarms, condition-to-maintenance cases and recovery-tested Workbench integration. |
 | Assurance | A fail-closed G0–G4 passport for every controlled engineering and owner/operator item; a reviewed standards registry; cross-domain control objectives; deterministic evidence hashes and change impact; explicit physical-test, independent-assessment and approval boundaries. |
 
-The city catalogue uses **elevated land sections in its controlled central study areas**, straight radial tangents and curved ring connections where suitable; mapped water crossings remain bridges. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
+The city catalogue uses **elevated land sections in its controlled central study areas**, radial tangents and curved ring connections where terrain and water permit; retained shore detours and priced bridge candidates replace long lake crossings. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Water and interchange checks](engineering/assurance/catalogue-geography/README.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
 
 ## Feature Highlights
 
@@ -156,10 +156,10 @@ For an illustrative **$100M OpenSourceRail scope**, the editable default compari
 | Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
 |---|---:|---:|
 | Programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $79.3M | $20.0M |
-| External-capital requirement | **$20.7M** | **$180.0M** |
+| Value not requiring external capital | $82.4M | $20.0M |
+| External-capital requirement | **$17.6M** | **$180.0M** |
 
-In that scenario, the external-capital requirement is **$159.3M (88.5%)** lower before interest. Across the 265-city model, **about $346B—roughly 79% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+In that scenario, the external-capital requirement is **$162.4M (90.2%)** lower before interest. Across the 265-city model, **about $886B—roughly 82% of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
 <!-- END GENERATED: portfolio economics -->
 
 ## Run it

@@ -5,7 +5,7 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`sylhet-line1.aln.toml`](sylhet-line1.aln.toml) | `line-1` | 10,195.9 m | 4 |
-| [`sylhet-line2.aln.toml`](sylhet-line2.aln.toml) | `line-2` | 20,310.4 m | 7 |
+| [`sylhet-line2.aln.toml`](sylhet-line2.aln.toml) | `line-2` | 21,181.3 m | 8 |
 | [`sylhet-line3.aln.toml`](sylhet-line3.aln.toml) | `line-3` | 9,670.0 m | 5 |
 
 ## Status

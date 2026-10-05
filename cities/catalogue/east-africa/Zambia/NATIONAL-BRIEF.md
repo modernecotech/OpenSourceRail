@@ -3,7 +3,7 @@
 This page contains only Zambia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$7.55 B (87.8%) of external capital** and **$9.46 B of external interest**. Capital plus saved interest totals **$17.01 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$8.18 B (87.8%) of external capital** and **$10.26 B of external interest**. Capital plus saved interest totals **$18.44 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Zambia-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 3,037,000 |
-| Trainsets / vehicle modules | 357 / 2,142 |
-| City infrastructure and fleet CAPEX | $3.92 B |
-| Shared national factory | $802.3 M |
-| Factory sizing basis | 2,142 modules for Lusaka, then reused nationally |
-| **Total national programme** | **$4.78 B** |
+| Trainsets / vehicle modules | 384 / 2,304 |
+| City infrastructure and fleet CAPEX | $4.23 B |
+| Shared national factory | $889.3 M |
+| Factory sizing basis | 2,304 modules for Lusaka, then reused nationally |
+| **Total national programme** | **$5.18 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.05 B (22.0%) |
-| Domestic / local capital | $3.73 B (78.0%) |
-| Annual external capital draw | $150.1 M / yr |
-| Annual local capital draw | $532.5 M / yr |
-| Annual public construction commitment | $645.8 M / yr for 7 years |
-| Annual post-grace debt service | $556.9 M / yr |
-| Default foreign-turnkey external capital | $8.60 B |
-| External capital saved | $7.55 B |
-| Capital + lifetime external interest saved | $17.01 B |
+| Imported / external capital | $1.14 B (21.9%) |
+| Domestic / local capital | $4.04 B (78.1%) |
+| Annual external capital draw | $162.3 M / yr |
+| Annual local capital draw | $577.4 M / yr |
+| Annual public construction commitment | $700.1 M / yr for 7 years |
+| Annual post-grace debt service | $603.7 M / yr |
+| Default foreign-turnkey external capital | $9.32 B |
+| External capital saved | $8.18 B |
+| Capital + lifetime external interest saved | $18.44 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.09 B | $312.8 M | $1.77 B |
-| Stations | $357.7 M | $71.5 M | $286.2 M |
-| Depots | $187.4 M | $46.9 M | $140.6 M |
-| Rolling stock | $599.8 M | $209.9 M | $389.8 M |
-| Dedicated solar plants | $418.3 M | $188.2 M | $230.1 M |
-| Residual train control | $11.9 M | $6.0 M | $6.0 M |
-| Charging microgrids | $30.2 M | $12.1 M | $18.1 M |
-| EPC / project services | $285.2 M | $42.8 M | $242.4 M |
-| Shared national trainset factory | $802.3 M | $160.5 M | $641.8 M |
-| **Total** | **$4.78 B** | **$1.05 B** | **$3.73 B** |
+| Civil works | $2.11 B | $316.1 M | $1.79 B |
+| Stations | $564.3 M | $112.9 M | $451.4 M |
+| Depots | $194.6 M | $48.6 M | $145.9 M |
+| Rolling stock | $645.1 M | $225.8 M | $419.3 M |
+| Dedicated solar plants | $416.3 M | $187.3 M | $229.0 M |
+| Residual train control | $12.0 M | $6.0 M | $6.0 M |
+| Charging microgrids | $37.4 M | $15.0 M | $22.4 M |
+| EPC / project services | $311.5 M | $46.7 M | $264.8 M |
+| Shared national trainset factory | $889.3 M | $177.9 M | $711.4 M |
+| **Total** | **$5.18 B** | **$1.14 B** | **$4.04 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Lusaka](Lusaka/README.md) | 3,037,000 | 357 | $3.92 B | $881.7 M | $3.04 B |
+| [Lusaka](Lusaka/README.md) | 3,037,000 | 384 | $4.23 B | $949.1 M | $3.28 B |
 
 ## Local Basis And Regeneration
 

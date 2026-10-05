@@ -6,7 +6,7 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`mymensingh-line1.aln.toml`](mymensingh-line1.aln.toml) | `line-1` | 9,186.6 m | 5 |
 | [`mymensingh-line2.aln.toml`](mymensingh-line2.aln.toml) | `line-2` | 8,661.0 m | 4 |
-| [`mymensingh-line3.aln.toml`](mymensingh-line3.aln.toml) | `line-3` | 18,505.7 m | 6 |
+| [`mymensingh-line3.aln.toml`](mymensingh-line3.aln.toml) | `line-3` | 19,315.5 m | 7 |
 
 ## Status
 

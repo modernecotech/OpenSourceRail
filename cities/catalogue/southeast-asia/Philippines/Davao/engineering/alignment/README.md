@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`davao-line1.aln.toml`](davao-line1.aln.toml) | `line-1` | 41,092.0 m | 17 |
-| [`davao-line2.aln.toml`](davao-line2.aln.toml) | `line-2` | 35,820.3 m | 18 |
+| [`davao-line1.aln.toml`](davao-line1.aln.toml) | `line-1` | 44,110.5 m | 17 |
+| [`davao-line2.aln.toml`](davao-line2.aln.toml) | `line-2` | 37,737.9 m | 19 |
 | [`davao-line3.aln.toml`](davao-line3.aln.toml) | `line-3` | 39,940.1 m | 15 |
-| [`davao-line4.aln.toml`](davao-line4.aln.toml) | `line-4` | 33,494.9 m | 13 |
-| [`davao-line5.aln.toml`](davao-line5.aln.toml) | `line-5` | 29,051.3 m | 12 |
+| [`davao-line4.aln.toml`](davao-line4.aln.toml) | `line-4` | 33,494.9 m | 14 |
+| [`davao-line5.aln.toml`](davao-line5.aln.toml) | `line-5` | 29,226.8 m | 12 |
 | [`davao-line6.aln.toml`](davao-line6.aln.toml) | `line-6` | 85,732.3 m | 35 |
 
 ## Status

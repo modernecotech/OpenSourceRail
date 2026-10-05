@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tanga-line1.aln.toml`](tanga-line1.aln.toml) | `line-1` | 16,564.6 m | 5 |
-| [`tanga-line2.aln.toml`](tanga-line2.aln.toml) | `line-2` | 12,906.2 m | 5 |
-| [`tanga-line3.aln.toml`](tanga-line3.aln.toml) | `line-3` | 9,547.6 m | 5 |
+| [`tanga-line1.aln.toml`](tanga-line1.aln.toml) | `line-1` | 17,697.2 m | 6 |
+| [`tanga-line2.aln.toml`](tanga-line2.aln.toml) | `line-2` | 13,143.4 m | 8 |
+| [`tanga-line3.aln.toml`](tanga-line3.aln.toml) | `line-3` | 10,010.7 m | 8 |
 
 ## Status
 

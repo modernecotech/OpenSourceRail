@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "dar-es-salaam"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "dar-es-salaam",
-      "corridor_sha256": "ac8d3a24955fab6e518ea852881b82e916202795e3b5b4b4570da16e0366f7f8",
-      "design_sha256": "a25497bb692dcc4d47cf16e0af5e65f185bb2c67f9d6a7db9e762b710ce485e7",
-      "failures": [
+      "corridor_sha256": "fd14cd28b1887e18273cd1b927dacc48777f48a4cfe95471098e171b24d6c8c7",
+      "design_sha256": "9cef604e06ae1fd9e762dd500c0d2b72d50f1482772a575853e5edb441057b6f",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 8,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "c16827c0f0d90f00b37ea5f7660f5b55e4c659592d54821bfd2fbbd082a7bb15",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 7910.7,
+          "physical_release": false,
           "radial": "line-2",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
-      "passed": false,
-      "radial_count": 8,
-      "review_findings": [],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

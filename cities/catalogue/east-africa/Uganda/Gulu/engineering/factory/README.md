@@ -1,6 +1,6 @@
 # Gulu city-order factory requirement
 
-**173 light-metro-3car trainsets / 519 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**172 light-metro-3car trainsets / 516 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
 Planning output: 492.6 trainsets/year, 5 separate test paths, 1189 direct production FTE. Plant reference envelope: **USD 522.454m**.
 
@@ -9,7 +9,7 @@ This is an independent city-order capacity requirement. Shared factory capital i
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
 | line-1 | 38 | 590 | 680 | 680 |
-| line-2 | 83 | 633 | 723 | 723 |
-| line-3 | 52 | 661 | 751 | 751 |
+| line-2 | 82 | 633 | 723 | 723 |
+| line-3 | 52 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

@@ -5,9 +5,9 @@
 This page contains only Mahalla-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$843 M (88.3%) of external capital** and **$1.04 bn of external interest**. Capital plus saved interest totals **$1.88 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$864 M (88.3%) of external capital** and **$1.06 bn of external interest**. Capital plus saved interest totals **$1.93 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **32.101 km to 24.918 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **13 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **32.101 km to 27.445 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **13 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **3 line-local depots** provide **107 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **107 light-metro-3car trainsets / 321 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,9 +21,9 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 13 / 0 |
+| Lines / unique stations / interchanges | 3 / 13 / 1 |
 | Route length | 33.6 km double track |
-| Coverage / transfer reachability | 42.5% / 0% |
+| Coverage / transfer reachability | 42.5% / 33% |
 | Estimated station catchment | 255,000 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 107 × 3-car `light-metro-3car` trainsets (96 peak revenue) |
@@ -57,24 +57,24 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $288 M |
-| Stations | $43 M |
+| Civil works | $289 M |
+| Stations | $54 M |
 | Depots | $50 M |
 | Rolling stock | $96 M |
 | Dedicated solar plant | $15 M |
 | Residual train control | $1.7 M |
 | Charging microgrids | $2.5 M |
-| EPC / project services | $34 M |
-| **Total city programme** | **$530 M** |
+| EPC / project services | $35 M |
+| **Total city programme** | **$544 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $112 M (21.1%) |
-| Domestic / local capital | $419 M (78.9%) |
-| Annual public construction commitment | $57 M / yr for 5 years |
-| Annual post-grace debt service | $43 M / yr |
-| External capital saved vs default turnkey sensitivity | $843 M |
-| Capital + lifetime external interest saved | $1.88 bn |
+| Imported / external capital | $114 M (21.0%) |
+| Domestic / local capital | $429 M (79.0%) |
+| Annual public construction commitment | $58 M / yr for 5 years |
+| Annual post-grace debt service | $44 M / yr |
+| External capital saved vs default turnkey sensitivity | $864 M |
+| Capital + lifetime external interest saved | $1.93 bn |
 | Annual OPEX | $15 M / yr |
 
 ## Local Evidence
@@ -86,7 +86,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 4 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 2 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
 | Operations, QA and maintenance | 194 assets / 1,197 tasks | [`mahalla-operations-manifest.json`](operations/mahalla-operations-manifest.json) |
 
 ## Local Files And Regeneration

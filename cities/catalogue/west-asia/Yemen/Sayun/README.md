@@ -5,11 +5,11 @@
 This page contains only Sayun-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$527 M (89.5%) of external capital** and **$681 M of external interest**. Capital plus saved interest totals **$1.21 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$547 M (89.5%) of external capital** and **$706 M of external interest**. Capital plus saved interest totals **$1.25 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **21.788 km to 17.172 km**, with elevated land sections, straight radial tangents and bridges at water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **21.788 km to 18.301 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **11 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**3 line-local depots** provide **48 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **48 tram-2car trainsets / 96 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**3 line-local depots** provide **49 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **49 tram-2car trainsets / 98 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -21,12 +21,12 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 11 / 1 |
+| Lines / unique stations / interchanges | 3 / 11 / 2 |
 | Route length | 20.9 km double track |
-| Coverage / transfer reachability | 59.3% / 33% |
+| Coverage / transfer reachability | 59.3% / 67% |
 | Estimated station catchment | 118,600 residents |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 48 × 2-car `tram-2car` trainsets (41 peak revenue) |
+| Fleet | 49 × 2-car `tram-2car` trainsets (42 peak revenue) |
 | Peak network throughput | 28,800 passengers/hour |
 | Practical service capacity | 267,840 passenger-trips/day |
 | Annual paid-trip planning range | 48.9–78.2 M |
@@ -35,10 +35,10 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 13.1 km | 6 | 26 | E Outer ↔ W Outer |
-| line-2 |  3.7 km | 2 | 10 | S Inner ↔ N Inner |
-| line-3 |  4.2 km | 3 | 12 | SE Inner ↔ N Mid |
-| **Total** | **20.9 km** | **11 unique** | **48** | |
+| line-1 | 13.1 km | 5 | 26 | E Outer ↔ SW Outer |
+| line-2 |  3.7 km | 3 | 11 | SW Mid ↔ NW Inner |
+| line-3 |  4.2 km | 3 | 12 | SE Inner ↔ N Inner |
+| **Total** | **20.9 km** | **11 unique** | **49** | |
 
 ## Energy
 
@@ -50,31 +50,31 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Aggregate charging power | 5.5 MW |
 | Dedicated solar plant | 0.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 3.8 km / 21 kWh |
-| Lowest traversal charging margin | line-2: 27 kWh |
+| Worst powered-stop gap | line-1: 6.3 km / 34 kWh |
+| Lowest traversal charging margin | line-3: 41 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
 | Civil works | $185 M |
-| Stations | $51 M |
+| Stations | $62 M |
 | Depots | $40 M |
 | Rolling stock | $27 M |
 | Residual train control | $1.0 M |
 | Charging microgrids | $1.2 M |
-| EPC / project services | $21 M |
-| **Total city programme** | **$327 M** |
+| EPC / project services | $22 M |
+| **Total city programme** | **$340 M** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $62 M (18.9%) |
-| Domestic / local capital | $265 M (81.1%) |
-| Annual public construction commitment | $46 M / yr for 10 years |
-| Annual post-grace debt service | $42 M / yr |
-| External capital saved vs default turnkey sensitivity | $527 M |
-| Capital + lifetime external interest saved | $1.21 bn |
-| Annual OPEX | $7.4 M / yr |
+| Imported / external capital | $64 M (18.9%) |
+| Domestic / local capital | $275 M (81.1%) |
+| Annual public construction commitment | $48 M / yr for 10 years |
+| Annual post-grace debt service | $44 M / yr |
+| External capital saved vs default turnkey sensitivity | $547 M |
+| Capital + lifetime external interest saved | $1.25 bn |
+| Annual OPEX | $7.6 M / yr |
 
 ## Local Evidence
 
@@ -85,8 +85,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 3 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 118 assets / 629 tasks | [`sayun-operations-manifest.json`](operations/sayun-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 1 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 119 assets / 638 tasks | [`sayun-operations-manifest.json`](operations/sayun-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

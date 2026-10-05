@@ -392,7 +392,7 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
         commands[position:position]=[
             [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py')],
-            [sys.executable,str(REPO_ROOT/'tools/automation/regenerate-baghdad-studies.py')]]
+            [sys.executable,str(REPO_ROOT/'tools/automation/regenerate-baghdad-studies.py'),'--skip-portfolio']]
     elif (city_dir/'alignment-policy.toml').is_file():
         position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
         commands[position:position]=[
@@ -611,6 +611,15 @@ def main() -> int:
         {slug: selected[slug] for slug in sorted(complete)}
     )
     failures = sorted((set(selected) - complete) | set(ignored_artifacts))
+    portfolio_return_codes = {}
+    if not failures:
+        for name in ('generate-national-briefs.py', 'generate-portfolio-summary.py'):
+            portfolio_return_codes[name] = run_logged(
+                [sys.executable, str(REPO_ROOT / 'tools/automation' / name)],
+                LOG_ROOT / ('package-' + name.removesuffix('.py') + '.log'),
+            )
+            if portfolio_return_codes[name]:
+                break
     index_return_code = 0
     if ready:
         index_return_code = run_logged(
@@ -626,6 +635,7 @@ def main() -> int:
         "design_index_passed": index_return_code == 0,
         "duration_seconds": round(time.monotonic() - started, 3),
         "engineering_return_code": engineering_return_code,
+        "portfolio_return_codes": portfolio_return_codes,
         "failed_cities": failures,
         "ignored_repository_artifacts": ignored_artifacts,
         "passed": (
@@ -633,6 +643,7 @@ def main() -> int:
             and drift_return_code == 0
             and not any(catalog_validation_return_codes.values())
             and index_return_code == 0
+            and not any(portfolio_return_codes.values())
         ),
         "prepare_results": prepared,
         "package_results": finished,

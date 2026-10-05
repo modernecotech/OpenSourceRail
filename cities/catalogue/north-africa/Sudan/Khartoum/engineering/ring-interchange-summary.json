@@ -6,13 +6,31 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "khartoum",
-      "corridor_sha256": "2c5b86b11c2146f867af78f1fe3fa3050077a3c2b1288292061b64d4d67335ac",
-      "design_sha256": "1422854aa25d705f49e879a4ae3e9055485b058faa2a863f79c697cfd2d25dd6",
+      "corridor_sha256": "b6ef76e99e8fe1a6085c48977106c4c28025156cf160d4fe0fcce8440c496088",
+      "design_sha256": "671437bb54f3272ef86ce45aaff1bbb4098d44e6dba62bb24b2b695a6721153b",
       "failures": [],
-      "generator_sha256": "31ed2648ee826826b54b223df6cd7f9d7a77b920a416493811e4263feef101dc",
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
       "radial_count": 8,
       "review_findings": [
+        {
+          "alignment_report_sha256": "6f788ba1d19da7297423ec9315decb601ea9efb31bfe14c0cfd9f2c308c79810",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
+          "maximum_reverse_excursion_m": 1485.5,
+          "physical_release": false,
+          "radial": "line-1",
+          "severity": "review"
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-2",
+          "ring": "line-9",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 919.9
+        },
         {
           "code": "terminus-extension-omitted-to-avoid-poor-alignment",
           "endpoint": "start",
@@ -20,11 +38,11 @@
           "ring": "line-9",
           "severity": "review",
           "terminal_station_present": true,
-          "terminus_distance_m": 1075.7
+          "terminus_distance_m": 1074.3
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 3
 }

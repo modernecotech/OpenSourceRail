@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`luxor-line1.aln.toml`](luxor-line1.aln.toml) | `line-1` | 10,123.2 m | 4 |
-| [`luxor-line2.aln.toml`](luxor-line2.aln.toml) | `line-2` | 18,995.8 m | 7 |
+| [`luxor-line1.aln.toml`](luxor-line1.aln.toml) | `line-1` | 10,123.2 m | 3 |
+| [`luxor-line2.aln.toml`](luxor-line2.aln.toml) | `line-2` | 21,836.8 m | 8 |
 | [`luxor-line3.aln.toml`](luxor-line3.aln.toml) | `line-3` | 12,607.0 m | 4 |
 
 ## Status

@@ -76,7 +76,7 @@
           "grid_import_limit_kw": 1600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-1-0160-0039-s020074"
+          "station": "line-1-0160-0039-s020318"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -146,7 +146,27 @@
           "grid_import_limit_kw": 1000.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0414-0520-s013803"
+          "station": "line-3-0302-0385-s010516"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 1000.0,
+          "grid_import_kw": 352.518244,
+          "grid_import_limit_kw": 1000.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0402-0505-s014026"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 1000.0,
+          "grid_import_kw": 352.518244,
+          "grid_import_limit_kw": 1000.0,
+          "import_exceedance_kw": 0.0,
+          "passed": true,
+          "station": "line-3-0460-0576-s016102"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -156,7 +176,7 @@
           "grid_import_limit_kw": 1200.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0518-0647-s017498"
+          "station": "line-3-0518-0647-s018155"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -166,13 +186,13 @@
           "grid_import_limit_kw": 6000.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0601-0747-s020373"
+          "station": "line-3-0601-0747-s021030"
         }
       ],
       "undervoltage_bus_count": 0
     },
     "peak_charge_grid_only": {
-      "connection_limit_exceedance_count": 4,
+      "connection_limit_exceedance_count": 6,
       "converged": true,
       "maximum_bus_voltage_pu": 1.0,
       "maximum_transformer_loading_percent": 82.822,
@@ -229,7 +249,7 @@
           "grid_import_limit_kw": 1600.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-1-0160-0039-s020074"
+          "station": "line-1-0160-0039-s020318"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -299,7 +319,27 @@
           "grid_import_limit_kw": 1000.0,
           "import_exceedance_kw": 58.303932,
           "passed": false,
-          "station": "line-3-0414-0520-s013803"
+          "station": "line-3-0302-0385-s010516"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 1000.0,
+          "grid_import_kw": 1058.303932,
+          "grid_import_limit_kw": 1000.0,
+          "import_exceedance_kw": 58.303932,
+          "passed": false,
+          "station": "line-3-0402-0505-s014026"
+        },
+        {
+          "export_exceedance_kw": 0.0,
+          "grid_export_kw": 0.0,
+          "grid_export_limit_kw": 1000.0,
+          "grid_import_kw": 1058.303932,
+          "grid_import_limit_kw": 1000.0,
+          "import_exceedance_kw": 58.303932,
+          "passed": false,
+          "station": "line-3-0460-0576-s016102"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -309,7 +349,7 @@
           "grid_import_limit_kw": 1200.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0518-0647-s017498"
+          "station": "line-3-0518-0647-s018155"
         },
         {
           "export_exceedance_kw": 0.0,
@@ -319,7 +359,7 @@
           "grid_import_limit_kw": 6000.0,
           "import_exceedance_kw": 0.0,
           "passed": true,
-          "station": "line-3-0601-0747-s020373"
+          "station": "line-3-0601-0747-s021030"
         }
       ],
       "undervoltage_bus_count": 0
@@ -330,7 +370,7 @@
   "climate_input": "lib/templates/climate.toml",
   "climate_preset": "tropical-arid",
   "climate_sha256": "0fa8b164e18b23829baeb87307921e71768849fa136493195a77eecd9beac61d",
-  "connected_charging_power_kw": 14000.0,
+  "connected_charging_power_kw": 16000.0,
   "contingency_findings": [
     {
       "case": "peak_charge_grid_only",
@@ -378,17 +418,41 @@
       "grid_import_limit_kw": 1000.0,
       "import_exceedance_kw": 58.303932,
       "passed": false,
-      "station": "line-3-0414-0520-s013803"
+      "station": "line-3-0302-0385-s010516"
+    },
+    {
+      "case": "peak_charge_grid_only",
+      "code": "site-grid-connection-limit-exceeded",
+      "export_exceedance_kw": 0.0,
+      "grid_export_kw": 0.0,
+      "grid_export_limit_kw": 1000.0,
+      "grid_import_kw": 1058.303932,
+      "grid_import_limit_kw": 1000.0,
+      "import_exceedance_kw": 58.303932,
+      "passed": false,
+      "station": "line-3-0402-0505-s014026"
+    },
+    {
+      "case": "peak_charge_grid_only",
+      "code": "site-grid-connection-limit-exceeded",
+      "export_exceedance_kw": 0.0,
+      "grid_export_kw": 0.0,
+      "grid_export_limit_kw": 1000.0,
+      "grid_import_kw": 1058.303932,
+      "grid_import_limit_kw": 1000.0,
+      "import_exceedance_kw": 58.303932,
+      "passed": false,
+      "station": "line-3-0460-0576-s016102"
     }
   ],
   "deployment_release_ready": false,
-  "derated_planning_pv_energy_mwh_per_year": 13546.0,
+  "derated_planning_pv_energy_mwh_per_year": 13990.2,
   "derated_planning_specific_yield_kwh_per_kwp": 740.2,
   "design_findings": [],
   "design_input": "cities/catalogue/east-africa/Kenya/Eldoret/design.toml",
-  "design_sha256": "a39ddc5610770b8233fd1fd962febb4468084912cb9aedabace0f5b368f96074",
+  "design_sha256": "9749e9180433195f70781f5c11b6a2ea9bd287e418ed1f5c22cd15abff73f4aa",
   "generator_sha256": "c4c8bc6912aab0790c5d682b275afa27369166fd0a5093f55fe61c55adcf50ac",
-  "grid_import_capacity_kw": 31600.0,
+  "grid_import_capacity_kw": 33600.0,
   "limitations": [
     "Two steady-state cases on an ideal common 33 kV bus; feeder routes, upstream capacity, protection and utility approval are not represented.",
     "Storage discharge is a stipulated snapshot, not a proof of available state of charge or endurance.",
@@ -397,15 +461,15 @@
   ],
   "operating_energy_validated": false,
   "passed": true,
-  "pv_nameplate_kw": 18300.0,
+  "pv_nameplate_kw": 18900.0,
   "scenario_ambient_c": 29.0,
   "scenario_input": "cities/catalogue/east-africa/Kenya/Eldoret/eldoret.toml",
   "scenario_peak_sun_hours": 6.5,
-  "scenario_sha256": "01b8ab89d40230c806a70813c362cf269fb5f131840501f47a636c2ce7bea6a9",
+  "scenario_sha256": "f537164b0eb3964f74852d72ca757a8f28e6240f6c5cc3721d8a741c8f91a76d",
   "screen_scope": "coordinated solar/storage steady-state snapshot; not full operating energy acceptance",
-  "site_count": 14,
+  "site_count": 16,
   "solver_passed": true,
-  "storage_capacity_kwh": 131000.0,
+  "storage_capacity_kwh": 133000.0,
   "tools": {
     "pandapower": "3.5.3",
     "pvlib": "0.15.2"

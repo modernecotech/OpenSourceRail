@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lubumbashi-line1.aln.toml`](lubumbashi-line1.aln.toml) | `line-1` | 19,755.5 m | 8 |
-| [`lubumbashi-line2.aln.toml`](lubumbashi-line2.aln.toml) | `line-2` | 16,941.0 m | 7 |
-| [`lubumbashi-line3.aln.toml`](lubumbashi-line3.aln.toml) | `line-3` | 12,571.3 m | 4 |
-| [`lubumbashi-line4.aln.toml`](lubumbashi-line4.aln.toml) | `line-4` | 23,772.2 m | 8 |
-| [`lubumbashi-line5.aln.toml`](lubumbashi-line5.aln.toml) | `line-5` | 42,448.0 m | 11 |
+| [`lubumbashi-line1.aln.toml`](lubumbashi-line1.aln.toml) | `line-1` | 19,543.8 m | 10 |
+| [`lubumbashi-line2.aln.toml`](lubumbashi-line2.aln.toml) | `line-2` | 16,441.0 m | 8 |
+| [`lubumbashi-line3.aln.toml`](lubumbashi-line3.aln.toml) | `line-3` | 12,301.6 m | 5 |
+| [`lubumbashi-line4.aln.toml`](lubumbashi-line4.aln.toml) | `line-4` | 24,459.7 m | 9 |
+| [`lubumbashi-line5.aln.toml`](lubumbashi-line5.aln.toml) | `line-5` | 43,769.4 m | 13 |
 
 ## Status
 

@@ -40,9 +40,19 @@ def audit(city_slugs=None):
     catalogue=ROOT/'lib/city-batches/world-sample.toml'
     sources[catalogue.relative_to(ROOT).as_posix()]=sha(catalogue)
     entries={c['slug']:c for c in tomllib.loads(catalogue.read_text())['cities']}
+    geography_path=ROOT/'engineering/assurance/catalogue-geography/summary.json'
+    geography=read(geography_path)
+    if not geography['passed'] or geography['cities_checked']!=len(entries):raise ValueError('Incomplete catalogue geography audit')
+    if geography['generator_sha256']!=sha(ROOT/'tools/automation/audit-city-geography.py') or geography['water_constraint_generator_sha256']!=sha(ROOT/'tools/automation/water-route-constraints.py'):
+        raise ValueError('Stale catalogue geography generator')
+    sources[geography_path.relative_to(ROOT).as_posix()]=sha(geography_path)
+    geography_cities={row['city']:row for row in geography['cities']}
     for design in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml')):
         d=tomllib.loads(design.read_text());slug=d['city']['slug'];city=design.parent
         if slug=='baghdad' or (city_slugs is not None and slug not in city_slugs):continue
+        geographic=geography_cities[slug]
+        if not geographic['passed'] or geographic['design_sha256']!=sha(design) or geographic['corridor_sha256']!=sha(city/(slug+'.corridor.geojson')):
+            raise ValueError('Stale or failed city geography: '+slug)
         overrides=city/'design-overrides.toml'
         if overrides.exists():
             check_charging_requirement(d,tomllib.loads(overrides.read_text()),slug)
@@ -147,7 +157,8 @@ def outputs(report):
     rows=report['cities'];csv_io=io.StringIO();w=csv.DictWriter(csv_io,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
     doc=['# Current design across the city catalogue','',
         f"**{report['regenerated_other_city_count']} other city examples regenerated**, including Lyon as a technical comparison; {report['developing_world_other_city_count']} are developing-world examples. Baghdad retains its dedicated funding and scope publication. All regenerated examples have complete source-bound planning packages. Construction and operational releases remain open.",'',
-        'The adopted core concepts straighten radial routes and use elevated land sections; crossings remain bridges. Rings remain in the controlled inventory and use analytical fillets where suitable. Retained unsuitable fragments keep their geometry and special-product review gates. Cell-centre conversion is inverted explicitly, including the last raster row and column. Immutable seeds retain the original controlled geometry and capture revision.', '',
+        'The adopted core concepts straighten radial routes where retained water evidence permits and use elevated land sections; short water crossings remain bridge candidates. Shoreline detours keep their actual lengths and geometry review gates. Rings remain in the controlled inventory and use analytical fillets where suitable. Retained unsuitable fragments keep their geometry and special-product review gates. Cell-centre conversion is inverted explicitly, including the last raster row and column. Immutable seeds retain the original controlled geometry and capture revision.', '',
+        'The independent catalogue geography audit covers all 266 cities, including Baghdad: zero wet platforms, zero missed checked dry line junctions and zero unapproved water runs above the 1 km planning limit. Full-resolution centreline exports preserve shoreline detours, and map markers use actual platform coordinates. Historical WorldCover samples and retained OSM geometry remain planning evidence; footprints, bank access, transfer levels and crossing structures require separate releases. [Geography audit](../engineering/assurance/catalogue-geography/README.md).', '',
         'Each line has one full-fleet planning depot sized to its train count and consist length. Storage slots and maintenance bays are separate. Storage roads hold up to three sets; the last road can be shorter, while the land screen retains a rectangular envelope. Depot PV/storage equipment is included once in depot capital; land, utility and installation quotations remain open. Native station dispatch does not validate a full-depot launch.', '',
         'Every listed station/platform record has two posts and two normal eight-hour shifts, with additional cover for the actual service window. Interchange platform nodes are counted separately. FTE cover deducts leave, training, sickness and handover from paid hours. Wages start at 150% of the retained country income proxy; technical and management roles have higher premiums, plus employer/overtime allowances. Finance and role totals reconcile.', '',
         'Factories are sized to each city order and family. Facility readiness is 18 months; qualification and serial manufacture follow it. Integrated openings wait when an 18-month facility, qualification, production or the physical test-path limit is the critical path. Infrastructure deadlines remain distinct from integrated targets. The national brief counts shared factory capital once, using its module allowance or the larger physical city-order envelope. National sequencing and concurrent capacity remain uncommitted.', '',

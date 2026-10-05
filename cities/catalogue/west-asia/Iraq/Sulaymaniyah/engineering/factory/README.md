@@ -8,8 +8,8 @@ This is an independent city-order capacity requirement. Shared factory capital i
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 28 | 590 | 680 | 680 |
-| line-2 | 25 | 609 | 699 | 699 |
+| line-1 | 30 | 592 | 682 | 682 |
+| line-2 | 23 | 609 | 699 | 699 |
 | line-3 | 47 | 644 | 734 | 734 |
 | line-4 | 21 | 660 | 750 | 750 |
 

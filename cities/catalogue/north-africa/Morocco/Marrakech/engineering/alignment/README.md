@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`marrakech-line1.aln.toml`](marrakech-line1.aln.toml) | `line-1` | 27,078.6 m | 9 |
-| [`marrakech-line2.aln.toml`](marrakech-line2.aln.toml) | `line-2` | 24,292.5 m | 6 |
-| [`marrakech-line3.aln.toml`](marrakech-line3.aln.toml) | `line-3` | 21,681.4 m | 7 |
-| [`marrakech-line4.aln.toml`](marrakech-line4.aln.toml) | `line-4` | 25,744.8 m | 7 |
-| [`marrakech-line5.aln.toml`](marrakech-line5.aln.toml) | `line-5` | 29,512.1 m | 9 |
-| [`marrakech-line6.aln.toml`](marrakech-line6.aln.toml) | `line-6` | 46,901.0 m | 14 |
+| [`marrakech-line1.aln.toml`](marrakech-line1.aln.toml) | `line-1` | 27,750.9 m | 12 |
+| [`marrakech-line2.aln.toml`](marrakech-line2.aln.toml) | `line-2` | 25,056.5 m | 11 |
+| [`marrakech-line3.aln.toml`](marrakech-line3.aln.toml) | `line-3` | 21,134.7 m | 10 |
+| [`marrakech-line4.aln.toml`](marrakech-line4.aln.toml) | `line-4` | 25,369.2 m | 14 |
+| [`marrakech-line5.aln.toml`](marrakech-line5.aln.toml) | `line-5` | 30,577.6 m | 12 |
+| [`marrakech-line6.aln.toml`](marrakech-line6.aln.toml) | `line-6` | 52,965.6 m | 20 |
 
 ## Status
 

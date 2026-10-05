@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`peshawar-line1.aln.toml`](peshawar-line1.aln.toml) | `line-1` | 28,748.9 m | 10 |
-| [`peshawar-line2.aln.toml`](peshawar-line2.aln.toml) | `line-2` | 27,891.2 m | 9 |
-| [`peshawar-line3.aln.toml`](peshawar-line3.aln.toml) | `line-3` | 30,775.0 m | 10 |
-| [`peshawar-line4.aln.toml`](peshawar-line4.aln.toml) | `line-4` | 22,218.9 m | 8 |
-| [`peshawar-line5.aln.toml`](peshawar-line5.aln.toml) | `line-5` | 61,679.6 m | 18 |
+| [`peshawar-line1.aln.toml`](peshawar-line1.aln.toml) | `line-1` | 28,987.7 m | 12 |
+| [`peshawar-line2.aln.toml`](peshawar-line2.aln.toml) | `line-2` | 28,971.3 m | 11 |
+| [`peshawar-line3.aln.toml`](peshawar-line3.aln.toml) | `line-3` | 30,743.7 m | 11 |
+| [`peshawar-line4.aln.toml`](peshawar-line4.aln.toml) | `line-4` | 22,198.5 m | 10 |
+| [`peshawar-line5.aln.toml`](peshawar-line5.aln.toml) | `line-5` | 61,824.6 m | 19 |
 
 ## Status
 

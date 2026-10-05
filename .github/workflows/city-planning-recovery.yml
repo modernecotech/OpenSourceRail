@@ -13,7 +13,7 @@ permissions:
 jobs:
   cities:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
     env:
       OSR_RESILIENCE_JOBS: '1'
     steps:
@@ -32,7 +32,9 @@ jobs:
             CITIES=$(cat engineering/assurance/catalogue-geography/recovery-cities.txt)
           fi
           test -n "$CITIES"
-          python3 tools/automation/city-planning-ci.py run --partition 0/1 --cities "$CITIES" --jobs 2
+          # Large regenerated networks need more wall time; simulated service
+          # durations, degraded cases and completion thresholds stay unchanged.
+          python3 tools/automation/city-planning-ci.py run --partition 0/1 --cities "$CITIES" --jobs 2 --timeout 12600
       - uses: actions/upload-artifact@v4
         if: always()
         with:

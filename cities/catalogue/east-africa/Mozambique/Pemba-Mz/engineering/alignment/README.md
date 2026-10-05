@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`pemba-mz-line1.aln.toml`](pemba-mz-line1.aln.toml) | `line-1` | 10,601.1 m | 4 |
+| [`pemba-mz-line1.aln.toml`](pemba-mz-line1.aln.toml) | `line-1` | 11,145.0 m | 4 |
 | [`pemba-mz-line2.aln.toml`](pemba-mz-line2.aln.toml) | `line-2` | 6,927.2 m | 3 |
-| [`pemba-mz-line3.aln.toml`](pemba-mz-line3.aln.toml) | `line-3` | 7,644.1 m | 4 |
+| [`pemba-mz-line3.aln.toml`](pemba-mz-line3.aln.toml) | `line-3` | 7,644.1 m | 3 |
 
 ## Status
 

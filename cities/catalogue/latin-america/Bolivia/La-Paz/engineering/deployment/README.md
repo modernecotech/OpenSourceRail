@@ -1,13 +1,13 @@
 # La-Paz deployment gaps
 
-4 closed checks; 13 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
+3 closed checks; 14 open gates. Status follows the linked evidence; generating a receipt template does not count as receiving field data.
 
 [Soil inputs](../soil/README.md) include a route/station investigation plan.
 
 | Gate | Status | Responsible function | Closure work |
 |---|---|---|---|
 | [soil-desktop-inputs](../soil/summary.json) | closed | civil/geotechnical designer | Sample current station and civil geometry from the pinned soilDB source and retain means, uncertainty and nodata. |
-| [soil-coverage](../soil/civil-investigation-plan.json) | closed | geotechnical investigator | Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct. |
+| [soil-coverage](../soil/civil-investigation-plan.json) | open | geotechnical investigator | Fill mapped coverage gaps through local records and targeted sampling; keep estimated and measured records distinct. |
 | [control-processing](../survey/control-processing-readiness.json) | open | survey team | Receive survey control observations; process and check the project CRS, datum and residuals. |
 | [ground-model](../survey/ground-model-readiness.json) | open | survey team | Receive and inspect the terrain, point cloud and ground-model deliveries against independent control. |
 | [surveyed-alignment](../survey/surveyed-alignment-readiness.json) | open | alignment designer | Replace or confirm generated geometry with checked survey alignment and platform reconciliation. |

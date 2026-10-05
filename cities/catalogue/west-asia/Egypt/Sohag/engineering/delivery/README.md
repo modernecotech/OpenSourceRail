@@ -42,7 +42,7 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 489 | 216 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 495 | 217 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 452 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
 | energy crew | unknown | 2 | 572 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
@@ -55,7 +55,7 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | sohag trainset kitting | unknown | 5 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
 | station civil crew | unknown | 2 | 555 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
 | station systems crew | unknown | 2 | 577 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 565 | 177 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track crew | 2 | 2 | 565 | 178 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
 | track/switch crew | unknown | 2 | 543 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
 | wayside bench | unknown | 3 | 576 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
 | wayside systems crew | unknown | 3 | 583 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
@@ -71,13 +71,17 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
 | line-1 0.0–2429.7 m | 100.0 | 492 | 73 | 17.6 / 22.0 / 26.4 |
-| line-1 4202.8–6592.5 m | 100.0 | 480 | 72 | 17.6 / 22.0 / 26.4 |
-| line-2 716.0–7814.4 m | 100.0 | 1420 | 213 | 17.6 / 22.0 / 26.4 |
-| line-3 3246.8–9968.0 m | 100.0 | 1348 | 201 | 17.6 / 22.0 / 26.4 |
+| line-1 4331.1–4739.4 m | 100.0 | 88 | 12 | 17.6 / 22.0 / 26.4 |
+| line-1 4899.4–6592.5 m | 100.0 | 340 | 51 | 17.6 / 22.0 / 26.4 |
+| line-2 1045.7–2614.2 m | 100.0 | 316 | 47 | 17.6 / 22.0 / 26.4 |
+| line-2 2662.5–7814.4 m | 100.0 | 1036 | 155 | 17.6 / 22.0 / 26.4 |
+| line-3 3609.6–4362.2 m | 100.0 | 156 | 23 | 17.6 / 22.0 / 26.4 |
+| line-3 4390.4–6301.8 m | 100.0 | 388 | 57 | 17.6 / 22.0 / 26.4 |
+| line-3 6358.4–9968.0 m | 100.0 | 728 | 108 | 17.6 / 22.0 / 26.4 |
 
-Mapped soil has 8 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 7 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 16, "coverage-gap": 8, "fine-soil-plasticity-and-shrink-swell-tests": 61, "granular-density-and-groundwater-tests": 65, "organic-content-and-compressibility-tests": 12}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 19, "coverage-gap": 7, "fine-soil-plasticity-and-shrink-swell-tests": 84, "granular-density-and-groundwater-tests": 87, "organic-content-and-compressibility-tests": 16}.
 
 ## Joints, paints, finishes and cleaning
 

@@ -5,9 +5,9 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`benin-city-line1.aln.toml`](benin-city-line1.aln.toml) | `line-1` | 13,587.9 m | 8 |
-| [`benin-city-line2.aln.toml`](benin-city-line2.aln.toml) | `line-2` | 21,981.7 m | 10 |
-| [`benin-city-line3.aln.toml`](benin-city-line3.aln.toml) | `line-3` | 22,622.1 m | 9 |
-| [`benin-city-line4.aln.toml`](benin-city-line4.aln.toml) | `line-4` | 21,608.8 m | 8 |
+| [`benin-city-line2.aln.toml`](benin-city-line2.aln.toml) | `line-2` | 22,090.6 m | 10 |
+| [`benin-city-line3.aln.toml`](benin-city-line3.aln.toml) | `line-3` | 23,706.8 m | 9 |
+| [`benin-city-line4.aln.toml`](benin-city-line4.aln.toml) | `line-4` | 22,586.6 m | 8 |
 | [`benin-city-line5.aln.toml`](benin-city-line5.aln.toml) | `line-5` | 23,966.6 m | 12 |
 
 ## Status

@@ -6,7 +6,7 @@ The adopted planning requirement stores the full line fleet in one line-local de
 
 | Depot station | PV kWp | Storage modules / kWh | Required / reference PV area m² | Additional equipment reference USD |
 |---|---:|---:|---:|---:|
-| line-1-0930-0771-s016565 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-1-1000-0588-s017697 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0603-0186-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0376-0685-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
@@ -14,12 +14,12 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0364-0285-s000000 | line-1 | 25 | 1,237.5 | 1,487.5 | unverified |
-| line-1-0930-0771-s016565 | line-1 | 24 | 1,188.0 | 1,428.0 | unverified |
-| line-2-0603-0186-s000000 | line-2 | 20 | 990.0 | 1,190.0 | unverified |
-| line-2-0356-0657-s012906 | line-2 | 19 | 940.5 | 1,130.5 | unverified |
-| line-3-0376-0685-s000000 | line-3 | 16 | 792.0 | 952.0 | unverified |
-| line-3-0461-0244-s009548 | line-3 | 16 | 792.0 | 952.0 | unverified |
+| line-1-0364-0285-s000000 | line-1 | 27 | 1,336.5 | 1,606.5 | unverified |
+| line-1-1000-0588-s017697 | line-1 | 26 | 1,287.0 | 1,547.0 | unverified |
+| line-2-0603-0186-s000000 | line-2 | 22 | 1,089.0 | 1,309.0 | unverified |
+| line-2-0356-0657-s013143 | line-2 | 21 | 1,039.5 | 1,249.5 | unverified |
+| line-3-0376-0685-s000000 | line-3 | 18 | 891.0 | 1,071.0 | unverified |
+| line-3-0461-0244-s010011 | line-3 | 18 | 891.0 | 1,071.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

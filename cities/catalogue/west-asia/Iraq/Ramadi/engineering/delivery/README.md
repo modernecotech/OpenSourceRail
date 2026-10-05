@@ -1,6 +1,6 @@
 # Ramadi organisation and design work
 
-440 indicative operating FTE, including management; annual labour allowance $5,217,210. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+450 indicative operating FTE, including management; annual labour allowance $5,309,550. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -27,8 +27,8 @@ GoA 4 control and remote assistance; local station batteries supply train top-up
 | Remote assistance | 42 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
 | Passenger service and fare support | 27 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
 | Station cleaning and waste | 22 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
-| Station team coordination | 26 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
-| Platform and accessibility assistance | 142 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
+| Station team coordination | 27 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
+| Platform and accessibility assistance | 151 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
 
 Recruit and apprentice locally; assess practical task competence, isolate/hold/release authority and refresher needs. Training duration follows the demonstrated skills gap, not a universal weeks-to-qualification claim.
 
@@ -42,9 +42,9 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 482 | 246 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| corridor civil crew | 2 | 2 | 503 | 247 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
 | depot works | unknown | 1 | 465 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
-| energy crew | unknown | 2 | 541 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
+| energy crew | unknown | 2 | 526 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
 | ramadi light-metro-3car body installation | unknown | 4 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
 | ramadi light-metro-3car composite kits | unknown | 16 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
@@ -53,9 +53,9 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 | ramadi light-metro-3car structural assembly | unknown | 38 | 584 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
 | ramadi trainset acceptance bays | unknown | 20 | 660 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
 | ramadi trainset kitting | unknown | 6 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
-| station civil crew | unknown | 2 | 539 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
+| station civil crew | unknown | 2 | 525 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
 | station systems crew | unknown | 2 | 580 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 537 | 199 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track crew | 2 | 2 | 540 | 199 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
 | track/switch crew | unknown | 2 | 545 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
 | wayside bench | unknown | 3 | 571 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
 | wayside systems crew | unknown | 3 | 596 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
@@ -70,16 +70,24 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 0.0–9400.2 m | 100.0 | 1888 | 282 | 17.6 / 22.0 / 26.4 |
+| line-1 0.0–8992.0 m | 100.0 | 1800 | 270 | 17.6 / 22.0 / 26.4 |
+| line-1 9320.2–9400.2 m | 100.0 | 20 | 3 | 17.6 / 22.0 / 26.4 |
 | line-1 9440.2–12523.1 m | 100.0 | 620 | 93 | 17.6 / 22.0 / 26.4 |
-| line-2 0.0–10321.1 m | 100.0 | 2068 | 309 | 17.6 / 22.0 / 26.4 |
+| line-2 0.0–3456.5 m | 100.0 | 696 | 104 | 17.6 / 22.0 / 26.4 |
+| line-2 3581.3–10321.1 m | 100.0 | 1352 | 202 | 17.6 / 22.0 / 26.4 |
 | line-3 2852.8–3627.4 m | 100.0 | 156 | 23 | 17.6 / 22.0 / 26.4 |
-| line-3 3627.4–7439.3 m | 100.0 | 768 | 114 | 17.6 / 22.0 / 26.4 |
-| line-3 7615.9–13223.8 m | 100.0 | 1128 | 168 | 17.6 / 22.0 / 26.4 |
+| line-3 3627.4–4693.6 m | 100.0 | 216 | 32 | 17.6 / 22.0 / 26.4 |
+| line-3 4741.9–5868.2 m | 100.0 | 232 | 34 | 17.6 / 22.0 / 26.4 |
+| line-3 6153.0–7439.3 m | 100.0 | 260 | 39 | 17.6 / 22.0 / 26.4 |
+| line-3 7615.9–10341.6 m | 100.0 | 552 | 82 | 17.6 / 22.0 / 26.4 |
+| line-3 10421.6–10449.8 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 10469.8–10489.8 m | 25.0 | 8 | 0 | 4.4 / 5.5 / 6.6 |
+| line-3 11023.0–11063.0 m | 50.0 | 12 | 1 | 8.8 / 11.0 / 13.2 |
+| line-3 11219.6–13223.8 m | 100.0 | 408 | 60 | 17.6 / 22.0 / 26.4 |
 
-Mapped soil has 11 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 17 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 11, "fine-soil-plasticity-and-shrink-swell-tests": 35, "granular-density-and-groundwater-tests": 63, "silt-moisture-frost-and-erosion-review": 22}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 17, "fine-soil-plasticity-and-shrink-swell-tests": 62, "granular-density-and-groundwater-tests": 94, "silt-moisture-frost-and-erosion-review": 23}.
 
 ## Joints, paints, finishes and cleaning
 
@@ -89,8 +97,8 @@ Steel, GFRP body and roof finish zones retain their shared qualified process. Pr
 |---|---:|
 | rs-finish-seal-joint | 118 |
 | rs-controlled-wash | 118 |
-| civil-joint-drain-finish | 31 |
-| energy-soiling-cleaning | 17 |
+| civil-joint-drain-finish | 33 |
+| energy-soiling-cleaning | 18 |
 
 The operations bundle carries these inspection/cleaning triggers, owners and required work-order evidence. Cleaning intervals follow measured condition and access; material compatibility and wash-water handling must be qualified locally.
 

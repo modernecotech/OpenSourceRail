@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jinja-line1.aln.toml`](jinja-line1.aln.toml) | `line-1` | 13,233.1 m | 6 |
-| [`jinja-line2.aln.toml`](jinja-line2.aln.toml) | `line-2` | 9,890.8 m | 5 |
-| [`jinja-line3.aln.toml`](jinja-line3.aln.toml) | `line-3` | 12,787.3 m | 5 |
+| [`jinja-line1.aln.toml`](jinja-line1.aln.toml) | `line-1` | 12,991.7 m | 7 |
+| [`jinja-line2.aln.toml`](jinja-line2.aln.toml) | `line-2` | 17,375.8 m | 8 |
+| [`jinja-line3.aln.toml`](jinja-line3.aln.toml) | `line-3` | 12,787.3 m | 7 |
 
 ## Status
 

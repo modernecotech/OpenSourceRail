@@ -3,7 +3,7 @@
 This page contains only Philippines-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$7.72 B (89.1%) of external capital** and **$9.50 B of external interest**. Capital plus saved interest totals **$17.22 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$16.17 B (90.3%) of external capital** and **$19.88 B of external interest**. Capital plus saved interest totals **$36.05 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Philippines-specific aggregation. Shared network, servic
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 1,827,000 |
-| Trainsets / vehicle modules | 305 / 1,220 |
-| City infrastructure and fleet CAPEX | $4.21 B |
-| Shared national factory | $569.0 M |
-| Factory sizing basis | 1,220 modules for Davao, then reused nationally |
-| **Total national programme** | **$4.82 B** |
+| Trainsets / vehicle modules | 358 / 1,432 |
+| City infrastructure and fleet CAPEX | $9.45 B |
+| Shared national factory | $467.9 M |
+| Factory sizing basis | 1,432 modules for Davao, then reused nationally |
+| **Total national programme** | **$9.95 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $944.0 M (19.6%) |
-| Domestic / local capital | $3.87 B (80.4%) |
-| Annual external capital draw | $188.8 M / yr |
-| Annual local capital draw | $774.3 M / yr |
-| Annual public construction commitment | $389.4 M / yr for 5 years |
-| Annual post-grace debt service | $272.7 M / yr |
-| Default foreign-turnkey external capital | $8.67 B |
-| External capital saved | $7.72 B |
-| Capital + lifetime external interest saved | $17.22 B |
+| Imported / external capital | $1.75 B (17.5%) |
+| Domestic / local capital | $8.21 B (82.5%) |
+| Annual external capital draw | $349.0 M / yr |
+| Annual local capital draw | $1.64 B / yr |
+| Annual public construction commitment | $813.9 M / yr for 5 years |
+| Annual post-grace debt service | $563.5 M / yr |
+| Default foreign-turnkey external capital | $17.91 B |
+| External capital saved | $16.17 B |
+| Capital + lifetime external interest saved | $36.05 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $2.78 B | $416.3 M | $2.36 B |
-| Stations | $394.7 M | $78.9 M | $315.8 M |
-| Depots | $128.0 M | $32.0 M | $96.0 M |
-| Rolling stock | $341.6 M | $119.6 M | $222.0 M |
-| Dedicated solar plants | $272.5 M | $122.6 M | $149.9 M |
-| Residual train control | $12.4 M | $6.2 M | $6.2 M |
-| Charging microgrids | $25.1 M | $10.0 M | $15.0 M |
-| EPC / project services | $297.2 M | $44.6 M | $252.6 M |
-| Shared national trainset factory | $569.0 M | $113.8 M | $455.2 M |
-| **Total** | **$4.82 B** | **$944.0 M** | **$3.87 B** |
+| Civil works | $7.31 B | $1.10 B | $6.21 B |
+| Stations | $659.9 M | $132.0 M | $527.9 M |
+| Depots | $140.9 M | $35.2 M | $105.7 M |
+| Rolling stock | $401.0 M | $140.3 M | $260.6 M |
+| Dedicated solar plants | $294.4 M | $132.5 M | $161.9 M |
+| Residual train control | $13.5 M | $6.8 M | $6.8 M |
+| Charging microgrids | $34.5 M | $13.8 M | $20.7 M |
+| EPC / project services | $631.8 M | $94.8 M | $537.1 M |
+| Shared national trainset factory | $467.9 M | $93.6 M | $374.3 M |
+| **Total** | **$9.95 B** | **$1.75 B** | **$8.21 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Davao](Davao/README.md) | 1,827,000 | 305 | $4.21 B | $824.2 M | $3.38 B |
+| [Davao](Davao/README.md) | 1,827,000 | 358 | $9.45 B | $1.65 B | $7.81 B |
 
 ## Local Basis And Regeneration
 

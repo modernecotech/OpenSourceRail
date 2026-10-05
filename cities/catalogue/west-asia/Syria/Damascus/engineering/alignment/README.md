@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`damascus-line1.aln.toml`](damascus-line1.aln.toml) | `line-1` | 23,943.0 m | 12 |
-| [`damascus-line2.aln.toml`](damascus-line2.aln.toml) | `line-2` | 23,636.4 m | 8 |
-| [`damascus-line3.aln.toml`](damascus-line3.aln.toml) | `line-3` | 21,817.4 m | 9 |
+| [`damascus-line1.aln.toml`](damascus-line1.aln.toml) | `line-1` | 25,119.5 m | 13 |
+| [`damascus-line2.aln.toml`](damascus-line2.aln.toml) | `line-2` | 24,110.0 m | 8 |
+| [`damascus-line3.aln.toml`](damascus-line3.aln.toml) | `line-3` | 22,389.3 m | 10 |
 | [`damascus-line4.aln.toml`](damascus-line4.aln.toml) | `line-4` | 18,922.3 m | 7 |
-| [`damascus-line5.aln.toml`](damascus-line5.aln.toml) | `line-5` | 22,306.9 m | 9 |
-| [`damascus-line6.aln.toml`](damascus-line6.aln.toml) | `line-6` | 55,886.6 m | 18 |
+| [`damascus-line5.aln.toml`](damascus-line5.aln.toml) | `line-5` | 22,475.0 m | 9 |
+| [`damascus-line6.aln.toml`](damascus-line6.aln.toml) | `line-6` | 56,007.7 m | 18 |
 
 ## Status
 

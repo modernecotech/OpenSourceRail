@@ -1,18 +1,18 @@
 # Kigali city-order factory requirement
 
-**191 metro-4car trainsets / 764 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**210 metro-4car trainsets / 840 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 546.9 trainsets/year, 5 separate test paths, 1786 direct production FTE. Plant reference envelope: **USD 609.634m**.
+Planning output: 600.7 trainsets/year, 6 separate test paths, 1953 direct production FTE. Plant reference envelope: **USD 664.872m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 42 | 590 | 680 | 680 |
-| line-2 | 31 | 604 | 694 | 694 |
-| line-3 | 26 | 616 | 706 | 706 |
-| line-4 | 34 | 633 | 723 | 723 |
-| line-5 | 35 | 649 | 739 | 739 |
-| line-6 | 23 | 660 | 750 | 750 |
+| line-1 | 43 | 588 | 678 | 678 |
+| line-2 | 36 | 604 | 694 | 694 |
+| line-3 | 30 | 617 | 707 | 707 |
+| line-4 | 40 | 634 | 724 | 724 |
+| line-5 | 38 | 651 | 741 | 741 |
+| line-6 | 23 | 661 | 751 | 751 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.
