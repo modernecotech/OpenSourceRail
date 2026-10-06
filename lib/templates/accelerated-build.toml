@@ -1,0 +1,98 @@
+[schema]
+version = 1
+as_of = "2026-10-06"
+source = "RFC 0034 and user-selected Baghdad sensitivities"
+units = "m, days, hours, machine counts, beams/day, USD"
+confidence = "low"
+qualification = "study-only; supplier, logistics, structural and operating releases absent"
+
+[station]
+platform_width_m = 8.0
+transition_length_m = 150.0
+passengers_per_hour_each_direction = 3000
+one_lift_unavailable = true
+evacuation_accepted = false
+
+[erection]
+launchers = 18
+initial_launchers_per_line = 2
+shifts_day = 2
+hours_shift = 8.0
+working_days_per_week = 7 # continuous planning calendar; relief coverage required
+handover_hours = 0.5
+maintenance_hours_day = 0.5
+productive_fraction = 0.8
+weather_availability = 1.0
+permitted_hours_day = 24.0
+mobilisation_days = 30
+ramp_up_days = 14
+station_interruption_days_per_front = 10
+relocation_days = 7
+buffer_beams_per_front = 12
+foundation_release_supports_day_per_front = 2
+foundation_initial_ahead = 12
+# Hypothetical contracted supply only. No allocation to a named factory.
+transport_capacity_beams_day_per_front = 4
+conditional_ready_date = "2027-01-01"
+
+[[sensitivities]]
+id = "initial-accelerated"
+assumed_bays_launcher_day = 1.5
+assumed_beam_demand_day = 54.0
+[[sensitivities]]
+id = "higher-productivity"
+assumed_bays_launcher_day = 1.8
+assumed_beam_demand_day = 64.8
+[[sensitivities]]
+id = "full-doubling"
+assumed_bays_launcher_day = 2.0
+assumed_beam_demand_day = 72.0
+
+[energy]
+duration_minutes = 1560
+average_speed_kmh = 45.0
+ambient_c = 45.0
+setup_seconds = 20.0
+reserve_soc = 0.2
+cleaning_factor = 0.9
+seasonal_solar_factors = [0.65, 1.0]
+grid_outage_start_minute = 720
+grid_outage_duration_minutes = 60
+train_initial_soc = 0.8
+auxiliary_kw_per_car = 10.0
+regenerative_fraction = 0.15
+small_onboard_usable_kwh_per_car = 60.0
+
+[finance]
+energy_usd_kwh = 0.10
+iqd_per_usd = 1300.0
+night_shift_cost_usd_per_front_shift = 500.0
+opening_fitout_days = 180
+# A payment schedule is a cash sensitivity, not an order or commitment.
+launcher_payment_deposit_fraction = 0.30
+launcher_payment_commissioning_fraction = 0.70
+
+[logistics]
+# Required aggregate resources in the sensitivity; not existing factory capacity
+# or confirmed haulage permits. One whole beam per trip is assumed.
+factory_buffer_beams = 216
+acceptance_delay_days = 1
+manufacturing_rejection_fraction = 0.0
+trailers_per_front = 4
+trips_per_trailer_day = 1
+journey_hours = 4.0
+loading_hours = 1.0
+unloading_hours = 1.0
+delivery_window_hours = 12.0
+payload_t = 100.0
+vehicle_tare_t = 30.0
+bridge_gross_limit_t = 140.0
+maximum_length_m = 25.0
+maximum_width_m = 3.0
+handling_limit_t = 100.0
+transport_rejection_fraction = 0.0
+source = "RFC 0034 illustrative supply and transport requirement; no factory spare capacity, route approval or quotation"
+date = "2026-10-06"
+units = "components, days, fraction, trailers, trips/day, h, t, m"
+confidence = "low"
+qualification = "explicit-study-assumptions"

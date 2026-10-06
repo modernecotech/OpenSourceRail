@@ -9,6 +9,17 @@ engineering approvals, supplier documents, and inspector signatures are required
 | Parameter | Value |
 |---|---:|
 | `platform_count` | 2 |
+| `boarding_face_count` | 2 |
+| `track_count` | 2 |
+| `elevation` | at-grade |
+| `platform_width_m` | 3.0 |
+| `layout_exception_reason` |  |
+| `layout` | {'layout': 'side', 'elevation': 'at-grade', 'platforms': ({'id': 'platform-1', 'level': 'platform', 'y_mm': -5000.0, 'base_z_mm': 0.0, 'width_mm': 3000.0}, {'id': 'platform-2', 'level': 'platform', 'y_mm': 5000.0, 'base_z_mm': 0.0, 'width_mm': 3000.0}), 'faces': ({'id': 'face-1', 'platform_id': 'platform-1', 'level': 'platform', 'platform_face_y_mm': -3500.0, 'track_centre_y_mm': -2000.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': 1, 'door_side': 'right', 'psd_side': 'right', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-2', 'platform_id': 'platform-2', 'level': 'platform', 'platform_face_y_mm': 3500.0, 'track_centre_y_mm': 2000.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': -1, 'door_side': 'right', 'psd_side': 'right', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}), 'equipment': (), 'entrances': ({'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}), 'transfer_connections': (), 'minimum_clear_width_mm': 1500.0, 'level_elevations_mm': {'street': 420.0, 'platform': 420.0}, 'concourse_decks': (), 'qualification': 'study-only-access-flow-egress-and-structure-unreleased', 'quantities': {'platform_count': 2, 'boarding_face_count': 2, 'track_count': 2, 'lift_count': 0, 'escalator_count': 0, 'staircase_count': 0, 'shaft_count': 0}} |
+| `levels_m` | [0.0, 0.0] |
+| `elevated_height_m` | 9.0 |
+| `access_equipment` | [] |
+| `entrances` | [{'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}] |
+| `minimum_clear_width_m` | 1.5 |
 | `platform_layout` | side |
 | `platform_length_m` | 59.5 |
 | `platform_l_units` | 0 |
@@ -74,6 +85,7 @@ Work cell: civil/platform construction.
 | `STN-CIV-P010` | 10 | ea | `MAKE` | `release-candidate` |
 | `STN-CIV-P020` | 2 | platform kit | `MAKE` | `release-candidate` |
 | `STN-CIV-P040` | 40 | edge module | `MAKE` | `release-candidate` |
+| `STN-CIV-P060` | 119 | track m | `MAKE` | `study-only` |
 | `STN-PLT-P010` | 119 | m | `SOURCE` | `release-candidate` |
 
 ### Work instructions

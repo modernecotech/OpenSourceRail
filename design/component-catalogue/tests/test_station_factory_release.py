@@ -41,12 +41,12 @@ def _variants():
 def test_station_factory_packages_cover_every_unique_product_once() -> None:
     payload = station_factory_release_payload(_variants())
     assert payload["package_count"] == 9
-    assert payload["controlled_product_count"] == 45
+    assert payload["controlled_product_count"] == 50
     assert payload["drawing_count"] == 18
     assert payload["release_path_counts"] == {
         "reusable-definition": 18,
         "supplier-configuration": 14,
-        "deployment-specific": 13,
+        "deployment-specific": 18,
     }
     assert all(payload["validation"].values())
     assert all(package["product_rows"] for package in payload["packages"])
@@ -54,7 +54,7 @@ def test_station_factory_packages_cover_every_unique_product_once() -> None:
         product["reference_default"].startswith("default-product-specifications.json::")
         for package in payload["packages"]
         for product in package["product_rows"]
-    ) == 29
+    ) == 34
 
 
 def test_release_paths_keep_site_and_supplier_authority_explicit() -> None:
@@ -75,7 +75,7 @@ def test_station_release_record_is_complete_but_unfilled() -> None:
         "package_count": 9,
         "open_package_count": 9,
         "unique_drawing_count": 18,
-        "controlled_product_count": 45,
+        "controlled_product_count": 50,
         "unique_tooling_count": 22,
     }
     assert all(package["release_status"] == "open-unissued" for package in record["packages"])
@@ -113,7 +113,7 @@ def test_reference_defaults_cover_every_open_product_without_claiming_release() 
     products = {item.id: item for variant in variants for item in variant.product_items}
     open_ids = {product_id for product_id, item in products.items() if item.maturity != "release-candidate"}
     payload = default_specification_payload(open_ids)
-    assert payload["default_count"] == 29
+    assert payload["default_count"] == 34
     assert set(open_ids) == {row.product_id for row in default_product_specifications()}
     assert all(payload["validation"].values())
     assert all(row.parameters and row.must_override_when for row in default_product_specifications())
@@ -152,8 +152,8 @@ def test_station_drawing_seeds_cover_all_products_and_defaults() -> None:
     assert all(seed["required_views"] and seed["mandatory_drawing_controls"] for seed in seeds)
     index = station_drawing_index_payload(seeds)
     assert index["drawing_count"] == 18
-    assert index["controlled_product_count"] == 45
-    assert index["reference_default_product_count"] == 29
+    assert index["controlled_product_count"] == 50
+    assert index["reference_default_product_count"] == 34
     assert "none issued" in render_station_drawing_index(seeds)
 
 

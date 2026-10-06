@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import sys
+import subprocess
 import tomllib
 from pathlib import Path
 
@@ -80,10 +81,14 @@ def build_model() -> dict[str, object]:
         "schema": calibration["schema"],
         "provenance": {
             "generator": "tools/automation/generate-civil-cost-model.py",
+            "source_revision": subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO_ROOT,text=True).strip(),
             "calibration_sha256": sha256(CALIBRATION_PATH),
             "civil_source_tree_sha256": source_tree_sha256(),
         },
         "classes": classes,
+        "construction_scope": calibration["construction_scope"],
+        "procurement": calibration["procurement"],
+        "factory_reconciliation": calibration["factory_reconciliation"],
     }
 
 
@@ -144,6 +149,25 @@ def render(model: dict[str, object]) -> str:
                     f'reason = {_toml_string(driver["reason"])}',
                 ]
             )
+    lines.extend(["", "[construction_scope]"])
+    scope = model["construction_scope"]
+    for key,value in scope.items():
+        if key != "shares":
+            lines.append(f"{key} = {json.dumps(value)}")
+    if abs(sum(scope["shares"].values())-1)>1e-9:
+        raise ValueError("construction cost allocations must sum to installed rate")
+    lines.extend(["", "[construction_scope.elevated_usd_per_km]"])
+    for key,share in scope["shares"].items():
+        lines.append(f"{key} = {classes['elevated']['design_target_usd_per_km']*share:g}")
+    for name,record in model["procurement"].items():
+        lines.extend(["", f"[procurement.{name}]"])
+        for key,value in record.items():
+            lines.append(f"{key} = {json.dumps(value)}")
+    lines.extend(["", "[factory_reconciliation]"])
+    for key,value in model["factory_reconciliation"].items():
+        lines.append(f"{key} = {json.dumps(value)}")
+    lines.extend(["", "[source_revision]", f"git_commit = {json.dumps(provenance['source_revision'])}",
+                  'working_tree_inputs = "calibration and civil source hashes above"'])
     return "\n".join(lines) + "\n"
 
 

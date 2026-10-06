@@ -6,16 +6,16 @@ Generated with the station catalogue. Blank evidence fields and
 - Template status: `unfilled-not-release-evidence`
 - Packages: **9**; open: **9**
 - Drawing/interface IDs: **18**
-- Controlled unique products: **45**
+- Controlled unique products: **50**
 - Tool/gauge families: **22**
 
 | Package | Delivery lane | Status | Drawings | Products | Inputs | Outputs | Tests |
 |---|---|---|---:|---:|---:|---:|---:|
-| `STN-FRP-010` — precast platform, guideway edge, drainage and closure pack | `hybrid-prefabrication-and-site` | `open-unissued` | 2 | 5 | 3 | 3 | 3 |
+| `STN-FRP-010` — precast platform, guideway edge, drainage and closure pack | `hybrid-prefabrication-and-site` | `open-unissued` | 2 | 7 | 3 | 3 | 3 |
 | `STN-FRP-020` — platform canopy steel, footing and solar-roof pack | `hybrid-prefabrication-and-supplier` | `open-unissued` | 2 | 4 | 3 | 3 | 3 |
 | `STN-FRP-030` — auxiliary solar-canopy module, truss and site-interface pack | `deployment-led-hybrid` | `open-unissued` | 2 | 5 | 3 | 3 | 3 |
 | `STN-FRP-040` — station services, passenger equipment and plinth integration pack | `supplier-interface` | `open-unissued` | 2 | 12 | 3 | 3 | 3 |
-| `STN-FRP-050` — pedestrian approach, lift/stair core and overbridge interface pack | `deployment-led-hybrid` | `open-unissued` | 2 | 3 | 3 | 3 | 3 |
+| `STN-FRP-050` — pedestrian approach, lift/stair core and overbridge interface pack | `deployment-led-hybrid` | `open-unissued` | 2 | 6 | 3 | 3 | 3 |
 | `STN-FRP-060` — wayside charging and traction substation interface pack | `supplier-and-utility-interface` | `open-unissued` | 2 | 2 | 3 | 3 | 3 |
 | `STN-FRP-070` — 1:9 turnout, actuation, detection, heating and track-end pack | `hybrid-fabrication-and-supplier` | `open-unissued` | 2 | 7 | 3 | 3 | 3 |
 | `STN-FRP-080` — depot site, drainage, track and throat-turnout pack | `deployment-specific` | `open-unissued` | 2 | 3 | 3 | 3 | 3 |

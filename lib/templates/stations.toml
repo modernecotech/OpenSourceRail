@@ -23,6 +23,8 @@
 
 [archetypes.halt]
 platform_count         = 1
+boarding_face_count    = 1
+track_count            = 1
 platform_layout        = "side"
 platform_clearance_m      = 6               # tight margin, low-speed approach
 canopy_type            = "solar-canopy"
@@ -38,6 +40,8 @@ step_free_core_count   = 0
 
 [archetypes.standard]
 platform_count         = 2
+boarding_face_count    = 2
+track_count            = 2
 platform_layout        = "side"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -52,7 +56,9 @@ step_free_core_count   = 0
 # ---- Major: anchor stop — hospital, mall, centre -------------------------
 
 [archetypes.major]
-platform_count         = 2
+platform_count         = 1
+boarding_face_count    = 2
+track_count            = 2
 platform_layout        = "island"        # higher throughput than side
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -67,7 +73,9 @@ step_free_core_count   = 0
 # ---- Interchange: two-line junction --------------------------------------
 
 [archetypes.interchange]
-platform_count         = 4
+platform_count         = 2
+boarding_face_count    = 4
+track_count            = 4
 platform_layout        = "same-grade-transfer"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -82,7 +90,12 @@ step_free_core_count   = 0
 # ---- Elevated interchange: stacked transfer on viaduct approaches ---------
 
 [archetypes.interchange-elevated]
-platform_count         = 4
+platform_count         = 2
+elevation              = "elevated"
+levels_m               = [9.0, 17.0]
+platform_width_m       = 8.0
+boarding_face_count    = 4
+track_count            = 4
 platform_layout        = "stacked"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -98,6 +111,8 @@ step_free_core_count   = 4
 
 [archetypes.terminal]
 platform_count         = 2
+boarding_face_count    = 2
+track_count            = 2
 platform_layout        = "side"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -114,6 +129,8 @@ step_free_core_count   = 0
 
 [archetypes.depot-terminal]
 platform_count         = 2
+boarding_face_count    = 2
+track_count            = 2
 platform_layout        = "side"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
@@ -126,3 +143,14 @@ is_depot               = true
 access_type            = "ground-level-side-access"
 access_bridge_count    = 0
 step_free_core_count   = 0
+
+# Elevation is independent of archetype. Overlay when a station is elevated.
+[elevation_defaults.elevated]
+platform_layout = "island"
+platform_count = 1
+boarding_face_count = 2
+track_count = 2
+platform_width_m = 8.0
+elevation = "elevated"
+qualification = "study-only"
+exception_reason_required = true

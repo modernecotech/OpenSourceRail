@@ -6,7 +6,12 @@ import subprocess
 import sys
 
 ROOT=Path(__file__).resolve().parents[2]
+CITY='cities/catalogue/west-asia/Iraq/Baghdad'
+OPERATIONS=('tools/automation/generate-qa-maintenance-data.py','--design',CITY+'/design.toml','--scenario',CITY+'/baghdad.toml','--out-dir',CITY+'/operations')
 STEPS=(
+    OPERATIONS,
+    ('tools/automation/generate-city-finance.py','--design',CITY+'/design.toml'),
+    OPERATIONS,
     'tools/automation/generate-factory-plan.py',
     'tools/automation/generate-iraq-funding-programme.py',
     'engineering/baghdad_detail.py',
@@ -21,6 +26,7 @@ STEPS=(
     'tools/automation/baghdad_programme_recalculation.py',
     'tools/automation/baghdad_demand_bridge.py',
     'tools/automation/baghdad_cost_reconciliation.py',
+    ('tools/automation/connected-build-study.py','--refresh-cad'),
     'tools/automation/generate-national-briefs.py',
     'tools/automation/generate-portfolio-summary.py',
 )
@@ -30,6 +36,7 @@ def main():
     args=parser.parse_args()
     steps=STEPS[:-2] if args.skip_portfolio else STEPS
     for step in steps:
-        print('Recomputing '+step,flush=True)
-        subprocess.run([sys.executable,str(ROOT/step)],cwd=ROOT,check=True)
+        command=(step,) if isinstance(step,str) else step
+        print('Recomputing '+command[0],flush=True)
+        subprocess.run([sys.executable,str(ROOT/command[0]),*command[1:]],cwd=ROOT,check=True)
 if __name__=='__main__':main()

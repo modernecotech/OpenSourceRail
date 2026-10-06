@@ -3141,7 +3141,7 @@
   "schema": "org.opensourcerail.model-coverage.v1",
   "sources": {
     "design_detail_register": "engineering/models/bim/design-detail-register.json",
-    "design_detail_register_sha256": "27b5413c72b16005ea911ddc7a3aee83f8a8409291bd56f29f0f4d1d774fba16",
+    "design_detail_register_sha256": "4a6fe2f72af4ad50fe59bcd0a6b2af2ef63336ce86827691cdfc81d87d17be54",
     "design_detail_schema": "org.opensourcerail.design-detail-register.v1",
     "lm3_ids_report": "engineering/models/bim/reference/lm3-information-requirements.report.json",
     "lm3_ids_report_sha256": "ddfe060c482b2098d8a2d61474e2c5e35331899b49b8ebfd3727dec8611bf213",
@@ -3150,7 +3150,7 @@
     "lm3_manifest": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
     "lm3_manifest_sha256": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703",
     "station_manifest": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
-    "station_manifest_sha256": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf"
+    "station_manifest_sha256": "1119809282593cbb8e6f77b46202d137b7716b33e77132ff0f6a8e8157890c89"
   },
   "station_products": [
     {
@@ -3186,7 +3186,7 @@
         "accessibility survey"
       ],
       "route": "BID",
-      "title": "lift/stair step-free circulation core"
+      "title": "installed passenger lift"
     },
     {
       "analysis_ids": [
@@ -3205,6 +3205,51 @@
       ],
       "route": "BID",
       "title": "pedestrian overbridge/concourse structural and enclosure kit"
+    },
+    {
+      "analysis_ids": [
+        "OSR-AN-IFC-STN-001",
+        "OSR-AN-STN-PED-002"
+      ],
+      "geometry_level": "coordination-envelope",
+      "id": "STN-ACC-P040",
+      "ifc_class": "IfcTransportElement",
+      "product_maturity": "study-only",
+      "release_evidence": [
+        "supplier and independent access/egress acceptance"
+      ],
+      "route": "BID",
+      "title": "installed escalator"
+    },
+    {
+      "analysis_ids": [
+        "OSR-AN-IFC-STN-001",
+        "OSR-AN-STN-PED-002"
+      ],
+      "geometry_level": "coordination-envelope",
+      "id": "STN-ACC-P050",
+      "ifc_class": "IfcStair",
+      "product_maturity": "study-only",
+      "release_evidence": [
+        "supplier and independent access/egress acceptance"
+      ],
+      "route": "BID",
+      "title": "installed staircase"
+    },
+    {
+      "analysis_ids": [
+        "OSR-AN-IFC-STN-001",
+        "OSR-AN-STN-PED-002"
+      ],
+      "geometry_level": "coordination-envelope",
+      "id": "STN-ACC-P060",
+      "ifc_class": "IfcBuildingElementProxy",
+      "product_maturity": "study-only",
+      "release_evidence": [
+        "supplier and independent access/egress acceptance"
+      ],
+      "route": "BID",
+      "title": "installed shaft"
     },
     {
       "analysis_ids": [
@@ -3314,6 +3359,38 @@
       ],
       "route": "MAKE",
       "title": "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough"
+    },
+    {
+      "analysis_ids": [
+        "OSR-AN-IFC-STN-001",
+        "OSR-AN-STN-DRA-001"
+      ],
+      "geometry_level": "interface-detailed",
+      "id": "STN-CIV-P050",
+      "ifc_class": "IfcSlab",
+      "product_maturity": "study-only",
+      "release_evidence": [
+        "station structural design release",
+        "deck lifting/installation release"
+      ],
+      "route": "MAKE",
+      "title": "island centre deck infill between edge L-unit strips"
+    },
+    {
+      "analysis_ids": [
+        "OSR-AN-IFC-STN-001",
+        "OSR-AN-STN-DRA-001"
+      ],
+      "geometry_level": "interface-detailed",
+      "id": "STN-CIV-P060",
+      "ifc_class": "IfcTrackElement",
+      "product_maturity": "study-only",
+      "release_evidence": [
+        "station civil/support release",
+        "rail datum and gauge survey"
+      ],
+      "route": "MAKE",
+      "title": "station track-deck and running-rail interface"
     },
     {
       "analysis_ids": [
@@ -4020,58 +4097,58 @@
       "archetype": "halt",
       "freecad": "design/component-catalogue/models/cad/stations/station-halt.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-halt.ifc",
-      "primitive_count": 151,
-      "product_count": 25
+      "primitive_count": 208,
+      "product_count": 26
     },
     {
       "archetype": "standard",
       "freecad": "design/component-catalogue/models/cad/stations/station-standard.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-standard.ifc",
-      "primitive_count": 238,
-      "product_count": 28
+      "primitive_count": 352,
+      "product_count": 29
     },
     {
       "archetype": "major",
       "freecad": "design/component-catalogue/models/cad/stations/station-major.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-major.ifc",
-      "primitive_count": 248,
-      "product_count": 29
+      "primitive_count": 242,
+      "product_count": 30
     },
     {
       "archetype": "interchange",
       "freecad": "design/component-catalogue/models/cad/stations/station-interchange.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-interchange.ifc",
-      "primitive_count": 394,
-      "product_count": 29
+      "primitive_count": 384,
+      "product_count": 30
     },
     {
       "archetype": "interchange-elevated",
       "freecad": "design/component-catalogue/models/cad/stations/station-interchange-elevated.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-interchange-elevated.ifc",
-      "primitive_count": 394,
-      "product_count": 30
+      "primitive_count": 406,
+      "product_count": 35
     },
     {
       "archetype": "terminal",
       "freecad": "design/component-catalogue/models/cad/stations/station-terminal.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-terminal.ifc",
-      "primitive_count": 330,
-      "product_count": 36
+      "primitive_count": 444,
+      "product_count": 37
     },
     {
       "archetype": "depot-terminal",
       "freecad": "design/component-catalogue/models/cad/stations/station-depot-terminal.FCStd",
       "ifc": "engineering/models/bim/reference/stations/station-depot-terminal.ifc",
-      "primitive_count": 437,
-      "product_count": 43
+      "primitive_count": 551,
+      "product_count": 44
     }
   ],
   "status": "design-reference-not-released",
   "summary": {
     "geometry_level_counts": {
-      "coordination-envelope": 89,
+      "coordination-envelope": 92,
       "design-reference-detail": 23,
-      "interface-detailed": 53
+      "interface-detailed": 55
     },
     "lm3_ids_checks": 945,
     "lm3_ids_specifications": 4,
@@ -4080,7 +4157,7 @@
     "mechanically_controlled_lm3_assemblies": 19,
     "mechanically_controlled_lm3_objects": 39,
     "mechanically_controlled_lm3_products": 20,
-    "station_products": 45,
+    "station_products": 50,
     "station_variants": 7
   }
 }

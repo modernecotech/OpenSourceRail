@@ -38,6 +38,7 @@ def publication_output(path):
 MAX_BYTES = 50*1024*1024
 SHARED = [
     'docs/rfcs/0033-tacs-runtime-and-resource-control.md',
+    'docs/rfcs/0034-connected-station-production-and-battery-model.md',
     'docs/certification/distributed-onboard-control-profile.md',
     'docs/rolling-stock/design-system.md',
     'docs/rfcs/0011-civil-infrastructure-design-standard.md',
@@ -648,10 +649,14 @@ The [detailed engineering plan](DETAILED-ENGINEERING.md) and [component register
 
 The following proposal annex prints every station, interchange, fleet role, energy site and the complete cost priority six month draw/repayment schedule. Civil segment chainages and junction details are in the attached registers and design. Full monthly and alternative case ledgers remain in the supporting archive and repository. Technical annexes reproduce the city survey, ground, alignment, depot, stabling, delivery, deployment, finance and acceptance reports, followed by the current shared architecture and engineering references.
 
-[Source inventory](source-inventory.csv) and [publication manifest](manifest.json) identify exact inputs and outputs. [Supporting data archive](Baghdad-Proposal-Supporting-Data.zip) includes the controlled files and complete operations payload. The editable proposal, PDF and appendix source list can be regenerated with the repository's proposal builder.
+[Source inventory](source-inventory.csv) and [publication manifest](manifest.json) identify exact inputs and outputs. [Supporting data archive](Baghdad-Proposal-Supporting-Data.zip) includes the controlled files and complete operations payload. Text evidence uses ZIP LZMA; extract with the repository's Python bootstrap or an archive reader supporting ZIP LZMA. The editable proposal, PDF and appendix source list can be regenerated with the repository's proposal builder.
 
 External instrument and historical sources are retained from the financing baseline. Source retrieval attempts on 3 October 2026 for China Exim, the GCF Iraq page and the NIC notice returned a timeout or access denial; this proposal does not claim a new source verification or a new lending commitment. Detailed financing reports retain the original source URLs and their stated evidence limits.
 '''
+    connected=CITY/'engineering/connected-build/README.md'
+    if connected.is_file():
+        intro += "\n## Connected construction and battery scenario (2026-10-06)\n\n" + (
+            "[The connected study](engineering/connected-build/README.md) reconciles actual island platforms, boarding faces, access equipment, running/station civil quantities, 18 launchers on two shifts, constrained supplier/logistics schedules, equipment reuse and sodium battery profiles. Its three chronological network energy cases show service shortfalls under the selected study inputs. Supplier contracts, structural/access releases and installed erection credits are absent; conditional dates and the unquoted $9m fleet allowance establish no accepted savings or opening. The financial figures above remain comparators pending scope-matched adoption.\n")
     return intro
 
 
@@ -734,6 +739,10 @@ def source_inputs():
     paths.update(COUNTRY.glob('*/design.toml')); paths.update(p.parent/(tomllib.loads(p.read_text())['city']['slug']+'.toml') for p in COUNTRY.glob('*/design.toml'))
     paths.update(COUNTRY.glob('*/README.md'))
     paths.update(ROOT/p for p in SHARED)
+    connected=CITY/'engineering/connected-build'
+    if connected.is_dir():
+        paths.update(p for p in connected.rglob('*') if p.is_file())
+        paths.update(ROOT/relative for relative in read_json(connected/'manifest.json')['source_sha256'])
     for name in ('access','clearance','demand-bridge','local-civil-costs','cost-reconciliation'):
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])
@@ -833,6 +842,8 @@ def main():
     as_of=max(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())['model']['as_of'],
         read_json(CITY/'engineering/delivery-closure/summary.json')['as_of'],
         read_json(CITY/'engineering/equity/summary.json')['as_of'],read_json(CITY/'engineering/viaduct-rentals/summary.json')['as_of'])
+    if (CITY/"engineering/connected-build/manifest.json").is_file():
+        as_of=max(as_of,read_json(CITY/"engineering/connected-build/manifest.json")["assumptions"]["schema"]["as_of"])
     build_pdf(sources,as_of)
     inputs=source_inputs()
     inventory=[{'path':path.relative_to(ROOT).as_posix(),**receipt(path)} for path in inputs]
@@ -847,7 +858,11 @@ def main():
     archive_path=OUT/'Baghdad-Proposal-Supporting-Data.zip'
     with zipfile.ZipFile(archive_path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
         for relative,path in sorted(archive_members.items()):
-            entry=zipfile.ZipInfo(relative,date_time=tuple(int(v) for v in as_of.split('-'))+(0,0,0));entry.compress_type=zipfile.ZIP_DEFLATED;entry.external_attr=0o100644<<16
+            entry=zipfile.ZipInfo(relative,date_time=tuple(int(v) for v in as_of.split('-'))+(0,0,0))
+            # Preserve the complete evidence set under the repository limit.
+            # Python's standard-library bootstrap supports ZIP LZMA directly.
+            entry.compress_type=zipfile.ZIP_LZMA if path.suffix.lower() in {'.json','.csv','.toml','.md','.py','.rs','.ifc','.xml','.geojson','.html','.js','.svg','.txt'} else zipfile.ZIP_DEFLATED
+            entry.external_attr=0o100644<<16
             archive.writestr(entry,path.read_bytes(),compresslevel=9)
     outputs=generated+[archive_path]
     for path in outputs:

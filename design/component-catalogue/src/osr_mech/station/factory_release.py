@@ -45,7 +45,7 @@ def station_drawing_metadata() -> tuple[StationDrawingMetadata, ...]:
         StationDrawingMetadata(
             "STN-CIV-100", "precast platform and guideway product definition",
             "civil structures + precast fabricator", "reusable-fabrication-definition",
-            ("STN-CIV-P010", "STN-CIV-P020", "STN-CIV-P040", "STN-PLT-P010"),
+            ("STN-CIV-P010", "STN-CIV-P020", "STN-CIV-P040", "STN-CIV-P050", "STN-CIV-P060", "STN-PLT-P010"),
             (f"{docs}/envelope.md", f"{catalogue}/default-product-specifications.md"),
             ("module plan, elevations and typical sections", "mould, reinforcement, inserts and lifting details", "platform edge, tactile, service-trough and joint interfaces"),
         ),
@@ -111,7 +111,7 @@ def station_drawing_metadata() -> tuple[StationDrawingMetadata, ...]:
         StationDrawingMetadata(
             "STN-ACC-410", "lift, stair and pedestrian overbridge coordination",
             "structural/accessibility engineer + lift supplier", "deployment-led-supplier-interface",
-            ("STN-ACC-P020", "STN-ACC-P030"),
+            ("STN-ACC-P020", "STN-ACC-P030", "STN-ACC-P040", "STN-ACC-P050", "STN-ACC-P060"),
             (f"{docs}/accessibility.md", f"{catalogue}/default-product-specifications.md"),
             ("concourse, bridge and vertical-circulation plans", "structure, shaft, stair, enclosure and clearance sections", "accessible route, evacuation, rescue, fire recall and service interfaces"),
         ),
@@ -195,8 +195,8 @@ SUPPLIER_CONFIGURATION_IDS = frozenset(
 
 DEPLOYMENT_SPECIFIC_IDS = frozenset(
     {
-        "STN-CNP-P070", "STN-CNP-P090", "STN-CHG-P020", "STN-ACC-P020",
-        "STN-ACC-P030", "STN-TRK-P070", "STN-DEP-P010", "STN-DEP-P020",
+        "STN-CIV-P050", "STN-CIV-P060", "STN-CNP-P070", "STN-CNP-P090", "STN-CHG-P020", "STN-ACC-P020",
+        "STN-ACC-P030", "STN-ACC-P040", "STN-ACC-P050", "STN-ACC-P060", "STN-TRK-P070", "STN-DEP-P010", "STN-DEP-P020",
         "STN-DEP-P030", "STN-DEP-P040", "STN-DEP-P050", "STN-DEP-P060",
         "STN-DEP-P070",
     }
@@ -229,7 +229,7 @@ def station_release_packages() -> tuple[StationReleasePackage, ...]:
             "precast platform, guideway edge, drainage and closure pack",
             "hybrid-prefabrication-and-site",
             ("STN-CIV-100", "STN-CIV-110"),
-            ("STN-CIV-P010", "STN-CIV-P020", "STN-CIV-P030", "STN-CIV-P040", "STN-PLT-P010"),
+            ("STN-CIV-P010", "STN-CIV-P020", "STN-CIV-P030", "STN-CIV-P040", "STN-CIV-P050", "STN-CIV-P060", "STN-PLT-P010"),
             ("STN-TOOL-PRECAST-MOULD", "STN-TOOL-EDGE-GAUGE", "STN-TOOL-LIFTING-GAUGE"),
             (
                 "accepted survey control, track alignment and platform stepping/gap envelope",
@@ -329,7 +329,7 @@ def station_release_packages() -> tuple[StationReleasePackage, ...]:
             "pedestrian approach, lift/stair core and overbridge interface pack",
             "deployment-led-hybrid",
             ("STN-ACC-400", "STN-ACC-410"),
-            ("STN-ACC-P010", "STN-ACC-P020", "STN-ACC-P030"),
+            ("STN-ACC-P010", "STN-ACC-P020", "STN-ACC-P030", "STN-ACC-P040", "STN-ACC-P050", "STN-ACC-P060"),
             ("STN-TOOL-ACCESSIBILITY-GAUGE", "STN-TOOL-STAIR-RISER-GAUGE"),
             (
                 "topographical survey, land boundary, pedestrian demand and road interfaces",

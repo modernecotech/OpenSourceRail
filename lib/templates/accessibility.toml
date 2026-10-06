@@ -31,11 +31,42 @@ cost_usd                = 90000
 [kits.step-free-full]
 ramp_count              = 0
 ramp_length_m           = 0
-elevator_count          = 4              # redundant pair per platform
-escalator_count         = 4
+equipment_quantity_model = "shared-station-layout"
+installed_cost_model    = "installed_unit_cost_usd"
 tactile_paving_m2       = 240
 braille_signage_count   = 24
 audio_wayfinding        = true
 induction_loop          = true
-wheelchair_boarding_bridge_count = 2     # motorized platform→train bridge
-cost_usd                = 850000
+boarding_bridge_scope   = "site-specific boarding assessment; no blanket quantity"
+wayfinding_cost_basis   = "quote tactile, signage, audio and induction-loop scope separately"
+
+# Installed scope replaces blanket vertical-equipment quantities in RFC 0034.
+# These unit allowances are unquoted studies, not universal approved minima.
+[ordinary_island_study]
+lift_count = 2
+escalator_count = 2
+staircase_count = 2
+shaft_count = 2
+passengers_per_hour_each_direction = 3000
+one_lift_unavailable = true
+independent_evacuation_accepted = false
+minimum_clear_width_m = 2.0
+source = "RFC 0034 user-selected study and engineering allowances"
+date = "2026-10-06"
+confidence = "low"
+qualification = "unreleased"
+units = "equipment counts, m, passengers/h; costs USD/installed item"
+
+[installed_unit_cost_usd]
+lift = 180000
+escalator = 140000
+staircase = 65000
+shaft = 90000
+associated_works = 120000
+
+[annual_operation]
+energy_kwh_per_lift = 12000
+energy_kwh_per_escalator = 22000
+maintenance_fraction = 0.04
+replacement_year = 20
+replacement_cost_fraction = 0.75

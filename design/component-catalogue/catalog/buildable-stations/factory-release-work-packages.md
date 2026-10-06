@@ -5,10 +5,10 @@ drawing, tooling, site-handoff and verification tasks. They deliberately
 separate reusable definitions from supplier configuration and deployment release.
 
 - Packages: **9**
-- Unique product rows: **45**
+- Unique product rows: **50**
 - Drawing/interface IDs: **18**
 - Tool/gauge families: **22**
-- Release paths: **18** reusable definition, **14** supplier configuration, **13** deployment-specific
+- Release paths: **18** reusable definition, **14** supplier configuration, **18** deployment-specific
 
 `release-candidate` means the catalogue definition is mature enough to enter
 controlled detailing; it never means a part, structure or site is released.
@@ -28,6 +28,8 @@ Tools/gauges: `STN-TOOL-PRECAST-MOULD`, `STN-TOOL-EDGE-GAUGE`, `STN-TOOL-LIFTING
 | `STN-CIV-P020` — platform sub-base, levelling pad, grout, and closure-pour kit | `MAKE` | `release-candidate` | `reusable-definition` | `not-required` | 7 |
 | `STN-CIV-P030` — platform and track drainage channel, pipe, catch-pit, and outlet kit | `MAKE` | `release-candidate` | `reusable-definition` | `not-required` | 7 |
 | `STN-CIV-P040` — 3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough | `MAKE` | `release-candidate` | `reusable-definition` | `not-required` | 6 |
+| `STN-CIV-P050` — island centre deck infill between edge L-unit strips | `MAKE` | `study-only` | `deployment-specific` | `specified` | 1 |
+| `STN-CIV-P060` — station track-deck and running-rail interface | `MAKE` | `study-only` | `deployment-specific` | `specified` | 7 |
 | `STN-PLT-P010` — platform coping, tactile strip, warning line, and edge-marker kit | `SOURCE` | `release-candidate` | `reusable-definition` | `not-required` | 7 |
 
 ### Frozen inputs
@@ -179,8 +181,11 @@ Tools/gauges: `STN-TOOL-ACCESSIBILITY-GAUGE`, `STN-TOOL-STAIR-RISER-GAUGE`.
 | Product | Route | Catalogue maturity | Release path | Default | Variants |
 |---|---|---|---|---|---:|
 | `STN-ACC-P010` — direct/protected pedestrian approach, kerb, ramp, and boundary kit | `MAKE` | `release-candidate` | `reusable-definition` | `not-required` | 7 |
-| `STN-ACC-P020` — lift/stair step-free circulation core | `BID` | `buildable-after-site-and-supplier-freeze` | `deployment-specific` | `specified` | 1 |
+| `STN-ACC-P020` — installed passenger lift | `BID` | `buildable-after-site-and-supplier-freeze` | `deployment-specific` | `specified` | 1 |
 | `STN-ACC-P030` — pedestrian overbridge/concourse structural and enclosure kit | `BID` | `buildable-after-site-and-supplier-freeze` | `deployment-specific` | `specified` | 1 |
+| `STN-ACC-P040` — installed escalator | `BID` | `study-only` | `deployment-specific` | `specified` | 1 |
+| `STN-ACC-P050` — installed staircase | `BID` | `study-only` | `deployment-specific` | `specified` | 1 |
+| `STN-ACC-P060` — installed shaft | `BID` | `study-only` | `deployment-specific` | `specified` | 1 |
 
 ### Frozen inputs
 

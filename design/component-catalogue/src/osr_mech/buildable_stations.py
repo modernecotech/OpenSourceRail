@@ -15,6 +15,8 @@ import json
 import math
 import re
 import tomllib
+import hashlib
+import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -22,6 +24,7 @@ from osr_mech.civil.platform_l_unit import units_per_platform
 from osr_mech.common import ConsistFamily, StationArchetype, archetype_platform_length_m
 from osr_mech.depot import throat_turnout_count
 from osr_mech.depot.energy import depot_energy_scope
+from osr_mech.station.layout import station_layout
 from osr_mech.station.canopy import bay_count
 from osr_mech.station.auxiliary_canopy import (
     AUX_MODULE_AREA_M2,
@@ -86,7 +89,7 @@ class StationAssemblyNode:
 class StationVariant:
     archetype: str
     consist: str
-    parameters: dict[str, str | float | int | bool]
+    parameters: dict[str, object]
     product_items: tuple[StationProductItem, ...]
     assemblies: tuple[StationAssemblyNode, ...]
     baseline_exclusions: tuple[str, ...]
@@ -146,20 +149,28 @@ def station_variant(
     config: dict[str, object],
     consist: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR,
 ) -> StationVariant:
-    platform_count = int(config["platform_count"])
-    elevated_platform = archetype is StationArchetype.INTERCHANGE_ELEVATED
-    platform_length_m = archetype_platform_length_m(archetype, consist)
+    config = dict(config)
+    elevated_platform = config.get("elevation") == "elevated" or archetype is StationArchetype.INTERCHANGE_ELEVATED
+    platform_length_m = float(config.get("platform_length_m", archetype_platform_length_m(archetype, consist)))
+    if elevated_platform and config.get("platform_layout") != "stacked" and not config.get("layout_exception_reason"):
+        config.update(platform_layout="island", platform_count=1)
+    config.update(elevation="elevated" if elevated_platform else "at-grade", platform_length_m=platform_length_m)
+    if elevated_platform:
+        config["access_type"] = "elevated-island-concourse" if config["platform_layout"] != "stacked" else "stacked-level-transfer-concourse"
+    layout = station_layout(config)
+    platform_count = len(layout.platforms)
+    face_count = len(layout.faces)
     units_each = units_per_platform(platform_length_m)
-    track_channel_count = max(1, math.ceil(platform_count / 2))
+    track_channel_count = max(1, math.ceil(len(layout.faces) / 2))
     at_grade_slab_panels = math.ceil(platform_length_m / 6.0) * track_channel_count
-    bays_each = bay_count(archetype, consist)
+    bays_each = math.ceil(platform_length_m / (BAY_SPACING_MM / 1000.0))
     total_bays = bays_each * platform_count
     total_columns = (bays_each + 1) * platform_count
-    platform_edge_m = platform_length_m * platform_count
+    platform_edge_m = platform_length_m * face_count
     platform_canopy_area_m2 = (
         total_bays
         * (BAY_SPACING_MM / 1000.0)
-        * ((PLATFORM_DEPTH_MM + EAVE_OVERHANG_MM) / 1000.0)
+        * (max(PLATFORM_DEPTH_MM + EAVE_OVERHANG_MM, layout.platforms[0].width_mm + 1200) / 1000.0)
     )
     site_canopy_target_m2 = float(config["canopy_area_m2"])
     auxiliary_canopy_m2 = max(0.0, site_canopy_target_m2 - platform_canopy_area_m2)
@@ -168,8 +179,8 @@ def station_variant(
     fare_gates, tvms = FARE_EQUIPMENT[archetype]
     charging_kw = int(config["charging_power_kw"])
     tpss_kva = int(config["tpss_kva"])
-    access_bridges = int(config["access_bridge_count"])
-    step_free_cores = int(config["step_free_core_count"])
+    access_bridges = sum(level.startswith("concourse") for level in layout.level_elevations_mm)
+    step_free_cores = layout.quantities["lift_count"]
     turnout_count = 1 if bool(config.get("has_turnback_tracks", False)) else 0
     turnout_geometry = TURNOUT_CATALOGUE[TurnoutTangent.T_1_9]
 
@@ -182,11 +193,11 @@ def station_variant(
                 else "6 m ground-level station slab and depressed double-track guideway-channel panel"
             ),
             "MAKE",
-            units_each * platform_count if elevated_platform else at_grade_slab_panels,
+            units_each * face_count if elevated_platform else at_grade_slab_panels,
             "ea",
             "STN-PLT-SA200",
             (
-                f"ceil({platform_length_m:g} m / 3 m) × {platform_count} elevated platforms"
+                f"ceil({platform_length_m:g} m / 3 m) × {face_count} elevated boarding-face strips"
                 if elevated_platform
                 else f"ceil({platform_length_m:g} m / 6 m) × {track_channel_count} at-grade track channels"
             ),
@@ -223,7 +234,7 @@ def station_variant(
             "STN-CIV-P040",
             "3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough",
             "MAKE",
-            0 if elevated_platform else units_each * platform_count,
+            0 if elevated_platform else units_each * face_count,
             "edge module",
             "STN-PLT-SA200",
             "one controlled edge module per 3 m of at-grade boarding edge",
@@ -270,7 +281,7 @@ def station_variant(
             total_bays,
             "ea",
             "STN-CNP-SA300",
-            "one 6 m × 4.2 m panel per canopy bay",
+            f"one 6 m × {max(4200,layout.platforms[0].width_mm+1200)/1000:g} m panel per canopy bay",
             ("fire/material certificate", "insulation test", "connector inspection", "watertightness test"),
             ("station/solar_roof.py", "OSR-STD-E-003"),
             "buildable-after-supplier-freeze",
@@ -440,6 +451,16 @@ def station_variant(
     # zero-quantity manufacturing row.
     items = [item for item in items if item.quantity > 0]
 
+    items.append(_item("STN-CIV-P060", "station track-deck and running-rail interface", "MAKE",
+        platform_length_m*face_count, "track m", "STN-PLT-SA200",
+        "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+        ("station civil/support release", "rail datum and gauge survey"), ("RFC 0034",), "study-only"))
+    infill_width_m = max(0, layout.platforms[0].width_mm/1000-6.0)
+    if elevated_platform and layout.layout in ("island", "stacked") and infill_width_m:
+        items.append(_item("STN-CIV-P050", "island centre deck infill between edge L-unit strips", "MAKE",
+            infill_width_m*platform_length_m*platform_count, "m2", "STN-PLT-SA200",
+            "island width minus two 3 m edge strips, times platform length and count",
+            ("station structural design release", "deck lifting/installation release"), ("RFC 0034",), "study-only"))
     if auxiliary_canopy_m2 > 0.01:
         items.extend(
             [
@@ -539,17 +560,22 @@ def station_variant(
         items.append(
             _item(
                 "STN-ACC-P020",
-                "lift/stair step-free circulation core",
+                "installed passenger lift",
                 "BID",
                 step_free_cores,
                 "core",
                 "STN-ACC-SA600",
-                "configured step-free-core count",
+                "lift identities and served levels from shared layout",
                 ("lift certification", "fire recall test", "backup-power test", "accessibility survey"),
                 ("lib/templates/stations.toml", "RFC 0010 §5"),
                 "buildable-after-site-and-supplier-freeze",
             )
         )
+    for product_id, kind in (("STN-ACC-P040", "escalator"), ("STN-ACC-P050", "staircase"), ("STN-ACC-P060", "shaft")):
+        quantity = layout.quantities[f"{kind}_count"]
+        if quantity:
+            items.append(_item(product_id, f"installed {kind}", "BID", quantity, "ea", "STN-ACC-SA600",
+                "equipment identities and served levels from shared layout", ("supplier and independent access/egress acceptance",), ("RFC 0034",), "study-only"))
     if access_bridges > 0:
         items.append(
             _item(
@@ -776,7 +802,7 @@ def station_variant(
             "STN-PLT-SA200",
             "platform, guideway-channel, and boarding-edge assembly",
             children("STN-CIV-P01")
-            + tuple(item_id for item_id in ("STN-CIV-P020", "STN-CIV-P040", "STN-PLT-P010") if item_id in item_ids),
+            + tuple(item_id for item_id in ("STN-CIV-P020", "STN-CIV-P040", "STN-CIV-P050", "STN-CIV-P060", "STN-PLT-P010") if item_id in item_ids),
             "civil/platform construction",
             (
                 "inspect delivery certificates, lifting points, and platform datum",
@@ -940,14 +966,25 @@ def station_variant(
         ),
     )
 
-    parameters: dict[str, str | float | int | bool] = {
+    parameters: dict[str, object] = {
         "platform_count": platform_count,
+        "boarding_face_count": face_count,
+        "track_count": face_count,
+        "elevation": config["elevation"],
+        "platform_width_m": layout.platforms[0].width_mm / 1000,
+        "layout_exception_reason": str(config.get("layout_exception_reason", "")),
+        "layout": layout.payload(),
+        "levels_m": [p.base_z_mm/1000 for p in layout.platforms],
+        "elevated_height_m": float(config.get("elevated_height_m",9.0)),
+        "access_equipment": [asdict(e) for e in layout.equipment],
+        "entrances": list(layout.entrances),
+        "minimum_clear_width_m": float(config.get("minimum_clear_width_m",1.5)),
         "platform_layout": str(config["platform_layout"]),
         "platform_length_m": platform_length_m,
-        "platform_l_units": units_each * platform_count if elevated_platform else 0,
+        "platform_l_units": units_each * face_count if elevated_platform else 0,
         "at_grade_track_channel_count": 0 if elevated_platform else track_channel_count,
         "at_grade_slab_panels": 0 if elevated_platform else at_grade_slab_panels,
-        "guideway_edge_modules": 0 if elevated_platform else units_each * platform_count,
+        "guideway_edge_modules": 0 if elevated_platform else units_each * face_count,
         "canopy_bays_per_platform": bays_each,
         "total_canopy_bays": total_bays,
         "platform_canopy_area_m2": round(platform_canopy_area_m2, 1),
@@ -1527,6 +1564,10 @@ def write_outputs(
     bom_dir.mkdir(parents=True, exist_ok=True)
 
     payload = {
+        "source_revision": subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO_ROOT,text=True).strip(),
+        "source_sha256": {str(p.relative_to(REPO_ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                          for p in (template,Path(__file__),Path(__file__).parent/"station/layout.py")},
+        "assumption_status": "RFC 0034 study; access/egress and structural release pending",
         "source_template": str(template.relative_to(REPO_ROOT)),
         "consist": consist.value,
         "open_release_items": open_release_items(variants),

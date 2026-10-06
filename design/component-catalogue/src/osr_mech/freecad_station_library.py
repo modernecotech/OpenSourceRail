@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict
+from osr_mech.station.layout import station_layout
+
 import argparse
 import hashlib
 import json
@@ -104,40 +107,20 @@ def _datum_rows(variant: dict[str, object]) -> list[dict[str, object]]:
     """Return coordinate-bearing datum/interface definitions for one variant."""
 
     length = float(variant["parameters"]["platform_length_m"]) * 1000.0
-    count = int(variant["parameters"]["platform_count"])
-    stacked = variant["parameters"].get("platform_layout") == "stacked"
-    if count == 1:
-        platform_centres = [(5_000.0, 0.0)]
-    elif count == 2:
-        platform_centres = [(-5_000.0, 0.0), (5_000.0, 0.0)]
-    elif stacked:
-        platform_centres = [(-5_000.0, 9_000.0), (5_000.0, 9_000.0), (-5_000.0, 17_000.0), (5_000.0, 17_000.0)]
-    else:
-        platform_centres = [(-11_000.0, 0.0), (-5_000.0, 0.0), (5_000.0, 0.0), (11_000.0, 0.0)]
-    interfaces = [
-        {
-            "platform_face_y_mm": y - (1_500.0 if y > 0 else -1_500.0),
-            "track_centre_y_mm": y - (3_000.0 if y > 0 else -3_000.0),
-            "top_of_rail_z_mm": level + TOP_OF_RAIL_Z_MM,
-            "boarding_z_mm": level + PLATFORM_SURFACE_Z_MM,
-            "static_vehicle_to_platform_gap_mm": 75.0,
-            "dynamic_envelope_review_margin_mm": 15.0,
-        }
-        for y, level in platform_centres
-    ]
+    interfaces = [asdict(face) for face in station_layout(variant["parameters"]).faces]
     track_min_y = min(row["track_centre_y_mm"] - 1_485.0 for row in interfaces)
     track_max_y = max(row["track_centre_y_mm"] + 1_485.0 for row in interfaces)
     min_tor = min(row["top_of_rail_z_mm"] for row in interfaces)
     max_tor = max(row["top_of_rail_z_mm"] for row in interfaces)
     coordinate_map: dict[str, dict[str, object]] = {
-        "DATUM-TRACK-CL": {"axis": "x", "origin_mm": [0.0, 0.0, 0.0]},
+        "DATUM-TRACK-CL": {"axis": "x", "origins_mm": [[0.0,row["track_centre_y_mm"],row["top_of_rail_z_mm"]] for row in interfaces], "interfaces":interfaces},
         "DATUM-TOR": {"interfaces": interfaces},
         "DATUM-PLATFORM-FACE": {"interfaces": interfaces},
         "DATUM-BOARDING": {"interfaces": interfaces},
         "ZONE-TRAIN-KINEMATIC": {"bounds_mm": [-length / 2, track_min_y, min_tor, length / 2, track_max_y, max_tor + 4500.0]},
-        "ZONE-EDGE-SAFETY": {"bounds_mm": [-length / 2, -14500.0, 0.0, length / 2, 14500.0, 1400.0]},
-        "ZONE-LIFTING": {"bounds_mm": [-length / 2 - 5000.0, -18000.0, 0.0, length / 2 + 5000.0, 18000.0, 12000.0]},
-        "ZONE-MAINTENANCE": {"bounds_mm": [-length / 2, -15000.0, 0.0, length / 2, 15000.0, 6500.0]},
+        "ZONE-EDGE-SAFETY": {"bounds_mm": [-length / 2, min(row["platform_face_y_mm"] for row in interfaces)-1100, min_tor+50, length / 2, max(row["platform_face_y_mm"] for row in interfaces)+1100, max_tor+1750]},
+        "ZONE-LIFTING": {"bounds_mm": [-length / 2 - 5000.0, track_min_y-5000, min_tor-3000, length / 2 + 5000.0, track_max_y+5000, max_tor+12000]},
+        "ZONE-MAINTENANCE": {"bounds_mm": [-length / 2, track_min_y-3000, min_tor-2000, length / 2, track_max_y+3000, max_tor+6500]},
         "INTERFACE-TRACK": {"datum_ids": ["DATUM-TRACK-CL", "DATUM-TOR"]},
         "INTERFACE-TRAIN": {"datum_ids": ["DATUM-TOR", "DATUM-BOARDING", "ZONE-TRAIN-KINEMATIC"]},
         "INTERFACE-PSD": {"datum_ids": ["DATUM-PLATFORM-FACE", "DATUM-BOARDING"]},
@@ -149,10 +132,17 @@ def _datum_rows(variant: dict[str, object]) -> list[dict[str, object]]:
     ]
 
 
+def _geometry_sources() -> dict[str,str]:
+    paths = (Path(__file__),Path(__file__).parent/"cad.py",Path(__file__).parent/"station/layout.py",
+             Path(__file__).parent/"station/product_geometry.py",Path(__file__).parent/"depot/bogie_change.py")
+    return {str(path.relative_to(REPO_ROOT)):_sha256(path) for path in paths}
+
+
 def _review_sidecar(
     variant: dict[str, object],
     output: Path,
     primitive_count: int,
+    manifest_path: Path = MANIFEST,
 ) -> Path:
     archetype = str(variant["archetype"])
     product_rows = [
@@ -169,8 +159,9 @@ def _review_sidecar(
         "archetype": archetype,
         "status": "design-reference-not-released",
         "release_boundary": RELEASE_BOUNDARY,
-        "manifest": str(MANIFEST.relative_to(REPO_ROOT)),
-        "manifest_sha256": _sha256(MANIFEST),
+        "manifest": str(manifest_path.relative_to(REPO_ROOT)),
+        "manifest_sha256": _sha256(manifest_path),
+        "geometry_sources_sha256": _geometry_sources(),
         "freecad_file": str(output.relative_to(REPO_ROOT)),
         "assembly_ids": [str(row["id"]) for row in variant["assemblies"]],
         "product_ids": [row["product_id"] for row in product_rows],
@@ -186,7 +177,7 @@ def _review_sidecar(
     return sidecar
 
 
-def _write_variant(variant: dict[str, object], output: Path) -> dict[str, object]:
+def _write_variant(variant: dict[str, object], output: Path, manifest_path: Path = MANIFEST) -> dict[str, object]:
     archetype = str(variant["archetype"])
     doc = App.newDocument(safe_name(f"station_{archetype}"))
     doc.Label = f"OSR {archetype} station coordination assembly"
@@ -197,8 +188,8 @@ def _write_variant(variant: dict[str, object], output: Path) -> dict[str, object
     _property(meta, "App::PropertyString", "Archetype", archetype)
     _property(meta, "App::PropertyString", "GeometryStatus", "coordinated-design-reference-geometry")
     _property(meta, "App::PropertyString", "ReleaseBoundary", RELEASE_BOUNDARY)
-    _property(meta, "App::PropertyString", "ControlledManifest", str(MANIFEST.relative_to(REPO_ROOT)))
-    _property(meta, "App::PropertyString", "ManifestSha256", _sha256(MANIFEST))
+    _property(meta, "App::PropertyString", "ControlledManifest", str(manifest_path.relative_to(REPO_ROOT)))
+    _property(meta, "App::PropertyString", "ManifestSha256", _sha256(manifest_path))
     root.addObject(meta)
 
     hierarchy = doc.addObject("App::DocumentObjectGroup", "AssemblyHierarchy")
@@ -294,7 +285,7 @@ def _write_variant(variant: dict[str, object], output: Path) -> dict[str, object
         exploded_state.ViewObject.Visibility = False
     _save(doc, output)
 
-    sidecar = _review_sidecar(variant, output, primitive_count)
+    sidecar = _review_sidecar(variant, output, primitive_count,manifest_path)
 
     reopened = App.openDocument(str(output))
     try:
@@ -328,22 +319,23 @@ def _write_variant(variant: dict[str, object], output: Path) -> dict[str, object
     }
 
 
-def build_library(output_root: Path = DEFAULT_OUTPUT) -> dict[str, object]:
+def build_library(output_root: Path = DEFAULT_OUTPUT, manifest_path: Path = MANIFEST) -> dict[str, object]:
     _require_freecad()
-    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     variants = [
-        _write_variant(variant, output_root / f"station-{variant['archetype']}.FCStd")
+        _write_variant(variant, output_root / f"station-{variant['archetype']}.FCStd",manifest_path)
         for variant in manifest["variants"]
     ]
     report = {
         "schema": "org.opensourcerail.station-freecad-library.v1",
         "status": "design-reference-not-released",
         "release_boundary": RELEASE_BOUNDARY,
-        "manifest": str(MANIFEST.relative_to(REPO_ROOT)),
-        "manifest_sha256": _sha256(MANIFEST),
+        "manifest": str(manifest_path.relative_to(REPO_ROOT)),
+        "manifest_sha256": _sha256(manifest_path),
+        "geometry_sources_sha256": _geometry_sources(),
         "variant_count": len(variants),
         "variants": variants,
-        "passed": len(variants) == 7 and all(value["reopen_validated"] for value in variants),
+        "passed": len(variants) == len(manifest["variants"]) and all(value["reopen_validated"] for value in variants),
     }
     index = output_root / "station-library.index.json"
     index.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -354,8 +346,9 @@ def build_library(output_root: Path = DEFAULT_OUTPUT) -> dict[str, object]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--manifest", type=Path, default=MANIFEST)
     args = parser.parse_args(argv)
-    return 0 if build_library(args.output_root.resolve())["passed"] else 1
+    return 0 if build_library(args.output_root.resolve(),args.manifest.resolve())["passed"] else 1
 
 
 if __name__ == "__main__":

@@ -12,8 +12,11 @@
 
 | Product | Route / maturity | Release path | Variants | Reference default |
 |---|---|---|---:|---|
-| `STN-ACC-P020` — lift/stair step-free circulation core | `BID` / `buildable-after-site-and-supplier-freeze` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p020) |
+| `STN-ACC-P020` — installed passenger lift | `BID` / `buildable-after-site-and-supplier-freeze` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p020) |
 | `STN-ACC-P030` — pedestrian overbridge/concourse structural and enclosure kit | `BID` / `buildable-after-site-and-supplier-freeze` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p030) |
+| `STN-ACC-P040` — installed escalator | `BID` / `study-only` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p040) |
+| `STN-ACC-P050` — installed staircase | `BID` / `study-only` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p050) |
+| `STN-ACC-P060` — installed shaft | `BID` / `study-only` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-acc-p060) |
 
 ## Required views
 

@@ -9,8 +9,8 @@ maturity = "planning-target-not-a-quotation"
 
 [provenance]
 generator = "tools/automation/generate-civil-cost-model.py"
-calibration_sha256 = "6625e3c60883e0bdabd7908123bb1f71aefd4bcd0995f2c81f7d0dbe0b1d4bfe"
-civil_source_tree_sha256 = "efb9115ab01381ff7809e75833664a74a5935bdc42e1f66a430ed8a35d68b2fc"
+calibration_sha256 = "8e5c06f0dc79f39ea6c1271ca28420ea2df4f8acdbd9dc89471ebc4298dd0acb"
+civil_source_tree_sha256 = "dceb867a60621cf16c28ab1639dcd7f0e79f88249cd576ed79e07e963cd63e1e"
 
 [civil_usd_per_km]
 at_grade = 2584000
@@ -87,3 +87,50 @@ benchmark_usd_per_km = 18000000
 design_target_usd_per_km = 18000000
 design_to_benchmark_ratio = 1.000000
 unscaled_cost_share = 1.000000
+
+[construction_scope]
+source = "RFC 0034 unquoted scope allocation"
+date = "2026-10-06"
+confidence = "low"
+qualification = "embedded-erection-allowance-unverified"
+units = "fraction of elevated installed planning rate"
+embedded_erection_credit_verified = false
+
+[construction_scope.elevated_usd_per_km]
+supplied_components = 4.09416e+06
+erection_equipment = 779840
+transport = 584880
+temporary_works = 487400
+installation_labour_supervision = 1.16976e+06
+night_shift = 194960
+testing_inspection = 292440
+maintenance_relocations = 292440
+traffic_management = 389920
+supports_foundations = 1.4622e+06
+
+[procurement.launcher_whole_beam]
+count = 18
+central_cash_allowance_usd = 9000000
+source = "User-selected Baghdad sensitivity; no supplier quotation"
+date = "2026-10-06"
+confidence = "low"
+qualification = "unquoted-planning-assumption"
+units = "machines, USD cash purchase"
+exclusions = ["transporters", "lifting frames", "shipping and duties", "assembly and commissioning", "temporary supports", "spares and maintenance", "crews", "relocations", "station clearance modifications"]
+
+[procurement.segmental_gantry]
+source = "Separate equipment family; no quotation or productivity adopted"
+date = "2026-10-06"
+confidence = "unknown"
+qualification = "unpriced"
+units = "USD per machine; unset"
+
+[factory_reconciliation]
+civil_existing_factories = "contracted purchases, tooling, qualified bed upgrades and storage; no spare capacity assumed"
+rolling_stock = "retain final assembly and rolling-stock tooling allowance pending scope reconciliation"
+electronics = "retain electronics manufacturing allowance pending scope reconciliation"
+new_civil_factory = "only after make/buy and qualified contracted supply comparison"
+
+[source_revision]
+git_commit = "5f5d9fd5ad5b74dc48cd89b23e6bcce9df95506a"
+working_tree_inputs = "calibration and civil source hashes above"

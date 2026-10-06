@@ -96,3 +96,27 @@ def structure_quantities_per_km() -> dict[str, dict[str, float | int | bool | st
 
 
 __all__ = ["structure_quantities_per_km"]
+
+
+def station_structure_quantities(layout, platform_length_m: float, transition_length_m: float = 150.0,
+                                 running_track_separation_m: float = 4.0) -> dict:
+    """Station structures and spreading approaches stay outside running spans."""
+    import math
+    if platform_length_m <= 0 or transition_length_m <= 0:
+        raise ValueError("station and transition lengths must be positive")
+    faces=layout.faces
+    separation=max(f.track_centre_y_mm for f in faces)/1000-min(f.track_centre_y_mm for f in faces)/1000
+    spread=max(0,(separation-running_track_separation_m)/2)
+    width=separation+2*2.5
+    return dict(concourse_deck_area_m2=sum(d["length_mm"]*d["width_mm"]/1e6 for d in layout.concourse_decks),station_track_m=platform_length_m*len(faces),station_rail_m=platform_length_m*len(faces)*2,station_length_m=platform_length_m,station_deck_width_m=width,
+        station_deck_area_m2=width*platform_length_m,
+        platform_deck_area_m2=sum(p.width_mm/1000*platform_length_m for p in layout.platforms),
+        station_track_separation_m=separation,track_spread_each_side_m=spread,
+        transition_length_each_end_m=transition_length_m,
+        transition_curve="quintic zero-offset/slope/curvature at both ends",
+        minimum_transition_radius_screen_m=transition_length_m**2/(5.774*spread) if spread else None,
+        widened_pier_cap_width_m=width,station_support_lines=math.ceil(platform_length_m/25)+1,
+        foundation_design="changed vertical/transverse reactions require geotechnical and structural release",
+        launcher_clearance="station-width supports and track-spread envelope require supplier clearance approval",
+        erection_sequence=["release access and widened supports","erect track decks","erect island deck","access cores","fit-out"],
+        running_span_quantities_included=False,qualified=False)

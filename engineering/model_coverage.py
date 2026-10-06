@@ -212,7 +212,7 @@ def build_register() -> dict[str, Any]:
         "station_variants": variant_coverage,
         "passed": (
             len(lm3_rows) == 120
-            and len(station_rows) == 45
+            and len(station_rows) == 50
             and len(variant_coverage) == 7
             and ids_report["status"] is True
             and len(ids_report["specifications"]) == 4

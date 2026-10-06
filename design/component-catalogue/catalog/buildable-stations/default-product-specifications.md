@@ -6,7 +6,7 @@ These values close avoidable ambiguity in the open product rows with common,
 serviceable configurations. A default remains subordinate to every listed
 override trigger and the factory/release evidence gate.
 
-Coverage: **29** defaults for **29** open product families; **13** source anchors.
+Coverage: **34** defaults for **34** open product families; **13** source anchors.
 
 ## `STN-CNP-P030` — factory-bonded solar roof sandwich panel with MC4 leads
 
@@ -334,7 +334,7 @@ Must override when:
 
 Sources: [`OSR-STATION`](#source-osr-station), [`ABB-TPSS`](#source-abb-tpss).
 
-## `STN-ACC-P020` — lift/stair step-free circulation core
+## `STN-ACC-P020` — installed passenger lift
 
 Default: **machine-room-less through-car passenger lift core**
 
@@ -358,6 +358,101 @@ Must override when:
 - flood, seismic or exposed climate conditions need a special package
 
 Sources: [`OSR-STATION`](#source-osr-station), [`KONE-MRL`](#source-kone-mrl), [`PRM-TSI`](#source-prm-tsi).
+
+## `STN-ACC-P040` — installed escalator
+
+Default: **escalator study**
+
+Use class: `preliminary-design-default-not-construction-release`
+
+Values:
+
+- equipment identity, served levels and envelope from shared station layout
+- separate installed equipment and associated works
+
+Affordability: Quantify actual equipment instead of a blanket accessibility kit.
+
+Must override when:
+
+- passenger-flow, one-lift-out, evacuation or structural assessment changes geometry
+
+Sources: [`OSR-STATION`](#source-osr-station).
+
+## `STN-ACC-P050` — installed staircase
+
+Default: **separated staircase study**
+
+Use class: `preliminary-design-default-not-construction-release`
+
+Values:
+
+- equipment identity, served levels and envelope from shared station layout
+- separate installed equipment and associated works
+
+Affordability: Quantify actual equipment instead of a blanket accessibility kit.
+
+Must override when:
+
+- passenger-flow, one-lift-out, evacuation or structural assessment changes geometry
+
+Sources: [`OSR-STATION`](#source-osr-station).
+
+## `STN-ACC-P060` — installed shaft
+
+Default: **lift shaft study**
+
+Use class: `preliminary-design-default-not-construction-release`
+
+Values:
+
+- equipment identity, served levels and envelope from shared station layout
+- separate installed equipment and associated works
+
+Affordability: Quantify actual equipment instead of a blanket accessibility kit.
+
+Must override when:
+
+- passenger-flow, one-lift-out, evacuation or structural assessment changes geometry
+
+Sources: [`OSR-STATION`](#source-osr-station).
+
+## `STN-CIV-P060` — station track-deck and running-rail interface
+
+Default: **station track-deck and rail interface study**
+
+Use class: `preliminary-design-default-not-construction-release`
+
+Values:
+
+- tracks and rail-head datums from shared layout
+- station decks require separate support/foundation structural release
+
+Affordability: Keep station track structures separate from running viaduct quantities.
+
+Must override when:
+
+- station or track-spreading geometry changes
+
+Sources: [`OSR-STATION`](#source-osr-station).
+
+## `STN-CIV-P050` — island centre deck infill between edge L-unit strips
+
+Default: **island centre deck infill study**
+
+Use class: `preliminary-design-default-not-construction-release`
+
+Values:
+
+- 420 mm structural envelope; reinforcement and reaction design unreleased
+- width equals island width minus two 3 m edge strips
+
+Affordability: Price wider island deck explicitly alongside access equipment.
+
+Must override when:
+
+- station support, launcher clearance or structural design changes
+
+Sources: [`OSR-STATION`](#source-osr-station).
 
 ## `STN-ACC-P030` — pedestrian overbridge/concourse structural and enclosure kit
 

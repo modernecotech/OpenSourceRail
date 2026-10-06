@@ -56,3 +56,48 @@ reason = "Expansion gaps occur at unit boundaries instead of every span"
 benchmark_usd_per_km = 18000000
 # No bridge reduction is claimed until a bridge-specific model and foundation
 # schedule exist; an empty driver list therefore retains the benchmark.
+
+# The following decomposition is a study allocation, not verified contractor
+# contents. No erection credit may be extracted from the installed rate yet.
+[construction_scope]
+source = "RFC 0034 unquoted scope allocation"
+date = "2026-10-06"
+confidence = "low"
+qualification = "embedded-erection-allowance-unverified"
+units = "fraction of elevated installed planning rate"
+embedded_erection_credit_verified = false
+
+[construction_scope.shares]
+supplied_components = 0.42
+erection_equipment = 0.08
+transport = 0.06
+temporary_works = 0.05
+installation_labour_supervision = 0.12
+night_shift = 0.02
+testing_inspection = 0.03
+maintenance_relocations = 0.03
+traffic_management = 0.04
+supports_foundations = 0.15
+
+[procurement.launcher_whole_beam]
+count = 18
+central_cash_allowance_usd = 9000000
+source = "User-selected Baghdad sensitivity; no supplier quotation"
+date = "2026-10-06"
+confidence = "low"
+qualification = "unquoted-planning-assumption"
+units = "machines, USD cash purchase"
+exclusions = ["transporters", "lifting frames", "shipping and duties", "assembly and commissioning", "temporary supports", "spares and maintenance", "crews", "relocations", "station clearance modifications"]
+
+[procurement.segmental_gantry]
+source = "Separate equipment family; no quotation or productivity adopted"
+date = "2026-10-06"
+confidence = "unknown"
+qualification = "unpriced"
+units = "USD per machine; unset"
+
+[factory_reconciliation]
+civil_existing_factories = "contracted purchases, tooling, qualified bed upgrades and storage; no spare capacity assumed"
+rolling_stock = "retain final assembly and rolling-stock tooling allowance pending scope reconciliation"
+electronics = "retain electronics manufacturing allowance pending scope reconciliation"
+new_civil_factory = "only after make/buy and qualified contracted supply comparison"

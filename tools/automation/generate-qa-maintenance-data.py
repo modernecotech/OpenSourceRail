@@ -867,6 +867,15 @@ def _civil_production_by_line(
                 slipform_metres_per_shift=float(controls.get("slipform_metres_per_shift", 200.0)),
                 working_days_per_week=int(controls.get("working_days_per_week", 6)),
                 foundations_ahead_bays=int(controls.get("foundations_ahead_bays", 12)),
+                independent_fronts=int(controls.get("independent_fronts",controls.get("gantry_count",1))),
+                launchers_per_front=int(controls.get("launchers_per_front",1)),
+                shifts_day=int(controls.get("shifts_day",1)),hours_shift=float(controls.get("hours_shift",8)),
+                productive_fraction=float(controls.get("productive_fraction",1)),
+                handover_hours=float(controls.get("handover_hours",0)),
+                maintenance_hours_day=float(controls.get("maintenance_hours_day",0)),
+                placement_hours_beam=float(controls.get("placement_hours_beam",2)),
+                securing_hours_beam=float(controls.get("securing_hours_beam",1)),
+                advance_hours_bay=float(controls.get("advance_hours_bay",2)),
             )
         )
         rows.append({"line": line_name, **asdict(plan)})

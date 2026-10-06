@@ -105,6 +105,13 @@ def export_variant(variant: dict[str, object], output: Path) -> dict[str, object
     )
     set_local_placement(model, site, (0.0, 0.0, 0.0))
     set_local_placement(model, building, (0.0, 0.0, 0.0))
+    from osr_mech.station.layout import station_layout
+    layout = station_layout(variant["parameters"])
+    property_set(model,building,"OSR_StationLayout",{
+        "PhysicalPlatforms": len(layout.platforms), "BoardingFaces": len(layout.faces), "Tracks":len(layout.faces),
+        "Elevation":layout.elevation,"Layout":layout.layout,
+        "TopologyAndAccess":json.dumps(layout.payload(),sort_keys=True),
+        "Qualification":layout.qualification})
     specs = geometry_specs()
     item_ids = {str(item["id"]) for item in variant["product_items"]}
     missing_specs = sorted(item_ids - set(specs))
@@ -235,8 +242,9 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / "build/engineering/interchange/stations")
     parser.add_argument("--variant", action="append", dest="variants")
     parser.add_argument("--all-variants", action="store_true")
+    parser.add_argument("--manifest", type=Path, default=MANIFEST)
     args = parser.parse_args()
-    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     variants = {variant["archetype"]: variant for variant in manifest["variants"]}
     if args.all_variants and args.variants:
         parser.error("--all-variants and --variant cannot be combined")
@@ -250,7 +258,7 @@ def main() -> int:
     else:
         selected = ("standard", "interchange-elevated")
     reports = [export_variant(variants[name], args.output_dir / f"station-{name}.ifc") for name in selected]
-    summary = {"analysis_id": "OSR-AN-IFC-STN-001", "ifcopenshell_version": version("ifcopenshell"), "manifest": str(MANIFEST.relative_to(REPO_ROOT)), "manifest_sha256": hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), "passed": all(not report["missing_ids"] and not report["missing_geometry_ids"] and not report["unexpected_ids"] and not report["property_mismatches"] and not report["structure_mismatches"] for report in reports), "scope": "stable-ID, geometric product representation, product-property, and assembly-hierarchy station IFC4.3 interchange", "variants": reports}
+    summary = {"analysis_id": "OSR-AN-IFC-STN-001", "ifcopenshell_version": version("ifcopenshell"), "manifest": str(args.manifest.relative_to(REPO_ROOT)), "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(), "passed": all(not report["missing_ids"] and not report["missing_geometry_ids"] and not report["unexpected_ids"] and not report["property_mismatches"] and not report["structure_mismatches"] for report in reports), "scope": "stable-ID, geometric product representation, product-property, and assembly-hierarchy station IFC4.3 interchange", "variants": reports}
     summary_path = args.output_dir / "summary.json"
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", dir=summary_path.parent, delete=False, encoding="utf-8") as handle:

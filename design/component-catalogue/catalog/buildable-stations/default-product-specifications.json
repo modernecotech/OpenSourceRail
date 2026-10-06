@@ -1,5 +1,5 @@
 {
-  "default_count": 29,
+  "default_count": 34,
   "defaults": [
     {
       "affordability_basis": "Uses high-volume framed modules and a repeated dry-fixed roof cassette rather than a bespoke BIPV laminate.",
@@ -323,6 +323,86 @@
         "PRM-TSI"
       ],
       "use_class": "rfq-default-not-selected"
+    },
+    {
+      "affordability_basis": "Quantify actual equipment instead of a blanket accessibility kit.",
+      "default_name": "escalator study",
+      "must_override_when": [
+        "passenger-flow, one-lift-out, evacuation or structural assessment changes geometry"
+      ],
+      "parameters": [
+        "equipment identity, served levels and envelope from shared station layout",
+        "separate installed equipment and associated works"
+      ],
+      "product_id": "STN-ACC-P040",
+      "source_ids": [
+        "OSR-STATION"
+      ],
+      "use_class": "preliminary-design-default-not-construction-release"
+    },
+    {
+      "affordability_basis": "Quantify actual equipment instead of a blanket accessibility kit.",
+      "default_name": "separated staircase study",
+      "must_override_when": [
+        "passenger-flow, one-lift-out, evacuation or structural assessment changes geometry"
+      ],
+      "parameters": [
+        "equipment identity, served levels and envelope from shared station layout",
+        "separate installed equipment and associated works"
+      ],
+      "product_id": "STN-ACC-P050",
+      "source_ids": [
+        "OSR-STATION"
+      ],
+      "use_class": "preliminary-design-default-not-construction-release"
+    },
+    {
+      "affordability_basis": "Quantify actual equipment instead of a blanket accessibility kit.",
+      "default_name": "lift shaft study",
+      "must_override_when": [
+        "passenger-flow, one-lift-out, evacuation or structural assessment changes geometry"
+      ],
+      "parameters": [
+        "equipment identity, served levels and envelope from shared station layout",
+        "separate installed equipment and associated works"
+      ],
+      "product_id": "STN-ACC-P060",
+      "source_ids": [
+        "OSR-STATION"
+      ],
+      "use_class": "preliminary-design-default-not-construction-release"
+    },
+    {
+      "affordability_basis": "Keep station track structures separate from running viaduct quantities.",
+      "default_name": "station track-deck and rail interface study",
+      "must_override_when": [
+        "station or track-spreading geometry changes"
+      ],
+      "parameters": [
+        "tracks and rail-head datums from shared layout",
+        "station decks require separate support/foundation structural release"
+      ],
+      "product_id": "STN-CIV-P060",
+      "source_ids": [
+        "OSR-STATION"
+      ],
+      "use_class": "preliminary-design-default-not-construction-release"
+    },
+    {
+      "affordability_basis": "Price wider island deck explicitly alongside access equipment.",
+      "default_name": "island centre deck infill study",
+      "must_override_when": [
+        "station support, launcher clearance or structural design changes"
+      ],
+      "parameters": [
+        "420 mm structural envelope; reinforcement and reaction design unreleased",
+        "width equals island width minus two 3 m edge strips"
+      ],
+      "product_id": "STN-CIV-P050",
+      "source_ids": [
+        "OSR-STATION"
+      ],
+      "use_class": "preliminary-design-default-not-construction-release"
     },
     {
       "affordability_basis": "Straight repeated steel spans and independent vertical cores reduce bespoke geometry, erection possessions and future lift replacement risk.",

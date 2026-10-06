@@ -21,3 +21,5 @@ work is tracked in [`../ROADMAP.md`](../ROADMAP.md).
 The current published software baseline is [v0.4.0](../release-v0.4.md); subsequent work is recorded in the [changelog](../../CHANGELOG.md).
 
 - [RFC 0033 — TACS runtime and resource control](0033-tacs-runtime-and-resource-control.md) — proposed development target; existing control components and multi-process reference.
+
+- [RFC 0034 — Connected station, production and battery model](0034-connected-station-production-and-battery-model.md) — proposed shared topology, contracted supply, shift scheduling, scope costs and battery alternatives.

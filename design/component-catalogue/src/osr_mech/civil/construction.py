@@ -4,6 +4,26 @@ from __future__ import annotations
 
 import math
 from dataclasses import asdict, dataclass
+from enum import Enum
+from .shift_schedule import ShiftCycle
+
+
+class ErectionMethod(str, Enum):
+    MOBILE_CRANE = "mobile-crane-whole-beam"
+    WHOLE_BEAM_LAUNCHER = "launcher-whole-beam"
+    SEGMENTAL = "segmental"
+
+
+def erection_resources(method: ErectionMethod, bays: int, span_m: float = 25.0) -> dict:
+    method = ErectionMethod(method)
+    if method is ErectionMethod.SEGMENTAL:
+        from .segmental import segmental_erection_quantities
+        return {"method": method.value, **segmental_erection_quantities(bays, span_m)}
+    return dict(method=method.value, complete_beams=2*bays,
+        lifting_locations=2*bays if method is ErectionMethod.MOBILE_CRANE else 0,
+        launcher_advance_cycles=bays if method is ErectionMethod.WHOLE_BEAM_LAUNCHER else 0,
+        equipment_family="mobile-crane" if method is ErectionMethod.MOBILE_CRANE else "whole-beam-launcher",
+        required_release=["suspended-load", "temporary-supports", "delivery-access", "closures"])
 
 
 @dataclass(frozen=True)
@@ -24,6 +44,26 @@ class CivilProductionInputs:
     slipform_metres_per_shift: float = 200.0
     working_days_per_week: int = 6
     foundations_ahead_bays: int = 12
+    erection_method: str = ErectionMethod.WHOLE_BEAM_LAUNCHER.value
+    independent_fronts: int | None = None
+    launchers_per_front: int = 1
+    shifts_day: int = 1
+    hours_shift: float = 8.0
+    productive_fraction: float = 1.0
+    handover_hours: float = 0.0
+    maintenance_hours_day: float = 0.0
+    placement_hours_beam: float = 2.0
+    securing_hours_beam: float = 1.0
+    advance_hours_bay: float = 2.0
+    delivery_beams_day: float | None = None
+    accepted_beams_day: float | None = None
+    released_bays_day: float | None = None
+    weather_availability: float = 1.0
+    permitted_hours_day: float = 24.0
+    station_interruptions_days: int = 0
+    relocation_days: int = 0
+    mobilisation_days: int = 0
+    ramp_up_days: int = 0
 
 
 @dataclass(frozen=True)
@@ -87,7 +127,30 @@ def civil_production_plan(inputs: CivilProductionInputs) -> CivilProductionPlan:
     foundation_days = math.ceil(
         foundations / (inputs.piling_rig_count * inputs.foundations_per_rig_shift)
     )
-    erection_days = math.ceil(bays / (inputs.gantry_count * inputs.bays_per_gantry_shift))
+    method = ErectionMethod(inputs.erection_method)
+    if method is ErectionMethod.SEGMENTAL:
+        raise ValueError("segmental erection requires its separate segment/joint/stressing schedule")
+    cycle = ShiftCycle(shifts_day=inputs.shifts_day,hours_shift=inputs.hours_shift,
+        productive_fraction=inputs.productive_fraction,handover_hours=inputs.handover_hours,
+        maintenance_hours_day=inputs.maintenance_hours_day,placement_hours_beam=inputs.placement_hours_beam,
+        securing_hours_beam=inputs.securing_hours_beam,advance_hours_bay=inputs.advance_hours_bay,
+        weather_availability=inputs.weather_availability,permitted_hours_day=inputs.permitted_hours_day)
+    fronts = inputs.independent_fronts if inputs.independent_fronts is not None else inputs.gantry_count
+    if fronts <= 0 or inputs.launchers_per_front <= 0:
+        raise ValueError("independent fronts and launcher allocation must be positive")
+    # A sequential front gets one active launcher; spare machines do not add a path.
+    active = min(fronts, inputs.gantry_count)
+    rate = active * min(cycle.bays_launcher_day, inputs.bays_per_gantry_shift * inputs.shifts_day)
+    for capacity, beams_per_bay in ((inputs.delivery_beams_day,2),(inputs.accepted_beams_day,2),(inputs.released_bays_day,1)):
+        if capacity is not None:
+            if not math.isfinite(capacity) or capacity < 0:
+                raise ValueError("supply capacities must be finite and non-negative")
+            rate = min(rate,capacity/beams_per_bay)
+    if bays and rate <= 0:
+        raise ValueError("erection blocked by accepted supply, delivery or released supports")
+    erection_days = math.ceil(bays/rate) if bays else 0
+    if bays:
+        erection_days += inputs.station_interruptions_days+inputs.relocation_days+inputs.mobilisation_days+inputs.ramp_up_days
     panel_days = math.ceil(
         panels / (inputs.panel_gantry_count * inputs.panels_per_gantry_shift)
     )

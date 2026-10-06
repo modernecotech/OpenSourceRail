@@ -9,13 +9,13 @@ It proves configuration consistency, not construction readiness.
 
 | Variant | Products | Assemblies | Definition sheets | Connection controls | States | Result |
 |---|---:|---:|---:|---:|---|---|
-| `halt` | 25 | 8 | 25 | 8 | installed, exploded | PASS |
-| `standard` | 28 | 8 | 28 | 10 | installed, exploded | PASS |
-| `major` | 29 | 8 | 29 | 10 | installed, exploded | PASS |
-| `interchange` | 29 | 8 | 29 | 10 | installed, exploded | PASS |
-| `interchange-elevated` | 30 | 8 | 30 | 10 | installed, exploded | PASS |
-| `terminal` | 36 | 9 | 36 | 13 | installed, exploded | PASS |
-| `depot-terminal` | 43 | 10 | 43 | 14 | installed, exploded | PASS |
+| `halt` | 26 | 8 | 26 | 8 | installed, exploded | PASS |
+| `standard` | 29 | 8 | 29 | 10 | installed, exploded | PASS |
+| `major` | 30 | 8 | 30 | 10 | installed, exploded | PASS |
+| `interchange` | 30 | 8 | 30 | 10 | installed, exploded | PASS |
+| `interchange-elevated` | 35 | 8 | 35 | 10 | installed, exploded | PASS |
+| `terminal` | 37 | 9 | 37 | 13 | installed, exploded | PASS |
+| `depot-terminal` | 44 | 10 | 44 | 14 | installed, exploded | PASS |
 
 A definition-sheet or connection-control identifier is a required
 deployment deliverable keyed to its product row. It is not evidence that

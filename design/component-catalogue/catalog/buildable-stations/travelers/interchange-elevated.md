@@ -8,7 +8,18 @@ engineering approvals, supplier documents, and inspector signatures are required
 
 | Parameter | Value |
 |---|---:|
-| `platform_count` | 4 |
+| `platform_count` | 2 |
+| `boarding_face_count` | 4 |
+| `track_count` | 4 |
+| `elevation` | elevated |
+| `platform_width_m` | 8.0 |
+| `layout_exception_reason` |  |
+| `layout` | {'layout': 'stacked', 'elevation': 'elevated', 'platforms': ({'id': 'platform-1', 'level': 'platform-1', 'y_mm': 0.0, 'base_z_mm': 9000.0, 'width_mm': 8000.0}, {'id': 'platform-2', 'level': 'platform-2', 'y_mm': 0.0, 'base_z_mm': 17000.0, 'width_mm': 8000.0}), 'faces': ({'id': 'face-1', 'platform_id': 'platform-1', 'level': 'platform-1', 'platform_face_y_mm': -4000.0, 'track_centre_y_mm': -5500.0, 'boarding_z_mm': 9420.0, 'top_of_rail_z_mm': 9070.0, 'direction': 1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-2', 'platform_id': 'platform-1', 'level': 'platform-1', 'platform_face_y_mm': 4000.0, 'track_centre_y_mm': 5500.0, 'boarding_z_mm': 9420.0, 'top_of_rail_z_mm': 9070.0, 'direction': -1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-3', 'platform_id': 'platform-2', 'level': 'platform-2', 'platform_face_y_mm': -4000.0, 'track_centre_y_mm': -5500.0, 'boarding_z_mm': 17420.0, 'top_of_rail_z_mm': 17070.0, 'direction': 1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-4', 'platform_id': 'platform-2', 'level': 'platform-2', 'platform_face_y_mm': 4000.0, 'track_centre_y_mm': 5500.0, 'boarding_z_mm': 17420.0, 'top_of_rail_z_mm': 17070.0, 'direction': -1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}), 'equipment': ({'id': 'platform-1-lift-1', 'kind': 'lift', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-lift-2', 'kind': 'lift', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-shaft-1', 'kind': 'shaft', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-shaft-2', 'kind': 'shaft', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-escalator-1', 'kind': 'escalator', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-1-escalator-2', 'kind': 'escalator', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-1-staircase-1', 'kind': 'staircase', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-1-staircase-2', 'kind': 'staircase', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-2-lift-1', 'kind': 'lift', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-lift-2', 'kind': 'lift', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-shaft-1', 'kind': 'shaft', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-shaft-2', 'kind': 'shaft', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-escalator-1', 'kind': 'escalator', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-2-escalator-2', 'kind': 'escalator', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-2-staircase-1', 'kind': 'staircase', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-2-staircase-2', 'kind': 'staircase', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}), 'entrances': ({'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'concourse', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'concourse', 'surveyed': False}), 'transfer_connections': ({'from_level': 'platform-1', 'to_level': 'platform-2', 'via': 'concourse-upper', 'qualification': 'unreleased'},), 'minimum_clear_width_mm': 2250.0, 'level_elevations_mm': {'street': 0.0, 'platform-1': 9420.0, 'platform-2': 17420.0, 'concourse': 4500.0, 'concourse-upper': 13000.0}, 'concourse_decks': ({'id': 'concourse', 'level': 'concourse', 'z_mm': 4500.0, 'length_mm': 24000.0, 'width_mm': 10000.0, 'thickness_mm': 350.0}, {'id': 'concourse-upper', 'level': 'concourse-upper', 'z_mm': 13000.0, 'length_mm': 24000.0, 'width_mm': 10000.0, 'thickness_mm': 350.0}), 'qualification': 'study-only-access-flow-egress-and-structure-unreleased', 'quantities': {'platform_count': 2, 'boarding_face_count': 4, 'track_count': 4, 'lift_count': 4, 'escalator_count': 4, 'staircase_count': 4, 'shaft_count': 4}} |
+| `levels_m` | [9.0, 17.0] |
+| `elevated_height_m` | 9.0 |
+| `access_equipment` | [{'id': 'platform-1-lift-1', 'kind': 'lift', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-lift-2', 'kind': 'lift', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-shaft-1', 'kind': 'shaft', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-shaft-2', 'kind': 'shaft', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-1-escalator-1', 'kind': 'escalator', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-1-escalator-2', 'kind': 'escalator', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-1-staircase-1', 'kind': 'staircase', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': -25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-1-staircase-2', 'kind': 'staircase', 'served_levels': ('street', 'concourse', 'platform-1'), 'x_mm': 25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-2-lift-1', 'kind': 'lift', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-lift-2', 'kind': 'lift', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-shaft-1', 'kind': 'shaft', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-shaft-2', 'kind': 'shaft', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 17850.0, 'y_mm': 0.0, 'width_mm': 3500, 'length_mm': 3500}, {'id': 'platform-2-escalator-1', 'kind': 'escalator', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-2-escalator-2', 'kind': 'escalator', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 8925.0, 'y_mm': 0.0, 'width_mm': 1800, 'length_mm': 10000}, {'id': 'platform-2-staircase-1', 'kind': 'staircase', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': -25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}, {'id': 'platform-2-staircase-2', 'kind': 'staircase', 'served_levels': ('platform-1', 'concourse-upper', 'platform-2'), 'x_mm': 25585.0, 'y_mm': 0.0, 'width_mm': 3000, 'length_mm': 10000}] |
+| `entrances` | [{'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'concourse', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'concourse', 'surveyed': False}] |
+| `minimum_clear_width_m` | 1.5 |
 | `platform_layout` | stacked |
 | `platform_length_m` | 59.5 |
 | `platform_l_units` | 80 |
@@ -16,19 +27,19 @@ engineering approvals, supplier documents, and inspector signatures are required
 | `at_grade_slab_panels` | 0 |
 | `guideway_edge_modules` | 0 |
 | `canopy_bays_per_platform` | 10 |
-| `total_canopy_bays` | 40 |
-| `platform_canopy_area_m2` | 1008.0 |
+| `total_canopy_bays` | 20 |
+| `platform_canopy_area_m2` | 1104.0 |
 | `site_canopy_target_m2` | 3200.0 |
-| `auxiliary_canopy_required_area_m2` | 2192.0 |
+| `auxiliary_canopy_required_area_m2` | 2096.0 |
 | `auxiliary_canopy_module_area_m2` | 187.0 |
 | `auxiliary_canopy_module_count` | 12 |
 | `auxiliary_canopy_installed_area_m2` | 2244.0 |
-| `auxiliary_canopy_target_overbuild_m2` | 52.0 |
+| `auxiliary_canopy_target_overbuild_m2` | 148.0 |
 | `auxiliary_canopy_kwp` | 381.5 |
 | `charging_power_kw` | 500 |
 | `dwell_seconds` | 60 |
 | `tpss_kva` | 1000 |
-| `access_type` | elevated-transfer-concourse-with-pedestrian-overbridge |
+| `access_type` | stacked-level-transfer-concourse |
 | `turnout_count` | 0 |
 | `turnout_tangent` | none |
 | `turnout_total_length_m` | 0 |
@@ -47,7 +58,7 @@ Work cell: civil works.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-CIV-P030` | 238 | m | `MAKE` | `release-candidate` |
-| `STN-CNP-P020` | 44 | column kit | `MAKE` | `release-candidate` |
+| `STN-CNP-P020` | 22 | column kit | `MAKE` | `release-candidate` |
 | `STN-CNP-P070` | 26 | column kit | `MAKE` | `buildable-after-site-structural-release` |
 
 ### Work instructions
@@ -72,7 +83,9 @@ Work cell: civil/platform construction.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-CIV-P010` | 80 | ea | `MAKE` | `release-candidate` |
-| `STN-CIV-P020` | 4 | platform kit | `MAKE` | `release-candidate` |
+| `STN-CIV-P020` | 2 | platform kit | `MAKE` | `release-candidate` |
+| `STN-CIV-P050` | 238 | m2 | `MAKE` | `study-only` |
+| `STN-CIV-P060` | 238 | track m | `MAKE` | `study-only` |
 | `STN-PLT-P010` | 238 | m | `SOURCE` | `release-candidate` |
 
 ### Work instructions
@@ -98,9 +111,9 @@ Work cell: steel erection and solar.
 
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
-| `STN-CNP-P010` | 40 | bay kit | `MAKE` | `release-candidate` |
-| `STN-CNP-P030` | 40 | ea | `BID` | `buildable-after-supplier-freeze` |
-| `STN-CNP-P040` | 4 | platform kit | `BID` | `buildable-after-supplier-freeze` |
+| `STN-CNP-P010` | 20 | bay kit | `MAKE` | `release-candidate` |
+| `STN-CNP-P030` | 20 | ea | `BID` | `buildable-after-supplier-freeze` |
+| `STN-CNP-P040` | 2 | platform kit | `BID` | `buildable-after-supplier-freeze` |
 | `STN-CNP-P050` | 12 | 187 m2 module | `BID` | `buildable-after-supplier-and-structural-release` |
 | `STN-CNP-P060` | 13 | shared frame | `MAKE` | `buildable-after-structural-calculation-and-drawing-release` |
 | `STN-CNP-P080` | 2 | string group | `BID` | `buildable-after-electrical-and-supplier-freeze` |
@@ -132,7 +145,7 @@ Work cell: MEP installation.
 |---|---:|---|---|---|
 | `STN-MEP-P010` | 1 | station kit | `MAKE` | `release-candidate` |
 | `STN-MEP-P020` | 1 | station kit | `BID` | `buildable-after-supplier-freeze` |
-| `STN-MEP-P030` | 80 | luminaire point | `SOURCE` | `release-candidate` |
+| `STN-MEP-P030` | 40 | luminaire point | `SOURCE` | `release-candidate` |
 | `STN-MEP-P040` | 1 | station kit | `SOURCE` | `release-candidate` |
 
 ### Work instructions
@@ -181,11 +194,11 @@ Work cell: systems fit-out.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-PAX-P010` | 1 | ea | `SOURCE` | `release-candidate` |
-| `STN-PAX-P020` | 8 | display point | `SOURCE` | `release-candidate` |
-| `STN-PAX-P030` | 4 | platform kit | `BID` | `buildable-after-supplier-freeze` |
+| `STN-PAX-P020` | 4 | display point | `SOURCE` | `release-candidate` |
+| `STN-PAX-P030` | 2 | platform kit | `BID` | `buildable-after-supplier-freeze` |
 | `STN-PAX-P040` | 8 | lane/validator | `BID` | `buildable-after-supplier-freeze` |
 | `STN-PAX-P050` | 4 | ea | `BID` | `buildable-after-supplier-freeze` |
-| `STN-PAX-P060` | 4 | platform kit | `SOURCE` | `release-candidate` |
+| `STN-PAX-P060` | 2 | platform kit | `SOURCE` | `release-candidate` |
 | `STN-PAX-P070` | 8 | lane plinth | `MAKE` | `release-candidate` |
 | `STN-PAX-P080` | 4 | TVM plinth | `MAKE` | `release-candidate` |
 
@@ -213,6 +226,9 @@ Work cell: access works.
 | `STN-ACC-P010` | 1 | station kit | `MAKE` | `release-candidate` |
 | `STN-ACC-P020` | 4 | core | `BID` | `buildable-after-site-and-supplier-freeze` |
 | `STN-ACC-P030` | 2 | ea | `BID` | `buildable-after-site-and-supplier-freeze` |
+| `STN-ACC-P040` | 4 | ea | `BID` | `study-only` |
+| `STN-ACC-P050` | 4 | ea | `BID` | `study-only` |
+| `STN-ACC-P060` | 4 | ea | `BID` | `study-only` |
 
 ### Work instructions
 

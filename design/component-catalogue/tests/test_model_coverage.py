@@ -13,7 +13,7 @@ def test_model_coverage_matches_both_product_manifests() -> None:
     register = build_register()
     assert register["passed"]
     assert register["summary"]["lm3_products"] == 120
-    assert register["summary"]["station_products"] == 45
+    assert register["summary"]["station_products"] == 50
     assert register["summary"]["station_variants"] == 7
     assert register["summary"]["mechanically_controlled_lm3_products"] == 20
     assert register["summary"]["mechanically_controlled_lm3_assemblies"] == 19

@@ -15,6 +15,8 @@
 | `STN-CIV-P010` — 6 m ground-level station slab and depressed double-track guideway-channel panel | `MAKE` / `release-candidate` | `reusable-definition` | 7 | not required |
 | `STN-CIV-P020` — platform sub-base, levelling pad, grout, and closure-pour kit | `MAKE` / `release-candidate` | `reusable-definition` | 7 | not required |
 | `STN-CIV-P040` — 3 m at-grade guideway-channel edge beam, coping/tactile carrier, and drained service trough | `MAKE` / `release-candidate` | `reusable-definition` | 6 | not required |
+| `STN-CIV-P050` — island centre deck infill between edge L-unit strips | `MAKE` / `study-only` | `deployment-specific` | 1 | [`specified`](../default-product-specifications.md#stn-civ-p050) |
+| `STN-CIV-P060` — station track-deck and running-rail interface | `MAKE` / `study-only` | `deployment-specific` | 7 | [`specified`](../default-product-specifications.md#stn-civ-p060) |
 | `STN-PLT-P010` — platform coping, tactile strip, warning line, and edge-marker kit | `SOURCE` / `release-candidate` | `reusable-definition` | 7 | not required |
 
 ## Required views

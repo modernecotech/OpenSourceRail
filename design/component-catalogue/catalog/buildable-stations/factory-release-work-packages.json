@@ -1,15 +1,20 @@
 {
-  "controlled_product_count": 45,
+  "controlled_product_count": 50,
   "controlled_product_ids": [
     "STN-ACC-P010",
     "STN-ACC-P020",
     "STN-ACC-P030",
+    "STN-ACC-P040",
+    "STN-ACC-P050",
+    "STN-ACC-P060",
     "STN-CHG-P010",
     "STN-CHG-P020",
     "STN-CIV-P010",
     "STN-CIV-P020",
     "STN-CIV-P030",
     "STN-CIV-P040",
+    "STN-CIV-P050",
+    "STN-CIV-P060",
     "STN-CNP-P010",
     "STN-CNP-P020",
     "STN-CNP-P030",
@@ -94,6 +99,8 @@
         "STN-CIV-P020",
         "STN-CIV-P030",
         "STN-CIV-P040",
+        "STN-CIV-P050",
+        "STN-CIV-P060",
         "STN-PLT-P010"
       ],
       "product_rows": [
@@ -134,7 +141,7 @@
             },
             {
               "quantity": 80,
-              "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 4 elevated platforms",
+              "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 4 elevated boarding-face strips",
               "title": "precast reinforced-concrete elevated platform L-unit",
               "unit": "ea",
               "variant": "interchange-elevated"
@@ -194,21 +201,21 @@
               "variant": "standard"
             },
             {
-              "quantity": 2,
+              "quantity": 1,
               "quantity_basis": "one placement and closure kit per configured platform",
               "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
               "unit": "platform kit",
               "variant": "major"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one placement and closure kit per configured platform",
               "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
               "unit": "platform kit",
               "variant": "interchange"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one placement and closure kit per configured platform",
               "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
               "unit": "platform kit",
@@ -388,6 +395,106 @@
         },
         {
           "acceptance": [
+            "station structural design release",
+            "deck lifting/installation release"
+          ],
+          "applicable_variants": [
+            {
+              "quantity": 238.0,
+              "quantity_basis": "island width minus two 3 m edge strips, times platform length and count",
+              "title": "island centre deck infill between edge L-unit strips",
+              "unit": "m2",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "configured_titles": [
+            "island centre deck infill between edge L-unit strips"
+          ],
+          "id": "STN-CIV-P050",
+          "maturity": "study-only",
+          "parent_assembly": "STN-PLT-SA200",
+          "reference_default": "default-product-specifications.json::STN-CIV-P050",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "island centre deck infill between edge L-unit strips",
+          "unit": "m2"
+        },
+        {
+          "acceptance": [
+            "station civil/support release",
+            "rail datum and gauge survey"
+          ],
+          "applicable_variants": [
+            {
+              "quantity": 55.5,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "halt"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "standard"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "major"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "interchange"
+            },
+            {
+              "quantity": 238.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "interchange-elevated"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "terminal"
+            },
+            {
+              "quantity": 119.0,
+              "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+              "title": "station track-deck and running-rail interface",
+              "unit": "track m",
+              "variant": "depot-terminal"
+            }
+          ],
+          "configured_titles": [
+            "station track-deck and running-rail interface"
+          ],
+          "id": "STN-CIV-P060",
+          "maturity": "study-only",
+          "parent_assembly": "STN-PLT-SA200",
+          "reference_default": "default-product-specifications.json::STN-CIV-P060",
+          "release_path": "deployment-specific",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "station track-deck and running-rail interface",
+          "unit": "track m"
+        },
+        {
+          "acceptance": [
             "contrast check",
             "tactile layout inspection",
             "platform-gap survey"
@@ -519,35 +626,35 @@
               "variant": "standard"
             },
             {
-              "quantity": 24,
+              "quantity": 10,
               "quantity_basis": "canopy bay count \u00d7 configured platform count",
               "title": "6 m galvanised HEA portal-frame steel kit",
               "unit": "bay kit",
               "variant": "major"
             },
             {
-              "quantity": 40,
+              "quantity": 20,
               "quantity_basis": "canopy bay count \u00d7 configured platform count",
               "title": "6 m galvanised HEA portal-frame steel kit",
               "unit": "bay kit",
               "variant": "interchange"
             },
             {
-              "quantity": 40,
+              "quantity": 20,
               "quantity_basis": "canopy bay count \u00d7 configured platform count",
               "title": "6 m galvanised HEA portal-frame steel kit",
               "unit": "bay kit",
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 28,
+              "quantity": 20,
               "quantity_basis": "canopy bay count \u00d7 configured platform count",
               "title": "6 m galvanised HEA portal-frame steel kit",
               "unit": "bay kit",
               "variant": "terminal"
             },
             {
-              "quantity": 28,
+              "quantity": 20,
               "quantity_basis": "canopy bay count \u00d7 configured platform count",
               "title": "6 m galvanised HEA portal-frame steel kit",
               "unit": "bay kit",
@@ -593,35 +700,35 @@
               "variant": "standard"
             },
             {
-              "quantity": 26,
+              "quantity": 11,
               "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
               "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "major"
             },
             {
-              "quantity": 44,
+              "quantity": 22,
               "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
               "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "interchange"
             },
             {
-              "quantity": 44,
+              "quantity": 22,
               "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
               "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 30,
+              "quantity": 22,
               "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
               "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "terminal"
             },
             {
-              "quantity": 30,
+              "quantity": 22,
               "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
               "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
@@ -668,35 +775,35 @@
               "variant": "standard"
             },
             {
-              "quantity": 24,
-              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "quantity": 10,
+              "quantity_basis": "one 6 m \u00d7 7.2 m panel per canopy bay",
               "title": "factory-bonded solar roof sandwich panel with MC4 leads",
               "unit": "ea",
               "variant": "major"
             },
             {
-              "quantity": 40,
-              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "quantity": 20,
+              "quantity_basis": "one 6 m \u00d7 7.2 m panel per canopy bay",
               "title": "factory-bonded solar roof sandwich panel with MC4 leads",
               "unit": "ea",
               "variant": "interchange"
             },
             {
-              "quantity": 40,
-              "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+              "quantity": 20,
+              "quantity_basis": "one 6 m \u00d7 9.2 m panel per canopy bay",
               "title": "factory-bonded solar roof sandwich panel with MC4 leads",
               "unit": "ea",
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 28,
+              "quantity": 20,
               "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
               "title": "factory-bonded solar roof sandwich panel with MC4 leads",
               "unit": "ea",
               "variant": "terminal"
             },
             {
-              "quantity": 28,
+              "quantity": 20,
               "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
               "title": "factory-bonded solar roof sandwich panel with MC4 leads",
               "unit": "ea",
@@ -742,21 +849,21 @@
               "variant": "standard"
             },
             {
-              "quantity": 2,
+              "quantity": 1,
               "quantity_basis": "one controlled DC string and isolation package per platform canopy",
               "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
               "unit": "platform kit",
               "variant": "major"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one controlled DC string and isolation package per platform canopy",
               "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
               "unit": "platform kit",
               "variant": "interchange"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one controlled DC string and isolation package per platform canopy",
               "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
               "unit": "platform kit",
@@ -856,36 +963,36 @@
               "variant": "standard"
             },
             {
-              "quantity": 8,
-              "quantity_basis": "ceil(1395.2 m2 required / 187 m2 module)",
+              "quantity": 9,
+              "quantity_basis": "ceil(1568.0 m2 required / 187 m2 module)",
               "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
               "unit": "187 m2 module",
               "variant": "major"
             },
             {
-              "quantity": 10,
-              "quantity_basis": "ceil(1792.0 m2 required / 187 m2 module)",
+              "quantity": 11,
+              "quantity_basis": "ceil(1936.0 m2 required / 187 m2 module)",
               "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
               "unit": "187 m2 module",
               "variant": "interchange"
             },
             {
               "quantity": 12,
-              "quantity_basis": "ceil(2192.0 m2 required / 187 m2 module)",
+              "quantity_basis": "ceil(2096.0 m2 required / 187 m2 module)",
               "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
               "unit": "187 m2 module",
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 10,
-              "quantity_basis": "ceil(1694.4 m2 required / 187 m2 module)",
+              "quantity": 11,
+              "quantity_basis": "ceil(1896.0 m2 required / 187 m2 module)",
               "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
               "unit": "187 m2 module",
               "variant": "terminal"
             },
             {
-              "quantity": 5,
-              "quantity_basis": "ceil(794.4 m2 required / 187 m2 module)",
+              "quantity": 6,
+              "quantity_basis": "ceil(996.0 m2 required / 187 m2 module)",
               "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
               "unit": "187 m2 module",
               "variant": "depot-terminal"
@@ -932,14 +1039,14 @@
               "variant": "standard"
             },
             {
-              "quantity": 9,
+              "quantity": 10,
               "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
               "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
               "unit": "shared frame",
               "variant": "major"
             },
             {
-              "quantity": 11,
+              "quantity": 12,
               "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
               "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
               "unit": "shared frame",
@@ -953,14 +1060,14 @@
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 11,
+              "quantity": 12,
               "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
               "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
               "unit": "shared frame",
               "variant": "terminal"
             },
             {
-              "quantity": 6,
+              "quantity": 7,
               "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
               "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
               "unit": "shared frame",
@@ -1008,14 +1115,14 @@
               "variant": "standard"
             },
             {
-              "quantity": 18,
+              "quantity": 20,
               "quantity_basis": "two column foundations for each shared transverse frame",
               "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "major"
             },
             {
-              "quantity": 22,
+              "quantity": 24,
               "quantity_basis": "two column foundations for each shared transverse frame",
               "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
@@ -1029,14 +1136,14 @@
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 22,
+              "quantity": 24,
               "quantity_basis": "two column foundations for each shared transverse frame",
               "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
               "variant": "terminal"
             },
             {
-              "quantity": 12,
+              "quantity": 14,
               "quantity_basis": "two column foundations for each shared transverse frame",
               "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
               "unit": "column kit",
@@ -1091,7 +1198,7 @@
               "variant": "major"
             },
             {
-              "quantity": 1,
+              "quantity": 2,
               "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
               "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
               "unit": "string group",
@@ -1105,7 +1212,7 @@
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 1,
+              "quantity": 2,
               "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
               "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
               "unit": "string group",
@@ -1159,14 +1266,14 @@
               "variant": "standard"
             },
             {
-              "quantity": 8,
+              "quantity": 9,
               "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
               "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
               "unit": "roof-bay kit",
               "variant": "major"
             },
             {
-              "quantity": 10,
+              "quantity": 11,
               "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
               "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
               "unit": "roof-bay kit",
@@ -1180,14 +1287,14 @@
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 10,
+              "quantity": 11,
               "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
               "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
               "unit": "roof-bay kit",
               "variant": "terminal"
             },
             {
-              "quantity": 5,
+              "quantity": 6,
               "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
               "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
               "unit": "roof-bay kit",
@@ -1429,35 +1536,35 @@
               "variant": "standard"
             },
             {
-              "quantity": 48,
+              "quantity": 20,
               "quantity_basis": "two maintained lighting points per canopy bay",
               "title": "platform and emergency LED luminaire, support, and cable kit",
               "unit": "luminaire point",
               "variant": "major"
             },
             {
-              "quantity": 80,
+              "quantity": 40,
               "quantity_basis": "two maintained lighting points per canopy bay",
               "title": "platform and emergency LED luminaire, support, and cable kit",
               "unit": "luminaire point",
               "variant": "interchange"
             },
             {
-              "quantity": 80,
+              "quantity": 40,
               "quantity_basis": "two maintained lighting points per canopy bay",
               "title": "platform and emergency LED luminaire, support, and cable kit",
               "unit": "luminaire point",
               "variant": "interchange-elevated"
             },
             {
-              "quantity": 56,
+              "quantity": 40,
               "quantity_basis": "two maintained lighting points per canopy bay",
               "title": "platform and emergency LED luminaire, support, and cable kit",
               "unit": "luminaire point",
               "variant": "terminal"
             },
             {
-              "quantity": 56,
+              "quantity": 40,
               "quantity_basis": "two maintained lighting points per canopy bay",
               "title": "platform and emergency LED luminaire, support, and cable kit",
               "unit": "luminaire point",
@@ -1652,21 +1759,21 @@
               "variant": "standard"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "two primary visual-information points per configured platform",
               "title": "passenger-information display and route-strip kit",
               "unit": "display point",
               "variant": "major"
             },
             {
-              "quantity": 8,
+              "quantity": 4,
               "quantity_basis": "two primary visual-information points per configured platform",
               "title": "passenger-information display and route-strip kit",
               "unit": "display point",
               "variant": "interchange"
             },
             {
-              "quantity": 8,
+              "quantity": 4,
               "quantity_basis": "two primary visual-information points per configured platform",
               "title": "passenger-information display and route-strip kit",
               "unit": "display point",
@@ -1726,21 +1833,21 @@
               "variant": "standard"
             },
             {
-              "quantity": 2,
+              "quantity": 1,
               "quantity_basis": "one coordinated communications/security kit per configured platform",
               "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
               "unit": "platform kit",
               "variant": "major"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one coordinated communications/security kit per configured platform",
               "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
               "unit": "platform kit",
               "variant": "interchange"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one coordinated communications/security kit per configured platform",
               "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
               "unit": "platform kit",
@@ -1941,21 +2048,21 @@
               "variant": "standard"
             },
             {
-              "quantity": 2,
+              "quantity": 1,
               "quantity_basis": "one passenger-amenity kit per configured platform",
               "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
               "unit": "platform kit",
               "variant": "major"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one passenger-amenity kit per configured platform",
               "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
               "unit": "platform kit",
               "variant": "interchange"
             },
             {
-              "quantity": 4,
+              "quantity": 2,
               "quantity_basis": "one passenger-amenity kit per configured platform",
               "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
               "unit": "platform kit",
@@ -2172,7 +2279,10 @@
       "product_ids": [
         "STN-ACC-P010",
         "STN-ACC-P020",
-        "STN-ACC-P030"
+        "STN-ACC-P030",
+        "STN-ACC-P040",
+        "STN-ACC-P050",
+        "STN-ACC-P060"
       ],
       "product_rows": [
         {
@@ -2212,7 +2322,7 @@
             },
             {
               "quantity": 1,
-              "quantity_basis": "elevated-transfer-concourse-with-pedestrian-overbridge",
+              "quantity_basis": "stacked-level-transfer-concourse",
               "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
               "unit": "station kit",
               "variant": "interchange-elevated"
@@ -2259,14 +2369,14 @@
           "applicable_variants": [
             {
               "quantity": 4,
-              "quantity_basis": "configured step-free-core count",
-              "title": "lift/stair step-free circulation core",
+              "quantity_basis": "lift identities and served levels from shared layout",
+              "title": "installed passenger lift",
               "unit": "core",
               "variant": "interchange-elevated"
             }
           ],
           "configured_titles": [
-            "lift/stair step-free circulation core"
+            "installed passenger lift"
           ],
           "id": "STN-ACC-P020",
           "maturity": "buildable-after-site-and-supplier-freeze",
@@ -2278,7 +2388,7 @@
             "lib/templates/stations.toml",
             "RFC 0010 \u00a75"
           ],
-          "title": "lift/stair step-free circulation core",
+          "title": "installed passenger lift",
           "unit": "core"
         },
         {
@@ -2311,6 +2421,90 @@
             "RFC 0011 \u00a77"
           ],
           "title": "pedestrian overbridge/concourse structural and enclosure kit",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "equipment identities and served levels from shared layout",
+              "title": "installed escalator",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "configured_titles": [
+            "installed escalator"
+          ],
+          "id": "STN-ACC-P040",
+          "maturity": "study-only",
+          "parent_assembly": "STN-ACC-SA600",
+          "reference_default": "default-product-specifications.json::STN-ACC-P040",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed escalator",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "equipment identities and served levels from shared layout",
+              "title": "installed staircase",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "configured_titles": [
+            "installed staircase"
+          ],
+          "id": "STN-ACC-P050",
+          "maturity": "study-only",
+          "parent_assembly": "STN-ACC-SA600",
+          "reference_default": "default-product-specifications.json::STN-ACC-P050",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed staircase",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "applicable_variants": [
+            {
+              "quantity": 4,
+              "quantity_basis": "equipment identities and served levels from shared layout",
+              "title": "installed shaft",
+              "unit": "ea",
+              "variant": "interchange-elevated"
+            }
+          ],
+          "configured_titles": [
+            "installed shaft"
+          ],
+          "id": "STN-ACC-P060",
+          "maturity": "study-only",
+          "parent_assembly": "STN-ACC-SA600",
+          "reference_default": "default-product-specifications.json::STN-ACC-P060",
+          "release_path": "deployment-specific",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed shaft",
           "unit": "ea"
         }
       ],
@@ -3133,7 +3327,7 @@
     }
   ],
   "release_path_counts": {
-    "deployment-specific": 13,
+    "deployment-specific": 18,
     "reusable-definition": 18,
     "supplier-configuration": 14
   },

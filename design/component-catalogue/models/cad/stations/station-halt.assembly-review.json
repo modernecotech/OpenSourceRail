@@ -15,10 +15,28 @@
       "axis": "x",
       "definition": "x-axis at the station alignment origin",
       "id": "DATUM-TRACK-CL",
-      "origin_mm": [
-        0.0,
-        0.0,
-        0.0
+      "interfaces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "origins_mm": [
+        [
+          0.0,
+          2000.0,
+          70.0
+        ]
       ],
       "title": "track centreline"
     },
@@ -28,8 +46,14 @@
       "interfaces": [
         {
           "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
           "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
           "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
           "static_vehicle_to_platform_gap_mm": 75.0,
           "top_of_rail_z_mm": 70.0,
           "track_centre_y_mm": 2000.0
@@ -43,8 +67,14 @@
       "interfaces": [
         {
           "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
           "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
           "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
           "static_vehicle_to_platform_gap_mm": 75.0,
           "top_of_rail_z_mm": 70.0,
           "track_centre_y_mm": 2000.0
@@ -58,8 +88,14 @@
       "interfaces": [
         {
           "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
           "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
           "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
           "static_vehicle_to_platform_gap_mm": 75.0,
           "top_of_rail_z_mm": 70.0,
           "track_centre_y_mm": 2000.0
@@ -83,11 +119,11 @@
     {
       "bounds_mm": [
         -27750.0,
-        -14500.0,
-        0.0,
+        2400.0,
+        120.0,
         27750.0,
-        14500.0,
-        1400.0
+        4600.0,
+        1820.0
       ],
       "definition": "coping, tactile, warning and edge-equipment interface",
       "id": "ZONE-EDGE-SAFETY",
@@ -96,11 +132,11 @@
     {
       "bounds_mm": [
         -32750.0,
-        -18000.0,
-        0.0,
+        -4485.0,
+        -2930.0,
         32750.0,
-        18000.0,
-        12000.0
+        8485.0,
+        12070.0
       ],
       "definition": "temporary crane and exclusion zone; lift plan required",
       "id": "ZONE-LIFTING",
@@ -109,11 +145,11 @@
     {
       "bounds_mm": [
         -27750.0,
-        -15000.0,
-        0.0,
+        -2485.0,
+        -1930.0,
         27750.0,
-        15000.0,
-        6500.0
+        6485.0,
+        6570.0
       ],
       "definition": "equipment access volumes encoded in product geometry",
       "id": "ZONE-MAINTENANCE",
@@ -158,8 +194,15 @@
     }
   ],
   "freecad_file": "design/component-catalogue/models/cad/stations/station-halt.FCStd",
+  "geometry_sources_sha256": {
+    "design/component-catalogue/src/osr_mech/cad.py": "9910c5e687628d13d6d0bb4c82b40424762534efd37a496e958017f6cb9595a9",
+    "design/component-catalogue/src/osr_mech/depot/bogie_change.py": "da9755dcdc7127d3a429db1cd93714b7b1e0886a6c184ab9e897b60a2cbf8eba",
+    "design/component-catalogue/src/osr_mech/freecad_station_library.py": "b38b6530dac4aa516b399882ceada380a768dc5f778fef56930d9c1b21264b8a",
+    "design/component-catalogue/src/osr_mech/station/layout.py": "2ff28a787813b179f141c2ff452eadaf39d9d645ae00a39b3fc6dde2e36b6059",
+    "design/component-catalogue/src/osr_mech/station/product_geometry.py": "48363750c5f673d742732949df7ef4ef73a6cefedffa651f77d60925a1d90622"
+  },
   "manifest": "design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json",
-  "manifest_sha256": "f18213254b1809059e119e205ad7cc9c002a88a746fe70ca7b0a59d6597891bf",
+  "manifest_sha256": "1119809282593cbb8e6f77b46202d137b7716b33e77132ff0f6a8e8157890c89",
   "product_ids": [
     "STN-CIV-P010",
     "STN-CIV-P020",
@@ -181,6 +224,7 @@
     "STN-PAX-P070",
     "STN-PAX-P060",
     "STN-ACC-P010",
+    "STN-CIV-P060",
     "STN-CNP-P050",
     "STN-CNP-P060",
     "STN-CNP-P070",
@@ -471,6 +515,20 @@
     {
       "exploded_offset_mm": [
         0.0,
+        -10000.0,
+        0.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-PLT-SA200",
+      "product_id": "STN-CIV-P060"
+    },
+    {
+      "exploded_offset_mm": [
+        0.0,
         0.0,
         9000.0
       ],
@@ -545,12 +603,12 @@
     {
       "default_visible": true,
       "id": "installed",
-      "primitive_count": 151
+      "primitive_count": 208
     },
     {
       "default_visible": false,
       "id": "exploded",
-      "primitive_count": 151
+      "primitive_count": 208
     }
   ],
   "status": "design-reference-not-released"

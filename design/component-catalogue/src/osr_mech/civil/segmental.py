@@ -108,3 +108,15 @@ __all__ = [
     "MIN_SEGMENT_LENGTH_M",
     "segmental_u_envelope",
 ]
+
+
+def segmental_erection_quantities(bays: int, span_m: float = 25.0, segment_m: float = 2.5) -> dict:
+    """Separate match-cast supply/erection scope; no whole-beam machine rate."""
+    if bays < 0 or not MIN_SEGMENT_LENGTH_M <= segment_m <= MAX_SEGMENT_LENGTH_M or span_m/segment_m != int(span_m/segment_m):
+        raise ValueError("invalid segmental quantity basis")
+    per_track = int(span_m/segment_m)
+    return dict(segments=2*bays*per_track,match_cast_interfaces=2*bays*(per_track-1),
+                temporary_suspension_operations=2*bays*per_track,
+                joints=2*bays*(per_track-1),stressing_operations=2*bays,
+                tendon_protection_packages=2*bays,equipment_family="segmental-gantry",
+                required_release=["match-casting","temporary-suspension","joint-acceptance","stressing","tendon-protection"])

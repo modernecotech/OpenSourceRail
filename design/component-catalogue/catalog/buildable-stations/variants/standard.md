@@ -54,6 +54,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | `STN-PAX-P080` | `STN-PAX-SA500` | `MAKE` | `STN-PAX-P080-DRW-STANDARD` | `OSR-STD-A-003`, `OSR-STD-S-007` | `STN-PAX-P080-CONN` |
 | `STN-PAX-P060` | `STN-PAX-SA500` | `SOURCE` | `STN-PAX-P060-DRW-STANDARD` | `OSR-STD-T-001`, `OSR-STD-T-003` | — |
 | `STN-ACC-P010` | `STN-ACC-SA600` | `MAKE` | `STN-ACC-P010-DRW-STANDARD` | `OSR-STD-A-012`, `OSR-STD-M-004` | — |
+| `STN-CIV-P060` | `STN-PLT-SA200` | `MAKE` | `STN-CIV-P060-DRW-STANDARD` | — | — |
 | `STN-CNP-P050` | `STN-CNP-SA300` | `BID` | `STN-CNP-P050-DRW-STANDARD` | — | — |
 | `STN-CNP-P060` | `STN-CNP-SA300` | `MAKE` | `STN-CNP-P060-DRW-STANDARD` | — | `STN-CNP-P060-CONN` |
 | `STN-CNP-P070` | `STN-CIV-SA100` | `MAKE` | `STN-CNP-P070-DRW-STANDARD` | — | `STN-CNP-P070-CONN` |
@@ -66,7 +67,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | Assembly ID | Work cell | Direct children |
 |---|---|---|
 | `STN-CIV-SA100` | civil works | `STN-CIV-P030`, `STN-CNP-P020`, `STN-CNP-P070` |
-| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-PLT-P010` |
+| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-CIV-P060`, `STN-PLT-P010` |
 | `STN-CNP-SA300` | steel erection and solar | `STN-CNP-P010`, `STN-CNP-P030`, `STN-CNP-P040`, `STN-CNP-P050`, `STN-CNP-P060`, `STN-CNP-P080`, `STN-CNP-P090` |
 | `STN-MEP-SA400` | MEP installation | `STN-MEP-P010`, `STN-MEP-P020`, `STN-MEP-P030`, `STN-MEP-P040` |
 | `STN-CHG-SA700` | traction power and charging | `STN-CHG-P010` |

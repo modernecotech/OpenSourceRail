@@ -58,6 +58,10 @@
 
 #![forbid(unsafe_code)]
 
+pub mod commissioning;
+pub use commissioning::{
+    BatteryChemistry, CommissioningError, CommissioningProfile, ValidatedCommissioningProfile,
+};
 pub mod evaluate;
 pub mod inputs;
 pub mod output;

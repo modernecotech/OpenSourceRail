@@ -5,15 +5,15 @@ that connects product families, affordable defaults, unresolved site/supplier
 inputs, tools, outputs and verification without inventing construction release.
 
 - Drawing seeds: **18**
-- Controlled product families represented: **45**
-- Open products with reference defaults: **29**
+- Controlled product families represented: **50**
+- Open products with reference defaults: **34**
 - Issue state: **all definition seeds; none issued for fabrication or construction**
 
 | Drawing | Scope | Owner | Package | Products | JSON |
 |---|---|---|---|---:|---|
 | [`STN-ACC-400`](STN-ACC-400.md) — at-grade pedestrian approach and protected route | `deployment-interface-definition` | deployment civil/accessibility engineer | `STN-FRP-050` | 1 | [`json`](STN-ACC-400.json) |
-| [`STN-ACC-410`](STN-ACC-410.md) — lift, stair and pedestrian overbridge coordination | `deployment-led-supplier-interface` | structural/accessibility engineer + lift supplier | `STN-FRP-050` | 2 | [`json`](STN-ACC-410.json) |
-| [`STN-CIV-100`](STN-CIV-100.md) — precast platform and guideway product definition | `reusable-fabrication-definition` | civil structures + precast fabricator | `STN-FRP-010` | 4 | [`json`](STN-CIV-100.json) |
+| [`STN-ACC-410`](STN-ACC-410.md) — lift, stair and pedestrian overbridge coordination | `deployment-led-supplier-interface` | structural/accessibility engineer + lift supplier | `STN-FRP-050` | 5 | [`json`](STN-ACC-410.json) |
+| [`STN-CIV-100`](STN-CIV-100.md) — precast platform and guideway product definition | `reusable-fabrication-definition` | civil structures + precast fabricator | `STN-FRP-010` | 6 | [`json`](STN-CIV-100.json) |
 | [`STN-CIV-110`](STN-CIV-110.md) — site set-out, levelling, drainage and closure coordination | `deployment-interface-definition` | deployment civil engineer | `STN-FRP-010` | 3 | [`json`](STN-CIV-110.json) |
 | [`STN-CNP-200`](STN-CNP-200.md) — platform canopy steel, footing and roof assembly | `hybrid-fabrication-definition` | structural engineer + steel fabricator | `STN-FRP-020` | 3 | [`json`](STN-CNP-200.json) |
 | [`STN-CNP-210`](STN-CNP-210.md) — platform canopy PV strings, bonding and drainage interfaces | `supplier-interface-definition` | electrical engineer + PV integrator | `STN-FRP-020` | 2 | [`json`](STN-CNP-210.json) |

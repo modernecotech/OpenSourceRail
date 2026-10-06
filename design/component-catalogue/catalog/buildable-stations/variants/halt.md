@@ -12,6 +12,11 @@ traveler, FreeCAD installed/exploded states and IFC4.3 assembly.
 | Parameter | Standard | This variant |
 |---|---:|---:|
 | `platform_count` | 2 | 1 |
+| `boarding_face_count` | 2 | 1 |
+| `track_count` | 2 | 1 |
+| `layout` | {'layout': 'side', 'elevation': 'at-grade', 'platforms': ({'id': 'platform-1', 'level': 'platform', 'y_mm': -5000.0, 'base_z_mm': 0.0, 'width_mm': 3000.0}, {'id': 'platform-2', 'level': 'platform', 'y_mm': 5000.0, 'base_z_mm': 0.0, 'width_mm': 3000.0}), 'faces': ({'id': 'face-1', 'platform_id': 'platform-1', 'level': 'platform', 'platform_face_y_mm': -3500.0, 'track_centre_y_mm': -2000.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': 1, 'door_side': 'right', 'psd_side': 'right', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-2', 'platform_id': 'platform-2', 'level': 'platform', 'platform_face_y_mm': 3500.0, 'track_centre_y_mm': 2000.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': -1, 'door_side': 'right', 'psd_side': 'right', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}), 'equipment': (), 'entrances': ({'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}), 'transfer_connections': (), 'minimum_clear_width_mm': 1500.0, 'level_elevations_mm': {'street': 420.0, 'platform': 420.0}, 'concourse_decks': (), 'qualification': 'study-only-access-flow-egress-and-structure-unreleased', 'quantities': {'platform_count': 2, 'boarding_face_count': 2, 'track_count': 2, 'lift_count': 0, 'escalator_count': 0, 'staircase_count': 0, 'shaft_count': 0}} | {'layout': 'side', 'elevation': 'at-grade', 'platforms': ({'id': 'platform-1', 'level': 'platform', 'y_mm': 5000.0, 'base_z_mm': 0.0, 'width_mm': 3000.0},), 'faces': ({'id': 'face-1', 'platform_id': 'platform-1', 'level': 'platform', 'platform_face_y_mm': 3500.0, 'track_centre_y_mm': 2000.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': 1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0},), 'equipment': (), 'entrances': ({'id': 'entrance-1', 'x_mm': -27750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 27750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}), 'transfer_connections': (), 'minimum_clear_width_mm': 1500.0, 'level_elevations_mm': {'street': 420.0, 'platform': 420.0}, 'concourse_decks': (), 'qualification': 'study-only-access-flow-egress-and-structure-unreleased', 'quantities': {'platform_count': 1, 'boarding_face_count': 1, 'track_count': 1, 'lift_count': 0, 'escalator_count': 0, 'staircase_count': 0, 'shaft_count': 0}} |
+| `levels_m` | [0.0, 0.0] | [0.0] |
+| `entrances` | [{'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}] | [{'id': 'entrance-1', 'x_mm': -27750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 27750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}] |
 | `platform_length_m` | 59.5 | 55.5 |
 | `guideway_edge_modules` | 40 | 19 |
 | `total_canopy_bays` | 20 | 10 |
@@ -63,6 +68,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | `STN-PAX-P070` | `STN-PAX-SA500` | `MAKE` | `STN-PAX-P070-DRW-HALT` | `OSR-STD-A-014`, `OSR-STD-S-007` | `STN-PAX-P070-CONN` |
 | `STN-PAX-P060` | `STN-PAX-SA500` | `SOURCE` | `STN-PAX-P060-DRW-HALT` | `OSR-STD-T-001`, `OSR-STD-T-003` | — |
 | `STN-ACC-P010` | `STN-ACC-SA600` | `MAKE` | `STN-ACC-P010-DRW-HALT` | `OSR-STD-A-012`, `OSR-STD-M-004` | — |
+| `STN-CIV-P060` | `STN-PLT-SA200` | `MAKE` | `STN-CIV-P060-DRW-HALT` | — | — |
 | `STN-CNP-P050` | `STN-CNP-SA300` | `BID` | `STN-CNP-P050-DRW-HALT` | — | — |
 | `STN-CNP-P060` | `STN-CNP-SA300` | `MAKE` | `STN-CNP-P060-DRW-HALT` | — | `STN-CNP-P060-CONN` |
 | `STN-CNP-P070` | `STN-CIV-SA100` | `MAKE` | `STN-CNP-P070-DRW-HALT` | — | `STN-CNP-P070-CONN` |
@@ -74,7 +80,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | Assembly ID | Work cell | Direct children |
 |---|---|---|
 | `STN-CIV-SA100` | civil works | `STN-CIV-P030`, `STN-CNP-P020`, `STN-CNP-P070` |
-| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-PLT-P010` |
+| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-CIV-P060`, `STN-PLT-P010` |
 | `STN-CNP-SA300` | steel erection and solar | `STN-CNP-P010`, `STN-CNP-P030`, `STN-CNP-P040`, `STN-CNP-P050`, `STN-CNP-P060`, `STN-CNP-P080`, `STN-CNP-P090` |
 | `STN-MEP-SA400` | MEP installation | `STN-MEP-P010`, `STN-MEP-P020`, `STN-MEP-P030`, `STN-MEP-P040` |
 | `STN-CHG-SA700` | traction power and charging |  |

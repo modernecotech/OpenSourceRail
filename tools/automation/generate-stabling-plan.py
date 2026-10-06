@@ -44,7 +44,7 @@ def capacity_requirements(design, allocations, profiles, archetypes):
     for station, total in sorted(totals.items()):
         source = stations[station]
         platform_length = float(source['platform_length_m'])
-        platform_count = archetypes[source['archetype']]['platform_count']
+        platform_count = archetypes[source['archetype']].get('track_count', archetypes[source['archetype']]['platform_count'])
         if not math.isfinite(platform_length) or platform_length <= 0 or type(platform_count) is not int or platform_count < 1:
             raise ValueError(f'{station}: invalid platform envelope')
         # RFC 0014: one train plus 5 m at each end; no train may straddle a

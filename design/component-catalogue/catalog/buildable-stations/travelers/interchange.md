@@ -8,7 +8,18 @@ engineering approvals, supplier documents, and inspector signatures are required
 
 | Parameter | Value |
 |---|---:|
-| `platform_count` | 4 |
+| `platform_count` | 2 |
+| `boarding_face_count` | 4 |
+| `track_count` | 4 |
+| `elevation` | at-grade |
+| `platform_width_m` | 6.0 |
+| `layout_exception_reason` |  |
+| `layout` | {'layout': 'same-grade-transfer', 'elevation': 'at-grade', 'platforms': ({'id': 'platform-1', 'level': 'platform', 'y_mm': -8000.0, 'base_z_mm': 0.0, 'width_mm': 6000.0}, {'id': 'platform-2', 'level': 'platform', 'y_mm': 8000.0, 'base_z_mm': 0.0, 'width_mm': 6000.0}), 'faces': ({'id': 'face-1', 'platform_id': 'platform-1', 'level': 'platform', 'platform_face_y_mm': -11000.0, 'track_centre_y_mm': -12500.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': 1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-2', 'platform_id': 'platform-1', 'level': 'platform', 'platform_face_y_mm': -5000.0, 'track_centre_y_mm': -3500.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': -1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-3', 'platform_id': 'platform-2', 'level': 'platform', 'platform_face_y_mm': 5000.0, 'track_centre_y_mm': 3500.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': 1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}, {'id': 'face-4', 'platform_id': 'platform-2', 'level': 'platform', 'platform_face_y_mm': 11000.0, 'track_centre_y_mm': 12500.0, 'boarding_z_mm': 420.0, 'top_of_rail_z_mm': 70.0, 'direction': -1, 'door_side': 'left', 'psd_side': 'left', 'static_vehicle_to_platform_gap_mm': 75.0, 'dynamic_envelope_review_margin_mm': 15.0}), 'equipment': (), 'entrances': ({'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}), 'transfer_connections': (), 'minimum_clear_width_mm': 3000.0, 'level_elevations_mm': {'street': 420.0, 'platform': 420.0}, 'concourse_decks': (), 'qualification': 'study-only-access-flow-egress-and-structure-unreleased', 'quantities': {'platform_count': 2, 'boarding_face_count': 4, 'track_count': 4, 'lift_count': 0, 'escalator_count': 0, 'staircase_count': 0, 'shaft_count': 0}} |
+| `levels_m` | [0.0, 0.0] |
+| `elevated_height_m` | 9.0 |
+| `access_equipment` | [] |
+| `entrances` | [{'id': 'entrance-1', 'x_mm': -29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}, {'id': 'entrance-2', 'x_mm': 29750.0, 'y_mm': 0.0, 'level': 'street', 'connected_to': 'platform', 'surveyed': False}] |
+| `minimum_clear_width_m` | 1.5 |
 | `platform_layout` | same-grade-transfer |
 | `platform_length_m` | 59.5 |
 | `platform_l_units` | 0 |
@@ -16,15 +27,15 @@ engineering approvals, supplier documents, and inspector signatures are required
 | `at_grade_slab_panels` | 20 |
 | `guideway_edge_modules` | 80 |
 | `canopy_bays_per_platform` | 10 |
-| `total_canopy_bays` | 40 |
-| `platform_canopy_area_m2` | 1008.0 |
+| `total_canopy_bays` | 20 |
+| `platform_canopy_area_m2` | 864.0 |
 | `site_canopy_target_m2` | 2800.0 |
-| `auxiliary_canopy_required_area_m2` | 1792.0 |
+| `auxiliary_canopy_required_area_m2` | 1936.0 |
 | `auxiliary_canopy_module_area_m2` | 187.0 |
-| `auxiliary_canopy_module_count` | 10 |
-| `auxiliary_canopy_installed_area_m2` | 1870.0 |
-| `auxiliary_canopy_target_overbuild_m2` | 78.0 |
-| `auxiliary_canopy_kwp` | 317.9 |
+| `auxiliary_canopy_module_count` | 11 |
+| `auxiliary_canopy_installed_area_m2` | 2057.0 |
+| `auxiliary_canopy_target_overbuild_m2` | 121.0 |
+| `auxiliary_canopy_kwp` | 349.7 |
 | `charging_power_kw` | 500 |
 | `dwell_seconds` | 60 |
 | `tpss_kva` | 1000 |
@@ -47,8 +58,8 @@ Work cell: civil works.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-CIV-P030` | 238 | m | `MAKE` | `release-candidate` |
-| `STN-CNP-P020` | 44 | column kit | `MAKE` | `release-candidate` |
-| `STN-CNP-P070` | 22 | column kit | `MAKE` | `buildable-after-site-structural-release` |
+| `STN-CNP-P020` | 22 | column kit | `MAKE` | `release-candidate` |
+| `STN-CNP-P070` | 24 | column kit | `MAKE` | `buildable-after-site-structural-release` |
 
 ### Work instructions
 
@@ -72,8 +83,9 @@ Work cell: civil/platform construction.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-CIV-P010` | 20 | ea | `MAKE` | `release-candidate` |
-| `STN-CIV-P020` | 4 | platform kit | `MAKE` | `release-candidate` |
+| `STN-CIV-P020` | 2 | platform kit | `MAKE` | `release-candidate` |
 | `STN-CIV-P040` | 80 | edge module | `MAKE` | `release-candidate` |
+| `STN-CIV-P060` | 238 | track m | `MAKE` | `study-only` |
 | `STN-PLT-P010` | 238 | m | `SOURCE` | `release-candidate` |
 
 ### Work instructions
@@ -99,13 +111,13 @@ Work cell: steel erection and solar.
 
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
-| `STN-CNP-P010` | 40 | bay kit | `MAKE` | `release-candidate` |
-| `STN-CNP-P030` | 40 | ea | `BID` | `buildable-after-supplier-freeze` |
-| `STN-CNP-P040` | 4 | platform kit | `BID` | `buildable-after-supplier-freeze` |
-| `STN-CNP-P050` | 10 | 187 m2 module | `BID` | `buildable-after-supplier-and-structural-release` |
-| `STN-CNP-P060` | 11 | shared frame | `MAKE` | `buildable-after-structural-calculation-and-drawing-release` |
-| `STN-CNP-P080` | 1 | string group | `BID` | `buildable-after-electrical-and-supplier-freeze` |
-| `STN-CNP-P090` | 10 | roof-bay kit | `SOURCE` | `buildable-after-site-and-supplier-freeze` |
+| `STN-CNP-P010` | 20 | bay kit | `MAKE` | `release-candidate` |
+| `STN-CNP-P030` | 20 | ea | `BID` | `buildable-after-supplier-freeze` |
+| `STN-CNP-P040` | 2 | platform kit | `BID` | `buildable-after-supplier-freeze` |
+| `STN-CNP-P050` | 11 | 187 m2 module | `BID` | `buildable-after-supplier-and-structural-release` |
+| `STN-CNP-P060` | 12 | shared frame | `MAKE` | `buildable-after-structural-calculation-and-drawing-release` |
+| `STN-CNP-P080` | 2 | string group | `BID` | `buildable-after-electrical-and-supplier-freeze` |
+| `STN-CNP-P090` | 11 | roof-bay kit | `SOURCE` | `buildable-after-site-and-supplier-freeze` |
 
 ### Work instructions
 
@@ -133,7 +145,7 @@ Work cell: MEP installation.
 |---|---:|---|---|---|
 | `STN-MEP-P010` | 1 | station kit | `MAKE` | `release-candidate` |
 | `STN-MEP-P020` | 1 | station kit | `BID` | `buildable-after-supplier-freeze` |
-| `STN-MEP-P030` | 80 | luminaire point | `SOURCE` | `release-candidate` |
+| `STN-MEP-P030` | 40 | luminaire point | `SOURCE` | `release-candidate` |
 | `STN-MEP-P040` | 1 | station kit | `SOURCE` | `release-candidate` |
 
 ### Work instructions
@@ -182,11 +194,11 @@ Work cell: systems fit-out.
 | Engineering ID | Qty | Unit | Route | Maturity |
 |---|---:|---|---|---|
 | `STN-PAX-P010` | 1 | ea | `SOURCE` | `release-candidate` |
-| `STN-PAX-P020` | 8 | display point | `SOURCE` | `release-candidate` |
-| `STN-PAX-P030` | 4 | platform kit | `BID` | `buildable-after-supplier-freeze` |
+| `STN-PAX-P020` | 4 | display point | `SOURCE` | `release-candidate` |
+| `STN-PAX-P030` | 2 | platform kit | `BID` | `buildable-after-supplier-freeze` |
 | `STN-PAX-P040` | 8 | lane/validator | `BID` | `buildable-after-supplier-freeze` |
 | `STN-PAX-P050` | 4 | ea | `BID` | `buildable-after-supplier-freeze` |
-| `STN-PAX-P060` | 4 | platform kit | `SOURCE` | `release-candidate` |
+| `STN-PAX-P060` | 2 | platform kit | `SOURCE` | `release-candidate` |
 | `STN-PAX-P070` | 8 | lane plinth | `MAKE` | `release-candidate` |
 | `STN-PAX-P080` | 4 | TVM plinth | `MAKE` | `release-candidate` |
 

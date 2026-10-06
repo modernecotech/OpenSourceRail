@@ -5,13 +5,13 @@ base station shells and the controlled elevated-interchange variant.
 
 | Archetype | Platforms | Platform length m | Bays/platform | Product rows | Open product gaps | Auxiliary modules / installed m² | Definition | Traveler |
 |---|---:|---:|---:|---:|---:|---:|---|---|
-| `halt` | 1 | 55.5 | 10 | 25 | 10 | 1 / 187.0 | [`md`](variants/halt.md) | [`md`](travelers/halt.md) |
-| `standard` | 2 | 59.5 | 10 | 28 | 12 | 7 / 1309.0 | [`md`](variants/standard.md) | [`md`](travelers/standard.md) |
-| `major` | 2 | 59.5 | 12 | 29 | 13 | 8 / 1496.0 | [`md`](variants/major.md) | [`md`](travelers/major.md) |
-| `interchange` | 4 | 59.5 | 10 | 29 | 13 | 10 / 1870.0 | [`md`](variants/interchange.md) | [`md`](travelers/interchange.md) |
-| `interchange-elevated` | 4 | 59.5 | 10 | 30 | 15 | 12 / 2244.0 | [`md`](variants/interchange-elevated.md) | [`md`](travelers/interchange-elevated.md) |
-| `terminal` | 2 | 59.5 | 14 | 36 | 20 | 10 / 1870.0 | [`md`](variants/terminal.md) | [`md`](travelers/terminal.md) |
-| `depot-terminal` | 2 | 59.5 | 14 | 43 | 27 | 5 / 935.0 | [`md`](variants/depot-terminal.md) | [`md`](travelers/depot-terminal.md) |
+| `halt` | 1 | 55.5 | 10 | 26 | 11 | 1 / 187.0 | [`md`](variants/halt.md) | [`md`](travelers/halt.md) |
+| `standard` | 2 | 59.5 | 10 | 29 | 13 | 7 / 1309.0 | [`md`](variants/standard.md) | [`md`](travelers/standard.md) |
+| `major` | 1 | 59.5 | 10 | 30 | 14 | 9 / 1683.0 | [`md`](variants/major.md) | [`md`](travelers/major.md) |
+| `interchange` | 2 | 59.5 | 10 | 30 | 14 | 11 / 2057.0 | [`md`](variants/interchange.md) | [`md`](travelers/interchange.md) |
+| `interchange-elevated` | 2 | 59.5 | 10 | 35 | 20 | 12 / 2244.0 | [`md`](variants/interchange-elevated.md) | [`md`](travelers/interchange-elevated.md) |
+| `terminal` | 2 | 59.5 | 10 | 37 | 21 | 11 / 2057.0 | [`md`](variants/terminal.md) | [`md`](travelers/terminal.md) |
+| `depot-terminal` | 2 | 59.5 | 10 | 44 | 28 | 6 / 1122.0 | [`md`](variants/depot-terminal.md) | [`md`](travelers/depot-terminal.md) |
 
 Auxiliary area is quantised upward into repeatable 8.5 m × 22 m solar-roof
 modules rather than left as an unbuildable square-metre allowance.

@@ -11,15 +11,12 @@ traveler, FreeCAD installed/exploded states and IFC4.3 assembly.
 
 | Parameter | Standard | This variant |
 |---|---:|---:|
-| `canopy_bays_per_platform` | 10 | 14 |
-| `total_canopy_bays` | 20 | 28 |
-| `platform_canopy_area_m2` | 504.0 | 705.6 |
 | `site_canopy_target_m2` | 1800.0 | 1500.0 |
-| `auxiliary_canopy_required_area_m2` | 1296.0 | 794.4 |
-| `auxiliary_canopy_module_count` | 7 | 5 |
-| `auxiliary_canopy_installed_area_m2` | 1309.0 | 935.0 |
-| `auxiliary_canopy_target_overbuild_m2` | 13.0 | 140.6 |
-| `auxiliary_canopy_kwp` | 222.5 | 158.9 |
+| `auxiliary_canopy_required_area_m2` | 1296.0 | 996.0 |
+| `auxiliary_canopy_module_count` | 7 | 6 |
+| `auxiliary_canopy_installed_area_m2` | 1309.0 | 1122.0 |
+| `auxiliary_canopy_target_overbuild_m2` | 13.0 | 126.0 |
+| `auxiliary_canopy_kwp` | 222.5 | 190.7 |
 | `dwell_seconds` | 60 | 240 |
 | `tpss_kva` | 0 | 2000 |
 | `turnout_count` | 0 | 1 |
@@ -79,6 +76,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | `STN-PAX-P080` | `STN-PAX-SA500` | `MAKE` | `STN-PAX-P080-DRW-DEPOT-TERMINAL` | `OSR-STD-A-003`, `OSR-STD-S-007` | `STN-PAX-P080-CONN` |
 | `STN-PAX-P060` | `STN-PAX-SA500` | `SOURCE` | `STN-PAX-P060-DRW-DEPOT-TERMINAL` | `OSR-STD-T-001`, `OSR-STD-T-003` | — |
 | `STN-ACC-P010` | `STN-ACC-SA600` | `MAKE` | `STN-ACC-P010-DRW-DEPOT-TERMINAL` | `OSR-STD-A-012`, `OSR-STD-M-004` | — |
+| `STN-CIV-P060` | `STN-PLT-SA200` | `MAKE` | `STN-CIV-P060-DRW-DEPOT-TERMINAL` | — | — |
 | `STN-CNP-P050` | `STN-CNP-SA300` | `BID` | `STN-CNP-P050-DRW-DEPOT-TERMINAL` | — | — |
 | `STN-CNP-P060` | `STN-CNP-SA300` | `MAKE` | `STN-CNP-P060-DRW-DEPOT-TERMINAL` | — | `STN-CNP-P060-CONN` |
 | `STN-CNP-P070` | `STN-CIV-SA100` | `MAKE` | `STN-CNP-P070-DRW-DEPOT-TERMINAL` | — | `STN-CNP-P070-CONN` |
@@ -106,7 +104,7 @@ where a controlled fastener, anchor, seal, terminal, weld or grout schedule is r
 | Assembly ID | Work cell | Direct children |
 |---|---|---|
 | `STN-CIV-SA100` | civil works | `STN-CIV-P030`, `STN-CNP-P020`, `STN-CNP-P070` |
-| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-PLT-P010` |
+| `STN-PLT-SA200` | civil/platform construction | `STN-CIV-P010`, `STN-CIV-P020`, `STN-CIV-P040`, `STN-CIV-P060`, `STN-PLT-P010` |
 | `STN-CNP-SA300` | steel erection and solar | `STN-CNP-P010`, `STN-CNP-P030`, `STN-CNP-P040`, `STN-CNP-P050`, `STN-CNP-P060`, `STN-CNP-P080`, `STN-CNP-P090` |
 | `STN-MEP-SA400` | MEP installation | `STN-MEP-P010`, `STN-MEP-P020`, `STN-MEP-P030`, `STN-MEP-P040` |
 | `STN-CHG-SA700` | traction power and charging | `STN-CHG-P010`, `STN-CHG-P020` |

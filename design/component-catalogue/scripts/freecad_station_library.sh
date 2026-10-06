@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+STATION_REPO_ROOT="$(cd "$ROOT/../.." && pwd)"
 SCRIPT="$ROOT/src/osr_mech/freecad_station_library.py"
 
 ARGS_PY="$(python3 - "$@" <<'PY'
@@ -31,7 +32,7 @@ if command -v FreeCADCmd >/dev/null 2>&1; then
 elif command -v freecadcmd >/dev/null 2>&1; then
     freecadcmd "$WRAPPER"
 elif command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; then
-    flatpak run --filesystem="$ROOT" --talk-name=org.freedesktop.Flatpak \
+    flatpak run --filesystem="$STATION_REPO_ROOT" --talk-name=org.freedesktop.Flatpak \
         --env=PYTHONPATH="$ROOT/src" --command=FreeCADCmd org.freecad.FreeCAD "$WRAPPER"
 else
     printf 'FreeCADCmd was not found; run ./install.sh and accept the engineering applications.\n' >&2

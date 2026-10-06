@@ -9,11 +9,13 @@ remain visibly provisional until the relevant survey and calculation is released
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
 from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
 from osr_mech.depot.bogie_change import depot_bogie_change_bay
+from osr_mech.station.layout import station_layout
 
 
 CONCRETE = Color(0.70, 0.70, 0.66)
@@ -46,6 +48,8 @@ _SEMANTICS: dict[str, tuple[str, str]] = {
     "STN-CIV-P010": ("IfcSlab", "platform/guideway structural envelope"),
     "STN-CIV-P020": ("IfcSlab", "sub-base, levelling and closure zones"),
     "STN-CIV-P030": ("IfcPipeSegment", "drain channels, catch pits and outlet"),
+    "STN-CIV-P060": ("IfcTrackElement", "station track deck and running-rail interface envelope"),
+    "STN-CIV-P050": ("IfcSlab", "island centre deck infill envelope"),
     "STN-CIV-P040": ("IfcBeam", "guideway edge, coping carrier and service trough"),
     "STN-PLT-P010": ("IfcCovering", "coping, tactile and warning-line system"),
     "STN-CNP-P010": ("IfcMember", "portal columns, rafter and knee braces"),
@@ -71,6 +75,9 @@ _SEMANTICS: dict[str, tuple[str, str]] = {
     "STN-PAX-P080": ("IfcDiscreteAccessory", "TVM plinth and protected service entry"),
     "STN-ACC-P010": ("IfcRamp", "step-free approach and boundary envelope"),
     "STN-ACC-P020": ("IfcTransportElement", "lift/stair core and maintenance envelope"),
+    "STN-ACC-P040": ("IfcTransportElement", "escalator operating envelope"),
+    "STN-ACC-P050": ("IfcStair", "separated stair route"),
+    "STN-ACC-P060": ("IfcBuildingElementProxy", "lift shaft"),
     "STN-ACC-P030": ("IfcSlab", "overbridge/concourse structure and enclosure envelope"),
     "STN-CHG-P010": ("IfcElectricDistributionBoard", "charger, connector and protected reach envelope"),
     "STN-CHG-P020": ("IfcTransformer", "traction substation interface envelope"),
@@ -125,61 +132,72 @@ def _equipment(label: str, at: tuple[float, float, float], size: tuple[float, fl
 
 
 def _platform_centres(parameters: dict[str, Any]) -> list[tuple[float, float]]:
-    count = int(parameters["platform_count"])
-    elevated = parameters.get("platform_layout") == "stacked"
-    if count == 1:
-        return [(5_000.0, 0.0)]
-    if count == 2:
-        return [(-5_000.0, 0.0), (5_000.0, 0.0)]
-    if elevated:
-        return [(-5_000.0, 9_000.0), (5_000.0, 9_000.0), (-5_000.0, 17_000.0), (5_000.0, 17_000.0)]
-    return [(-11_000.0, 0.0), (-5_000.0, 0.0), (5_000.0, 0.0), (11_000.0, 0.0)]
+    return [(p.y_mm, p.base_z_mm) for p in station_layout(parameters).platforms]
 
 
 def _platform_parts(product_id: str, parameters: dict[str, Any], label: str) -> Compound:
     length = float(parameters["platform_length_m"]) * 1000.0
-    centres = _platform_centres(parameters)
+    layout = station_layout(parameters)
     children: list[Part] = []
-    for index, (y, level) in enumerate(centres, start=1):
+    for p in layout.platforms:
         if product_id == "STN-CIV-P010":
-            children.append(_box((length, 3_000, 420), f"{label} platform {index}", CONCRETE, (0, y, level + 210)))
+            if layout.elevation == "elevated" and layout.layout in ("island", "stacked"):
+                for sign in (-1,1):
+                    children.append(_box((length,3000,420),f"{label} {p.id} edge strip {sign}",CONCRETE,
+                        (0,p.y_mm+sign*(p.width_mm-3000)/2,p.base_z_mm+210)))
+            else:
+                children.append(_box((length,p.width_mm,420),f"{label} {p.id}",CONCRETE,(0,p.y_mm,p.base_z_mm+210)))
+        elif product_id == "STN-CIV-P050" and p.width_mm > 6000:
+            children.append(_box((length,p.width_mm-6000,420),f"{label} {p.id}",CONCRETE,(0,p.y_mm,p.base_z_mm+210)))
         elif product_id == "STN-CIV-P020":
-            children.append(_box((length, 3_250, 180), f"{label} levelling bed {index}", GROUND, (0, y, level - 90)))
+            children.append(_box((length,p.width_mm+250,180),f"{label} {p.id}",GROUND,(0,p.y_mm,p.base_z_mm-90)))
+    for f in layout.faces:
+        edge, level = f.platform_face_y_mm, f.boarding_z_mm-420
+        p = next(p for p in layout.platforms if p.id == f.platform_id)
+        inward = 1 if p.y_mm > edge else -1
+        if product_id == "STN-CIV-P060":
+            track = f.track_centre_y_mm
+            if layout.elevation == "elevated":
+                children.append(_box((length,2900,220),f"{label} flange {f.id}",CONCRETE,(0,track,level-212)))
+                for sign in (-1,1):
+                    children.append(_box((length,300,935),f"{label} stem {f.id}",CONCRETE,(0,track+sign*717.5,level-789.5)))
+            else:
+                children.append(_box((length,2900,300),f"{label} slab {f.id}",CONCRETE,(0,track,level-252)))
+            for sign in (-1,1):
+                children.append(_box((length,75,172),f"{label} running rail {f.id}",STEEL,(0,track+sign*717.5,level-16)))
         elif product_id == "STN-CIV-P030":
-            edge = y - 1_650 if y > 0 else y + 1_650
-            children.append(_box((length, 220, 260), f"{label} grated channel {index}", STEEL, (0, edge, level + 120)))
-            for x in (-length * 0.35, length * 0.35):
-                children.append(_part(Cylinder(180, 800), f"{label} catch pit {index}", CONCRETE).locate(Location((x, edge, level - 400))))
+            children.append(_box((length,220,260),f"{label} {f.id}",STEEL,(0,edge+inward*150,level+290)))
+            for x in (-length*0.35,length*0.35):
+                children.append(_part(Cylinder(180,800),f"{label} catch pit {f.id}",CONCRETE).locate(Location((x,edge,level-400))))
         elif product_id == "STN-CIV-P040":
-            edge = y - 1_500 if y > 0 else y + 1_500
             children.extend([
-                _box((length, 320, 650), f"{label} edge beam {index}", CONCRETE, (0, edge, level + 325)),
-                _box((length, 240, 240), f"{label} service trough {index}", STEEL, (0, edge + (420 if y > 0 else -420), level + 120)),
-            ])
+                _box((length,320,650),f"{label} edge {f.id}",CONCRETE,(0,edge+inward*160,level+95)),
+                _box((length,240,240),f"{label} trough {f.id}",STEEL,(0,edge+inward*420,level+300))])
         elif product_id == "STN-PLT-P010":
-            edge = y - 1_500 if y > 0 else y + 1_500
             children.extend([
-                _box((length, 420, 80), f"{label} coping {index}", CONCRETE, (0, edge, level + 460)),
-                _box((length, 320, 35), f"{label} tactile strip {index}", SAFETY, (0, edge + (360 if y > 0 else -360), level + 505)),
-            ])
-    return Compound(label=label, children=children)
+                _box((length,420,80),f"{label} coping {f.id}",CONCRETE,(0,edge+inward*210,level+380)),
+                _box((length,320,35),f"{label} tactile {f.id}",SAFETY,(0,edge+inward*360,level+402.5))])
+    return Compound(label=label,children=children)
 
 
 def _canopy(product_id: str, parameters: dict[str, Any], label: str) -> Compound:
     length = float(parameters["platform_length_m"]) * 1000.0
     centres = _platform_centres(parameters)
+    bays = int(parameters.get("canopy_bays_per_platform",max(1,math.ceil(length/6000))))
+    roof_length=bays*6000.0
+    frames=[-roof_length/2+i*6000 for i in range(bays+1)]
     children: list[Part] = []
     for platform, (y, level) in enumerate(centres, start=1):
         roof_z = level + 3_900
         if product_id == "STN-CNP-P010":
-            for x in (-length * 0.40, -length * 0.20, 0.0, length * 0.20, length * 0.40):
+            for x in frames:
                 children.extend([
                     _box((180, 180, 3_400), f"{label} column {platform}", STEEL, (x, y, level + 1_700)),
-                    _box((180, 3_600, 220), f"{label} rafter {platform}", STEEL, (x, y, roof_z - 150)),
+                    _box((180, float(parameters.get("platform_width_m",3.0))*1000+600, 220), f"{label} rafter {platform}", STEEL, (x, y, roof_z - 150)),
                     _box((500, 120, 500), f"{label} knee brace {platform}", STEEL, (x, y - 1_350, level + 3_100)),
                 ])
         elif product_id == "STN-CNP-P020":
-            for x in (-length * 0.40, -length * 0.20, 0.0, length * 0.20, length * 0.40):
+            for x in frames:
                 children.extend([
                     _box((900, 900, 350), f"{label} provisional pad {platform}", CONCRETE, (x, y, level - 175)),
                     _box((360, 360, 35), f"{label} base plate {platform}", STEEL, (x, y, level + 18)),
@@ -188,10 +206,10 @@ def _canopy(product_id: str, parameters: dict[str, Any], label: str) -> Compound
                     for dy in (-130, 130):
                         children.append(_part(Cylinder(18, 420), f"{label} anchor bolt {platform}", STEEL).locate(Location((x + dx, y + dy, level))))
         elif product_id in {"STN-CNP-P030", "STN-CNP-P050"}:
-            width = 4_200 if product_id == "STN-CNP-P030" else 8_500
+            width = float(parameters.get("platform_width_m",3.0))*1000 + 1200 if product_id == "STN-CNP-P030" else 8_500
             children.extend([
-                _box((length, width, 160), f"{label} sandwich roof {platform}", STEEL, (0, y, roof_z)),
-                _box((length * 0.92, width * 0.86, 45), f"{label} PV laminate {platform}", PV, (0, y, roof_z + 105)),
+                _box((roof_length, width, 160), f"{label} sandwich roof {platform}", STEEL, (0, y, roof_z)),
+                _box((roof_length * 0.92, width * 0.86, 45), f"{label} PV laminate {platform}", PV, (0, y, roof_z + 105)),
             ])
         elif product_id in {"STN-CNP-P040", "STN-CNP-P080"}:
             children.extend([
@@ -368,7 +386,7 @@ def station_product_geometry(item: dict[str, Any], parameters: dict[str, Any]) -
     if product_id == "STN-PAX-P040":
         return Compound(label=label, children=[
             _box((1_000, 180, 1_150), f"{label} gate pedestal", STEEL, (anchor_x + index * 1_300, -8_000, 575))
-            for index in range(min(6, max(2, int(float(item["quantity"])))))
+            for index in range(int(float(item["quantity"])))
         ] + [_box((8_000, 2_000, 2_200), f"{label} operating/egress clearance", Color(0.25, 0.55, 0.80, 0.18), (anchor_x + 3_000, -8_000, 1_100))])
     if product_id == "STN-PAX-P050":
         return _equipment(label, (anchor_x, -10_500, 900), (1_000, 700, 1_700))
@@ -385,21 +403,29 @@ def station_product_geometry(item: dict[str, Any], parameters: dict[str, Any]) -
             _box((width * 0.55, 300, 120), f"{label} protected cable void", SYSTEM, (anchor_x, -8_000 if product_id.endswith("070") else -10_500, 120)),
         ])
     if product_id == "STN-ACC-P010":
+        street=station_layout(parameters).level_elevations_mm["street"]
         return Compound(label=label, children=[
-            _box((12_000, 3_000, 250), f"{label} step-free approach", CONCRETE, (-length / 2 - 5_000, -5_000, 125)),
-            _box((12_000, 180, 1_100), f"{label} protected boundary", STEEL, (-length / 2 - 5_000, -6_500, 550)),
+            _box((12_000, 3_000, 250), f"{label} step-free approach", CONCRETE, (-length / 2 - 5_000, -5_000, street-125)),
+            _box((12_000, 180, 1_100), f"{label} protected boundary", STEEL, (-length / 2 - 5_000, -6_500, street+550)),
         ])
-    if product_id == "STN-ACC-P020":
-        return Compound(label=label, children=[
-            _box((3_500, 3_500, 18_000), f"{label} lift/stair core", Color(0.60, 0.68, 0.72, 0.35), (-10_000 + index * 7_000, 0, 9_000))
-            for index in range(min(4, int(float(item["quantity"]))))
-        ] + [_box((4_200, 4_200, 3_500), f"{label} maintenance clearance", Color(0.25, 0.55, 0.80, 0.18), (-10_000, 0, 18_000))])
+    if product_id in {"STN-ACC-P020", "STN-ACC-P040", "STN-ACC-P050", "STN-ACC-P060"}:
+        layout = station_layout(parameters)
+        kind = {"STN-ACC-P020":"lift", "STN-ACC-P040":"escalator", "STN-ACC-P050":"staircase", "STN-ACC-P060":"shaft"}[product_id]
+        children=[]
+        for e in layout.equipment:
+            if e.kind != kind:
+                continue
+            bottom=layout.level_elevations_mm[e.served_levels[0]]
+            top=layout.level_elevations_mm[e.served_levels[-1]]
+            children.append(_box((e.length_mm,e.width_mm,top-bottom),f"{label} {e.id}",Color(0.60,0.68,0.72,0.35),
+                                 (e.x_mm,e.y_mm,(bottom+top)/2)))
+        return Compound(label=label,children=children)
     if product_id == "STN-ACC-P030":
-        return Compound(label=label, children=[
-            _box((5_000, 24_000, 650), f"{label} bridge deck", STEEL, (0, 0, 13_000)),
-            _box((5_000, 24_000, 3_000), f"{label} glazed enclosure", GLASS, (0, 0, 14_800)),
-            _box((6_000, 25_000, 180), f"{label} roof", STEEL, (0, 0, 16_400)),
-        ])
+        layout=station_layout(parameters)
+        children=[]
+        for deck in layout.concourse_decks:
+            children.append(_box((deck["length_mm"],deck["width_mm"],deck["thickness_mm"]),f"{label} {deck['id']}",CONCRETE,(0,0,deck["z_mm"]-deck["thickness_mm"]/2)))
+        return Compound(label=label,children=children)
     if product_id == "STN-CHG-P010":
         return Compound(label=label, children=[
             _equipment(f"{label} cabinet", (length * 0.34, 8_500, 1_200), (2_000, 1_000, 2_200)),
