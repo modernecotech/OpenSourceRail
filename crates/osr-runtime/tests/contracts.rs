@@ -261,6 +261,7 @@ fn output_process_rejects_single_channel_protocol_and_trips_missing_pair() {
         .arg("--deployment")
         .arg(root.join("engineering/assurance/tacs/deployment.json"))
         .args(["--entity", "101"])
+        .args(["--clock", "virtual"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -293,4 +294,66 @@ fn output_process_rejects_single_channel_protocol_and_trips_missing_pair() {
     assert_eq!(replies[0]["ok"], false);
     assert_eq!(replies[1]["result"]["pair"]["output"]["tripped"], true);
     assert_eq!(replies[1]["result"]["pair"]["output"]["torque_mnm"], 0);
+}
+
+#[test]
+fn real_output_process_expires_feeds_while_stdin_stays_open_and_incomplete() {
+    use std::io::{BufRead, BufReader, Write};
+    use std::process::{Command, Stdio};
+    use std::time::{Duration, Instant};
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let mut process = Command::new(env!("CARGO_BIN_EXE_osr-safety-output"))
+        .arg("--model")
+        .arg(root.join("engineering/assurance/tacs/railway-model.json"))
+        .arg("--deployment")
+        .arg(root.join("engineering/assurance/tacs/deployment.json"))
+        .args(["--entity", "101"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut input = process.stdin.take().unwrap();
+    let output = process.stdout.take().unwrap();
+    let (send, receive) = std::sync::mpsc::channel();
+    let reader = std::thread::spawn(move || {
+        for line in BufReader::new(output).lines() {
+            let value: serde_json::Value = serde_json::from_str(&line.unwrap()).unwrap();
+            if send.send(value).is_err() {
+                break;
+            }
+        }
+    });
+    let clock = receive.recv_timeout(Duration::from_secs(2)).unwrap()["result"].clone();
+    let issued = clock["now_ns"].as_u64().unwrap();
+    let feed = serde_json::json!({"request":{"sequence":1,"issued_ns":issued,"brake":"Release","torque_mnm":100},"source_valid":true});
+    writeln!(input,"{}",serde_json::json!({"command":"feed_pair","now":issued,
+        "clock_epoch":clock["clock_epoch"],"pair":{"a":feed,"b":feed,"stopped":true,"recovery_authorised":true},
+        "feedback_a_healthy":true,"feedback_b_healthy":true})).unwrap();
+    input.flush().unwrap();
+    let end = Instant::now() + Duration::from_secs(2);
+    let mut released = false;
+    loop {
+        assert!(Instant::now() < end);
+        let row = receive.recv_timeout(Duration::from_secs(2)).unwrap();
+        let tripped = row["result"]["pair"]["output"]["tripped"]
+            .as_bool()
+            .unwrap();
+        if !tripped && !released {
+            released = true;
+            // The parser blocks awaiting a newline; the sampler must continue.
+            input.write_all(b"{\"command\":").unwrap();
+            input.flush().unwrap();
+        }
+        if released && tripped {
+            assert!(
+                row["result"]["now_ns"].as_u64().unwrap() - issued
+                    >= osr_brake::deadline::DEADLINE_NS
+            );
+            assert_eq!(row["result"]["pair"]["output"]["torque_mnm"], 0);
+            break;
+        }
+    }
+    drop(input);
+    assert!(process.wait().unwrap().success());
+    reader.join().unwrap();
 }

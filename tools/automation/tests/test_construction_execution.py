@@ -129,6 +129,34 @@ def test_future_reviewed_allocation_blocks_asset_and_worker_double_booking():
     assert check_packet(*values)
 
 
+def test_two_riggers_means_two_distinct_currently_qualified_people():
+    values=list(fixture());values[0]['allocation']['required_role_quantities']={'operator':2}
+    with pytest.raises(ValueError,match='crew quantity'):check_packet(*values)
+
+
+def test_manufacturing_live_authority_is_bound_to_work_kind_and_method():
+    values=list(fixture());values[0].update(task_kind='manufacturing',method_revision='method-1')
+    values[2].update(task_kind='manufacturing',method_revision='method-1')
+    with pytest.raises(ValueError,match='work kind and method'):check_packet(*values)
+    values[4]['employee']['authorisations'][0].update(task_kind='manufacturing',method_revision='method-1')
+    assert check_packet(*values)
+    values[2]['method_revision']='method-2'
+    with pytest.raises(ValueError,match='controlled method'):check_packet(*values)
+
+
+def test_maintenance_on_an_unavailable_asset_requires_current_isolation_and_scoped_authority():
+    values=list(fixture());values[0].update(task_kind='maintenance',method_revision='method-1')
+    values[2].update(task_kind='maintenance',method_revision='method-1')
+    values[3].update(status='Out of Order',open_repairs=['repair'])
+    values[4]['employee']['authorisations'][0].update(task_kind='maintenance',method_revision='method-1')
+    values[0]['asset_lifecycle'].update(maintenance_isolation_valid_until='2028-01-01T00:00:00+03:00')
+    values[3]['controlled_lifecycle']=deepcopy(values[0]['asset_lifecycle'])
+    with pytest.raises(ValueError,match='isolation'):check_packet(*values)
+    values[0]['asset_lifecycle'].update(maintenance_isolation_accepted=True,maintenance_isolation_record='bench-isolation')
+    values[3]['controlled_lifecycle']=deepcopy(values[0]['asset_lifecycle'])
+    assert check_packet(*values)
+
+
 @pytest.mark.parametrize('peer_status',['Open','Overdue','Completed','Completed-without-review'])
 def test_native_future_booking_checks_reviewed_peers_and_retains_completed_history(monkeypatch,peer_status):
     """Exercise the native query and lock path, rather than just packet maths."""

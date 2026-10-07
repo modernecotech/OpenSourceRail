@@ -5,6 +5,7 @@ Surveyed demand and reviewed evacuation/rescue criteria remain separate inputs.
 """
 import math
 from osr_mech.provenance import stable_sum as sum
+from .station.circulation import continuous_path,continuous_clear_width
 
 
 def footprint_screen(platform,length_m,equipment):
@@ -12,8 +13,11 @@ def footprint_screen(platform,length_m,equipment):
     rectangles=[]
     for e in equipment:
         if platform['level'] not in e['served_levels']:continue
-        a=max(x0,(e['x_mm']-e['length_mm']/2)/1000);b=min(x1,(e['x_mm']+e['length_mm']/2)/1000)
-        c=max(y0,(e['y_mm']-e['width_mm']/2)/1000);d=min(y1,(e['y_mm']+e['width_mm']/2)/1000)
+        a=(e['x_mm']-e['length_mm']/2)/1000;b=(e['x_mm']+e['length_mm']/2)/1000
+        c=(e['y_mm']-e['width_mm']/2)/1000;d=(e['y_mm']+e['width_mm']/2)/1000
+        if d<=y0 or c>=y1:continue  # Equipment on another platform at this level.
+        if not x0<=a<b<=x1 or not y0<=c<d<=y1:
+            raise ValueError('equipment footprint extends outside platform support envelope')
         if a<b and c<d:rectangles.append((a,b,c,d))
     cuts=sorted({x0,x1,*(a for a,b,c,d in rectangles),*(b for a,b,c,d in rectangles)})
     occupied=0;minimum_gap=y1-y0
@@ -30,7 +34,8 @@ def footprint_screen(platform,length_m,equipment):
     gross=length_m*(y1-y0)
     return dict(gross_platform_area_m2=gross,equipment_union_area_m2=occupied,unoccupied_envelope_area_m2=gross-occupied,
         narrowest_largest_contiguous_lane_m=minimum_gap,
-        basis='union of shared-layout equipment footprints clipped to platform; edge exclusions and site obstacles require survey')
+        continuous_longitudinal_clear_width_m=continuous_clear_width((x0,x1,y0,y1),rectangles),
+        basis='contained footprint union and connected longitudinal clearance; site obstacles, entrance routes and crowd dynamics remain separate')
 
 
 def station_capacity_screen(station,length_m,criteria=None):
@@ -44,7 +49,7 @@ def station_capacity_screen(station,length_m,criteria=None):
         if rate is not None and (not math.isfinite(rate) or rate<=0):raise ValueError('positive sourced circulation rate required')
         density=waiting/area['unoccupied_envelope_area_m2'] if waiting is not None and area['unoccupied_envelope_area_m2']>0 else None
         platforms.append(dict(platform_id=platform['id'],**area,waiting_pax=waiting,waiting_density_pax_m2=density,
-            circulation_capacity_pax_hour=area['narrowest_largest_contiguous_lane_m']*rate*60 if rate is not None else None,
+            circulation_capacity_pax_hour=area['continuous_longitudinal_clear_width_m']*rate*60 if rate is not None else None,
             crowding_criterion_pax_m2=criteria.get('crowding_criterion_pax_m2'),criteria_accepted=False))
     lift_ids=[e['id'] for e in layout['equipment'] if e['kind']=='lift']
     capacities=criteria.get('lift_capacity_pax_hour',{})

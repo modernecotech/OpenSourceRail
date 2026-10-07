@@ -325,7 +325,7 @@ For an illustrative **$100M OpenSourceRail scope**, the editable default compari
 | Value not requiring external capital | ${local:.1f}M | $20.0M |
 | External-capital requirement | **${external:.1f}M** | **$180.0M** |
 
-In that scenario, the external-capital requirement is **${saving:.1f}M ({reduction:.1%})** lower before interest. Across the {values['cities']}-city model, **{values['local_value']}—roughly {values['local_share']} of programme value—is assigned to domestic activity**. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+In that scenario, the external-capital requirement is **${saving:.1f}M ({reduction:.1%})** lower before interest. Across the {values['cities']}-city model, **{values['local_value']}—roughly {values['local_share']} of programme value—is assigned to domestic activity**. **Scope snapshot: 7 October 2026, retained catalogue finance; excludes adoption of the revised Baghdad scenario.** These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
 <!-- END GENERATED: portfolio economics -->
 """
     current=(REPO_ROOT/'README.md').read_text()

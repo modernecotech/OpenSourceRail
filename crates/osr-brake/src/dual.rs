@@ -59,6 +59,26 @@ impl DualGuard {
         feedback_a_healthy: bool,
         feedback_b_healthy: bool,
     ) -> DualOutput {
+        self.feed_at(now, pair, feedback_a_healthy, feedback_b_healthy, false)
+    }
+    /// Both source requests retain their timestamps in the host clock epoch.
+    pub fn feed_timestamped(
+        &mut self,
+        now: u64,
+        pair: PairFeed,
+        feedback_a_healthy: bool,
+        feedback_b_healthy: bool,
+    ) -> DualOutput {
+        self.feed_at(now, pair, feedback_a_healthy, feedback_b_healthy, true)
+    }
+    fn feed_at(
+        &mut self,
+        now: u64,
+        pair: PairFeed,
+        feedback_a_healthy: bool,
+        feedback_b_healthy: bool,
+        timestamped: bool,
+    ) -> DualOutput {
         // Missing channels cannot be filled by copying the survivor. Pair
         // identity is bounded to this synthetic port; source-issued end-to-end
         // identity and independent clocks are still hardware integration work.
@@ -71,13 +91,23 @@ impl DualGuard {
         }
         for (guard, feed) in [(&mut self.a, pair.a), (&mut self.b, pair.b)] {
             if let Some(feed) = feed {
-                guard.feed(
-                    feed.request,
-                    now,
-                    pair.stopped,
-                    feed.source_valid,
-                    pair.recovery_authorised && !self.discrepancy,
-                );
+                if timestamped {
+                    guard.feed_timestamped(
+                        feed.request,
+                        now,
+                        pair.stopped,
+                        feed.source_valid,
+                        pair.recovery_authorised && !self.discrepancy,
+                    );
+                } else {
+                    guard.feed(
+                        feed.request,
+                        now,
+                        pair.stopped,
+                        feed.source_valid,
+                        pair.recovery_authorised && !self.discrepancy,
+                    );
+                }
             }
         }
         let result = self.sample(now, feedback_a_healthy, feedback_b_healthy);

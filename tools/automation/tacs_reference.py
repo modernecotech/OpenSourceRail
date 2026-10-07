@@ -55,6 +55,7 @@ class Process:
         args = [str(ROOT/'target/release'/binary),'--model',str(BASE/'railway-model.json'),
             '--deployment',str(BASE/'deployment.json'),'--entity',str(entity),'--journal',str(Path(directory)/f'{entity}-{channel}.journal')]
         if not output and entity < 900: args += ['--safety-channel',channel]
+        if output: args += ['--clock','virtual']  # Deterministic twin; live output defaults to autonomous time.
         self.proc = subprocess.Popen(args,
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
         self.buffer = b''

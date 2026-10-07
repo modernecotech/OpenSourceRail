@@ -20,6 +20,11 @@ def check_packet(packet, project, task, asset, employees, other_tasks):
     if packet.get('schema')!='osr-construction-allocation/1':
         raise ValueError('unknown construction allocation evidence')
     allocation=packet['allocation'];start=moment(allocation['start_at']);end=moment(allocation['finish_at'])
+    kind=task.get('task_kind','construction')
+    if kind not in {'construction','manufacturing','maintenance'} or packet.get('task_kind','construction')!=kind:
+        raise ValueError('reviewed allocation differs from the current work kind')
+    if kind!='construction' and (not task.get('method_revision') or packet.get('method_revision')!=task['method_revision']):
+        raise ValueError('manufacturing/maintenance requires the current controlled method revision')
     if end<=start or packet['project']!=project['name'] or allocation['task']!=task['name']:
         raise ValueError('allocation does not match project, task and time window')
     if not project.get('revision') or packet['project_revision']!=project['revision']:
@@ -27,7 +32,9 @@ def check_packet(packet, project, task, asset, employees, other_tasks):
     for field in ('department','unit','front','crew','shift','equipment'):
         if allocation[field]!=task[field]:
             raise ValueError('reviewed allocation differs from current '+field)
-    if asset['name']!=allocation['equipment'] or asset['company']!=project['company'] or asset['docstatus']!=1 or asset['status'] in {None,'Work In Progress','Capitalized','Cancelled','Sold','Scrapped','Out of Order'}:
+    unavailable={None,'Work In Progress','Capitalized','Cancelled','Sold','Scrapped'}
+    if kind!='maintenance':unavailable.add('Out of Order')
+    if asset['name']!=allocation['equipment'] or asset['company']!=project['company'] or asset['docstatus']!=1 or asset['status'] in unavailable:
         raise ValueError('construction asset is unavailable or belongs to another company')
     lifecycle=packet['asset_lifecycle']
     if lifecycle!=asset.get('controlled_lifecycle'):
@@ -38,7 +45,10 @@ def check_packet(packet, project, task, asset, employees, other_tasks):
         raise ValueError('asset transfer, compatibility and recommissioning evidence required')
     if lifecycle.get('commissioned') is not True or not lifecycle.get('commissioning_record') or not lifecycle.get('inspection_record') or lifecycle.get('configuration_accepted') is not True:
         raise ValueError('asset commissioning, configuration and inspection evidence required')
-    if moment(lifecycle['inspection_valid_until'])<end or moment(lifecycle['maintenance_due_at'])<end or asset.get('open_repairs'):
+    if kind=='maintenance' and (lifecycle.get('maintenance_isolation_accepted') is not True
+        or not lifecycle.get('maintenance_isolation_record') or moment(lifecycle['maintenance_isolation_valid_until'])<end):
+        raise ValueError('maintenance requires current asset-bound isolation evidence')
+    if kind!='maintenance' and (moment(lifecycle['inspection_valid_until'])<end or moment(lifecycle['maintenance_due_at'])<end or asset.get('open_repairs')):
         raise ValueError('asset inspection/maintenance does not cover this allocation')
     workers=packet['workers'];ids=allocation['workers']
     if not ids or len(set(ids))!=len(ids) or set(ids)!=set(task['workers']):
@@ -57,6 +67,8 @@ def check_packet(packet, project, task, asset, employees, other_tasks):
             raise ValueError('worker authority is missing, revoked or outside this equipment/role')
         if not moment(auth['valid_from'])<=start<end<=moment(auth['expires_at']):
             raise ValueError('worker authorisation does not cover this shift')
+        if kind!='construction' and (auth.get('task_kind')!=kind or auth.get('method_revision')!=task['method_revision']):
+            raise ValueError('worker authority does not cover this work kind and method revision')
     calendar=packet['calendar'];hours=(end-start).total_seconds()/3600
     start_local=start.astimezone(ZoneInfo(calendar['timezone']));end_local=end.astimezone(ZoneInfo(calendar['timezone']))
     if not 0<calendar['maximum_shift_hours']<=24 or not 0<=calendar['minimum_rest_hours']<=168 or hours>calendar['maximum_shift_hours']:
@@ -138,7 +150,7 @@ def _resolve_evidence(record,kind,name):
 
 
 def _guarded(doc):
-    return bool(doc.get('custom_osr_construction_equipment') or doc.get('custom_osr_construction_unit') or doc.get('custom_osr_kind') in {'construction','erection','civil'})
+    return bool(doc.get('custom_osr_construction_equipment') or doc.get('custom_osr_construction_unit') or doc.get('custom_osr_kind') in {'construction','erection','civil','manufacturing','maintenance'})
 
 
 def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
@@ -245,6 +257,8 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
             competing['finish_at']=moment(closed).isoformat() if closed else max(now,moment(competing['finish_at'])).isoformat()
         competitors.append(competing)
     current=dict(name=doc.name,workers=json.loads(doc.get('custom_osr_construction_qualified_workers') or '[]'),
+        task_kind=doc.get('custom_osr_kind') if doc.get('custom_osr_kind') in {'manufacturing','maintenance'} else 'construction',
+        method_revision=doc.get('custom_osr_construction_work_method_revision'),
         **{f:doc.get('custom_osr_construction_'+f) for f in ('department','unit','front','crew','shift','equipment')})
     asset_data=live_rows[('Asset',asset.name)]
     asset_data['controlled_lifecycle']=json.loads(asset_data.get('custom_osr_fleet_lifecycle') or '{}')

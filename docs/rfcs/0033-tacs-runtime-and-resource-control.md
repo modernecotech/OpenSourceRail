@@ -132,9 +132,14 @@ channels must agree to permit; either emergency, missing/stale/replayed request,
 disagreement or unhealthy feedback latches an emergency output with zero torque.
 The reference feeds at 50 ms, before the 100 ms output deadline. A late feed
 cannot replace an overdue request to hide a missed interval; only stopped,
-privileged, fresh recovery can clear the latch. These ports block on coordinator
-commands and use virtual time. They do not establish autonomous real-clock
-execution, independent physical timers or de-energised hardware outputs.
+privileged, fresh recovery can clear the latch. The deterministic twin explicitly
+selects `--clock virtual`. The default output host now has an independent
+monotonic-clock sampling thread, bounded input parsing and timestamped output
+snapshots. Idle/partial input and blocked consumption cannot suspend that sampler.
+Source issue timestamps and process-clock epochs remain distinct from receipt
+time. Native process and expiry tests are software evidence; independent physical
+timers, scheduling bounds, source authentication and de-energised hardware outputs
+remain unqualified. See the [runtime contract](../../crates/osr-runtime/README.md).
 Processes exchange signatures
 through asynchronous bounded queues; publication does not wait for commitment.
 Simulation truth enters only own-train sensors and local infrastructure proving

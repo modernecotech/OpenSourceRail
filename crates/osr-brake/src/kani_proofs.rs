@@ -15,6 +15,32 @@ use osr_atp::BrakeCommand;
 use crate::evaluate::brake_evaluate;
 use crate::inputs::{BrakeInputs, BrakeParams};
 
+/// All u64 source/receipt times: stale, zero or future source time cannot permit.
+#[kani::proof]
+fn tacs_timestamped_output_rejects_invalid_source_age() {
+    use crate::deadline::{Guard, Request, DEADLINE_NS};
+    let now: u64 = kani::any();
+    let issued: u64 = kani::any();
+    kani::assume(issued == 0 || issued > now || now - issued >= DEADLINE_NS);
+    let mut guard = Guard::default();
+    guard.feed_timestamped(
+        Request {
+            sequence: 1,
+            issued_ns: issued,
+            brake: BrakeCommand::Release,
+            torque_mnm: 100,
+        },
+        now,
+        true,
+        true,
+        true,
+    );
+    let output = guard.sample(now, true);
+    assert!(output.tripped);
+    assert!(output.brake == BrakeCommand::Emergency);
+    assert!(output.torque_mnm == 0);
+}
+
 fn params() -> BrakeParams {
     BrakeParams {
         wsp_enabled: true,

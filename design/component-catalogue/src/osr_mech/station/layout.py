@@ -185,6 +185,14 @@ def station_layout(parameters: dict[str, Any]) -> StationLayout:
         raise ValueError("positive finite platform clear width required")
     if clear < required_clear:
         raise ValueError("access equipment leaves insufficient platform clear width")
+    from .circulation import continuous_path
+    for p in platforms:
+        rectangles=[((e.x_mm-e.length_mm/2)/1000,(e.x_mm+e.length_mm/2)/1000,
+                     (e.y_mm-e.width_mm/2)/1000,(e.y_mm+e.width_mm/2)/1000)
+                    for e in equipment if p.level in e.served_levels and contained(e,0.,p.y_mm,length,p.width_mm)]
+        bounds=(-length/2000,length/2000,(p.y_mm-p.width_mm/2)/1000,(p.y_mm+p.width_mm/2)/1000)
+        if not continuous_path(bounds,rectangles,required_clear/1000):
+            raise ValueError('access equipment interrupts the continuous platform circulation path')
     # Overlapping equipment on the same level is invalid; lift and its shaft
     # intentionally occupy the same envelope.
     installed = [e for e in equipment if e.kind != "shaft"]

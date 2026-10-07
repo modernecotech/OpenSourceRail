@@ -3,6 +3,8 @@
 No assignment, work start, permit, competence or railway release is granted.
 This validates an attachment snapshot. Current authoritative resource revocation
 is not resolved here, so this preview cannot establish live eligibility.
+Reviewed construction, manufacturing and maintenance Task allocations use the
+separate native construction_execution gate, with current resource resolution.
 """
 import json
 from datetime import datetime, timezone

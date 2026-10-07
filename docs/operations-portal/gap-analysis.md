@@ -1,10 +1,10 @@
-# OSR Operations Portal Gap Analysis
+# Historical OSR Operations Portal Gap Analysis — August 2026
 
 > **Operating architecture update:** [ERPNext + Frappe HR](../operating/README.md) now own business execution, purchasing, stock, finance and HR. OSR retains railway planning and assurance. Historic SQLite business records are read-only.
 
-**Reviewed:** 2026-08-31
+**Reviewed:** 2026-08-31. **Historical comparison; the capability statements below do not describe the current platform.** Use the [current integration status](../operating/integration-status.md), [native ERP/FUXA ownership](../operating/README.md), [asset/BIM lifecycle](../operating/lifecycle-governance-and-qr.md) and [deployment readiness](../operating/readiness.md) for implemented capabilities and remaining acceptance evidence. Legacy SQLite execution has been superseded by native ERP records; demonstrated telemetry and asset bindings do not establish a commissioned production deployment.
 
-This note compares the current OSR Operations Portal against adjacent
+This retained note compares the August 2026 OSR Operations Portal against adjacent
 commercial and open-source systems:
 
 - Rail/EAM/APM: [IBM Maximo](https://www.ibm.com/products/maximo),
@@ -23,7 +23,7 @@ commercial and open-source systems:
   [ISO 55001 asset-management system](https://www.iso.org/standard/55089.html),
   [ISO 19650 BIM/information management](https://www.bsigroup.com/en-GB/products-and-services/standards/iso-19650-building-information-modelling-bim/)
 
-## Current OSR Position
+## August 2026 OSR Position
 
 The portal is a strong **planning and generated-register tool**:
 
@@ -40,7 +40,7 @@ The portal is a strong **planning and generated-register tool**:
 It is now a lightweight owner-operator execution tool, but it is not a
 full CMMS/EAM, construction-management platform, or manufacturing MES.
 
-## Missing Capabilities
+## Historical Gap List
 
 | Priority | Gap | Why it matters | Comparator signal |
 |---|---|---|---|

@@ -19,10 +19,11 @@ use std::{
     path::Path,
 };
 
+pub mod clocked_output;
 pub mod legacy;
 pub mod train;
 pub mod wayside;
-const MAX_LINE: usize = 4 * 1024 * 1024;
+pub const MAX_LINE: usize = 4 * 1024 * 1024;
 pub const MAX_LOG_ENTRIES: usize = 12_000;
 
 pub fn bad(message: impl ToString) -> io::Error {

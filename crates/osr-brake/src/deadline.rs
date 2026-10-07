@@ -40,6 +40,43 @@ impl Guard {
         source_valid: bool,
         recovery_authorised: bool,
     ) {
+        self.feed_at(
+            request,
+            now,
+            stopped,
+            source_valid,
+            recovery_authorised,
+            false,
+        );
+    }
+    /// Accept a source timestamp in this host's declared monotonic clock epoch.
+    /// Receipt time never replaces the source issue time or renews its deadline.
+    pub fn feed_timestamped(
+        &mut self,
+        request: Request,
+        now: u64,
+        stopped: bool,
+        source_valid: bool,
+        recovery_authorised: bool,
+    ) {
+        self.feed_at(
+            request,
+            now,
+            stopped,
+            source_valid,
+            recovery_authorised,
+            true,
+        );
+    }
+    fn feed_at(
+        &mut self,
+        request: Request,
+        now: u64,
+        stopped: bool,
+        source_valid: bool,
+        recovery_authorised: bool,
+        timestamped: bool,
+    ) {
         // A late feed must not conceal an interval that would have tripped had
         // the output sampler run. Only controlled stopped recovery can clear it.
         if self
@@ -50,7 +87,13 @@ impl Guard {
         }
         let valid = source_valid
             && request.sequence > 0
-            && request.issued_ns == now
+            && if timestamped {
+                request.issued_ns > 0
+                    && request.issued_ns <= now
+                    && now - request.issued_ns < DEADLINE_NS
+            } else {
+                request.issued_ns == now
+            }
             && now > 0
             && now >= self.last_sample
             && self.request.is_none_or(|old| {
@@ -94,6 +137,24 @@ impl Guard {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn delayed_source_frames_keep_their_original_deadline_and_reject_future_or_expired_times() {
+        let request = Request {
+            sequence: 1,
+            issued_ns: 10,
+            brake: BrakeCommand::Release,
+            torque_mnm: 100,
+        };
+        let mut guard = Guard::default();
+        guard.feed_timestamped(request, 20, true, true, true);
+        assert!(!guard.sample(20, true).tripped);
+        assert!(guard.sample(10 + DEADLINE_NS, true).tripped);
+        for now in [9, 10 + DEADLINE_NS] {
+            let mut guard = Guard::default();
+            guard.feed_timestamped(request, now, true, true, true);
+            assert!(guard.sample(now, true).tripped);
+        }
+    }
     #[test]
     fn late_feed_without_sample_latches_and_cannot_recover_while_moving() {
         let mut g = Guard::default();

@@ -5,6 +5,7 @@ by creating a draft. The live ERP integration can consume these contracts.
 """
 from __future__ import annotations
 from datetime import date
+from collections import Counter
 
 
 def validate_transfers(allocations: list[dict]) -> None:
@@ -40,7 +41,7 @@ def validate_crew_task(task: dict, workers: list[dict]) -> None:
         if not task.get(field):
             raise ValueError(f'missing task hierarchy: {field}')
     selected=[w for w in workers if w['id'] in task['workers']]
-    if len(selected)!=len(task['workers']):
+    if len(selected)!=len(task['workers']) or len({w['id'] for w in selected})!=len(selected) or len(set(task['workers']))!=len(task['workers']):
         raise ValueError('missing qualified worker')
     for worker in selected:
         if worker.get('on_leave') or worker.get('crew')!=task['crew'] or worker.get('shift')!=task['shift']:
@@ -49,9 +50,17 @@ def validate_crew_task(task: dict, workers: list[dict]) -> None:
             raise ValueError('equipment-specific supervised qualification required')
         if date.fromisoformat(worker['competency_expires']) < date.fromisoformat(task['finish']):
             raise ValueError('competency expired')
-    roles={w['role'] for w in selected}
+    roles=Counter(w['role'] for w in selected)
     if not set(task['required_roles']).issubset(roles):
         raise ValueError('required crew role missing')
+    quantities=task.get('required_role_quantities',{role:1 for role in task['required_roles']})
+    if not isinstance(quantities,dict) or not set(task['required_roles']).issubset(quantities):
+        raise ValueError('required role quantities must cover the reviewed roles')
+    for role,count in quantities.items():
+        if not isinstance(role,str) or not role or type(count) is not int or count<1:
+            raise ValueError('positive integer crew role quantities required')
+        if roles[role]<count:
+            raise ValueError('insufficient qualified crew quantity for '+role)
 
 
 def asset_draft(asset_id: str, kind: str, front: str | None) -> dict:
@@ -86,5 +95,6 @@ def construction_custom_fields() -> dict:
                     ('qualified_workers','OSR qualified worker/competence evidence','Code','JSON'),
                      ('release','OSR reviewed construction allocation','Link','OSR Construction Release'),
                      ('work_started_at','OSR actual work start (UTC)','Datetime',None),
-                     ('work_closed_at','OSR actual work close (UTC)','Datetime',None),
+        ('work_closed_at','OSR actual work close (UTC)','Datetime',None),
+        ('work_method_revision','OSR manufacturing/maintenance method revision','Data',None),
                      ('handover','OSR handover and relief coverage','Code','JSON'))]}
