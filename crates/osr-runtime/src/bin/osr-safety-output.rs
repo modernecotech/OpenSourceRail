@@ -81,13 +81,16 @@ fn real_port() -> io::Result<()> {
     let mut output = io::stdout().lock();
     loop {
         // This thread may block on its consumer; it never owns the sampler.
+        // Observe closure before taking the snapshot, so EOF cannot make a
+        // previously captured permit the final published frame.
+        let finished = host.finished();
         let snapshot = host.snapshot();
         let value = serde_json::json!({"ok":snapshot.error.is_none(),
             "error":snapshot.error,"result":snapshot});
         serde_json::to_writer(&mut output, &value).map_err(osr_runtime::bad)?;
         output.write_all(b"\n")?;
         output.flush()?;
-        if host.finished() {
+        if finished {
             break;
         }
         std::thread::sleep(Duration::from_millis(10));
