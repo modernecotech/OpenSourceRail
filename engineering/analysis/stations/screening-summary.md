@@ -5,7 +5,7 @@ reproducible engineering screens, not construction release or authority approval
 
 - Screening execution: **passed**
 - Deployment release: **not ready**
-- Manifest: `design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json` (`f18213254b18…`)
+- Manifest: `design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json` (`6b8f1a570d9e…`)
 
 ## Results
 
@@ -47,11 +47,11 @@ runoff volume/peak, conduit peak, continuity and no flooding are separate pass g
 |---|---:|---:|---:|---:|---:|---|
 | `halt` | 439.0 m² / 11 | 0.83 / 9.15 | 9.15 | 25.00 / 0.019 | 0.020 | PASS |
 | `standard` | 1813.0 m² / 27 | 1.40 / 37.77 | 37.77 | 25.00 / -0.009 | 0.025 | PASS |
-| `major` | 2100.8 m² / 32 | 1.37 / 43.77 | 43.77 | 25.00 / -0.007 | 0.025 | PASS |
-| `interchange` | 2878.0 m² / 50 | 1.20 / 59.96 | 59.96 | 25.00 / 0.001 | 0.023 | PASS |
-| `interchange-elevated` | 3252.0 m² / 52 | 1.30 / 67.75 | 67.75 | 25.00 / -0.004 | 0.024 | PASS |
-| `terminal` | 2575.6 m² / 38 | 1.41 / 53.66 | 53.66 | 25.00 / -0.010 | 0.025 | PASS |
-| `depot-terminal` | 1640.6 m² / 33 | 1.04 / 34.18 | 34.18 | 25.00 / 0.009 | 0.022 | PASS |
+| `major` | 2115.0 m² / 19 | 2.32 / 44.06 | 44.06 | 25.00 / -0.050 | 0.032 | PASS |
+| `interchange` | 2921.0 m² / 31 | 1.96 / 60.85 | 60.85 | 25.00 / -0.038 | 0.030 | PASS |
+| `interchange-elevated` | 3348.0 m² / 32 | 2.18 / 69.75 | 69.75 | 25.00 / -0.046 | 0.031 | PASS |
+| `terminal` | 2561.0 m² / 31 | 1.72 / 53.35 | 53.35 | 25.00 / -0.025 | 0.028 | PASS |
+| `depot-terminal` | 1626.0 m² / 26 | 1.30 / 33.88 | 33.88 | 25.00 / -0.004 | 0.024 | PASS |
 
 ## Depot thermal and fire design response
 
