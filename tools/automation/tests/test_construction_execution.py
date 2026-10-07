@@ -103,3 +103,78 @@ def test_active_task_cannot_hide_its_allocation_by_reopening(monkeypatch):
     monkeypatch.setitem(sys.modules,'frappe',SimpleNamespace(throw=throw))
     with pytest.raises(ValueError,match='status reset'):
         validate_task(Doc(status='Open',custom_osr_construction_equipment='launcher'))
+
+
+def test_future_reviewed_task_cannot_skip_resource_validation(monkeypatch):
+    from types import SimpleNamespace
+    from osr_erpnext.construction_execution import validate_task
+    class Doc(dict):
+        def __getattr__(self,name):return self.get(name)
+        def get_doc_before_save(self):return None
+    release=SimpleNamespace(docstatus=0,accepted=1,task='future-task',project='project',check_permission=lambda action:None)
+    def throw(message):raise ValueError(message)
+    monkeypatch.setitem(sys.modules,'frappe',SimpleNamespace(get_doc=lambda *args:release,throw=throw))
+    with pytest.raises(ValueError,match='revoked'):
+        validate_task(Doc(name='future-task',status='Open',project='project',
+            custom_osr_construction_equipment='launcher',custom_osr_construction_release='review'))
+
+
+def test_future_reviewed_allocation_blocks_asset_and_worker_double_booking():
+    values=list(fixture());other=deepcopy(values[0]['allocation']);other['task']='future-open-task'
+    values[-1]=[other]
+    with pytest.raises(ValueError,match='asset is allocated'):check_packet(*values)
+    other['equipment']='another-launcher'
+    with pytest.raises(ValueError,match='worker assignments overlap'):check_packet(*values)
+    other.update(start_at='2027-01-06T08:00:00+03:00',finish_at='2027-01-06T16:00:00+03:00')
+    assert check_packet(*values)
+
+
+@pytest.mark.parametrize('peer_status',['Open','Overdue','Completed','Completed-without-review'])
+def test_native_future_booking_checks_reviewed_peers_and_retains_completed_history(monkeypatch,peer_status):
+    """Exercise the native query and lock path, rather than just packet maths."""
+    import hashlib
+    import json
+    from types import SimpleNamespace
+    import osr_erpnext.construction_execution as execution
+    class Doc(dict):
+        def __getattr__(self,name):return self.get(name)
+        def check_permission(self,action):pass
+        def get_doc_before_save(self):return None
+    packet,project,task,asset,employees,_=fixture()
+    packet['workers'][0]['shift_type']='day'
+    packet['calendar']['holiday_list']='holidays'
+    peer_packet=deepcopy(packet);peer_packet['allocation']['task']='peer'
+    packets={'review':packet,'peer-review':peer_packet}
+    raw={name:json.dumps(value,sort_keys=True).encode() for name,value in packets.items()}
+    documents={
+        ('OSR Construction Release',name):Doc(docstatus=1,accepted=1,task=value['allocation']['task'],
+            project='project',evidence_sha256=hashlib.sha256(raw[name]).hexdigest(),name=name)
+        for name,value in packets.items()}
+    documents.update({('Project','project'):Doc(**project,custom_osr_package_sha256='revision'),
+        ('Asset','launcher'):Doc(**asset),('Employee','employee'):Doc(name='employee',**employees['employee']),
+        ('Shift Type','day'):Doc(start_time='08:00:00',end_time='16:00:00',holiday_list='holidays'),
+        ('Holiday List','holidays'):Doc(name='holidays',holidays=[]),
+        ('Company','company'):Doc(default_holiday_list='holidays')})
+    live_employee={**employees['employee'],
+        'custom_osr_construction_authorisations':json.dumps(employees['employee']['authorisations']),
+        'holiday_list':'holidays'}
+    live_asset={**asset,'custom_osr_fleet_lifecycle':json.dumps(asset['controlled_lifecycle'])}
+    def query(kind,**kwargs):
+        if kind=='Task':
+            assert 'Open' in kwargs['or_filters'][0][2] and 'Overdue' in kwargs['or_filters'][0][2]
+            return [Doc(name='peer',status='Completed' if peer_status.startswith('Completed') else peer_status,
+                custom_osr_construction_release=None if peer_status=='Completed-without-review' else 'peer-review')]
+        return ['assignment'] if kind=='Shift Assignment' else []
+    def sql(statement,parameters,**kwargs):
+        return [live_asset if 'tabAsset' in statement else live_employee]
+    def throw(message):raise ValueError(message)
+    monkeypatch.setitem(sys.modules,'frappe',SimpleNamespace(get_doc=lambda *key:documents[key],
+        get_all=query,db=SimpleNamespace(sql=sql),throw=throw))
+    monkeypatch.setattr(execution,'_attachment',lambda release:(packets[release.name],raw[release.name]))
+    monkeypatch.setattr(execution,'_resolve_evidence',lambda *args:None)
+    allocation=packet['allocation']
+    doc=Doc(name='task',status='Open',project='project',custom_osr_construction_release='review',
+        custom_osr_construction_qualified_workers=json.dumps(allocation['workers']),
+        **{'custom_osr_construction_'+key:allocation[key] for key in ('department','unit','front','crew','shift','equipment')})
+    message='retained allocation review' if peer_status=='Completed-without-review' else 'asset is allocated'
+    with pytest.raises(ValueError,match=message):execution.validate_task(doc)

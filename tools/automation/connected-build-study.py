@@ -28,6 +28,7 @@ from osr_mech.station.passenger_demand import station_passenger_demand
 from osr_mech.station_capacity import station_capacity_screen
 from osr_mech.handling_assurance import beam_stage_assurance
 from osr_mech.delivery_commercial import quote_register,procurement_requirements,partial_cashflow_sensitivity
+from osr_mech.industrialisation import production_balance,service_finance_gate
 from connected_delivery_register import build_register
 from osr_mech.buildable_stations import station_variant
 from osr_mech.common import StationArchetype, ConsistFamily
@@ -203,6 +204,8 @@ def reassigned_ring_fronts(fronts, fixed_finish, ring_line, cfg):
 def build(city_dir):
     config=read(ROOT/'lib/templates/accelerated-build.toml')
     delivery_evidence=read(ROOT/'lib/templates/connected-delivery-evidence.json')
+    industrial_programme=read(ROOT/'design/industrialisation/programme.json')
+    industrial_vendors=read(ROOT/'design/industrialisation/vendor-candidates.json')
     design=read(city_dir/'design.toml')
     passenger_register=read(ROOT/'lib/templates/station-passenger-assignment.json')
     passenger_demand=station_passenger_demand(design,read(city_dir/f"{design['city']['slug']}.toml"),passenger_register)
@@ -532,6 +535,17 @@ def build(city_dir):
     files['cashflow-sensitivities.json']=encode(dict(cases=cash_cases,priced_scope='unquoted purchase-only launcher allowance; all other unknown scopes excluded',
         annual_rates_are_assumptions=True,complete_financing_usd=None,accepted_revenue_usd=None))
     files['remaining-work.json']=encode(build_register(ROOT,delivery_evidence['acceptance_records']))
+    files['industrialisation-programme.json']=encode(dict(
+        programme_revision=industrial_programme['revision'],selected_configuration=industrial_programme['selected_configuration'],
+        work_packages=industrial_programme['work_packages'],stage_gates=industrial_programme['stages'],
+        possible_vendor_ids=[v['id'] for v in industrial_vendors['vendors']],
+        production_chain=[production_balance(industrial_programme['supply_chain'],rate,independent_fronts=len(fronts))
+            for rate in industrial_programme['supply_chain']['illustrative_bays_launcher_working_day']],
+        delivered_service_finance=service_finance_gate(industrial_programme['accepted_services']),
+        vehicle_mass_axle_civil_trace='../../../../../../../engineering/industrialisation/vehicle-civil-load-trace.json',
+        reference_vehicle_is_not_a_selected_city_configuration=True,
+        controlled_city_rolling_stock_families=sorted({line['rolling_stock'] for line in design['lines']}),
+        complete_installed_costs_adopted=False,physical_and_commercial_acceptance=False))
     assets=[asset_draft(f'launcher-{i:02d}','whole-beam-launcher',fronts[i-1].id if i<=len(fronts) else None) for i in range(1,e['launchers']+1)]
     for f in fronts:
         assets.extend(asset_draft(f'{f.id}-transporter-{i+1:02d}','long-load-transporter',f.id) for i in range(config['logistics']['trailers_per_front']))
@@ -601,12 +615,16 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
 
 [Complete remaining-work register](remaining-work.json) traces all 20 review areas, including rolling-stock/electronics release, redundancy, deployment, workforce, other cities and governance. Missing records and appointments stay open; input receipts cannot authenticate an authority or create acceptance.
 
+[Coordinated industrialisation](industrialisation-programme.json) links the vehicle/bogie interface freeze, staged local manufacture, ordinary/special viaduct packages, accepted production chain, urban access and delivered-service finance. HÜBNER/CRRC and alternative vendors remain proposed; exact products, rights, prices and approvals are open. The LM3 axle-load reference is a study comparator and does not replace this city's configured stock.
+
 [Manifest](manifest.json) hashes every source and output and identifies the source revision and assumption register. Existing finance/proposal packages are retained comparators pending scope-matched adoption; this study is the current connected scenario, not an accepted replacement budget. Regenerate with `.venv/bin/python tools/automation/connected-build-study.py --city {slug}`; verify using `--check`.
 ''').encode()
     sources=[Path(__file__),city_dir/'design.toml',city_dir/f'{slug}.toml',city_dir/f'{slug}.corridor.geojson']
     sources += [ROOT/'lib/templates'/name for name in ('connected-delivery-evidence.json','station-passenger-assignment.json','precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
     sources += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('station_capacity.py','handling_assurance.py','delivery_commercial.py')]
     sources += [ROOT/'tools/automation/connected_delivery_register.py']
+    sources += [ROOT/'design/industrialisation'/name for name in ('programme.json','vendor-candidates.json')]
+    sources += [ROOT/'design/component-catalogue/src/osr_mech/industrialisation.py']
     sources += sorted((ROOT/'crates/osr-bms/src').glob('*.rs'))
     sources += [ROOT/'crates/osr-sim/src'/name for name in ('battery.rs','onboard.rs','scenario_file.rs','physics.rs','sim.rs','bin/osr-movement-profiles.rs')]
     sources += [ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'crates/osr-sim/Cargo.toml',ROOT/'crates/osr-bms/Cargo.toml',ROOT/'crates/osr-core/src/consist.rs']

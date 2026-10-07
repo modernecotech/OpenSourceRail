@@ -424,7 +424,7 @@ def station_product_geometry(item: dict[str, Any], parameters: dict[str, Any]) -
         layout=station_layout(parameters)
         children=[]
         for deck in layout.concourse_decks:
-            children.append(_box((deck["length_mm"],deck["width_mm"],deck["thickness_mm"]),f"{label} {deck['id']}",CONCRETE,(0,0,deck["z_mm"]-deck["thickness_mm"]/2)))
+            children.append(_box((deck["length_mm"],deck["width_mm"],deck["thickness_mm"]),f"{label} {deck['id']}",CONCRETE,(deck.get("x_mm",0),deck.get("y_mm",0),deck["z_mm"]-deck["thickness_mm"]/2)))
         return Compound(label=label,children=children)
     if product_id == "STN-CHG-P010":
         return Compound(label=label, children=[

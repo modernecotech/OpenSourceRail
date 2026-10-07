@@ -37,4 +37,6 @@ The planning duty schedules 137 trainsets and 18 energy sites. There are 0 dispa
 
 [Complete remaining-work register](remaining-work.json) traces all 20 review areas, including rolling-stock/electronics release, redundancy, deployment, workforce, other cities and governance. Missing records and appointments stay open; input receipts cannot authenticate an authority or create acceptance.
 
+[Coordinated industrialisation](industrialisation-programme.json) links the vehicle/bogie interface freeze, staged local manufacture, ordinary/special viaduct packages, accepted production chain, urban access and delivered-service finance. HÜBNER/CRRC and alternative vendors remain proposed; exact products, rights, prices and approvals are open. The LM3 axle-load reference is a study comparator and does not replace this city's configured stock.
+
 [Manifest](manifest.json) hashes every source and output and identifies the source revision and assumption register. Existing finance/proposal packages are retained comparators pending scope-matched adoption; this study is the current connected scenario, not an accepted replacement budget. Regenerate with `.venv/bin/python tools/automation/connected-build-study.py --city amarah`; verify using `--check`.

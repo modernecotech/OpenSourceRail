@@ -13,6 +13,7 @@ from .workforce_rules import moment
 
 RELEASE='OSR Construction Release'
 ACTIVE={'Working','Pending Review','Completed'}
+RESERVED={'Open','Overdue','Working','Pending Review'}
 
 
 def check_packet(packet, project, task, asset, employees, other_tasks):
@@ -153,7 +154,8 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
     was_active=old and old.status in {'Working','Pending Review'}
     if was_active and doc.status not in ACTIVE and doc.status!='Cancelled':
         frappe.throw('Active construction work requires reviewed handback before status reset')
-    if assigning_user is None and doc.status not in ACTIVE and not review_check and not was_active:
+    future_reservation=doc.status in {'Open','Overdue'} and doc.get('custom_osr_construction_release')
+    if assigning_user is None and doc.status not in ACTIVE and not review_check and not was_active and not future_reservation:
         return
     release_name=doc.get('custom_osr_construction_release')
     if not release_name:
@@ -221,11 +223,27 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
         frappe.throw('Assigned user is outside the reviewed construction crew')
     competitors=[]
     for row in frappe.get_all('Task',filters={'custom_osr_construction_equipment':['is','set']},
-            or_filters=[['status','in',['Working','Pending Review','Completed']],['custom_osr_construction_work_started_at','is','set']],
-            fields=['name','custom_osr_construction_release'],limit_page_length=0):
+            or_filters=[['status','in',sorted(RESERVED|{'Completed'})],['custom_osr_construction_work_started_at','is','set']],
+            fields=['name','status','custom_osr_construction_release','custom_osr_construction_work_started_at',
+                    'custom_osr_construction_work_closed_at'],limit_page_length=0):
         if row.name==doc.name:continue
+        started=row.get('custom_osr_construction_work_started_at')
+        if not row.custom_osr_construction_release:
+            if started or row.status in ACTIVE:
+                frappe.throw('Competing construction work has no retained allocation review')
+            continue  # An unreviewed planning draft does not reserve resources.
         other=frappe.get_doc(RELEASE,row.custom_osr_construction_release)
-        evidence,_=_attachment(other);competitors.append(evidence['allocation'])
+        if not started and row.status!='Completed' and (other.docstatus!=1 or other.accepted!=1):
+            continue
+        evidence,other_raw=_attachment(other)
+        if other.task!=row.name or hashlib.sha256(other_raw).hexdigest()!=other.evidence_sha256:
+            frappe.throw('Competing reviewed allocation evidence has changed')
+        competing=dict(evidence['allocation'])
+        if started:
+            competing['start_at']=moment(started).isoformat()
+            closed=row.get('custom_osr_construction_work_closed_at')
+            competing['finish_at']=moment(closed).isoformat() if closed else max(now,moment(competing['finish_at'])).isoformat()
+        competitors.append(competing)
     current=dict(name=doc.name,workers=json.loads(doc.get('custom_osr_construction_qualified_workers') or '[]'),
         **{f:doc.get('custom_osr_construction_'+f) for f in ('department','unit','front','crew','shift','equipment')})
     asset_data=live_rows[('Asset',asset.name)]

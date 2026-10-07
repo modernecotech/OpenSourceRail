@@ -1,5 +1,5 @@
 {
-  "appendix_document_count": 78,
+  "appendix_document_count": 79,
   "archive_members": [
     "Cargo.lock",
     "Cargo.toml",
@@ -99,6 +99,7 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-010.ifc",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-011.ifc",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-012.ifc",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/industrialisation-programme.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/logistics.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/manifest.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/movement-profiles.json",
@@ -1116,8 +1117,11 @@
     "design/city-generation/src/osr_scenario/stabling_hybrid_cycles.py",
     "design/city-generation/src/osr_scenario/stabling_redistribution.py",
     "design/city-generation/src/osr_scenario/stats.py",
+    "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+    "design/component-catalogue/catalog/buildable-trainset/mass-budget.json",
     "design/component-catalogue/src/osr_mech/battery_profiles.py",
     "design/component-catalogue/src/osr_mech/buildable_stations.py",
     "design/component-catalogue/src/osr_mech/cad.py",
@@ -1149,9 +1153,12 @@
     "design/component-catalogue/src/osr_mech/delivery_commercial.py",
     "design/component-catalogue/src/osr_mech/freecad_station_library.py",
     "design/component-catalogue/src/osr_mech/handling_assurance.py",
+    "design/component-catalogue/src/osr_mech/industrialisation.py",
     "design/component-catalogue/src/osr_mech/network_energy_control.py",
     "design/component-catalogue/src/osr_mech/network_energy_duty.py",
     "design/component-catalogue/src/osr_mech/provenance.py",
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/assembly.py",
+    "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py",
     "design/component-catalogue/src/osr_mech/station/__init__.py",
     "design/component-catalogue/src/osr_mech/station/auxiliary_canopy.py",
     "design/component-catalogue/src/osr_mech/station/canopy.py",
@@ -1164,6 +1171,8 @@
     "design/component-catalogue/src/osr_mech/station/product_geometry.py",
     "design/component-catalogue/src/osr_mech/station/solar_roof.py",
     "design/component-catalogue/src/osr_mech/station_capacity.py",
+    "design/industrialisation/programme.json",
+    "design/industrialisation/vendor-candidates.json",
     "docs/baghdad-ci-controls-review-2026-10-04.md",
     "docs/baghdad-continuation-review-2026-10-04.md",
     "docs/baghdad-cost-and-demand-review-2026-10-05.md",
@@ -1197,6 +1206,17 @@
     "engineering/analysis/workforce_checks.py",
     "engineering/baghdad_detail.py",
     "engineering/data/baghdad-reference-parts.json",
+    "engineering/industrialisation/README.md",
+    "engineering/industrialisation/baghdad-delivery-finance-bridge.json",
+    "engineering/industrialisation/further-elevation-comparison.json",
+    "engineering/industrialisation/installed-cost-and-service-finance.json",
+    "engineering/industrialisation/manifest.json",
+    "engineering/industrialisation/production-balance.json",
+    "engineering/industrialisation/support-release-and-urban-access.json",
+    "engineering/industrialisation/vehicle-civil-load-trace.json",
+    "engineering/industrialisation/vendor-candidates.csv",
+    "engineering/industrialisation/vendor-candidates.json",
+    "engineering/industrialisation/work-packages-and-erp-handoffs.json",
     "engineering/interchange/station_ifc.py",
     "lib/templates/_INDEX.toml",
     "lib/templates/accelerated-build.toml",
@@ -1304,6 +1324,7 @@
     "tools/automation/generate-iraq-funding-programme.py",
     "tools/automation/generate-national-briefs.py",
     "tools/automation/generate-qa-maintenance-data.py",
+    "tools/automation/industrialisation-study.py",
     "tools/automation/iraq_current_basis.py",
     "tools/automation/project_twin.py",
     "tools/automation/publish-city-summary.py",
@@ -1322,7 +1343,7 @@
   "baghdad_financing_scope": [
     "Baghdad"
   ],
-  "baseline_revision": "1ccb9efff684ebb65edadf9b1f8efbb0284e55f4",
+  "baseline_revision": "f226a3b9baa31dfccf6f520f751073c97200bc8b",
   "document_status": "planning-proposal-not-construction-or-operating-release",
   "factory_count": 1,
   "facts": {
@@ -1921,8 +1942,8 @@
       "sha256": "540df585517b0a2e8495b34c28c1c8f860b86ba597489032bbe936a5efa9dbaf"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md": {
-      "bytes": 8895,
-      "sha256": "3f12603596f599d4ed9dd0ae3e143eec237c07473f46dbdec6acf2aa9b70923b"
+      "bytes": 9346,
+      "sha256": "ec9686474e0a903c84f7a738838eccbb00297a19814e87681d5cd4b6e5010a92"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/battery-envelope-sensitivity.json": {
       "bytes": 4305,
@@ -1934,103 +1955,103 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-library.index.json": {
       "bytes": 23042,
-      "sha256": "b7a934275710730ff8b7c1307fd18e18baa6751e3becda5634859c3b63b3e547"
+      "sha256": "686989daa98b2c6b087c06b36251b9c13589a50e07e9701e5aeee54811a7c94e"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-001.FCStd": {
-      "bytes": 1219147,
-      "sha256": "542f6320546d625eb79d986c644ccf3c781fac2e0bd415d78d6b9350a10a18d8"
+      "bytes": 1219146,
+      "sha256": "37f1ece5012183d516a05174b7e91a29c58e6a6d2c87556a606fb309198d8122"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-001.assembly-review.json": {
       "bytes": 18748,
-      "sha256": "fe56c58782eddace30a95fcaff2c327671269d0a2c29fcde4b3387bcbaaa97de"
+      "sha256": "71b73945661f26cb3f4d9a9f61f7a807e87181fe37152e001397f2401ccd788d"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-002.FCStd": {
-      "bytes": 655856,
-      "sha256": "c2dc2d1d1182916eb97e39c831b2d9bf5cb0df8c4da7039435c0b8772c075ff3"
+      "bytes": 655870,
+      "sha256": "cc7949e41821c1ca1f323b50d088f8c3e5be3e3356917a927e8861f292c706f9"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-002.assembly-review.json": {
       "bytes": 17895,
-      "sha256": "facaa420fb826954355fe5ea9ac89f8eadf9e7551172e0f390b5f7c688ddd57f"
+      "sha256": "a14606b1d4036779bc6092b30b0e7566acb9ed719becde331fd00038b8a9d419"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-003.FCStd": {
-      "bytes": 1020130,
-      "sha256": "856e9a0620df3aca322306422b6193cf57a8d53c5ca3cad0770404519bc30b98"
+      "bytes": 1020128,
+      "sha256": "79f3a15235b7ec5bd3ea1d0f35e2664ae0744a4d1d8bd34a6ac31ff050896e64"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-003.assembly-review.json": {
       "bytes": 16512,
-      "sha256": "e54da606e8ab27713fc092f444f7d37247968ffdc00ca8bb20e35669dcc6dfe4"
+      "sha256": "8b5c372b49ffe7c0695041c8608f60f7e8273b2479bdb5cd3c48ec5d9c0bdcde"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-004.FCStd": {
-      "bytes": 1132661,
-      "sha256": "c8227daae09f0b88c727426ec2cbb83e3d47b0cd4e8bf897824e4490698fbe96"
+      "bytes": 1132713,
+      "sha256": "af491aaf997e155e86206698004d71e267353f5372b052b4c1307348971c4cea"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-004.assembly-review.json": {
       "bytes": 22064,
-      "sha256": "6f3f9dd6ba6a9c9cea0336da8cd9cdf36d8d340a430ea681423b4d475cba5a61"
+      "sha256": "3b9eadd5ac259266977edb8352038c3e50f771ad36f7f649b198e4478a86f8b8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-005.FCStd": {
-      "bytes": 681521,
-      "sha256": "c669debf4a53cb4a1ab399b57174170916eb44e0244f5f8cc2f3b2e8af8ccfbf"
+      "bytes": 681531,
+      "sha256": "d2392cb9da166b5c46e8f933f397295798533b4376aa77c6bc82dc866b04da97"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-005.assembly-review.json": {
       "bytes": 18171,
-      "sha256": "5c3a748484666f948fe48a93803a3d3659288f41c0ea1c9dc273fcf8dbfcb9d7"
+      "sha256": "e5b2557d372d3ecedc04c1dd8762e2b17078c231aefa470daabed78503b72d6f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-006.FCStd": {
-      "bytes": 677334,
-      "sha256": "a76da5ff4e610d49503440193c5048037b448f14e0e86290ba3fe68494aac311"
+      "bytes": 677352,
+      "sha256": "ac8e9e45d8cb2b6f8f9cbb36adbcd0e097eb29af5bfefbeb7eb4ea14352aa386"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-006.assembly-review.json": {
       "bytes": 18171,
-      "sha256": "d0391bf212e823df47b69259bd49ac11dccac9240a170907733ffafd59c596d5"
+      "sha256": "0209b90b5442f4388bda55edcbbb1c7bfec058add7828be9ac6ca13d5376044c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-007.FCStd": {
-      "bytes": 445988,
-      "sha256": "179967e3f7636103e667a31a6b25c4e4fbd93137131839a4859848d9af2bbfe0"
+      "bytes": 445985,
+      "sha256": "610eca014d75602cc9dc71c5ecbebc6a3b15d2089d1dd76589ca66bd35379b5c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-007.assembly-review.json": {
       "bytes": 12413,
-      "sha256": "3a4e727410b4c78ded67680ee5d48d01062a4176c018631310bff01ce3074d61"
+      "sha256": "9d4e8c8bfa0d3402fb542c2dfd4b96edd9f63af784a5c8419bbb8d973596288b"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-008.FCStd": {
       "bytes": 1084693,
-      "sha256": "028dd08378dee5951f2dec1cde4edd181469e1ba02ed95f00ef62aef6a5d243a"
+      "sha256": "312450a6e10cc89b3d89056595cd8aca8f170e2f94d970572b802adfb56e5bd2"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-008.assembly-review.json": {
       "bytes": 20613,
-      "sha256": "162ce32b41eea457f8015ccc41639793e21a154e98338c6392ff0c77adad0aeb"
+      "sha256": "be3bb9ed8c719d021cdc88df8e384096b55072c1be97d917aa9cb86a2d67d91b"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-009.FCStd": {
       "bytes": 1448772,
-      "sha256": "d423ce111aef1c4202d5fae019ce7b5c45f13c35ad02f5065556f59f9efed8f8"
+      "sha256": "bf9901b99835fe193016b5d7ba24413fdaa4d91264479a49013053ffaa4116b9"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-009.assembly-review.json": {
       "bytes": 20701,
-      "sha256": "fe96960c985dfb6ffb4f95c3ac43ffb1c165b8e2f5ff6fded35f6df8c6a74e01"
+      "sha256": "7740f1db7340bee608551b4319f616efc376f24ec653776fec6ce97aa18c1879"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-010.FCStd": {
-      "bytes": 854718,
-      "sha256": "29fe2572efc93756ce417610a437f0e2a185733392e2c275f8b9aa37ab715194"
+      "bytes": 854734,
+      "sha256": "92b5d83e413bd81ef6fa399617e1a0d1fb7ccfb792c707c11eef5a872ef99fb3"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-010.assembly-review.json": {
       "bytes": 20131,
-      "sha256": "a2677d77a91e76c291727c282e106266267d0fca8aa50392b0defde34ee3c5b5"
+      "sha256": "f2493e1dbcc0b53f64804fc5ae0bf961d8b2685cc8d13bbf7efbefba01db3abc"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-011.FCStd": {
-      "bytes": 489494,
-      "sha256": "0d8bdc4851500a15bbdae0c3256f7a6a08cdf09153aeb3b14018f0fefd4868f3"
+      "bytes": 489496,
+      "sha256": "77c59842b037b00ace1cfc396df1e3ccdc48531cec96125e0aaad7683008b705"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-011.assembly-review.json": {
       "bytes": 15729,
-      "sha256": "57af9c05ec8511e58c2f2d28d05f68000622b1fd7d78ba123317e5de074c7554"
+      "sha256": "d30dd52e141d44d762b441e6a1733e87b735c206ce469b2a79334785023c8c63"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-012.FCStd": {
-      "bytes": 651494,
-      "sha256": "67323e0f017dc071fa66d7b6544678dbc56407f91a521f626169b4b8a1264cc7"
+      "bytes": 651493,
+      "sha256": "bff14fc348d9d65098de539a21bf3a32d73e0776e9291cfe03cc4fc3673751d8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cad/station-variant-012.assembly-review.json": {
       "bytes": 16774,
-      "sha256": "cb12de941643c9a60d541a10e4be8abb97fc212618dbc142c79c0b0d434eaf16"
+      "sha256": "cda8c7580ec3e860c74bb7a54e0cdcb15b8f1e7d9c5e4c1d6a5e5ffd8feb5b6b"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/cashflow-sensitivities.json": {
       "bytes": 22022,
@@ -2061,60 +2082,64 @@
       "sha256": "b6ea24f61b9199fd62b3b1bc081bea0f6f19266122b62412e34c9a110c046e3f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-001.ifc": {
-      "bytes": 582117,
-      "sha256": "16241830cc982b8beadc4016aa4b7093217b1095b870a4734018a0d21289f11a"
+      "bytes": 582188,
+      "sha256": "87b430935d07f8ca3d52d146cc317a4d2021392fce881f2d82cccbed513a219d"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-002.ifc": {
-      "bytes": 334449,
-      "sha256": "3a4fb149709d71cb8906f8c39c43ac6baa3d6c8925c7c13efe689d059e933467"
+      "bytes": 333743,
+      "sha256": "8dd281115cf795162416d351a05167a2af0f89f29e5a5a3da334490cfaa8e3b8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-003.ifc": {
-      "bytes": 498038,
-      "sha256": "24162b9d1361d4fa1b791eaeb5653cdde1fabbc8f86f35a4978250908560dab7"
+      "bytes": 498109,
+      "sha256": "a1fa6c8d5ab12beb41817987342c2e245128ba09087dde5c96fd59f0492203bb"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-004.ifc": {
-      "bytes": 543143,
-      "sha256": "9f25ef4ab4c2f7a2b9704720be9407072273a6ac2525587c29bfa8e20b053240"
+      "bytes": 541660,
+      "sha256": "1f89e83440ecbea043d83ce4af91221e9482a28c68429439b927b993bbd63ecd"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-005.ifc": {
-      "bytes": 345007,
-      "sha256": "66dee0232428641d415a5fb4342271f8c4fe2313f628e36bce4ab0aafa5f9ec7"
+      "bytes": 344301,
+      "sha256": "c16b8080c466a938fee909d36724f9833ed1300f9a2ce448962445b3d9eb6a9c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-006.ifc": {
-      "bytes": 343531,
-      "sha256": "58fc868753614f544f446180524363c4b05a8567bcda7c1ccf08171e7d41700c"
+      "bytes": 342825,
+      "sha256": "71456e008f0df6dd709c7823c899ac2dc42fcd33e1a1088e332ec39fd56b8472"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-007.ifc": {
-      "bytes": 238179,
-      "sha256": "033c57525b846177ae89d1d93e7218763c43a80ab1b163b73a7b29d79f3b42ff"
+      "bytes": 238250,
+      "sha256": "0d4f9f372136cd7c1e2062e7b71cf925e50a76f91b65c4bc43a6604b3c4b8bd4"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-008.ifc": {
-      "bytes": 523275,
-      "sha256": "4cec4421a89eb04e9a3ef5ac41cee294ee2359e373e763976da8e58fd0abb512"
+      "bytes": 523346,
+      "sha256": "eb70908920bce86199360f153b4db7764915616e52bdc2acce7277b3de0c2f9c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-009.ifc": {
-      "bytes": 689828,
-      "sha256": "6731a749094c29d878df0e09f4f763a3a5c9962780bfc878f254f9bfc5082f11"
+      "bytes": 689899,
+      "sha256": "b121fc4a6582d835683a867b64539f9f0f52b18affb90a26f5c07983eb67918e"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-010.ifc": {
-      "bytes": 418528,
-      "sha256": "e40e40e9111505cad924e22794b1e54fb876e4a783a3420d621cd45174ec7d86"
+      "bytes": 417822,
+      "sha256": "c71abebc738de40d06bedf6d32f5101f04bcbfcc1196524984e1134d08c504f8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-011.ifc": {
-      "bytes": 259441,
-      "sha256": "15d3903bc98c34e3fba1f6fbcfb0cc7a68d5c3fe7cb2decb7f06be4f97073432"
+      "bytes": 258663,
+      "sha256": "1ebd6b6f7f5e8854c2b1593ca0838133341a0dd92548db9fd310ec61ce13b80e"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/ifc/station-variant-012.ifc": {
-      "bytes": 327813,
-      "sha256": "9d2599f6f6b869a391a2576ded66261fa3f4b16c30c026768e5c66a3bc3fd567"
+      "bytes": 327884,
+      "sha256": "9683e99999b39717cdda8b3e9771c84e5740acc136554c233469dd74b671c376"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/industrialisation-programme.json": {
+      "bytes": 13035,
+      "sha256": "6eb2d07a1d5f840018da36a82c24b6cb3e05147ccd0585a0c848ff15bc36b036"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/logistics.json": {
       "bytes": 136631,
       "sha256": "2b7aeb1db4c13dacd873c8a12f664eb3eca5d1c46743319255e9d5f688a726b8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/manifest.json": {
-      "bytes": 22313,
-      "sha256": "418434895e2169f002a42d617a1a02ac4c07914b123272326499255585fc68c4"
+      "bytes": 22795,
+      "sha256": "add0c4ccb149ed7fc5345febed7606b463a1d201eb5de203b73230965ea20b8a"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/movement-profiles.json": {
       "bytes": 126353,
@@ -2165,12 +2190,12 @@
       "sha256": "9b9609ddd4ee0ff2b50367c26b52a36027f3b984bfcc524dc6661c66356763b2"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/station-products.json": {
-      "bytes": 477349,
-      "sha256": "a09cc62b6b6086a9f3ada8d3e2385e5b3b68bbea4d9248d6f9c23bc310e89e28"
+      "bytes": 478826,
+      "sha256": "118622b1cbc75e29b7013885a3fdf2f58b5fa3c8c42e577233c065fc80d85619"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/stations.json": {
-      "bytes": 1338209,
-      "sha256": "8cc0303f8191cced2d53b9cadede350e2acfb73aca5d399b2d66ce5a2b54df1f"
+      "bytes": 1361162,
+      "sha256": "5f2ccdf2d8c80c078e84b80472098c88451dac873078601ae09877954c577977"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/suppliers.json": {
       "bytes": 808,
@@ -2190,7 +2215,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/90-day-work-programme.json": {
       "bytes": 5796,
-      "sha256": "8b5a86ca028759dc18e698c997a1ecee3b729812a9cec8d3e9a500cfe8d5710c"
+      "sha256": "a4ae9ea4e5311893e2881b3b48e3df46c6b8d25f633d796684e34b50624ac27a"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md": {
       "bytes": 3538,
@@ -2290,11 +2315,11 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/erpnext-task-import.csv": {
       "bytes": 7061,
-      "sha256": "f0b288168ddfb5cfd6d84bd0da0d1722b959755193d9e58e80be3e597c826e85"
+      "sha256": "66c658b38f55423c67c01c68f22f2fa5675c1cefb2209eea97b815fd2e435c27"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/erpnext-tasks.json": {
       "bytes": 7809,
-      "sha256": "8c0e6314b822389db933b2ca95fe9d63936760f79b8f205529fe2bd1da8f86fd"
+      "sha256": "ea21a2204daa85bb8b18e96ab9e711b95383074256ab2869407f9bb7c7af3d59"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/first-phase.csv": {
       "bytes": 2256,
@@ -2362,7 +2387,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/summary.json": {
       "bytes": 9573,
-      "sha256": "7f56bf38ea2922281fefa632f69c4e9066cc0b645a7ffed07724dcf4c850d702"
+      "sha256": "af7a6ac54bdb970f00ceabb8e4c65bf00d6db0236e2cd294d9fb7c79a9a4aee1"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/temporary-commissioning.csv": {
       "bytes": 562,
@@ -2442,7 +2467,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/closure-packets.json": {
       "bytes": 32860,
-      "sha256": "c63783efd8732d24d4994384450e855635d70a87ac1b7ea1c58ba5487e4c6e74"
+      "sha256": "b8867a292fd55d99f2e7209ee15e10edac68efdcf3b0d66c63756d8a3cffffd1"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/corridor-comparison.csv": {
       "bytes": 3269,
@@ -2574,11 +2599,11 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-task-import.csv": {
       "bytes": 12361,
-      "sha256": "2e45232fc597099bc8a6f3e835302ccadd0476da4cd395f7af78d41f527a1d54"
+      "sha256": "1d9c9e8e2c930392dbe99fd6e3f4b68e777952fd0e7a14419974d39eeef58fe2"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-tasks.json": {
       "bytes": 13187,
-      "sha256": "3a2fab519aa13da0507eec4033c26ab69c1f129b8b1afdaee974c7e8225269fe"
+      "sha256": "7d9db10c4c65c72af5d8896194bc504030abc84e87492ab12d8e164722d80e50"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/fare-sensitivities.csv": {
       "bytes": 876,
@@ -2754,7 +2779,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/summary.json": {
       "bytes": 43628,
-      "sha256": "81dc52f02590c3d914e8524b1af7c62d43421e5e4223f59711be29d4287bc995"
+      "sha256": "150a7f50f88b1056f1d4b8e341256cd79521c5526f47490df775510951128c86"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/supplier-rfq.csv": {
       "bytes": 2215,
@@ -3226,7 +3251,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/deployment/summary.json": {
       "bytes": 13037,
-      "sha256": "900d6f6670af67c2435bbbc7ca3912b9abacd746d55c7dde37f9ae2d1185621f"
+      "sha256": "fa0b84c5b6127f0c9efa8554f0d3eb0654a85fd1d87ed4149f3d7fd5553f7f47"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/README.md": {
       "bytes": 4021,
@@ -3234,7 +3259,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/depot-scope/summary.json": {
       "bytes": 11003,
-      "sha256": "5cff0d1225d543051c30e3e5614703356d29549fe99e361e65ba6b6a949afa05"
+      "sha256": "7433ca64d128114ac4489d89a739203c7d64b5a3ea64d1113d458aa80b8065da"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md": {
       "bytes": 13641,
@@ -5122,11 +5147,11 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/package-manifest.json": {
       "bytes": 17882,
-      "sha256": "362d99df8576a29c74aea989a5b8aed0d9fe4597ed0a1d120c6a6dc6f944c3b7"
+      "sha256": "51f9200751feb30a72a8c7ba0cc7e3a3fd0241cd568a30df161f5a5792c1714f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json": {
       "bytes": 11237,
-      "sha256": "69c53da2b881082d17d35a66bf36011dd26d0a6eabe1db5ab3bc665540dbd897"
+      "sha256": "d81b2542741022176acaa8d057ae1053a33b593b055f6ddc5c5754ae7d16ade0"
     },
     "cities/catalogue/west-asia/Iraq/Baqubah/README.md": {
       "bytes": 8096,
@@ -5154,7 +5179,7 @@
     },
     "cities/catalogue/west-asia/Iraq/CURRENT-PLANNING-BASIS.json": {
       "bytes": 7239,
-      "sha256": "a7c0ce9a0f28d3638ac5324cdeef792716324efcadd3376f4dd5a3259a09a1d5"
+      "sha256": "b8baca2f3c8c1949eff8bc449b7ebe85363047b36629b501a2c155e5cf20c393"
     },
     "cities/catalogue/west-asia/Iraq/Diwaniyah/README.md": {
       "bytes": 8117,
@@ -5217,8 +5242,8 @@
       "sha256": "b45db26f3aa76180f67034ac046fb77ddd17286f1cdca9e6cfdf0ed504f2288c"
     },
     "cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md": {
-      "bytes": 32905,
-      "sha256": "6475b5df576a60d8538800a4e35f063520254a9777baef199aa0e19bfb8a89cc"
+      "bytes": 33490,
+      "sha256": "6a00e5afebedf37e77646e346708cc3053b70655dc1f2ce029e59787b1bfef36"
     },
     "cities/catalogue/west-asia/Iraq/Karbala/README.md": {
       "bytes": 8257,
@@ -5269,8 +5294,8 @@
       "sha256": "d6727f4d5e3ef177065ddd6536137f57e74863381cb4d19acefd04232348758a"
     },
     "cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md": {
-      "bytes": 7702,
-      "sha256": "0fd3d36ebd203a951228c3c68250ddc83899b3bed23c008b973477a245224357"
+      "bytes": 8287,
+      "sha256": "c6ed3689a2d18a66f9fc40d5da4f0ab3941bf51559606545f0098905a8811577"
     },
     "cities/catalogue/west-asia/Iraq/Najaf/README.md": {
       "bytes": 8241,
@@ -6029,8 +6054,8 @@
       "sha256": "56423238743500da723604f10041fa93daf7d98c04feb035bccd7f80ac86aaba"
     },
     "deployment/erpnext/apps/osr_erpnext/osr_erpnext/construction_execution.py": {
-      "bytes": 18231,
-      "sha256": "9de70d6a108c701c962fb319e0c9ee15f583d25c6d96a8b3fcbc490d9863b489"
+      "bytes": 19486,
+      "sha256": "baf3f157daab882cea3aa84597a2f6ebb1c6e0569f93aa8753a5a1723fb33b1f"
     },
     "deployment/erpnext/apps/osr_erpnext/osr_erpnext/construction_fleet.py": {
       "bytes": 5980,
@@ -6144,6 +6169,14 @@
       "bytes": 6608,
       "sha256": "5eeebc21ad016f019578286e38e701f165f34bd9fba76b89db76e07fc15a1e1a"
     },
+    "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": {
+      "bytes": 42952,
+      "sha256": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f"
+    },
+    "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json": {
+      "bytes": 124288,
+      "sha256": "ca385a6d3c27ee343d7f4bc4c90b4f4e27058380ff82a0aa76ca573275149703"
+    },
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": {
       "bytes": 49666,
       "sha256": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2"
@@ -6151,6 +6184,10 @@
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": {
       "bytes": 10567,
       "sha256": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e"
+    },
+    "design/component-catalogue/catalog/buildable-trainset/mass-budget.json": {
+      "bytes": 1048,
+      "sha256": "2f65626ea8077075d1830e8cc8b4d81cdfc076c6ed69637384dc1537e85361bf"
     },
     "design/component-catalogue/src/osr_mech/battery_profiles.py": {
       "bytes": 18315,
@@ -6276,6 +6313,10 @@
       "bytes": 4249,
       "sha256": "9bed06e6eb18a5e3aa3f7a06969f69b5ab58e573aad93f478200c7e95bf5872c"
     },
+    "design/component-catalogue/src/osr_mech/industrialisation.py": {
+      "bytes": 14151,
+      "sha256": "ae88b18260fcb7e39d0b5f6ac47629ffd751d10b37efdee3e6368734589a981c"
+    },
     "design/component-catalogue/src/osr_mech/network_energy_control.py": {
       "bytes": 8857,
       "sha256": "6fee9638e000a22e0a32bba428604ea37fe229d4c7320240076572f530a7abf9"
@@ -6287,6 +6328,14 @@
     "design/component-catalogue/src/osr_mech/provenance.py": {
       "bytes": 1169,
       "sha256": "74dbc6e4c8895a753ce680e9c9d574e8f21316190038101d2be581a5b49a5e9a"
+    },
+    "design/component-catalogue/src/osr_mech/rolling_stock/bogie/assembly.py": {
+      "bytes": 7824,
+      "sha256": "cd53a52825fc83a2f8be735fbd6cc4a6c7aa1d052b02434872707d1ca2b95213"
+    },
+    "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": {
+      "bytes": 5489,
+      "sha256": "75f4814915af473aa8a33d0d725d7ee840017cc1c723e777fe6d8bc88c9fd484"
     },
     "design/component-catalogue/src/osr_mech/station/__init__.py": {
       "bytes": 411,
@@ -6309,8 +6358,8 @@
       "sha256": "1668927f53d1c85f333cc0d947bf60ad65e8af7daff17416c65abc8aad6ab9e3"
     },
     "design/component-catalogue/src/osr_mech/station/layout.py": {
-      "bytes": 8909,
-      "sha256": "2ff28a787813b179f141c2ff452eadaf39d9d645ae00a39b3fc6dde2e36b6059"
+      "bytes": 11863,
+      "sha256": "bcd10c22536d06dbecbb70220271dd7f49b3481b8646c61e6a93be5bf8a1196d"
     },
     "design/component-catalogue/src/osr_mech/station/passenger_demand.py": {
       "bytes": 4956,
@@ -6325,8 +6374,8 @@
       "sha256": "d2abf11f12150785185a9f30c7c42e1c82c827bd4556e65bb2604a535a7a0e5c"
     },
     "design/component-catalogue/src/osr_mech/station/product_geometry.py": {
-      "bytes": 26534,
-      "sha256": "48363750c5f673d742732949df7ef4ef73a6cefedffa651f77d60925a1d90622"
+      "bytes": 26568,
+      "sha256": "3109ed927eb25e6ccc5b2b124f18fd18de6b6da1f7b28a213f37c0e067306069"
     },
     "design/component-catalogue/src/osr_mech/station/solar_roof.py": {
       "bytes": 2745,
@@ -6335,6 +6384,14 @@
     "design/component-catalogue/src/osr_mech/station_capacity.py": {
       "bytes": 3961,
       "sha256": "2f5a0e4e8fe758bb7c13697c3918d580b6b4964c30bfddff4f08ab80de81abc7"
+    },
+    "design/industrialisation/programme.json": {
+      "bytes": 13596,
+      "sha256": "08507b7e373cbec71eb63b13d3fc936835631dddf3dd79a53d39265cea00440c"
+    },
+    "design/industrialisation/vendor-candidates.json": {
+      "bytes": 38915,
+      "sha256": "6bd0e25cfc101077dd7ba8e9890a0d5abc2aba617610edc3df9c72d95f7a74c7"
     },
     "docs/baghdad-ci-controls-review-2026-10-04.md": {
       "bytes": 9909,
@@ -6467,6 +6524,50 @@
     "engineering/data/baghdad-reference-parts.json": {
       "bytes": 42981,
       "sha256": "5892d816571dcf4d47506c74e35a6c77565016afb577917d19ac763f2afed91c"
+    },
+    "engineering/industrialisation/README.md": {
+      "bytes": 11955,
+      "sha256": "d02a4643ebd66bff2e1723f0db408899adfaa995bf047eed8b0ab131210729a9"
+    },
+    "engineering/industrialisation/baghdad-delivery-finance-bridge.json": {
+      "bytes": 24267,
+      "sha256": "196cea62f802d8be4ad2341c985cc0e2d881423b08b4a7fa38dd583c4cf8842c"
+    },
+    "engineering/industrialisation/further-elevation-comparison.json": {
+      "bytes": 3449,
+      "sha256": "dff6808ad51d444493f08face7b334f7f3df978df53b5acaf4e7004399bcd258"
+    },
+    "engineering/industrialisation/installed-cost-and-service-finance.json": {
+      "bytes": 5410,
+      "sha256": "2d32c11f6693e2ef312188d0259f17731971830b77ad0bd06d2855c6afa9ab25"
+    },
+    "engineering/industrialisation/manifest.json": {
+      "bytes": 4154,
+      "sha256": "d64acabe2f5b2fdbca34a42d8d959959881ed82c2fb1ea4b872d1747298fc59d"
+    },
+    "engineering/industrialisation/production-balance.json": {
+      "bytes": 3497,
+      "sha256": "462c3a0b849e3d970daa070f09cfaffd6efdec4df719617acce3a96d07e16134"
+    },
+    "engineering/industrialisation/support-release-and-urban-access.json": {
+      "bytes": 1433,
+      "sha256": "afb0a98e63b174ac3f97f4e8113fe3ede28b7a280d7eb806a3c159af4b4de719"
+    },
+    "engineering/industrialisation/vehicle-civil-load-trace.json": {
+      "bytes": 7290,
+      "sha256": "cc88c85a58c2d1d381376f064e3b8f6a1e2d42284e492689b28d2c1f1a3aab26"
+    },
+    "engineering/industrialisation/vendor-candidates.csv": {
+      "bytes": 7233,
+      "sha256": "7fbf704ae976487b0b864633b98ed07db2126bd6415d670a3a3d6dcd6273e48f"
+    },
+    "engineering/industrialisation/vendor-candidates.json": {
+      "bytes": 38915,
+      "sha256": "7a1a7a993e448775086fddcbdc0e5bc24b09a88c5de3ed58f8ca324a4652e51e"
+    },
+    "engineering/industrialisation/work-packages-and-erp-handoffs.json": {
+      "bytes": 13642,
+      "sha256": "60092f22cc2ab319d0e7db541147b5cc3b0be14cf81530025b02a28a4c31c349"
     },
     "engineering/interchange/station_ifc.py": {
       "bytes": 13764,
@@ -6845,8 +6946,8 @@
       "sha256": "5b3d727621b43c5cab3bb3ab5c129dd132d5b9a7fac2d21fb40983b4f9fdd4ac"
     },
     "tools/automation/build-baghdad-proposal.py": {
-      "bytes": 116953,
-      "sha256": "1d97b04d51d016d7b4255f56b137acc008167f78f0803dd6ec334245782c8600"
+      "bytes": 118065,
+      "sha256": "f0d1492e239712af66d6f482f4bb0a223c26304e8598acfe354bd001b378c015"
     },
     "tools/automation/build-doc-book.py": {
       "bytes": 43828,
@@ -6857,8 +6958,8 @@
       "sha256": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
     },
     "tools/automation/connected-build-study.py": {
-      "bytes": 58476,
-      "sha256": "71ef1d314ba20b7de8f9f9e02e013ff8bc682adb11bbbba0d11f012660c0fc3e"
+      "bytes": 60447,
+      "sha256": "ad4d16557c4e48d85d826af20c7e0bf5efe5ff491dd1563de7ef69ce550a0817"
     },
     "tools/automation/connected_assurance.py": {
       "bytes": 37132,
@@ -6896,9 +6997,13 @@
       "bytes": 64224,
       "sha256": "971b5c947d45bb040476c3bb4eef14403936e421d3d0150a70aeec8b7747a80b"
     },
+    "tools/automation/industrialisation-study.py": {
+      "bytes": 22081,
+      "sha256": "4bb227791c77b7a799582f2feaeb77bcd8e75fbaf4fe12ae4053effe4870e110"
+    },
     "tools/automation/iraq_current_basis.py": {
-      "bytes": 10268,
-      "sha256": "1e1fe99e24da088c0fc82693ce33ff3dacc840ab7bd42f6df490acfa20bb55ad"
+      "bytes": 10853,
+      "sha256": "3627fed775d32f548cf63256b95b172b4b19a0ded3dfca4fdf47d728155d194d"
     },
     "tools/automation/project_twin.py": {
       "bytes": 30976,
@@ -6917,8 +7022,8 @@
       "sha256": "3e7d61d343ee7ba5a4db73f3545e577fbaf0cdf02d3797cf557220ccb42dbaf8"
     },
     "tools/automation/regenerate-baghdad-studies.py": {
-      "bytes": 2074,
-      "sha256": "c5349fc4f3d1d3e3628005812d9faa1c74083985eb33e11635ca4165c852c549"
+      "bytes": 2125,
+      "sha256": "4f836529ce1671b600b498e00f9ab07b46945c67101aabdeb454abcbe62b1fe2"
     },
     "tools/automation/regenerate-city.sh": {
       "bytes": 11306,
@@ -6952,28 +7057,28 @@
   "national_development_status": "future-separate-not-funded",
   "outputs": {
     "cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md": {
-      "bytes": 74037,
-      "sha256": "8251b68decd2ff47b7d878ed9043bb2aec8c22a379fa84c24f70dd9df871b493"
+      "bytes": 74801,
+      "sha256": "e5226ef871055c8ec4223a7ac344af768bf4f8e76081cf15e4bb41bb65674062"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal-Supporting-Data.zip": {
-      "bytes": 47405309,
-      "sha256": "8282ee9876d44a01663b5f5ecd5b65cbccfb83fef3653575b043a155dbd29daa"
+      "bytes": 47500993,
+      "sha256": "7ad3fbc3f69d14f4e88f357efc990f46de2ff48f8d410498d04f908915f53979"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal.pdf": {
-      "bytes": 3222235,
-      "sha256": "eccd767c9643f7392c97ef850c5594dca3b036472ba2ebf833254e761b59e2d4"
+      "bytes": 3233825,
+      "sha256": "56c18c9ee4f9de251f13e3d23418c217ab3907bf59fade3fc1e2dc78f0326c33"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md": {
       "bytes": 41002,
       "sha256": "2448da006558337b71c3254391c9b0b45547f0e77ecc380a2623f593335d7ae8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/appendix-sources.json": {
-      "bytes": 5820,
-      "sha256": "f08d83eed311754b8451674a1366b13f81e391cb0a3a40ed72e2585bf865d335"
+      "bytes": 5865,
+      "sha256": "7a83d5eda3e02ad6738aa66e3a048faa7a7f29210512638e7eff60a254e338d3"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/archive-manifest.json": {
-      "bytes": 266926,
-      "sha256": "5fd8e8a8c927476a4b826b1b2de97338ae3d30635453565a748d93a81c18fde7"
+      "bytes": 270774,
+      "sha256": "266383a321f8e34563f1af8cfbd2388783e4fb480e60e39ab3b1c1de471ad711"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/national-context.json": {
       "bytes": 6405,
@@ -7004,8 +7109,8 @@
       "sha256": "c88972d68072a556d60eab7be444f10817e7d03b68c624314d78fed446d65973"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/source-inventory.csv": {
-      "bytes": 199508,
-      "sha256": "fdeb85093672214a0eeb6460ae60ae53eb0c9c57f4c1a88c479c15091bd587a9"
+      "bytes": 202306,
+      "sha256": "3312133f2999b94386759cd66387b01740c9d72b418f42812f947a17af711275"
     }
   },
   "schema_version": "1.0",

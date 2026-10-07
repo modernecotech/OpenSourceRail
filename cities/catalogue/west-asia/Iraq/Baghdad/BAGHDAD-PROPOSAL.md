@@ -510,3 +510,7 @@ External instrument and historical sources are retained from the financing basel
 ## Connected construction and battery scenario (2026-10-06)
 
 [The connected study](engineering/connected-build/README.md) reconciles actual island platforms, boarding faces, access equipment, running/station civil quantities, 18 launchers on two shifts, constrained supplier/logistics schedules, equipment reuse and sodium battery profiles. Its three chronological network energy cases show service shortfalls under the selected study inputs. Supplier contracts, structural/access releases and installed erection credits are absent; conditional dates and the unquoted $9m fleet allowance establish no accepted savings or opening. The financial figures above remain comparators pending scope-matched adoption.
+
+## Coordinated industrialisation and possible vendors
+
+The [industrialisation programme](../../../../../engineering/industrialisation/README.md) connects joint vehicle/support selection, staged bogie localisation, standard Pi20/Pi25 viaduct production, support releases, staffing and accepted-bay capacity. Its official-source vendor register provides possible component and equipment suppliers for configuration-specific comparison. Existing Iraqi precast facilities and expertise are a capability base requiring plant and process qualification. The delivery/service bridge retains the current financial comparator; missing quotations, commissioned vehicles, station/system handovers and paid-journey evidence prevent adoption of additional-elevation economics.

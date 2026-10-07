@@ -37,6 +37,7 @@ def publication_output(path):
 
 MAX_BYTES = 50*1024*1024
 SHARED = [
+    'engineering/industrialisation/README.md',
     'docs/rfcs/0033-tacs-runtime-and-resource-control.md',
     'docs/rfcs/0034-connected-station-production-and-battery-model.md',
     'docs/certification/distributed-onboard-control-profile.md',
@@ -662,6 +663,8 @@ External instrument and historical sources are retained from the financing basel
     if connected.is_file():
         intro += "\n## Connected construction and battery scenario (2026-10-06)\n\n" + (
             "[The connected study](engineering/connected-build/README.md) reconciles actual island platforms, boarding faces, access equipment, running/station civil quantities, 18 launchers on two shifts, constrained supplier/logistics schedules, equipment reuse and sodium battery profiles. Its three chronological network energy cases show service shortfalls under the selected study inputs. Supplier contracts, structural/access releases and installed erection credits are absent; conditional dates and the unquoted $9m fleet allowance establish no accepted savings or opening. The financial figures above remain comparators pending scope-matched adoption.\n")
+        intro += "\n## Coordinated industrialisation and possible vendors\n\n" + (
+            "The [industrialisation programme](../../../../../engineering/industrialisation/README.md) connects joint vehicle/support selection, staged bogie localisation, standard Pi20/Pi25 viaduct production, support releases, staffing and accepted-bay capacity. Its official-source vendor register provides possible component and equipment suppliers for configuration-specific comparison. Existing Iraqi precast facilities and expertise are a capability base requiring plant and process qualification. The delivery/service bridge retains the current financial comparator; missing quotations, commissioned vehicles, station/system handovers and paid-journey evidence prevent adoption of additional-elevation economics.\n")
     return intro
 
 
@@ -748,6 +751,10 @@ def source_inputs():
     if connected.is_dir():
         paths.update(p for p in connected.rglob('*') if p.is_file())
         paths.update(ROOT/relative for relative in read_json(connected/'manifest.json')['source_sha256'])
+    industrial=ROOT/'engineering/industrialisation'
+    if industrial.is_dir():
+        paths.update(p for p in industrial.iterdir() if p.is_file())
+        paths.update(ROOT/relative for relative in read_json(industrial/'manifest.json')['sources_sha256'])
     for name in ('access','clearance','demand-bridge','local-civil-costs','cost-reconciliation'):
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])

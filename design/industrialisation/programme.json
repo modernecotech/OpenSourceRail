@@ -1,0 +1,440 @@
+{
+  "schema": "osr-industrialisation-programme/1",
+  "revision": "DRAFT-2026-10-07",
+  "as_of": "2026-10-07",
+  "status": "proposed-programme-not-product-freeze",
+  "units": "m, kg, kN, USD, working days",
+  "selected_configuration": {
+    "support_arrangement": null,
+    "articulation_vendor": null,
+    "articulation_model": null,
+    "bogie_vendor": null,
+    "bogie_model": null,
+    "freeze_record": null,
+    "manufacturing_rights_record": null,
+    "accepted": false
+  },
+  "reference_vehicle": {
+    "family": "light-metro-3car",
+    "cars": 3,
+    "support_arrangement": "independently-supported-cars",
+    "bogies_per_car": 2,
+    "axles_per_bogie": 2,
+    "payload_kg_per_passenger": 75.0,
+    "mass_basis": "controlled planning tare and unclosed mass-budget allowances; equal car loading and CG at each body midpoint are study assumptions"
+  },
+  "supply_chain": {
+    "launchers": 18,
+    "initial_launchers_per_line": 2,
+    "shifts_day": 2,
+    "illustrative_bays_launcher_working_day": [
+      1.0,
+      1.5,
+      2.0
+    ],
+    "mould_occupation_hours": 48.0,
+    "casting_position_availability": 1.0,
+    "first_pass_yield": 1.0,
+    "buffer_working_days": 5,
+    "accepted_capacities_per_working_day": {
+      "released_foundations": null,
+      "accepted_piers": null,
+      "accepted_beams": null,
+      "transported_beams": null,
+      "erected_bays": null,
+      "accepted_completed_bays": null
+    },
+    "qualification": "illustrative arithmetic; measured cycles, capacity slots and released fronts required"
+  },
+  "viaduct": {
+    "ordinary_spans_m": [
+      25.0,
+      20.0
+    ],
+    "primary_span_m": 25.0,
+    "single_track_beams_per_bay": 2,
+    "shared_pier": true,
+    "foundation_families": [
+      "bored-shaft-or-pile",
+      "driven-or-pressed-precast-pile",
+      "shallow-footing-or-socket",
+      "special-engineered-foundation"
+    ],
+    "pier_alternatives": [
+      "precast-column-and-cap",
+      "cast-in-place-column-reusable-forms-precast-cap"
+    ],
+    "foundation_depth_m": null,
+    "foundation_capacity_kn": null,
+    "permanent_and_launcher_loading_accepted": false
+  },
+  "procurement_scopes": [
+    "engineering-transfer-fees",
+    "articulation-assemblies",
+    "complete-or-major-bogie-assemblies",
+    "qualified-imported-subcomponents",
+    "local-adapters",
+    "local-bogie-frames",
+    "fixtures-metrology-welding-NDT-test-equipment",
+    "qualification-first-articles",
+    "local-labour",
+    "rejects-rework",
+    "warranty-spares-lifecycle",
+    "beam-tooling-and-prestressing",
+    "foundation-pier-connection-works",
+    "whole-beam-launchers",
+    "haulage-storage-handling",
+    "traffic-access-monitoring-reinstatement"
+  ],
+  "installed_costs_usd": {},
+  "measured_cycles": {},
+  "support_packets": [],
+  "accepted_services": [],
+  "closure_events": [],
+  "front_roles": [
+    {
+      "role": "survey",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "foundation-supervision",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "pier-and-temporary-works",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "launcher-operator",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "rigging",
+      "proposed_people_per_shift": 2,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "independent-inspection",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    },
+    {
+      "role": "handover",
+      "proposed_people_per_shift": 1,
+      "equipment_specific_authority_required": true,
+      "measured_person_hours_per_accepted_bay": null
+    }
+  ],
+  "work_packages": [
+    {
+      "id": "IP-WP-01",
+      "product": "vehicle-platform",
+      "title": "Joint carbody, articulation and bogie interface freeze",
+      "owner_role": "vehicle design authority",
+      "appointed_person": null,
+      "target_window_days": [
+        0,
+        30
+      ],
+      "related_existing_packages": [
+        "TS-WP-01",
+        "TS-WP-02",
+        "TS-WP-08"
+      ],
+      "evidence_required": [
+        "support topology",
+        "yaw pitch roll load and damping envelopes",
+        "low-floor and dynamic clearances",
+        "fatigue crash and recovery load paths",
+        "exact suppliers and controlled configuration"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-02",
+      "product": "bogie",
+      "title": "Manufacturing-transfer offer and process-capability survey",
+      "owner_role": "industrialisation manager",
+      "appointed_person": null,
+      "target_window_days": [
+        30,
+        90
+      ],
+      "related_existing_packages": [
+        "TS-WP-02",
+        "TS-WP-04"
+      ],
+      "evidence_required": [
+        "released drawings materials welding procedures fixtures machining datums tolerances NDT",
+        "rights fees warranty responsibilities",
+        "local fabrication and machining capability assessment",
+        "first-article acceptance plan"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-03",
+      "product": "bogie",
+      "title": "First article and repeat assembly",
+      "owner_role": "running-gear authority",
+      "appointed_person": null,
+      "target_window_days": [
+        90,
+        null
+      ],
+      "related_existing_packages": [
+        "TS-WP-05"
+      ],
+      "evidence_required": [
+        "qualified imported wheelsets bearings suspension brakes drives",
+        "assembly installation inspection and maintenance training",
+        "equipment-specific competence assessments",
+        "accepted first article and measured repeat cycles"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-04",
+      "product": "bogie",
+      "title": "Frame manufacture and further localisation",
+      "owner_role": "manufacturing authority",
+      "appointed_person": null,
+      "target_window_days": [
+        90,
+        null
+      ],
+      "related_existing_packages": [
+        "TS-WP-04"
+      ],
+      "evidence_required": [
+        "released frame design welding machining NDT coating",
+        "fixtures metrology test equipment process qualification",
+        "economic component localisation comparison",
+        "continuing supplier design support"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-05",
+      "product": "viaduct-system",
+      "title": "Ordinary catalogue and exceptional crossing separation",
+      "owner_role": "civil design authority",
+      "appointed_person": null,
+      "target_window_days": [
+        0,
+        30
+      ],
+      "related_existing_packages": [
+        "R04",
+        "R07"
+      ],
+      "evidence_required": [
+        "Pi25 Pi20 shared-pier interfaces",
+        "standard cap bearing jacking lifting drainage service provisions",
+        "direct-fixation and removable walkway cassettes",
+        "station transition and special-span designs"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-06",
+      "product": "viaduct-system",
+      "title": "Ground zones and released support packets",
+      "owner_role": "geotechnical and construction authority",
+      "appointed_person": null,
+      "target_window_days": [
+        30,
+        90
+      ],
+      "related_existing_packages": [
+        "R04",
+        "R07"
+      ],
+      "evidence_required": [
+        "survey utilities ground foundation design access traffic inspection",
+        "working platform spoil delivery appointments",
+        "temporary stability connection grout and release strength",
+        "accepted launcher-stage support reactions"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-07",
+      "product": "viaduct-system",
+      "title": "Beam and erection system bids",
+      "owner_role": "lifting authority",
+      "appointed_person": null,
+      "target_window_days": [
+        30,
+        90
+      ],
+      "related_existing_packages": [
+        "R03",
+        "R06",
+        "R07"
+      ],
+      "evidence_required": [
+        "full manufactured beam plus rigging mass",
+        "all-stage reactions delivery loads curvature gradients station passage",
+        "whole-beam launcher distinct from segmental package",
+        "wind maintenance assembly relocation recovery actual cycle trials"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-08",
+      "product": "viaduct-system",
+      "title": "Factory network and pilot moving sequence",
+      "owner_role": "construction manager",
+      "appointed_person": null,
+      "target_window_days": [
+        90,
+        null
+      ],
+      "related_existing_packages": [
+        "R05",
+        "R10"
+      ],
+      "evidence_required": [
+        "qualified plants product allocations and geographic routes",
+        "accepted double-track bay measured chains and buffers",
+        "foundation pier beam transport erection fit-out acceptance handovers",
+        "street access and completed-bay disruption measurements"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-09",
+      "product": "programme",
+      "title": "Workforce recruitment training and ramp-up",
+      "owner_role": "HR and project authority",
+      "appointed_person": null,
+      "target_window_days": [
+        30,
+        null
+      ],
+      "related_existing_packages": [
+        "R10",
+        "R18"
+      ],
+      "evidence_required": [
+        "Department unit front crew shift worker task accepted-component chain",
+        "funded recruitment dates training supervised practice assessment",
+        "relief inspection independence and equipment authorities",
+        "future machinery and worker reservation conflict checks"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "IP-WP-10",
+      "product": "programme",
+      "title": "Installed costs service delivery finance and further elevation",
+      "owner_role": "finance and operating authority",
+      "appointed_person": null,
+      "target_window_days": [
+        30,
+        null
+      ],
+      "related_existing_packages": [
+        "R11",
+        "R16"
+      ],
+      "evidence_required": [
+        "scope-priced make buy and transfer comparisons",
+        "accepted openings commissioned vehicles qualified delivered service",
+        "unique paid journeys collection and financing terms",
+        "ground station grid special structure costs and lane-hours per completed bay"
+      ],
+      "status": "proposed"
+    }
+  ],
+  "stages": [
+    {
+      "id": "definition",
+      "target_days": [
+        0,
+        30
+      ],
+      "exit_evidence": [
+        "joint interface brief",
+        "viaduct specification",
+        "representative corridor",
+        "factory capability survey"
+      ],
+      "accepted": false
+    },
+    {
+      "id": "detailed-proposals",
+      "target_days": [
+        30,
+        90
+      ],
+      "exit_evidence": [
+        "compatible offers",
+        "localisation package",
+        "foundation pier alternatives",
+        "beam launcher bids",
+        "priced first-article programme"
+      ],
+      "accepted": false
+    },
+    {
+      "id": "pilot",
+      "target_days": [
+        90,
+        null
+      ],
+      "exit_evidence": [
+        "vehicle interface bogie beam pier trials",
+        "representative viaduct run",
+        "accepted evidence and measured cycles"
+      ],
+      "accepted": false
+    },
+    {
+      "id": "controlled-ramp-up",
+      "target_days": [
+        null,
+        null
+      ],
+      "exit_evidence": [
+        "stable quality installed cost delivery and disruption",
+        "qualified crews and supply buffers"
+      ],
+      "accepted": false
+    },
+    {
+      "id": "fleet-deployment",
+      "target_days": [
+        null,
+        null
+      ],
+      "exit_evidence": [
+        "up to 18 machines against released runs",
+        "sustained supply downstream completion and complete opening gates"
+      ],
+      "accepted": false
+    }
+  ],
+  "links": {
+    "supplier_readiness": "lib/templates/supplier-technical-support-readiness.toml",
+    "product_tree": "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
+    "mass_budget": "design/component-catalogue/catalog/buildable-trainset/mass-budget.json",
+    "civil_catalogue": "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+    "connected_study": "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/manifest.json",
+    "finance": "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/summary.json",
+    "erp_execution": "deployment/erpnext/apps/osr_erpnext/osr_erpnext/construction_execution.py"
+  },
+  "industry_basis": "Iraq already has many precast facilities and fabrication/machining expertise; assess process capability and qualify product-specific available slots before allocating any output.",
+  "release_boundary": "No exact product, manufacturing right, appointment, quotation, foundation, launcher or railway operating acceptance is established by this programme."
+}

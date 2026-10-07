@@ -19,6 +19,14 @@ to control the engagement. The public template is deliberately unfilled; copy it
 to a controlled opportunity workspace for legal names, confidential drawings,
 prices, signatures and test records.
 
+The [coordinated industrialisation programme](../../engineering/industrialisation/README.md)
+links vehicle interfaces, staged bogie localisation and the viaduct production
+chain. Its [possible vendor register](../../engineering/industrialisation/vendor-candidates.json)
+adds official-source component and equipment leads, including HÜBNER and CRRC
+as proposed partners. These candidates use this same configuration-specific
+engagement process; a public product listing does not select a part or grant
+manufacturing rights.
+
 ## What The Public Information Establishes
 
 [RailMac's current site](https://rail-mac.com/) describes a SinoMac railway

@@ -11,6 +11,8 @@ The accelerated scenario's complete CAPEX, financing, net island savings and acc
 
 Iraq has existing precast facilities and expertise; qualify contracted civil supply and price tooling/upgrades. Baghdad trainset assembly and component-process allowances remain in the financial comparator. Additional national plant capacity and transfer costs require separate scope reconciliation.
 
+The [coordinated industrialisation programme](../../../../engineering/industrialisation/README.md) joins vehicle interfaces, staged bogie localisation and the standard viaduct system. Its [possible vendor register](../../../../engineering/industrialisation/vendor-candidates.json) records official-source component and equipment leads for comparison. Iraq already has many precast facilities and relevant expertise; plant capability, compatible tooling and available production slots require qualification. No listed vendor is a selected supplier or a manufacturing-rights agreement.
+
 No current consolidated national budget or funded rollout is established. Other Iraqi city catalogue estimates and the earlier generic foreign-turnkey calculation remain separately identified comparators. Their differences are scenario arithmetic, not realised capital or interest savings. Baghdad's later scope cannot be mixed into an older national aggregate and presented as one complete budget.
 
 ### Construction sensitivities

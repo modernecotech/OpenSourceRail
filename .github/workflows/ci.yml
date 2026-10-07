@@ -61,7 +61,9 @@ jobs:
           python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
           python -m pip install pandapower==3.5.3 pvlib==0.15.2 pyproj==3.7.2
       - name: Check connected Baghdad generation before build prerequisites
-        run: python tools/automation/connected-build-study.py --city baghdad --check
+        run: |
+          python tools/automation/connected-build-study.py --city baghdad --check
+          python tools/automation/industrialisation-study.py --check
       - name: Restore exact Baghdad operations test input
         run: python tools/automation/bootstrap_baghdad_tests.py
       - run: |
