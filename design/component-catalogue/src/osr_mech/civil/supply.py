@@ -156,6 +156,9 @@ class ErectionFront:
     planned_finish_day: int | None = None
     relocation_date: str | None = None
     work_intervals_m: tuple[tuple[float,float],...] = ()
+    planned_spans: tuple[dict,...] = ()
+    predecessors: tuple[str,...] = ()
+    section_relocation_days: int = 0
 
     def __post_init__(self):
         if self.end_chainage_m <= self.start_chainage_m or self.direction not in (-1,1):
@@ -165,5 +168,7 @@ class ErectionFront:
         ordered=sorted(self.work_intervals_m)
         if any(a[1]>b[0] for a,b in zip(ordered,ordered[1:])):
             raise ValueError("front work intervals overlap")
-        if self.available_foundations < 0 or self.planned_start_day < 1 or self.relocation_days < 0:
+        if any(s['start_chainage_m']<self.start_chainage_m or s['end_chainage_m']>self.end_chainage_m or not s.get('beam_variant') for s in self.planned_spans):
+            raise ValueError("scheduled spans must be catalogue spans inside the front")
+        if self.available_foundations < 0 or self.planned_start_day < 1 or self.relocation_days < 0 or self.section_relocation_days<0:
             raise ValueError("front readiness/date invalid")

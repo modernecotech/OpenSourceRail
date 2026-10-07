@@ -49,7 +49,9 @@ assumed_bays_launcher_day = 2.0
 assumed_beam_demand_day = 72.0
 
 [energy]
-duration_minutes = 1560
+duration_minutes = 4440 # three continuous service days, with the following overnight tail
+stationary_grid_replenishment = true # study operating strategy; connection/contract permission unqualified
+stationary_recharge_target_soc = 0.8
 average_speed_kmh = 45.0
 ambient_c = 45.0
 setup_seconds = 20.0
@@ -62,6 +64,11 @@ train_initial_soc = 0.8
 auxiliary_kw_per_car = 10.0
 regenerative_fraction = 0.15
 small_onboard_usable_kwh_per_car = 60.0
+
+[calendar]
+holidays = [] # not an approved national/employer holiday list
+maintenance_days = [] # dated closures can be entered separately from daily maintenance hours
+night_shift_permitted = true # conditional study only; no permit or relief roster is entered
 
 [finance]
 energy_usd_kwh = 0.10

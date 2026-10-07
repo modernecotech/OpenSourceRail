@@ -4,6 +4,7 @@ from dataclasses import asdict, dataclass
 import math
 from .supply import ErectionFront
 from .supply_chain import ConstructionSupplyChain
+from .calendar import WorkingCalendar
 
 
 @dataclass(frozen=True)
@@ -50,6 +51,12 @@ class ShiftCycle:
 
 def support_requirements(front: ErectionFront, span_m: float = 25.0) -> list[int]:
     """Each disconnected running interval needs its own first support pair."""
+    if front.planned_spans:
+        spans=front.planned_spans if front.direction==1 else tuple(reversed(front.planned_spans))
+        released=set();requirements=[]
+        for span in spans:
+            released.update((span['pier_a'],span['pier_b']));requirements.append(len(released))
+        return requirements
     requirements=[];cumulative=0
     intervals=front.work_intervals_m or ((front.start_chainage_m,front.end_chainage_m),)
     if front.direction == -1:
@@ -66,7 +73,8 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
                       supports_released_day: dict[int,dict[str,int]], buffer_capacity: dict[str,int],
                       span_m: float = 25.0, maximum_days: int = 3650,
                       dispatch_capacity_day: dict[str,int] | None = None,
-                      supply_chain: ConstructionSupplyChain | None = None) -> dict:
+                      supply_chain: ConstructionSupplyChain | None = None,
+                      calendar: WorkingCalendar | None = None) -> dict:
     """Daily integer receipts and completed two-track bays; no future supply credit.
 
     Hours can carry across days only while a bay is active. Idle access, missing
@@ -80,6 +88,8 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
         raise ValueError("use the supply chain or explicit supply/delivery schedules, not both")
     if len({f.id for f in fronts}) != len(fronts):
         raise ValueError("front identities must be unique")
+    if any(parent==f.id or parent not in {other.id for other in fronts} for f in fronts for parent in f.predecessors):
+        raise ValueError('front predecessor must identify another scheduled front')
     if any(f.id not in buffer_capacity or buffer_capacity[f.id] < 2 for f in fronts):
         raise ValueError("front requires buffer capacity for a complete bay")
     for i,a in enumerate(fronts):
@@ -89,8 +99,20 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
                 second=b.work_intervals_m or ((b.start_chainage_m,b.end_chainage_m),)
                 if any(max(x,u)<min(y,v)-1e-9 for x,y in first for u,v in second):
                     raise ValueError("construction fronts overlap the same physical erection path")
-    needs = {f.id:sum(math.ceil((b-a)/span_m) for a,b in f.work_intervals_m) if f.work_intervals_m else math.ceil((f.end_chainage_m-f.start_chainage_m)/span_m) for f in fronts}
+    needs = {f.id:len(f.planned_spans) if f.planned_spans else
+             sum(math.ceil((b-a)/span_m) for a,b in f.work_intervals_m) if f.work_intervals_m else
+             math.ceil((f.end_chainage_m-f.start_chainage_m)/span_m) for f in fronts}
     required_supports={f.id:support_requirements(f,span_m) for f in fronts}
+    boundaries={}
+    for f in fronts:
+        spans=list(f.planned_spans)
+        if f.direction==-1:
+            spans.reverse()
+        boundaries[f.id]={i for i in range(1,len(spans))
+            if abs((spans[i-1]['end_chainage_m'] if f.direction==1 else spans[i-1]['start_chainage_m'])-
+                   (spans[i]['start_chainage_m'] if f.direction==1 else spans[i]['end_chainage_m']))>0.001}
+    section_ready=dict.fromkeys(needs,1)
+    section_moves=dict.fromkeys(needs,0)
     done = dict.fromkeys(needs,0)
     inventory = dict.fromkeys(needs,0)
     hours = dict.fromkeys(needs,0.0)
@@ -104,12 +126,14 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
     if supply_chain is not None and supply_chain.order_units != 2*sum(needs.values()):
         raise ValueError("supply order must match the installed erection quantities")
     for day in range(1,maximum_days+1):
+        work_hours=calendar.hours(day,cycle) if calendar else cycle.productive_hours_day
         supply = None
         if supply_chain is not None:
             supply = supply_chain.step(day,front_inventory=inventory,front_buffer_capacity=buffer_capacity,
                 remaining_beams={fid:2*(needs[fid]-done[fid])-inventory[fid] for fid in needs},
                 delivery_access={f.id:f.delivery_access for f in fronts},
-                closed_fronts={f.id for f in fronts if day in f.interruptions_days})
+                closed_fronts={f.id for f in fronts if day in f.interruptions_days or work_hours==0},
+                factory_open=work_hours>0)
         incoming = supply['accepted_today'] if supply is not None else accepted_beams_day.get(day,0)
         if type(incoming) is not int or incoming < 0:
             raise ValueError("accepted components must be whole non-negative beams")
@@ -147,7 +171,8 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
         for fid,quantity in supports_released_day.get(day,{}).items():
             if fid not in supports or type(quantity) is not int or quantity < 0:
                 raise ValueError("invalid support release")
-            supports[fid] = min(required_supports[fid][-1],supports[fid]+quantity)
+            if work_hours>0:
+                supports[fid] = min(required_supports[fid][-1],supports[fid]+quantity)
         access_used, paths_used = set(), set()
         today = []
         # Rotate priority so shared access does not permanently starve a front.
@@ -157,10 +182,16 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
             if done[fid] == needs[fid]:
                 continue
             reason = "erection"
-            if machine_owner.get(f.launcher) not in (None,fid):
+            if work_hours==0:
+                reason='working-calendar'
+            elif machine_owner.get(f.launcher) not in (None,fid):
                 reason = "equipment-assigned-to-another-front"
             elif day < machine_available_day.get(f.launcher,1):
                 reason = "equipment-relocation"
+            elif day < section_ready[fid]:
+                reason = 'disconnected-section-relocation'
+            elif any(parent not in finished for parent in f.predecessors):
+                reason = 'predecessor-erection-path'
             elif day < f.planned_start_day+cycle.mobilisation_days+f.relocation_days or day in f.interruptions_days:
                 reason = "work-window-or-station-interruption"
             elif f.delivery_access in access_used or f.sequential_path in paths_used:
@@ -174,29 +205,38 @@ def simulate_erection(fronts: list[ErectionFront], cycle: ShiftCycle, *,
                 access_used.add(f.delivery_access)
                 paths_used.add(f.sequential_path)
                 ramp = cycle.ramp_up_fraction if day < f.planned_start_day+cycle.mobilisation_days+cycle.ramp_up_days else 1.0
-                available = min(cycle.productive_hours_day,f.permitted_hours_day)*ramp
+                available = min(work_hours,f.permitted_hours_day)*ramp
                 hours[fid] += available
                 complete = min(math.floor(hours[fid]/cycle.bay_cycle_hours),inventory[fid]//2,
                                sum(required <= supports[fid] for required in required_supports[fid])-done[fid], needs[fid]-done[fid])
+                next_boundary=min((i for i in boundaries[fid] if i>done[fid]),default=needs[fid])
+                complete=min(complete,next_boundary-done[fid])
                 done[fid] += complete
                 inventory[fid] -= 2*complete
                 hours[fid] -= complete*cycle.bay_cycle_hours
                 # Only fractional progress in an active bay carries forward.
                 hours[fid] = min(hours[fid],cycle.bay_cycle_hours-1e-9)
+                if complete and done[fid] in boundaries[fid]:
+                    section_ready[fid]=day+f.section_relocation_days+1
+                    section_moves[fid]+=1
+                    hours[fid]=0.0
                 if done[fid] == needs[fid]:
                     finished[fid] = day
                     machine_owner.pop(f.launcher,None)
                     machine_available_day[f.launcher] = day+f.relocation_days+1
-            if reason != "erection":
+            if reason not in ("erection","working-calendar"):
                 hours[fid] = 0.0
             today.append(dict(front=fid,bays_complete=done[fid],buffer_beams=inventory[fid],
                               supports_released=supports[fid],limiting_resource=reason))
         rows.append(dict(day=day,fronts=today,accepted_factory_stock=accepted_stock,
+                         **({'date':calendar.day_date(day).isoformat(),'permitted_productive_hours':work_hours} if calendar else {}),
                          cumulative_accepted_beams=receipts,cumulative_erected_beams=2*sum(done.values()),
                          **({'supply_chain':supply} if supply is not None else {})))
         if all(done[k] == needs[k] for k in needs):
             break
     return dict(complete=all(done[k] == needs[k] for k in needs),days=len(rows),
                 completed_bays=done,required_bays=needs,finish_days=finished,daily=rows,
+                disconnected_section_moves=section_moves,
                 cycle=asdict(cycle),bays_launcher_day=cycle.bays_launcher_day,
+                **({'calendar':asdict(calendar)} if calendar else {}),
                 **({'supply_chain':supply_chain.summary()} if supply_chain is not None else {}))

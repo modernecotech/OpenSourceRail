@@ -227,7 +227,8 @@ def test_regeneration_waits_for_arrival_and_replacements_reset_soh():
 def test_generated_connected_package_has_revision_assumptions_and_hashes():
     folder=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build'
     manifest=json.loads((folder/'manifest.json').read_text())
-    assert len(manifest['source_revision'])==40
+    assert len(manifest['source_revision'])==64
+    assert manifest['source_revision_kind']=='sha256-input-content'
     assert set(('units','source','as_of','confidence','qualification'))<=set(manifest['assumptions']['schema'])
     for name,expected in manifest['output_sha256'].items():
         assert hashlib.sha256((folder/name).read_bytes()).hexdigest()==expected
@@ -235,6 +236,18 @@ def test_generated_connected_package_has_revision_assumptions_and_hashes():
     assert not civil['actual_evidence_schedule']['complete']
     for case in civil['conditional_scenarios'].values():
         assert sum(case['completed_bays'].values())==sum(row['running_bays'] for row in civil['lines'])
+        assert case['maximum_launchers']==18 and case['assumed_transporters']==72
+        assert case['complete']
+    spans=json.loads((folder/'span-layout.json').read_text())
+    assert len({s['id'] for s in spans['spans']})==len(spans['spans'])
+    assert spans['quantities']['total_alignment_m']==pytest.approx(sum(l['running_elevated_m'] for l in civil['lines']),abs=.555)
+    ordinary=[s for s in spans['spans'] if s['beam_variant']]
+    assert 2*len(ordinary)==spans['quantities']['pi20_beams']+spans['quantities']['pi25_beams']
+    assert all(s['quantity'] is None and not s['component_ids'] for s in spans['spans'] if not s['beam_variant'])
+    transfers=json.loads((folder/'erp-drafts.json').read_text())['conditional_baghdad_reassignments']
+    assert len(transfers)==6 and all(not t['allocation_approved'] for t in transfers)
+    from datetime import date
+    assert all((date.fromisoformat(t['destination_start'])-date.fromisoformat(t['source_finish'])).days>=t['transfer_days'] for t in transfers)
 
 
 def test_incompatible_charger_voltage_never_reuses_existing_power_rating():
@@ -263,3 +276,84 @@ def test_disconnected_intervals_need_a_new_support_pair():
     assert not result['complete']
     released=simulate([f],accepted={1:4},delivered={1:{'a':4}},supports={2:{'a':1}},days=2)
     assert released['complete']
+
+
+def test_identified_sections_require_relocation_before_next_span():
+    from osr_mech.civil.span_layout import plan_spans
+    spans=plan_spans('line',[(0,25),(75,100)])
+    f=replace(front(),end_chainage_m=100,available_foundations=4,
+        work_intervals_m=((0,25),(75,100)),planned_spans=tuple(spans),section_relocation_days=2)
+    result=simulate([f],accepted={1:4},delivered={1:{'a':4}},days=6)
+    assert result['finish_days']['a']==4
+    assert result['disconnected_section_moves']['a']==1
+    assert [r['fronts'][0]['limiting_resource'] for r in result['daily'][1:3]]==['disconnected-section-relocation']*2
+
+
+def test_ring_reassignment_retains_spans_machines_and_shared_transport_capacity():
+    from osr_mech.civil.span_layout import plan_spans
+    spec=importlib.util.spec_from_file_location('connected_study',ROOT/'tools/automation/connected-build-study.py')
+    generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
+    ring=plan_spans('ring',[(0,400)])
+    def assigned(identity,line,spans,launcher):
+        return ErectionFront(identity,line,spans[0]['start_chainage_m'],spans[-1]['end_chainage_m'],1,
+            launcher,identity,identity,20,work_intervals_m=tuple((s['start_chainage_m'],s['end_chainage_m']) for s in spans),planned_spans=tuple(spans))
+    initial=[assigned('r1','ring',ring[:8],'machine-1'),assigned('r2','ring',ring[8:],'machine-2')]
+    initial += [assigned(f'd{i}',f'radial-{i}',plan_spans(f'radial-{i}',[(0,25)]),f'machine-{i+3}') for i in range(6)]
+    moved=generator.reassigned_ring_fronts(initial,{f.id:5 for f in initial},'ring',{})
+    assert sorted(s['id'] for f in initial for s in f.planned_spans)==sorted(s['id'] for f in moved for s in f.planned_spans)
+    assert {f.launcher for f in moved}=={f.launcher for f in initial}
+    added=[f for f in moved if f.predecessors]
+    assert len(added)==6 and all(f.available_foundations==0 and f.planned_start_day>5 for f in added)
+    cfg=generator.read(ROOT/'lib/templates/accelerated-build.toml')
+    chain=generator.study_supply_chain(moved,ShiftCycle(),cfg['erection'],cfg['logistics'],cfg['schema']['as_of'])
+    assert len({r.fleet_id for r in chain.routes})==8
+
+
+def test_grid_replenishment_respects_policy_outages_and_import_limit():
+    p=profiles();site=dict(initial_soc=0.2,modules=1,pv_kw=0,grid_kw=100,charger_kw=100)
+    def run(policy,outages=None):
+        return chronological_energy(p['lfp-onboard-study'],p['lfp-stationary-study'],{},
+            {'s':{**site,'allow_grid_storage_recharge':policy,'storage_recharge_target_soc':.8}},[],[],60,
+            ambient_c=25,outages=outages)
+    enabled=run(True);disabled=run(False);outage=run(True,set(range(60)))
+    assert enabled['storage_kwh']['s']>disabled['storage_kwh']['s']
+    assert 0<enabled['totals']['grid_storage_replenishment_kwh']<=enabled['totals']['grid_kwh']<=100+1e-9
+    assert disabled['totals']['grid_storage_replenishment_kwh']==outage['totals']['grid_storage_replenishment_kwh']==0
+
+
+def test_reserve_train_minutes_are_distinct_from_affected_journeys():
+    p=profiles()
+    result=chronological_energy(p['lfp-onboard-study'],p['lfp-stationary-study'],
+        {'a':dict(cars=1,initial_soc=.01,energy_kwh_km=3,mass_factor=1,auxiliary_kw=0,
+                  service_journeys=[(0,3,'trip-a')])},{},[],[],3,ambient_c=25)
+    assert result['reserve_violation_train_minutes']==3
+    assert result['distinct_energy_affected_journeys']==1
+    assert not result['service_disruption_feedback_modelled']
+
+
+def test_bounded_diagnostics_preserve_energy_and_all_shortfall_counts():
+    p=profiles();trains={'a':dict(cars=1,initial_soc=.01,energy_kwh_km=3,mass_factor=1,auxiliary_kw=10,
+        service_intervals=[(.5,30.5)],service_journeys=[(.5,30.5,'first')])}
+    def run(retain):
+        return chronological_energy(p['lfp-onboard-study'],p['lfp-stationary-study'],trains,{},[],[],40,
+            ambient_c=25,retain_shortfalls=retain)
+    full=run(True);bounded=run(False)
+    assert bounded['totals']==full['totals'] and bounded['trains']==full['trains']
+    assert bounded['shortfalls']==full['shortfalls'][:20]
+    assert bounded['shortfall_events']==len(full['shortfalls'])>20
+    assert bounded['reserve_violation_train_minutes']==full['reserve_violation_train_minutes']
+    assert bounded['distinct_energy_affected_journeys']==full['distinct_energy_affected_journeys']==1
+
+
+def test_continuous_state_preserves_clock_solar_outages_and_degradation():
+    p=profiles();trains={'a':dict(cars=1,initial_soc=.8,energy_kwh_km=3,mass_factor=1,auxiliary_kw=10)}
+    sites={'s':dict(initial_soc=.2,modules=1,pv_kw=100,grid_kw=100,charger_kw=100,allow_grid_storage_recharge=True,storage_recharge_target_soc=.8)}
+    outages=set(range(450,465))
+    whole=chronological_energy(p['lfp-onboard-study'],p['lfp-stationary-study'],trains,sites,[],[],600,outages=outages,ambient_c=25)
+    state=None;totals={k:0 for k in whole['totals']}
+    for offset in range(0,600,10):
+        state=chronological_energy(p['lfp-onboard-study'],p['lfp-stationary-study'],trains,sites,[],[],10,outages=outages,ambient_c=25,minute_offset=offset,initial_state=state)
+        for k,v in state['totals'].items():totals[k]+=v
+    assert state['trains']==whole['trains'] and state['storage_soh']==whole['storage_soh']
+    assert state['storage_kwh']==whole['storage_kwh']
+    assert totals==pytest.approx(whole['totals'],abs=1e-8)

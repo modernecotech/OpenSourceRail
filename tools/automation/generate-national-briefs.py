@@ -14,6 +14,7 @@ import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "design/city-generation/src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from osr_scenario.capital import (  # noqa: E402
     FOREIGN_TURNKEY_BASIS,
@@ -131,6 +132,26 @@ def _render_brief(
     detailed: bool = False,
 ) -> str:
     cities = sorted(cities, key=lambda city: (-city.population, city.name))
+    if country_code == "IQ":
+        from iraq_current_basis import current_basis, current_header
+        basis=current_basis()
+        financial=basis['financial_case']
+        rows=[]
+        for city in cities:
+            if city.slug=='baghdad':
+                amount=financial['capital_usd'];origin=financial['imported_invoices_usd']
+                label='Retained local_positive comparator; accelerated scope unpriced'
+            else:
+                amount=city.breakdown.total_usd;origin=city.breakdown.imported_usd
+                label='Catalogue base estimate; scope and field releases open'
+            rows.append(f"| [{city.name}]({city.name.replace(' ', '-')}/README.md) | {city.population:,} | {city.fleet_trainsets:,} | {money(amount)} | {money(origin)} | {label} |")
+        return '\n'.join([f"# {country_name} National OpenSourceRail Strategy","",current_header(basis),
+            "## City estimates and their scope","",
+            "| City | Population | Fleet | City-case capital | Assumed imported purchases | Basis |",
+            "| --- | ---: | ---: | ---: | ---: | --- |",*rows,"",
+            "These case envelopes have different appraisal scopes. They are not summed into a current national project budget. Baghdad's included assembly/component facilities must be reconciled with any national shared-factory allowance before aggregation.","",
+            "## Regeneration","","Run `python3 tools/automation/generate-national-briefs.py --country IQ` after regenerating the Baghdad study, then publish the current city/country documents and proposal archive.",""])
+
     anchor = max(cities, key=lambda city: city.vehicle_modules)
     national_factory_usd = factory_budget(country_code, cities)
     national = aggregate_breakdowns(
@@ -485,6 +506,7 @@ def main() -> int:
         action="store_true",
         help="fail if generated briefs differ instead of writing them",
     )
+    parser.add_argument("--country",action="append",help="restrict regeneration/checking to a country code")
     args = parser.parse_args()
     country_names = tomllib.loads(
         (REPO_ROOT / "lib/templates/country-costs.toml").read_text()
@@ -494,6 +516,10 @@ def main() -> int:
         region = design_path.relative_to(REPO_ROOT / "cities/catalogue").parts[0]
         if region not in PUBLIC_REGIONS:
             continue
+        if args.country:
+            code_hint=tomllib.loads(design_path.read_text())["city"]["country"]
+            if code_hint not in args.country:
+                continue
         code, city = load_city(design_path)
         grouped[(code, design_path.parent.parent)].append(city)
 
@@ -506,6 +532,11 @@ def main() -> int:
             if not output.is_file() or __import__('re').sub(r'<!-- OSR CURRENT SCOPE CONTEXT -->.*?<!-- END OSR CURRENT SCOPE CONTEXT -->\n\n?', '', output.read_text(), flags=__import__('re').S) != text:
                 drift.append(output)
         else:
+            if code=="IQ":
+                from iraq_current_basis import write_basis, funding_document
+                basis=write_basis()
+                funding=country_dir/'IRAQ-FUNDING-PROGRAMME.md'
+                atomic_write(funding,funding_document(funding.read_text(),basis))
             atomic_write(output, text)
             print(f"wrote {output.relative_to(REPO_ROOT)}")
     if drift:

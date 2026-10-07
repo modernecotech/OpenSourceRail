@@ -199,6 +199,9 @@ def national_context(programme):
     if abs(city_total+factory+factory_epc-aggregate.total_usd) > .02:
         raise ValueError('National capital reconciliation failed')
     return {'status': 'future-catalogue-planning-not-funded', 'cities': rows, 'city_count': len(rows),
+            'basis_status':'retained-generic-catalogue-comparator',
+            'current_consolidated_national_budget_usd':None,
+            'current_country_basis':'../CURRENT-PLANNING-BASIS.json',
             'represented_population': sum(c.population for c in cities),
             'trainsets': sum(c.fleet_trainsets for c in cities), 'vehicle_modules': sum(c.vehicle_modules for c in cities),
             'city_capital_usd': city_total, 'shared_factory_usd': factory, 'shared_factory_epc_usd': factory_epc,
@@ -610,7 +613,9 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 
 {table(['Future catalogue city','Planning population','Fleet family','Route km','Trainsets','City CAPEX USD eq m'],national_rows)}
 
-Current catalogue city capital totals sum to USD {n['city_capital_usd']/1e9:.3f}bn. Adding one shared factory at USD {usd_m(n['shared_factory_usd'])}m and its EPC at USD {usd_m(n['shared_factory_epc_usd'])}m produces **USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent** nationally on the catalogue basis. The Baghdad funding reference already contains USD {usd_m(n['baghdad_factory_reference_usd'])}m of plant and USD {usd_m(n['baghdad_factory_epc_reference_usd'])}m of plant EPC. The national allowance uses the larger city-order envelope or module allowance. Future scope beyond that Baghdad reference totals **USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn**, including only USD {usd_m(n['future_shared_factory_increment_usd']+n['future_shared_factory_epc_increment_usd'])}m of additional shared-plant/EPC allowance, with no second full plant added. Other cities now use current depot and staffing calculations; Baghdad's optional upstream plants remain separate sensitivities. Imported/local procurement in the generic national origin model is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn; this is procurement composition, not a national loan programme.
+The table retains generic catalogue appraisal scopes. Their arithmetic sums city capital to USD {n['city_capital_usd']/1e9:.3f}bn, and adds a shared factory at USD {usd_m(n['shared_factory_usd'])}m plus EPC at USD {usd_m(n['shared_factory_epc_usd'])}m to reach USD {n['total_national_capital_usd']/1e9:.3f}bn equivalent. This is a retained comparator, not a current consolidated national budget. The historical Baghdad funding reference contains USD {usd_m(n['baghdad_factory_reference_usd'])}m of plant and USD {usd_m(n['baghdad_factory_epc_reference_usd'])}m of EPC; its generic future-scope difference is USD {n['future_incremental_city_capital_after_baghdad_usd']/1e9:.3f}bn, including USD {usd_m(n['future_shared_factory_increment_usd']+n['future_shared_factory_epc_increment_usd'])}m of additional shared-plant/EPC allowance. Generic imported/local procurement is USD {n['imported_procurement_usd']/1e9:.3f}bn / USD {n['local_procurement_usd']/1e9:.3f}bn. These differences do not establish available finance or realised savings.
+
+The [current Iraq planning basis](../CURRENT-PLANNING-BASIS.json) and [national brief](../NATIONAL-BRIEF.md) instead identify the retained USD {local['total_capital_usd']/1e9:.3f}bn Baghdad `local_positive` comparator, including its assembly/component facilities, and the separate unpriced accelerated scenario. Shared-factory reuse and upgrades require scope reconciliation before a national budget can be stated. Iraq already has many precast facilities and production expertise; beam-specific contracts and spare capacity remain unverified.
 
 The additional national plant allowance is an unquoted planning envelope; the actual expansion, renewal and concurrent production programme remain unpriced. Intercity connections, research/training institutions, shared governance and capital acceleration also require separate budgets. Independent city-order factory plans do not prove simultaneous national throughput. The 18 city aggregate is not a five year delivery commitment. Future orders require a throughput/renewal study, scheduled allocation and separate appropriations; no national revenue or profit services Baghdad debt in this proposal.
 
@@ -747,7 +752,7 @@ def source_inputs():
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])
     paths.add(ROOT/'tools/automation/fetch-clearance-terrain.py')
-    paths.update([COUNTRY/'NATIONAL-BRIEF.md',COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',ROOT/'tools/automation/build-baghdad-proposal.py',
+    paths.update([COUNTRY/'NATIONAL-BRIEF.md',COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',COUNTRY/'CURRENT-PLANNING-BASIS.json',ROOT/'tools/automation/iraq_current_basis.py',ROOT/'tools/automation/build-baghdad-proposal.py',
                   ROOT/'tools/automation/build-doc-book.py',ROOT/'tools/automation/generate-national-briefs.py',ROOT/'tools/automation/baghdad_funding_analysis.py',
                   ROOT/'tools/automation/generate-iraq-funding-programme.py',ROOT/'design/city-generation/src/osr_scenario/capital.py',
                   ROOT/'design/city-generation/src/osr_scenario/network_readme.py',ROOT/'lib/templates/capex-costs.toml',

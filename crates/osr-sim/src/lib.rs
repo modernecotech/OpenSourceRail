@@ -3,6 +3,7 @@
 
 pub mod backend_systems;
 pub mod balise_systems;
+pub mod battery;
 pub mod consensus_log;
 pub mod embedded;
 pub mod energy;

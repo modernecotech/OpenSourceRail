@@ -20,7 +20,9 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'design/component-catalogue/src'))
 sys.path.insert(0,str(ROOT/'deployment/erpnext/apps/osr_erpnext'))
 sys.path.insert(0,str(ROOT))
+from osr_mech.provenance import input_revision, deterministic_gzip
 from osr_mech.station.layout import station_layout, step_free_reachability
+from osr_mech.station.passenger_demand import station_passenger_demand
 from osr_mech.buildable_stations import station_variant
 from osr_mech.common import StationArchetype, ConsistFamily
 from osr_mech.civil.quantity_model import station_structure_quantities
@@ -28,10 +30,13 @@ from osr_mech.civil.decked_pi import manufacturing_specification, suspended_load
 from osr_mech.civil.construction import erection_resources, ErectionMethod
 from osr_mech.civil.supply import Evidence, SupplierCapacity, validate_supplier_allocations, ErectionFront, DeliveryRoute
 from osr_mech.civil.shift_schedule import ShiftCycle, simulate_erection, support_requirements
+from osr_mech.civil.span_layout import plan_spans, span_quantities
+from osr_mech.civil.calendar import WorkingCalendar
 from osr_mech.civil.supply_chain import ComponentDemand, ConstructionSupplyChain
 from osr_mech.civil.costing import station_access_cost, reconcile_installed_rate, island_net_saving
 from osr_mech.battery_profiles import vehicle_profile, chronological_energy, resolve_profile
 from osr_mech.network_energy_duty import network_duty
+from osr_mech.network_energy_control import controlled_network_energy
 from engineering.interchange.station_ifc import export_variant
 from osr_erpnext.construction_fleet import asset_draft, fleet_economics
 from engineering.analysis.city_geometry import load_line_coordinates, line_geometry, point_at, local_lonlat
@@ -110,22 +115,23 @@ def split_front(intervals):
 
 def beam_demand():
     spec=manufacturing_specification(25.0)
-    return ComponentDemand('pi-beam25',spec['manufactured_study_mass_kg']/1000,25.0,2.9)
+    return ComponentDemand('pi-beam-family',spec['manufactured_study_mass_kg']/1000,25.0,2.9)
 
 
 def study_supply_chain(fronts, cycle, cfg, logistics, as_of):
     """Requirements for the sensitivity, explicitly separate from real suppliers."""
-    total=sum(2*sum(math.ceil((b-a)/25) for a,b in f.work_intervals_m) for f in fronts)
-    nominal=len(fronts)*cycle.bays_launcher_day*2
+    total=2*sum(len(f.planned_spans) if f.planned_spans else sum(math.ceil((b-a)/25) for a,b in f.work_intervals_m) for f in fronts)
+    machines=len({f.launcher for f in fronts})
+    nominal=machines*cycle.bays_launcher_day*2
     evidence=Evidence('components/day, components, t, m, h',
         'RFC 0034 required aggregate supply/haulage capacity; no identified factory or confirmed spare capacity',
         as_of,'low','study-assumed-not-qualified','user-selected-scenario')
     pool=SupplierCapacity(id='assumed-contract-capacity',location='aggregate planning requirement, not a factory',
-        delivery_catchment=('study-fronts',),relevant_products=('pi-beam25',),prestressing_qualified=True,
+        delivery_catchment=('study-fronts',),relevant_products=('pi-beam-family',),prestressing_qualified=True,
         beds=None,moulds=None,handling_limit_t=logistics['handling_limit_t'],maximum_length_m=logistics['maximum_length_m'],
         maximum_width_m=logistics['maximum_width_m'],demonstrated_cycle_days=None,total_plant_units_day=nominal,
-        contracted_units_day={'pi-beam25':nominal},storage_units=logistics['factory_buffer_beams'],
-        dispatch_units_day=len(fronts)*cfg['transport_capacity_beams_day_per_front'],
+        contracted_units_day={'pi-beam-family':nominal},storage_units=logistics['factory_buffer_beams'],
+        dispatch_units_day=machines*cfg['transport_capacity_beams_day_per_front'],
         existing_commitments='unknown; this is a requirement only',qualification='study-assumed',
         required_upgrades=('actual factory/product qualification and contracted capacity',),
         delivered_prices_usd={},commercial_terms='no quotation or contract',evidence=evidence)
@@ -138,25 +144,59 @@ def study_supply_chain(fronts, cycle, cfg, logistics, as_of):
         access_released=True,turning_space_released=True,loading_equipment_released=True,unloading_equipment_released=True,
         vehicle_tare_t=logistics['vehicle_tare_t'],maximum_width_m=logistics['maximum_width_m'],
         rejection_fraction=logistics['transport_rejection_fraction'],
-        fleet_id=f.id+'-assumed-haulage',fleet_daily_trips=cfg['transport_capacity_beams_day_per_front'],
+        fleet_id=f.launcher+'-assumed-haulage',fleet_daily_trips=cfg['transport_capacity_beams_day_per_front'],
         evidence=evidence) for f in fronts]
-    return ConstructionSupplyChain([pool],[dict(supplier=pool.id,product='pi-beam25',units_day=nominal,
+    return ConstructionSupplyChain([pool],[dict(supplier=pool.id,product='pi-beam-family',units_day=nominal,
         production_start_day=cycle.mobilisation_days+1,acceptance_delay_days=logistics['acceptance_delay_days'],
         manufacturing_rejection_fraction=logistics['manufacturing_rejection_fraction'])],routes,beam_demand(),total,
         allow_study_assumptions=True)
 
 
-def conditional_schedule(fronts, cycle, cfg, logistics, as_of, horizon=3650):
+def conditional_schedule(fronts, cycle, cfg, logistics, as_of, horizon=3650, calendar=None):
     chain=study_supply_chain(fronts,cycle,cfg,logistics,as_of)
-    releases={day:{f.id:cfg['foundation_release_supports_day_per_front'] for f in fronts} for day in range(1,horizon+1)}
+    # A transferred machine brings its support-release team and transport fleet;
+    # additional front records do not create additional daily resources.
+    releases={}
+    for day in range(1,horizon+1):
+        active={}
+        for f in fronts:
+            if day>=f.planned_start_day:
+                active[f.launcher]=f
+        releases[day]={f.id:cfg['foundation_release_supports_day_per_front'] for f in active.values()}
     return simulate_erection(fronts,cycle,accepted_beams_day={},delivered_beams_day={},
         supports_released_day=releases,buffer_capacity={f.id:cfg['buffer_beams_per_front'] for f in fronts},
-        maximum_days=horizon,supply_chain=chain)
+        maximum_days=horizon,supply_chain=chain,calendar=calendar)
+
+
+def reassigned_ring_fronts(fronts, fixed_finish, ring_line, cfg):
+    """Conditional access sensitivity, without asserting feasible site releases."""
+    ring=[f for f in fronts if f.line==ring_line]
+    donors=sorted((f for f in fronts if f.line!=ring_line),key=lambda f:(fixed_finish[f.id],f.id))[:6]
+    spans=sorted((s for f in ring for s in f.planned_spans),key=lambda s:s['start_chainage_m'])
+    if len(ring)!=2 or len(donors)!=6 or len(spans)<8:
+        raise ValueError('ring sensitivity requires two initial fronts and six available radial machines')
+    chunks=[spans[i*len(spans)//8:(i+1)*len(spans)//8] for i in range(8)]
+    result=[f for f in fronts if f.line!=ring_line]
+    assignments=[ring[0],*donors,ring[1]]
+    for index,(chunk,original) in enumerate(zip(chunks,assignments)):
+        transferred=index not in (0,7)
+        fid=f'{ring_line}-additional-front-{index}' if transferred else original.id
+        f=replace(original,id=fid,line=ring_line,start_chainage_m=chunk[0]['start_chainage_m'],
+            end_chainage_m=chunk[-1]['end_chainage_m'],direction=-1 if index==7 else 1,
+            work_intervals_m=tuple((s['start_chainage_m'],s['end_chainage_m']) for s in chunk),planned_spans=tuple(chunk),
+            available_foundations=0 if transferred else original.available_foundations,
+            planned_start_day=fixed_finish[original.id]+1 if transferred else 1,
+            predecessors=(original.id,) if transferred else (),
+            delivery_access=fid+'-conditional-access-unverified',sequential_path=fid+'-conditional-path')
+        result.append(f)
+    return result
 
 
 def build(city_dir):
     config=read(ROOT/'lib/templates/accelerated-build.toml')
     design=read(city_dir/'design.toml')
+    passenger_register=read(ROOT/'lib/templates/station-passenger-assignment.json')
+    passenger_demand=station_passenger_demand(design,read(city_dir/f"{design['city']['slug']}.toml"),passenger_register)
     templates=read(ROOT/'lib/templates/stations.toml')['archetypes']
     access=read(ROOT/'lib/templates/accessibility.toml')
     costs=read(ROOT/'lib/templates/civil-cost-model.toml')
@@ -199,7 +239,9 @@ def build(city_dir):
         variant_id=f'variant-{list(variants).index(key)+1:03d}'
         station_rows.append(dict(id=station['id'],line=station['line'],s_m=station['s_m'],archetype=archetype,
                                  layout=layout.payload(),civil=civil,access_cost=access_cost,product_variant=variant_id,
-                                 bidirectional_flow_passengers_hour=config['station']['passengers_per_hour_each_direction'],
+                                 passenger_demand=passenger_demand['stations'][station['id']],
+                                 bidirectional_flow_passengers_hour=None,
+                                 separate_stress_case_passengers_hour_each_direction=config['station']['passengers_per_hour_each_direction'],
                                  one_lift_unavailable_study={e.id:step_free_reachability(layout,{e.id}) for e in layout.equipment if e.kind=='lift'},
                                  passenger_flow_accepted=False,evacuation_accepted=False,
                                  additional_street_barriers_assessed=False,
@@ -242,18 +284,32 @@ def build(city_dir):
             entrance_features.append(dict(type='Feature',geometry=dict(type='Point',coordinates=[lon,lat]),
                 properties=dict(station=station['id'],entrance=entrance['id'],level=entrance['level'],
                                 surveyed=False,accessible_route_accepted=False,coverage_requires_recheck=True)))
-    e=config['erection'];fronts=[];civil_lines=[]
-    if e['working_days_per_week'] != 7:
-        raise ValueError('connected sensitivity uses a seven-day calendar; supply/work windows must be rescheduled for other calendars')
+    e=config['erection'];fronts=[];civil_lines=[];all_spans=[]
+    if not 1<=e['working_days_per_week']<=7:
+        raise ValueError('working days per week must be in [1,7]')
+    calendar_config=config['calendar']
+    calendar=WorkingCalendar(start_date=e['conditional_ready_date'],
+        weekdays=tuple(range(e['working_days_per_week'])),holidays=tuple(calendar_config['holidays']),
+        maintenance_days=tuple(calendar_config['maintenance_days']),
+        night_shift_permitted=calendar_config['night_shift_permitted'],
+        qualified=False,night_permission_record=calendar_config.get('night_permission_record'),
+        relief_roster_record=calendar_config.get('relief_roster_record'))
     for line in design['lines']:
         intervals=merge([(s['from_station_m'],s['to_station_m']) for s in design['civil_segments'] if s['line']==line['name'] and s['class']=='elevated'])
         running=subtract(intervals,exclusions[line['name']])
+        planned=plan_spans(line['name'],running)
+        all_spans.extend(planned)
+        quantities=span_quantities(planned)
+        standard=[span for span in planned if span['beam_variant']]
         station_overlap=sum(b-a for a,b in intervals)-sum(b-a for a,b in running)
         civil_lines.append(dict(line=line['name'],elevated_total_m=sum(b-a for a,b in intervals),
             running_elevated_m=sum(b-a for a,b in running),station_and_transition_elevated_m=station_overlap,
-            running_bays=sum(math.ceil((b-a)/25) for a,b in running),running_support_lines=sum(math.ceil((b-a)/25)+1 for a,b in running),station_exclusion_intervals_m=merge(exclusions[line['name']]),
+            running_bays=quantities['catalogue_bays'],running_support_lines=quantities['proposed_supports'],
+            span_quantities=quantities,legacy_rounded_bays=sum(math.ceil((b-a)/25) for a,b in running),station_exclusion_intervals_m=merge(exclusions[line['name']]),
             station_structures_count=sum(s['line']==line['name'] and s['civil'] is not None for s in station_rows)))
-        for index,work in enumerate(split_front(running),1):
+        groups=[standard[:len(standard)//2],standard[len(standard)//2:]]
+        for index,spans in enumerate(groups,1):
+            work=[(span['start_chainage_m'],span['end_chainage_m']) for span in spans]
             if not work:
                 continue
             fid=f"{line['name']}-front-{index}"
@@ -261,13 +317,21 @@ def build(city_dir):
             fronts.append(ErectionFront(fid,line['name'],work[0][0],work[-1][1],1 if index==1 else -1,
                 f'launcher-{len(fronts)+1:02d}',f'{fid}-delivery-access-unverified',f'{fid}-sequential-path',
                 e['foundation_initial_ahead']+1,interruptions_days=interruptions,
-                relocation_days=e['relocation_days'],work_intervals_m=tuple(work)))
+                relocation_days=e['relocation_days'],section_relocation_days=e['relocation_days'],work_intervals_m=tuple(work),planned_spans=tuple(spans)))
             requirements=support_requirements(fronts[-1])
             fronts[-1]=replace(fronts[-1],available_foundations=requirements[min(e['foundation_initial_ahead'],len(requirements))-1])
     if len(fronts)>e['launchers']:
         raise ValueError('independent fronts exceed available launcher fleet')
     scenarios={};files={}
-    for sensitivity in config['sensitivities']:
+    sensitivities=list(config['sensitivities'])
+    if any(line.get('shape')=='ring' for line in design['lines']):
+        sensitivities.append({**sensitivities[0],'id':'initial-accelerated-reassigned'})
+    sensitivities.append({**sensitivities[0],'id':'initial-six-day-calendar'})
+    for sensitivity in sensitivities:
+        case_fronts=fronts
+        if sensitivity['id']=='initial-accelerated-reassigned':
+            ring_line=next(line['name'] for line in design['lines'] if line.get('shape')=='ring')
+            case_fronts=reassigned_ring_fronts(fronts,scenarios['initial-accelerated']['finish_days'],ring_line,e)
         average=sensitivity['assumed_bays_launcher_day']
         productive=(e['shifts_day']*e['hours_shift']-(e['shifts_day']-1)*e['handover_hours']-e['maintenance_hours_day'])*e['productive_fraction']
         bay_hours=productive/average
@@ -276,7 +340,8 @@ def build(city_dir):
                          placement_hours_beam=bay_hours*0.25,securing_hours_beam=bay_hours*0.125,advance_hours_bay=bay_hours*0.25,
                          weather_availability=e['weather_availability'],permitted_hours_day=e['permitted_hours_day'],
                          mobilisation_days=e['mobilisation_days'],ramp_up_days=e['ramp_up_days'])
-        result=conditional_schedule(fronts,cycle,e,config['logistics'],config['schema']['as_of'])
+        case_calendar=replace(calendar,weekdays=(0,1,2,3,4,5)) if sensitivity['id']=='initial-six-day-calendar' else calendar
+        result=conditional_schedule(case_fronts,cycle,e,config['logistics'],config['schema']['as_of'],calendar=case_calendar)
         day0=date.fromisoformat(e['conditional_ready_date'])
         start_days={}
         for day in result['daily']:
@@ -284,7 +349,7 @@ def build(city_dir):
                 if row['limiting_resource']=='erection':
                     start_days.setdefault(row['front'],day['day'])
         deployments=[]
-        for f in fronts:
+        for f in case_fronts:
             finish=result['finish_days'].get(f.id)
             deployments.append({**asdict(f),'available_foundations':None,
                 'readiness':'hypothetical-released-supports-for-sensitivity',
@@ -295,28 +360,32 @@ def build(city_dir):
                 'conditional_recommission_date':(day0+timedelta(days=finish+e['relocation_days'])).isoformat() if finish else None,
                 'subsequent_city':None,'compatibility_accepted':False})
         daily=result.pop('daily')
-        bottlenecks={f.id:dict(Counter(row['limiting_resource'] for day in daily for row in day['fronts'] if row['front']==f.id)) for f in fronts}
-        files[f"schedule-{sensitivity['id']}.json.gz"]=gzip.compress(encode(daily),mtime=0)
+        bottlenecks={f.id:dict(Counter(row['limiting_resource'] for day in daily for row in day['fronts'] if row['front']==f.id)) for f in case_fronts}
+        files[f"schedule-{sensitivity['id']}.json.gz"]=deterministic_gzip(encode(daily))
         scenarios[sensitivity['id']]={**result,'assumed_bays_launcher_day':average,
             'assumed_beam_demand_day':sensitivity['assumed_beam_demand_day'],
-            'scope':'running spans only; station structures and special crossings are separate unreleased paths',
+            'scope':'identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates',
             'qualified_supplier_allocation':False,'assumed_accepted_supply_beams_day':len(fronts)*average*2,
-            'night_shift_cash_sensitivity_usd':sum(result['finish_days'].values())*config['finance']['night_shift_cost_usd_per_front_shift'],
+            'allocation_strategy':'six radial launchers transferred to additional conditional ring fronts' if case_fronts is not fronts else 'fixed two launchers per line',
+            'added_ring_access_accepted':False,'maximum_launchers':len({f.launcher for f in case_fronts}),
+            'assumed_transporters':len({f.launcher for f in case_fronts})*config['logistics']['trailers_per_front'],
+            'section_relocation_allowance_days':e['relocation_days'],
+            'night_shift_cash_sensitivity_usd':sum(counts.get('erection',0) for counts in bottlenecks.values())*config['finance']['night_shift_cost_usd_per_front_shift'],
             'peak_accepted_factory_buffer_beams':max((r['accepted_factory_stock'] for r in daily),default=0),
             'front_limiting_resource_days':bottlenecks,
             'deployments':deployments,'opening_stages':[
-                dict(line=l['name'],conditional_opening_date=(day0+timedelta(days=max((result['finish_days'].get(f.id,3650) for f in fronts if f.line==l['name']),default=0)+config['finance']['opening_fitout_days'])).isoformat(),
+                dict(line=l['name'],conditional_opening_date=(day0+timedelta(days=max((result['finish_days'].get(f.id,3650) for f in case_fronts if f.line==l['name']),default=0)+config['finance']['opening_fitout_days'])).isoformat(),
                      revenue_start_date=None,opening_accepted=False,qualification='running-span-finish-plus-fitout-study; stations-special-crossings-and-rolling-stock-unreleased')
                 for l in design['lines']]}
-    actual_allocations=[r for r in suppliers_raw['allocations'] if r['product']=='pi-beam25']
+    actual_allocations=[r for r in suppliers_raw['allocations'] if r['product']=='pi-beam-family']
     actual_routes=[]
     for row in logistics_raw['routes']:
-        if row['product']=='pi-beam25':
+        if row['product']=='pi-beam-family':
             parameters=dict(row['parameters'])
             parameters['evidence']=Evidence(**row['evidence'])
             actual_routes.append(DeliveryRoute(**parameters))
     actual_chain=ConstructionSupplyChain(suppliers,actual_allocations,actual_routes,beam_demand(),
-        2*sum(sum(math.ceil((b-a)/25) for a,b in f.work_intervals_m) for f in fronts))
+        2*sum(len(f.planned_spans) for f in fronts))
     actual=simulate_erection([replace(f,available_foundations=0,planned_start_day=1,relocation_days=0) for f in fronts],
         ShiftCycle(),accepted_beams_day={},delivered_beams_day={},supports_released_day={},
         buffer_capacity={f.id:e['buffer_beams_per_front'] for f in fronts},maximum_days=1,supply_chain=actual_chain)
@@ -326,9 +395,16 @@ def build(city_dir):
         spec['suspended_study_load_kg']=suspended_load_kg(spec,4000)
         spec['construction_stage_screen']=construction_stage_reactions(spec['suspended_study_load_kg'],120000,spec['span_m'],spec['span_m']/2,2.0,120000)
     files['stations.json']=encode(station_rows)
+    files['station-passenger-demand.json']=encode(passenger_demand)
+    files['span-layout.json']=encode(dict(spans=all_spans,quantities=span_quantities(all_spans),
+        pier_locations_surveyed=False,construction_design_released=False,
+        production_mix_assumption='Pi20/Pi25 aggregate throughput; transport sized conservatively for Pi25. SKU-specific contract and casting-bed assignments remain required.',
+        unsupported_closures_excluded_from_catalogue_orders=True))
     product_variants=[{**variant,'archetype':f'variant-{i:03d}','source_archetype':variant['archetype']} for i,variant in enumerate(variants.values(),1)]
     files['station-products.json']=encode(dict(variants=product_variants))
-    with tempfile.TemporaryDirectory(prefix='connected-ifc-',dir=ROOT/'build') as temporary:
+    scratch=ROOT/'build'
+    scratch.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='connected-ifc-',dir=scratch) as temporary:
         for variant in product_variants:
             target=Path(temporary)/f"station-{variant['archetype']}.ifc"
             export_variant(variant,target)
@@ -340,15 +416,19 @@ def build(city_dir):
         actual_evidence_schedule=actual,conditional_scenarios=scenarios))
     scenario=read(city_dir/f'{slug}.toml')
     energy=config['energy']
+    movement=json.loads(subprocess.check_output(['cargo','run','--quiet','-p','osr-sim','--bin','osr-movement-profiles','--',str(city_dir/f'{slug}.toml')],cwd=ROOT))
+    files['movement-profiles.json']=encode(movement)
     duty=network_duty(design,scenario,average_speed_kmh=energy['average_speed_kmh'],
         initial_soc=energy['train_initial_soc'],auxiliary_kw_per_car=energy['auxiliary_kw_per_car'],
-        regen_fraction=energy['regenerative_fraction'],minutes=energy['duration_minutes'])
+        regen_fraction=energy['regenerative_fraction'],minutes=energy['duration_minutes'],movement_profiles=movement)
     trains,sites,visits,departures,mass=(duty[k] for k in ('trains','sites','visits','departures','mass'))
+    sites={sid:{**site,'allow_grid_storage_recharge':energy['stationary_grid_replenishment'],
+        'storage_recharge_target_soc':energy['stationary_recharge_target_soc']} for sid,site in sites.items()}
     rolling=read(ROOT/'lib/templates/rolling-stock.toml')['profiles']
     for line in design['lines']:
         resolve_profile(rolling[line['rolling_stock']],packs,'onboard')
     reference=packs['profiles']['lfp-onboard-study']
-    energy_results={}
+    energy_results={};controlled_results={}
     for case,selection in packs['cases'].items():
         onboard=packs['profiles'][selection['onboard']];stationary=packs['profiles'][selection['stationary']]
         vehicle_rows={name:vehicle_profile(row['reference_mass_kg'],row['cars'],reference,onboard) for name,row in mass.items()}
@@ -358,25 +438,47 @@ def build(city_dir):
             result=chronological_energy(onboard,stationary,selected_trains,sites,visits,departures,energy['duration_minutes'],
                 ambient_c=energy['ambient_c'],seasonal_solar_factor=solar,cleaning_factor=energy['cleaning_factor'],
                 outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])),
-                reserve_soc=energy['reserve_soc'],setup_seconds=energy['setup_seconds'])
+                reserve_soc=energy['reserve_soc'],setup_seconds=energy['setup_seconds'],retain_shortfalls=False)
             # All counts and deficits remain; retaining every reserve tick adds
             # no information to this compact comparison.
             shortfalls=result.pop('shortfalls')
-            result.update(shortfall_events=len(shortfalls),shortfall_examples=shortfalls[:20],
+            result.update(shortfall_examples=shortfalls[:20],
                 seasonal_solar_factor=solar,study_grid_energy_cost_usd=result['totals']['grid_kwh']*config['finance']['energy_usd_kwh'])
             runs.append(result)
         energy_results[case]=dict(profiles=selection,vehicles=vehicle_rows,runs=runs)
+        controlled_results[case]=controlled_network_energy(design,scenario,movement,onboard,stationary,selected_trains,sites,energy['duration_minutes'],
+            ambient_c=energy['ambient_c'],seasonal_solar_factor=energy['seasonal_solar_factors'][0],cleaning_factor=energy['cleaning_factor'],
+            reserve_soc=energy['reserve_soc'],setup_seconds=energy['setup_seconds'],regen_fraction=energy['regenerative_fraction'],
+            outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])))
     small=dict(reference);small.update(nameplate_kwh=75,usable_kwh=60,pack_mass_kg=750,pack_volume_m3=0.45,installed_cost_usd=11250,replacement_cost_usd=9000,id='lfp-small-onboard-separate-duty-study',charge_max_kw=reference['charge_max_kw']/3,discharge_max_kw=reference['discharge_max_kw']/3)
     small_trains={tid:{**t,'mass_factor':(mass[tid.rsplit('-train-',1)[0]]['reference_mass_kg']+t['cars']*(small['pack_mass_kg']-reference['pack_mass_kg']))/mass[tid.rsplit('-train-',1)[0]]['reference_mass_kg']} for tid,t in trains.items()}
     small_result=chronological_energy(small,packs['profiles']['lfp-stationary-study'],small_trains,sites,visits,departures,energy['duration_minutes'],
         ambient_c=energy['ambient_c'],setup_seconds=energy['setup_seconds'],reserve_soc=energy['reserve_soc'],
         cleaning_factor=energy['cleaning_factor'],seasonal_solar_factor=energy['seasonal_solar_factors'][0],
-        outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])))
-    small_shortfalls=small_result.pop('shortfalls');small_result.update(shortfall_events=len(small_shortfalls),shortfall_examples=small_shortfalls[:20])
+        outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])),retain_shortfalls=False)
+    small_shortfalls=small_result.pop('shortfalls');small_result.update(shortfall_examples=small_shortfalls[:20])
+    files['energy-control.json']=encode(dict(cases=controlled_results,profiles_supplier_qualified=False))
+    envelope_rows=[]
+    for identity in ('lfp-onboard-study','sodium-ion-onboard-study'):
+        for charge_kw in (180,360,540):
+            for ambient in (25,45,50):
+                profile={**packs['profiles'][identity],'charge_max_kw':charge_kw}
+                probe=chronological_energy(profile,packs['profiles']['lfp-stationary-study'],
+                    {'probe':dict(cars=1,initial_soc=.3,energy_kwh_km=3,mass_factor=1,auxiliary_kw=0)},
+                    {'site':dict(initial_soc=.8,modules=1,pv_kw=0,grid_kw=550,charger_kw=550)},
+                    [dict(train='probe',site='site',arrival_min=0,departure_min=2,required_charge_kwh=0)],[],2,
+                    ambient_c=ambient,setup_seconds=energy['setup_seconds'],retain_shortfalls=False)
+                envelope_rows.append(dict(base_profile=identity,assumed_charge_max_kw=charge_kw,ambient_c=ambient,
+                    two_minute_charger_energy_kwh=probe['totals']['charger_kwh'],final_soc=probe['trains']['probe']['energy']/profile['usable_kwh']))
+    files['battery-envelope-sensitivity.json']=encode(dict(rows=envelope_rows,qualification='parameter sweep only; not supplier performance or a network acceptance duty',
+        fixed_inputs=dict(usable_kwh=180,initial_soc=.3,grid_kw=550,charger_kw=550,visit_minutes=2,setup_seconds=energy['setup_seconds']),
+        overrides='Charge maxima swept independently of chemistry; inherited thermal, taper and efficiency assumptions remain explicit and unqualified.'))
     files['energy.json']=encode(dict(cases=energy_results,small_onboard_separate_option=small_result,
-        duty_basis='Declared network stations, fleets, dispatch locations, service headways, station dwell and installed energy-site capacities; explicit average-speed planning chronology, not a validated timetable.',
-        scheduled_dispatch_shortfalls=duty['missed_dispatches'],train_count=len(trains),site_count=len(sites),charging_visits=len(visits),
-        supplier_performance_claim=False))
+        duty_basis='Declared network stations, fleets, dispatch locations, service headways, station dwell and installed energy-site capacities; native osr-sim rest-to-rest section timing; fixed dispatch assignment diagnostic, not a conflict-qualified timetable.',
+        scheduled_dispatch_shortfalls=duty['missed_dispatches'],operating_distance_findings=duty['distance_findings'],
+        distance_basis=duty['distance_basis'],journeys=duty['journeys'],train_count=len(trains),site_count=len(sites),charging_visits=len(visits),
+        duration_minutes=energy['duration_minutes'],stationary_grid_replenishment=energy['stationary_grid_replenishment'],
+        service_disruption_feedback_modelled=False,controlled_feedback_report='energy-control.json',supplier_performance_claim=False))
     # Keep installed reference and incremental cash separately: no removal
     # credit, blanket station saving or unverified factory saving is invented.
     elevated_km=sum(l['running_elevated_m'] for l in civil_lines)/1000
@@ -416,44 +518,69 @@ def build(city_dir):
                 equipment=f.launcher,required_roles=responsibilities,qualified_workers=[],native_records=['Department','Employee','Training Program','Project','Task'],
                 handover_hours=e['handover_hours'],relief_and_leave_coverage_required=True,competency_expiry_checked=True,
                 supervised_commissioning_required=True,equipment_specific_assessment_required=True,tasks=['accept-beams','release-supports','place-secure-paired-beams','advance-launcher'],allocation_approved=False))
-    files['erp-drafts.json']=encode(dict(assets=assets,crews=crews,subsequent_city_transfers=[],transfers_accepted=False))
+    transfer_case=scenarios.get('initial-accelerated-reassigned',{})
+    transfers=[]
+    for deployment in transfer_case.get('deployments',[]):
+        if not deployment['predecessors']:
+            continue
+        parent=deployment['predecessors'][0]
+        source=next(d for d in transfer_case['deployments'] if d['id']==parent)
+        transfers.append(dict(asset=deployment['launcher'],from_front=parent,to_front=deployment['id'],
+            source_finish=source['conditional_finish_date'],destination_start=deployment['conditional_start_date'],
+            transporters=[f'{parent}-transporter-{i+1:02d}' for i in range(config['logistics']['trailers_per_front'])],
+            lifting_frame=f'{parent}-lifting-frame',transfer_days=e['relocation_days'],
+            mobilisation_days=e['mobilisation_days'],access_accepted=False,compatibility_accepted=False,
+            foundation_release_basis='transferred support team, assumed rate; no site evidence',
+            scenario='initial-accelerated-reassigned',allocation_approved=False))
+    files['erp-drafts.json']=encode(dict(assets=assets,crews=crews,conditional_baghdad_reassignments=transfers,
+        subsequent_city_transfers=[],transfers_accepted=False))
     files['suppliers.json']=encode(suppliers_raw)
     files['logistics.json']=encode(dict(actual_register=logistics_raw,study_requirements=config['logistics'],
         conditional_cases={name:case['supply_chain'] for name,case in scenarios.items()},
         actual_supply_chain=actual['supply_chain']))
     first=scenarios['initial-accelerated']
-    comparison_rows='\n'.join(f"| {name} | {case['runs'][0]['minimum_soc']:.1%} | {case['runs'][0]['totals']['unserved_traction_kwh']:,.0f} | {case['runs'][0]['shortfall_events']:,} |" for name,case in energy_results.items())
+    comparison_rows='\n'.join(f"| {name} | {case['runs'][0]['minimum_soc']:.1%} | {case['runs'][0]['totals']['unserved_traction_kwh']:,.0f} | {case['runs'][0]['distinct_energy_affected_journeys']:,} | {case['runs'][0]['reserve_violation_train_minutes']:,} |" for name,case in energy_results.items())
+    construction_rows='\n'.join(f"| {name} | {case['days']} | {case['maximum_launchers']} | {case['assumed_transporters']} |" for name,case in scenarios.items())
     files['README.md']=(f'''# {slug.title()} connected construction and battery study
 
 Generated from RFC 0034; {config['schema']['as_of']}. These are unquoted, conditional sensitivities, with no accepted supplier capacity or structural/access releases.
 
-The package has {len(station_rows)} stations, {sum(s['layout']['quantities']['platform_count'] for s in station_rows)} physical platforms and {sum(s['layout']['quantities']['boarding_face_count'] for s in station_rows)} boarding faces. Elevated islands use individually identified lifts, escalators, stairs and shafts; their flow/evacuation/one-lift-out approvals remain open. [Station quantities and access costs](stations.json), [track-spreading approaches](station-approaches.geojson) and [proposed entrances](entrances.geojson) derive from the same layout. Coverage from accepted accessible entrances remains unknown; the existing centroid-based archive cannot close that assessment.
+The package has {len(station_rows)} stations, {sum(s['layout']['quantities']['platform_count'] for s in station_rows)} physical platforms and {sum(s['layout']['quantities']['boarding_face_count'] for s in station_rows)} boarding faces. Elevated islands use individually identified lifts, escalators, stairs and shafts; their flow/evacuation/one-lift-out approvals remain open. [Station-specific passenger assignment](station-passenger-demand.json) accepts sourced OD legs, preserves paid journeys versus transfer boardings and links station accumulation to its declared service window. Empty evidence means unknown demand; 3,000 pax/h is a separately labelled stress case. Measured access throughput, assisted rescue and lift-out capacity remain open. [Station quantities and access costs](stations.json), [track-spreading approaches](station-approaches.geojson) and [proposed entrances](entrances.geojson) derive from the same layout. Coverage from accepted accessible entrances remains unknown; the existing centroid-based archive cannot close that assessment.
 
-[Running civil quantities and conditional deployment](civil.json) exclude station and spreading-approach zones. The {len(fronts)} independent fronts initially use two launchers per line where running work exists. The 18-machine/two-shift 1.5, 1.8 and 2.0 bays/day sensitivities retain 54, 64.8 and 72 beams/day as average fleet demands. Integer daily schedules are in `schedule-*.json.gz`. The initial case completes its running bays in {first['days']} days under its explicit hypothetical supply/readiness inputs; special crossings, station structures, rolling stock and permits remain separate opening gates. The evidence-backed schedule reads the supplier and route registers and completes zero bays because accepted supplier capacity and released supports are absent.
+[Running civil quantities and conditional deployment](civil.json) exclude station and spreading-approach zones. [Identified planning spans and beam requirements](span-layout.json) now conserve interval lengths; non-catalogue closures are explicitly excluded from ordinary beam orders. Pier chainages are proposed and require survey/structural acceptance. The {len(fronts)} independent fronts initially use two launchers per line where running work exists. Each disconnected section has a seven-day assumed relocation allowance; crossing feasibility remains unaccepted. A separate conditional case transfers six released radial launchers to additional ring fronts, retaining 18 machines and 72 transporters. Added access and foundations are hypothetical, and transfer/mobilisation delays remain explicit. The 18-machine/two-shift 1.5, 1.8 and 2.0 bays/day sensitivities retain 54, 64.8 and 72 beams/day as average fleet demands. Integer daily schedules are in `schedule-*.json.gz`. The explicit calendar gates working dates for casting, QA, transport, foundations and erection; night restrictions cap erection hours. Supplier-specific shifts, permits, relief and holidays remain unqualified. A six-day sensitivity is reported separately. The initial case completes its running bays in {first['days']} days under its explicit hypothetical supply/readiness inputs; special crossings, station structures, rolling stock and permits remain separate opening gates. The evidence-backed schedule reads the supplier and route registers and completes zero bays because accepted supplier capacity and released supports are absent.
+
+| Construction case | Running-span days | Launchers | Assumed transporters |
+| --- | ---: | ---: | ---: |
+{construction_rows}
 
 [Supplier register](suppliers.json) records the sourcing basis that Iraq already has many precast facilities and production expertise. No named facility, available beam capacity or assumed contract is adopted. The [logistics plan](logistics.json) now feeds casting, acceptance holds, dispatch limits, gross vehicle/bridge loads, journeys, shared fleets and factory/front buffer limits into the same erection schedule. Rejected components require replacement; blocked storage pauses production. Each front reports days limited by casting, acceptance, transport, foundations or erection. The assumed pool is a resource requirement, not an identified supplier or confirmed spare capacity; real routes and contracts remain in separate registers.
 
 [Costs and cash sensitivities](costs.json) keep the $9m launcher purchase allowance and exclusions visible. Embedded erection in installed civil rates is unverified, so no net saving or complete financing total is claimed. Gross access equipment, maintenance, replacement, factory scope and night-shift sensitivities remain separate; rolling-stock/electronics factory allowances are retained. Payment dates are conditional cash planning, not purchase orders.
 
-[Energy comparisons](energy.json) use explicit pack identities, mass-adjusted traction, shared chargers, setup time, temperature/SOC limits, seasonal solar/cleaning, hot auxiliaries, missed charges, outage/reserve duties and degradation. All three matched chemistry cases report minimum SOC and service shortfalls. The small onboard pack is a separate option. The full-network chronology uses declared stations, fleets, headways, dwell and site capacities with an explicit average-speed screen; it requires timetable qualification and makes no supplier chemistry claim.
+[Energy comparisons](energy.json) cover three continuous service days with overnight state carry-over, and a study policy for grid replenishment of stationary storage within remaining site import capacity. They use explicit pack identities, mass-adjusted traction, shared chargers, setup time, temperature/SOC limits, seasonal solar/cleaning, hot auxiliaries, missed charges, outage/reserve duties and degradation. All three matched chemistry cases report minimum SOC and service shortfalls. The small onboard pack is a separate option. The full-network chronology uses declared stations, fleets, headways, dwell and site capacities with [native section movement timing](movement-profiles.json); it requires timetable qualification and makes no supplier chemistry claim. The fixed-assignment diagnostic retains its declared duties even when energy is missing. The separate [coupled control study](energy-control.json) holds trains at their actual stations when reserve or discharge power is insufficient, continues charging and propagates their unavailability into later dispatches. It reports served/missed opportunities, distinct held journeys and hold minutes. Conflict authorities, berth/depot access, transient traction and field calibration remain unqualified.
 
 The planning duty schedules {len(trains)} trainsets and {len(sites)} energy sites. There are {len(duty['missed_dispatches'])} dispatches without a ready trainset. All matched cases below have service shortfalls under the selected hot-weather assumptions; none qualifies the declared service.
 
-| Case (lower-solar duty) | Minimum SOC | Unserved traction kWh | Shortfall events |
-| --- | ---: | ---: | ---: |
+| Case (lower-solar duty) | Minimum SOC | Unserved traction kWh | Distinct energy-affected journeys | Reserve-violation train-minutes |
+| --- | ---: | ---: | ---: | ---: |
 {comparison_rows}
 
-[ERP planning drafts](erp-drafts.json) identify reusable machines and distinct front/shift crews, with purchase, commissioning, inspection, maintenance, competence and transfer gates. No live ERP purchase/allocation is approved by this package. Cash purchase, project allocation and residual value are distinct.
+[ERP planning drafts](erp-drafts.json) identify reusable machines and distinct front/shift crews, with purchase, commissioning, inspection, maintenance, competence and transfer gates. Native Task/ToDo transition hooks require submitted allocation review, current controlled Employee/Asset evidence, shifts, leave, holidays, rest and exclusive allocations. Pack-specific commissioning bindings also feed the native onboard evaluator; study profiles cannot populate them. No live ERP allocation or battery commissioning is approved by this package. Cash purchase, project allocation and residual value are distinct.
+
+[Battery charge/thermal sensitivities](battery-envelope-sensitivity.json) sweep 180/360/540 kW and 25/45/50 °C on two-minute shared-site visits. These parameter probes expose the effect of charge maxima and inherited thermal/taper/efficiency assumptions; they are not supplier claims or full-network service acceptance.
 
 [Manifest](manifest.json) hashes every source and output and identifies the source revision and assumption register. Existing finance/proposal packages are retained comparators pending scope-matched adoption; this study is the current connected scenario, not an accepted replacement budget. Regenerate with `.venv/bin/python tools/automation/connected-build-study.py --city {slug}`; verify using `--check`.
 ''').encode()
     sources=[Path(__file__),city_dir/'design.toml',city_dir/f'{slug}.toml',city_dir/f'{slug}.corridor.geojson']
-    sources += [ROOT/'lib/templates'/name for name in ('precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
+    sources += [ROOT/'lib/templates'/name for name in ('station-passenger-assignment.json','precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
     sources += sorted((ROOT/'crates/osr-bms/src').glob('*.rs'))
+    sources += [ROOT/'crates/osr-sim/src'/name for name in ('battery.rs','onboard.rs','scenario_file.rs','physics.rs','sim.rs','bin/osr-movement-profiles.rs')]
+    sources += [ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'crates/osr-sim/Cargo.toml',ROOT/'crates/osr-bms/Cargo.toml',ROOT/'crates/osr-core/src/consist.rs']
+    sources += [ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext'/name for name in ('construction_execution.py','hooks.py','workforce_rules.py')]
     sources += sorted((ROOT/'design/component-catalogue/src/osr_mech/civil').glob('*.py'))
     sources += sorted((ROOT/'design/component-catalogue/src/osr_mech/station').glob('*.py'))
     sources += [ROOT/'design/component-catalogue/src/osr_mech/cad.py',ROOT/'design/component-catalogue/src/osr_mech/common.py']
-    sources += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('station/layout.py','station/product_geometry.py','buildable_stations.py','battery_profiles.py','network_energy_duty.py')]
+    sources += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('station/layout.py','station/product_geometry.py','buildable_stations.py','battery_profiles.py','network_energy_duty.py','network_energy_control.py','provenance.py')]
     sources += [ROOT/'design/component-catalogue/src/osr_mech/freecad_station_library.py',ROOT/'engineering/interchange/station_ifc.py',ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext/setup.py',ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext/construction_fleet.py',ROOT/'engineering/analysis/city_geometry.py',ROOT/'docs/rfcs/0034-connected-station-production-and-battery-model.md']
     cad_root=city_dir/'engineering/connected-build/cad'
     cad_index=cad_root/'station-library.index.json'
@@ -463,8 +590,9 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
         native_cad=dict(status='current' if index['manifest_sha256']==hashlib.sha256(files['station-products.json']).hexdigest() and all(digest(ROOT/path)==sha for path,sha in index.get('geometry_sources_sha256',{}).items()) else 'stale',
                        manifest_sha256=index['manifest_sha256'],reopen_validated=index['passed'],
                        files_sha256={p.relative_to(city_dir/'engineering/connected-build').as_posix():digest(p) for p in sorted(cad_root.iterdir()) if p.suffix in ('.FCStd','.json')})
-    manifest=dict(native_cad=native_cad,schema=1,source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-        assumptions=config,source_sha256={p.relative_to(ROOT).as_posix():digest(p) for p in sources},
+    source_hashes={p.relative_to(ROOT).as_posix():digest(p) for p in sources}
+    manifest=dict(native_cad=native_cad,schema=2,source_revision=input_revision(source_hashes),source_revision_kind='sha256-input-content',
+        assumptions=config,source_sha256=source_hashes,
         output_sha256={name:hashlib.sha256(data).hexdigest() for name,data in files.items()},
         current_connected_study=True,engineering_qualified=False,supplier_quotations=0,
         adopted_archive_status='prior finance/coverage/proposals retained as comparators; no scope-matched acceptance',

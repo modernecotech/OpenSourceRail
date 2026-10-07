@@ -44,6 +44,12 @@ def without_context(text):
 
 
 def reference_context(path, study):
+    if path.parent.name=='Iraq' and path.name in ('NATIONAL-BRIEF.md','IRAQ-FUNDING-PROGRAMME.md'):
+        from iraq_current_basis import current_basis, current_header, funding_document
+        if path.name=='IRAQ-FUNDING-PROGRAMME.md':
+            return funding_document(path.read_text()).encode()
+        # National generator owns its complete current-scope table.
+        return without_context(path.read_text()).encode()
     body=without_context(path.read_text())
     notice=(f'{BEGIN}\n> **Original catalogue or earlier scope reference.** '
         f'The figures and policies below retain their original assumptions; '
@@ -148,7 +154,7 @@ def current_readme(city, study, selected, baseline):
     prefix=link(study,city)
     text=f'''# Baghdad — Urban Rail Network
 
-**Country:** IQ · **Population:** {design['city']['population']:,} · [Original national catalogue](../NATIONAL-BRIEF.md)
+**Country:** IQ · **Population:** {design['city']['population']:,} · [Current Iraq planning basis](../NATIONAL-BRIEF.md)
 
 **Current planning basis: {summary['as_of']} [programme recalculation]({prefix}/README.md), `{selected}` conditional local-production case.** The main route is the reworked city-centre elevated planning alignment; service remains a capacity-led assumption. Revised scope is unquoted and uncommitted; this is not a construction design or an operating release.
 

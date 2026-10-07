@@ -112,7 +112,9 @@ pub struct OnboardShadow {
     pub ato_state: AtoState,
     pub ato_params: AtoParams,
     pub bms_state: BmsState,
-    pub bms_params: BmsParams,
+    bms_params: BmsParams,
+    bms_commissioning: Option<crate::battery::RuntimeBattery>,
+    bms_nominal_pack_voltage_mv: u32,
     pub traction_state: TractionState,
     pub traction_params: TractionParams,
 
@@ -274,6 +276,8 @@ impl TcnPayload for OdomTcnSnapshot {
 /// Fleet-wide summary folded into [`crate::sim::SimResult`].
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct OnboardSummary {
+    #[serde(default)]
+    pub commissioned_battery_train_count: usize,
     pub ticks_evaluated: u64,
     pub total_release_ticks: u64,
     pub total_service_ticks: u64,
@@ -304,6 +308,16 @@ pub struct OnboardSummary {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct PerTrainOnboard {
     pub train: String,
+    #[serde(default)]
+    pub bms_profile_id: Option<String>,
+    #[serde(default)]
+    pub battery_pack_identity: Option<String>,
+    #[serde(default)]
+    pub battery_evidence_revision: Option<String>,
+    #[serde(default)]
+    pub bms_cell_count: u16,
+    #[serde(default)]
+    pub nominal_pack_voltage_mv: u32,
     pub ticks_release: u32,
     pub ticks_service: u32,
     pub ticks_emergency: u32,
@@ -362,6 +376,8 @@ impl OnboardShadow {
             ato_params: AtoParams::light_metro_default(),
             bms_state,
             bms_params,
+            bms_commissioning: None,
+            bms_nominal_pack_voltage_mv: 675_000,
             traction_state: TractionState::default(),
             traction_params: TractionParams::light_metro_default(),
             fire_state: FireState::default(),
@@ -373,6 +389,19 @@ impl OnboardShadow {
             stats,
             last_t_ns: 0,
         }
+    }
+
+    /// Calibrated path. Legacy `new` is an explicitly uncommissioned planning shadow.
+    pub fn new_commissioned(train: &Train, battery: crate::battery::RuntimeBattery) -> Self {
+        assert_eq!(
+            train.consist.battery_capacity_wh, battery.model_capacity_wh,
+            "commissioned battery/consist capacity mismatch"
+        );
+        let mut shadow = Self::new(train);
+        shadow.bms_params = battery.profile.params();
+        shadow.bms_nominal_pack_voltage_mv = battery.nominal_pack_voltage_mv;
+        shadow.bms_commissioning = Some(battery);
+        shadow
     }
 
     /// Seed the kinematic state on entry to a new section. Called by
@@ -685,9 +714,11 @@ pub fn onboard_tick(
     shadow.ato_state = ato_out.state;
 
     // 8. BMS — synthesize cell voltages/temps from current SoC.
-    let cells = 8_usize;
+    let cells = usize::from(shadow.bms_params.cell_count);
     let v_low = shadow.bms_params.v_trip_min_mv as u32 + 100;
-    let v_high = shadow.bms_params.v_trip_max_mv as u32 - 100;
+    let v_high = (shadow.bms_params.v_trip_max_mv as u32)
+        .saturating_sub(100)
+        .max(v_low);
     let soc_frac_pptp1 = u32::from(shadow.bms_state.soc_ppt).min(1000);
     let v_cell_mv = (v_low + (v_high - v_low) * soc_frac_pptp1 / 1000) as u16;
     let cell_voltages: Vec<u16> = vec![v_cell_mv; cells];
@@ -712,8 +743,10 @@ pub fn onboard_tick(
     // Approximate the 75 kW hot-day consist auxiliary load on the 675 V link.
     // This closes the shadow BMS energy sign without introducing a second
     // high-level energy model into the safety-stack integration test.
-    const AUX_CURRENT_MA: i32 = 111_111;
-    let pack_current_ma = traction_pack_current_ma.saturating_sub(AUX_CURRENT_MA);
+    let aux_current_ma =
+        i32::try_from(75_000_000_000_u64 / u64::from(shadow.bms_nominal_pack_voltage_mv))
+            .unwrap_or(i32::MAX);
+    let pack_current_ma = traction_pack_current_ma.saturating_sub(aux_current_ma);
     let battery_off_gas = faults.battery_off_gas_for(train.id);
     let battery_fire_escalated = faults.battery_fire_escalated_for(train.id);
     let bms_in = BmsInputs {
@@ -721,7 +754,7 @@ pub fn onboard_tick(
         cell_voltages_mv: &cell_voltages,
         cell_temps_dc: &cell_temps,
         pack_current_ma,
-        pack_voltage_mv: 675_000,
+        pack_voltage_mv: shadow.bms_nominal_pack_voltage_mv,
         off_gas_detected: battery_off_gas,
         external_fire_trip: battery_fire_escalated
             || shadow.fire_state.latched_tripped.contains(Bay::Battery),
@@ -730,7 +763,10 @@ pub fn onboard_tick(
         external_command: ContactorCommand::RequestClose,
         dt_ns,
     };
-    let bms_out = bms_evaluate(&shadow.bms_state, &bms_in, &shadow.bms_params);
+    let bms_out = shadow.bms_commissioning.as_ref().map_or_else(
+        || bms_evaluate(&shadow.bms_state, &bms_in, &shadow.bms_params),
+        |battery| battery.profile.evaluate(&shadow.bms_state, &bms_in),
+    );
     shadow.bms_state = bms_out.state;
 
     // 9. Traction — ATO torque clamped by BMS limits. The BMS and
@@ -744,7 +780,7 @@ pub fn onboard_tick(
         bms_contactor_closed: matches!(bms_out.contactor, ContactorState::Closed),
         bms_discharge_limit_ma: bms_out.discharge_limit_ma,
         bms_charge_limit_ma: bms_out.charge_limit_ma,
-        pack_voltage_mv: 675_000,
+        pack_voltage_mv: shadow.bms_nominal_pack_voltage_mv,
         reference_speed_mmps: shadow.odom.speed_mmps,
         wheel_speed_mmps: shadow.odom.speed_mmps,
         inverter_over_temp: false,
@@ -1227,6 +1263,7 @@ fn record_tick(
 pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary {
     let mut summary = OnboardSummary::default();
     for (sh, tr) in shadows.iter().zip(trains.iter()) {
+        summary.commissioned_battery_train_count += usize::from(sh.bms_commissioning.is_some());
         summary.ticks_evaluated = summary.ticks_evaluated.saturating_add(
             u64::from(sh.stats.ticks_release)
                 + u64::from(sh.stats.ticks_service)
@@ -1303,6 +1340,20 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         }
         summary.per_train.push(PerTrainOnboard {
             train: tr.id.to_string(),
+            bms_profile_id: sh
+                .bms_commissioning
+                .as_ref()
+                .map(|b| b.profile.identity().0.to_owned()),
+            battery_pack_identity: sh
+                .bms_commissioning
+                .as_ref()
+                .map(|b| b.profile.identity().1.to_owned()),
+            battery_evidence_revision: sh
+                .bms_commissioning
+                .as_ref()
+                .map(|b| b.profile.identity().2.to_owned()),
+            bms_cell_count: sh.bms_params.cell_count,
+            nominal_pack_voltage_mv: sh.bms_nominal_pack_voltage_mv,
             ticks_release: sh.stats.ticks_release,
             ticks_service: sh.stats.ticks_service,
             ticks_emergency: sh.stats.ticks_emergency,

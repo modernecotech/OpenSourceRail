@@ -434,7 +434,8 @@ def main() -> int:
         "[Paired 5% six-month financing](finance/baghdad-fare_5pct_opex_5pct-six-month-tranches.csv) · [monthly tickets and affordability](finance/baghdad-fare_5pct_opex_5pct-monthly-prices.csv) · [variable-ticket six-month financing](finance/baghdad-variable_fare_5pct_opex_5pct-six-month-tranches.csv). The detailed report contains the NPV, all assumptions and downside cases.", ""])
     updated.extend(early_repayment_report(analysis, "finance"))
     lines[4:4] = updated
-    (country / "IRAQ-FUNDING-PROGRAMME.md").write_text("\n".join(lines))
+    from iraq_current_basis import funding_document
+    (country / "IRAQ-FUNDING-PROGRAMME.md").write_text(funding_document("\n".join(lines)))
     print(f"wrote Baghdad programme: USD {summary['total_capex_usd']:,.2f}, government 25%, additional cash gap USD {cumulative_gap:,.2f}")
     return 0
 

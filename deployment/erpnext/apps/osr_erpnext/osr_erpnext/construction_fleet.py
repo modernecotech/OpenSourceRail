@@ -66,6 +66,7 @@ def asset_draft(asset_id: str, kind: str, front: str | None) -> dict:
 def construction_custom_fields() -> dict:
     """Install lifecycle/crew handoffs on native Asset and Task records."""
     return {
+        'Employee': [dict(fieldname='custom_osr_construction_authorisations',label='Controlled construction authorisations',fieldtype='Code',options='JSON',read_only=1,no_copy=1)],
         'Asset': [dict(fieldname='custom_osr_fleet_'+name,label=label,fieldtype=kind,options=options,read_only=1,no_copy=1)
                   for name,label,kind,options in (
                       ('kind','OSR construction equipment family','Data',None),
@@ -78,8 +79,10 @@ def construction_custom_fields() -> dict:
                  for name,label,kind,options in (
                      ('department','OSR construction department','Link','Department'),
                      ('unit','OSR construction unit','Data',None),
+                     ('front','OSR construction front','Data',None),
                      ('crew','OSR construction crew','Data',None),
                      ('shift','OSR construction shift','Int',None),
                      ('equipment','OSR construction equipment','Link','Asset'),
-                     ('qualified_workers','OSR qualified worker/competence evidence','Code','JSON'),
+                    ('qualified_workers','OSR qualified worker/competence evidence','Code','JSON'),
+                    ('release','OSR reviewed construction allocation','Link','OSR Construction Release'),
                      ('handover','OSR handover and relief coverage','Code','JSON'))]}

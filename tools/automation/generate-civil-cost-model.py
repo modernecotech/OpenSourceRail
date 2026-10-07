@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import json
 import sys
-import subprocess
 import tomllib
 from pathlib import Path
 
@@ -18,6 +17,7 @@ OUTPUT_PATH = REPO_ROOT / "lib/templates/civil-cost-model.toml"
 if str(MECHANICAL_SRC) not in sys.path:
     sys.path.insert(0, str(MECHANICAL_SRC))
 
+from osr_mech.provenance import input_revision
 from osr_mech.civil.quantity_model import structure_quantities_per_km  # noqa: E402
 
 
@@ -81,7 +81,7 @@ def build_model() -> dict[str, object]:
         "schema": calibration["schema"],
         "provenance": {
             "generator": "tools/automation/generate-civil-cost-model.py",
-            "source_revision": subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO_ROOT,text=True).strip(),
+            "source_revision": input_revision({"calibration":sha256(CALIBRATION_PATH),"civil-sources":source_tree_sha256(),"generator":sha256(Path(__file__)),"provenance":sha256(MECHANICAL_SRC/"osr_mech/provenance.py")}),
             "calibration_sha256": sha256(CALIBRATION_PATH),
             "civil_source_tree_sha256": source_tree_sha256(),
         },
@@ -166,8 +166,8 @@ def render(model: dict[str, object]) -> str:
     lines.extend(["", "[factory_reconciliation]"])
     for key,value in model["factory_reconciliation"].items():
         lines.append(f"{key} = {json.dumps(value)}")
-    lines.extend(["", "[source_revision]", f"git_commit = {json.dumps(provenance['source_revision'])}",
-                  'working_tree_inputs = "calibration and civil source hashes above"'])
+    lines.extend(["", "[source_revision]", f"input_sha256 = {json.dumps(provenance['source_revision'])}",
+                  'kind = "sha256-input-content"'])
     return "\n".join(lines) + "\n"
 
 

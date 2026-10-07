@@ -31,6 +31,8 @@ pub struct ScenarioFile {
     pub scenario: ScenarioMeta,
     pub climate: ClimateSpec,
     #[serde(default)]
+    pub battery_commissioning: Vec<crate::battery::BatteryBindingSpec>,
+    #[serde(default)]
     pub consist: Option<ConsistSpec>,
     pub stations: Vec<StationSpec>,
     pub lines: Vec<LineSpec>,
@@ -494,6 +496,7 @@ pub enum LoadError {
     },
     InvalidEnergyIntensity(f32),
     InvalidTrainsetSystems(String),
+    InvalidBatteryCommissioning(String),
     InvalidAdaptiveServiceTarget(f32),
     InvalidAdaptiveHeadwayMultiplier(f32),
     InvalidFaultKind(String),
@@ -593,6 +596,7 @@ impl std::fmt::Display for LoadError {
                 "consist energy_kwh_per_car_km={value}; must be finite and greater than zero"
             ),
             InvalidTrainsetSystems(message) => write!(f, "invalid consist.systems: {message}"),
+            InvalidBatteryCommissioning(message) => write!(f, "invalid battery commissioning: {message}"),
             InvalidAdaptiveServiceTarget(value) => write!(
                 f,
                 "scenario.normal_service_soc={value}; must be finite and in (0.20, 1.0]"
@@ -1148,6 +1152,12 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     // --- Consist & climate --------------------------------------------------
     let consist = build_consist(file.consist.as_ref());
+    let battery_commissioning = crate::battery::bind_batteries(
+        &file.battery_commissioning,
+        fleets.iter().map(|f| f.trainset_count as usize).sum(),
+        consist.battery_capacity_wh,
+    )
+    .map_err(LoadError::InvalidBatteryCommissioning)?;
     let trainset_systems = build_trainset_systems(
         file.consist
             .as_ref()
@@ -1176,6 +1186,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         network,
         fleets,
         consist,
+        battery_commissioning,
         trainset_systems,
         energy_kwh_per_car_km,
         roof_pv,

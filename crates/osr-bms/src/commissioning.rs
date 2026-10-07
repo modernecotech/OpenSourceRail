@@ -1,14 +1,17 @@
 //! Explicit commissioning selection. Planning chemistry labels carry no calibration.
 use crate::{bms_evaluate, BmsInputs, BmsOutput, BmsParams, BmsState};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum BatteryChemistry {
     Lfp,
     SodiumIon,
 }
 
 /// Evidence supplied by the commissioning authority, never by a chemistry default.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct CommissioningProfile {
     pub id: String,
     pub pack_identity: String,
@@ -50,10 +53,10 @@ impl CommissioningProfile {
         {
             return Err(CommissioningError::IdentityMismatch);
         }
-        if self.id.is_empty()
-            || self.pack_identity.is_empty()
-            || self.evidence_revision.is_empty()
-            || self.acceptance_record.is_empty()
+        if self.id.trim().is_empty()
+            || self.pack_identity.trim().is_empty()
+            || self.evidence_revision.trim().is_empty()
+            || self.acceptance_record.trim().is_empty()
         {
             return Err(CommissioningError::MissingEvidence);
         }
@@ -87,6 +90,16 @@ impl CommissioningProfile {
 }
 
 impl ValidatedCommissioningProfile {
+    #[must_use]
+    pub fn params(&self) -> BmsParams {
+        self.profile.params
+    }
+
+    #[must_use]
+    pub fn chemistry(&self) -> BatteryChemistry {
+        self.profile.chemistry
+    }
+
     #[must_use]
     pub fn evaluate(&self, prev: &BmsState, inputs: &BmsInputs<'_>) -> BmsOutput {
         if inputs.cell_voltages_mv.len() != usize::from(self.profile.params.cell_count) {

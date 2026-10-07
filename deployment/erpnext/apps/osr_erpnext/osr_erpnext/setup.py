@@ -8,6 +8,8 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 def install():
     from osr_erpnext.integration_setup import install as integration_install
     integration_install()
+    from osr_erpnext.construction_execution import install as construction_install
+    construction_install()
     from osr_erpnext.construction_fleet import construction_custom_fields
     create_custom_fields(construction_custom_fields())
     fields = []

@@ -77,8 +77,12 @@ def test_contexts_are_idempotent_and_retain_original_reference_bodies():
     paths=[CITY/p for p in config['references']]+[ROOT/p for p in config['portfolio_references']]
     for path in paths:
         assert publication.reference_context(path,STUDY)==path.read_bytes()
-        assert path.read_text().count(publication.BEGIN)==1
-        assert 'Original catalogue or earlier scope reference' in path.read_text()
+        if path.name in ('NATIONAL-BRIEF.md','IRAQ-FUNDING-PROGRAMME.md'):
+            assert path.read_text().count('<!-- OSR CURRENT IRAQ BASIS -->')==1
+            assert 'no month in which all debt is cleared' in path.read_text()
+        else:
+            assert path.read_text().count(publication.BEGIN)==1
+            assert 'Original catalogue or earlier scope reference' in path.read_text()
     pipeline=(ROOT/'tools/automation/regenerate-city.sh').read_text()
     assert 'publish-city-summary.py' in pipeline
     assert '-m osr_scenario.network_readme' not in pipeline

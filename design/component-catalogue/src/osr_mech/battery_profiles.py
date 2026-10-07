@@ -8,6 +8,24 @@ from dataclasses import dataclass
 import math
 
 
+class _ShortfallLedger:
+    """Keep exact counters while optionally bounding retained diagnostics."""
+    def __init__(self, retain_all):
+        self.retain_all=retain_all
+        self.rows=[]
+        self.count=0
+        self.reserve_minutes=0
+        self.journeys=set()
+
+    def append(self,row):
+        self.count+=1
+        self.reserve_minutes+=row['reason']=='reserve-SOC'
+        if row.get('journey'):
+            self.journeys.add(row['journey'])
+        if self.retain_all or len(self.rows)<20:
+            self.rows.append(row)
+
+
 def validate_profile(p: dict) -> None:
     positive = ('nameplate_kwh','usable_kwh','pack_mass_kg','pack_volume_m3','voltage_min_v','voltage_max_v',
                 'nominal_voltage_v','series_cells','parallel_strings','charge_max_kw','discharge_max_kw',
@@ -71,7 +89,9 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
                          visits: list[dict], departures: list[dict], minutes: int,
                          *, ambient_c: float = 45.0, seasonal_solar_factor: float = 1.0,
                          cleaning_factor: float = 0.9, outages: set[int] | None = None,
-                         reserve_soc: float = 0.2, setup_seconds: float = 20.0) -> dict:
+                         reserve_soc: float = 0.2, setup_seconds: float = 20.0,
+                         retain_shortfalls: bool = True, initial_state: dict | None = None,
+                         minute_offset: int = 0) -> dict:
     validate_profile(onboard); validate_profile(stationary)
     if onboard['application'] != 'onboard' or stationary['application'] != 'stationary':
         raise ValueError('profiles do not match battery applications')
@@ -81,9 +101,28 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
     storage = {sid:s['initial_soc']*stationary['usable_kwh']*s['modules'] for sid,s in sites.items()}
     storage_soh=dict.fromkeys(sites,1.0)
     storage_replacements=dict.fromkeys(sites,0)
+    if initial_state is not None:
+        if set(initial_state['trains'])!=set(trains) or set(initial_state['storage_kwh'])!=set(sites):
+            raise ValueError('continuous energy state identities differ from the duty')
+        states=initial_state['trains'];storage=initial_state['storage_kwh']
+        storage_soh=initial_state['storage_soh'];storage_replacements=initial_state['storage_replacements']
     compatibility={sid:onboard['voltage_min_v'] <= site.get('charger_bus_voltage_v',onboard['nominal_voltage_v']) <= onboard['voltage_max_v'] for sid,site in sites.items()}
-    totals=dict(grid_kwh=0.0,solar_kwh=0.0,charger_kwh=0.0,regeneration_accepted_kwh=0.0,regeneration_rejected_kwh=0.0,unserved_traction_kwh=0.0,auxiliary_kwh=0.0)
-    shortfalls=[]
+    totals=dict(grid_kwh=0.0,grid_storage_replenishment_kwh=0.0,solar_kwh=0.0,charger_kwh=0.0,regeneration_accepted_kwh=0.0,regeneration_rejected_kwh=0.0,unserved_traction_kwh=0.0,auxiliary_kwh=0.0)
+    shortfalls=_ShortfallLedger(retain_shortfalls)
+    service_events={};journey_events={}
+    for tid,train in trains.items():
+        for a,b in train.get('service_intervals',[(0,minutes)]):
+            if b<=0:
+                continue
+            service_events.setdefault(max(0,math.ceil(a)),[]).append((tid,1))
+            service_events.setdefault(math.ceil(b),[]).append((tid,-1))
+        for a,b,identity in train.get('service_journeys',[]):
+            if b<=0:
+                continue
+            journey_events.setdefault(max(0,math.ceil(a)),[]).append((tid,identity))
+            journey_events.setdefault(math.ceil(b),[]).append((tid,None))
+    in_service_counts=dict.fromkeys(trains,0)
+    active_journeys={}
     missed=[]
     received=dict.fromkeys(range(len(visits)),0.0)
     by_train={}
@@ -112,6 +151,12 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
         if d.get('regenerative_kwh',0):
             regen_at.setdefault(d.get('arrival_minute', d['minute']+math.ceil(d.get('travel_minutes',1))),[]).append(d)
     for minute in range(minutes):
+        clock_minute=minute+minute_offset
+        for tid,change in service_events.get(minute,[]):
+            in_service_counts[tid]+=change
+        # End old journeys before starting any journey at the same minute.
+        for tid,identity in sorted(journey_events.get(minute,[]),key=lambda row:row[1] is not None):
+            active_journeys[tid]=identity
         before_throughput={tid:s['throughput'] for tid,s in states.items()}
         for d in departures_at.get(minute,[]):
             if d['minute'] != minute:
@@ -125,7 +170,7 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
             state['energy']-=delivered; state['throughput']+=delivered
             if delivered < demand:
                 totals['unserved_traction_kwh']+=demand-delivered
-                shortfalls.append(dict(minute=minute,train=tid,reason='traction-energy-or-discharge-power',unserved_kwh=demand-delivered))
+                shortfalls.append(dict(minute=minute,train=tid,journey=d.get('journey'),reason='traction-energy-or-discharge-power',unserved_kwh=demand-delivered))
         for d in regen_at.get(minute,[]):
             tid=d['train']; state=states[tid]; t=trains[tid]
             regen=d['regenerative_kwh']
@@ -136,24 +181,25 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
             totals['regeneration_accepted_kwh']+=accepted; totals['regeneration_rejected_kwh']+=regen-accepted
         for tid,state in states.items():
             t=trains[tid]
-            in_service=any(a <= minute < b for a,b in t.get('service_intervals',[(0,minutes)]))
+            in_service=in_service_counts[tid]>0
+            journey=active_journeys.get(tid)
             aux=(t.get('auxiliary_kw',0)*max(1,ambient_c/30)+onboard['cooling_kw']*t['cars'])/60 if in_service else 0.0
             consumed=min(state['energy'],aux)
             state['energy']-=consumed;state['throughput']+=consumed
             totals['auxiliary_kwh']+=consumed
             if consumed<aux:
-                shortfalls.append(dict(minute=minute,train=tid,reason='auxiliary-energy',unserved_kwh=aux-consumed))
+                shortfalls.append(dict(minute=minute,train=tid,journey=journey,reason='auxiliary-energy',unserved_kwh=aux-consumed))
             capacity=onboard['usable_kwh']*t['cars']*state['soh']
             state['min_soc']=min(state['min_soc'],state['energy']/capacity)
             if state['energy'] < reserve_soc*capacity:
-                shortfalls.append(dict(minute=minute,train=tid,reason='reserve-SOC',unserved_kwh=0))
+                shortfalls.append(dict(minute=minute,train=tid,journey=journey,reason='reserve-SOC',unserved_kwh=0))
         for sid,site in sites.items():
             all_active=active_at.get((minute,sid),[])
             active=all_active[:site.get('contact_count',len(all_active))]
             if len(active)<len(all_active):
                 shortfalls.append(dict(minute=minute,site=sid,reason='charger-contact-capacity',unserved_kwh=0.0))
-            solar=site['pv_kw']*seasonal_solar_factor*cleaning_factor*max(0,math.sin(math.pi*((minute%1440)/60-6)/12)) if 360 <= minute%1440 <= 1080 else 0
-            grid=0 if minute in (outages or set()) else site['grid_kw']
+            solar=site['pv_kw']*seasonal_solar_factor*cleaning_factor*max(0,math.sin(math.pi*((clock_minute%1440)/60-6)/12)) if 360 <= clock_minute%1440 <= 1080 else 0
+            grid=0 if clock_minute in (outages or set()) else site['grid_kw']
             cap=stationary['usable_kwh']*site['modules']*storage_soh[sid]
             available=min(discharge_limit_kw(stationary,storage[sid]/cap,ambient_c,storage_soh[sid])*site['modules'],max(0,storage[sid]-cap*reserve_soc)*60*stationary['efficiency'])
             storage_aux=stationary['cooling_kw']*site['modules']
@@ -180,15 +226,21 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
             discharge=min(storage[sid],discharge)
             storage[sid]-=discharge
             surplus=max(0,solar_energy-consumed)
+            grid_surplus=max(0,grid/60-grid_energy) if site.get('allow_grid_storage_recharge',False) else 0.0
             soc=storage[sid]/cap
-            charge=min(surplus,charge_limit_kw(stationary,soc,ambient_c,storage_soh[sid])*site['modules']/60,max(0,cap-storage[sid])/stationary['efficiency'])
+            target=site.get('storage_recharge_target_soc',1.0)
+            if not 0<=target<=1:
+                raise ValueError('stationary recharge target SOC must be in [0,1]')
+            charge=min(surplus+grid_surplus,charge_limit_kw(stationary,soc,ambient_c,storage_soh[sid])*site['modules']/60,max(0,cap*target-storage[sid])/stationary['efficiency'])
+            solar_charge=min(charge,surplus);grid_charge=charge-solar_charge
             storage[sid]+=charge*stationary['efficiency']
             loss=(discharge+charge*stationary['efficiency'])/(2*stationary['nameplate_kwh']*site['modules'])*(1-stationary['replace_at_soh'])/stationary['cycle_life_efc']
             storage_soh[sid]-=loss+(1-stationary['replace_at_soh'])/(stationary['calendar_life_years']*365.25*1440)
             if storage_soh[sid]<=stationary['replace_at_soh']:
                 storage_replacements[sid]+=1;storage_soh[sid]=1.0
             storage[sid]=min(storage[sid],stationary['usable_kwh']*site['modules']*storage_soh[sid])
-            totals['grid_kwh']+=grid_energy;totals['solar_kwh']+=min(solar_energy,consumed)+charge;totals['charger_kwh']+=sum(allocated)
+            totals['grid_kwh']+=grid_energy+grid_charge;totals['grid_storage_replenishment_kwh']+=grid_charge
+            totals['solar_kwh']+=min(solar_energy,consumed)+solar_charge;totals['charger_kwh']+=sum(allocated)
         for tid,state in states.items():
             t=trains[tid]
             throughput=state['throughput']-before_throughput[tid]
@@ -205,7 +257,12 @@ def chronological_energy(onboard: dict, stationary: dict, trains: dict[str,dict]
                 pack_volume_m3=site['modules']*stationary['pack_volume_m3'],nameplate_kwh=site['modules']*stationary['nameplate_kwh'],
                 usable_kwh=site['modules']*stationary['usable_kwh']) for sid,site in sites.items()},
                 charging_voltage_compatible=compatibility,totals=totals,trains=states,storage_kwh=storage,storage_soh=storage_soh,storage_replacements=storage_replacements,
-                shortfalls=shortfalls,missed_charges=missed,minimum_soc=min((s['min_soc'] for s in states.values()),default=1),
+                shortfalls=shortfalls.rows,shortfall_events=shortfalls.count,
+                shortfall_records_complete=retain_shortfalls,
+                missed_charges=missed,minimum_soc=min((s['min_soc'] for s in states.values()),default=1),
+                reserve_violation_train_minutes=shortfalls.reserve_minutes,
+                distinct_energy_affected_journeys=len(shortfalls.journeys),
+                service_disruption_feedback_modelled=False,
                 installed_battery_cost_usd=sum(t['cars'] for t in trains.values())*onboard['installed_cost_usd']+sum(s['modules'] for s in sites.values())*stationary['installed_cost_usd'],
                 replacement_cost_usd=sum(states[k]['replacements']*t['cars'] for k,t in trains.items())*onboard['replacement_cost_usd']+sum(storage_replacements[k]*s['modules'] for k,s in sites.items())*stationary['replacement_cost_usd'],
                 service_qualified=False,time_step_seconds=60)

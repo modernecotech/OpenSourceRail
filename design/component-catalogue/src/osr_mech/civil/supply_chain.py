@@ -130,7 +130,8 @@ class ConstructionSupplyChain:
 
     def step(self, day: int, *, front_inventory: dict[str, int],
              front_buffer_capacity: dict[str, int], remaining_beams: dict[str, int],
-             delivery_access: dict[str, str], closed_fronts: set[str] | None = None) -> dict:
+             delivery_access: dict[str, str], closed_fronts: set[str] | None = None,
+             factory_open: bool = True) -> dict:
         if day != self.last_day + 1:
             raise ValueError("supply chain must advance one chronological model day at a time")
         self.last_day = day
@@ -162,7 +163,7 @@ class ConstructionSupplyChain:
         open_order = max(0, self.order_units - useful_accepted - sum(self.raw.values()))
         for i, row in enumerate(self.allocations):
             supplier = self.suppliers[row['supplier']]
-            if day < row['production_start_day'] or not self._factory_ready(supplier):
+            if not factory_open or day < row['production_start_day'] or not self._factory_ready(supplier):
                 continue
             used = self.raw[supplier.id] + self.accepted[supplier.id]
             room = supplier.storage_units - used
@@ -180,6 +181,9 @@ class ConstructionSupplyChain:
             self.peak_storage[supplier.id] = max(self.peak_storage[supplier.id], used + completed)
         accepted_today = 0
         for i, quantity in self.acceptance_due.pop(day, []):
+            if not factory_open:
+                self.acceptance_due[day+1].append((i,quantity))
+                continue
             row = self.allocations[i]
             sid = row['supplier']
             row['rejection_credit'] += quantity * row['manufacturing_rejection_fraction']

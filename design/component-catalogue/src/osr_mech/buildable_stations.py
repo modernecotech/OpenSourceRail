@@ -16,7 +16,6 @@ import math
 import re
 import tomllib
 import hashlib
-import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -25,6 +24,7 @@ from osr_mech.common import ConsistFamily, StationArchetype, archetype_platform_
 from osr_mech.depot import throat_turnout_count
 from osr_mech.depot.energy import depot_energy_scope
 from osr_mech.station.layout import station_layout
+from osr_mech.provenance import input_revision
 from osr_mech.station.canopy import bay_count
 from osr_mech.station.auxiliary_canopy import (
     AUX_MODULE_AREA_M2,
@@ -1563,10 +1563,12 @@ def write_outputs(
     (catalog_dir / "variants").mkdir(parents=True, exist_ok=True)
     bom_dir.mkdir(parents=True, exist_ok=True)
 
+    source_hashes={str(p.relative_to(REPO_ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                   for p in (template,Path(__file__),Path(__file__).parent/"station/layout.py",Path(__file__).parent/"provenance.py")}
     payload = {
-        "source_revision": subprocess.check_output(["git","rev-parse","HEAD"],cwd=REPO_ROOT,text=True).strip(),
-        "source_sha256": {str(p.relative_to(REPO_ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
-                          for p in (template,Path(__file__),Path(__file__).parent/"station/layout.py")},
+        "source_revision": input_revision(source_hashes),
+        "source_revision_kind": "sha256-input-content",
+        "source_sha256": source_hashes,
         "assumption_status": "RFC 0034 study; access/egress and structural release pending",
         "source_template": str(template.relative_to(REPO_ROOT)),
         "consist": consist.value,

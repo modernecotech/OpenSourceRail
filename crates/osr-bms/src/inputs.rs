@@ -48,6 +48,7 @@ pub enum ContactorCommand {
 
 /// Static BMS calibration. Loaded at commissioning; never changes.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct BmsParams {
     /// Nominal cell count (used for alarm-level checks and for
     /// cross-check of the input slices).

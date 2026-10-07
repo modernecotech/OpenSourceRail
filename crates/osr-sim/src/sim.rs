@@ -317,6 +317,7 @@ pub struct ScenarioConfig {
     pub fleets: Vec<LineFleet>,
     /// Shared reference consist used by every trainset in every line.
     pub consist: ConsistDescriptor,
+    pub battery_commissioning: std::collections::BTreeMap<TrainId, crate::battery::RuntimeBattery>,
     /// Buildable trainset systems contract exercised by the component shadow.
     pub trainset_systems: TrainsetSystemsConfig,
     /// Nominal net traction + auxiliary energy before climate uplift.
@@ -780,7 +781,30 @@ pub fn run_with_event_recording(
     // Onboard shadow stack: one shadow per train, built from
     // each train's consist. The shadow runs every tick during
     // Traveling phase; see crate::onboard.
-    let mut onboard_shadows: Vec<OnboardShadow> = trains.iter().map(OnboardShadow::new).collect();
+    assert!(
+        config.battery_commissioning.is_empty()
+            || (config.battery_commissioning.len() == trains.len()
+                && trains
+                    .iter()
+                    .all(|t| config.battery_commissioning.contains_key(&t.id))
+                && config
+                    .battery_commissioning
+                    .values()
+                    .map(|b| b.profile.identity().1)
+                    .collect::<std::collections::BTreeSet<_>>()
+                    .len()
+                    == trains.len()),
+        "commissioned fleet cannot fall back to planning BMS defaults"
+    );
+    let mut onboard_shadows: Vec<OnboardShadow> = trains
+        .iter()
+        .map(|train| {
+            config.battery_commissioning.get(&train.id).map_or_else(
+                || OnboardShadow::new(train),
+                |battery| OnboardShadow::new_commissioned(train, battery.clone()),
+            )
+        })
+        .collect();
     let mut vehicle_system_shadows: Vec<VehicleSystemsShadow> = trains
         .iter()
         .map(|train| {

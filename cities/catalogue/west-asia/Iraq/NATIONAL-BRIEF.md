@@ -1,84 +1,76 @@
 # Iraq National OpenSourceRail Strategy
 
-<!-- OSR CURRENT SCOPE CONTEXT -->
-> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](Baghdad/engineering/programme-recalculation/README.md) and [current city summary](Baghdad/README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
-<!-- END OSR CURRENT SCOPE CONTEXT -->
+<!-- OSR CURRENT IRAQ BASIS -->
+## Current Iraq planning basis — 2026-10-06
 
-This page contains only Iraq-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
+[Current country basis](CURRENT-PLANNING-BASIS.json) · [Baghdad summary](Baghdad/README.md) · [Connected design, production and energy study](Baghdad/engineering/connected-build/README.md).
 
-> [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$55.81 B (88.4%) of external capital** and **$68.62 B of external interest**. Capital plus saved interest totals **$124.43 B**.
+The retained `local_positive` Baghdad financial comparator is **USD 8.312bn**, with **IQD 0.033tn unsourced support** and **IQD 11.162tn terminal debt**. It records no month in which all debt is cleared. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
 
-The [Baghdad physical factory plan](Baghdad/engineering/factory/README.md) sizes production cells and test paths for its current six-car trainset order to finish alongside the overall city infrastructure programme, with facility readiness at 18 months from NTP. The national aggregation uses the largest physical city-order capital envelope across Iraq or the original module allowance, counted once. Any allowance above the Baghdad plant belongs to future national scope. Future city loads are not concurrent factory commitments or part of Baghdad finance.
+The accelerated scenario's complete CAPEX, financing, net island savings and accepted opening dates remain unknown. Its **USD 9m / 18-launcher allowance covers purchase cash only**; freight, assembly, commissioning, transporters, lifting frames, temporary supports, spares, crews and relocations require separate scope-matched prices. The earlier delivered-and-commissioned interpretation is not used. No launcher saving is added to an installed civil rate before removing a verified matching embedded allowance.
 
-## Iraq financing
+Iraq has existing precast facilities and expertise; qualify contracted civil supply and price tooling/upgrades. Baghdad trainset assembly and component-process allowances remain in the financial comparator. Additional national plant capacity and transfer costs require separate scope reconciliation.
 
-The catalogue-wide figures below are generic capital/benchmark aggregations. They do not establish a five-year rollout or an Iraq lender commitment. The scheduled proposal covers **Baghdad only**, including one manufacturing plant. It uses government capital at **25% of total CAPEX**, imports split 50% government USD cash / 50% proposed Chinese USD credit, with the remaining government capital, bonds and bank credit in IQD. Full-basket Chinese eligibility remains unqualified. Additional cash requirements beyond that public contribution remain visible in the [Baghdad funding programme](IRAQ-FUNDING-PROGRAMME.md). Samawah, Mosul and every other Iraqi city are excluded from its cashflows.
+No current consolidated national budget or funded rollout is established. Other Iraqi city catalogue estimates and the earlier generic foreign-turnkey calculation remain separately identified comparators. Their differences are scenario arithmetic, not realised capital or interest savings. Baghdad's later scope cannot be mixed into an older national aggregate and presented as one complete budget.
 
-## National Programme
+### Construction sensitivities
 
-| Local measure | Planning value |
-|---|---:|
-| Catalogue cities | 18 |
-| Represented population | 29,491,199 |
-| Trainsets / vehicle modules | 3,836 / 16,295 |
-| City infrastructure and fleet CAPEX | $34.22 B |
-| Shared national factory | $794.6 M |
-| Factory sizing basis | 4,632 modules for Baghdad, then reused nationally |
-| **Total national programme** | **$35.07 B** |
+| Case | Days for modelled running bays | Scope |
+| --- | ---: | --- |
+| full-doubling | 902 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| higher-productivity | 966 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated | 1077 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated-reassigned | 811 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-six-day-calendar | 1195 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
 
-## Capital And Funding
+These are conditional resource schedules. Station structures, special/closure spans, approved pier locations, delivery access and release evidence remain opening gates. Empty supplier/contract registers indicate missing qualifying evidence; they do not imply that Iraqi industry lacks capability.
 
-| Local funding measure | Planning value |
-|---|---:|
-| Imported / external capital | $7.31 B (20.9%) |
-| Domestic / local capital | $27.76 B (79.1%) |
-| Default foreign-turnkey external capital | $63.12 B |
-| External capital saved | $55.81 B |
-| Capital + lifetime external interest saved | $124.43 B |
+### Chronological energy study
 
-### Procurement-Origin Composition
+| Case, lower-solar duty | Minimum SOC | Unserved traction kWh |
+| --- | ---: | ---: |
+| lfp-throughout | 0.0% | 140,617 |
+| sodium-both | 0.0% | 3,709,801 |
+| sodium-stationary | 0.0% | 140,617 |
 
-| CAPEX bucket | Total | Imported | Local value |
-|---|---:|---:|---:|
-| Civil works | $19.25 B | $2.89 B | $16.36 B |
-| Stations | $4.42 B | $883.0 M | $3.53 B |
-| Depots | $1.36 B | $340.3 M | $1.02 B |
-| Rolling stock | $4.65 B | $1.63 B | $3.02 B |
-| Dedicated solar plants | $2.11 B | $948.9 M | $1.16 B |
-| Residual train control | $103.6 M | $51.8 M | $51.8 M |
-| Charging microgrids | $227.8 M | $91.1 M | $136.7 M |
-| EPC / project services | $2.16 B | $323.4 M | $1.83 B |
-| Shared national trainset factory | $794.6 M | $158.9 M | $635.7 M |
-| **Total** | **$35.07 B** | **$7.31 B** | **$27.76 B** |
+The fixed-assignment diagnostic above uses both ring directions, declared dispatch stations and native rest-to-rest section timing. The current screen spans 4,440 continuous model minutes (3.08 days), including overnight state carry-over and a study strategy permitting grid replenishment within remaining site import capacity. Charge-rate, thermal and life inputs are unqualified profiles, so these results do not establish a chemistry advantage or suitability.
 
-## City Programme
+The separate [coupled energy/service controller](Baghdad/engineering/connected-build/energy-control.json) keeps reserve-limited trains at their actual stations, continues charging, and reflects their availability in subsequent dispatch opportunities.
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 772 | $7.23 B | $1.64 B | $5.59 B |
-| [Basra](Basra/README.md) | 3,955,000 | 428 | $5.25 B | $1.11 B | $4.14 B |
-| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 121 | $1.67 B | $333.2 M | $1.34 B |
-| [Erbil](Erbil/README.md) | 1,952,000 | 216 | $1.81 B | $383.0 M | $1.43 B |
-| [Mosul](Mosul/README.md) | 1,940,000 | 256 | $3.26 B | $632.9 M | $2.63 B |
-| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 164 | $2.06 B | $400.5 M | $1.66 B |
-| [Najaf](Najaf/README.md) | 1,540,000 | 239 | $2.58 B | $523.9 M | $2.05 B |
-| [Karbala](Karbala/README.md) | 1,390,000 | 191 | $2.33 B | $461.1 M | $1.87 B |
-| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 139 | $869.2 M | $172.9 M | $696.3 M |
-| [Hillah](Hillah/README.md) | 700,000 | 168 | $843.9 M | $178.3 M | $665.7 M |
-| [Amarah](Amarah/README.md) | 660,000 | 137 | $860.4 M | $171.5 M | $689.0 M |
-| [Ramadi](Ramadi/README.md) | 525,000 | 118 | $704.2 M | $143.4 M | $560.8 M |
-| [Baqubah](Baqubah/README.md) | 470,000 | 176 | $926.1 M | $192.9 M | $733.3 M |
-| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 128 | $683.4 M | $141.1 M | $542.3 M |
-| [Kut](Kut/README.md) | 410,000 | 142 | $918.3 M | $182.0 M | $736.3 M |
-| [Samawah](Samawah/README.md) | 373,770 | 132 | $710.6 M | $148.0 M | $562.6 M |
-| [Duhok](Duhok/README.md) | 360,000 | 163 | $782.8 M | $173.8 M | $608.9 M |
-| [Fallujah](Fallujah/README.md) | 360,000 | 146 | $740.6 M | $155.3 M | $585.2 M |
+| Controlled case | Completed journeys | Missed dispatch opportunities | Distinct energy-held journeys |
+| --- | ---: | ---: | ---: |
+| lfp-throughout | 11,516 | 139 | 110 |
+| sodium-both | 1,720 | 9,401 | 1,466 |
+| sodium-stationary | 11,516 | 139 | 110 |
 
-## Local Basis And Regeneration
+Geometry/operating-distance findings remain recorded. Conflict-capable timetable, berth/depot access, transient traction and operational multi-day acceptance remain open. Current station passenger demand is unknown where no surveyed station/OD assignment has been entered; the common 3,000 pax/h value is retained only as a separate stress case.
+<!-- END OSR CURRENT IRAQ BASIS -->
 
-Country finance parameters use `IQ` in `lib/templates/country-finance.toml`. The factory is counted once nationally and excluded from city CAPEX. City values come from each local `design.toml` and expanded scenario; common limitations and interpretation are not repeated here.
+## City estimates and their scope
 
-```bash
-python3 tools/automation/generate-national-briefs.py
-```
+| City | Population | Fleet | City-case capital | Assumed imported purchases | Basis |
+| --- | ---: | ---: | ---: | ---: | --- |
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 772 | $8.31 B | $1.98 B | Retained local_positive comparator; accelerated scope unpriced |
+| [Basra](Basra/README.md) | 3,955,000 | 428 | $5.25 B | $1.11 B | Catalogue base estimate; scope and field releases open |
+| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 121 | $1.67 B | $333.2 M | Catalogue base estimate; scope and field releases open |
+| [Erbil](Erbil/README.md) | 1,952,000 | 216 | $1.81 B | $383.0 M | Catalogue base estimate; scope and field releases open |
+| [Mosul](Mosul/README.md) | 1,940,000 | 256 | $3.26 B | $632.9 M | Catalogue base estimate; scope and field releases open |
+| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 164 | $2.06 B | $400.5 M | Catalogue base estimate; scope and field releases open |
+| [Najaf](Najaf/README.md) | 1,540,000 | 239 | $2.58 B | $523.9 M | Catalogue base estimate; scope and field releases open |
+| [Karbala](Karbala/README.md) | 1,390,000 | 191 | $2.33 B | $461.1 M | Catalogue base estimate; scope and field releases open |
+| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 139 | $869.2 M | $172.9 M | Catalogue base estimate; scope and field releases open |
+| [Hillah](Hillah/README.md) | 700,000 | 168 | $843.9 M | $178.3 M | Catalogue base estimate; scope and field releases open |
+| [Amarah](Amarah/README.md) | 660,000 | 137 | $860.4 M | $171.5 M | Catalogue base estimate; scope and field releases open |
+| [Ramadi](Ramadi/README.md) | 525,000 | 118 | $704.2 M | $143.4 M | Catalogue base estimate; scope and field releases open |
+| [Baqubah](Baqubah/README.md) | 470,000 | 176 | $926.1 M | $192.9 M | Catalogue base estimate; scope and field releases open |
+| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 128 | $683.4 M | $141.1 M | Catalogue base estimate; scope and field releases open |
+| [Kut](Kut/README.md) | 410,000 | 142 | $918.3 M | $182.0 M | Catalogue base estimate; scope and field releases open |
+| [Samawah](Samawah/README.md) | 373,770 | 132 | $710.6 M | $148.0 M | Catalogue base estimate; scope and field releases open |
+| [Duhok](Duhok/README.md) | 360,000 | 163 | $782.8 M | $173.8 M | Catalogue base estimate; scope and field releases open |
+| [Fallujah](Fallujah/README.md) | 360,000 | 146 | $740.6 M | $155.3 M | Catalogue base estimate; scope and field releases open |
+
+These case envelopes have different appraisal scopes. They are not summed into a current national project budget. Baghdad's included assembly/component facilities must be reconciled with any national shared-factory allowance before aggregation.
+
+## Regeneration
+
+Run `python3 tools/automation/generate-national-briefs.py --country IQ` after regenerating the Baghdad study, then publish the current city/country documents and proposal archive.

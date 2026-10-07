@@ -10,6 +10,11 @@ after_migrate = "osr_erpnext.setup.install"
 doctype_js = {"Project": "public/js/project.js", "Task": "public/js/task.js", "Issue": "public/js/issue.js"}
 
 doc_events = {
+    "Task": {"validate": "osr_erpnext.construction_execution.validate_task"},
+    "ToDo": {"validate": "osr_erpnext.construction_execution.validate_assignment"},
+    "Asset": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence"},
+    "Employee": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence"},
+    "OSR Construction Release": {"before_submit": "osr_erpnext.construction_execution.submit_review", "on_submit": "osr_erpnext.construction_execution.attach_review"},
     "Material Request": {"before_validate": "osr_erpnext.replenishment.assign_city_scope"},
     "OSR Disposition Execution": {"validate": "osr_erpnext.disposition.validate", "on_trash": "osr_erpnext.disposition.prevent_delete"},
     "OSR Revision Disposition": {"validate": "osr_erpnext.disposition.validate", "on_trash": "osr_erpnext.disposition.prevent_delete"},
