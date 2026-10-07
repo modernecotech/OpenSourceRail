@@ -71,6 +71,8 @@ Geometry/operating-distance findings remain recorded. Conflict-capable timetable
 
 These case envelopes have different appraisal scopes. They are not summed into a current national project budget. Baghdad's included assembly/component facilities must be reconciled with any national shared-factory allowance before aggregation.
 
+Shared assumptions and interpretation are in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
+
 ## Regeneration
 
 Run `python3 tools/automation/generate-national-briefs.py --country IQ` after regenerating the Baghdad study, then publish the current city/country documents and proposal archive.

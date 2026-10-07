@@ -14,6 +14,8 @@ Factories are sized to each city order and family. Facility readiness is 18 mont
 
 Every city retains actual source-bound native outputs for the two-hour trace, full nominal service day and eight full-day degraded cases. Aggregate software planning screens pass the unchanged thresholds. Per-line service, depot launch, physical acceptance and operating qualification remain separate release gates.
 
+Connected span, station, construction, battery and delivery-evidence studies are also generated for [Baghdad](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md), [Samawah](../cities/catalogue/west-asia/Iraq/Samawah/engineering/connected-build/README.md) and [Amarah](../cities/catalogue/west-asia/Iraq/Amarah/engineering/connected-build/README.md). These city-specific pilots use the declared hypothetical fleet and Iraqi supply assumptions. They establish no supplier commitment, engineering acceptance or adopted accelerated saving in country finance.
+
 Country finance assumptions stay local. Baghdad’s government share, Chinese credit, IQD bonds and indexed monthly programme are not copied into other cities. Generic finance remains a fixed-price steady-state screen, with fares and commercial income at its recorded country assumptions. Earlier operating studies remain historical diagnostics.
 
 [Full city quantities and costs](../engineering/assurance/catalogue-current-design/cities.csv) · [Source-bound audit](../engineering/assurance/catalogue-current-design/summary.json) · [Catalogue index](../cities/catalogue/README.md)

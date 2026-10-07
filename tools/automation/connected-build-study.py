@@ -519,7 +519,7 @@ def build(city_dir):
                   dict(scope='18 launcher commissioning balance',date=e['conditional_ready_date'],cash_usd=allowance*config['finance']['launcher_payment_commissioning_fraction'],supplier=None,committed=False)],
         adopted_finance_comparator='engineering/programme-recalculation/local_positive.json',
         revised_revenue_start_accepted=False))
-    quotes=quote_register(delivery_evidence['quotations'],delivery_evidence['as_of'])
+    quotes=quote_register(delivery_evidence['quotations'],delivery_evidence['as_of'],evidence_root=ROOT)
     requirements=procurement_requirements(span_quantities(all_spans),e['launchers'],len(fronts)*config['logistics']['trailers_per_front'])
     files['procurement-evidence.json']=encode(dict(quotations=quotes,requirements=requirements,
         installed_beam_requirements_source='span-layout.json: each catalogue span has identified track-component IDs',

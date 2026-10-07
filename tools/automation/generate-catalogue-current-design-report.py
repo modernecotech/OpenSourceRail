@@ -137,12 +137,23 @@ def audit(city_slugs=None):
     expected=len(entries)-1 if city_slugs is None else len(city_slugs)
     if len(rows)!=expected:raise ValueError('Catalogue inventory incomplete')
     sources[Path(__file__).relative_to(ROOT).as_posix()]=sha(Path(__file__))
+    connected_pilots={}
+    for name in ('Baghdad','Samawah','Amarah'):
+        city=ROOT/'cities/catalogue/west-asia/Iraq'/name
+        manifest_path=city/'engineering/connected-build/manifest.json'
+        manifest=read(manifest_path)
+        for base,key in ((ROOT,'source_sha256'),(manifest_path.parent,'output_sha256')):
+            for relative,digest in manifest[key].items():
+                if sha(base/relative)!=digest:raise ValueError('Stale connected pilot: '+name+': '+relative)
+        sources[manifest_path.relative_to(ROOT).as_posix()]=sha(manifest_path)
+        connected_pilots[name]=dict(manifest=manifest_path.relative_to(ROOT).as_posix(),
+            engineering_qualified=False,operational_release=False)
     for helper in ('tools/automation/planning_ci_evidence.py','tools/automation/city-planning-ci.py'):
         sources[helper]=sha(ROOT/helper)
     report=dict(schema_version=1,status='complete-regenerated-planning-examples-not-construction-release',cities=rows,
         regenerated_other_city_count=len(rows),developing_world_other_city_count=len(programme_rows),
         excluded_baghdad_reason='Dedicated source-bound funding, make/buy and revised scope remain in the Baghdad publication; its funding terms are not exported.',
-        countries=countries,sources_sha256=sources,passed=True,operational_release=False,
+        countries=countries,connected_pilots=connected_pilots,sources_sha256=sources,passed=True,operational_release=False,
         limitations=['Core rectangles are design-centroid planning screens, not surveyed city-centre boundaries or property rights.',
                     'Unaccepted land, foundations, suppliers, installation, commissioning and independent-check gates remain open.',
                     'Country income proxies are retained estimates; graded wages are planning premiums, not observed payroll quotations.',
@@ -163,6 +174,7 @@ def outputs(report):
         'Every listed station/platform record has two posts and two normal eight-hour shifts, with additional cover for the actual service window. Interchange platform nodes are counted separately. FTE cover deducts leave, training, sickness and handover from paid hours. Wages start at 150% of the retained country income proxy; technical and management roles have higher premiums, plus employer/overtime allowances. Finance and role totals reconcile.', '',
         'Factories are sized to each city order and family. Facility readiness is 18 months; qualification and serial manufacture follow it. Integrated openings wait when an 18-month facility, qualification, production or the physical test-path limit is the critical path. Infrastructure deadlines remain distinct from integrated targets. The national brief counts shared factory capital once, using its module allowance or the larger physical city-order envelope. National sequencing and concurrent capacity remain uncommitted.', '',
         'Every city retains actual source-bound native outputs for the two-hour trace, full nominal service day and eight full-day degraded cases. Aggregate software planning screens pass the unchanged thresholds. Per-line service, depot launch, physical acceptance and operating qualification remain separate release gates.', '',
+        'Connected span, station, construction, battery and delivery-evidence studies are also generated for [Baghdad](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md), [Samawah](../cities/catalogue/west-asia/Iraq/Samawah/engineering/connected-build/README.md) and [Amarah](../cities/catalogue/west-asia/Iraq/Amarah/engineering/connected-build/README.md). These city-specific pilots use the declared hypothetical fleet and Iraqi supply assumptions. They establish no supplier commitment, engineering acceptance or adopted accelerated saving in country finance.', '',
         'Country finance assumptions stay local. Baghdad’s government share, Chinese credit, IQD bonds and indexed monthly programme are not copied into other cities. Generic finance remains a fixed-price steady-state screen, with fares and commercial income at its recorded country assumptions. Earlier operating studies remain historical diagnostics.', '',
         '[Full city quantities and costs](../engineering/assurance/catalogue-current-design/cities.csv) · [Source-bound audit](../engineering/assurance/catalogue-current-design/summary.json) · [Catalogue index](../cities/catalogue/README.md)', '',
         '| Region/country code | Other programme cities | Largest city-order factory reference USD million |','|---|---:|---:|']

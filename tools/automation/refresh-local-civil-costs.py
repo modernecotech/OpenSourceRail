@@ -17,7 +17,7 @@ spec=importlib.util.spec_from_file_location('capex_refresh',ROOT/'tools/automati
 capex=importlib.util.module_from_spec(spec);spec.loader.exec_module(capex)
 
 
-def refresh(path):
+def refresh(path,report_only=False):
     original=path.read_bytes();design=tomllib.loads(original.decode());slug=design['city']['slug']
     with tempfile.TemporaryDirectory(prefix='osr-local-civil-') as folder:
         output=Path(folder)/'civil.json'
@@ -36,7 +36,14 @@ def refresh(path):
             key=(r['line'],r['class']);result[key]=result.get(key,0.)+r['to_station_m']-r['from_station_m']
         return result
     blocks=[]
+    omitted_empty_intervals=0
     for row in rows:
+        # Canonical registers use millimetre precision. Native endpoint
+        # subtraction can leave a submillimetre interval which rounds to
+        # exactly zero; it contributes no length or cost at that precision.
+        if round(row['from_station_m'],3)==round(row['to_station_m'],3):
+            omitted_empty_intervals+=1
+            continue
         block=['[[civil_segments]]']
         for key,value in row.items():
             if value is None:continue
@@ -60,10 +67,24 @@ def refresh(path):
     old_control={k:v for k,v in design.items() if k not in {'civil_segments','costs'}}
     new_control={k:v for k,v in revised.items() if k not in {'civil_segments','costs'}}
     if old_control!=new_control:raise ValueError('Noncivil controlled data changed: '+slug)
-    path.write_text(updated);capex.recalculate(path)
-    final=tomllib.loads(path.read_text())
+    if report_only:
+        if revised['civil_segments']!=design['civil_segments']:
+            raise ValueError('Native civil register differs; controlled reclassification required: '+slug)
+        # Recompute capital in an isolated copy and reject an actual budget
+        # change. This refresh is proof of the unchanged design, not a retag.
+        with tempfile.TemporaryDirectory(prefix='osr-civil-budget-check-') as folder:
+            candidate=Path(folder)/'design.toml';candidate.write_bytes(original)
+            (Path(folder)/(slug+'.toml')).write_bytes((path.parent/(slug+'.toml')).read_bytes())
+            capex.recalculate(candidate)
+            recalculated=tomllib.loads(candidate.read_text())
+            if recalculated['costs']!=design['costs']:
+                raise ValueError('Civil budget changed; controlled regeneration required: '+slug)
+        final=design
+    else:
+        path.write_text(updated);capex.recalculate(path)
+        final=tomllib.loads(path.read_text())
     quality=path.parent/(slug+'.design-quality.yaml')
-    if quality.is_file():
+    if quality.is_file() and not report_only:
         content=quality.read_text()
         quantities={key:sum(r['to_station_m']-r['from_station_m'] for r in final['civil_segments'] if r['class']==key) for key in ('at-grade','elevated','bridge')}
         products={key:sum(r['to_station_m']-r['from_station_m'] for r in final['civil_segments'] if r.get('viaduct_product') in names) for key,names in {
@@ -77,6 +98,7 @@ def refresh(path):
         design_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
         native_generator_sha256=hashlib.sha256((ROOT/'target/release/osr-design').read_bytes()).hexdigest(),
         native_compiled_sources_verified=True,
+        omitted_zero_length_intervals_at_mm_precision=omitted_empty_intervals,
         previous_design_sha256=hashlib.sha256(original).hexdigest(),
         previous_capital_allowance_usd=design['costs']['total_usd'],
         current_base_capital_allowance_usd=final['costs']['total_usd'],
@@ -102,7 +124,8 @@ def refresh(path):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--city');p.add_argument('--jobs',type=int,default=2)
+    p.add_argument('--report-only',action='store_true',help='verify native civil/register budget in an isolated copy; preserve canonical design')
     args=p.parse_args();paths=[p for p in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
         if not args.city or tomllib.loads(p.read_text())['city']['slug'] in args.city.split(',')]
-    with ThreadPoolExecutor(max_workers=args.jobs) as pool:list(pool.map(refresh,paths))
+    with ThreadPoolExecutor(max_workers=args.jobs) as pool:list(pool.map(lambda path:refresh(path,args.report_only),paths))
 if __name__=='__main__':main()

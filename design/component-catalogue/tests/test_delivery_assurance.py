@@ -1,4 +1,5 @@
 from datetime import date
+import hashlib
 import pytest
 from osr_mech.delivery_commercial import quote_register,partial_cashflow_sensitivity,procurement_requirements
 from osr_mech.handling_assurance import gross_section,support_screen,beam_stage_assurance
@@ -12,11 +13,17 @@ def quotation(**changes):
     return {**row,**changes}
 
 
-def test_quote_expiry_review_and_contract_are_separate_from_plant_capacity():
-    row=quote_register([quotation()], '2026-10-07')[0]
+def test_quote_expiry_review_and_contract_are_separate_from_plant_capacity(tmp_path):
+    source=tmp_path/'quote.txt';source.write_text('test-only quotation')
+    quote=quotation(source_record=source.name,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
+    row=quote_register([quote], '2026-10-07',evidence_root=tmp_path)[0]
     assert row['cash_usd']==9e6 and row['price_evidence_applicable_as_of']
     assert not row['purchase_committed'] and not row['factory_capacity_qualified_by_quote']
-    assert not quote_register([quotation()], '2027-01-01')[0]['price_evidence_applicable_as_of']
+    assert not quote_register([quote], '2027-01-01',evidence_root=tmp_path)[0]['price_evidence_applicable_as_of']
+    assert not quote_register([quote], '2026-10-07')[0]['price_evidence_applicable_as_of']
+    source.write_text('altered')
+    with pytest.raises(ValueError,match='receipt drift'):
+        quote_register([quote],'2026-10-07',evidence_root=tmp_path)
     with pytest.raises(ValueError,match='FX'):quote_register([quotation(currency='IQD')],'2026-10-07')
 
 
@@ -26,6 +33,21 @@ def test_partial_interest_uses_each_payment_date_without_manufacturing_a_budget(
     assert row['interest_on_identified_cash_usd']==pytest.approx(80+500*.08*184/365)
     assert row['complete_financing_usd'] is None and row['claimed_net_saving_usd'] is None
     assert row['revenue_usd'] is None and not row['financing_committed']
+
+
+def test_contracted_label_requires_a_separate_received_and_reviewed_contract(tmp_path):
+    source=tmp_path/'quote.txt';source.write_text('test-only quotation')
+    contract=tmp_path/'contract.txt';contract.write_text('test-only contract')
+    quote=quotation(status='contracted',source_record=source.name,
+        source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+        contract_record=contract.name,contract_sha256=hashlib.sha256(contract.read_bytes()).hexdigest())
+    assert not quote_register([quote],'2026-10-07',evidence_root=tmp_path)[0]['purchase_committed']
+    reviewed={**quote,'contract_review_accepted':True}
+    row=quote_register([reviewed],'2026-10-07',evidence_root=tmp_path)[0]
+    assert row['purchase_committed'] and not row['factory_capacity_qualified_by_quote']
+    contract.write_text('changed')
+    with pytest.raises(ValueError,match='receipt drift'):
+        quote_register([reviewed],'2026-10-07',evidence_root=tmp_path)
 
 
 def test_statics_conserve_weight_and_resolve_the_known_uniform_beam_solution():

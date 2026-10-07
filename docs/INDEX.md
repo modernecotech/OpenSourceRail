@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6140**.
+Indexed Markdown files: **6144**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **6140**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 5432 |
+| [cities](#cities) | 5435 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 195 |
+| [docs](#docs) | 196 |
 | [engineering](#engineering) | 30 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4228,6 +4228,7 @@ Indexed Markdown files: **6140**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/access/README.md) | Amarah — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/alignment/README.md) | Amarah Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/clearance/README.md) | Amarah — viaduct obstacle clearance |
+| [`cities/catalogue/west-asia/Iraq/Amarah/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/connected-build/README.md) | Amarah connected construction and battery study |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/delivery/README.md) | Amarah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/deployment/README.md) | Amarah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/depot-scope/README.md) | amarah depot scope reconciliation |
@@ -4252,6 +4253,7 @@ Indexed Markdown files: **6140**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md) | Baghdad — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md) | Baghdad — viaduct obstacle clearance |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md) | Baghdad connected construction and battery study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad same-alignment cost reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md) | Baghdad line-local depot and stabling quantity package |
@@ -4444,7 +4446,7 @@ Indexed Markdown files: **6140**.
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/structural-release-readiness.md) | Hillah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/survey/surveyed-alignment-readiness.md) | Hillah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Hillah/operations/acceptance-evidence-report.md) | Hillah Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md`](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) | Baghdad-only funding programme |
+| [`cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md`](../cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) | Iraq funding programme and Baghdad planning status |
 | [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/access/README.md) | Karbala — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/alignment/README.md) | Karbala Planning OSR-ALN Package |
@@ -4597,6 +4599,7 @@ Indexed Markdown files: **6140**.
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/access/README.md) | Samawah — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md) | Samawah Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/clearance/README.md) | Samawah — viaduct obstacle clearance |
+| [`cities/catalogue/west-asia/Iraq/Samawah/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/connected-build/README.md) | Samawah connected construction and battery study |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md) | Samawah organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | Samawah deployment gaps |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | samawah depot scope reconciliation |
@@ -6137,6 +6140,7 @@ Indexed Markdown files: **6140**.
 | [`docs/rfcs/0031-city-studio-git-revisions.md`](../docs/rfcs/0031-city-studio-git-revisions.md) | RFC 0031 — OSR City Studio and Git-Based Design Revisions |
 | [`docs/rfcs/0032-train-centred-control.md`](../docs/rfcs/0032-train-centred-control.md) | RFC 0032 — Train-centred control prototype (superseded) |
 | [`docs/rfcs/0033-tacs-runtime-and-resource-control.md`](../docs/rfcs/0033-tacs-runtime-and-resource-control.md) | RFC 0033 — TACS runtime and committed resource control |
+| [`docs/rfcs/0034-connected-station-production-and-battery-model.md`](../docs/rfcs/0034-connected-station-production-and-battery-model.md) | RFC 0034 — Connected station, production and battery model |
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/design-system.md`](../docs/rolling-stock/design-system.md) | Rolling-stock top-down / bottom-up design system |

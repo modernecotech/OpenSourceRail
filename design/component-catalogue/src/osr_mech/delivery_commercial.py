@@ -4,7 +4,9 @@ Price evidence never creates factory capacity, purchase authority or complete
 financing. Unknown scopes remain separate from the identified cash ledger.
 """
 from datetime import date
+import hashlib
 import math
+from pathlib import Path
 from osr_mech.provenance import stable_sum as sum
 
 SCOPES=('launcher-purchase','freight-duties','assembly-commissioning','transporters','lifting-frames',
@@ -12,7 +14,17 @@ SCOPES=('launcher-purchase','freight-duties','assembly-commissioning','transport
         'civil-supports','special-spans','station-structures','station-access','storage-dispatch')
 
 
-def quote_register(rows,as_of):
+def _verified_record(root,relative,digest):
+    if root is None:return False
+    root=Path(root).resolve();path=(root/relative).resolve()
+    if Path(relative).is_absolute() or not path.is_relative_to(root) or not path.is_file():
+        raise ValueError('quotation/contract source must resolve inside the evidence root')
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=digest:
+        raise ValueError('quotation/contract source receipt drift')
+    return True
+
+
+def quote_register(rows,as_of,*,evidence_root=None):
     today=date.fromisoformat(as_of);seen=set();result=[]
     for quote in rows:
         identity=quote['id']
@@ -31,10 +43,15 @@ def quote_register(rows,as_of):
         if quote['quantity']==0:raise ValueError('quotation quantity must be positive')
         if quote.get('tooling_in_unit_price') and quote.get('project_tooling_usd',0):
             raise ValueError('supplier-amortised tooling cannot also be project CAPEX')
-        applicable=start<=today<=end and quote['status'] in ('firm','contracted') and quote.get('review_accepted') is True
+        verified=_verified_record(evidence_root,quote['source_record'],quote['source_sha256'])
+        contract_verified=False
+        if quote.get('contract_record'):
+            contract_verified=_verified_record(evidence_root,quote['contract_record'],quote.get('contract_sha256'))
+        applicable=verified and start<=today<=end and quote['status'] in ('firm','contracted') and quote.get('review_accepted') is True
         result.append({**quote,'cash_usd':quote['quantity']*quote['unit_price_usd'],
+            'source_record_verified':verified,'contract_record_verified':contract_verified,
             'price_evidence_applicable_as_of':applicable,'factory_capacity_qualified_by_quote':False,
-            'purchase_committed':quote['status']=='contracted' and quote.get('contract_record') is not None})
+            'purchase_committed':quote['status']=='contracted' and contract_verified and quote.get('contract_review_accepted') is True and start<=today})
     return result
 
 

@@ -1161,12 +1161,12 @@ def check_station_build_package() -> list[Finding]:
         }
         if (
             release.get("package_count") != 9
-            or release.get("controlled_product_count") != 45
+            or release.get("controlled_product_count") != 50
             or release.get("drawing_count") != 18
             or release.get("tooling_count") != 22
             or release.get("release_path_counts")
             != {
-                "deployment-specific": 13,
+                "deployment-specific": 18,
                 "reusable-definition": 18,
                 "supplier-configuration": 14,
             }
@@ -1204,9 +1204,9 @@ def check_station_build_package() -> list[Finding]:
         rows = defaults.get("defaults", [])
         sources = defaults.get("sources", {})
         if (
-            defaults.get("default_count") != 29
+            defaults.get("default_count") != 34
             or defaults.get("source_count") != 13
-            or len({row.get("product_id") for row in rows}) != 29
+            or len({row.get("product_id") for row in rows}) != 34
             or not all(defaults.get("validation", {}).values())
             or any(not row.get("parameters") or not row.get("must_override_when") for row in rows)
             or any(
@@ -1253,8 +1253,8 @@ def check_station_build_package() -> list[Finding]:
         if (
             index.get("issue_status") != "definition-seeds-not-issued"
             or index.get("drawing_count") != 18
-            or index.get("controlled_product_count") != 45
-            or index.get("reference_default_product_count") != 29
+            or index.get("controlled_product_count") != 50
+            or index.get("reference_default_product_count") != 34
             or indexed_ids != expected_ids
             or observed_json != expected_ids
             or observed_markdown != expected_ids

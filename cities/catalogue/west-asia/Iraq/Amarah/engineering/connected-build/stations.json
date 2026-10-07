@@ -1,0 +1,4049 @@
+[
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-1-0313-0285-s000000",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-001",
+    "s_m": 0.0,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "standard",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-1-0431-0353-s003005",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-002",
+    "s_m": 3005.3,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-1-0541-0417-s005853",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-003",
+    "s_m": 5852.7,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-1-0610-0457-s007623",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -11000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -12500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": -5000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-3",
+          "level": "platform",
+          "platform_face_y_mm": 5000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-4",
+          "level": "platform",
+          "platform_face_y_mm": 11000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 12500.0
+        }
+      ],
+      "layout": "same-grade-transfer",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 3000.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": -8000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": 8000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 4,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 4
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-004",
+    "s_m": 7622.6,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "major",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-1-0664-0488-s009006",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-005",
+    "s_m": 9006.3,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "standard",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-1-0782-0556-s012023",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-002",
+    "s_m": 12023.4,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "halt",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-1-0968-0662-s016844",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -27750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 27750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "layout": "side",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 1500.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": 5000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 1,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 1,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 1
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-006",
+    "s_m": 16844.1,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "depot-terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-1-1131-0749-s021680",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -2000.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-2",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "layout": "side",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 1500.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": -5000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": 5000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-1",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-007",
+    "s_m": 21680.1,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-2-0709-0317-s000000",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -2000.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-2",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "layout": "side",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 1500.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": -5000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": 5000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-008",
+    "s_m": 0.0,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-2-0592-0386-s003017",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -11000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -12500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": -5000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-3",
+          "level": "platform",
+          "platform_face_y_mm": 5000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-4",
+          "level": "platform",
+          "platform_face_y_mm": 11000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 12500.0
+        }
+      ],
+      "layout": "same-grade-transfer",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 3000.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": -8000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": 8000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 4,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 4
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-004",
+    "s_m": 3017.1,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-2-0541-0417-s004352",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-003",
+    "s_m": 4352.4,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "standard",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-2-0477-0455-s006018",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-002",
+    "s_m": 6017.5,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "standard",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-2-0404-0499-s007924",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-002",
+    "s_m": 7924.1,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-2-0329-0543-s009847",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-2",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-001",
+    "s_m": 9847.1,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 68000,
+      "annual_maintenance_usd": 42800.0,
+      "installed_items_usd": {
+        "associated_works": 120000,
+        "escalator": 280000,
+        "lift": 360000,
+        "shaft": 180000,
+        "staircase": 130000
+      },
+      "installed_total_usd": 1070000,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 802500.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": {
+      "concourse_deck_area_m2": 240.0,
+      "erection_sequence": [
+        "release access and widened supports",
+        "erect track decks",
+        "erect island deck",
+        "access cores",
+        "fit-out"
+      ],
+      "foundation_design": "changed vertical/transverse reactions require geotechnical and structural release",
+      "launcher_clearance": "station-width supports and track-spread envelope require supplier clearance approval",
+      "minimum_transition_radius_screen_m": 1113.3653322776981,
+      "platform_deck_area_m2": 476.0,
+      "qualified": false,
+      "running_span_quantities_included": false,
+      "station_deck_area_m2": 952.0,
+      "station_deck_width_m": 16.0,
+      "station_length_m": 59.5,
+      "station_rail_m": 238.0,
+      "station_support_lines": 4,
+      "station_track_m": 119.0,
+      "station_track_separation_m": 11.0,
+      "track_spread_each_side_m": 3.5,
+      "transition_curve": "quintic zero-offset/slope/curvature at both ends",
+      "transition_length_each_end_m": 150.0,
+      "widened_pier_cap_width_m": 16.0
+    },
+    "evacuation_accepted": false,
+    "id": "line-3-0667-0658-s000000",
+    "layout": {
+      "concourse_decks": [
+        {
+          "id": "concourse",
+          "length_mm": 24000.0,
+          "level": "concourse",
+          "thickness_mm": 350.0,
+          "width_mm": 10000.0,
+          "z_mm": 4500.0
+        }
+      ],
+      "elevation": "elevated",
+      "entrances": [
+        {
+          "connected_to": "concourse",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "concourse",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [
+        {
+          "id": "platform-1-lift-1",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-lift-2",
+          "kind": "lift",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-1",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": -17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-shaft-2",
+          "kind": "shaft",
+          "length_mm": 3500,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3500,
+          "x_mm": 17850.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-1",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": -8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-escalator-2",
+          "kind": "escalator",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 1800,
+          "x_mm": 8925.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-1",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": -25585.0,
+          "y_mm": 0.0
+        },
+        {
+          "id": "platform-1-staircase-2",
+          "kind": "staircase",
+          "length_mm": 10000,
+          "served_levels": [
+            "street",
+            "concourse",
+            "platform"
+          ],
+          "width_mm": 3000,
+          "x_mm": 25585.0,
+          "y_mm": 0.0
+        }
+      ],
+      "faces": [
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": -5500.0
+        },
+        {
+          "boarding_z_mm": 9420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 4000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 9070.0,
+          "track_centre_y_mm": 5500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "concourse": 4500.0,
+        "platform": 9420.0,
+        "street": 0.0
+      },
+      "minimum_clear_width_mm": 2250.0,
+      "platforms": [
+        {
+          "base_z_mm": 9000.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 8000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 2,
+        "lift_count": 2,
+        "platform_count": 1,
+        "shaft_count": 2,
+        "staircase_count": 2,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-3",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {
+      "platform-1-lift-1": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-1"
+        ]
+      },
+      "platform-1-lift-2": {
+        "capacity_accepted": false,
+        "evacuation_accepted": false,
+        "platforms_reachable": {
+          "platform-1": true
+        },
+        "unavailable_equipment": [
+          "platform-1-lift-2"
+        ]
+      }
+    },
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-001",
+    "s_m": 0.0,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "major",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-3-0629-0524-s003007",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -3000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -4500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 3000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 4500.0
+        }
+      ],
+      "layout": "island",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 3000.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": 0.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 1,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-3",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-009",
+    "s_m": 3006.5,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-3-0610-0457-s004516",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -11000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -12500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": -5000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-3",
+          "level": "platform",
+          "platform_face_y_mm": 5000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-4",
+          "level": "platform",
+          "platform_face_y_mm": 11000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 12500.0
+        }
+      ],
+      "layout": "same-grade-transfer",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 3000.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": -8000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": 8000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 4,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 4
+      },
+      "transfer_connections": []
+    },
+    "line": "line-3",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-004",
+    "s_m": 4515.6,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "interchange",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-3-0590-0388-s006073",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -11000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -12500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": -5000.0,
+          "platform_id": "platform-1",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-3",
+          "level": "platform",
+          "platform_face_y_mm": 5000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 3500.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "left",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-4",
+          "level": "platform",
+          "platform_face_y_mm": 11000.0,
+          "platform_id": "platform-2",
+          "psd_side": "left",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 12500.0
+        }
+      ],
+      "layout": "same-grade-transfer",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 3000.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": -8000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 6000.0,
+          "y_mm": 8000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 4,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 4
+      },
+      "transfer_connections": []
+    },
+    "line": "line-3",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-004",
+    "s_m": 6073.0,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  },
+  {
+    "access_cost": {
+      "annual_energy_kwh": 0,
+      "annual_maintenance_usd": 0.0,
+      "installed_items_usd": {
+        "associated_works": 0,
+        "escalator": 0,
+        "lift": 0,
+        "shaft": 0,
+        "staircase": 0
+      },
+      "installed_total_usd": 0,
+      "qualification": "unquoted-study",
+      "replacement_cost_usd": 0.0,
+      "replacement_year": 20
+    },
+    "additional_street_barriers_assessed": false,
+    "archetype": "terminal",
+    "bidirectional_flow_passengers_hour": null,
+    "civil": null,
+    "evacuation_accepted": false,
+    "id": "line-3-0539-0186-s010547",
+    "layout": {
+      "concourse_decks": [],
+      "elevation": "at-grade",
+      "entrances": [
+        {
+          "connected_to": "platform",
+          "id": "entrance-1",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": -29750.0,
+          "y_mm": 0.0
+        },
+        {
+          "connected_to": "platform",
+          "id": "entrance-2",
+          "level": "street",
+          "surveyed": false,
+          "x_mm": 29750.0,
+          "y_mm": 0.0
+        }
+      ],
+      "equipment": [],
+      "faces": [
+        {
+          "boarding_z_mm": 420.0,
+          "direction": 1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-1",
+          "level": "platform",
+          "platform_face_y_mm": -3500.0,
+          "platform_id": "platform-1",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": -2000.0
+        },
+        {
+          "boarding_z_mm": 420.0,
+          "direction": -1,
+          "door_side": "right",
+          "dynamic_envelope_review_margin_mm": 15.0,
+          "id": "face-2",
+          "level": "platform",
+          "platform_face_y_mm": 3500.0,
+          "platform_id": "platform-2",
+          "psd_side": "right",
+          "static_vehicle_to_platform_gap_mm": 75.0,
+          "top_of_rail_z_mm": 70.0,
+          "track_centre_y_mm": 2000.0
+        }
+      ],
+      "layout": "side",
+      "level_elevations_mm": {
+        "platform": 420.0,
+        "street": 420.0
+      },
+      "minimum_clear_width_mm": 1500.0,
+      "platforms": [
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-1",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": -5000.0
+        },
+        {
+          "base_z_mm": 0.0,
+          "id": "platform-2",
+          "level": "platform",
+          "width_mm": 3000.0,
+          "y_mm": 5000.0
+        }
+      ],
+      "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+      "quantities": {
+        "boarding_face_count": 2,
+        "escalator_count": 0,
+        "lift_count": 0,
+        "platform_count": 2,
+        "shaft_count": 0,
+        "staircase_count": 0,
+        "track_count": 2
+      },
+      "transfer_connections": []
+    },
+    "line": "line-3",
+    "net_island_saving_usd": null,
+    "one_lift_unavailable_study": {},
+    "passenger_demand": {
+      "boarding_by_heading": null,
+      "demand_accepted": false,
+      "demand_coverage_complete": false,
+      "evacuation_and_rescue_accepted": false,
+      "one_lift_out_capacity_pax_hour": null,
+      "peak_waiting_accumulation_pax": null,
+      "recorded_alightings_hour": null,
+      "recorded_boardings_hour": null,
+      "service_peak_headway_minutes": null
+    },
+    "passenger_flow_accepted": false,
+    "product_variant": "variant-008",
+    "s_m": 10547.2,
+    "separate_stress_case_passengers_hour_each_direction": 3000
+  }
+]

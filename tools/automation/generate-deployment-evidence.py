@@ -24,7 +24,12 @@ def generate(design, reuse_sumo=False, fetch_soils=False, include_soils=True):
     steps = [('survey_package', ['--design', design, '--output-dir', survey])]
     sumo_path = city / 'engineering/sumo/summary.json'
     sumo = json.loads(sumo_path.read_text()) if sumo_path.exists() else {}
-    if not reuse_sumo or any(sumo.get(k) != sha(v) for k,v in {'design_sha256':design, 'scenario_sha256':city/f'{slug}.toml', 'generator_sha256':ROOT/'engineering/analysis/benchmarks/sumo/city_timetable.py'}.items()):
+    if not reuse_sumo or any(sumo.get(k) != sha(v) for k,v in {
+        'design_sha256':design, 'scenario_sha256':city/f'{slug}.toml',
+        'corridor_sha256':city/f'{slug}.corridor.geojson',
+        'rolling_stock_sha256':ROOT/'lib/templates/rolling-stock.toml',
+        'generator_sha256':ROOT/'engineering/analysis/benchmarks/sumo/city_timetable.py',
+    }.items()):
         steps.insert(0, ('benchmarks/sumo/city_timetable', ['--design', design, '--output-dir', city / 'engineering/sumo']))
     if include_soils:
         steps.insert(0, ('city_soils', ['--design', design, *(['--fetch'] if fetch_soils else [])]))
