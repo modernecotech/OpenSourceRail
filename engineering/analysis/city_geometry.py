@@ -46,7 +46,7 @@ def local_lonlat(points: list[tuple[float, float]], lon0: float, lat0: float) ->
 
 
 def polyline_length(points: list[tuple[float, float]]) -> float:
-    return sum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
+    return math.fsum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
 
 
 def point_at(points: list[tuple[float, float]], distance: float) -> tuple[float, float]:

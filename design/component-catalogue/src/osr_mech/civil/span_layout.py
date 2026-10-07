@@ -1,6 +1,7 @@
 """Exact-chainage planning spans; surveyed supports and special designs remain gates."""
 from __future__ import annotations
 import math
+from osr_mech.provenance import stable_sum as sum
 
 
 def catalogue_counts(length_mm: int) -> tuple[int,int] | None:

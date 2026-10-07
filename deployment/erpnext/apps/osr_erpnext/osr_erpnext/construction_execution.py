@@ -31,6 +31,10 @@ def check_packet(packet, project, task, asset, employees, other_tasks):
     lifecycle=packet['asset_lifecycle']
     if lifecycle!=asset.get('controlled_lifecycle'):
         raise ValueError('asset lifecycle review differs from current authoritative record')
+    if lifecycle.get('released_project')!=project['name'] or lifecycle.get('released_front')!=allocation['front']:
+        raise ValueError('asset lifecycle is not released for this project/front')
+    if lifecycle.get('transfer_required') and not all(lifecycle.get(k) for k in ('transfer_record','compatibility_record','recommissioning_record')):
+        raise ValueError('asset transfer, compatibility and recommissioning evidence required')
     if lifecycle.get('commissioned') is not True or not lifecycle.get('commissioning_record') or not lifecycle.get('inspection_record') or lifecycle.get('configuration_accepted') is not True:
         raise ValueError('asset commissioning, configuration and inspection evidence required')
     if moment(lifecycle['inspection_valid_until'])<end or moment(lifecycle['maintenance_due_at'])<end or asset.get('open_repairs'):
@@ -139,11 +143,17 @@ def _guarded(doc):
 def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
     import frappe
     old=doc.get_doc_before_save()
+    for field in ('custom_osr_construction_work_started_at','custom_osr_construction_work_closed_at'):
+        if old and old.get(field) and doc.get(field)!=old.get(field):
+            frappe.throw('Actual construction work history cannot be rewritten')
     if old and _guarded(old) and not _guarded(doc):
         frappe.throw('Construction execution scope cannot be removed to bypass allocation checks')
     if not _guarded(doc) and not (old and _guarded(old)):
         return
-    if assigning_user is None and doc.status not in ACTIVE and not review_check:
+    was_active=old and old.status in {'Working','Pending Review'}
+    if was_active and doc.status not in ACTIVE and doc.status!='Cancelled':
+        frappe.throw('Active construction work requires reviewed handback before status reset')
+    if assigning_user is None and doc.status not in ACTIVE and not review_check and not was_active:
         return
     release_name=doc.get('custom_osr_construction_release')
     if not release_name:
@@ -161,6 +171,8 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
         frappe.throw('Work start is outside the reviewed allocation window')
     if doc.status=='Completed' and (now<moment(allocation['finish_at']) or not packet.get('completion_record')):
         frappe.throw('Completion requires finished work and reviewed handover evidence')
+    if was_active and doc.status=='Cancelled' and (not packet.get('suspension_handback_record') or 'Projects Manager' not in set(frappe.get_roles())):
+        frappe.throw('Cancellation of active construction requires reviewed suspension/handback')
     # Serialize allocations sharing machinery or workers. Query again after locks.
     live_rows={}
     for kind,names in (('Asset',[asset.name]),('Employee',sorted(allocation['workers']))):
@@ -208,8 +220,9 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
     if assigning_user is not None and assigning_user not in {e.get('user_id') for e in employees.values()}:
         frappe.throw('Assigned user is outside the reviewed construction crew')
     competitors=[]
-    for row in frappe.get_all('Task',filters={'status':['in',['Working','Pending Review','Completed']],
-            'custom_osr_construction_equipment':['is','set']},fields=['name','custom_osr_construction_release'],limit_page_length=0):
+    for row in frappe.get_all('Task',filters={'custom_osr_construction_equipment':['is','set']},
+            or_filters=[['status','in',['Working','Pending Review','Completed']],['custom_osr_construction_work_started_at','is','set']],
+            fields=['name','custom_osr_construction_release'],limit_page_length=0):
         if row.name==doc.name:continue
         other=frappe.get_doc(RELEASE,row.custom_osr_construction_release)
         evidence,_=_attachment(other);competitors.append(evidence['allocation'])
@@ -225,6 +238,10 @@ def validate_task(doc,method=None,*,assigning_user=None,review_check=False):
             current,asset_data,employees,competitors)
     except (ValueError,KeyError,TypeError) as error:
         frappe.throw('Construction allocation blocked: '+str(error))
+    if doc.status=='Working' and not doc.get('custom_osr_construction_work_started_at'):
+        doc.set('custom_osr_construction_work_started_at',now.strftime('%Y-%m-%d %H:%M:%S'))
+    if doc.status in {'Completed','Cancelled'} and was_active:
+        doc.set('custom_osr_construction_work_closed_at',now.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 def validate_assignment(doc,method=None):

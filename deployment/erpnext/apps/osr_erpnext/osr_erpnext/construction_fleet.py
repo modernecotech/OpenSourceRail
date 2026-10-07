@@ -84,5 +84,7 @@ def construction_custom_fields() -> dict:
                      ('shift','OSR construction shift','Int',None),
                      ('equipment','OSR construction equipment','Link','Asset'),
                     ('qualified_workers','OSR qualified worker/competence evidence','Code','JSON'),
-                    ('release','OSR reviewed construction allocation','Link','OSR Construction Release'),
+                     ('release','OSR reviewed construction allocation','Link','OSR Construction Release'),
+                     ('work_started_at','OSR actual work start (UTC)','Datetime',None),
+                     ('work_closed_at','OSR actual work close (UTC)','Datetime',None),
                      ('handover','OSR handover and relief coverage','Code','JSON'))]}

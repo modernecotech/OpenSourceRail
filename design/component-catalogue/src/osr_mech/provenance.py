@@ -3,6 +3,16 @@ from __future__ import annotations
 import gzip
 import hashlib
 import io
+import builtins
+import math
+
+
+def stable_sum(values, start=0):
+    """Preserve integer counts and use the same accurate float sum on 3.11/3.13."""
+    items=list(values)
+    if isinstance(start,int) and all(isinstance(value,int) for value in items):
+        return builtins.sum(items,start)
+    return math.fsum([start,*items])
 
 
 def input_revision(sources_sha256: dict[str,str]) -> str:

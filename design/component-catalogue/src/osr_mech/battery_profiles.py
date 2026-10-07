@@ -6,6 +6,7 @@ It is a study, never a commissioning calibration or timetable release.
 from __future__ import annotations
 from dataclasses import dataclass
 import math
+from osr_mech.provenance import stable_sum as sum
 
 
 class _ShortfallLedger:

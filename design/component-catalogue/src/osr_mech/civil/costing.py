@@ -2,6 +2,7 @@
 from __future__ import annotations
 from dataclasses import asdict, dataclass
 import math
+from osr_mech.provenance import stable_sum as sum
 
 
 @dataclass(frozen=True)

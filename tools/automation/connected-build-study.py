@@ -10,6 +10,7 @@ import hashlib
 import importlib.util
 import json
 import math
+from osr_mech.provenance import stable_sum as sum
 from pathlib import Path
 import subprocess
 import sys
@@ -17,12 +18,17 @@ import tomllib
 import tempfile
 
 ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 sys.path.insert(0,str(ROOT/'design/component-catalogue/src'))
 sys.path.insert(0,str(ROOT/'deployment/erpnext/apps/osr_erpnext'))
 sys.path.insert(0,str(ROOT))
 from osr_mech.provenance import input_revision, deterministic_gzip
 from osr_mech.station.layout import station_layout, step_free_reachability
 from osr_mech.station.passenger_demand import station_passenger_demand
+from osr_mech.station_capacity import station_capacity_screen
+from osr_mech.handling_assurance import beam_stage_assurance
+from osr_mech.delivery_commercial import quote_register,procurement_requirements,partial_cashflow_sensitivity
+from connected_delivery_register import build_register
 from osr_mech.buildable_stations import station_variant
 from osr_mech.common import StationArchetype, ConsistFamily
 from osr_mech.civil.quantity_model import station_structure_quantities
@@ -173,16 +179,18 @@ def reassigned_ring_fronts(fronts, fixed_finish, ring_line, cfg):
     ring=[f for f in fronts if f.line==ring_line]
     donors=sorted((f for f in fronts if f.line!=ring_line),key=lambda f:(fixed_finish[f.id],f.id))[:6]
     spans=sorted((s for f in ring for s in f.planned_spans),key=lambda s:s['start_chainage_m'])
-    if len(ring)!=2 or len(donors)!=6 or len(spans)<8:
-        raise ValueError('ring sensitivity requires two initial fronts and six available radial machines')
-    chunks=[spans[i*len(spans)//8:(i+1)*len(spans)//8] for i in range(8)]
+    donors=donors[:max(0,len(spans)-2)]
+    count=len(donors)+2
+    if len(ring)!=2 or not donors:
+        raise ValueError('ring sensitivity requires two initial fronts and available radial machines')
+    chunks=[spans[i*len(spans)//count:(i+1)*len(spans)//count] for i in range(count)]
     result=[f for f in fronts if f.line!=ring_line]
     assignments=[ring[0],*donors,ring[1]]
     for index,(chunk,original) in enumerate(zip(chunks,assignments)):
-        transferred=index not in (0,7)
+        transferred=index not in (0,count-1)
         fid=f'{ring_line}-additional-front-{index}' if transferred else original.id
         f=replace(original,id=fid,line=ring_line,start_chainage_m=chunk[0]['start_chainage_m'],
-            end_chainage_m=chunk[-1]['end_chainage_m'],direction=-1 if index==7 else 1,
+            end_chainage_m=chunk[-1]['end_chainage_m'],direction=-1 if index==count-1 else 1,
             work_intervals_m=tuple((s['start_chainage_m'],s['end_chainage_m']) for s in chunk),planned_spans=tuple(chunk),
             available_foundations=0 if transferred else original.available_foundations,
             planned_start_day=fixed_finish[original.id]+1 if transferred else 1,
@@ -194,6 +202,7 @@ def reassigned_ring_fronts(fronts, fixed_finish, ring_line, cfg):
 
 def build(city_dir):
     config=read(ROOT/'lib/templates/accelerated-build.toml')
+    delivery_evidence=read(ROOT/'lib/templates/connected-delivery-evidence.json')
     design=read(city_dir/'design.toml')
     passenger_register=read(ROOT/'lib/templates/station-passenger-assignment.json')
     passenger_demand=station_passenger_demand(design,read(city_dir/f"{design['city']['slug']}.toml"),passenger_register)
@@ -289,8 +298,9 @@ def build(city_dir):
         raise ValueError('working days per week must be in [1,7]')
     calendar_config=config['calendar']
     calendar=WorkingCalendar(start_date=e['conditional_ready_date'],
-        weekdays=tuple(range(e['working_days_per_week'])),holidays=tuple(calendar_config['holidays']),
+        weekdays=tuple(calendar_config.get('weekdays',range(e['working_days_per_week']))),holidays=tuple(calendar_config['holidays']),
         maintenance_days=tuple(calendar_config['maintenance_days']),
+        permitted_hours_by_date=tuple(tuple(row) for row in calendar_config.get('permitted_hours_by_date',[])),
         night_shift_permitted=calendar_config['night_shift_permitted'],
         qualified=False,night_permission_record=calendar_config.get('night_permission_record'),
         relief_roster_record=calendar_config.get('relief_roster_record'))
@@ -324,7 +334,7 @@ def build(city_dir):
         raise ValueError('independent fronts exceed available launcher fleet')
     scenarios={};files={}
     sensitivities=list(config['sensitivities'])
-    if any(line.get('shape')=='ring' for line in design['lines']):
+    if any(line.get('shape')=='ring' for line in design['lines']) and len({f.line for f in fronts})>1:
         sensitivities.append({**sensitivities[0],'id':'initial-accelerated-reassigned'})
     sensitivities.append({**sensitivities[0],'id':'initial-six-day-calendar'})
     for sensitivity in sensitivities:
@@ -363,10 +373,10 @@ def build(city_dir):
         bottlenecks={f.id:dict(Counter(row['limiting_resource'] for day in daily for row in day['fronts'] if row['front']==f.id)) for f in case_fronts}
         files[f"schedule-{sensitivity['id']}.json.gz"]=deterministic_gzip(encode(daily))
         scenarios[sensitivity['id']]={**result,'assumed_bays_launcher_day':average,
-            'assumed_beam_demand_day':sensitivity['assumed_beam_demand_day'],
+            'assumed_beam_demand_day':len({f.launcher for f in case_fronts})*average*2,
             'scope':'identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates',
             'qualified_supplier_allocation':False,'assumed_accepted_supply_beams_day':len(fronts)*average*2,
-            'allocation_strategy':'six radial launchers transferred to additional conditional ring fronts' if case_fronts is not fronts else 'fixed two launchers per line',
+            'allocation_strategy':f'{sum(bool(f.predecessors) for f in case_fronts)} radial launchers transferred to additional conditional ring fronts' if case_fronts is not fronts else 'fixed two launchers per line',
             'added_ring_access_accepted':False,'maximum_launchers':len({f.launcher for f in case_fronts}),
             'assumed_transporters':len({f.launcher for f in case_fronts})*config['logistics']['trailers_per_front'],
             'section_relocation_allowance_days':e['relocation_days'],
@@ -395,6 +405,9 @@ def build(city_dir):
         spec['suspended_study_load_kg']=suspended_load_kg(spec,4000)
         spec['construction_stage_screen']=construction_stage_reactions(spec['suspended_study_load_kg'],120000,spec['span_m'],spec['span_m']/2,2.0,120000)
     files['stations.json']=encode(station_rows)
+    files['station-capacity.json']=encode(dict(stations=[station_capacity_screen(s,
+        next(d['platform_length_m'] for d in design['stations'] if d['id']==s['id']),delivery_evidence['station_assessments'].get(s['id'])) for s in station_rows],engineering_qualified=False))
+    files['beam-stage-assurance.json']=encode(dict(variants=[beam_stage_assurance(span,delivery_evidence['lifting_arrangements'].get(f'OSR-Pi{span:g}')) for span in (20.,25.)],structural_and_lifting_release=False))
     files['station-passenger-demand.json']=encode(passenger_demand)
     files['span-layout.json']=encode(dict(spans=all_spans,quantities=span_quantities(all_spans),
         pier_locations_surveyed=False,construction_design_released=False,
@@ -506,6 +519,19 @@ def build(city_dir):
                   dict(scope='18 launcher commissioning balance',date=e['conditional_ready_date'],cash_usd=allowance*config['finance']['launcher_payment_commissioning_fraction'],supplier=None,committed=False)],
         adopted_finance_comparator='engineering/programme-recalculation/local_positive.json',
         revised_revenue_start_accepted=False))
+    quotes=quote_register(delivery_evidence['quotations'],delivery_evidence['as_of'])
+    requirements=procurement_requirements(span_quantities(all_spans),e['launchers'],len(fronts)*config['logistics']['trailers_per_front'])
+    files['procurement-evidence.json']=encode(dict(quotations=quotes,requirements=requirements,
+        installed_beam_requirements_source='span-layout.json: each catalogue span has identified track-component IDs',
+        provisional_launcher_scope=costs['procurement']['launcher_whole_beam'],supplier_capacity_created_by_quotes=False,complete_budget_accepted=False))
+    payments=json.loads(files['costs.json'])['payments']
+    cash_cases={}
+    for name,case in scenarios.items():
+        opening=max(row['conditional_opening_date'] for row in case['opening_stages'])
+        cash_cases[name]={str(rate):partial_cashflow_sensitivity(payments,opening,rate) for rate in (.04,.08,.12)}
+    files['cashflow-sensitivities.json']=encode(dict(cases=cash_cases,priced_scope='unquoted purchase-only launcher allowance; all other unknown scopes excluded',
+        annual_rates_are_assumptions=True,complete_financing_usd=None,accepted_revenue_usd=None))
+    files['remaining-work.json']=encode(build_register(ROOT,delivery_evidence['acceptance_records']))
     assets=[asset_draft(f'launcher-{i:02d}','whole-beam-launcher',fronts[i-1].id if i<=len(fronts) else None) for i in range(1,e['launchers']+1)]
     for f in fronts:
         assets.extend(asset_draft(f'{f.id}-transporter-{i+1:02d}','long-load-transporter',f.id) for i in range(config['logistics']['trailers_per_front']))
@@ -547,13 +573,15 @@ Generated from RFC 0034; {config['schema']['as_of']}. These are unquoted, condit
 
 The package has {len(station_rows)} stations, {sum(s['layout']['quantities']['platform_count'] for s in station_rows)} physical platforms and {sum(s['layout']['quantities']['boarding_face_count'] for s in station_rows)} boarding faces. Elevated islands use individually identified lifts, escalators, stairs and shafts; their flow/evacuation/one-lift-out approvals remain open. [Station-specific passenger assignment](station-passenger-demand.json) accepts sourced OD legs, preserves paid journeys versus transfer boardings and links station accumulation to its declared service window. Empty evidence means unknown demand; 3,000 pax/h is a separately labelled stress case. Measured access throughput, assisted rescue and lift-out capacity remain open. [Station quantities and access costs](stations.json), [track-spreading approaches](station-approaches.geojson) and [proposed entrances](entrances.geojson) derive from the same layout. Coverage from accepted accessible entrances remains unknown; the existing centroid-based archive cannot close that assessment.
 
-[Running civil quantities and conditional deployment](civil.json) exclude station and spreading-approach zones. [Identified planning spans and beam requirements](span-layout.json) now conserve interval lengths; non-catalogue closures are explicitly excluded from ordinary beam orders. Pier chainages are proposed and require survey/structural acceptance. The {len(fronts)} independent fronts initially use two launchers per line where running work exists. Each disconnected section has a seven-day assumed relocation allowance; crossing feasibility remains unaccepted. A separate conditional case transfers six released radial launchers to additional ring fronts, retaining 18 machines and 72 transporters. Added access and foundations are hypothetical, and transfer/mobilisation delays remain explicit. The 18-machine/two-shift 1.5, 1.8 and 2.0 bays/day sensitivities retain 54, 64.8 and 72 beams/day as average fleet demands. Integer daily schedules are in `schedule-*.json.gz`. The explicit calendar gates working dates for casting, QA, transport, foundations and erection; night restrictions cap erection hours. Supplier-specific shifts, permits, relief and holidays remain unqualified. A six-day sensitivity is reported separately. The initial case completes its running bays in {first['days']} days under its explicit hypothetical supply/readiness inputs; special crossings, station structures, rolling stock and permits remain separate opening gates. The evidence-backed schedule reads the supplier and route registers and completes zero bays because accepted supplier capacity and released supports are absent.
+[Running civil quantities and conditional deployment](civil.json) exclude station and spreading-approach zones. [Identified planning spans and beam requirements](span-layout.json) now conserve interval lengths; non-catalogue closures are explicitly excluded from ordinary beam orders. Pier chainages are proposed and require survey/structural acceptance. The {len(fronts)} independent fronts initially use two launchers per line where running work exists. Each disconnected section has a seven-day assumed relocation allowance; crossing feasibility remains unaccepted. A conditional case transfers available released radial launchers to additional ring fronts while retaining the same active machine/transport fleet. Added access and foundations are hypothetical, and transfer/mobilisation delays remain explicit. Two-shift 1.5, 1.8 and 2.0 bays/day sensitivities use the identified active launchers. Configured spare machines create no independent-front output; each case reports its actual fleet demand. Integer daily schedules are in `schedule-*.json.gz`. The explicit calendar gates working dates for casting, QA, transport, foundations and erection; night restrictions cap erection hours. Supplier-specific shifts, permits, relief and holidays remain unqualified. A six-day sensitivity is reported separately. The initial case completes its running bays in {first['days']} days under its explicit hypothetical supply/readiness inputs; special crossings, station structures, rolling stock and permits remain separate opening gates. The evidence-backed schedule reads the supplier and route registers and completes zero bays because accepted supplier capacity and released supports are absent.
 
 | Construction case | Running-span days | Launchers | Assumed transporters |
 | --- | ---: | ---: | ---: |
 {construction_rows}
 
 [Supplier register](suppliers.json) records the sourcing basis that Iraq already has many precast facilities and production expertise. No named facility, available beam capacity or assumed contract is adopted. The [logistics plan](logistics.json) now feeds casting, acceptance holds, dispatch limits, gross vehicle/bridge loads, journeys, shared fleets and factory/front buffer limits into the same erection schedule. Rejected components require replacement; blocked storage pauses production. Each front reports days limited by casting, acceptance, transport, foundations or erection. The assumed pool is a resource requirement, not an identified supplier or confirmed spare capacity; real routes and contracts remain in separate registers.
+
+[Supplier quotation and scope requirements](procurement-evidence.json) keep preliminary, firm and contracted prices separate from qualified factory output. [Partial cashflow sensitivities](cashflow-sensitivities.json) link identified purchase payments to each conditional schedule at assumed 4/8/12% simple ACT/365 interest; complete CAPEX/finance and revenue remain unknown. The identified span register provides each catalogue beam requirement; no special span is ordered as an ordinary member.
 
 [Costs and cash sensitivities](costs.json) keep the $9m launcher purchase allowance and exclusions visible. Embedded erection in installed civil rates is unverified, so no net saving or complete financing total is claimed. Gross access equipment, maintenance, replacement, factory scope and night-shift sensitivities remain separate; rolling-stock/electronics factory allowances are retained. Payment dates are conditional cash planning, not purchase orders.
 
@@ -569,10 +597,16 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
 
 [Battery charge/thermal sensitivities](battery-envelope-sensitivity.json) sweep 180/360/540 kW and 25/45/50 °C on two-minute shared-site visits. These parameter probes expose the effect of charge maxima and inherited thermal/taper/efficiency assumptions; they are not supplier claims or full-network service acceptance.
 
+[Structural/handling stage screens](beam-stage-assurance.json) report gross-section properties, selfweight, lift/storage/transport reactions, sling force and launcher-position envelopes. Prestress, reinforcement, release strengths, bearings, fatigue, stability and supplier charts remain unresolved; screens grant no release. [Station area/capacity screens](station-capacity.json) union shared-layout equipment footprints, report unoccupied envelopes and circulation lanes, and accept sourced criteria/lift rates. Evacuation, rescue, walking catchments and site approvals remain open.
+
+[Complete remaining-work register](remaining-work.json) traces all 20 review areas, including rolling-stock/electronics release, redundancy, deployment, workforce, other cities and governance. Missing records and appointments stay open; input receipts cannot authenticate an authority or create acceptance.
+
 [Manifest](manifest.json) hashes every source and output and identifies the source revision and assumption register. Existing finance/proposal packages are retained comparators pending scope-matched adoption; this study is the current connected scenario, not an accepted replacement budget. Regenerate with `.venv/bin/python tools/automation/connected-build-study.py --city {slug}`; verify using `--check`.
 ''').encode()
     sources=[Path(__file__),city_dir/'design.toml',city_dir/f'{slug}.toml',city_dir/f'{slug}.corridor.geojson']
-    sources += [ROOT/'lib/templates'/name for name in ('station-passenger-assignment.json','precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
+    sources += [ROOT/'lib/templates'/name for name in ('connected-delivery-evidence.json','station-passenger-assignment.json','precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
+    sources += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('station_capacity.py','handling_assurance.py','delivery_commercial.py')]
+    sources += [ROOT/'tools/automation/connected_delivery_register.py']
     sources += sorted((ROOT/'crates/osr-bms/src').glob('*.rs'))
     sources += [ROOT/'crates/osr-sim/src'/name for name in ('battery.rs','onboard.rs','scenario_file.rs','physics.rs','sim.rs','bin/osr-movement-profiles.rs')]
     sources += [ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'crates/osr-sim/Cargo.toml',ROOT/'crates/osr-bms/Cargo.toml',ROOT/'crates/osr-core/src/consist.rs']
@@ -594,7 +628,7 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
     manifest=dict(native_cad=native_cad,schema=2,source_revision=input_revision(source_hashes),source_revision_kind='sha256-input-content',
         assumptions=config,source_sha256=source_hashes,
         output_sha256={name:hashlib.sha256(data).hexdigest() for name,data in files.items()},
-        current_connected_study=True,engineering_qualified=False,supplier_quotations=0,
+        current_connected_study=True,engineering_qualified=False,supplier_quotations=len(quotes),
         adopted_archive_status='prior finance/coverage/proposals retained as comparators; no scope-matched acceptance',
         unresolved=['station structural and launcher clearances','full passenger flow/evacuation and one-lift-out assessment','supplier contracted capacity and product qualification','delivery routes and bridge/access restrictions','embedded installed-rate erection credit','complete chronological network timetable','accessible-entrance population coverage','procurement and financing commitments'])
     files['manifest.json']=encode(manifest)

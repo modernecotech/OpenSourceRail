@@ -13,6 +13,7 @@ def fixture():
     allocation=dict(task='task',department='Civil',unit='line',front='front',crew='crew',shift=1,equipment='launcher',
         workers=['employee'],required_roles=['operator'],start_at='2027-01-05T08:00:00+03:00',finish_at='2027-01-05T16:00:00+03:00')
     life=dict(commissioned=True,commissioning_record='bench',inspection_record='bench',configuration_accepted=True,
+        released_project='project',released_front='front',transfer_required=False,
         inspection_valid_until='2028-01-01T00:00:00+03:00',maintenance_due_at='2028-01-01T00:00:00+03:00')
     worker=dict(id='employee',role='operator',crew='crew',shift=1,equipment='launcher',
         commissioning_supervised=True,equipment_assessment_passed=True,competency_expires='2028-01-01',
@@ -77,3 +78,28 @@ def test_native_work_transition_rejects_a_draft_or_cancelled_review(monkeypatch)
     with pytest.raises(ValueError,match='revoked'):validate_task(doc)
     release.docstatus=2
     with pytest.raises(ValueError,match='revoked'):validate_task(doc)
+
+
+def test_asset_transfer_requires_matching_destination_and_recommissioning():
+    values=list(fixture());values[0]['asset_lifecycle']['transfer_required']=True
+    values[3]['controlled_lifecycle']=deepcopy(values[0]['asset_lifecycle'])
+    with pytest.raises(ValueError,match='transfer'):check_packet(*values)
+    for key in ('transfer_record','compatibility_record','recommissioning_record'):
+        values[0]['asset_lifecycle'][key]='test-only'
+    values[3]['controlled_lifecycle']=deepcopy(values[0]['asset_lifecycle'])
+    assert check_packet(*values)
+    values[0]['asset_lifecycle']['released_front']='another-front'
+    values[3]['controlled_lifecycle']=deepcopy(values[0]['asset_lifecycle'])
+    with pytest.raises(ValueError,match='project/front'):check_packet(*values)
+
+
+def test_active_task_cannot_hide_its_allocation_by_reopening(monkeypatch):
+    from types import SimpleNamespace
+    from osr_erpnext.construction_execution import validate_task
+    class Doc(dict):
+        def __getattr__(self,name):return self.get(name)
+        def get_doc_before_save(self):return Doc(status='Working',custom_osr_construction_equipment='launcher')
+    def throw(message):raise ValueError(message)
+    monkeypatch.setitem(sys.modules,'frappe',SimpleNamespace(throw=throw))
+    with pytest.raises(ValueError,match='status reset'):
+        validate_task(Doc(status='Open',custom_osr_construction_equipment='launcher'))

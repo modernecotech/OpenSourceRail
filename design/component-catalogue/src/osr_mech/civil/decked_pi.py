@@ -10,6 +10,7 @@ interaction design.
 from __future__ import annotations
 
 import math
+from osr_mech.provenance import stable_sum as sum
 
 from osr_mech.cad import Box, Color, Compound, Location, Part
 from osr_mech.common import STANDARD_GAUGE_MM

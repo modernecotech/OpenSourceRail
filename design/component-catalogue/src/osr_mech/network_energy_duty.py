@@ -5,6 +5,7 @@ Timings use an explicit average-speed screen and need full timetable validation.
 """
 from __future__ import annotations
 import math
+from osr_mech.provenance import stable_sum as sum
 
 
 def clock_minutes(text):

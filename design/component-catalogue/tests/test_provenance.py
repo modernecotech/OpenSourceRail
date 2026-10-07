@@ -5,12 +5,19 @@ from pathlib import Path
 import subprocess
 import sys
 
-from osr_mech.provenance import deterministic_gzip, input_revision
+from osr_mech.provenance import deterministic_gzip, input_revision, stable_sum
 
 
 def test_revision_is_order_independent_and_changes_when_an_input_changes():
     assert input_revision({'a':'0'*64,'b':'1'*64})==input_revision({'b':'1'*64,'a':'0'*64})
     assert input_revision({'a':'0'*64})!=input_revision({'a':'1'*64})
+
+
+def test_float_sums_are_explicit_and_integer_quantities_keep_their_type():
+    assert stable_sum([1e16,1.0,-1e16])==1.0
+    assert stable_sum([True,False,True])==2
+    assert type(stable_sum([1,2,3])) is int
+    assert type(stable_sum([])) is int
 
 
 def test_gzip_has_fixed_headers_and_roundtrips():
