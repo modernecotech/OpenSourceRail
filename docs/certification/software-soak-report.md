@@ -31,7 +31,7 @@ Every final value is checked against the declared bound. A smaller checkpoint va
 | normal | historian samples | 2708640 | 3278880 | 8078400 |
 | normal | CBM components | 4356 | 4356 | 4356 |
 | normal | work orders | 0 | 0 | 4096 |
-| normal | compact result bytes | 153654 | 153998 | 2000000 |
+| normal | compact result bytes | 171643 | 171987 | 2000000 |
 | peak | detailed events | 0 | 0 | 0 |
 | peak | event-count keys | 6 | 6 | 9 |
 | peak | event records | 540672 | 540672 | 540672 |
@@ -40,7 +40,7 @@ Every final value is checked against the declared bound. A smaller checkpoint va
 | peak | historian samples | 2708640 | 3278880 | 8078400 |
 | peak | CBM components | 4356 | 4356 | 4356 |
 | peak | work orders | 0 | 0 | 4096 |
-| peak | compact result bytes | 155119 | 155612 | 2000000 |
+| peak | compact result bytes | 173108 | 173601 | 2000000 |
 | degraded | detailed events | 0 | 0 | 0 |
 | degraded | event-count keys | 8 | 8 | 9 |
 | degraded | event records | 540672 | 540672 | 540672 |
@@ -49,7 +49,7 @@ Every final value is checked against the declared bound. A smaller checkpoint va
 | degraded | historian samples | 0 | 0 | 8078400 |
 | degraded | CBM components | 0 | 0 | 4356 |
 | degraded | work orders | 0 | 0 | 4096 |
-| degraded | compact result bytes | 156008 | 156755 | 2000000 |
+| degraded | compact result bytes | 173997 | 174744 | 2000000 |
 | recovery | detailed events | 0 | 0 | 0 |
 | recovery | event-count keys | 8 | 8 | 9 |
 | recovery | event records | 540672 | 540672 | 540672 |
@@ -58,7 +58,7 @@ Every final value is checked against the declared bound. A smaller checkpoint va
 | recovery | historian samples | 13860 | 2866380 | 8078400 |
 | recovery | CBM components | 4356 | 4356 | 4356 |
 | recovery | work orders | 0 | 4096 | 4096 |
-| recovery | compact result bytes | 157380 | 592351 | 2000000 |
+| recovery | compact result bytes | 175369 | 610340 | 2000000 |
 
 ## Assertions
 

@@ -2,12 +2,12 @@
 
 > Deterministic evidence-coherence result—not certification, conformity, construction release or permission to operate.
 
-- Design fingerprint: `ccc39e0bfadedadcfeac2601436f2d4552ba51b1cf9f9ec82985fca4dc6aae18`
+- Design fingerprint: `f8ed491a19d71a3dddbd5bd0129d1fbf3a77eee51198b5a880e0c4f20f646302`
 - Digital evidence-coherence gate: **PASS**
 - Standards conformity: **NOT-ASSESSED**
 - Physical/revenue release: **BLOCKED**
 - Scope: **23** publisher records, **5** assurance profiles, **16** control objectives and **15** repository checks
-- Inventory: **280** engineering items screened; **280** item reviews remain open
+- Inventory: **285** engineering items screened; **285** item reviews remain open
 - Registry reviewed: 2026-10-02; next mandatory review: **2026-10-31**
 
 ## What the result means
