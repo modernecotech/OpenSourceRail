@@ -13,6 +13,14 @@ release gates are tracked in
 
 | File | Scope |
 |---|---|
+| [`civil-works-master-plan.md`](civil-works-master-plan.md) | Connected detailed civil programme with 25 m average-span planning, individual span orders, stations, all other civil scope and complete handover |
+| [`viaduct-construction-method.md`](viaduct-construction-method.md) | Workfront release, foundations, columns/caps, production, launcher stages, paired beam erection, completion and relocation |
+| [`station-construction-method.md`](station-construction-method.md) | Elevated/at-grade station structures, spreading approaches, shafts/access, roofs, systems and integrated handover |
+| [`other-civil-works-methods.md`](other-civil-works-methods.md) | Utilities, earthworks/treatment, retaining/track, drainage, specials, depots, energy sites and reinstatement |
+| [`construction-logistics-plan.md`](construction-logistics-plan.md) | Existing-facility audits, yards, production positions, heavy haulage, buffers, material flow and launcher transfers |
+| [`civil-programme-and-controls.md`](civil-programme-and-controls.md) | Fourteen-package WBS, finite resources, calendars, workforce, change, cash and complete-line opening logic |
+| [`civil-inspection-and-handover.md`](civil-inspection-and-handover.md) | Site-stage hold/witness/review plan, first repetition, following-trade release and final acceptance |
+| [`Baghdad/engineering/civil-works/`](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md) | Source-locked line quantities, 548 run packages, 186 station packages, logistics sensitivities and open review findings |
 | [`marketplace-cost-anchors.md`](marketplace-cost-anchors.md) | Marketplace audit trail and retained benchmarks for at-grade track, elevated guideway, bridges, stations, depots, and charging interfaces |
 | [`civil-cost-calibration.toml`](../../lib/templates/civil-cost-calibration.toml) | Reviewed benchmark quantities and cost shares; the human-edited input to design-derived civil rates |
 | [`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml) | Generated rate contract consumed by city synthesis, finance reports, IFC metadata, and city READMEs |

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6146**.
+Indexed Markdown files: **6154**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **6146**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 5436 |
+| [cities](#cities) | 5437 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 196 |
+| [docs](#docs) | 203 |
 | [engineering](#engineering) | 31 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4252,6 +4252,7 @@ Indexed Markdown files: **6146**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/README.md) | Baghdad — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/README.md) | Baghdad Planning OSR-ALN Package |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md) | Baghdad detailed civil works plan |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md) | Baghdad — viaduct obstacle clearance |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md) | Baghdad connected construction and battery study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad same-alignment cost reconciliation |
@@ -6024,16 +6025,23 @@ Indexed Markdown files: **6146**.
 | [`docs/city-workforce-design-development.md`](../docs/city-workforce-design-development.md) | City workforce, design refinements and remaining development |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
+| [`docs/civil/civil-inspection-and-handover.md`](../docs/civil/civil-inspection-and-handover.md) | Civil inspection, testing and handover plan |
+| [`docs/civil/civil-programme-and-controls.md`](../docs/civil/civil-programme-and-controls.md) | Civil programme and workface controls |
+| [`docs/civil/civil-works-master-plan.md`](../docs/civil/civil-works-master-plan.md) | Civil works master plan |
+| [`docs/civil/construction-logistics-plan.md`](../docs/civil/construction-logistics-plan.md) | Civil construction logistics plan |
 | [`docs/civil/construction-system-selection.md`](../docs/civil/construction-system-selection.md) | Civil Construction-System Selection |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
 | [`docs/civil/depot-bogie-change-interface.md`](../docs/civil/depot-bogie-change-interface.md) | LM3 Depot Bogie-Change Interface |
 | [`docs/civil/foundation-and-production-system.md`](../docs/civil/foundation-and-production-system.md) | Foundation And Civil Production System |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
+| [`docs/civil/other-civil-works-methods.md`](../docs/civil/other-civil-works-methods.md) | Other civil works construction methods |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
 | [`docs/civil/reference-demonstration.md`](../docs/civil/reference-demonstration.md) | Civil reference and numerical evidence workflow |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
+| [`docs/civil/station-construction-method.md`](../docs/civil/station-construction-method.md) | Station civil and access construction method |
 | [`docs/civil/viaduct-bearing-and-movement-schedule.md`](../docs/civil/viaduct-bearing-and-movement-schedule.md) | Viaduct Bearing And Movement Schedule |
+| [`docs/civil/viaduct-construction-method.md`](../docs/civil/viaduct-construction-method.md) | Viaduct construction method |
 | [`docs/civil/viaduct-design-basis.md`](../docs/civil/viaduct-design-basis.md) | OSR Rapid Viaduct Kit — Design Basis |
 | [`docs/civil/viaduct-first-article-test-plan.md`](../docs/civil/viaduct-first-article-test-plan.md) | Viaduct First-Article Test Plan |
 | [`docs/civil/viaduct-kinematic-egress-envelope.md`](../docs/civil/viaduct-kinematic-egress-envelope.md) | Viaduct Kinematic And Egress Envelope |

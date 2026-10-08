@@ -1,0 +1,303 @@
+{
+  "schema": "osr-civil-works-plan/1",
+  "revision_date": "2026-10-08",
+  "status": "proposed-construction-planning-methods",
+  "construction_released": false,
+  "planning": {
+    "average_span_m": 25,
+    "initial_launchers_per_line": 2,
+    "illustrative_bays_launcher_working_day": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "erection_days_week": 6,
+    "erection_shift_hours": 8,
+    "beam_buffer_bays_per_front": [
+      10,
+      15
+    ],
+    "production_cycle_hours": 48,
+    "production_calendar_hours_day": 24,
+    "production_days_week": 7,
+    "first_pass_yield": 0.9,
+    "haulage_window_hours": 12,
+    "complete_vehicle_cycle_hours": 8,
+    "complete_vehicle_cycle_breakdown_hours": {
+      "loading": 1,
+      "outward": 2,
+      "unloading": 1,
+      "return": 2,
+      "delays_and_driver_break_allowance": 2
+    },
+    "beams_per_trip": 1,
+    "night_erection_adopted": false,
+    "rates_measured": false,
+    "holidays_and_weather_approved": false,
+    "erection_productive_fraction": 0.8,
+    "erection_handover_hours_shift": 0.5,
+    "erection_maintenance_hours_day": 0.5
+  },
+  "packages": [
+    {
+      "id": "CW-01",
+      "title": "Survey, land and utilities",
+      "accountable_role": "survey/consents lead",
+      "finish_predecessors": [],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-02",
+      "title": "Enabling and temporary works",
+      "accountable_role": "construction manager",
+      "finish_predecessors": [
+        "CW-01"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-03",
+      "title": "Foundations and ground treatment",
+      "accountable_role": "geotechnical authority",
+      "finish_predecessors": [
+        "CW-01",
+        "CW-02"
+      ],
+      "method": "docs/civil/viaduct-construction-method.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-04",
+      "title": "Viaduct substructure",
+      "accountable_role": "bridge construction lead",
+      "finish_predecessors": [
+        "CW-03"
+      ],
+      "method": "docs/civil/viaduct-construction-method.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-05",
+      "title": "Precast production and delivery",
+      "accountable_role": "precast/logistics manager",
+      "finish_predecessors": [
+        "CW-01"
+      ],
+      "method": "docs/civil/construction-logistics-plan.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-06",
+      "title": "Viaduct erection and completion",
+      "accountable_role": "appointed lift planner",
+      "finish_predecessors": [
+        "CW-04",
+        "CW-05"
+      ],
+      "method": "docs/civil/viaduct-construction-method.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-07",
+      "title": "Station civil and access",
+      "accountable_role": "station construction lead",
+      "finish_predecessors": [
+        "CW-01",
+        "CW-02",
+        "CW-03"
+      ],
+      "method": "docs/civil/station-construction-method.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-08",
+      "title": "Track support and approaches",
+      "accountable_role": "track/earthworks lead",
+      "finish_predecessors": [
+        "CW-03",
+        "CW-06",
+        "CW-07",
+        "CW-09",
+        "CW-10"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-09",
+      "title": "Special crossings and closures",
+      "accountable_role": "special-structures authority",
+      "finish_predecessors": [
+        "CW-01",
+        "CW-02",
+        "CW-03"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-10",
+      "title": "Drainage and flood protection",
+      "accountable_role": "drainage authority",
+      "finish_predecessors": [
+        "CW-01",
+        "CW-02"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-11",
+      "title": "Depot and stabling civil",
+      "accountable_role": "depot design/construction lead",
+      "finish_predecessors": [
+        "CW-01",
+        "CW-02",
+        "CW-03",
+        "CW-10"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-12",
+      "title": "Energy and systems civil",
+      "accountable_role": "systems interface manager",
+      "finish_predecessors": [
+        "CW-06",
+        "CW-07",
+        "CW-10",
+        "CW-11"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-13",
+      "title": "Roads, public realm and reinstatement",
+      "accountable_role": "urban works lead",
+      "finish_predecessors": [
+        "CW-07",
+        "CW-08",
+        "CW-09",
+        "CW-10",
+        "CW-11",
+        "CW-12"
+      ],
+      "method": "docs/civil/other-civil-works-methods.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    },
+    {
+      "id": "CW-14",
+      "title": "Integrated civil acceptance",
+      "accountable_role": "owner handover manager",
+      "finish_predecessors": [
+        "CW-06",
+        "CW-07",
+        "CW-08",
+        "CW-09",
+        "CW-10",
+        "CW-11",
+        "CW-12",
+        "CW-13"
+      ],
+      "method": "docs/civil/civil-inspection-and-handover.md",
+      "duration_working_days": null,
+      "installed_price_usd": null,
+      "accepted_release_record": null
+    }
+  ],
+  "method_documents": [
+    "docs/civil/civil-works-master-plan.md",
+    "docs/civil/viaduct-construction-method.md",
+    "docs/civil/station-construction-method.md",
+    "docs/civil/other-civil-works-methods.md",
+    "docs/civil/construction-logistics-plan.md",
+    "docs/civil/civil-programme-and-controls.md",
+    "docs/civil/civil-inspection-and-handover.md"
+  ],
+  "site_evidence": {
+    "surveys": [],
+    "support_releases": [],
+    "station_designs": [],
+    "special_designs": [],
+    "supplier_capacity_contracts": [],
+    "delivery_routes": [],
+    "approved_calendars": [],
+    "measured_cycles": [],
+    "installed_quotes": [],
+    "independent_acceptances": []
+  },
+  "technical_references": [
+    {
+      "publisher": "FHWA",
+      "title": "Prefabricated Bridge Elements and Systems",
+      "url": "https://www.fhwa.dot.gov/bridge/prefab/",
+      "reviewed_on": "2026-10-08",
+      "use": "off-site manufacture, transport and installation practice; no Baghdad product qualification"
+    },
+    {
+      "publisher": "FHWA",
+      "title": "Accelerated Bridge Construction",
+      "url": "https://www.fhwa.dot.gov/bridge/abc/index.cfm",
+      "reviewed_on": "2026-10-08",
+      "use": "planning, geotechnical and structural placement coordination"
+    },
+    {
+      "publisher": "FHWA",
+      "title": "Drilled Shafts: Construction Procedures and Design Methods, GEC 10",
+      "url": "https://www.fhwa.dot.gov/engineering/geotech/nhi18024.pdf",
+      "reviewed_on": "2026-10-08",
+      "use": "drilling, concrete placement and inspection method development"
+    },
+    {
+      "publisher": "HSE",
+      "title": "Temporary Works",
+      "url": "https://www.hse.gov.uk/construction/safetytopics/temporary-works.htm",
+      "reviewed_on": "2026-10-08",
+      "use": "coordination, design, independent checking and site setup"
+    },
+    {
+      "publisher": "HSE",
+      "title": "Planning and Organising Lifting Operations",
+      "url": "https://www.hse.gov.uk/work-equipment-machinery/planning-organising-lifting-operations.htm",
+      "reviewed_on": "2026-10-08",
+      "use": "competent written planning and supervision"
+    },
+    {
+      "publisher": "HSE",
+      "title": "Construction Lifting Operations",
+      "url": "https://www.hse.gov.uk/construction/safetytopics/lifting-operations.htm",
+      "reviewed_on": "2026-10-08",
+      "use": "configured equipment, planning and competent lift team"
+    }
+  ]
+}

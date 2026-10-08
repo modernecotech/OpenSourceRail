@@ -48,6 +48,13 @@ SHARED = [
     'docs/operating/city-platform.md',
     'docs/deployment-planning-reference.md',
     'docs/civil/slab-trackforms.md',
+    'docs/civil/civil-works-master-plan.md',
+    'docs/civil/viaduct-construction-method.md',
+    'docs/civil/station-construction-method.md',
+    'docs/civil/other-civil-works-methods.md',
+    'docs/civil/construction-logistics-plan.md',
+    'docs/civil/civil-programme-and-controls.md',
+    'docs/civil/civil-inspection-and-handover.md',
     'docs/civil/viaduct-design-basis.md',
     'docs/civil/viaduct-bearing-and-movement-schedule.md',
     'docs/civil/viaduct-transport-and-erection-envelope.md',
@@ -666,6 +673,8 @@ External instrument and historical sources are retained from the financing basel
         intro += "\n## Coordinated industrialisation and possible vendors\n\n" + (
             "The [industrialisation programme](../../../../../engineering/industrialisation/README.md) connects joint vehicle/support selection, staged bogie localisation, standard Pi20/Pi25 viaduct production, support releases, staffing and accepted-bay capacity. Its official-source vendor register provides possible component and equipment suppliers for configuration-specific comparison. Existing Iraqi precast facilities and expertise are a capability base requiring plant and process qualification. The delivery/service bridge retains the current financial comparator; missing quotations, commissioned vehicles, station/system handovers and paid-journey evidence prevent adoption of additional-elevation economics.\n")
         intro += "\nThe [coupled programme study](engineering/coupled-programme/README.md) uses completed train sections to reserve OD capacity, charges one fare across transfers and replaces electricity and distance-sensitive maintenance once in the retained financing engine. It reports conditional monthly receipts/debt and complete line-opening dependencies. Synthetic demand sensitivities, retained unquoted prices/opening months and missing first-article, survey and calibration evidence prevent financial or operating adoption. The existing financial comparators remain distinct.\n"
+    if (CITY/'engineering/civil-works/README.md').is_file():
+        intro += "\n## Detailed civil construction methods (2026-10-08)\n\nThe [civil works package](engineering/civil-works/README.md) and [master plan](../../../../../docs/civil/civil-works-master-plan.md) use 25 m average spans for production/logistics sizing while retaining actual identified Pi20/Pi25 bays and unresolved closures. They connect workfront release, foundations, precast production, transport/storage, launcher erection/relocation, station structures/access, at-grade works, special bridges, utilities/drainage, depot/energy civil, inspection and reinstatement. Individual run/station registers and fourteen civil packages per line support finite-resource and complete-opening planning. Illustrative capacity and calendar lower bounds establish no contracted supply, accepted programme, installed saving or construction release.\n"
     return intro
 
 
@@ -760,6 +769,10 @@ def source_inputs():
     if coupled.is_dir():
         paths.update(p for p in coupled.iterdir() if p.is_file())
         paths.update(ROOT/relative for relative in read_json(coupled/'manifest.json')['sources_sha256'])
+    civil_works=CITY/'engineering/civil-works'
+    if civil_works.is_dir():
+        paths.update(p for p in civil_works.iterdir() if p.is_file())
+        paths.update(ROOT/relative for relative in read_json(civil_works/'manifest.json')['sources_sha256'])
     for name in ('access','clearance','demand-bridge','local-civil-costs','cost-reconciliation'):
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])

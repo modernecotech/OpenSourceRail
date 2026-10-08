@@ -27,17 +27,20 @@ STEPS=(
     'tools/automation/baghdad_demand_bridge.py',
     'tools/automation/baghdad_cost_reconciliation.py',
     ('tools/automation/connected-build-study.py','--refresh-cad'),
-    'tools/automation/industrialisation-study.py',
-    'tools/automation/coupled-programme-study.py',
     ('tools/automation/generate-national-briefs.py','--country','IQ'),
     'tools/automation/generate-national-briefs.py',
     'tools/automation/generate-portfolio-summary.py',
+    'tools/automation/publish-city-summary.py',
+    'tools/automation/industrialisation-study.py',
+    'tools/automation/coupled-programme-study.py',
+    'tools/automation/civil-works-plan.py',
 )
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--skip-portfolio',action='store_true',help='refresh city dependencies only; publish the portfolio after all city packages finish')
     args=parser.parse_args()
-    steps=STEPS[:-2] if args.skip_portfolio else STEPS
+    deferred={'tools/automation/generate-national-briefs.py','tools/automation/generate-portfolio-summary.py','tools/automation/publish-city-summary.py'}
+    steps=tuple(step for step in STEPS if not args.skip_portfolio or step not in deferred)
     for step in steps:
         command=(step,) if isinstance(step,str) else step
         print('Recomputing '+command[0],flush=True)

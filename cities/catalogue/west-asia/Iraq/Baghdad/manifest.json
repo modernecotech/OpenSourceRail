@@ -1,5 +1,5 @@
 {
-  "appendix_document_count": 80,
+  "appendix_document_count": 88,
   "archive_members": [
     "Cargo.lock",
     "Cargo.toml",
@@ -45,6 +45,17 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/pre-rework-corridors.json.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/station-site-review.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/water-source-receipt.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/civil-segments.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/line-quantities.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/manifest.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/package-dependencies.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/resource-and-logistics.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/review-register.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/station-work-packages.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/summary.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/technical-references.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/workfront-register.csv",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/building-footprints.json.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/building-source.json",
@@ -1203,6 +1214,7 @@
     "design/component-catalogue/src/osr_mech/workload_staffing.py",
     "design/industrialisation/programme.json",
     "design/industrialisation/vendor-candidates.json",
+    "design/programme/civil-works-plan.json",
     "design/programme/coupled-case.json",
     "docs/baghdad-ci-controls-review-2026-10-04.md",
     "docs/baghdad-continuation-review-2026-10-04.md",
@@ -1211,9 +1223,16 @@
     "docs/baghdad-manufactured-viaduct-review-2026-10-04.md",
     "docs/baghdad-scope-and-industrial-review-2026-10-04.md",
     "docs/certification/distributed-onboard-control-profile.md",
+    "docs/civil/civil-inspection-and-handover.md",
+    "docs/civil/civil-programme-and-controls.md",
+    "docs/civil/civil-works-master-plan.md",
+    "docs/civil/construction-logistics-plan.md",
     "docs/civil/foundation-and-production-system.md",
+    "docs/civil/other-civil-works-methods.md",
     "docs/civil/slab-trackforms.md",
+    "docs/civil/station-construction-method.md",
     "docs/civil/viaduct-bearing-and-movement-schedule.md",
+    "docs/civil/viaduct-construction-method.md",
     "docs/civil/viaduct-design-basis.md",
     "docs/civil/viaduct-first-article-test-plan.md",
     "docs/civil/viaduct-load-model.toml",
@@ -1345,6 +1364,7 @@
     "tools/automation/build-baghdad-proposal.py",
     "tools/automation/build-doc-book.py",
     "tools/automation/city_access.py",
+    "tools/automation/civil-works-plan.py",
     "tools/automation/connected-build-study.py",
     "tools/automation/connected_assurance.py",
     "tools/automation/connected_delivery_register.py",
@@ -1375,7 +1395,7 @@
   "baghdad_financing_scope": [
     "Baghdad"
   ],
-  "baseline_revision": "606ab93f4fd99e92a7bfe36ce602d435ef682c57",
+  "baseline_revision": "733850e2b523a0ec65fc70ac1b3b79f2c804d1d8",
   "document_status": "planning-proposal-not-construction-or-operating-release",
   "factory_count": 1,
   "facts": {
@@ -1944,6 +1964,50 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/water-source-receipt.json": {
       "bytes": 3002,
       "sha256": "6610b1ffa8ff80e5cdadd434c037a0d02928dae526ae4244dce3bda6bcf1973d"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md": {
+      "bytes": 2600,
+      "sha256": "f9a7f031968d1a64685451fc8342d3c4e88c2b53312e49a247c716f142f51b59"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/civil-segments.csv": {
+      "bytes": 84711,
+      "sha256": "81b893daf9cb4f857f7033fb41f6d5b83b3470516d92961cf3c1eac88d4cdd35"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/line-quantities.json": {
+      "bytes": 9233,
+      "sha256": "c0fef269ec3727775efc4b50c7e30f3f6fe1933ebcd6ce65f6c84744522785ac"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/manifest.json": {
+      "bytes": 3531,
+      "sha256": "3764256a70e11a19d5aed0f9eaf24890008aa86a1e08e2e34a165f300c00d0ae"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/package-dependencies.json": {
+      "bytes": 97508,
+      "sha256": "200e5edfacd19a1e6b2c60de691a0625c676d4c7b2fe837b7f6d225f9f4d6f7d"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/resource-and-logistics.json": {
+      "bytes": 6362,
+      "sha256": "90f8fcc0167f50a95f5a3c7078a38f46ed764bbffb021984da247f261ce4d935"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/review-register.json": {
+      "bytes": 2431,
+      "sha256": "3de076a02549051db952afe73ee4d0d413698a6e701511f3902abc4191955833"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/station-work-packages.csv": {
+      "bytes": 23188,
+      "sha256": "c2901bc12f5646e236d3ede9a58845a90f411f410251e2ad19318de52598bb80"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/summary.json": {
+      "bytes": 1783,
+      "sha256": "63c2c901ec0bb2e29b7134208385ab8c3f509a33bbc999aa815693a8c6f35c12"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/technical-references.json": {
+      "bytes": 1640,
+      "sha256": "a15be4ae68b8b3cefc6093eae9cf9d3d86233166cd30ea7f8454da7e54c72d46"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/workfront-register.csv": {
+      "bytes": 42578,
+      "sha256": "e81ff18efe9d59a441296994c0209aab401cb1032026a2cd88327af894a18f2f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md": {
       "bytes": 3744,
@@ -5270,8 +5334,8 @@
       "sha256": "2227c3c5e953ecfaab7aaf160deace4f573ed509c86c63f9ae73e48ccf0670c6"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json": {
-      "bytes": 11396,
-      "sha256": "318e96e3856cfa6332592c4c26d0c7e8f0f4e3324b23ffed390d74fdd92623ab"
+      "bytes": 11549,
+      "sha256": "b13e5b2e3fcf8477c4b964fafcbd08e8cfa1e6d50cde6d93538a6a99ae05c72c"
     },
     "cities/catalogue/west-asia/Iraq/Baqubah/README.md": {
       "bytes": 8096,
@@ -6545,6 +6609,10 @@
       "bytes": 38915,
       "sha256": "6bd0e25cfc101077dd7ba8e9890a0d5abc2aba617610edc3df9c72d95f7a74c7"
     },
+    "design/programme/civil-works-plan.json": {
+      "bytes": 9060,
+      "sha256": "ebc49fbf9e8f5c3b9ab7eb9d30a49dc8804d3d7ef66e2065f5132288baf87acb"
+    },
     "design/programme/coupled-case.json": {
       "bytes": 3779,
       "sha256": "74fe42419b81dd92c24bd808fbe7e996bb51c32fac5845dda9bab289b81a39d2"
@@ -6577,17 +6645,45 @@
       "bytes": 4651,
       "sha256": "0ccfa4af3302a5a1de0523ffd5df181ec7ec0aa26480650267ef7f01ca5c78e9"
     },
+    "docs/civil/civil-inspection-and-handover.md": {
+      "bytes": 6550,
+      "sha256": "f928513d1da459f418f027bf8a82efc7a8e94650044c40dc9ba36bcdc3d5ec1a"
+    },
+    "docs/civil/civil-programme-and-controls.md": {
+      "bytes": 8308,
+      "sha256": "1e267fe0395286abdb128ba3fdbc3714345e66752a84a02535b8b8a0b2f34d69"
+    },
+    "docs/civil/civil-works-master-plan.md": {
+      "bytes": 12127,
+      "sha256": "29d4871729111634dfb09ecf1719dca2216c866e24381b5005d2f02ad1420993"
+    },
+    "docs/civil/construction-logistics-plan.md": {
+      "bytes": 9406,
+      "sha256": "4c62864ea1ee9a140c72385c6687edca0a57a5b6876880de952edce5d32d8add"
+    },
     "docs/civil/foundation-and-production-system.md": {
       "bytes": 4299,
       "sha256": "1ab6b8c9d285ba8d499585931ee4f257aea6048dade0663f8d9dda4128cff667"
+    },
+    "docs/civil/other-civil-works-methods.md": {
+      "bytes": 10848,
+      "sha256": "128798c10c191779c42aeb5dab9771889ece6bc2126b86d8675431a80fdb2cb3"
     },
     "docs/civil/slab-trackforms.md": {
       "bytes": 7073,
       "sha256": "4cfc64546779d623579038a389946c6edec76f40bf31ffd9b6e225932b91b1da"
     },
+    "docs/civil/station-construction-method.md": {
+      "bytes": 8470,
+      "sha256": "1f0933d2846017aa2866f3d2e6ca50409980e140962c0a03f386612a454b3bb0"
+    },
     "docs/civil/viaduct-bearing-and-movement-schedule.md": {
       "bytes": 2429,
       "sha256": "028a5fbeab06bf6947db36ff7d02b46911c16e29c7383d1f235663f2f2e44c38"
+    },
+    "docs/civil/viaduct-construction-method.md": {
+      "bytes": 13365,
+      "sha256": "77561ad4747bcb916d9ecdda706532b18d33be0c5ecb2a4c02d7dbbf0f07d277"
     },
     "docs/civil/viaduct-design-basis.md": {
       "bytes": 5079,
@@ -7102,8 +7198,8 @@
       "sha256": "5b3d727621b43c5cab3bb3ab5c129dd132d5b9a7fac2d21fb40983b4f9fdd4ac"
     },
     "tools/automation/build-baghdad-proposal.py": {
-      "bytes": 118900,
-      "sha256": "e5e8040b40e9898754ac7e65b589f2595feda49c082cd5accf3ca9e5079bf832"
+      "bytes": 120407,
+      "sha256": "e4de57a18ccac7b6a9ff52592aea4e45377a67f8c065fbff1a03eb2c24fe8ca4"
     },
     "tools/automation/build-doc-book.py": {
       "bytes": 43828,
@@ -7112,6 +7208,10 @@
     "tools/automation/city_access.py": {
       "bytes": 9157,
       "sha256": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
+    },
+    "tools/automation/civil-works-plan.py": {
+      "bytes": 27493,
+      "sha256": "eb1b4795015ab79b552c343c5f659614f66ccfe6ece6dbd7ede5cd004f198d21"
     },
     "tools/automation/connected-build-study.py": {
       "bytes": 61971,
@@ -7182,8 +7282,8 @@
       "sha256": "3e7d61d343ee7ba5a4db73f3545e577fbaf0cdf02d3797cf557220ccb42dbaf8"
     },
     "tools/automation/regenerate-baghdad-studies.py": {
-      "bytes": 2176,
-      "sha256": "5e26dd62bd7abc8c815fe5676aa7098a9133f4a22bdc318c32a435adef1681a0"
+      "bytes": 2458,
+      "sha256": "789a0fc14942ff31a8c317952b894ba03243da4d2183c26bb3705266d40b10e1"
     },
     "tools/automation/regenerate-city.sh": {
       "bytes": 11306,
@@ -7217,28 +7317,28 @@
   "national_development_status": "future-separate-not-funded",
   "outputs": {
     "cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md": {
-      "bytes": 75369,
-      "sha256": "cc5d9b042b326d671b4329baa50cb0fa46ea64c6a8727cece468bf9c96fe03e6"
+      "bytes": 76196,
+      "sha256": "4ba3d1d67a8a80211be01d804b0cb60cdf4b32a53251727411fdde3216f305e8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal-Supporting-Data.zip": {
-      "bytes": 51855075,
-      "sha256": "d94a95cedf41a931a95d423176b8e09cec3ccfd5100f7069140a141a422f6f25"
+      "bytes": 51979528,
+      "sha256": "87783eedd2527c6d392c3b8c9e9f414df3260a0f0a2822cfdecd9971654df646"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal.pdf": {
-      "bytes": 3239097,
-      "sha256": "77ef52692a377feeda9aca4b2b44baef1eed28bf853f10520901280e7dddf9ef"
+      "bytes": 3308253,
+      "sha256": "883dd08a2fe26f2690f01a4185e1d9eeca8726ca70e37b889ca8a5cccef0a8e7"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md": {
       "bytes": 41002,
       "sha256": "2448da006558337b71c3254391c9b0b45547f0e77ecc380a2623f593335d7ae8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/appendix-sources.json": {
-      "bytes": 5950,
-      "sha256": "272beb7b23f54dfe839412cdc94f68dbd25c70102d7ef15a37a2dd404d471fbb"
+      "bytes": 6355,
+      "sha256": "8eb00d4aec5b3590ec90721e7bffb7670d5222ef9a29c254ab86cf84cb37b485"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/archive-manifest.json": {
-      "bytes": 277403,
-      "sha256": "92e3ec20ee40b22888ac909a0c31551eb86c1e8314f4ffe680b3a0ce2a646a44"
+      "bytes": 281109,
+      "sha256": "751b2b36229d1a26bdd93e6717f9d3e43382c0b07f5aa80ffbdccf5124006d48"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/national-context.json": {
       "bytes": 6405,
@@ -7269,8 +7369,8 @@
       "sha256": "c88972d68072a556d60eab7be444f10817e7d03b68c624314d78fed446d65973"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/source-inventory.csv": {
-      "bytes": 207335,
-      "sha256": "5af05827e8aa87fc7d5f5e4150929eb965140e2f2774759e0ca9d277d9751a24"
+      "bytes": 210041,
+      "sha256": "3cc5430876ec96ce07ac9a19bcaaa771975c84e74f1facb9866bfa5994e6ddc7"
     }
   },
   "schema_version": "1.0",
