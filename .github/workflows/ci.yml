@@ -64,6 +64,7 @@ jobs:
         run: |
           python tools/automation/connected-build-study.py --city baghdad --check
           python tools/automation/industrialisation-study.py --check
+          python tools/automation/coupled-programme-study.py --check
       - name: Restore exact Baghdad operations test input
         run: python tools/automation/bootstrap_baghdad_tests.py
       - run: |

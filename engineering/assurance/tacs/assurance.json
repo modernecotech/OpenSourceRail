@@ -568,14 +568,14 @@
       "id": "TACS-CONFIG-RUNTIME-A",
       "deployment": "Synthetic distributed-control process reference only",
       "item_revisions": {
-        "TACS-SEPARATION": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
+        "TACS-SEPARATION": "sha256:6f5072fac3e26eb2f50dbcab26db4438e4e47af059e9b07715b93dc8adc233b0",
         "TACS-DEMO-TRAIN-101": "sha256:10703632e584bcdd30e5539f18f91f5c8857f45fc0f69e83861afb1f7236e4d9",
         "TACS-DEMO-TRAIN-102": "sha256:e88d1d14a08cac703a944fad258ebe195421bdcc4b3d062df1c8d8593c02616c",
-        "TACS-PROTECTION": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+        "TACS-PROTECTION": "sha256:82c7a0b11159e0713a847dcc890156a1b304fbd012f9f92388544da101e7789b",
         "TACS-LOCALISATION": "sha256:37da075d2f70071100ea1e7f8ac746e6f01819791c183d1772db987c0217b990",
         "TACS-SPEED-SENSOR": "sha256:7313b469bbf9cd52469d7fe23d11a68ad12c1fb5611f5950885e4c3fefa200e8",
-        "TACS-OUTPUT": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
-        "TACS-RC-900": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
+        "TACS-OUTPUT": "sha256:63381f16d27480bce5218d38bd740284aa5bcaed47f06cd8f651e0f839baa240",
+        "TACS-RC-900": "sha256:ba5a5ecb075649e18ae9375ce08655556d8de9117434bc6282475f2897ce157e",
         "TACS-PLATFORM-W1": "sha256:86738bf4f9c15b2251ec690f5e44c728c7d03ce585ba4a86db7a9574e693f617",
         "TACS-PLATFORM-W2": "sha256:366aca0058605e8cafad48e27d9116b3bed15f9be628fb94cc06437a5538a651",
         "TACS-JUNCTION-A": "sha256:727d50a13db3f3ef096313c10db07cd95b5979c522251eba20a51d36818d8db2",
@@ -583,12 +583,12 @@
         "TACS-PLATFORM-E1": "sha256:d19cbf6e1a7933dbf1f5ca118dd367bcda1d46938580fc097a26464432905a84",
         "TACS-PLATFORM-E2": "sha256:f0fb3672b4b01ffdb93c8d4743d65cb0ddd1dfd7e8d6fe9b14dd63b7d64ae61d",
         "TACS-DEPOT-ENTRY": "sha256:04e1fac1c946987bd7e0f5c766130e73f9e0d0ada36931cc76ab8d942e195ef2",
-        "TACS-CHARGER": "sha256:7564d02d85c9c8ccfa61a13cf5ddab799eb606d22bce1ba7dff3b00e4547a210",
-        "TACS-OPERATING-PROCEDURE": "sha256:c090df20924ecaba5ed6f257b715b4e975254c8bf234698ab47de5f26fb7ef89"
+        "TACS-CHARGER": "sha256:b5cb50f4ed83ee7c8c2ab2e2710b176677eb8aa8608c7a7e2cab259063cfe89b",
+        "TACS-OPERATING-PROCEDURE": "sha256:cb53d82cf8486157dd494234f2ade1abd0aff26fb37e1b413d41f3a5cc2f583b"
       },
       "initial_state": "Empty qualified synthetic railway, then reserved train placement",
       "status": "prototype-unapproved",
-      "baseline_note": "2026-10-03 unreviewed authoring rebase for platform-review changes; no independent risk/physical/operational acceptance"
+      "baseline_note": "2026-10-07 unreviewed authoring reassessment: autonomous sampler prototype, source-timestamp/epoch checks and explicit virtual twin. Independent risk, scheduling and physical/operational acceptance remain open."
     }
   ],
   "hazards": [
@@ -858,7 +858,7 @@
     {
       "id": "TACS-FM-PROTECTION",
       "item_id": "TACS-PROTECTION",
-      "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+      "item_revision": "sha256:82c7a0b11159e0713a847dcc890156a1b304fbd012f9f92388544da101e7789b",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1010,7 +1010,7 @@
     {
       "id": "TACS-FM-SEPARATION",
       "item_id": "TACS-SEPARATION",
-      "item_revision": "sha256:b8561f1b425ddaf5eee3e97c86ddcea4760b9039fdfce45b97d07a448d299454",
+      "item_revision": "sha256:6f5072fac3e26eb2f50dbcab26db4438e4e47af059e9b07715b93dc8adc233b0",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1084,7 +1084,7 @@
     {
       "id": "TACS-FM-RESOURCE",
       "item_id": "TACS-RC-900",
-      "item_revision": "sha256:1ffb62de4cf06995e7ecf4428e8fae0bdce2cf9c0900b8b4f8fde276747f92d3",
+      "item_revision": "sha256:ba5a5ecb075649e18ae9375ce08655556d8de9117434bc6282475f2897ce157e",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1160,7 +1160,7 @@
     {
       "id": "TACS-FM-CHARGING",
       "item_id": "TACS-CHARGER",
-      "item_revision": "sha256:7564d02d85c9c8ccfa61a13cf5ddab799eb606d22bce1ba7dff3b00e4547a210",
+      "item_revision": "sha256:b5cb50f4ed83ee7c8c2ab2e2710b176677eb8aa8608c7a7e2cab259063cfe89b",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1236,7 +1236,7 @@
     {
       "id": "TACS-FM-COMMON-CAUSE",
       "item_id": "TACS-OUTPUT",
-      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+      "item_revision": "sha256:63381f16d27480bce5218d38bd740284aa5bcaed47f06cd8f651e0f839baa240",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1249,7 +1249,8 @@
       "mode": "Common-cause output/proving/configuration failure",
       "causes": [
         "Shared code, sensor fixture, host, clock, test keys and comparator; unqualified physical power/output paths",
-        "Shared power/clock/SBC domain, frozen task, malicious authenticated authority, systematic firmware error"
+        "Shared power/clock/SBC domain, frozen task, malicious authenticated authority, systematic firmware error",
+        "Sampler/process failure or stalled output consumer; stale epoch/source time; shared OS/power/output domain"
       ],
       "mechanisms": [
         "Loss of trusted bounded state or physical safe output"
@@ -1259,7 +1260,7 @@
       "system_effect": "Unsafe separation, collision or charging interaction",
       "detection": {
         "mechanism": "Freshness, role/epoch/sequence checks, measured integrity/position, points, hardware feedback and watchdog",
-        "coverage_evidence": "Actual Rust tests and prototype twin; physical coverage not qualified",
+        "coverage_evidence": "Actual native parser/expiry tests and virtual twin; independent hardware timing/output coverage remains unqualified",
         "delay": "100 ms output contract / 1 s input age / 3 s lease; assumptions awaiting measurement",
         "latent_exposure": "Physical independence and autonomous clocks/outputs unqualified; agreement on a common bad sensor is not independent evidence"
       },
@@ -1318,7 +1319,7 @@
     {
       "id": "TACS-FM-CHANNEL-LOSS",
       "item_id": "TACS-PROTECTION",
-      "item_revision": "sha256:7e27e06f06b80f132d889d8fc3e49b7f0dfbff357c4a83f889f6d13117c0c836",
+      "item_revision": "sha256:82c7a0b11159e0713a847dcc890156a1b304fbd012f9f92388544da101e7789b",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1341,7 +1342,7 @@
       "detection": {
         "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
         "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
-        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "delay": "50 ms virtual twin step against 100 ms request deadline; autonomous sampler prototype tested, OS timing/HIL unqualified",
         "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
       },
       "mitigation": {
@@ -1382,7 +1383,7 @@
     {
       "id": "TACS-FM-CHANNEL-DISAGREEMENT",
       "item_id": "TACS-OUTPUT",
-      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+      "item_revision": "sha256:63381f16d27480bce5218d38bd740284aa5bcaed47f06cd8f651e0f839baa240",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1394,7 +1395,8 @@
       "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
       "mode": "Channel request differs or repeats an earlier output",
       "causes": [
-        "State/timing/configuration disagreement, repeated request"
+        "State/timing/configuration disagreement, repeated request",
+        "Sampler/process failure or stalled output consumer; stale epoch/source time; shared OS/power/output domain"
       ],
       "mechanisms": [
         "Loss of two-out-of-two fresh exact output agreement or feedback"
@@ -1404,8 +1406,8 @@
       "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails",
       "detection": {
         "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
-        "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
-        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "coverage_evidence": "Actual native parser/expiry tests and virtual twin; independent hardware timing/output coverage remains unqualified",
+        "delay": "50 ms virtual twin step against 100 ms request deadline; autonomous sampler prototype tested, OS timing/HIL unqualified",
         "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
       },
       "mitigation": {
@@ -1446,7 +1448,7 @@
     {
       "id": "TACS-FM-OUTPUT-FEEDBACK",
       "item_id": "TACS-OUTPUT",
-      "item_revision": "sha256:8c722197e41f9c7f222f236b6bf4b787327553dc13aa8ee2e150893c56f771a2",
+      "item_revision": "sha256:63381f16d27480bce5218d38bd740284aa5bcaed47f06cd8f651e0f839baa240",
       "configuration_ids": [
         "TACS-CONFIG-RUNTIME-A"
       ],
@@ -1458,7 +1460,8 @@
       "initiating_circumstances": "Previously permitted motion at more than 75 m; actual process kill or specified paired-port injection",
       "mode": "Output feedback on either channel is unhealthy",
       "causes": [
-        "Feedback loss, stuck actuator, wiring/power fault"
+        "Feedback loss, stuck actuator, wiring/power fault",
+        "Sampler/process failure or stalled output consumer; stale epoch/source time; shared OS/power/output domain"
       ],
       "mechanisms": [
         "Loss of two-out-of-two fresh exact output agreement or feedback"
@@ -1468,8 +1471,8 @@
       "system_effect": "Train must stop inside retained protection; unsafe movement possible if shared output path fails",
       "detection": {
         "mechanism": "DualGuard current exact A/B comparison, independent logical deadlines and A/B feedback observations",
-        "coverage_evidence": "OS process/reference and targeted paired output tests; physical channels unqualified",
-        "delay": "50 ms reference step against 100 ms request deadline; autonomous real clock/HIL open",
+        "coverage_evidence": "Actual native parser/expiry tests and virtual twin; independent hardware timing/output coverage remains unqualified",
+        "delay": "50 ms virtual twin step against 100 ms request deadline; autonomous sampler prototype tested, OS timing/HIL unqualified",
         "latent_exposure": "Shared code/sensor/host/key/clock/comparator and physical feedback common causes remain open"
       },
       "mitigation": {

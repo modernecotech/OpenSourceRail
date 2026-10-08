@@ -28,6 +28,7 @@ STEPS=(
     'tools/automation/baghdad_cost_reconciliation.py',
     ('tools/automation/connected-build-study.py','--refresh-cad'),
     'tools/automation/industrialisation-study.py',
+    'tools/automation/coupled-programme-study.py',
     ('tools/automation/generate-national-briefs.py','--country','IQ'),
     'tools/automation/generate-national-briefs.py',
     'tools/automation/generate-portfolio-summary.py',

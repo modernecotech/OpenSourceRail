@@ -354,7 +354,7 @@ def campaign(cases=CASES):
         'all_cases_passed':all(c['passed'] for c in results),'physical_readiness':False,'operational_release_ready':False,
         'topology':{'train_agents':4,'train_safety_pairs':2,'voters':3,'point_interfaces':1,'station_charging_interfaces':2,'output_guard_processes':2},
         'limitations':['Two logical channels share code, physical sensor fixture, host, keys, clock and synthetic comparator; no physical independence',
-        'Output port blocks waiting for coordinator commands; autonomous real-time deadline execution remains open',
+        'Twin explicitly selects virtual-clock replay; default autonomous sampler is separately bench-tested; OS real-time bounds and hardware outputs remain unqualified',
         'Channel A owns publication; loss of A stops service with no automatic B takeover',
         'Synthetic detector/integrity/no-reentry sensor interfaces; hardware qualification pending',
         'No physical power-cycle, certified output channel, real radio or operational acceptance',

@@ -23,6 +23,7 @@ sys.path.insert(0,str(ROOT/'design/component-catalogue/src'))
 sys.path.insert(0,str(ROOT/'deployment/erpnext/apps/osr_erpnext'))
 sys.path.insert(0,str(ROOT))
 from osr_mech.provenance import input_revision, deterministic_gzip
+from osr_mech.service_trace import encode_sections
 from osr_mech.station.layout import station_layout, step_free_reachability
 from osr_mech.station.passenger_demand import station_passenger_demand
 from osr_mech.station_capacity import station_capacity_screen
@@ -465,7 +466,13 @@ def build(city_dir):
         controlled_results[case]=controlled_network_energy(design,scenario,movement,onboard,stationary,selected_trains,sites,energy['duration_minutes'],
             ambient_c=energy['ambient_c'],seasonal_solar_factor=energy['seasonal_solar_factors'][0],cleaning_factor=energy['cleaning_factor'],
             reserve_soc=energy['reserve_soc'],setup_seconds=energy['setup_seconds'],regen_fraction=energy['regenerative_fraction'],
-            outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])))
+            outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])),
+            retain_section_events=True)
+        section_events=controlled_results[case].pop('completed_section_events')
+        trace_name=f'energy-section-events-{case}.jsonl.gz'
+        files[trace_name]=encode_sections(section_events)
+        controlled_results[case]['section_event_trace']=dict(path=trace_name,rows=len(section_events),
+            sha256=hashlib.sha256(files[trace_name]).hexdigest(),unit='completed train section event')
     small=dict(reference);small.update(nameplate_kwh=75,usable_kwh=60,pack_mass_kg=750,pack_volume_m3=0.45,installed_cost_usd=11250,replacement_cost_usd=9000,id='lfp-small-onboard-separate-duty-study',charge_max_kw=reference['charge_max_kw']/3,discharge_max_kw=reference['discharge_max_kw']/3)
     small_trains={tid:{**t,'mass_factor':(mass[tid.rsplit('-train-',1)[0]]['reference_mass_kg']+t['cars']*(small['pack_mass_kg']-reference['pack_mass_kg']))/mass[tid.rsplit('-train-',1)[0]]['reference_mass_kg']} for tid,t in trains.items()}
     small_result=chronological_energy(small,packs['profiles']['lfp-stationary-study'],small_trains,sites,visits,departures,energy['duration_minutes'],
@@ -474,6 +481,14 @@ def build(city_dir):
         outages=set(range(energy['grid_outage_start_minute'],energy['grid_outage_start_minute']+energy['grid_outage_duration_minutes'])),retain_shortfalls=False)
     small_shortfalls=small_result.pop('shortfalls');small_result.update(shortfall_examples=small_shortfalls[:20])
     files['energy-control.json']=encode(dict(cases=controlled_results,profiles_supplier_qualified=False))
+    files['compact-summary.json']=encode(dict(
+        station_count=len(station_rows),station_quantities={key:sum(s['layout']['quantities'].get(key,0) for s in station_rows)
+            for key in ('platform_count','boarding_face_count','lift_count','escalator_count','staircase_count','shaft_count')},
+        construction_cases={name:{k:case[k] for k in ('days','completed_bays','required_bays','scope','allocation_strategy')}
+            for name,case in scenarios.items()},
+        energy_cases={name:{k:case[k] for k in ('totals','minimum_soc','dispatch_opportunities','completed_journeys',
+            'distinct_energy_held_journeys','service_by_line','section_event_trace')} for name,case in controlled_results.items()},
+        expanded_records_preserved=['civil.json','energy.json','energy-control.json'],engineering_release=False))
     envelope_rows=[]
     for identity in ('lfp-onboard-study','sodium-ion-onboard-study'):
         for charge_kw in (180,360,540):
@@ -556,6 +571,7 @@ def build(city_dir):
         for shift in range(1,e['shifts_day']+1):
             crews.append(dict(department='Civil construction',unit=f.line,crew=f'{f.id}-shift-{shift}',front=f.id,shift=shift,
                 equipment=f.launcher,required_roles=responsibilities,qualified_workers=[],native_records=['Department','Employee','Training Program','Project','Task'],
+                required_role_quantities={role:2 if role=='rigger' else 1 for role in responsibilities},
                 handover_hours=e['handover_hours'],relief_and_leave_coverage_required=True,competency_expiry_checked=True,
                 supervised_commissioning_required=True,equipment_specific_assessment_required=True,tasks=['accept-beams','release-supports','place-secure-paired-beams','advance-launcher'],allocation_approved=False))
     transfer_case=scenarios.get('initial-accelerated-reassigned',{})
@@ -625,6 +641,7 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
     sources += [ROOT/'tools/automation/connected_delivery_register.py']
     sources += [ROOT/'design/industrialisation'/name for name in ('programme.json','vendor-candidates.json')]
     sources += [ROOT/'design/component-catalogue/src/osr_mech/industrialisation.py']
+    sources += [ROOT/'design/component-catalogue/src/osr_mech/service_trace.py']
     sources += sorted((ROOT/'crates/osr-bms/src').glob('*.rs'))
     sources += [ROOT/'crates/osr-sim/src'/name for name in ('battery.rs','onboard.rs','scenario_file.rs','physics.rs','sim.rs','bin/osr-movement-profiles.rs')]
     sources += [ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'crates/osr-sim/Cargo.toml',ROOT/'crates/osr-bms/Cargo.toml',ROOT/'crates/osr-core/src/consist.rs']

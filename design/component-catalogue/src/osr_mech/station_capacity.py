@@ -4,8 +4,30 @@ No default people density or equipment throughput is presented as a standard.
 Surveyed demand and reviewed evacuation/rescue criteria remain separate inputs.
 """
 import math
+from collections import defaultdict,deque
 from osr_mech.provenance import stable_sum as sum
 from .station.circulation import continuous_path,continuous_clear_width
+
+
+def passenger_pulses(boardings):
+    """Queue intervals and train-load pulses from the selected OD reservations."""
+    changes=defaultdict(lambda:defaultdict(int));departures=defaultdict(lambda:defaultdict(int));arrivals=defaultdict(lambda:defaultdict(int))
+    for row in boardings:
+        if row['minute']<row['arrival_minute']:raise ValueError('boarding precedes station arrival')
+        count=row['passengers']
+        if type(count) is not int or count<0:raise ValueError('integer passenger pulse required')
+        changes[row['station']][row['arrival_minute']]+=count;changes[row['station']][row['minute']]-=count
+        departures[row['station']][row['minute']]+=count
+        arrivals[row['destination']][row['alight_minute']]+=count
+    rows=[]
+    for station in sorted(set(changes)|set(departures)|set(arrivals)):
+        waiting=peak=0
+        for _,delta in sorted(changes[station].items()):waiting+=delta;peak=max(peak,waiting)
+        rows.append(dict(station=station,peak_reserved_waiting_passengers=peak,
+            boarding_train_load_pulses=[dict(minute=m,passengers=n) for m,n in sorted(departures[station].items())],
+            alighting_train_load_pulses=[dict(minute=m,passengers=n) for m,n in sorted(arrivals[station].items())],
+            actual_passenger_forecast_accepted=False,unserved_and_unbooked_station_queues_unknown=True))
+    return rows
 
 
 def footprint_screen(platform,length_m,equipment):
@@ -55,8 +77,33 @@ def station_capacity_screen(station,length_m,criteria=None):
     capacities=criteria.get('lift_capacity_pax_hour',{})
     if any(k not in lift_ids or not math.isfinite(v) or v<=0 for k,v in capacities.items()):
         raise ValueError('lift throughput must identify actual layout lifts with positive sourced rates')
+    def capacity_to_level(target,unavailable):
+        residual=defaultdict(dict);large=sum(capacities.values())+1
+        def edge(a,b,amount):
+            residual[a][b]=residual[a].get(b,0)+amount;residual[b].setdefault(a,0)
+        for equipment in layout['equipment']:
+            if equipment['kind']!='lift' or equipment['id']==unavailable:continue
+            inside=equipment['id']+'-in';outside=equipment['id']+'-out'
+            edge(inside,outside,capacities[equipment['id']])
+            for level in equipment['served_levels']:edge(level,inside,large);edge(outside,level,large)
+        flow=0.
+        while True:
+            parents={'street':None};queue=deque(['street'])
+            while queue and target not in parents:
+                current=queue.popleft()
+                for node,capacity in residual[current].items():
+                    if capacity>1e-9 and node not in parents:parents[node]=current;queue.append(node)
+            if target not in parents:return flow
+            node=target;amount=large
+            while parents[node] is not None:amount=min(amount,residual[parents[node]][node]);node=parents[node]
+            node=target
+            while parents[node] is not None:
+                before=parents[node];residual[before][node]-=amount;residual[node][before]+=amount;node=before
+            flow+=amount
     outages=[dict(unavailable_lift=k,remaining_station_lift_capacity_pax_hour=sum(capacities[j] for j in lift_ids if j!=k)
-        if all(j in capacities for j in lift_ids) else None,capacity_acceptance=False) for k in lift_ids]
+        if all(j in capacities for j in lift_ids) else None,
+        street_to_platform_capacity_pax_hour={p['id']:capacity_to_level(p['level'],k) if all(j in capacities for j in lift_ids) else None for p in layout['platforms']},
+        shared_lift_resource_and_serial_levels_modelled=True,capacity_acceptance=False) for k in lift_ids]
     return dict(station=station['id'],platforms=platforms,one_lift_out_cases=outages,
         measured_criteria_source=criteria.get('source_record'),passenger_demand_complete=demand.get('demand_coverage_complete',False),
         evacuation_seconds=None,assisted_rescue_accepted=False,street_crossings_accepted=False,

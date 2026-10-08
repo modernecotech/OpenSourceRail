@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6145**.
+Indexed Markdown files: **6146**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **6145**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 5435 |
+| [cities](#cities) | 5436 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
@@ -4255,6 +4255,7 @@ Indexed Markdown files: **6145**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md) | Baghdad — viaduct obstacle clearance |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md) | Baghdad connected construction and battery study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad same-alignment cost reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/README.md) | Coupled Baghdad programme study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md) | Baghdad line-local depot and stabling quantity package |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/ESTIMATE.md) | Baghdad delivery estimate and scope reconciliation |
@@ -6096,7 +6097,7 @@ Indexed Markdown files: **6145**.
 | [`docs/operations/station-staff/t5-station-closure.md`](../docs/operations/station-staff/t5-station-closure.md) | T5 — Station closure |
 | [`docs/operations/validation-checklist.md`](../docs/operations/validation-checklist.md) | Operations Validation Checklist |
 | [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
-| [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
+| [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | Historical OSR Operations Portal Gap Analysis — August 2026 |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/owner-builder-operator-mobilisation-status.md`](../docs/owner-builder-operator-mobilisation-status.md) | Owner–Builder–Operator Mobilisation Status |
 | [`docs/owner-builder-operator-setup.md`](../docs/owner-builder-operator-setup.md) | Owner–Builder–Operator Setup Plan |

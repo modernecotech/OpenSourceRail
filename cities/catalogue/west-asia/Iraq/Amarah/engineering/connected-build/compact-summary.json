@@ -1,0 +1,240 @@
+{
+  "construction_cases": {
+    "full-doubling": {
+      "allocation_strategy": "fixed two launchers per line",
+      "completed_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "days": 184,
+      "required_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "scope": "identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates"
+    },
+    "higher-productivity": {
+      "allocation_strategy": "fixed two launchers per line",
+      "completed_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "days": 192,
+      "required_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "scope": "identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates"
+    },
+    "initial-accelerated": {
+      "allocation_strategy": "fixed two launchers per line",
+      "completed_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "days": 223,
+      "required_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "scope": "identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates"
+    },
+    "initial-six-day-calendar": {
+      "allocation_strategy": "fixed two launchers per line",
+      "completed_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "days": 247,
+      "required_bays": {
+        "line-1-front-1": 226,
+        "line-1-front-2": 227,
+        "line-2-front-1": 78,
+        "line-2-front-2": 79,
+        "line-3-front-1": 32,
+        "line-3-front-2": 33
+      },
+      "scope": "identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates"
+    }
+  },
+  "energy_cases": {
+    "lfp-throughout": {
+      "completed_journeys": 3504,
+      "dispatch_opportunities": 4194,
+      "distinct_energy_held_journeys": 375,
+      "minimum_soc": 0.0,
+      "section_event_trace": {
+        "path": "energy-section-events-lfp-throughout.jsonl.gz",
+        "rows": 18301,
+        "sha256": "8d66c57c3e07647fe8ab5c2ef74563019155b3784b4ea06526e6a90c8aa82218",
+        "unit": "completed train section event"
+      },
+      "service_by_line": {
+        "line-1": {
+          "completed_journeys": 856,
+          "completed_train_km": 19309.266999999556,
+          "departed_train_km": 19318.872999999556,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 922
+        },
+        "line-2": {
+          "completed_journeys": 1394,
+          "completed_train_km": 13743.11000000049,
+          "departed_train_km": 13746.922000000492,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 1398
+        },
+        "line-3": {
+          "completed_journeys": 1254,
+          "completed_train_km": 13387.668000000214,
+          "departed_train_km": 13390.674000000212,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 1284
+        }
+      },
+      "totals": {
+        "auxiliary_kwh": 117957.56847255213,
+        "charger_kwh": 394235.1663597874,
+        "grid_kwh": 389623.38930109004,
+        "grid_storage_replenishment_kwh": 24917.220202432145,
+        "regeneration_accepted_kwh": 50155.24859999944,
+        "regeneration_rejected_kwh": 0.0,
+        "solar_kwh": 120998.78941878707,
+        "unserved_traction_kwh": 0.0
+      }
+    },
+    "sodium-both": {
+      "completed_journeys": 1892,
+      "dispatch_opportunities": 4194,
+      "distinct_energy_held_journeys": 609,
+      "minimum_soc": 0.0,
+      "section_event_trace": {
+        "path": "energy-section-events-sodium-both.jsonl.gz",
+        "rows": 9774,
+        "sha256": "69ccbf772ba9c7d07f71313475e621be6312fe2b82b78e87b5510ac7dbbfc89d",
+        "unit": "completed train section event"
+      },
+      "service_by_line": {
+        "line-1": {
+          "completed_journeys": 244,
+          "completed_train_km": 6187.1069999999445,
+          "departed_train_km": 6187.106999999944,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 313
+        },
+        "line-2": {
+          "completed_journeys": 999,
+          "completed_train_km": 9998.77599999998,
+          "departed_train_km": 10002.587999999982,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 1027
+        },
+        "line-3": {
+          "completed_journeys": 649,
+          "completed_train_km": 7030.348000000043,
+          "departed_train_km": 7034.822000000043,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 682
+        }
+      },
+      "totals": {
+        "auxiliary_kwh": 111052.82415800648,
+        "charger_kwh": 220701.99224495963,
+        "grid_kwh": 248632.32860797117,
+        "grid_storage_replenishment_kwh": 24275.96786968078,
+        "regeneration_accepted_kwh": 25571.666610215958,
+        "regeneration_rejected_kwh": 218.24935471716563,
+        "solar_kwh": 88927.9398148134,
+        "unserved_traction_kwh": 0.0
+      }
+    },
+    "sodium-stationary": {
+      "completed_journeys": 3440,
+      "dispatch_opportunities": 4194,
+      "distinct_energy_held_journeys": 355,
+      "minimum_soc": 0.0,
+      "section_event_trace": {
+        "path": "energy-section-events-sodium-stationary.jsonl.gz",
+        "rows": 17928,
+        "sha256": "4197836f88a42da4f33a0b7a8d86569a83aa2538f65f7a21c9e3d734195466ba",
+        "unit": "completed train section event"
+      },
+      "service_by_line": {
+        "line-1": {
+          "completed_journeys": 813,
+          "completed_train_km": 18381.991999999413,
+          "departed_train_km": 18391.597999999416,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 880
+        },
+        "line-2": {
+          "completed_journeys": 1394,
+          "completed_train_km": 13743.11000000049,
+          "departed_train_km": 13746.922000000492,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 1398
+        },
+        "line-3": {
+          "completed_journeys": 1233,
+          "completed_train_km": 13178.666000000208,
+          "departed_train_km": 13181.672000000208,
+          "dispatch_opportunities": 1398,
+          "dispatched_journeys": 1264
+        }
+      },
+      "totals": {
+        "auxiliary_kwh": 115400.95879646741,
+        "charger_kwh": 382973.13925054925,
+        "grid_kwh": 379787.25430640706,
+        "grid_storage_replenishment_kwh": 25477.58460864376,
+        "regeneration_accepted_kwh": 48928.06943999918,
+        "regeneration_rejected_kwh": 0.0,
+        "solar_kwh": 120188.6997062394,
+        "unserved_traction_kwh": 0.0
+      }
+    }
+  },
+  "engineering_release": false,
+  "expanded_records_preserved": [
+    "civil.json",
+    "energy.json",
+    "energy-control.json"
+  ],
+  "station_count": 19,
+  "station_quantities": {
+    "boarding_face_count": 45,
+    "escalator_count": 20,
+    "lift_count": 20,
+    "platform_count": 26,
+    "shaft_count": 20,
+    "staircase_count": 20
+  }
+}

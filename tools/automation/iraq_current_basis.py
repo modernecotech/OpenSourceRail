@@ -91,6 +91,8 @@ The accelerated scenario's complete CAPEX, financing, net island savings and acc
 
 The [coordinated industrialisation programme](../../../../engineering/industrialisation/README.md) joins vehicle interfaces, staged bogie localisation and the standard viaduct system. Its [possible vendor register](../../../../engineering/industrialisation/vendor-candidates.json) records official-source component and equipment leads for comparison. Iraq already has many precast facilities and relevant expertise; plant capability, compatible tooling and available production slots require qualification. No listed vendor is a selected supplier or a manufacturing-rights agreement.
 
+The [coupled service–OD–cost–finance study](Baghdad/engineering/coupled-programme/README.md) now derives capacity-limited passenger itineraries from completed train sections and carries the same grid purchases and train distance into conditional monthly finance. Its demand and retained prices/opening months are explicit sensitivities. Complete line openings additionally require stations, specials, track, energy, depots, fleet, testing and approvals; missing dates or prices remain unknown. No coupled case is an accepted forecast or an adopted national budget.
+
 No current consolidated national budget or funded rollout is established. Other Iraqi city catalogue estimates and the earlier generic foreign-turnkey calculation remain separately identified comparators. Their differences are scenario arithmetic, not realised capital or interest savings. Baghdad's later scope cannot be mixed into an older national aggregate and presented as one complete budget.
 
 ### Construction sensitivities

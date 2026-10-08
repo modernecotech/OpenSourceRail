@@ -29,7 +29,8 @@ def line_opening(line, packages):
         missing_costs=[k for k in OPENING_PACKAGES if k not in cash],unaccepted_packages=unaccepted,
         known_scoped_cash_usd=stable_sum(cash.values()),
         complete_scope_cash_usd=stable_sum(cash.values()) if len(cash)==len(OPENING_PACKAGES) else None,
-        opening_accepted=not missing and not unaccepted,revenue_opening_adopted=False)
+        declared_package_releases_complete=not missing and not unaccepted,
+        authority_verified_by_generator=False,opening_accepted=False,revenue_opening_adopted=False)
 
 
 def allocate_od(events, requests, capacities, transfer_pairs=()):
@@ -102,10 +103,12 @@ def allocate_od(events, requests, capacities, transfer_pairs=()):
             carried+=quantity;unserved-=quantity
             wait+=quantity*(events[indices[0]]['depart_minute']-request['arrival_minute'])
             km+=quantity*stable_sum(events[i]['distance_m']/1000 for i in indices)
-            for route in itinerary:
+            for leg_index,route in enumerate(itinerary):
                 e=events[route[0]]
+                arrival=request['arrival_minute'] if leg_index==0 else events[itinerary[leg_index-1][-1]]['arrival_minute']+legs[leg_index]['transfer_walk_minutes']
                 boarding_events.append(dict(request=request['id'],journey=e['journey'],station=e['from_station'],
-                    line=e['line'],heading=e['heading'],minute=e['depart_minute'],passengers=quantity))
+                    line=e['line'],heading=e['heading'],minute=e['depart_minute'],arrival_minute=arrival,
+                    destination=events[route[-1]]['to_station'],alight_minute=events[route[-1]]['arrival_minute'],passengers=quantity))
         rows.append(dict(id=request['id'],requested_passengers=wanted,completed_paid_journeys=carried,
             unserved_passengers=unserved,train_boardings=carried*len(legs),passenger_km=km,
             total_first_boarding_wait_passenger_minutes=wait,recognised_fare_iqd=carried*fare))

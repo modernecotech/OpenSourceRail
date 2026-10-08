@@ -6,6 +6,7 @@ each monthly invoice. Deferred junior coupons and PIK are debt, never income.
 """
 from copy import deepcopy
 import math
+from osr_mech.provenance import stable_sum as sum
 
 from baghdad_funding_analysis import add_draw, debt_month, prepay_vintages
 
