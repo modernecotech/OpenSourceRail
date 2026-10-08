@@ -23,6 +23,23 @@ SEED=OUT/'pre-rework-corridors.json.gz'
 GRID=OUT/'planning-grid.json'
 
 def distance(a,b):return math.hypot(b[0]-a[0],b[1]-a[1])
+
+def remove_short_ring_spikes(cells, cell_m, protected_cells=()):
+    """Remove only one-cell A-B-A excursions on a closed ring.
+
+    This preserves every existing forward edge, creates no shortcut across
+    land/water, and leaves longer excursions and supplied protected cells for explicit design.
+    """
+    if len(cells)<4 or cells[0]!=cells[-1]:return cells,[]
+    protected={tuple(p) for p in protected_cells};result=[];removed=[]
+    for point in cells:
+        if result and point==result[-1]:continue
+        if len(result)>=2 and point==result[-2] and tuple(result[-1]) not in protected and distance(result[-2],result[-1])*cell_m<=cell_m*1.5:
+            spur=result.pop();removed.append(dict(return_cell=point,spur_cell=spur,removed_route_m=round(2*distance(point,spur)*cell_m,6)))
+            continue
+        result.append(point)
+    if len(result)<4 or result[0]!=result[-1]:raise ValueError('ring cleanup removed the closed circuit')
+    return result,removed
 def simplify(points,tolerance):
     if len(points)<3:return points
     a,b=points[0],points[-1];dx,dy=b[0]-a[0],b[1]-a[1];den=dx*dx+dy*dy
@@ -95,11 +112,14 @@ def rework(seed,grid,config,water_mask=None,buildable=None):
                 for segment in segments:
                     segment['superseded_analytical_controls']=segment['controls'];segment['controls']=[]
                     segment['geometry_basis']='superseded-by-water-constrained-route-requires-geometry-review'
+        removed_spikes=[]
+        if line['shape']=='Ring':new,removed_spikes=remove_short_ring_spikes(new,cell)
         line['cells']=new
         rows.append(dict(line=line['name'],original_cells=len(original),reworked_cells=len(new),
             original_route_m=sum(distance(a,b)*cell for a,b in zip(original,original[1:])),
             reworked_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:])),core_runs=segments,water_constraints=water_changes,
-            final_core_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:]) if inside(a) and inside(b))))
+            final_core_route_m=sum(distance(a,b)*cell for a,b in zip(new,new[1:]) if inside(a) and inside(b)),
+            removed_quantization_spikes=removed_spikes))
     return result,dict(schema_version=2,status=config['release']['status'],core=core,lines=rows,
         core_original_length_m=sum(s['original_length_m'] for l in rows for s in l['core_runs']),
         core_analytical_length_m=sum(s['analytical_length_m'] for l in rows for s in l['core_runs']),

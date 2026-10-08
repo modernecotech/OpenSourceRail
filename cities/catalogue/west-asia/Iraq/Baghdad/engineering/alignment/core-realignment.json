@@ -7,7 +7,7 @@
     "west": 44.28
   },
   "core_analytical_length_m": 243892.640319,
-  "core_final_route_length_m": 264320.659301,
+  "core_final_route_length_m": 264280.659301,
   "core_original_length_m": 301669.807872,
   "limitations": [
     "Elevated rail does not grant air/property rights or remove buildings. Survey, clearance, heritage/security restrictions, pier access and utilities remain open.",
@@ -53,6 +53,7 @@
       "line": "line-1",
       "original_cells": 2473,
       "original_route_m": 53822.37949,
+      "removed_quantization_spikes": [],
       "reworked_cells": 2391,
       "reworked_route_m": 49067.493501,
       "water_constraints": []
@@ -95,6 +96,7 @@
       "line": "line-2",
       "original_cells": 2323,
       "original_route_m": 56994.161569,
+      "removed_quantization_spikes": [],
       "reworked_cells": 2156,
       "reworked_route_m": 52850.587258,
       "water_constraints": []
@@ -137,6 +139,7 @@
       "line": "line-3",
       "original_cells": 2420,
       "original_route_m": 55819.27558,
+      "removed_quantization_spikes": [],
       "reworked_cells": 2207,
       "reworked_route_m": 49496.49204,
       "water_constraints": []
@@ -210,6 +213,7 @@
       "line": "line-4",
       "original_cells": 1761,
       "original_route_m": 43799.073555,
+      "removed_quantization_spikes": [],
       "reworked_cells": 1694,
       "reworked_route_m": 41423.539649,
       "water_constraints": []
@@ -252,6 +256,7 @@
       "line": "line-5",
       "original_cells": 2284,
       "original_route_m": 53737.164466,
+      "removed_quantization_spikes": [],
       "reworked_cells": 2099,
       "reworked_route_m": 47344.776311,
       "water_constraints": []
@@ -294,6 +299,7 @@
       "line": "line-6",
       "original_cells": 2381,
       "original_route_m": 57516.272683,
+      "removed_quantization_spikes": [],
       "reworked_cells": 2120,
       "reworked_route_m": 52503.379464,
       "water_constraints": []
@@ -336,6 +342,7 @@
       "line": "line-7",
       "original_cells": 1911,
       "original_route_m": 43501.933598,
+      "removed_quantization_spikes": [],
       "reworked_cells": 1805,
       "reworked_route_m": 39957.038944,
       "water_constraints": []
@@ -378,6 +385,7 @@
       "line": "line-8",
       "original_cells": 2187,
       "original_route_m": 51366.382361,
+      "removed_quantization_spikes": [],
       "reworked_cells": 1999,
       "reworked_route_m": 48136.575721,
       "water_constraints": []
@@ -819,12 +827,25 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 60336.432868,
+      "final_core_route_m": 60296.432868,
       "line": "line-9",
       "original_cells": 4220,
       "original_route_m": 99316.541059,
-      "reworked_cells": 4275,
-      "reworked_route_m": 97724.152904,
+      "removed_quantization_spikes": [
+        {
+          "removed_route_m": 40.0,
+          "return_cell": [
+            625,
+            603
+          ],
+          "spur_cell": [
+            624,
+            603
+          ]
+        }
+      ],
+      "reworked_cells": 4273,
+      "reworked_route_m": 97684.152904,
       "water_constraints": [
         {
           "detour_route_m": 3981.076477,
@@ -853,7 +874,7 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/pre-rework-corridors.json.gz": "dedb69306b91fbf53d52dfebebbf2dbf624df02749363a27b96a151d02d6e0fb",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/water-source-receipt.json": "6610b1ffa8ff80e5cdadd434c037a0d02928dae526ae4244dce3bda6bcf1973d",
     "lib/templates/baghdad-alignment.toml": "3112e8ff474cccc5d389c99ef80e8c89dc2778bcc6656cb3e41ccec195c1ac1b",
-    "tools/automation/rework-baghdad-alignment.py": "8cc07c0a14f23f989abae22537dbb3910d93b36227fb7912378209611b58380b",
+    "tools/automation/rework-baghdad-alignment.py": "f55b7e1ed50135e21bcfea38f5591231cd1d0c743a3681292ba10394083d1e87",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
