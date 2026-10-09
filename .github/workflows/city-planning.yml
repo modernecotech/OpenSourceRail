@@ -8,12 +8,21 @@ on:
         description: Optional comma-separated city selection; empty validates the complete catalogue
         type: string
         default: ''
+      reuse_run:
+        description: Optional completed CI run providing successful exact-executable native output caches
+        type: string
+        default: ''
+      reuse_commit:
+        description: Exact immutable source commit of that run
+        type: string
+        default: ''
 permissions:
   contents: read
+  actions: read
 jobs:
   cities:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       max-parallel: 20
@@ -23,17 +32,27 @@ jobs:
       OSR_RESILIENCE_JOBS: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@1.92.0
       - uses: Swatinem/rust-cache@v2
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - run: cargo build --release -p osr-sim --bin osr-sim
+      - name: Verify and seed exact-executable historical native outputs
+        if: inputs.reuse_run != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REUSE_RUN: ${{ inputs.reuse_run }}
+          REUSE_COMMIT: ${{ inputs.reuse_commit }}
+          PARTITION: ${{ matrix.partition }}
+        run: python3 tools/automation/seed-native-planning-cache.py --input build/historical-native-cache --run "$REUSE_RUN" --commit "$REUSE_COMMIT" --partition "$PARTITION"
       - name: Run actual full-day planning screens
         env:
           PARTITION: ${{ matrix.partition }}
           CITIES: ${{ inputs.cities }}
-        run: python3 tools/automation/city-planning-ci.py run --partition "$PARTITION/64" --cities "$CITIES" --jobs 2
+        run: python3 tools/automation/city-planning-ci.py run --partition "$PARTITION/64" --cities "$CITIES" --jobs 2 --timeout 10800
       - uses: actions/upload-artifact@v4
         if: always()
         with:

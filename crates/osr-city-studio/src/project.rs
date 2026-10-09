@@ -4313,7 +4313,15 @@ mod tests {
                 percent: 125,
             })
             .expect("scale weekday service");
-        assert_eq!(updated, 3);
+        assert_eq!(
+            updated,
+            project
+                .service_plan
+                .line_plans
+                .iter()
+                .filter(|plan| plan.day_type == "weekday")
+                .count()
+        );
         for plan in project
             .service_plan
             .line_plans
@@ -4760,14 +4768,17 @@ mod tests {
         project.config.inputs.network_overrides = "network/overrides.toml".to_string();
         project.config.inputs.service_plan = "services/service-plan.toml".to_string();
         let snapshot = project.compile().expect("compile manual line");
-        assert_eq!(snapshot.lines.len(), 4);
+        assert_eq!(snapshot.lines.len(), base.lines.len() + 1);
         assert_eq!(snapshot.summary.manual_line_count, 1);
         assert_eq!(
             snapshot.summary.station_count,
             base.summary.station_count + 2
         );
         assert_eq!(snapshot.summary.manual_station_count, 2);
-        assert_eq!(snapshot.service_metrics.len(), 12);
+        assert_eq!(
+            snapshot.service_metrics.len(),
+            base.service_metrics.len() + project.service_plan.day_types.len()
+        );
         assert_eq!(
             snapshot.summary.validation_errors, 0,
             "findings: {:?}",

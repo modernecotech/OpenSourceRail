@@ -21,8 +21,11 @@ fn committed_project_compiles_without_validation_errors() {
     assert!(snapshot.stations.iter().any(|s| s.junction_group.is_some()));
     assert_eq!(snapshot.summary.manual_station_count, 0);
     assert_eq!(snapshot.summary.manual_line_count, 0);
-    assert_eq!(snapshot.lines.len(), 3);
-    assert_eq!(snapshot.service_metrics.len(), 9);
+    assert_eq!(snapshot.lines.len(), design.lines.len());
+    assert_eq!(
+        snapshot.service_metrics.len(),
+        design.lines.len() * project.service_plan().day_types.len()
+    );
     assert!(snapshot.sources.iter().all(|source| source.matches_lock));
 }
 

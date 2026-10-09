@@ -1774,7 +1774,7 @@ mod trainset_system_tests {
         );
         assert_eq!(scenario.trainset_systems.door_cassettes_per_car, 4);
         assert_eq!(scenario.trainset_systems.main_light_modules_per_car, 22);
-        assert_eq!(scenario.habd_detectors.len(), 3);
+        assert_eq!(scenario.habd_detectors.len(), scenario.fleets.len());
         assert!(scenario
             .habd_detectors
             .iter()

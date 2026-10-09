@@ -25,7 +25,10 @@ def designs():
 
 def inputs(design):
     result=batch.source_inputs(design,design.parent/(tomllib.loads(design.read_text())['city']['slug']+'.toml'))
-    for p in [Path(__file__).resolve(),ROOT/'.github/workflows/city-planning.yml']:
+    extra=[Path(__file__).resolve(),ROOT/'.github/workflows/city-planning.yml']
+    cache_seed=ROOT/'tools/automation/seed-native-planning-cache.py'
+    if cache_seed.is_file():extra.append(cache_seed)
+    for p in extra:
         result[p.relative_to(ROOT).as_posix()]=batch.sha(p)
     return result
 
