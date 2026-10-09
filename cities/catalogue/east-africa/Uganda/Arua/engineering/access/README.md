@@ -4,11 +4,11 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 100.0% |
+| Direct transfer line pairs | 21.2% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 100.0% |
+| Reachable with at most two transfers | 69.7% |
 | Connected line components | 1 |
-| Maximum transfers within a connected component | 1 |
+| Maximum transfers within a connected component | 3 |
 
 A crossing creates no transfer unless passenger interchange membership is recorded. Physical access, waiting time, timetable and fares remain unverified.
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 277,210**. Catalogue planning population: 250,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 27,152 | 9.8% |
-| 800 m | 64,326 | 23.2% |
-| 1000 m | 92,207 | 33.3% |
-| 1500 m | 169,684 | 61.2% |
-| 2000 m | 207,831 | 75.0% |
+| 500 m | 68,004 | 24.5% |
+| 800 m | 148,729 | 53.7% |
+| 1000 m | 193,507 | 69.8% |
+| 1500 m | 232,856 | 84.0% |
+| 2000 m | 246,310 | 88.9% |
 
 Excluded nodata pixels: 256; valid pixels: 26,150.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 256; valid pixels: 26,150.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (55.1%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (74.7%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

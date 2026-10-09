@@ -1,8 +1,8 @@
 # Kathmandu route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 71
+- Lines: 13
+- Stations: 133
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

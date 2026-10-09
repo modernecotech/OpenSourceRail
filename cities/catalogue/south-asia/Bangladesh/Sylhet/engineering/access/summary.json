@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.376,
+    "high_demand_cell_fraction": 0.563,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 1401664.2501068115,
     "catchments": [
       {
-        "covered_population_2020": 101532.3882598877,
-        "fraction_of_raster_population": 0.07243702495240967,
+        "covered_population_2020": 271452.74057769775,
+        "fraction_of_raster_population": 0.19366459589520968,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 243793.83837223053,
-        "fraction_of_raster_population": 0.17393169466486189,
+        "covered_population_2020": 614497.0807313919,
+        "fraction_of_raster_population": 0.4384053318650063,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 351418.2227373123,
-        "fraction_of_raster_population": 0.2507149787907718,
+        "covered_population_2020": 790629.7501049042,
+        "fraction_of_raster_population": 0.5640650034733037,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 606073.7921562195,
-        "fraction_of_raster_population": 0.4323958409512368,
+        "covered_population_2020": 980006.4783258438,
+        "fraction_of_raster_population": 0.6991734848421539,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 792252.078166008,
-        "fraction_of_raster_population": 0.5652224333363969,
+        "covered_population_2020": 1060695.1823654175,
+        "fraction_of_raster_population": 0.7567398414310623,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 15,
+    "unique_station_coordinates": 45,
     "valid_pixels": 29260
   },
   "population_source_country": "BD",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Bangladesh/Sylhet/design.toml": "9fdbc5f1414f3c32e12496c5b182ba80070f61b43402f57d62954450d7c7912b",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/design.toml": "c51cc24d58d78b54317b32be3efab9379788bfc72e9b5a3487d476c4fc4bbc2c",
     "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/access/population-pixels.npz.gz": "9982aba76de1116d835e042ee4dfdf20cfb3984eb7ac684ad8d455c223d2e4df",
     "cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/access/population-source.json": "2aa6dc338b364f5e498af3a8229f21e4c3f11c4a412b97fccc0196acf6c3aa81",
-    "cities/catalogue/south-asia/Bangladesh/Sylhet/sylhet.design-quality.yaml": "afc028b106ddb2caa12dfe7c582ce5ffc9b4af353d77c95ee6a272f80ce1e403",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/sylhet.design-quality.yaml": "647a424a8af43f47d98cb1b4290d6a27db76d4dcaaf08c9e8e1f24eb0484ec32",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -94,14 +94,23 @@
     "components": [
       [
         "line-1",
+        "line-10",
+        "line-11",
+        "line-12",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6",
+        "line-7",
+        "line-8",
+        "line-9"
       ]
     ],
-    "direct_transfer_fraction": 0.6666666666666666,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 2,
+    "direct_transfer_fraction": 0.18181818181818182,
+    "line_count": 12,
+    "line_pair_count": 66,
+    "maximum_required_transfers": 4,
     "pairs": [
       {
         "lines": [
@@ -119,13 +128,454 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-8"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-9"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-10"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-12"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-7"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-11"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-8"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-9"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-10"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-12"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-8"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-9"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-10"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-12"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-7"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-9"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-10"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-7"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-8"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-12"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-8"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-9"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-10"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-12"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-9"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-10"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-12"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-12"
+        ],
+        "minimum_transfers": 4
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-12"
+        ],
+        "minimum_transfers": 3
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 1.0
+    "reachable_with_at_most_two_transfers_fraction": 0.5151515151515151
   }
 }

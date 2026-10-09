@@ -2,20 +2,21 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **542**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **891**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 7 |
-| Beam/building | height-unresolved | 425 |
-| Beam/building | product-depth-unresolved | 5 |
-| Reference support/foundation | foundation-footprint-conflict | 137 |
-| Reference support/foundation | foundation-setback-conflict | 53 |
-| Reference support/foundation | mapped-footprints-only-clear | 569 |
-| Terrain | reference-gradient-exceeded | 446 |
-| Terrain | reference-gradient-within-policy | 306 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 7 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 2 |
+| Beam/building | height-unresolved | 681 |
+| Beam/building | product-depth-unresolved | 32 |
+| Reference support/foundation | foundation-footprint-conflict | 208 |
+| Reference support/foundation | foundation-setback-conflict | 106 |
+| Reference support/foundation | mapped-footprints-only-clear | 1,432 |
+| Terrain | beam-terrain-collision | 2 |
+| Terrain | reference-gradient-exceeded | 995 |
+| Terrain | reference-gradient-within-policy | 672 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 79 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 36 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

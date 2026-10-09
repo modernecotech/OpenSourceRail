@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.56,
+    "high_demand_cell_fraction": 0.721,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 41680.10964164883,
     "catchments": [
       {
-        "covered_population_2020": 2248.199919760227,
-        "fraction_of_raster_population": 0.05393939553157304,
+        "covered_population_2020": 4747.694549500942,
+        "fraction_of_raster_population": 0.1139079189167202,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 5412.533142790198,
-        "fraction_of_raster_population": 0.12985889886867588,
+        "covered_population_2020": 10995.966703698039,
+        "fraction_of_raster_population": 0.2638180848907922,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 7687.075984120369,
-        "fraction_of_raster_population": 0.1844303206064281,
+        "covered_population_2020": 14383.648118048906,
+        "fraction_of_raster_population": 0.34509621595803225,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 13318.79417064786,
-        "fraction_of_raster_population": 0.31954796388872886,
+        "covered_population_2020": 19558.469022631645,
+        "fraction_of_raster_population": 0.4692518611584422,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 17974.995827540755,
-        "fraction_of_raster_population": 0.43126076159788335,
+        "covered_population_2020": 22752.773028805852,
+        "fraction_of_raster_population": 0.545890431297478,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 10,
+    "unique_station_coordinates": 21,
     "valid_pixels": 56644
   },
   "population_source_country": "CM",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Bertoua/bertoua.design-quality.yaml": "0831b6d1a2c44e1e3ea9f4b087a718909104a0d4b99289a19779ec7190828fcc",
-    "cities/catalogue/west-africa/Cameroon/Bertoua/design.toml": "5a7f7ef1bb42848caab799816c58b737d6460c98c44bb44269f4092c60fc6523",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/bertoua.design-quality.yaml": "282543f9ebe1450c435cc6b41ba975146cbae613270aa7e6726711fa0bfc741f",
+    "cities/catalogue/west-africa/Cameroon/Bertoua/design.toml": "27a449c8461bc1f8d746c0b207c4aa449fff6d6672b30bddbc94af6a14b7634a",
     "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/access/population-pixels.npz.gz": "011b96e1527e57e1665a34cc127effbbbdc74c2e2c8dd60d2e2fc809e7396811",
     "cities/catalogue/west-africa/Cameroon/Bertoua/engineering/access/population-source.json": "e54a808ec5dbdae70cd1218bb87cff218165bff0a5fae95d9a8ef7ddfe62dd82",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -95,13 +95,15 @@
       [
         "line-1",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5"
       ]
     ],
-    "direct_transfer_fraction": 0.6666666666666666,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 2,
+    "direct_transfer_fraction": 0.5,
+    "line_count": 5,
+    "line_pair_count": 10,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -119,13 +121,62 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 1.0
+    "reachable_with_at_most_two_transfers_fraction": 0.9
   }
 }

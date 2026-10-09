@@ -1,6 +1,7 @@
 """Civil planning checks cover disconnected scope and unqualified resource claims."""
 import importlib.util
 import json
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -92,7 +93,11 @@ def test_current_scope_reconciles_all_civil_classes_and_keeps_external_gates_ope
     assert summary['complete_opening_date'] is None
     assert summary['construction_released'] is False
     dependencies = json.loads(outputs['package-dependencies.json'])
-    assert len(dependencies['nodes']) == 9 * 14
+    design=tomllib.loads((ROOT/plan.CITY/'design.toml').read_text())
+    assert len(dependencies['nodes']) == len(design['lines']) * 14
+    assert {node['line'] for node in dependencies['nodes']} == {line['name'] for line in design['lines']}
+    assert summary['initial_candidate_launchers'] == 18
+    assert summary['candidate_workfronts'] == 2 * len(design['lines'])
     assert all(node['finish_date'] is None and node['accepted'] is False for node in dependencies['nodes'])
     opening = json.loads((ROOT / plan.CITY / 'engineering/coupled-programme/line-opening-milestones.json').read_text())
     for row in opening['rows']:

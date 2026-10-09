@@ -1,7 +1,7 @@
 # Kirkuk structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 5
+- Lines: 18
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

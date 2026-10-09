@@ -4,7 +4,7 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 82.1% |
+| Direct transfer line pairs | 78.6% |
 | Reachable line pairs, including intermediate lines | 100.0% |
 | Reachable with at most two transfers | 100.0% |
 | Connected line components | 1 |

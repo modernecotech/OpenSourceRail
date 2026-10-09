@@ -1,7 +1,7 @@
 # Lichinga structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 2
+- Lines: 4
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

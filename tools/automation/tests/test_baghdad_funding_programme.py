@@ -2,10 +2,12 @@
 import hashlib
 import json
 from pathlib import Path
+import tomllib
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
+CITY = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 
 
 def programme():
@@ -75,7 +77,8 @@ def test_programme_provenance_is_current_and_excludes_other_cities():
 def test_phased_programme_uses_same_capital_and_reports_complete_line_cashflows():
     p = programme()
     phases = p['phased_opening']['phases']
-    assert len(phases) == 9
+    design=tomllib.loads((CITY/'design.toml').read_text())
+    assert len(phases) == len(design['lines'])
     assert sum(row['weight'] for row in phases) == pytest.approx(1)
     for name, case in p['phased_opening']['cases'].items():
         monthly = case['monthly']

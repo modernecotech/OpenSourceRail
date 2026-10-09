@@ -1,8 +1,8 @@
 # Sukkur route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 20
+- Lines: 12
+- Stations: 57
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

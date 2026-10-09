@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7295481537777623,
+  "added_line_count": 9,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "tanta",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 12,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.36627,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1519178.5479488373,
+    "catchments": [
+      {
+        "covered_population_2020": 1108313.904914856,
+        "fraction_of_raster_population": 0.7295481537777623,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 750000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 73,
+    "valid_pixels": 16339
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Tanta/design.toml": "8f65c5a438375f453e6e5790e629055d268abc095bfe942d0c92c25859383a0e",
+    "cities/catalogue/west-asia/Egypt/Tanta/engineering/access/population-pixels.npz.gz": "91cf920e14fe2893871a9f10737bc9e504329c5922792b1eedcf878f6792d505",
+    "cities/catalogue/west-asia/Egypt/Tanta/engineering/access/population-source.json": "d75d702281447fd7d3f1922ac51f9cd1908245acaa6587039b849d441e3b3742",
+    "cities/catalogue/west-asia/Egypt/Tanta/engineering/alignment/residential-line-expansion.json": "fedca5faf459e46e0f1f1d9dab0a7f92e6689c71523a77c01d2b893b597bb8c6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 88,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

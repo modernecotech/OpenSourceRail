@@ -11,7 +11,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT/'tools/automation'))
 from baghdad_funding_analysis import add_draw, debt_month, simulate
-from baghdad_financing_redesign import opening_terms, npv, insured_options
+from baghdad_financing_redesign import opening_terms, scoped_insured_terms, npv, insured_options
 from osr_scenario.iraq_finance import city_funding_config
 OUT = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign'
 
@@ -42,6 +42,18 @@ def test_opening_cohorts_wait_for_latest_actual_financed_line():
     result=opening_terms({0:{}},contracts,{'A':'early','B':'late'},phases,cfg,redesign,insured=True)
     assert result[0]['bank_credit']['grace_months_from_draw']+1==83
     assert sum(result[0]['green_bonds'].values())==180
+
+
+def test_ineligible_insured_cohort_does_not_receive_an_extended_coverage_window():
+    cfg=city_funding_config(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text()),'baghdad')
+    redesign=tomllib.loads((ROOT/'lib/templates/baghdad-financing-redesign.toml').read_text())
+    phases=[dict(line='late',opening_month=200)]
+    terms,eligible,excluded=scoped_insured_terms({0:{}},[],{},phases,cfg,redesign)
+    assert excluded==[0] and eligible==set()
+    assert 'green_bonds' not in terms[0]
+    assert terms[0]['bank_credit']['grace_months_from_draw']==199
+    with pytest.raises(ValueError,match='no amortisation'):
+        opening_terms({0:{}},[],{},phases,cfg,redesign,insured=True)
 
 
 def test_reference_matches_current_baseline_and_debt_changes_do_not_create_npv(summary):

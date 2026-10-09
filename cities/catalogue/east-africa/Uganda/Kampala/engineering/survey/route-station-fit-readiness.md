@@ -1,8 +1,8 @@
 # Kampala route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 67
+- Lines: 41
+- Stations: 271
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

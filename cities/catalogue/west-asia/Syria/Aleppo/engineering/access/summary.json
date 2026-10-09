@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.562,
+    "high_demand_cell_fraction": 0.675,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 3352419.2670464516,
     "catchments": [
       {
-        "covered_population_2020": 487334.0044269562,
-        "fraction_of_raster_population": 0.1453678569435938,
+        "covered_population_2020": 967674.8732395172,
+        "fraction_of_raster_population": 0.2886497171614391,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 1077488.5640144348,
-        "fraction_of_raster_population": 0.32140626758887586,
+        "covered_population_2020": 2078581.8820991516,
+        "fraction_of_raster_population": 0.6200244410152266,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 1478148.4841675758,
-        "fraction_of_raster_population": 0.44091993465657836,
+        "covered_population_2020": 2620532.72838068,
+        "fraction_of_raster_population": 0.7816840674255585,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 2213733.3131375313,
-        "fraction_of_raster_population": 0.6603390378101109,
+        "covered_population_2020": 3085652.934533596,
+        "fraction_of_raster_population": 0.9204257250472486,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 2541318.799859047,
-        "fraction_of_raster_population": 0.7580551826675306,
+        "covered_population_2020": 3167115.0803442,
+        "fraction_of_raster_population": 0.9447252351387695,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 49,
+    "unique_station_coordinates": 119,
     "valid_pixels": 39159
   },
   "population_source_country": "SY",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Syria/Aleppo/aleppo.design-quality.yaml": "0f6b1f09b146f53f88ba543b2aa26daab65c53aaef94c07ef3219a991f53ea55",
-    "cities/catalogue/west-asia/Syria/Aleppo/design.toml": "a4ac06000a05312a3c181ebe6f4a504fc08b3859f2f88dc265cb11cd909f1a29",
+    "cities/catalogue/west-asia/Syria/Aleppo/aleppo.design-quality.yaml": "c4afb0c0443ebe558aa55f098ac3de19dba0ad00a73990be285eab71567f8008",
+    "cities/catalogue/west-asia/Syria/Aleppo/design.toml": "52953f7c1a6075fc131c915731378ae6e72ce292a15e2679fa438b2954df1754",
     "cities/catalogue/west-asia/Syria/Aleppo/engineering/access/population-pixels.npz.gz": "cd007b50a9fee5358c4c679cf9bcef302121463be1c9c21fc9be54fa9525e3fd",
     "cities/catalogue/west-asia/Syria/Aleppo/engineering/access/population-source.json": "afd1b2adc22b897584b9df9d63ca6bd0fa23814dfe2517cb83a49bd7592f0830",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -94,17 +94,33 @@
     "components": [
       [
         "line-1",
+        "line-10",
+        "line-11",
+        "line-12",
+        "line-13",
+        "line-14",
+        "line-15",
+        "line-16",
+        "line-17",
+        "line-18",
+        "line-19",
         "line-2",
+        "line-20",
+        "line-21",
+        "line-22",
         "line-3",
         "line-4",
         "line-5",
-        "line-6"
+        "line-6",
+        "line-7",
+        "line-8",
+        "line-9"
       ]
     ],
-    "direct_transfer_fraction": 0.9333333333333333,
-    "line_count": 6,
-    "line_pair_count": 15,
-    "maximum_required_transfers": 2,
+    "direct_transfer_fraction": 0.21212121212121213,
+    "line_count": 22,
+    "line_pair_count": 231,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -143,6 +159,118 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-13"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-14"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
@@ -171,6 +299,118 @@
       },
       {
         "lines": [
+          "line-2",
+          "line-7"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-13"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-17"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-19"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-3",
           "line-4"
         ],
@@ -192,6 +432,118 @@
       },
       {
         "lines": [
+          "line-3",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-8"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-13"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-17"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-4",
           "line-5"
         ],
@@ -206,13 +558,1189 @@
       },
       {
         "lines": [
+          "line-4",
+          "line-7"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-13"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-19"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-20"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-5",
           "line-6"
         ],
         "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-9"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-13"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-16"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-17"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-19"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-8"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-9"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-10"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-11"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-12"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-13"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-14"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-15"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-16"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-18"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-19"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-21"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-22"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-8"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-9"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-10"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-11"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-12"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-13"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-14"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-15"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-16"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-18"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-21"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-22"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-13"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-14"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-17"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-10"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-13"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-19"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-9",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-11"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-13"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-17"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-18"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-10",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-12"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-13"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-17"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-11",
+          "line-22"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-13"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-14"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-17"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-20"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-12",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-14"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-15"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-16"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-18"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-21"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-13",
+          "line-22"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-15"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-14",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-16"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-17"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-15",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-17"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-18"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-16",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-17",
+          "line-18"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-17",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-17",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-17",
+          "line-21"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-17",
+          "line-22"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-18",
+          "line-19"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-18",
+          "line-20"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-18",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-18",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-19",
+          "line-20"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-19",
+          "line-21"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-19",
+          "line-22"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-20",
+          "line-21"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-20",
+          "line-22"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-21",
+          "line-22"
+        ],
+        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 1.0
+    "reachable_with_at_most_two_transfers_fraction": 0.8311688311688312
   }
 }

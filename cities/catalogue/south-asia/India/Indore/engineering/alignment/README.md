@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`indore-line1.aln.toml`](indore-line1.aln.toml) | `line-1` | 36,058.4 m | 17 |
+| [`indore-line1.aln.toml`](indore-line1.aln.toml) | `line-1` | 35,968.7 m | 17 |
 | [`indore-line2.aln.toml`](indore-line2.aln.toml) | `line-2` | 34,913.7 m | 13 |
 | [`indore-line3.aln.toml`](indore-line3.aln.toml) | `line-3` | 35,539.5 m | 12 |
 | [`indore-line4.aln.toml`](indore-line4.aln.toml) | `line-4` | 35,281.2 m | 15 |

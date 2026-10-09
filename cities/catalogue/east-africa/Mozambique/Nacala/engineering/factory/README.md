@@ -1,15 +1,25 @@
 # Nacala city-order factory requirement
 
-**91 tram-2car trainsets / 182 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**220 tram-2car trainsets / 440 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 260.0 trainsets/year, 3 separate test paths, 428 direct production FTE. Plant reference envelope: **USD 300.664m**.
+Planning output: 627.6 trainsets/year, 6 separate test paths, 1039 direct production FTE. Plant reference envelope: **USD 623.155m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 21 | 590 | 680 | 680 |
-| line-2 | 50 | 640 | 730 | 730 |
-| line-3 | 20 | 660 | 750 | 750 |
+| line-1 | 24 | 544 | 669 | 669 |
+| line-2 | 53 | 602 | 692 | 692 |
+| line-3 | 23 | 611 | 701 | 701 |
+| line-4 | 10 | 615 | 705 | 705 |
+| line-5 | 11 | 620 | 710 | 710 |
+| line-6 | 12 | 624 | 715 | 715 |
+| line-7 | 8 | 628 | 718 | 718 |
+| line-8 | 15 | 634 | 724 | 724 |
+| line-9 | 9 | 638 | 728 | 728 |
+| line-10 | 13 | 552 | 733 | 733 |
+| line-11 | 9 | 553 | 737 | 737 |
+| line-12 | 24 | 571 | 747 | 747 |
+| line-13 | 9 | 589 | 751 | 751 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

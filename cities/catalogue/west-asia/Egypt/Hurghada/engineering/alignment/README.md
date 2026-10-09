@@ -4,9 +4,10 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hurghada-line1.aln.toml`](hurghada-line1.aln.toml) | `line-1` | 14,229.5 m | 6 |
-| [`hurghada-line2.aln.toml`](hurghada-line2.aln.toml) | `line-2` | 13,089.9 m | 6 |
-| [`hurghada-line3.aln.toml`](hurghada-line3.aln.toml) | `line-3` | 5,312.4 m | 5 |
+| [`hurghada-line1.aln.toml`](hurghada-line1.aln.toml) | `line-1` | 14,229.5 m | 9 |
+| [`hurghada-line2.aln.toml`](hurghada-line2.aln.toml) | `line-2` | 13,089.9 m | 7 |
+| [`hurghada-line3.aln.toml`](hurghada-line3.aln.toml) | `line-3` | 5,312.4 m | 4 |
+| [`hurghada-line4.aln.toml`](hurghada-line4.aln.toml) | `line-4` | 4,591.9 m | 4 |
 
 ## Status
 

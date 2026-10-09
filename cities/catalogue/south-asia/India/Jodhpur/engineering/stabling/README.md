@@ -58,7 +58,7 @@ Allocation check: **FAIL**. Depot stabling positions are planning requirements, 
 | line-2 | line-2-0795-0601-s003058 | station | forward | revenue | 1 |
 | line-2 | line-2-0795-0601-s003058 | station | reverse | revenue | 1 |
 | line-2 | line-2-0875-0490-s000000 | station | forward | revenue | 2 |
-| line-3 | line-3-0542-0657-s019635 | station | reverse | revenue | 2 |
+| line-3 | line-3-0542-0657-s019565 | station | reverse | revenue | 2 |
 | line-3 | line-3-0565-0643-s018514 | station | forward | revenue | 1 |
 | line-3 | line-3-0565-0643-s018514 | station | reverse | revenue | 1 |
 | line-3 | line-3-0718-0653-s015359 | station | forward | revenue | 1 |
@@ -209,7 +209,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **122 posi
 | line-3 | line-3-0718-0653-s015359 | reverse | revenue | 2 | pending |
 | line-3 | line-3-0565-0643-s018514 | forward | revenue | 2 | pending |
 | line-3 | line-3-0565-0643-s018514 | reverse | revenue | 2 | pending |
-| line-3 | line-3-0542-0657-s019635 | reverse | revenue | 2 | pending |
+| line-3 | line-3-0542-0657-s019565 | reverse | revenue | 2 | pending |
 | line-3 | line-3-1418-0634-s000000 | forward | spare | 1 | pending |
 | line-3 | line-3-1125-0678-s007000 | forward | spare | 1 | pending |
 | line-3 | line-3-1125-0678-s007000 | reverse | spare | 1 | pending |
@@ -283,7 +283,7 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **122 posi
 | line-2-0762-0649-s004374 | 4 | 4 | 0 | 0.0 |
 | line-2-0795-0601-s003058 | 4 | 2 | 2 | 170.0 |
 | line-2-0875-0490-s000000 | 3 | 2 | 1 | 85.0 |
-| line-3-0542-0657-s019635 | 2 | 2 | 0 | 0.0 |
+| line-3-0542-0657-s019565 | 2 | 2 | 0 | 0.0 |
 | line-3-0565-0643-s018514 | 4 | 4 | 0 | 0.0 |
 | line-3-0718-0653-s015359 | 4 | 4 | 0 | 0.0 |
 | line-3-0757-0655-s014562 | 4 | 4 | 0 | 0.0 |

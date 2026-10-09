@@ -5,11 +5,13 @@
 This page contains only El-Obeid-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$984 M (88.4%) of external capital** and **$1.27 bn of external interest**. Capital plus saved interest totals **$2.25 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$2.39 bn (88.6%) of external capital** and **$3.09 bn of external interest**. Capital plus saved interest totals **$5.48 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **39.165 km to 30.087 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **17 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Population-led network revision (2026-10-09).** The controlled planning inventory contains **10 lines**, including **7 additional residential lines**. **42.5%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
 
-**3 line-local depots** provide **122 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **122 light-metro-3car trainsets / 366 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**Current alignment, depot and production basis.** Core corridors change from **39.165 km to 67.468 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **54 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+
+**10 line-local depots** provide **262 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **262 light-metro-3car trainsets / 786 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -21,61 +23,68 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 3 / 17 / 2 |
-| Route length | 38.2 km double track |
-| Direct transfers / reachable line pairs | 66.7% / 100.0% |
-| Residents within 800 m radial station catchments | 33,375 (2020 raster; 12.9% of bbox) |
+| Lines / unique stations / interchanges | 10 / 54 / 11 |
+| Route length | 75.6 km double track |
+| Direct transfers / reachable line pairs | 28.9% / 100.0% |
+| Residents within 800 m radial station catchments | 84,014 (2020 raster; 32.4% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 122 × 3-car `light-metro-3car` trainsets (109 peak revenue) |
-| Peak network throughput | 43,200 passengers/hour |
-| Practical service capacity | 401,760 passenger-trips/day |
-| Annual paid-trip planning range | 73.3–117.3 M |
+| Fleet | 262 × 3-car `light-metro-3car` trainsets (232 peak revenue) |
+| Peak network throughput | 144,000 passengers/hour |
+| Practical service capacity | 1,339,200 passenger-trips/day |
+| Annual paid-trip planning range | 244.4–391.0 M |
 
 ### Lines
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 13.4 km | 5 | 42 | N Outer ↔ S Outer |
-| line-2 | 13.8 km | 7 | 46 | NE Outer ↔ SW Outer |
-| line-3 | 11.0 km | 5 | 34 | S Outer ↔ NE Outer |
-| **Total** | **38.2 km** | **17 unique** | **122** | |
+| line-1 | 13.4 km | 10 | 45 | N Mid ↔ S Outer |
+| line-2 | 13.8 km | 8 | 45 | NE Mid ↔ SW Outer |
+| line-3 | 11.0 km | 6 | 35 | S Outer ↔ E Mid |
+| line-4 |  5.0 km | 5 | 21 | N Mid ↔ NW Mid |
+| line-5 |  7.9 km | 6 | 27 | N Mid ↔ W Mid |
+| line-6 | 10.1 km | 7 | 32 | N Mid ↔ W Mid |
+| line-7 |  3.0 km | 2 | 12 | SW Mid ↔ S Mid |
+| line-8 |  4.1 km | 4 | 17 | N Mid ↔ N Outer |
+| line-9 |  3.8 km | 3 | 14 | NE Mid ↔ E Inner |
+| line-10 |  3.4 km | 3 | 14 | SE Mid ↔ SE Mid |
+| **Total** | **75.6 km** | **54 unique** | **262** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 1,395 one-way journeys / 17,748 train-km/day |
-| Annual traction demand | 84.0 GWh |
-| Station/depot PV / storage | 19.2 MW / 127.0 MWh |
-| Aggregate charging power | 8.5 MW |
-| Dedicated solar plant | 22.0 MW |
+| Scheduled service | 4,650 one-way journeys / 35,131 train-km/day |
+| Annual traction demand | 166.2 GWh |
+| Station/depot PV / storage | 63.2 MW / 422.0 MWh |
+| Aggregate charging power | 27.0 MW |
+| Dedicated solar plant | 14.6 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 5.7 km / 46 kWh |
-| Lowest traversal charging margin | line-3: 25 kWh |
+| Worst powered-stop gap | line-7: 3.0 km / 24 kWh |
+| Lowest traversal charging margin | line-7: 22 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $330 M |
-| Stations | $66 M |
-| Depots | $52 M |
-| Rolling stock | $110 M |
-| Dedicated solar plant | $18 M |
-| Residual train control | $1.9 M |
-| Charging microgrids | $1.9 M |
-| EPC / project services | $39 M |
-| **Total city programme** | **$619 M** |
+| Civil works | $708 M |
+| Stations | $284 M |
+| Depots | $153 M |
+| Rolling stock | $236 M |
+| Dedicated solar plant | $12 M |
+| Residual train control | $3.8 M |
+| Charging microgrids | $5.6 M |
+| EPC / project services | $97 M |
+| **Total city programme** | **$1.50 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $130 M (21.0%) |
-| Domestic / local capital | $489 M (79.0%) |
-| Annual public construction commitment | $74 M / yr for 10 years |
-| Annual post-grace debt service | $68 M / yr |
-| External capital saved vs default turnkey sensitivity | $984 M |
-| Capital + lifetime external interest saved | $2.25 bn |
-| Annual OPEX | $15 M / yr |
+| Imported / external capital | $308 M (20.5%) |
+| Domestic / local capital | $1.19 bn (79.5%) |
+| Annual public construction commitment | $181 M / yr for 10 years |
+| Annual post-grace debt service | $164 M / yr |
+| External capital saved vs default turnkey sensitivity | $2.39 bn |
+| Capital + lifetime external interest saved | $5.48 bn |
+| Annual OPEX | $37 M / yr |
 
 ## Local Evidence
 
@@ -86,8 +95,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 9 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 233 assets / 1,414 tasks | [`el-obeid-operations-manifest.json`](operations/el-obeid-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 15 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 593 assets / 3,340 tasks | [`el-obeid-operations-manifest.json`](operations/el-obeid-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

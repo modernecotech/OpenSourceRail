@@ -1,7 +1,7 @@
 # Ouagadougou drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 6 / 77
+- Lines/stations: 33 / 262
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

@@ -235,7 +235,15 @@ def build(root=ROOT):
                                  shafts=q['shaft_count'], stairs=q['staircase_count'], escalators=q['escalator_count'],
                                  method='station-construction-method', structure_design='missing', access_approval='missing'))
     planning = cfg['planning']
-    launchers = len(line_rows) * planning['initial_launchers_per_line']
+    candidate_fronts = len(line_rows) * planning['initial_launchers_per_line']
+    # The connected programme queues later fronts behind a finite physical
+    # pool. Its workfront count is not additional simultaneous equipment.
+    pool=planning['maximum_physical_launchers']
+    if not isinstance(pool,int) or isinstance(pool,bool) or pool<1:
+        raise ValueError('Physical launcher pool must be a positive integer')
+    if pool!=civil['conditional_scenarios']['initial-accelerated']['maximum_launchers']:
+        raise ValueError('Civil logistics pool differs from connected finite plant')
+    launchers = min(candidate_fronts, pool)
     pi25 = next(b for b in civil['beams'] if b['id'] == 'OSR-Pi25')
     cases = [logistics_requirements(planning, launchers, rate, pi25) for rate in planning['illustrative_bays_launcher_working_day']]
     reference_cycle = civil['conditional_scenarios']['initial-accelerated']['cycle']
@@ -301,7 +309,9 @@ def build(root=ROOT):
                    declared_depots=len(design['depots']), declared_depot_stalls=sum(r['fleet_stalls'] for r in design['depots']),
                    controlled_fleet_trainsets=depot['fleet_trainsets'], verified_overnight_storage_slots=None,
                    catalogue_beam_only_study_concrete_m3=round(accepted_concrete, 6), complete_project_concrete_m3=None,
-                   initial_candidate_launchers=launchers, complete_installed_capital_usd=None, complete_opening_date=None,
+                   initial_candidate_launchers=launchers, candidate_workfronts=candidate_fronts,
+                   queued_workfronts=max(0,candidate_fronts-launchers),
+                   complete_installed_capital_usd=None, complete_opening_date=None,
                    method_documents=cfg['method_documents'], complete_civil_package_types=len(cfg['packages']))
     outputs = {
         'summary.json': encoded(summary), 'line-quantities.json': encoded(line_rows),

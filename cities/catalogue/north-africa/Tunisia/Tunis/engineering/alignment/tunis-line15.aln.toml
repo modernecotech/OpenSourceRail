@@ -1,0 +1,226 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: tunis; source line: line-15; length: 9410.1 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-15"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-metro"
+consist        = "metro-4car"
+crs            = "EPSG:32632"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "119f5784e57fbbe0d0e23f6696a36f2bad13884dc1035e80271826ee87b91bd8"
+source_geojson_sha256 = "43e5086896e120522eb70771ee4938b1ff1bd1eef710d352455c3a1b22fb7e18"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 600795.715
+northing_m          = 4076598.515
+bearing_in_deg      = 269.323
+bearing_out_deg     = 269.323
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 60.032
+easting_m           = 600735.680
+northing_m          = 4076597.805
+bearing_in_deg      = 269.323
+bearing_out_deg     = 224.391
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 144.830
+easting_m           = 600676.352
+northing_m          = 4076537.201
+bearing_in_deg      = 224.391
+bearing_out_deg     = 269.323
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 204.862
+easting_m           = 600616.315
+northing_m          = 4076536.492
+bearing_in_deg      = 269.323
+bearing_out_deg     = 224.395
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1081.125
+easting_m           = 600003.204
+northing_m          = 4075910.284
+bearing_in_deg      = 224.395
+bearing_out_deg     = 314.263
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2607.494
+easting_m           = 598909.964
+northing_m          = 4076975.769
+bearing_in_deg      = 314.263
+bearing_out_deg     = 269.349
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6829.494
+easting_m           = 594687.669
+northing_m          = 4076927.806
+bearing_in_deg      = 269.349
+bearing_out_deg     = 314.302
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 8129.643
+easting_m           = 593757.065
+northing_m          = 4077836.001
+bearing_in_deg      = 314.302
+bearing_out_deg     = 269.374
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 9410.100
+easting_m           = 592476.512
+northing_m          = 4077822.004
+bearing_in_deg      = 269.374
+bearing_out_deg     = 269.374
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 9410.100
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 20.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20.000
+to_station_m   = 88.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 88.300
+to_station_m   = 996.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 996.800
+to_station_m   = 1053.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1053.400
+to_station_m   = 1138.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1138.200
+to_station_m   = 1194.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1194.800
+to_station_m   = 2580.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2580.700
+to_station_m   = 2689.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2689.000
+to_station_m   = 6769.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6769.000
+to_station_m   = 6885.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6885.600
+to_station_m   = 8101.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8101.800
+to_station_m   = 8210.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8210.100
+to_station_m   = 8930.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8930.100
+to_station_m   = 9410.100
+class          = "at-grade"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-15-0778-0803-s000000"
+station_m         = 0.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-15-0786-0737-s001817"
+station_m         = 1817.100
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-15-0758-0659-s003609"
+station_m         = 3609.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-15-0758-0563-s005529"
+station_m         = 5529.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-15-0745-0485-s007197"
+station_m         = 7196.700
+platform_length_m = 81.000
+
+[[station]]
+id                = "line-15-0712-0388-s009410"
+station_m         = 9410.100
+platform_length_m = 85.000
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

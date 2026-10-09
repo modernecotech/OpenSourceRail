@@ -7,24 +7,40 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 719,
+        "fleet_completion_day": 692,
         "line": "line-1",
-        "original_idle_working_days": 643,
-        "original_infrastructure_day": 76,
+        "original_idle_working_days": 562,
+        "original_infrastructure_day": 130,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 629
+        "rephased_infrastructure_day": 602
       },
       {
-        "fleet_completion_day": 748,
+        "fleet_completion_day": 709,
         "line": "line-2",
-        "original_idle_working_days": 654,
-        "original_infrastructure_day": 94,
+        "original_idle_working_days": 561,
+        "original_infrastructure_day": 148,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 658
+        "rephased_infrastructure_day": 619
+      },
+      {
+        "fleet_completion_day": 730,
+        "line": "line-3",
+        "original_idle_working_days": 564,
+        "original_infrastructure_day": 166,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 640
+      },
+      {
+        "fleet_completion_day": 749,
+        "line": "line-4",
+        "original_idle_working_days": 565,
+        "original_infrastructure_day": 184,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 659
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 67,
+    "shifted_work_packages": 174,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -60,24 +76,26 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 15456892.500000002,
-    "contingency": 24597800.8125,
+    "buildings": 29156557.500000004,
+    "contingency": 34360225.4375,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 5432111.5625,
+    "serviced_site": 7144569.6875,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 35100000.0,
+    "stage_tooling": 68500000.0,
     "test_tracks": 12000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 128,
+  "direct_production_crew_fte": 252,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 221.0,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "tram-2car",
   "infrastructure_deadlines": {
-    "line-1": 629,
-    "line-2": 658
+    "line-1": 602,
+    "line-2": 619,
+    "line-3": 640,
+    "line-4": 659
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -90,37 +108,45 @@
   ],
   "line_priority": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 719,
-    "line-2": 748
+    "line-1": 692,
+    "line-2": 709,
+    "line-3": 730,
+    "line-4": 749
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 71.72413793103448,
+  "minimum_steady_output_trainsets_per_year": 150.5263157894737,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "993982f2edca0c7045599bcc43c5e118889cfbc3efa139c6a63fe3d38563e16a",
+  "operations_payload_sha256": "ee80a0d1016728849a8da403145e11357f343330d73db66ca5cc9af85aa92559",
   "original_infrastructure_deadlines": {
-    "line-1": 76,
-    "line-2": 94
+    "line-1": 130,
+    "line-2": 148,
+    "line-3": 166,
+    "line-4": 184
   },
-  "original_infrastructure_target_working_day": 94,
+  "original_infrastructure_target_working_day": 184,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4"
   ],
-  "planning_site_m2": 155203.1875,
-  "plant_cost_envelope_usd": 147586804.875,
-  "process_and_support_floor_m2": 22081.275,
+  "planning_site_m2": 204130.5625,
+  "plant_cost_envelope_usd": 206161352.625,
+  "process_and_support_floor_m2": 41652.225000000006,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
-    "arish trainset acceptance bays": 5,
-    "arish trainset kitting": 2,
-    "arish tram-2car body installation": 1,
-    "arish tram-2car composite kits": 4,
-    "arish tram-2car electrical integration": 7,
-    "arish tram-2car fitout and static test": 6,
-    "arish tram-2car structural assembly": 8
+    "arish trainset acceptance bays": 9,
+    "arish trainset kitting": 3,
+    "arish tram-2car body installation": 2,
+    "arish tram-2car composite kits": 7,
+    "arish tram-2car electrical integration": 14,
+    "arish tram-2car fitout and static test": 11,
+    "arish tram-2car structural assembly": 17
   },
   "resource_ready_days": {
     "arish trainset acceptance bays": 390,
@@ -134,10 +160,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Arish/arish.toml": "f61f57f060182d6dbb1f8df1bc571e1d4324a4213c753218d3651f9288a5a0ce",
-    "cities/catalogue/west-asia/Egypt/Arish/design.toml": "c4ae3803c0276b9d63e57c560b399c045d21ab5d085c3ffcac8d997576e4b595",
-    "cities/catalogue/west-asia/Egypt/Arish/engineering/finance/summary.json": "7d7ce0a6fb274154dd6dfde06daa88c70454a5d5c9392815073a1157745c64e7",
-    "cities/catalogue/west-asia/Egypt/Arish/operations/arish-operations-manifest.json": "ab54efabe4a5f59f8f8f55c48423e9fe7bb94a8467dec8850552de2f71f79d8c",
+    "cities/catalogue/west-asia/Egypt/Arish/arish.toml": "16f611520541baae5467eda21449b0fd26aec4ae1645b096b1864d30859734f8",
+    "cities/catalogue/west-asia/Egypt/Arish/design.toml": "61c6502e55b44f9c96ad05b4085d8e8763cbc30a307640f43db24fa604ac3052",
+    "cities/catalogue/west-asia/Egypt/Arish/engineering/finance/summary.json": "2adb95c9ebfc11999883bfc8b325a2e55adea315c1272b26dedde576b7fdbf8a",
+    "cities/catalogue/west-asia/Egypt/Arish/operations/arish-operations-manifest.json": "6bbc49575364221a7ee56cdfda7e4ac0555ce32f8f5d04507d7e4397e1952962",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -150,103 +176,103 @@
   },
   "stages": [
     {
-      "cells": 2,
+      "cells": 3,
       "crew_per_cell": 1,
       "cycle_working_days": 3,
-      "direct_crew_fte": 2,
+      "direct_crew_fte": 3,
       "floor_m2_per_cell": 250.0,
       "package": "rs-10-material-kit",
       "planned_occupation_days": 4,
-      "process_floor_m2": 500.0,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 750.0,
+      "tooling_allowance_usd": 450000.0,
       "tooling_allowance_usd_per_cell": 150000.0,
-      "trainsets_per_year": 130.0,
+      "trainsets_per_year": 195.0,
       "work_center": "arish trainset kitting"
     },
     {
-      "cells": 8,
+      "cells": 17,
       "crew_per_cell": 6,
       "cycle_working_days": 24,
-      "direct_crew_fte": 48,
+      "direct_crew_fte": 102,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 3276.0,
-      "tooling_allowance_usd": 12800000.0,
+      "process_floor_m2": 6961.5,
+      "tooling_allowance_usd": 27200000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 71.72413793103448,
+      "trainsets_per_year": 152.41379310344826,
       "work_center": "arish tram-2car structural assembly"
     },
     {
-      "cells": 4,
+      "cells": 7,
       "crew_per_cell": 3,
       "cycle_working_days": 10,
-      "direct_crew_fte": 12,
+      "direct_crew_fte": 21,
       "floor_m2_per_cell": 1200.0,
       "package": "rs-23-moulded-body-modules",
       "planned_occupation_days": 12,
-      "process_floor_m2": 4800.0,
-      "tooling_allowance_usd": 7200000.0,
+      "process_floor_m2": 8400.0,
+      "tooling_allowance_usd": 12600000.0,
       "tooling_allowance_usd_per_cell": 1800000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 151.66666666666669,
       "work_center": "arish tram-2car composite kits"
     },
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 4,
       "cycle_working_days": 2,
-      "direct_crew_fte": 4,
+      "direct_crew_fte": 8,
       "package": "rs-25-clip-on-body",
       "planned_occupation_days": 3,
-      "process_floor_m2": 409.5,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 819.0,
+      "tooling_allowance_usd": 600000.0,
       "tooling_allowance_usd_per_cell": 300000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 173.33333333333331,
       "work_center": "arish tram-2car body installation"
     },
     {
-      "cells": 7,
+      "cells": 14,
       "crew_per_cell": 4,
       "cycle_working_days": 20,
-      "direct_crew_fte": 28,
+      "direct_crew_fte": 56,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 2866.5,
-      "tooling_allowance_usd": 7000000.0,
+      "process_floor_m2": 5733.0,
+      "tooling_allowance_usd": 14000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 75.83333333333334,
+      "trainsets_per_year": 151.66666666666669,
       "work_center": "arish tram-2car electrical integration"
     },
     {
-      "cells": 6,
+      "cells": 11,
       "crew_per_cell": 4,
       "cycle_working_days": 16,
-      "direct_crew_fte": 24,
+      "direct_crew_fte": 44,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 2457.0,
-      "tooling_allowance_usd": 4500000.0,
+      "process_floor_m2": 4504.5,
+      "tooling_allowance_usd": 8250000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 82.10526315789473,
+      "trainsets_per_year": 150.5263157894737,
       "work_center": "arish tram-2car fitout and static test"
     },
     {
-      "cells": 5,
+      "cells": 9,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 10,
+      "direct_crew_fte": 18,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 2047.5,
-      "tooling_allowance_usd": 3000000.0,
+      "process_floor_m2": 3685.5,
+      "tooling_allowance_usd": 5400000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 156.0,
       "work_center": "arish trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 748,
+  "stock_finish_working_day": 749,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 2,
-  "total_trainsets": 26,
-  "vehicle_modules": 52
+  "total_trainsets": 53,
+  "vehicle_modules": 106
 }

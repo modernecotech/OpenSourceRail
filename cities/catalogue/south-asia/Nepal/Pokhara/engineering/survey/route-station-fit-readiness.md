@@ -1,8 +1,8 @@
 # Pokhara route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 27
+- Lines: 9
+- Stations: 69
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

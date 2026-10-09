@@ -1,15 +1,19 @@
 # Kigoma city-order factory requirement
 
-**60 tram-2car trainsets / 120 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**124 tram-2car trainsets / 248 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 170.3 trainsets/year, 2 separate test paths, 285 direct production FTE. Plant reference envelope: **USD 222.269m**.
+Planning output: 355.8 trainsets/year, 4 separate test paths, 595 direct production FTE. Plant reference envelope: **USD 390.961m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 20 | 598 | 688 | 688 |
-| line-2 | 25 | 636 | 726 | 726 |
-| line-3 | 15 | 659 | 749 | 749 |
+| line-1 | 23 | 586 | 676 | 676 |
+| line-2 | 29 | 607 | 697 | 697 |
+| line-3 | 17 | 619 | 709 | 709 |
+| line-4 | 11 | 628 | 718 | 718 |
+| line-5 | 11 | 635 | 725 | 725 |
+| line-6 | 18 | 648 | 738 | 738 |
+| line-7 | 15 | 659 | 749 | 749 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

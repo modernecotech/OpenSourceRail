@@ -1,8 +1,8 @@
 # Mukalla route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 44
+- Lines: 7
+- Stations: 70
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -9,17 +9,20 @@ The adopted planning requirement stores the full line fleet in one line-local de
 | line-1-0533-0545-s014230 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0729-0464-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-3-0460-0535-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-4-0451-0431-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-0155-0041-s000000 | line-1 | 15 | 585.0 | 735.0 | unverified |
-| line-1-0533-0545-s014230 | line-1 | 15 | 585.0 | 735.0 | unverified |
-| line-2-0729-0464-s000000 | line-2 | 13 | 507.0 | 637.0 | unverified |
-| line-2-0242-0142-s013090 | line-2 | 13 | 507.0 | 637.0 | unverified |
+| line-1-0155-0041-s000000 | line-1 | 17 | 663.0 | 833.0 | unverified |
+| line-1-0533-0545-s014230 | line-1 | 17 | 663.0 | 833.0 | unverified |
+| line-2-0729-0464-s000000 | line-2 | 14 | 546.0 | 686.0 | unverified |
+| line-2-0242-0142-s013090 | line-2 | 14 | 546.0 | 686.0 | unverified |
 | line-3-0460-0535-s000000 | line-3 | 8 | 312.0 | 392.0 | unverified |
-| line-3-0552-0311-s005312 | line-3 | 8 | 312.0 | 392.0 | unverified |
+| line-3-0552-0311-s005312 | line-3 | 7 | 273.0 | 343.0 | unverified |
+| line-4-0451-0431-s000000 | line-4 | 7 | 273.0 | 343.0 | unverified |
+| line-4-0365-0312-s004592 | line-4 | 7 | 273.0 | 343.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

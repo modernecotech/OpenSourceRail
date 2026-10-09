@@ -1,8 +1,8 @@
 # Sulaymaniyah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 4
-- Stations: 42
+- Lines: 17
+- Stations: 122
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

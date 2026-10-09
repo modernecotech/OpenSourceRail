@@ -6,13 +6,37 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "kirkuk",
-      "corridor_sha256": "1c848a7ff9e9a86f7ddf2c05ceb95a37fb4975e4f9e0a46d2773a2fdf7daa36e",
-      "design_sha256": "5a7db1a6b2ce573cb8414694c315690df1eec713cfc842cca3e23d390e3abfe7",
+      "corridor_sha256": "30f702f9386b2f86ae4321f69042a92a178293e462611894d06dff20a4240e39",
+      "design_sha256": "b128ee218905efaae13995a41af17a87523bde47e528accdb6bdd83955c906a8",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 4,
+      "radial_count": 17,
       "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1486.5,
+          "radial": "line-12",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 1486.5
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1486.5,
+          "radial": "line-15",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 1486.5
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1349.2,
+          "radial": "line-16",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 1357.9
+        },
         {
           "code": "terminus-extension-omitted-to-avoid-poor-alignment",
           "endpoint": "start",
@@ -21,10 +45,18 @@
           "severity": "review",
           "terminal_station_present": true,
           "terminus_distance_m": 1152.2
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1746.8,
+          "radial": "line-6",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 1746.8
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 5
 }

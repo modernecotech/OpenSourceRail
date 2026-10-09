@@ -1,8 +1,8 @@
 # Damascus route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 65
+- Lines: 25
+- Stations: 187
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

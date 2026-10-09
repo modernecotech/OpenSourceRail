@@ -1,8 +1,8 @@
 # Bafoussam route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 23
+- Lines: 15
+- Stations: 80
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

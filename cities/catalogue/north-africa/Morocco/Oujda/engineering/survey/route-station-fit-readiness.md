@@ -1,8 +1,8 @@
 # Oujda route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 15
+- Lines: 5
+- Stations: 26
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

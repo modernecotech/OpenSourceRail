@@ -7,24 +7,48 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 690,
+        "fleet_completion_day": 673,
         "line": "line-1",
-        "original_idle_working_days": 614,
-        "original_infrastructure_day": 76,
+        "original_idle_working_days": 516,
+        "original_infrastructure_day": 157,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 600
+        "rephased_infrastructure_day": 583
       },
       {
-        "fleet_completion_day": 748,
+        "fleet_completion_day": 701,
         "line": "line-2",
-        "original_idle_working_days": 654,
-        "original_infrastructure_day": 94,
+        "original_idle_working_days": 526,
+        "original_infrastructure_day": 175,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 658
+        "rephased_infrastructure_day": 611
+      },
+      {
+        "fleet_completion_day": 716,
+        "line": "line-3",
+        "original_idle_working_days": 523,
+        "original_infrastructure_day": 193,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 626
+      },
+      {
+        "fleet_completion_day": 737,
+        "line": "line-4",
+        "original_idle_working_days": 526,
+        "original_infrastructure_day": 211,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 647
+      },
+      {
+        "fleet_completion_day": 750,
+        "line": "line-5",
+        "original_idle_working_days": 521,
+        "original_infrastructure_day": 229,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 660
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 78,
+    "shifted_work_packages": 248,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -60,24 +84,27 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 16230847.500000002,
-    "contingency": 25291940.6875,
+    "buildings": 37616197.5,
+    "contingency": 40253644.4375,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 5528855.9375,
+    "serviced_site": 8202024.6875,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 37700000.0,
+    "stage_tooling": 88450000.0,
     "test_tracks": 12000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 138,
+  "direct_production_crew_fte": 326,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 221.0,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "tram-2car",
   "infrastructure_deadlines": {
-    "line-1": 600,
-    "line-2": 658
+    "line-1": 583,
+    "line-2": 611,
+    "line-3": 626,
+    "line-4": 647,
+    "line-5": 660
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -90,37 +117,49 @@
   ],
   "line_priority": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4",
+    "line-5"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 690,
-    "line-2": 748
+    "line-1": 673,
+    "line-2": 701,
+    "line-3": 716,
+    "line-4": 737,
+    "line-5": 750
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 80.6896551724138,
+  "minimum_steady_output_trainsets_per_year": 191.57894736842104,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "34a870649d59715c4651db5da45ba88fbafd419344811f5e7693caa870c0bb60",
+  "operations_payload_sha256": "62defdf6dd1c6d576064927b968f84f6456b5425fa1fa090e1e8c57709035ea8",
   "original_infrastructure_deadlines": {
-    "line-1": 76,
-    "line-2": 94
+    "line-1": 157,
+    "line-2": 175,
+    "line-3": 193,
+    "line-4": 211,
+    "line-5": 229
   },
-  "original_infrastructure_target_working_day": 94,
+  "original_infrastructure_target_working_day": 229,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4",
+    "line-5"
   ],
-  "planning_site_m2": 157967.3125,
-  "plant_cost_envelope_usd": 151751644.125,
-  "process_and_support_floor_m2": 23186.925000000003,
+  "planning_site_m2": 234343.5625,
+  "plant_cost_envelope_usd": 241521866.625,
+  "process_and_support_floor_m2": 53737.425,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
-    "songea trainset acceptance bays": 5,
-    "songea trainset kitting": 2,
-    "songea tram-2car body installation": 1,
-    "songea tram-2car composite kits": 4,
-    "songea tram-2car electrical integration": 8,
-    "songea tram-2car fitout and static test": 6,
-    "songea tram-2car structural assembly": 9
+    "songea trainset acceptance bays": 12,
+    "songea trainset kitting": 3,
+    "songea tram-2car body installation": 3,
+    "songea tram-2car composite kits": 9,
+    "songea tram-2car electrical integration": 18,
+    "songea tram-2car fitout and static test": 14,
+    "songea tram-2car structural assembly": 22
   },
   "resource_ready_days": {
     "songea trainset acceptance bays": 390,
@@ -134,10 +173,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Tanzania/Songea/design.toml": "7d06ac70e7f593c5d90f8c70241c563df9e60a51707ea3c4d38100c54128b304",
-    "cities/catalogue/east-africa/Tanzania/Songea/engineering/finance/summary.json": "29bee6c79f9e04632c885ba06958d664c27b65c3c092616b5067978f3cd69e17",
-    "cities/catalogue/east-africa/Tanzania/Songea/operations/songea-operations-manifest.json": "63bc170d78a36263d7ef0e9e44cb8ce4403a65eec6e4e113e28479411b2b6ba4",
-    "cities/catalogue/east-africa/Tanzania/Songea/songea.toml": "12ce9f49b717a85e8e16a003baf4bf1bd475d53be6a5e3d69e0aeb24b7ce8c27",
+    "cities/catalogue/east-africa/Tanzania/Songea/design.toml": "551409e0116290c9bd03bbdf74f0e430945586892f1cbbe00b672886b4e9d5a2",
+    "cities/catalogue/east-africa/Tanzania/Songea/engineering/finance/summary.json": "3b3691dfac17a0b5c0f8f6116f9420ab2666776983403b286ffe4f864e43ccc4",
+    "cities/catalogue/east-africa/Tanzania/Songea/operations/songea-operations-manifest.json": "ca412c4d3e98573f19150f36a49e8c533aacaf5ba5d5c8b2a51e30b28fb95c73",
+    "cities/catalogue/east-africa/Tanzania/Songea/songea.toml": "5f30ce8c7d73cc0f34068969ee3b8801775df82581aaf0ff5c92369393890cf2",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -150,103 +189,103 @@
   },
   "stages": [
     {
-      "cells": 2,
+      "cells": 3,
       "crew_per_cell": 1,
       "cycle_working_days": 3,
-      "direct_crew_fte": 2,
+      "direct_crew_fte": 3,
       "floor_m2_per_cell": 250.0,
       "package": "rs-10-material-kit",
       "planned_occupation_days": 4,
-      "process_floor_m2": 500.0,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 750.0,
+      "tooling_allowance_usd": 450000.0,
       "tooling_allowance_usd_per_cell": 150000.0,
-      "trainsets_per_year": 130.0,
+      "trainsets_per_year": 195.0,
       "work_center": "songea trainset kitting"
     },
     {
-      "cells": 9,
+      "cells": 22,
       "crew_per_cell": 6,
       "cycle_working_days": 24,
-      "direct_crew_fte": 54,
+      "direct_crew_fte": 132,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 3685.5,
-      "tooling_allowance_usd": 14400000.0,
+      "process_floor_m2": 9009.0,
+      "tooling_allowance_usd": 35200000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 80.6896551724138,
+      "trainsets_per_year": 197.24137931034483,
       "work_center": "songea tram-2car structural assembly"
     },
     {
-      "cells": 4,
+      "cells": 9,
       "crew_per_cell": 3,
       "cycle_working_days": 10,
-      "direct_crew_fte": 12,
+      "direct_crew_fte": 27,
       "floor_m2_per_cell": 1200.0,
       "package": "rs-23-moulded-body-modules",
       "planned_occupation_days": 12,
-      "process_floor_m2": 4800.0,
-      "tooling_allowance_usd": 7200000.0,
+      "process_floor_m2": 10800.0,
+      "tooling_allowance_usd": 16200000.0,
       "tooling_allowance_usd_per_cell": 1800000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 195.0,
       "work_center": "songea tram-2car composite kits"
     },
     {
-      "cells": 1,
+      "cells": 3,
       "crew_per_cell": 4,
       "cycle_working_days": 2,
-      "direct_crew_fte": 4,
+      "direct_crew_fte": 12,
       "package": "rs-25-clip-on-body",
       "planned_occupation_days": 3,
-      "process_floor_m2": 409.5,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 1228.5,
+      "tooling_allowance_usd": 900000.0,
       "tooling_allowance_usd_per_cell": 300000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 260.0,
       "work_center": "songea tram-2car body installation"
     },
     {
-      "cells": 8,
+      "cells": 18,
       "crew_per_cell": 4,
       "cycle_working_days": 20,
-      "direct_crew_fte": 32,
+      "direct_crew_fte": 72,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 3276.0,
-      "tooling_allowance_usd": 8000000.0,
+      "process_floor_m2": 7371.0,
+      "tooling_allowance_usd": 18000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 195.0,
       "work_center": "songea tram-2car electrical integration"
     },
     {
-      "cells": 6,
+      "cells": 14,
       "crew_per_cell": 4,
       "cycle_working_days": 16,
-      "direct_crew_fte": 24,
+      "direct_crew_fte": 56,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 2457.0,
-      "tooling_allowance_usd": 4500000.0,
+      "process_floor_m2": 5733.0,
+      "tooling_allowance_usd": 10500000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 82.10526315789473,
+      "trainsets_per_year": 191.57894736842104,
       "work_center": "songea tram-2car fitout and static test"
     },
     {
-      "cells": 5,
+      "cells": 12,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 10,
+      "direct_crew_fte": 24,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 2047.5,
-      "tooling_allowance_usd": 3000000.0,
+      "process_floor_m2": 4914.0,
+      "tooling_allowance_usd": 7200000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 208.0,
       "work_center": "songea trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 748,
+  "stock_finish_working_day": 750,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 2,
-  "total_trainsets": 29,
-  "vehicle_modules": 58
+  "total_trainsets": 68,
+  "vehicle_modules": 136
 }

@@ -1,7 +1,7 @@
 # Kananga drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 2 / 13
+- Lines/stations: 10 / 51
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

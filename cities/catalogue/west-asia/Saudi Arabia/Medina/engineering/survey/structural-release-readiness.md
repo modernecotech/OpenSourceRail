@@ -1,7 +1,7 @@
 # Medina structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 6
+- Lines: 35
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

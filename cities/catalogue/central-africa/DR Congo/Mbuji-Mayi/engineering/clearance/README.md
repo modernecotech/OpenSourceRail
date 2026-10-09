@@ -2,18 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **296**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **528**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | height-unresolved | 226 |
-| Reference support/foundation | foundation-footprint-conflict | 61 |
-| Reference support/foundation | foundation-setback-conflict | 28 |
-| Reference support/foundation | mapped-footprints-only-clear | 3,647 |
-| Terrain | reference-gradient-exceeded | 2,096 |
-| Terrain | reference-gradient-within-policy | 1,591 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 49 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 23 |
+| Beam/building | height-unresolved | 384 |
+| Beam/building | product-depth-unresolved | 26 |
+| Reference support/foundation | foundation-footprint-conflict | 110 |
+| Reference support/foundation | foundation-setback-conflict | 58 |
+| Reference support/foundation | mapped-footprints-only-clear | 5,290 |
+| Terrain | reference-gradient-exceeded | 2,974 |
+| Terrain | reference-gradient-within-policy | 2,314 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 166 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 91 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

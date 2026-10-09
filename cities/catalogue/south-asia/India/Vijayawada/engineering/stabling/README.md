@@ -34,19 +34,19 @@ Allocation check: **FAIL**. Depot stabling positions are planning requirements, 
 | line-1 | line-1-0885-0914-s021766 | station | reverse | revenue | 1 |
 | line-1 | line-1-1001-1132-s027387 | station | reverse | revenue | 2 |
 | line-2 | line-2-0392-0957-s000000 | station | forward | revenue | 2 |
-| line-2 | line-2-0458-0925-s001795 | station | forward | revenue | 1 |
-| line-2 | line-2-0458-0925-s001795 | station | reverse | revenue | 1 |
-| line-2 | line-2-0636-0808-s006558 | station | forward | revenue | 1 |
-| line-2 | line-2-0636-0808-s006558 | station | reverse | revenue | 1 |
-| line-2 | line-2-0761-0727-s009852 | station | forward | revenue | 1 |
-| line-2 | line-2-0761-0727-s009852 | station | reverse | revenue | 1 |
-| line-2 | line-2-0782-0713-s010418 | station | forward | revenue | 1 |
-| line-2 | line-2-0782-0713-s010418 | station | reverse | revenue | 1 |
-| line-2 | line-2-1007-0565-s016437 | station | forward | revenue | 1 |
-| line-2 | line-2-1007-0565-s016437 | station | reverse | revenue | 1 |
-| line-2 | line-2-1154-0468-s020379 | station | forward | revenue | 1 |
-| line-2 | line-2-1154-0468-s020379 | station | reverse | revenue | 1 |
-| line-2 | line-2-1244-0409-s022774 | station | reverse | revenue | 2 |
+| line-2 | line-2-0458-0925-s001771 | station | forward | revenue | 1 |
+| line-2 | line-2-0458-0925-s001771 | station | reverse | revenue | 1 |
+| line-2 | line-2-0636-0808-s006535 | station | forward | revenue | 1 |
+| line-2 | line-2-0636-0808-s006535 | station | reverse | revenue | 1 |
+| line-2 | line-2-0761-0727-s009829 | station | forward | revenue | 1 |
+| line-2 | line-2-0761-0727-s009829 | station | reverse | revenue | 1 |
+| line-2 | line-2-0782-0713-s010394 | station | forward | revenue | 1 |
+| line-2 | line-2-0782-0713-s010394 | station | reverse | revenue | 1 |
+| line-2 | line-2-1007-0565-s016413 | station | forward | revenue | 1 |
+| line-2 | line-2-1007-0565-s016413 | station | reverse | revenue | 1 |
+| line-2 | line-2-1154-0468-s020356 | station | forward | revenue | 1 |
+| line-2 | line-2-1154-0468-s020356 | station | reverse | revenue | 1 |
+| line-2 | line-2-1244-0409-s022750 | station | reverse | revenue | 2 |
 | line-3 | line-3-0683-1536-s000000 | station | forward | revenue | 2 |
 | line-3 | line-3-0772-1278-s006560 | station | forward | revenue | 1 |
 | line-3 | line-3-0772-1278-s006560 | station | reverse | revenue | 1 |
@@ -171,23 +171,23 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **108 posi
 | line-1 | line-1-0847-0856-s020209 | reverse | spare | 1 | pending |
 | line-1 | line-1-0885-0914-s021766 | forward | cold_reserve | 1 | pending |
 | line-2 | line-2-0392-0957-s000000 | forward | revenue | 3 | pending |
-| line-2 | line-2-0458-0925-s001795 | forward | revenue | 3 | pending |
-| line-2 | line-2-0458-0925-s001795 | reverse | revenue | 3 | pending |
-| line-2 | line-2-0636-0808-s006558 | forward | revenue | 3 | pending |
-| line-2 | line-2-0636-0808-s006558 | reverse | revenue | 3 | pending |
-| line-2 | line-2-0761-0727-s009852 | forward | revenue | 2 | pending |
-| line-2 | line-2-0761-0727-s009852 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0782-0713-s010418 | forward | revenue | 2 | pending |
-| line-2 | line-2-0782-0713-s010418 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1007-0565-s016437 | forward | revenue | 2 | pending |
-| line-2 | line-2-1007-0565-s016437 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1154-0468-s020379 | forward | revenue | 2 | pending |
-| line-2 | line-2-1154-0468-s020379 | reverse | revenue | 2 | pending |
-| line-2 | line-2-1244-0409-s022774 | reverse | revenue | 2 | pending |
-| line-2 | line-2-0761-0727-s009852 | forward | spare | 1 | pending |
-| line-2 | line-2-0761-0727-s009852 | reverse | spare | 1 | pending |
-| line-2 | line-2-0782-0713-s010418 | forward | spare | 1 | pending |
-| line-2 | line-2-0782-0713-s010418 | reverse | cold_reserve | 1 | pending |
+| line-2 | line-2-0458-0925-s001771 | forward | revenue | 3 | pending |
+| line-2 | line-2-0458-0925-s001771 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0636-0808-s006535 | forward | revenue | 3 | pending |
+| line-2 | line-2-0636-0808-s006535 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0761-0727-s009829 | forward | revenue | 2 | pending |
+| line-2 | line-2-0761-0727-s009829 | reverse | revenue | 2 | pending |
+| line-2 | line-2-0782-0713-s010394 | forward | revenue | 2 | pending |
+| line-2 | line-2-0782-0713-s010394 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1007-0565-s016413 | forward | revenue | 2 | pending |
+| line-2 | line-2-1007-0565-s016413 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1154-0468-s020356 | forward | revenue | 2 | pending |
+| line-2 | line-2-1154-0468-s020356 | reverse | revenue | 2 | pending |
+| line-2 | line-2-1244-0409-s022750 | reverse | revenue | 2 | pending |
+| line-2 | line-2-0761-0727-s009829 | forward | spare | 1 | pending |
+| line-2 | line-2-0761-0727-s009829 | reverse | spare | 1 | pending |
+| line-2 | line-2-0782-0713-s010394 | forward | spare | 1 | pending |
+| line-2 | line-2-0782-0713-s010394 | reverse | cold_reserve | 1 | pending |
 | line-3 | line-3-0683-1536-s000000 | forward | revenue | 3 | pending |
 | line-3 | line-3-0772-1294-s006240 | forward | revenue | 3 | pending |
 | line-3 | line-3-0772-1294-s006240 | reverse | revenue | 3 | pending |
@@ -289,13 +289,13 @@ Two-train station-capacity check: **FAIL**. Selected stations provide **108 posi
 | line-1-0885-0914-s021766 | 5 | 4 | 1 | 85.0 |
 | line-1-1001-1132-s027387 | 2 | 2 | 0 | 0.0 |
 | line-2-0392-0957-s000000 | 3 | 2 | 1 | 85.0 |
-| line-2-0458-0925-s001795 | 6 | 4 | 2 | 170.0 |
-| line-2-0636-0808-s006558 | 6 | 4 | 2 | 170.0 |
-| line-2-0761-0727-s009852 | 6 | 4 | 2 | 170.0 |
-| line-2-0782-0713-s010418 | 6 | 4 | 2 | 170.0 |
-| line-2-1007-0565-s016437 | 4 | 2 | 2 | 170.0 |
-| line-2-1154-0468-s020379 | 4 | 4 | 0 | 0.0 |
-| line-2-1244-0409-s022774 | 2 | 2 | 0 | 0.0 |
+| line-2-0458-0925-s001771 | 6 | 4 | 2 | 170.0 |
+| line-2-0636-0808-s006535 | 6 | 4 | 2 | 170.0 |
+| line-2-0761-0727-s009829 | 6 | 4 | 2 | 170.0 |
+| line-2-0782-0713-s010394 | 6 | 4 | 2 | 170.0 |
+| line-2-1007-0565-s016413 | 4 | 2 | 2 | 170.0 |
+| line-2-1154-0468-s020356 | 4 | 4 | 0 | 0.0 |
+| line-2-1244-0409-s022750 | 2 | 2 | 0 | 0.0 |
 | line-3-0683-1536-s000000 | 4 | 2 | 2 | 170.0 |
 | line-3-0772-1278-s006560 | 6 | 4 | 2 | 170.0 |
 | line-3-0772-1283-s006460 | 8 | 4 | 4 | 340.0 |

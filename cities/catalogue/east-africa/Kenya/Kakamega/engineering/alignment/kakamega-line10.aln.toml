@@ -1,0 +1,140 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: kakamega; source line: line-10; length: 4339.4 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-10"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-urban"
+consist        = "tram-2car"
+crs            = "EPSG:32636"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "48ad1aa91444e18fbbced2287a3d64523310b22b0de4e4c8f470e1545307bf6c"
+source_geojson_sha256 = "deea66b279a8456b68a1d483f3dcc4cb8198b180bf90cd28339cb8766f1a3406"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 695996.651
+northing_m          = 24756.552
+bearing_in_deg      = 89.993
+bearing_out_deg     = 89.993
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1500.280
+easting_m           = 697496.770
+northing_m          = 24756.733
+bearing_in_deg      = 89.993
+bearing_out_deg     = 134.849
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1810.687
+easting_m           = 697716.814
+northing_m          = 24537.845
+bearing_in_deg      = 134.849
+bearing_out_deg     = 45.137
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1838.905
+easting_m           = 697736.814
+northing_m          = 24557.749
+bearing_in_deg      = 45.137
+bearing_out_deg     = 89.993
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4339.400
+easting_m           = 700237.039
+northing_m          = 24558.051
+bearing_in_deg      = 89.993
+bearing_out_deg     = 89.993
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 4339.400
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 2639.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2639.400
+to_station_m   = 2659.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2659.400
+to_station_m   = 2699.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2699.400
+to_station_m   = 2719.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2719.400
+to_station_m   = 3179.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3179.400
+to_station_m   = 3199.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3199.400
+to_station_m   = 4339.400
+class          = "at-grade"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-10-0702-0427-s000000"
+station_m         = 0.000
+platform_length_m = 49.000
+
+[[station]]
+id                = "line-10-0713-0513-s001811"
+station_m         = 1811.100
+platform_length_m = 45.000
+
+[[station]]
+id                = "line-10-0712-0639-s004339"
+station_m         = 4339.400
+platform_length_m = 49.000
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

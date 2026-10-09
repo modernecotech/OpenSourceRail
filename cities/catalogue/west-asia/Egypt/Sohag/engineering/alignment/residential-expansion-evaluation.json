@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.5255891176160784,
+  "added_line_count": 5,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "sohag",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 8,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.23702724,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1514494.0828151703,
+    "catchments": [
+      {
+        "covered_population_2020": 796001.6086215973,
+        "fraction_of_raster_population": 0.5255891176160784,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 550000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 39,
+    "valid_pixels": 17314
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Sohag/design.toml": "0ec7deaf0752daf42ad9a2b9d5bc77c29f3a46fa6ec70d0a9185164eebfbfcd0",
+    "cities/catalogue/west-asia/Egypt/Sohag/engineering/access/population-pixels.npz.gz": "057362b51efa135a30f037b99338111e9a9962b1f203f65d6115203c7130259f",
+    "cities/catalogue/west-asia/Egypt/Sohag/engineering/access/population-source.json": "d9083f2fb9f2059d01a4b44c166dd5eb98bab0d89dc12b9585786f0338e67993",
+    "cities/catalogue/west-asia/Egypt/Sohag/engineering/alignment/residential-line-expansion.json": "e6fa41680a1ae8b000560c11a9e82bd9cb6dfdc08ad4b8adab7a80de571ea08c",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 45,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

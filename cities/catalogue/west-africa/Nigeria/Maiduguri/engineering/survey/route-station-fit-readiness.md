@@ -1,8 +1,8 @@
 # Maiduguri route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 58
+- Lines: 23
+- Stations: 187
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

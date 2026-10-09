@@ -6,15 +6,15 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "najaf",
-      "corridor_sha256": "5c4395b9e1f6965ef3c9ecf1c0d5fc7f289880deb4b8ee4f0d67339f99c9b6c7",
-      "design_sha256": "ebffac7b555889f04864a20a0fdd0925915917fb57beec31b057580461b4bd2a",
+      "corridor_sha256": "62e45fb4c0325a28ad663b5c870b1840f949799257d3a843c252f8b658bac581",
+      "design_sha256": "3846029e69990dd991b141d4d6f8863c67fe31c0a5d9f7250d36db43ca2e9798",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
+      "radial_count": 15,
       "review_findings": [
         {
-          "alignment_report_sha256": "468ca76aa49d226f3537060602b1cdbcb2a80626bf296848f6ef2cd8788f5f01",
+          "alignment_report_sha256": "5e7f03c8132995bb6141b1fa883077cc777bdd8b2afbca25daf74cabbc3869cf",
           "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
           "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1203.5,
@@ -24,15 +24,56 @@
         },
         {
           "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 14098.0,
+          "radial": "line-11",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 16255.9
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1143.6,
+          "radial": "line-12",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1928.0
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-13",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 843.3
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 2907.3,
+          "radial": "line-14",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 2907.3
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
           "geometry_distance_m": 7029.6,
           "radial": "line-5",
           "ring": "line-6",
           "severity": "review",
           "terminus_distance_m": 8019.6
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 3306.8,
+          "radial": "line-8",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 4189.2
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 2
+  "review_finding_count": 7
 }

@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.548,
+    "high_demand_cell_fraction": 0.601,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 81862.12547397614,
     "catchments": [
       {
-        "covered_population_2020": 16672.24357509613,
-        "fraction_of_raster_population": 0.20366248101383852,
+        "covered_population_2020": 23266.538637161255,
+        "fraction_of_raster_population": 0.2842161561582915,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 36868.009466171265,
-        "fraction_of_raster_population": 0.4503671173049563,
+        "covered_population_2020": 51144.96899986267,
+        "fraction_of_raster_population": 0.6247696196957602,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 47668.53340625763,
-        "fraction_of_raster_population": 0.5823026598718279,
+        "covered_population_2020": 65052.91241455078,
+        "fraction_of_raster_population": 0.7946643461539613,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 60689.48946380615,
-        "fraction_of_raster_population": 0.741362249177115,
+        "covered_population_2020": 74328.52042770386,
+        "fraction_of_raster_population": 0.9079720322108275,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 68821.11718177795,
-        "fraction_of_raster_population": 0.8406954593874563,
+        "covered_population_2020": 75578.10785484314,
+        "fraction_of_raster_population": 0.9232365690146822,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 15,
+    "unique_station_coordinates": 23,
     "valid_pixels": 3601
   },
   "population_source_country": "JO",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Jordan/Aqaba/aqaba.design-quality.yaml": "941c714012a9ee2736723733bc357d94182d3c80166790e03af6360adf416a43",
-    "cities/catalogue/west-asia/Jordan/Aqaba/design.toml": "5c5ca1084718a4b9a688f004f0090d6231d2a53e78852fb6816c600af26aa532",
+    "cities/catalogue/west-asia/Jordan/Aqaba/aqaba.design-quality.yaml": "3822fb58bfc0408bdc18fb9c6b983d067abdfd741fd735c022563cbb27310377",
+    "cities/catalogue/west-asia/Jordan/Aqaba/design.toml": "fc05112aa5548cba5e08b6da2321c12dc901c352e4f7dec00d9fb73a145a69e8",
     "cities/catalogue/west-asia/Jordan/Aqaba/engineering/access/population-pixels.npz.gz": "e6d0b83587a093c28760d840d0373dd46241b395dec878f429b7a0012deb8d77",
     "cities/catalogue/west-asia/Jordan/Aqaba/engineering/access/population-source.json": "c8cdfd83ea5a46377a7e4e71f687644ceff0c5da9a42835a495079caae6d2b8f",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -95,13 +95,15 @@
       [
         "line-1",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5"
       ]
     ],
-    "direct_transfer_fraction": 1.0,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 1,
+    "direct_transfer_fraction": 0.6,
+    "line_count": 5,
+    "line_pair_count": 10,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
@@ -119,10 +121,59 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,

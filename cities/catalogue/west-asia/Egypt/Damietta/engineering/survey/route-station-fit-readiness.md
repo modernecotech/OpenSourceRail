@@ -1,8 +1,8 @@
 # Damietta route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 24
+- Lines: 11
+- Stations: 83
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

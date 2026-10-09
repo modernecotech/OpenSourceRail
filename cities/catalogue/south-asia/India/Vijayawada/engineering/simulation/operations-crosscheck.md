@@ -10,7 +10,7 @@
 | Line | OSR reference | SUMO mean | Difference | Tolerance | Result |
 |---|---:|---:|---:|---:|---|
 | line-1 | 2404.7 s | 2329.5 s | -75.2 s | 360.7 s | pass |
-| line-2 | 1895.0 s | 1830.5 s | -64.5 s | 284.3 s | pass |
+| line-2 | 1894.0 s | 1829.5 s | -64.5 s | 284.1 s | pass |
 | line-3 | 3141.0 s | 3013.5 s | -127.5 s | 471.1 s | pass |
 | line-4 | 2098.9 s | 2013.0 s | -85.9 s | 314.8 s | pass |
 | line-5 | 1674.4 s | 1585.5 s | -88.9 s | 251.2 s | pass |

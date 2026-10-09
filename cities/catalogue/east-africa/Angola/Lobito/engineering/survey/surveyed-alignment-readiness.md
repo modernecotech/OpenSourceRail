@@ -1,7 +1,7 @@
 # Lobito surveyed-alignment gate
 
 - Status: **awaiting-surveyed-alignments**
-- Lines expected: line-1, line-2, line-3
+- Lines expected: line-1, line-2, line-3, line-4, line-5, line-6, line-7, line-8
 - Technical screen passed: **no**
 - Authority accepted: **no**
 
@@ -11,7 +11,7 @@
 
 ## Current gates
 
-- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report, line-3:surveyed_osr_aln, line-3:landxml_export, line-3:landxml_roundtrip_report
+- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report, line-3:surveyed_osr_aln, line-3:landxml_export, line-3:landxml_roundtrip_report, line-4:surveyed_osr_aln, line-4:landxml_export, line-4:landxml_roundtrip_report, line-5:surveyed_osr_aln, line-5:landxml_export, line-5:landxml_roundtrip_report, line-6:surveyed_osr_aln, line-6:landxml_export, line-6:landxml_roundtrip_report, line-7:surveyed_osr_aln, line-7:landxml_export, line-7:landxml_roundtrip_report, line-8:surveyed_osr_aln, line-8:landxml_export, line-8:landxml_roundtrip_report
 - Duplicate roles: none
 - Authority findings:
   - alignment acceptance record not received

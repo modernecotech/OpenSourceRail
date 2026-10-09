@@ -1,7 +1,7 @@
 # Kisii structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 3
+- Lines: 7
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

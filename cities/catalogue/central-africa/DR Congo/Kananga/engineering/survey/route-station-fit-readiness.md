@@ -1,8 +1,8 @@
 # Kananga route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 13
+- Lines: 10
+- Stations: 51
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

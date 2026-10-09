@@ -1,8 +1,8 @@
 # Nakuru route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 17
+- Lines: 13
+- Stations: 67
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

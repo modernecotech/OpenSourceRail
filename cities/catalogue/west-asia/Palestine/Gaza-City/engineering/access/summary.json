@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.438,
+    "high_demand_cell_fraction": 0.747,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 1210091.61273098,
     "catchments": [
       {
-        "covered_population_2020": 225750.19256019592,
-        "fraction_of_raster_population": 0.1865562823385863,
+        "covered_population_2020": 419684.8792152405,
+        "fraction_of_raster_population": 0.34682074877626823,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 509327.2982635498,
-        "fraction_of_raster_population": 0.42089978387180205,
+        "covered_population_2020": 854241.9630622864,
+        "fraction_of_raster_population": 0.7059316452366786,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 691916.1919250488,
-        "fraction_of_raster_population": 0.5717882717685371,
+        "covered_population_2020": 1010840.6682462692,
+        "fraction_of_raster_population": 0.8353422646777678,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 1001094.620352745,
-        "fraction_of_raster_population": 0.8272882894324318,
+        "covered_population_2020": 1111143.7746887207,
+        "fraction_of_raster_population": 0.9182311182052159,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 1123825.6388311386,
-        "fraction_of_raster_population": 0.9287112041830015,
+        "covered_population_2020": 1154119.027132988,
+        "fraction_of_raster_population": 0.9537451668872649,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 12,
+    "unique_station_coordinates": 25,
     "valid_pixels": 10085
   },
   "population_source_country": "PS",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "a57861a99ee88fbeb16b2fe1ee40b6a81a0d7b95485e54b87fde9d8f5a41bbbf",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "411e83d5e740f5db9b8adb280c0d3edf28c302ebb0e6d6038a58388e8aeaf692",
     "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/access/population-pixels.npz.gz": "1b1b46dd56103406068b9034d3a97eacee64d3de6a41335a9f9057199f262e67",
     "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/access/population-source.json": "4ffb5123c7b646f9a5615edd0d7b97745b57c41d66aeef09c4584db1681147df",
-    "cities/catalogue/west-asia/Palestine/Gaza-City/gaza-city.design-quality.yaml": "b7cda5c183fb454f41cf2afea96e4fbe0482cf1f88c7aacbe7e53777508cb5e0",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/gaza-city.design-quality.yaml": "ca5137447b85fbdd0ebd942fb368edd1ca862351f8b831898b7b8337d97955b3",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -95,13 +95,16 @@
       [
         "line-1",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6"
       ]
     ],
-    "direct_transfer_fraction": 0.6666666666666666,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 2,
+    "direct_transfer_fraction": 0.6,
+    "line_count": 6,
+    "line_pair_count": 15,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -119,13 +122,97 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 1.0
+    "reachable_with_at_most_two_transfers_fraction": 0.9333333333333333
   }
 }

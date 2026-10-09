@@ -1,27 +1,23 @@
 # Baghdad financing redesign — 2026-10-04
 
-<!-- OSR CURRENT SCOPE CONTEXT -->
-> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
-<!-- END OSR CURRENT SCOPE CONTEXT -->
-
-Twelve executable alternatives use 9 lines, 478.9724 km, 186 stations and 772 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are 40, 45, 50, 55, 59, 65, 69, 74, 77 months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
+Twelve executable alternatives use 54 lines, 863.9238 km, 600 stations and 2067 six-car trains. Financial close, title, investor equity, insurance eligibility and physical acceptance remain unestablished. The [existing baseline](../../../finance/baghdad-programme.json) remains the planning reference. Conditional full-line openings are 45, 47, 49, 50, 52, 53, 56, 58, 59, 61, 62, 75, 75, 76, 77, 79, 82, 83, 85, 88, 90, 92, 101, 103, 106, 108, 110, 112, 114, 116, 118, 120, 121, 129, 131, 132, 134, 136, 139, 140, 142, 145, 146, 149, 158, 161, 163, 165, 168, 170, 179, 186, 194, 200 months; the [independently operable first section](../qualification/README.md) is a separately costed sensitivity, not silently added to these full-network cases.
 
 ## Results and what they mean
 
 | Case | Peak aggregate IQD liquidity tn | Cumulative missing IQD funding tn | Terminal IQD gap debt tn | Lifetime interest/fees USD bn eq | Consolidated resource NPV USD bn eq |
 | --- | --- | --- | --- | --- | --- |
-| reference | 4.477 | 0.000 | 0.000 | 4.978 | n/a |
-| opening_linked_debt | 3.999 | 0.000 | 0.000 | 6.538 | n/a |
-| development_rights_1bn | 2.434 | 0.000 | 0.000 | 5.056 | n/a |
-| insured_15year_debt | 4.939 | 0.000 | 0.000 | 6.816 | n/a |
-| integrated | 8.052 | 0.000 | 2.757 | 7.402 | -2.975 |
-| integrated_low_ppa | 5.111 | 0.000 | 0.074 | 6.174 | -2.975 |
-| integrated_high_ppa | 8.509 | 2.672 | 7.522 | 8.089 | -2.975 |
-| integrated_public_availability | 3.397 | 0.000 | 0.074 | 5.477 | -2.975 |
-| integrated_joint_downside | 3.400 | 46.969 | 3.400 | 17.594 | -6.201 |
-| integrated_rental_small | 8.052 | 0.050 | 2.757 | 7.419 | -2.980 |
-| integrated_rental_medium | 8.052 | 0.040 | 2.757 | 7.428 | -2.956 |
-| integrated_rental_medium_downside | 8.052 | 0.302 | 2.757 | 7.468 | -3.012 |
+| reference | 2.141 | 0.000 | 0.000 | 3.989 | n/a |
+| opening_linked_debt | 1.382 | 0.000 | 0.000 | 4.411 | n/a |
+| development_rights_1bn | 1.101 | 0.000 | 0.000 | 3.626 | n/a |
+| insured_15year_debt | 1.460 | 0.000 | 0.000 | 4.885 | n/a |
+| integrated | 2.118 | 0.000 | 0.000 | 4.298 | 4.717 |
+| integrated_low_ppa | 2.052 | 0.000 | 0.000 | 4.180 | 4.717 |
+| integrated_high_ppa | 2.207 | 0.000 | 0.000 | 4.477 | 4.717 |
+| integrated_public_availability | 2.052 | 0.000 | 0.000 | 4.135 | 4.717 |
+| integrated_joint_downside | 3.494 | 18.650 | 0.800 | 34.377 | -5.372 |
+| integrated_rental_small | 2.118 | 0.035 | 0.000 | 4.318 | 4.714 |
+| integrated_rental_medium | 2.118 | 0.042 | 0.000 | 4.322 | 4.729 |
+| integrated_rental_medium_downside | 2.118 | 0.402 | 0.000 | 4.374 | 4.691 |
 
 **Next financing priority:** obtain opening-linked IQD terms and independently valued station proceeds, then compare quoted PPA prices against continued ownership. The integrated high-PPA structure shifts substantial cash to the energy company while rail remains short; private equity needs an acceptable return as well as debt repayment. The tested property margin improves resource NPV before land cost, but the assumed in-kind land cost more than offsets that improvement. None of these scenarios establishes financial feasibility.
 
@@ -29,9 +25,9 @@ Twelve executable alternatives use 9 lines, 478.9724 km, 186 stations and 772 si
 
 | Integrated borrower | Capital uses USD m eq | Private equity IQD bn | Peak gap IQD tn | Missing funding IQD tn | Terminal gap IQD tn |
 | --- | --- | --- | --- | --- | --- |
-| rail | 6485.084 | 0.000 | 7.994 | 0.000 | 2.682 |
-| energy | 745.334 | 193.787 | 0.028 | 0.000 | 0.000 |
-| factory | 349.797 | 90.947 | 0.304 | 0.000 | 0.074 |
+| rail | 15278.232 | 0.000 | 1.131 | 0.000 | 0.000 |
+| energy | 1356.021 | 352.566 | 0.026 | 0.000 | 0.000 |
+| factory | 796.208 | 207.014 | 0.641 | 0.000 | 0.000 |
 | development | 3400.000 | 1105.000 | 0.368 | 0.000 | 0.000 |
 
 These are pre-tax sensitivities. Corporate tax, duties, VAT, sponsor equity hurdle rates, dividend restrictions, lender DSCR and termination liabilities need quoted/legal terms. Surplus is swept after monthly OPEX, scheduled debt service, reserve funding and the existing lock-ins/premiums. A positive cash balance or an annuity model does not establish bankability. The factory has no assumed national orders or residual asset sale.
@@ -40,7 +36,7 @@ These are pre-tax sensitivities. Corporate tax, duties, VAT, sponsor equity hurd
 
 Bank amortisation becomes 240 months and ordinary bonds 216 months at the unchanged 9%/8% reference rates. Monthly draw cohorts use the latest opening of the assets included in that cohort; shared contracts use full opening. This conservative aggregation needs actual line-linked facility documents. Interest is **paid throughout grace**, funded by the separate IQD liquidity account if cash is insufficient; no interest is silently forgiven or capitalised. Arrangement/commitment charges, buffer and surplus rights remain priced. Chinese USD loan terms remain unchanged.
 
-Loan-vintage and six-month CSVs show actual draw, first principal and final contractual principal dates. Cheaper/longer debt changes liquidity and finance cost, while core unlevered NPV stays **USD -3.331bn**. Core excludes grant, development rights and new net receipt targets.
+Loan-vintage and six-month CSVs show actual draw, first principal and final contractual principal dates. Cheaper/longer debt changes liquidity and finance cost, while core unlevered NPV stays **USD 4.376bn**. Core excludes grant, development rights and new net receipt targets.
 
 [ICIEC's official product](https://iciec.isdb.org/wp-content/uploads/2025/10/sukuk-book-2025.pdf) describes sovereign/sub-sovereign sukuk with coverage up to 15 years. The tested insured instrument has **grace plus amortisation capped at 180 months from each draw**, replacing the previous 48+240-month assumption in that sensitivity. A 6% coupon, 0.75% annual insurance and 1% annual IQD conversion/on-lending cost are assumptions, not insurer pricing or proof that an IQD issue is eligible. No climate grant is booked in insured/integrated cases. Obtain written eligibility, binding terms and a priced local-currency route before using an institution's name in funding commitments.
 
@@ -54,11 +50,11 @@ Rights payments are a developer use and a rail receipt. They cancel in consolida
 
 ## Energy and manufacturing contracts
 
-Dedicated solar capital is transferred once, without inventing an additional EPC removal. Charging/microgrid equipment and its existing EPC remain rail assets. The railway pays a PPA of **IQD 104/kWh**, indexed 5% annually; the annual planning purchase is 1.774bn kWh, USD 141.938m equivalent at reference prices. Dispatch/load follows open-line weights, not fare demand. Energy receives exactly what rail pays. Existing solar maintenance transfers once; a further 0.5% of solar capital/year is an explicit renewal-spending sensitivity. Timetable-derived annual generation is not 8760-hour dispatch proof: grid backup, curtailment, storage adequacy and metered purchases require qualification. Export sales are **zero**, with no signed buyer. Low/high PPA cases redistribute company cash and leave the consolidated resource NPV unchanged. [World Bank PPA guidance](https://ppp.worldbank.org/sector/energy/energy-power-agreements/power-purchase-agreements) explains the contractual financing route.
+Dedicated solar capital is transferred once, without inventing an additional EPC removal. Charging/microgrid equipment and its existing EPC remain rail assets. The railway pays a PPA of **IQD 104/kWh**, indexed 5% annually; the annual planning purchase is 3.228bn kWh, USD 258.234m equivalent at reference prices. Dispatch/load follows open-line weights, not fare demand. Energy receives exactly what rail pays. Existing solar maintenance transfers once; a further 0.5% of solar capital/year is an explicit renewal-spending sensitivity. Timetable-derived annual generation is not 8760-hour dispatch proof: grid backup, curtailment, storage adequacy and metered purchases require qualification. Export sales are **zero**, with no signed buyer. Low/high PPA cases redistribute company cash and leave the consolidated resource NPV unchanged. [World Bank PPA guidance](https://ppp.worldbank.org/sector/energy/energy-power-agreements/power-purchase-agreements) explains the contractual financing route.
 
 Energy and factory each test 20% private IQD equity. Government remains 25% of original physical rail/energy/factory capital. The factory receives Baghdad's existing train invoices and pays the same resource budgets one month earlier, exposing working capital. Original train prices already include manufacturing labour, QA, ordinary overhead and warranty; 1,044 production staff wages are not added again. An **additional USD 250,000-equivalent capacity fee per train**, annually indexed and paid in IQD, is a separately visible investor-return sensitivity. It cancels on consolidation but increases rail's operating obligations. Warranty cash is locked at 5% of cumulative train payments until 12 months after the final invoice, then released; it is cash restriction, not a duplicate warranty expense. Fifteen caretaker staff and 0.25% plant carrying cost are added during that tail. Plant costs, working-capital funding, interest and outstanding debt at backlog close remain visible in [integrated.json](integrated.json). New orders and salvage are zero until contractual.
 
-At the illustrative capacity fee, factory cash remaining at contract/warranty close is **USD 0.000m** against **USD 69.959m** invested equity. The 15% equity-hurdle NPV is **USD -60.741m**. Debt repayment therefore does not establish an investable factory partnership. Developer equity-hurdle NPV is **USD -194.940m**. These close-date distribution diagnostics deduct any remaining debt and disclose missing funding; no dividend or sponsor return is assumed to be committed. Competitive pricing, equity terms and a bankable capacity contract require further work.
+At the illustrative capacity fee, factory cash remaining at contract/warranty close is **USD 87.810m** against **USD 159.242m** invested equity. The 15% equity-hurdle NPV is **USD -130.824m**. Debt repayment therefore does not establish an investable factory partnership. Developer equity-hurdle NPV is **USD -194.940m**. These close-date distribution diagnostics deduct any remaining debt and disclose missing funding; no dividend or sponsor return is assumed to be committed. Competitive pricing, equity terms and a bankable capacity contract require further work.
 
 ## Appraisal and public exposure
 
@@ -68,11 +64,11 @@ The rental partner supplies 25% fit-out capital as private IQD equity and the re
 
 Consolidated resource NPV adds collected rent less its OPEX and physical fit-out capital, before financing/tax, to the original resource case. A separately labelled after-rental-tax diagnostic deducts rental tax once; the original four businesses retain their existing before-tax basis. Additional rental-site rights/land opportunity cost is unknown, so the existing station-land subtraction is not a complete new-site appraisal. The 200,000 m² area illustration is blocked as unmapped and supplies no integrated cash.
 
-Core rail/energy/factory unlevered NPV: **USD -3.331bn**. Rail entity NPV including its PPA, capacity fees and internal rights: **USD -3.065bn**. Consolidated resource NPV including property sales/building costs and additional renewals/caretaking: **USD -2.975bn**; including land opportunity cost: **USD -3.441bn**. Debt/equity/grants are financing transfers and excluded from resource NPV; intercompany transfers cancel to the cent. Nominal discount is 13.4%, combining 8% real and 5% general inflation.
+Core rail/energy/factory unlevered NPV: **USD 4.376bn**. Rail entity NPV including its PPA, capacity fees and internal rights: **USD 4.640bn**. Consolidated resource NPV including property sales/building costs and additional renewals/caretaking: **USD 4.717bn**; including land opportunity cost: **USD 4.251bn**. Debt/equity/grants are financing transfers and excluded from resource NPV; intercompany transfers cancel to the cent. Nominal discount is 13.4%, combining 8% real and 5% general inflation.
 
-Government original-capital cash is **USD 1.895bn equivalent (25%)**. Its USD import cash is USD 856.644m and Chinese USD credit is USD 856.644m, splitting imports 50:50. All other debt, private equity, property payments, fares and subsidy payments are IQD. Original programme USD capital intensity therefore remains 22.60%; SPV transfers do not remove those USD import requirements. Property construction is assumed contracted in IQD; actual imported content/FX exposure needs quotes.
+Government original-capital cash is **USD 4.358bn equivalent (25%)**. Its USD import cash is USD 2001.071m and Chinese USD credit is USD 2001.071m, splitting imports 50:50. All other debt, private equity, property payments, fares and subsidy payments are IQD. Original programme USD capital intensity therefore remains 22.96%; SPV transfers do not remove those USD import requirements. Property construction is assumed contracted in IQD; actual imported content/FX exposure needs quotes.
 
-Public cash capital PV is USD 1.251bn; in-kind land PV USD 0.467bn. The optional availability case pays USD 100m equivalent/year at full opening, indexed 5% and phased by available lines; its PV is USD 0.803bn. It sits **outside the 25% capital limit** and needs appropriation, service performance terms and affordability review. Recipient NPV adds public cash explicitly; the public-plus-private resource appraisal cancels that transfer. Contingent bond/guarantee/termination exposures remain unquantified rather than assumed zero. [World Bank public-support guidance](https://ppp.worldbank.org/government-support) describes these obligations.
+Public cash capital PV is USD 1.803bn; in-kind land PV USD 0.467bn. The optional availability case pays USD 100m equivalent/year at full opening, indexed 5% and phased by available lines; its PV is USD 0.584bn. It sits **outside the 25% capital limit** and needs appropriation, service performance terms and affordability review. Recipient NPV adds public cash explicitly; the public-plus-private resource appraisal cancels that transfer. Contingent bond/guarantee/termination exposures remain unquantified rather than assumed zero. [World Bank public-support guidance](https://ppp.worldbank.org/government-support) describes these obligations.
 
 Existing fares and kiosk/advertising receipts are retained with their original demand/price/OPEX indices. Integrated cases omit the old USD 25m grant and USD 25m/year new-net-income targets. Fibre, naming rights, parking and employer contracts require incremental **net** quotes; prepaid fares change timing of existing receipts and do not create revenue twice. At 13.4%, USD 50m/year for 20 end-of-year payments has PV USD 342.962m at the beginning of the payment period, lower when discounted back to close.
 
@@ -82,6 +78,6 @@ The [World Bank's USD 930m national railway project](https://www.worldbank.org/e
 
 [Six workstreams](90-day-work-programme.json) cover lender terms, land/valuation, PPA, standalone factory, existing independently operable phase, and independent model/public-affordability review. Due days are relative to an actual approved start. Named people, legal opinions, quotes and accepted evidence remain pending. [ERPNext Task JSON](erpnext-tasks.json) is a draft native-import package with stable evidence subjects, not live IDs or accepted evidence. Local deployments record actual IDs privately and preserve assignments/status when refreshing descriptions. No external lender/developer contact, issuance or expenditure is authorised by these model files.
 
-Later construction commitments require executable native-currency funding, separately accepted physical evidence and a conservative demand case. Integrated joint downside retains the existing 55/106-month physical stress and adds weaker property conditions: missing funding is **IQD 46.969tn**, terminal gap debt **IQD 3.400tn**. The proposed structure is a market-test programme, not a claim that the financing gap is solved.
+Later construction commitments require executable native-currency funding, separately accepted physical evidence and a conservative demand case. Integrated joint downside retains the existing 55/106-month physical stress and adds weaker property conditions: missing funding is **IQD 18.650tn**, terminal gap debt **IQD 0.800tn**. The proposed structure is a market-test programme, not a claim that the financing gap is solved.
 
 Regenerate with `.venv/bin/python tools/automation/baghdad_financing_redesign.py`; validate exact inputs/outputs with `--check`. No new financial commitments or physical release are implied.

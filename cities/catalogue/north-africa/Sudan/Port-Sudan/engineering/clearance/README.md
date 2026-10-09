@@ -2,21 +2,21 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **78**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **176**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 1 |
 | Beam/building | ground-lateral-clearance-conflict | 2 |
-| Beam/building | height-unresolved | 64 |
-| Beam/building | product-depth-unresolved | 9 |
-| Reference support/foundation | foundation-footprint-conflict | 62 |
-| Reference support/foundation | foundation-setback-conflict | 10 |
-| Reference support/foundation | mapped-footprints-only-clear | 955 |
-| Terrain | reference-gradient-exceeded | 584 |
-| Terrain | reference-gradient-within-policy | 415 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 27 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 14 |
+| Beam/building | height-unresolved | 143 |
+| Beam/building | product-depth-unresolved | 13 |
+| Reference support/foundation | foundation-footprint-conflict | 86 |
+| Reference support/foundation | foundation-setback-conflict | 17 |
+| Reference support/foundation | mapped-footprints-only-clear | 1,881 |
+| Terrain | reference-gradient-exceeded | 1,069 |
+| Terrain | reference-gradient-within-policy | 826 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 87 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 44 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

@@ -5,7 +5,7 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`vijayawada-line1.aln.toml`](vijayawada-line1.aln.toml) | `line-1` | 27,387.2 m | 11 |
-| [`vijayawada-line2.aln.toml`](vijayawada-line2.aln.toml) | `line-2` | 22,773.6 m | 8 |
+| [`vijayawada-line2.aln.toml`](vijayawada-line2.aln.toml) | `line-2` | 22,750.2 m | 8 |
 | [`vijayawada-line3.aln.toml`](vijayawada-line3.aln.toml) | `line-3` | 35,431.2 m | 12 |
 | [`vijayawada-line4.aln.toml`](vijayawada-line4.aln.toml) | `line-4` | 23,550.5 m | 9 |
 | [`vijayawada-line5.aln.toml`](vijayawada-line5.aln.toml) | `line-5` | 21,066.0 m | 7 |

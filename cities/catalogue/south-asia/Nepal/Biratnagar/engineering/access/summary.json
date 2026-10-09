@@ -12,32 +12,32 @@
     "bbox_population_2020": 463267.9861545563,
     "catchments": [
       {
-        "covered_population_2020": 38853.65069389343,
-        "fraction_of_raster_population": 0.08386862864495673,
+        "covered_population_2020": 118483.41785240173,
+        "fraction_of_raster_population": 0.255755677908797,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 86138.28698158264,
-        "fraction_of_raster_population": 0.18593619580016701,
+        "covered_population_2020": 239593.52083969116,
+        "fraction_of_raster_population": 0.5171812600919882,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 121213.25936889648,
-        "fraction_of_raster_population": 0.2616482532606022,
+        "covered_population_2020": 320868.20584869385,
+        "fraction_of_raster_population": 0.6926189925449441,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 198419.54268550873,
-        "fraction_of_raster_population": 0.428304024054258,
+        "covered_population_2020": 409815.18541908264,
+        "fraction_of_raster_population": 0.8846179698727539,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 263378.7940158844,
-        "fraction_of_raster_population": 0.568523623231793,
+        "covered_population_2020": 423484.95321941376,
+        "fraction_of_raster_population": 0.9141252274620374,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 10,
+    "unique_station_coordinates": 27,
     "valid_pixels": 6000
   },
   "population_source_country": "NP",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "0db225e33e0d14687545d3687904ce097bb293bfe8bd484f605e73ec832ee1a1",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "160dd29f48b5732295484423bbd4388f2d579dca566473d1df65b53525cdd7fe",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "0a7b8e0d42a88c012c5eca543a13737ded91fa2a8f16efaed825fa8c5972b09b",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "259823256d9620b139b5fb57190d847be7245e4fe6ca28f2574a11ee4f87e33d",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-pixels.npz.gz": "25842ad6472566654bbd841a294b58c1f2ea420dbc04e3b36a9dd6897b0dcfa5",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-source.json": "cff23b8bbecb45cf0bf957b65963fdeb533f2cc04386e685014535734eceead6",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -120,16 +120,19 @@
     "components": [
       [
         "line-1",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6"
       ],
       [
         "line-2"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 1,
+    "direct_transfer_fraction": 0.26666666666666666,
+    "line_count": 6,
+    "line_pair_count": 15,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -147,13 +150,97 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 3
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 2
       }
     ],
-    "reachable_line_pair_fraction": 0.3333333333333333,
-    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+    "reachable_line_pair_fraction": 0.6666666666666666,
+    "reachable_with_at_most_two_transfers_fraction": 0.5333333333333333
   }
 }

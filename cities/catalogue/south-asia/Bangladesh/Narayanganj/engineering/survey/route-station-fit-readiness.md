@@ -1,8 +1,8 @@
 # Narayanganj route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 29
+- Lines: 19
+- Stations: 103
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

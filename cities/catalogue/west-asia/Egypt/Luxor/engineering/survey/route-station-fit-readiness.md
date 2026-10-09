@@ -1,8 +1,8 @@
 # Luxor route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 15
+- Lines: 12
+- Stations: 66
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.497,
+    "high_demand_cell_fraction": 0.515,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 22168.45801664889,
     "catchments": [
       {
-        "covered_population_2020": 818.0465751886368,
-        "fraction_of_raster_population": 0.03690137467271156,
+        "covered_population_2020": 2625.7393609285355,
+        "fraction_of_raster_population": 0.11844483540337179,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 2153.5869306325912,
-        "fraction_of_raster_population": 0.09714644694796593,
+        "covered_population_2020": 6087.273664712906,
+        "fraction_of_raster_population": 0.27459165902027377,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 3376.4065665602684,
-        "fraction_of_raster_population": 0.1523067848934071,
+        "covered_population_2020": 8281.769375026226,
+        "fraction_of_raster_population": 0.373583465697365,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 6449.913897782564,
-        "fraction_of_raster_population": 0.2909500468160018,
+        "covered_population_2020": 11272.585930258036,
+        "fraction_of_raster_population": 0.5084966181135436,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 9023.688464790583,
-        "fraction_of_raster_population": 0.4070507952340952,
+        "covered_population_2020": 13077.765494734049,
+        "fraction_of_raster_population": 0.5899267096030055,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 4,
+    "unique_station_coordinates": 9,
     "valid_pixels": 25469
   },
   "population_source_country": "CM",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Edea/design.toml": "ae747ad0191f378273e22859010d14f871495dc17c7d5618b77dfe6feeab51c1",
-    "cities/catalogue/west-africa/Cameroon/Edea/edea.design-quality.yaml": "a77e2084b901aa929d14227e1ed404a0c4e1bd1d38222facc85c0d11e13293b1",
+    "cities/catalogue/west-africa/Cameroon/Edea/design.toml": "5c7435c3ceeb2e4c153c93c1a90c0eaf3db55012750e23bd12c2bb2b3e8e3c9e",
+    "cities/catalogue/west-africa/Cameroon/Edea/edea.design-quality.yaml": "47293397c12e86e60f1dd6a004b33c67c22450fb375b84972079b89b227c2ba7",
     "cities/catalogue/west-africa/Cameroon/Edea/engineering/access/population-pixels.npz.gz": "c536f0d5e5d6135e0965cd1c67ab500eb8048066094efb7fc8d1d2d0ddb4c08f",
     "cities/catalogue/west-africa/Cameroon/Edea/engineering/access/population-source.json": "da7ae40228a5978f17adad26589a7361939fbb141fb7622a441de6834a26196e",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -93,14 +93,23 @@
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
-        "line-1"
+        "line-1",
+        "line-2"
       ]
     ],
     "direct_transfer_fraction": 1.0,
-    "line_count": 1,
-    "line_pair_count": 0,
-    "maximum_required_transfers": 0,
-    "pairs": [],
+    "line_count": 2,
+    "line_pair_count": 1,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
     "reachable_line_pair_fraction": 1.0,
     "reachable_with_at_most_two_transfers_fraction": 1.0
   }

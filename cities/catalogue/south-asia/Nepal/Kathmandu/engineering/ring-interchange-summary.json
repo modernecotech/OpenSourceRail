@@ -6,15 +6,50 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "kathmandu",
-      "corridor_sha256": "40217b9b5705cb243fe0b3cb1d2b71fc9b5db7fd57fbadbabb8589e9c73f1096",
-      "design_sha256": "87b8cf838db30712dc29fbbce2df4b2c9b5220abf6d11aa14f7f880ff863472f",
+      "corridor_sha256": "85804a3ad3b169346421b6dcbf40bd0f049617a43e0822c1cdf5f9a06d09ad27",
+      "design_sha256": "b982852402e6af713cee20b4d9f9b13e58347e4d603165b64a2da35614d762d8",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
-      "review_findings": [],
+      "radial_count": 12,
+      "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1395.9,
+          "radial": "line-11",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1598.5
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-12",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1131.3
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-8",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1103.0
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1387.0,
+          "radial": "line-9",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1387.0
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 4
 }

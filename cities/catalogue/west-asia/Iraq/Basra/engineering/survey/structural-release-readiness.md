@@ -1,7 +1,7 @@
 # Basra structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 7
+- Lines: 25
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

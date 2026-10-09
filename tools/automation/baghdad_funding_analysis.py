@@ -147,7 +147,8 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
              options: dict, *, green: str | None = None, extras: bool = False,
              bridge_rate: float | None = None, bridge_fee: float = 0.,
              repayment_policy: str | None = None, zero_premiums: bool = False,
-             noncallable_bonds: bool = False, draw_terms: dict | None = None) -> dict:
+             noncallable_bonds: bool = False, draw_terms: dict | None = None,
+             green_eligible_months: set[int] | None = None) -> dict:
     """Price pooled gap debt; optional borrower shares/equity preserve default 25%."""
     validate_options(options)
     model, green_config = config['model'], options['green']
@@ -225,7 +226,8 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
             raise ValueError('alternative capital sources exceed this month capital uses')
         bonds, bank = bond_share*max(0., residual), (1-bond_share)*max(0., residual)
         eligible_bonds = bond_share*max(0., (1-gov_share)*candidate_capex-china_share*candidate_imports-grant-req.get('candidate_private_equity', 0.))
-        green_draw = min(bonds, eligible_bonds*green_config['share_of_candidate_bonds']) if green else 0.
+        green_allowed=green is not None and (green_eligible_months is None or month in green_eligible_months)
+        green_draw = min(bonds, eligible_bonds*green_config['share_of_candidate_bonds']) if green_allowed else 0.
         draws = {'chinese_export_credit': china, 'domestic_bonds': bonds-green_draw,
                  'green_bonds': green_draw, 'bank_credit': bank}
         factory_capex, factory_imports = req.get('factory_capex', 0.), req.get('factory_imports', 0.)
@@ -355,6 +357,8 @@ def simulate(capital: dict[int, dict], operating: list[dict], config: dict,
         monthly.append(row)
     summed = lambda key: sum(row[key] for row in monthly)
     metrics = {'total_capital_usd': summed('capex_usd'),
+        'green_draw_eligibility_limited': green_eligible_months is not None,
+        'green_ineligible_capital_months': sorted(m for m in capital if green_eligible_months is not None and m not in green_eligible_months),
         'government_capital_usd_equivalent': summed('government_usd_cash')+summed('government_iqd_cash')/fx,
         'china_capital_usd': summed('chinese_export_credit_draw_native'),
         'ordinary_bonds_iqd': summed('domestic_bonds_draw_native'), 'green_bonds_iqd': summed('green_bonds_draw_native'),

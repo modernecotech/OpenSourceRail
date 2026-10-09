@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import tempfile
 import tomllib
 from collections import defaultdict
@@ -62,6 +64,7 @@ class CityCapital:
     fleet_trainsets: int
     vehicle_modules: int
     breakdown: object
+    design_path: Path | None = None
 
 
 def money(value: float) -> str:
@@ -92,6 +95,7 @@ def load_city(design_path: Path) -> tuple[str, CityCapital]:
     return str(city["country"]), CityCapital(
         name=design_path.parent.name.replace("-", " "),
         slug=slug,
+        design_path=design_path,
         population=int(city["population"]),
         fleet_trainsets=fleet,
         vehicle_modules=fleet * FAMILY_CARS.get(family, 3),
@@ -482,6 +486,25 @@ def _render_brief(
 
 def render_brief(country_code, country_name, cities, *, detailed=False):
     text=_render_brief(country_code,country_name,cities,detailed=detailed)
+    rows=[]
+    for city in sorted(cities,key=lambda c:c.name):
+        if city.design_path is None:continue
+        path=city.design_path.parent/'engineering/alignment/residential-expansion-evaluation.json'
+        if not path.exists():raise ValueError('Missing residential evaluation: '+city.slug)
+        evaluation=json.loads(path.read_text())
+        for relative,digest in evaluation['sources_sha256'].items():
+            if hashlib.sha256((REPO_ROOT/relative).read_bytes()).hexdigest()!=digest:
+                raise ValueError('Stale country residential source: '+relative)
+        fraction=evaluation['actual_emitted_station_radial_fraction']
+        coverage='Unavailable' if fraction is None else f'{fraction:.1%}'
+        original=evaluation['original_station_radial_fraction']
+        original_text='Unavailable' if original is None else f'{original:.1%}'
+        rows.append(f"| [{city.name}]({city.design_path.parent.name}/README.md) | {evaluation['line_count']} | {evaluation['added_line_count']} | {original_text} | {coverage} |")
+    if rows:
+        text+='\n\n## Population-led route regeneration (2026-10-09)\n\n'
+        text+='The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.\n\n'
+        text+='| City | Current lines | Added residential lines | Original station circles | Current station circles |\n| --- | ---: | ---: | ---: | ---: |\n'+'\n'.join(rows)+'\n\n'
+        text+='Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.\n'
     finance=_load_country_finance(country_code)
     if finance.get('country_parameters_calibrated') is False:
         label='**Uncalibrated country scenario.** '+finance['assumption_basis']+'. Numerical XX defaults are illustrative, not South Sudan country estimates or available financing.\n\n'

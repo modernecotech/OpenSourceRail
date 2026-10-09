@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7698468074071273,
+  "added_line_count": 10,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "hebron",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 13,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.2939082,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 516407.2309203148,
+    "catchments": [
+      {
+        "covered_population_2020": 397554.4580459595,
+        "fraction_of_raster_population": 0.7698468074071273,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 800000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 50,
+    "valid_pixels": 16227
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Palestine/Hebron/design.toml": "705f87f4f2447167eea44326407c601b266d3336d955a4e37b0292f971aa5546",
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/access/population-pixels.npz.gz": "e9840ee3d7c65354cf904c92d2efbf6cc4b0745e56f6481cf8fba60233ecb705",
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/access/population-source.json": "b6c7feb4ce6b391c23795b4b6270f5cfa4ad81fa6259197ef87b6d8fc20a4b91",
+    "cities/catalogue/west-asia/Palestine/Hebron/engineering/alignment/residential-line-expansion.json": "725c8b083d2d069d6469cec22e60da609f91dd80fa36c305ad7dc3438db5b737",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 67,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

@@ -1,8 +1,8 @@
 # Aba-Ng route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 15
+- Lines: 9
+- Stations: 42
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,6 +1,6 @@
 # Huambo organisation and design work
 
-461 indicative operating FTE, including management; annual labour allowance $3,478,788. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+1404 indicative operating FTE, including management; annual labour allowance $10,141,848. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -9,26 +9,26 @@ GoA 4 control and remote assistance; local station batteries supply train top-up
 | Function | FTE | Reports to | Skills | Tasks |
 |---|---:|---|---|---|
 | City accountable lead | 1 | Local owner board | Local operating governance; budget and emergency accountability | Own city delivery and operations; coordinate shared domestic capabilities |
-| Engineering authority | 3 | City director | Systems integration; configuration and design checking | Own interfaces and technical concessions; commission competent discipline checks |
-| Quality and safety assurance | 5 | Local owner board (independent escalation) | Independent inspection; hazard review; traceability | Audit evidence; raise stop-work/hold points independently of production |
-| Training and competence assessors | 5 | City director | Practical assessment; instruction; competence records | Train local recruits and apprentices; witness competence before unsupervised work |
-| Procurement and stores | 7 | City director | BOM traceability; repairable spares; supplier quality | Purchase controlled common parts; manage local repair loops and critical stock |
-| Finance and people administration | 6 | City director | Payroll; cost control; roster and employment administration | Maintain local pay/leave inputs; reconcile labour budget and workload |
-| Fleet workshop supervision | 7 | Chief engineer | Isolation authority; work planning; calibrated tooling | Allocate same-line workshop slots; control defect and release records |
-| Mechanical technicians | 23 | Workshop lead | Wheels/brakes; joint inspection; controlled fastener assembly | Inspect bogies and brakes; replace modules; record torque/preload evidence |
-| Electrical and battery technicians | 20 | Workshop lead | HV isolation; LFP diagnostics; controls and harness repair | Diagnose packs, HVAC and controllers; verify protective interlocks |
-| Vehicle cleaning and finish repair | 17 | Workshop lead | GFRP/EPDM compatibility; coating preparation; controlled washing | Turnaround clean; inspect seals; repair finish damage under qualified process |
-| Infrastructure work supervision | 5 | Chief engineer | Track access; lifting and electrical isolation coordination | Plan possessions; check civil and energy defect closure |
-| Track and civil technicians | 18 | Infrastructure lead | Survey checks; track geometry; bearing/joint inspection | Inspect settlement, track, deck joints, drainage and walkways |
-| Solar and station storage technicians | 16 | Infrastructure lead | PV DC safety; storage BMS; charger and protection testing | Maintain PV/storage/top-up equipment; measure soiling and energy balance |
-| Wayside and communications technicians | 7 | Infrastructure lead | Fail-restrictive controls; networking; configuration control | Maintain point/crossing equipment where installed; test communications and recovery |
-| Shift leadership and degraded-operation authority | 16 | City director | GoA 4 incident command; dispatch competence | Own service start; coordinate recovery and same-line depot releases |
-| Line dispatch and control | 41 | OCC lead | Timetable supervision; protected movement authority | Monitor headways and station berths; authorise line-local recovery |
-| Remote assistance | 47 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
-| Passenger service and fare support | 27 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
-| Station cleaning and waste | 22 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
-| Station team coordination | 26 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
-| Platform and accessibility assistance | 142 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
+| Engineering authority | 8 | City director | Systems integration; configuration and design checking | Own interfaces and technical concessions; commission competent discipline checks |
+| Quality and safety assurance | 16 | Local owner board (independent escalation) | Independent inspection; hazard review; traceability | Audit evidence; raise stop-work/hold points independently of production |
+| Training and competence assessors | 16 | City director | Practical assessment; instruction; competence records | Train local recruits and apprentices; witness competence before unsupervised work |
+| Procurement and stores | 20 | City director | BOM traceability; repairable spares; supplier quality | Purchase controlled common parts; manage local repair loops and critical stock |
+| Finance and people administration | 16 | City director | Payroll; cost control; roster and employment administration | Maintain local pay/leave inputs; reconcile labour budget and workload |
+| Fleet workshop supervision | 15 | Chief engineer | Isolation authority; work planning; calibrated tooling | Allocate same-line workshop slots; control defect and release records |
+| Mechanical technicians | 51 | Workshop lead | Wheels/brakes; joint inspection; controlled fastener assembly | Inspect bogies and brakes; replace modules; record torque/preload evidence |
+| Electrical and battery technicians | 43 | Workshop lead | HV isolation; LFP diagnostics; controls and harness repair | Diagnose packs, HVAC and controllers; verify protective interlocks |
+| Vehicle cleaning and finish repair | 36 | Workshop lead | GFRP/EPDM compatibility; coating preparation; controlled washing | Turnaround clean; inspect seals; repair finish damage under qualified process |
+| Infrastructure work supervision | 13 | Chief engineer | Track access; lifting and electrical isolation coordination | Plan possessions; check civil and energy defect closure |
+| Track and civil technicians | 51 | Infrastructure lead | Survey checks; track geometry; bearing/joint inspection | Inspect settlement, track, deck joints, drainage and walkways |
+| Solar and station storage technicians | 45 | Infrastructure lead | PV DC safety; storage BMS; charger and protection testing | Maintain PV/storage/top-up equipment; measure soiling and energy balance |
+| Wayside and communications technicians | 20 | Infrastructure lead | Fail-restrictive controls; networking; configuration control | Maintain point/crossing equipment where installed; test communications and recovery |
+| Shift leadership and degraded-operation authority | 37 | City director | GoA 4 incident command; dispatch competence | Own service start; coordinate recovery and same-line depot releases |
+| Line dispatch and control | 97 | OCC lead | Timetable supervision; protected movement authority | Monitor headways and station berths; authorise line-local recovery |
+| Remote assistance | 108 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
+| Passenger service and fare support | 115 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
+| Station cleaning and waste | 95 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
+| Station team coordination | 91 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
+| Platform and accessibility assistance | 510 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
 
 Recruit and apprentice locally; assess practical task competence, isolate/hold/release authority and refresher needs. Training duration follows the demonstrated skills gap, not a universal weeks-to-qualification claim.
 
@@ -42,23 +42,23 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 494 | 272 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
-| depot works | unknown | 1 | 475 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
-| energy crew | unknown | 2 | 541 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
-| huambo light-metro-3car body installation | unknown | 5 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
-| huambo light-metro-3car composite kits | unknown | 18 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
-| huambo light-metro-3car electrical integration | unknown | 36 | 627 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
-| huambo light-metro-3car fitout and static test | unknown | 29 | 646 | unknown | HVAC technician; door technician; fit-out lead; quality technician / rs-40-fitout-static-test |
-| huambo light-metro-3car structural assembly | unknown | 44 | 588 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
-| huambo trainset acceptance bays | unknown | 23 | 661 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
-| huambo trainset kitting | unknown | 6 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
+| corridor civil crew | 2 | 2 | 229 | 561 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| depot works | unknown | 1 | 5 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
+| energy crew | unknown | 2 | 229 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
+| huambo light-metro-3car body installation | unknown | 11 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
+| huambo light-metro-3car composite kits | unknown | 41 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
+| huambo light-metro-3car electrical integration | unknown | 81 | 627 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
+| huambo light-metro-3car fitout and static test | unknown | 65 | 646 | unknown | HVAC technician; door technician; fit-out lead; quality technician / rs-40-fitout-static-test |
+| huambo light-metro-3car structural assembly | unknown | 98 | 584 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
+| huambo trainset acceptance bays | unknown | 51 | 661 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
+| huambo trainset kitting | unknown | 14 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
-| station civil crew | unknown | 2 | 539 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
-| station systems crew | unknown | 2 | 573 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 521 | 222 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
-| track/switch crew | unknown | 2 | 497 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
-| wayside bench | unknown | 3 | 577 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
-| wayside systems crew | unknown | 3 | 606 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
+| station civil crew | unknown | 2 | 219 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
+| station systems crew | unknown | 2 | 349 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
+| track crew | 2 | 2 | 469 | 452 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track/switch crew | unknown | 2 | 321 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
+| wayside bench | unknown | 3 | 445 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
+| wayside systems crew | unknown | 3 | 542 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
 
 ## Civil and mechanical refinements
 
@@ -70,23 +70,136 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 
 | Elevated segment | Longest unit m | Bearings | Internal connections | Hot movement mm at 8 / 10 / 12 µstrain/K |
 |---|---:|---:|---:|---|
-| line-1 306.3–326.274 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
-| line-1 326.274–346.274 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
-| line-1 346.274–414.558 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
-| line-1 414.558–10111.3 m | 100.0 | 1940 | 291 | 15.2 / 19.0 / 22.8 |
+| line-1 306.3–326.3 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 326.3–346.274 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-1 346.274–414.6 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-1 414.6–10111.3 m | 100.0 | 1940 | 291 | 15.2 / 19.0 / 22.8 |
 | line-1 10239.6–14360.6 m | 100.0 | 828 | 123 | 15.2 / 19.0 / 22.8 |
 | line-2 0.0–20.0 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
-| line-2 20.0–48.284 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
-| line-2 48.284–9937.443 m | 100.0 | 1980 | 297 | 15.2 / 19.0 / 22.8 |
-| line-2 9937.443–9957.4 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-2 20.0–48.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-2 48.3–9937.4 m | 100.0 | 1980 | 297 | 15.2 / 19.0 / 22.8 |
+| line-2 9937.4–9957.4 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
 | line-3 0.0–40.0 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
-| line-3 40.0–68.284 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
-| line-3 68.284–13504.651 m | 100.0 | 2692 | 403 | 15.2 / 19.0 / 22.8 |
-| line-3 13504.651–13552.9 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-3 40.0–68.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-3 68.3–13504.7 m | 100.0 | 2692 | 403 | 15.2 / 19.0 / 22.8 |
+| line-3 13504.7–13552.9 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-4 0.0–720.0 m | 100.0 | 148 | 21 | 15.2 / 19.0 / 22.8 |
+| line-4 720.0–836.6 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-4 836.6–1147.7 m | 100.0 | 68 | 9 | 15.2 / 19.0 / 22.8 |
+| line-4 1147.7–1256.0 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-4 1256.0–2096.0 m | 100.0 | 172 | 25 | 15.2 / 19.0 / 22.8 |
+| line-4 2096.0–2212.5 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-4 2212.5–2863.1 m | 100.0 | 136 | 20 | 15.2 / 19.0 / 22.8 |
+| line-4 2863.1–2971.4 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-4 2971.4–3831.4 m | 100.0 | 176 | 26 | 15.2 / 19.0 / 22.8 |
+| line-4 3831.4–3947.9 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-4 3947.9–4570.2 m | 100.0 | 128 | 18 | 15.2 / 19.0 / 22.8 |
+| line-5 0.0–169.7 m | 100.0 | 36 | 5 | 15.2 / 19.0 / 22.8 |
+| line-5 169.7–278.0 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-5 278.0–546.3 m | 100.0 | 56 | 8 | 15.2 / 19.0 / 22.8 |
+| line-5 546.3–614.6 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-5 614.6–642.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-5 642.8–819.4 m | 100.0 | 40 | 6 | 15.2 / 19.0 / 22.8 |
+| line-5 819.4–2063.9 m | 100.0 | 252 | 37 | 15.2 / 19.0 / 22.8 |
+| line-5 2063.9–2172.2 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-5 2172.2–2500.5 m | 100.0 | 72 | 10 | 15.2 / 19.0 / 22.8 |
+| line-5 2500.5–2568.8 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-5 2568.8–2597.1 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-5 2597.1–2677.1 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-5 2677.1–2717.1 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-6 0.0–660.0 m | 100.0 | 136 | 20 | 15.2 / 19.0 / 22.8 |
+| line-6 660.0–776.6 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 776.6–1851.4 m | 100.0 | 216 | 32 | 15.2 / 19.0 / 22.8 |
+| line-6 1851.4–1959.7 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 1959.7–2819.7 m | 100.0 | 176 | 26 | 15.2 / 19.0 / 22.8 |
+| line-6 2819.7–2936.2 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 2936.2–3501.9 m | 100.0 | 116 | 17 | 15.2 / 19.0 / 22.8 |
+| line-6 3501.9–3558.5 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-6 3558.5–3643.3 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 3643.3–3699.9 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-6 3699.9–4265.6 m | 100.0 | 116 | 17 | 15.2 / 19.0 / 22.8 |
+| line-6 4265.6–4373.9 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 4373.9–5213.9 m | 100.0 | 172 | 25 | 15.2 / 19.0 / 22.8 |
+| line-6 5213.9–5330.4 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 5330.4–5896.1 m | 100.0 | 116 | 17 | 15.2 / 19.0 / 22.8 |
+| line-6 5896.1–6004.4 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-6 6004.4–7444.4 m | 100.0 | 292 | 43 | 15.2 / 19.0 / 22.8 |
+| line-7 0.0–28.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-7 28.3–173.1 m | 100.0 | 32 | 4 | 15.2 / 19.0 / 22.8 |
+| line-7 173.1–213.1 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-7 213.1–281.4 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-7 281.4–309.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-7 309.7–486.3 m | 100.0 | 40 | 6 | 15.2 / 19.0 / 22.8 |
+| line-7 486.3–1108.5 m | 100.0 | 128 | 18 | 15.2 / 19.0 / 22.8 |
+| line-7 1108.5–1216.8 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-7 1216.8–2156.8 m | 100.0 | 192 | 28 | 15.2 / 19.0 / 22.8 |
+| line-8 0.0–537.4 m | 100.0 | 112 | 16 | 15.2 / 19.0 / 22.8 |
+| line-8 537.4–645.7 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-8 645.7–1645.7 m | 100.0 | 200 | 30 | 15.2 / 19.0 / 22.8 |
+| line-8 1645.7–1665.7 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-8 1665.7–1765.7 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-8 1765.7–1785.7 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-8 1785.7–4645.7 m | 100.0 | 576 | 86 | 15.2 / 19.0 / 22.8 |
+| line-8 4645.7–4665.7 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-8 4665.7–4765.7 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-8 4765.7–4785.7 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-8 4785.7–6545.7 m | 100.0 | 356 | 53 | 15.2 / 19.0 / 22.8 |
+| line-8 6545.7–6662.3 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-8 6662.3–7227.9 m | 100.0 | 116 | 17 | 15.2 / 19.0 / 22.8 |
+| line-8 7227.9–7336.2 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-8 7336.2–8856.2 m | 100.0 | 308 | 45 | 15.2 / 19.0 / 22.8 |
+| line-8 8856.2–8896.2 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-8 8896.2–8924.5 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 0.0–1020.0 m | 100.0 | 208 | 30 | 15.2 / 19.0 / 22.8 |
+| line-9 1020.0–1108.3 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-9 1278.0–1306.3 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 1532.5–1560.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 1589.1–1617.4 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 1815.4–1843.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 2069.9–2098.2 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 2243.1–2263.1 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-9 2263.1–2303.1 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 3251.4–3279.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 3279.7–3307.9 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 3364.5–3392.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 5250.4–5278.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-9 5448.4–5476.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-10 0.0–169.7 m | 100.0 | 36 | 5 | 15.2 / 19.0 / 22.8 |
+| line-10 169.7–278.0 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-10 278.0–878.0 m | 100.0 | 120 | 18 | 15.2 / 19.0 / 22.8 |
+| line-10 878.0–898.0 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-10 898.0–1026.3 m | 100.0 | 32 | 4 | 15.2 / 19.0 / 22.8 |
+| line-10 1026.3–1046.3 m | 25.0 | 8 | 0 | 3.8 / 4.75 / 5.7 |
+| line-10 1046.3–2486.3 m | 100.0 | 292 | 43 | 15.2 / 19.0 / 22.8 |
+| line-11 0.0–452.5 m | 100.0 | 96 | 14 | 15.2 / 19.0 / 22.8 |
+| line-11 452.5–492.5 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-11 492.5–520.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-11 520.8–560.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-11 560.8–620.8 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-11 620.8–660.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-12 0.0–1527.4 m | 100.0 | 312 | 46 | 15.2 / 19.0 / 22.8 |
+| line-12 1527.4–1635.6 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-12 1635.6–1963.9 m | 100.0 | 72 | 10 | 15.2 / 19.0 / 22.8 |
+| line-12 1963.9–2032.2 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-12 2032.2–2060.5 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-12 2060.5–2100.5 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-12 2100.5–2160.5 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
+| line-12 2160.5–2208.8 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-12 2208.8–2237.1 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-12 2237.1–2317.1 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-12 2317.1–2457.1 m | 100.0 | 32 | 4 | 15.2 / 19.0 / 22.8 |
+| line-12 2457.1–2545.3 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-12 2715.0–3139.3 m | 100.0 | 88 | 12 | 15.2 / 19.0 / 22.8 |
+| line-12 3139.3–3247.6 m | 100.0 | 28 | 3 | 15.2 / 19.0 / 22.8 |
+| line-12 3247.6–3907.6 m | 100.0 | 136 | 20 | 15.2 / 19.0 / 22.8 |
+| line-13 0.0–1200.0 m | 100.0 | 240 | 36 | 15.2 / 19.0 / 22.8 |
+| line-13 1200.0–1288.3 m | 100.0 | 20 | 3 | 15.2 / 19.0 / 22.8 |
+| line-13 1995.4–2023.7 m | 50.0 | 12 | 1 | 7.6 / 9.5 / 11.4 |
+| line-13 2108.5–2165.1 m | 75.0 | 16 | 2 | 11.4 / 14.25 / 17.1 |
 
 Mapped soil has 0 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 110, "fine-soil-plasticity-and-shrink-swell-tests": 110, "granular-density-and-groundwater-tests": 79}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"acidic-soil-durability-testing": 551, "fine-soil-plasticity-and-shrink-swell-tests": 551, "granular-density-and-groundwater-tests": 317}.
 
 ## Joints, paints, finishes and cleaning
 
@@ -94,10 +207,10 @@ Steel, GFRP body and roof finish zones retain their shared qualified process. Pr
 
 | Work package | Asset-level tasks generated |
 |---|---:|
-| rs-finish-seal-joint | 136 |
-| rs-controlled-wash | 136 |
-| civil-joint-drain-finish | 31 |
-| energy-soiling-cleaning | 16 |
+| rs-finish-seal-joint | 308 |
+| rs-controlled-wash | 308 |
+| civil-joint-drain-finish | 109 |
+| energy-soiling-cleaning | 56 |
 
 The operations bundle carries these inspection/cleaning triggers, owners and required work-order evidence. Cleaning intervals follow measured condition and access; material compatibility and wash-water handling must be qualified locally.
 

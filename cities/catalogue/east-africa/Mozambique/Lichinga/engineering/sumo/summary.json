@@ -1,29 +1,29 @@
 {
   "analysis_family": "OSR-AN-OPS-SUMO-CITY",
   "analysis_id": "OSR-AN-OPS-SUMO-CITY:lichinga",
-  "arrived_services": 8,
+  "arrived_services": 16,
   "city": "lichinga",
   "corridor_input": "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.corridor.geojson",
-  "corridor_sha256": "13cca4d5ebdd05f3f8ec4eb855eaf0b979322de7529909f1ade1f86128f3b7ad",
+  "corridor_sha256": "b7ef46b6e07d9f2e525bb95dafb24390bd6b428ecdbea5c1b3f860b82124f039",
   "country": "MZ",
   "design_input": "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml",
-  "design_sha256": "e1eceabd0f1e960ccbcec86eff103369e29ae4223935902a879bd70d8f9f669c",
-  "generator_sha256": "42d0d8fd1bfe996440f1a98665de405ec7f99ff012be4b677c6a433dc8898bc6",
+  "design_sha256": "56e5a384107617aa9f0a793063e1fc51af3f4d7a7949d4464000fce13bbced3b",
+  "generator_sha256": "e806ea3b44936de0b6095270fe0888c32ed164b4914f91d11acfa269824b751c",
   "geometry_mode": "canonical-corridor",
   "input_issues": [],
   "input_quality_passed": true,
-  "line_count": 2,
+  "line_count": 4,
   "lines": [
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 4318.941,
+      "corridor_geometry_length_m": 4318.939,
       "corridor_geometry_to_declared_ratio": 1.000542,
       "declared_length_m": 4316.6,
       "end_station_gap_m": 0.0,
       "line": "line-1",
       "maximum_speed_mps": 19.0,
-      "maximum_station_corridor_offset_m": 0.016,
-      "mean_trip_duration_s": 381.5,
+      "maximum_station_corridor_offset_m": 0.01,
+      "mean_trip_duration_s": 377.0,
       "modeled_length_m": 4316.6,
       "rolling_stock": "tram-2car",
       "scheduled_services": 4,
@@ -31,49 +31,95 @@
       "station_count": 3,
       "station_ids": [
         "line-1-0159-0472-s000000",
-        "line-1-0266-0473-s002148",
+        "line-1-0278-0474-s002408",
         "line-1-0373-0475-s004317"
       ],
       "train_length_m": 39.0
     },
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 2824.366,
-      "corridor_geometry_to_declared_ratio": 0.999669,
+      "corridor_geometry_length_m": 2824.305,
+      "corridor_geometry_to_declared_ratio": 0.999648,
       "declared_length_m": 2825.3,
       "end_station_gap_m": 0.0,
       "line": "line-2",
       "maximum_speed_mps": 19.0,
-      "maximum_station_corridor_offset_m": 0.0,
-      "mean_trip_duration_s": 159.0,
+      "maximum_station_corridor_offset_m": 0.05,
+      "mean_trip_duration_s": 299.5,
       "modeled_length_m": 2825.3,
+      "rolling_stock": "tram-2car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 3,
+      "station_ids": [
+        "line-2-0227-0358-s000000",
+        "line-2-0255-0392-s000982",
+        "line-2-0306-0456-s002825"
+      ],
+      "train_length_m": 39.0
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 4298.536,
+      "corridor_geometry_to_declared_ratio": 1.000148,
+      "declared_length_m": 4297.9,
+      "end_station_gap_m": 0.0,
+      "line": "line-3",
+      "maximum_speed_mps": 19.0,
+      "maximum_station_corridor_offset_m": 0.108,
+      "mean_trip_duration_s": 376.0,
+      "modeled_length_m": 4297.9,
+      "rolling_stock": "tram-2car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 3,
+      "station_ids": [
+        "line-3-0255-0392-s000000",
+        "line-3-0367-0388-s002671",
+        "line-3-0438-0413-s004298"
+      ],
+      "train_length_m": 39.0
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 2086.841,
+      "corridor_geometry_to_declared_ratio": 1.000163,
+      "declared_length_m": 2086.5,
+      "end_station_gap_m": 0.0,
+      "line": "line-4",
+      "maximum_speed_mps": 19.0,
+      "maximum_station_corridor_offset_m": 0.0,
+      "mean_trip_duration_s": 120.0,
+      "modeled_length_m": 2086.5,
       "rolling_stock": "tram-2car",
       "scheduled_services": 4,
       "start_station_gap_m": 0.0,
       "station_count": 2,
       "station_ids": [
-        "line-2-0227-0358-s000000",
-        "line-2-0306-0456-s002825"
+        "line-4-0373-0475-s000000",
+        "line-4-0462-0512-s002087"
       ],
       "train_length_m": 39.0
     }
   ],
   "local_coordinate_origin": {
-    "latitude": -13.293196976568405,
-    "longitude": 35.253782109168775
+    "latitude": -13.302437421182999,
+    "longitude": 35.25197279848276
   },
   "missing_service_ids": [],
   "passed": true,
   "rolling_stock_input": "lib/templates/rolling-stock.toml",
   "rolling_stock_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
   "scenario_input": "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.toml",
-  "scenario_sha256": "08758a0e8efee737779b26228d2a13e7ae6d2a62572476b921a46dd234418867",
-  "scheduled_services": 8,
+  "scenario_sha256": "27843275d5848af4be2de02b04ea5d674a59718f54edaf14bdf094ec22820217",
+  "scheduled_services": 16,
+  "short_controlled_segments": [],
   "simulation_passed": true,
   "simulation_status": "completed",
-  "station_count": 5,
+  "station_count": 11,
   "tool": {
     "name": "SUMO",
     "version_output": "Eclipse SUMO sumo 1.27.1"
-  }
+  },
+  "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length"
 }

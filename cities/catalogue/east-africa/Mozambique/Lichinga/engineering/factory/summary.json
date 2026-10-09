@@ -7,24 +7,40 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 702,
+        "fleet_completion_day": 681,
         "line": "line-1",
-        "original_idle_working_days": 626,
-        "original_infrastructure_day": 76,
+        "original_idle_working_days": 551,
+        "original_infrastructure_day": 130,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 612
+        "rephased_infrastructure_day": 591
       },
       {
-        "fleet_completion_day": 739,
+        "fleet_completion_day": 706,
         "line": "line-2",
-        "original_idle_working_days": 645,
-        "original_infrastructure_day": 94,
+        "original_idle_working_days": 558,
+        "original_infrastructure_day": 148,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 649
+        "rephased_infrastructure_day": 616
+      },
+      {
+        "fleet_completion_day": 730,
+        "line": "line-3",
+        "original_idle_working_days": 564,
+        "original_infrastructure_day": 166,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 640
+      },
+      {
+        "fleet_completion_day": 748,
+        "line": "line-4",
+        "original_idle_working_days": 564,
+        "original_infrastructure_day": 184,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 658
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 67,
+    "shifted_work_packages": 143,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -60,24 +76,26 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 12538732.500000002,
-    "contingency": 22761214.8125,
+    "buildings": 24303510.000000004,
+    "contingency": 30978289.75,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 5067341.5625,
+    "serviced_site": 6537938.75,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 29200000.0,
+    "stage_tooling": 57050000.0,
     "test_tracks": 12000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 108,
+  "direct_production_crew_fte": 210,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 221.0,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "tram-2car",
   "infrastructure_deadlines": {
-    "line-1": 612,
-    "line-2": 649
+    "line-1": 591,
+    "line-2": 616,
+    "line-3": 640,
+    "line-4": 658
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -90,37 +108,45 @@
   ],
   "line_priority": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 702,
-    "line-2": 739
+    "line-1": 681,
+    "line-2": 706,
+    "line-3": 730,
+    "line-4": 748
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 62.758620689655174,
+  "minimum_steady_output_trainsets_per_year": 121.33333333333333,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "6eea72995d13e34031720e2d3ec939846a404bfd484d236baf4d2085889a3de3",
+  "operations_payload_sha256": "a409230332fa8ea2a7bfcc0481f657a66cfdfcc5a18f933979857c0c7ea78f95",
   "original_infrastructure_deadlines": {
-    "line-1": 76,
-    "line-2": 94
+    "line-1": 130,
+    "line-2": 148,
+    "line-3": 166,
+    "line-4": 184
   },
-  "original_infrastructure_target_working_day": 94,
+  "original_infrastructure_target_working_day": 184,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3",
+    "line-4"
   ],
-  "planning_site_m2": 144781.1875,
-  "plant_cost_envelope_usd": 136567288.875,
-  "process_and_support_floor_m2": 17912.475000000002,
+  "planning_site_m2": 186798.25,
+  "plant_cost_envelope_usd": 185869738.5,
+  "process_and_support_floor_m2": 34719.3,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
-    "lichinga trainset acceptance bays": 4,
-    "lichinga trainset kitting": 1,
-    "lichinga tram-2car body installation": 1,
-    "lichinga tram-2car composite kits": 3,
-    "lichinga tram-2car electrical integration": 6,
-    "lichinga tram-2car fitout and static test": 5,
-    "lichinga tram-2car structural assembly": 7
+    "lichinga trainset acceptance bays": 7,
+    "lichinga trainset kitting": 2,
+    "lichinga tram-2car body installation": 2,
+    "lichinga tram-2car composite kits": 6,
+    "lichinga tram-2car electrical integration": 12,
+    "lichinga tram-2car fitout and static test": 9,
+    "lichinga tram-2car structural assembly": 14
   },
   "resource_ready_days": {
     "lichinga trainset acceptance bays": 390,
@@ -134,10 +160,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "e1eceabd0f1e960ccbcec86eff103369e29ae4223935902a879bd70d8f9f669c",
-    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/finance/summary.json": "993ca4ff3863dd87a7df95ad0bf88f3ccf8f947703bea8d2cb828a84fff49593",
-    "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.toml": "08758a0e8efee737779b26228d2a13e7ae6d2a62572476b921a46dd234418867",
-    "cities/catalogue/east-africa/Mozambique/Lichinga/operations/lichinga-operations-manifest.json": "609a7c180a470d0b9e2de111832cefd468c7786f0b6f988bcdb5074423f16fc9",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "56e5a384107617aa9f0a793063e1fc51af3f4d7a7949d4464000fce13bbced3b",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/finance/summary.json": "2f37ca82e37baa62dca301ec939a46e0e4e3b251f593bc85cf728ca280b0e771",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.toml": "27843275d5848af4be2de02b04ea5d674a59718f54edaf14bdf094ec22820217",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/operations/lichinga-operations-manifest.json": "74040e47e3d4c6361a803fc646e084d8f8193186e92bae97b46b17473f913d4a",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -150,103 +176,103 @@
   },
   "stages": [
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 1,
       "cycle_working_days": 3,
-      "direct_crew_fte": 1,
+      "direct_crew_fte": 2,
       "floor_m2_per_cell": 250.0,
       "package": "rs-10-material-kit",
       "planned_occupation_days": 4,
-      "process_floor_m2": 250.0,
-      "tooling_allowance_usd": 150000.0,
+      "process_floor_m2": 500.0,
+      "tooling_allowance_usd": 300000.0,
       "tooling_allowance_usd_per_cell": 150000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "lichinga trainset kitting"
     },
     {
-      "cells": 7,
+      "cells": 14,
       "crew_per_cell": 6,
       "cycle_working_days": 24,
-      "direct_crew_fte": 42,
+      "direct_crew_fte": 84,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 2866.5,
-      "tooling_allowance_usd": 11200000.0,
+      "process_floor_m2": 5733.0,
+      "tooling_allowance_usd": 22400000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 62.758620689655174,
+      "trainsets_per_year": 125.51724137931035,
       "work_center": "lichinga tram-2car structural assembly"
     },
     {
-      "cells": 3,
+      "cells": 6,
       "crew_per_cell": 3,
       "cycle_working_days": 10,
-      "direct_crew_fte": 9,
+      "direct_crew_fte": 18,
       "floor_m2_per_cell": 1200.0,
       "package": "rs-23-moulded-body-modules",
       "planned_occupation_days": 12,
-      "process_floor_m2": 3600.0,
-      "tooling_allowance_usd": 5400000.0,
+      "process_floor_m2": 7200.0,
+      "tooling_allowance_usd": 10800000.0,
       "tooling_allowance_usd_per_cell": 1800000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "lichinga tram-2car composite kits"
     },
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 4,
       "cycle_working_days": 2,
-      "direct_crew_fte": 4,
+      "direct_crew_fte": 8,
       "package": "rs-25-clip-on-body",
       "planned_occupation_days": 3,
-      "process_floor_m2": 409.5,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 819.0,
+      "tooling_allowance_usd": 600000.0,
       "tooling_allowance_usd_per_cell": 300000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 173.33333333333331,
       "work_center": "lichinga tram-2car body installation"
     },
     {
-      "cells": 6,
+      "cells": 12,
       "crew_per_cell": 4,
       "cycle_working_days": 20,
-      "direct_crew_fte": 24,
+      "direct_crew_fte": 48,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 2457.0,
-      "tooling_allowance_usd": 6000000.0,
+      "process_floor_m2": 4914.0,
+      "tooling_allowance_usd": 12000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "lichinga tram-2car electrical integration"
     },
     {
-      "cells": 5,
+      "cells": 9,
       "crew_per_cell": 4,
       "cycle_working_days": 16,
-      "direct_crew_fte": 20,
+      "direct_crew_fte": 36,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 2047.5,
-      "tooling_allowance_usd": 3750000.0,
+      "process_floor_m2": 3685.5,
+      "tooling_allowance_usd": 6750000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 68.42105263157895,
+      "trainsets_per_year": 123.1578947368421,
       "work_center": "lichinga tram-2car fitout and static test"
     },
     {
-      "cells": 4,
+      "cells": 7,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 8,
+      "direct_crew_fte": 14,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 1638.0,
-      "tooling_allowance_usd": 2400000.0,
+      "process_floor_m2": 2866.5,
+      "tooling_allowance_usd": 4200000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 69.33333333333333,
+      "trainsets_per_year": 121.33333333333333,
       "work_center": "lichinga trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 739,
+  "stock_finish_working_day": 748,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 2,
-  "total_trainsets": 21,
-  "vehicle_modules": 42
+  "total_trainsets": 43,
+  "vehicle_modules": 86
 }

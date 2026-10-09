@@ -1,7 +1,7 @@
 # Phnom-Penh surveyed-alignment gate
 
 - Status: **awaiting-surveyed-alignments**
-- Lines expected: line-1, line-2, line-3, line-4, line-5, line-6
+- Lines expected: line-1, line-2, line-3, line-4, line-5, line-6, line-7, line-8, line-9, line-10, line-11, line-12, line-13, line-14, line-15, line-16, line-17, line-18, line-19, line-20, line-21, line-22, line-23, line-24, line-25
 - Technical screen passed: **no**
 - Authority accepted: **no**
 
@@ -11,7 +11,7 @@
 
 ## Current gates
 
-- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report, line-3:surveyed_osr_aln, line-3:landxml_export, line-3:landxml_roundtrip_report, line-4:surveyed_osr_aln, line-4:landxml_export, line-4:landxml_roundtrip_report, line-5:surveyed_osr_aln, line-5:landxml_export, line-5:landxml_roundtrip_report, line-6:surveyed_osr_aln, line-6:landxml_export, line-6:landxml_roundtrip_report
+- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report, line-3:surveyed_osr_aln, line-3:landxml_export, line-3:landxml_roundtrip_report, line-4:surveyed_osr_aln, line-4:landxml_export, line-4:landxml_roundtrip_report, line-5:surveyed_osr_aln, line-5:landxml_export, line-5:landxml_roundtrip_report, line-6:surveyed_osr_aln, line-6:landxml_export, line-6:landxml_roundtrip_report, line-7:surveyed_osr_aln, line-7:landxml_export, line-7:landxml_roundtrip_report, line-8:surveyed_osr_aln, line-8:landxml_export, line-8:landxml_roundtrip_report, line-9:surveyed_osr_aln, line-9:landxml_export, line-9:landxml_roundtrip_report, line-10:surveyed_osr_aln, line-10:landxml_export, line-10:landxml_roundtrip_report, line-11:surveyed_osr_aln, line-11:landxml_export, line-11:landxml_roundtrip_report, line-12:surveyed_osr_aln, line-12:landxml_export, line-12:landxml_roundtrip_report, line-13:surveyed_osr_aln, line-13:landxml_export, line-13:landxml_roundtrip_report, line-14:surveyed_osr_aln, line-14:landxml_export, line-14:landxml_roundtrip_report, line-15:surveyed_osr_aln, line-15:landxml_export, line-15:landxml_roundtrip_report, line-16:surveyed_osr_aln, line-16:landxml_export, line-16:landxml_roundtrip_report, line-17:surveyed_osr_aln, line-17:landxml_export, line-17:landxml_roundtrip_report, line-18:surveyed_osr_aln, line-18:landxml_export, line-18:landxml_roundtrip_report, line-19:surveyed_osr_aln, line-19:landxml_export, line-19:landxml_roundtrip_report, line-20:surveyed_osr_aln, line-20:landxml_export, line-20:landxml_roundtrip_report, line-21:surveyed_osr_aln, line-21:landxml_export, line-21:landxml_roundtrip_report, line-22:surveyed_osr_aln, line-22:landxml_export, line-22:landxml_roundtrip_report, line-23:surveyed_osr_aln, line-23:landxml_export, line-23:landxml_roundtrip_report, line-24:surveyed_osr_aln, line-24:landxml_export, line-24:landxml_roundtrip_report, line-25:surveyed_osr_aln, line-25:landxml_export, line-25:landxml_roundtrip_report
 - Duplicate roles: none
 - Authority findings:
   - alignment acceptance record not received

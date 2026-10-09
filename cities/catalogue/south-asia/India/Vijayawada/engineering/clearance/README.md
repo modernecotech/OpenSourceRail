@@ -2,22 +2,22 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **3,536**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **3,541**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 57 |
 | Beam/building | ground-lateral-clearance-conflict | 14 |
-| Beam/building | height-unresolved | 2,740 |
-| Beam/building | product-depth-unresolved | 156 |
-| Reference support/foundation | foundation-footprint-conflict | 1,170 |
+| Beam/building | height-unresolved | 2,744 |
+| Beam/building | product-depth-unresolved | 157 |
+| Reference support/foundation | foundation-footprint-conflict | 1,173 |
 | Reference support/foundation | foundation-setback-conflict | 242 |
-| Reference support/foundation | mapped-footprints-only-clear | 5,565 |
+| Reference support/foundation | mapped-footprints-only-clear | 5,560 |
 | Terrain | beam-terrain-collision | 9 |
-| Terrain | reference-gradient-exceeded | 3,245 |
-| Terrain | reference-gradient-within-policy | 3,420 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 309 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 169 |
+| Terrain | reference-gradient-exceeded | 3,244 |
+| Terrain | reference-gradient-within-policy | 3,421 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 308 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 167 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

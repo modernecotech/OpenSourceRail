@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7910538156040191,
+  "added_line_count": 4,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "tripoli-lb",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 7,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.34564369,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 765714.7768728212,
+    "catchments": [
+      {
+        "covered_population_2020": 605721.5959096253,
+        "fraction_of_raster_population": 0.7910538156040191,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 730000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 34,
+    "valid_pixels": 13221
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/design.toml": "b3297045d152673f5c166e6a0e75befe4e69ab1ddeaf5faf0c20218f4cca0e14",
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/access/population-pixels.npz.gz": "ffea2ea2a356e1660765d42e1d4daa55054c66874f227b7e055494a11b982103",
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/access/population-source.json": "67ff9939bb098be99d8aea0f1ae9d2afd5616e4de4f9d14874a182a1b230ab7a",
+    "cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/alignment/residential-line-expansion.json": "87c8ed262a970916445c82b58cb1c1b5fbab57c9bac178f3d66546e6c15c12b1",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 40,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

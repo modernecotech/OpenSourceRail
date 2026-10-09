@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.6620553597340499,
+  "added_line_count": 9,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "ramadi",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 12,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.30029593,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 369365.77525138855,
+    "catchments": [
+      {
+        "covered_population_2020": 244540.59120750427,
+        "fraction_of_raster_population": 0.6620553597340499,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 525000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 43,
+    "valid_pixels": 14548
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Ramadi/design.toml": "ab18ba2c6693ce0ace3dfd06f0c86b0910439fceb1e564a44604d8ba69f21225",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/access/population-pixels.npz.gz": "fadf9a1aefea32d3db57b957c8838ed6da57533f884423a692a01fb066c5f554",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/access/population-source.json": "8b2b8e6886b4f57d9283c92002afb1bafa005c2ee1de133b6cb432494544233b",
+    "cities/catalogue/west-asia/Iraq/Ramadi/engineering/alignment/residential-line-expansion.json": "766901f219251774b3ec8144df3a2d968956ffdb5f385d6959f9a77e376661f6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 58,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

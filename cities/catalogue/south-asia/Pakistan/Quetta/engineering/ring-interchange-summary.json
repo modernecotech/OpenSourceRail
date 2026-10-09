@@ -6,15 +6,58 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "quetta",
-      "corridor_sha256": "00ba81ac7b12ab24c590730c968d5ea7d7edcd922c4f3dbc12f155a8a2375447",
-      "design_sha256": "7cbbf447fc11118cd4dca37fc79546039c9a16334c0df96b07a892e06261f6da",
+      "corridor_sha256": "e405ac4b9a1aa6b50256b3bc26a20d0655af27f4e39ac655f563ba54bf85b5b9",
+      "design_sha256": "9501e4f332d390c0d58d755df2e3e22d3b86d097eb25d0bd3f7a0eb7f175f81b",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 3,
-      "review_findings": [],
+      "radial_count": 21,
+      "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1418.2,
+          "radial": "line-18",
+          "ring": "line-4",
+          "severity": "review",
+          "terminus_distance_m": 1418.2
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 2078.5,
+          "radial": "line-19",
+          "ring": "line-4",
+          "severity": "review",
+          "terminus_distance_m": 2078.5
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-21",
+          "ring": "line-4",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 643.3
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1763.9,
+          "radial": "line-22",
+          "ring": "line-4",
+          "severity": "review",
+          "terminus_distance_m": 1763.9
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-8",
+          "ring": "line-4",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1002.2
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 5
 }

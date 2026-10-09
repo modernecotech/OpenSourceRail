@@ -1,8 +1,8 @@
 # Kigoma route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 14
+- Lines: 7
+- Stations: 35
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

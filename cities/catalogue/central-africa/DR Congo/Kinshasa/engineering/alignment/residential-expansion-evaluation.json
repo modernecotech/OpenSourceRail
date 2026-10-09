@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8027074079021518,
+  "added_line_count": 11,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "kinshasa",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 20,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.51633433,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 7520659.67389182,
+    "catchments": [
+      {
+        "covered_population_2020": 6036889.232543945,
+        "fraction_of_raster_population": 0.8027074079021518,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 17178000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 416,
+    "valid_pixels": 134449
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/DR Congo/Kinshasa/design.toml": "5ee07ac7af23b97acb12365ed2f1c13f8bb6a51cbb24f4075ea418402ca0b1be",
+    "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/access/population-pixels.npz.gz": "eeef67728e18e4e1643412c8ccabefb194358e2a2a21a464f290a1cbd56234bf",
+    "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/access/population-source.json": "12ba203ba8a183d74e9a5d943a970a1f46fb56874eae08f51a7e56b65c36b4b0",
+    "cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/alignment/residential-line-expansion.json": "57c2d4c1f5066048674a2410f2a774c834747485dbb3af614ebfcf4ae2def2f6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 631,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

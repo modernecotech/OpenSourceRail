@@ -1,7 +1,7 @@
 # Zarqa drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 3 / 26
+- Lines/stations: 13 / 75
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

@@ -1,8 +1,8 @@
 # Sheikhupura route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 35
+- Lines: 5
+- Stations: 47
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

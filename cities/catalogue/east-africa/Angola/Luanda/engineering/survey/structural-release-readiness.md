@@ -1,7 +1,7 @@
 # Luanda structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 9
+- Lines: 45
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

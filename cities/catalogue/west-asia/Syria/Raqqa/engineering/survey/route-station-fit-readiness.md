@@ -1,8 +1,8 @@
 # Raqqa route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 19
+- Lines: 9
+- Stations: 71
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

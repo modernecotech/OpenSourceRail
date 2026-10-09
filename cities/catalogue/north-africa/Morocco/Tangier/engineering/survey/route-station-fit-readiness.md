@@ -1,8 +1,8 @@
 # Tangier route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 57
+- Lines: 8
+- Stations: 91
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

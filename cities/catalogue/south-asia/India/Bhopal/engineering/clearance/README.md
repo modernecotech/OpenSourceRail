@@ -10,11 +10,11 @@ Mapped nearby footprints: **4,149**; source heights: **0**. Building source: ret
 | Beam/building | ground-lateral-clearance-conflict | 1 |
 | Beam/building | height-unresolved | 3,302 |
 | Beam/building | product-depth-unresolved | 64 |
-| Reference support/foundation | foundation-footprint-conflict | 1,227 |
+| Reference support/foundation | foundation-footprint-conflict | 1,226 |
 | Reference support/foundation | foundation-setback-conflict | 253 |
-| Reference support/foundation | mapped-footprints-only-clear | 4,889 |
-| Terrain | reference-gradient-exceeded | 3,358 |
-| Terrain | reference-gradient-within-policy | 2,827 |
+| Reference support/foundation | mapped-footprints-only-clear | 4,890 |
+| Terrain | reference-gradient-exceeded | 3,357 |
+| Terrain | reference-gradient-within-policy | 2,828 |
 | Unresolved geometry/input | boundary-span-layout-unresolved | 183 |
 | Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 94 |
 

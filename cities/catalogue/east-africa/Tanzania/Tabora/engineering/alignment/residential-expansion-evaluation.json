@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.746586896557849,
+  "added_line_count": 3,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "tabora",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 6,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.38404474,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 194940.78129433095,
+    "catchments": [
+      {
+        "covered_population_2020": 145540.23291909695,
+        "fraction_of_raster_population": 0.746586896557849,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 21,
+    "valid_pixels": 26391
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Tabora/design.toml": "570e8aa1f7ba5000b3a7e2724f917e3f8e895ece199d8dfe633b5d7cec091179",
+    "cities/catalogue/east-africa/Tanzania/Tabora/engineering/access/population-pixels.npz.gz": "c3e742871b2faf90951b0ad220b67bd7ecec47157991bdb1c40ffaed8060063c",
+    "cities/catalogue/east-africa/Tanzania/Tabora/engineering/access/population-source.json": "8c2000972c5fb6583d21ee7956365bcb0547c712aa2ac8c32a6ef97fd1a4a382",
+    "cities/catalogue/east-africa/Tanzania/Tabora/engineering/alignment/residential-line-expansion.json": "f51c6564fb9025787e8cf22fe3cd5e2b92c638e9c29cf92700ab8f472e38f2b6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 26,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

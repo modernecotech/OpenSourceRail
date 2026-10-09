@@ -1,8 +1,8 @@
 # Kakamega route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 17
+- Lines: 11
+- Stations: 56
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

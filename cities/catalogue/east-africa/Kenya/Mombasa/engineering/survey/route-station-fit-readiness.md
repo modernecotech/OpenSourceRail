@@ -1,8 +1,8 @@
 # Mombasa route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 144
+- Lines: 17
+- Stations: 273
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

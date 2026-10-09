@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7933223923810311,
+  "added_line_count": 10,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "khulna",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 16,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.51824543,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1678480.9457054138,
+    "catchments": [
+      {
+        "covered_population_2020": 1331576.5194129944,
+        "fraction_of_raster_population": 0.7933223923810311,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 1500000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 140,
+    "valid_pixels": 12115
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Khulna/design.toml": "8c2c78eb140d2a1ac7456f8a6cf70920b80fb45eb93c673b29def294fcf6934c",
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/access/population-pixels.npz.gz": "5cd87dcaae3038edc9b1e70047538ea8d86b479542d04faebee7dba28e5e8293",
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/access/population-source.json": "3a7ac83568c72d1c3d74e78d20dc9c0f4cb35ea5eb3826167706ef12f362782b",
+    "cities/catalogue/south-asia/Bangladesh/Khulna/engineering/alignment/residential-line-expansion.json": "c5f87121264cd1d06f0dc30adf7c120b54fce781145f743972dcf4babab30335",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 188,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

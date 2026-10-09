@@ -1,15 +1,19 @@
 # Kisii city-order factory requirement
 
-**45 tram-2car trainsets / 90 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**96 tram-2car trainsets / 192 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 130.0 trainsets/year, 2 separate test paths, 222 direct production FTE. Plant reference envelope: **USD 190.977m**.
+Planning output: 273.7 trainsets/year, 3 separate test paths, 462 direct production FTE. Plant reference envelope: **USD 316.731m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 16 | 599 | 689 | 689 |
-| line-2 | 11 | 620 | 710 | 710 |
-| line-3 | 18 | 656 | 746 | 746 |
+| line-1 | 16 | 583 | 673 | 673 |
+| line-2 | 11 | 594 | 684 | 684 |
+| line-3 | 20 | 613 | 703 | 703 |
+| line-4 | 9 | 621 | 711 | 711 |
+| line-5 | 14 | 635 | 725 | 725 |
+| line-6 | 15 | 649 | 739 | 739 |
+| line-7 | 11 | 659 | 749 | 749 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

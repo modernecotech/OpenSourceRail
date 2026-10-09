@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8479981582474954,
+  "added_line_count": 8,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "damietta",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 11,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.37349995,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 874013.098171711,
+    "catchments": [
+      {
+        "covered_population_2020": 741161.4975337982,
+        "fraction_of_raster_population": 0.8479981582474954,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 400000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 64,
+    "valid_pixels": 12861
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Damietta/design.toml": "5b2b3076922f5aff4c8f44baf0fbecf390ed76bf9705715c7d7e5cea4985c80b",
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/access/population-pixels.npz.gz": "3b97554e8ea083bad44a84082c95ada3186870cd44acc0b83a31e90dafee40c4",
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/access/population-source.json": "93748da84e27e9ddfe920c4e047dba44822ce320f790ed1c30ffaffb1e8827c0",
+    "cities/catalogue/west-asia/Egypt/Damietta/engineering/alignment/residential-line-expansion.json": "0bf4a404bfe2fd8335a72cb1e4309e4f5d4716745333f69d2adc6a3450538409",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 83,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

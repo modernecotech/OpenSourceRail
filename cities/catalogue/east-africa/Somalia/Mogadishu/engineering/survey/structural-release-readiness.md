@@ -1,7 +1,7 @@
 # Mogadishu structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 4
+- Lines: 12
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

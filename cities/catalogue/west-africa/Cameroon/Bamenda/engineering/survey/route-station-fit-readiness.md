@@ -1,8 +1,8 @@
 # Bamenda route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 20
+- Lines: 13
+- Stations: 65
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

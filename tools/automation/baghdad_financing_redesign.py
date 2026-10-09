@@ -89,6 +89,20 @@ def insured_options(options, redesign):
     result['additional_sources']['climate_capital_grant_usd'] = terms['climate_grant_usd']
     return result
 
+def scoped_insured_terms(capital, contracts, task_lines, phases, config, redesign, *, factory=False):
+    """Exclude uninsurable draw cohorts without extending the coverage limit."""
+    terms=opening_terms(capital,contracts,task_lines,phases,config,redesign,insured=False,factory=factory)
+    eligible=set();excluded=[]
+    for month,request in capital.items():
+        try:
+            cohort=opening_terms({month:request},contracts,task_lines,phases,config,redesign,insured=True,factory=factory)
+        except ValueError as error:
+            if str(error)!='insured grace leaves no amortisation within coverage':raise
+            excluded.append(month)
+            continue
+        terms[month]['green_bonds']=cohort[month]['green_bonds'];eligible.add(month)
+    return terms,eligible,excluded
+
 def commitment_fees(operating, capital, config):
     for op in operating:
         month = op['month']
@@ -103,11 +117,17 @@ def pooled(inputs, phases, task_lines, redesign, *, linked=False, rights=False, 
         options['additional_sources']['net_development_rights_usd'] = redesign['development']['net_rights_usd']
     if insured:
         options = insured_options(options, redesign)
-    terms = opening_terms(capital, inputs['contracts']+inputs['factory_contracts'], task_lines, phases,
-                          config, redesign, insured=insured) if linked else None
+    eligible=None;excluded=[]
+    if linked and insured:
+        terms,eligible,excluded=scoped_insured_terms(capital,inputs['contracts']+inputs['factory_contracts'],task_lines,phases,config,redesign)
+    else:
+        terms=opening_terms(capital,inputs['contracts']+inputs['factory_contracts'],task_lines,phases,config,redesign) if linked else None
     case = simulate(capital, operating, config, options, green='blended', extras=True,
         bridge_rate=options['liquidity']['concessional_annual_rate'],
-        bridge_fee=options['liquidity']['concessional_draw_fee'], repayment_policy='cost_priority', draw_terms=terms)
+        bridge_fee=options['liquidity']['concessional_draw_fee'], repayment_policy='cost_priority', draw_terms=terms,
+        green_eligible_months=eligible)
+    case['insured_tenor_scope']=dict(excluded_draw_months=excluded,maximum_total_tenor_months=redesign['insured_green']['maximum_total_tenor_months'],
+        ineligible_cohorts_use_uninsured_domestic_financing=True,insurer_commitment=False,coverage_not_extended=True)
     rate = (1+config['model']['discount_rate'])*(1+options['fares']['general_price_inflation'])-1
     core = npv([(r['month'], r['revenue_usd']-r['opex_usd']-capital.get(r['month'], {}).get('capex', 0)) for r in operating], rate)
     fx = config['model']['iqd_per_usd']
@@ -257,12 +277,18 @@ def split_inputs(inputs, phases, task_lines, design, scenario, city_finance, red
         if name == 'rail':
             contracts = [c for c in contracts if c['bucket']!='solar_plant']
         entity_phases = op[name][0]['phases']
-        terms = opening_terms(capital[name], contracts, task_lines, entity_phases, entity_config, redesign, insured=True, factory=name=='factory')
+        green_enabled=not downside and name not in ('factory','development')
+        if green_enabled:
+            terms,eligible,excluded=scoped_insured_terms(capital[name],contracts,task_lines,entity_phases,entity_config,redesign)
+        else:
+            terms=opening_terms(capital[name],contracts,task_lines,entity_phases,entity_config,redesign,factory=name=='factory');eligible=None;excluded=[]
         entities[name] = simulate(capital[name], op[name], entity_config, entity_options,
             green=None if downside or name in ('factory', 'development') else 'blended', extras=False,
             bridge_rate=risk['downside']['gap_credit_rate'] if downside else entity_options['liquidity']['concessional_annual_rate'],
             bridge_fee=risk['downside']['gap_credit_draw_fee'] if downside else entity_options['liquidity']['concessional_draw_fee'],
-            repayment_policy='cost_priority', draw_terms=terms)
+            repayment_policy='cost_priority', draw_terms=terms,green_eligible_months=eligible)
+        entities[name]['insured_tenor_scope']=dict(excluded_draw_months=excluded,coverage_not_extended=True,
+            ineligible_cohorts_use_uninsured_domestic_financing=True,insurer_commitment=False)
         entities[name]['metrics']['sources_capital_include_internal_rights'] = name=='development'
     for name, ledger in entities.items():
         m = ledger['metrics']

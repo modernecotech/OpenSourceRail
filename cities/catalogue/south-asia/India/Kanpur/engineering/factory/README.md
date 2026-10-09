@@ -15,6 +15,6 @@ This is an independent city-order capacity requirement. Shared factory capital i
 | line-5 | 51 | 910 | 1000 | 1000 |
 | line-6 | 87 | 994 | 1084 | 1084 |
 | line-7 | 40 | 1033 | 1123 | 1123 |
-| line-8 | 52 | 1181 | 1173 | 1181 |
+| line-8 | 52 | 1182 | 1173 | 1182 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

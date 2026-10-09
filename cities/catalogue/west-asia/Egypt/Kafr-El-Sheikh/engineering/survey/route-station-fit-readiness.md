@@ -1,8 +1,8 @@
 # Kafr-El-Sheikh route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 12
+- Lines: 8
+- Stations: 36
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

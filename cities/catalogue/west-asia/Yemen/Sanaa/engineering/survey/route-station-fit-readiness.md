@@ -1,8 +1,8 @@
 # Sanaa route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 91
+- Lines: 13
+- Stations: 183
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

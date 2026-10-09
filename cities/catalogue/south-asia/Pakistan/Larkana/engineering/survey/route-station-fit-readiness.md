@@ -1,8 +1,8 @@
 # Larkana route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 11
+- Lines: 9
+- Stations: 45
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

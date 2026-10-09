@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8123999069226967,
+  "added_line_count": 14,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "mandalay",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 20,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.40503529,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1742714.969280243,
+    "catchments": [
+      {
+        "covered_population_2020": 1415781.4788360596,
+        "fraction_of_raster_population": 0.8123999069226967,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 1726000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 174,
+    "valid_pixels": 23023
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/design.toml": "103a5429ca14cac42d1e55f96168cb93315d554315bc2c3ffbccc65ff8403eae",
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/access/population-pixels.npz.gz": "f1ef43f47860221419916555531f3badd5d2be6cabdbaf1cd6701abd21cb5636",
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/access/population-source.json": "ecfea91bc138773cc48b0f813f1dad0e313b087ace206a7e24624b2f3dfc8cc9",
+    "cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/alignment/residential-line-expansion.json": "0c9ab2a39415a97870877dca0f32e814839e7c7bcb5a751bd4210f0b6e1b10c0",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 223,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

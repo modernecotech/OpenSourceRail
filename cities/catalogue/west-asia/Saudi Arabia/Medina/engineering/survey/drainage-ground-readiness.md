@@ -1,7 +1,7 @@
 # Medina drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 6 / 63
+- Lines/stations: 35 / 230
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

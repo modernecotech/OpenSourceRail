@@ -4,7 +4,7 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 66.7% |
+| Direct transfer line pairs | 53.3% |
 | Reachable line pairs, including intermediate lines | 100.0% |
 | Reachable with at most two transfers | 100.0% |
 | Connected line components | 1 |
@@ -18,11 +18,11 @@ Native **2020 bbox population: 124,160**. Catalogue planning population: 250,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 15,170 | 12.2% |
-| 800 m | 31,918 | 25.7% |
-| 1000 m | 40,760 | 32.8% |
-| 1500 m | 56,107 | 45.2% |
-| 2000 m | 68,847 | 55.5% |
+| 500 m | 21,486 | 17.3% |
+| 800 m | 47,404 | 38.2% |
+| 1000 m | 63,618 | 51.2% |
+| 1500 m | 82,113 | 66.1% |
+| 2000 m | 89,303 | 71.9% |
 
 Excluded nodata pixels: 9,298; valid pixels: 17,271.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 9,298; valid pixels: 17,271.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (15.1%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (32.5%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

@@ -2,27 +2,37 @@
 
 The adopted full-fleet line-depot requirement is in [line-depot scope](../line-depots/README.md). The hybrid allocation below is a retained operating diagnostic; station berths do not reduce the adopted depot storage requirement.
 
-Plan: **10 trainsets at stations + 8 at depots = 18 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
+Plan: **18 trainsets at stations + 21 at depots = 39 total**. Two revenue trainsets per selected station support coordinated morning starts; the remaining revenue trains and reserves stay at storage on their own line.
 
 Allocation check: **PASS**. Depot stabling positions are planning requirements, separate from workshop bays. Physical release remains open.
 
 | Depot/storage station | Line | Site basis | Stabling positions required | Usable slot length m | Workshop bays |
 |---|---|---|---:|---:|---:|
-| line-1-0423-0452-s005694 | line-1 | declared-depot | 8 | 476.0 | 3 |
+| line-1-0423-0452-s005694 | line-1 | declared-depot | 11 | 654.5 | 3 |
+| line-2-0420-0470-s000000 | line-2 | declared-depot | 10 | 595.0 | 3 |
 
 | Line | Location | Type | Direction | Role | Trainsets |
 |---|---|---|---|---|---:|
 | line-1 | line-1-0373-0716-s000000 | station | forward | revenue | 2 |
+| line-1 | line-1-0394-0605-s002394 | station | forward | revenue | 1 |
+| line-1 | line-1-0394-0605-s002394 | station | reverse | revenue | 1 |
+| line-1 | line-1-0408-0530-s004010 | station | forward | revenue | 1 |
+| line-1 | line-1-0408-0530-s004010 | station | reverse | revenue | 1 |
+| line-1 | line-1-0420-0470-s005309 | station | forward | revenue | 1 |
+| line-1 | line-1-0420-0470-s005309 | station | reverse | revenue | 1 |
 | line-1 | line-1-0423-0452-s005694 | station | reverse | revenue | 2 |
-| line-1 | line-1-planning-infill-s001424 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s001424 | station | reverse | revenue | 1 |
-| line-1 | line-1-planning-infill-s002847 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s002847 | station | reverse | revenue | 1 |
-| line-1 | line-1-planning-infill-s004271 | station | forward | revenue | 1 |
-| line-1 | line-1-planning-infill-s004271 | station | reverse | revenue | 1 |
-| line-1 | line-1-0423-0452-s005694 | depot | — | revenue | 6 |
+| line-2 | line-2-0420-0470-s000000 | station | forward | revenue | 2 |
+| line-2 | line-2-0488-0637-s005168 | station | reverse | revenue | 2 |
+| line-2 | line-2-0511-0487-s001961 | station | forward | revenue | 1 |
+| line-2 | line-2-0511-0487-s001961 | station | reverse | revenue | 1 |
+| line-2 | line-2-0512-0562-s003469 | station | forward | revenue | 1 |
+| line-2 | line-2-0512-0562-s003469 | station | reverse | revenue | 1 |
+| line-1 | line-1-0423-0452-s005694 | depot | — | revenue | 9 |
 | line-1 | line-1-0423-0452-s005694 | depot | — | spare | 1 |
 | line-1 | line-1-0423-0452-s005694 | depot | — | cold_reserve | 1 |
+| line-2 | line-2-0420-0470-s000000 | depot | — | revenue | 8 |
+| line-2 | line-2-0420-0470-s000000 | depot | — | spare | 1 |
+| line-2 | line-2-0420-0470-s000000 | depot | — | cold_reserve | 1 |
 
 Native hybrid candidate: `build/engineering/stabling/quelimane-hybrid.toml`; generation only, operating validation pending.
 
@@ -31,38 +41,50 @@ Native hybrid candidate: `build/engineering/stabling/quelimane-hybrid.toml`; gen
 
 The runnable scenario below tests station holding and restart behaviour. It does not yet execute the station/depot allocation above or depot yard movements. Its station overflow is a diagnostic result, not the overnight design allocation.
 
-Operating allocation: **18 trainsets at 5 stations**; largest initial station queue **5**. Physical release: **open**.
+Operating allocation: **39 trainsets at 9 stations**; largest initial station queue **6**. Physical release: **open**.
 
 This candidate preserves all non-fleet scenario inputs and the existing fleet counts/service windows. It enables station holding and 150 kW top-up to 95% SoC, subject to shared site limits. Existing canonical simulation evidence still describes the retained endpoint-dispatch scenario.
 
-Fleet roles: **16 revenue, 1 spare, 1 cold reserve**. Reserves are held out of routine dispatch.
+Fleet roles: **35 revenue, 2 spare, 2 cold reserve**. Reserves are held out of routine dispatch.
 
-Two-train station-capacity check: **FAIL**. Selected stations provide **10 positions**; **8 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **4 stations**. Four-berth reference platforms do not override the two-train provision.
+Two-train station-capacity check: **FAIL**. Selected stations provide **18 positions**; **21 fleet positions** exceed station-only provision. The initial allocation exceeds the limit at **8 stations**. Four-berth reference platforms do not override the two-train provision.
 
 | Line | Station | Direction | Role | Initial trainsets | Verified track slots |
 |---|---|---|---|---:|---|
-| line-1 | line-1-0373-0716-s000000 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s001424 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s001424 | reverse | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s002847 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s002847 | reverse | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s004271 | forward | revenue | 2 | pending |
-| line-1 | line-1-planning-infill-s004271 | reverse | revenue | 2 | pending |
+| line-1 | line-1-0373-0716-s000000 | forward | revenue | 3 | pending |
+| line-1 | line-1-0394-0605-s002394 | forward | revenue | 3 | pending |
+| line-1 | line-1-0394-0605-s002394 | reverse | revenue | 3 | pending |
+| line-1 | line-1-0408-0530-s004010 | forward | revenue | 2 | pending |
+| line-1 | line-1-0408-0530-s004010 | reverse | revenue | 2 | pending |
+| line-1 | line-1-0420-0470-s005309 | forward | revenue | 2 | pending |
+| line-1 | line-1-0420-0470-s005309 | reverse | revenue | 2 | pending |
 | line-1 | line-1-0423-0452-s005694 | reverse | revenue | 2 | pending |
-| line-1 | line-1-0373-0716-s000000 | forward | spare | 1 | pending |
-| line-1 | line-1-planning-infill-s001424 | forward | cold_reserve | 1 | pending |
+| line-1 | line-1-0408-0530-s004010 | forward | spare | 1 | pending |
+| line-1 | line-1-0408-0530-s004010 | reverse | cold_reserve | 1 | pending |
+| line-2 | line-2-0420-0470-s000000 | forward | revenue | 3 | pending |
+| line-2 | line-2-0511-0487-s001961 | forward | revenue | 3 | pending |
+| line-2 | line-2-0511-0487-s001961 | reverse | revenue | 3 | pending |
+| line-2 | line-2-0512-0562-s003469 | forward | revenue | 3 | pending |
+| line-2 | line-2-0512-0562-s003469 | reverse | revenue | 2 | pending |
+| line-2 | line-2-0488-0637-s005168 | reverse | revenue | 2 | pending |
+| line-2 | line-2-0512-0562-s003469 | reverse | spare | 1 | pending |
+| line-2 | line-2-0488-0637-s005168 | reverse | cold_reserve | 1 | pending |
 
 ## Reference platform capacity comparison
 
-**8 trainsets exceed the reference platform envelope**, requiring **476.0 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
+**19 trainsets exceed the reference platform envelope**, requiring **1,130.5 m** of additional usable slots under this initial allocation. This does not establish the location or need for new infrastructure; existing sidings require evidence before crediting them.
 
 | Station | Trainsets | Reference platform berths | Beyond envelope | Additional usable slot length m |
 |---|---:|---:|---:|---:|
 | line-1-0373-0716-s000000 | 3 | 2 | 1 | 59.5 |
+| line-1-0394-0605-s002394 | 6 | 2 | 4 | 238.0 |
+| line-1-0408-0530-s004010 | 6 | 2 | 4 | 238.0 |
+| line-1-0420-0470-s005309 | 4 | 4 | 0 | 0.0 |
 | line-1-0423-0452-s005694 | 2 | 2 | 0 | 0.0 |
-| line-1-planning-infill-s001424 | 5 | 2 | 3 | 178.5 |
-| line-1-planning-infill-s002847 | 4 | 2 | 2 | 119.0 |
-| line-1-planning-infill-s004271 | 4 | 2 | 2 | 119.0 |
+| line-2-0420-0470-s000000 | 3 | 2 | 1 | 59.5 |
+| line-2-0488-0637-s005168 | 3 | 2 | 1 | 59.5 |
+| line-2-0511-0487-s001961 | 6 | 2 | 4 | 238.0 |
+| line-2-0512-0562-s003469 | 6 | 2 | 4 | 238.0 |
 
 - Initial queues are balanced across powered station/direction choices; this is not a surveyed parking layout.
 - Declared spares and cold reserves remain parked and charge; automatic substitution, defect routing and maintenance release are not modelled.

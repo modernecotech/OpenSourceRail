@@ -1,8 +1,8 @@
 # Mazar-E-Sharif route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 22
+- Lines: 6
+- Stations: 50
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

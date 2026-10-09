@@ -174,8 +174,9 @@ def test_configured_habd_sites_enter_operations_qa_and_maintenance() -> None:
         for asset in bundle["assets"]
         if asset["asset_type"] == "hot-axle-detector"
     ]
-    assert bundle["totals"]["hot_axle_detectors"] == 3
-    assert len(detector_assets) == 3
+    configured=_load_toml("cities/catalogue/west-asia/Iraq/Samawah/samawah.toml")["habd_detectors"]
+    assert bundle["totals"]["hot_axle_detectors"] == len(configured)
+    assert len(detector_assets) == len(configured)
     assert all(asset["parent_asset"].startswith("SAM-TRK-") for asset in detector_assets)
     assert all(asset["km_start"] == asset["km_end"] for asset in detector_assets)
 

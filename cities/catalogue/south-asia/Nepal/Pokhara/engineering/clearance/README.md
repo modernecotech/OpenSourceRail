@@ -2,22 +2,22 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **2,187**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **3,204**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 147 |
-| Beam/building | ground-lateral-clearance-conflict | 43 |
-| Beam/building | height-unresolved | 1,439 |
-| Beam/building | product-depth-unresolved | 273 |
-| Reference support/foundation | foundation-footprint-conflict | 644 |
-| Reference support/foundation | foundation-setback-conflict | 208 |
-| Reference support/foundation | mapped-footprints-only-clear | 1,764 |
-| Terrain | beam-terrain-collision | 26 |
-| Terrain | reference-gradient-exceeded | 1,390 |
-| Terrain | reference-gradient-within-policy | 947 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 278 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 148 |
+| Beam/building | ground-collision | 174 |
+| Beam/building | ground-lateral-clearance-conflict | 50 |
+| Beam/building | height-unresolved | 2,080 |
+| Beam/building | product-depth-unresolved | 572 |
+| Reference support/foundation | foundation-footprint-conflict | 1,021 |
+| Reference support/foundation | foundation-setback-conflict | 293 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,567 |
+| Terrain | beam-terrain-collision | 35 |
+| Terrain | reference-gradient-exceeded | 2,003 |
+| Terrain | reference-gradient-within-policy | 1,422 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 450 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 246 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

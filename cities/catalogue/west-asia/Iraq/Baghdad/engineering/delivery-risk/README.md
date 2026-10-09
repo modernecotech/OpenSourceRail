@@ -6,39 +6,39 @@ The explicit segregated-path calendar books 16 exclusive running hours per train
 
 | Case | First/full month | Peak IQD gap debt, tn | Interest/fees USD eq, bn | Debt cleared month |
 |---|---:|---:|---:|---:|
-| calendar_baseline | 40/77 | 4.477 | 4.978 | 305 |
-| factory_delay_6months | 46/82 | 4.680 | 5.030 | 308 |
-| supplier_shortage_6months | 46/82 | 4.694 | 5.034 | 308 |
-| half_staff_late_12months | 44/81 | 4.641 | 5.021 | 308 |
-| rework_10pct | 41/79 | 4.584 | 5.012 | 307 |
-| one_test_path_outage_6months | 40/77 | 4.477 | 4.978 | 305 |
-| civil_access_6months | 42/83 | 4.434 | 4.958 | 305 |
-| availability_75pct | 42/83 | 4.671 | 5.038 | 308 |
-| availability_65pct | 44/91 | 4.889 | 5.089 | 311 |
-| combined | 53/95 | 5.016 | 5.108 | 314 |
-| combined_second_test_shift | 53/95 | 5.030 | 5.115 | 315 |
-| availability_75pct_second_test_shift | 42/83 | 4.684 | 5.044 | 308 |
-| civil_cycles_20pct_faster | 40/77 | 4.480 | 4.980 | 305 |
-| civil_earliest_unchanged_cycles | 40/77 | 4.793 | 5.091 | 307 |
-| civil_earliest_20pct_faster | 40/76 | 5.071 | 5.195 | 308 |
-| availability_75pct_costed | 42/83 | 4.691 | 5.044 | 308 |
-| availability_75pct_test_shift_costed | 42/83 | 4.705 | 5.050 | 308 |
-| hiring_ramp_costed | 44/81 | 4.656 | 5.026 | 308 |
-| supplier_shortage_costed | 46/82 | 4.712 | 5.040 | 309 |
-| availability_75pct_structural_shift | 41/82 | 4.720 | 5.054 | 309 |
-| availability_75pct_electrical_shift | 41/82 | 4.672 | 5.036 | 308 |
-| availability_75pct_composite_shift | 42/83 | 4.700 | 5.049 | 308 |
-| availability_75pct_all_stage_shifts | 40/77 | 4.604 | 5.033 | 307 |
-| recruitment_training_recovery | 40/77 | 4.488 | 4.985 | 305 |
-| supplier_expedite_recovery | 43/79 | 4.609 | 4.989 | 307 |
-| temporary_first_article | 36/77 | 4.429 | 4.999 | 304 |
-| combined_delay_costs | 53/95 | 5.098 | 5.136 | 316 |
-| combined_lower_demand | 53/95 | 9.562 | 7.476 | Unpaid |
-| combined_escalation | 53/95 | 7.406 | 6.720 | 352 |
-| combined_finance_downside | 53/95 | 4.000 | 10.311 | Unfunded |
-| joint_downside | 53/95 | 4.000 | 14.825 | Unfunded |
-| domestic_placement_interrupted_recovered | 46/83 | 4.530 | 4.976 | 308 |
-| export_credit_delayed_recovered | 46/83 | 4.356 | 4.919 | 307 |
+| calendar_baseline | 45/200 | 2.141 | 3.989 | 224 |
+| factory_delay_6months | 51/205 | 2.419 | 4.180 | 229 |
+| supplier_shortage_6months | 51/204 | 2.434 | 4.182 | 228 |
+| half_staff_late_12months | 49/203 | 2.347 | 4.141 | 227 |
+| rework_10pct | 46/206 | 2.220 | 4.119 | 230 |
+| one_test_path_outage_6months | 45/200 | 2.177 | 4.000 | 224 |
+| civil_access_6months | 47/206 | 2.147 | 3.990 | 230 |
+| availability_75pct | 48/227 | 2.453 | 4.387 | 251 |
+| availability_65pct | 51/256 | 2.866 | 4.813 | 280 |
+| combined | 59/242 | 3.161 | 4.869 | 267 |
+| combined_second_test_shift | 59/242 | 3.162 | 4.872 | 267 |
+| availability_75pct_second_test_shift | 48/227 | 2.461 | 4.391 | 251 |
+| civil_cycles_20pct_faster | 45/200 | 2.143 | 3.991 | 224 |
+| civil_earliest_unchanged_cycles | 45/200 | 3.388 | 5.413 | 224 |
+| civil_earliest_20pct_faster | 45/199 | 4.045 | 6.036 | 223 |
+| availability_75pct_costed | 48/227 | 2.453 | 4.387 | 251 |
+| availability_75pct_test_shift_costed | 48/227 | 2.461 | 4.391 | 251 |
+| hiring_ramp_costed | 49/203 | 2.347 | 4.141 | 227 |
+| supplier_shortage_costed | 51/204 | 2.434 | 4.182 | 228 |
+| availability_75pct_structural_shift | 47/227 | 2.476 | 4.405 | 251 |
+| availability_75pct_electrical_shift | 47/226 | 2.441 | 4.367 | 251 |
+| availability_75pct_composite_shift | 47/223 | 2.407 | 4.337 | 248 |
+| availability_75pct_all_stage_shifts | 45/200 | 2.210 | 4.029 | 224 |
+| recruitment_training_recovery | 45/200 | 2.144 | 3.993 | 224 |
+| supplier_expedite_recovery | 48/201 | 2.343 | 4.010 | 225 |
+| temporary_first_article | 41/200 | 2.020 | 3.905 | 224 |
+| combined_delay_costs | 59/242 | 3.167 | 4.871 | 267 |
+| combined_lower_demand | 59/242 | 4.894 | 6.797 | 267 |
+| combined_escalation | 59/242 | 4.238 | 8.622 | 267 |
+| combined_finance_downside | 59/242 | 4.000 | 10.047 | Unfunded |
+| joint_downside | 59/242 | 4.000 | 21.584 | Unfunded |
+| domestic_placement_interrupted_recovered | 51/206 | 2.365 | 4.011 | 230 |
+| export_credit_delayed_recovered | 51/206 | 2.115 | 3.932 | 230 |
 
 ## Separate productivity from investment timing
 
@@ -58,7 +58,7 @@ Original delivery-only cases remain lower-bound comparisons. Combined_delay_cost
 
 The downside ladder isolates 30% fewer paid trips plus 25% lower existing retail/advertising receipts, 5% annual capital escalation applied to each invoice at actual payment month from financial close, and weaker financing. Weaker financing removes assumed green enhancement, climate grants, development rights and additional net income, increases core coupons two percentage points, and replaces the 2%/IQD 13tn gap sensitivity with 8% credit at a 1% draw fee and IQD 4tn maximum outstanding. Chinese credit and government import cash remain USD, all domestic credit/bonds/cash IQD; government remains 25% of escalated capital. Separately, domestic_placement_interrupted_recovered and export_credit_delayed_recovered stop procurement/construction/production for 130 working days and price local remobilisation plus prolongation; repayment is conditional on subsequently placing the refused debt. Permanent refusal has no opening or repayment date: see the [funding gates and evidence execution package](../qualification/README.md), including denied amounts, escrow requirements and six-month placement shortfalls. No gap facility is used to conceal a refused core source.
 
-Lower demand with combined delays leaves IQD 2.907tn terminal gap debt. Joint_downside applies all of those assumptions together and 7% rail OPEX inflation: IQD 28.164tn cumulative uncovered cash and IQD 4.000tn terminal gap debt. Uncovered support is a balancing requirement, not an extra government appropriation, loan or cash source. Its presence blocks any unconditional repayment claim even if the simulated debt eventually amortizes. Interest totals in such cases also assume the missing cash is supplied; they do not establish an executable financed programme.
+Lower demand with combined delays leaves IQD 0.000tn terminal gap debt. Joint_downside applies all of those assumptions together and 7% rail OPEX inflation: IQD 14.916tn cumulative uncovered cash and IQD 0.000tn terminal gap debt. Uncovered support is a balancing requirement, not an extra government appropriation, loan or cash source. Its presence blocks any unconditional repayment claim even if the simulated debt eventually amortizes. Interest totals in such cases also assume the missing cash is supplied; they do not establish an executable financed programme.
 
 Base fare and OPEX sensitivities remain 5% from financial close, with existing kiosks/advertising, separate receipts and each line revenue ramp included. No tickets are sold before opening. Capital escalation is absent from reference cases and explicit in the named escalation cases. Green/grant/rights and all financing availability remain uncommitted. No future national city cashflow supports Baghdad debt.
 

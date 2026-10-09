@@ -2,12 +2,12 @@
 
 Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.
 
-Route length 47.345 km. 842 unique proposed support packets; 774 identified catalogue bay assemblies and 27 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
+Route length 47.345 km. 760 unique proposed support packets; 689 identified catalogue bay assemblies and 29 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
 
-| Front | Launcher | Direction | Initial assembly chainage m | Bay assemblies |
-|---|---|---:|---:|---:|
-| line-5-front-1 | launcher-09 | 1 | 926.3 | 387 |
-| line-5-front-2 | launcher-10 | -1 | 46262.5 | 387 |
+| Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |
+|---|---|---|---:|---:|---:|
+| line-5-front-1 | launcher-09 | initial mobilisation | 1 | 926.3 | 344 |
+| line-5-front-2 | launcher-10 | initial mobilisation | -1 | 46262.5 | 345 |
 
 ## Foundation workface plan
 
@@ -17,7 +17,7 @@ Release trial and working-platform design (F1), install the selected foundation 
 
 ## Directed assembly and logistics sequence
 
-The positive front installs toward increasing chainage; the negative front starts at its high-chainage end and installs backward. Factory/dispatch plans must follow this directed sequence, not the ascending raw span register. A foundation used by two bays is one packet; it is not built or priced twice.
+Before mobilisation, release the predecessor asset assignment and its dismantle/transport/recommission package. The positive front installs toward increasing chainage; the negative front starts at its high-chainage end and installs backward. Factory/dispatch plans must follow this directed sequence, not the ascending raw span register. A foundation used by two bays is one packet; it is not built or priced twice.
 
 For each front, identify the first complete run, permitted delivery/assembly site, temporary support/ground platform, configured plant and authorised shift/crew. Reserve both beam travellers, transport/receiving equipment, an operator, required riggers, lift supervision and inspection. Verify source strength, complete mass/CG, lifting points, rigging, bearings, weather limits and contingency landing/recovery before any lift.
 
@@ -35,22 +35,22 @@ Run boundaries, stations and specials require a passage or dismantle/transport/r
 | line-5-front-1 | 4 | line-5-run-0002-span-0001 | OSR-Pi20 | FND:line-5-support-000002479700 | FND:line-5-support-000002499700 | line-5-run-0001-span-0003 |
 | line-5-front-1 | 5 | line-5-run-0002-span-0002 | OSR-Pi20 | FND:line-5-support-000002499700 | FND:line-5-support-000002519700 | line-5-run-0002-span-0001 |
 | line-5-front-1 | 6 | line-5-run-0002-span-0003 | OSR-Pi20 | FND:line-5-support-000002519700 | FND:line-5-support-000002539700 | line-5-run-0002-span-0002 |
-| line-5-front-2 | 1 | line-5-run-0041-span-0002 | OSR-Pi20 | FND:line-5-support-000046242500 | FND:line-5-support-000046262500 | mobilisation |
-| line-5-front-2 | 2 | line-5-run-0041-span-0001 | OSR-Pi20 | FND:line-5-support-000046222500 | FND:line-5-support-000046242500 | line-5-run-0041-span-0002 |
-| line-5-front-2 | 3 | line-5-run-0040-span-0001 | OSR-Pi20 | FND:line-5-support-000045003100 | FND:line-5-support-000045023100 | line-5-run-0041-span-0001 |
-| line-5-front-2 | 4 | line-5-run-0038-span-0001 | OSR-Pi25 | FND:line-5-support-000042630900 | FND:line-5-support-000042655900 | line-5-run-0040-span-0001 |
-| line-5-front-2 | 5 | line-5-run-0037-span-0001 | OSR-Pi20 | FND:line-5-support-000039949800 | FND:line-5-support-000039969800 | line-5-run-0038-span-0001 |
-| line-5-front-2 | 6 | line-5-run-0035-span-0001 | OSR-Pi20 | FND:line-5-support-000036539600 | FND:line-5-support-000036559600 | line-5-run-0037-span-0001 |
+| line-5-front-2 | 1 | line-5-run-0042-span-0002 | OSR-Pi20 | FND:line-5-support-000046242500 | FND:line-5-support-000046262500 | mobilisation |
+| line-5-front-2 | 2 | line-5-run-0042-span-0001 | OSR-Pi20 | FND:line-5-support-000046222500 | FND:line-5-support-000046242500 | line-5-run-0042-span-0002 |
+| line-5-front-2 | 3 | line-5-run-0041-span-0001 | OSR-Pi20 | FND:line-5-support-000045003100 | FND:line-5-support-000045023100 | line-5-run-0042-span-0001 |
+| line-5-front-2 | 4 | line-5-run-0039-span-0001 | OSR-Pi25 | FND:line-5-support-000042630900 | FND:line-5-support-000042655900 | line-5-run-0041-span-0001 |
+| line-5-front-2 | 5 | line-5-run-0038-span-0001 | OSR-Pi20 | FND:line-5-support-000039949800 | FND:line-5-support-000039969800 | line-5-run-0039-span-0001 |
+| line-5-front-2 | 6 | line-5-run-0036-span-0001 | OSR-Pi20 | FND:line-5-support-000036539600 | FND:line-5-support-000036559600 | line-5-run-0038-span-0001 |
 
 The compressed [span register](span-assembly-register.csv.gz) provides the full sequence, individual beam IDs, predecessors and junction holds. [Stage library](assembly-stage-library.json) supplies the method dependencies. [Front package](launcher-fronts.json) lists every assigned span and actual disconnected working interval.
 
 ## Junctions, stations and residential interfaces
 
-Coordinated structural interface IDs on this line: crossing-1c303c088c01, crossing-4e4707f7a13b, crossing-596aa3d726d4, crossing-66c0e3e30d82, crossing-6f9463d5811f, crossing-868cd72fc737, crossing-ec8cd65ba79b, shared-corridor-5c1c3ab579e9.
+Coordinated structural interface IDs on this line: crossing-0983516037f7, crossing-0a9798e878eb, crossing-1c303c088c01, crossing-29f9848182d1, crossing-2d97275a55a2, crossing-4e4707f7a13b, crossing-596aa3d726d4, crossing-60abcf09a2e9, crossing-66c0e3e30d82, crossing-66e843e11f96, crossing-6f9463d5811f, crossing-722535cba24a, crossing-868cd72fc737, crossing-8b51eec706d8, crossing-8bb7daa9a184, crossing-a9c49f8e9bd8, crossing-b6b3368fc1d6, crossing-d2bcb45bb7d3, crossing-ec8cd65ba79b, crossing-f437cde83c56, shared-corridor-3d33eec930de, shared-corridor-5c1c3ab579e9.
 
 Evaluate grade-separated crossings, shared four-track civil footprints or separate deck levels, and bounded platform/concourse/access complexes with the station authority. Freeze actual vertical profiles and gradients before selecting supports and ordinary spans. Preserve rail/PSD/egress/waterproofing/earthing interfaces. Proposed residential infill sites on this line require station/approach structures and revised service, fleet, power and full installed prices; they are not existing paid journeys.
 
-Candidate infill IDs: infill-line-5-020000, infill-line-5-023000, infill-line-5-016500.
+Candidate infill IDs: infill-line-5-028500.
 
 ## Inspection, handover and programme
 

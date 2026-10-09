@@ -928,10 +928,11 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True);outputs=[]
     def save(name,value):
         path=OUT/name;path.write_text(json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n');outputs.append(path)
-    def csvout(name,rows):
+    def csvout(name,rows,fields=None):
         path=OUT/name
         with path.open('w',newline='') as stream:
-            writer=csv.DictWriter(stream,fieldnames=list(rows[0]),lineterminator='\n');writer.writeheader();writer.writerows(rows)
+            columns=fields if fields is not None else list(rows[0]) if rows else []
+            writer=csv.DictWriter(stream,fieldnames=columns,lineterminator='\n');writer.writeheader();writer.writerows(rows)
         outputs.append(path)
     save('depot-layouts.json',layouts);csvout('depot-tracks.csv',layouts['tracks']);csvout('depot-slots.csv',layouts['slots'])
     for site in layouts['sites']:
@@ -941,8 +942,9 @@ def main():
     save('opening-factory-replay.json',{k:v for k,v in opening_factory.items() if k!='operating_inputs'})
     csvout('development-training-monthly.csv',people['development_mobilisation']['monthly'])
     with (paths['baseline'].parent/'energy-synthetic_reference-owned_solar-hourly.csv').open() as stream:
-        aggregate_shortages=[row for row in csv.DictReader(stream) if float(row['unserved_kwh'])>1e-7]
-    csvout('aggregate-reference-shortage-hours.csv',aggregate_shortages)
+        reader=csv.DictReader(stream);aggregate_fields=reader.fieldnames
+        aggregate_shortages=[row for row in reader if float(row['unserved_kwh'])>1e-7]
+    csvout('aggregate-reference-shortage-hours.csv',aggregate_shortages,aggregate_fields)
     for label,model in [('full',energy),('opening',opening_energy)]:
         for weather,case in model['cases'].items():
             shortage_rows=case.pop('shortage_hours')

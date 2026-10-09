@@ -1,7 +1,7 @@
 # Uige structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 1
+- Lines: 2
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

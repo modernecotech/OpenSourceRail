@@ -4,8 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`malanje-line1.aln.toml`](malanje-line1.aln.toml) | `line-1` | 8,071.3 m | 5 |
-| [`malanje-line2.aln.toml`](malanje-line2.aln.toml) | `line-2` | 5,091.3 m | 5 |
+| [`malanje-line1.aln.toml`](malanje-line1.aln.toml) | `line-1` | 8,071.3 m | 6 |
+| [`malanje-line2.aln.toml`](malanje-line2.aln.toml) | `line-2` | 5,091.3 m | 6 |
+| [`malanje-line3.aln.toml`](malanje-line3.aln.toml) | `line-3` | 4,648.2 m | 4 |
+| [`malanje-line4.aln.toml`](malanje-line4.aln.toml) | `line-4` | 5,215.3 m | 4 |
+| [`malanje-line5.aln.toml`](malanje-line5.aln.toml) | `line-5` | 2,454.2 m | 2 |
 
 ## Status
 

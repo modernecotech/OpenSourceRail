@@ -7,16 +7,24 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 740,
+        "fleet_completion_day": 704,
         "line": "line-1",
-        "original_idle_working_days": 682,
-        "original_infrastructure_day": 58,
+        "original_idle_working_days": 628,
+        "original_infrastructure_day": 76,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 650
+        "rephased_infrastructure_day": 614
+      },
+      {
+        "fleet_completion_day": 747,
+        "line": "line-2",
+        "original_idle_working_days": 653,
+        "original_infrastructure_day": 94,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 657
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 65,
+    "shifted_work_packages": 115,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -52,23 +60,24 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 12216251.250000002,
-    "contingency": 21898656.53125,
+    "buildings": 25786923.75,
+    "contingency": 30642057.84375,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 5027031.40625,
+    "serviced_site": 6723365.46875,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 25250000.0,
+    "stage_tooling": 53700000.0,
     "test_tracks": 12000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 134,
+  "direct_production_crew_fte": 285,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 221.0,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "light-metro-3car",
   "infrastructure_deadlines": {
-    "line-1": 650
+    "line-1": 614,
+    "line-2": 657
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -80,34 +89,38 @@
     "National reuse and concurrent city loads require a separate factory loading assessment."
   ],
   "line_priority": [
-    "line-1"
+    "line-1",
+    "line-2"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 740
+    "line-1": 704,
+    "line-2": 747
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 52.0,
+  "minimum_steady_output_trainsets_per_year": 109.47368421052632,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "53bfa4f0c4c9da8aeb818b68942b53882589651b9e9c96d4ab9bd7163f2752d1",
+  "operations_payload_sha256": "4dadf0a06b2f615520f3bdae7b3bc07d2cdf9734681f1e4151c60b213e46588c",
   "original_infrastructure_deadlines": {
-    "line-1": 58
+    "line-1": 76,
+    "line-2": 94
   },
-  "original_infrastructure_target_working_day": 58,
+  "original_infrastructure_target_working_day": 94,
   "original_lines_civil_complete_before_factory_ready": [
-    "line-1"
+    "line-1",
+    "line-2"
   ],
-  "planning_site_m2": 143629.46875,
-  "plant_cost_envelope_usd": 131391939.1875,
-  "process_and_support_floor_m2": 17451.787500000002,
+  "planning_site_m2": 192096.15625,
+  "plant_cost_envelope_usd": 183852347.0625,
+  "process_and_support_floor_m2": 36838.4625,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
-    "quelimane light-metro-3car body installation": 1,
-    "quelimane light-metro-3car composite kits": 3,
-    "quelimane light-metro-3car electrical integration": 5,
-    "quelimane light-metro-3car fitout and static test": 4,
-    "quelimane light-metro-3car structural assembly": 6,
-    "quelimane trainset acceptance bays": 3,
-    "quelimane trainset kitting": 1
+    "quelimane light-metro-3car body installation": 2,
+    "quelimane light-metro-3car composite kits": 6,
+    "quelimane light-metro-3car electrical integration": 11,
+    "quelimane light-metro-3car fitout and static test": 8,
+    "quelimane light-metro-3car structural assembly": 13,
+    "quelimane trainset acceptance bays": 7,
+    "quelimane trainset kitting": 2
   },
   "resource_ready_days": {
     "quelimane light-metro-3car body installation": 390,
@@ -121,10 +134,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "c8ef86f5b4370f823c74143d3b7c5188488315bfb5167fdddce4d5afac90d2a5",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/finance/summary.json": "7e2325a11236099541e3c182b4f9d930d63975039f297b854b95214f1ddc7352",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/operations/quelimane-operations-manifest.json": "8cb8b3a3b20b62ce85c43b69b34f449dbf0967366af749c0e4d2d63009333a9f",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.toml": "86efae5c837f38a5fb2133eb16a2fa59283a825f053208e4d80d0b965d6b858f",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "f315a9a9ed74300fe62f8923d8298b8d0910e21b37b8b5db58e41537f4fcec5b",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/finance/summary.json": "835353437c0adfc16eb170f1548162572680446b5b5d9c466ceefccc824eed17",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/operations/quelimane-operations-manifest.json": "3bb4ba157f29060294381536395dfc14dc49423154cdecb0508455420f061c17",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.toml": "5cf86a3159a799dde2cc64a71d5fe84a67896972af5583c0e6abbd4cd7bf13a5",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -137,103 +150,103 @@
   },
   "stages": [
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 2,
       "cycle_working_days": 3,
-      "direct_crew_fte": 2,
+      "direct_crew_fte": 4,
       "floor_m2_per_cell": 250.0,
       "package": "rs-10-material-kit",
       "planned_occupation_days": 4,
-      "process_floor_m2": 250.0,
-      "tooling_allowance_usd": 150000.0,
+      "process_floor_m2": 500.0,
+      "tooling_allowance_usd": 300000.0,
       "tooling_allowance_usd_per_cell": 150000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "quelimane trainset kitting"
     },
     {
-      "cells": 6,
+      "cells": 13,
       "crew_per_cell": 9,
       "cycle_working_days": 24,
-      "direct_crew_fte": 54,
+      "direct_crew_fte": 117,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 2866.5,
-      "tooling_allowance_usd": 9600000.0,
+      "process_floor_m2": 6210.75,
+      "tooling_allowance_usd": 20800000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 53.793103448275865,
+      "trainsets_per_year": 116.55172413793103,
       "work_center": "quelimane light-metro-3car structural assembly"
     },
     {
-      "cells": 3,
+      "cells": 6,
       "crew_per_cell": 4,
       "cycle_working_days": 10,
-      "direct_crew_fte": 12,
+      "direct_crew_fte": 24,
       "floor_m2_per_cell": 1200.0,
       "package": "rs-23-moulded-body-modules",
       "planned_occupation_days": 12,
-      "process_floor_m2": 3600.0,
-      "tooling_allowance_usd": 5400000.0,
+      "process_floor_m2": 7200.0,
+      "tooling_allowance_usd": 10800000.0,
       "tooling_allowance_usd_per_cell": 1800000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "quelimane light-metro-3car composite kits"
     },
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 6,
       "cycle_working_days": 2,
-      "direct_crew_fte": 6,
+      "direct_crew_fte": 12,
       "package": "rs-25-clip-on-body",
       "planned_occupation_days": 3,
-      "process_floor_m2": 477.75,
-      "tooling_allowance_usd": 300000.0,
+      "process_floor_m2": 955.5,
+      "tooling_allowance_usd": 600000.0,
       "tooling_allowance_usd_per_cell": 300000.0,
-      "trainsets_per_year": 86.66666666666666,
+      "trainsets_per_year": 173.33333333333331,
       "work_center": "quelimane light-metro-3car body installation"
     },
     {
-      "cells": 5,
+      "cells": 11,
       "crew_per_cell": 6,
       "cycle_working_days": 20,
-      "direct_crew_fte": 30,
+      "direct_crew_fte": 66,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 2388.75,
-      "tooling_allowance_usd": 5000000.0,
+      "process_floor_m2": 5255.25,
+      "tooling_allowance_usd": 11000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 54.16666666666667,
+      "trainsets_per_year": 119.16666666666666,
       "work_center": "quelimane light-metro-3car electrical integration"
     },
     {
-      "cells": 4,
+      "cells": 8,
       "crew_per_cell": 6,
       "cycle_working_days": 16,
-      "direct_crew_fte": 24,
+      "direct_crew_fte": 48,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 1911.0,
-      "tooling_allowance_usd": 3000000.0,
+      "process_floor_m2": 3822.0,
+      "tooling_allowance_usd": 6000000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 54.73684210526316,
+      "trainsets_per_year": 109.47368421052632,
       "work_center": "quelimane light-metro-3car fitout and static test"
     },
     {
-      "cells": 3,
+      "cells": 7,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 6,
+      "direct_crew_fte": 14,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 1433.25,
-      "tooling_allowance_usd": 1800000.0,
+      "process_floor_m2": 3344.25,
+      "tooling_allowance_usd": 4200000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 52.0,
+      "trainsets_per_year": 121.33333333333333,
       "work_center": "quelimane trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 740,
+  "stock_finish_working_day": 747,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 2,
-  "total_trainsets": 18,
-  "vehicle_modules": 54
+  "total_trainsets": 39,
+  "vehicle_modules": 117
 }

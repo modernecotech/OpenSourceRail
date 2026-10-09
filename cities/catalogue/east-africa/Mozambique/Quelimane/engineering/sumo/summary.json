@@ -1,29 +1,29 @@
 {
   "analysis_family": "OSR-AN-OPS-SUMO-CITY",
   "analysis_id": "OSR-AN-OPS-SUMO-CITY:quelimane",
-  "arrived_services": 4,
+  "arrived_services": 8,
   "city": "quelimane",
   "corridor_input": "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.corridor.geojson",
-  "corridor_sha256": "d08d5b8f1d58a4eafcd266f7474c47ea1bebaf74331ff3cb1692d51fd8feab87",
+  "corridor_sha256": "59bfa04f812a1003772fe7c315149ab1953178e591408bdc53220350fb96e940",
   "country": "MZ",
   "design_input": "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml",
-  "design_sha256": "c8ef86f5b4370f823c74143d3b7c5188488315bfb5167fdddce4d5afac90d2a5",
-  "generator_sha256": "42d0d8fd1bfe996440f1a98665de405ec7f99ff012be4b677c6a433dc8898bc6",
+  "design_sha256": "f315a9a9ed74300fe62f8923d8298b8d0910e21b37b8b5db58e41537f4fcec5b",
+  "generator_sha256": "e806ea3b44936de0b6095270fe0888c32ed164b4914f91d11acfa269824b751c",
   "geometry_mode": "canonical-corridor",
   "input_issues": [],
   "input_quality_passed": true,
-  "line_count": 1,
+  "line_count": 2,
   "lines": [
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 5689.786,
-      "corridor_geometry_to_declared_ratio": 0.999225,
+      "corridor_geometry_length_m": 5689.581,
+      "corridor_geometry_to_declared_ratio": 0.999189,
       "declared_length_m": 5694.2,
       "end_station_gap_m": 0.0,
       "line": "line-1",
       "maximum_speed_mps": 25.0,
-      "maximum_station_corridor_offset_m": 0.058,
-      "mean_trip_duration_s": 1040.0,
+      "maximum_station_corridor_offset_m": 0.043,
+      "mean_trip_duration_s": 684.0,
       "modeled_length_m": 5694.2,
       "rolling_stock": "light-metro-3car",
       "scheduled_services": 4,
@@ -31,30 +31,55 @@
       "station_count": 5,
       "station_ids": [
         "line-1-0373-0716-s000000",
-        "line-1-planning-infill-s001424",
-        "line-1-planning-infill-s002847",
-        "line-1-planning-infill-s004271",
+        "line-1-0394-0605-s002394",
+        "line-1-0408-0530-s004010",
+        "line-1-0420-0470-s005309",
         "line-1-0423-0452-s005694"
+      ],
+      "train_length_m": 49.5
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 5165.994,
+      "corridor_geometry_to_declared_ratio": 0.999631,
+      "declared_length_m": 5167.9,
+      "end_station_gap_m": 0.0,
+      "line": "line-2",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 1.49,
+      "mean_trip_duration_s": 520.5,
+      "modeled_length_m": 5167.9,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 4,
+      "station_ids": [
+        "line-2-0420-0470-s000000",
+        "line-2-0511-0487-s001961",
+        "line-2-0512-0562-s003469",
+        "line-2-0488-0637-s005168"
       ],
       "train_length_m": 49.5
     }
   ],
   "local_coordinate_origin": {
-    "latitude": -17.851216517294752,
-    "longitude": 36.89454104061525
+    "latitude": -17.858555137634124,
+    "longitude": 36.88768208799075
   },
   "missing_service_ids": [],
   "passed": true,
   "rolling_stock_input": "lib/templates/rolling-stock.toml",
   "rolling_stock_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
   "scenario_input": "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.toml",
-  "scenario_sha256": "86efae5c837f38a5fb2133eb16a2fa59283a825f053208e4d80d0b965d6b858f",
-  "scheduled_services": 4,
+  "scenario_sha256": "5cf86a3159a799dde2cc64a71d5fe84a67896972af5583c0e6abbd4cd7bf13a5",
+  "scheduled_services": 8,
+  "short_controlled_segments": [],
   "simulation_passed": true,
   "simulation_status": "completed",
-  "station_count": 5,
+  "station_count": 9,
   "tool": {
     "name": "SUMO",
     "version_output": "Eclipse SUMO sumo 1.27.1"
-  }
+  },
+  "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length"
 }

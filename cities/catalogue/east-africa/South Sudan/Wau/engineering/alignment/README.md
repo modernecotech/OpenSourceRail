@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`waw-line1.aln.toml`](waw-line1.aln.toml) | `line-1` | 6,626.7 m | 3 |
-| [`waw-line2.aln.toml`](waw-line2.aln.toml) | `line-2` | 6,605.3 m | 4 |
+| [`waw-line1.aln.toml`](waw-line1.aln.toml) | `line-1` | 6,626.7 m | 4 |
+| [`waw-line2.aln.toml`](waw-line2.aln.toml) | `line-2` | 6,605.3 m | 5 |
 | [`waw-line3.aln.toml`](waw-line3.aln.toml) | `line-3` | 2,032.8 m | 3 |
 
 ## Status

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8374242334594661,
+  "added_line_count": 23,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "yangon",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 32,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.46576774,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 6128225.279249191,
+    "catchments": [
+      {
+        "covered_population_2020": 5131924.356942177,
+        "fraction_of_raster_population": 0.8374242334594661,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 5200000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 330,
+    "valid_pixels": 46128
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/design.toml": "405398708cc697048f90438a7177a2afb06f6178331dde086b71a516beb14917",
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/access/population-pixels.npz.gz": "7fa6bf56ecf7eabe9de9994788f6c51fdf18dd1d83806ab68c4e867ddade58ac",
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/access/population-source.json": "9746eb07204e76451dd18c93083ea0ed0dfd5eefd6922bb7ab03006ed90d201e",
+    "cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/alignment/residential-line-expansion.json": "3cc4df66954f61dbb9e23dff98dee511c12dba01e7536aa0175f25f8167f9730",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 488,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

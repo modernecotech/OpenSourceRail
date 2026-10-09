@@ -1,8 +1,8 @@
 # Dakar route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 116
+- Lines: 14
+- Stations: 188
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

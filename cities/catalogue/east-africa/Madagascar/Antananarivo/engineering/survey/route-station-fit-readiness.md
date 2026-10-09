@@ -1,8 +1,8 @@
 # Antananarivo route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 115
+- Lines: 40
+- Stations: 429
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

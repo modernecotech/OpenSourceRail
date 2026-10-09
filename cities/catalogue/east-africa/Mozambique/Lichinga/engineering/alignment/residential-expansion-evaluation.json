@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.2974649518029929,
+  "added_line_count": 2,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "lichinga",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 4,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.17886585,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 242388.53539191931,
+    "catchments": [
+      {
+        "covered_population_2020": 72102.09399795532,
+        "fraction_of_raster_population": 0.2974649518029929,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 9,
+    "valid_pixels": 27033
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "56e5a384107617aa9f0a793063e1fc51af3f4d7a7949d4464000fce13bbced3b",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-pixels.npz.gz": "6278f6be313e6d9c3b836cb5c2eaddd5b793ba483b0fca168ddd7ea9ecdc8732",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-source.json": "f43049ef80cf05cf3efbca411af5e57dd688921c1f4918e1029051fb9d0d912c",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/residential-line-expansion.json": "759f7e9d0987278e30c480607e752b926d6a6238e36d96fd091203349870734b",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 11,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

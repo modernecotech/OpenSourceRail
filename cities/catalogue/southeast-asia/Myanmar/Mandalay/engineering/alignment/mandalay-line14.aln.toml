@@ -1,0 +1,961 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: mandalay; source line: line-14; length: 9112.8 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-14"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-metro"
+consist        = "metro-4car"
+crs            = "EPSG:32647"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "103a5429ca14cac42d1e55f96168cb93315d554315bc2c3ffbccc65ff8403eae"
+source_geojson_sha256 = "b5df264e75bc8f0630578cedfe76fda09b909f12bb1e0f5673b9cdca3cfc7b5a"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 187868.843
+northing_m          = 2422049.745
+bearing_in_deg      = 315.985
+bearing_out_deg     = 315.985
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 424.914
+easting_m           = 187574.143
+northing_m          = 2422354.751
+bearing_in_deg      = 315.985
+bearing_out_deg     = 271.127
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 444.995
+easting_m           = 187554.104
+northing_m          = 2422355.145
+bearing_in_deg      = 271.127
+bearing_out_deg     = 1.128
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 504.937
+easting_m           = 187555.282
+northing_m          = 2422414.964
+bearing_in_deg      = 1.128
+bearing_out_deg     = 45.871
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2558.601
+easting_m           = 189026.580
+northing_m          = 2423842.213
+bearing_in_deg      = 45.871
+bearing_out_deg     = 1.123
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2738.427
+easting_m           = 189030.097
+northing_m          = 2424021.668
+bearing_in_deg      = 1.123
+bearing_out_deg     = 46.262
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2766.753
+easting_m           = 189050.525
+northing_m          = 2424041.215
+bearing_in_deg      = 46.262
+bearing_out_deg     = 1.123
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2906.618
+easting_m           = 189053.261
+northing_m          = 2424180.791
+bearing_in_deg      = 1.123
+bearing_out_deg     = 46.262
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2963.269
+easting_m           = 189094.115
+northing_m          = 2424219.884
+bearing_in_deg      = 46.262
+bearing_out_deg     = 1.123
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3083.153
+easting_m           = 189096.460
+northing_m          = 2424339.521
+bearing_in_deg      = 1.123
+bearing_out_deg     = 315.987
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4102.860
+easting_m           = 188389.269
+northing_m          = 2425071.500
+bearing_in_deg      = 315.987
+bearing_out_deg     = 1.126
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6560.503
+easting_m           = 188437.492
+northing_m          = 2427524.068
+bearing_in_deg      = 1.126
+bearing_out_deg     = 316.000
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 9052.856
+easting_m           = 186709.389
+northing_m          = 2429313.549
+bearing_in_deg      = 316.000
+bearing_out_deg     = 1.134
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 9112.800
+easting_m           = 186710.573
+northing_m          = 2429373.369
+bearing_in_deg      = 1.134
+bearing_out_deg     = 1.134
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 9112.800
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 28.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 28.300
+to_station_m   = 56.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 56.600
+to_station_m   = 113.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 113.100
+to_station_m   = 198.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 198.000
+to_station_m   = 254.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 254.600
+to_station_m   = 311.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 311.100
+to_station_m   = 339.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 339.400
+to_station_m   = 424.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 424.300
+to_station_m   = 444.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 444.300
+to_station_m   = 532.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 532.500
+to_station_m   = 560.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 560.800
+to_station_m   = 589.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 589.100
+to_station_m   = 617.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 617.400
+to_station_m   = 674.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 674.000
+to_station_m   = 702.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 702.300
+to_station_m   = 730.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 730.500
+to_station_m   = 758.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 758.800
+to_station_m   = 815.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 815.400
+to_station_m   = 843.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 843.700
+to_station_m   = 872.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 872.000
+to_station_m   = 900.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 900.200
+to_station_m   = 1013.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1013.400
+to_station_m   = 1098.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1098.200
+to_station_m   = 1126.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1126.500
+to_station_m   = 1154.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1154.800
+to_station_m   = 1324.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1324.500
+to_station_m   = 1409.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1409.400
+to_station_m   = 1522.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1522.500
+to_station_m   = 1579.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1579.100
+to_station_m   = 1607.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1607.400
+to_station_m   = 1635.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1635.600
+to_station_m   = 1692.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1692.200
+to_station_m   = 1748.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1748.800
+to_station_m   = 1805.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1805.300
+to_station_m   = 1853.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1853.600
+to_station_m   = 1910.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1910.200
+to_station_m   = 2051.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2051.600
+to_station_m   = 2164.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2164.800
+to_station_m   = 2193.000
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2193.000
+to_station_m   = 2277.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2277.900
+to_station_m   = 2306.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2306.200
+to_station_m   = 2334.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2334.500
+to_station_m   = 2362.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2362.700
+to_station_m   = 2419.300
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2419.300
+to_station_m   = 2504.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2504.200
+to_station_m   = 2532.400
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2532.400
+to_station_m   = 2640.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2640.700
+to_station_m   = 2660.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2660.700
+to_station_m   = 2769.000
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2769.000
+to_station_m   = 2829.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2829.000
+to_station_m   = 2849.000
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2849.000
+to_station_m   = 2869.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2869.000
+to_station_m   = 2889.000
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2889.000
+to_station_m   = 2909.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2909.000
+to_station_m   = 2937.300
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2937.300
+to_station_m   = 2965.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2965.600
+to_station_m   = 2985.600
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2985.600
+to_station_m   = 3025.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3025.600
+to_station_m   = 3065.600
+class          = "bridge"
+
+[[civil]]
+from_station_m = 3065.600
+to_station_m   = 3142.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3142.200
+to_station_m   = 3198.700
+class          = "bridge"
+
+[[civil]]
+from_station_m = 3198.700
+to_station_m   = 3227.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3227.000
+to_station_m   = 3283.600
+class          = "bridge"
+
+[[civil]]
+from_station_m = 3283.600
+to_station_m   = 3311.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3311.900
+to_station_m   = 3368.400
+class          = "bridge"
+
+[[civil]]
+from_station_m = 3368.400
+to_station_m   = 3396.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3396.700
+to_station_m   = 3481.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3481.600
+to_station_m   = 3651.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3651.300
+to_station_m   = 3679.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3679.600
+to_station_m   = 3877.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3877.500
+to_station_m   = 3905.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3905.800
+to_station_m   = 3962.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3962.400
+to_station_m   = 4047.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4047.200
+to_station_m   = 4075.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4075.500
+to_station_m   = 4103.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4103.800
+to_station_m   = 4163.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4163.800
+to_station_m   = 4183.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4183.800
+to_station_m   = 4303.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4303.800
+to_station_m   = 4343.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4343.800
+to_station_m   = 4363.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4363.800
+to_station_m   = 4603.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4603.800
+to_station_m   = 4623.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4623.800
+to_station_m   = 4643.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4643.800
+to_station_m   = 4663.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4663.800
+to_station_m   = 4703.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4703.800
+to_station_m   = 4723.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4723.800
+to_station_m   = 4743.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4743.800
+to_station_m   = 4763.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4763.800
+to_station_m   = 4783.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4783.800
+to_station_m   = 4883.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4883.800
+to_station_m   = 4963.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4963.800
+to_station_m   = 4983.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4983.800
+to_station_m   = 5083.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5083.800
+to_station_m   = 5103.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5103.800
+to_station_m   = 5143.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5143.800
+to_station_m   = 5163.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5163.800
+to_station_m   = 5243.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5243.800
+to_station_m   = 5263.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5263.800
+to_station_m   = 5303.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5303.800
+to_station_m   = 5323.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5323.800
+to_station_m   = 5383.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5383.800
+to_station_m   = 5403.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5403.800
+to_station_m   = 5443.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5443.800
+to_station_m   = 5463.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5463.800
+to_station_m   = 5483.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5483.800
+to_station_m   = 5503.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5503.800
+to_station_m   = 5683.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5683.800
+to_station_m   = 5703.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5703.800
+to_station_m   = 5863.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5863.800
+to_station_m   = 5903.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5903.800
+to_station_m   = 5923.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5923.800
+to_station_m   = 6003.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6003.800
+to_station_m   = 6203.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6203.800
+to_station_m   = 6223.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6223.800
+to_station_m   = 6263.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6263.800
+to_station_m   = 6283.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6283.800
+to_station_m   = 6383.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6383.800
+to_station_m   = 6403.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6403.800
+to_station_m   = 6846.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6846.700
+to_station_m   = 6874.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6874.900
+to_station_m   = 7072.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7072.900
+to_station_m   = 7101.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7101.200
+to_station_m   = 7129.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7129.500
+to_station_m   = 7157.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7157.800
+to_station_m   = 7186.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7186.100
+to_station_m   = 7270.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7270.900
+to_station_m   = 7666.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7666.900
+to_station_m   = 7695.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7695.200
+to_station_m   = 7723.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7723.500
+to_station_m   = 7751.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7751.800
+to_station_m   = 7893.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7893.200
+to_station_m   = 7921.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7921.500
+to_station_m   = 7978.000
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7978.000
+to_station_m   = 8062.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8062.900
+to_station_m   = 8204.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8204.300
+to_station_m   = 8260.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8260.900
+to_station_m   = 8515.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8515.400
+to_station_m   = 8572.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8572.000
+to_station_m   = 8600.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8600.300
+to_station_m   = 8628.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8628.600
+to_station_m   = 8656.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8656.900
+to_station_m   = 8685.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8685.100
+to_station_m   = 8713.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8713.400
+to_station_m   = 8826.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8826.600
+to_station_m   = 8854.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8854.800
+to_station_m   = 8883.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 8883.100
+to_station_m   = 8996.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 8996.300
+to_station_m   = 9024.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9024.500
+to_station_m   = 9052.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 9052.800
+to_station_m   = 9072.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9072.800
+to_station_m   = 9092.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 9092.800
+to_station_m   = 9112.800
+class          = "elevated"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-14-1528-0153-s000000"
+station_m         = 0.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-14-1491-0156-s001042"
+station_m         = 1041.700
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-14-1412-0212-s003086"
+station_m         = 3085.600
+platform_length_m = 81.000
+
+[[station]]
+id                = "line-14-1337-0176-s004884"
+station_m         = 4883.800
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-14-1231-0154-s007186"
+station_m         = 7186.100
+platform_length_m = 81.000
+
+[[station]]
+id                = "line-14-1162-0088-s009113"
+station_m         = 9112.800
+platform_length_m = 85.000
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

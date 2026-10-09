@@ -1,7 +1,7 @@
 # Sumbawanga drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 3 / 8
+- Lines/stations: 6 / 20
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

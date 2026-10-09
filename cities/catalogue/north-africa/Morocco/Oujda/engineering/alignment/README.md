@@ -5,8 +5,10 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`oujda-line1.aln.toml`](oujda-line1.aln.toml) | `line-1` | 10,425.0 m | 6 |
-| [`oujda-line2.aln.toml`](oujda-line2.aln.toml) | `line-2` | 8,551.4 m | 5 |
-| [`oujda-line3.aln.toml`](oujda-line3.aln.toml) | `line-3` | 7,954.1 m | 4 |
+| [`oujda-line2.aln.toml`](oujda-line2.aln.toml) | `line-2` | 8,551.4 m | 6 |
+| [`oujda-line3.aln.toml`](oujda-line3.aln.toml) | `line-3` | 7,954.1 m | 6 |
+| [`oujda-line4.aln.toml`](oujda-line4.aln.toml) | `line-4` | 4,061.9 m | 3 |
+| [`oujda-line5.aln.toml`](oujda-line5.aln.toml) | `line-5` | 6,657.5 m | 5 |
 
 ## Status
 

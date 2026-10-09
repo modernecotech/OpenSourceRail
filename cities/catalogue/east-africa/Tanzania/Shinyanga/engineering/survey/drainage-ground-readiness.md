@@ -1,7 +1,7 @@
 # Shinyanga drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 3 / 12
+- Lines/stations: 9 / 42
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

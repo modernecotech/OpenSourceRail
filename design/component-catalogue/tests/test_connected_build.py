@@ -245,7 +245,9 @@ def test_generated_connected_package_has_revision_assumptions_and_hashes():
     assert 2*len(ordinary)==spans['quantities']['pi20_beams']+spans['quantities']['pi25_beams']
     assert all(s['quantity'] is None and not s['component_ids'] for s in spans['spans'] if not s['beam_variant'])
     transfers=json.loads((folder/'erp-drafts.json').read_text())['conditional_baghdad_reassignments']
-    assert len(transfers)==6 and all(not t['allocation_approved'] for t in transfers)
+    assert len(transfers)>=2*len(civil['lines'])-18
+    assert len({t['asset'] for t in transfers})==18
+    assert all(not t['allocation_approved'] for t in transfers)
     from datetime import date
     assert all((date.fromisoformat(t['destination_start'])-date.fromisoformat(t['source_finish'])).days>=t['transfer_days'] for t in transfers)
 

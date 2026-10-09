@@ -3,7 +3,7 @@
 This page contains only Egypt-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$21.50 B (88.5%) of external capital** and **$26.43 B of external interest**. Capital plus saved interest totals **$47.94 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$42.82 B (88.4%) of external capital** and **$52.64 B of external interest**. Capital plus saved interest totals **$95.46 B**.
 
 ## National Programme
 
@@ -11,64 +11,64 @@ This page contains only Egypt-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 19 |
 | Represented population | 10,600,000 |
-| Trainsets / vehicle modules | 2,398 / 7,040 |
-| City infrastructure and fleet CAPEX | $12.81 B |
-| Shared national factory | $640.9 M |
-| Factory sizing basis | 654 modules for Tanta, then reused nationally |
-| **Total national programme** | **$13.49 B** |
+| Trainsets / vehicle modules | 4,936 / 14,532 |
+| City infrastructure and fleet CAPEX | $25.97 B |
+| Shared national factory | $863.1 M |
+| Factory sizing basis | 1,470 modules for Tanta, then reused nationally |
+| **Total national programme** | **$26.89 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $2.78 B (20.6%) |
-| Domestic / local capital | $10.71 B (79.4%) |
-| Annual external capital draw | $556.9 M / yr |
-| Annual local capital draw | $2.14 B / yr |
-| Annual public construction commitment | $1.45 B / yr for 5 years |
-| Annual post-grace debt service | $1.09 B / yr |
-| Default foreign-turnkey external capital | $24.29 B |
-| External capital saved | $21.50 B |
-| Capital + lifetime external interest saved | $47.94 B |
+| Imported / external capital | $5.59 B (20.8%) |
+| Domestic / local capital | $21.30 B (79.2%) |
+| Annual external capital draw | $1.12 B / yr |
+| Annual local capital draw | $4.26 B / yr |
+| Annual public construction commitment | $2.89 B / yr for 5 years |
+| Annual post-grace debt service | $2.17 B / yr |
+| Default foreign-turnkey external capital | $48.41 B |
+| External capital saved | $42.82 B |
+| Capital + lifetime external interest saved | $95.46 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $7.04 B | $1.06 B | $5.98 B |
-| Stations | $1.39 B | $278.7 M | $1.11 B |
-| Depots | $996.1 M | $249.0 M | $747.1 M |
-| Rolling stock | $2.11 B | $737.0 M | $1.37 B |
-| Dedicated solar plants | $384.5 M | $173.0 M | $211.5 M |
-| Residual train control | $39.0 M | $19.5 M | $19.5 M |
-| Charging microgrids | $37.5 M | $15.0 M | $22.5 M |
-| EPC / project services | $857.5 M | $128.6 M | $728.9 M |
-| Shared national trainset factory | $640.9 M | $128.2 M | $512.7 M |
-| **Total** | **$13.49 B** | **$2.78 B** | **$10.71 B** |
+| Civil works | $12.34 B | $1.85 B | $10.49 B |
+| Stations | $4.43 B | $886.3 M | $3.55 B |
+| Depots | $2.63 B | $658.3 M | $1.98 B |
+| Rolling stock | $4.35 B | $1.52 B | $2.83 B |
+| Dedicated solar plants | $362.2 M | $163.0 M | $199.2 M |
+| Residual train control | $70.9 M | $35.5 M | $35.5 M |
+| Charging microgrids | $107.6 M | $43.0 M | $64.6 M |
+| EPC / project services | $1.74 B | $260.4 M | $1.48 B |
+| Shared national trainset factory | $863.1 M | $172.6 M | $690.5 M |
+| **Total** | **$26.89 B** | **$5.59 B** | **$21.30 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Mansoura Eg](Mansoura-Eg/README.md) | 1,000,000 | 141 | $778.7 M | $159.8 M | $618.9 M |
-| [Port Said](Port-Said/README.md) | 800,000 | 65 | $403.4 M | $81.1 M | $322.3 M |
-| [Suez](Suez/README.md) | 800,000 | 172 | $867.4 M | $182.6 M | $684.8 M |
-| [Tanta](Tanta/README.md) | 750,000 | 218 | $1.03 B | $222.0 M | $810.3 M |
-| [Ismailia](Ismailia/README.md) | 700,000 | 141 | $798.3 M | $164.3 M | $633.9 M |
-| [Zagazig](Zagazig/README.md) | 700,000 | 118 | $615.7 M | $128.5 M | $487.2 M |
-| [Asyut](Asyut/README.md) | 600,000 | 148 | $694.1 M | $148.5 M | $545.6 M |
-| [Mahalla](Mahalla/README.md) | 600,000 | 107 | $543.7 M | $114.3 M | $429.4 M |
-| [Minya](Minya/README.md) | 600,000 | 129 | $691.6 M | $143.3 M | $548.3 M |
-| [Sohag](Sohag/README.md) | 550,000 | 110 | $573.0 M | $118.8 M | $454.2 M |
-| [Damanhur](Damanhur/README.md) | 500,000 | 132 | $668.3 M | $140.4 M | $527.9 M |
-| [Fayoum](Fayoum/README.md) | 500,000 | 190 | $945.2 M | $200.0 M | $745.2 M |
-| [Luxor](Luxor/README.md) | 500,000 | 139 | $753.1 M | $155.6 M | $597.6 M |
-| [Damietta](Damietta/README.md) | 400,000 | 208 | $1.01 B | $216.7 M | $797.8 M |
-| [Beni Suef](Beni-Suef/README.md) | 350,000 | 95 | $558.6 M | $113.4 M | $445.2 M |
-| [Qena](Qena/README.md) | 350,000 | 131 | $814.7 M | $162.6 M | $652.1 M |
-| [Arish](Arish/README.md) | 300,000 | 26 | $162.7 M | $31.4 M | $131.4 M |
-| [Hurghada](Hurghada/README.md) | 300,000 | 72 | $481.7 M | $90.7 M | $391.0 M |
-| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 56 | $409.3 M | $75.8 M | $333.5 M |
+| [Mansoura Eg](Mansoura-Eg/README.md) | 1,000,000 | 316 | $1.63 B | $341.2 M | $1.29 B |
+| [Port Said](Port-Said/README.md) | 800,000 | 78 | $481.4 M | $97.1 M | $384.3 M |
+| [Suez](Suez/README.md) | 800,000 | 241 | $1.23 B | $257.5 M | $969.7 M |
+| [Tanta](Tanta/README.md) | 750,000 | 490 | $2.34 B | $505.5 M | $1.84 B |
+| [Ismailia](Ismailia/README.md) | 700,000 | 270 | $1.42 B | $297.5 M | $1.12 B |
+| [Zagazig](Zagazig/README.md) | 700,000 | 255 | $1.33 B | $278.1 M | $1.05 B |
+| [Asyut](Asyut/README.md) | 600,000 | 321 | $1.59 B | $336.4 M | $1.25 B |
+| [Mahalla](Mahalla/README.md) | 600,000 | 241 | $1.28 B | $266.7 M | $1.01 B |
+| [Minya](Minya/README.md) | 600,000 | 282 | $1.47 B | $305.9 M | $1.17 B |
+| [Sohag](Sohag/README.md) | 550,000 | 247 | $1.23 B | $258.5 M | $975.8 M |
+| [Damanhur](Damanhur/README.md) | 500,000 | 304 | $1.53 B | $323.4 M | $1.21 B |
+| [Fayoum](Fayoum/README.md) | 500,000 | 433 | $2.01 B | $434.9 M | $1.58 B |
+| [Luxor](Luxor/README.md) | 500,000 | 312 | $1.77 B | $362.6 M | $1.40 B |
+| [Damietta](Damietta/README.md) | 400,000 | 421 | $2.22 B | $468.3 M | $1.75 B |
+| [Beni Suef](Beni-Suef/README.md) | 350,000 | 202 | $1.07 B | $223.0 M | $850.6 M |
+| [Qena](Qena/README.md) | 350,000 | 247 | $1.61 B | $321.0 M | $1.29 B |
+| [Arish](Arish/README.md) | 300,000 | 53 | $330.4 M | $64.3 M | $266.0 M |
+| [Hurghada](Hurghada/README.md) | 300,000 | 91 | $590.6 M | $111.8 M | $478.9 M |
+| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 132 | $811.3 M | $156.9 M | $654.4 M |
 
 ## Local Basis And Regeneration
 
@@ -77,3 +77,32 @@ Country finance parameters use `EG` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [Arish](Arish/README.md) | 4 | 2 | 28.5% | 61.2% |
+| [Asyut](Asyut/README.md) | 10 | 7 | 29.9% | 71.1% |
+| [Beni Suef](Beni-Suef/README.md) | 7 | 4 | 28.3% | 54.4% |
+| [Damanhur](Damanhur/README.md) | 11 | 8 | 39.5% | 65.3% |
+| [Damietta](Damietta/README.md) | 11 | 8 | 37.3% | 84.8% |
+| [Fayoum](Fayoum/README.md) | 13 | 10 | 31.7% | 71.8% |
+| [Hurghada](Hurghada/README.md) | 4 | 1 | 65.1% | 74.4% |
+| [Ismailia](Ismailia/README.md) | 9 | 6 | 48.0% | 81.4% |
+| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 8 | 5 | 45.7% | 77.3% |
+| [Luxor](Luxor/README.md) | 12 | 9 | 32.5% | 79.8% |
+| [Mahalla](Mahalla/README.md) | 8 | 5 | 26.9% | 60.2% |
+| [Mansoura Eg](Mansoura-Eg/README.md) | 11 | 8 | 25.7% | 62.1% |
+| [Minya](Minya/README.md) | 9 | 6 | 14.1% | 61.9% |
+| [Port Said](Port-Said/README.md) | 4 | 1 | 53.9% | 75.5% |
+| [Qena](Qena/README.md) | 10 | 7 | 32.5% | 81.6% |
+| [Sohag](Sohag/README.md) | 8 | 5 | 23.7% | 52.6% |
+| [Suez](Suez/README.md) | 6 | 3 | 47.5% | 79.5% |
+| [Tanta](Tanta/README.md) | 12 | 9 | 36.6% | 73.0% |
+| [Zagazig](Zagazig/README.md) | 9 | 6 | 36.2% | 62.1% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

@@ -1,7 +1,7 @@
 # Malanje drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 2 / 10
+- Lines/stations: 5 / 22
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

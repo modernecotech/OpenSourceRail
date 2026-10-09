@@ -669,7 +669,7 @@ The [detailed engineering plan](DETAILED-ENGINEERING.md) and [component register
 
 The following proposal annex prints every station, interchange, fleet role, energy site and the complete cost priority six month draw/repayment schedule. Civil segment chainages and junction details are in the attached registers and design. Full monthly and alternative case ledgers remain in the supporting archive and repository. Technical annexes reproduce the city survey, ground, alignment, depot, stabling, delivery, deployment, finance and acceptance reports, followed by the current shared architecture and engineering references.
 
-[Source inventory](source-inventory.csv) and [publication manifest](manifest.json) identify exact inputs and outputs. [Supporting data archive](Baghdad-Proposal-Supporting-Data.zip) includes the controlled files and complete operations payload. Text evidence uses ZIP LZMA; extract with the repository's Python bootstrap or an archive reader supporting ZIP LZMA. The editable proposal, PDF and appendix source list can be regenerated with the repository's proposal builder.
+[Source inventory](source-inventory.csv) and [publication manifest](manifest.json) identify exact inputs and outputs. The supporting data archive set begins with [part 1](Baghdad-Proposal-Supporting-Data.zip); download every part listed in [the publication manifest](manifest.json) to obtain the controlled files and complete operations payload. Text evidence uses ZIP LZMA; extract with the repository's Python bootstrap or an archive reader supporting ZIP LZMA. The editable proposal, PDF and appendix source list can be regenerated with the repository's proposal builder.
 
 External instrument and historical sources are retained from the financing baseline. Source retrieval attempts on 3 October 2026 for China Exim, the GCF Iraq page and the NIC notice returned a timeout or access denial; this proposal does not claim a new source verification or a new lending commitment. Detailed financing reports retain the original source URLs and their stated evidence limits.
 '''
@@ -807,6 +807,7 @@ def source_inputs():
     paths.update((ROOT/'lib/templates').glob('*.toml'))
     paths.add(CITY/'corridors.json')
     paths.update([CITY/'publication-manifest.json',ROOT/'tools/automation/publish-city-summary.py',
+        ROOT/'tools/automation/proposal_archives.py',ROOT/'tools/automation/bootstrap_baghdad_tests.py',
         ROOT/'tools/automation/rework-baghdad-alignment.py',ROOT/'tools/automation/render-baghdad-alignment-review.py',
         ROOT/'tools/automation/regenerate-baghdad-studies.py',ROOT/'tools/automation/regenerate-city.sh'])
     paths.update((ROOT/'crates/osr-design/src').glob('*.rs'))

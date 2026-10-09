@@ -12,8 +12,8 @@ Mapped nearby footprints: **52**; source heights: **0**. Building source: retain
 | Reference support/foundation | foundation-setback-conflict | 18 |
 | Reference support/foundation | mapped-footprints-only-clear | 5,699 |
 | Terrain | beam-terrain-collision | 1 |
-| Terrain | reference-gradient-exceeded | 3,450 |
-| Terrain | reference-gradient-within-policy | 2,148 |
+| Terrain | reference-gradient-exceeded | 3,448 |
+| Terrain | reference-gradient-within-policy | 2,150 |
 | Unresolved geometry/input | boundary-span-layout-unresolved | 189 |
 | Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 95 |
 

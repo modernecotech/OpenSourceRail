@@ -1,8 +1,8 @@
 # Douala route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 69
+- Lines: 33
+- Stations: 284
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

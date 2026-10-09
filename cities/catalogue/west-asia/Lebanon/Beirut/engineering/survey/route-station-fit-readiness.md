@@ -1,8 +1,8 @@
 # Beirut route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 56
+- Lines: 8
+- Stations: 89
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

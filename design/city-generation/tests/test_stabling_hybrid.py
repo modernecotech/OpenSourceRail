@@ -84,7 +84,8 @@ def test_samawah_native_candidate_uses_local_storage_without_new_line_connection
     assert result['lines'] == doc['lines']
     assert result['sites'] == doc['sites']
     assert sum(s.get('depot_stabling_positions', 0) for s in result['stations']) == allocation['depot_trainsets']
-    assert sum(s.get('is_depot', False) for s in result['stations']) == 3
+    assert {s['id'] for s in result['stations'] if s.get('is_depot',False)} == {
+        s['id'] for s in doc['stations'] if s.get('is_depot',False)}
 
 
 def test_connected_native_candidate_preserves_service_energy_and_inventory():

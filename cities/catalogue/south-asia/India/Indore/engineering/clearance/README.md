@@ -2,20 +2,20 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **6,275**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **6,285**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 2 |
-| Beam/building | height-unresolved | 4,937 |
-| Beam/building | product-depth-unresolved | 331 |
-| Reference support/foundation | foundation-footprint-conflict | 1,830 |
-| Reference support/foundation | foundation-setback-conflict | 359 |
-| Reference support/foundation | mapped-footprints-only-clear | 9,163 |
-| Terrain | reference-gradient-exceeded | 5,252 |
-| Terrain | reference-gradient-within-policy | 5,727 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 372 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 191 |
+| Beam/building | height-unresolved | 4,944 |
+| Beam/building | product-depth-unresolved | 334 |
+| Reference support/foundation | foundation-footprint-conflict | 1,837 |
+| Reference support/foundation | foundation-setback-conflict | 363 |
+| Reference support/foundation | mapped-footprints-only-clear | 9,138 |
+| Terrain | reference-gradient-exceeded | 5,248 |
+| Terrain | reference-gradient-within-policy | 5,724 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 365 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 187 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

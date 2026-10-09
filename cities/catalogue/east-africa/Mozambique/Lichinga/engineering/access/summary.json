@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.47,
+    "high_demand_cell_fraction": 0.655,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 242388.53539191931,
     "catchments": [
       {
-        "covered_population_2020": 12804.090662956238,
-        "fraction_of_raster_population": 0.052824654607748815,
+        "covered_population_2020": 22218.62401485443,
+        "fraction_of_raster_population": 0.09166532558534181,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 30103.4692401886,
-        "fraction_of_raster_population": 0.12419510349990003,
+        "covered_population_2020": 52502.51326370239,
+        "fraction_of_raster_population": 0.21660477125624278,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 43355.03047180176,
-        "fraction_of_raster_population": 0.17886584611644596,
+        "covered_population_2020": 72102.09399795532,
+        "fraction_of_raster_population": 0.2974649518029929,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 75412.80137443542,
-        "fraction_of_raster_population": 0.3111236315385134,
+        "covered_population_2020": 105518.3525314331,
+        "fraction_of_raster_population": 0.435327324210363,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 100416.47101354599,
-        "fraction_of_raster_population": 0.4142789627041645,
+        "covered_population_2020": 131275.01314401627,
+        "fraction_of_raster_population": 0.5415892007093364,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 5,
+    "unique_station_coordinates": 9,
     "valid_pixels": 27033
   },
   "population_source_country": "MZ",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "e1eceabd0f1e960ccbcec86eff103369e29ae4223935902a879bd70d8f9f669c",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/design.toml": "56e5a384107617aa9f0a793063e1fc51af3f4d7a7949d4464000fce13bbced3b",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-pixels.npz.gz": "6278f6be313e6d9c3b836cb5c2eaddd5b793ba483b0fca168ddd7ea9ecdc8732",
     "cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/population-source.json": "f43049ef80cf05cf3efbca411af5e57dd688921c1f4918e1029051fb9d0d912c",
-    "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.design-quality.yaml": "7bd0b8c918aabd8659a080ae3fb0e0ba89bef74a434a7169cb3d8a3fde7d5fcc",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.design-quality.yaml": "6f050723f51d95fd247e0d83763483981a2b890bf851ff471d0099acad380a44",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -107,10 +107,10 @@
         "property and operating approval"
       ],
       "stations": [
-        "line-1-0266-0473-s002148",
+        "line-1-0278-0474-s002408",
         "line-2-0306-0456-s002825"
       ],
-      "straight_distance_m": 869.529,
+      "straight_distance_m": 665.793,
       "transfer_created": false,
       "walk_time_minutes": null
     }
@@ -119,16 +119,18 @@
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
-        "line-1"
+        "line-1",
+        "line-4"
       ],
       [
-        "line-2"
+        "line-2",
+        "line-3"
       ]
     ],
-    "direct_transfer_fraction": 0.0,
-    "line_count": 2,
-    "line_pair_count": 1,
-    "maximum_required_transfers": 0,
+    "direct_transfer_fraction": 0.3333333333333333,
+    "line_count": 4,
+    "line_pair_count": 6,
+    "maximum_required_transfers": 1,
     "pairs": [
       {
         "lines": [
@@ -136,9 +138,44 @@
           "line-2"
         ],
         "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": null
       }
     ],
-    "reachable_line_pair_fraction": 0.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.0
+    "reachable_line_pair_fraction": 0.3333333333333333,
+    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
   }
 }

@@ -8,14 +8,14 @@
       "city": "madurai",
       "city_centre_cluster_envelope_m": 600.0,
       "city_centre_radius_m": 3000.0,
-      "design_sha256": "2bd3fad55deea0acc6ef79111ce887f7814cfe6285705d24139249fb67429c3d",
+      "design_sha256": "e261eb6e4966f580da0db8d10030f55feb4b6453078947d7c998e37bd2094429",
       "failures": [],
-      "generator_sha256": "2ca414423f47b3334ca3895460c1c71ea68d800e1b5b9a02d4bda4b0894336f6",
-      "interchange_count": 12,
+      "generator_sha256": "86b50622e6dbd857fcc37a74c0e527f69079558fd645a6f95d5690a833787110",
+      "interchange_count": 16,
       "minimum_inline_chainage_m": 1180.0,
       "passed": true,
       "preferred_inline_chainage_m": 1200.0,
-      "review_finding_count": 20,
+      "review_finding_count": 23,
       "review_findings": [
         {
           "chainage_gap_m": 1169.7,
@@ -63,6 +63,16 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 575.3,
+          "first_line": "line-1",
+          "first_station": "line-1-0790-0962-s012881",
+          "second_line": "line-3",
+          "second_station": "line-3-0800-0935-s008657",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 213.1,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 60.0,
@@ -88,6 +98,26 @@
           "line": "line-1",
           "second_station": "line-1-0800-0935-s013992",
           "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 575.3,
+          "first_line": "line-1",
+          "first_station": "line-1-0800-0935-s013992",
+          "second_line": "line-5",
+          "second_station": "line-5-0790-0962-s021049",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 575.3,
+          "first_line": "line-3",
+          "first_station": "line-3-0800-0935-s008657",
+          "second_line": "line-5",
+          "second_station": "line-5-0790-0962-s021049",
+          "severity": "review",
+          "walking_path_accepted": false
         },
         {
           "chainage_gap_m": 68.3,
@@ -202,5 +232,5 @@
       "transfer_envelope_m": 600.0
     }
   ],
-  "review_finding_count": 20
+  "review_finding_count": 23
 }

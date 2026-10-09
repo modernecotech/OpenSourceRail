@@ -14,8 +14,8 @@ crs            = "EPSG:32616"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "010869d3a7bcd8e22b2d4a0b4ff85685f5940829eb1a9a938271a6ca40b7fc76"
-source_geojson_sha256 = "992c7af3ad93d8920f3c3116c254884b0397f340c860c57458ee0fdd6a71a067"
+source_design_sha256 = "387bd9f33cfa5d547a26b9eafc745d800603f389483a888f8cf2ff392209b439"
+source_geojson_sha256 = "53bbef1368841af1df34ad3c6892861e6b899dd40aae721778124f2ae6a7fcec"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -3366,16 +3366,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 3424.508
-to_station_m   = 3472.792
+to_station_m   = 3472.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3472.792
-to_station_m   = 3521.076
+from_station_m = 3472.800
+to_station_m   = 3521.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3521.076
+from_station_m = 3521.100
 to_station_m   = 4217.100
 class          = "elevated"
 
@@ -3481,6 +3481,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 29230.900
+to_station_m   = 30753.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 30753.800
+to_station_m   = 31773.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 31773.800
 to_station_m   = 33026.300
 class          = "at-grade"
 
@@ -3492,28 +3502,48 @@ station_m         = 0.000
 platform_length_m = 85.000
 
 [[station]]
+id                = "line-2-0218-0992-s000421"
+station_m         = 421.400
+platform_length_m = 85.000
+
+[[station]]
 id                = "line-2-0268-0936-s002085"
 station_m         = 2084.500
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0347-0927-s004064"
-station_m         = 4063.900
+id                = "line-2-0344-0928-s003996"
+station_m         = 3995.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0424-0881-s006032"
-station_m         = 6031.900
+id                = "line-2-0393-0900-s005231"
+station_m         = 5231.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-0547-0808-s009214"
-station_m         = 9213.800
+id                = "line-2-0469-0854-s007191"
+station_m         = 7190.700
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-2-0540-0812-s009029"
+station_m         = 9028.900
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-2-0613-0769-s010892"
+station_m         = 10892.000
 platform_length_m = 85.000
 
 [[station]]
 id                = "line-2-0687-0724-s012839"
 station_m         = 12838.500
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-2-0712-0709-s013474"
+station_m         = 13474.500
 platform_length_m = 85.000
 
 [[station]]
@@ -3532,14 +3562,34 @@ station_m         = 20492.900
 platform_length_m = 85.000
 
 [[station]]
+id                = "line-2-1052-0507-s022311"
+station_m         = 22311.100
+platform_length_m = 85.000
+
+[[station]]
 id                = "line-2-1123-0465-s024138"
 station_m         = 24137.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-2-1296-0362-s028580"
-station_m         = 28579.800
+id                = "line-2-1211-0413-s026399"
+station_m         = 26398.700
 platform_length_m = 81.000
+
+[[station]]
+id                = "line-2-1273-0376-s028004"
+station_m         = 28003.800
+platform_length_m = 81.000
+
+[[station]]
+id                = "line-2-1336-0347-s029591"
+station_m         = 29590.900
+platform_length_m = 81.000
+
+[[station]]
+id                = "line-2-1397-0344-s031194"
+station_m         = 31193.800
+platform_length_m = 85.000
 
 [[station]]
 id                = "line-2-1460-0306-s033026"

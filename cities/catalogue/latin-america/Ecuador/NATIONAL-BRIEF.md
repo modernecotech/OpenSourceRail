@@ -3,7 +3,7 @@
 This page contains only Ecuador-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$2.40 B (88.4%) of external capital** and **$2.95 B of external interest**. Capital plus saved interest totals **$5.35 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$4.52 B (88.5%) of external capital** and **$5.56 B of external interest**. Capital plus saved interest totals **$10.08 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Ecuador-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 817,100 |
-| Trainsets / vehicle modules | 188 / 564 |
-| City infrastructure and fleet CAPEX | $910.0 M |
-| Shared national factory | $559.9 M |
-| Factory sizing basis | 564 modules for Cuenca, then reused nationally |
-| **Total national programme** | **$1.51 B** |
+| Trainsets / vehicle modules | 375 / 1,125 |
+| City infrastructure and fleet CAPEX | $1.92 B |
+| Shared national factory | $863.1 M |
+| Factory sizing basis | 1,125 modules for Cuenca, then reused nationally |
+| **Total national programme** | **$2.84 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $315.4 M (20.9%) |
-| Domestic / local capital | $1.19 B (79.1%) |
-| Annual external capital draw | $63.1 M / yr |
-| Annual local capital draw | $238.7 M / yr |
-| Annual public construction commitment | $152.7 M / yr for 5 years |
-| Annual post-grace debt service | $112.7 M / yr |
-| Default foreign-turnkey external capital | $2.72 B |
-| External capital saved | $2.40 B |
-| Capital + lifetime external interest saved | $5.35 B |
+| Imported / external capital | $589.4 M (20.8%) |
+| Domestic / local capital | $2.25 B (79.2%) |
+| Annual external capital draw | $117.9 M / yr |
+| Annual local capital draw | $450.2 M / yr |
+| Annual public construction commitment | $287.6 M / yr for 5 years |
+| Annual post-grace debt service | $212.3 M / yr |
+| Default foreign-turnkey external capital | $5.11 B |
+| External capital saved | $4.52 B |
+| Capital + lifetime external interest saved | $10.08 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $484.3 M | $72.6 M | $411.7 M |
-| Stations | $81.9 M | $16.4 M | $65.5 M |
-| Depots | $62.3 M | $15.6 M | $46.7 M |
-| Rolling stock | $169.2 M | $59.2 M | $110.0 M |
-| Dedicated solar plants | $51.2 M | $23.0 M | $28.1 M |
-| Residual train control | $3.0 M | $1.5 M | $1.5 M |
-| Charging microgrids | $1.9 M | $780 k | $1.2 M |
-| EPC / project services | $95.4 M | $14.3 M | $81.1 M |
-| Shared national trainset factory | $559.9 M | $112.0 M | $447.9 M |
-| **Total** | **$1.51 B** | **$315.4 M** | **$1.19 B** |
+| Civil works | $945.4 M | $141.8 M | $803.6 M |
+| Stations | $258.5 M | $51.7 M | $206.8 M |
+| Depots | $182.2 M | $45.5 M | $136.6 M |
+| Rolling stock | $337.5 M | $118.1 M | $219.4 M |
+| Dedicated solar plants | $61.3 M | $27.6 M | $33.7 M |
+| Residual train control | $5.3 M | $2.7 M | $2.7 M |
+| Charging microgrids | $5.2 M | $2.1 M | $3.1 M |
+| EPC / project services | $181.8 M | $27.3 M | $154.5 M |
+| Shared national trainset factory | $863.1 M | $172.6 M | $690.5 M |
+| **Total** | **$2.84 B** | **$589.4 M** | **$2.25 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Cuenca](Cuenca/README.md) | 817,100 | 188 | $910.0 M | $197.5 M | $712.4 M |
+| [Cuenca](Cuenca/README.md) | 817,100 | 375 | $1.92 B | $407.7 M | $1.51 B |
 
 ## Local Basis And Regeneration
 
@@ -59,3 +59,14 @@ Country finance parameters use `EC` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [Cuenca](Cuenca/README.md) | 11 | 8 | 34.0% | 78.8% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

@@ -1,7 +1,7 @@
 # Dammam drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 6 / 107
+- Lines/stations: 31 / 302
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

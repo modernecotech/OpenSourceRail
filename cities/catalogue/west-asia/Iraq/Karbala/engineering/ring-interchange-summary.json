@@ -6,15 +6,41 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "karbala",
-      "corridor_sha256": "56d9389f6c06d89bd089187a4280e2d67d28236c60f1b1af0f69087339fc2137",
-      "design_sha256": "d0d6016da9549c2bdf8bbe12df228d441e550c481d0ccca97dfaa324d3af061f",
+      "corridor_sha256": "03f6ce234b85327628965605174d76d9595936894c5fd9ed8546ce75be191276",
+      "design_sha256": "c7ff79c1c7c47e021c0a78322539c168d360e9eff526e102c4950e1a132a9c31",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
-      "review_findings": [],
+      "radial_count": 15,
+      "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1365.7,
+          "radial": "line-14",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1458.8
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 2403.4,
+          "radial": "line-16",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 2745.6
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-8",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1131.7
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 3
 }

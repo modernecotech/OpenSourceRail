@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7094610125450073,
+  "added_line_count": 9,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "kisumu",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 12,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.26229563,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 552020.5338330269,
+    "catchments": [
+      {
+        "covered_population_2020": 391637.0468788147,
+        "fraction_of_raster_population": 0.7094610125450073,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 600000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 49,
+    "valid_pixels": 42490
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Kisumu/design.toml": "e803f95340a465b2010eb2fde0b5e77a85a4951d029c43217a5d1495c1a985f9",
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/access/population-pixels.npz.gz": "b74cc00f9e67a5691cbaa6452389be71fcab31b9ca6f6efa91b4fd8027fbb8c1",
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/access/population-source.json": "27fa8aee2e43a4119637a3534ed8bc93ab272c2d149b3da00584de544fe66602",
+    "cities/catalogue/east-africa/Kenya/Kisumu/engineering/alignment/residential-line-expansion.json": "badf5f7953b5d49299a3e1a7dc3c094c54632f92253c9d0438fb7afb02efb796",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 62,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

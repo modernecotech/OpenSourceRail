@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.0,
+    "high_demand_cell_fraction": 0.316,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 337461.6190841794,
     "catchments": [
       {
-        "covered_population_2020": 20107.753549575806,
-        "fraction_of_raster_population": 0.05958530515009457,
+        "covered_population_2020": 36036.66781425476,
+        "fraction_of_raster_population": 0.10678745604330624,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 46325.77671909332,
-        "fraction_of_raster_population": 0.1372771719782966,
+        "covered_population_2020": 84443.7085237503,
+        "fraction_of_raster_population": 0.2502320375067184,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 62395.409536361694,
-        "fraction_of_raster_population": 0.18489631415179464,
+        "covered_population_2020": 116873.66555595398,
+        "fraction_of_raster_population": 0.34633172765878295,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 100703.65908050537,
-        "fraction_of_raster_population": 0.2984151482287085,
+        "covered_population_2020": 162803.17041778564,
+        "fraction_of_raster_population": 0.4824346272610474,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 138385.20394086838,
-        "fraction_of_raster_population": 0.4100768683455773,
+        "covered_population_2020": 187931.70220708847,
+        "fraction_of_raster_population": 0.5568980043333732,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 5,
+    "unique_station_coordinates": 8,
     "valid_pixels": 55535
   },
   "population_source_country": "MZ",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "c8ef86f5b4370f823c74143d3b7c5188488315bfb5167fdddce4d5afac90d2a5",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "f315a9a9ed74300fe62f8923d8298b8d0910e21b37b8b5db58e41537f4fcec5b",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-pixels.npz.gz": "dc238457644361e766dce88610b86535542981f972981b594fbeac063d3d0578",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-source.json": "1e11aecfacc04ed739f73d99d45316a28f90e304e0c352dcf3c31565e2b42adb",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.design-quality.yaml": "7e2c8b64e80eeae4462878822a071794066e4d0c53d469b1d0fc66feaa5c338c",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.design-quality.yaml": "e72f5595aae21bd912378a9be102ee707ad5dac854550e3d1b61e8038351200a",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -93,14 +93,23 @@
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
-        "line-1"
+        "line-1",
+        "line-2"
       ]
     ],
     "direct_transfer_fraction": 1.0,
-    "line_count": 1,
-    "line_pair_count": 0,
-    "maximum_required_transfers": 0,
-    "pairs": [],
+    "line_count": 2,
+    "line_pair_count": 1,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
     "reachable_line_pair_fraction": 1.0,
     "reachable_with_at_most_two_transfers_fraction": 1.0
   }

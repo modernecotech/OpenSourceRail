@@ -160,8 +160,13 @@ def test_delivered_reconciliation_and_each_six_month_envelope_balance():
             assert abs(tranche['capital_reconciliation_usd']) < .05
         assert sum(r['liquidity_draw_iqd'] for r in case['semiannual']) == pytest.approx(metrics['total_supplemental_draw_iqd'])
         assert case['semiannual'][-1]['closing_liquidity_debt_iqd'] == metrics['terminal_supplemental_balance_iqd']
-    assert data['cases']['blended_candidate']['metrics']['terminal_supplemental_balance_iqd'] > 0
-    assert data['additional_receipts_threshold']['incremental_net_receipts_annual_usd'] > data['assumptions']['additional_sources']['incremental_net_local_receipts_annual_usd']
+    # Expanded scope and revenues can repay the illustrative facility. Audit
+    # its balance and cap rather than preserving an old positive-gap outcome.
+    terminal=data['cases']['blended_candidate']['metrics']['terminal_supplemental_balance_iqd']
+    assert 0 <= terminal <= data['assumptions']['liquidity']['illustrative_cap_iqd']+.02
+    threshold=data['additional_receipts_threshold']
+    assert threshold['incremental_net_receipts_annual_usd'] >= 0
+    assert threshold['metrics']['terminal_supplemental_balance_iqd'] + threshold['metrics']['uncovered_support_iqd'] <= fx
     if data['fare_uplift_threshold']['metrics']:
         solved = data['fare_uplift_threshold']['metrics']
         assert solved['terminal_supplemental_balance_iqd']+solved['uncovered_support_iqd'] <= fx

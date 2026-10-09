@@ -5,9 +5,11 @@
 This page contains only Raipur-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$3.44 bn (88.5%) of external capital** and **$4.23 bn of external interest**. Capital plus saved interest totals **$7.67 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$3.45 bn (88.6%) of external capital** and **$4.24 bn of external interest**. Capital plus saved interest totals **$7.70 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **127.024 km to 114.131 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **51 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Population-led network revision (2026-10-09).** The controlled planning inventory contains **6 lines**, including **0 additional residential lines**. Native population-count evidence is unavailable; resident coverage and population-led additional lines are not invented. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
+
+**Current alignment, depot and production basis.** Core corridors change from **127.024 km to 115.077 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **51 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **6 line-local depots** provide **202 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **202 metro-4car trainsets / 808 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,8 +23,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 6 / 51 / 10 |
-| Route length | 139.2 km double track |
+| Lines / unique stations / interchanges | 6 / 51 / 11 |
+| Route length | 139.8 km double track |
 | Direct transfers / reachable line pairs | 66.7% / 100.0% |
 | Residents within 800 m radial station catchments | unavailable — native population evidence required |
 | Service span / peak headway | 05:30–02:00 / 3 min |
@@ -35,23 +37,23 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 29.0 km | 12 | 49 | E Outer ↔ W Outer |
+| line-1 | 29.6 km | 12 | 49 | E Outer ↔ W Outer |
 | line-2 | 26.2 km | 7 | 42 | S Mid ↔ N Outer |
 | line-3 | 12.7 km | 6 | 25 | NE Mid ↔ W Mid |
 | line-4 | 20.1 km | 10 | 38 | SE Outer ↔ W Mid |
 | line-5 | 21.5 km | 8 | 35 | N Outer ↔ S Mid |
 | line-6 | 29.6 km | 8 | 13 | E Inner ↔ E Inner |
-| **Total** | **139.2 km** | **51 unique** | **202** | |
+| **Total** | **139.8 km** | **51 unique** | **202** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 2,558 one-way journeys / 57,822 train-km/day |
-| Annual traction demand | 364.7 GWh |
+| Scheduled service | 2,558 one-way journeys / 58,113 train-km/day |
+| Annual traction demand | 366.5 GWh |
 | Station/depot PV / storage | 41.4 MW / 297.0 MWh |
 | Aggregate charging power | 66.0 MW |
-| Dedicated solar plant | 191.8 MW |
+| Dedicated solar plant | 193.0 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
 | Worst powered-stop gap | line-2: 10.3 km / 102 kWh |
 | Lowest traversal charging margin | line-2: 154 kWh |
@@ -60,24 +62,24 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $1.25 bn |
+| Civil works | $1.26 bn |
 | Stations | $265 M |
 | Depots | $108 M |
 | Rolling stock | $226 M |
-| Dedicated solar plant | $153 M |
+| Dedicated solar plant | $154 M |
 | Residual train control | $7.0 M |
 | Charging microgrids | $14 M |
-| EPC / project services | $131 M |
-| **Total city programme** | **$2.16 bn** |
+| EPC / project services | $132 M |
+| **Total city programme** | **$2.17 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $445 M (20.6%) |
-| Domestic / local capital | $1.71 bn (79.4%) |
-| Annual public construction commitment | $187 M / yr for 5 years |
+| Imported / external capital | $446 M (20.6%) |
+| Domestic / local capital | $1.72 bn (79.4%) |
+| Annual public construction commitment | $188 M / yr for 5 years |
 | Annual post-grace debt service | $134 M / yr |
-| External capital saved vs default turnkey sensitivity | $3.44 bn |
-| Capital + lifetime external interest saved | $7.67 bn |
+| External capital saved vs default turnkey sensitivity | $3.45 bn |
+| Capital + lifetime external interest saved | $7.70 bn |
 | Annual OPEX | $52 M / yr |
 
 ## Local Evidence

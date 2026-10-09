@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8074794625319146,
+  "added_line_count": 16,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "bamako",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 22,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.40291776,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 4924922.813067038,
+    "catchments": [
+      {
+        "covered_population_2020": 3976774.0261065364,
+        "fraction_of_raster_population": 0.8074794625319146,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 2929000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 171,
+    "valid_pixels": 132831
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Mali/Bamako/design.toml": "3ff7e175c2e1798747bfc7a3b650c12fefdbdb9cfbd054bd94c66c3ffa2356fd",
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/access/population-pixels.npz.gz": "c48e2a88b21ead609b7c624bb03174dc6816f4babf3e6395297ace57de93c6ce",
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/access/population-source.json": "9577be8ad16cfa9d22d78581fc460efe920fa01f0cbfc98393c9de563216a179",
+    "cities/catalogue/west-africa/Mali/Bamako/engineering/alignment/residential-line-expansion.json": "5289b3ea359977f3cd55dde89d77ed7518b0315f582efe30a2191789a2db996b",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 237,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

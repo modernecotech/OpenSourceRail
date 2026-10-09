@@ -7,7 +7,9 @@ This page contains only Vijayawada-specific results. Shared routing, service, en
 > [!IMPORTANT]
 > **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$4.83 bn (88.8%) of external capital** and **$5.94 bn of external interest**. Capital plus saved interest totals **$10.78 bn**. See the common reference for interpretation and limitations.
 
-**Current alignment, depot and production basis.** Core corridors change from **178.684 km to 156.174 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **64 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Population-led network revision (2026-10-09).** The controlled planning inventory contains **6 lines**, including **0 additional residential lines**. Native population-count evidence is unavailable; resident coverage and population-led additional lines are not invented. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
+
+**Current alignment, depot and production basis.** Core corridors change from **178.684 km to 156.372 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **64 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
 **6 line-local depots** provide **245 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **245 metro-4car trainsets / 980 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
@@ -21,7 +23,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 6 / 64 / 13 |
+| Lines / unique stations / interchanges | 6 / 64 / 14 |
 | Route length | 198.0 km double track |
 | Direct transfers / reachable line pairs | 86.7% / 100.0% |
 | Residents within 800 m radial station catchments | unavailable — native population evidence required |
@@ -47,8 +49,8 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 2,558 one-way journeys / 76,302 train-km/day |
-| Annual traction demand | 481.3 GWh |
+| Scheduled service | 2,558 one-way journeys / 76,292 train-km/day |
+| Annual traction demand | 481.2 GWh |
 | Station/depot PV / storage | 44.4 MW / 312.0 MWh |
 | Aggregate charging power | 81.0 MW |
 | Dedicated solar plant | 264.8 MW |
@@ -68,7 +70,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | Residual train control | $9.9 M |
 | Charging microgrids | $17 M |
 | EPC / project services | $184 M |
-| **Total city programme** | **$3.03 bn** |
+| **Total city programme** | **$3.02 bn** |
 
 | Local funding measure | Planning value |
 |---|---:|

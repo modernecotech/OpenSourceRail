@@ -1,8 +1,8 @@
 # Lubumbashi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 45
+- Lines: 30
+- Stations: 159
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

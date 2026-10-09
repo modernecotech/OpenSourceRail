@@ -1,29 +1,30 @@
 {
   "city_count": 1,
-  "failed_cities": [
-    "aqaba"
-  ],
-  "passed": false,
+  "failed_cities": [],
+  "passed": true,
   "results": [
     {
       "backtrack_excursion_m": 750.0,
       "city": "aqaba",
       "corridor_sha256": "3469999d904b33e00996a248f4647c662751920306701236f5e1e869a645f3a1",
-      "design_sha256": "f2e6cb0d482b1aed2796396b049fe5dc94cfaae57a7354d8b76f150d78ea1170",
-      "failures": [
+      "design_sha256": "fc05112aa5548cba5e08b6da2321c12dc901c352e4f7dec00d9fb73a145a69e8",
+      "failures": [],
+      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+      "passed": true,
+      "radial_count": 5,
+      "review_findings": [
         {
-          "code": "radial-corridor-turns-back-on-itself",
+          "alignment_report_sha256": "420eac23e4ee17d8f221fa6ccc553a83f4e5e10f07ef618c97ace4cbcd58a8b3",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1014.1,
+          "physical_release": false,
           "radial": "line-3",
-          "severity": "fail"
+          "severity": "review"
         }
       ],
-      "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-      "passed": false,
-      "radial_count": 5,
-      "review_findings": [],
       "ring_count": 0
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 1
 }

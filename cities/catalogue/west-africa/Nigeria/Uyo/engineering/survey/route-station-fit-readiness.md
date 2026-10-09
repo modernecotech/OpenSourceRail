@@ -1,8 +1,8 @@
 # Uyo route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 13
+- Lines: 9
+- Stations: 36
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Gazipur route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 91
+- Lines: 41
+- Stations: 365
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -3,7 +3,7 @@
 This page contains only Bolivia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$6.42 B (88.9%) of external capital** and **$7.89 B of external interest**. Capital plus saved interest totals **$14.31 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$10.52 B (88.5%) of external capital** and **$12.93 B of external interest**. Capital plus saved interest totals **$23.44 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Bolivia-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 1,815,000 |
-| Trainsets / vehicle modules | 262 / 1,048 |
-| City infrastructure and fleet CAPEX | $3.15 B |
-| Shared national factory | $809.0 M |
-| Factory sizing basis | 1,048 modules for La Paz, then reused nationally |
-| **Total national programme** | **$4.01 B** |
+| Trainsets / vehicle modules | 667 / 2,668 |
+| City infrastructure and fleet CAPEX | $6.32 B |
+| Shared national factory | $255.8 M |
+| Factory sizing basis | 2,668 modules for La Paz, then reused nationally |
+| **Total national programme** | **$6.60 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $803.9 M (20.0%) |
-| Domestic / local capital | $3.21 B (80.0%) |
-| Annual external capital draw | $160.8 M / yr |
-| Annual local capital draw | $641.8 M / yr |
-| Annual public construction commitment | $434.1 M / yr for 5 years |
-| Annual post-grace debt service | $324.0 M / yr |
-| Default foreign-turnkey external capital | $7.22 B |
-| External capital saved | $6.42 B |
-| Capital + lifetime external interest saved | $14.31 B |
+| Imported / external capital | $1.36 B (20.6%) |
+| Domestic / local capital | $5.24 B (79.4%) |
+| Annual external capital draw | $272.0 M / yr |
+| Annual local capital draw | $1.05 B / yr |
+| Annual public construction commitment | $710.7 M / yr for 5 years |
+| Annual post-grace debt service | $531.6 M / yr |
+| Default foreign-turnkey external capital | $11.88 B |
+| External capital saved | $10.52 B |
+| Capital + lifetime external interest saved | $23.44 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $1.89 B | $283.7 M | $1.61 B |
-| Stations | $415.0 M | $83.0 M | $332.0 M |
-| Depots | $119.6 M | $29.9 M | $89.7 M |
-| Rolling stock | $293.4 M | $102.7 M | $190.7 M |
-| Dedicated solar plants | $205.1 M | $92.3 M | $112.8 M |
-| Residual train control | $9.8 M | $4.9 M | $4.9 M |
-| Charging microgrids | $20.6 M | $8.2 M | $12.3 M |
-| EPC / project services | $249.1 M | $37.4 M | $211.7 M |
-| Shared national trainset factory | $809.0 M | $161.8 M | $647.2 M |
-| **Total** | **$4.01 B** | **$803.9 M** | **$3.21 B** |
+| Civil works | $3.07 B | $460.0 M | $2.61 B |
+| Stations | $1.37 B | $273.6 M | $1.09 B |
+| Depots | $408.0 M | $102.0 M | $306.0 M |
+| Rolling stock | $747.0 M | $261.5 M | $485.6 M |
+| Dedicated solar plants | $259.6 M | $116.8 M | $142.8 M |
+| Residual train control | $15.5 M | $7.8 M | $7.8 M |
+| Charging microgrids | $61.8 M | $24.7 M | $37.1 M |
+| EPC / project services | $414.6 M | $62.2 M | $352.4 M |
+| Shared national trainset factory | $255.8 M | $51.2 M | $204.7 M |
+| **Total** | **$6.60 B** | **$1.36 B** | **$5.24 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [La Paz](La-Paz/README.md) | 1,815,000 | 262 | $3.15 B | $633.6 M | $2.51 B |
+| [La Paz](La-Paz/README.md) | 1,815,000 | 667 | $6.32 B | $1.31 B | $5.02 B |
 
 ## Local Basis And Regeneration
 
@@ -59,3 +59,14 @@ Country finance parameters use `BO` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [La Paz](La-Paz/README.md) | 24 | 18 | 39.0% | 81.7% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

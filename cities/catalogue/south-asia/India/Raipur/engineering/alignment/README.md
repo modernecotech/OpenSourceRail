@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`raipur-line1.aln.toml`](raipur-line1.aln.toml) | `line-1` | 29,010.8 m | 12 |
+| [`raipur-line1.aln.toml`](raipur-line1.aln.toml) | `line-1` | 29,635.1 m | 12 |
 | [`raipur-line2.aln.toml`](raipur-line2.aln.toml) | `line-2` | 26,164.3 m | 7 |
 | [`raipur-line3.aln.toml`](raipur-line3.aln.toml) | `line-3` | 12,692.4 m | 6 |
 | [`raipur-line4.aln.toml`](raipur-line4.aln.toml) | `line-4` | 20,146.7 m | 10 |

@@ -6,15 +6,57 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "lusaka",
-      "corridor_sha256": "c712d3ca16042f69b4f042940f3aec575b0e35b5b476b6c24178e094c4fdbc32",
-      "design_sha256": "670ed0ef40196e70d7a307bdb6ca9b4953106be3fd3d8f846f44ea0f8041bfbe",
+      "corridor_sha256": "a930eb1ae423a6c9a1483b1869894b33e0aea0ebc4f4251793d7cf680ecbed1e",
+      "design_sha256": "c5815f63bd1a4d0e81fa179fb9bc54b57167f46675751594da550c2f2ae04dfa",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 7,
-      "review_findings": [],
+      "radial_count": 31,
+      "review_findings": [
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1781.6,
+          "radial": "line-11",
+          "ring": "line-8",
+          "severity": "review",
+          "terminus_distance_m": 1781.6
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 2798.0,
+          "radial": "line-15",
+          "ring": "line-8",
+          "severity": "review",
+          "terminus_distance_m": 2798.0
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1979.7,
+          "radial": "line-18",
+          "ring": "line-8",
+          "severity": "review",
+          "terminus_distance_m": 1979.7
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-24",
+          "ring": "line-8",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1183.1
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1964.1,
+          "radial": "line-30",
+          "ring": "line-8",
+          "severity": "review",
+          "terminus_distance_m": 1964.1
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 5
 }

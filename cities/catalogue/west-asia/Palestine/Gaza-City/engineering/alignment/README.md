@@ -4,9 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`gaza-city-line1.aln.toml`](gaza-city-line1.aln.toml) | `line-1` | 8,568.9 m | 5 |
-| [`gaza-city-line2.aln.toml`](gaza-city-line2.aln.toml) | `line-2` | 13,927.5 m | 5 |
-| [`gaza-city-line3.aln.toml`](gaza-city-line3.aln.toml) | `line-3` | 5,725.7 m | 4 |
+| [`gaza-city-line1.aln.toml`](gaza-city-line1.aln.toml) | `line-1` | 8,568.9 m | 6 |
+| [`gaza-city-line2.aln.toml`](gaza-city-line2.aln.toml) | `line-2` | 13,927.5 m | 8 |
+| [`gaza-city-line3.aln.toml`](gaza-city-line3.aln.toml) | `line-3` | 5,725.7 m | 6 |
+| [`gaza-city-line4.aln.toml`](gaza-city-line4.aln.toml) | `line-4` | 6,369.6 m | 5 |
+| [`gaza-city-line5.aln.toml`](gaza-city-line5.aln.toml) | `line-5` | 3,250.8 m | 3 |
+| [`gaza-city-line6.aln.toml`](gaza-city-line6.aln.toml) | `line-6` | 6,265.9 m | 6 |
 
 ## Status
 

@@ -1,8 +1,8 @@
 # Songea route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 6
+- Lines: 5
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

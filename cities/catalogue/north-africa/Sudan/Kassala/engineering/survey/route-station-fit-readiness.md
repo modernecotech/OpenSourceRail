@@ -1,8 +1,8 @@
 # Kassala route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 11
+- Lines: 8
+- Stations: 31
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

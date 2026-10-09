@@ -1,7 +1,7 @@
 # Erbil structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 5
+- Lines: 31
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8335439025871955,
+  "added_line_count": 18,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "basra",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 25,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.42875429,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 2315586.652050972,
+    "catchments": [
+      {
+        "covered_population_2020": 1930143.1347293854,
+        "fraction_of_raster_population": 0.8335439025871955,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 3955000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 235,
+    "valid_pixels": 34674
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Basra/design.toml": "a9c91e6074bc2f2d6bb3365901558fc7e5f848705354f62cc2261418d17bfa12",
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/access/population-pixels.npz.gz": "96453bc21a4f01ccfb602b62a1f0ec885b29979087e5260bd90f9e711cba5267",
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/access/population-source.json": "2d233963f876781e0a47f84bb3920288272b7a0e25bc6c45dfa6140c89c3da2c",
+    "cities/catalogue/west-asia/Iraq/Basra/engineering/alignment/residential-line-expansion.json": "d553e55b731bbaacb9997e42cf1050191d393ae138679a04b62e7a4c4eb15679",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 300,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

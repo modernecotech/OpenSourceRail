@@ -6,15 +6,41 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "tangier",
-      "corridor_sha256": "5f8970c395f80f085e9a0f60ac75826443839d4aa1dda2801210db4c072b6088",
-      "design_sha256": "2dc1795f4a79c545539ee8359fae97c266181fcc1f2c2a6bff3cfe4e88d30ff2",
+      "corridor_sha256": "4acc352a9a1fe0e0136f61620f9c5a61df08f031979ddeb78abfd403099488c7",
+      "design_sha256": "492af46e09f2e912a7960aa9be72eaa1bce38e3ce073a07e9db4b7832bdd7ed5",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 4,
-      "review_findings": [],
+      "radial_count": 7,
+      "review_findings": [
+        {
+          "alignment_report_sha256": "0d6b87a4b03dddef6083625d3f88504784bcef52255c652cb38db7efd9a3bbc8",
+          "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
+          "code": "water-constrained-radial-backtracking-requires-geometry-review",
+          "maximum_reverse_excursion_m": 761.0,
+          "physical_release": false,
+          "radial": "line-2",
+          "severity": "review"
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1802.4,
+          "radial": "line-6",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 1802.4
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 3040.7,
+          "radial": "line-8",
+          "ring": "line-5",
+          "severity": "review",
+          "terminus_distance_m": 3040.7
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 3
 }

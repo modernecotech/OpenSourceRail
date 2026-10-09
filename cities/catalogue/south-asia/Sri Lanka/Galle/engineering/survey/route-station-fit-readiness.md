@@ -1,8 +1,8 @@
 # Galle route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 21
+- Lines: 15
+- Stations: 78
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

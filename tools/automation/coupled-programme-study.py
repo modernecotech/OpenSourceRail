@@ -40,7 +40,13 @@ def precision(value,key=''):
         result=round(value,2 if key.endswith(('_usd','_iqd','_native')) else 8)
         return 0. if result==0 else result
     return value
-def encoded(value):return (json.dumps(precision(value),indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+def encoded(value):
+    value=precision(value)
+    raw=(json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+    if len(raw)>45*1024*1024:
+        raw=(json.dumps(value,separators=(',',':'),sort_keys=True,allow_nan=False)+'\n').encode()
+    if len(raw)>50*1024*1024:raise ValueError('Coupled artifact needs a lossless partition')
+    return raw
 
 
 def requests_for_case(design,scenario,movement,control,capacity,load,fare):

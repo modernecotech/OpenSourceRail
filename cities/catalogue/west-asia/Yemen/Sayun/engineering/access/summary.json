@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.593,
+    "high_demand_cell_fraction": 0.674,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 131419.26423835754,
     "catchments": [
       {
-        "covered_population_2020": 20800.566654205322,
-        "fraction_of_raster_population": 0.1582763894985666,
+        "covered_population_2020": 38011.782579422,
+        "fraction_of_raster_population": 0.28924056758131994,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 52018.71990966797,
-        "fraction_of_raster_population": 0.39582263841715515,
+        "covered_population_2020": 86165.75848007202,
+        "fraction_of_raster_population": 0.6556554625339523,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 75399.70076560974,
-        "fraction_of_raster_population": 0.5737340046955057,
+        "covered_population_2020": 109384.95223617554,
+        "fraction_of_raster_population": 0.8323357528298289,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 103396.3165550232,
-        "fraction_of_raster_population": 0.7867668195698568,
+        "covered_population_2020": 121133.72720336914,
+        "fraction_of_raster_population": 0.9217349366959372,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 114197.44645500183,
-        "fraction_of_raster_population": 0.8689551498924831,
+        "covered_population_2020": 122974.8287448883,
+        "fraction_of_raster_population": 0.9357443100719739,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 9,
+    "unique_station_coordinates": 22,
     "valid_pixels": 3277
   },
   "population_source_country": "YE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Yemen/Sayun/design.toml": "38197377add8ab5e00b0c874295fc1f8e051d704611fa585ac67123167372058",
+    "cities/catalogue/west-asia/Yemen/Sayun/design.toml": "e5efe7deba54e6f593a78f8ce3ed1975a630edc1625b8b4adb71a97c0ac67a38",
     "cities/catalogue/west-asia/Yemen/Sayun/engineering/access/population-pixels.npz.gz": "23312b0bc9dfa4cf2479e8c9479e061fcd8d60ad7a1624c84a4289d3f4d005f6",
     "cities/catalogue/west-asia/Yemen/Sayun/engineering/access/population-source.json": "a5488afd1c3bb084a5bbc40b771e91b0b0c8ae839d76385b5eb193a061547aab",
-    "cities/catalogue/west-asia/Yemen/Sayun/sayun.design-quality.yaml": "ff0d1a9e70210489bc86421ea22d0ac21911d4f8628e097466e2f8482f72fba1",
+    "cities/catalogue/west-asia/Yemen/Sayun/sayun.design-quality.yaml": "2da9fbe97fde0d8d9131813c9614825eaf66838d021db1c483e8fd912d1c6f3b",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -95,12 +95,15 @@
       [
         "line-1",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6"
       ]
     ],
-    "direct_transfer_fraction": 0.6666666666666666,
-    "line_count": 3,
-    "line_pair_count": 3,
+    "direct_transfer_fraction": 0.4666666666666667,
+    "line_count": 6,
+    "line_pair_count": 15,
     "maximum_required_transfers": 2,
     "pairs": [
       {
@@ -119,10 +122,94 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 1
       }
     ],
     "reachable_line_pair_fraction": 1.0,

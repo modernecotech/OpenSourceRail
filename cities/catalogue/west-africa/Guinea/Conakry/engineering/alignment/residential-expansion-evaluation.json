@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8000741563447563,
+  "added_line_count": 11,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "conakry",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 14,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.25969226,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1059478.8508303761,
+    "catchments": [
+      {
+        "covered_population_2020": 847661.6477432251,
+        "fraction_of_raster_population": 0.8000741563447563,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 2010000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 79,
+    "valid_pixels": 27468
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Guinea/Conakry/design.toml": "877ed1857f1e631b3b22163b5be41178094996e39cacfffdb1642c2c2fe12c17",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/access/population-pixels.npz.gz": "85766ed861ed0afc3e095d47d82076a9b0842095651bdd11308db05ec7b3d388",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/access/population-source.json": "2ecc65b7a11ab2c9a395a6838dfb6b0d7f1baf7ef23ab2408e91890ab7833ec8",
+    "cities/catalogue/west-africa/Guinea/Conakry/engineering/alignment/residential-line-expansion.json": "a32597aa8c406d2c757fbd4bec797d198edd6bd49b1168b291fafc960e52661c",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 105,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

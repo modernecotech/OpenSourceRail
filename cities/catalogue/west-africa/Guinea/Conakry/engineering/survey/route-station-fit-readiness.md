@@ -1,8 +1,8 @@
 # Conakry route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 28
+- Lines: 14
+- Stations: 105
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

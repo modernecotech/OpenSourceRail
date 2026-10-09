@@ -14,7 +14,7 @@
 | line-3 | 5436.1 s | 5383.0 s | -53.1 s | 815.4 s | pass |
 | line-4 | 7525.9 s | 7470.5 s | -55.4 s | 1128.9 s | pass |
 | line-5 | 3041.3 s | 2974.5 s | -66.8 s | 456.2 s | pass |
-| line-6 | 14551.2 s | 14434.0 s | -117.2 s | 2182.7 s | pass |
+| line-6 | 14491.2 s | 14374.0 s | -117.2 s | 2173.7 s | pass |
 
 > The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.
 

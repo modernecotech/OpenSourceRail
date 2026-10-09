@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7651209622167738,
+  "added_line_count": 35,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "gazipur",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 41,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.29112052,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 5419813.091052532,
+    "catchments": [
+      {
+        "covered_population_2020": 4146812.607261181,
+        "fraction_of_raster_population": 0.7651209622167738,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 1400000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 255,
+    "valid_pixels": 55568
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/design.toml": "a9bbe5e5a7652211397c3b5522902c8556f9ba3a3e360c4f0874396eec95da17",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/access/population-pixels.npz.gz": "3c7087b12a0333da8e96ff26b30fc6993b2de4bd4e14e2d869543d7b50974709",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/access/population-source.json": "aab1e1c7a69fa63f08a73109118ab63bd7d0e35d789b6c0391175f170bc049bd",
+    "cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/alignment/residential-line-expansion.json": "14b793fa0e902b120c575f1a4298769bb3258a2e2fcd6377a485b77d0a7ad81b",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 365,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

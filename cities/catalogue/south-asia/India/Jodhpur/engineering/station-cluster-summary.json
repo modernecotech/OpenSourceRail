@@ -8,14 +8,14 @@
       "city": "jodhpur",
       "city_centre_cluster_envelope_m": 600.0,
       "city_centre_radius_m": 3000.0,
-      "design_sha256": "bd3fb35e1fe9ccdd0221837793bc39c8568175be683c24f9d531b7669e13d8f3",
+      "design_sha256": "62d0d562e1c7216c8d566184f05fa1c7ffe347a871ecd75f180b99d02b82c596",
       "failures": [],
-      "generator_sha256": "2ca414423f47b3334ca3895460c1c71ea68d800e1b5b9a02d4bda4b0894336f6",
-      "interchange_count": 7,
+      "generator_sha256": "86b50622e6dbd857fcc37a74c0e527f69079558fd645a6f95d5690a833787110",
+      "interchange_count": 10,
       "minimum_inline_chainage_m": 1180.0,
       "passed": true,
       "preferred_inline_chainage_m": 1200.0,
-      "review_finding_count": 27,
+      "review_finding_count": 30,
       "review_findings": [
         {
           "chainage_gap_m": 80.0,
@@ -70,6 +70,26 @@
           "line": "line-2",
           "second_station": "line-2-0741-0679-s005189",
           "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 576.5,
+          "first_line": "line-2",
+          "first_station": "line-2-0757-0655-s004547",
+          "second_line": "line-4",
+          "second_station": "line-4-0741-0679-s020975",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 576.5,
+          "first_line": "line-2",
+          "first_station": "line-2-0741-0679-s005189",
+          "second_line": "line-3",
+          "second_station": "line-3-0757-0655-s014562",
+          "severity": "review",
+          "walking_path_accepted": false
         },
         {
           "chainage_gap_m": 647.7,
@@ -144,12 +164,22 @@
           "severity": "review"
         },
         {
-          "chainage_gap_m": 1121.4,
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 576.5,
+          "first_line": "line-3",
+          "first_station": "line-3-0757-0655-s014562",
+          "second_line": "line-4",
+          "second_station": "line-4-0741-0679-s020975",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 1051.2,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 538.5,
           "first_station": "line-3-0565-0643-s018514",
           "line": "line-3",
-          "second_station": "line-3-0542-0657-s019635",
+          "second_station": "line-3-0542-0657-s019565",
           "severity": "review"
         },
         {
@@ -265,5 +295,5 @@
       "transfer_envelope_m": 600.0
     }
   ],
-  "review_finding_count": 27
+  "review_finding_count": 30
 }

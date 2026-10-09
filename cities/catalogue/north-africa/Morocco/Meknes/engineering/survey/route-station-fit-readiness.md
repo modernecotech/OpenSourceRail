@@ -1,8 +1,8 @@
 # Meknes route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 14
+- Lines: 9
+- Stations: 38
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Niamey route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 64
+- Lines: 33
+- Stations: 228
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

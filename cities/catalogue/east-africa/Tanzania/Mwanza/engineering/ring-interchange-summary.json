@@ -6,15 +6,15 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "mwanza",
-      "corridor_sha256": "499dd29b7c5887246be98ba1d23ecad4788dea6debc268adc2471c06a757959d",
-      "design_sha256": "f675cfb5b4100314cf06b553c442d224a58912d1fab3625cfade2041f50e23f4",
+      "corridor_sha256": "08e3da00457a91c9a9a3c0c7ca713bbdefc47df5d442da62bea0b0d7838d8a80",
+      "design_sha256": "fe0ca32db413e984918cbc6411873b9db2226e15e2f627e7190f43550a4e326f",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
+      "radial_count": 19,
       "review_findings": [
         {
-          "alignment_report_sha256": "a7ac22e8b5513a04ecdbc910cc583c92d9c5226db2c17afe751c05845cc69386",
+          "alignment_report_sha256": "391ab89a47447a60f3d3d80d04158975e66efb817a414d44db9da1b0d705f4fe",
           "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
           "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 7306.4,
@@ -23,17 +23,42 @@
           "severity": "review"
         },
         {
-          "alignment_report_sha256": "a7ac22e8b5513a04ecdbc910cc583c92d9c5226db2c17afe751c05845cc69386",
+          "alignment_report_sha256": "391ab89a47447a60f3d3d80d04158975e66efb817a414d44db9da1b0d705f4fe",
           "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
           "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1669.2,
           "physical_release": false,
           "radial": "line-3",
           "severity": "review"
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-17",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1085.4
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 2361.4,
+          "radial": "line-18",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 2361.4
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1518.5,
+          "radial": "line-9",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1518.5
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 2
+  "review_finding_count": 5
 }

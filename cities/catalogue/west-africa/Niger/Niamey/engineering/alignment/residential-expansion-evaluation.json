@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.783655366835813,
+  "added_line_count": 27,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "niamey",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 33,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.35002972,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1401479.903774932,
+    "catchments": [
+      {
+        "covered_population_2020": 1098277.2481057644,
+        "fraction_of_raster_population": 0.783655366835813,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 1407635,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 156,
+    "valid_pixels": 88031
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Niger/Niamey/design.toml": "b21c61e864af0fb633d0f866edf36175d41f5ba0b7b03a5bd2b62664fc60fb52",
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/access/population-pixels.npz.gz": "448af25569f7e8281da6cb2e262417c0a6688c34fa781848b9ef5260f35022ca",
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/access/population-source.json": "852b370e918302008d528022a7fc32ad87afb149ab3d7b444d808e8805f54c85",
+    "cities/catalogue/west-africa/Niger/Niamey/engineering/alignment/residential-line-expansion.json": "9ff845fd00283fd72db8886d130ae9c916bbb5c3ce84971847e9d56a2571893a",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 228,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

@@ -1,7 +1,7 @@
 # Lusaka drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 8 / 100
+- Lines/stations: 32 / 292
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

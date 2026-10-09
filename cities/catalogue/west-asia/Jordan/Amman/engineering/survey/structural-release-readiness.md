@@ -1,7 +1,7 @@
 # Amman structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 9
+- Lines: 31
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

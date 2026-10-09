@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.475,
+    "high_demand_cell_fraction": 0.621,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 402648.1179294586,
     "catchments": [
       {
-        "covered_population_2020": 52964.60089111328,
-        "fraction_of_raster_population": 0.1315406642491555,
+        "covered_population_2020": 139757.65825939178,
+        "fraction_of_raster_population": 0.34709626603514,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 123544.80104637146,
-        "fraction_of_raster_population": 0.3068306929675398,
+        "covered_population_2020": 285667.58072185516,
+        "fraction_of_raster_population": 0.7094720377456285,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 174088.6255683899,
-        "fraction_of_raster_population": 0.432359218425278,
+        "covered_population_2020": 340293.9496946335,
+        "fraction_of_raster_population": 0.8451397995960602,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 287008.9217014313,
-        "fraction_of_raster_population": 0.7128033360178612,
+        "covered_population_2020": 366753.4159927368,
+        "fraction_of_raster_population": 0.9108534217884751,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 343529.0089483261,
-        "fraction_of_raster_population": 0.8531742572518622,
+        "covered_population_2020": 379150.59585380554,
+        "fraction_of_raster_population": 0.9416425384117412,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 25,
+    "unique_station_coordinates": 59,
     "valid_pixels": 6307
   },
   "population_source_country": "NP",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Nepal/Pokhara/design.toml": "70a2db08568f1952b556101dbcfd01301ef83cb7c564bed3a9d9493abf2546b4",
+    "cities/catalogue/south-asia/Nepal/Pokhara/design.toml": "f2e39f9c553e4dba7544abef10a3b585e7f43a2def71583afe1a28b62c1bbd28",
     "cities/catalogue/south-asia/Nepal/Pokhara/engineering/access/population-pixels.npz.gz": "3d876660564743ac021e485939f9da51e008794cc3054b5bc9b39d6bf6617d2c",
     "cities/catalogue/south-asia/Nepal/Pokhara/engineering/access/population-source.json": "b683b8e7fcc9728d9cfa8dd37d2ff30133ccd960804e27401d20ef37b474a228",
-    "cities/catalogue/south-asia/Nepal/Pokhara/pokhara.design-quality.yaml": "62f7c2be99bcae2e657f5b0819c3a8dd291aa4ae2f6da24c8a52e7daa4226df5",
+    "cities/catalogue/south-asia/Nepal/Pokhara/pokhara.design-quality.yaml": "0b75f4ead67983a45a4b1cb6d496742487d2487af3876e4563e49db57efd50eb",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -97,7 +97,7 @@
         1
       ],
       "lines": [
-        "line-2",
+        "line-1",
         "line-3"
       ],
       "required_evidence": [
@@ -107,10 +107,10 @@
         "property and operating approval"
       ],
       "stations": [
-        "line-2-0782-0876-s014674",
-        "line-3-0827-0829-s017709"
+        "line-1-0859-0924-s002991",
+        "line-3-0889-0907-s020005"
       ],
-      "straight_distance_m": 1301.264,
+      "straight_distance_m": 689.836,
       "transfer_created": false,
       "walk_time_minutes": null
     }
@@ -120,16 +120,22 @@
     "components": [
       [
         "line-1",
-        "line-2"
+        "line-2",
+        "line-5",
+        "line-6",
+        "line-8"
       ],
       [
-        "line-3"
+        "line-3",
+        "line-4",
+        "line-7",
+        "line-9"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
-    "line_count": 3,
-    "line_pair_count": 3,
-    "maximum_required_transfers": 1,
+    "direct_transfer_fraction": 0.25,
+    "line_count": 9,
+    "line_pair_count": 36,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
@@ -147,13 +153,244 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-7"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-8"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-9"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
         ],
         "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-6"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-7"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-8"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-9"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-5"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-6"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-7"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-8"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-9"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-5"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-6"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-7"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-8"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-4",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-6"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-7"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-5",
+          "line-9"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-7"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-8"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-6",
+          "line-9"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-8"
+        ],
+        "minimum_transfers": null
+      },
+      {
+        "lines": [
+          "line-7",
+          "line-9"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-8",
+          "line-9"
+        ],
+        "minimum_transfers": null
       }
     ],
-    "reachable_line_pair_fraction": 0.3333333333333333,
-    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+    "reachable_line_pair_fraction": 0.4444444444444444,
+    "reachable_with_at_most_two_transfers_fraction": 0.4444444444444444
   }
 }

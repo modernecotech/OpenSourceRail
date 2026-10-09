@@ -1,58 +1,84 @@
 {
   "analysis_family": "OSR-AN-OPS-SUMO-CITY",
   "analysis_id": "OSR-AN-OPS-SUMO-CITY:uige",
-  "arrived_services": 4,
+  "arrived_services": 8,
   "city": "uige",
   "corridor_input": "cities/catalogue/east-africa/Angola/Uige/uige.corridor.geojson",
-  "corridor_sha256": "ba18a5f0c8ae55f2ee0546de4312134e2ef78bfff7e7b372fe9d201b4d68244e",
+  "corridor_sha256": "f44ea6b11faa6fe5d73b28702e742b1e648727636906d19bfbd2f6058c446199",
   "country": "AO",
   "design_input": "cities/catalogue/east-africa/Angola/Uige/design.toml",
-  "design_sha256": "bd1be084cad89dfe271cd3c4a73a52e47cae59c171df8c5b0ce6d72b5f4e3237",
-  "generator_sha256": "42d0d8fd1bfe996440f1a98665de405ec7f99ff012be4b677c6a433dc8898bc6",
+  "design_sha256": "b40ad06198c0d6f0c36092c77b9b0c3a4765c08e74a91cf18a84f5c4386cdf27",
+  "generator_sha256": "e806ea3b44936de0b6095270fe0888c32ed164b4914f91d11acfa269824b751c",
   "geometry_mode": "canonical-corridor",
   "input_issues": [],
   "input_quality_passed": true,
-  "line_count": 1,
+  "line_count": 2,
   "lines": [
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 7011.164,
-      "corridor_geometry_to_declared_ratio": 0.999467,
+      "corridor_geometry_length_m": 7011.224,
+      "corridor_geometry_to_declared_ratio": 0.999476,
       "declared_length_m": 7014.9,
       "end_station_gap_m": 0.0,
       "line": "line-1",
       "maximum_speed_mps": 25.0,
-      "maximum_station_corridor_offset_m": 0.056,
-      "mean_trip_duration_s": 532.0,
+      "maximum_station_corridor_offset_m": 0.064,
+      "mean_trip_duration_s": 649.0,
       "modeled_length_m": 7014.9,
       "rolling_stock": "light-metro-3car",
       "scheduled_services": 4,
       "start_station_gap_m": 0.0,
-      "station_count": 3,
+      "station_count": 4,
       "station_ids": [
         "line-1-0510-0252-s000000",
-        "line-1-0619-0429-s004654",
+        "line-1-0584-0373-s003174",
+        "line-1-0641-0465-s005591",
         "line-1-0674-0519-s007015"
+      ],
+      "train_length_m": 49.5
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 5084.647,
+      "corridor_geometry_to_declared_ratio": 0.999813,
+      "declared_length_m": 5085.6,
+      "end_station_gap_m": 0.0,
+      "line": "line-2",
+      "maximum_speed_mps": 25.0,
+      "maximum_station_corridor_offset_m": 0.632,
+      "mean_trip_duration_s": 517.0,
+      "modeled_length_m": 5085.6,
+      "rolling_stock": "light-metro-3car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 4,
+      "station_ids": [
+        "line-2-0584-0373-s000000",
+        "line-2-0513-0413-s001751",
+        "line-2-0489-0486-s003410",
+        "line-2-0562-0512-s005086"
       ],
       "train_length_m": 49.5
     }
   ],
   "local_coordinate_origin": {
-    "latitude": -7.617849649065975,
-    "longitude": 15.033893881830787
+    "latitude": -7.612203210596408,
+    "longitude": 15.038266734263168
   },
   "missing_service_ids": [],
   "passed": true,
   "rolling_stock_input": "lib/templates/rolling-stock.toml",
   "rolling_stock_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
   "scenario_input": "cities/catalogue/east-africa/Angola/Uige/uige.toml",
-  "scenario_sha256": "465af278687d534ae5fb38f540ee03d9db1ab3e4dd6678035d21ca2fce0cb550",
-  "scheduled_services": 4,
+  "scenario_sha256": "29b0c0bc97bd1bbc4af30b82ed9ebd33cfd73d2d52413d38e8615fda883d3569",
+  "scheduled_services": 8,
+  "short_controlled_segments": [],
   "simulation_passed": true,
   "simulation_status": "completed",
-  "station_count": 3,
+  "station_count": 8,
   "tool": {
     "name": "SUMO",
     "version_output": "Eclipse SUMO sumo 1.27.1"
-  }
+  },
+  "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length"
 }

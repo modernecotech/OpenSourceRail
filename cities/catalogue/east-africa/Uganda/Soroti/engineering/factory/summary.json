@@ -7,24 +7,32 @@
     "handover_buffer_working_days": 90,
     "line_completions": [
       {
-        "fleet_completion_day": 695,
+        "fleet_completion_day": 682,
         "line": "line-1",
-        "original_idle_working_days": 619,
-        "original_infrastructure_day": 76,
+        "original_idle_working_days": 579,
+        "original_infrastructure_day": 103,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 605
+        "rephased_infrastructure_day": 592
       },
       {
-        "fleet_completion_day": 736,
+        "fleet_completion_day": 712,
         "line": "line-2",
-        "original_idle_working_days": 642,
-        "original_infrastructure_day": 94,
+        "original_idle_working_days": 591,
+        "original_infrastructure_day": 121,
         "rephased_idle_working_days": 90,
-        "rephased_infrastructure_day": 646
+        "rephased_infrastructure_day": 622
+      },
+      {
+        "fleet_completion_day": 745,
+        "line": "line-3",
+        "original_idle_working_days": 606,
+        "original_infrastructure_day": 139,
+        "rephased_idle_working_days": 90,
+        "rephased_infrastructure_day": 655
       }
     ],
     "resource_lanes_and_durations_unchanged": true,
-    "shifted_work_packages": 56,
+    "shifted_work_packages": 104,
     "status": "conditional-full-fleet-civil-rephasing-not-construction-release"
   },
   "construction_phases": [
@@ -60,24 +68,25 @@
     }
   ],
   "cost_allowances_usd": {
-    "buildings": 10990822.5,
-    "contingency": 21622935.0625,
+    "buildings": 17004802.5,
+    "contingency": 25936080.5625,
     "design_training_qualification": 20000000.0,
-    "serviced_site": 4873852.8125,
+    "serviced_site": 5625600.3125,
     "shared_utilities_stores_labs_logistics": 35000000.0,
-    "stage_tooling": 25250000.0,
+    "stage_tooling": 40050000.0,
     "test_tracks": 12000000.0
   },
   "cost_basis": "Unquoted engineering allowance; production labour/materials already within train CAPEX. Plant EPC compared separately. Not a supplier offer or a released factory design.",
-  "direct_production_crew_fte": 92,
+  "direct_production_crew_fte": 148,
   "engineering_release": false,
   "exclusive_test_path_capacity_trainsets_per_year": 221.0,
   "exclusive_track_hours_per_trainset": 16.0,
   "factory_ready_working_day": 390,
   "family": "tram-2car",
   "infrastructure_deadlines": {
-    "line-1": 605,
-    "line-2": 646
+    "line-1": 592,
+    "line-2": 622,
+    "line-3": 655
   },
   "infrastructure_target_working_day": 752,
   "integrated_target_working_day": 752,
@@ -90,37 +99,41 @@
   ],
   "line_priority": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3"
   ],
   "line_stock_finish_working_day": {
-    "line-1": 695,
-    "line-2": 736
+    "line-1": 682,
+    "line-2": 712,
+    "line-3": 745
   },
   "lines_civil_complete_before_factory_ready": [],
-  "minimum_steady_output_trainsets_per_year": 52.0,
+  "minimum_steady_output_trainsets_per_year": 86.66666666666666,
   "minimum_test_tracks": 2,
-  "operations_payload_sha256": "e73f313754f7d6574d51ec3538f3f1b989467462a92f42b7923cd5d71d903a68",
+  "operations_payload_sha256": "137ccb68e43c3a5d6400dc38f309af27565c443c40ff2fa6217cbb20a12c3ee8",
   "original_infrastructure_deadlines": {
-    "line-1": 76,
-    "line-2": 94
+    "line-1": 103,
+    "line-2": 121,
+    "line-3": 139
   },
-  "original_infrastructure_target_working_day": 94,
+  "original_infrastructure_target_working_day": 139,
   "original_lines_civil_complete_before_factory_ready": [
     "line-1",
-    "line-2"
+    "line-2",
+    "line-3"
   ],
-  "planning_site_m2": 139252.9375,
-  "plant_cost_envelope_usd": 129737610.375,
-  "process_and_support_floor_m2": 15701.175000000001,
+  "planning_site_m2": 160731.4375,
+  "plant_cost_envelope_usd": 155616483.375,
+  "process_and_support_floor_m2": 24292.575,
   "readiness_months_from_ntp": 18,
   "resource_capacity": {
-    "soroti trainset acceptance bays": 3,
-    "soroti trainset kitting": 1,
+    "soroti trainset acceptance bays": 5,
+    "soroti trainset kitting": 2,
     "soroti tram-2car body installation": 1,
-    "soroti tram-2car composite kits": 3,
-    "soroti tram-2car electrical integration": 5,
-    "soroti tram-2car fitout and static test": 4,
-    "soroti tram-2car structural assembly": 6
+    "soroti tram-2car composite kits": 4,
+    "soroti tram-2car electrical integration": 8,
+    "soroti tram-2car fitout and static test": 7,
+    "soroti tram-2car structural assembly": 10
   },
   "resource_ready_days": {
     "soroti trainset acceptance bays": 390,
@@ -134,10 +147,10 @@
   "schema": "org.opensourcerail.city-factory.v1",
   "serial_release_working_day": 556,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Uganda/Soroti/design.toml": "185709ca48a57c4ae01377dab2ceb3bd67f83a782793bd5d1cf83513a3bee549",
-    "cities/catalogue/east-africa/Uganda/Soroti/engineering/finance/summary.json": "4e7a942e9cbbf2b1ce35ea1d89a79e09bf4b9d2ad1df6334de34bc54d8244ead",
-    "cities/catalogue/east-africa/Uganda/Soroti/operations/soroti-operations-manifest.json": "6e40a5062562ab2ff6d0ef23735ae4c1f691e84d7b880fdd3612ef74c5d1bfd3",
-    "cities/catalogue/east-africa/Uganda/Soroti/soroti.toml": "275052afbb8aca82bd0ddbcea415fe57201db44ee5997cd0132c32ef09e32cad",
+    "cities/catalogue/east-africa/Uganda/Soroti/design.toml": "49288bbe29d82f15427bfca589939bb770497965664c031778f72ac4d8aef741",
+    "cities/catalogue/east-africa/Uganda/Soroti/engineering/finance/summary.json": "74ad2766a0d36c1ee1f481880e49dffc8d012a44c86f245dc3b3e14d4897f975",
+    "cities/catalogue/east-africa/Uganda/Soroti/operations/soroti-operations-manifest.json": "c221f8ae3053638d95108ec0226cc79a1d25156ee0e027f878416299b73f284c",
+    "cities/catalogue/east-africa/Uganda/Soroti/soroti.toml": "a10df47f1695e8f600387f8102b26bb94bde3fdfc25d0b3987ccd7708f3cd286",
     "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2",
     "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e",
     "lib/templates/city-factory.toml": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917",
@@ -150,44 +163,44 @@
   },
   "stages": [
     {
-      "cells": 1,
+      "cells": 2,
       "crew_per_cell": 1,
       "cycle_working_days": 3,
-      "direct_crew_fte": 1,
+      "direct_crew_fte": 2,
       "floor_m2_per_cell": 250.0,
       "package": "rs-10-material-kit",
       "planned_occupation_days": 4,
-      "process_floor_m2": 250.0,
-      "tooling_allowance_usd": 150000.0,
+      "process_floor_m2": 500.0,
+      "tooling_allowance_usd": 300000.0,
       "tooling_allowance_usd_per_cell": 150000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 130.0,
       "work_center": "soroti trainset kitting"
     },
     {
-      "cells": 6,
+      "cells": 10,
       "crew_per_cell": 6,
       "cycle_working_days": 24,
-      "direct_crew_fte": 36,
+      "direct_crew_fte": 60,
       "package": "rs-20-carbody-bogie",
       "planned_occupation_days": 29,
-      "process_floor_m2": 2457.0,
-      "tooling_allowance_usd": 9600000.0,
+      "process_floor_m2": 4095.0,
+      "tooling_allowance_usd": 16000000.0,
       "tooling_allowance_usd_per_cell": 1600000.0,
-      "trainsets_per_year": 53.793103448275865,
+      "trainsets_per_year": 89.65517241379311,
       "work_center": "soroti tram-2car structural assembly"
     },
     {
-      "cells": 3,
+      "cells": 4,
       "crew_per_cell": 3,
       "cycle_working_days": 10,
-      "direct_crew_fte": 9,
+      "direct_crew_fte": 12,
       "floor_m2_per_cell": 1200.0,
       "package": "rs-23-moulded-body-modules",
       "planned_occupation_days": 12,
-      "process_floor_m2": 3600.0,
-      "tooling_allowance_usd": 5400000.0,
+      "process_floor_m2": 4800.0,
+      "tooling_allowance_usd": 7200000.0,
       "tooling_allowance_usd_per_cell": 1800000.0,
-      "trainsets_per_year": 65.0,
+      "trainsets_per_year": 86.66666666666666,
       "work_center": "soroti tram-2car composite kits"
     },
     {
@@ -204,49 +217,49 @@
       "work_center": "soroti tram-2car body installation"
     },
     {
-      "cells": 5,
+      "cells": 8,
       "crew_per_cell": 4,
       "cycle_working_days": 20,
-      "direct_crew_fte": 20,
+      "direct_crew_fte": 32,
       "package": "rs-30-traction-battery-control",
       "planned_occupation_days": 24,
-      "process_floor_m2": 2047.5,
-      "tooling_allowance_usd": 5000000.0,
+      "process_floor_m2": 3276.0,
+      "tooling_allowance_usd": 8000000.0,
       "tooling_allowance_usd_per_cell": 1000000.0,
-      "trainsets_per_year": 54.16666666666667,
+      "trainsets_per_year": 86.66666666666666,
       "work_center": "soroti tram-2car electrical integration"
     },
     {
-      "cells": 4,
+      "cells": 7,
       "crew_per_cell": 4,
       "cycle_working_days": 16,
-      "direct_crew_fte": 16,
+      "direct_crew_fte": 28,
       "package": "rs-40-fitout-static-test",
       "planned_occupation_days": 19,
-      "process_floor_m2": 1638.0,
-      "tooling_allowance_usd": 3000000.0,
+      "process_floor_m2": 2866.5,
+      "tooling_allowance_usd": 5250000.0,
       "tooling_allowance_usd_per_cell": 750000.0,
-      "trainsets_per_year": 54.73684210526316,
+      "trainsets_per_year": 95.78947368421052,
       "work_center": "soroti tram-2car fitout and static test"
     },
     {
-      "cells": 3,
+      "cells": 5,
       "crew_per_cell": 2,
       "cycle_working_days": 12,
-      "direct_crew_fte": 6,
+      "direct_crew_fte": 10,
       "package": "rs-50-dynamic-commissioning",
       "planned_occupation_days": 15,
-      "process_floor_m2": 1228.5,
-      "tooling_allowance_usd": 1800000.0,
+      "process_floor_m2": 2047.5,
+      "tooling_allowance_usd": 3000000.0,
       "tooling_allowance_usd_per_cell": 600000.0,
-      "trainsets_per_year": 52.0,
+      "trainsets_per_year": 86.66666666666666,
       "work_center": "soroti trainset acceptance bays"
     }
   ],
-  "stock_finish_working_day": 736,
+  "stock_finish_working_day": 745,
   "test_path_limited_integrated_delay": false,
   "test_track_length_m": 2000.0,
   "test_tracks": 2,
-  "total_trainsets": 17,
-  "vehicle_modules": 34
+  "total_trainsets": 30,
+  "vehicle_modules": 60
 }

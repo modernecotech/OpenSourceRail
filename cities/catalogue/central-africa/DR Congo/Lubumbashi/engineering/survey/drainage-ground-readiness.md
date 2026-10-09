@@ -1,7 +1,7 @@
 # Lubumbashi drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 5 / 45
+- Lines/stations: 30 / 159
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

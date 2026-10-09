@@ -263,7 +263,7 @@
     "design/component-catalogue/src/osr_mech/station/product_geometry.py": "3109ed927eb25e6ccc5b2b124f18fd18de6b6da1f7b28a213f37c0e067306069"
   },
   "manifest": "cities/catalogue/west-asia/Iraq/Amarah/engineering/connected-build/station-products.json",
-  "manifest_sha256": "775496071d2e63ea56b6abc4501c9b7f597f9fc1d7953f54b0ddc0de50d60fe6",
+  "manifest_sha256": "533fea342dc1c0caf4f58d6a2ef6ec70666a8ec5733065c60445b36a00da575c",
   "product_ids": [
     "STN-CIV-P010",
     "STN-CIV-P020",
@@ -294,6 +294,7 @@
     "STN-CNP-P080",
     "STN-CNP-P090",
     "STN-CHG-P010",
+    "STN-CHG-P020",
     "STN-ACC-P020",
     "STN-ACC-P040",
     "STN-ACC-P050",
@@ -709,6 +710,20 @@
     },
     {
       "exploded_offset_mm": [
+        18000.0,
+        14000.0,
+        2000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-CHG-SA700",
+      "product_id": "STN-CHG-P020"
+    },
+    {
+      "exploded_offset_mm": [
         -24000.0,
         0.0,
         4000.0
@@ -784,12 +799,12 @@
     {
       "default_visible": true,
       "id": "installed",
-      "primitive_count": 243
+      "primitive_count": 255
     },
     {
       "default_visible": false,
       "id": "exploded",
-      "primitive_count": 243
+      "primitive_count": 255
     }
   ],
   "status": "design-reference-not-released"

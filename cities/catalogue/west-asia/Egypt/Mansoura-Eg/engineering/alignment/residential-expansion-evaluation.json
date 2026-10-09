@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.6206098847292719,
+  "added_line_count": 8,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "mansoura-eg",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 11,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.25688735,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 1746694.5960617065,
+    "catchments": [
+      {
+        "covered_population_2020": 1084015.931919098,
+        "fraction_of_raster_population": 0.6206098847292719,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 1000000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 47,
+    "valid_pixels": 16573
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/design.toml": "1e0852cd2387be09ed85d55ef39b6b47a2365aa3e1edeff76886dd8f79df8d5f",
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/access/population-pixels.npz.gz": "8822d60e57af9d069beda2d65bfdaea0530cbae98b8b77f9126769b099a5d7f4",
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/access/population-source.json": "dba52ce7f2d7a747309246da2d427661b18085932cb6aeba1ee88be758eef3c9",
+    "cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/alignment/residential-line-expansion.json": "5a19690713a89d5f82cdb19ce7f7394951f81e2a3721bd334fa441f892446cdb",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 58,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

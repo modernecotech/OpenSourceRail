@@ -1,8 +1,8 @@
 # Faisalabad route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 66
+- Lines: 23
+- Stations: 192
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

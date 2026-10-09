@@ -1,7 +1,7 @@
 # Erbil drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 5 / 51
+- Lines/stations: 31 / 180
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

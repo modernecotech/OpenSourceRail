@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.6359720893804386,
+  "added_line_count": 5,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "lobito",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 8,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.1820102,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 256291.00435003638,
+    "catchments": [
+      {
+        "covered_population_2020": 162993.9255259037,
+        "fraction_of_raster_population": 0.6359720893804386,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 500000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 37,
+    "valid_pixels": 25460
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Angola/Lobito/design.toml": "be703fc12a4b00862c05bb3482dbaa1eb367885c11760138c12c2f03d8f94607",
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/access/population-pixels.npz.gz": "362ad3529f5c34d82759664e986b7bcebf5eef01dc33fb3b4be24cf5a9f348a0",
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/access/population-source.json": "f53cdbd070e6f7920475b60df994c3c4e59c05edb0efcac66f07d9b864fc6a1d",
+    "cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/residential-line-expansion.json": "db206db39c0b682df7a2fe995e7a3949f8246e44d25e2c95ed5f47bb452cf35a",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 45,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

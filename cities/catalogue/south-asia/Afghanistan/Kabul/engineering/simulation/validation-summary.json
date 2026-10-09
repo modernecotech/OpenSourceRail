@@ -1,14 +1,14 @@
 {
   "schema_version": "1.12",
   "city": "Kabul",
-  "validated_on": "2026-10-07",
+  "validated_on": "2026-10-09",
   "generator": "tools/automation/validate-city-simulation.py",
   "generator_sha256": "de6428ff6633f7ce9f163c92b2928d63085040329f0de9e23e9afe4520435b1e",
   "simulator_binary": "target/release/osr-sim",
-  "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-  "design_sha256": "4aba0b1cf034464bf8be4f43118bbb1f4d951f0f2825d02bd89c20eeca898782",
+  "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+  "design_sha256": "7d83c358ab1782f9bde56b41c9cfa0a047b6892fee6949a4a887627ee32ce979",
   "scenario": "../../../kabul.toml",
-  "scenario_sha256": "8be0c2600f3a6a2567296c8d3874c5b89c9d6d00188acf5f08e7d664d850ed98",
+  "scenario_sha256": "d1d25b6e987a1d66380e2c65e9aff6fc29a2aceaacab90b2eab85becf3c37551",
   "passed": true,
   "trainset_contract": {
     "passed": true,
@@ -45,7 +45,7 @@
     "buildable_assemblies": 26
   },
   "model": {
-    "trainsets": 320,
+    "trainsets": 653,
     "battery_nameplate_kwh": 1350,
     "protected_reserve_percent": 20,
     "nominal_energy_kwh_per_car_km_before_climate": 2.4,
@@ -57,7 +57,7 @@
     "maximum_headway_multiplier": 3.0,
     "protected_peak_headway_min": 3,
     "configured_habd_detector_count": 0,
-    "configured_switch_count": 60,
+    "configured_switch_count": 140,
     "configured_level_crossing_count": 0
   },
   "service_windows": [
@@ -103,77 +103,137 @@
       "label": "2-hour screenshot trace",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "8be0c2600f3a6a2567296c8d3874c5b89c9d6d00188acf5f08e7d664d850ed98",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "d1d25b6e987a1d66380e2c65e9aff6fc29a2aceaacab90b2eab85becf3c37551",
           "duration_s": 7200,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "8ce13dafd65740e4da6acc7fda5511540f39c1a9328c844a0fcd4f389ef0ae40",
-        "cache_key": "58d9386bfc17e0296ae7a8bbcbabd26e90d9b8d7bfa8b72ba47b9c078c20bf90",
+        "output_sha256": "d9b80be9fac0191d1c4011777ae8037d60b621b3373f87985bb521f31829f3c1",
+        "cache_key": "7506fb4287decc862725f7e8e9accc87347505324061238d2cebb640b55adeea",
         "cache_reused": false
       },
       "duration_s": 7200,
-      "train_km": 6044.634141210953,
-      "energy_consumed_kwh": 87036.45520019531,
-      "energy_charged_kwh": 94161.27770996094,
-      "depot_services_completed": 55,
-      "depot_services_started": 55,
+      "train_km": 10051.981013320014,
+      "energy_consumed_kwh": 144739.0987548828,
+      "energy_charged_kwh": 162379.24963378906,
+      "depot_services_completed": 251,
+      "depot_services_started": 251,
       "depot_services_active_at_cutoff": 0,
-      "minimum_soc_percent": 84.44127999999999,
+      "minimum_soc_percent": 86.14686,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 2304000,
-        "door_controller_evaluations": 55296000,
-        "doors_open_evaluations": 9182328,
+        "train_count": 653,
+        "controller_ticks": 4701600,
+        "door_controller_evaluations": 112838400,
+        "doors_open_evaluations": 23260656,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 2304000,
+        "aux_power_controller_ticks": 4701600,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 2304000,
+        "hvac_controller_ticks": 4701600,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 600320,
+        "hvac_heating_ticks": 1225028,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 2304000,
+        "battery_thermal_controller_ticks": 4701600,
         "battery_thermal_cooling_ticks": 0,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 2304000,
-        "main_light_module_ticks": 304128000,
-        "emergency_light_module_ticks": 55296000,
-        "door_threshold_light_module_ticks": 55296000,
-        "pis_controller_ticks": 2304000,
-        "pis_announcements": 5226,
+        "lighting_controller_ticks": 4701600,
+        "main_light_module_ticks": 620611200,
+        "emergency_light_module_ticks": 112838400,
+        "door_threshold_light_module_ticks": 112838400,
+        "pis_controller_ticks": 4701600,
+        "pis_announcements": 12567,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -220,10 +280,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 2528,
-        "fixes_applied": 2528,
-        "seen_sightings": 2528,
+        "registry_count": 348,
+        "crossing_opportunities": 6070,
+        "fixes_applied": 6070,
+        "seen_sightings": 6070,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -231,25 +291,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 604800,
-        "tvm_purchase_attempts": 10080,
-        "tickets_issued": 10080,
+        "station_count": 195,
+        "gate_controller_ticks": 1404000,
+        "tvm_purchase_attempts": 23400,
+        "tickets_issued": 23400,
         "tickets_denied": 0,
-        "tvm_sales_cents": 1008000,
-        "gate_grants": 10080,
+        "tvm_sales_cents": 2340000,
+        "gate_grants": 23400,
         "gate_denials": 0,
-        "gate_open_ticks": 30240,
-        "ledger_entries": 10080,
-        "settled_fare_cents": 1008000,
+        "gate_open_ticks": 70200,
+        "ledger_entries": 23400,
+        "settled_fare_cents": 2340000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 7200,
-        "telemetry_reports_processed": 2304000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 4701600,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -257,25 +317,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 773855,
+      "energy_site_controller_evaluations": 1590567,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 15006,
-      "charger_overlapping_requests": 14998,
+      "charger_constrained_requests": 25561,
+      "charger_overlapping_requests": 24918,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 2304000,
-        "frames_decoded": 2304000,
-        "encoded_bytes": 101095419,
+        "frames_encoded": 4701600,
+        "frames_decoded": 4701600,
+        "encoded_bytes": 209192885,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 432000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 1008000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -297,85 +357,145 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 12,
-      "trackside_pv_generated_kwh": 13565.994113457695,
-      "trackside_grid_imported_kwh": 20634.91390810313,
-      "trackside_energy_delivered_kwh": 93192.68588813963
+      "trackside_pv_generated_kwh": 36923.09691110104,
+      "trackside_grid_imported_kwh": 26189.40729299342,
+      "trackside_energy_delivered_kwh": 160465.70627520897
     },
     {
       "label": "Full 05:30\u201302:00 service plus run-out",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "8be0c2600f3a6a2567296c8d3874c5b89c9d6d00188acf5f08e7d664d850ed98",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "d1d25b6e987a1d66380e2c65e9aff6fc29a2aceaacab90b2eab85becf3c37551",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "dd2f7bed83ef89c27d219eb49b2907e62dadab80e30b997a9b5d8b4a2c767084",
-        "cache_key": "3443d78c1130ae6902ce81a4493695209205d48269a8a685c5209d88f3180671",
+        "output_sha256": "1f1f54b4abd115fc0bf95e706b131e2b496ca2f69d8cf2704fc2c82459d304ab",
+        "cache_key": "aa66b8ae0488555e59e9b9eb86a0195f3bed11fa501da98dbb71631dff4204fe",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1111068.701538086,
-      "energy_charged_kwh": 1130224.5225830078,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 84.02539,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 1790732.4182128906,
+      "energy_charged_kwh": 1832321.0061035156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 85.39791,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -422,10 +542,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -433,25 +553,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -459,25 +579,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9631266,
+      "energy_site_controller_evaluations": 19513597,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 462513,
-      "charger_overlapping_requests": 230654,
+      "charger_constrained_requests": 639488,
+      "charger_overlapping_requests": 321510,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -499,12 +619,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 825986.3052961546,
-      "trackside_energy_delivered_kwh": 1114051.5951328664,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1171846.9318623212,
+      "trackside_energy_delivered_kwh": 1793579.949369128,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0
     }
   ],
   "resilience_required": true,
@@ -526,77 +646,137 @@
       "label": "80% end-of-life battery capacity",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "0e9e285dc07c1e91dc6e81930b87fde8d948bbb0278f69d33cb11fdebf0027ed",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "5887d794333190aec27c7484374e35b10b6c4d5805c7b669af1c66f3732a693e",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "eaa75ced2c1ca2d570baf5934e95661dc2d0d5a4a6a52817d320d074f27edb24",
-        "cache_key": "8bd1d508768f5f97aea0b034086b398561d1c68e7c4fd496d4eaf50d10700a63",
+        "output_sha256": "2946bac392c165ce7d4ab7f2a1c80cdf76cdfa8de6e15e7d4b936e35c1c1c190",
+        "cache_key": "6f2fed59b297d2f45affd9221cc714ccc1271976ad5b5ad4b8892443d2ee53b0",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1111068.6867675781,
-      "energy_charged_kwh": 1125904.23046875,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 80.29614699999999,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 1790732.5053710938,
+      "energy_charged_kwh": 1823505.5032958984,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 82.997453,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -643,10 +823,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -654,25 +834,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -680,25 +860,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9623089,
+      "energy_site_controller_evaluations": 19502931,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 461076,
-      "charger_overlapping_requests": 229217,
+      "charger_constrained_requests": 638725,
+      "charger_overlapping_requests": 320761,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -720,12 +900,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 822154.818919448,
-      "trackside_energy_delivered_kwh": 1110269.8818759148,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1166692.7939308698,
+      "trackside_energy_delivered_kwh": 1788023.1273985712,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -737,77 +917,137 @@
       "label": "maximum planning climate/HVAC duty",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "51c9beb341415b1adb712f4cc520b87b3ccfba8d0adc8643f5e3c23c4f1aade9",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "e53ed045b87a7e5a79e1cf6415d0d1fc5c494e9fbbd3da6b7cd37ae09c3efb5b",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "aeac4ba76308a4089d6a20e618d2d8dbe3561f51663528c50903cfc2f1fe8c11",
-        "cache_key": "ba90cdeb08cc2ed9039d110cee9916952e1312ebca75ac7ff6d3906a1c086ce9",
+        "output_sha256": "d557e01b8f6f9914be4322c0f38af61d35dba01035edf89748cf3545784d3022",
+        "cache_key": "400693566b11a37d94c89adeda59172fa898a16356cdabd96ade897ffb922be6",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1250190.2803955078,
-      "energy_charged_kwh": 1268410.437866211,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 81.91725600000001,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 2014928.6463623047,
+      "energy_charged_kwh": 2055859.3029785156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 76.44548,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -854,10 +1094,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -865,25 +1105,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -891,25 +1131,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 10001850,
+      "energy_site_controller_evaluations": 20013222,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 610015,
-      "charger_overlapping_requests": 355792,
+      "charger_constrained_requests": 775216,
+      "charger_overlapping_requests": 418542,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -931,12 +1171,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 952596.6177504075,
-      "trackside_energy_delivered_kwh": 1250746.3613252675,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1371292.7058030248,
+      "trackside_energy_delivered_kwh": 2016007.6735248615,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -948,77 +1188,137 @@
       "label": "50% charging-contact availability",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "cae208614c8502538512e630c0530ddf52c94729afe7cd157aa5c65c4b205322",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "9c791f20ce838863ce1448528b1c48766a1a69a89d1ba98e4333f8c92eaf8574",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "dd2f7bed83ef89c27d219eb49b2907e62dadab80e30b997a9b5d8b4a2c767084",
-        "cache_key": "14c1d8ee43852652bf9654e3de7a690ceaa94310640b2ef95e97ff7b972c53af",
+        "output_sha256": "1f1f54b4abd115fc0bf95e706b131e2b496ca2f69d8cf2704fc2c82459d304ab",
+        "cache_key": "882a94f32bfad2b4f77a65168094700e5d4b2b7c7e580f2ba590bcf73b8c4918",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1111068.701538086,
-      "energy_charged_kwh": 1130224.5225830078,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 84.02539,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 1790732.4182128906,
+      "energy_charged_kwh": 1832321.0061035156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 85.39791,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -1065,10 +1365,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -1076,25 +1376,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -1102,25 +1402,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9631266,
+      "energy_site_controller_evaluations": 19513597,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 462513,
-      "charger_overlapping_requests": 230654,
+      "charger_constrained_requests": 639488,
+      "charger_overlapping_requests": 321510,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -1142,12 +1442,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 825986.3052961546,
-      "trackside_energy_delivered_kwh": 1114051.5951328664,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1171846.9318623212,
+      "trackside_energy_delivered_kwh": 1793579.949369128,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -1159,77 +1459,137 @@
       "label": "ten-hour all-site grid outage",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "d9553f0f9ca8914d8a6b162660d717d1f4575ea0b334c93037ebcf2890456ca7",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "b9edd62cc8211dea0d4e93c99006a87f2b026d01a7848ecdbd0b5a7b6a8c1a97",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "dc62f075f0f8c833d868cde912067d97671d0aca02e9d829432590e17f826b83",
-        "cache_key": "6c5b72c6a73a2216b8ad76460d2a02560e4de91fa18ae06688127674981bba86",
+        "output_sha256": "7d694f7b41b4af9f856b4dc43dd7c13f9e0b8c11b400ecd9bc8b9665cb60391e",
+        "cache_key": "628ec24bfc2decb56282ad6b1a5c6bf7b02f679de5a05f66c3f18777bc9780cc",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 70749.90104042621,
-      "energy_consumed_kwh": 1018736.6904907227,
-      "energy_charged_kwh": 1013466.1735229492,
-      "depot_services_completed": 1103,
-      "depot_services_started": 1115,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 20.00332,
+      "train_km": 120439.69649159948,
+      "energy_consumed_kwh": 1734227.9221191406,
+      "energy_charged_kwh": 1728059.3790283203,
+      "depot_services_completed": 3574,
+      "depot_services_started": 3613,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 20.004071,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 521834016,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 805298184,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
-        "aux_load_shed_ticks": 2485656,
-        "hvac_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
+        "aux_load_shed_ticks": 3148953,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 5858065,
-        "hvac_reduced_ticks": 2485656,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 557400,
+        "hvac_heating_ticks": 12287746,
+        "hvac_reduced_ticks": 3148953,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 679812,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 58758,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 146374,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -1276,10 +1636,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 29271,
-        "fixes_applied": 29271,
-        "seen_sightings": 29271,
+        "registry_count": 348,
+        "crossing_opportunities": 72933,
+        "fixes_applied": 72933,
+        "seen_sightings": 72933,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -1287,25 +1647,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -1313,25 +1673,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 19896932,
+      "energy_site_controller_evaluations": 28563531,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 9029348,
-      "charger_overlapping_requests": 9217207,
+      "charger_constrained_requests": 9121558,
+      "charger_overlapping_requests": 6680404,
       "faults_fired_count": 1,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1319893719,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705014765,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -1349,16 +1709,16 @@
       },
       "selftest_systems_passed": true,
       "invariant_violations": 0,
-      "soc_warning_events": 2445,
-      "energy_adaptive_dispatches": 218,
-      "energy_adaptive_headway_added_hours": 16.85,
-      "maximum_effective_headway_min": 26,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 561385.9632749073,
-      "trackside_energy_delivered_kwh": 973271.65047356,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9032099640682939,
-      "service_completion_ratio": 0.9032099640682939,
+      "soc_warning_events": 2548,
+      "energy_adaptive_dispatches": 194,
+      "energy_adaptive_headway_added_hours": 13.583333333333334,
+      "maximum_effective_headway_min": 24,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 818919.7080371436,
+      "trackside_energy_delivered_kwh": 1661403.0787791703,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 0.9931993422206548,
+      "service_completion_ratio": 0.9931993422206548,
       "minimum_service_completion_ratio": 0.6,
       "scenario_checks": {
         "faults_fired": true,
@@ -1370,77 +1730,137 @@
       "label": "combined 80% aged battery and maximum climate/HVAC duty",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "4cdbdc0e4f2effbf669345704c926a862988a2509ada610e7a21266ec0e489c7",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "8cf7cd5373d1bce871a5f6e4eb30ec6ae1fef64ec5c8c9495dd9b38c16a03bdf",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "9d3a522a3f3a31d317742c52d0a33306a94d926056d63be7d7eb8bab0bd7056f",
-        "cache_key": "711e62fe7d16e7d51b02cca777cf686e8d316488caa40f18b2754c11e968833f",
+        "output_sha256": "120a1dc70a4917ade6b879e7f15345820a25a6676d66c8e64e81a423d11e9eb7",
+        "cache_key": "56501477e5f2b97177d08f9f12e2219306f0eaaaae321b571eaf6638a733e6c4",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1250146.1940307617,
-      "energy_charged_kwh": 1264082.4318237305,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 77.61197,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 2014902.7716064453,
+      "energy_charged_kwh": 2047009.2547607422,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 71.82763,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -1487,10 +1907,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -1498,25 +1918,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -1524,25 +1944,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9996298,
+      "energy_site_controller_evaluations": 20002786,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 609568,
-      "charger_overlapping_requests": 355688,
+      "charger_constrained_requests": 774365,
+      "charger_overlapping_requests": 418023,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -1564,12 +1984,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 948716.0806935905,
-      "trackside_energy_delivered_kwh": 1246988.437423731,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1365940.2962105433,
+      "trackside_energy_delivered_kwh": 2010428.153946202,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -1581,77 +2001,137 @@
       "label": "ten-hour single charging-pad outage",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "0639d1574c1a3b550dc3a30af8ca7441ccd4364eb62ba0b5f4d37cd9dc23bb1d",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "217cd0e04d85b0db5aec96a312c9d9e3af5a3ae7cf35626e2b5c3f42b7f3742d",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "eb7045969bf019136ddd3c33f81d4f6a3715acf2da8c277d5a31691e8b129566",
-        "cache_key": "7319ba6fabc4038589246d027a664c1930e7759d2a655c619f38d8956e77d658",
+        "output_sha256": "5fb8f2dbd99148ed7c8dc737d24614da723efddf239b5b1013f68a5f1e522ce9",
+        "cache_key": "5315e59463d93d363d59098850acdc2e1d8c0518eaed500a5a38d1c5468afd1d",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1111068.701538086,
-      "energy_charged_kwh": 1130224.5225830078,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 84.02539,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 1790732.4182128906,
+      "energy_charged_kwh": 1832321.0061035156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 85.39791,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -1698,10 +2178,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -1709,25 +2189,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -1735,25 +2215,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9635850,
+      "energy_site_controller_evaluations": 19517452,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 468329,
-      "charger_overlapping_requests": 236418,
+      "charger_constrained_requests": 644694,
+      "charger_overlapping_requests": 326710,
       "faults_fired_count": 1,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -1775,12 +2255,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 831166.4213150645,
-      "trackside_energy_delivered_kwh": 1113490.131608881,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1175653.2165464056,
+      "trackside_energy_delivered_kwh": 1792921.7156019511,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -1792,77 +2272,137 @@
       "label": "consecutive missed charging stops",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "4018cf8f35f6406bf4510f7077497fd5dd8b706a1fb47142c5ce8bb8b971ae80",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "28e2676df5f0a935924da4e413c641c5af47d32f9364aa50fcf969c3a76a222c",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "4783d1f1bc3652817c38bcd51a20567dfc672ae44586ffd5e701265615c46634",
-        "cache_key": "0da27ce7a7eab317ae7305be4017fe664bb489242c45bf36be8a48fb0927404a",
+        "output_sha256": "62e03831de1a0940b12f28025134cccf5f4e311275524ed5581e72352d357aef",
+        "cache_key": "8d295b439b53ee107b03050ce2158fd514644b686f7fcb2e0c33089608fa2081",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058263,
-      "energy_consumed_kwh": 1111068.701538086,
-      "energy_charged_kwh": 1130212.2182617188,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 84.02539,
+      "train_km": 124364.5134917302,
+      "energy_consumed_kwh": 1790732.4182128906,
+      "energy_charged_kwh": 1832321.0061035156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 85.39791,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 478822416,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 682356408,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 573088,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 614008,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -1909,10 +2449,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -1920,25 +2460,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -1946,25 +2486,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9642582,
+      "energy_site_controller_evaluations": 19519817,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 473766,
-      "charger_overlapping_requests": 244135,
+      "charger_constrained_requests": 644883,
+      "charger_overlapping_requests": 329605,
       "faults_fired_count": 2,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -1986,12 +2526,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 830555.6479664865,
-      "trackside_energy_delivered_kwh": 1113012.875267935,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680178,
-      "service_completion_ratio": 0.9850826085680178,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1175261.5292644612,
+      "trackside_energy_delivered_kwh": 1792593.294925078,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.025565130049904,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,
@@ -2003,77 +2543,137 @@
       "label": "late-running shared-charger conflict",
       "execution_receipt": {
         "inputs": {
-          "simulator_sha256": "96c17bbc319e329dab3827eb3803d3a73f33499a2d61757356109046fbc1e902",
-          "scenario_sha256": "90f55dae46b200140e9506e4e7dc01ecefba2fc68a6ff5cee7cf219deb734291",
+          "simulator_sha256": "b107554da62fb9716e05903bcfbba11c4b5055c56c44cbabf94ebadc3ee9775c",
+          "scenario_sha256": "4892f82c1d2aa0b610c689b26ebb1d475142d16f990306979a2ec0164055ec2d",
           "duration_s": 90000,
           "compact_json": true,
           "ma_check_every": 0
         },
-        "output_sha256": "a0fb5a151649725475d8910276c57636a3db698d956ceb0d7d4f23f13775375d",
-        "cache_key": "a1137c1d78a3ce7b512f771d8bf9ab61ce2a7b786b6b9c1ed47632a7f88a3f47",
+        "output_sha256": "8e98cb5634f812801213f873be2387a6a6b15bb365b9e1bde1335abfb5d763cb",
+        "cache_key": "c9657444b096a1fdb47d4532cae916dfd0e3e6a416e2c02df30e825931fcbbbb",
         "cache_reused": false
       },
       "duration_s": 90000,
-      "train_km": 77163.11804058247,
-      "energy_consumed_kwh": 1111068.701538086,
-      "energy_charged_kwh": 1130224.5225830078,
-      "depot_services_completed": 1161,
-      "depot_services_started": 1173,
-      "depot_services_active_at_cutoff": 12,
-      "minimum_soc_percent": 84.02539,
+      "train_km": 124364.51349173018,
+      "energy_consumed_kwh": 1790732.4182128906,
+      "energy_charged_kwh": 1832321.0061035156,
+      "depot_services_completed": 3602,
+      "depot_services_started": 3641,
+      "depot_services_active_at_cutoff": 39,
+      "minimum_soc_percent": 85.39791,
       "per_line_reference_trip_time_s": [
         [
           "line-1",
-          2487.954544067383
+          3314.7142333984375
         ],
         [
           "line-2",
-          2547.5430755615234
+          3039.3158111572266
         ],
         [
           "line-3",
-          1981.2727355957031
+          2534.64697265625
         ],
         [
           "line-4",
-          2182.8584594726562
+          3162.7676010131836
         ],
         [
           "line-5",
-          3019.761993408203
+          3599.6710815429688
         ],
         [
           "line-6",
-          1840.8636016845703
+          2060.772720336914
         ],
         [
           "line-7",
-          5206.754656791687
+          6706.391024589539
+        ],
+        [
+          "line-8",
+          529.7727203369141
+        ],
+        [
+          "line-9",
+          667.2727127075195
+        ],
+        [
+          "line-10",
+          460.86363220214844
+        ],
+        [
+          "line-11",
+          486.2272644042969
+        ],
+        [
+          "line-12",
+          866.2727355957031
+        ],
+        [
+          "line-13",
+          368.7727355957031
+        ],
+        [
+          "line-14",
+          528.4091033935547
+        ],
+        [
+          "line-15",
+          279.0909118652344
+        ],
+        [
+          "line-16",
+          500.87709617614746
+        ],
+        [
+          "line-17",
+          914.2272796630859
+        ],
+        [
+          "line-18",
+          628.3617897033691
+        ],
+        [
+          "line-19",
+          327.5909118652344
+        ],
+        [
+          "line-20",
+          1065.0454711914062
+        ],
+        [
+          "line-21",
+          578.2727127075195
+        ],
+        [
+          "line-22",
+          1015.6818161010742
         ]
       ],
       "onboard_emergencies": 0,
       "vehicle_systems": {
-        "train_count": 320,
-        "controller_ticks": 28800000,
-        "door_controller_evaluations": 691200000,
-        "doors_open_evaluations": 482857296,
+        "train_count": 653,
+        "controller_ticks": 58770000,
+        "door_controller_evaluations": 1410480000,
+        "doors_open_evaluations": 685734648,
         "door_interlock_violations": 0,
-        "aux_power_controller_ticks": 28800000,
+        "aux_power_controller_ticks": 58770000,
         "aux_load_shed_ticks": 0,
-        "hvac_controller_ticks": 28800000,
+        "hvac_controller_ticks": 58770000,
         "hvac_cooling_ticks": 0,
-        "hvac_heating_ticks": 6334400,
+        "hvac_heating_ticks": 12926135,
         "hvac_reduced_ticks": 0,
-        "battery_thermal_controller_ticks": 28800000,
-        "battery_thermal_cooling_ticks": 569345,
+        "battery_thermal_controller_ticks": 58770000,
+        "battery_thermal_cooling_ticks": 612666,
         "battery_thermal_derate_ticks": 0,
         "battery_thermal_protect_ticks": 0,
-        "lighting_controller_ticks": 28800000,
-        "main_light_module_ticks": 3801600000,
-        "emergency_light_module_ticks": 691200000,
-        "door_threshold_light_module_ticks": 691200000,
-        "pis_controller_ticks": 28800000,
-        "pis_announcements": 63828,
+        "lighting_controller_ticks": 58770000,
+        "main_light_module_ticks": 7757640000,
+        "emergency_light_module_ticks": 1410480000,
+        "door_threshold_light_module_ticks": 1410480000,
+        "pis_controller_ticks": 58770000,
+        "pis_announcements": 150778,
         "mechanical_configuration": {
           "mechanical_standard_revision": "A-DRAFT",
           "door_cassettes_per_car": 4,
@@ -2120,10 +2720,10 @@
       },
       "habd_systems_passed": true,
       "balise_systems": {
-        "registry_count": 156,
-        "crossing_opportunities": 31806,
-        "fixes_applied": 31806,
-        "seen_sightings": 31806,
+        "registry_count": 348,
+        "crossing_opportunities": 75135,
+        "fixes_applied": 75135,
+        "seen_sightings": 75135,
         "missed_sightings": 0,
         "position_mismatches": 0,
         "unknown_sightings": 0,
@@ -2131,25 +2731,25 @@
       },
       "balise_systems_passed": true,
       "fare_systems": {
-        "station_count": 84,
-        "gate_controller_ticks": 7560000,
-        "tvm_purchase_attempts": 126000,
-        "tickets_issued": 126000,
+        "station_count": 195,
+        "gate_controller_ticks": 17550000,
+        "tvm_purchase_attempts": 292500,
+        "tickets_issued": 292500,
         "tickets_denied": 0,
-        "tvm_sales_cents": 12600000,
-        "gate_grants": 126000,
+        "tvm_sales_cents": 29250000,
+        "gate_grants": 292500,
         "gate_denials": 0,
-        "gate_open_ticks": 378000,
-        "ledger_entries": 126000,
-        "settled_fare_cents": 12600000,
+        "gate_open_ticks": 877500,
+        "ledger_entries": 292500,
+        "settled_fare_cents": 29250000,
         "fraud_flags_raised": 0,
         "flagged_accounts": 0
       },
       "fare_systems_passed": true,
       "occ_systems": {
         "controller_ticks": 90000,
-        "telemetry_reports_processed": 28800000,
-        "final_roster_count": 320,
+        "telemetry_reports_processed": 58770000,
+        "final_roster_count": 653,
         "incidents_opened": 0,
         "incidents_closed": 0,
         "dispatch_hold_ticks": 0,
@@ -2157,25 +2757,25 @@
         "final_active_dispatch_holds": 0
       },
       "occ_systems_passed": true,
-      "energy_site_controller_evaluations": 9631349,
+      "energy_site_controller_evaluations": 19513763,
       "energy_site_conservation_errors": 0,
-      "charger_constrained_requests": 462237,
-      "charger_overlapping_requests": 230496,
+      "charger_constrained_requests": 639517,
+      "charger_overlapping_requests": 321534,
       "faults_fired_count": 0,
       "energy_site_systems_passed": true,
       "regen_systems_passed": true,
       "proto_systems": {
-        "frames_encoded": 28800000,
-        "frames_decoded": 28800000,
-        "encoded_bytes": 1320888053,
+        "frames_encoded": 58770000,
+        "frames_decoded": 58770000,
+        "encoded_bytes": 2705682085,
         "decode_failures": 0,
         "semantic_mismatches": 0
       },
       "proto_systems_passed": true,
       "wayside_asset_systems": {
-        "switch_count": 60,
-        "switch_controller_ticks": 5400000,
-        "switch_observations": 60,
+        "switch_count": 140,
+        "switch_controller_ticks": 12600000,
+        "switch_observations": 140,
         "switch_fault_ticks": 0,
         "crossing_count": 0,
         "crossing_controller_ticks": 0,
@@ -2197,12 +2797,12 @@
       "energy_adaptive_dispatches": 0,
       "energy_adaptive_headway_added_hours": 0.0,
       "maximum_effective_headway_min": 24,
-      "trackside_pv_generated_kwh": 358024.1049758083,
-      "trackside_grid_imported_kwh": 826124.0244597915,
-      "trackside_energy_delivered_kwh": 1114186.5600168612,
-      "scheduled_train_km": 78331.62150000001,
-      "raw_service_completion_ratio": 0.9850826085680157,
-      "service_completion_ratio": 0.9850826085680157,
+      "trackside_pv_generated_kwh": 974448.217917193,
+      "trackside_grid_imported_kwh": 1171927.4775110125,
+      "trackside_energy_delivered_kwh": 1793658.884070967,
+      "scheduled_train_km": 121264.37400000001,
+      "raw_service_completion_ratio": 1.0255651300499038,
+      "service_completion_ratio": 1.0,
       "minimum_service_completion_ratio": 0.9,
       "scenario_checks": {
         "faults_fired": true,

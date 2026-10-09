@@ -70,15 +70,17 @@ def check_design(design,features,grid,mask):
                 # including crossings halfway between diagonal cells.
                 row,col=math.floor(point.x+.5),math.floor(point.y+.5)
                 if mask[row,col]>0:continue  # no platforms on a projected bridge crossing
-                candidates={line:[s for s,p in stations if s['line']==line and p.distance(point)*grid['cell_m']<=60.0001]
+                native_point=Point(row,col)
+                candidates={line:[s for s,p in stations if s['line']==line and p.distance(native_point)*grid['cell_m']<=60.0001]
                             for line in [first,second]}
                 grouped=any(a.get('junction_group') is not None and a.get('junction_group')==b.get('junction_group')
                             for a in candidates[first] for b in candidates[second])
                 crossings.append(dict(lines=[first,second],cell=[round(point.x,6),round(point.y,6)],
+                                      native_validation_cell=[row,col],
                                       platforms_grouped_at_crossing=grouped))
     missing=[c for c in crossings if not c['platforms_grouped_at_crossing']]
     unsupported=[s['id'] for s,p in stations if s.get('mandatory_crossing') and not any(
-        s['line'] in c['lines'] and p.distance(Point(*c['cell']))*grid['cell_m']<=60.0001
+        s['line'] in c['lines'] and p.distance(Point(*c['native_validation_cell']))*grid['cell_m']<=60.0001
         for c in crossings)]
     return dict(passed=not(wet or unknown or long_runs or unknown_runs or missing or unsupported),
                 platforms_checked=len(design['stations']),wet_platforms=wet,unknown_platforms=unknown,
@@ -118,7 +120,7 @@ def audit(baseline_ref=None):
         physical_release=False,operating_release=False,
         source_documentation='https://esa-worldcover.org/en/data-access',
         limitations=['Historical satellite classification is a planning check; survey, bank access and platform footprints remain open.',
-                    'Projected dry crossings use platforms within 60 m at grid precision; transfer routes and levels require independent site release.',
+                    'Projected dry crossings use the native half-up raster crossing cell and its unchanged 60 m platform tolerance; diagonal subcell intersections can differ by half a cell diagonal. Continuous site geometry, transfer routes and levels require independent release.',
                     'Short water runs are bridge candidates with separate structural/shoreline approvals, not released crossings.'],
         generator_sha256=sha(Path(__file__).read_bytes()),water_constraint_generator_sha256=sha(Path(water.__file__).read_bytes()),cities=rows)
 

@@ -1,8 +1,8 @@
 # Yaounde route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 68
+- Lines: 21
+- Stations: 216
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

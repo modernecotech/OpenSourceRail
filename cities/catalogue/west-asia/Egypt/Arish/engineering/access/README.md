@@ -4,11 +4,11 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 0.0% |
-| Reachable line pairs, including intermediate lines | 0.0% |
-| Reachable with at most two transfers | 0.0% |
+| Direct transfer line pairs | 33.3% |
+| Reachable line pairs, including intermediate lines | 33.3% |
+| Reachable with at most two transfers | 33.3% |
 | Connected line components | 2 |
-| Maximum transfers within a connected component | 0 |
+| Maximum transfers within a connected component | 1 |
 
 A crossing creates no transfer unless passenger interchange membership is recorded. Physical access, waiting time, timetable and fares remain unverified.
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 118,192**. Catalogue planning population: 300,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 9,814 | 8.3% |
-| 800 m | 23,716 | 20.1% |
-| 1000 m | 33,700 | 28.5% |
-| 1500 m | 55,083 | 46.6% |
-| 2000 m | 71,603 | 60.6% |
+| 500 m | 26,015 | 22.0% |
+| 800 m | 54,643 | 46.2% |
+| 1000 m | 72,305 | 61.2% |
+| 1500 m | 89,169 | 75.4% |
+| 2000 m | 94,538 | 80.0% |
 
 Excluded nodata pixels: 25,369; valid pixels: 5,438.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 25,369; valid pixels: 5,438.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (45.9%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (52.2%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

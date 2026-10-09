@@ -1,7 +1,7 @@
 # Onitsha structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 5
+- Lines: 33
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

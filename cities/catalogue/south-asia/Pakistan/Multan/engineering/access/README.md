@@ -4,11 +4,11 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 90.0% |
+| Direct transfer line pairs | 14.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 100.0% |
+| Reachable with at most two transfers | 72.0% |
 | Connected line components | 1 |
-| Maximum transfers within a connected component | 2 |
+| Maximum transfers within a connected component | 4 |
 
 A crossing creates no transfer unless passenger interchange membership is recorded. Physical access, waiting time, timetable and fares remain unverified.
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 3,391,297**. Catalogue planning population: 2,197
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 342,595 | 10.1% |
-| 800 m | 827,692 | 24.4% |
-| 1000 m | 1,164,179 | 34.3% |
-| 1500 m | 1,867,336 | 55.1% |
-| 2000 m | 2,261,913 | 66.7% |
+| 500 m | 907,976 | 26.8% |
+| 800 m | 2,044,575 | 60.3% |
+| 1000 m | 2,649,220 | 78.1% |
+| 1500 m | 3,109,576 | 91.7% |
+| 2000 m | 3,188,506 | 94.0% |
 
 Excluded nodata pixels: 73,426; valid pixels: 30,254.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 73,426; valid pixels: 30,254.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (52.6%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (58.6%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

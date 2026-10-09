@@ -1,7 +1,7 @@
 # Lichinga surveyed-alignment gate
 
 - Status: **awaiting-surveyed-alignments**
-- Lines expected: line-1, line-2
+- Lines expected: line-1, line-2, line-3, line-4
 - Technical screen passed: **no**
 - Authority accepted: **no**
 
@@ -11,7 +11,7 @@
 
 ## Current gates
 
-- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report
+- Missing technical roles: *:ground_model_readiness, *:interface_verification_report, line-1:surveyed_osr_aln, line-1:landxml_export, line-1:landxml_roundtrip_report, line-2:surveyed_osr_aln, line-2:landxml_export, line-2:landxml_roundtrip_report, line-3:surveyed_osr_aln, line-3:landxml_export, line-3:landxml_roundtrip_report, line-4:surveyed_osr_aln, line-4:landxml_export, line-4:landxml_roundtrip_report
 - Duplicate roles: none
 - Authority findings:
   - alignment acceptance record not received

@@ -1,7 +1,7 @@
 # Goma structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 3
+- Lines: 14
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

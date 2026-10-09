@@ -1,8 +1,8 @@
 # Hoima route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 12
+- Lines: 8
+- Stations: 35
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

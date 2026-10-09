@@ -1,8 +1,8 @@
 # Dammam route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 107
+- Lines: 31
+- Stations: 302
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

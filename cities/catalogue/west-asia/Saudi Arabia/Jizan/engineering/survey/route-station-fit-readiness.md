@@ -1,8 +1,8 @@
 # Jizan route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 25
+- Lines: 11
+- Stations: 60
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

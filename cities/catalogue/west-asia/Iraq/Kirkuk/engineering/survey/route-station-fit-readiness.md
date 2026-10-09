@@ -1,8 +1,8 @@
 # Kirkuk route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 54
+- Lines: 18
+- Stations: 150
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8090083117274826,
+  "added_line_count": 6,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "kut",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 9,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.40815315,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 470474.07065582275,
+    "catchments": [
+      {
+        "covered_population_2020": 380617.4336128235,
+        "fraction_of_raster_population": 0.8090083117274826,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 410000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 41,
+    "valid_pixels": 8621
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Iraq/Kut/design.toml": "fee229df4202b873aef81ea401394245496d27257b676c97207e226b20cb3a5f",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/access/population-pixels.npz.gz": "dcb423ba1f9bbcfcbe5a663cd316dcdd6b00735cda4d096f1a36ae8e21348406",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/access/population-source.json": "9e1b612ec3f034ff8731d0e5164719bcfe80bc853f04ad59d5ef2ec52f52ed9a",
+    "cities/catalogue/west-asia/Iraq/Kut/engineering/alignment/residential-line-expansion.json": "0e679991fbc2575bbc1003a1672d760b651edba0a61e614bdfba9a405b2f7adc",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 52,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

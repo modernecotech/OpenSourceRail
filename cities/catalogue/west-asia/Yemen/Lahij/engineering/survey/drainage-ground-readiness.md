@@ -1,7 +1,7 @@
 # Lahij drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 3 / 14
+- Lines/stations: 7 / 34
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

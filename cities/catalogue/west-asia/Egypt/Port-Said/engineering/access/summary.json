@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.427,
+    "high_demand_cell_fraction": 0.526,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 674944.1536347866,
     "catchments": [
       {
-        "covered_population_2020": 106955.58228290081,
-        "fraction_of_raster_population": 0.15846582521962943,
+        "covered_population_2020": 165174.75813663006,
+        "fraction_of_raster_population": 0.24472359268113075,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 262053.5850995779,
-        "fraction_of_raster_population": 0.38825965628168924,
+        "covered_population_2020": 386075.93159520626,
+        "fraction_of_raster_population": 0.5720116686929814,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 363554.0951464176,
-        "fraction_of_raster_population": 0.5386432243150259,
+        "covered_population_2020": 509472.43014740944,
+        "fraction_of_raster_population": 0.7548364222487743,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 554198.2952269912,
-        "fraction_of_raster_population": 0.8211024456504423,
+        "covered_population_2020": 637071.0337142348,
+        "fraction_of_raster_population": 0.9438870316653709,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 639918.6008420587,
-        "fraction_of_raster_population": 0.9481059986902556,
+        "covered_population_2020": 657226.382381022,
+        "fraction_of_raster_population": 0.973749278131607,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 9,
+    "unique_station_coordinates": 13,
     "valid_pixels": 6927
   },
   "population_source_country": "EG",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Port-Said/design.toml": "3724224024a08d8f6640a0cc0e811937a968f7205e52ea1dfa39dbcf73c135d4",
+    "cities/catalogue/west-asia/Egypt/Port-Said/design.toml": "fbeaddaea5d8f0d519585908f973612651f543d102b9d38404298f2f35bccff3",
     "cities/catalogue/west-asia/Egypt/Port-Said/engineering/access/population-pixels.npz.gz": "3ac78955f4850451108382db1cf7d1c7f33d36e9bc92a75e8be8865417eb5f44",
     "cities/catalogue/west-asia/Egypt/Port-Said/engineering/access/population-source.json": "5c913d1514040bf4c21e1e72613d2e82a771e1764a5073ed0d55cdde79557ac9",
-    "cities/catalogue/west-asia/Egypt/Port-Said/port-said.design-quality.yaml": "8eeab7a14c85aa2a4e4dbe649b027ba8c572319c55a099041d624598cab3c249",
+    "cities/catalogue/west-asia/Egypt/Port-Said/port-said.design-quality.yaml": "36130a7b0615a0b9d0d0e8b052cb51e2c54d67b2fe816b643337ae193b840200",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -95,12 +95,13 @@
       [
         "line-1",
         "line-2",
-        "line-3"
+        "line-3",
+        "line-4"
       ]
     ],
-    "direct_transfer_fraction": 0.6666666666666666,
-    "line_count": 3,
-    "line_pair_count": 3,
+    "direct_transfer_fraction": 0.5,
+    "line_count": 4,
+    "line_pair_count": 6,
     "maximum_required_transfers": 2,
     "pairs": [
       {
@@ -119,8 +120,29 @@
       },
       {
         "lines": [
+          "line-1",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
           "line-2",
           "line-3"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 2
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
         ],
         "minimum_transfers": 2
       }

@@ -1,8 +1,8 @@
 # Quelimane route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 1
-- Stations: 5
+- Lines: 2
+- Stations: 9
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

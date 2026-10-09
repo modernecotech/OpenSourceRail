@@ -1,8 +1,8 @@
 # Soroti route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 4
+- Lines: 3
+- Stations: 8
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

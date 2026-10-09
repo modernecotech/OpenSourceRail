@@ -4,8 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`songea-line1.aln.toml`](songea-line1.aln.toml) | `line-1` | 3,826.5 m | 3 |
-| [`songea-line2.aln.toml`](songea-line2.aln.toml) | `line-2` | 8,107.1 m | 3 |
+| [`songea-line1.aln.toml`](songea-line1.aln.toml) | `line-1` | 3,826.5 m | 4 |
+| [`songea-line2.aln.toml`](songea-line2.aln.toml) | `line-2` | 8,107.1 m | 6 |
+| [`songea-line3.aln.toml`](songea-line3.aln.toml) | `line-3` | 3,624.5 m | 3 |
+| [`songea-line4.aln.toml`](songea-line4.aln.toml) | `line-4` | 5,698.1 m | 4 |
+| [`songea-line5.aln.toml`](songea-line5.aln.toml) | `line-5` | 2,278.5 m | 3 |
 
 ## Status
 

@@ -8,6 +8,9 @@ The adopted planning requirement stores the full line fleet in one line-local de
 |---|---:|---:|---:|---:|
 | line-1-0599-0736-s008139 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 | line-2-0517-0430-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-3-0583-0666-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-4-0599-0736-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
+| line-5-0546-0541-s000000 | 5,000 | 80 / 40,000 | 33,333.3 / 4,000 | 5,930,000 |
 
 Full depot PV/storage equipment is priced once in the adopted line-depot capital using repository reference rates. The incremental comparison above is diagnostic, not a second capital addition. Installed scope and quotations remain unverified.
 
@@ -15,8 +18,14 @@ Full depot PV/storage equipment is priced once in the adopted line-depot capital
 |---|---|---:|---:|---:|---|
 | line-1-0501-0372-s000000 | line-1 | 31 | 1,534.5 | 1,844.5 | unverified |
 | line-1-0599-0736-s008139 | line-1 | 30 | 1,485.0 | 1,785.0 | unverified |
-| line-2-0517-0430-s000000 | line-2 | 29 | 1,435.5 | 1,725.5 | unverified |
-| line-2-0601-0732-s006876 | line-2 | 28 | 1,386.0 | 1,666.0 | unverified |
+| line-2-0517-0430-s000000 | line-2 | 30 | 1,485.0 | 1,785.0 | unverified |
+| line-2-0601-0732-s006876 | line-2 | 30 | 1,485.0 | 1,785.0 | unverified |
+| line-3-0583-0666-s000000 | line-3 | 9 | 445.5 | 535.5 | unverified |
+| line-3-0713-0488-s005246 | line-3 | 9 | 445.5 | 535.5 | unverified |
+| line-4-0599-0736-s000000 | line-4 | 10 | 495.0 | 595.0 | unverified |
+| line-4-0688-0964-s005297 | line-4 | 9 | 445.5 | 535.5 | unverified |
+| line-5-0546-0541-s000000 | line-5 | 8 | 396.0 | 476.0 | unverified |
+| line-5-0386-0490-s003987 | line-5 | 7 | 346.5 | 416.5 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

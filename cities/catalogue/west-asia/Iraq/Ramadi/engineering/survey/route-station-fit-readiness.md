@@ -1,8 +1,8 @@
 # Ramadi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 18
+- Lines: 12
+- Stations: 58
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

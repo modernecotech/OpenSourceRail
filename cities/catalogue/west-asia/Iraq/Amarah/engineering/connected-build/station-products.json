@@ -1534,1246 +1534,6 @@
         },
         {
           "children": [
-            "STN-CHG-P010"
-          ],
-          "hold_points": [
-            "utility/supplier release",
-            "safe-to-energise",
-            "vehicle charging SAT"
-          ],
-          "id": "STN-CHG-SA700",
-          "instructions": [
-            "release utility, protection, vehicle-interface, and supplier drawings",
-            "install charging cabinet, TPSS equipment, containment, earthing, and physical guards",
-            "complete FAT record review, cable tests, protection injection, and safe energisation",
-            "run vehicle alignment, handshake, charge, abort, isolation, and emergency-release tests"
-          ],
-          "title": "station charging and traction-power interface assembly",
-          "work_cell": "traction power and charging"
-        },
-        {
-          "children": [
-            "STN-PAX-P010",
-            "STN-PAX-P020",
-            "STN-PAX-P030",
-            "STN-PAX-P040",
-            "STN-PAX-P050",
-            "STN-PAX-P060",
-            "STN-PAX-P070",
-            "STN-PAX-P080"
-          ],
-          "hold_points": [
-            "control-electronics/configuration release",
-            "accessibility walkdown",
-            "station systems SAT"
-          ],
-          "id": "STN-PAX-SA500",
-          "instructions": [
-            "install the S-SBC from its controlled hardware BOM and record image/configuration hashes",
-            "install fare, PIS, CCTV, PA, help-point, LAN, seating, and signage equipment",
-            "verify accessible reach, circulation, sightlines, audio coverage, and emergency messages",
-            "run station self-test and end-to-end OCC communications/alarms"
-          ],
-          "title": "passenger systems, fare, information, security, and amenity assembly",
-          "work_cell": "systems fit-out"
-        },
-        {
-          "children": [
-            "STN-ACC-P010",
-            "STN-ACC-P020",
-            "STN-ACC-P030",
-            "STN-ACC-P040",
-            "STN-ACC-P050",
-            "STN-ACC-P060"
-          ],
-          "hold_points": [
-            "access geometry release",
-            "vertical-circulation certification",
-            "egress acceptance"
-          ],
-          "id": "STN-ACC-SA600",
-          "instructions": [
-            "release pedestrian desire-line, boundary, road-crossing, and egress interfaces",
-            "construct direct paths, kerbs, ramps, bridge/concourse, and step-free cores as applicable",
-            "commission lifts, protected crossings, lighting, drainage, and emergency recall",
-            "complete independent step-free and evacuation-route walkdowns"
-          ],
-          "title": "station access and vertical-circulation assembly",
-          "work_cell": "access works"
-        },
-        {
-          "children": [
-            "STN-CIV-SA100",
-            "STN-PLT-SA200",
-            "STN-CNP-SA300",
-            "STN-MEP-SA400",
-            "STN-CHG-SA700",
-            "STN-PAX-SA500",
-            "STN-ACC-SA600"
-          ],
-          "hold_points": [
-            "construction completion",
-            "integrated SAT",
-            "operator/AOR handover"
-          ],
-          "id": "STN-STATION-A900",
-          "instructions": [
-            "confirm every child traveler, NCR, certificate, survey, and as-built drawing is closed",
-            "perform integrated passenger-flow, accessibility, fire, power-loss, charging, and OCC tests",
-            "compile asset register, spares, maintenance instructions, configuration baseline, and handover pack"
-          ],
-          "title": "complete commissioned station",
-          "work_cell": "station integration"
-        }
-      ],
-      "baseline_exclusions": [
-        "platform screen doors are optional for light-metro-3car and are not included",
-        "site survey, geotechnical design, utilities, permits, and stamped calculations remain deployment-specific",
-        "auxiliary canopy requires deployment structural, foundation, drainage, egress, and electrical release"
-      ],
-      "consist": "light-metro-3car",
-      "parameters": {
-        "access_equipment": [
-          {
-            "id": "platform-1-lift-1",
-            "kind": "lift",
-            "length_mm": 3500,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3500,
-            "x_mm": -17000.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-lift-2",
-            "kind": "lift",
-            "length_mm": 3500,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3500,
-            "x_mm": 17000.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-shaft-1",
-            "kind": "shaft",
-            "length_mm": 3500,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3500,
-            "x_mm": -17000.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-shaft-2",
-            "kind": "shaft",
-            "length_mm": 3500,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3500,
-            "x_mm": 17000.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-escalator-1",
-            "kind": "escalator",
-            "length_mm": 10000,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 1800,
-            "x_mm": -9750.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-escalator-2",
-            "kind": "escalator",
-            "length_mm": 10000,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 1800,
-            "x_mm": 9750.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-staircase-1",
-            "kind": "staircase",
-            "length_mm": 10000,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3000,
-            "x_mm": -24250.0,
-            "y_mm": 0.0
-          },
-          {
-            "id": "platform-1-staircase-2",
-            "kind": "staircase",
-            "length_mm": 10000,
-            "served_levels": [
-              "street",
-              "concourse",
-              "platform"
-            ],
-            "width_mm": 3000,
-            "x_mm": 24250.0,
-            "y_mm": 0.0
-          }
-        ],
-        "access_type": "elevated-island-concourse",
-        "at_grade_slab_panels": 0,
-        "at_grade_track_channel_count": 0,
-        "auxiliary_canopy_installed_area_m2": 1309.0,
-        "auxiliary_canopy_kwp": 222.5,
-        "auxiliary_canopy_module_area_m2": 187.0,
-        "auxiliary_canopy_module_count": 7,
-        "auxiliary_canopy_required_area_m2": 1248.0,
-        "auxiliary_canopy_target_overbuild_m2": 61.0,
-        "boarding_face_count": 2,
-        "canopy_bays_per_platform": 10,
-        "charging_power_kw": 500,
-        "depot_archetype": "none",
-        "depot_reference_stalls": 0,
-        "depot_throat_turnouts": 0,
-        "dwell_seconds": 60,
-        "elevated_height_m": 9.0,
-        "elevation": "elevated",
-        "entrances": [
-          {
-            "connected_to": "concourse",
-            "id": "entrance-1",
-            "level": "street",
-            "surveyed": false,
-            "x_mm": -29750.0,
-            "y_mm": 0.0
-          },
-          {
-            "connected_to": "concourse",
-            "id": "entrance-2",
-            "level": "street",
-            "surveyed": false,
-            "x_mm": 29750.0,
-            "y_mm": 0.0
-          }
-        ],
-        "guideway_edge_modules": 0,
-        "layout": {
-          "concourse_decks": [
-            {
-              "id": "concourse",
-              "length_mm": 59500.0,
-              "level": "concourse",
-              "thickness_mm": 350.0,
-              "width_mm": 10000.0,
-              "x_mm": 0.0,
-              "y_mm": 0.0,
-              "z_mm": 4500.0
-            }
-          ],
-          "elevation": "elevated",
-          "entrances": [
-            {
-              "connected_to": "concourse",
-              "id": "entrance-1",
-              "level": "street",
-              "surveyed": false,
-              "x_mm": -29750.0,
-              "y_mm": 0.0
-            },
-            {
-              "connected_to": "concourse",
-              "id": "entrance-2",
-              "level": "street",
-              "surveyed": false,
-              "x_mm": 29750.0,
-              "y_mm": 0.0
-            }
-          ],
-          "equipment": [
-            {
-              "id": "platform-1-lift-1",
-              "kind": "lift",
-              "length_mm": 3500,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3500,
-              "x_mm": -17000.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-lift-2",
-              "kind": "lift",
-              "length_mm": 3500,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3500,
-              "x_mm": 17000.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-shaft-1",
-              "kind": "shaft",
-              "length_mm": 3500,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3500,
-              "x_mm": -17000.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-shaft-2",
-              "kind": "shaft",
-              "length_mm": 3500,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3500,
-              "x_mm": 17000.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-escalator-1",
-              "kind": "escalator",
-              "length_mm": 10000,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 1800,
-              "x_mm": -9750.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-escalator-2",
-              "kind": "escalator",
-              "length_mm": 10000,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 1800,
-              "x_mm": 9750.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-staircase-1",
-              "kind": "staircase",
-              "length_mm": 10000,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3000,
-              "x_mm": -24250.0,
-              "y_mm": 0.0
-            },
-            {
-              "id": "platform-1-staircase-2",
-              "kind": "staircase",
-              "length_mm": 10000,
-              "served_levels": [
-                "street",
-                "concourse",
-                "platform"
-              ],
-              "width_mm": 3000,
-              "x_mm": 24250.0,
-              "y_mm": 0.0
-            }
-          ],
-          "equipment_geometry_contained": true,
-          "faces": [
-            {
-              "boarding_z_mm": 9420.0,
-              "direction": 1,
-              "door_side": "left",
-              "dynamic_envelope_review_margin_mm": 15.0,
-              "id": "face-1",
-              "level": "platform",
-              "platform_face_y_mm": -4000.0,
-              "platform_id": "platform-1",
-              "psd_side": "left",
-              "static_vehicle_to_platform_gap_mm": 75.0,
-              "top_of_rail_z_mm": 9070.0,
-              "track_centre_y_mm": -5500.0
-            },
-            {
-              "boarding_z_mm": 9420.0,
-              "direction": -1,
-              "door_side": "left",
-              "dynamic_envelope_review_margin_mm": 15.0,
-              "id": "face-2",
-              "level": "platform",
-              "platform_face_y_mm": 4000.0,
-              "platform_id": "platform-1",
-              "psd_side": "left",
-              "static_vehicle_to_platform_gap_mm": 75.0,
-              "top_of_rail_z_mm": 9070.0,
-              "track_centre_y_mm": 5500.0
-            }
-          ],
-          "layout": "island",
-          "level_elevations_mm": {
-            "concourse": 4500.0,
-            "platform": 9420.0,
-            "street": 0.0
-          },
-          "minimum_clear_width_mm": 2250.0,
-          "platforms": [
-            {
-              "base_z_mm": 9000.0,
-              "id": "platform-1",
-              "level": "platform",
-              "width_mm": 8000.0,
-              "y_mm": 0.0
-            }
-          ],
-          "qualification": "study-only-access-flow-egress-and-structure-unreleased",
-          "quantities": {
-            "boarding_face_count": 2,
-            "escalator_count": 2,
-            "lift_count": 2,
-            "platform_count": 1,
-            "shaft_count": 2,
-            "staircase_count": 2,
-            "track_count": 2
-          },
-          "street_access_accepted": false,
-          "transfer_connections": []
-        },
-        "layout_exception_reason": "",
-        "levels_m": [
-          9.0
-        ],
-        "minimum_clear_width_m": 1.5,
-        "platform_canopy_area_m2": 552.0,
-        "platform_count": 1,
-        "platform_l_units": 40,
-        "platform_layout": "island",
-        "platform_length_m": 59.5,
-        "platform_width_m": 8.0,
-        "site_canopy_target_m2": 1800.0,
-        "total_canopy_bays": 10,
-        "tpss_kva": 0,
-        "track_count": 2,
-        "turnout_count": 0,
-        "turnout_sleeper_count": 0,
-        "turnout_switch_blade_length_m": 0,
-        "turnout_tangent": "none",
-        "turnout_total_length_m": 0
-      },
-      "product_items": [
-        {
-          "acceptance": [
-            "concrete certificate",
-            "dimensional inspection",
-            "lifting-point inspection"
-          ],
-          "id": "STN-CIV-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-PLT-SA200",
-          "quantity": 40,
-          "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 2 elevated boarding-face strips",
-          "route": "MAKE",
-          "source_refs": [
-            "civil/platform_l_unit.py",
-            "RFC 0010 \u00a74"
-          ],
-          "title": "precast reinforced-concrete elevated platform L-unit",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "compaction test",
-            "grout batch record",
-            "finished-level survey"
-          ],
-          "id": "STN-CIV-P020",
-          "maturity": "release-candidate",
-          "parent": "STN-PLT-SA200",
-          "quantity": 1,
-          "quantity_basis": "one placement and closure kit per configured platform",
-          "route": "MAKE",
-          "source_refs": [
-            "civil/platform_l_unit.py",
-            "RFC 0011"
-          ],
-          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
-          "unit": "platform kit"
-        },
-        {
-          "acceptance": [
-            "invert survey",
-            "flow test",
-            "outfall approval"
-          ],
-          "id": "STN-CIV-P030",
-          "maturity": "release-candidate",
-          "parent": "STN-CIV-SA100",
-          "quantity": 119.0,
-          "quantity_basis": "platform length \u00d7 configured platform count",
-          "route": "MAKE",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-M-002"
-          ],
-          "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
-          "unit": "m"
-        },
-        {
-          "acceptance": [
-            "contrast check",
-            "tactile layout inspection",
-            "platform-gap survey"
-          ],
-          "id": "STN-PLT-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-PLT-SA200",
-          "quantity": 119.0,
-          "quantity_basis": "full boarding edge length",
-          "route": "SOURCE",
-          "source_refs": [
-            "standard-archetype/accessibility.md",
-            "OSR-STD-A-011"
-          ],
-          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
-          "unit": "m"
-        },
-        {
-          "acceptance": [
-            "steel certificates",
-            "galvanising report",
-            "member dimensional check"
-          ],
-          "id": "STN-CNP-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-CNP-SA300",
-          "quantity": 10,
-          "quantity_basis": "canopy bay count \u00d7 configured platform count",
-          "route": "MAKE",
-          "source_refs": [
-            "station/portal.py",
-            "RFC 0010 \u00a79"
-          ],
-          "title": "6 m galvanised HEA portal-frame steel kit",
-          "unit": "bay kit"
-        },
-        {
-          "acceptance": [
-            "geotechnical release",
-            "rebar inspection",
-            "anchor-template survey",
-            "concrete test"
-          ],
-          "id": "STN-CNP-P020",
-          "maturity": "release-candidate",
-          "parent": "STN-CIV-SA100",
-          "quantity": 11,
-          "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
-          "route": "MAKE",
-          "source_refs": [
-            "station/canopy.py",
-            "OSR-STD-S-001",
-            "OSR-STD-S-002"
-          ],
-          "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
-          "unit": "column kit"
-        },
-        {
-          "acceptance": [
-            "fire/material certificate",
-            "insulation test",
-            "connector inspection",
-            "watertightness test"
-          ],
-          "id": "STN-CNP-P030",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-CNP-SA300",
-          "quantity": 10,
-          "quantity_basis": "one 6 m \u00d7 9.2 m panel per canopy bay",
-          "route": "BID",
-          "source_refs": [
-            "station/solar_roof.py",
-            "OSR-STD-E-003"
-          ],
-          "title": "factory-bonded solar roof sandwich panel with MC4 leads",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "polarity test",
-            "insulation resistance",
-            "bond continuity",
-            "string commissioning"
-          ],
-          "id": "STN-CNP-P040",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-CNP-SA300",
-          "quantity": 1,
-          "quantity_basis": "one controlled DC string and isolation package per platform canopy",
-          "route": "BID",
-          "source_refs": [
-            "OSR-STD-E-003",
-            "OSR-STD-E-004",
-            "OSR-STD-E-008"
-          ],
-          "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
-          "unit": "platform kit"
-        },
-        {
-          "acceptance": [
-            "IP inspection",
-            "thermal test",
-            "plinth/door clearance",
-            "condensate test"
-          ],
-          "id": "STN-MEP-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-MEP-SA400",
-          "quantity": 1,
-          "quantity_basis": "one coordinated services cabinet per station",
-          "route": "MAKE",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-A-013",
-            "OSR-STD-M-001"
-          ],
-          "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
-          "unit": "station kit"
-        },
-        {
-          "acceptance": [
-            "factory acceptance test",
-            "protection test",
-            "earth test",
-            "one-hour UPS test"
-          ],
-          "id": "STN-MEP-P020",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-MEP-SA400",
-          "quantity": 1,
-          "quantity_basis": "one coordinated LV and emergency-power package per station",
-          "route": "BID",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-E-001",
-            "OSR-STD-E-005"
-          ],
-          "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
-          "unit": "station kit"
-        },
-        {
-          "acceptance": [
-            "illuminance survey",
-            "emergency-mode test",
-            "RCD test"
-          ],
-          "id": "STN-MEP-P030",
-          "maturity": "release-candidate",
-          "parent": "STN-MEP-SA400",
-          "quantity": 20,
-          "quantity_basis": "two maintained lighting points per canopy bay",
-          "route": "SOURCE",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-E-002",
-            "OSR-STD-E-005"
-          ],
-          "title": "platform and emergency LED luminaire, support, and cable kit",
-          "unit": "luminaire point"
-        },
-        {
-          "acceptance": [
-            "cause-and-effect test",
-            "OCC alarm test",
-            "extinguisher inspection",
-            "egress walkdown"
-          ],
-          "id": "STN-MEP-P040",
-          "maturity": "release-candidate",
-          "parent": "STN-MEP-SA400",
-          "quantity": 1,
-          "quantity_basis": "one life-safety kit sized to the configured platform count",
-          "route": "SOURCE",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-F-001",
-            "OSR-STD-F-004"
-          ],
-          "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
-          "unit": "station kit"
-        },
-        {
-          "acceptance": [
-            "hardware BOM check",
-            "image checksum",
-            "self-test",
-            "network enumeration"
-          ],
-          "id": "STN-PAX-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-PAX-SA500",
-          "quantity": 1,
-          "quantity_basis": "one live host per station; depot-held cold spare excluded",
-          "route": "SOURCE",
-          "source_refs": [
-            "control-electronics/s-sbc/diy-assembly/README.md",
-            "control-electronics/s-sbc/schematics/v2-spec/README.md"
-          ],
-          "title": "S-SBC station/depot host and rack enclosure",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "content test",
-            "visibility check",
-            "emergency-message test"
-          ],
-          "id": "STN-PAX-P020",
-          "maturity": "release-candidate",
-          "parent": "STN-PAX-SA500",
-          "quantity": 2,
-          "quantity_basis": "two primary visual-information points per configured platform",
-          "route": "SOURCE",
-          "source_refs": [
-            "standard-archetype/accessibility.md",
-            "OSR-STD-E-007"
-          ],
-          "title": "passenger-information display and route-strip kit",
-          "unit": "display point"
-        },
-        {
-          "acceptance": [
-            "camera coverage",
-            "speech intelligibility",
-            "help-point call",
-            "OCC failover test"
-          ],
-          "id": "STN-PAX-P030",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-PAX-SA500",
-          "quantity": 1,
-          "quantity_basis": "one coordinated communications/security kit per configured platform",
-          "route": "BID",
-          "source_refs": [
-            "standard-archetype/services.md",
-            "OSR-STD-E-006",
-            "OSR-STD-E-007"
-          ],
-          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
-          "unit": "platform kit"
-        },
-        {
-          "acceptance": [
-            "accessible-lane gauge",
-            "AFC transaction test",
-            "power-loss release",
-            "plinth anchor test"
-          ],
-          "id": "STN-PAX-P040",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-PAX-SA500",
-          "quantity": 4,
-          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
-          "route": "BID",
-          "source_refs": [
-            "RFC 0010 \u00a78",
-            "OSR-STD-A-003",
-            "OSR-STD-A-014"
-          ],
-          "title": "fare gate, accessible gate, and validator equipment kit",
-          "unit": "lane/validator"
-        },
-        {
-          "acceptance": [
-            "transaction test",
-            "accessibility reach check",
-            "cabinet ingress test"
-          ],
-          "id": "STN-PAX-P050",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-PAX-SA500",
-          "quantity": 2,
-          "quantity_basis": "RFC 0010 TVM count; zero at halt",
-          "route": "BID",
-          "source_refs": [
-            "RFC 0010 \u00a78",
-            "OSR-STD-A-003"
-          ],
-          "title": "ticket-vending machine equipment kit",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "fabrication drawing",
-            "anchor proof",
-            "level/edge inspection",
-            "accessible-route clearance",
-            "bond continuity"
-          ],
-          "id": "STN-PAX-P070",
-          "maturity": "release-candidate",
-          "parent": "STN-PAX-SA500",
-          "quantity": 4,
-          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
-          "route": "MAKE",
-          "source_refs": [
-            "station/plinth.py",
-            "OSR-STD-A-014",
-            "OSR-STD-S-007"
-          ],
-          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
-          "unit": "lane plinth"
-        },
-        {
-          "acceptance": [
-            "fabrication drawing",
-            "anchor proof",
-            "level inspection",
-            "accessible-reach clearance",
-            "bond continuity"
-          ],
-          "id": "STN-PAX-P080",
-          "maturity": "release-candidate",
-          "parent": "STN-PAX-SA500",
-          "quantity": 2,
-          "quantity_basis": "one separately replaceable plinth per configured TVM",
-          "route": "MAKE",
-          "source_refs": [
-            "station/plinth.py",
-            "OSR-STD-A-003",
-            "OSR-STD-S-007"
-          ],
-          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
-          "unit": "TVM plinth"
-        },
-        {
-          "acceptance": [
-            "wheelchair-zone survey",
-            "signage schedule check",
-            "circulation gauge"
-          ],
-          "id": "STN-PAX-P060",
-          "maturity": "release-candidate",
-          "parent": "STN-PAX-SA500",
-          "quantity": 1,
-          "quantity_basis": "one passenger-amenity kit per configured platform",
-          "route": "SOURCE",
-          "source_refs": [
-            "standard-archetype/accessibility.md",
-            "OSR-STD-T-001",
-            "OSR-STD-T-003"
-          ],
-          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
-          "unit": "platform kit"
-        },
-        {
-          "acceptance": [
-            "step-free route survey",
-            "surface/slip inspection",
-            "protected-crossing interface test"
-          ],
-          "id": "STN-ACC-P010",
-          "maturity": "release-candidate",
-          "parent": "STN-ACC-SA600",
-          "quantity": 1,
-          "quantity_basis": "elevated-island-concourse",
-          "route": "MAKE",
-          "source_refs": [
-            "RFC 0010 \u00a75",
-            "OSR-STD-A-012",
-            "OSR-STD-M-004"
-          ],
-          "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
-          "unit": "station kit"
-        },
-        {
-          "acceptance": [
-            "station civil/support release",
-            "rail datum and gauge survey"
-          ],
-          "id": "STN-CIV-P060",
-          "maturity": "study-only",
-          "parent": "STN-PLT-SA200",
-          "quantity": 119.0,
-          "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
-          "route": "MAKE",
-          "source_refs": [
-            "RFC 0034"
-          ],
-          "title": "station track-deck and running-rail interface",
-          "unit": "track m"
-        },
-        {
-          "acceptance": [
-            "station structural design release",
-            "deck lifting/installation release"
-          ],
-          "id": "STN-CIV-P050",
-          "maturity": "study-only",
-          "parent": "STN-PLT-SA200",
-          "quantity": 119.0,
-          "quantity_basis": "island width minus two 3 m edge strips, times platform length and count",
-          "route": "MAKE",
-          "source_refs": [
-            "RFC 0034"
-          ],
-          "title": "island centre deck infill between edge L-unit strips",
-          "unit": "m2"
-        },
-        {
-          "acceptance": [
-            "panel fire/material certificate",
-            "module dimensional report",
-            "watertightness test",
-            "PV insulation/polarity test"
-          ],
-          "id": "STN-CNP-P050",
-          "maturity": "buildable-after-supplier-and-structural-release",
-          "parent": "STN-CNP-SA300",
-          "quantity": 7,
-          "quantity_basis": "ceil(1248.0 m2 required / 187 m2 module)",
-          "route": "BID",
-          "source_refs": [
-            "station/auxiliary_canopy.py",
-            "station/solar_roof.py",
-            "RFC 0010 \u00a79"
-          ],
-          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
-          "unit": "187 m2 module"
-        },
-        {
-          "acceptance": [
-            "controlled fabrication drawing",
-            "steel certificates",
-            "weld/NDT record",
-            "frame dimensional survey",
-            "galvanising report"
-          ],
-          "id": "STN-CNP-P060",
-          "maturity": "buildable-after-structural-calculation-and-drawing-release",
-          "parent": "STN-CNP-SA300",
-          "quantity": 8,
-          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
-          "route": "MAKE",
-          "source_refs": [
-            "station/auxiliary_canopy.py",
-            "standard-archetype/canopy.md",
-            "RFC 0010 \u00a79"
-          ],
-          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
-          "unit": "shared frame"
-        },
-        {
-          "acceptance": [
-            "site geotechnical release",
-            "foundation calculation",
-            "rebar/pre-pour inspection",
-            "anchor-template survey",
-            "concrete test"
-          ],
-          "id": "STN-CNP-P070",
-          "maturity": "buildable-after-site-structural-release",
-          "parent": "STN-CIV-SA100",
-          "quantity": 16,
-          "quantity_basis": "two column foundations for each shared transverse frame",
-          "route": "MAKE",
-          "source_refs": [
-            "station/auxiliary_canopy.py",
-            "standard-archetype/canopy.md",
-            "RFC 0010 \u00a79"
-          ],
-          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
-          "unit": "column kit"
-        },
-        {
-          "acceptance": [
-            "string schedule",
-            "polarity/insulation test",
-            "bond continuity",
-            "protection settings",
-            "energy-site commissioning"
-          ],
-          "id": "STN-CNP-P080",
-          "maturity": "buildable-after-electrical-and-supplier-freeze",
-          "parent": "STN-CNP-SA300",
-          "quantity": 1,
-          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
-          "route": "BID",
-          "source_refs": [
-            "station/auxiliary_canopy.py",
-            "OSR-STD-E-003",
-            "OSR-STD-E-004"
-          ],
-          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
-          "unit": "string group"
-        },
-        {
-          "acceptance": [
-            "drainage flow test",
-            "lightning/bond test",
-            "edge-protection inspection",
-            "maintenance-access walkdown"
-          ],
-          "id": "STN-CNP-P090",
-          "maturity": "buildable-after-site-and-supplier-freeze",
-          "parent": "STN-CNP-SA300",
-          "quantity": 7,
-          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
-          "route": "SOURCE",
-          "source_refs": [
-            "station/auxiliary_canopy.py",
-            "standard-archetype/canopy.md",
-            "RFC 0010 \u00a79"
-          ],
-          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
-          "unit": "roof-bay kit"
-        },
-        {
-          "acceptance": [
-            "FAT",
-            "insulation/protection test",
-            "vehicle alignment test",
-            "abort/interlock test"
-          ],
-          "id": "STN-CHG-P010",
-          "maturity": "buildable-after-supplier-freeze",
-          "parent": "STN-CHG-SA700",
-          "quantity": 500,
-          "quantity_basis": "configured station charging power",
-          "route": "BID",
-          "source_refs": [
-            "lib/templates/stations.toml",
-            "RFC 0026"
-          ],
-          "title": "station charging cabinet, protection, cable, and wayside connector kit",
-          "unit": "kW installed"
-        },
-        {
-          "acceptance": [
-            "lift certification",
-            "fire recall test",
-            "backup-power test",
-            "accessibility survey"
-          ],
-          "id": "STN-ACC-P020",
-          "maturity": "buildable-after-site-and-supplier-freeze",
-          "parent": "STN-ACC-SA600",
-          "quantity": 2,
-          "quantity_basis": "lift identities and served levels from shared layout",
-          "route": "BID",
-          "source_refs": [
-            "lib/templates/stations.toml",
-            "RFC 0010 \u00a75"
-          ],
-          "title": "installed passenger lift",
-          "unit": "core"
-        },
-        {
-          "acceptance": [
-            "supplier and independent access/egress acceptance"
-          ],
-          "id": "STN-ACC-P040",
-          "maturity": "study-only",
-          "parent": "STN-ACC-SA600",
-          "quantity": 2,
-          "quantity_basis": "equipment identities and served levels from shared layout",
-          "route": "BID",
-          "source_refs": [
-            "RFC 0034"
-          ],
-          "title": "installed escalator",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "supplier and independent access/egress acceptance"
-          ],
-          "id": "STN-ACC-P050",
-          "maturity": "study-only",
-          "parent": "STN-ACC-SA600",
-          "quantity": 2,
-          "quantity_basis": "equipment identities and served levels from shared layout",
-          "route": "BID",
-          "source_refs": [
-            "RFC 0034"
-          ],
-          "title": "installed staircase",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "supplier and independent access/egress acceptance"
-          ],
-          "id": "STN-ACC-P060",
-          "maturity": "study-only",
-          "parent": "STN-ACC-SA600",
-          "quantity": 2,
-          "quantity_basis": "equipment identities and served levels from shared layout",
-          "route": "BID",
-          "source_refs": [
-            "RFC 0034"
-          ],
-          "title": "installed shaft",
-          "unit": "ea"
-        },
-        {
-          "acceptance": [
-            "structural release",
-            "clearance survey",
-            "egress test",
-            "weatherproofing inspection"
-          ],
-          "id": "STN-ACC-P030",
-          "maturity": "buildable-after-site-and-supplier-freeze",
-          "parent": "STN-ACC-SA600",
-          "quantity": 1,
-          "quantity_basis": "configured access-bridge count",
-          "route": "BID",
-          "source_refs": [
-            "lib/templates/stations.toml",
-            "RFC 0011 \u00a77"
-          ],
-          "title": "pedestrian overbridge/concourse structural and enclosure kit",
-          "unit": "ea"
-        }
-      ],
-      "source_archetype": "standard"
-    },
-    {
-      "archetype": "variant-003",
-      "assemblies": [
-        {
-          "children": [
-            "STN-CIV-P030",
-            "STN-CNP-P020",
-            "STN-CNP-P070"
-          ],
-          "hold_points": [
-            "survey/geotechnical release",
-            "pre-pour inspection",
-            "foundation and drainage survey"
-          ],
-          "id": "STN-CIV-SA100",
-          "instructions": [
-            "release survey, utilities, geotechnical report, drainage outfall, and temporary-works plan",
-            "set out platform, track, canopy-column, cabinet, and access datums",
-            "construct drainage, footing reinforcement, anchor templates, and concrete works",
-            "cure, test, survey, and release foundations before precast or steel placement"
-          ],
-          "title": "site, foundation, drainage, and track/depot interface works",
-          "work_cell": "civil works"
-        },
-        {
-          "children": [
-            "STN-CIV-P010",
-            "STN-CIV-P020",
-            "STN-CIV-P050",
-            "STN-CIV-P060",
-            "STN-PLT-P010"
-          ],
-          "hold_points": [
-            "first-unit placement",
-            "grout/cure release",
-            "boarding-interface survey"
-          ],
-          "id": "STN-PLT-SA200",
-          "instructions": [
-            "inspect delivery certificates, lifting points, and platform datum",
-            "place elevated L-units on the released structure using the approved lifting plan",
-            "install and survey guideway edge modules where required, maintaining the 350 mm platform-to-ToR datum",
-            "grout bearing lands and complete non-critical closure pours",
-            "install coping, tactile strip, warning line, and edge markers",
-            "survey height, horizontal gap, straightness, crossfall, and egress width"
-          ],
-          "title": "platform, guideway-channel, and boarding-edge assembly",
-          "work_cell": "civil/platform construction"
-        },
-        {
-          "children": [
-            "STN-CNP-P010",
-            "STN-CNP-P030",
-            "STN-CNP-P040",
-            "STN-CNP-P050",
-            "STN-CNP-P060",
-            "STN-CNP-P080",
-            "STN-CNP-P090"
-          ],
-          "hold_points": [
-            "first portal plumb/torque",
-            "structural frame release",
-            "roof/PV electrical release"
-          ],
-          "id": "STN-CNP-SA300",
-          "instructions": [
-            "verify foundation/anchor survey and incoming galvanised-steel certificates",
-            "erect columns, rafters, braces, and temporary stability system bay by bay",
-            "complete structural bolt torque/marking and frame plumb survey",
-            "lift and fasten factory roof panels using the released panel clamp plan",
-            "connect PV strings, combiner, isolation, bonding, lightning protection, and downlinks",
-            "erect auxiliary shared truss frames and roof bays to the released site layout, including drainage and safe-access systems",
-            "complete roof water test and PV insulation/polarity/commissioning records"
-          ],
-          "title": "modular canopy, roof, and PV assembly",
-          "work_cell": "steel erection and solar"
-        },
-        {
-          "children": [
-            "STN-MEP-P010",
-            "STN-MEP-P020",
-            "STN-MEP-P030",
-            "STN-MEP-P040"
-          ],
-          "hold_points": [
-            "cabinet/plinth release",
-            "electrical safe-to-energise",
-            "MEP integrated test"
-          ],
-          "id": "STN-MEP-SA400",
-          "instructions": [
-            "install and anchor the service cabinet after civil release",
-            "install LV distribution, UPS, earthing, lighting, fire, and communications containment",
-            "install charging/TPSS equipment only after supplier and utility release",
-            "terminate, label, inspect, energise, and execute discipline test sheets"
-          ],
-          "title": "station mechanical, electrical, drainage-services, and fire assembly",
-          "work_cell": "MEP installation"
-        },
-        {
-          "children": [
             "STN-CHG-P010",
             "STN-CHG-P020"
           ],
@@ -3935,7 +2695,7 @@
       "source_archetype": "interchange"
     },
     {
-      "archetype": "variant-004",
+      "archetype": "variant-003",
       "assemblies": [
         {
           "children": [
@@ -4922,7 +3682,7 @@
       "source_archetype": "interchange"
     },
     {
-      "archetype": "variant-005",
+      "archetype": "variant-004",
       "assemblies": [
         {
           "children": [
@@ -5022,8 +3782,7 @@
         },
         {
           "children": [
-            "STN-CHG-P010",
-            "STN-CHG-P020"
+            "STN-CHG-P010"
           ],
           "hold_points": [
             "utility/supplier release",
@@ -5231,12 +3990,12 @@
         "access_type": "elevated-island-concourse",
         "at_grade_slab_panels": 0,
         "at_grade_track_channel_count": 0,
-        "auxiliary_canopy_installed_area_m2": 1496.0,
-        "auxiliary_canopy_kwp": 254.3,
+        "auxiliary_canopy_installed_area_m2": 1309.0,
+        "auxiliary_canopy_kwp": 222.5,
         "auxiliary_canopy_module_area_m2": 187.0,
-        "auxiliary_canopy_module_count": 8,
-        "auxiliary_canopy_required_area_m2": 1448.0,
-        "auxiliary_canopy_target_overbuild_m2": 48.0,
+        "auxiliary_canopy_module_count": 7,
+        "auxiliary_canopy_required_area_m2": 1248.0,
+        "auxiliary_canopy_target_overbuild_m2": 61.0,
         "boarding_face_count": 2,
         "canopy_bays_per_platform": 10,
         "charging_power_kw": 500,
@@ -5474,9 +4233,9 @@
         "platform_layout": "island",
         "platform_length_m": 59.5,
         "platform_width_m": 8.0,
-        "site_canopy_target_m2": 2000.0,
+        "site_canopy_target_m2": 1800.0,
         "total_canopy_bays": 10,
-        "tpss_kva": 800,
+        "tpss_kva": 0,
         "track_count": 2,
         "turnout_count": 0,
         "turnout_sleeper_count": 0,
@@ -5795,7 +4554,7 @@
           "id": "STN-PAX-P040",
           "maturity": "buildable-after-supplier-freeze",
           "parent": "STN-PAX-SA500",
-          "quantity": 6,
+          "quantity": 4,
           "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
           "route": "BID",
           "source_refs": [
@@ -5815,7 +4574,7 @@
           "id": "STN-PAX-P050",
           "maturity": "buildable-after-supplier-freeze",
           "parent": "STN-PAX-SA500",
-          "quantity": 4,
+          "quantity": 2,
           "quantity_basis": "RFC 0010 TVM count; zero at halt",
           "route": "BID",
           "source_refs": [
@@ -5836,7 +4595,7 @@
           "id": "STN-PAX-P070",
           "maturity": "release-candidate",
           "parent": "STN-PAX-SA500",
-          "quantity": 6,
+          "quantity": 4,
           "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
           "route": "MAKE",
           "source_refs": [
@@ -5858,7 +4617,7 @@
           "id": "STN-PAX-P080",
           "maturity": "release-candidate",
           "parent": "STN-PAX-SA500",
-          "quantity": 4,
+          "quantity": 2,
           "quantity_basis": "one separately replaceable plinth per configured TVM",
           "route": "MAKE",
           "source_refs": [
@@ -5953,8 +4712,8 @@
           "id": "STN-CNP-P050",
           "maturity": "buildable-after-supplier-and-structural-release",
           "parent": "STN-CNP-SA300",
-          "quantity": 8,
-          "quantity_basis": "ceil(1448.0 m2 required / 187 m2 module)",
+          "quantity": 7,
+          "quantity_basis": "ceil(1248.0 m2 required / 187 m2 module)",
           "route": "BID",
           "source_refs": [
             "station/auxiliary_canopy.py",
@@ -5975,7 +4734,7 @@
           "id": "STN-CNP-P060",
           "maturity": "buildable-after-structural-calculation-and-drawing-release",
           "parent": "STN-CNP-SA300",
-          "quantity": 9,
+          "quantity": 8,
           "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
           "route": "MAKE",
           "source_refs": [
@@ -5997,7 +4756,7 @@
           "id": "STN-CNP-P070",
           "maturity": "buildable-after-site-structural-release",
           "parent": "STN-CIV-SA100",
-          "quantity": 18,
+          "quantity": 16,
           "quantity_basis": "two column foundations for each shared transverse frame",
           "route": "MAKE",
           "source_refs": [
@@ -6040,7 +4799,7 @@
           "id": "STN-CNP-P090",
           "maturity": "buildable-after-site-and-supplier-freeze",
           "parent": "STN-CNP-SA300",
-          "quantity": 8,
+          "quantity": 7,
           "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
           "route": "SOURCE",
           "source_refs": [
@@ -6070,26 +4829,6 @@
           ],
           "title": "station charging cabinet, protection, cable, and wayside connector kit",
           "unit": "kW installed"
-        },
-        {
-          "acceptance": [
-            "utility approval",
-            "FAT/SAT",
-            "protection coordination",
-            "earthing test"
-          ],
-          "id": "STN-CHG-P020",
-          "maturity": "buildable-after-utility-and-supplier-freeze",
-          "parent": "STN-CHG-SA700",
-          "quantity": 800,
-          "quantity_basis": "configured TPSS capacity",
-          "route": "BID",
-          "source_refs": [
-            "lib/templates/stations.toml",
-            "RFC 0002"
-          ],
-          "title": "traction power substation transformer/rectifier and protection interface",
-          "unit": "kVA installed"
         },
         {
           "acceptance": [
@@ -6180,7 +4919,1069 @@
           "unit": "ea"
         }
       ],
-      "source_archetype": "major"
+      "source_archetype": "standard"
+    },
+    {
+      "archetype": "variant-005",
+      "assemblies": [
+        {
+          "children": [
+            "STN-CIV-P030",
+            "STN-CNP-P020"
+          ],
+          "hold_points": [
+            "survey/geotechnical release",
+            "pre-pour inspection",
+            "foundation and drainage survey"
+          ],
+          "id": "STN-CIV-SA100",
+          "instructions": [
+            "release survey, utilities, geotechnical report, drainage outfall, and temporary-works plan",
+            "set out platform, track, canopy-column, cabinet, and access datums",
+            "construct drainage, footing reinforcement, anchor templates, and concrete works",
+            "cure, test, survey, and release foundations before precast or steel placement"
+          ],
+          "title": "site, foundation, drainage, and track/depot interface works",
+          "work_cell": "civil works"
+        },
+        {
+          "children": [
+            "STN-CIV-P010",
+            "STN-CIV-P020",
+            "STN-CIV-P050",
+            "STN-CIV-P060",
+            "STN-PLT-P010"
+          ],
+          "hold_points": [
+            "first-unit placement",
+            "grout/cure release",
+            "boarding-interface survey"
+          ],
+          "id": "STN-PLT-SA200",
+          "instructions": [
+            "inspect delivery certificates, lifting points, and platform datum",
+            "place elevated L-units on the released structure using the approved lifting plan",
+            "install and survey guideway edge modules where required, maintaining the 350 mm platform-to-ToR datum",
+            "grout bearing lands and complete non-critical closure pours",
+            "install coping, tactile strip, warning line, and edge markers",
+            "survey height, horizontal gap, straightness, crossfall, and egress width"
+          ],
+          "title": "platform, guideway-channel, and boarding-edge assembly",
+          "work_cell": "civil/platform construction"
+        },
+        {
+          "children": [
+            "STN-CNP-P010",
+            "STN-CNP-P030",
+            "STN-CNP-P040"
+          ],
+          "hold_points": [
+            "first portal plumb/torque",
+            "structural frame release",
+            "roof/PV electrical release"
+          ],
+          "id": "STN-CNP-SA300",
+          "instructions": [
+            "verify foundation/anchor survey and incoming galvanised-steel certificates",
+            "erect columns, rafters, braces, and temporary stability system bay by bay",
+            "complete structural bolt torque/marking and frame plumb survey",
+            "lift and fasten factory roof panels using the released panel clamp plan",
+            "connect PV strings, combiner, isolation, bonding, lightning protection, and downlinks",
+            "erect auxiliary shared truss frames and roof bays to the released site layout, including drainage and safe-access systems",
+            "complete roof water test and PV insulation/polarity/commissioning records"
+          ],
+          "title": "modular canopy, roof, and PV assembly",
+          "work_cell": "steel erection and solar"
+        },
+        {
+          "children": [
+            "STN-MEP-P010",
+            "STN-MEP-P020",
+            "STN-MEP-P030",
+            "STN-MEP-P040"
+          ],
+          "hold_points": [
+            "cabinet/plinth release",
+            "electrical safe-to-energise",
+            "MEP integrated test"
+          ],
+          "id": "STN-MEP-SA400",
+          "instructions": [
+            "install and anchor the service cabinet after civil release",
+            "install LV distribution, UPS, earthing, lighting, fire, and communications containment",
+            "install charging/TPSS equipment only after supplier and utility release",
+            "terminate, label, inspect, energise, and execute discipline test sheets"
+          ],
+          "title": "station mechanical, electrical, drainage-services, and fire assembly",
+          "work_cell": "MEP installation"
+        },
+        {
+          "children": [],
+          "hold_points": [
+            "utility/supplier release",
+            "safe-to-energise",
+            "vehicle charging SAT"
+          ],
+          "id": "STN-CHG-SA700",
+          "instructions": [
+            "release utility, protection, vehicle-interface, and supplier drawings",
+            "install charging cabinet, TPSS equipment, containment, earthing, and physical guards",
+            "complete FAT record review, cable tests, protection injection, and safe energisation",
+            "run vehicle alignment, handshake, charge, abort, isolation, and emergency-release tests"
+          ],
+          "title": "station charging and traction-power interface assembly",
+          "work_cell": "traction power and charging"
+        },
+        {
+          "children": [
+            "STN-PAX-P010",
+            "STN-PAX-P020",
+            "STN-PAX-P030",
+            "STN-PAX-P040",
+            "STN-PAX-P060",
+            "STN-PAX-P070"
+          ],
+          "hold_points": [
+            "control-electronics/configuration release",
+            "accessibility walkdown",
+            "station systems SAT"
+          ],
+          "id": "STN-PAX-SA500",
+          "instructions": [
+            "install the S-SBC from its controlled hardware BOM and record image/configuration hashes",
+            "install fare, PIS, CCTV, PA, help-point, LAN, seating, and signage equipment",
+            "verify accessible reach, circulation, sightlines, audio coverage, and emergency messages",
+            "run station self-test and end-to-end OCC communications/alarms"
+          ],
+          "title": "passenger systems, fare, information, security, and amenity assembly",
+          "work_cell": "systems fit-out"
+        },
+        {
+          "children": [
+            "STN-ACC-P010",
+            "STN-ACC-P020",
+            "STN-ACC-P030",
+            "STN-ACC-P040",
+            "STN-ACC-P050",
+            "STN-ACC-P060"
+          ],
+          "hold_points": [
+            "access geometry release",
+            "vertical-circulation certification",
+            "egress acceptance"
+          ],
+          "id": "STN-ACC-SA600",
+          "instructions": [
+            "release pedestrian desire-line, boundary, road-crossing, and egress interfaces",
+            "construct direct paths, kerbs, ramps, bridge/concourse, and step-free cores as applicable",
+            "commission lifts, protected crossings, lighting, drainage, and emergency recall",
+            "complete independent step-free and evacuation-route walkdowns"
+          ],
+          "title": "station access and vertical-circulation assembly",
+          "work_cell": "access works"
+        },
+        {
+          "children": [
+            "STN-CIV-SA100",
+            "STN-PLT-SA200",
+            "STN-CNP-SA300",
+            "STN-MEP-SA400",
+            "STN-CHG-SA700",
+            "STN-PAX-SA500",
+            "STN-ACC-SA600"
+          ],
+          "hold_points": [
+            "construction completion",
+            "integrated SAT",
+            "operator/AOR handover"
+          ],
+          "id": "STN-STATION-A900",
+          "instructions": [
+            "confirm every child traveler, NCR, certificate, survey, and as-built drawing is closed",
+            "perform integrated passenger-flow, accessibility, fire, power-loss, charging, and OCC tests",
+            "compile asset register, spares, maintenance instructions, configuration baseline, and handover pack"
+          ],
+          "title": "complete commissioned station",
+          "work_cell": "station integration"
+        }
+      ],
+      "baseline_exclusions": [
+        "platform screen doors are optional for light-metro-3car and are not included",
+        "site survey, geotechnical design, utilities, permits, and stamped calculations remain deployment-specific",
+        "auxiliary canopy requires deployment structural, foundation, drainage, egress, and electrical release"
+      ],
+      "consist": "light-metro-3car",
+      "parameters": {
+        "access_equipment": [
+          {
+            "id": "platform-1-lift-1",
+            "kind": "lift",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": -15000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-lift-2",
+            "kind": "lift",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": 15000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-shaft-1",
+            "kind": "shaft",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": -15000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-shaft-2",
+            "kind": "shaft",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": 15000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-escalator-1",
+            "kind": "escalator",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 1800,
+            "x_mm": -7750.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-escalator-2",
+            "kind": "escalator",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 1800,
+            "x_mm": 7750.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-staircase-1",
+            "kind": "staircase",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3000,
+            "x_mm": -22250.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-staircase-2",
+            "kind": "staircase",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3000,
+            "x_mm": 22250.0,
+            "y_mm": 0.0
+          }
+        ],
+        "access_type": "elevated-island-concourse",
+        "at_grade_slab_panels": 0,
+        "at_grade_track_channel_count": 0,
+        "auxiliary_canopy_installed_area_m2": 0.0,
+        "auxiliary_canopy_kwp": 0.0,
+        "auxiliary_canopy_module_area_m2": 187.0,
+        "auxiliary_canopy_module_count": 0,
+        "auxiliary_canopy_required_area_m2": 0.0,
+        "auxiliary_canopy_target_overbuild_m2": 0.0,
+        "boarding_face_count": 2,
+        "canopy_bays_per_platform": 10,
+        "charging_power_kw": 0,
+        "depot_archetype": "none",
+        "depot_reference_stalls": 0,
+        "depot_throat_turnouts": 0,
+        "dwell_seconds": 60,
+        "elevated_height_m": 9.0,
+        "elevation": "elevated",
+        "entrances": [
+          {
+            "connected_to": "concourse",
+            "id": "entrance-1",
+            "level": "street",
+            "surveyed": false,
+            "x_mm": -27750.0,
+            "y_mm": 0.0
+          },
+          {
+            "connected_to": "concourse",
+            "id": "entrance-2",
+            "level": "street",
+            "surveyed": false,
+            "x_mm": 27750.0,
+            "y_mm": 0.0
+          }
+        ],
+        "guideway_edge_modules": 0,
+        "layout": {
+          "concourse_decks": [
+            {
+              "id": "concourse",
+              "length_mm": 55500.0,
+              "level": "concourse",
+              "thickness_mm": 350.0,
+              "width_mm": 10000.0,
+              "x_mm": 0.0,
+              "y_mm": 0.0,
+              "z_mm": 4500.0
+            }
+          ],
+          "elevation": "elevated",
+          "entrances": [
+            {
+              "connected_to": "concourse",
+              "id": "entrance-1",
+              "level": "street",
+              "surveyed": false,
+              "x_mm": -27750.0,
+              "y_mm": 0.0
+            },
+            {
+              "connected_to": "concourse",
+              "id": "entrance-2",
+              "level": "street",
+              "surveyed": false,
+              "x_mm": 27750.0,
+              "y_mm": 0.0
+            }
+          ],
+          "equipment": [
+            {
+              "id": "platform-1-lift-1",
+              "kind": "lift",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": -15000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-lift-2",
+              "kind": "lift",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": 15000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-shaft-1",
+              "kind": "shaft",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": -15000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-shaft-2",
+              "kind": "shaft",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": 15000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-escalator-1",
+              "kind": "escalator",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 1800,
+              "x_mm": -7750.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-escalator-2",
+              "kind": "escalator",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 1800,
+              "x_mm": 7750.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-staircase-1",
+              "kind": "staircase",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3000,
+              "x_mm": -22250.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-staircase-2",
+              "kind": "staircase",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3000,
+              "x_mm": 22250.0,
+              "y_mm": 0.0
+            }
+          ],
+          "equipment_geometry_contained": true,
+          "faces": [
+            {
+              "boarding_z_mm": 9420.0,
+              "direction": 1,
+              "door_side": "left",
+              "dynamic_envelope_review_margin_mm": 15.0,
+              "id": "face-1",
+              "level": "platform",
+              "platform_face_y_mm": -4000.0,
+              "platform_id": "platform-1",
+              "psd_side": "left",
+              "static_vehicle_to_platform_gap_mm": 75.0,
+              "top_of_rail_z_mm": 9070.0,
+              "track_centre_y_mm": -5500.0
+            },
+            {
+              "boarding_z_mm": 9420.0,
+              "direction": -1,
+              "door_side": "left",
+              "dynamic_envelope_review_margin_mm": 15.0,
+              "id": "face-2",
+              "level": "platform",
+              "platform_face_y_mm": 4000.0,
+              "platform_id": "platform-1",
+              "psd_side": "left",
+              "static_vehicle_to_platform_gap_mm": 75.0,
+              "top_of_rail_z_mm": 9070.0,
+              "track_centre_y_mm": 5500.0
+            }
+          ],
+          "layout": "island",
+          "level_elevations_mm": {
+            "concourse": 4500.0,
+            "platform": 9420.0,
+            "street": 0.0
+          },
+          "minimum_clear_width_mm": 2250.0,
+          "platforms": [
+            {
+              "base_z_mm": 9000.0,
+              "id": "platform-1",
+              "level": "platform",
+              "width_mm": 8000.0,
+              "y_mm": 0.0
+            }
+          ],
+          "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+          "quantities": {
+            "boarding_face_count": 2,
+            "escalator_count": 2,
+            "lift_count": 2,
+            "platform_count": 1,
+            "shaft_count": 2,
+            "staircase_count": 2,
+            "track_count": 2
+          },
+          "street_access_accepted": false,
+          "transfer_connections": []
+        },
+        "layout_exception_reason": "",
+        "levels_m": [
+          9.0
+        ],
+        "minimum_clear_width_m": 1.5,
+        "platform_canopy_area_m2": 552.0,
+        "platform_count": 1,
+        "platform_l_units": 38,
+        "platform_layout": "island",
+        "platform_length_m": 55.5,
+        "platform_width_m": 8.0,
+        "site_canopy_target_m2": 400.0,
+        "total_canopy_bays": 10,
+        "tpss_kva": 0,
+        "track_count": 2,
+        "turnout_count": 0,
+        "turnout_sleeper_count": 0,
+        "turnout_switch_blade_length_m": 0,
+        "turnout_tangent": "none",
+        "turnout_total_length_m": 0
+      },
+      "product_items": [
+        {
+          "acceptance": [
+            "concrete certificate",
+            "dimensional inspection",
+            "lifting-point inspection"
+          ],
+          "id": "STN-CIV-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 38,
+          "quantity_basis": "ceil(55.5 m / 3 m) \u00d7 2 elevated boarding-face strips",
+          "route": "MAKE",
+          "source_refs": [
+            "civil/platform_l_unit.py",
+            "RFC 0010 \u00a74"
+          ],
+          "title": "precast reinforced-concrete elevated platform L-unit",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "compaction test",
+            "grout batch record",
+            "finished-level survey"
+          ],
+          "id": "STN-CIV-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 1,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "route": "MAKE",
+          "source_refs": [
+            "civil/platform_l_unit.py",
+            "RFC 0011"
+          ],
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "invert survey",
+            "flow test",
+            "outfall approval"
+          ],
+          "id": "STN-CIV-P030",
+          "maturity": "release-candidate",
+          "parent": "STN-CIV-SA100",
+          "quantity": 111.0,
+          "quantity_basis": "platform length \u00d7 configured platform count",
+          "route": "MAKE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-M-002"
+          ],
+          "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+          "unit": "m"
+        },
+        {
+          "acceptance": [
+            "contrast check",
+            "tactile layout inspection",
+            "platform-gap survey"
+          ],
+          "id": "STN-PLT-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 111.0,
+          "quantity_basis": "full boarding edge length",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-A-011"
+          ],
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m"
+        },
+        {
+          "acceptance": [
+            "steel certificates",
+            "galvanising report",
+            "member dimensional check"
+          ],
+          "id": "STN-CNP-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-CNP-SA300",
+          "quantity": 10,
+          "quantity_basis": "canopy bay count \u00d7 configured platform count",
+          "route": "MAKE",
+          "source_refs": [
+            "station/portal.py",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "6 m galvanised HEA portal-frame steel kit",
+          "unit": "bay kit"
+        },
+        {
+          "acceptance": [
+            "geotechnical release",
+            "rebar inspection",
+            "anchor-template survey",
+            "concrete test"
+          ],
+          "id": "STN-CNP-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-CIV-SA100",
+          "quantity": 11,
+          "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+          "route": "MAKE",
+          "source_refs": [
+            "station/canopy.py",
+            "OSR-STD-S-001",
+            "OSR-STD-S-002"
+          ],
+          "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit"
+        },
+        {
+          "acceptance": [
+            "fire/material certificate",
+            "insulation test",
+            "connector inspection",
+            "watertightness test"
+          ],
+          "id": "STN-CNP-P030",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 10,
+          "quantity_basis": "one 6 m \u00d7 9.2 m panel per canopy bay",
+          "route": "BID",
+          "source_refs": [
+            "station/solar_roof.py",
+            "OSR-STD-E-003"
+          ],
+          "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "polarity test",
+            "insulation resistance",
+            "bond continuity",
+            "string commissioning"
+          ],
+          "id": "STN-CNP-P040",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 1,
+          "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+          "route": "BID",
+          "source_refs": [
+            "OSR-STD-E-003",
+            "OSR-STD-E-004",
+            "OSR-STD-E-008"
+          ],
+          "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "IP inspection",
+            "thermal test",
+            "plinth/door clearance",
+            "condensate test"
+          ],
+          "id": "STN-MEP-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one coordinated services cabinet per station",
+          "route": "MAKE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-A-013",
+            "OSR-STD-M-001"
+          ],
+          "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "factory acceptance test",
+            "protection test",
+            "earth test",
+            "one-hour UPS test"
+          ],
+          "id": "STN-MEP-P020",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one coordinated LV and emergency-power package per station",
+          "route": "BID",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-001",
+            "OSR-STD-E-005"
+          ],
+          "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "illuminance survey",
+            "emergency-mode test",
+            "RCD test"
+          ],
+          "id": "STN-MEP-P030",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 20,
+          "quantity_basis": "two maintained lighting points per canopy bay",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-002",
+            "OSR-STD-E-005"
+          ],
+          "title": "platform and emergency LED luminaire, support, and cable kit",
+          "unit": "luminaire point"
+        },
+        {
+          "acceptance": [
+            "cause-and-effect test",
+            "OCC alarm test",
+            "extinguisher inspection",
+            "egress walkdown"
+          ],
+          "id": "STN-MEP-P040",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one life-safety kit sized to the configured platform count",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-F-001",
+            "OSR-STD-F-004"
+          ],
+          "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "hardware BOM check",
+            "image checksum",
+            "self-test",
+            "network enumeration"
+          ],
+          "id": "STN-PAX-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "route": "SOURCE",
+          "source_refs": [
+            "control-electronics/s-sbc/diy-assembly/README.md",
+            "control-electronics/s-sbc/schematics/v2-spec/README.md"
+          ],
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "content test",
+            "visibility check",
+            "emergency-message test"
+          ],
+          "id": "STN-PAX-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-E-007"
+          ],
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point"
+        },
+        {
+          "acceptance": [
+            "camera coverage",
+            "speech intelligibility",
+            "help-point call",
+            "OCC failover test"
+          ],
+          "id": "STN-PAX-P030",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-PAX-SA500",
+          "quantity": 1,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "route": "BID",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-006",
+            "OSR-STD-E-007"
+          ],
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "accessible-lane gauge",
+            "AFC transaction test",
+            "power-loss release",
+            "plinth anchor test"
+          ],
+          "id": "STN-PAX-P040",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0010 \u00a78",
+            "OSR-STD-A-003",
+            "OSR-STD-A-014"
+          ],
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator"
+        },
+        {
+          "acceptance": [
+            "fabrication drawing",
+            "anchor proof",
+            "level/edge inspection",
+            "accessible-route clearance",
+            "bond continuity"
+          ],
+          "id": "STN-PAX-P070",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "route": "MAKE",
+          "source_refs": [
+            "station/plinth.py",
+            "OSR-STD-A-014",
+            "OSR-STD-S-007"
+          ],
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth"
+        },
+        {
+          "acceptance": [
+            "wheelchair-zone survey",
+            "signage schedule check",
+            "circulation gauge"
+          ],
+          "id": "STN-PAX-P060",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 1,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-T-001",
+            "OSR-STD-T-003"
+          ],
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "step-free route survey",
+            "surface/slip inspection",
+            "protected-crossing interface test"
+          ],
+          "id": "STN-ACC-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-ACC-SA600",
+          "quantity": 1,
+          "quantity_basis": "elevated-island-concourse",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0010 \u00a75",
+            "OSR-STD-A-012",
+            "OSR-STD-M-004"
+          ],
+          "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "station civil/support release",
+            "rail datum and gauge survey"
+          ],
+          "id": "STN-CIV-P060",
+          "maturity": "study-only",
+          "parent": "STN-PLT-SA200",
+          "quantity": 111.0,
+          "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "station track-deck and running-rail interface",
+          "unit": "track m"
+        },
+        {
+          "acceptance": [
+            "station structural design release",
+            "deck lifting/installation release"
+          ],
+          "id": "STN-CIV-P050",
+          "maturity": "study-only",
+          "parent": "STN-PLT-SA200",
+          "quantity": 111.0,
+          "quantity_basis": "island width minus two 3 m edge strips, times platform length and count",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "island centre deck infill between edge L-unit strips",
+          "unit": "m2"
+        },
+        {
+          "acceptance": [
+            "lift certification",
+            "fire recall test",
+            "backup-power test",
+            "accessibility survey"
+          ],
+          "id": "STN-ACC-P020",
+          "maturity": "buildable-after-site-and-supplier-freeze",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "lift identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "lib/templates/stations.toml",
+            "RFC 0010 \u00a75"
+          ],
+          "title": "installed passenger lift",
+          "unit": "core"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P040",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed escalator",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P050",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed staircase",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P060",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed shaft",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "structural release",
+            "clearance survey",
+            "egress test",
+            "weatherproofing inspection"
+          ],
+          "id": "STN-ACC-P030",
+          "maturity": "buildable-after-site-and-supplier-freeze",
+          "parent": "STN-ACC-SA600",
+          "quantity": 1,
+          "quantity_basis": "configured access-bridge count",
+          "route": "BID",
+          "source_refs": [
+            "lib/templates/stations.toml",
+            "RFC 0011 \u00a77"
+          ],
+          "title": "pedestrian overbridge/concourse structural and enclosure kit",
+          "unit": "ea"
+        }
+      ],
+      "source_archetype": "halt"
     },
     {
       "archetype": "variant-006",
@@ -9600,8 +9401,7 @@
         },
         {
           "children": [
-            "STN-CHG-P010",
-            "STN-CHG-P020"
+            "STN-CHG-P010"
           ],
           "hold_points": [
             "utility/supplier release",
@@ -9696,15 +9496,15 @@
       "consist": "light-metro-3car",
       "parameters": {
         "access_equipment": [],
-        "access_type": "ground-level-protected-crossing",
+        "access_type": "ground-level-side-access",
         "at_grade_slab_panels": 10,
         "at_grade_track_channel_count": 1,
-        "auxiliary_canopy_installed_area_m2": 1683.0,
-        "auxiliary_canopy_kwp": 286.1,
+        "auxiliary_canopy_installed_area_m2": 1309.0,
+        "auxiliary_canopy_kwp": 222.5,
         "auxiliary_canopy_module_area_m2": 187.0,
-        "auxiliary_canopy_module_count": 9,
-        "auxiliary_canopy_required_area_m2": 1568.0,
-        "auxiliary_canopy_target_overbuild_m2": 115.0,
+        "auxiliary_canopy_module_count": 7,
+        "auxiliary_canopy_required_area_m2": 1296.0,
+        "auxiliary_canopy_target_overbuild_m2": 13.0,
         "boarding_face_count": 2,
         "canopy_bays_per_platform": 10,
         "charging_power_kw": 500,
@@ -9760,45 +9560,52 @@
             {
               "boarding_z_mm": 420.0,
               "direction": 1,
-              "door_side": "left",
+              "door_side": "right",
               "dynamic_envelope_review_margin_mm": 15.0,
               "id": "face-1",
               "level": "platform",
-              "platform_face_y_mm": -3000.0,
+              "platform_face_y_mm": -3500.0,
               "platform_id": "platform-1",
-              "psd_side": "left",
+              "psd_side": "right",
               "static_vehicle_to_platform_gap_mm": 75.0,
               "top_of_rail_z_mm": 70.0,
-              "track_centre_y_mm": -4500.0
+              "track_centre_y_mm": -2000.0
             },
             {
               "boarding_z_mm": 420.0,
               "direction": -1,
-              "door_side": "left",
+              "door_side": "right",
               "dynamic_envelope_review_margin_mm": 15.0,
               "id": "face-2",
               "level": "platform",
-              "platform_face_y_mm": 3000.0,
-              "platform_id": "platform-1",
-              "psd_side": "left",
+              "platform_face_y_mm": 3500.0,
+              "platform_id": "platform-2",
+              "psd_side": "right",
               "static_vehicle_to_platform_gap_mm": 75.0,
               "top_of_rail_z_mm": 70.0,
-              "track_centre_y_mm": 4500.0
+              "track_centre_y_mm": 2000.0
             }
           ],
-          "layout": "island",
+          "layout": "side",
           "level_elevations_mm": {
             "platform": 420.0,
             "street": 420.0
           },
-          "minimum_clear_width_mm": 3000.0,
+          "minimum_clear_width_mm": 1500.0,
           "platforms": [
             {
               "base_z_mm": 0.0,
               "id": "platform-1",
               "level": "platform",
-              "width_mm": 6000.0,
-              "y_mm": 0.0
+              "width_mm": 3000.0,
+              "y_mm": -5000.0
+            },
+            {
+              "base_z_mm": 0.0,
+              "id": "platform-2",
+              "level": "platform",
+              "width_mm": 3000.0,
+              "y_mm": 5000.0
             }
           ],
           "qualification": "study-only-access-flow-egress-and-structure-unreleased",
@@ -9806,7 +9613,7 @@
             "boarding_face_count": 2,
             "escalator_count": 0,
             "lift_count": 0,
-            "platform_count": 1,
+            "platform_count": 2,
             "shaft_count": 0,
             "staircase_count": 0,
             "track_count": 2
@@ -9816,18 +9623,19 @@
         },
         "layout_exception_reason": "",
         "levels_m": [
+          0.0,
           0.0
         ],
         "minimum_clear_width_m": 1.5,
-        "platform_canopy_area_m2": 432.0,
-        "platform_count": 1,
+        "platform_canopy_area_m2": 504.0,
+        "platform_count": 2,
         "platform_l_units": 0,
-        "platform_layout": "island",
+        "platform_layout": "side",
         "platform_length_m": 59.5,
-        "platform_width_m": 6.0,
-        "site_canopy_target_m2": 2000.0,
-        "total_canopy_bays": 10,
-        "tpss_kva": 800,
+        "platform_width_m": 3.0,
+        "site_canopy_target_m2": 1800.0,
+        "total_canopy_bays": 20,
+        "tpss_kva": 0,
         "track_count": 2,
         "turnout_count": 0,
         "turnout_sleeper_count": 0,
@@ -9865,7 +9673,7 @@
           "id": "STN-CIV-P020",
           "maturity": "release-candidate",
           "parent": "STN-PLT-SA200",
-          "quantity": 1,
+          "quantity": 2,
           "quantity_basis": "one placement and closure kit per configured platform",
           "route": "MAKE",
           "source_refs": [
@@ -9943,6 +9751,1142 @@
           "id": "STN-CNP-P010",
           "maturity": "release-candidate",
           "parent": "STN-CNP-SA300",
+          "quantity": 20,
+          "quantity_basis": "canopy bay count \u00d7 configured platform count",
+          "route": "MAKE",
+          "source_refs": [
+            "station/portal.py",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "6 m galvanised HEA portal-frame steel kit",
+          "unit": "bay kit"
+        },
+        {
+          "acceptance": [
+            "geotechnical release",
+            "rebar inspection",
+            "anchor-template survey",
+            "concrete test"
+          ],
+          "id": "STN-CNP-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-CIV-SA100",
+          "quantity": 22,
+          "quantity_basis": "one foundation/anchor set per leading and trailing canopy column",
+          "route": "MAKE",
+          "source_refs": [
+            "station/canopy.py",
+            "OSR-STD-S-001",
+            "OSR-STD-S-002"
+          ],
+          "title": "canopy footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit"
+        },
+        {
+          "acceptance": [
+            "fire/material certificate",
+            "insulation test",
+            "connector inspection",
+            "watertightness test"
+          ],
+          "id": "STN-CNP-P030",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 20,
+          "quantity_basis": "one 6 m \u00d7 4.2 m panel per canopy bay",
+          "route": "BID",
+          "source_refs": [
+            "station/solar_roof.py",
+            "OSR-STD-E-003"
+          ],
+          "title": "factory-bonded solar roof sandwich panel with MC4 leads",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "polarity test",
+            "insulation resistance",
+            "bond continuity",
+            "string commissioning"
+          ],
+          "id": "STN-CNP-P040",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 2,
+          "quantity_basis": "one controlled DC string and isolation package per platform canopy",
+          "route": "BID",
+          "source_refs": [
+            "OSR-STD-E-003",
+            "OSR-STD-E-004",
+            "OSR-STD-E-008"
+          ],
+          "title": "platform-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "IP inspection",
+            "thermal test",
+            "plinth/door clearance",
+            "condensate test"
+          ],
+          "id": "STN-MEP-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one coordinated services cabinet per station",
+          "route": "MAKE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-A-013",
+            "OSR-STD-M-001"
+          ],
+          "title": "weatherproof services cabinet, plinth, cooling, and maintenance-light kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "factory acceptance test",
+            "protection test",
+            "earth test",
+            "one-hour UPS test"
+          ],
+          "id": "STN-MEP-P020",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one coordinated LV and emergency-power package per station",
+          "route": "BID",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-001",
+            "OSR-STD-E-005"
+          ],
+          "title": "incoming switchboard, distribution board, metering, UPS, and earthing kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "illuminance survey",
+            "emergency-mode test",
+            "RCD test"
+          ],
+          "id": "STN-MEP-P030",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 40,
+          "quantity_basis": "two maintained lighting points per canopy bay",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-002",
+            "OSR-STD-E-005"
+          ],
+          "title": "platform and emergency LED luminaire, support, and cable kit",
+          "unit": "luminaire point"
+        },
+        {
+          "acceptance": [
+            "cause-and-effect test",
+            "OCC alarm test",
+            "extinguisher inspection",
+            "egress walkdown"
+          ],
+          "id": "STN-MEP-P040",
+          "maturity": "release-candidate",
+          "parent": "STN-MEP-SA400",
+          "quantity": 1,
+          "quantity_basis": "one life-safety kit sized to the configured platform count",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-F-001",
+            "OSR-STD-F-004"
+          ],
+          "title": "fire detection, alarm interface, extinguisher, and evacuation-sign kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "hardware BOM check",
+            "image checksum",
+            "self-test",
+            "network enumeration"
+          ],
+          "id": "STN-PAX-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 1,
+          "quantity_basis": "one live host per station; depot-held cold spare excluded",
+          "route": "SOURCE",
+          "source_refs": [
+            "control-electronics/s-sbc/diy-assembly/README.md",
+            "control-electronics/s-sbc/schematics/v2-spec/README.md"
+          ],
+          "title": "S-SBC station/depot host and rack enclosure",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "content test",
+            "visibility check",
+            "emergency-message test"
+          ],
+          "id": "STN-PAX-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 4,
+          "quantity_basis": "two primary visual-information points per configured platform",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-E-007"
+          ],
+          "title": "passenger-information display and route-strip kit",
+          "unit": "display point"
+        },
+        {
+          "acceptance": [
+            "camera coverage",
+            "speech intelligibility",
+            "help-point call",
+            "OCC failover test"
+          ],
+          "id": "STN-PAX-P030",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "one coordinated communications/security kit per configured platform",
+          "route": "BID",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-E-006",
+            "OSR-STD-E-007"
+          ],
+          "title": "CCTV, PA loudspeaker, help-point, radio, and station-LAN kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "accessible-lane gauge",
+            "AFC transaction test",
+            "power-loss release",
+            "plinth anchor test"
+          ],
+          "id": "STN-PAX-P040",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-PAX-SA500",
+          "quantity": 4,
+          "quantity_basis": "RFC 0010 gate lanes; halt uses two open-platform validators",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0010 \u00a78",
+            "OSR-STD-A-003",
+            "OSR-STD-A-014"
+          ],
+          "title": "fare gate, accessible gate, and validator equipment kit",
+          "unit": "lane/validator"
+        },
+        {
+          "acceptance": [
+            "transaction test",
+            "accessibility reach check",
+            "cabinet ingress test"
+          ],
+          "id": "STN-PAX-P050",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "RFC 0010 TVM count; zero at halt",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0010 \u00a78",
+            "OSR-STD-A-003"
+          ],
+          "title": "ticket-vending machine equipment kit",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "fabrication drawing",
+            "anchor proof",
+            "level/edge inspection",
+            "accessible-route clearance",
+            "bond continuity"
+          ],
+          "id": "STN-PAX-P070",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 4,
+          "quantity_basis": "one separate fabricated plinth per fare lane or halt validator",
+          "route": "MAKE",
+          "source_refs": [
+            "station/plinth.py",
+            "OSR-STD-A-014",
+            "OSR-STD-S-007"
+          ],
+          "title": "anchored rolled-steel fare-lane / validator plinth with protected cable void",
+          "unit": "lane plinth"
+        },
+        {
+          "acceptance": [
+            "fabrication drawing",
+            "anchor proof",
+            "level inspection",
+            "accessible-reach clearance",
+            "bond continuity"
+          ],
+          "id": "STN-PAX-P080",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "one separately replaceable plinth per configured TVM",
+          "route": "MAKE",
+          "source_refs": [
+            "station/plinth.py",
+            "OSR-STD-A-003",
+            "OSR-STD-S-007"
+          ],
+          "title": "anchored rolled-steel TVM plinth with protected power/data entry",
+          "unit": "TVM plinth"
+        },
+        {
+          "acceptance": [
+            "wheelchair-zone survey",
+            "signage schedule check",
+            "circulation gauge"
+          ],
+          "id": "STN-PAX-P060",
+          "maturity": "release-candidate",
+          "parent": "STN-PAX-SA500",
+          "quantity": 2,
+          "quantity_basis": "one passenger-amenity kit per configured platform",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-T-001",
+            "OSR-STD-T-003"
+          ],
+          "title": "seating, wheelchair-zone marking, wayfinding, and accessible-signage kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "step-free route survey",
+            "surface/slip inspection",
+            "protected-crossing interface test"
+          ],
+          "id": "STN-ACC-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-ACC-SA600",
+          "quantity": 1,
+          "quantity_basis": "ground-level-side-access",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0010 \u00a75",
+            "OSR-STD-A-012",
+            "OSR-STD-M-004"
+          ],
+          "title": "direct/protected pedestrian approach, kerb, ramp, and boundary kit",
+          "unit": "station kit"
+        },
+        {
+          "acceptance": [
+            "station civil/support release",
+            "rail datum and gauge survey"
+          ],
+          "id": "STN-CIV-P060",
+          "maturity": "study-only",
+          "parent": "STN-PLT-SA200",
+          "quantity": 119.0,
+          "quantity_basis": "one track-deck/rail interface per boarding-face track, separate from ordinary running spans",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "station track-deck and running-rail interface",
+          "unit": "track m"
+        },
+        {
+          "acceptance": [
+            "panel fire/material certificate",
+            "module dimensional report",
+            "watertightness test",
+            "PV insulation/polarity test"
+          ],
+          "id": "STN-CNP-P050",
+          "maturity": "buildable-after-supplier-and-structural-release",
+          "parent": "STN-CNP-SA300",
+          "quantity": 7,
+          "quantity_basis": "ceil(1296.0 m2 required / 187 m2 module)",
+          "route": "BID",
+          "source_refs": [
+            "station/auxiliary_canopy.py",
+            "station/solar_roof.py",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "8.5 m \u00d7 22 m factory-bonded auxiliary solar-roof bay module",
+          "unit": "187 m2 module"
+        },
+        {
+          "acceptance": [
+            "controlled fabrication drawing",
+            "steel certificates",
+            "weld/NDT record",
+            "frame dimensional survey",
+            "galvanising report"
+          ],
+          "id": "STN-CNP-P060",
+          "maturity": "buildable-after-structural-calculation-and-drawing-release",
+          "parent": "STN-CNP-SA300",
+          "quantity": 8,
+          "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
+          "route": "MAKE",
+          "source_refs": [
+            "station/auxiliary_canopy.py",
+            "standard-archetype/canopy.md",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "22 m S355 transverse Warren-truss frame with two HSS 200 columns",
+          "unit": "shared frame"
+        },
+        {
+          "acceptance": [
+            "site geotechnical release",
+            "foundation calculation",
+            "rebar/pre-pour inspection",
+            "anchor-template survey",
+            "concrete test"
+          ],
+          "id": "STN-CNP-P070",
+          "maturity": "buildable-after-site-structural-release",
+          "parent": "STN-CIV-SA100",
+          "quantity": 16,
+          "quantity_basis": "two column foundations for each shared transverse frame",
+          "route": "MAKE",
+          "source_refs": [
+            "station/auxiliary_canopy.py",
+            "standard-archetype/canopy.md",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "auxiliary-canopy pad footing, reinforcement, base plate, and anchor-bolt kit",
+          "unit": "column kit"
+        },
+        {
+          "acceptance": [
+            "string schedule",
+            "polarity/insulation test",
+            "bond continuity",
+            "protection settings",
+            "energy-site commissioning"
+          ],
+          "id": "STN-CNP-P080",
+          "maturity": "buildable-after-electrical-and-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 1,
+          "quantity_basis": "one independently isolated electrical group for each ten or fewer roof modules",
+          "route": "BID",
+          "source_refs": [
+            "station/auxiliary_canopy.py",
+            "OSR-STD-E-003",
+            "OSR-STD-E-004"
+          ],
+          "title": "auxiliary-canopy PV string, combiner, isolation, bonding, and downlink kit",
+          "unit": "string group"
+        },
+        {
+          "acceptance": [
+            "drainage flow test",
+            "lightning/bond test",
+            "edge-protection inspection",
+            "maintenance-access walkdown"
+          ],
+          "id": "STN-CNP-P090",
+          "maturity": "buildable-after-site-and-supplier-freeze",
+          "parent": "STN-CNP-SA300",
+          "quantity": 7,
+          "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
+          "route": "SOURCE",
+          "source_refs": [
+            "station/auxiliary_canopy.py",
+            "standard-archetype/canopy.md",
+            "RFC 0010 \u00a79"
+          ],
+          "title": "auxiliary-canopy gutter, downpipe, lightning, maintenance-access, and edge-protection kit",
+          "unit": "roof-bay kit"
+        },
+        {
+          "acceptance": [
+            "FAT",
+            "insulation/protection test",
+            "vehicle alignment test",
+            "abort/interlock test"
+          ],
+          "id": "STN-CHG-P010",
+          "maturity": "buildable-after-supplier-freeze",
+          "parent": "STN-CHG-SA700",
+          "quantity": 500,
+          "quantity_basis": "configured station charging power",
+          "route": "BID",
+          "source_refs": [
+            "lib/templates/stations.toml",
+            "RFC 0026"
+          ],
+          "title": "station charging cabinet, protection, cable, and wayside connector kit",
+          "unit": "kW installed"
+        }
+      ],
+      "source_archetype": "standard"
+    },
+    {
+      "archetype": "variant-010",
+      "assemblies": [
+        {
+          "children": [
+            "STN-CIV-P030",
+            "STN-CNP-P020",
+            "STN-CNP-P070"
+          ],
+          "hold_points": [
+            "survey/geotechnical release",
+            "pre-pour inspection",
+            "foundation and drainage survey"
+          ],
+          "id": "STN-CIV-SA100",
+          "instructions": [
+            "release survey, utilities, geotechnical report, drainage outfall, and temporary-works plan",
+            "set out platform, track, canopy-column, cabinet, and access datums",
+            "construct drainage, footing reinforcement, anchor templates, and concrete works",
+            "cure, test, survey, and release foundations before precast or steel placement"
+          ],
+          "title": "site, foundation, drainage, and track/depot interface works",
+          "work_cell": "civil works"
+        },
+        {
+          "children": [
+            "STN-CIV-P010",
+            "STN-CIV-P020",
+            "STN-CIV-P050",
+            "STN-CIV-P060",
+            "STN-PLT-P010"
+          ],
+          "hold_points": [
+            "first-unit placement",
+            "grout/cure release",
+            "boarding-interface survey"
+          ],
+          "id": "STN-PLT-SA200",
+          "instructions": [
+            "inspect delivery certificates, lifting points, and platform datum",
+            "place elevated L-units on the released structure using the approved lifting plan",
+            "install and survey guideway edge modules where required, maintaining the 350 mm platform-to-ToR datum",
+            "grout bearing lands and complete non-critical closure pours",
+            "install coping, tactile strip, warning line, and edge markers",
+            "survey height, horizontal gap, straightness, crossfall, and egress width"
+          ],
+          "title": "platform, guideway-channel, and boarding-edge assembly",
+          "work_cell": "civil/platform construction"
+        },
+        {
+          "children": [
+            "STN-CNP-P010",
+            "STN-CNP-P030",
+            "STN-CNP-P040",
+            "STN-CNP-P050",
+            "STN-CNP-P060",
+            "STN-CNP-P080",
+            "STN-CNP-P090"
+          ],
+          "hold_points": [
+            "first portal plumb/torque",
+            "structural frame release",
+            "roof/PV electrical release"
+          ],
+          "id": "STN-CNP-SA300",
+          "instructions": [
+            "verify foundation/anchor survey and incoming galvanised-steel certificates",
+            "erect columns, rafters, braces, and temporary stability system bay by bay",
+            "complete structural bolt torque/marking and frame plumb survey",
+            "lift and fasten factory roof panels using the released panel clamp plan",
+            "connect PV strings, combiner, isolation, bonding, lightning protection, and downlinks",
+            "erect auxiliary shared truss frames and roof bays to the released site layout, including drainage and safe-access systems",
+            "complete roof water test and PV insulation/polarity/commissioning records"
+          ],
+          "title": "modular canopy, roof, and PV assembly",
+          "work_cell": "steel erection and solar"
+        },
+        {
+          "children": [
+            "STN-MEP-P010",
+            "STN-MEP-P020",
+            "STN-MEP-P030",
+            "STN-MEP-P040"
+          ],
+          "hold_points": [
+            "cabinet/plinth release",
+            "electrical safe-to-energise",
+            "MEP integrated test"
+          ],
+          "id": "STN-MEP-SA400",
+          "instructions": [
+            "install and anchor the service cabinet after civil release",
+            "install LV distribution, UPS, earthing, lighting, fire, and communications containment",
+            "install charging/TPSS equipment only after supplier and utility release",
+            "terminate, label, inspect, energise, and execute discipline test sheets"
+          ],
+          "title": "station mechanical, electrical, drainage-services, and fire assembly",
+          "work_cell": "MEP installation"
+        },
+        {
+          "children": [
+            "STN-CHG-P010",
+            "STN-CHG-P020"
+          ],
+          "hold_points": [
+            "utility/supplier release",
+            "safe-to-energise",
+            "vehicle charging SAT"
+          ],
+          "id": "STN-CHG-SA700",
+          "instructions": [
+            "release utility, protection, vehicle-interface, and supplier drawings",
+            "install charging cabinet, TPSS equipment, containment, earthing, and physical guards",
+            "complete FAT record review, cable tests, protection injection, and safe energisation",
+            "run vehicle alignment, handshake, charge, abort, isolation, and emergency-release tests"
+          ],
+          "title": "station charging and traction-power interface assembly",
+          "work_cell": "traction power and charging"
+        },
+        {
+          "children": [
+            "STN-PAX-P010",
+            "STN-PAX-P020",
+            "STN-PAX-P030",
+            "STN-PAX-P040",
+            "STN-PAX-P050",
+            "STN-PAX-P060",
+            "STN-PAX-P070",
+            "STN-PAX-P080"
+          ],
+          "hold_points": [
+            "control-electronics/configuration release",
+            "accessibility walkdown",
+            "station systems SAT"
+          ],
+          "id": "STN-PAX-SA500",
+          "instructions": [
+            "install the S-SBC from its controlled hardware BOM and record image/configuration hashes",
+            "install fare, PIS, CCTV, PA, help-point, LAN, seating, and signage equipment",
+            "verify accessible reach, circulation, sightlines, audio coverage, and emergency messages",
+            "run station self-test and end-to-end OCC communications/alarms"
+          ],
+          "title": "passenger systems, fare, information, security, and amenity assembly",
+          "work_cell": "systems fit-out"
+        },
+        {
+          "children": [
+            "STN-ACC-P010",
+            "STN-ACC-P020",
+            "STN-ACC-P030",
+            "STN-ACC-P040",
+            "STN-ACC-P050",
+            "STN-ACC-P060"
+          ],
+          "hold_points": [
+            "access geometry release",
+            "vertical-circulation certification",
+            "egress acceptance"
+          ],
+          "id": "STN-ACC-SA600",
+          "instructions": [
+            "release pedestrian desire-line, boundary, road-crossing, and egress interfaces",
+            "construct direct paths, kerbs, ramps, bridge/concourse, and step-free cores as applicable",
+            "commission lifts, protected crossings, lighting, drainage, and emergency recall",
+            "complete independent step-free and evacuation-route walkdowns"
+          ],
+          "title": "station access and vertical-circulation assembly",
+          "work_cell": "access works"
+        },
+        {
+          "children": [
+            "STN-CIV-SA100",
+            "STN-PLT-SA200",
+            "STN-CNP-SA300",
+            "STN-MEP-SA400",
+            "STN-CHG-SA700",
+            "STN-PAX-SA500",
+            "STN-ACC-SA600"
+          ],
+          "hold_points": [
+            "construction completion",
+            "integrated SAT",
+            "operator/AOR handover"
+          ],
+          "id": "STN-STATION-A900",
+          "instructions": [
+            "confirm every child traveler, NCR, certificate, survey, and as-built drawing is closed",
+            "perform integrated passenger-flow, accessibility, fire, power-loss, charging, and OCC tests",
+            "compile asset register, spares, maintenance instructions, configuration baseline, and handover pack"
+          ],
+          "title": "complete commissioned station",
+          "work_cell": "station integration"
+        }
+      ],
+      "baseline_exclusions": [
+        "platform screen doors are optional for light-metro-3car and are not included",
+        "site survey, geotechnical design, utilities, permits, and stamped calculations remain deployment-specific",
+        "auxiliary canopy requires deployment structural, foundation, drainage, egress, and electrical release"
+      ],
+      "consist": "light-metro-3car",
+      "parameters": {
+        "access_equipment": [
+          {
+            "id": "platform-1-lift-1",
+            "kind": "lift",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": -17000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-lift-2",
+            "kind": "lift",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": 17000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-shaft-1",
+            "kind": "shaft",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": -17000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-shaft-2",
+            "kind": "shaft",
+            "length_mm": 3500,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3500,
+            "x_mm": 17000.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-escalator-1",
+            "kind": "escalator",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 1800,
+            "x_mm": -9750.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-escalator-2",
+            "kind": "escalator",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 1800,
+            "x_mm": 9750.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-staircase-1",
+            "kind": "staircase",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3000,
+            "x_mm": -24250.0,
+            "y_mm": 0.0
+          },
+          {
+            "id": "platform-1-staircase-2",
+            "kind": "staircase",
+            "length_mm": 10000,
+            "served_levels": [
+              "street",
+              "concourse",
+              "platform"
+            ],
+            "width_mm": 3000,
+            "x_mm": 24250.0,
+            "y_mm": 0.0
+          }
+        ],
+        "access_type": "elevated-island-concourse",
+        "at_grade_slab_panels": 0,
+        "at_grade_track_channel_count": 0,
+        "auxiliary_canopy_installed_area_m2": 1496.0,
+        "auxiliary_canopy_kwp": 254.3,
+        "auxiliary_canopy_module_area_m2": 187.0,
+        "auxiliary_canopy_module_count": 8,
+        "auxiliary_canopy_required_area_m2": 1448.0,
+        "auxiliary_canopy_target_overbuild_m2": 48.0,
+        "boarding_face_count": 2,
+        "canopy_bays_per_platform": 10,
+        "charging_power_kw": 500,
+        "depot_archetype": "none",
+        "depot_reference_stalls": 0,
+        "depot_throat_turnouts": 0,
+        "dwell_seconds": 60,
+        "elevated_height_m": 9.0,
+        "elevation": "elevated",
+        "entrances": [
+          {
+            "connected_to": "concourse",
+            "id": "entrance-1",
+            "level": "street",
+            "surveyed": false,
+            "x_mm": -29750.0,
+            "y_mm": 0.0
+          },
+          {
+            "connected_to": "concourse",
+            "id": "entrance-2",
+            "level": "street",
+            "surveyed": false,
+            "x_mm": 29750.0,
+            "y_mm": 0.0
+          }
+        ],
+        "guideway_edge_modules": 0,
+        "layout": {
+          "concourse_decks": [
+            {
+              "id": "concourse",
+              "length_mm": 59500.0,
+              "level": "concourse",
+              "thickness_mm": 350.0,
+              "width_mm": 10000.0,
+              "x_mm": 0.0,
+              "y_mm": 0.0,
+              "z_mm": 4500.0
+            }
+          ],
+          "elevation": "elevated",
+          "entrances": [
+            {
+              "connected_to": "concourse",
+              "id": "entrance-1",
+              "level": "street",
+              "surveyed": false,
+              "x_mm": -29750.0,
+              "y_mm": 0.0
+            },
+            {
+              "connected_to": "concourse",
+              "id": "entrance-2",
+              "level": "street",
+              "surveyed": false,
+              "x_mm": 29750.0,
+              "y_mm": 0.0
+            }
+          ],
+          "equipment": [
+            {
+              "id": "platform-1-lift-1",
+              "kind": "lift",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": -17000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-lift-2",
+              "kind": "lift",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": 17000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-shaft-1",
+              "kind": "shaft",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": -17000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-shaft-2",
+              "kind": "shaft",
+              "length_mm": 3500,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3500,
+              "x_mm": 17000.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-escalator-1",
+              "kind": "escalator",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 1800,
+              "x_mm": -9750.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-escalator-2",
+              "kind": "escalator",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 1800,
+              "x_mm": 9750.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-staircase-1",
+              "kind": "staircase",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3000,
+              "x_mm": -24250.0,
+              "y_mm": 0.0
+            },
+            {
+              "id": "platform-1-staircase-2",
+              "kind": "staircase",
+              "length_mm": 10000,
+              "served_levels": [
+                "street",
+                "concourse",
+                "platform"
+              ],
+              "width_mm": 3000,
+              "x_mm": 24250.0,
+              "y_mm": 0.0
+            }
+          ],
+          "equipment_geometry_contained": true,
+          "faces": [
+            {
+              "boarding_z_mm": 9420.0,
+              "direction": 1,
+              "door_side": "left",
+              "dynamic_envelope_review_margin_mm": 15.0,
+              "id": "face-1",
+              "level": "platform",
+              "platform_face_y_mm": -4000.0,
+              "platform_id": "platform-1",
+              "psd_side": "left",
+              "static_vehicle_to_platform_gap_mm": 75.0,
+              "top_of_rail_z_mm": 9070.0,
+              "track_centre_y_mm": -5500.0
+            },
+            {
+              "boarding_z_mm": 9420.0,
+              "direction": -1,
+              "door_side": "left",
+              "dynamic_envelope_review_margin_mm": 15.0,
+              "id": "face-2",
+              "level": "platform",
+              "platform_face_y_mm": 4000.0,
+              "platform_id": "platform-1",
+              "psd_side": "left",
+              "static_vehicle_to_platform_gap_mm": 75.0,
+              "top_of_rail_z_mm": 9070.0,
+              "track_centre_y_mm": 5500.0
+            }
+          ],
+          "layout": "island",
+          "level_elevations_mm": {
+            "concourse": 4500.0,
+            "platform": 9420.0,
+            "street": 0.0
+          },
+          "minimum_clear_width_mm": 2250.0,
+          "platforms": [
+            {
+              "base_z_mm": 9000.0,
+              "id": "platform-1",
+              "level": "platform",
+              "width_mm": 8000.0,
+              "y_mm": 0.0
+            }
+          ],
+          "qualification": "study-only-access-flow-egress-and-structure-unreleased",
+          "quantities": {
+            "boarding_face_count": 2,
+            "escalator_count": 2,
+            "lift_count": 2,
+            "platform_count": 1,
+            "shaft_count": 2,
+            "staircase_count": 2,
+            "track_count": 2
+          },
+          "street_access_accepted": false,
+          "transfer_connections": []
+        },
+        "layout_exception_reason": "",
+        "levels_m": [
+          9.0
+        ],
+        "minimum_clear_width_m": 1.5,
+        "platform_canopy_area_m2": 552.0,
+        "platform_count": 1,
+        "platform_l_units": 40,
+        "platform_layout": "island",
+        "platform_length_m": 59.5,
+        "platform_width_m": 8.0,
+        "site_canopy_target_m2": 2000.0,
+        "total_canopy_bays": 10,
+        "tpss_kva": 800,
+        "track_count": 2,
+        "turnout_count": 0,
+        "turnout_sleeper_count": 0,
+        "turnout_switch_blade_length_m": 0,
+        "turnout_tangent": "none",
+        "turnout_total_length_m": 0
+      },
+      "product_items": [
+        {
+          "acceptance": [
+            "concrete certificate",
+            "dimensional inspection",
+            "lifting-point inspection"
+          ],
+          "id": "STN-CIV-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 40,
+          "quantity_basis": "ceil(59.5 m / 3 m) \u00d7 2 elevated boarding-face strips",
+          "route": "MAKE",
+          "source_refs": [
+            "civil/platform_l_unit.py",
+            "RFC 0010 \u00a74"
+          ],
+          "title": "precast reinforced-concrete elevated platform L-unit",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "compaction test",
+            "grout batch record",
+            "finished-level survey"
+          ],
+          "id": "STN-CIV-P020",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 1,
+          "quantity_basis": "one placement and closure kit per configured platform",
+          "route": "MAKE",
+          "source_refs": [
+            "civil/platform_l_unit.py",
+            "RFC 0011"
+          ],
+          "title": "platform sub-base, levelling pad, grout, and closure-pour kit",
+          "unit": "platform kit"
+        },
+        {
+          "acceptance": [
+            "invert survey",
+            "flow test",
+            "outfall approval"
+          ],
+          "id": "STN-CIV-P030",
+          "maturity": "release-candidate",
+          "parent": "STN-CIV-SA100",
+          "quantity": 119.0,
+          "quantity_basis": "platform length \u00d7 configured platform count",
+          "route": "MAKE",
+          "source_refs": [
+            "standard-archetype/services.md",
+            "OSR-STD-M-002"
+          ],
+          "title": "platform and track drainage channel, pipe, catch-pit, and outlet kit",
+          "unit": "m"
+        },
+        {
+          "acceptance": [
+            "contrast check",
+            "tactile layout inspection",
+            "platform-gap survey"
+          ],
+          "id": "STN-PLT-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-PLT-SA200",
+          "quantity": 119.0,
+          "quantity_basis": "full boarding edge length",
+          "route": "SOURCE",
+          "source_refs": [
+            "standard-archetype/accessibility.md",
+            "OSR-STD-A-011"
+          ],
+          "title": "platform coping, tactile strip, warning line, and edge-marker kit",
+          "unit": "m"
+        },
+        {
+          "acceptance": [
+            "steel certificates",
+            "galvanising report",
+            "member dimensional check"
+          ],
+          "id": "STN-CNP-P010",
+          "maturity": "release-candidate",
+          "parent": "STN-CNP-SA300",
           "quantity": 10,
           "quantity_basis": "canopy bay count \u00d7 configured platform count",
           "route": "MAKE",
@@ -9985,7 +10929,7 @@
           "maturity": "buildable-after-supplier-freeze",
           "parent": "STN-CNP-SA300",
           "quantity": 10,
-          "quantity_basis": "one 6 m \u00d7 7.2 m panel per canopy bay",
+          "quantity_basis": "one 6 m \u00d7 9.2 m panel per canopy bay",
           "route": "BID",
           "source_refs": [
             "station/solar_roof.py",
@@ -10272,7 +11216,7 @@
           "maturity": "release-candidate",
           "parent": "STN-ACC-SA600",
           "quantity": 1,
-          "quantity_basis": "ground-level-protected-crossing",
+          "quantity_basis": "elevated-island-concourse",
           "route": "MAKE",
           "source_refs": [
             "RFC 0010 \u00a75",
@@ -10301,6 +11245,23 @@
         },
         {
           "acceptance": [
+            "station structural design release",
+            "deck lifting/installation release"
+          ],
+          "id": "STN-CIV-P050",
+          "maturity": "study-only",
+          "parent": "STN-PLT-SA200",
+          "quantity": 119.0,
+          "quantity_basis": "island width minus two 3 m edge strips, times platform length and count",
+          "route": "MAKE",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "island centre deck infill between edge L-unit strips",
+          "unit": "m2"
+        },
+        {
+          "acceptance": [
             "panel fire/material certificate",
             "module dimensional report",
             "watertightness test",
@@ -10309,8 +11270,8 @@
           "id": "STN-CNP-P050",
           "maturity": "buildable-after-supplier-and-structural-release",
           "parent": "STN-CNP-SA300",
-          "quantity": 9,
-          "quantity_basis": "ceil(1568.0 m2 required / 187 m2 module)",
+          "quantity": 8,
+          "quantity_basis": "ceil(1448.0 m2 required / 187 m2 module)",
           "route": "BID",
           "source_refs": [
             "station/auxiliary_canopy.py",
@@ -10331,7 +11292,7 @@
           "id": "STN-CNP-P060",
           "maturity": "buildable-after-structural-calculation-and-drawing-release",
           "parent": "STN-CNP-SA300",
-          "quantity": 10,
+          "quantity": 9,
           "quantity_basis": "N + 1 shared transverse frames for N adjacent auxiliary roof modules",
           "route": "MAKE",
           "source_refs": [
@@ -10353,7 +11314,7 @@
           "id": "STN-CNP-P070",
           "maturity": "buildable-after-site-structural-release",
           "parent": "STN-CIV-SA100",
-          "quantity": 20,
+          "quantity": 18,
           "quantity_basis": "two column foundations for each shared transverse frame",
           "route": "MAKE",
           "source_refs": [
@@ -10396,7 +11357,7 @@
           "id": "STN-CNP-P090",
           "maturity": "buildable-after-site-and-supplier-freeze",
           "parent": "STN-CNP-SA300",
-          "quantity": 9,
+          "quantity": 8,
           "quantity_basis": "one coordinated drainage, lightning, and safe-access kit per roof bay",
           "route": "SOURCE",
           "source_refs": [
@@ -10446,6 +11407,94 @@
           ],
           "title": "traction power substation transformer/rectifier and protection interface",
           "unit": "kVA installed"
+        },
+        {
+          "acceptance": [
+            "lift certification",
+            "fire recall test",
+            "backup-power test",
+            "accessibility survey"
+          ],
+          "id": "STN-ACC-P020",
+          "maturity": "buildable-after-site-and-supplier-freeze",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "lift identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "lib/templates/stations.toml",
+            "RFC 0010 \u00a75"
+          ],
+          "title": "installed passenger lift",
+          "unit": "core"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P040",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed escalator",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P050",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed staircase",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "supplier and independent access/egress acceptance"
+          ],
+          "id": "STN-ACC-P060",
+          "maturity": "study-only",
+          "parent": "STN-ACC-SA600",
+          "quantity": 2,
+          "quantity_basis": "equipment identities and served levels from shared layout",
+          "route": "BID",
+          "source_refs": [
+            "RFC 0034"
+          ],
+          "title": "installed shaft",
+          "unit": "ea"
+        },
+        {
+          "acceptance": [
+            "structural release",
+            "clearance survey",
+            "egress test",
+            "weatherproofing inspection"
+          ],
+          "id": "STN-ACC-P030",
+          "maturity": "buildable-after-site-and-supplier-freeze",
+          "parent": "STN-ACC-SA600",
+          "quantity": 1,
+          "quantity_basis": "configured access-bridge count",
+          "route": "BID",
+          "source_refs": [
+            "lib/templates/stations.toml",
+            "RFC 0011 \u00a77"
+          ],
+          "title": "pedestrian overbridge/concourse structural and enclosure kit",
+          "unit": "ea"
         }
       ],
       "source_archetype": "major"

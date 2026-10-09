@@ -1,7 +1,7 @@
 # Gujranwala drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 5 / 56
+- Lines/stations: 33 / 266
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

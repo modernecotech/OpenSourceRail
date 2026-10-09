@@ -4,9 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`khouribga-line1.aln.toml`](khouribga-line1.aln.toml) | `line-1` | 6,847.5 m | 3 |
-| [`khouribga-line2.aln.toml`](khouribga-line2.aln.toml) | `line-2` | 5,028.4 m | 3 |
-| [`khouribga-line3.aln.toml`](khouribga-line3.aln.toml) | `line-3` | 3,667.4 m | 3 |
+| [`khouribga-line1.aln.toml`](khouribga-line1.aln.toml) | `line-1` | 6,847.5 m | 4 |
+| [`khouribga-line2.aln.toml`](khouribga-line2.aln.toml) | `line-2` | 5,028.4 m | 4 |
+| [`khouribga-line3.aln.toml`](khouribga-line3.aln.toml) | `line-3` | 3,667.4 m | 4 |
+| [`khouribga-line4.aln.toml`](khouribga-line4.aln.toml) | `line-4` | 2,915.6 m | 3 |
+| [`khouribga-line5.aln.toml`](khouribga-line5.aln.toml) | `line-5` | 2,665.3 m | 2 |
 
 ## Status
 

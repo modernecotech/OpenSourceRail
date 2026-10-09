@@ -1,7 +1,7 @@
 # Yaounde structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 5
+- Lines: 21
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

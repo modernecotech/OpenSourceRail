@@ -14,8 +14,8 @@ crs            = "EPSG:32736"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "af1c889874c951af739485a0dd2ce7ccfd245484114b70802363ac1a475ebcc2"
-source_geojson_sha256 = "c2ad5287a727946b47ce0963c15e1371a47e12559307ab7132e53b56bb8e885e"
+source_design_sha256 = "1a8f535bf426deab2b53ee98bd4e26dd0e8977671744b7813a02d51a7859968d"
+source_geojson_sha256 = "e2167193cc12897fa45392173ae618263e4a368fa1bbcdd8479cade9f993cda3"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -707,8 +707,18 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 15609.100
-to_station_m   = 18112.000
+to_station_m   = 17292.000
 class          = "at-grade"
+
+[[civil]]
+from_station_m = 17292.000
+to_station_m   = 17312.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 17312.000
+to_station_m   = 18112.000
+class          = "elevated"
 
 # Station IDs and chainages resolve directly to design.toml.
 
@@ -718,8 +728,8 @@ station_m         = 0.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-5-0620-0902-s003013"
-station_m         = 3013.100
+id                = "line-5-0618-0987-s001297"
+station_m         = 1296.600
 platform_length_m = 85.000
 
 [[station]]
@@ -738,6 +748,11 @@ station_m         = 7394.600
 platform_length_m = 85.000
 
 [[station]]
+id                = "line-5-0627-0616-s008803"
+station_m         = 8802.800
+platform_length_m = 85.000
+
+[[station]]
 id                = "line-5-0628-0554-s010051"
 station_m         = 10051.100
 platform_length_m = 85.000
@@ -748,8 +763,23 @@ station_m         = 11427.700
 platform_length_m = 85.000
 
 [[station]]
+id                = "line-5-0631-0436-s012436"
+station_m         = 12436.000
+platform_length_m = 85.000
+
+[[station]]
 id                = "line-5-0634-0351-s014161"
 station_m         = 14160.800
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-5-0670-0234-s017212"
+station_m         = 17212.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-5-0642-0233-s017792"
+station_m         = 17792.000
 platform_length_m = 85.000
 
 [[station]]

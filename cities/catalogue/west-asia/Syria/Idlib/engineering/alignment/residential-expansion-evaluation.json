@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8109596735183227,
+  "added_line_count": 4,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "idlib",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 7,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.55657271,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 205985.14041137695,
+    "catchments": [
+      {
+        "covered_population_2020": 167045.6422176361,
+        "fraction_of_raster_population": 0.8109596735183227,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 300000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 31,
+    "valid_pixels": 3681
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Idlib/design.toml": "f8a95b7aff6b4abd6dcb2d6ab0e71facc817ee72c881d446f607f9c36c54de74",
+    "cities/catalogue/west-asia/Syria/Idlib/engineering/access/population-pixels.npz.gz": "16b8b7aab045d41423ee3c23259570481dd553521f8c7f10996e4cb74a318bb8",
+    "cities/catalogue/west-asia/Syria/Idlib/engineering/access/population-source.json": "49ca22297f9a8e5105571cbddc02b52398353fa9935b0d2fad8f5223bd55749f",
+    "cities/catalogue/west-asia/Syria/Idlib/engineering/alignment/residential-line-expansion.json": "6338382d25fb37d45d4f2c1959eb275f1b5fd95a089eeef5ad5f2ec434dbfe2d",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 37,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7237150136446462,
+  "added_line_count": 15,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "arusha",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 18,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.33704836,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 812662.339566797,
+    "catchments": [
+      {
+        "covered_population_2020": 588135.9361680746,
+        "fraction_of_raster_population": 0.7237150136446462,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 700000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 61,
+    "valid_pixels": 56644
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Arusha/design.toml": "b1e9aaadc6401b1fd525cb20b57ffc4b98067d38e08c0cc67239593bf481a6f0",
+    "cities/catalogue/east-africa/Tanzania/Arusha/engineering/access/population-pixels.npz.gz": "bc4deb4f75171971a4fb8efbde2d3963f8c6f1cb62c37157d5d8e6369758e7b9",
+    "cities/catalogue/east-africa/Tanzania/Arusha/engineering/access/population-source.json": "58f1f0e3d4c1017694d819b29ed4b06c51c9bcb2fc49048233860f007ccd9b72",
+    "cities/catalogue/east-africa/Tanzania/Arusha/engineering/alignment/residential-line-expansion.json": "7d3f75aaa37dd94b41b9110389adad0d81dc55995cb22d45a01ba7a2545f95cc",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 79,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

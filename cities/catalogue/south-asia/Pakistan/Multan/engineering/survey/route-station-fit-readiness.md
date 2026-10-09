@@ -1,8 +1,8 @@
 # Multan route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 45
+- Lines: 25
+- Stations: 140
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,0 +1,267 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: yangon; source line: line-10; length: 6661.1 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-10"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-metro"
+consist        = "metro-6car"
+crs            = "EPSG:32647"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "405398708cc697048f90438a7177a2afb06f6178331dde086b71a516beb14917"
+source_geojson_sha256 = "bef690d1f4bc28ba22b67e24c4ad1a7316d982a58950c88fd9453aaf07619fd9"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 194743.709
+northing_m          = 1855088.110
+bearing_in_deg      = 90.825
+bearing_out_deg     = 90.825
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 801.464
+easting_m           = 195544.723
+northing_m          = 1855076.574
+bearing_in_deg      = 90.825
+bearing_out_deg     = 315.687
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1451.624
+easting_m           = 195090.744
+northing_m          = 1855541.573
+bearing_in_deg      = 315.687
+bearing_out_deg     = 0.826
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1990.012
+easting_m           = 195098.498
+northing_m          = 1856079.660
+bearing_in_deg      = 0.826
+bearing_out_deg     = 45.962
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2018.280
+easting_m           = 195118.810
+northing_m          = 1856099.300
+bearing_in_deg      = 45.962
+bearing_out_deg     = 0.826
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2157.862
+easting_m           = 195120.821
+northing_m          = 1856238.804
+bearing_in_deg      = 0.826
+bearing_out_deg     = 45.962
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2186.129
+easting_m           = 195141.132
+northing_m          = 1856258.445
+bearing_in_deg      = 45.962
+bearing_out_deg     = 0.826
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2564.995
+easting_m           = 195146.590
+northing_m          = 1856637.098
+bearing_in_deg      = 0.826
+bearing_out_deg     = 45.962
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2593.262
+easting_m           = 195166.901
+northing_m          = 1856656.739
+bearing_in_deg      = 45.962
+bearing_out_deg     = 90.824
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4055.817
+easting_m           = 196628.636
+northing_m          = 1856635.720
+bearing_in_deg      = 90.824
+bearing_out_deg     = 64.365
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4100.574
+easting_m           = 196668.969
+northing_m          = 1856655.074
+bearing_in_deg      = 64.365
+bearing_out_deg     = 45.957
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4637.637
+easting_m           = 197054.842
+northing_m          = 1857028.269
+bearing_in_deg      = 45.957
+bearing_out_deg     = 90.818
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6661.100
+easting_m           = 199077.174
+northing_m          = 1856999.390
+bearing_in_deg      = 90.818
+bearing_out_deg     = 90.818
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 6661.100
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 720.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 720.000
+to_station_m   = 740.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 740.000
+to_station_m   = 884.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 884.900
+to_station_m   = 913.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 913.100
+to_station_m   = 1422.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1422.300
+to_station_m   = 1530.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1530.500
+to_station_m   = 2018.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2018.800
+to_station_m   = 2595.400
+class          = "bridge"
+
+[[civil]]
+from_station_m = 2595.400
+to_station_m   = 2635.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2635.400
+to_station_m   = 2675.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2675.400
+to_station_m   = 4015.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4015.400
+to_station_m   = 4132.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4132.000
+to_station_m   = 4612.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4612.800
+to_station_m   = 4721.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4721.100
+to_station_m   = 6661.100
+class          = "elevated"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-10-1339-0995-s000000"
+station_m         = 0.000
+platform_length_m = 121.000
+
+[[station]]
+id                = "line-10-1339-1012-s000340"
+station_m         = 340.000
+platform_length_m = 121.000
+
+[[station]]
+id                = "line-10-1316-1012-s001451"
+station_m         = 1450.500
+platform_length_m = 121.000
+
+[[station]]
+id                = "line-10-1260-1015-s002595"
+station_m         = 2595.400
+platform_length_m = 121.000
+
+[[station]]
+id                = "line-10-1240-1135-s005161"
+station_m         = 5161.100
+platform_length_m = 121.000
+
+[[station]]
+id                = "line-10-1240-1210-s006661"
+station_m         = 6661.100
+platform_length_m = 121.000
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7981106356549927,
+  "added_line_count": 2,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "khouribga",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 5,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.4928861,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 232377.84577560425,
+    "catchments": [
+      {
+        "covered_population_2020": 185463.23020410538,
+        "fraction_of_raster_population": 0.7981106356549927,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 13,
+    "valid_pixels": 3362
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Khouribga/design.toml": "33433d9c5784eb90cfca60cb450c30b598e2d2fe942cb23a3c59cc781d209526",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-pixels.npz.gz": "2c04d28b793651132ca34b255e4eb6794a00bf75f09aa708a7bbec82ed5a20b3",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-source.json": "d2df1e3a820174d9778ebdb85dc04bbc05d22ba40b1e38dd594839fd7b45c5a8",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/residential-line-expansion.json": "fe98a833b8ee8c0f7bcf184338ef5d0dc11565ad8e04cb80ac332c08e72d09ce",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 17,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

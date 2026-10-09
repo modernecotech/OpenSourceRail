@@ -9,9 +9,13 @@
 
 | Line | OSR reference | SUMO mean | Difference | Tolerance | Result |
 |---|---:|---:|---:|---:|---|
-| line-1 | 2590.3 s | 2496.0 s | -94.3 s | 388.5 s | pass |
-| line-2 | 1100.3 s | 1058.0 s | -42.3 s | 165.0 s | pass |
-| line-3 | 933.9 s | 897.5 s | -36.4 s | 140.1 s | pass |
+| line-1 | 3307.3 s | 3264.0 s | -43.3 s | 496.1 s | pass |
+| line-2 | 1343.2 s | 1324.0 s | -19.2 s | 201.5 s | pass |
+| line-3 | 984.8 s | 951.0 s | -33.8 s | 147.7 s | pass |
+| line-4 | 1129.7 s | 1096.0 s | -33.7 s | 169.5 s | pass |
+| line-5 | 481.8 s | 463.0 s | -18.8 s | 120.0 s | pass |
+| line-6 | 637.7 s | 605.0 s | -32.7 s | 120.0 s | pass |
+| line-7 | 304.7 s | 280.0 s | -24.7 s | 120.0 s | pass |
 
 > The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.
 

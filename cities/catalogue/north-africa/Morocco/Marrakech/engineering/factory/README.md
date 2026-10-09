@@ -1,18 +1,27 @@
 # Marrakech city-order factory requirement
 
-**258 metro-4car trainsets / 1032 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**434 metro-4car trainsets / 1736 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 735.2 trainsets/year, 7 separate test paths, 2389 direct production FTE. Plant reference envelope: **USD 794.580m**.
+Planning output: 260.0 trainsets/year, 3 separate test paths, 841 direct production FTE. Plant reference envelope: **USD 327.532m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 49 | 553 | 677 | 677 |
-| line-2 | 43 | 573 | 692 | 692 |
-| line-3 | 40 | 589 | 706 | 706 |
-| line-4 | 50 | 617 | 724 | 724 |
-| line-5 | 53 | 653 | 743 | 743 |
-| line-6 | 23 | 661 | 751 | 751 |
+| line-1 | 61 | 616 | 720 | 720 |
+| line-2 | 54 | 684 | 774 | 774 |
+| line-3 | 47 | 731 | 821 | 821 |
+| line-10 | 17 | 624 | 838 | 838 |
+| line-11 | 13 | 632 | 851 | 851 |
+| line-12 | 13 | 640 | 864 | 864 |
+| line-13 | 12 | 643 | 876 | 876 |
+| line-14 | 15 | 661 | 891 | 891 |
+| line-4 | 58 | 859 | 949 | 949 |
+| line-15 | 16 | 679 | 965 | 965 |
+| line-5 | 60 | 935 | 1025 | 1025 |
+| line-6 | 27 | 1037 | 1052 | 1052 |
+| line-7 | 12 | 1051 | 1064 | 1064 |
+| line-8 | 15 | 1079 | 1079 | 1079 |
+| line-9 | 14 | 1107 | 1093 | 1107 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.8034972440760968,
+  "added_line_count": 15,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "kabul",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 22,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.40804592,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 4136840.979008913,
+    "catchments": [
+      {
+        "covered_population_2020": 3323940.325814724,
+        "fraction_of_raster_population": 0.8034972440760968,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 4601000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 145,
+    "valid_pixels": 44451
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/south-asia/Afghanistan/Kabul/design.toml": "7d83c358ab1782f9bde56b41c9cfa0a047b6892fee6949a4a887627ee32ce979",
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/access/population-pixels.npz.gz": "76e7ec5b26e06d7d71930e4f360d4caaf8124536891703c8b7443f1b8ffc0e1d",
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/access/population-source.json": "366150672ac6cc67701def35bcdf9a36e6b3e53f1cc219fd9de3c2b15733d480",
+    "cities/catalogue/south-asia/Afghanistan/Kabul/engineering/alignment/residential-line-expansion.json": "77d7d3fa53b69f9de42409dd647a286a4c3fb226ebbc2611d54dc8807f3540f2",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 195,
+  "target_met": true,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

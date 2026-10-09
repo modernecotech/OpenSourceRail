@@ -2,21 +2,21 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **304**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **305**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 2 |
 | Beam/building | ground-lateral-clearance-conflict | 1 |
-| Beam/building | height-unresolved | 242 |
+| Beam/building | height-unresolved | 243 |
 | Beam/building | product-depth-unresolved | 7 |
-| Reference support/foundation | foundation-footprint-conflict | 148 |
-| Reference support/foundation | foundation-setback-conflict | 39 |
-| Reference support/foundation | mapped-footprints-only-clear | 13,122 |
-| Terrain | reference-gradient-exceeded | 6,785 |
-| Terrain | reference-gradient-within-policy | 6,270 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 249 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 133 |
+| Reference support/foundation | foundation-footprint-conflict | 152 |
+| Reference support/foundation | foundation-setback-conflict | 35 |
+| Reference support/foundation | mapped-footprints-only-clear | 13,113 |
+| Terrain | reference-gradient-exceeded | 6,775 |
+| Terrain | reference-gradient-within-policy | 6,265 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 255 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 135 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

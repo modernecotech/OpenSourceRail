@@ -1,8 +1,8 @@
 # Beni-Suef route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 14
+- Lines: 7
+- Stations: 37
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

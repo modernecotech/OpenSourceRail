@@ -1,8 +1,8 @@
 # Phnom-Penh route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 118
+- Lines: 25
+- Stations: 289
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

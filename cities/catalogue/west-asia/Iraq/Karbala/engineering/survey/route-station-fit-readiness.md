@@ -1,8 +1,8 @@
 # Karbala route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 57
+- Lines: 16
+- Stations: 152
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

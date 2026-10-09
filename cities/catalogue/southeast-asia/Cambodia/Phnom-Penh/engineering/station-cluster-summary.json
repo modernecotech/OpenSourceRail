@@ -8,15 +8,33 @@
       "city": "phnom-penh",
       "city_centre_cluster_envelope_m": 600.0,
       "city_centre_radius_m": 3000.0,
-      "design_sha256": "f52a5713d631a460d58273e318d687b82cc017f425fea0d5296523657fbb6170",
+      "design_sha256": "4b99192cd7d5a4683d5cd13b4c8decc0917290c9ac8efee8ea5607b031607bcc",
       "failures": [],
-      "generator_sha256": "2ca414423f47b3334ca3895460c1c71ea68d800e1b5b9a02d4bda4b0894336f6",
-      "interchange_count": 15,
+      "generator_sha256": "86b50622e6dbd857fcc37a74c0e527f69079558fd645a6f95d5690a833787110",
+      "interchange_count": 56,
       "minimum_inline_chainage_m": 1180.0,
       "passed": true,
       "preferred_inline_chainage_m": 1200.0,
-      "review_finding_count": 94,
+      "review_finding_count": 187,
       "review_findings": [
+        {
+          "chainage_gap_m": 429.7,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 398.7,
+          "first_station": "line-1-1013-0834-s005708",
+          "line": "line-1",
+          "second_station": "line-1-0994-0828-s006138",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1067.7,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 995.0,
+          "first_station": "line-1-0994-0828-s006138",
+          "line": "line-1",
+          "second_station": "line-1-0946-0815-s007206",
+          "severity": "review"
+        },
         {
           "chainage_gap_m": 324.9,
           "code": "distinct-crossing-spacing-requires-site-review",
@@ -36,6 +54,46 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 524.8,
+          "first_line": "line-1",
+          "first_station": "line-1-0792-0773-s010645",
+          "second_line": "line-2",
+          "second_station": "line-2-0775-0753-s008696",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 524.8,
+          "first_line": "line-1",
+          "first_station": "line-1-0792-0773-s010645",
+          "second_line": "line-4",
+          "second_station": "line-4-0775-0753-s024674",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 521.2,
+          "first_line": "line-1",
+          "first_station": "line-1-0792-0773-s010645",
+          "second_line": "line-4",
+          "second_station": "line-4-0778-0751-s024751",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 521.2,
+          "first_line": "line-1",
+          "first_station": "line-1-0792-0773-s010645",
+          "second_line": "line-5",
+          "second_station": "line-5-0778-0751-s027247",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 672.1,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 601.9,
@@ -45,30 +103,550 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 576.6,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-2",
+          "second_station": "line-2-0771-0741-s008422",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 325.2,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-2",
+          "second_station": "line-2-0775-0753-s008696",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 325.2,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-4",
+          "second_station": "line-4-0775-0753-s024674",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 359.6,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-4",
+          "second_station": "line-4-0778-0751-s024751",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 576.6,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 359.6,
+          "first_line": "line-1",
+          "first_station": "line-1-0778-0769-s010970",
+          "second_line": "line-5",
+          "second_station": "line-5-0778-0751-s027247",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 594.5,
+          "first_line": "line-1",
+          "first_station": "line-1-0749-0761-s011642",
+          "second_line": "line-2",
+          "second_station": "line-2-0771-0741-s008422",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 544.3,
+          "first_line": "line-1",
+          "first_station": "line-1-0749-0761-s011642",
+          "second_line": "line-2",
+          "second_station": "line-2-0775-0753-s008696",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 544.3,
+          "first_line": "line-1",
+          "first_station": "line-1-0749-0761-s011642",
+          "second_line": "line-4",
+          "second_station": "line-4-0775-0753-s024674",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 594.5,
+          "first_line": "line-1",
+          "first_station": "line-1-0749-0761-s011642",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 1147.7,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1058.2,
+          "first_station": "line-1-0640-0730-s014065",
+          "line": "line-1",
+          "second_station": "line-1-0589-0716-s015213",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 561.7,
+          "first_line": "line-1",
+          "first_station": "line-1-0589-0716-s015213",
+          "second_line": "line-9",
+          "second_station": "line-9-0617-0714-s008352",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 321.4,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 297.1,
+          "first_station": "line-10-0944-0815-s000000",
+          "line": "line-10",
+          "second_station": "line-10-0939-0829-s000321",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 644.3,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 538.0,
+          "first_station": "line-10-0944-0815-s000000",
+          "line": "line-10",
+          "second_station": "line-10-0937-0841-s000644",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 322.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 243.1,
+          "first_station": "line-10-0939-0829-s000321",
+          "line": "line-10",
+          "second_station": "line-10-0937-0841-s000644",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 680.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 640.6,
+          "first_station": "line-14-0980-0307-s002180",
+          "line": "line-14",
+          "second_station": "line-14-0982-0339-s002860",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 360.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 359.6,
+          "first_station": "line-14-0984-0404-s004200",
+          "line": "line-14",
+          "second_station": "line-14-0984-0422-s004560",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 360.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 360.2,
+          "first_station": "line-15-0894-0463-s005144",
+          "line": "line-15",
+          "second_station": "line-15-0912-0463-s005504",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 260.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 259.7,
+          "first_station": "line-16-0590-0717-s003282",
+          "line": "line-16",
+          "second_station": "line-16-0590-0730-s003542",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 543.6,
+          "first_line": "line-16",
+          "first_station": "line-16-0590-0717-s003282",
+          "second_line": "line-9",
+          "second_station": "line-9-0617-0714-s008352",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 411.1,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 388.3,
+          "first_station": "line-16-0635-0794-s005605",
+          "line": "line-16",
+          "second_station": "line-16-0651-0805-s006016",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 429.7,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 398.7,
+          "first_station": "line-18-1013-0834-s000000",
+          "line": "line-18",
+          "second_station": "line-18-0994-0828-s000430",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1108.3,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1100.8,
+          "first_station": "line-18-0994-0828-s000430",
+          "line": "line-18",
+          "second_station": "line-18-0939-0829-s001538",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 322.8,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 243.1,
+          "first_station": "line-18-0939-0829-s001538",
+          "line": "line-18",
+          "second_station": "line-18-0937-0841-s001861",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 261.4,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 241.4,
+          "first_station": "line-2-0643-0377-s000000",
+          "line": "line-2",
+          "second_station": "line-2-0648-0388-s000261",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1110.1,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1004.8,
+          "first_station": "line-2-0748-0670-s006786",
+          "line": "line-2",
+          "second_station": "line-2-0763-0718-s007896",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 526.3,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 486.6,
+          "first_station": "line-2-0763-0718-s007896",
+          "line": "line-2",
+          "second_station": "line-2-0771-0741-s008422",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 799.4,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 739.3,
+          "first_station": "line-2-0763-0718-s007896",
+          "line": "line-2",
+          "second_station": "line-2-0775-0753-s008696",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1172.6,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1074.1,
+          "first_station": "line-2-0763-0718-s007896",
+          "line": "line-2",
+          "second_station": "line-2-0780-0769-s009069",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 486.6,
+          "first_line": "line-2",
+          "first_station": "line-2-0763-0718-s007896",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 273.1,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 252.7,
-          "first_station": "line-2-0771-0741-s008580",
+          "first_station": "line-2-0771-0741-s008422",
           "line": "line-2",
-          "second_station": "line-2-0775-0753-s008853",
+          "second_station": "line-2-0775-0753-s008696",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 646.2,
+          "chainage_gap_m": 646.3,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 587.6,
-          "first_station": "line-2-0771-0741-s008580",
+          "first_station": "line-2-0771-0741-s008422",
           "line": "line-2",
-          "second_station": "line-2-0780-0769-s009226",
+          "second_station": "line-2-0780-0769-s009069",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 373.1,
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 488.0,
+          "first_line": "line-2",
+          "first_station": "line-2-0771-0741-s008422",
+          "second_line": "line-22",
+          "second_station": "line-22-0757-0721-s007120",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 486.6,
+          "first_line": "line-2",
+          "first_station": "line-2-0771-0741-s008422",
+          "second_line": "line-22",
+          "second_station": "line-22-0763-0718-s007300",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 594.5,
+          "first_line": "line-2",
+          "first_station": "line-2-0771-0741-s008422",
+          "second_line": "line-4",
+          "second_station": "line-4-0749-0761-s024082",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 488.0,
+          "first_line": "line-2",
+          "first_station": "line-2-0771-0741-s008422",
+          "second_line": "line-5",
+          "second_station": "line-5-0757-0721-s026426",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 373.2,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 334.9,
-          "first_station": "line-2-0775-0753-s008853",
+          "first_station": "line-2-0775-0753-s008696",
           "line": "line-2",
-          "second_station": "line-2-0780-0769-s009226",
+          "second_station": "line-2-0780-0769-s009069",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 544.3,
+          "first_line": "line-2",
+          "first_station": "line-2-0775-0753-s008696",
+          "second_line": "line-4",
+          "second_station": "line-4-0749-0761-s024082",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 524.8,
+          "first_line": "line-2",
+          "first_station": "line-2-0775-0753-s008696",
+          "second_line": "line-5",
+          "second_station": "line-5-0792-0773-s027827",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 334.9,
+          "first_line": "line-2",
+          "first_station": "line-2-0780-0769-s009069",
+          "second_line": "line-4",
+          "second_station": "line-4-0775-0753-s024674",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 361.8,
+          "first_line": "line-2",
+          "first_station": "line-2-0780-0769-s009069",
+          "second_line": "line-4",
+          "second_station": "line-4-0778-0751-s024751",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 587.6,
+          "first_line": "line-2",
+          "first_station": "line-2-0780-0769-s009069",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 361.8,
+          "first_line": "line-2",
+          "first_station": "line-2-0780-0769-s009069",
+          "second_line": "line-5",
+          "second_station": "line-5-0778-0751-s027247",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 420.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 420.2,
+          "first_station": "line-20-0627-0388-s012236",
+          "line": "line-20",
+          "second_station": "line-20-0648-0388-s012656",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1000.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1000.6,
+          "first_station": "line-22-0590-0730-s003600",
+          "line": "line-22",
+          "second_station": "line-22-0640-0730-s004600",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 180.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 134.2,
+          "first_station": "line-22-0757-0721-s007120",
+          "line": "line-22",
+          "second_station": "line-22-0763-0718-s007300",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 488.0,
+          "first_line": "line-22",
+          "first_station": "line-22-0757-0721-s007120",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 486.6,
+          "first_line": "line-22",
+          "first_station": "line-22-0763-0718-s007300",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 814.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 765.6,
+          "first_station": "line-23-0952-0383-s000000",
+          "line": "line-23",
+          "second_station": "line-23-0984-0404-s000814",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 509.1,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 359.6,
+          "first_station": "line-23-0984-0404-s000814",
+          "line": "line-23",
+          "second_station": "line-23-0984-0422-s001323",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 320.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 260.5,
+          "first_station": "line-3-1094-0188-s000000",
+          "line": "line-3",
+          "second_station": "line-3-1093-0201-s000320",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 724.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 556.7,
+          "first_station": "line-3-1094-0188-s000000",
+          "line": "line-3",
+          "second_station": "line-3-1084-0214-s000725",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 404.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 316.1,
+          "first_station": "line-3-1093-0201-s000320",
+          "line": "line-3",
+          "second_station": "line-3-1084-0214-s000725",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 800.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 715.8,
+          "first_station": "line-3-1003-0310-s004331",
+          "line": "line-3",
+          "second_station": "line-3-0982-0339-s005132",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1187.1,
+          "code": "same-line-stations-too-close",
+          "distance_m": 1064.5,
+          "first_station": "line-3-0982-0339-s005132",
+          "line": "line-3",
+          "second_station": "line-3-0952-0383-s006319",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 869.1,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 776.2,
+          "first_station": "line-3-0894-0463-s008528",
+          "line": "line-3",
+          "second_station": "line-3-0872-0495-s009398",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 482.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 427.8,
+          "first_station": "line-3-0872-0495-s009398",
+          "line": "line-3",
+          "second_station": "line-3-0859-0512-s009880",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 406.3,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 355.9,
+          "first_station": "line-3-0793-0606-s012448",
+          "line": "line-3",
+          "second_station": "line-3-0782-0620-s012854",
           "severity": "review"
         },
         {
@@ -78,6 +656,24 @@
           "first_station": "line-3-0748-0670-s014188",
           "line": "line-3",
           "second_station": "line-3-0734-0688-s014694",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1118.8,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 1003.8,
+          "first_station": "line-3-0734-0688-s014694",
+          "line": "line-3",
+          "second_station": "line-3-0705-0729-s015812",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 434.5,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 388.1,
+          "first_station": "line-3-0705-0729-s015812",
+          "line": "line-3",
+          "second_station": "line-3-0694-0745-s016247",
           "severity": "review"
         },
         {
@@ -117,136 +713,64 @@
           "severity": "review"
         },
         {
-          "chainage_gap_m": 1040.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 726.6,
-          "first_station": "line-3-0335-0764-s026914",
-          "line": "line-3",
-          "second_station": "line-3-0316-0795-s027954",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 1120.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 741.7,
-          "first_station": "line-3-0335-0764-s026914",
-          "line": "line-3",
-          "second_station": "line-3-0318-0797-s028034",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 80.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 56.5,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0318-0797-s028034",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 160.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 113.1,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0320-0799-s028114",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 240.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 169.6,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0322-0801-s028194",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 560.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 395.8,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0330-0809-s028514",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 860.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 621.3,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0342-0812-s028814",
-          "severity": "review"
-        },
-        {
-          "chainage_gap_m": 960.0,
-          "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 684.0,
-          "first_station": "line-3-0316-0795-s027954",
-          "line": "line-3",
-          "second_station": "line-3-0343-0816-s028914",
-          "severity": "review"
-        },
-        {
           "chainage_gap_m": 1080.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 765.6,
-          "first_station": "line-3-0316-0795-s027954",
+          "distance_m": 760.9,
+          "first_station": "line-3-0335-0764-s026914",
           "line": "line-3",
-          "second_station": "line-3-0345-0820-s029034",
+          "second_station": "line-3-0316-0797-s027994",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 80.0,
+          "chainage_gap_m": 120.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 56.5,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 89.5,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0320-0799-s028114",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 160.0,
+          "chainage_gap_m": 200.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 113.1,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 144.2,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0322-0801-s028194",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 480.0,
+          "chainage_gap_m": 520.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 339.3,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 368.7,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0330-0809-s028514",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 780.0,
+          "chainage_gap_m": 820.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 566.0,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 600.4,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0342-0812-s028814",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 880.0,
+          "chainage_gap_m": 920.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 627.9,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 660.2,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0343-0816-s028914",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 1000.0,
+          "chainage_gap_m": 1040.0,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 709.2,
-          "first_station": "line-3-0318-0797-s028034",
+          "distance_m": 740.1,
+          "first_station": "line-3-0316-0797-s027994",
           "line": "line-3",
           "second_station": "line-3-0345-0820-s029034",
           "severity": "review"
@@ -297,6 +821,26 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 511.1,
+          "first_line": "line-3",
+          "first_station": "line-3-0320-0799-s028114",
+          "second_line": "line-6",
+          "second_station": "line-6-0342-0812-s009948",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 571.9,
+          "first_line": "line-3",
+          "first_station": "line-3-0320-0799-s028114",
+          "second_line": "line-6",
+          "second_station": "line-6-0343-0816-s010048",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 320.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 226.2,
@@ -342,6 +886,36 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 456.6,
+          "first_line": "line-3",
+          "first_station": "line-3-0322-0801-s028194",
+          "second_line": "line-6",
+          "second_station": "line-6-0342-0812-s009948",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 516.1,
+          "first_line": "line-3",
+          "first_station": "line-3-0322-0801-s028194",
+          "second_line": "line-6",
+          "second_station": "line-6-0343-0816-s010048",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 596.5,
+          "first_line": "line-3",
+          "first_station": "line-3-0322-0801-s028194",
+          "second_line": "line-6",
+          "second_station": "line-6-0345-0820-s010145",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 300.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 247.5,
@@ -378,6 +952,66 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 565.4,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-4",
+          "second_station": "line-4-0350-0829-s012991",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 452.4,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-4",
+          "second_station": "line-4-0346-0825-s013104",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 247.5,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-6",
+          "second_station": "line-6-0342-0812-s009948",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 295.3,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-6",
+          "second_station": "line-6-0343-0816-s010048",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 372.0,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-6",
+          "second_station": "line-6-0345-0820-s010145",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 452.4,
+          "first_line": "line-3",
+          "first_station": "line-3-0330-0809-s028514",
+          "second_line": "line-6",
+          "second_station": "line-6-0346-0825-s010253",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 100.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 82.4,
@@ -405,6 +1039,26 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 247.5,
+          "first_line": "line-3",
+          "first_station": "line-3-0342-0812-s028814",
+          "second_line": "line-4",
+          "second_station": "line-4-0330-0809-s013557",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 511.1,
+          "first_line": "line-3",
+          "first_station": "line-3-0342-0812-s028814",
+          "second_line": "line-4",
+          "second_station": "line-4-0320-0799-s013840",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 120.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 89.4,
@@ -423,6 +1077,26 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 295.3,
+          "first_line": "line-3",
+          "first_station": "line-3-0343-0816-s028914",
+          "second_line": "line-4",
+          "second_station": "line-4-0330-0809-s013557",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 571.9,
+          "first_line": "line-3",
+          "first_station": "line-3-0343-0816-s028914",
+          "second_line": "line-4",
+          "second_station": "line-4-0320-0799-s013840",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 280.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 205.7,
@@ -432,6 +1106,16 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 372.0,
+          "first_line": "line-3",
+          "first_station": "line-3-0345-0820-s029034",
+          "second_line": "line-4",
+          "second_station": "line-4-0330-0809-s013557",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 1060.0,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 755.9,
@@ -439,6 +1123,16 @@
           "line": "line-3",
           "second_station": "line-3-0380-0852-s030374",
           "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 565.4,
+          "first_line": "line-3",
+          "first_station": "line-3-0350-0829-s029314",
+          "second_line": "line-4",
+          "second_station": "line-4-0330-0809-s013557",
+          "severity": "review",
+          "walking_path_accepted": false
         },
         {
           "chainage_gap_m": 360.0,
@@ -585,6 +1279,46 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 247.5,
+          "first_line": "line-4",
+          "first_station": "line-4-0330-0809-s013557",
+          "second_line": "line-6",
+          "second_station": "line-6-0342-0812-s009948",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 295.3,
+          "first_line": "line-4",
+          "first_station": "line-4-0330-0809-s013557",
+          "second_line": "line-6",
+          "second_station": "line-6-0343-0816-s010048",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 372.0,
+          "first_line": "line-4",
+          "first_station": "line-4-0330-0809-s013557",
+          "second_line": "line-6",
+          "second_station": "line-6-0345-0820-s010145",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 452.4,
+          "first_line": "line-4",
+          "first_station": "line-4-0330-0809-s013557",
+          "second_line": "line-6",
+          "second_station": "line-6-0346-0825-s010253",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 113.1,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 113.1,
@@ -619,6 +1353,26 @@
           "line": "line-4",
           "second_station": "line-4-0348-0769-s014994",
           "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 511.1,
+          "first_line": "line-4",
+          "first_station": "line-4-0320-0799-s013840",
+          "second_line": "line-6",
+          "second_station": "line-6-0342-0812-s009948",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 571.9,
+          "first_line": "line-4",
+          "first_station": "line-4-0320-0799-s013840",
+          "second_line": "line-6",
+          "second_station": "line-6-0343-0816-s010048",
+          "severity": "review",
+          "walking_path_accepted": false
         },
         {
           "chainage_gap_m": 760.9,
@@ -702,12 +1456,87 @@
           "severity": "review"
         },
         {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 594.5,
+          "first_line": "line-4",
+          "first_station": "line-4-0749-0761-s024082",
+          "second_line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
           "chainage_gap_m": 76.5,
           "code": "distinct-crossing-spacing-requires-site-review",
           "distance_m": 72.1,
           "first_station": "line-4-0775-0753-s024674",
           "line": "line-4",
           "second_station": "line-4-0778-0751-s024751",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 524.8,
+          "first_line": "line-4",
+          "first_station": "line-4-0775-0753-s024674",
+          "second_line": "line-5",
+          "second_station": "line-5-0792-0773-s027827",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 521.2,
+          "first_line": "line-4",
+          "first_station": "line-4-0778-0751-s024751",
+          "second_line": "line-5",
+          "second_station": "line-5-0792-0773-s027827",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 489.7,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 456.3,
+          "first_station": "line-4-0940-0703-s028412",
+          "line": "line-4",
+          "second_station": "line-4-0962-0697-s028901",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 378.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 332.6,
+          "first_station": "line-5-0664-0585-s022737",
+          "line": "line-5",
+          "second_station": "line-5-0673-0599-s023115",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 897.4,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 804.0,
+          "first_station": "line-5-0734-0688-s025529",
+          "line": "line-5",
+          "second_station": "line-5-0757-0721-s026426",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 562.8,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 488.0,
+          "first_station": "line-5-0757-0721-s026426",
+          "line": "line-5",
+          "second_station": "line-5-0771-0741-s026989",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 820.8,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 732.0,
+          "first_station": "line-5-0757-0721-s026426",
+          "line": "line-5",
+          "second_station": "line-5-0778-0751-s027247",
           "severity": "review"
         },
         {
@@ -862,11 +1691,74 @@
           "line": "line-6",
           "second_station": "line-6-0390-0900-s012258",
           "severity": "review"
+        },
+        {
+          "chainage_gap_m": 256.5,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 243.4,
+          "first_station": "line-6-0961-1029-s025556",
+          "line": "line-6",
+          "second_station": "line-6-0973-1031-s025813",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 880.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 771.8,
+          "first_station": "line-6-1264-0908-s033404",
+          "line": "line-6",
+          "second_station": "line-6-1241-0877-s034285",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 484.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 464.1,
+          "first_station": "line-6-1003-0310-s049958",
+          "line": "line-6",
+          "second_station": "line-6-0980-0307-s050442",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 446.3,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 388.3,
+          "first_station": "line-6-0643-0377-s061866",
+          "line": "line-6",
+          "second_station": "line-6-0627-0388-s062312",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 820.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 819.2,
+          "first_station": "line-8-0962-0697-s005446",
+          "line": "line-8",
+          "second_station": "line-8-0962-0738-s006266",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 670.5,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 664.7,
+          "first_station": "line-9-0859-0512-s000000",
+          "line": "line-9",
+          "second_station": "line-9-0835-0489-s000671",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1187.9,
+          "code": "same-line-stations-too-close",
+          "distance_m": 1187.6,
+          "first_station": "line-9-0706-0543-s004129",
+          "line": "line-9",
+          "second_station": "line-9-0664-0585-s005317",
+          "severity": "review"
         }
       ],
-      "station_count": 118,
+      "station_count": 289,
       "transfer_envelope_m": 600.0
     }
   ],
-  "review_finding_count": 94
+  "review_finding_count": 187
 }

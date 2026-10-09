@@ -1,0 +1,52 @@
+{
+  "actual_emitted_station_radial_fraction": 0.7472550982738614,
+  "added_line_count": 6,
+  "additional_paid_journeys": null,
+  "as_of": "2026-10-09",
+  "city": "shinyanga",
+  "current_census_or_walkshed_claim": false,
+  "line_count": 9,
+  "native_service_and_finance_regeneration_are_prerequisites": true,
+  "operating_release": false,
+  "original_station_radial_fraction": 0.38869253,
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 145645.02563208342,
+    "catchments": [
+      {
+        "covered_population_2020": 108833.98794180155,
+        "fraction_of_raster_population": 0.7472550982738614,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 0,
+    "planning_city_population": 250000,
+    "population_year": 2020,
+    "status": "available",
+    "unique_station_coordinates": 33,
+    "valid_pixels": 26244
+  },
+  "schema": "osr-residential-expansion-evaluation/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/design.toml": "9ce2db79d0937578828d6c95ec6c3223b665651ec0773a54662659a0ba8cba1b",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/access/population-pixels.npz.gz": "3f74658046a656cc91390e8c92f9b0d22ddfc77326c70da24834aad83e92d3cf",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/access/population-source.json": "6d28c5cf15e5329be03d387566f0ab2942e0f1aae56a45d083143af24dfbf07c",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/residential-line-expansion.json": "b35ccd044a289739a6a1e7658b20dc2f733aaeb95873e95cc25c89ce234407af",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/evaluate-residential-expansion.py": "c808db2c5795214f2ff550e96585e65db1b96749a8d158e65fa6e4625cf3d614",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1"
+  },
+  "station_count": 42,
+  "target_met": false,
+  "target_radial_fraction": 0.8,
+  "unavailable_reason": null
+}

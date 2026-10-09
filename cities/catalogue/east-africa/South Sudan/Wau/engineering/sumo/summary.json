@@ -4,11 +4,11 @@
   "arrived_services": 12,
   "city": "waw",
   "corridor_input": "cities/catalogue/east-africa/South Sudan/Wau/waw.corridor.geojson",
-  "corridor_sha256": "2d55d3aa8962f06f0f235ab366b0cccf2acf9bab0961cb5aea1292cd1236da2a",
+  "corridor_sha256": "8ce41e9ada8107b97fa4320688d1d4e1ef471fb8f26d5db89d1603be4ae74eee",
   "country": "SS",
   "design_input": "cities/catalogue/east-africa/South Sudan/Wau/design.toml",
-  "design_sha256": "f03218bf852ad3b16e9cc68177fc15ceb0932896d973aadbee4be17e356fcf49",
-  "generator_sha256": "42d0d8fd1bfe996440f1a98665de405ec7f99ff012be4b677c6a433dc8898bc6",
+  "design_sha256": "2729ee52fcbbd4d3c80afa65c3746f70c94d0e1638e81d0cda1fb10ae1203dbb",
+  "generator_sha256": "e806ea3b44936de0b6095270fe0888c32ed164b4914f91d11acfa269824b751c",
   "geometry_mode": "canonical-corridor",
   "input_issues": [],
   "input_quality_passed": true,
@@ -16,44 +16,46 @@
   "lines": [
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 6626.16,
+      "corridor_geometry_length_m": 6626.155,
       "corridor_geometry_to_declared_ratio": 0.999918,
       "declared_length_m": 6626.7,
       "end_station_gap_m": 0.0,
       "line": "line-1",
       "maximum_speed_mps": 19.0,
-      "maximum_station_corridor_offset_m": 0.03,
-      "mean_trip_duration_s": 499.5,
+      "maximum_station_corridor_offset_m": 0.045,
+      "mean_trip_duration_s": 640.0,
       "modeled_length_m": 6626.7,
       "rolling_stock": "tram-2car",
       "scheduled_services": 4,
       "start_station_gap_m": 0.0,
-      "station_count": 3,
+      "station_count": 4,
       "station_ids": [
         "line-1-0239-0231-s000000",
-        "line-1-0351-0306-s003014",
+        "line-1-0328-0290-s002386",
+        "line-1-0388-0330-s003999",
         "line-1-0486-0395-s006627"
       ],
       "train_length_m": 39.0
     },
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 6607.472,
+      "corridor_geometry_length_m": 6607.47,
       "corridor_geometry_to_declared_ratio": 1.000329,
       "declared_length_m": 6605.3,
       "end_station_gap_m": 0.0,
       "line": "line-2",
       "maximum_speed_mps": 19.0,
-      "maximum_station_corridor_offset_m": 0.113,
-      "mean_trip_duration_s": 637.5,
+      "maximum_station_corridor_offset_m": 0.168,
+      "mean_trip_duration_s": 718.0,
       "modeled_length_m": 6605.3,
       "rolling_stock": "tram-2car",
       "scheduled_services": 4,
       "start_station_gap_m": 0.0,
-      "station_count": 4,
+      "station_count": 5,
       "station_ids": [
         "line-2-0075-0290-s000000",
-        "line-2-0237-0326-s003618",
+        "line-2-0180-0315-s002387",
+        "line-2-0255-0329-s004003",
         "line-2-0339-0344-s005807",
         "line-2-0376-0351-s006605"
       ],
@@ -61,8 +63,8 @@
     },
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 2032.304,
-      "corridor_geometry_to_declared_ratio": 0.999756,
+      "corridor_geometry_length_m": 2032.302,
+      "corridor_geometry_to_declared_ratio": 0.999755,
       "declared_length_m": 2032.8,
       "end_station_gap_m": 0.0,
       "line": "line-3",
@@ -83,21 +85,23 @@
     }
   ],
   "local_coordinate_origin": {
-    "latitude": 7.711522542561998,
-    "longitude": 27.991102233463515
+    "latitude": 7.712410375649378,
+    "longitude": 27.99078194217914
   },
   "missing_service_ids": [],
   "passed": true,
   "rolling_stock_input": "lib/templates/rolling-stock.toml",
   "rolling_stock_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
   "scenario_input": "cities/catalogue/east-africa/South Sudan/Wau/waw.toml",
-  "scenario_sha256": "dbdee94afffc1590b5e99c9bb14da723e2bb907afb11b0206ed1ed775899b9e9",
+  "scenario_sha256": "e1c51eb999522f28039bdf78bfd1e13c991b726b077516784c99f2b46dc4d897",
   "scheduled_services": 12,
+  "short_controlled_segments": [],
   "simulation_passed": true,
   "simulation_status": "completed",
-  "station_count": 10,
+  "station_count": 12,
   "tool": {
     "name": "SUMO",
     "version_output": "Eclipse SUMO sumo 1.27.1"
-  }
+  },
+  "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length"
 }

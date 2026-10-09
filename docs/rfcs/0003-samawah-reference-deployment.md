@@ -1,7 +1,7 @@
 # RFC 0003 — Samawah Current Reference Deployment
 
 **Status:** Controlled planning example; construction and operating releases remain open.
-<!-- GENERATED CURRENT REFERENCE: 2ea1b038c5efb8f92604141dea43fe0bc6722824a3b0b7a2086c987ba7660476 -->
+<!-- GENERATED CURRENT REFERENCE: 884e2f10e2d7eacc6bca224f62770b7e0e70b90351ba78b69f9419f02039b50c -->
 
 Regenerate with `python3 tools/automation/generate-reference-city-rfc.py`. The city design and scenario are the controlled inputs; this RFC reports their current quantities. [Earlier planning figures and brownfield observations](../reference/history/samawah-pre-core-planning.md) remain explicitly historical.
 
@@ -21,9 +21,13 @@ The earlier railway-yard and workshop observations are candidates for a site cen
 
 | Line | Route km | Platform records | Total trainsets |
 |---|---:|---:|---:|
-| line-1 | 22.737 | 8 | 70 |
-| line-2 | 10.481 | 5 | 34 |
-| line-3 | 8.799 | 5 | 28 |
+| line-1 | 22.737 | 15 | 81 |
+| line-2 | 10.481 | 8 | 36 |
+| line-3 | 8.799 | 6 | 28 |
+| line-4 | 9.347 | 6 | 32 |
+| line-5 | 3.934 | 4 | 17 |
+| line-6 | 6.705 | 4 | 25 |
+| line-7 | 4.460 | 3 | 17 |
 
 ![Current Samawah network](../../cities/catalogue/west-asia/Iraq/Samawah/samawah-network-map.png)
 
@@ -31,7 +35,7 @@ The central planning concept straightens and elevates suitable core corridors. A
 
 ### 3.2 Transfers and platform siting
 
-The current design records 3 multi-line interchange groups. Platform IDs remain distinct on their own lines. Declared transfers and bounded dry-bank moves preserve the checked walking legs; they do not demonstrate a surveyed paid-area connection, accessible footprint or stable bank. [Water screen](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/station-water-screen.json) · [Alignment review](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/core-realignment.json).
+The current design records 9 multi-line interchange groups. Platform IDs remain distinct on their own lines. Declared transfers and bounded dry-bank moves preserve the checked walking legs; they do not demonstrate a surveyed paid-area connection, accessible footprint or stable bank. [Water screen](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/station-water-screen.json) · [Alignment review](../../cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/core-realignment.json).
 
 ### 3.3 Revenue and finance
 
@@ -41,14 +45,14 @@ Use the [current finance ledger](../../cities/catalogue/west-asia/Iraq/Samawah/e
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | 42.017 km |
-| Stations (unique) | 18 |
-| Lines | 3 |
-| Multi-line interchanges | 3 |
-| Fleet (revenue) | 118 × trainsets |
-| Fleet (spare + cold-reserve) | 14 × trainsets |
-| Fleet (total) | 132 × trainsets |
-| Depots | 3 |
+| Route-km (double track) | 66.463 km |
+| Stations (unique) | 46 |
+| Lines | 7 |
+| Multi-line interchanges | 9 |
+| Fleet (revenue) | 211 × trainsets |
+| Fleet (spare + cold-reserve) | 25 × trainsets |
+| Fleet (total) | 236 × trainsets |
+| Depots | 7 |
 | Best peak headway | 3 min |
 
 Station totals count the unique listed platform records, including individual interchange platforms. Revenue fleet is the controlled peak requirement; reserve roles and any service-rotation stock remain separate in the design. A full-fleet planning depot is provided for each line and sized to the actual train count and consist length.
@@ -57,9 +61,9 @@ Station totals count the unique listed platform records, including individual in
 
 | Civil class | Route km |
 |---|---:|
-| at-grade | 7.997 |
-| elevated | 31.486 |
-| bridge | 2.534 |
+| at-grade | 10.832 |
+| elevated | 50.249 |
+| bridge | 5.382 |
 
 These are route kilometres for a double-track system. Geometry and unit-cost targets do not release pi-beam prestress, complete-member lifting masses, foundations, bridge interaction or temporary works. [Civil standard](0011-civil-infrastructure-design-standard.md).
 

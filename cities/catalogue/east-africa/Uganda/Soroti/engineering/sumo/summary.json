@@ -1,23 +1,23 @@
 {
   "analysis_family": "OSR-AN-OPS-SUMO-CITY",
   "analysis_id": "OSR-AN-OPS-SUMO-CITY:soroti",
-  "arrived_services": 8,
+  "arrived_services": 12,
   "city": "soroti",
   "corridor_input": "cities/catalogue/east-africa/Uganda/Soroti/soroti.corridor.geojson",
-  "corridor_sha256": "04bd0aef1b9c5bcc0c250f201246e677d409547440c005a522969c2f4cd49fbe",
+  "corridor_sha256": "79f74a3981aac241e613cc3c2d2edd77dec2c038d0d1498ac2ad798fe9ee37e1",
   "country": "UG",
   "design_input": "cities/catalogue/east-africa/Uganda/Soroti/design.toml",
-  "design_sha256": "185709ca48a57c4ae01377dab2ceb3bd67f83a782793bd5d1cf83513a3bee549",
-  "generator_sha256": "42d0d8fd1bfe996440f1a98665de405ec7f99ff012be4b677c6a433dc8898bc6",
+  "design_sha256": "49288bbe29d82f15427bfca589939bb770497965664c031778f72ac4d8aef741",
+  "generator_sha256": "e806ea3b44936de0b6095270fe0888c32ed164b4914f91d11acfa269824b751c",
   "geometry_mode": "canonical-corridor",
   "input_issues": [],
   "input_quality_passed": true,
-  "line_count": 2,
+  "line_count": 3,
   "lines": [
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 2794.296,
-      "corridor_geometry_to_declared_ratio": 1.000034,
+      "corridor_geometry_length_m": 2794.298,
+      "corridor_geometry_to_declared_ratio": 1.000035,
       "declared_length_m": 2794.2,
       "end_station_gap_m": 0.0,
       "line": "line-1",
@@ -37,42 +37,67 @@
     },
     {
       "arrived_services": 4,
-      "corridor_geometry_length_m": 2180.33,
-      "corridor_geometry_to_declared_ratio": 0.999647,
+      "corridor_geometry_length_m": 2180.333,
+      "corridor_geometry_to_declared_ratio": 0.999649,
       "declared_length_m": 2181.1,
       "end_station_gap_m": 0.0,
       "line": "line-2",
       "maximum_speed_mps": 19.0,
-      "maximum_station_corridor_offset_m": 0.0,
-      "mean_trip_duration_s": 125.0,
+      "maximum_station_corridor_offset_m": 0.001,
+      "mean_trip_duration_s": 268.5,
       "modeled_length_m": 2181.1,
       "rolling_stock": "tram-2car",
       "scheduled_services": 4,
       "start_station_gap_m": 0.0,
-      "station_count": 2,
+      "station_count": 3,
       "station_ids": [
         "line-2-0377-0360-s000000",
+        "line-2-0351-0390-s000897",
         "line-2-0313-0432-s002181"
+      ],
+      "train_length_m": 39.0
+    },
+    {
+      "arrived_services": 4,
+      "corridor_geometry_length_m": 3311.521,
+      "corridor_geometry_to_declared_ratio": 0.999554,
+      "declared_length_m": 3313.0,
+      "end_station_gap_m": 0.0,
+      "line": "line-3",
+      "maximum_speed_mps": 19.0,
+      "maximum_station_corridor_offset_m": 0.537,
+      "mean_trip_duration_s": 328.5,
+      "modeled_length_m": 3313.0,
+      "rolling_stock": "tram-2car",
+      "scheduled_services": 4,
+      "start_station_gap_m": 0.0,
+      "station_count": 3,
+      "station_ids": [
+        "line-3-0351-0390-s000000",
+        "line-3-0412-0438-s001618",
+        "line-3-0386-0512-s003313"
       ],
       "train_length_m": 39.0
     }
   ],
   "local_coordinate_origin": {
-    "latitude": 1.726050556095454,
-    "longitude": 33.61283575097305
+    "latitude": 1.720336630313501,
+    "longitude": 33.61708217253297
   },
   "missing_service_ids": [],
   "passed": true,
   "rolling_stock_input": "lib/templates/rolling-stock.toml",
   "rolling_stock_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
   "scenario_input": "cities/catalogue/east-africa/Uganda/Soroti/soroti.toml",
-  "scenario_sha256": "275052afbb8aca82bd0ddbcea415fe57201db44ee5997cd0132c32ef09e32cad",
-  "scheduled_services": 8,
+  "scenario_sha256": "a10df47f1695e8f600387f8102b26bb94bde3fdfc25d0b3987ccd7708f3cd286",
+  "scheduled_services": 12,
+  "short_controlled_segments": [],
   "simulation_passed": true,
   "simulation_status": "completed",
-  "station_count": 4,
+  "station_count": 8,
   "tool": {
     "name": "SUMO",
     "version_output": "Eclipse SUMO sumo 1.27.1"
-  }
+  },
+  "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length"
 }

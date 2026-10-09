@@ -1,8 +1,8 @@
 # Bloemfontein route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 23
+- Lines: 9
+- Stations: 54
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Tripoli-Lb route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 3
-- Stations: 16
+- Lines: 7
+- Stations: 40
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

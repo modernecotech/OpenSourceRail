@@ -4,9 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sumbawanga-line1.aln.toml`](sumbawanga-line1.aln.toml) | `line-1` | 3,771.0 m | 3 |
-| [`sumbawanga-line2.aln.toml`](sumbawanga-line2.aln.toml) | `line-2` | 4,129.9 m | 3 |
-| [`sumbawanga-line3.aln.toml`](sumbawanga-line3.aln.toml) | `line-3` | 1,960.0 m | 2 |
+| [`sumbawanga-line1.aln.toml`](sumbawanga-line1.aln.toml) | `line-1` | 3,771.0 m | 4 |
+| [`sumbawanga-line2.aln.toml`](sumbawanga-line2.aln.toml) | `line-2` | 4,129.9 m | 4 |
+| [`sumbawanga-line3.aln.toml`](sumbawanga-line3.aln.toml) | `line-3` | 1,960.0 m | 3 |
+| [`sumbawanga-line4.aln.toml`](sumbawanga-line4.aln.toml) | `line-4` | 2,961.7 m | 3 |
+| [`sumbawanga-line5.aln.toml`](sumbawanga-line5.aln.toml) | `line-5` | 3,112.0 m | 3 |
+| [`sumbawanga-line6.aln.toml`](sumbawanga-line6.aln.toml) | `line-6` | 3,430.4 m | 3 |
 
 ## Status
 

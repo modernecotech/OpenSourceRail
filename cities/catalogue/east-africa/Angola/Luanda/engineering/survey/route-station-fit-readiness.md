@@ -1,8 +1,8 @@
 # Luanda route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 149
+- Lines: 45
+- Stations: 507
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

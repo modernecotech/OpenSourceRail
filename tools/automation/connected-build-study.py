@@ -51,7 +51,13 @@ from engineering.analysis.city_geometry import load_line_coordinates, line_geome
 
 
 def encode(value):
-    return (json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+    raw=(json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+    # Large expanded networks retain every record in ordinary JSON. Formatting
+    # is compact above 45 MiB so source-bound evidence fits repository limits.
+    if len(raw)>45*1024*1024:
+        raw=(json.dumps(value,separators=(',',':'),sort_keys=True,allow_nan=False)+'\n').encode()
+    if len(raw)>50*1024*1024:raise ValueError('Connected artifact needs a lossless partition')
+    return raw
 
 
 def digest(path):

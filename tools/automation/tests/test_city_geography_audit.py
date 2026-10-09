@@ -53,3 +53,22 @@ def test_shared_curved_trunk_requires_platforms_at_its_junctions_only():
                                 np.zeros((100, 100), dtype=np.uint8))
     assert result['passed']
     assert result['dry_geometric_crossings'] == 2
+
+
+def test_diagonal_crossing_matches_native_half_up_cell_without_extending_tolerance():
+    grid=dict(bbox_north=1.,bbox_west=0.,m_per_deg_lat=1000,m_per_deg_lon=1000,cell_m=20)
+    def coord(row,col):return [(col+.5)*.02,1-(row+.5)*.02]
+    features={'features':[
+        {'properties':{'name':name},'geometry':{'type':'LineString',
+         'coordinates':[coord(*cell) for cell in cells]}}
+        for name,cells in [('A',[(3,3),(4,4)]),('B',[(7,4),(4,3),(3,4)])]]}
+    def station(name,row,col):
+        lon,lat=coord(row,col)
+        return dict(id=name,line=name,lon=lon,lat=lat,junction_group=0)
+    mask=np.zeros((12,12),dtype=np.uint8)
+    # The diagonal intersection rounds to native cell (4,4): three cells
+    # is exactly 60 m. A fourth cell must still fail the same hard limit.
+    result=audit.check_design({'stations':[station('A',4,4),station('B',7,4)]},features,grid,mask)
+    assert result['passed']
+    result=audit.check_design({'stations':[station('A',4,4),station('B',8,4)]},features,grid,mask)
+    assert not result['passed'] and result['missing_crossing_platforms']
