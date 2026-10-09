@@ -966,6 +966,22 @@ fn main() -> Result<()> {
         1200.0,
     );
     osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    // Bank fitting and its final consolidation can replace the last retained
+    // stop with a nearer high-priority site. Restore actual operating endpoints
+    // after that pass, rather than emit a route extending beyond its terminal.
+    let operational_open_lines: Vec<_> = lines
+        .iter()
+        .filter(|line| matches!(line.shape, osr_routing::LineShape::Radial))
+        .cloned()
+        .collect();
+    osr_routing::ensure_endpoint_stations(
+        &mut all_stations,
+        &operational_open_lines,
+        &bundle.grid,
+        &bundle.anchors,
+        spacing,
+    );
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     let mut layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,

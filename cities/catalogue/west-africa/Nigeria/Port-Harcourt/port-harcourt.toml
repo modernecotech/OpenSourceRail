@@ -1129,6 +1129,12 @@ dwell_seconds = 120
 id = "line-30-1159-0711-s002399"
 name = "Residential planning stop; site release open"
 charging_power_kw = 1500
+dwell_seconds = 120
+
+[[stations]]
+id = "line-30-1140-0655-s003726"
+name = "line-30-1140-0655-s003726"
+charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
@@ -2100,6 +2106,7 @@ stations = [
     { id = "line-30-1105-0674-s000000", distance_from_prev_m = 0 },
     { id = "line-30-1130-0715-s001027", distance_from_prev_m = 1027 },
     { id = "line-30-1159-0711-s002399", distance_from_prev_m = 1372 },
+    { id = "line-30-1140-0655-s003726", distance_from_prev_m = 1327 },
 ]
 
 
@@ -2562,6 +2569,10 @@ id = "sw-line-1-0280-0052-s035496-yd-112"
 station = "line-1-0280-0052-s035496"
 
 [[switches]]
+id = "sw-line-1-0280-0052-s035496-yd-113"
+station = "line-1-0280-0052-s035496"
+
+[[switches]]
 id = "sw-line-10-1080-1350-s000000-tb"
 station = "line-10-1080-1350-s000000"
 
@@ -2742,8 +2753,8 @@ id = "sw-line-30-1105-0674-s000000-tb"
 station = "line-30-1105-0674-s000000"
 
 [[switches]]
-id = "sw-line-30-1159-0711-s002399-tb"
-station = "line-30-1159-0711-s002399"
+id = "sw-line-30-1140-0655-s003726-tb"
+station = "line-30-1140-0655-s003726"
 
 [[switches]]
 id = "sw-line-4-1211-0997-s000000-tb"
@@ -3313,10 +3324,10 @@ schedule = [
 
 [[fleets]]
 line = "line-30"
-trainset_count = 12
+trainset_count = 14
 dispatch_points = [
     { station = "line-30-1105-0674-s000000", heading = "forward" },
-    { station = "line-30-1159-0711-s002399", heading = "reverse" },
+    { station = "line-30-1140-0655-s003726", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -5544,6 +5555,23 @@ charger_contact_count = 6
 
 [[sites]]
 station = "line-30-1159-0711-s002399"
+tier = "interchange"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1800.0
+grid_export_kw = 1800.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-30-1140-0655-s003726"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1500.0

@@ -2251,6 +2251,50 @@ mod tests {
     }
 
     #[test]
+    fn final_open_line_endpoint_restore_does_not_reinsert_a_ring_origin() {
+        let grid = uniform_grid(201, 201);
+        let open = line("A", LineShape::Radial, (0..201).map(|c| (100, c)).collect());
+        let ring = line(
+            "R",
+            LineShape::Ring,
+            vec![(10, 10), (10, 50), (50, 50), (50, 10), (10, 10)],
+        );
+        let mut stations = place_stations(
+            &grid,
+            &[],
+            &open.name,
+            &open.cells,
+            SpacingConfig::default(),
+        );
+        stations.retain(|s| s.col < 200);
+        let mut circular = st("R", 0.0, 0.0);
+        circular.row = 10;
+        circular.col = 50;
+        circular.s_m = 800.0;
+        stations.push(circular);
+        let lines = [open, ring];
+        let operating_open: Vec<_> = lines
+            .iter()
+            .filter(|line| matches!(line.shape, LineShape::Radial))
+            .cloned()
+            .collect();
+        ensure_endpoint_stations(
+            &mut stations,
+            &operating_open,
+            &grid,
+            &[],
+            SpacingConfig::default(),
+        );
+        assert!(stations
+            .iter()
+            .any(|s| s.line_name == "A" && s.col == 200 && (s.s_m - 4000.0).abs() < 0.01));
+        assert_eq!(stations.iter().filter(|s| s.line_name == "R").count(), 1);
+        assert!(stations
+            .iter()
+            .all(|s| s.line_name != "R" || s.s_m == 800.0));
+    }
+
+    #[test]
     fn merge_does_not_combine_same_line_stations() {
         let mut s = vec![st("L1", 0.001, 0.001), st("L1", 0.001005, 0.001005)];
         merge_interchanges(&mut s, 250.0);
