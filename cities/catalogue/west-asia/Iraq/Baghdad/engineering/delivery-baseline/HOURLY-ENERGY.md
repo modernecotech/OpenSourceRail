@@ -6,15 +6,15 @@ The base traction intensity and timetable imply **1,892.3 GWh/year**. The dedica
 
 | Synthetic case | Grid GWh | Unserved GWh | Annual energy USD m | Extra hybrid equipment USD m |
 | --- | --- | --- | --- | --- |
-| synthetic_reference:owned_solar | 853.2 | 1.088 | 126.289 | 0.0 |
-| synthetic_reference:contracted_solar | 853.2 | 1.088 | 187.955 | 0.0 |
-| synthetic_reference:hybrid_storage | 400.0 | 1.088 | 80.962 | 180.0 |
-| synthetic_poor_year:owned_solar | 972.1 | 1.244 | 134.122 | 0.0 |
-| synthetic_poor_year:contracted_solar | 972.1 | 1.244 | 177.577 | 0.0 |
-| synthetic_poor_year:hybrid_storage | 751.5 | 1.244 | 112.069 | 180.0 |
-| synthetic_aged_year_10:owned_solar | 873.7 | 1.088 | 128.338 | 0.0 |
-| synthetic_aged_year_10:contracted_solar | 873.7 | 1.088 | 190.005 | 0.0 |
-| synthetic_aged_year_10:hybrid_storage | 455.1 | 1.088 | 86.473 | 180.0 |
+| synthetic_reference:owned_solar | 853.2 | 1.088 | 126.282 | 0.0 |
+| synthetic_reference:contracted_solar | 853.2 | 1.088 | 187.946 | 0.0 |
+| synthetic_reference:hybrid_storage | 400.0 | 1.088 | 80.958 | 180.0 |
+| synthetic_poor_year:owned_solar | 972.0 | 1.243 | 134.116 | 0.0 |
+| synthetic_poor_year:contracted_solar | 972.0 | 1.243 | 177.569 | 0.0 |
+| synthetic_poor_year:hybrid_storage | 751.5 | 1.243 | 112.064 | 180.0 |
+| synthetic_aged_year_10:owned_solar | 873.7 | 1.088 | 128.332 | 0.0 |
+| synthetic_aged_year_10:contracted_solar | 873.7 | 1.088 | 189.996 | 0.0 |
+| synthetic_aged_year_10:hybrid_storage | 455.1 | 1.088 | 86.468 | 180.0 |
 
 Electricity purchase, wheeling, balancing, capacity connection and owned-plant maintenance / contracted-solar payment are separate. PPA pays generated output even if curtailed; no surplus power sale is booked. The contracted case removes dedicated solar ownership capital and O&M, not existing station equipment. Hybrid storage adds its priced equipment once, with installed compound/protection, disposal and replacement costs still unquoted. Twenty-year indexed discounted cost is a **partial comparison**, not lifecycle bankability; no contract or tariffs are accepted. Unserved demand means the assumed service is unmet: no unchanged fares are credited to that service.
 

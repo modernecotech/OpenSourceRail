@@ -70,6 +70,7 @@ jobs:
         run: |
           python tools/automation/coupled-programme-study.py --check
           python tools/automation/civil-works-plan.py --check
+          python tools/automation/integrated-network-plan.py --check
       - run: |
           python tools/automation/rework-baghdad-alignment.py --check
           python tools/automation/publish-city-summary.py --check
@@ -131,6 +132,7 @@ jobs:
           python tools/automation/tacs_assurance.py --check
           python tools/automation/redundancy_policy.py
           python tools/automation/civil-works-plan.py --check
+          python tools/automation/integrated-network-plan.py --check
           git diff --exit-code
 
   frontend:

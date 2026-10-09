@@ -1,0 +1,60 @@
+{
+  "schema": "osr-integrated-network-plan/1",
+  "as_of": "2026-10-08",
+  "status": "coordinated-concept-for-design-development",
+  "native_service_and_finance_baseline_replaced": false,
+  "geometry": {
+    "interchange_diameter_limit_m": 600,
+    "junction_grouping_tolerance_m": 1,
+    "crossing_station_search_m": 600,
+    "maximum_named_area_distance_m": 2500
+  },
+  "coverage": {
+    "station_radius_m": 1000,
+    "candidate_spacing_m": 500,
+    "minimum_inline_spacing_m": 1200,
+    "maximum_infill_stations": 40,
+    "minimum_incremental_residents_2020": 5000,
+    "gap_bin_m": 500,
+    "maximum_gap_areas": 16,
+    "minimum_gap_centre_separation_m": 2000
+  },
+  "assembly": {
+    "foundations_ahead_bays": [
+      10,
+      15
+    ],
+    "foundation_selected_from_desktop_soil": false,
+    "standard_spans_m": [
+      20,
+      25
+    ],
+    "average_span_sizing_m": 25,
+    "site_release_required": true
+  },
+  "evidence": {
+    "population_year": 2020,
+    "population_is_current_census": false,
+    "walking_routes_accepted": false,
+    "field_ground_model_accepted": false,
+    "junction_vertical_profiles_accepted": false,
+    "supplier_capacity_committed": false
+  },
+  "references": [
+    {
+      "title": "ITDP People Near Transit",
+      "url": "https://itdp.org/pnt/",
+      "use": "Population proximity screen; actual accessible walking paths require separate evidence"
+    },
+    {
+      "title": "ITDP Physical Integration",
+      "url": "https://brtguide.itdp.org/branch/master/guide/multi-modal-integration/physical-integration",
+      "use": "Coordinated interchange and access development"
+    },
+    {
+      "title": "WorldPop Constrained and Unconstrained Models",
+      "url": "https://www.worldpop.org/methods/top_down_constrained_vs_unconstrained/",
+      "use": "Dataset assumptions and native count limitations"
+    }
+  ]
+}

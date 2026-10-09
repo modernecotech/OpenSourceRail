@@ -30,10 +30,10 @@ The placement files diagnose the **original** invoice request. Recovered cashflo
 
 | Gate | Currency | Refused amount | Recovery assumed |
 |---|---|---:|---|
-| domestic_half_placement_recovered | IQD | 170,209,088,849.89 | True |
-| domestic_half_placement_permanent | IQD | 1,201,399,096,509.26 | False |
-| export_unavailable_recovered | USD | 13,049,057.38 | True |
-| export_denied_permanent | USD | 856,683,692.86 | False |
+| domestic_half_placement_recovered | IQD | 167,312,190,941.47 | True |
+| domestic_half_placement_permanent | IQD | 1,198,346,744,326.07 | False |
+| export_unavailable_recovered | USD | 13,049,767.56 | True |
+| export_denied_permanent | USD | 856,643,574.88 | False |
 
 ## Separate independently operable first-section option
 
@@ -49,7 +49,7 @@ The [section RFQs](first-section-rfqs.csv) provide four incremental packages exc
 
 The first 16 accepted trains finish at day 676; selected civil at day 656; independent support at day 560. The resulting **conditional section opening is month 36**, including the same three-month commissioning allowance; complete line opening stays month 40. No passengers or fares occur before that opening. Section paid demand is only half the smaller of fleet-capacity and route-length allocation proxies, weight 0.010363, deducted from later full-line demand to avoid double counting. This is a scenario, not population coverage evidence. Opening acceptance must cover section-specific turnbacks/chargers/depot, full allocated section fleet, isolation from works, evacuation/rescue, software configuration, hazards and independently signed operator/authority release; the full-line BAG-EVID-009 remains separate.
 
-[Monthly finance](first-section-monthly-finance.csv), [six-month tranches](first-section-six-month-finance.csv) and [incremental cost ledger](first-section-incremental-costs.csv) include early baseline invoice timing, new support capital, indexed support payroll, fares/nonfare ramp, fixed/variable OPEX, reserves, native debt and prepayments. Peak gap debt is IQD 4.563tn; clearance month 306. Its unlevered NPV is USD -3.370bn. Compare against the current baseline IQD 4.477tn peak / month 305 clearance / USD -3.331bn NPV. At the conservative demand proxy, mature section receipts are only USD 4.680m/year versus its USD 10.452m OPEX before indexing/ramp: it is not independently self-financing. Earlier service requires an explicit operating bridge; the extra facilities and advanced invoices must be justified by measured access benefits, demand or lower costs.
+[Monthly finance](first-section-monthly-finance.csv), [six-month tranches](first-section-six-month-finance.csv) and [incremental cost ledger](first-section-incremental-costs.csv) include early baseline invoice timing, new support capital, indexed support payroll, fares/nonfare ramp, fixed/variable OPEX, reserves, native debt and prepayments. Peak gap debt is IQD 4.562tn; clearance month 306. Its unlevered NPV is USD -3.370bn. Compare against the current baseline IQD 4.477tn peak / month 305 clearance / USD -3.331bn NPV. At the conservative demand proxy, mature section receipts are only USD 4.680m/year versus its USD 10.452m OPEX before indexing/ramp: it is not independently self-financing. Earlier service requires an explicit operating bridge; the extra facilities and advanced invoices must be justified by measured access benefits, demand or lower costs.
 
 ## Financial feasibility and funding evidence
 
@@ -63,13 +63,13 @@ Additional funding routes to investigate are competitively leased station land/d
 
 | Case | First/full month | Capital USD bn | NPV USD bn | Peak IQD gap tn | Debt cleared month |
 |---|---:|---:|---:|---:|---:|
-| calendar_baseline | 40/77 | 7.581 | -3.331 | 4.477 | 305 |
-| temporary_first_article | 36/77 | 7.618 | -3.356 | 4.430 | 304 |
-| availability_75pct_costed | 42/83 | 7.581 | -3.360 | 4.692 | 308 |
-| availability_75pct_all_stage_shifts | 40/77 | 7.597 | -3.380 | 4.605 | 307 |
+| calendar_baseline | 40/77 | 7.580 | -3.331 | 4.477 | 305 |
+| temporary_first_article | 36/77 | 7.618 | -3.356 | 4.429 | 304 |
+| availability_75pct_costed | 42/83 | 7.580 | -3.360 | 4.691 | 308 |
+| availability_75pct_all_stage_shifts | 40/77 | 7.596 | -3.379 | 4.604 | 307 |
 | domestic_placement_interrupted_recovered | 46/83 | 7.591 | -3.220 | 4.530 | 308 |
-| export_credit_delayed_recovered | 46/83 | 7.591 | -3.102 | 4.357 | 307 |
-| independent_first_section | 36/77 | 7.611 | -3.370 | 4.563 | 306 |
+| export_credit_delayed_recovered | 46/83 | 7.591 | -3.102 | 4.356 | 307 |
+| independent_first_section | 36/77 | 7.610 | -3.370 | 4.562 | 306 |
 
 Temporary first-article production opens the complete first line earlier and lowers peak gap/repayment time, yet worsens discounted reference investment value after its additional capital/early operating costs. The independent shorter section also adds capital and runs a conservative standalone operating deficit. Neither is adopted merely because fares arrive sooner. Coordinated shifts should be compared with the matching 75% availability case, not assumed to save money against the stronger baseline. Funding-delay NPV can look less negative because nominal un-escalated purchases are deferred; this discounting effect is not a benefit of denied credit. Real delay appraisal needs contract escalation, FX, cancellation/default costs and lost passenger benefits. Existing escalation/downside scenarios demonstrate their materiality.
 

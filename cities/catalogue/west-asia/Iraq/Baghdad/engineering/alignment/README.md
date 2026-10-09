@@ -12,7 +12,7 @@ Deterministic alignment exports for every line in the current generated network.
 | [`baghdad-line6.aln.toml`](baghdad-line6.aln.toml) | `line-6` | 52,503.4 m | 21 |
 | [`baghdad-line7.aln.toml`](baghdad-line7.aln.toml) | `line-7` | 39,957.0 m | 16 |
 | [`baghdad-line8.aln.toml`](baghdad-line8.aln.toml) | `line-8` | 48,136.6 m | 18 |
-| [`baghdad-line9.aln.toml`](baghdad-line9.aln.toml) | `line-9` | 97,724.2 m | 35 |
+| [`baghdad-line9.aln.toml`](baghdad-line9.aln.toml) | `line-9` | 97,684.2 m | 35 |
 
 ## Status
 

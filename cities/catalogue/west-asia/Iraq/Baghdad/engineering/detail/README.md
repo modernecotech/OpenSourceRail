@@ -12,7 +12,7 @@ The rail reference covers net mainline running length only. Actual procurement a
 
 | ID | Part / assembly | Basis | Per basis | Network reference | Route |
 |---|---|---|---:|---:|---|
-| TR-01 | 60E1 reference running rail | route-km (m) | 4000 | 1,916,049.6 | import-or-qualified-local-source |
+| TR-01 | 60E1 reference running rail | route-km (m) | 4000 | 1,915,889.6 | import-or-qualified-local-source |
 | TR-02 | Resilient direct-fixation complete seat kit | rail-seat (each) | 1 | Open | import-first-local-assembly-later |
 | TR-03 | Elastic clips | rail-seat (each) | 2 | Open | import-qualified |
 | TR-04 | Rail pad / bonded resilient layer | rail-seat (each) | 1 | Open | import-qualified |
@@ -24,7 +24,7 @@ The rail reference covers net mainline running length only. Actual procurement a
 | TR-10 | ST6 reinforcement planning allowance | slab-panel (kg) | 761.94 | Open | Iraqi-cage-fabrication |
 | TR-11 | ST6 bedding / levelling grout | slab-panel (m3) | 0.522 | Open | local-qualified-material |
 | TR-12 | ST6 lifting sockets / engineered anchors | slab-panel (each) | 4 | Open | import-qualified-local-install |
-| TR-13 | Drainage channel and removable cover | route-km (m) | 2000 | 958,024.8 | Iraqi-precast |
+| TR-13 | Drainage channel and removable cover | route-km (m) | 2000 | 957,944.8 | Iraqi-precast |
 | TR-14 | Rail electrical continuity bond / monitored stray-current provision | project (set) | Open | Open | local-harness-import-terminals |
 | TR-15 | Turnout slab bearer, point drive, detection and locking kit | project (set) | Open | Open | mixed |
 | TR-16 | Rail/deck expansion interface and transition section | project (set) | Open | Open | mixed |

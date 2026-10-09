@@ -18,11 +18,11 @@ Native **2020 bbox population: 5,985,974**. Catalogue planning population: 9,780
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 716,340 | 12.0% |
-| 800 m | 1,698,960 | 28.4% |
-| 1000 m | 2,415,357 | 40.4% |
-| 1500 m | 3,963,906 | 66.2% |
-| 2000 m | 4,796,903 | 80.1% |
+| 500 m | 717,845 | 12.0% |
+| 800 m | 1,698,982 | 28.4% |
+| 1000 m | 2,414,533 | 40.3% |
+| 1500 m | 3,964,954 | 66.2% |
+| 2000 m | 4,798,401 | 80.2% |
 
 Excluded nodata pixels: 248,597; valid pixels: 107,803.
 

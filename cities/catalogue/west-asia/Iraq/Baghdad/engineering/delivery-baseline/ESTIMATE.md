@@ -1,17 +1,17 @@
 # Baghdad delivery estimate and scope reconciliation
 
-The published **USD 7.580671bn equivalent** is a base planning estimate, not a complete delivery budget. City subtotal is USD 7.230874bn and the one Baghdad factory including its EPC is USD 349.797m. [Scope register](scope-register.csv) retains quantity, implied rate, currency/source quality, inclusions, exclusions, estimator role and uncertainty. Every actual price date, quotation and named estimator remains unknown. Category implied rates reconcile the baseline; they are not surveyed rates.
+The published **USD 7.580215bn equivalent** is a base planning estimate, not a complete delivery budget. City subtotal is USD 7.230418bn and the one Baghdad factory including its EPC is USD 349.797m. [Scope register](scope-register.csv) retains quantity, implied rate, currency/source quality, inclusions, exclusions, estimator role and uncertainty. Every actual price date, quotation and named estimator remains unknown. Category implied rates reconcile the baseline; they are not surveyed rates.
 
 | Baseline WBS | Quantity | USD m equivalent | Evidence |
 | --- | --- | --- | --- |
-| civil | 479.012 | 3,650.807 | category-planning-estimate |
+| civil | 478.972 | 3,650.417 | category-planning-estimate |
 | stations | 186.000 | 1,013.200 | category-planning-estimate |
 | depots | 1.000 | 8.000 | category-planning-estimate |
 | rolling_stock | 772.000 | 1,296.960 | category-planning-estimate |
-| solar_plant | 931,713.811 | 745.371 | category-planning-estimate |
-| signalling | 479.012 | 23.951 | category-planning-estimate |
+| solar_plant | 931,667.609 | 745.334 | category-planning-estimate |
+| signalling | 478.972 | 23.949 | category-planning-estimate |
 | charging_microgrid | 1.000 | 68.300 | category-planning-estimate |
-| epc_overhead | 1.000 | 424.285 | category-planning-estimate |
+| epc_overhead | 1.000 | 424.258 | category-planning-estimate |
 | factory-direct | 1.000 | 326.913 | factory-sizing-allowance |
 | factory-epc | 1.000 | 22.884 | factory-sizing-allowance |
 
@@ -21,9 +21,9 @@ EPC has [identified delivery obligations](epc-obligations.json), with individual
 
 | Depot alternative | Gross priced reference USD m | Provisional replacement total USD bn |
 | --- | --- | --- |
-| retained_declared_bays | 167.223 | 7.739895 |
-| workload_bays | 162.238 | 7.734910 |
+| retained_declared_bays | 167.223 | 7.739438 |
+| workload_bays | 162.238 | 7.734453 |
 
 Replacement illustrations subtract the old depot allowance once, then add the gross quantity-based reference. They remain incomplete: charging/PV/EPC overlaps and unpriced work are unresolved. No alternative is adopted into the published funding programme; government/import shares, loans and opening dates remain conditional on the original scope. Retained property additions remain their existing separate scenarios, not automatically added to this base.
 
-The seeded [correlated cost-and-delay sensitivity](cost-schedule-risk.json) combines a shared risk quantile with idiosyncratic cost events and delay escalation. Illustrative known-scope P50 is USD 9.409bn and P80 USD 10.124bn. **These are uncalibrated distributions, not an approved probabilistic budget.** Unpriced scope is excluded rather than priced at zero; existing contingencies remain embedded; stress outputs are alternatives and cannot be added to the base. Calibrate from investigations, contract evidence, event-level dependencies and actual invoice dates. [GAO estimating guidance](https://www.gao.gov/products/gao-20-195g) supports technical baseline, WBS, data, alternatives, risk analysis and updates; it does not validate OSR's rates. Reference checked 4 October 2026.
+The seeded [correlated cost-and-delay sensitivity](cost-schedule-risk.json) combines a shared risk quantile with idiosyncratic cost events and delay escalation. Illustrative known-scope P50 is USD 9.409bn and P80 USD 10.123bn. **These are uncalibrated distributions, not an approved probabilistic budget.** Unpriced scope is excluded rather than priced at zero; existing contingencies remain embedded; stress outputs are alternatives and cannot be added to the base. Calibrate from investigations, contract evidence, event-level dependencies and actual invoice dates. [GAO estimating guidance](https://www.gao.gov/products/gao-20-195g) supports technical baseline, WBS, data, alternatives, risk analysis and updates; it does not validate OSR's rates. Reference checked 4 October 2026.

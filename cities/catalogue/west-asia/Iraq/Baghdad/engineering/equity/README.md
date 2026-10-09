@@ -8,48 +8,48 @@ As of 2026-10-04. This is a proposed Iraqi holding company with **100%-owned rai
 
 ## Ownership, new money and currencies
 
-Government still provides USD 1.895167817bn equivalent: 25% of the original USD 7.580671270bn rail/energy/factory capital, rather than 25% of shares or of the enlarged property programme. Reclassifying that existing contribution as ordinary equity generates **zero additional cash**. At the same subscription price, ownership is government cash divided by government plus private subscribed cash. Borrowing earns no ordinary shares.
+Government still provides USD 1.895053738bn equivalent: 25% of the original USD 7.580214954bn rail/energy/factory capital, rather than 25% of shares or of the enlarged property programme. Reclassifying that existing contribution as ordinary equity generates **zero additional cash**. At the same subscription price, ownership is government cash divided by government plus private subscribed cash. Borrowing earns no ordinary shares.
 
 | Transaction | Gross primary USD m eq | Company net primary USD m eq | Final government shares | Final Iraqi ownership | Government secondary sale USD m eq |
 | --- | --- | --- | --- | --- | --- |
 | primary_500m | 500.0 | 490.0 | 79.12% | 93.74% | 0.0 |
 | primary_1000m | 1000.0 | 980.0 | 65.46% | 89.64% | 0.0 |
 | primary_2000m | 2000.0 | 1960.0 | 48.65% | 84.60% | 0.0 |
-| primary_1000m_premium | 1000.0 | 980.0 | 66.42% | 89.92% | 0.0 |
-| secondary_500m | 0.0 | 0.0 | 73.62% | 92.09% | 500.0 |
+| primary_1000m_premium | 1000.0 | 980.0 | 66.41% | 89.92% | 0.0 |
+| secondary_500m | 0.0 | 0.0 | 73.62% | 92.08% | 500.0 |
 
 The share unit is an illustrative IQD 1 par and IQD 1 subscription price, not an accepted company valuation or legal share denomination. The premium sensitivity prices the later 25% issue at IQD 1.2, recording the difference in share premium and reducing dilution. Private subscriptions are 70% Iraqi and 30% foreign as an explicit scenario. Every paid-capital month observes the model's 25% state floor and 51% Iraqi floor; actual eligibility and beneficial ownership require counsel. Pending private subscriptions wait for sufficient paid government shares instead of treating promised government capital as paid. No shares or cash are credited for undelivered subscriptions. Land/concession/open designs are not priced into paid-up equity.
 
 The government_grant_reference and government_equity_reference have identical debt, cash and physical costs before distributions. Government grants are a separately identified capital reserve without shares; cash-equity contribution is paid-in ordinary equity. Guarantees and public-service appropriations are uncommitted and never booked as subscription cash. A secondary sale transfers existing government shares: the seller receives the price, the company receives **zero**, and borrowing requirements remain unchanged. The secondary case omits sale fees as an explicit sensitivity; no government sale is authorised.
 
-Original-scope imported parts are USD 1.713367386bn: government USD cash USD 856.683693m and Chinese USD credit USD 856.683693m. Only Chinese credit is USD debt. Remaining government cash, share subscriptions, bonds, bank/gap credit, fares, property proceeds and dividends are IQD. USD figures for those items are reference conversions at 1,300 IQD/USD, without a dollar-indexed obligation or promised conversion. Original-scope USD capital intensity is 22.60%; local procurement prices still require actual imported-content and FX quotes. The additional USD 2.4bn-equivalent property construction is assumed IQD and makes physical group capital USD 9.980671270bn. It does not add government cash beyond the original 25% rule.
+Original-scope imported parts are USD 1.713287150bn: government USD cash USD 856.643575m and Chinese USD credit USD 856.643575m. Only Chinese credit is USD debt. Remaining government cash, share subscriptions, bonds, bank/gap credit, fares, property proceeds and dividends are IQD. USD figures for those items are reference conversions at 1,300 IQD/USD, without a dollar-indexed obligation or promised conversion. Original-scope USD capital intensity is 22.60%; local procurement prices still require actual imported-content and FX quotes. The additional USD 2.4bn-equivalent property construction is assumed IQD and makes physical group capital USD 9.980214954bn. It does not add government cash beyond the original 25% rule.
 
 ## Conditional results and investor returns
 
 | Case | Actual gross primary USD m eq | Conditional first/full month | Peak IQD gap tn | Missing IQD cash tn | First dividend month | Private annual equity IRR |
 | --- | --- | --- | --- | --- | --- | --- |
-| government_grant_reference | 0.0 | 40/77 | 5.546 | 0.000 | not reached in the modelled horizon | undefined |
-| government_equity_reference | 0.0 | 40/77 | 5.546 | 0.000 | month 383 | undefined |
-| primary_500m | 500.0 | 40/77 | 3.918 | 0.000 | month 359 | 2.53% |
-| primary_1000m | 1000.0 | 40/77 | 2.636 | 0.000 | month 335 | 2.62% |
-| primary_2000m | 2000.0 | 40/77 | 1.361 | 0.000 | month 263 | 2.82% |
-| primary_1000m_premium | 1000.0 | 40/77 | 2.636 | 0.000 | month 335 | 2.53% |
-| secondary_500m | 0.0 | 40/77 | 5.546 | 0.000 | month 383 | 2.70% |
+| government_grant_reference | 0.0 | 40/77 | 5.545 | 0.000 | not reached in the modelled horizon | undefined |
+| government_equity_reference | 0.0 | 40/77 | 5.545 | 0.000 | month 383 | undefined |
+| primary_500m | 500.0 | 40/77 | 3.917 | 0.000 | month 359 | 2.53% |
+| primary_1000m | 1000.0 | 40/77 | 2.635 | 0.000 | month 335 | 2.62% |
+| primary_2000m | 2000.0 | 40/77 | 1.361 | 0.000 | month 263 | 2.83% |
+| primary_1000m_premium | 1000.0 | 40/77 | 2.635 | 0.000 | month 335 | 2.53% |
+| secondary_500m | 0.0 | 40/77 | 5.545 | 0.000 | month 383 | 2.70% |
 | undersubscribed_1000m | 56.3 | Blocked | 0.000 | 0.000 | not reached in the modelled horizon | undefined |
 | failed_later_primary | 750.0 | Blocked | 1.462 | 0.000 | not reached in the modelled horizon | undefined |
-| delayed_1000m | 1000.0 | 46/83 | 2.508 | 0.000 | month 323 | 2.92% |
-| joint_downside_1000m | 1000.0 | 53/95 | 4.000 | 38.916 | not reached in the modelled horizon | undefined |
+| delayed_1000m | 1000.0 | 46/83 | 2.501 | 0.000 | month 323 | 2.92% |
+| joint_downside_1000m | 1000.0 | 53/95 | 4.000 | 38.913 | not reached in the modelled horizon | undefined |
 | joint_downside_undersubscribed | 56.5 | Blocked | 0.000 | 0.000 | not reached in the modelled horizon | undefined |
-| aggregate_tax_proxy_1000m | 1000.0 | 40/77 | 1.771 | 0.000 | month 299 | 3.21% |
-| coverage_dividends_1000m | 1000.0 | 40/77 | 2.672 | 0.000 | month 335 | 2.61% |
-| rental_small_1000m | 1000.0 | 40/77 | 2.651 | 0.000 | month 335 | 2.64% |
-| rental_medium_1000m | 1000.0 | 40/77 | 2.629 | 0.000 | month 323 | 2.88% |
+| aggregate_tax_proxy_1000m | 1000.0 | 40/77 | 1.772 | 0.000 | month 299 | 3.21% |
+| coverage_dividends_1000m | 1000.0 | 40/77 | 2.671 | 0.000 | month 335 | 2.61% |
+| rental_small_1000m | 1000.0 | 40/77 | 2.644 | 0.000 | month 335 | 2.64% |
+| rental_medium_1000m | 1000.0 | 40/77 | 2.623 | 0.000 | month 323 | 2.88% |
 | rental_medium_coverage_1000m | 1000.0 | 40/77 | 2.652 | 0.000 | month 323 | 2.87% |
-| rental_medium_downside_1000m | 1000.0 | 40/77 | 2.710 | 0.000 | month 335 | 2.46% |
+| rental_medium_downside_1000m | 1000.0 | 40/77 | 2.713 | 0.000 | month 335 | 2.46% |
 
-The $1bn primary case places IQD 1.300tn gross and IQD 1.274tn net after 2% issue fees. Peak IQD liquidity falls from 5.546tn in the matched holding-company equity reference to 2.636tn. These references pool four wholly owned businesses and include a conservative tax stress. The rail-only planning baseline and independently financed SPV alternative retain their separate scope and cashflows. The original SPV private subscriptions of IQD 1.390tn are replaced, not added to holding subscriptions.
+The $1bn primary case places IQD 1.300tn gross and IQD 1.274tn net after 2% issue fees. Peak IQD liquidity falls from 5.545tn in the matched holding-company equity reference to 2.635tn. These references pool four wholly owned businesses and include a conservative tax stress. The rail-only planning baseline and independently financed SPV alternative retain their separate scope and cashflows. The original SPV private subscriptions of IQD 1.390tn are replaced, not added to holding subscriptions.
 
-Private equity IRR for the $1bn case is 2.62% nominal, with a 15% hurdle NPV of USD -509.340m for the 70% Iraqi private cohort. Its first dividend is month 335; ordinary shares have no guaranteed redemption or principal payment. Nominal returns require assessment against general inflation and investment risk. An undefined IRR is not a zero return or evidence of an attractive investment. Actual ordinary dividends, retained profits, reserve balances, shareholder payments and ownership are exported monthly. IRR is undefined without positive shareholder receipts, or for ambiguous multi-sign cash flows; blocked-case NPV covers only funded investment to suspension and omits unresolved recovery/termination, so it is not a complete investor downside valuation.
+Private equity IRR for the $1bn case is 2.62% nominal, with a 15% hurdle NPV of USD -509.332m for the 70% Iraqi private cohort. Its first dividend is month 335; ordinary shares have no guaranteed redemption or principal payment. Nominal returns require assessment against general inflation and investment risk. An undefined IRR is not a zero return or evidence of an attractive investment. Actual ordinary dividends, retained profits, reserve balances, shareholder payments and ownership are exported monthly. IRR is undefined without positive shareholder receipts, or for ambiguous multi-sign cash flows; blocked-case NPV covers only funded investment to suspension and omits unresolved recovery/termination, so it is not a complete investor downside valuation.
 
 Planned unlevered group resource NPV remains USD -2.975bn, or USD -3.441bn after the assumed unverified USD 600m land opportunity cost. It excludes debt/equity transfers, corporation tax and issuance fees and reconciles to the prior consolidated resource case. Debt replacement changes investor cash and finance costs, not this before-financing resource value. Blocked scenarios retain this **planned-scope** diagnostic while reporting only actual funded-prefix capital; no unbuilt assets or future earnings are presented as delivered. Financial resource NPV excludes wider social/economic benefits such as travel time and local employment, which need separate evidence.
 
@@ -65,7 +65,7 @@ Undersubscription and failed later issues hold the fully subscribed case's six-m
 
 The [civil-linked rental portfolio](../viaduct-rentals/README.md) adds distinct, retained under-viaduct enclosures to the existing station-area sales. No sold parcel also supplies rent; actual title/overlap, height, fire/access and local tenant demand remain unaccepted. The 200,000 m² illustration exceeds the reference geometry screen and is omitted from group funding. Smaller cases include their own IQD fit-out capital, collected rents, rent-free/occupancy ramps, arrears/write-offs, vacant costs, insurance, refurbishment and cohort depreciation. Existing kiosk income is unchanged. Cash corporate tax is calculated once inside the group model; the rental ledger's separate tax diagnostic is not added again. Tenant deposits remain matched restricted cash and liabilities, supplying zero capital or dividends. Government original cash and Chinese USD imports remain unchanged; fit-outs borrow the domestic residual and use the existing parent subscription, with no additional partner cash in this 100%-owned alternative. Rental cases extend the domestic principal gate to the latest fit-out handover if it follows full-network opening; the conditional railway opening dates remain unchanged.
 
-The medium rental case gives peak IQD gap debt **2.629tn**, first dividend **month 323**, private nominal IRR **2.88%** and planned before-tax resource NPV after existing station land **USD -3.423bn**. Additional corridor rights/opportunity cost is unknown, so this is not a complete new-land appraisal. The lower-rent/prolonged-vacancy case retains its costs rather than assuming free premises. Annual rental resource gains and investor gains are separately quantified.
+The medium rental case gives peak IQD gap debt **2.623tn**, first dividend **month 323**, private nominal IRR **2.88%** and planned before-tax resource NPV after existing station land **USD -3.423bn**. Additional corridor rights/opportunity cost is unknown, so this is not a complete new-land appraisal. The lower-rent/prolonged-vacancy case retains its costs rather than assuming free premises. Annual rental resource gains and investor gains are separately quantified.
 
 Default ordinary dividends still require full debt repayment. **coverage-and-reserves is an unapproved lender-policy sensitivity**: annual distributions require 12 actual and 12 projected months of coverage at least 1.30, completed capital, cumulative distributable-profit proxy, no missing cash/current gap draw, restricted capital exhausted, intact OPEX/warranty reserves, six months of forward scheduled debt service and 12 months of upcoming rental refurbishment. CFADS excludes property-sale receipts and adds back their transaction costs; debt coverage includes scheduled interest/principal/fees and gap interest/fees, excluding voluntary principal sweeps. Forecast debt uses actual remaining vintages without future prepayment; forecast tax conservatively assumes no depreciation/interest/loss relief. No upcoming construction draw is permitted by the completion gate. The revolving gap sensitivity has no stated contractual amortisation, so its interest enters coverage and any distribution still needs an actual maturity/covenant agreement.
 
@@ -93,7 +93,7 @@ The [official 2019 amendment, Articles 12 and 28](https://csd.gov.iq/uploads/law
 
 Use an independent board/audit committee, published related-party prices and conflicts policy, minority pre-emption/approval protections, consolidated and subsidiary disclosure, audited capital registers, procurement oversight and an explicit public-service contract. Government control and future retail ownership do not themselves demonstrate these controls. Open licences remain intact: investors own businesses, assets and enforceable contracts, without any valuation premium for exclusive ownership of openly licensed designs. New land/concession contributions require independent valuation, title and separate dilution treatment; none is included here.
 
-ISC's [2025 market report](https://isc.gov.iq/en/news/2934) records IQD 531.5485bn share turnover and IQD 23.673365tn market capitalisation. The matched holding-company reference's IQD 5.546tn peak gap is 10.43 times that annual turnover; turnover is not a ceiling on primary subscriptions. The model therefore requires anchor placement evidence for each tranche rather than assumed retail absorption. The $1bn primary gross IQD 1.3tn is about 2.45 times that turnover, which is a scale comparison, not proof of capacity or incapacity. Sources checked 3 October 2026.
+ISC's [2025 market report](https://isc.gov.iq/en/news/2934) records IQD 531.5485bn share turnover and IQD 23.673365tn market capitalisation. The matched holding-company reference's IQD 5.545tn peak gap is 10.43 times that annual turnover; turnover is not a ceiling on primary subscriptions. The model therefore requires anchor placement evidence for each tranche rather than assumed retail absorption. The $1bn primary gross IQD 1.3tn is about 2.45 times that turnover, which is a scale comparison, not proof of capacity or incapacity. Sources checked 3 October 2026.
 
 ## Evidence programme
 

@@ -11,24 +11,24 @@
     }
   },
   "complete_installed_budget": false,
-  "controlled_routes_stations_fleets_and_depots_unchanged": true,
+  "controlled_routes_stations_fleets_and_depots_unchanged": false,
   "correction_is_a_realised_saving": false,
   "current_base_opex_components": {
     "components": {
-      "civil_station_depot_maintenance": 93440142.64,
+      "civil_station_depot_maintenance": 93432344.24,
       "labour": 38551950.0,
       "residual_grid_energy": 0.0,
       "rolling_stock_maintenance_including_battery_renewal_reserve": 51878400.0,
-      "signalling_maintenance": 1197530.8,
-      "solar_plant_maintenance": 11180565.732431998
+      "signalling_maintenance": 1197430.8,
+      "solar_plant_maintenance": 11180011.303632
     },
-    "total": 196248589.172432
+    "total": 196240136.34363198
   },
-  "current_base_planning_capital_usd": 8312371310.53032,
+  "current_base_planning_capital_usd": 8311886155.649341,
   "current_payroll_iqd": 86303222526.41974,
   "current_special_structure_increment_usd": null,
-  "current_terminal_debt_iqd": 11161571018862.176,
-  "current_unfunded_support_iqd": 32564472842.024044,
+  "current_terminal_debt_iqd": 11160513677459.498,
+  "current_unfunded_support_iqd": 30501781683.26006,
   "current_workforce_fte": 3716,
   "energy_payroll_and_trip_quantities_are_not_reduced_by_search_score_correction": true,
   "financing_committed": false,
@@ -41,7 +41,7 @@
   "maintenance_basis": "Capital-percentage allowance follows corrected base price; not a demonstrated reduction in physical maintenance tasks",
   "monthly_101_annualisation": {
     "balance_before_debt": {
-      "current_annualised_usd": 158566060.35684448,
+      "current_annualised_usd": 158586986.45878544,
       "previous_annualised_usd": -33262027.730173435
     },
     "extra_receipts_iqd": {
@@ -49,7 +49,7 @@
       "previous_annualised_usd": 24999999.999999996
     },
     "opex_iqd": {
-      "current_annualised_usd": 519059856.03608644,
+      "current_annualised_usd": 519038929.9341455,
       "previous_annualised_usd": 710887944.1231043
     },
     "revenue_iqd": {
@@ -74,22 +74,36 @@
   "previous_terminal_debt_iqd": 13000000000000.0,
   "previous_unfunded_support_iqd": 27330180324487.293,
   "previous_workforce_fte": 3716,
-  "schema": "baghdad-same-alignment-cost-reconciliation/1",
+  "same_alignment_corrected_capital_usd": 8312371310.53032,
+  "same_alignment_correction_revision": "a1a14f6d2936d9227836aff9c01de8a1fbb3d5c0",
+  "same_alignment_monetary_correction_verified": true,
+  "schema": "baghdad-cost-and-alignment-reconciliation/2",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "04af1291fdfa2ade7c90712ed849e67db0f009384cee425933d0fcdd88bd3d40",
+    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "1ca1995c96f2b142c33606b889a02d860d09072fe39ee89d0681fc443f6a884f",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/baseline-sources.json.gz": "1151c7b9ae8c61814612d6bf4690730d895c329e6d7dda92d658003c380aa6da",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "a3d3f01f8f8c6184188bc0a6783df1b151f592687ff2cdbd75ec57cbc02309fe",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/local_positive.json": "4b464f5f3a6b4c4a025650f0a7262cbdb3c458353d0d13b8a4e1bdddeedcc7d3",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/workforce.json": "318b3e048f79ebd3f58b2555995a6095b21e88ad9206f69de5980b58dfe6d559",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "983b62e7bad167bf4693775667ef05fb08705307fe85f1dd06096f3cb03f9f29",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/local_positive.json": "4b805986d20dfac5e5074914ab3dd5218517b0b3da2cefb655220592bb4c7e13",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/workforce.json": "a4719c570fe9968f380d3ff4d3ef4be46a2e4a171310dc770a2caa76fcb034e1",
+    "engineering/network-planning/baghdad/corrected-alignment-sources.json.gz": "3fb9b9cc06b071f736733be218ce17fc1c6f99c7776458e5224b2ce020b70336",
     "lib/templates/baghdad-programme-recalculation.toml": "e49be9ba743b54da68afaefd3e64d24307808ac423ab5a7ae5f913cf3c0af5e4",
-    "tools/automation/baghdad_cost_reconciliation.py": "5f3b7a5e57c3ace0d943a181a58aeab75b93b2d9dfe06515515b0d04160dca60"
+    "tools/automation/baghdad_cost_reconciliation.py": "b38d924c179bfb39b99a0d82c74fad605a2386773501f3570067a2f6370946a2"
+  },
+  "subsequent_alignment_revision": {
+    "capital_delta_from_corrected_reference_usd": -485154.88097953796,
+    "changed_controlled_fields": [
+      "lines",
+      "stations"
+    ],
+    "current_route_m": 478972.4,
+    "geometry_changes_are_not_search_score_cost_savings": true,
+    "previous_route_m": 479012.4
   },
   "traction_duty": {
     "current": {
-      "annual_train_km_including_non_revenue": 78847840.4409,
+      "annual_train_km_including_non_revenue": 78844174.38090001,
       "energy_kwh_per_car_km_hot_climate_planning": 4.0,
       "non_revenue_train_km_factor": 1.08,
-      "scheduled_train_km_per_day": 200019.8895
+      "scheduled_train_km_per_day": 200010.5895
     },
     "previous": {
       "annual_train_km_including_non_revenue": 78847840.4409,

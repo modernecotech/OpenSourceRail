@@ -4,7 +4,7 @@
 
 **Current planning basis: 2026-10-04 [programme recalculation](engineering/programme-recalculation/README.md), `local_positive` conditional local-production case.** The main route is the reworked city-centre elevated planning alignment; service remains a capacity-led assumption. Revised scope is unquoted and uncommitted; this is not a construction design or an operating release.
 
-[Connected construction and battery study, 2026-10-06](engineering/connected-build/README.md) now reconciles island topology, 18 launchers/two shifts, supplier/logistics constraints, equipment cash and sodium alternatives. Its full-network energy duties report service shortfalls; supplier contracts, installed-rate credits and accessible-entrance coverage remain unqualified. The financial figures below are retained comparators and do not include an accepted accelerated-build saving. Base programme planning allowance is **USD 8.312bn**, including line-local depots, final assembly and selected upstream component plants. The model requires **IQD 0.033tn unsourced support** in addition to assumed facilities, and the case retains **IQD 11.162tn terminal debt**. Local special/segmental structures, installed grid/charging upgrades, actual foundations, land and utilities remain unpriced. Removing search penalties establishes no realised saving. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
+[Connected construction and battery study, 2026-10-06](engineering/connected-build/README.md) now reconciles island topology, 18 launchers/two shifts, supplier/logistics constraints, equipment cash and sodium alternatives. Its full-network energy duties report service shortfalls; supplier contracts, installed-rate credits and accessible-entrance coverage remain unqualified. The financial figures below are retained comparators and do not include an accepted accelerated-build saving. Base programme planning allowance is **USD 8.312bn**, including line-local depots, final assembly and selected upstream component plants. The model requires **IQD 0.031tn unsourced support** in addition to assumed facilities, and the case retains **IQD 11.161tn terminal debt**. Local special/segmental structures, installed grid/charging upgrades, actual foundations, land and utilities remain unpriced. Removing search penalties establishes no realised saving. Older catalogue financial passes establish arithmetic for their own assumptions, not viability of this revised scope.
 
 ## Network
 
@@ -15,7 +15,7 @@
 | Lines / unique stations / interchanges | 9 / 186 / 36 |
 | Route length | 479.0 km double track |
 | Direct transfers / reachable line pairs | 80.6% / 100.0% |
-| Residents within 800 m radial station catchments | 1,698,960 (2020 raster; 28.4% of bbox) |
+| Residents within 800 m radial station catchments | 1,698,982 (2020 raster; 28.4% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
 | Fleet | 772 × 6-car `metro-6car` trainsets (697 peak revenue) |
 | Peak network throughput | 259,200 passengers/hour |
@@ -43,7 +43,7 @@ Population access uses retained native count pixels where available; radial catc
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 3,952 one-way journeys / 200,020 train-km/day |
+| Scheduled service | 3,952 one-way journeys / 200,011 train-km/day |
 | Annual traction demand | 1,892.3 GWh |
 | Station/depot PV / storage | 53.9 MW / 366.0 MWh |
 | Aggregate charging power | 328.0 MW |
@@ -58,14 +58,14 @@ These energy quantities describe the current regenerated scenario. Zero annual r
 
 | Revised capital scope | USD equivalent million |
 | --- | --- |
-| Civil and bearing allowance | 3,762.459 |
+| Civil and bearing allowance | 3,762.042 |
 | Stations and core elevated access | 1,345.880 |
 | Rolling stock | 1,205.976 |
 | Final assembly and component plants | 411.941 |
 | Line-local depots | 253.456 |
-| Solar and charging | 813.671 |
-| Signalling and programme overhead | 518.988 |
-| **Total programme** | **8,312.371** |
+| Solar and charging | 813.634 |
+| Signalling and programme overhead | 518.957 |
+| **Total programme** | **8,311.886** |
 
 There are **9 depots**, one per line, with **772 storage slots** for all 111 m six-car trains plus clearance. Depot reference capital is **USD 253.456m**, replacing the old USD 8m once. Workshop bays are sized separately by workload. The current case gives no capacity credit to station stabling. Actual land, foundations, connected access, installed charging and morning launch acceptance remain open. [Depot quantities](engineering/programme-recalculation/depots.json) · [Items](engineering/programme-recalculation/depot-items.csv).
 
@@ -84,7 +84,7 @@ Final assembly has 1294 production and 195 support FTE; selected upstream plants
 
 Imported process machinery supports the selected Iraqi fabrication and assembly options shown above. Cells/BMS, wheels/axles/bearings, inverters and other critical inputs retain imports. Products with negative Baghdad-only whole-order margins remain bought in this case. Plant readiness/qualification within 18 months is assumed, not demonstrated. [Make/buy appraisal](engineering/programme-recalculation/component-make-buy.csv).
 
-Compared with the matched bought-component case, capital changes from USD 8.420bn to USD 8.312bn; imported invoice exposure changes from USD 2.249bn (26.71%) to USD 1.983bn (**23.85%**). The historical 148 km / USD 18bn proposal has a different scope and assumed all-USD funding; it is not a matched tender saving.
+Compared with the matched bought-component case, capital changes from USD 8.420bn to USD 8.312bn; imported invoice exposure changes from USD 2.249bn (26.71%) to USD 1.982bn (**23.85%**). The historical 148 km / USD 18bn proposal has a different scope and assumed all-USD funding; it is not a matched tender saving.
 
 ## Current funding and cashflows
 
@@ -92,21 +92,21 @@ Government capital is exactly **25%**. Imports use **50% government USD cash / 5
 
 | Capital-only source | Currency | Native amount |
 | --- | --- | --- |
-| Government import cash | USD | 991,262,423 |
-| Government local cash | IQD | 1,412,879,525,373 |
-| Chinese capital credit | USD | 991,262,423 |
-| Ordinary capital bonds | IQD | 4,033,743,445,683 |
-| Green capital bonds | IQD | 1,053,822,212,230 |
-| Senior bank capital credit | IQD | 1,695,855,219,305 |
+| Government import cash | USD | 991,220,284 |
+| Government local cash | IQD | 1,412,776,631,263 |
+| Chinese capital credit | USD | 991,220,284 |
+| Ordinary capital bonds | IQD | 4,033,449,582,926 |
+| Green capital bonds | IQD | 1,053,802,391,401 |
+| Senior bank capital credit | IQD | 1,695,750,658,109 |
 | Conditional climate grant | IQD | 32,500,000,000 |
 
 Interest/fees, reserve cash, OPEX and gap facilities are additional cashflows, not capital added twice. Fares, kiosks, advertising, additional receipts and fare/OPEX indexation are included. Green/grant/rights terms and concessional gap credit remain uncommitted. Conditional first/full line revenue is month **40 / 77**; physical and financing gates are open.
 
-The tested IQD mezzanine leaves 79 defaulted draw vintages and increases terminal debt to IQD 17.384tn. It does not establish sustainable repayment. [Monthly cashflow](engineering/programme-recalculation/local_positive-monthly.csv) · [Six-month bond/loan placements](engineering/programme-recalculation/local_positive-semiannual.csv) · [All 13 cases](engineering/programme-recalculation/README.md) · [Cost and demand review](../../../../../docs/baghdad-cost-and-demand-review-2026-10-05.md).
+The tested IQD mezzanine leaves 79 defaulted draw vintages and increases terminal debt to IQD 17.379tn. It does not establish sustainable repayment. [Monthly cashflow](engineering/programme-recalculation/local_positive-monthly.csv) · [Six-month bond/loan placements](engineering/programme-recalculation/local_positive-semiannual.csv) · [All 13 cases](engineering/programme-recalculation/README.md) · [Cost and demand review](../../../../../docs/baghdad-cost-and-demand-review-2026-10-05.md).
 
 ## City-centre elevated alignment
 
-The main design uses straight core radial tangents and broad curved ring connections where the retained water evidence permits them, inside the explicit 33.22–33.42°N / 44.28–44.53°E study area. Shoreline detours retain their separate curve and structure review gates. Land sections there are elevated; water crossings remain bridges. The final water-constrained core routes change from **301.670 km to 264.321 km**. The main network is **479.012 route km**, with **55.26% elevated** across the whole system. Maps, station placement, fleet, civil quantities, staff and finance use that reworked design. [Analytical controls and limitations](engineering/alignment/core-realignment.json).
+The main design uses straight core radial tangents and broad curved ring connections where the retained water evidence permits them, inside the explicit 33.22–33.42°N / 44.28–44.53°E study area. Shoreline detours retain their separate curve and structure review gates. Land sections there are elevated; water crossings remain bridges. The final water-constrained core routes change from **301.670 km to 264.281 km**. The main network is **478.972 route km**, with **55.26% elevated** across the whole system. Maps, station placement, fleet, civil quantities, staff and finance use that reworked design. [Analytical controls and limitations](engineering/alignment/core-realignment.json).
 
 ![Earlier corridors and current central alignment](engineering/alignment/core-alignment-comparison.png)
 

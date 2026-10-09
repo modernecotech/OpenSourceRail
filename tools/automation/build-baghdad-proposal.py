@@ -37,6 +37,10 @@ def publication_output(path):
 
 MAX_BYTES = 50*1024*1024
 SHARED = [
+    'docs/civil/line-based-foundation-and-assembly-planning.md',
+    'docs/civil/network-junction-and-residential-integration.md',
+    'engineering/network-planning/baghdad/README.md',
+    *[f'engineering/network-planning/baghdad/line-{i}-construction-plan.md' for i in range(1,10)],
     'engineering/industrialisation/README.md',
     'docs/rfcs/0033-tacs-runtime-and-resource-control.md',
     'docs/rfcs/0034-connected-station-production-and-battery-model.md',
@@ -675,6 +679,10 @@ External instrument and historical sources are retained from the financing basel
         intro += "\nThe [coupled programme study](engineering/coupled-programme/README.md) uses completed train sections to reserve OD capacity, charges one fare across transfers and replaces electricity and distance-sensitive maintenance once in the retained financing engine. It reports conditional monthly receipts/debt and complete line-opening dependencies. Synthetic demand sensitivities, retained unquoted prices/opening months and missing first-article, survey and calibration evidence prevent financial or operating adoption. The existing financial comparators remain distinct.\n"
     if (CITY/'engineering/civil-works/README.md').is_file():
         intro += "\n## Detailed civil construction methods (2026-10-08)\n\nThe [civil works package](engineering/civil-works/README.md) and [master plan](../../../../../docs/civil/civil-works-master-plan.md) use 25 m average spans for production/logistics sizing while retaining actual identified Pi20/Pi25 bays and unresolved closures. They connect workfront release, foundations, precast production, transport/storage, launcher erection/relocation, station structures/access, at-grade works, special bridges, utilities/drainage, depot/energy civil, inspection and reinstatement. Individual run/station registers and fourteen civil packages per line support finite-resource and complete-opening planning. Illustrative capacity and calendar lower bounds establish no contracted supply, accepted programme, installed saving or construction release.\n"
+    network=ROOT/'engineering/network-planning/baghdad'
+    if (network/'line-assembly-summary.json').is_file():
+        integrated=read_json(network/'line-assembly-summary.json');population=integrated['population']
+        intro += f"\n## Integrated junctions, residential access and line-based foundations (2026-10-08)\n\nThe [coordinated planning package](../../../../../engineering/network-planning/baghdad/README.md) provides nine line-specific assembly plans, {integrated['proposed_foundation_records']:,} support foundation packets, {integrated['identified_catalogue_bays']:,} uniquely directed bay assemblies and separate station/bridge/depot/energy foundation scopes. It holds junction-affected member orders pending actual profiles, clearances and staged-load design. Bounded station complexes prevent transitive oversized transfer groups. The ring's spurious 40 m out-and-back path has been removed and dependent native evidence rerun.\n\nRetained 2020 station-circle proximity is {population['baseline_radial_fraction_1000m']:.1%}; {population['candidate_infill_count']} infill candidates give a conditional {population['infill_conditional_radial_fraction_1000m']:.1%} screen. About {population['baseline_unserved_outside_existing_corridor_vertex_screen_1000m']:,.0f} currently unserved retained residents are outside the existing 1 km corridor-vertex screen. Source-linked branch/feeder investigation paths address priority gaps; they do not establish funded service, walksheds or extra fares. [Companion planning data archive](../../../../../engineering/network-planning/baghdad/Baghdad-Network-and-Foundation-Planning.zip) and [offline support/junction viewer](../../../../../engineering/network-planning/baghdad/network-foundation-viewer.html) preserve the detailed new model separately from the original supporting archive. Ground design, supplier quotes and independent construction/operating approvals remain open.\n"
     return intro
 
 
@@ -773,6 +781,12 @@ def source_inputs():
     if civil_works.is_dir():
         paths.update(p for p in civil_works.iterdir() if p.is_file())
         paths.update(ROOT/relative for relative in read_json(civil_works/'manifest.json')['sources_sha256'])
+    network=ROOT/'engineering/network-planning/baghdad'
+    if network.is_dir():
+        paths.update(network/name for name in ('manifest.json','line-assembly-summary.json','network-integration.json',
+                                               'junction-design-packages.json','other-structure-foundation-scopes.json','catalogue-audit-summary.json'))
+        paths.update(ROOT/name for name in ('design/network-planning/integrated-plan.json','tools/automation/integrated-network-plan.py',
+                                           'tools/automation/network_integration.py','tools/automation/network_plan_viewer.py'))
     for name in ('access','clearance','demand-bridge','local-civil-costs','cost-reconciliation'):
         report=read_json(CITY/f'engineering/{name}/summary.json')
         paths.update(ROOT/relative for relative in report['sources_sha256'])
@@ -832,6 +846,10 @@ def source_inputs():
     # Retained solver/geospatial outputs complete the evidence where materialised.
     for subpath in ('engineering/gis','engineering/sumo','engineering/energy'):
         paths.update(path for path in (CITY/subpath).glob('*') if path.is_file() and path.suffix in ('.gpkg','.xml','.json'))
+    # The full retained correction snapshot is source-bound by the included
+    # reconciliation/network manifests and packaged in the companion archive.
+    # Preserve it there without overflowing the original supporting archive.
+    paths.discard(ROOT/'engineering/network-planning/baghdad/corrected-alignment-sources.json.gz')
     return sorted(paths)
 
 
@@ -848,6 +866,10 @@ def verify():
             raw=archive.read(relative)
             if len(raw)!=value['bytes'] or hashlib.sha256(raw).hexdigest()!=value['sha256']:
                 raise ValueError('Archive member checksum mismatch: '+relative)
+    for relative,value in manifest.get('companion_archives',{}).items():
+        if receipt(ROOT/relative)!=value:raise ValueError('Changed companion planning archive: '+relative)
+        with zipfile.ZipFile(ROOT/relative) as archive:
+            if archive.testzip() is not None:raise ValueError('Invalid companion planning archive: '+relative)
     print('Baghdad proposal: source/output hashes and archive CRCs pass')
 
 
@@ -874,6 +896,8 @@ def main():
         read_json(CITY/'engineering/equity/summary.json')['as_of'],read_json(CITY/'engineering/viaduct-rentals/summary.json')['as_of'])
     if (CITY/"engineering/connected-build/manifest.json").is_file():
         as_of=max(as_of,read_json(CITY/"engineering/connected-build/manifest.json")["assumptions"]["schema"]["as_of"])
+    network=ROOT/'engineering/network-planning/baghdad'
+    if (network/'line-assembly-summary.json').is_file():as_of=max(as_of,read_json(network/'line-assembly-summary.json')['as_of'])
     build_pdf(sources,as_of)
     inputs=source_inputs()
     inventory=[{'path':path.relative_to(ROOT).as_posix(),**receipt(path)} for path in inputs]
@@ -891,7 +915,7 @@ def main():
             entry=zipfile.ZipInfo(relative,date_time=tuple(int(v) for v in as_of.split('-'))+(0,0,0))
             # Preserve the complete evidence set under the repository limit.
             # Python's standard-library bootstrap supports ZIP LZMA directly.
-            entry.compress_type=zipfile.ZIP_LZMA if path.suffix.lower() in {'.json','.csv','.toml','.md','.py','.rs','.ifc','.xml','.geojson','.html','.js','.svg','.txt'} else zipfile.ZIP_DEFLATED
+            entry.compress_type=zipfile.ZIP_LZMA if path.suffix.lower() in {'.json','.csv','.toml','.md','.py','.rs','.ifc','.xml','.geojson','.html','.js','.svg','.txt','.pdf','.gpkg'} else zipfile.ZIP_DEFLATED
             entry.external_attr=0o100644<<16
             archive.writestr(entry,path.read_bytes(),compresslevel=9)
     outputs=generated+[archive_path]
@@ -903,6 +927,7 @@ def main():
               'inputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in inputs},
               'outputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in outputs},
               'archive_members':sorted(archive_members),'appendix_document_count':len(sources),
+              'companion_archives':{p.relative_to(ROOT).as_posix():receipt(p) for p in [network/'Baghdad-Network-and-Foundation-Planning.zip'] if p.is_file()},
               'facts':{'baghdad_total_capex_usd':p['total_capex_usd'],'baghdad_route_km':p['comparison']['osr_route_km'],
                        'delivery_continuation_capital_usd':continuation['metrics']['total_capital_usd'],
                        'delivery_continuation_terminal_gap_iqd':continuation['metrics']['terminal_supplemental_balance_iqd'],

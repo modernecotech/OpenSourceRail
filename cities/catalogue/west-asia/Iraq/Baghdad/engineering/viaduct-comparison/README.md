@@ -20,28 +20,28 @@ Pi25 has only 62.5 kg bare margin beneath 75 t; Pi20 has 50 kg beneath its 60 t 
 
 A link slab can remove an expansion joint while simply supported girders retain their bearings. The shared-bearing scheme needs a structural connection and checked staged load path. A finite 40-span Pi25 corridor has 320 simple-span bearings versus 200 in the structural alternative. The periodic planning index also uses 320 versus 200, but its ten expansion gaps differ from the nine gaps between finite units. Both schemes need CWR/thermal/braking/seismic/foundation interaction, fatigue, replacement access and connection prices.
 
-Under the existing index only, restoring simple-span bearings changes USD 9.748m/km to USD 10.198m/km: USD 119.124m as a uniform-rate illustration over all current elevation. This is an unadopted counterfactual before connection/end-effect/EPC costs, not a priced scope or a transfer of Pi bearings to segmental/special designs.
+Under the existing index only, restoring simple-span bearings changes USD 9.748m/km to USD 10.198m/km: USD 119.106m as a uniform-rate illustration over all current elevation. This is an unadopted counterfactual before connection/end-effect/EPC costs, not a priced scope or a transfer of Pi bearings to segmental/special designs.
 
-The [financed bearing sensitivity](../delivery-closure/finance-simple_span_bearing_index.json) applies only to 248.115 km of existing standard Pi25: USD 111.652m direct plus the existing incremental EPC rate once. Its capital is USD 7.865bn and terminal gap debt IQD 3.787tn. Monthly/six-month cash, debt/reserves/early repayment are recalculated under unchanged government and currency rules. Original civil invoice timing and origin shares are inherited assumptions, not supplier evidence; all consequential costs remain open.
+The [financed bearing sensitivity](../delivery-closure/finance-simple_span_bearing_index.json) applies only to 248.055 km of existing standard Pi25: USD 111.625m direct plus the existing incremental EPC rate once. Its capital is USD 7.865bn and terminal gap debt IQD 3.783tn. Monthly/six-month cash, debt/reserves/early repayment are recalculated under unchanged government and currency rules. Original civil invoice timing and origin shares are inherited assumptions, not supplier evidence; all consequential costs remain open.
 
 ## Alignment and budget boundary
 
-The register covers all 938 elevated segments, including 40 individual special reviews. Its standard-rate base allowance is USD 2.580bn. Search deterrents are excluded from monetary allowances. This base allowance is not a complete installed price or an achieved saving; special/segmental increments remain unknown. Each special segment has wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. No alternative is accepted and original capital/debt figures are preserved.
+The register covers all 939 elevated segments, including 40 individual special reviews. Its standard-rate base allowance is USD 2.580bn. Search deterrents are excluded from monetary allowances. This base allowance is not a complete installed price or an achieved saving; special/segmental increments remain unknown. Each special segment has wider-curve, station-move, right-of-way, segmental, land/utility, traffic and whole-life comparison fields. No alternative is accepted and original capital/debt figures are preserved.
 
 The individual special reviews are ranked by local search-deterrent weighted metres to direct investigation effort. This score is not money or an achieved saving. Radius comes from the local controlled geometry screen; it is not a surveyed radius. The Pi20 chord screen shows where shortening alone still fails the existing catalogue allowance. Nearby station IDs support bounded station/right-of-way studies.
 
 | Special priority | Line/chainage m | Length m | Search-deterrent weighted m | Inferred radius m | Pi20 chord screen |
 |---|---|---:|---:|---:|---|
-| 1 | line-9 1240.8–1369.1 | 128.3 | 2816.6 | 53.7 | False |
-| 2 | line-9 80079.9–80216.5 | 136.6 | 1283.9 | 79.6 | False |
-| 3 | line-9 94068.5–94176.8 | 108.3 | 1184.4 | 78.9 | False |
-| 4 | line-9 86279.5–86387.8 | 108.3 | 1177.8 | 78.9 | False |
-| 5 | line-9 76814.0–76938.9 | 124.9 | 1042.1 | 91.9 | False |
-| 6 | line-9 51942.9–51982.9 | 40.0 | 1018.6 | 58.3 | False |
-| 7 | line-9 71574.7–71654.7 | 80.0 | 985.3 | 70.7 | False |
-| 8 | line-9 69048.8–69125.3 | 76.6 | 818.1 | 79.6 | False |
-| 9 | line-9 84552.4–84629.0 | 76.6 | 809.3 | 85.4 | False |
-| 10 | line-9 83054.2–83150.7 | 96.6 | 731.9 | 93.0 | False |
+| 1 | line-9 1220.8–1349.1 | 128.3 | 3452.3 | 51.0 | False |
+| 2 | line-9 80039.9–80176.5 | 136.6 | 1284.2 | 79.6 | False |
+| 3 | line-9 94028.5–94136.8 | 108.3 | 1184.6 | 78.9 | False |
+| 4 | line-9 86239.5–86347.8 | 108.3 | 1178.0 | 78.9 | False |
+| 5 | line-9 76774.0–76898.9 | 124.9 | 1042.5 | 91.9 | False |
+| 6 | line-9 51902.9–51942.9 | 40.0 | 1018.8 | 58.3 | False |
+| 7 | line-9 71534.7–71614.7 | 80.0 | 985.3 | 70.7 | False |
+| 8 | line-9 69008.8–69085.3 | 76.5 | 817.4 | 79.6 | False |
+| 9 | line-9 84512.4–84589.0 | 76.6 | 809.7 | 85.4 | False |
+| 10 | line-9 83014.2–83110.7 | 96.5 | 731.4 | 93.0 | False |
 
 A further 20% reduction in beam concrete changes the existing index by only USD 0.450m/km before any offsetting prestress, reinforcement or fabrication changes. No literature percentage is applied again.
 
@@ -57,7 +57,7 @@ Build and measure the first beam and representative pier/cap/connection only aft
 
 ## Review scope and evidence
 
-The older review of `135e249e` predates the integrated USD 7.746bn full-fleet sensitivity and its IQD 3.439tn terminal gap debt. Depot/workforce/site-energy reconciliation, supplier RFQ forms, opening-fleet replay, rental alternatives and clean-checkout bootstrap already exist in [delivery closure](../delivery-closure/README.md). This package closes repository comparison gaps; it does not replace supplier offers, measured demand or a complete delivery budget.
+The older review of `135e249e` predates the integrated USD 7.745bn full-fleet sensitivity and its IQD 3.435tn terminal gap debt. Depot/workforce/site-energy reconciliation, supplier RFQ forms, opening-fleet replay, rental alternatives and clean-checkout bootstrap already exist in [delivery closure](../delivery-closure/README.md). This package closes repository comparison gaps; it does not replace supplier offers, measured demand or a complete delivery budget.
 
 - [FHWA field-cast UHPC connections](https://www.fhwa.dot.gov/publications/research/infrastructure/structures/14084/index.cfm): Link slabs can join simple-span decks while independent bearings remain; highway precedent only (checked 2026-10-04).
 - [FHWA prefabricated bridge selection framework](https://www.fhwa.dot.gov/bridge/prefab/framework.cfm): Compare access, supplier capability, connections and the complete installation system (checked 2026-10-04).

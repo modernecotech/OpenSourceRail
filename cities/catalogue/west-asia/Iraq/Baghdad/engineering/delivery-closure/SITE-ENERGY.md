@@ -4,9 +4,9 @@ Each station retains its own storage capacity/power and grid limit. Timetable tr
 
 | Weather | Imports GWh | Unserved GWh | Firm energy services USD m/year | Required grid upgrade MW | Charger overload MW |
 | --- | --- | --- | --- | --- | --- |
-| reference | 859.4 | 2.2 | 127.820 | 77.824 | 129.320 |
-| poor | 976.1 | 4.0 | 135.683 | 81.190 | 129.320 |
-| aged10 | 877.6 | 2.3 | 129.645 | 77.824 | 129.320 |
+| reference | 859.3 | 2.2 | 127.813 | 77.824 | 129.320 |
+| poor | 976.1 | 4.0 | 135.676 | 81.190 | 129.320 |
+| aged10 | 877.5 | 2.3 | 129.639 | 77.824 | 129.320 |
 
 The firm-service cash sensitivity buys unmet energy and pays the increased connection charges. It **requires physical connection and charger upgrades whose capital is unpriced**. It does not claim a trip can be served by paying a bill. [Site totals](site-energy.json) and reference line-hourly ledgers expose every node requirement. Whole-grid pooling is removed; within-line duty allocation, site transformer/feeder limits, rights/outages, charging times, installed storage ageing and weather still need measurements. Original annual-netting finance remains unchanged, with no export income or energy ownership proceeds invented.
 

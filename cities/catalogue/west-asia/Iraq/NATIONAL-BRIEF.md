@@ -5,7 +5,7 @@
 
 [Current country basis](CURRENT-PLANNING-BASIS.json) · [Baghdad summary](Baghdad/README.md) · [Connected design, production and energy study](Baghdad/engineering/connected-build/README.md).
 
-The retained `local_positive` Baghdad financial comparator is **USD 8.312bn**, with **IQD 0.033tn unsourced support** and **IQD 11.162tn terminal debt**. It records no month in which all debt is cleared. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
+The retained `local_positive` Baghdad financial comparator is **USD 8.312bn**, with **IQD 0.031tn unsourced support** and **IQD 11.161tn terminal debt**. It records no month in which all debt is cleared. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
 
 The accelerated scenario's complete CAPEX, financing, net island savings and accepted opening dates remain unknown. Its **USD 9m / 18-launcher allowance covers purchase cash only**; freight, assembly, commissioning, transporters, lifting frames, temporary supports, spares, crews and relocations require separate scope-matched prices. The earlier delivered-and-commissioned interpretation is not used. No launcher saving is added to an installed civil rate before removing a verified matching embedded allowance.
 
@@ -21,11 +21,11 @@ No current consolidated national budget or funded rollout is established. Other 
 
 | Case | Days for modelled running bays | Scope |
 | --- | ---: | --- |
-| full-doubling | 902 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| higher-productivity | 966 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-accelerated | 1077 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| full-doubling | 903 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| higher-productivity | 965 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated | 1075 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
 | initial-accelerated-reassigned | 811 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-six-day-calendar | 1195 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-six-day-calendar | 1192 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
 
 These are conditional resource schedules. Station structures, special/closure spans, approved pier locations, delivery access and release evidence remain opening gates. Empty supplier/contract registers indicate missing qualifying evidence; they do not imply that Iraqi industry lacks capability.
 
@@ -34,7 +34,7 @@ These are conditional resource schedules. Station structures, special/closure sp
 | Case, lower-solar duty | Minimum SOC | Unserved traction kWh |
 | --- | ---: | ---: |
 | lfp-throughout | 0.0% | 140,617 |
-| sodium-both | 0.0% | 3,709,801 |
+| sodium-both | 0.0% | 3,709,069 |
 | sodium-stationary | 0.0% | 140,617 |
 
 The fixed-assignment diagnostic above uses both ring directions, declared dispatch stations and native rest-to-rest section timing. The current screen spans 4,440 continuous model minutes (3.08 days), including overnight state carry-over and a study strategy permitting grid replenishment within remaining site import capacity. Charge-rate, thermal and life inputs are unqualified profiles, so these results do not establish a chemistry advantage or suitability.

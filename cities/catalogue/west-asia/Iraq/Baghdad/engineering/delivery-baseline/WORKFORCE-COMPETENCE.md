@@ -20,12 +20,12 @@ The prior **3,460 FTE / USD 38.552m/year** allowance is USD 928.52/person/month.
 | fleet-electrical | 247,040 | 0 | 166 | 3,496.0 |
 | fleet-finish-cleaning | 563,560 | 0 | 376 | 4,751.1 |
 | infrastructure-lead | 18,720 | 9 | 18 | 568.6 |
-| civil-track | 153,284 | 0 | 106 | 2,232.4 |
+| civil-track | 153,271 | 0 | 106 | 2,232.4 |
 | solar-storage | 98,400 | 0 | 69 | 1,453.1 |
 | wayside-comms | 74,400 | 0 | 55 | 1,158.3 |
 | city-director | 1,520 | 1 | 1 | 31.6 |
 | chief-engineer | 1,520 | 1 | 1 | 31.6 |
-| quality-safety | 34,600 | 0 | 23 | 726.6 |
+| quality-safety | 34,599 | 0 | 23 | 726.6 |
 | training | 38,320 | 0 | 26 | 547.6 |
 | procurement-stores | 28,740 | 0 | 19 | 400.1 |
 | finance-people | 19,160 | 0 | 13 | 273.8 |

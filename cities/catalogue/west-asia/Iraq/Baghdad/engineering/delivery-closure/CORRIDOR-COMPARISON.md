@@ -12,6 +12,6 @@ Each corridor pays for its own workload/shift cover including central leadership
 | line-6 | 53 | 300 | 25.591 | 21.847 | 34.6% | 2282 |
 | line-7 | 39 | 231 | 19.414 | 16.563 | 26.3% | 1730 |
 | line-8 | 48 | 264 | 23.339 | 20.111 | 31.9% | 2100 |
-| line-9 | 48 | 417 | 41.289 | 35.068 | 57.4% | 3780 |
+| line-9 | 48 | 417 | 41.275 | 35.054 | 57.4% | 3779 |
 
 [Detailed cases and investigation forms](corridor-comparison.json) retain fares, affordability, OD/transfers, paid demand, pedestrian/feeder catchments, interchange and standalone debt-service fields. The affordability column prices 44 monthly trips against the historical model income proxy; it is not surveyed disposable income. Lower vehicle procurement reduces service/capacity; unchanged receipts and earlier openings are not assumed. Surveyed ground, utilities, foundations, drainage, erection/temporary works, evacuation/access and actual shared dependencies must accompany selection. A 10% civil opportunity is not claimed as a saving.

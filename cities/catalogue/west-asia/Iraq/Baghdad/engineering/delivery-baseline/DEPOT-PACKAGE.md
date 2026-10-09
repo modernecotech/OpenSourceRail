@@ -16,7 +16,7 @@ The original allocation remains **308 station trains + 464 depot/storage trains 
 | line-6 | line-6-0495-1669-s052503 | 70 | 8,470 | 24 / 26 | 0 / 15 |
 | line-7 | line-7-1531-0418-s039957 | 46 | 5,566 | 16 / 18 | 0 / 11 |
 | line-8 | line-8-0785-0290-s048137 | 64 | 7,744 | 22 / 24 | 0 / 13 |
-| line-9 | line-9-0689-0569-s097350 | 5 | 605 | 2 / 4 | 0 / 7 |
+| line-9 | line-9-0689-0569-s097310 | 5 | 605 | 2 / 4 | 0 / 7 |
 
 The planning arrangement uses at most three 121 m usable train slots per storage track, separate fan/throat turnouts and 5 m track spacing, with a 1.8 access/land multiplier. Track metres are single-track storage lengths, not route-km or workshop bays. Yard geometry is not located on a surveyed parcel. Storage charging shares existing powered sites; connecting tracks, peak chargers/feeders, protection, rescue access and quarantine need site engineering.
 

@@ -1,0 +1,182 @@
+{
+  "beam-production-and-delivery": [
+    {
+      "name": "supplier drawing/reinforcement/prestress/lifting/support configuration freeze",
+      "predecessors": [],
+      "stage": "M0"
+    },
+    {
+      "name": "mould/cage/inserts, stressing, cast/curing and batch traceability",
+      "predecessors": [
+        "M0"
+      ],
+      "stage": "M1"
+    },
+    {
+      "name": "distinct strength gates for transfer/demould/lift/storage/install and inspection",
+      "predecessors": [
+        "M1"
+      ],
+      "stage": "M2"
+    },
+    {
+      "name": "accepted serialised beam, complete mass/CG and traveller",
+      "predecessors": [
+        "M2"
+      ],
+      "stage": "M3"
+    },
+    {
+      "name": "permitted vehicle/route/loading, appointment and receiving release",
+      "predecessors": [
+        "M3"
+      ],
+      "stage": "H0"
+    },
+    {
+      "name": "receipt/damage survey, supported storage and install-sequence reservation",
+      "predecessors": [
+        "H0"
+      ],
+      "stage": "H1"
+    }
+  ],
+  "foundation-and-substructure": [
+    {
+      "name": "support-specific survey, utilities, ground/water and load design",
+      "predecessors": [],
+      "stage": "F0"
+    },
+    {
+      "name": "trial/verification and temporary working platform release",
+      "predecessors": [
+        "F0"
+      ],
+      "stage": "F1"
+    },
+    {
+      "name": "selected foundation installation, actual geometry and material logs",
+      "predecessors": [
+        "F1"
+      ],
+      "stage": "F2"
+    },
+    {
+      "name": "integrity/load/settlement/dimension tests and accepted foundation packet",
+      "predecessors": [
+        "F2"
+      ],
+      "stage": "F3"
+    },
+    {
+      "name": "column/cap, connection strength, bearing seats and temporary restraint",
+      "predecessors": [
+        "F3"
+      ],
+      "stage": "P0"
+    },
+    {
+      "name": "bearing survey plus actual next launcher/beam/delivery stage-load release",
+      "predecessors": [
+        "P0"
+      ],
+      "stage": "B0"
+    }
+  ],
+  "junction-interface": [
+    {
+      "name": "select crossing/shared-corridor/reroute and accessible interchange arrangement",
+      "predecessors": [],
+      "stage": "J0"
+    },
+    {
+      "name": "freeze levels, gradients, clearances, cap/support and station load paths",
+      "predecessors": [
+        "J0"
+      ],
+      "stage": "J1"
+    },
+    {
+      "name": "site/foundation/temporary works, utility/access and stage design release",
+      "predecessors": [
+        "J1"
+      ],
+      "stage": "J2"
+    },
+    {
+      "name": "coordinated construction, as-built structure/access and railway qualification",
+      "predecessors": [
+        "J2"
+      ],
+      "stage": "J3"
+    }
+  ],
+  "paired-full-span-bay": [
+    {
+      "name": "both B0 support packets, both accepted beam travellers, delivery and predecessor/relocation release",
+      "predecessors": [
+        "support_a:B0",
+        "support_b:B0",
+        "track1:H1",
+        "track2:H1"
+      ],
+      "stage": "E0"
+    },
+    {
+      "name": "first beam controlled lift, seating and required lateral/torsional restraint",
+      "predecessors": [
+        "E0"
+      ],
+      "stage": "E1"
+    },
+    {
+      "name": "second beam controlled lift and paired securing/survey",
+      "predecessors": [
+        "E1"
+      ],
+      "stage": "E2"
+    },
+    {
+      "name": "selected connections/strength, bearings, joints, dimensional and NCR acceptance",
+      "predecessors": [
+        "E2"
+      ],
+      "stage": "E3"
+    },
+    {
+      "name": "checked advance loads, next supports and safe launcher move",
+      "predecessors": [
+        "E3"
+      ],
+      "stage": "E4"
+    },
+    {
+      "name": "walkway/barrier, waterproofing/drainage, track interface and following-trade handover",
+      "predecessors": [
+        "E4"
+      ],
+      "stage": "E5"
+    }
+  ],
+  "special-structure": [
+    {
+      "name": "independent special geometry/stage/foundation design",
+      "predecessors": [],
+      "stage": "SP0"
+    },
+    {
+      "name": "supplier-specific staged construction and tests",
+      "predecessors": [
+        "SP0"
+      ],
+      "stage": "SP1"
+    },
+    {
+      "name": "structural/track/interface handover",
+      "predecessors": [
+        "SP1"
+      ],
+      "stage": "SP2"
+    }
+  ]
+}

@@ -32,8 +32,8 @@ The equipment reference is an unapproved sensitivity using existing repository r
 | line-7-1531-0418-s039957 | line-7 | 37 | 4,107.0 | 4,477.0 | unverified |
 | line-8-2231-1783-s000000 | line-8 | 46 | 5,106.0 | 5,566.0 | unverified |
 | line-8-0785-0290-s048137 | line-8 | 46 | 5,106.0 | 5,566.0 | unverified |
-| line-9-0608-0636-s003011 | line-9 | 24 | 2,664.0 | 2,904.0 | unverified |
-| line-9-0689-0569-s097350 | line-9 | 23 | 2,553.0 | 2,783.0 | unverified |
+| line-9-0606-0636-s003011 | line-9 | 24 | 2,664.0 | 2,904.0 | unverified |
+| line-9-0689-0569-s097310 | line-9 | 23 | 2,553.0 | 2,783.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

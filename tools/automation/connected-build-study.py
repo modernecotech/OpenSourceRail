@@ -366,6 +366,10 @@ def build(city_dir):
         for f in case_fronts:
             finish=result['finish_days'].get(f.id)
             deployments.append({**asdict(f),'available_foundations':None,
+                'span_storage_order':'increasing-chainage',
+                'installation_order':'increasing-chainage' if f.direction==1 else 'decreasing-chainage',
+                'initial_assembly_chainage_m':f.start_chainage_m if f.direction==1 else f.end_chainage_m,
+                'final_assembly_chainage_m':f.end_chainage_m if f.direction==1 else f.start_chainage_m,
                 'readiness':'hypothetical-released-supports-for-sensitivity',
                 'conditional_mobilised_date':(day0+timedelta(days=cycle.mobilisation_days)).isoformat(),
                 'conditional_start_date':(day0+timedelta(days=start_days[f.id]-1)).isoformat() if f.id in start_days else None,
@@ -431,6 +435,16 @@ def build(city_dir):
     files['civil.json']=encode(dict(lines=civil_lines,beams=beams,
         erection_options={method.value:erection_resources(method,sum(l['running_bays'] for l in civil_lines)) for method in ErectionMethod},
         actual_evidence_schedule=actual,conditional_scenarios=scenarios))
+    network_plan=ROOT/'engineering/network-planning'/slug/'network-integration.json'
+    if network_plan.is_file():
+        integrated=read(network_plan)
+        if integrated['baseline_native_design_sha256']!=digest(city_dir/'design.toml'):
+            raise ValueError('coordinated network input does not match the current line design')
+        files['junction-and-residential-interfaces.json']=encode(dict(
+            source=network_plan.relative_to(ROOT).as_posix(),source_sha256=digest(network_plan),
+            structural_interfaces=integrated['interfaces'],bounded_station_complexes=integrated['bounded_complexes'],
+            residential_plan=integrated['population'],new_operating_routes_adopted=False,
+            construction_released=False,rail_crossings_are_not_implicit_track_switches=True))
     scenario=read(city_dir/f'{slug}.toml')
     energy=config['energy']
     movement=json.loads(subprocess.check_output(['cargo','run','--quiet','-p','osr-sim','--bin','osr-movement-profiles','--',str(city_dir/f'{slug}.toml')],cwd=ROOT))
@@ -635,7 +649,10 @@ The planning duty schedules {len(trains)} trainsets and {len(sites)} energy site
 
 [Manifest](manifest.json) hashes every source and output and identifies the source revision and assumption register. Existing finance/proposal packages are retained comparators pending scope-matched adoption; this study is the current connected scenario, not an accepted replacement budget. Regenerate with `.venv/bin/python tools/automation/connected-build-study.py --city {slug}`; verify using `--check`.
 ''').encode()
+    if network_plan.is_file():
+        files['README.md']+=b'\n[Coordinated junction and residential interfaces](junction-and-residential-interfaces.json) bind crossings, shared corridors, bounded station complexes and expansion studies to this design. [Per-line foundation and assembly plans](../../../../../../../engineering/network-planning/baghdad/README.md) identify every support, both beam parents, directed launcher sequence and junction-design hold. Proposed access/expansion does not adopt operating service or additional finance.\n'
     sources=[Path(__file__),city_dir/'design.toml',city_dir/f'{slug}.toml',city_dir/f'{slug}.corridor.geojson']
+    if network_plan.is_file():sources.append(network_plan)
     sources += [ROOT/'lib/templates'/name for name in ('connected-delivery-evidence.json','station-passenger-assignment.json','precast-logistics.json','accelerated-build.toml','stations.toml','accessibility.toml','rolling-stock.toml','energy-sites.toml','battery-profiles.json','precast-suppliers.json','civil-cost-calibration.toml','civil-cost-model.toml')]
     sources += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('station_capacity.py','handling_assurance.py','delivery_commercial.py')]
     sources += [ROOT/'tools/automation/connected_delivery_register.py']

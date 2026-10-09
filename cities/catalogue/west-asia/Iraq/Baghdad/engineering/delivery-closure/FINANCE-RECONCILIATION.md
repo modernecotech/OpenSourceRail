@@ -8,14 +8,14 @@ These executable sensitivities preserve the original reference, then replace the
 
 | Case | Capital USD bn | Government USD bn equivalent | Peak gap debt IQD tn | Unfunded support IQD tn | Debt clear without unfunded cash month | Company before-finance cash NPV USD bn |
 | --- | --- | --- | --- | --- | --- | --- |
-| reference | 7.581 | 1.895 | 4.477 | 0.000 | 305 | -3.331 |
-| reconciled_full_fleet | 7.746 | 1.936 | 9.634 | 0.000 | None | -4.440 |
-| reconciled_fixed_original_government | 7.746 | 1.895 | 9.743 | 0.000 | None | -4.440 |
-| reconciled_without_uncommitted_income | 7.746 | 1.936 | 11.840 | 0.000 | None | -4.440 |
-| opening_fleet_supply_scaled | 7.163 | 1.791 | 13.000 | 4.264 | None | -4.839 |
-| contracted_solar | 7.000 | 1.750 | 12.119 | 0.000 | None | -4.474 |
-| installed_energy_supply_bound | 7.746 | 1.936 | 12.114 | 0.000 | None | -4.780 |
-| simple_span_bearing_index | 7.865 | 1.966 | 9.888 | 0.000 | None | -4.522 |
+| reference | 7.580 | 1.895 | 4.477 | 0.000 | 305 | -3.331 |
+| reconciled_full_fleet | 7.745 | 1.936 | 9.632 | 0.000 | None | -4.440 |
+| reconciled_fixed_original_government | 7.745 | 1.895 | 9.741 | 0.000 | None | -4.440 |
+| reconciled_without_uncommitted_income | 7.745 | 1.936 | 11.838 | 0.000 | None | -4.440 |
+| opening_fleet_supply_scaled | 7.162 | 1.791 | 13.000 | 4.261 | None | -4.839 |
+| contracted_solar | 7.000 | 1.750 | 12.116 | 0.000 | None | -4.473 |
+| installed_energy_supply_bound | 7.745 | 1.936 | 12.112 | 0.000 | None | -4.780 |
+| simple_span_bearing_index | 7.865 | 1.966 | 9.886 | 0.000 | None | -4.522 |
 
 The fixed-government case retains the original absolute government contribution and reallocates its USD downpayment within that ceiling. Other cases use 25% of their own capital; increased appropriation is not committed. In every case imports are funded 50% government USD/50% proposed Chinese USD credit; ordinary/green bonds, bank and gap credit remain IQD. All debt/reserve/buffer/principal/cash residuals reconcile. **Six-month bond units are placement requirements, not subscriptions.** Climate/rights/additional local income remain uncommitted in conditional cases; the dedicated case removes all these targets and green pricing benefits.
 
@@ -35,7 +35,7 @@ The `simple_span_bearing_index` sensitivity removes the bearing reduction only f
 | 1500 | 0.962 | 13.4% | 407 | 0.000 | -4.142 |
 | 1750 | 0.918 | 15.6% | 341 | 0.000 | -3.750 |
 | 2000 | 0.882 | 17.8% | 299 | 0.000 | -3.374 |
-| 2500 | 0.825 | 22.3% | 246 | 0.000 | -2.661 |
-| 3000 | 0.781 | 26.7% | 213 | 0.000 | -1.988 |
+| 2500 | 0.825 | 22.3% | 246 | 0.000 | -2.660 |
+| 3000 | 0.781 | 26.7% | 213 | 0.000 | -1.987 |
 
 [Full results](fare-sensitivities.json) change the base fare once, retain existing peak/off-peak pricing and 5% annual fare/OPEX/income growth, reduce paid trips with the existing uncalibrated elasticity, and scale existing station commercial receipts with demand. Debt clearance and cash NPV are different tests. Conditional green/grant/rights/local-income targets and cheap IQD gap credit remain uncommitted. An assumed higher fare is not a sustainable tariff until OD, distributional affordability and actual service/credit conditions are accepted. The 44-trip share uses the historical income proxy and base fare before variable-price weighting, not measured disposable income.

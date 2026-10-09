@@ -30,7 +30,7 @@ external capital avoided = turnkey external capital − OpenSourceRail imports
 
 | Case | Price multiplier | Turnkey total | Turnkey external capital | External capital avoided | Capital + external interest avoided |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.5× | $723.28B | $650.96B | **$550.17B (84.5%)** | **$1.24T** |
+| Low | 1.5× | $723.28B | $650.95B | **$550.17B (84.5%)** | **$1.24T** |
 | Default | 2.0× | $964.38B | $867.94B | **$767.16B (88.4%)** | **$1.73T** |
 | High | 3.0× | $1.45T | $1.30T | **$1.20T (92.3%)** | **$2.70T** |
 

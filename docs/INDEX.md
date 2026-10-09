@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6154**.
+Indexed Markdown files: **6166**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **6154**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 203 |
-| [engineering](#engineering) | 31 |
+| [docs](#docs) | 205 |
+| [engineering](#engineering) | 41 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4255,7 +4255,7 @@ Indexed Markdown files: **6154**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/README.md) | Baghdad detailed civil works plan |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/README.md) | Baghdad — viaduct obstacle clearance |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/README.md) | Baghdad connected construction and battery study |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad same-alignment cost reconciliation |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/cost-reconciliation/README.md) | Baghdad cost correction and subsequent alignment reconciliation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/README.md) | Coupled Baghdad programme study |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery/README.md) | Baghdad organisation and design work |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/DEPOT-PACKAGE.md) | Baghdad line-local depot and stabling quantity package |
@@ -6033,7 +6033,9 @@ Indexed Markdown files: **6154**.
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
 | [`docs/civil/depot-bogie-change-interface.md`](../docs/civil/depot-bogie-change-interface.md) | LM3 Depot Bogie-Change Interface |
 | [`docs/civil/foundation-and-production-system.md`](../docs/civil/foundation-and-production-system.md) | Foundation And Civil Production System |
+| [`docs/civil/line-based-foundation-and-assembly-planning.md`](../docs/civil/line-based-foundation-and-assembly-planning.md) | Line-based foundation and viaduct assembly planning |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
+| [`docs/civil/network-junction-and-residential-integration.md`](../docs/civil/network-junction-and-residential-integration.md) | Network junction and residential integration |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
 | [`docs/civil/other-civil-works-methods.md`](../docs/civil/other-civil-works-methods.md) | Other civil works construction methods |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
@@ -6224,6 +6226,16 @@ Indexed Markdown files: **6154**.
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
 | [`engineering/models/model-coverage.md`](../engineering/models/model-coverage.md) | CAD and IFC model coverage |
+| [`engineering/network-planning/baghdad/README.md`](../engineering/network-planning/baghdad/README.md) | Baghdad integrated network, foundations and assembly plan |
+| [`engineering/network-planning/baghdad/line-1-construction-plan.md`](../engineering/network-planning/baghdad/line-1-construction-plan.md) | line-1 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-2-construction-plan.md`](../engineering/network-planning/baghdad/line-2-construction-plan.md) | line-2 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-3-construction-plan.md`](../engineering/network-planning/baghdad/line-3-construction-plan.md) | line-3 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-4-construction-plan.md`](../engineering/network-planning/baghdad/line-4-construction-plan.md) | line-4 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-5-construction-plan.md`](../engineering/network-planning/baghdad/line-5-construction-plan.md) | line-5 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-6-construction-plan.md`](../engineering/network-planning/baghdad/line-6-construction-plan.md) | line-6 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-7-construction-plan.md`](../engineering/network-planning/baghdad/line-7-construction-plan.md) | line-7 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-8-construction-plan.md`](../engineering/network-planning/baghdad/line-8-construction-plan.md) | line-8 — foundation and assembly construction plan |
+| [`engineering/network-planning/baghdad/line-9-construction-plan.md`](../engineering/network-planning/baghdad/line-9-construction-plan.md) | line-9 — foundation and assembly construction plan |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 | [`engineering/toolchain/baseline-assurance.md`](../engineering/toolchain/baseline-assurance.md) | Engineering Baseline Assurance |
 | [`engineering/toolchain/tla/README.md`](../engineering/toolchain/tla/README.md) | Retained TLC assurance executable |
