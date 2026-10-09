@@ -302,6 +302,11 @@ def prepare_city(
         infill_command=[sys.executable,str(REPO_ROOT/'tools/automation/apply-city-station-infill.py'),'--design',str(design_path)]
         commands.insert(1,infill_command)
         commands.insert(3,infill_command)  # Bind the final depot-priced design.
+    # Native final endpoint restoration can alter local curve/product intervals.
+    # Reprice the final controlled inventory before emitting operating inputs;
+    # validation receipts must be generated only after these edits are complete.
+    scenario_index=next(i for i,command in enumerate(commands) if 'osr_scenario' in command)
+    commands.insert(scenario_index,[sys.executable,str(REPO_ROOT/'tools/automation/refresh-local-civil-costs.py'),'--city',slug])
     for command in commands:
         return_code = run_logged(command, log_path)
         if return_code:

@@ -23,6 +23,7 @@ from reportlab.platypus import PageBreak, Paragraph, Spacer
 from reportlab.platypus.tableofcontents import TableOfContents
 
 from baghdad_funding_analysis import debt_clearance_label
+from proposal_archives import write_parts, read_members
 
 ROOT = Path(__file__).resolve().parents[2]
 CITY = ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
@@ -33,7 +34,8 @@ PUBLICATION_FILES = ('BAGHDAD-PROPOSAL.md','Baghdad-Proposal.pdf','DETAILED-SCHE
     'appendix-sources.json','national-context.json','source-inventory.csv')
 
 def publication_output(path):
-    return path.parent == CITY and path.name in PUBLICATION_FILES or CITY/'registers' in path.parents
+    return (path.parent == CITY and (path.name in PUBLICATION_FILES or
+            path.name.startswith('Baghdad-Proposal-Supporting-Data-part-')) or CITY/'registers' in path.parents)
 
 MAX_BYTES = 50*1024*1024
 SHARED = [
@@ -863,12 +865,18 @@ def verify():
     for group in ('inputs','outputs'):
         for relative,value in manifest[group].items():
             if receipt(ROOT/relative) != value: raise ValueError('Proposal '+group+' changed: '+relative)
-    with zipfile.ZipFile(OUT/'Baghdad-Proposal-Supporting-Data.zip') as archive:
-        if archive.testzip() is not None: raise ValueError('Corrupt proposal archive')
-        if set(archive.namelist()) != set(manifest['archive_members']): raise ValueError('Archive inventory mismatch')
-        members=read_json(OUT/'archive-manifest.json')['members']
-        for relative,value in members.items():
-            raw=archive.read(relative)
+    members=read_json(OUT/'archive-manifest.json')['members']
+    inventory=manifest.get('supporting_archives',{'Baghdad-Proposal-Supporting-Data.zip':manifest['archive_members']})
+    flattened=[name for names in inventory.values() for name in names]
+    if len(flattened)!=len(set(flattened)) or set(flattened)!=set(manifest['archive_members']):
+        raise ValueError('Supporting part inventory mismatch')
+    for part,names in inventory.items():
+        with zipfile.ZipFile(OUT/part) as archive:
+            if archive.testzip() is not None:raise ValueError('Corrupt proposal archive: '+part)
+        data=read_members(ROOT,OUT,manifest,names)
+        for relative,raw in data.items():
+            if relative not in members:continue  # Archive manifest excludes its own hash.
+            value=members[relative]
             if len(raw)!=value['bytes'] or hashlib.sha256(raw).hexdigest()!=value['sha256']:
                 raise ValueError('Archive member checksum mismatch: '+relative)
     for relative,value in manifest.get('companion_archives',{}).items():
@@ -914,16 +922,8 @@ def main():
     (OUT/'archive-manifest.json').write_text(json.dumps({'schema_version':'1.0','members':archive_receipts,'self_hash_excluded':True},indent=2,sort_keys=True)+'\n')
     archive_members[(OUT/'archive-manifest.json').relative_to(ROOT).as_posix()]=OUT/'archive-manifest.json'
     if OUT/'archive-manifest.json' not in generated: generated.append(OUT/'archive-manifest.json')
-    archive_path=OUT/'Baghdad-Proposal-Supporting-Data.zip'
-    with zipfile.ZipFile(archive_path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
-        for relative,path in sorted(archive_members.items()):
-            entry=zipfile.ZipInfo(relative,date_time=tuple(int(v) for v in as_of.split('-'))+(0,0,0))
-            # Preserve the complete evidence set under the repository limit.
-            # Python's standard-library bootstrap supports ZIP LZMA directly.
-            entry.compress_type=zipfile.ZIP_LZMA if path.suffix.lower() in {'.json','.csv','.toml','.md','.py','.rs','.ifc','.xml','.geojson','.html','.js','.svg','.txt','.pdf','.gpkg'} else zipfile.ZIP_DEFLATED
-            entry.external_attr=0o100644<<16
-            archive.writestr(entry,path.read_bytes(),compresslevel=9)
-    outputs=generated+[archive_path]
+    supporting_archives=write_parts(OUT,archive_members,as_of,MAX_BYTES)
+    outputs=generated+[OUT/name for name in supporting_archives]
     for path in outputs:
         if path.stat().st_size>MAX_BYTES: raise ValueError('Proposal artifact exceeds repository 50 MiB limit: '+str(path))
     manifest={'schema_version':'1.0','title':'Baghdad Proposal','as_of':as_of,'document_status':'planning-proposal-not-construction-or-operating-release',
@@ -932,6 +932,7 @@ def main():
               'inputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in inputs},
               'outputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in outputs},
               'archive_members':sorted(archive_members),'appendix_document_count':len(sources),
+              'supporting_archives':supporting_archives,
               'companion_archives':{p.relative_to(ROOT).as_posix():receipt(p) for p in [network/'Baghdad-Network-and-Foundation-Planning.zip'] if p.is_file()},
               'facts':{'baghdad_total_capex_usd':p['total_capex_usd'],'baghdad_route_km':p['comparison']['osr_route_km'],
                        'delivery_continuation_capital_usd':continuation['metrics']['total_capital_usd'],

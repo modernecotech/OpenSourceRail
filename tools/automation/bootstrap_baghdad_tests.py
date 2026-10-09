@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tempfile
 import zipfile
+from proposal_archives import read_members
 
 ROOT = Path(__file__).resolve().parents[2]
 CITY = ROOT / 'cities/catalogue/west-asia/Iraq/Baghdad'
@@ -30,20 +31,11 @@ def restore(root=ROOT, *, check=False):
         raise ValueError('Operations input missing; run bootstrap_baghdad_tests.py')
     proposal = city
     manifest = json.loads((proposal/'manifest.json').read_text())
-    archive_path = proposal/'Baghdad-Proposal-Supporting-Data.zip'
-    receipt = manifest['outputs'][archive_path.relative_to(root).as_posix()]
-    if archive_path.stat().st_size != receipt['bytes'] or sha(archive_path.read_bytes()) != receipt['sha256']:
-        raise ValueError('Proposal archive differs from its publication receipt')
     relative = target.relative_to(root).as_posix()
     member = json.loads((proposal/'archive-manifest.json').read_text())['members'][relative]
     if member != {'bytes': size, 'sha256': expected}:
         raise ValueError('Publication and operations receipts disagree')
-    with zipfile.ZipFile(archive_path) as archive:
-        if len(archive.namelist()) != len(set(archive.namelist())):
-            raise ValueError('Duplicate archive members')
-        if archive.getinfo(relative).file_size != size:
-            raise ValueError('Operations archive size differs')
-        raw = archive.read(relative)
+    raw = read_members(root,proposal,manifest,[relative])[relative]
     if len(raw) != size or sha(raw) != expected:
         raise ValueError('Operations archive content differs')
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -84,14 +76,8 @@ def restore_proposal_inputs(root=ROOT, *, check=False):
         else:missing.append(relative)
     if not missing:return 'verified-existing'
     if check:raise ValueError('Proposal solver/GIS inputs missing; run bootstrap_baghdad_tests.py')
-    archive=proposal/'Baghdad-Proposal-Supporting-Data.zip'
-    receipt=manifest['outputs'][archive.relative_to(root).as_posix()]
-    if archive.stat().st_size!=receipt['bytes'] or sha(archive.read_bytes())!=receipt['sha256']:
-        raise ValueError('Proposal archive differs from its publication receipt')
     # Validate every requested byte before creating any missing input.
-    with zipfile.ZipFile(archive) as z:
-        if len(z.namelist())!=len(set(z.namelist())):raise ValueError('Duplicate archive members')
-        data={name:z.read(name) for name in missing}
+    data=read_members(root,proposal,manifest,missing)
     for name,raw in data.items():
         if len(raw)!=receipts[name]['bytes'] or sha(raw)!=receipts[name]['sha256']:
             raise ValueError('Proposal solver/GIS archive content differs: '+name)

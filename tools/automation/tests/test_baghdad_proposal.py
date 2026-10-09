@@ -21,23 +21,27 @@ def data(name):
 
 def test_proposal_sources_outputs_and_complete_archive_are_current():
     manifest = data('manifest.json')
-    with zipfile.ZipFile(PROPOSAL/'Baghdad-Proposal-Supporting-Data.zip') as archive:
-        assert archive.testzip() is None
-        assert set(archive.namelist()) == set(manifest['archive_members'])
-        archive_manifest_path = (PROPOSAL/'archive-manifest.json').relative_to(ROOT).as_posix()
-        members = json.loads(archive.read(archive_manifest_path))['members']
-        assert set(members) == set(archive.namelist())-{archive_manifest_path}
-        for relative, value in members.items():
-            raw = archive.read(relative)
-            assert len(raw) == value['bytes'], relative
-            assert hashlib.sha256(raw).hexdigest() == value['sha256'], relative
-        for group in ('inputs', 'outputs'):
-            for relative, receipt in manifest[group].items():
-                source = ROOT/relative
-                assert source.stat().st_size == receipt['bytes'], relative
-                assert hashlib.sha256(source.read_bytes()).hexdigest() == receipt['sha256'], relative
-                if group == 'inputs':
-                    assert hashlib.sha256(archive.read(relative)).hexdigest() == receipt['sha256'], relative
+    from proposal_archives import part_inventory, read_members
+    inventory=part_inventory(manifest)
+    flattened=[name for names in inventory.values() for name in names]
+    assert len(flattened)==len(set(flattened))
+    assert set(flattened)==set(manifest['archive_members'])
+    members=data('archive-manifest.json')['members']
+    archive_manifest_path=(PROPOSAL/'archive-manifest.json').relative_to(ROOT).as_posix()
+    assert set(members)==set(flattened)-{archive_manifest_path}
+    for part,names in inventory.items():
+        with zipfile.ZipFile(PROPOSAL/part) as archive:assert archive.testzip() is None
+        raw_members=read_members(ROOT,PROPOSAL,manifest,names)
+        for relative,raw in raw_members.items():
+            if relative in members:
+                assert len(raw)==members[relative]['bytes'],relative
+                assert hashlib.sha256(raw).hexdigest()==members[relative]['sha256'],relative
+    for group in ('inputs','outputs'):
+        for relative,receipt in manifest[group].items():
+            source=ROOT/relative
+            assert source.stat().st_size==receipt['bytes'],relative
+            assert hashlib.sha256(source.read_bytes()).hexdigest()==receipt['sha256'],relative
+            if group=='inputs':assert relative in members
     assert (PROPOSAL/'Baghdad-Proposal.pdf').read_bytes().startswith(b'%PDF-')
     assert all(v['bytes'] <= 50*1024*1024 for v in manifest['outputs'].values())
 
