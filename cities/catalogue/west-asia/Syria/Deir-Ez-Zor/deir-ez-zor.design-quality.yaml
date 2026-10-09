@@ -1,29 +1,29 @@
 slug: deir-ez-zor
 pass: true
 metrics:
-  total_route_m: 49607.6
-  n_lines: 3
-  n_stations: 21
-  anchor_hit_rate: 0.571
-  high_demand_coverage: 0.580
+  total_route_m: 98767.6
+  n_lines: 12
+  n_stations: 90
+  anchor_hit_rate: 0.156
+  high_demand_coverage: 0.720
   civil_mix_m:
-    at_grade: 8906.000
-    elevated: 31836.600
-    bridge:   8865.000
-  elevated_fraction: 0.820
+    at_grade: 21820.2
+    elevated: 50359.8
+    bridge:   26587.6
+  elevated_fraction: 0.779
   viaduct_products_m:
-    osr_pi20_pi25: 31720.093
-    osr_us:      88.236
-    special:     8865.000
-    realign:     28.271
-  max_elevated_cost_multiplier: 9.529
+    osr_pi20_pi25: 48061.6
+    osr_us:      1868.5
+    special:     26587.6
+    realign:     429.7
+  max_elevated_cost_multiplier: 20.398
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

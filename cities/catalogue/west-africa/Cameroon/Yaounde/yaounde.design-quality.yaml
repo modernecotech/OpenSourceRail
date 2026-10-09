@@ -1,29 +1,29 @@
 slug: yaounde
 pass: true
 metrics:
-  total_route_m: 191854.6
-  n_lines: 5
-  n_stations: 68
-  anchor_hit_rate: 0.279
-  high_demand_coverage: 0.453
+  total_route_m: 315965.2
+  n_lines: 21
+  n_stations: 216
+  anchor_hit_rate: 0.120
+  high_demand_coverage: 0.491
   civil_mix_m:
-    at_grade: 28756.300
-    elevated: 159521.600
-    bridge:   3576.700
-  elevated_fraction: 0.850
+    at_grade: 59249.1
+    elevated: 246491.2
+    bridge:   10224.9
+  elevated_fraction: 0.812
   viaduct_products_m:
-    osr_pi20_pi25: 157254.732
-    osr_us:      1695.792
-    special:     3576.700
-    realign:     571.076
-  max_elevated_cost_multiplier: 28.236
+    osr_pi20_pi25: 234494.6
+    osr_us:      9621.8
+    special:     10224.9
+    realign:     2374.8
+  max_elevated_cost_multiplier: 21.585
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

@@ -143,7 +143,31 @@ def main():
         packed=bytearray(gzip.compress((ROOT/'.cache/osr-pipeline/rasters/baghdad.buildability.npy').read_bytes(),mtime=0));packed[9]=255;buildability_path.write_bytes(packed)
     buildable=np.frombuffer(gzip.decompress(buildability_path.read_bytes()),dtype=np.uint8).reshape(mask.shape).astype(bool)
     corridors,report=rework(seed,grid,config,mask,buildable)
-    report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),CONFIG,SEED,GRID,mask_path,receipt_path,buildability_path,ROOT/'tools/automation/water-route-constraints.py']}
+    from residential_route_expansion import expand
+    corridors,expansion,expansion_inputs=expand(CITY/'design.toml',corridors,grid,mask,buildable,args.check)
+    report['residential_line_expansion']=expansion
+    row_by_name={row['line']:row for row in report['lines']}
+    changed_names={row['line'] for row in expansion['base_line_junction_changes']}
+    original_names={r['line'] for r in report['lines']}
+    for line in corridors['lines']:
+        total=math.fsum(distance(a,b)*grid['cell_m'] for a,b in zip(line['cells'],line['cells'][1:]))
+        def in_core(cell):
+            lat=grid['bbox_north']-(cell[0]+.5)*grid['cell_m']/grid['m_per_deg_lat']
+            lon=grid['bbox_west']+(cell[1]+.5)*grid['cell_m']/grid['m_per_deg_lon']
+            return config['core']['south']<=lat<=config['core']['north'] and config['core']['west']<=lon<=config['core']['east']
+        core_m=math.fsum(distance(a,b)*grid['cell_m'] for a,b in zip(line['cells'],line['cells'][1:]) if in_core(a) and in_core(b))
+        if line['name'] in original_names:
+            row=row_by_name[line['name']];row.update(reworked_cells=len(line['cells']),reworked_route_m=total,final_core_route_m=core_m)
+            if line['name'] in changed_names:
+                for run in row['core_runs']:
+                    run['superseded_analytical_controls']=run.get('controls',[]);run['controls']=[]
+                    run['geometry_basis']='superseded-by-continuous-junction-route-requires-profile-and-structural-review'
+            continue
+        report['lines'].append(dict(line=line['name'],original_cells=0,reworked_cells=len(line['cells']),
+            original_route_m=0,reworked_route_m=total,core_runs=[],water_constraints=[],final_core_route_m=core_m,
+            geometry_basis='population-led additional corridor; curve/profile and structural review open'))
+    report['core_final_route_length_m']=math.fsum(line['final_core_route_m'] for line in report['lines'])
+    report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),CONFIG,SEED,GRID,mask_path,receipt_path,buildability_path,ROOT/'tools/automation/water-route-constraints.py',*expansion_inputs]}
     # Sub-micrometre libm differences across supported Python versions must
     # not change planning-report bytes. Grid cells remain exact integers.
     def planning_precision(value):

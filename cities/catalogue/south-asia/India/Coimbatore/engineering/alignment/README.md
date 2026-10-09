@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`coimbatore-line1.aln.toml`](coimbatore-line1.aln.toml) | `line-1` | 42,909.8 m | 16 |
+| [`coimbatore-line1.aln.toml`](coimbatore-line1.aln.toml) | `line-1` | 42,698.9 m | 16 |
 | [`coimbatore-line2.aln.toml`](coimbatore-line2.aln.toml) | `line-2` | 23,232.3 m | 10 |
 | [`coimbatore-line3.aln.toml`](coimbatore-line3.aln.toml) | `line-3` | 26,509.3 m | 12 |
 | [`coimbatore-line4.aln.toml`](coimbatore-line4.aln.toml) | `line-4` | 29,530.6 m | 12 |

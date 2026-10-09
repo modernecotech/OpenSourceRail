@@ -4,12 +4,14 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`beirut-line1.aln.toml`](beirut-line1.aln.toml) | `line-1` | 30,967.0 m | 11 |
-| [`beirut-line2.aln.toml`](beirut-line2.aln.toml) | `line-2` | 13,721.4 m | 8 |
-| [`beirut-line3.aln.toml`](beirut-line3.aln.toml) | `line-3` | 17,979.1 m | 9 |
-| [`beirut-line4.aln.toml`](beirut-line4.aln.toml) | `line-4` | 15,894.6 m | 8 |
-| [`beirut-line5.aln.toml`](beirut-line5.aln.toml) | `line-5` | 15,455.2 m | 8 |
-| [`beirut-line6.aln.toml`](beirut-line6.aln.toml) | `line-6` | 29,044.2 m | 12 |
+| [`beirut-line1.aln.toml`](beirut-line1.aln.toml) | `line-1` | 30,967.0 m | 19 |
+| [`beirut-line2.aln.toml`](beirut-line2.aln.toml) | `line-2` | 13,721.4 m | 9 |
+| [`beirut-line3.aln.toml`](beirut-line3.aln.toml) | `line-3` | 17,979.1 m | 10 |
+| [`beirut-line4.aln.toml`](beirut-line4.aln.toml) | `line-4` | 15,894.6 m | 11 |
+| [`beirut-line5.aln.toml`](beirut-line5.aln.toml) | `line-5` | 15,455.2 m | 12 |
+| [`beirut-line6.aln.toml`](beirut-line6.aln.toml) | `line-6` | 29,044.2 m | 18 |
+| [`beirut-line7.aln.toml`](beirut-line7.aln.toml) | `line-7` | 2,502.5 m | 2 |
+| [`beirut-line8.aln.toml`](beirut-line8.aln.toml) | `line-8` | 9,810.9 m | 8 |
 
 ## Status
 

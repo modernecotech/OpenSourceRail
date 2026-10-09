@@ -1,12 +1,12 @@
 {
   "complete_installed_budget": false,
-  "full_fleet_storage_slots": 17,
-  "gross_reference_cost_usd": 13744830,
+  "full_fleet_storage_slots": 36,
+  "gross_reference_cost_usd": 27514160,
   "items": [
     {
-      "cost_usd": 208250.0,
+      "cost_usd": 220500.0,
       "line": "line-1",
-      "quantity": 833.0,
+      "quantity": 882.0,
       "quotation": null,
       "reference_rate_usd": 250.0,
       "scope": "storage-track"
@@ -122,6 +122,126 @@
       "quotation": null,
       "reference_rate_usd": 37500,
       "scope": "depot-stationary-storage"
+    },
+    {
+      "cost_usd": 220500.0,
+      "line": "line-2",
+      "quantity": 882.0,
+      "quotation": null,
+      "reference_rate_usd": 250.0,
+      "scope": "storage-track"
+    },
+    {
+      "cost_usd": 36750.0,
+      "line": "line-2",
+      "quantity": 147.0,
+      "quotation": null,
+      "reference_rate_usd": 250.0,
+      "scope": "workshop-track"
+    },
+    {
+      "cost_usd": 125000.0,
+      "line": "line-2",
+      "quantity": 500.0,
+      "quotation": null,
+      "reference_rate_usd": 250.0,
+      "scope": "site-access-track"
+    },
+    {
+      "cost_usd": 550000.0,
+      "line": "line-2",
+      "quantity": 11,
+      "quotation": null,
+      "reference_rate_usd": 50000.0,
+      "scope": "turnouts"
+    },
+    {
+      "cost_usd": 435330.0,
+      "line": "line-2",
+      "quantity": 12438.0,
+      "quotation": null,
+      "reference_rate_usd": 35.0,
+      "scope": "drainage-access"
+    },
+    {
+      "cost_usd": 1029000.0,
+      "line": "line-2",
+      "quantity": 1470.0,
+      "quotation": null,
+      "reference_rate_usd": 700.0,
+      "scope": "workshop-shell"
+    },
+    {
+      "cost_usd": 450000.0,
+      "line": "line-2",
+      "quantity": 3,
+      "quotation": null,
+      "reference_rate_usd": 150000.0,
+      "scope": "workshop-process-equipment"
+    },
+    {
+      "cost_usd": 220500.0,
+      "line": "line-2",
+      "quantity": 1470.0,
+      "quotation": null,
+      "reference_rate_usd": 150.0,
+      "scope": "workshop-services"
+    },
+    {
+      "cost_usd": 250000.0,
+      "line": "line-2",
+      "quantity": 1,
+      "quotation": null,
+      "reference_rate_usd": 250000.0,
+      "scope": "yard-lighting-fire"
+    },
+    {
+      "cost_usd": 840000.0,
+      "line": "line-2",
+      "quantity": 1200.0,
+      "quotation": null,
+      "reference_rate_usd": 700.0,
+      "scope": "office-stores"
+    },
+    {
+      "cost_usd": 1000000.0,
+      "line": "line-2",
+      "quantity": 1,
+      "quotation": null,
+      "reference_rate_usd": 1000000.0,
+      "scope": "wash-plant"
+    },
+    {
+      "cost_usd": 1500000.0,
+      "line": "line-2",
+      "quantity": 1,
+      "quotation": null,
+      "reference_rate_usd": 1500000.0,
+      "scope": "wheel-lathe"
+    },
+    {
+      "cost_usd": 600000.0,
+      "line": "line-2",
+      "quantity": 1,
+      "quotation": null,
+      "reference_rate_usd": 600000.0,
+      "scope": "rescue-isolation"
+    },
+    {
+      "cost_usd": 3500000,
+      "line": "line-2",
+      "quantity": 5000,
+      "quotation": null,
+      "reference_rate_usd": 700,
+      "scope": "depot-pv"
+    },
+    {
+      "cost_usd": 3000000.0,
+      "line": "line-2",
+      "quantity": 80.0,
+      "quotation": null,
+      "reference_rate_usd": 37500,
+      "scope": "depot-stationary-storage"
     }
   ],
   "limitations": [
@@ -130,7 +250,7 @@
     "Depot PV/storage equipment is priced once in depot capital; station charging cabinets remain in charging_microgrid.",
     "Reference rates are shared USD-equivalent targets, not local installed quotations; land, grid upgrades, installation and approval remain open."
   ],
-  "number_of_depots": 1,
+  "number_of_depots": 2,
   "schema_version": 1,
   "sites": [
     {
@@ -140,12 +260,30 @@
       "line": "line-1",
       "physical_release": false,
       "planning_land_area_m2": 15108.0,
-      "reference_cost_usd": 13744830,
+      "reference_cost_usd": 13757080,
       "site_accepted": false,
       "slot_length_m": 49.0,
       "station": "line-1-0442-0432-s007420",
-      "storage_slots": 17,
-      "storage_track_m": 833.0,
+      "storage_slots": 18,
+      "storage_track_m": 882.0,
+      "storage_tracks": 6,
+      "train_length_m": 39,
+      "utility_upgrade_cost_usd": null,
+      "workshop_bays": 3
+    },
+    {
+      "archetype": "main-heavy",
+      "fleet_stalls": 3,
+      "land_cost_usd": null,
+      "line": "line-2",
+      "physical_release": false,
+      "planning_land_area_m2": 15108.0,
+      "reference_cost_usd": 13757080,
+      "site_accepted": false,
+      "slot_length_m": 49.0,
+      "station": "line-2-0362-0212-s000000",
+      "storage_slots": 18,
+      "storage_track_m": 882.0,
       "storage_tracks": 6,
       "train_length_m": 39,
       "utility_upgrade_cost_usd": null,
@@ -153,7 +291,7 @@
     }
   ],
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Edea/design.toml": "ae747ad0191f378273e22859010d14f871495dc17c7d5618b77dfe6feeab51c1",
+    "cities/catalogue/west-africa/Cameroon/Edea/design.toml": "6d11832de6081492a564bfa5c9341c5c51eda7250013a19cb7eb620087392555",
     "lib/templates/capex-costs.toml": "a3d72157395371f8cbd3ea60b49c7576c31041fecec9fb95383deb603c484b19",
     "lib/templates/city-operating-scope.toml": "c45034a7f12eb948236825d4956f5e436a8f5a363b99c7d089a04b05946eac7e",
     "lib/templates/energy-sites.toml": "73b1fbc369b16b3921b7787cb3bf725b213051bb7520564c378b6b5fabccb932",

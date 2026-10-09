@@ -1,29 +1,29 @@
 slug: kigali
 pass: true
 metrics:
-  total_route_m: 157282.9
-  n_lines: 6
-  n_stations: 65
-  anchor_hit_rate: 0.354
-  high_demand_coverage: 0.493
+  total_route_m: 303302.1
+  n_lines: 30
+  n_stations: 226
+  anchor_hit_rate: 0.150
+  high_demand_coverage: 0.655
   civil_mix_m:
-    at_grade: 24436.400
-    elevated: 129685.500
-    bridge:   3160.900
-  elevated_fraction: 0.845
+    at_grade: 64500.1
+    elevated: 233141.3
+    bridge:   5660.7
+  elevated_fraction: 0.787
   viaduct_products_m:
-    osr_pi20_pi25: 127584.878
-    osr_us:      1815.833
-    special:     3160.900
-    realign:     284.789
-  max_elevated_cost_multiplier: 83.869
+    osr_pi20_pi25: 220034.9
+    osr_us:      10981.2
+    special:     5660.7
+    realign:     2125.1
+  max_elevated_cost_multiplier: 66.461
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

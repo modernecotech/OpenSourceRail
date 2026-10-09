@@ -340,6 +340,7 @@ def foundation_assembly(design, routes, unproject, interfaces):
             order[span['id']] = (index, previous)
             previous = span['id']
         front_rows.append(dict(id=front['id'], line=front['line'], launcher=front['launcher'], direction=front['direction'],
+                               predecessor_fronts=front.get('predecessors',[]),
                                span_ids=[s['id'] for s in directed_spans],
                                initial_assembly_chainage_m=(directed_spans[0]['start_chainage_m'] if front['direction']>0 else directed_spans[0]['end_chainage_m']),
                                work_intervals_m=front['work_intervals_m'],
@@ -504,6 +505,10 @@ def build(geometry_only=False):
                 interfaces=interfaces, bounded_complexes=complexes, original_complex_review=declared,
                 population=population, infill_stations=infill, residential_priority_areas=gaps, expansion_corridor_candidates=expansion_routes,
                 geometry_is_surveyed=False, population_is_current_census=False, physical_acceptance=False)
+    evaluation_path=CITY/'engineering/alignment/residential-expansion-evaluation.json'
+    if evaluation_path.is_file():
+        core['native_residential_route_revision']=json.loads(evaluation_path.read_text())
+        sources[evaluation_path.relative_to(ROOT).as_posix()]=sha(evaluation_path)
     if geometry_only:
         return {'network-integration.json':encode(core)},sources,None,None,None,None
     foundations, spans, fronts, collisions = foundation_assembly(design, routes, unproject, interfaces)
@@ -520,6 +525,9 @@ def build(geometry_only=False):
                                  proposed_infill_station_ids=[s['id'] for s in infill if s['line'] == name],
                                  selected_foundation_quantities=None, accepted_complete_opening_date=None))
     summary = dict(schema='osr-line-assembly-planning/1', as_of=cfg['as_of'], lines=line_summary,
+                   physical_launcher_pool=len({f['launcher'] for f in fronts}),
+                   queued_front_count=sum(bool(f['predecessor_fronts']) for f in fronts),
+                   native_residential_route_revision=core.get('native_residential_route_revision'),
                    proposed_foundation_records=len(foundations), identified_catalogue_bays=len(front_span_ids := [s for s in spans if s['front']]),
                    special_structure_packages=sum(s['assembly_template'] == 'special-structure' for s in spans),
                    uniquely_assigned_catalogue_spans=len(front_span_ids), geometry_interfaces=len(interfaces),
@@ -658,13 +666,13 @@ def finish(outputs, sources, routes, stations, heat, summary):
         doc=[f"# {name} — foundation and assembly construction plan",'',
              'Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.','',
              f"Route length {line['length_m']/1000:.3f} km. {line['foundation_records']:,} unique proposed support packets; {line['catalogue_bays']:,} identified catalogue bay assemblies and {line['special_spans']:,} special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.",'',
-             '| Front | Launcher | Direction | Initial assembly chainage m | Bay assemblies |','|---|---|---:|---:|---:|']
-        for f in fronts:doc.append(f"| {f['id']} | {f['launcher']} | {f['direction']} | {f['initial_assembly_chainage_m']:.1f} | {len(f['span_ids'])} |")
+             '| Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |','|---|---|---|---:|---:|---:|']
+        for f in fronts:doc.append(f"| {f['id']} | {f['launcher']} | {', '.join(f['predecessor_fronts']) or 'initial mobilisation'} | {f['direction']} | {f['initial_assembly_chainage_m']:.1f} | {len(f['span_ids'])} |")
         doc+=['','## Foundation workface plan','',
               f"Filter [the foundation register](foundation-register.csv.gz) by `{name}`. For every support, verify the proposed coordinate/chainage, rights, utilities and the referenced desktop sample; commission field ground, groundwater, durability and load investigations. Review shallow footing, bored shaft, driven bent and pile-group alternatives against actual ground, axial/lateral/settlement/scour and construction loads. Desktop topsoil does not select a pile depth, count or allowable bearing pressure.",'',
               'Release trial and working-platform design (F1), install the selected foundation with actual geometry/material/installation records (F2), then verify integrity/load/settlement/dimensions and close the foundation packet (F3). Construct/erect column and cap with independently checked connections/temporary restraint (P0). Survey and inspect bearings, strength and the next launcher/beam/delivery stage before support release (B0). Keep 10–15 consecutive bays of accepted supports and beam stock ahead only where the run and storage permit.','',
               '## Directed assembly and logistics sequence','',
-              'The positive front installs toward increasing chainage; the negative front starts at its high-chainage end and installs backward. Factory/dispatch plans must follow this directed sequence, not the ascending raw span register. A foundation used by two bays is one packet; it is not built or priced twice.','',
+              'Before mobilisation, release the predecessor asset assignment and its dismantle/transport/recommission package. The positive front installs toward increasing chainage; the negative front starts at its high-chainage end and installs backward. Factory/dispatch plans must follow this directed sequence, not the ascending raw span register. A foundation used by two bays is one packet; it is not built or priced twice.','',
               'For each front, identify the first complete run, permitted delivery/assembly site, temporary support/ground platform, configured plant and authorised shift/crew. Reserve both beam travellers, transport/receiving equipment, an operator, required riggers, lift supervision and inspection. Verify source strength, complete mass/CG, lifting points, rigging, bearings, weather limits and contingency landing/recovery before any lift.','',
               'Both support B0 packets and beam receiving H1 records precede E0. Place and restrain beam 1 (E1); then place/securing beam 2 (E2). Survey and accept connection/strength/bearings/NCRs (E3), release advance loads and the next supports before moving the launcher (E4), then complete walkways/barriers/waterproofing/drainage/track interface and following-trade handover (E5). The next bay depends on the preceding advance release. Following trades may overlap only with protected, agreed load/access boundaries.','',
               'Run boundaries, stations and specials require a passage or dismantle/transport/reassembly/recommission package. No discontinuity becomes an assumed launchable gap. Junction-affected orders remain on a design hold until J2 freezes the profile, clearance, support/cap geometry and staged-load/utility/access design. A physical crossing does not create a rail switch.','',
@@ -687,7 +695,7 @@ def finish(outputs, sources, routes, stations, heat, summary):
             '![Network interfaces and residential gaps](network-and-residential-review.png)', '',
             '[Interactive line / support / junction viewer](network-foundation-viewer.html) lets reviewers zoom, select a line and inspect individual support packets and interface records offline.', '',
             'One source-bound asset graph connects each line, actual span, shared support, beam, launcher front, junction interface, station complex and residential intervention. The current native timetable/finance remains a comparator; this package does not claim new operating service or accepted structural profiles.', '',
-            f"The plan assigns **{summary['proposed_foundation_records']:,} support-specific foundation packets**, **{summary['identified_catalogue_bays']:,} catalogue bay assemblies**, **{summary['special_structure_packages']:,} specials** and **{summary['initial_launcher_fronts']} launcher fronts**. Support packets have coordinates, chainage, adjacent spans, desktop-soil investigation references and required loads/tests. Pile type/count/depth, groundwater and bearing capacity remain unselected until field design.", '',
+            f"The plan assigns **{summary['proposed_foundation_records']:,} support-specific foundation packets**, **{summary['identified_catalogue_bays']:,} catalogue bay assemblies**, **{summary['special_structure_packages']:,} specials** and **{summary['initial_launcher_fronts']} workfronts** sharing **{summary['physical_launcher_pool']} configured launchers**. {summary['queued_front_count']} fronts have preceding asset assignments; a front record creates no additional machine. Support packets have coordinates, chainage, adjacent spans, desktop-soil investigation references and required loads/tests. Pile type/count/depth, groundwater and bearing capacity remain unselected until field design.", '',
             '| Line | Foundation packets | Catalogue bay assemblies | Special packages | Candidate infill |',
             '|---|---:|---:|---:|---:|']
     for line in summary['lines']:

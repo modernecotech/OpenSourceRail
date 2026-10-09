@@ -85,6 +85,23 @@ def test_ring_validator_flags_material_radial_backtracking() -> None:
     assert finding["maximum_reverse_excursion_m"] > 750.0
 
 
+def test_station_validator_keeps_bounded_nearby_complexes_separate_and_rejects_oversized_group(tmp_path):
+    validator=_load_script('tools/automation/validate-station-clusters.py')
+    path=tmp_path/'design.toml'
+    rows=[]
+    for name,line,distance,group in [('a','A',0,0),('b','B',0,0),('c','C',500,1),('d','D',900,1)]:
+        rows.append(f'[[stations]]\nid = "{name}"\nline = "{line}"\nlat = 0.0\nlon = {distance/111195}\ns_m = 0.0\njunction_group = {group}\n')
+    groups=['[[interchanges]]\nid = "g0"\njunction_group = 0\nlines = ["A", "B"]\nplatforms = ["a", "b"]\n',
+            '[[interchanges]]\nid = "g1"\njunction_group = 1\nlines = ["C", "D"]\nplatforms = ["c", "d"]\n']
+    path.write_text('[city]\nslug = "fixture"\n'+''.join(rows+groups))
+    result=validator.validate(path)
+    assert not result['failures']
+    assert any(r['code']=='nearby-bounded-complex-link-requires-path-review' for r in result['review_findings'])
+    rows=[row.replace('junction_group = 1','junction_group = 0') for row in rows]
+    path.write_text('[city]\nslug = "fixture"\n'+''.join(rows)+'[[interchanges]]\nid = "g0"\njunction_group = 0\nlines = ["A", "B", "C", "D"]\nplatforms = ["a", "b", "c", "d"]\n')
+    assert any(r['code']=='interchange-full-diameter-exceeds-envelope' for r in validator.validate(path)['failures'])
+
+
 def test_ring_validator_allows_small_accumulated_street_wiggles() -> None:
     validator = _load_script("tools/automation/validate-ring-interchanges.py")
     finding = validator.backtracking_finding(

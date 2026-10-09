@@ -1,0 +1,152 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: buraidah; source line: line-12; length: 9565.9 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-12"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-urban"
+consist        = "light-metro-3car"
+crs            = "EPSG:32638"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "e4082a1d13e42ab9a5139132f8b8632246ae84b3bcc545e5f75e6acd3e43ff4c"
+source_geojson_sha256 = "c3b8476f858ac9a251e973078c891b7b74f2326ae41b2582fa6f940fe5553b36"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 395864.354
+northing_m          = 2908153.759
+bearing_in_deg      = 90.458
+bearing_out_deg     = 90.458
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1904.861
+easting_m           = 397766.169
+northing_m          = 2908138.563
+bearing_in_deg      = 90.458
+bearing_out_deg     = 135.328
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2555.665
+easting_m           = 398222.994
+northing_m          = 2907676.471
+bearing_in_deg      = 135.328
+bearing_out_deg     = 90.451
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2856.442
+easting_m           = 398523.291
+northing_m          = 2907674.108
+bearing_in_deg      = 90.451
+bearing_out_deg     = 135.325
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2884.738
+easting_m           = 398543.154
+northing_m          = 2907654.018
+bearing_in_deg      = 135.325
+bearing_out_deg     = 45.573
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3592.132
+easting_m           = 399047.543
+northing_m          = 2908148.416
+bearing_in_deg      = 45.573
+bearing_out_deg     = 90.446
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4594.682
+easting_m           = 400048.492
+northing_m          = 2908140.630
+bearing_in_deg      = 90.446
+bearing_out_deg     = 0.444
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 9565.900
+easting_m           = 400086.938
+northing_m          = 2913103.907
+bearing_in_deg      = 0.444
+bearing_out_deg     = 0.444
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 9565.900
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 5445.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5445.900
+to_station_m   = 9565.900
+class          = "elevated"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-12-0938-0427-s000000"
+station_m         = 0.000
+platform_length_m = 59.500
+
+[[station]]
+id                = "line-12-0962-0561-s002879"
+station_m         = 2878.800
+platform_length_m = 59.500
+
+[[station]]
+id                = "line-12-0937-0636-s004586"
+station_m         = 4585.900
+platform_length_m = 59.500
+
+[[station]]
+id                = "line-12-0780-0636-s007726"
+station_m         = 7725.900
+platform_length_m = 59.500
+
+[[station]]
+id                = "line-12-0688-0636-s009566"
+station_m         = 9565.900
+platform_length_m = 59.500
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

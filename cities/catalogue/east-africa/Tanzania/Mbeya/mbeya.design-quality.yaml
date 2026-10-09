@@ -1,21 +1,21 @@
 slug: mbeya
 pass: true
 metrics:
-  total_route_m: 42042.2
-  n_lines: 3
-  n_stations: 22
-  anchor_hit_rate: 0.409
-  high_demand_coverage: 0.332
+  total_route_m: 82838.2
+  n_lines: 12
+  n_stations: 61
+  anchor_hit_rate: 0.164
+  high_demand_coverage: 0.529
   civil_mix_m:
-    at_grade: 7284.000
-    elevated: 34738.300
-    bridge:   20.000
-  elevated_fraction: 0.827
+    at_grade: 15294.6
+    elevated: 66211.1
+    bridge:   1332.5
+  elevated_fraction: 0.815
   viaduct_products_m:
-    osr_pi20_pi25: 34348.626
-    osr_us:      369.674
-    special:     20.000
-    realign:     20.000
+    osr_pi20_pi25: 62726.6
+    osr_us:      2881.7
+    special:     1332.5
+    realign:     602.8
   max_elevated_cost_multiplier: 26.471
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

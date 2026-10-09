@@ -1,21 +1,21 @@
 slug: jizan
 pass: true
 metrics:
-  total_route_m: 45285.5
-  n_lines: 3
-  n_stations: 25
-  anchor_hit_rate: 0.440
-  high_demand_coverage: 0.376
+  total_route_m: 79168.3
+  n_lines: 11
+  n_stations: 60
+  anchor_hit_rate: 0.150
+  high_demand_coverage: 0.415
   civil_mix_m:
-    at_grade: 8552.400
-    elevated: 36126.700
-    bridge:   606.400
-  elevated_fraction: 0.811
+    at_grade: 18466.6
+    elevated: 60095.4
+    bridge:   606.3
+  elevated_fraction: 0.767
   viaduct_products_m:
-    osr_pi20_pi25: 35833.582
-    osr_us:      253.118
-    special:     606.400
-    realign:     40.000
+    osr_pi20_pi25: 57586.9
+    osr_us:      2420.2
+    special:     606.3
+    realign:     88.3
   max_elevated_cost_multiplier: 14.014
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

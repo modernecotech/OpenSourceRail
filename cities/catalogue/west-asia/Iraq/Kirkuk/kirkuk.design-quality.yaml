@@ -1,21 +1,21 @@
 slug: kirkuk
 pass: true
 metrics:
-  total_route_m: 126120.1
-  n_lines: 5
-  n_stations: 54
-  anchor_hit_rate: 0.389
-  high_demand_coverage: 0.497
+  total_route_m: 219368.2
+  n_lines: 18
+  n_stations: 150
+  anchor_hit_rate: 0.147
+  high_demand_coverage: 0.656
   civil_mix_m:
-    at_grade: 5320.000
-    elevated: 112542.700
-    bridge:   8257.400
-  elevated_fraction: 0.958
+    at_grade: 29704.3
+    elevated: 179274.7
+    bridge:   10389.2
+  elevated_fraction: 0.865
   viaduct_products_m:
-    osr_pi20_pi25: 111068.728
-    osr_us:      1027.698
-    special:     8257.400
-    realign:     446.274
+    osr_pi20_pi25: 170264.0
+    osr_us:      7330.4
+    special:     10389.2
+    realign:     1680.2
   max_elevated_cost_multiplier: 33.805
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

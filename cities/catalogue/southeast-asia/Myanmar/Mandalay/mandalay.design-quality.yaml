@@ -1,21 +1,21 @@
 slug: mandalay
 pass: true
 metrics:
-  total_route_m: 233014.9
-  n_lines: 6
-  n_stations: 78
-  anchor_hit_rate: 0.295
-  high_demand_coverage: 0.536
+  total_route_m: 334786.0
+  n_lines: 20
+  n_stations: 223
+  anchor_hit_rate: 0.148
+  high_demand_coverage: 0.660
   civil_mix_m:
-    at_grade: 56326.100
-    elevated: 136217.400
-    bridge:   40471.400
-  elevated_fraction: 0.758
+    at_grade: 82987.6
+    elevated: 205791.1
+    bridge:   46007.3
+  elevated_fraction: 0.752
   viaduct_products_m:
-    osr_pi20_pi25: 130506.352
-    osr_us:      4155.780
-    special:     40471.400
-    realign:     1555.268
+    osr_pi20_pi25: 191075.6
+    osr_us:      12237.2
+    special:     46007.3
+    realign:     2478.2
   max_elevated_cost_multiplier: 28.886
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

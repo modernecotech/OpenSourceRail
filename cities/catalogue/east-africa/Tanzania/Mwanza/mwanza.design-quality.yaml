@@ -1,29 +1,29 @@
 slug: mwanza
 pass: true
 metrics:
-  total_route_m: 177298.0
-  n_lines: 6
-  n_stations: 101
-  anchor_hit_rate: 0.267
-  high_demand_coverage: 0.903
+  total_route_m: 264032.9
+  n_lines: 20
+  n_stations: 203
+  anchor_hit_rate: 0.153
+  high_demand_coverage: 0.911
   civil_mix_m:
-    at_grade: 17875.300
-    elevated: 157695.500
-    bridge:   1727.200
-  elevated_fraction: 0.899
+    at_grade: 33694.0
+    elevated: 228611.8
+    bridge:   1727.1
+  elevated_fraction: 0.872
   viaduct_products_m:
-    osr_pi20_pi25: 151065.101
-    osr_us:      5562.738
-    special:     1727.200
-    realign:     1067.661
-  max_elevated_cost_multiplier: 24.033
+    osr_pi20_pi25: 213219.2
+    osr_us:      12882.1
+    special:     1727.1
+    realign:     2510.5
+  max_elevated_cost_multiplier: 23.396
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

@@ -1,29 +1,29 @@
 slug: bahawalpur
 pass: true
 metrics:
-  total_route_m: 37541.3
-  n_lines: 3
-  n_stations: 18
-  anchor_hit_rate: 0.333
-  high_demand_coverage: 0.332
+  total_route_m: 74025.4
+  n_lines: 10
+  n_stations: 51
+  anchor_hit_rate: 0.196
+  high_demand_coverage: 0.517
   civil_mix_m:
-    at_grade: 4660.500
-    elevated: 32000.000
-    bridge:   880.800
-  elevated_fraction: 0.876
+    at_grade: 12881.0
+    elevated: 59823.6
+    bridge:   1320.8
+  elevated_fraction: 0.826
   viaduct_products_m:
-    osr_pi20_pi25: 31751.766
-    osr_us:      248.234
-    special:     880.800
-    realign:     0.000
-  max_elevated_cost_multiplier: 2.647
+    osr_pi20_pi25: 54855.1
+    osr_us:      4188.5
+    special:     1320.8
+    realign:     780.0
+  max_elevated_cost_multiplier: 34.615
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

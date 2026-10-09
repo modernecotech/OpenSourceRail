@@ -1,29 +1,29 @@
 slug: tanta
 pass: true
 metrics:
-  total_route_m: 70662.1
-  n_lines: 3
-  n_stations: 24
-  anchor_hit_rate: 0.375
-  high_demand_coverage: 0.583
+  total_route_m: 140359.2
+  n_lines: 12
+  n_stations: 88
+  anchor_hit_rate: 0.080
+  high_demand_coverage: 0.831
   civil_mix_m:
-    at_grade: 19174.000
-    elevated: 51371.600
-    bridge:   116.600
-  elevated_fraction: 0.729
+    at_grade: 48926.3
+    elevated: 91316.3
+    bridge:   116.6
+  elevated_fraction: 0.651
   viaduct_products_m:
-    osr_pi20_pi25: 51206.683
-    osr_us:      164.917
-    special:     116.600
-    realign:     0.000
-  max_elevated_cost_multiplier: 5.294
+    osr_pi20_pi25: 86420.7
+    osr_us:      4517.6
+    special:     116.6
+    realign:     378.0
+  max_elevated_cost_multiplier: 18.337
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

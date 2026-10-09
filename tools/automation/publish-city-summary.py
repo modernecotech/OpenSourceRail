@@ -212,6 +212,33 @@ Auto-planned by the OpenSourceRail design pipeline. Shared assumptions are in th
     return text.encode()
 
 
+def residential_context(design_path, baseline):
+    city=design_path.parent
+    path=city/'engineering/alignment/residential-line-expansion.json'
+    if not path.exists():return baseline
+    report=read(path)
+    for relative,digest in report['sources_sha256'].items():
+        if sha((ROOT/relative).read_bytes())!=digest:raise ValueError('Stale residential route source: '+relative)
+    evaluation_path=city/'engineering/alignment/residential-expansion-evaluation.json'
+    if not evaluation_path.exists():raise ValueError('Emitted station coverage evaluation is required before publication')
+    evaluation=read(evaluation_path)
+    for relative,digest in evaluation['sources_sha256'].items():
+        if sha((ROOT/relative).read_bytes())!=digest:raise ValueError('Stale residential coverage evaluation: '+relative)
+    fraction=evaluation['actual_emitted_station_radial_fraction']
+    coverage=(f"**{fraction:.1%}** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. "
+              f"The working target is {evaluation['target_radial_fraction']:.0%}; remaining areas and station/access alternatives remain in the review."
+              if fraction is not None else 'Native population-count evidence is unavailable; resident coverage and population-led additional lines are not invented.')
+    text=(f"**Population-led network revision ({report['as_of']}).** The controlled planning inventory contains "
+          f"**{evaluation['line_count']} lines**, including **{report['added_line_count']} additional residential lines**. "
+          f"{coverage} These are distance screens, not current census, surveyed walksheds or fare demand. "
+          "New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. "
+          "Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. "
+          "[Line additions and priorities](engineering/alignment/residential-line-expansion.json) · "
+          "[Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).\n\n")
+    marker='Auto-planned by';i=baseline.find(marker)
+    return baseline[:i]+text+baseline[i:] if i>=0 else baseline+text
+
+
 def current_catalogue_context(design_path, baseline):
     city=design_path.parent
     if not (city/'alignment-policy.toml').is_file():return baseline
@@ -274,7 +301,7 @@ def access_context(design_path, baseline):
 def publish(design, scenario, output, *, check=False, allow_stale_evidence=False):
     registry=tomllib.loads(CONFIG.read_text())['city']
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
-    baseline=access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None))
+    baseline=residential_context(design,access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)))
     if not entry:
         expected=current_catalogue_context(design,baseline).encode()
         if check:
@@ -299,7 +326,7 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
     manifest=city/'publication-manifest.json'
     sources={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in (Path(__file__),CONFIG,design,scenario,
         ROOT/'design/city-generation/src/osr_scenario/network_readme.py')}
-    for path in (city/'engineering/access/summary.json',city/'engineering/clearance/summary.json',ROOT/'tools/automation/city_access.py'):
+    for path in (city/'engineering/access/summary.json',city/'engineering/clearance/summary.json',city/'engineering/alignment/residential-line-expansion.json',city/'engineering/alignment/residential-expansion-evaluation.json',ROOT/'tools/automation/city_access.py'):
         if path.is_file():sources[path.relative_to(ROOT).as_posix()]=sha(path.read_bytes())
     study_summary=study/'summary.json'
     sources[study_summary.relative_to(ROOT).as_posix()]=sha(planned.get(study_summary,study_summary.read_bytes()))

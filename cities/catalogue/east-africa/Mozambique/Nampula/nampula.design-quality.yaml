@@ -1,29 +1,29 @@
 slug: nampula
 pass: true
 metrics:
-  total_route_m: 42183.7
-  n_lines: 3
-  n_stations: 17
-  anchor_hit_rate: 0.529
-  high_demand_coverage: 0.391
+  total_route_m: 84354.5
+  n_lines: 16
+  n_stations: 65
+  anchor_hit_rate: 0.185
+  high_demand_coverage: 0.625
   civil_mix_m:
-    at_grade: 3364.400
-    elevated: 38779.400
-    bridge:   40.000
-  elevated_fraction: 0.920
+    at_grade: 7405.3
+    elevated: 76860.9
+    bridge:   88.3
+  elevated_fraction: 0.912
   viaduct_products_m:
-    osr_pi20_pi25: 38491.149
-    osr_us:      288.251
-    special:     40.000
-    realign:     0.000
-  max_elevated_cost_multiplier: 4.496
+    osr_pi20_pi25: 72855.0
+    osr_us:      3279.7
+    special:     88.3
+    realign:     726.3
+  max_elevated_cost_multiplier: 20.612
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

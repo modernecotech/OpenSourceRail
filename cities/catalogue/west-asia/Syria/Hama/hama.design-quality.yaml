@@ -1,22 +1,22 @@
 slug: hama
 pass: true
 metrics:
-  total_route_m: 41720.1
-  n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.474
-  high_demand_coverage: 0.516
+  total_route_m: 83256.5
+  n_lines: 11
+  n_stations: 57
+  anchor_hit_rate: 0.333
+  high_demand_coverage: 0.662
   civil_mix_m:
-    at_grade: 5816.500
-    elevated: 28927.400
-    bridge:   6976.200
-  elevated_fraction: 0.861
+    at_grade: 17872.5
+    elevated: 57302.2
+    bridge:   8081.8
+  elevated_fraction: 0.785
   viaduct_products_m:
-    osr_pi20_pi25: 28859.116
-    osr_us:      68.284
-    special:     6976.200
-    realign:     0.000
-  max_elevated_cost_multiplier: 1.475
+    osr_pi20_pi25: 54147.4
+    osr_us:      2753.4
+    special:     8081.8
+    realign:     401.4
+  max_elevated_cost_multiplier: 11.621
 gates:
   hard:
     has_stations:      true
@@ -25,5 +25,5 @@ gates:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

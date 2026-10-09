@@ -1,29 +1,29 @@
 slug: maputo
 pass: true
 metrics:
-  total_route_m: 160369.6
-  n_lines: 6
-  n_stations: 75
-  anchor_hit_rate: 0.253
-  high_demand_coverage: 0.603
+  total_route_m: 259312.2
+  n_lines: 23
+  n_stations: 190
+  anchor_hit_rate: 0.121
+  high_demand_coverage: 0.673
   civil_mix_m:
-    at_grade: 51464.200
-    elevated: 104592.500
-    bridge:   4313.000
-  elevated_fraction: 0.679
+    at_grade: 82633.3
+    elevated: 171493.9
+    bridge:   5185.0
+  elevated_fraction: 0.681
   viaduct_products_m:
-    osr_pi20_pi25: 101433.724
-    osr_us:      2392.486
-    special:     4313.000
-    realign:     766.290
-  max_elevated_cost_multiplier: 46.106
+    osr_pi20_pi25: 159427.2
+    osr_us:      9991.3
+    special:     5185.0
+    realign:     2075.4
+  max_elevated_cost_multiplier: 46.022
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

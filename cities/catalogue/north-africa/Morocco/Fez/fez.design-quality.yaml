@@ -1,29 +1,29 @@
 slug: fez
 pass: true
 metrics:
-  total_route_m: 92586.8
-  n_lines: 4
-  n_stations: 40
-  anchor_hit_rate: 0.350
-  high_demand_coverage: 0.531
+  total_route_m: 109147.6
+  n_lines: 9
+  n_stations: 74
+  anchor_hit_rate: 0.176
+  high_demand_coverage: 0.589
   civil_mix_m:
-    at_grade: 3536.000
-    elevated: 87750.100
-    bridge:   1300.700
-  elevated_fraction: 0.962
+    at_grade: 3536.0
+    elevated: 104165.9
+    bridge:   1445.7
+  elevated_fraction: 0.968
   viaduct_products_m:
-    osr_pi20_pi25: 85813.307
-    osr_us:      1607.107
-    special:     1300.700
-    realign:     329.686
-  max_elevated_cost_multiplier: 23.734
+    osr_pi20_pi25: 101553.1
+    osr_us:      2443.1
+    special:     1445.7
+    realign:     169.7
+  max_elevated_cost_multiplier: 8.220
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

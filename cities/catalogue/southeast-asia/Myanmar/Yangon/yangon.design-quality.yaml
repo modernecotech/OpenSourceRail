@@ -1,29 +1,29 @@
 slug: yangon
-pass: true
+pass: false
 metrics:
-  total_route_m: 447795.2
-  n_lines: 9
-  n_stations: 229
-  anchor_hit_rate: 0.253
-  high_demand_coverage: 0.535
+  total_route_m: 656078.7
+  n_lines: 32
+  n_stations: 488
+  anchor_hit_rate: 0.166
+  high_demand_coverage: 0.851
   civil_mix_m:
-    at_grade: 95996.200
-    elevated: 310706.800
-    bridge:   41092.200
-  elevated_fraction: 0.786
+    at_grade: 125453.7
+    elevated: 477859.9
+    bridge:   52765.2
+  elevated_fraction: 0.809
   viaduct_products_m:
-    osr_pi20_pi25: 301036.711
-    osr_us:      7989.824
-    special:     41092.200
-    realign:     1680.265
+    osr_pi20_pi25: 446779.3
+    osr_us:      26054.4
+    special:     52765.2
+    realign:     5026.2
   max_elevated_cost_multiplier: 30.870
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

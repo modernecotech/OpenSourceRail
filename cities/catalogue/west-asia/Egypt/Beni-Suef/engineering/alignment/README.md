@@ -4,9 +4,13 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`beni-suef-line1.aln.toml`](beni-suef-line1.aln.toml) | `line-1` | 11,237.9 m | 5 |
-| [`beni-suef-line2.aln.toml`](beni-suef-line2.aln.toml) | `line-2` | 10,199.8 m | 4 |
-| [`beni-suef-line3.aln.toml`](beni-suef-line3.aln.toml) | `line-3` | 7,756.4 m | 5 |
+| [`beni-suef-line1.aln.toml`](beni-suef-line1.aln.toml) | `line-1` | 11,237.9 m | 6 |
+| [`beni-suef-line2.aln.toml`](beni-suef-line2.aln.toml) | `line-2` | 10,199.8 m | 8 |
+| [`beni-suef-line3.aln.toml`](beni-suef-line3.aln.toml) | `line-3` | 7,756.4 m | 6 |
+| [`beni-suef-line4.aln.toml`](beni-suef-line4.aln.toml) | `line-4` | 2,657.6 m | 2 |
+| [`beni-suef-line5.aln.toml`](beni-suef-line5.aln.toml) | `line-5` | 12,642.2 m | 7 |
+| [`beni-suef-line6.aln.toml`](beni-suef-line6.aln.toml) | `line-6` | 9,124.1 m | 5 |
+| [`beni-suef-line7.aln.toml`](beni-suef-line7.aln.toml) | `line-7` | 3,225.9 m | 3 |
 
 ## Status
 

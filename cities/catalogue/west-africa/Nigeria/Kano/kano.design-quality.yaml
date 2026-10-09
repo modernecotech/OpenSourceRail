@@ -1,29 +1,29 @@
 slug: kano
-pass: true
+pass: false
 metrics:
-  total_route_m: 404138.2
-  n_lines: 9
-  n_stations: 168
-  anchor_hit_rate: 0.220
-  high_demand_coverage: 0.467
+  total_route_m: 689218.5
+  n_lines: 40
+  n_stations: 488
+  anchor_hit_rate: 0.107
+  high_demand_coverage: 0.683
   civil_mix_m:
-    at_grade: 45938.300
-    elevated: 313924.400
-    bridge:   44275.500
-  elevated_fraction: 0.886
+    at_grade: 89112.9
+    elevated: 507930.2
+    bridge:   92175.4
+  elevated_fraction: 0.871
   viaduct_products_m:
-    osr_pi20_pi25: 311518.018
-    osr_us:      1806.986
-    special:     44275.500
-    realign:     599.396
-  max_elevated_cost_multiplier: 27.355
+    osr_pi20_pi25: 486974.0
+    osr_us:      18117.9
+    special:     92175.4
+    realign:     2838.2
+  max_elevated_cost_multiplier: 29.997
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

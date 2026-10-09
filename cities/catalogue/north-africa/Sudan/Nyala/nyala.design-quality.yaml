@@ -1,29 +1,29 @@
 slug: nyala
 pass: true
 metrics:
-  total_route_m: 38859.2
-  n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.316
-  high_demand_coverage: 0.459
+  total_route_m: 77217.2
+  n_lines: 12
+  n_stations: 56
+  anchor_hit_rate: 0.179
+  high_demand_coverage: 0.685
   civil_mix_m:
-    at_grade: 1742.900
-    elevated: 31915.600
-    bridge:   5200.700
-  elevated_fraction: 0.955
+    at_grade: 2822.8
+    elevated: 59305.7
+    bridge:   15088.7
+  elevated_fraction: 0.963
   viaduct_products_m:
-    osr_pi20_pi25: 31807.358
-    osr_us:      79.958
-    special:     5200.700
-    realign:     28.284
-  max_elevated_cost_multiplier: 9.529
+    osr_pi20_pi25: 56234.3
+    osr_us:      2573.4
+    special:     15088.7
+    realign:     498.0
+  max_elevated_cost_multiplier: 14.413
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

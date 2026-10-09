@@ -1,21 +1,21 @@
 slug: dammam
 pass: true
 metrics:
-  total_route_m: 267799.4
-  n_lines: 6
-  n_stations: 107
-  anchor_hit_rate: 0.243
-  high_demand_coverage: 0.418
+  total_route_m: 454796.4
+  n_lines: 31
+  n_stations: 302
+  anchor_hit_rate: 0.103
+  high_demand_coverage: 0.621
   civil_mix_m:
-    at_grade: 92368.000
-    elevated: 174168.500
-    bridge:   1262.800
-  elevated_fraction: 0.655
+    at_grade: 149231.4
+    elevated: 304302.1
+    bridge:   1262.8
+  elevated_fraction: 0.672
   viaduct_products_m:
-    osr_pi20_pi25: 168766.828
-    osr_us:      4635.422
-    special:     1262.800
-    realign:     766.250
+    osr_pi20_pi25: 285295.3
+    osr_us:      16816.3
+    special:     1262.8
+    realign:     2190.5
   max_elevated_cost_multiplier: 40.076
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

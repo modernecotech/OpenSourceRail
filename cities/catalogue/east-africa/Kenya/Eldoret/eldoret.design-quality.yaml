@@ -1,29 +1,29 @@
 slug: eldoret
 pass: true
 metrics:
-  total_route_m: 55146.1
-  n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.368
-  high_demand_coverage: 0.601
+  total_route_m: 109322.7
+  n_lines: 16
+  n_stations: 79
+  anchor_hit_rate: 0.190
+  high_demand_coverage: 0.697
   civil_mix_m:
-    at_grade: 12551.000
-    elevated: 40725.600
-    bridge:   1869.400
-  elevated_fraction: 0.772
+    at_grade: 12998.8
+    elevated: 91423.0
+    bridge:   4901.0
+  elevated_fraction: 0.881
   viaduct_products_m:
-    osr_pi20_pi25: 40597.316
-    osr_us:      128.284
-    special:     1869.400
-    realign:     0.000
-  max_elevated_cost_multiplier: 5.294
+    osr_pi20_pi25: 85636.8
+    osr_us:      5388.2
+    special:     4901.0
+    realign:     398.0
+  max_elevated_cost_multiplier: 8.430
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

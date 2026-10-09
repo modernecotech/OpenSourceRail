@@ -1,29 +1,29 @@
 slug: gujranwala
 pass: true
 metrics:
-  total_route_m: 175061.5
-  n_lines: 5
-  n_stations: 56
-  anchor_hit_rate: 0.357
-  high_demand_coverage: 0.470
+  total_route_m: 351781.8
+  n_lines: 33
+  n_stations: 266
+  anchor_hit_rate: 0.083
+  high_demand_coverage: 0.607
   civil_mix_m:
-    at_grade: 33399.800
-    elevated: 139373.200
-    bridge:   2288.500
-  elevated_fraction: 0.809
+    at_grade: 85442.9
+    elevated: 260835.3
+    bridge:   5503.6
+  elevated_fraction: 0.757
   viaduct_products_m:
-    osr_pi20_pi25: 137942.696
-    osr_us:      1197.412
-    special:     2288.500
-    realign:     233.092
-  max_elevated_cost_multiplier: 19.189
+    osr_pi20_pi25: 247035.0
+    osr_us:      11572.3
+    special:     5503.6
+    realign:     2227.9
+  max_elevated_cost_multiplier: 23.084
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

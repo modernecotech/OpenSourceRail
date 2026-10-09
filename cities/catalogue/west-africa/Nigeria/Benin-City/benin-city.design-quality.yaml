@@ -1,29 +1,29 @@
 slug: benin-city
 pass: true
 metrics:
-  total_route_m: 105938.5
-  n_lines: 5
-  n_stations: 47
-  anchor_hit_rate: 0.340
-  high_demand_coverage: 0.670
+  total_route_m: 212598.5
+  n_lines: 28
+  n_stations: 159
+  anchor_hit_rate: 0.195
+  high_demand_coverage: 0.789
   civil_mix_m:
-    at_grade: 15076.100
-    elevated: 85002.100
-    bridge:   5860.300
-  elevated_fraction: 0.858
+    at_grade: 18016.1
+    elevated: 178141.3
+    bridge:   16441.0
+  elevated_fraction: 0.915
   viaduct_products_m:
-    osr_pi20_pi25: 82866.714
-    osr_us:      1549.112
-    special:     5860.300
-    realign:     586.274
-  max_elevated_cost_multiplier: 30.055
+    osr_pi20_pi25: 165522.7
+    osr_us:      10573.5
+    special:     16441.0
+    realign:     2045.1
+  max_elevated_cost_multiplier: 25.585
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

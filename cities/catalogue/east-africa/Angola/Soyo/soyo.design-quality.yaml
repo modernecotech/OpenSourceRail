@@ -1,29 +1,29 @@
 slug: soyo
 pass: true
 metrics:
-  total_route_m: 20980.6
-  n_lines: 3
-  n_stations: 17
-  anchor_hit_rate: 0.353
-  high_demand_coverage: 0.151
+  total_route_m: 41767.9
+  n_lines: 6
+  n_stations: 36
+  anchor_hit_rate: 0.194
+  high_demand_coverage: 0.325
   civil_mix_m:
-    at_grade: 3892.200
-    elevated: 16806.900
-    bridge:   281.500
-  elevated_fraction: 0.814
+    at_grade: 12442.8
+    elevated: 28758.8
+    bridge:   566.3
+  elevated_fraction: 0.702
   viaduct_products_m:
-    osr_pi20_pi25: 16642.053
-    osr_us:      136.568
-    special:     281.500
-    realign:     28.279
-  max_elevated_cost_multiplier: 6.550
+    osr_pi20_pi25: 27251.7
+    osr_us:      1422.3
+    special:     566.3
+    realign:     84.9
+  max_elevated_cost_multiplier: 8.430
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
-    anchor_hit_ge_0.20: true
+    coverage_ge_0.30:   true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

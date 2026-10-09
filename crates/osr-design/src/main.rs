@@ -558,7 +558,7 @@ fn main() -> Result<()> {
     // Forced shared interchanges are the only intentional close-stop
     // exception. A wider metadata snap labels nearby hospitals, universities,
     // and other anchors without moving platforms off the routed corridor.
-    let spacing = SpacingConfig {
+    let mut spacing = SpacingConfig {
         urban_core_m: 1600.0,
         urban_m: 3000.0,
         peri_urban_m: 7000.0,
@@ -566,6 +566,25 @@ fn main() -> Result<()> {
         snap_radius_cells: 25,
         ..SpacingConfig::default()
     };
+    let spacing_policy_path = args.out_dir.join("station-spacing-policy.toml");
+    if spacing_policy_path.is_file() {
+        #[derive(serde::Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct StationSpacingPolicy {
+            maximum_gap_m: f64,
+            basis: String,
+        }
+        let policy: StationSpacingPolicy =
+            toml::from_str(&std::fs::read_to_string(&spacing_policy_path)?)?;
+        anyhow::ensure!(
+            (1200.0..=2000.0).contains(&policy.maximum_gap_m) && !policy.basis.trim().is_empty(),
+            "population-led station spacing requires a 1200–2000 m cap and a planning basis"
+        );
+        spacing.urban_core_m = spacing.urban_core_m.min(policy.maximum_gap_m);
+        spacing.urban_m = spacing.urban_m.min(policy.maximum_gap_m);
+        spacing.peri_urban_m = spacing.peri_urban_m.min(policy.maximum_gap_m);
+        spacing.outer_m = spacing.outer_m.min(policy.maximum_gap_m);
+    }
     let alignment_policy = alignment_policy::Policy::load(&args.out_dir)?;
     for line in &lines {
         let stations = place_stations(
@@ -582,6 +601,57 @@ fn main() -> Result<()> {
             Some(policy) => policy.classify(&line.name, &bundle.grid, &line.cells, &classified),
             None => classified,
         });
+    }
+
+    let residential_path = args
+        .out_dir
+        .join("engineering/alignment/residential-line-expansion.json");
+    if residential_path.is_file() {
+        #[derive(serde::Deserialize)]
+        struct ResidentialLine {
+            line: String,
+            priority_cells: Vec<(usize, usize)>,
+        }
+        #[derive(serde::Deserialize)]
+        struct ResidentialPlan {
+            city: String,
+            #[serde(default)]
+            planned_stop_cells_by_line: std::collections::BTreeMap<String, Vec<(usize, usize)>>,
+            #[serde(default)]
+            added_lines: Vec<ResidentialLine>,
+        }
+        let mut plan: ResidentialPlan =
+            serde_json::from_str(&std::fs::read_to_string(residential_path)?)?;
+        anyhow::ensure!(
+            plan.city == args.slug,
+            "residential planning register belongs to another city"
+        );
+        let mut priority_sites = std::collections::BTreeMap::new();
+        for line in plan.added_lines {
+            priority_sites.insert(line.line, line.priority_cells);
+        }
+        for sites in plan.planned_stop_cells_by_line.values_mut() {
+            sites.sort_unstable();
+            sites.dedup();
+        }
+        let mut issues = osr_routing::force_planning_station_sites(
+            &mut all_stations,
+            &lines,
+            &bundle.grid,
+            &plan.planned_stop_cells_by_line,
+            false,
+        );
+        issues.extend(osr_routing::force_planning_station_sites(
+            &mut all_stations,
+            &lines,
+            &bundle.grid,
+            &priority_sites,
+            true,
+        ));
+        anyhow::ensure!(
+            issues.is_empty(),
+            "invalid residential stop sites: {issues:?}"
+        );
     }
 
     // Force every radial through one CBD interchange. Without this each
@@ -650,7 +720,7 @@ fn main() -> Result<()> {
     // Assign groups once before consolidation so forced transfer platforms
     // outrank nearby ordinary stops; the final merge below renumbers the
     // retained complexes after gap repair.
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
 
     let filled_station_gaps = osr_routing::fill_large_station_gaps(
@@ -682,7 +752,7 @@ fn main() -> Result<()> {
         &bundle.anchors,
         30,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
     let terminal_repair_gaps = osr_routing::fill_large_station_gaps(
         &mut all_stations,
@@ -699,7 +769,7 @@ fn main() -> Result<()> {
     // to a stable station set, including the ring's first/last interval.
     let mut final_stations_removed = 0;
     for _ in 0..4 {
-        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        osr_routing::merge_interchanges(&mut all_stations, 600.0);
         let before = all_stations.len();
         osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
         osr_routing::consolidate_ring_wrap_station_clusters(
@@ -740,9 +810,9 @@ fn main() -> Result<()> {
     // ring-crossing threshold: the old 200 m forcing / 500 m merging / 200 m
     // archetype trio produced grouped transfers that were subsequently
     // labelled as ordinary stations.
-    // A 700 m grouping radius covers the small raster-to-geodesic mismatch at
-    // the edge of the 600 m grid transfer envelope without placing extra stops.
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    // The 600 m limit applies to actual retained platform coordinates and the
+    // full diameter of each complex; raster proximity is only a site screen.
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     let before_post_terminal_settling = all_stations.len();
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
     let post_terminal_inline_removed = before_post_terminal_settling - all_stations.len();
@@ -753,7 +823,7 @@ fn main() -> Result<()> {
         1200.0,
     );
     if post_terminal_inline_removed > 0 || post_terminal_wrap_removed > 0 {
-        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        osr_routing::merge_interchanges(&mut all_stations, 600.0);
     }
     // The final settling pass can remove the only grouped platform for a
     // mandatory ring/radial transfer in tight corridors. Reassert these pairs
@@ -772,7 +842,7 @@ fn main() -> Result<()> {
         &bundle.anchors,
         30,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     osr_routing::force_ring_radial_group_ids(
         &mut all_stations,
         &lines,
@@ -786,13 +856,16 @@ fn main() -> Result<()> {
         bundle.grid.reference.cell_m,
         1200.0,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     osr_routing::force_ring_radial_group_ids(
         &mut all_stations,
         &lines,
         bundle.grid.reference.cell_m,
         600.0,
     );
+    // Mandatory pair repairs must not create a transitive oversized complex.
+    // Validate the final retained platforms with the same complete-link bound.
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     let merged_count = all_stations
         .iter()
         .filter_map(|s| s.junction_group)
@@ -811,7 +884,7 @@ fn main() -> Result<()> {
         &bundle.grid,
         &bundle.anchors,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     // Legacy hub/near-miss forcing can leave a wet speculative platform in
     // a complex that already has a dry platform at its actual crossing.
     // Remove that redundant record rather than move the real crossing away.
@@ -834,7 +907,7 @@ fn main() -> Result<()> {
         }
         !redundant
     });
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     water_platform_moves.extend(alignment_policy::relocate_water_platforms_with_limit(
         &mut all_stations,
         &lines,
@@ -851,7 +924,7 @@ fn main() -> Result<()> {
         // stops inside one spacing envelope. Rebuild the actual complexes and
         // retain the higher-priority stop using the same endpoint/interchange
         // rules as the initial layout. Never emit a wet replacement platform.
-        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        osr_routing::merge_interchanges(&mut all_stations, 600.0);
         let before = all_stations.clone();
         osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
         osr_routing::consolidate_ring_wrap_station_clusters(
@@ -873,7 +946,7 @@ fn main() -> Result<()> {
                 "basis": "Retain endpoint/interchange priority and the 1.2 km spacing requirement after bank selection; recalculate stations, service and costs from the retained layout."
             }));
         }
-        osr_routing::merge_interchanges(&mut all_stations, 700.0);
+        osr_routing::merge_interchanges(&mut all_stations, 600.0);
         // Geodesic merging can erase a mandatory ring/terminal pair at the
         // edge of the grid transfer envelope. Restore group IDs for the
         // retained dry platforms, without inserting a replacement over water.
@@ -892,7 +965,7 @@ fn main() -> Result<()> {
         bundle.grid.reference.cell_m,
         1200.0,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     let mut layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,

@@ -371,6 +371,7 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_delivery.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_deployment.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "tools/automation/audit-city-access.py"), "--city", slug, "--fetch-population"],
+        [sys.executable, str(REPO_ROOT / "tools/automation/evaluate-residential-expansion.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "tools/automation/audit-viaduct-clearance.py"), "--city", slug, "--retain-inputs", "--fetch-terrain"],
         [
             sys.executable,
@@ -406,6 +407,8 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
     # Funding reads deterministic procurement CSVs. Refresh it after operations
     # have produced the current schedule, then bind the twin to final finance.
     commands[3:3] = [
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-city-finance.py"), "--design", str(design_path)],
+        [sys.executable, str(REPO_ROOT / "tools/automation/generate-qa-maintenance-data.py"), "--design", str(design_path), "--scenario", str(scenario_path), "--out-dir", str(operations_dir)],
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-city-finance.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-qa-maintenance-data.py"), "--design", str(design_path), "--scenario", str(scenario_path), "--out-dir", str(operations_dir)],
     ]
@@ -494,9 +497,14 @@ def main() -> int:
     parser.add_argument("--resynthesise-design", action="store_true", help="explicitly replace existing controlled layout from corridor inputs; default refreshes the current design")
     parser.add_argument('--current-design-logic',action='store_true',help='adopt controlled elevated-core geometry and line-local full-fleet depots')
     parser.add_argument('--prepare-only',action='store_true',help='regenerate layouts/scenarios/maps; retain an explicit incomplete batch receipt until engineering is refreshed')
+    parser.add_argument('--finish-only',action='store_true',help='preserve frozen layouts/scenarios and refresh engineering and dependent packages')
+    parser.add_argument('--native-ci-root',type=Path,help='verified native artifact root containing one folder per city')
+    parser.add_argument('--native-ci-commit',help='exact source commit of imported native artifacts')
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
+    if args.prepare_only and args.finish_only:parser.error('prepare-only and finish-only are mutually exclusive')
+    if (args.native_ci_root is None)!=(args.native_ci_commit is None):parser.error('native artifact root and exact commit are required together')
 
     available = discover_designs()
     requested = {slug.strip() for slug in args.only.split(",") if slug.strip()}
@@ -512,7 +520,7 @@ def main() -> int:
     started = time.monotonic()
     SUMMARY_PATH.unlink(missing_ok=True)
 
-    cost_model_return_code = run_logged(
+    cost_model_return_code = 0 if args.finish_only else run_logged(
         [sys.executable, str(REPO_ROOT / "tools/automation/generate-civil-cost-model.py")],
         LOG_ROOT / "package-civil-cost-model.log",
     )
@@ -520,7 +528,7 @@ def main() -> int:
         print(f"FAIL civil cost model — see {LOG_ROOT / 'package-civil-cost-model.log'}")
         return 1
 
-    build_return_code = run_logged(
+    build_return_code = 0 if args.finish_only else run_logged(
         ["cargo", "build", "--release", "--bin", "osr-design"],
         LOG_ROOT / "package-design-build.log",
     )
@@ -528,7 +536,7 @@ def main() -> int:
         print(f"FAIL design generator build — see {LOG_ROOT / 'package-design-build.log'}")
         return 1
 
-    prepared = run_parallel(
+    prepared = {slug:dict(city=slug,passed=True,phase='frozen-layout-reuse') for slug in selected} if args.finish_only else run_parallel(
         selected,
         args.jobs,
         lambda slug, path: prepare_city(
@@ -596,7 +604,8 @@ def main() -> int:
     finished = run_parallel(
         {slug: ready[slug] for slug in sorted(engineering_ok)},
         args.jobs,
-        lambda slug, path: finish_city(slug, path, resilience_jobs),
+        lambda slug, path: finish_city(slug, path, resilience_jobs,
+            args.native_ci_root/slug if args.native_ci_root is not None else None,args.native_ci_commit),
     )
 
     drift_return_code = run_logged(

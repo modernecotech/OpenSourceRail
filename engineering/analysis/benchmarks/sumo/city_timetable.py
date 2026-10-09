@@ -137,6 +137,7 @@ def generate_city(
     routes = ET.Element("routes")
     line_reports: list[dict[str, object]] = []
     input_issues: list[dict[str, object]] = []
+    short_controlled_segments: list[dict[str, object]] = []
     expected_service_ids: set[str] = set()
     service_line_by_id: dict[str, str] = {}
     maximum_departure = 0
@@ -217,10 +218,19 @@ def generate_city(
                 else declared_length + chainages[0]
             )
             segment_length = segment_end_chainage - chainages[segment_index]
-            if segment_length <= 60.0:
+            first=stations[segment_index];last=stations[next_station_index]
+            controlled_pair=(first.get('mandatory_crossing') and last.get('mandatory_crossing')) or (
+                (segment_index==0 or next_station_index==len(stations)-1) and
+                (first.get('mandatory_crossing') or last.get('mandatory_crossing')))
+            if segment_length < 40.0-.1 or segment_length<=60.0 and not controlled_pair:
                 raise RuntimeError(
                     f"{city_slug}/{line_name}: segment {segment_index} is only {segment_length:.3f} m"
                 )
+            if segment_length<=60.0:
+                short_controlled_segments.append(dict(line=line_name,stations=[first['id'],last['id']],
+                    segment_length_m=segment_length,geometry_modified=False,
+                    basis='Native distinct-crossing/terminal exception; actual edge retained, train occupies preceding blocks as required.',
+                    station_structure_and_operating_acceptance=False))
             segment_lengths.append(segment_length)
             forward = f"{prefix}_f{segment_index:03d}"
             reverse = f"{prefix}_r{segment_index:03d}"
@@ -379,6 +389,8 @@ def generate_city(
         "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "local_coordinate_origin": {"latitude": lat0, "longitude": lon0},
         "input_issues": input_issues,
+        "short_controlled_segments": short_controlled_segments,
+        "train_block_occupancy_reference": "https://sumo.dlr.de/docs/Simulation/Railways.html#effects_of_train_length",
         "input_quality_passed": not input_issues,
         "line_count": len(line_reports),
         "lines": line_reports,

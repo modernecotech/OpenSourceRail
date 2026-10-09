@@ -1,29 +1,29 @@
 slug: niamey
 pass: true
 metrics:
-  total_route_m: 141759.5
-  n_lines: 6
-  n_stations: 64
-  anchor_hit_rate: 0.359
-  high_demand_coverage: 0.495
+  total_route_m: 286621.9
+  n_lines: 33
+  n_stations: 228
+  anchor_hit_rate: 0.127
+  high_demand_coverage: 0.610
   civil_mix_m:
-    at_grade: 8189.100
-    elevated: 127545.500
-    bridge:   6025.000
-  elevated_fraction: 0.942
+    at_grade: 48836.9
+    elevated: 229385.2
+    bridge:   8399.8
+  elevated_fraction: 0.830
   viaduct_products_m:
-    osr_pi20_pi25: 124224.478
-    osr_us:      2083.631
-    special:     6025.000
-    realign:     1237.391
-  max_elevated_cost_multiplier: 29.414
+    osr_pi20_pi25: 211814.2
+    osr_us:      13692.6
+    special:     8399.8
+    realign:     3878.5
+  max_elevated_cost_multiplier: 35.013
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

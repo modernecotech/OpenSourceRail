@@ -81,3 +81,5 @@ predecessors and finite crews. Its `civil` budget comes from the same generated
 rate contract as city CAPEX; charging work is assigned to energy assets, not an
 overhead placeholder. Survey, geotechnical, utilities, local temporary works,
 permits and engineer release remain recorded gates rather than invented data.
+
+[Population-led additional lines and country regeneration](population-led-network-regeneration.md) describes immutable baselines, actual station coverage, native junction checks and finite construction plant.

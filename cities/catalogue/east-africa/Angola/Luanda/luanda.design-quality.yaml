@@ -1,29 +1,29 @@
 slug: luanda
-pass: true
+pass: false
 metrics:
-  total_route_m: 359620.5
-  n_lines: 9
-  n_stations: 149
-  anchor_hit_rate: 0.208
-  high_demand_coverage: 0.517
+  total_route_m: 686559.9
+  n_lines: 45
+  n_stations: 507
+  anchor_hit_rate: 0.089
+  high_demand_coverage: 0.663
   civil_mix_m:
-    at_grade: 65239.300
-    elevated: 286965.900
-    bridge:   7415.400
-  elevated_fraction: 0.819
+    at_grade: 103001.7
+    elevated: 571561.2
+    bridge:   11997.0
+  elevated_fraction: 0.850
   viaduct_products_m:
-    osr_pi20_pi25: 283448.328
-    osr_us:      3224.435
-    special:     7415.400
-    realign:     293.137
-  max_elevated_cost_multiplier: 19.485
+    osr_pi20_pi25: 541063.3
+    osr_us:      26959.5
+    special:     11997.0
+    realign:     3538.5
+  max_elevated_cost_multiplier: 25.705
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

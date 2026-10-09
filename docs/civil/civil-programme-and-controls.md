@@ -1,6 +1,6 @@
 # Civil programme and workface controls
 
-This is the scheduling and execution interface for the [civil master plan](civil-works-master-plan.md). The [generated package graph](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/package-dependencies.json) includes all fourteen civil packages per line and links the nine complete-line opening requirements. It supplies logic and quantities; dates stay unknown where surveyed scope, measured rates, contract calendars or release dates are missing.
+This is the scheduling and execution interface for the [civil master plan](civil-works-master-plan.md). The [generated package graph](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/package-dependencies.json) includes all fourteen civil packages per line and links the complete-line opening requirements for every current line. It supplies logic and quantities; dates stay unknown where surveyed scope, measured rates, contract calendars or release dates are missing.
 
 ## Work-breakdown and asset records
 

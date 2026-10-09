@@ -1,29 +1,29 @@
 slug: lira
 pass: true
 metrics:
-  total_route_m: 38810.8
-  n_lines: 3
-  n_stations: 15
-  anchor_hit_rate: 0.667
-  high_demand_coverage: 0.539
+  total_route_m: 77291.1
+  n_lines: 11
+  n_stations: 52
+  anchor_hit_rate: 0.192
+  high_demand_coverage: 0.588
   civil_mix_m:
-    at_grade: 11683.400
-    elevated: 27127.400
-    bridge:   0.000
-  elevated_fraction: 0.699
+    at_grade: 24009.9
+    elevated: 53281.1
+    bridge:   0.0
+  elevated_fraction: 0.689
   viaduct_products_m:
-    osr_pi20_pi25: 26632.832
-    osr_us:      426.323
-    special:     0.000
-    realign:     68.245
-  max_elevated_cost_multiplier: 8.267
+    osr_pi20_pi25: 50471.2
+    osr_us:      2332.0
+    special:     0.0
+    realign:     478.0
+  max_elevated_cost_multiplier: 14.413
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

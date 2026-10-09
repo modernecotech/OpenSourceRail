@@ -1,29 +1,29 @@
 slug: vientiane
 pass: true
 metrics:
-  total_route_m: 62130.6
-  n_lines: 3
-  n_stations: 22
-  anchor_hit_rate: 0.455
-  high_demand_coverage: 0.288
+  total_route_m: 124003.7
+  n_lines: 16
+  n_stations: 83
+  anchor_hit_rate: 0.217
+  high_demand_coverage: 0.581
   civil_mix_m:
-    at_grade: 11532.700
-    elevated: 45294.900
-    bridge:   5303.000
-  elevated_fraction: 0.814
+    at_grade: 26406.3
+    elevated: 89676.3
+    bridge:   7921.2
+  elevated_fraction: 0.787
   viaduct_products_m:
-    osr_pi20_pi25: 45234.924
-    osr_us:      59.976
-    special:     5303.000
-    realign:     0.000
-  max_elevated_cost_multiplier: 2.186
+    osr_pi20_pi25: 81413.5
+    osr_us:      6438.5
+    special:     7921.2
+    realign:     1824.3
+  max_elevated_cost_multiplier: 27.919
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
+    coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

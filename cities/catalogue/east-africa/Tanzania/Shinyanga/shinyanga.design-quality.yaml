@@ -1,29 +1,29 @@
 slug: shinyanga
 pass: true
 metrics:
-  total_route_m: 28305.8
-  n_lines: 3
-  n_stations: 12
-  anchor_hit_rate: 0.583
-  high_demand_coverage: 0.696
+  total_route_m: 56215.8
+  n_lines: 9
+  n_stations: 42
+  anchor_hit_rate: 0.167
+  high_demand_coverage: 0.702
   civil_mix_m:
-    at_grade: 7048.100
-    elevated: 20189.400
-    bridge:   1068.300
-  elevated_fraction: 0.751
+    at_grade: 7048.1
+    elevated: 43981.5
+    bridge:   5186.2
+  elevated_fraction: 0.875
   viaduct_products_m:
-    osr_pi20_pi25: 20032.869
-    osr_us:      136.563
-    special:     1068.300
-    realign:     19.968
-  max_elevated_cost_multiplier: 6.754
+    osr_pi20_pi25: 41240.5
+    osr_us:      2483.1
+    special:     5186.2
+    realign:     258.0
+  max_elevated_cost_multiplier: 8.430
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

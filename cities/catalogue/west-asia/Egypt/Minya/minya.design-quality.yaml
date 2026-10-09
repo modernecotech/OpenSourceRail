@@ -1,29 +1,29 @@
 slug: minya
 pass: true
 metrics:
-  total_route_m: 40949.0
-  n_lines: 3
-  n_stations: 15
-  anchor_hit_rate: 0.533
-  high_demand_coverage: 0.275
+  total_route_m: 81807.5
+  n_lines: 9
+  n_stations: 51
+  anchor_hit_rate: 0.216
+  high_demand_coverage: 0.365
   civil_mix_m:
-    at_grade: 8599.600
-    elevated: 27045.800
-    bridge:   5303.600
-  elevated_fraction: 0.790
+    at_grade: 21234.7
+    elevated: 46446.6
+    bridge:   14126.2
+  elevated_fraction: 0.740
   viaduct_products_m:
-    osr_pi20_pi25: 26832.719
-    osr_us:      193.114
-    special:     5303.600
-    realign:     19.967
-  max_elevated_cost_multiplier: 10.290
+    osr_pi20_pi25: 43868.4
+    osr_us:      2208.5
+    special:     14126.2
+    realign:     369.7
+  max_elevated_cost_multiplier: 14.717
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
+    coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

@@ -1,22 +1,22 @@
 slug: goma
 pass: true
 metrics:
-  total_route_m: 46914.5
-  n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.526
-  high_demand_coverage: 0.421
+  total_route_m: 92972.1
+  n_lines: 14
+  n_stations: 69
+  anchor_hit_rate: 0.203
+  high_demand_coverage: 0.582
   civil_mix_m:
-    at_grade: 6631.600
-    elevated: 39455.200
-    bridge:   827.700
-  elevated_fraction: 0.859
+    at_grade: 19087.1
+    elevated: 73057.2
+    bridge:   827.7
+  elevated_fraction: 0.795
   viaduct_products_m:
-    osr_pi20_pi25: 39246.925
-    osr_us:      208.275
-    special:     827.700
-    realign:     0.000
-  max_elevated_cost_multiplier: 3.103
+    osr_pi20_pi25: 69377.6
+    osr_us:      3109.9
+    special:     827.7
+    realign:     569.7
+  max_elevated_cost_multiplier: 21.706
 gates:
   hard:
     has_stations:      true
@@ -25,5 +25,5 @@ gates:
     coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

@@ -6,25 +6,51 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "dakar",
-      "corridor_sha256": "b4fcc245a6fe14061d4377d9234d3b66f7362c0647078b1d6abd5daa57f8f667",
-      "design_sha256": "497c152477aa7b66ae3081917d4db71f666389a736910217de417a6b262459bb",
+      "corridor_sha256": "800676f1bde932f86f4789fe21c4503c412f0a042119197443dd4520f65d0310",
+      "design_sha256": "9a9bc796935747675986308b20fede60fb199c17bb303044c17497619abcfa8c",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
+      "radial_count": 13,
       "review_findings": [
         {
-          "alignment_report_sha256": "e3bc2e72d7e1b058214d8e690a7a026f8525fb87632c65fd7e8a157b5f2e7fc0",
+          "alignment_report_sha256": "f837022f6db93307c0e40e1b8a42ecd133d097981df8ef7022718630b901774b",
           "basis": "Source-bound shoreline detour; the 750 m reversal threshold remains exceeded. Detailed realignment, radius, access and civil product releases remain open; this concept cannot release construction.",
           "code": "water-constrained-radial-backtracking-requires-geometry-review",
           "maximum_reverse_excursion_m": 1153.9,
           "physical_release": false,
           "radial": "line-5",
           "severity": "review"
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-11",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 960.5
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-13",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1139.1
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1491.8,
+          "radial": "line-9",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1491.8
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 4
 }

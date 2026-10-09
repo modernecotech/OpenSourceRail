@@ -6,10 +6,10 @@ Deterministic alignment exports for every line in the current generated network.
 |---|---:|---:|---:|
 | [`bandung-line1.aln.toml`](bandung-line1.aln.toml) | `line-1` | 34,594.4 m | 15 |
 | [`bandung-line2.aln.toml`](bandung-line2.aln.toml) | `line-2` | 38,963.9 m | 15 |
-| [`bandung-line3.aln.toml`](bandung-line3.aln.toml) | `line-3` | 17,817.6 m | 27 |
+| [`bandung-line3.aln.toml`](bandung-line3.aln.toml) | `line-3` | 17,817.6 m | 25 |
 | [`bandung-line4.aln.toml`](bandung-line4.aln.toml) | `line-4` | 29,712.5 m | 14 |
 | [`bandung-line5.aln.toml`](bandung-line5.aln.toml) | `line-5` | 28,660.8 m | 14 |
-| [`bandung-line6.aln.toml`](bandung-line6.aln.toml) | `line-6` | 68,938.0 m | 41 |
+| [`bandung-line6.aln.toml`](bandung-line6.aln.toml) | `line-6` | 68,618.0 m | 39 |
 
 ## Status
 

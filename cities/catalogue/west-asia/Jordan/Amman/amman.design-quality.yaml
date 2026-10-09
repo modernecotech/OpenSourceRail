@@ -1,29 +1,29 @@
 slug: amman
-pass: true
+pass: false
 metrics:
-  total_route_m: 316568.3
-  n_lines: 9
-  n_stations: 137
-  anchor_hit_rate: 0.350
-  high_demand_coverage: 0.525
+  total_route_m: 508124.5
+  n_lines: 31
+  n_stations: 349
+  anchor_hit_rate: 0.146
+  high_demand_coverage: 0.655
   civil_mix_m:
-    at_grade: 58885.900
-    elevated: 244322.200
-    bridge:   13360.000
-  elevated_fraction: 0.814
+    at_grade: 98816.2
+    elevated: 369994.0
+    bridge:   39314.3
+  elevated_fraction: 0.806
   viaduct_products_m:
-    osr_pi20_pi25: 241310.298
-    osr_us:      2627.049
-    special:     13360.000
-    realign:     384.853
+    osr_pi20_pi25: 357216.0
+    osr_us:      11379.2
+    special:     39314.3
+    realign:     1398.8
   max_elevated_cost_multiplier: 24.969
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

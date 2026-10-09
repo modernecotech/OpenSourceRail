@@ -1,29 +1,29 @@
 slug: damietta
 pass: true
 metrics:
-  total_route_m: 68104.0
-  n_lines: 3
-  n_stations: 24
-  anchor_hit_rate: 0.292
-  high_demand_coverage: 0.476
+  total_route_m: 121886.8
+  n_lines: 11
+  n_stations: 83
+  anchor_hit_rate: 0.133
+  high_demand_coverage: 0.658
   civil_mix_m:
-    at_grade: 25275.600
-    elevated: 36591.200
-    bridge:   6237.300
-  elevated_fraction: 0.629
+    at_grade: 46117.8
+    elevated: 61827.7
+    bridge:   13941.4
+  elevated_fraction: 0.622
   viaduct_products_m:
-    osr_pi20_pi25: 35849.710
-    osr_us:      741.490
-    special:     6237.300
-    realign:     0.000
-  max_elevated_cost_multiplier: 3.081
+    osr_pi20_pi25: 59264.0
+    osr_us:      2318.8
+    special:     13941.4
+    realign:     244.9
+  max_elevated_cost_multiplier: 10.768
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

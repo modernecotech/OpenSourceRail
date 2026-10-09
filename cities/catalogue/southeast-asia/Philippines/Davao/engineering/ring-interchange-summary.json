@@ -6,15 +6,42 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "davao",
-      "corridor_sha256": "ba9e35061e4762e5f49483dad59c9600ac67e6f182f82a0840a2fb76e9c2a7f0",
-      "design_sha256": "dca17707ded75416d4ea69ff64a122f4a16ad4cff707fbe67457f7fa35222014",
+      "corridor_sha256": "b6ca61a7fd2a47378ba5ac4a10f9fbff7c7745e6a30aa9579552ec50d1a70206",
+      "design_sha256": "471273c76d70eac7a5850bec443cada24f9e72766dc00232088a975a83ca9354",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
-      "radial_count": 5,
-      "review_findings": [],
+      "radial_count": 14,
+      "review_findings": [
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-7",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1018.0
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "end",
+          "radial": "line-7",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1023.0
+        },
+        {
+          "code": "ring-radial-layout-disconnected",
+          "geometry_distance_m": 1363.5,
+          "radial": "line-9",
+          "ring": "line-6",
+          "severity": "review",
+          "terminus_distance_m": 1495.5
+        }
+      ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 0
+  "review_finding_count": 3
 }

@@ -1,29 +1,29 @@
 slug: idlib
 pass: true
 metrics:
-  total_route_m: 28284.2
-  n_lines: 3
-  n_stations: 11
-  anchor_hit_rate: 0.545
-  high_demand_coverage: 0.596
+  total_route_m: 53723.1
+  n_lines: 7
+  n_stations: 37
+  anchor_hit_rate: 0.189
+  high_demand_coverage: 0.716
   civil_mix_m:
-    at_grade: 7563.600
-    elevated: 20720.700
-    bridge:   0.000
-  elevated_fraction: 0.733
+    at_grade: 21798.6
+    elevated: 31924.5
+    bridge:   0.0
+  elevated_fraction: 0.594
   viaduct_products_m:
-    osr_pi20_pi25: 20515.895
-    osr_us:      204.805
-    special:     0.000
-    realign:     0.000
-  max_elevated_cost_multiplier: 1.974
+    osr_pi20_pi25: 31176.8
+    osr_us:      679.4
+    special:     0.0
+    realign:     68.3
+  max_elevated_cost_multiplier: 10.743
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

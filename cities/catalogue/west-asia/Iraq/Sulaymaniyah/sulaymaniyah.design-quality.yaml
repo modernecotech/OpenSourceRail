@@ -1,29 +1,29 @@
 slug: sulaymaniyah
 pass: true
 metrics:
-  total_route_m: 106865.1
-  n_lines: 4
-  n_stations: 42
-  anchor_hit_rate: 0.476
-  high_demand_coverage: 0.481
+  total_route_m: 182451.9
+  n_lines: 17
+  n_stations: 122
+  anchor_hit_rate: 0.197
+  high_demand_coverage: 0.563
   civil_mix_m:
-    at_grade: 7723.800
-    elevated: 93756.700
-    bridge:   5384.700
-  elevated_fraction: 0.928
+    at_grade: 31735.2
+    elevated: 140943.2
+    bridge:   9773.5
+  elevated_fraction: 0.826
   viaduct_products_m:
-    osr_pi20_pi25: 91791.576
-    osr_us:      1683.703
-    special:     5384.700
-    realign:     281.421
-  max_elevated_cost_multiplier: 26.475
+    osr_pi20_pi25: 134537.6
+    osr_us:      5497.9
+    special:     9773.5
+    realign:     907.7
+  max_elevated_cost_multiplier: 27.910
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

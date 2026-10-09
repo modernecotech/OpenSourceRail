@@ -1,21 +1,21 @@
 slug: lusaka
 pass: true
 metrics:
-  total_route_m: 240792.1
-  n_lines: 8
-  n_stations: 100
-  anchor_hit_rate: 0.260
-  high_demand_coverage: 0.492
+  total_route_m: 405804.9
+  n_lines: 32
+  n_stations: 292
+  anchor_hit_rate: 0.134
+  high_demand_coverage: 0.694
   civil_mix_m:
-    at_grade: 36545.400
-    elevated: 204069.900
-    bridge:   176.600
-  elevated_fraction: 0.848
+    at_grade: 58907.5
+    elevated: 346296.0
+    bridge:   601.4
+  elevated_fraction: 0.855
   viaduct_products_m:
-    osr_pi20_pi25: 201859.434
-    osr_us:      1480.774
-    special:     176.600
-    realign:     729.692
+    osr_pi20_pi25: 329149.2
+    osr_us:      14242.3
+    special:     601.4
+    realign:     2904.5
   max_elevated_cost_multiplier: 57.837
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

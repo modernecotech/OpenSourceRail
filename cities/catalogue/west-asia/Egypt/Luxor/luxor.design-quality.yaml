@@ -1,21 +1,21 @@
 slug: luxor
 pass: true
 metrics:
-  total_route_m: 44567.1
-  n_lines: 3
-  n_stations: 15
-  anchor_hit_rate: 0.600
-  high_demand_coverage: 0.486
+  total_route_m: 87903.9
+  n_lines: 12
+  n_stations: 66
+  anchor_hit_rate: 0.197
+  high_demand_coverage: 0.570
   civil_mix_m:
-    at_grade: 3953.400
-    elevated: 38147.800
-    bridge:   2465.800
-  elevated_fraction: 0.911
+    at_grade: 6905.0
+    elevated: 77385.9
+    bridge:   3613.0
+  elevated_fraction: 0.921
   viaduct_products_m:
-    osr_pi20_pi25: 36898.702
-    osr_us:      875.912
-    special:     2465.800
-    realign:     373.186
+    osr_pi20_pi25: 70522.3
+    osr_us:      5975.9
+    special:     3613.0
+    realign:     887.7
   max_elevated_cost_multiplier: 21.508
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

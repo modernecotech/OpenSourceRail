@@ -1,6 +1,6 @@
 # Line-based foundation and viaduct assembly planning
 
-The [integrated Baghdad package](../../engineering/network-planning/baghdad/README.md) is the line-specific implementation of the [civil master plan](civil-works-master-plan.md). Its nine construction plans, support register, bay register, directed launcher fronts, junction packages and stage library share actual line/span/component identities. The [offline viewer](../../engineering/network-planning/baghdad/network-foundation-viewer.html) lets reviewers select a line, zoom to individual supports and inspect the coordinate, adjacent spans, desktop investigation reference and unresolved design values.
+The [integrated Baghdad package](../../engineering/network-planning/baghdad/README.md) is the line-specific implementation of the [civil master plan](civil-works-master-plan.md). Its construction plans for every current line, support register, bay register, directed launcher fronts, junction packages and stage library share actual line/span/component identities. The [offline viewer](../../engineering/network-planning/baghdad/network-foundation-viewer.html) lets reviewers select a line, zoom to individual supports and inspect the coordinate, adjacent spans, desktop investigation reference and unresolved design values.
 
 ## One physical support, one foundation packet
 
@@ -27,7 +27,7 @@ Prepare a foundation design and installation method for each verified ground/loa
 
 ## Directed workfront plan
 
-Two initial launcher fronts per line are inherited from the running-bay sensitivity. Positive fronts install toward increasing chainage; negative fronts begin at the high-chainage end and install backward. The existing scheduler interprets direction internally; the new exports make the execution and dispatch order explicit. All identified catalogue spans are assigned to one front and one sequence position. Special spans retain a separately engineered package and create no ordinary Pi25 order.
+Two candidate launcher fronts per line are inherited from the running-bay sensitivity, with finite launcher-pool predecessors for queued reuse. Positive fronts install toward increasing chainage; negative fronts begin at the high-chainage end and install backward. The existing scheduler interprets direction internally; the new exports make the execution and dispatch order explicit. All identified catalogue spans are assigned to one front and one sequence position. Special spans retain a separately engineered package and create no ordinary Pi25 order.
 
 For each front, release actual access/assembly space, working platforms, configured machinery, delivery route, competent rested crew and the first consecutive ready supports. Maintain 10–15 accepted bays of support and beam readiness only where continuous run and storage capacity permit. Factory slots, inspection, accepted stock, trailers, receiving plant and installation appointments follow the directed SKU/component order. Shared equipment/crews cannot be reserved to two fronts simultaneously.
 

@@ -198,6 +198,12 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \
     --out-dir "$DESIGN_DIR/operations"
+"$PYTHON" "$REPO/tools/automation/generate-city-finance.py" \
+    --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/tools/automation/generate-qa-maintenance-data.py" \
+    --design "$DESIGN_DIR/design.toml" \
+    --scenario "$DESIGN_DIR/$SLUG.toml" \
+    --out-dir "$DESIGN_DIR/operations"
 "$PYTHON" "$REPO/tools/automation/generate-acceptance-evidence-report.py" \
     --bundle "$DESIGN_DIR/operations/$SLUG-operations.json.gz"
 
@@ -217,6 +223,7 @@ fi
 
 echo "8) per-network README → $DESIGN_DIR/README.md"
 "$PYTHON" "$REPO/tools/automation/audit-city-access.py" --city "$SLUG" --fetch-population
+"$PYTHON" "$REPO/tools/automation/evaluate-residential-expansion.py" --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/tools/automation/audit-viaduct-clearance.py" --city "$SLUG" --retain-inputs --fetch-terrain
 "$PYTHON" "$REPO/tools/automation/publish-city-summary.py" \
     --design "$DESIGN_DIR/design.toml" \

@@ -7,7 +7,7 @@
     "west": 85.058779
   },
   "core_analytical_length_m": 113948.131234,
-  "core_final_route_length_m": 291053.61887,
+  "core_final_route_length_m": 291110.187413,
   "core_original_length_m": 133020.532407,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -256,33 +256,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "geometry_basis": "superseded-by-continuous-junction-route-requires-profile-and-structural-review",
           "original_length_m": 17937.829714,
           "seed_from_index": 0,
           "seed_to_index": 766,
           "simplification_tolerance_m": 600.0,
-          "superseded_analytical_controls": [
-            {
-              "end": [
-                18060.0,
-                20740.0
-              ],
-              "kind": "tangent",
-              "length_m": 13805.071532,
-              "start": [
-                5200.0,
-                15720.0
-              ]
-            }
-          ]
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 38411.050481,
+      "final_core_route_m": 38467.619023,
       "line": "line-3",
       "original_cells": 767,
       "original_route_m": 17937.829714,
-      "reworked_cells": 1649,
-      "reworked_route_m": 38411.050481,
+      "reworked_cells": 1651,
+      "reworked_route_m": 38467.619023,
       "water_route_changes": [
         {
           "detour_route_m": 28515.272709,
@@ -1020,18 +1007,62 @@
       ]
     }
   ],
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "added_line_count": 0,
+    "as_of": "2026-10-09",
+    "base_line_junction_changes": [
+      {
+        "final_route_m": 38467.619,
+        "kind": "continuous physical ring connection",
+        "line": "line-3",
+        "original_route_m": 38411.05,
+        "original_station_cells_preserved": true,
+        "profile_structure_and_site_release": false,
+        "relocated_original_proposed_station_cells": []
+      }
+    ],
+    "base_line_junction_reviews": [],
+    "city": "patna",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 6,
+    "operating_release": false,
+    "original_line_count": 6,
+    "physical_release": false,
+    "population_is_current_census": false,
+    "reason": "No retained native population counts; additional-line targeting remains unavailable.",
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/south-asia/India/Patna/engineering/alignment/network-expansion-baseline.json.gz": "0a6d4c6082c90398d50d00a197cc50250cbb8465beb4f65101c939a613f666ea",
+      "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "status": "population-evidence-unavailable",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_radial_fraction": 0.8
+  },
   "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Patna/alignment-policy.toml": "600e22b17097a284dd05896c2c0965f42305781f48189a31bdc3b98db51def97",
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/network-expansion-baseline.json.gz": "0a6d4c6082c90398d50d00a197cc50250cbb8465beb4f65101c939a613f666ea",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-buildability-mask.bin.gz": "6fffc6a05fc3636192a2ad185ee12b8b38ca4118dd32ffd523e511cec6aa34d0",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-grid.json": "619df75f825745819eec270198402b2481e08f141470580d94e6fe88515b11ae",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/planning-water-mask.bin.gz": "408e7e4cfd62b2c3e023b5db42f4aabee6d09e0dd129a60bdfbe83f8fa27935d",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/pre-rework-corridors.json.gz": "c116b599db70d749eaf676afcfcfc612979f6f8d2f90c2cc20a66d030d059be0",
+    "cities/catalogue/south-asia/India/Patna/engineering/alignment/residential-line-expansion.json": "090ce024e62d8562b3f59e82d18062fc1c5a6b344e1ac9825d4f51e74f921d07",
     "cities/catalogue/south-asia/India/Patna/engineering/alignment/water-source-receipt.json": "3e3d2b535de3dae5b97242c1318a9a63a73b8bd4ed3df696dda02f06ccc01d66",
     "cities/catalogue/south-asia/India/Patna/station-bank-policy.toml": "98981ae95496fba7f57bd872462daec98cec8b90efa7399ee592eb3a180e6212",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/rework-baghdad-alignment.py": "f55b7e1ed50135e21bcfea38f5591231cd1d0c743a3681292ba10394083d1e87",
-    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+    "tools/automation/rework-baghdad-alignment.py": "1b21cbf8d724910b7c86fbfaecbac2dadf04345dd2a777c865f93742ad436255",
+    "tools/automation/rework-city-alignment.py": "019423389e9d787e024cf4e6df6eb987c3811b94a30dff51137262f7da7e0088",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"

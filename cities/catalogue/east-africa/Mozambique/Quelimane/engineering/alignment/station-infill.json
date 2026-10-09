@@ -1,43 +1,55 @@
 {
   "city": "quelimane",
+  "legacy_overlay_is_not_reapplied": true,
   "limitations": [
-    "Planning point locations only; footprints, land, structure, utilities, access and ridership require independent project evidence.",
-    "Existing fleet is retained conservatively; complete nominal/degraded service and current energy, depot and finance regeneration remain required."
+    "The prior overlay is retained as a comparator; new native spacing, forced junctions and planned sites control this revision.",
+    "Unresolved gap exceptions do not grant walking coverage, new sites, field acceptance or fare demand."
   ],
   "physical_release": false,
   "planning_infill_stations": [
     {
-      "anchor_kind": "planning:infill",
-      "anchor_name": "Planning infill 1",
+      "anchor_kind": "planning:residential",
+      "anchor_name": "Residential planning stop; site release open",
       "archetype": "standard",
-      "id": "line-1-planning-infill-s001424",
-      "lat": -17.848903312566932,
+      "id": "line-1-0394-0605-s002394",
+      "lat": -17.850496652629303,
       "line": "line-1",
-      "lon": 36.906972776473815,
+      "lon": 36.89850538937987,
       "platform_length_m": 59.5,
-      "s_m": 1423.5
+      "s_m": 2394.0
     },
     {
-      "anchor_kind": "planning:infill",
-      "anchor_name": "Planning infill 2",
+      "anchor_kind": "planning:residential",
+      "anchor_name": "Residential planning stop; site release open",
       "archetype": "standard",
-      "id": "line-1-planning-infill-s002847",
-      "lat": -17.85121651729475,
+      "id": "line-1-0408-0530-s004010",
+      "lat": -17.853016178958356,
       "line": "line-1",
-      "lon": 36.89454104061525,
+      "lon": 36.8843470009348,
       "platform_length_m": 59.5,
-      "s_m": 2847.1
+      "s_m": 4009.9
     },
     {
-      "anchor_kind": "planning:infill",
-      "anchor_name": "Planning infill 3",
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
       "archetype": "standard",
-      "id": "line-1-planning-infill-s004271",
-      "lat": -17.85352972202257,
-      "line": "line-1",
-      "lon": 36.88210930475668,
+      "id": "line-2-0511-0487-s001961",
+      "lat": -17.87155269409351,
+      "line": "line-2",
+      "lon": 36.876229524892956,
       "platform_length_m": 59.5,
-      "s_m": 4270.6
+      "s_m": 1960.8
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "major",
+      "id": "line-2-0512-0562-s003469",
+      "lat": -17.87173266025987,
+      "line": "line-2",
+      "lon": 36.89038791333803,
+      "platform_length_m": 59.5,
+      "s_m": 3469.1
     }
   ],
   "policy": {
@@ -46,12 +58,55 @@
     "minimum_gap_m": 1200
   },
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "c8ef86f5b4370f823c74143d3b7c5188488315bfb5167fdddce4d5afac90d2a5",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/design.toml": "54587843216d0f93d970f9fbc4d7ec6f7f85b71ffcfaa03f10753551f7320187",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-grid.json": "1e7109b48b98e9636020dfc659611a170aa16da1ca1fdbd832edd86640fc153d",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-water-mask.bin.gz": "ea6cc74a0492480ac135dd865698ee8e69e9d5ced5b2fae9c3e54e16d0627cf9",
-    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.corridor.geojson": "d08d5b8f1d58a4eafcd266f7474c47ea1bebaf74331ff3cb1692d51fd8feab87",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/quelimane.corridor.geojson": "59bfa04f812a1003772fe7c315149ab1953178e591408bdc53220350fb96e940",
     "cities/catalogue/east-africa/Mozambique/Quelimane/station-infill-policy.toml": "6aac3e8c5c3167ee9139726360577f6423fb5f629ce472319974a06d88a2fb17",
-    "lib/templates/capex-costs.toml": "a3d72157395371f8cbd3ea60b49c7576c31041fecec9fb95383deb603c484b19",
-    "tools/automation/apply-city-station-infill.py": "831f0474a1d1fc27a4d96c2f642c1672ece5da46d87a09f423f5bb8241d99d91"
-  }
+    "cities/catalogue/east-africa/Mozambique/Quelimane/station-spacing-policy.toml": "2dfec60e4f1a23b73f9096b829e780cc98c56ebb0675f661227564bb9873cab6",
+    "tools/automation/apply-city-station-infill.py": "b833a5156961ddf6ef0787c064fa55ef12b05f585f7bc28a9b68f4bcc76b60ee"
+  },
+  "station_spacing_owner": "native population-led station generation",
+  "unresolved_station_gap_reviews": [
+    {
+      "accepted": false,
+      "disposition": "native retained junction/end/ground constraints; investigate access or revised station sites",
+      "gap_m": 2394.0,
+      "line": "line-1",
+      "stations": [
+        "line-1-0373-0716-s000000",
+        "line-1-0394-0605-s002394"
+      ]
+    },
+    {
+      "accepted": false,
+      "disposition": "native retained junction/end/ground constraints; investigate access or revised station sites",
+      "gap_m": 1615.9,
+      "line": "line-1",
+      "stations": [
+        "line-1-0394-0605-s002394",
+        "line-1-0408-0530-s004010"
+      ]
+    },
+    {
+      "accepted": false,
+      "disposition": "native retained junction/end/ground constraints; investigate access or revised station sites",
+      "gap_m": 1960.8,
+      "line": "line-2",
+      "stations": [
+        "line-2-0420-0470-s000000",
+        "line-2-0511-0487-s001961"
+      ]
+    },
+    {
+      "accepted": false,
+      "disposition": "native retained junction/end/ground constraints; investigate access or revised station sites",
+      "gap_m": 1698.7999999999997,
+      "line": "line-2",
+      "stations": [
+        "line-2-0512-0562-s003469",
+        "line-2-0488-0637-s005168"
+      ]
+    }
+  ]
 }

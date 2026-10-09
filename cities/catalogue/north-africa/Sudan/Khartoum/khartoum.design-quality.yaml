@@ -1,29 +1,29 @@
 slug: khartoum
-pass: true
+pass: false
 metrics:
-  total_route_m: 382600.0
-  n_lines: 9
-  n_stations: 160
-  anchor_hit_rate: 0.375
-  high_demand_coverage: 0.477
+  total_route_m: 735996.1
+  n_lines: 50
+  n_stations: 529
+  anchor_hit_rate: 0.176
+  high_demand_coverage: 0.571
   civil_mix_m:
-    at_grade: 36624.200
-    elevated: 319168.200
-    bridge:   26807.600
-  elevated_fraction: 0.904
+    at_grade: 167004.8
+    elevated: 522799.0
+    bridge:   46192.3
+  elevated_fraction: 0.773
   viaduct_products_m:
-    osr_pi20_pi25: 310199.979
-    osr_us:      6776.437
-    special:     26807.600
-    realign:     2191.784
-  max_elevated_cost_multiplier: 28.800
+    osr_pi20_pi25: 489595.9
+    osr_us:      26183.3
+    special:     46192.3
+    realign:     7019.9
+  max_elevated_cost_multiplier: 35.280
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

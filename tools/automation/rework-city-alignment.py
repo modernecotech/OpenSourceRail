@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 import tomllib
+from residential_route_expansion import expand
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / 'lib/templates/city-core-alignment.toml'
@@ -161,6 +162,8 @@ def rework(seed, grid, config, water_mask=None, buildable=None):
             # materialize every intervening cell so narrow rivers cannot be
             # omitted from bridge quantities between otherwise dry vertices.
             new=[list(c) for c in water_routes.sampled_cells(new)]
+            if line['shape']=='Ring':
+                new,_=geometry.remove_short_ring_spikes(new,cell)
             if water_changes:
                 for run in runs:
                     run['geometry_basis']='superseded-by-water-constrained-route-requires-geometry-review'
@@ -240,8 +243,29 @@ def generate(design_path, check=False, prepare_inputs=False):
         raw=buildability.read_bytes();packed=bytearray(gzip.compress(raw,mtime=0));packed[9]=255;constraints_path.write_bytes(packed)
     buildable=np.frombuffer(gzip.decompress(constraints_path.read_bytes()),dtype=np.uint8).reshape(grid['height'],grid['width']).astype(bool)
     routes,report=rework(seed,grid,config,mask,buildable)
+    routes,expansion,expansion_inputs=expand(design_path,routes,grid,mask,buildable,check)
+    report['residential_line_expansion']=expansion
+    row_by_name={row['line']:row for row in report['lines']}
+    changed_names={row['line'] for row in expansion['base_line_junction_changes']}
+    original_names={r['line'] for r in report['lines']}
+    for line in routes['lines']:
+        total=math.fsum(geometry.distance(a,b)*grid['cell_m'] for a,b in zip(line['cells'],line['cells'][1:]))
+        core_m=math.fsum(geometry.distance(a,b)*grid['cell_m'] for a,b in zip(line['cells'],line['cells'][1:])
+            if config['core']['south']<=grid['bbox_north']-((a[0]+b[0])/2+.5)*grid['cell_m']/grid['m_per_deg_lat']<=config['core']['north']
+            and config['core']['west']<=grid['bbox_west']+((a[1]+b[1])/2+.5)*grid['cell_m']/grid['m_per_deg_lon']<=config['core']['east'])
+        if line['name'] in original_names:
+            row=row_by_name[line['name']];row.update(reworked_cells=len(line['cells']),reworked_route_m=total,final_core_route_m=core_m)
+            if line['name'] in changed_names:
+                for run in row['core_runs']:
+                    run['superseded_analytical_controls']=run.get('controls',[]);run['controls']=[]
+                    run['geometry_basis']='superseded-by-continuous-junction-route-requires-profile-and-structural-review'
+            continue
+        report['lines'].append(dict(line=line['name'],original_cells=0,reworked_cells=len(line['cells']),
+            core_runs=[],water_route_changes=[],original_route_m=0,reworked_route_m=total,final_core_route_m=core_m,
+            geometry_basis='population-led additional corridor; curve/profile and structural review open'))
+    report['core_final_route_length_m']=math.fsum(line['final_core_route_m'] for line in report['lines'])
     report['sources_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
-                              for p in [Path(__file__),CONFIG,seed_path,grid_path,mask_path,receipt_path,constraints_path,Path(geometry.__file__),Path(water_routes.__file__)]}
+                              for p in [Path(__file__),CONFIG,seed_path,grid_path,mask_path,receipt_path,constraints_path,Path(geometry.__file__),Path(water_routes.__file__),*expansion_inputs]}
     if bank_policy_path.is_file():report['sources_sha256'][bank_policy_path.relative_to(ROOT).as_posix()]=hashlib.sha256(bank_policy_path.read_bytes()).hexdigest()
     if water_policy_path.is_file():report['sources_sha256'][water_policy_path.relative_to(ROOT).as_posix()]=hashlib.sha256(water_policy_path.read_bytes()).hexdigest()
     policy='\n'.join(['# Controlled elevated-core concept; property and engineering approvals remain open.','[core]',

@@ -1,29 +1,29 @@
 slug: ouagadougou
 pass: true
 metrics:
-  total_route_m: 194441.0
-  n_lines: 6
-  n_stations: 77
-  anchor_hit_rate: 0.364
-  high_demand_coverage: 0.489
+  total_route_m: 387682.5
+  n_lines: 33
+  n_stations: 262
+  anchor_hit_rate: 0.168
+  high_demand_coverage: 0.604
   civil_mix_m:
-    at_grade: 28510.400
-    elevated: 163305.200
-    bridge:   2625.300
-  elevated_fraction: 0.853
+    at_grade: 102351.1
+    elevated: 281963.3
+    bridge:   3368.2
+  elevated_fraction: 0.736
   viaduct_products_m:
-    osr_pi20_pi25: 161789.331
-    osr_us:      1387.646
-    special:     2625.300
-    realign:     128.223
-  max_elevated_cost_multiplier: 145.703
+    osr_pi20_pi25: 265711.3
+    osr_us:      13243.5
+    special:     3368.2
+    realign:     3008.5
+  max_elevated_cost_multiplier: 42.353
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

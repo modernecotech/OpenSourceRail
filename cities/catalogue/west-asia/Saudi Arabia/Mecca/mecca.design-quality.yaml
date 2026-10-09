@@ -1,29 +1,29 @@
 slug: mecca
 pass: true
 metrics:
-  total_route_m: 203035.1
-  n_lines: 6
-  n_stations: 78
-  anchor_hit_rate: 0.231
-  high_demand_coverage: 0.288
+  total_route_m: 324756.8
+  n_lines: 27
+  n_stations: 214
+  anchor_hit_rate: 0.131
+  high_demand_coverage: 0.574
   civil_mix_m:
-    at_grade: 32839.900
-    elevated: 168354.800
-    bridge:   1840.400
-  elevated_fraction: 0.838
+    at_grade: 67930.1
+    elevated: 254505.6
+    bridge:   2321.1
+  elevated_fraction: 0.791
   viaduct_products_m:
-    osr_pi20_pi25: 167077.349
-    osr_us:      916.035
-    special:     1840.400
-    realign:     361.416
-  max_elevated_cost_multiplier: 27.183
+    osr_pi20_pi25: 243907.2
+    osr_us:      9097.5
+    special:     2321.1
+    realign:     1500.8
+  max_elevated_cost_multiplier: 25.371
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
-    anchor_hit_ge_0.20: true
+    coverage_ge_0.30:   true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

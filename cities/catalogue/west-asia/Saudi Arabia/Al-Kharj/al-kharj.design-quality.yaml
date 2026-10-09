@@ -1,29 +1,29 @@
 slug: al-kharj
 pass: true
 metrics:
-  total_route_m: 58323.8
-  n_lines: 3
-  n_stations: 26
-  anchor_hit_rate: 0.462
-  high_demand_coverage: 0.502
+  total_route_m: 116028.6
+  n_lines: 13
+  n_stations: 81
+  anchor_hit_rate: 0.123
+  high_demand_coverage: 0.545
   civil_mix_m:
-    at_grade: 14226.100
-    elevated: 43564.600
-    bridge:   533.100
-  elevated_fraction: 0.756
+    at_grade: 28610.6
+    elevated: 86222.5
+    bridge:   1195.4
+  elevated_fraction: 0.753
   viaduct_products_m:
-    osr_pi20_pi25: 43436.280
-    osr_us:      128.320
-    special:     533.100
-    realign:     0.000
-  max_elevated_cost_multiplier: 4.072
+    osr_pi20_pi25: 82003.5
+    osr_us:      3649.4
+    special:     1195.4
+    realign:     569.7
+  max_elevated_cost_multiplier: 18.317
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

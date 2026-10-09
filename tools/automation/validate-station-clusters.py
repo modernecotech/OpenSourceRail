@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject nearby stations that were not consolidated into one complex."""
+"""Validate bounded complexes and actual contacts; retain walking-link reviews."""
 
 from __future__ import annotations
 
@@ -98,15 +98,17 @@ def validate(path: Path) -> dict:
                         )
                     continue
                 if first_group is None or first_group != second_group:
-                    findings.append(
+                    unresolved_contact=separation<1.0 or first_group is None and second_group is None
+                    (findings if unresolved_contact else review_findings).append(
                         {
-                            "code": "nearby-cross-line-stations-not-one-interchange",
+                            "code": "nearby-cross-line-stations-not-one-interchange" if unresolved_contact else "nearby-bounded-complex-link-requires-path-review",
                             "distance_m": round(separation, 1),
                             "first_station": first["id"],
                             "first_line": first["line"],
                             "second_station": second["id"],
                             "second_line": second["line"],
-                            "severity": "fail",
+                            "severity": "fail" if unresolved_contact else "review",
+                            "walking_path_accepted": False,
                         }
                     )
                 continue
@@ -145,6 +147,10 @@ def validate(path: Path) -> dict:
         interchange_by_group.setdefault(group, []).append(interchange)
 
     for group, members in sorted(grouped_platforms.items()):
+        diameter=max((distance_m(a,b) for i,a in enumerate(members) for b in members[i+1:]),default=0.)
+        if diameter>TRANSFER_ENVELOPE_M+.01:
+            findings.append(dict(code='interchange-full-diameter-exceeds-envelope',junction_group=group,
+                                 maximum_platform_separation_m=round(diameter,1),severity='fail'))
         member_lines = sorted({str(member["line"]) for member in members})
         member_ids = sorted(str(member["id"]) for member in members)
         records = interchange_by_group.get(group, [])

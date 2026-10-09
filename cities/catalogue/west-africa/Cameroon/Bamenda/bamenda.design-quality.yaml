@@ -1,29 +1,29 @@
 slug: bamenda
 pass: true
 metrics:
-  total_route_m: 41571.6
-  n_lines: 3
-  n_stations: 20
-  anchor_hit_rate: 0.300
-  high_demand_coverage: 0.367
+  total_route_m: 83039.4
+  n_lines: 13
+  n_stations: 65
+  anchor_hit_rate: 0.154
+  high_demand_coverage: 0.495
   civil_mix_m:
-    at_grade: 6856.400
-    elevated: 34262.100
-    bridge:   453.200
-  elevated_fraction: 0.835
+    at_grade: 15684.8
+    elevated: 65782.6
+    bridge:   1572.0
+  elevated_fraction: 0.811
   viaduct_products_m:
-    osr_pi20_pi25: 34025.479
-    osr_us:      216.621
-    special:     453.200
-    realign:     20.000
-  max_elevated_cost_multiplier: 6.923
+    osr_pi20_pi25: 62351.9
+    osr_us:      3092.8
+    special:     1572.0
+    realign:     338.0
+  max_elevated_cost_multiplier: 19.347
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

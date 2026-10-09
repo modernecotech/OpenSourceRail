@@ -50,7 +50,7 @@ length_m        = 11135.7
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 120
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 21987.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 240
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-3"
@@ -68,283 +68,1853 @@ length_m        = 21222.3
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 270
+charging_dwell_seconds = 180
+
+[[lines]]
+name            = "line-4"
+shape           = "radial"
+length_m        = 4674.5
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 120
+
+[[lines]]
+name            = "line-5"
+shape           = "radial"
+length_m        = 8097.0
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 150
+
+[[lines]]
+name            = "line-6"
+shape           = "radial"
+length_m        = 4319.7
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 180
+
+[[lines]]
+name            = "line-7"
+shape           = "radial"
+length_m        = 4762.2
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 150
+
+[[lines]]
+name            = "line-8"
+shape           = "radial"
+length_m        = 7668.7
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 210
+
+[[lines]]
+name            = "line-9"
+shape           = "radial"
+length_m        = 3189.1
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 150
+
+[[lines]]
+name            = "line-10"
+shape           = "radial"
+length_m        = 10426.5
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 450
+
+[[lines]]
+name            = "line-11"
+shape           = "radial"
+length_m        = 5663.2
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 120
+
+[[lines]]
+name            = "line-12"
+shape           = "radial"
+length_m        = 4928.4
+rolling_stock   = "light-metro-3car"
+geometry        = "standard-urban"
+
+charging_dwell_seconds = 150
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 0.000
-line = "line-1"
-to_station_m = 28.284
+line            = "line-1"
+from_station_m  = 0.0
+to_station_m    = 28.3
+class           = "elevated"
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.018
-from_station_m = 28.284
-line = "line-1"
-minimum_curve_radius_m = 297.321
-to_station_m = 48.284
+line            = "line-1"
+from_station_m  = 28.3
+to_station_m    = 48.3
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 48.3
+to_station_m    = 1283.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 1283.7
+to_station_m    = 2252.8
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2252.8
+to_station_m    = 2659.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 2659.1
+to_station_m    = 3266.8
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 3266.8
+to_station_m    = 5394.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 5394.7
+to_station_m    = 7627.5
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 7627.5
+to_station_m    = 9783.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 9783.7
+to_station_m    = 9832.0
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 9832.0
+to_station_m    = 11107.4
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-1"
+from_station_m  = 11107.4
+to_station_m    = 11135.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 0.0
+to_station_m    = 20.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 20.0
+to_station_m    = 48.3
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 48.3
+to_station_m    = 2344.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 2344.5
+to_station_m    = 2895.6
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 2895.6
+to_station_m    = 4913.9
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 4913.9
+to_station_m    = 5022.2
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 5022.2
+to_station_m    = 10740.3
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 10740.3
+to_station_m    = 10808.6
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 10808.6
+to_station_m    = 15421.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 15421.0
+to_station_m    = 15441.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 15441.0
+to_station_m    = 15461.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 15461.0
+to_station_m    = 15481.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 15481.0
+to_station_m    = 21987.8
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 0.0
+to_station_m    = 429.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 429.7
+to_station_m    = 1524.5
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 1524.5
+to_station_m    = 3360.5
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 3360.5
+to_station_m    = 3380.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 3380.5
+to_station_m    = 3408.8
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 3408.8
+to_station_m    = 11981.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 11981.1
+to_station_m    = 12049.4
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 12049.4
+to_station_m    = 14900.2
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 14900.2
+to_station_m    = 14988.5
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 14988.5
+to_station_m    = 19937.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 19937.5
+to_station_m    = 19957.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 19957.5
+to_station_m    = 19977.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 19977.5
+to_station_m    = 19997.5
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 19997.5
+to_station_m    = 21222.3
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-4"
+from_station_m  = 0.0
+to_station_m    = 763.7
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-4"
+from_station_m  = 763.7
+to_station_m    = 852.0
+class           = "elevated"
+minimum_curve_radius_m = 158.1
 viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.649
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 48.284
-line = "line-1"
-minimum_curve_radius_m = 396.026
-to_station_m = 1283.700
+line            = "line-4"
+from_station_m  = 852.0
+to_station_m    = 1060.2
+class           = "elevated"
+minimum_curve_radius_m = 512.4
 viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "bridge"
 elevated_cost_multiplier = 1.000
-from_station_m = 1283.700
-line = "line-1"
-to_station_m = 2252.800
-viaduct_product = "OSR-SP"
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 2252.800
-line = "line-1"
-minimum_curve_radius_m = 396.026
-to_station_m = 2659.100
-viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 2659.100
-line = "line-1"
-to_station_m = 3266.800
-viaduct_product = "OSR-SP"
-
-[[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 3266.800
-line = "line-1"
-minimum_curve_radius_m = 396.026
-to_station_m = 5394.700
-viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 5394.700
-line = "line-1"
-to_station_m = 7627.500
-viaduct_product = "OSR-SP"
-
-[[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 7627.500
-line = "line-1"
-minimum_curve_radius_m = 396.026
-to_station_m = 9783.700
-viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 9783.700
-line = "line-1"
-to_station_m = 9832.000
-viaduct_product = "OSR-SP"
-
-[[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 9832.000
-line = "line-1"
-minimum_curve_radius_m = 396.026
-to_station_m = 11107.392
-viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.018
-from_station_m = 11107.392
-line = "line-1"
-minimum_curve_radius_m = 297.321
-to_station_m = 11135.677
+line            = "line-4"
+from_station_m  = 1060.2
+to_station_m    = 1128.5
+class           = "elevated"
+minimum_curve_radius_m = 274.6
 viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 11135.677
-line = "line-1"
-to_station_m = 11135.700
+line            = "line-4"
+from_station_m  = 1128.5
+to_station_m    = 1156.8
+class           = "elevated"
 viaduct_product = "OSR-Pi25"
-
-[[civil_segments]]
-class = "elevated"
 elevated_cost_multiplier = 1.000
-from_station_m = 0.000
-line = "line-2"
-to_station_m = 20.000
-viaduct_product = "OSR-Pi25"
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 5.294
-from_station_m = 20.000
-line = "line-2"
-minimum_curve_radius_m = 130.384
-to_station_m = 48.284
+line            = "line-4"
+from_station_m  = 1156.8
+to_station_m    = 1236.8
+class           = "elevated"
+minimum_curve_radius_m = 274.6
 viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 48.284
-line = "line-2"
-minimum_curve_radius_m = 396.026
-to_station_m = 2344.500
+line            = "line-4"
+from_station_m  = 1236.8
+to_station_m    = 2736.8
+class           = "elevated"
+minimum_curve_radius_m = 512.4
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 2344.500
-line = "line-2"
-to_station_m = 2895.600
-viaduct_product = "OSR-SP"
+line            = "line-4"
+from_station_m  = 2736.8
+to_station_m    = 2853.4
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 2895.600
-line = "line-2"
-minimum_curve_radius_m = 396.026
-to_station_m = 4913.900
+line            = "line-4"
+from_station_m  = 2853.4
+to_station_m    = 3956.5
+class           = "elevated"
+minimum_curve_radius_m = 309.9
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 4913.900
-line = "line-2"
-to_station_m = 5022.200
-viaduct_product = "OSR-SP"
+line            = "line-4"
+from_station_m  = 3956.5
+to_station_m    = 4674.5
+class           = "at-grade"
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 5022.200
-line = "line-2"
-minimum_curve_radius_m = 396.026
-to_station_m = 10740.300
+line            = "line-5"
+from_station_m  = 0.0
+to_station_m    = 60.0
+class           = "elevated"
+minimum_curve_radius_m = 360.6
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 10740.300
-line = "line-2"
-to_station_m = 10808.600
-viaduct_product = "OSR-SP"
+line            = "line-5"
+from_station_m  = 60.0
+to_station_m    = 148.3
+class           = "elevated"
+minimum_curve_radius_m = 222.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.397
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 10808.600
-line = "line-2"
-minimum_curve_radius_m = 396.026
-to_station_m = 15481.000
+line            = "line-5"
+from_station_m  = 148.3
+to_station_m    = 176.6
+class           = "elevated"
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "at-grade"
-elevated_cost_multiplier = 1.000
-from_station_m = 15481.000
-line = "line-2"
-to_station_m = 21987.800
+line            = "line-5"
+from_station_m  = 176.6
+to_station_m    = 236.6
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
 
 [[civil_segments]]
-class = "at-grade"
+line            = "line-5"
+from_station_m  = 236.6
+to_station_m    = 464.9
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
-from_station_m = 0.000
-line = "line-3"
-to_station_m = 429.700
 
 [[civil_segments]]
-class = "bridge"
+line            = "line-5"
+from_station_m  = 464.9
+to_station_m    = 581.4
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 581.4
+to_station_m    = 1260.2
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
-from_station_m = 429.700
-line = "line-3"
-to_station_m = 1524.500
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 1260.2
+to_station_m    = 1368.5
+class           = "elevated"
+minimum_curve_radius_m = 172.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.956
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 1368.5
+to_station_m    = 3148.5
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 3148.5
+to_station_m    = 3265.1
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 3265.1
+to_station_m    = 3661.1
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 3661.1
+to_station_m    = 4243.9
+class           = "bridge"
 viaduct_product = "OSR-SP"
-
-[[civil_segments]]
-class = "at-grade"
 elevated_cost_multiplier = 1.000
-from_station_m = 1524.500
-line = "line-3"
-to_station_m = 3360.500
 
 [[civil_segments]]
-class = "elevated"
+line            = "line-5"
+from_station_m  = 4243.9
+to_station_m    = 4783.9
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 4783.9
+to_station_m    = 4900.5
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 4900.5
+to_station_m    = 5542.7
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5542.7
+to_station_m    = 5562.7
+class           = "elevated"
+minimum_curve_radius_m = 243.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.520
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5562.7
+to_station_m    = 5631.0
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5631.0
+to_station_m    = 5651.0
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5651.0
+to_station_m    = 5791.0
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5791.0
+to_station_m    = 5907.6
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 5907.6
+to_station_m    = 6529.8
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 6529.8
+to_station_m    = 6638.1
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.380
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 6638.1
+to_station_m    = 6998.1
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 6998.1
+to_station_m    = 8097.0
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 0.0
+to_station_m    = 620.0
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 620.0
+to_station_m    = 764.9
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.218
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 764.9
+to_station_m    = 878.0
+class           = "elevated"
+minimum_curve_radius_m = 412.3
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 878.0
+to_station_m    = 4319.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 0.0
+to_station_m    = 60.0
+class           = "elevated"
+minimum_curve_radius_m = 360.6
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 60.0
+to_station_m    = 148.3
+class           = "elevated"
+minimum_curve_radius_m = 222.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.397
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 148.3
+to_station_m    = 176.6
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 176.6
+to_station_m    = 236.6
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 236.6
+to_station_m    = 276.6
+class           = "elevated"
+minimum_curve_radius_m = 573.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 276.6
+to_station_m    = 373.1
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.731
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 373.1
+to_station_m    = 656.0
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 656.0
+to_station_m    = 724.3
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.785
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 724.3
+to_station_m    = 784.3
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 784.3
+to_station_m    = 832.5
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 832.5
+to_station_m    = 860.8
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 860.8
+to_station_m    = 920.8
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 920.8
+to_station_m    = 1149.1
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 1149.1
+to_station_m    = 1265.7
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 1265.7
+to_station_m    = 3237.3
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 3237.3
+to_station_m    = 3345.6
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.380
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 3345.6
+to_station_m    = 4645.6
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 4645.6
+to_station_m    = 4705.6
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.461
+
+[[civil_segments]]
+line            = "line-7"
+from_station_m  = 4705.6
+to_station_m    = 4762.2
+class           = "elevated"
+minimum_curve_radius_m = 103.0
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 7.707
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 0.0
+to_station_m    = 60.0
+class           = "elevated"
+minimum_curve_radius_m = 360.6
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 60.0
+to_station_m    = 148.3
+class           = "elevated"
+minimum_curve_radius_m = 222.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.397
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 148.3
+to_station_m    = 176.6
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 176.6
+to_station_m    = 236.6
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 236.6
+to_station_m    = 444.9
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 444.9
+to_station_m    = 521.4
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.873
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 521.4
+to_station_m    = 2529.6
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 2529.6
+to_station_m    = 2637.9
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.380
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 2637.9
+to_station_m    = 3177.9
+class           = "elevated"
+minimum_curve_radius_m = 373.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 3177.9
+to_station_m    = 3197.9
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.072
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 3197.9
+to_station_m    = 3297.9
+class           = "elevated"
+minimum_curve_radius_m = 51.0
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 24.742
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 3297.9
+to_station_m    = 3317.9
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 3317.9
+to_station_m    = 7668.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 0.0
+to_station_m    = 60.0
+class           = "elevated"
+minimum_curve_radius_m = 360.6
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 60.0
+to_station_m    = 148.3
+class           = "elevated"
+minimum_curve_radius_m = 222.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.397
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 148.3
+to_station_m    = 176.6
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 176.6
+to_station_m    = 236.6
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 236.6
+to_station_m    = 296.6
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 296.6
+to_station_m    = 344.9
+class           = "elevated"
+minimum_curve_radius_m = 202.9
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.775
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 344.9
+to_station_m    = 364.9
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 364.9
+to_station_m    = 413.1
+class           = "elevated"
+minimum_curve_radius_m = 210.2
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.822
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 413.1
+to_station_m    = 724.3
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 724.3
+to_station_m    = 752.5
+class           = "elevated"
+minimum_curve_radius_m = 223.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.800
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 752.5
+to_station_m    = 889.1
+class           = "elevated"
+minimum_curve_radius_m = 52.7
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 20.543
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 889.1
+to_station_m    = 909.1
+class           = "elevated"
+minimum_curve_radius_m = 255.0
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.385
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 909.1
+to_station_m    = 969.1
+class           = "elevated"
+minimum_curve_radius_m = 373.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 969.1
+to_station_m    = 989.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.072
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 989.1
+to_station_m    = 1089.1
+class           = "elevated"
+minimum_curve_radius_m = 74.3
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 13.033
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1089.1
+to_station_m    = 1169.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.755
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1169.1
+to_station_m    = 1209.1
+class           = "elevated"
+minimum_curve_radius_m = 80.1
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 10.923
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1209.1
+to_station_m    = 1249.1
+class           = "elevated"
+minimum_curve_radius_m = 183.8
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.663
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1249.1
+to_station_m    = 1269.1
+class           = "elevated"
+minimum_curve_radius_m = 107.2
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 7.832
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1269.1
+to_station_m    = 1289.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1289.1
+to_station_m    = 1309.1
+class           = "elevated"
+minimum_curve_radius_m = 107.2
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 7.832
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1309.1
+to_station_m    = 1329.1
+class           = "elevated"
+minimum_curve_radius_m = 183.8
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.663
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1329.1
+to_station_m    = 1389.1
+class           = "elevated"
+minimum_curve_radius_m = 74.3
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 11.621
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1389.1
+to_station_m    = 1429.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.914
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1429.1
+to_station_m    = 1449.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1449.1
+to_station_m    = 1509.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.072
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1509.1
+to_station_m    = 1549.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1549.1
+to_station_m    = 1609.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.528
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 1609.1
+to_station_m    = 2069.1
+class           = "elevated"
+minimum_curve_radius_m = 373.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2069.1
+to_station_m    = 2169.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 3.470
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2169.1
+to_station_m    = 2269.1
+class           = "elevated"
+minimum_curve_radius_m = 65.0
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 18.426
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2269.1
+to_station_m    = 2369.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.219
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2369.1
+to_station_m    = 2529.1
+class           = "elevated"
+minimum_curve_radius_m = 373.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2529.1
+to_station_m    = 2569.1
+class           = "elevated"
+minimum_curve_radius_m = 148.7
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.072
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2569.1
+to_station_m    = 2589.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2589.1
+to_station_m    = 2649.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.755
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2649.1
+to_station_m    = 2669.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2669.1
+to_station_m    = 2709.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.755
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2709.1
+to_station_m    = 2729.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2729.1
+to_station_m    = 2809.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.581
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2809.1
+to_station_m    = 2909.1
+class           = "elevated"
+minimum_curve_radius_m = 65.0
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 18.148
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2909.1
+to_station_m    = 2929.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2929.1
+to_station_m    = 2949.1
+class           = "elevated"
+minimum_curve_radius_m = 183.8
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.663
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2949.1
+to_station_m    = 2969.1
+class           = "elevated"
+minimum_curve_radius_m = 107.2
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 7.832
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 2969.1
+to_station_m    = 3009.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.755
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 3009.1
+to_station_m    = 3029.1
+class           = "elevated"
+minimum_curve_radius_m = 91.5
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 10.743
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 3029.1
+to_station_m    = 3049.1
+class           = "elevated"
+minimum_curve_radius_m = 226.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.755
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 3049.1
+to_station_m    = 3109.1
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 3109.1
+to_station_m    = 3189.1
+class           = "elevated"
+minimum_curve_radius_m = 210.2
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.478
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 0.0
+to_station_m    = 594.0
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 594.0
+to_station_m    = 702.3
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.380
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 702.3
+to_station_m    = 1182.3
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 1182.3
+to_station_m    = 1298.8
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 1298.8
+to_station_m    = 1751.4
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-10"
+from_station_m  = 1751.4
+to_station_m    = 10426.5
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 0.0
+to_station_m    = 254.6
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 254.6
+to_station_m    = 322.8
+class           = "elevated"
+minimum_curve_radius_m = 210.2
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.885
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 322.8
+to_station_m    = 491.1
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 491.1
+to_station_m    = 559.4
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 559.4
+to_station_m    = 587.7
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 587.7
+to_station_m    = 607.7
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 607.7
+to_station_m    = 3228.4
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 3228.4
+to_station_m    = 3316.7
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.649
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 3316.7
+to_station_m    = 3605.0
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 3605.0
+to_station_m    = 3633.3
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 3633.3
+to_station_m    = 4154.7
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4154.7
+to_station_m    = 4183.0
+class           = "bridge"
+viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4183.0
+to_station_m    = 4259.6
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4259.6
+to_station_m    = 4319.6
+class           = "elevated"
+minimum_curve_radius_m = 202.9
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.855
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4319.6
+to_station_m    = 4839.6
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4839.6
+to_station_m    = 4956.1
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-11"
+from_station_m  = 4956.1
+to_station_m    = 5663.2
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 0.0
+to_station_m    = 20.0
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 20.0
+to_station_m    = 88.3
+class           = "elevated"
+minimum_curve_radius_m = 130.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 4.105
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 88.3
+to_station_m    = 144.9
+class           = "elevated"
+minimum_curve_radius_m = 573.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 144.9
+to_station_m    = 204.9
+class           = "elevated"
+minimum_curve_radius_m = 202.9
+viaduct_product = "OSR-US"
 elevated_cost_multiplier = 2.186
-from_station_m = 3360.500
-line = "line-3"
-minimum_curve_radius_m = 202.923
-to_station_m = 3408.772
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 204.9
+to_station_m    = 244.9
+class           = "elevated"
+minimum_curve_radius_m = 573.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 244.9
+to_station_m    = 341.4
+class           = "elevated"
+minimum_curve_radius_m = 158.1
 viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.731
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 3408.772
-line = "line-3"
-minimum_curve_radius_m = 320.225
-to_station_m = 11981.100
+line            = "line-12"
+from_station_m  = 341.4
+to_station_m    = 454.6
+class           = "elevated"
+minimum_curve_radius_m = 309.9
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "bridge"
-elevated_cost_multiplier = 1.000
-from_station_m = 11981.100
-line = "line-3"
-to_station_m = 12049.400
+line            = "line-12"
+from_station_m  = 454.6
+to_station_m    = 757.4
+class           = "bridge"
 viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 12049.400
-line = "line-3"
-minimum_curve_radius_m = 396.026
-to_station_m = 14900.200
+line            = "line-12"
+from_station_m  = 757.4
+to_station_m    = 1539.7
+class           = "elevated"
+minimum_curve_radius_m = 320.2
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "bridge"
+line            = "line-12"
+from_station_m  = 1539.7
+to_station_m    = 1567.9
+class           = "elevated"
+minimum_curve_radius_m = 243.4
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.520
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 1567.9
+to_station_m    = 2070.8
+class           = "elevated"
+minimum_curve_radius_m = 320.2
+viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
-from_station_m = 14900.200
-line = "line-3"
-to_station_m = 14988.500
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2070.8
+to_station_m    = 2110.8
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2110.8
+to_station_m    = 2210.8
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2210.8
+to_station_m    = 2259.1
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2259.1
+to_station_m    = 2327.4
+class           = "elevated"
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2327.4
+to_station_m    = 2367.4
+class           = "elevated"
+minimum_curve_radius_m = 274.6
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 1.194
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2367.4
+to_station_m    = 2867.4
+class           = "elevated"
+minimum_curve_radius_m = 512.4
+viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2867.4
+to_station_m    = 2907.4
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.397
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2907.4
+to_station_m    = 2955.6
+class           = "elevated"
+minimum_curve_radius_m = 110.0
+viaduct_product = "REALIGN-OR-SPECIAL"
+elevated_cost_multiplier = 7.338
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 2955.6
+to_station_m    = 3003.9
+class           = "elevated"
+minimum_curve_radius_m = 141.5
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 3.284
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 3003.9
+to_station_m    = 3572.2
+class           = "bridge"
 viaduct_product = "OSR-SP"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "elevated"
-elevated_cost_multiplier = 1.000
-from_station_m = 14988.500
-line = "line-3"
-minimum_curve_radius_m = 338.261
-to_station_m = 19997.500
+line            = "line-12"
+from_station_m  = 3572.2
+to_station_m    = 3652.2
+class           = "elevated"
+minimum_curve_radius_m = 512.4
 viaduct_product = "OSR-Pi25"
+elevated_cost_multiplier = 1.000
 
 [[civil_segments]]
-class = "at-grade"
+line            = "line-12"
+from_station_m  = 3652.2
+to_station_m    = 3768.8
+class           = "elevated"
+minimum_curve_radius_m = 158.1
+viaduct_product = "OSR-US"
+elevated_cost_multiplier = 2.467
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 3768.8
+to_station_m    = 4306.2
+class           = "elevated"
+minimum_curve_radius_m = 309.9
+viaduct_product = "OSR-Pi25"
 elevated_cost_multiplier = 1.000
-from_station_m = 19997.500
-line = "line-3"
-to_station_m = 21222.300
+
+[[civil_segments]]
+line            = "line-12"
+from_station_m  = 4306.2
+to_station_m    = 4928.4
+class           = "at-grade"
 
 [[stations]]
 id              = "line-1-0811-0508-s000000"
@@ -352,17 +1922,30 @@ line            = "line-1"
 lat             = 33.70395745599827
 lon             = 44.659875628820146
 s_m             = 0.0
+mandatory_crossing = true
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "بهرز"
 archetype       = "terminal"
 platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
-id              = "line-1-0698-0434-s003025"
+id              = "line-1-0752-0469-s001573"
 line            = "line-1"
-lat             = 33.724293632797036
-lon             = 44.6438858617942
-s_m             = 3025.3
+lat             = 33.71457545981356
+lon             = 44.65144858944161
+s_m             = 1573.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
+
+[[stations]]
+id              = "line-1-0689-0428-s003267"
+line            = "line-1"
+lat             = 33.72591332829428
+lon             = 44.64258939419751
+s_m             = 3266.8
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -375,7 +1958,7 @@ s_m             = 4849.4
 mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
 id              = "line-1-0625-0386-s004988"
@@ -386,25 +1969,27 @@ s_m             = 4988.4
 mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
-id              = "line-1-0548-0336-s007036"
+id              = "line-1-0541-0332-s007210"
 line            = "line-1"
-lat             = 33.751288557751145
-lon             = 44.62271022438147
-s_m             = 7036.4
-anchor_kind     = "amenity:hospital"
-anchor_name     = "عيادة الامل الجراحية"
+lat             = 33.75254832091567
+lon             = 44.621845912650336
+s_m             = 7209.5
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0471-0286-s009096"
+id              = "line-1-0482-0293-s008806"
 line            = "line-1"
-lat             = 33.76514595256092
-lon             = 44.611906327742325
-s_m             = 9096.0
+lat             = 33.76316632473095
+lon             = 44.613418873271804
+s_m             = 8806.3
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -414,8 +1999,177 @@ line            = "line-1"
 lat             = 33.77882338120433
 lon             = 44.60110243110317
 s_m             = 11135.7
+mandatory_crossing = true
 anchor_kind     = "amenity:university"
 anchor_name     = "كلية بلاد الرافدين الجامعة"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 3
+
+[[stations]]
+id              = "line-10-0395-0236-s000000"
+line            = "line-10"
+lat             = 33.77882338120433
+lon             = 44.60110243110317
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "amenity:university"
+anchor_name     = "كلية بلاد الرافدين الجامعة"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 3
+
+[[stations]]
+id              = "line-10-0301-0173-s002402"
+line            = "line-10"
+lat             = 33.795740200842246
+lon             = 44.587489521337844
+s_m             = 2401.9
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-10-0244-0139-s003824"
+line            = "line-10"
+lat             = 33.80599827232481
+lon             = 44.580142871623224
+s_m             = 3823.6
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-10-0161-0084-s005939"
+line            = "line-10"
+lat             = 33.820935464132745
+lon             = 44.56825858532016
+s_m             = 5939.2
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-10-0125-0132-s007197"
+line            = "line-10"
+lat             = 33.827414246121734
+lon             = 44.578630326093744
+s_m             = 7197.4
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-10-0092-0199-s008811"
+line            = "line-10"
+lat             = 33.83335312961164
+lon             = 44.5931075475902
+s_m             = 8810.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-10-0037-0257-s010426"
+line            = "line-10"
+lat             = 33.84325126876148
+lon             = 44.60564006769162
+s_m             = 10426.5
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-11-0330-0542-s000000"
+line            = "line-11"
+lat             = 33.790521182017784
+lon             = 44.667222278534766
+s_m             = 0.0
+mandatory_crossing = true
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 4
+
+[[stations]]
+id              = "line-11-0378-0454-s002408"
+line            = "line-11"
+lat             = 33.78188280603247
+lon             = 44.648207420449864
+s_m             = 2408.2
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-11-0444-0420-s004010"
+line            = "line-11"
+lat             = 33.77000503905266
+lon             = 44.640860770735245
+s_m             = 4009.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-11-0513-0387-s005663"
+line            = "line-11"
+lat             = 33.75758737357377
+lon             = 44.6337301989534
+s_m             = 5663.2
+anchor_kind     = "tourism:attraction"
+anchor_name     = "كورنيش ديالى"
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-12-0811-0508-s000000"
+line            = "line-12"
+lat             = 33.70395745599827
+lon             = 44.659875628820146
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "بهرز"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 0
+
+[[stations]]
+id              = "line-12-0843-0487-s000814"
+line            = "line-12"
+lat             = 33.69819853867473
+lon             = 44.6553379922317
+s_m             = 814.0
+mandatory_crossing = true
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 5
+
+[[stations]]
+id              = "line-12-0876-0421-s002407"
+line            = "line-12"
+lat             = 33.69225965518483
+lon             = 44.64107684866803
+s_m             = 2407.4
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-12-0914-0316-s004928"
+line            = "line-12"
+lat             = 33.68542094086312
+lon             = 44.61838866572581
+s_m             = 4928.4
 archetype       = "terminal"
 platform_length_m = 59.5
 
@@ -431,11 +2185,24 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0668-0308-s001995"
+id              = "line-2-0689-0268-s000997"
 line            = "line-2"
-lat             = 33.729692617787855
-lon             = 44.61666004226355
-s_m             = 1994.8
+lat             = 33.72591332829428
+lon             = 44.60801692495223
+s_m             = 997.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 6
+
+[[stations]]
+id              = "line-2-0659-0323-s002393"
+line            = "line-2"
+lat             = 33.7313123132851
+lon             = 44.61990121125529
+s_m             = 2392.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -446,9 +2213,11 @@ lat             = 33.73743116294137
 lon             = 44.63351412102062
 s_m             = 3993.0
 mandatory_crossing = true
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
 id              = "line-2-0619-0395-s004223"
@@ -461,43 +2230,114 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "شفته"
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
-id              = "line-2-0580-0466-s006036"
+id              = "line-2-0586-0457-s005806"
 line            = "line-2"
-lat             = 33.7455296404276
-lon             = 44.65080035564326
-s_m             = 6036.1
-anchor_kind     = "amenity:university"
-anchor_name     = "معهد الفنون الجميلة للبنين ديالى"
-archetype       = "major"
+lat             = 33.744449843429436
+lon             = 44.648855654248216
+s_m             = 5806.4
+mandatory_crossing = true
+archetype       = "interchange"
 platform_length_m = 59.5
+junction_group  = 7
 
 [[stations]]
-id              = "line-2-0516-0584-s009043"
+id              = "line-2-0555-0513-s007230"
 line            = "line-2"
-lat             = 33.757047475074685
-lon             = 44.67629755171165
-s_m             = 9043.5
+lat             = 33.75002879458662
+lon             = 44.66095601848406
+s_m             = 7230.1
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0440-0721-s012554"
+id              = "line-2-0521-0574-s008790"
 line            = "line-2"
-lat             = 33.770724903718104
-lon             = 44.70590022850292
-s_m             = 12553.7
+lat             = 33.75614764424289
+lon             = 44.674136772383825
+s_m             = 8790.3
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0363-0855-s016047"
+id              = "line-2-0481-0648-s010672"
 line            = "line-2"
-lat             = 33.78458229852788
-lon             = 44.73485467149584
-s_m             = 16047.3
+lat             = 33.76334629089731
+lon             = 44.69012653940976
+s_m             = 10672.0
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 8
+
+[[stations]]
+id              = "line-2-0452-0699-s011991"
+line            = "line-2"
+lat             = 33.76856530972177
+lon             = 44.7011465139817
+s_m             = 11990.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-2-0418-0762-s013603"
+line            = "line-2"
+lat             = 33.77468415937804
+lon             = 44.714759423747026
+s_m             = 13602.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 9
+
+[[stations]]
+id              = "line-2-0383-0825-s015200"
+line            = "line-2"
+lat             = 33.780982975200665
+lon             = 44.728372333512354
+s_m             = 15199.6
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-2-0341-0876-s016790"
+line            = "line-2"
+lat             = 33.788541554187816
+lon             = 44.739392308084284
+s_m             = 16790.1
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-2-0287-0910-s018398"
+line            = "line-2"
+lat             = 33.79825972717129
+lon             = 44.746738957798904
+s_m             = 18397.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-2-0239-0949-s019997"
+line            = "line-2"
+lat             = 33.806898103156605
+lon             = 44.75516599717744
+s_m             = 19997.2
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "halt"
 platform_length_m = 55.5
 
@@ -524,29 +2364,68 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0231-0593-s003505"
+id              = "line-3-0193-0618-s002398"
 line            = "line-3"
-lat             = 33.808337832487496
-lon             = 44.678242253106696
-s_m             = 3505.3
+lat             = 33.8151765468092
+lon             = 44.683644201426276
+s_m             = 2397.6
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "halt"
 platform_length_m = 55.5
 
 [[stations]]
-id              = "line-3-0372-0521-s007016"
+id              = "line-3-0298-0559-s005150"
 line            = "line-3"
-lat             = 33.78296260303063
-lon             = 44.66268464194632
-s_m             = 7015.5
+lat             = 33.796280099341324
+lon             = 44.670895603392076
+s_m             = 5150.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 10
+
+[[stations]]
+id              = "line-3-0330-0542-s005966"
+line            = "line-3"
+lat             = 33.790521182017784
+lon             = 44.667222278534766
+s_m             = 5966.4
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 4
+
+[[stations]]
+id              = "line-3-0379-0517-s007200"
+line            = "line-3"
+lat             = 33.78170283986611
+lon             = 44.66182033021519
+s_m             = 7200.4
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0491-0460-s010018"
+id              = "line-3-0442-0485-s008807"
 line            = "line-3"
-lat             = 33.761546629233706
-lon             = 44.64950388804656
-s_m             = 10018.0
+lat             = 33.77036497138538
+lon             = 44.65490583636613
+s_m             = 8807.5
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-3-0506-0453-s010399"
+line            = "line-3"
+lat             = 33.7588471367383
+lon             = 44.64799134251708
+s_m             = 10399.5
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -561,7 +2440,7 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "شفته"
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
 id              = "line-3-0631-0390-s013451"
@@ -572,16 +2451,51 @@ s_m             = 13450.7
 mandatory_crossing = true
 archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 0
+junction_group  = 2
 
 [[stations]]
-id              = "line-3-0785-0311-s017332"
+id              = "line-3-0700-0354-s015193"
 line            = "line-3"
-lat             = 33.708636576323656
-lon             = 44.6173082760619
-s_m             = 17331.6
+lat             = 33.723933700464315
+lon             = 44.626599627171565
+s_m             = 15193.3
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
 archetype       = "standard"
 platform_length_m = 59.5
+
+[[stations]]
+id              = "line-3-0763-0322-s016789"
+line            = "line-3"
+lat             = 33.71259583198359
+lon             = 44.61968513332251
+s_m             = 16788.7
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-3-0828-0289-s018409"
+line            = "line-3"
+lat             = 33.70089803117014
+lon             = 44.61255456154067
+s_m             = 18409.0
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-3-0892-0256-s019997"
+line            = "line-3"
+lat             = 33.689380196523054
+lon             = 44.60542398975883
+s_m             = 19997.5
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
 
 [[stations]]
 id              = "line-3-0927-0228-s021222"
@@ -594,13 +2508,333 @@ anchor_name     = "جامعة ديالى"
 archetype       = "terminal"
 platform_length_m = 59.5
 
+[[stations]]
+id              = "line-4-0689-0268-s000000"
+line            = "line-4"
+lat             = 33.72591332829428
+lon             = 44.60801692495223
+s_m             = 0.0
+mandatory_crossing = true
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 6
+
+[[stations]]
+id              = "line-4-0638-0237-s001277"
+line            = "line-4"
+lat             = 33.73509160277868
+lon             = 44.601318509035956
+s_m             = 1276.8
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-4-0562-0237-s002797"
+line            = "line-4"
+lat             = 33.74876903142209
+lon             = 44.601318509035956
+s_m             = 2796.8
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-4-0514-0163-s004674"
+line            = "line-4"
+lat             = 33.757407407407406
+lon             = 44.58532874201001
+s_m             = 4674.5
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "المجمع الصناعي"
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-5-0586-0457-s000000"
+line            = "line-5"
+lat             = 33.744449843429436
+lon             = 44.648855654248216
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "amenity:university"
+anchor_name     = "معهد الفنون الجميلة للبنين ديالى"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 7
+
+[[stations]]
+id              = "line-5-0639-0487-s001309"
+line            = "line-5"
+lat             = 33.73491163661232
+lon             = 44.6553379922317
+s_m             = 1308.5
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "major"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-5-0752-0469-s003718"
+line            = "line-5"
+lat             = 33.71457545981356
+lon             = 44.65144858944161
+s_m             = 3717.6
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 1
+
+[[stations]]
+id              = "line-5-0844-0486-s005831"
+line            = "line-5"
+lat             = 33.69801857250837
+lon             = 44.65512191429892
+s_m             = 5831.0
+mandatory_crossing = true
+archetype       = "interchange"
+platform_length_m = 59.5
+junction_group  = 5
+
+[[stations]]
+id              = "line-5-0937-0437-s008097"
+line            = "line-5"
+lat             = 33.681281719036825
+lon             = 44.644534095592554
+s_m             = 8097.0
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-6-0397-0237-s000000"
+line            = "line-6"
+lat             = 33.77846344887161
+lon             = 44.601318509035956
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "amenity:university"
+anchor_name     = "كلية بلاد الرافدين الجامعة"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 3
+
+[[stations]]
+id              = "line-6-0437-0163-s001811"
+line            = "line-6"
+lat             = 33.77126480221718
+lon             = 44.58532874201001
+s_m             = 1811.4
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-6-0438-0038-s004320"
+line            = "line-6"
+lat             = 33.771084836050825
+lon             = 44.55831900041214
+s_m             = 4319.7
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "اسواق الحاج هادي واولاده"
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-7-0298-0559-s000000"
+line            = "line-7"
+lat             = 33.796280099341324
+lon             = 44.670895603392076
+s_m             = 0.0
+mandatory_crossing = true
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 10
+
+[[stations]]
+id              = "line-7-0357-0654-s002389"
+line            = "line-7"
+lat             = 33.78566209552604
+lon             = 44.69142300700646
+s_m             = 2388.8
+anchor_kind     = "planning:residential"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-7-0390-0759-s004762"
+line            = "line-7"
+lat             = 33.77972321203614
+lon             = 44.714111189948675
+s_m             = 4762.2
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 9
+
+[[stations]]
+id              = "line-8-0811-0508-s000000"
+line            = "line-8"
+lat             = 33.70395745599827
+lon             = 44.659875628820146
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "بهرز"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 0
+
+[[stations]]
+id              = "line-8-0855-0571-s001625"
+line            = "line-8"
+lat             = 33.6960389446784
+lon             = 44.673488538585474
+s_m             = 1624.5
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-8-0888-0638-s003238"
+line            = "line-8"
+lat             = 33.690100061188495
+lon             = 44.68796576008193
+s_m             = 3237.9
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-8-0965-0664-s004993"
+line            = "line-8"
+lat             = 33.67624266637872
+lon             = 44.69358378633429
+s_m             = 4993.3
+anchor_kind     = "planning:residential-priority"
+anchor_name     = "Residential planning stop; site release open"
+archetype       = "halt"
+platform_length_m = 55.5
+
+[[stations]]
+id              = "line-8-1088-0638-s007669"
+line            = "line-8"
+lat             = 33.65410682791635
+lon             = 44.68796576008193
+s_m             = 7668.7
+archetype       = "terminal"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-9-0481-0648-s000000"
+line            = "line-9"
+lat             = 33.76334629089731
+lon             = 44.69012653940976
+s_m             = 0.0
+mandatory_crossing = true
+anchor_kind     = "amenity:hospital"
+archetype       = "terminal"
+platform_length_m = 59.5
+junction_group  = 8
+
+[[stations]]
+id              = "line-9-0589-0638-s003189"
+line            = "line-9"
+lat             = 33.74390994493035
+lon             = 44.68796576008193
+s_m             = 3189.1
+archetype       = "terminal"
+platform_length_m = 59.5
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
+lat             = 33.70395745599827
+lon             = 44.659875628820146
+lines           = ["line-1", "line-12", "line-8"]
+platforms       = ["line-1-0811-0508-s000000", "line-12-0811-0508-s000000", "line-8-0811-0508-s000000"]
+
+[[interchanges]]
+id              = "interchange-001"
+junction_group  = 1
+lat             = 33.71457545981356
+lon             = 44.65144858944161
+lines           = ["line-1", "line-5"]
+platforms       = ["line-1-0752-0469-s001573", "line-5-0752-0469-s003718"]
+
+[[interchanges]]
+id              = "interchange-002"
+junction_group  = 2
 lat             = 33.73743116294137
 lon             = 44.63445045872934
 lines           = ["line-1", "line-2", "line-3"]
 platforms       = ["line-1-0625-0386-s004988", "line-1-0631-0390-s004849", "line-2-0619-0395-s004223", "line-2-0625-0386-s003993", "line-3-0619-0395-s013163", "line-3-0631-0390-s013451"]
+
+[[interchanges]]
+id              = "interchange-003"
+junction_group  = 3
+lat             = 33.77870340376009
+lon             = 44.601174457080766
+lines           = ["line-1", "line-10", "line-6"]
+platforms       = ["line-1-0395-0236-s011136", "line-10-0395-0236-s000000", "line-6-0397-0237-s000000"]
+
+[[interchanges]]
+id              = "interchange-004"
+junction_group  = 4
+lat             = 33.790521182017784
+lon             = 44.667222278534766
+lines           = ["line-11", "line-3"]
+platforms       = ["line-11-0330-0542-s000000", "line-3-0330-0542-s005966"]
+
+[[interchanges]]
+id              = "interchange-005"
+junction_group  = 5
+lat             = 33.698108555591546
+lon             = 44.655229953265305
+lines           = ["line-12", "line-5"]
+platforms       = ["line-12-0843-0487-s000814", "line-5-0844-0486-s005831"]
+
+[[interchanges]]
+id              = "interchange-006"
+junction_group  = 6
+lat             = 33.72591332829428
+lon             = 44.60801692495223
+lines           = ["line-2", "line-4"]
+platforms       = ["line-2-0689-0268-s000997", "line-4-0689-0268-s000000"]
+
+[[interchanges]]
+id              = "interchange-007"
+junction_group  = 7
+lat             = 33.744449843429436
+lon             = 44.648855654248216
+lines           = ["line-2", "line-5"]
+platforms       = ["line-2-0586-0457-s005806", "line-5-0586-0457-s000000"]
+
+[[interchanges]]
+id              = "interchange-008"
+junction_group  = 8
+lat             = 33.76334629089731
+lon             = 44.69012653940976
+lines           = ["line-2", "line-9"]
+platforms       = ["line-2-0481-0648-s010672", "line-9-0481-0648-s000000"]
+
+[[interchanges]]
+id              = "interchange-009"
+junction_group  = 9
+lat             = 33.77720368570709
+lon             = 44.71443530684785
+lines           = ["line-2", "line-7"]
+platforms       = ["line-2-0418-0762-s013603", "line-7-0390-0759-s004762"]
+
+[[interchanges]]
+id              = "interchange-010"
+junction_group  = 10
+lat             = 33.796280099341324
+lon             = 44.670895603392076
+lines           = ["line-3", "line-7"]
+platforms       = ["line-3-0298-0559-s005150", "line-7-0298-0559-s000000"]
 
 # [[depots]] — one full-fleet planning depot per line; storage and workshop bays are separate, unaccepted requirements.
 [[depots]]
@@ -608,14 +2842,14 @@ station = "line-1-0811-0508-s000000"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 6
-storage_slots = 38
+storage_slots = 37
 storage_tracks = 13
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 2261.0
+storage_track_m = 2201.5
 workshop_bays = 6
 planning_land_area_m2 = 30154.5
-reference_cost_usd = 17342458
+reference_cost_usd = 17327582
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -627,6 +2861,36 @@ side = "turnback"
 id = "sw-line-1-0395-0236-s011136-tb"
 kit = "no-9-mainline"
 station = "line-1-0395-0236-s011136"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-10-0395-0236-s000000-tb"
+kit = "no-9-mainline"
+station = "line-10-0395-0236-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-10-0037-0257-s010426-tb"
+kit = "no-9-mainline"
+station = "line-10-0037-0257-s010426"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-11-0330-0542-s000000-tb"
+kit = "no-9-mainline"
+station = "line-11-0330-0542-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-11-0513-0387-s005663-tb"
+kit = "no-9-mainline"
+station = "line-11-0513-0387-s005663"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-12-0811-0508-s000000-tb"
+kit = "no-9-mainline"
+station = "line-12-0811-0508-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-12-0914-0316-s004928-tb"
+kit = "no-9-mainline"
+station = "line-12-0914-0316-s004928"
 side = "turnback"
 [[depots.switches]]
 id = "sw-line-2-0711-0229-s000000-tb"
@@ -774,6 +3038,161 @@ kit = "no-9-mainline"
 station = "line-2-0185-1002-s021988"
 side = "yard-throat"
 [[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-28"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-29"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-30"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-31"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-32"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-33"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-34"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-35"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-36"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-37"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-38"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-39"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-40"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-41"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-42"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-43"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-44"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-45"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-46"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-47"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-48"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-49"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-50"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-51"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-52"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-53"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-54"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-55"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-56"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-57"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
+id = "sw-line-2-0185-1002-s021988-yd-58"
+kit = "no-9-mainline"
+station = "line-2-0185-1002-s021988"
+side = "yard-throat"
+[[depots.switches]]
 id = "sw-line-3-0123-0580-s000000-tb"
 kit = "no-9-mainline"
 station = "line-3-0123-0580-s000000"
@@ -783,20 +3202,80 @@ id = "sw-line-3-0927-0228-s021222-tb"
 kit = "no-9-mainline"
 station = "line-3-0927-0228-s021222"
 side = "turnback"
+[[depots.switches]]
+id = "sw-line-4-0689-0268-s000000-tb"
+kit = "no-9-mainline"
+station = "line-4-0689-0268-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-4-0514-0163-s004674-tb"
+kit = "no-9-mainline"
+station = "line-4-0514-0163-s004674"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-5-0586-0457-s000000-tb"
+kit = "no-9-mainline"
+station = "line-5-0586-0457-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-5-0937-0437-s008097-tb"
+kit = "no-9-mainline"
+station = "line-5-0937-0437-s008097"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-6-0397-0237-s000000-tb"
+kit = "no-9-mainline"
+station = "line-6-0397-0237-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-6-0438-0038-s004320-tb"
+kit = "no-9-mainline"
+station = "line-6-0438-0038-s004320"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-7-0298-0559-s000000-tb"
+kit = "no-9-mainline"
+station = "line-7-0298-0559-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-7-0390-0759-s004762-tb"
+kit = "no-9-mainline"
+station = "line-7-0390-0759-s004762"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-8-0811-0508-s000000-tb"
+kit = "no-9-mainline"
+station = "line-8-0811-0508-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-8-1088-0638-s007669-tb"
+kit = "no-9-mainline"
+station = "line-8-1088-0638-s007669"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-9-0481-0648-s000000-tb"
+kit = "no-9-mainline"
+station = "line-9-0481-0648-s000000"
+side = "turnback"
+[[depots.switches]]
+id = "sw-line-9-0589-0638-s003189-tb"
+kit = "no-9-mainline"
+station = "line-9-0589-0638-s003189"
+side = "turnback"
 
 [[depots]]
 station = "line-2-0185-1002-s021988"
 line = "line-2"
 archetype = "main-heavy"
-fleet_stalls = 10
-storage_slots = 70
-storage_tracks = 24
+fleet_stalls = 11
+storage_slots = 74
+storage_tracks = 25
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 4165.0
-workshop_bays = 10
-planning_land_area_m2 = 50206.0
-reference_cost_usd = 21869460
+storage_track_m = 4403.0
+workshop_bays = 11
+planning_land_area_m2 = 52407.5
+reference_cost_usd = 22755812
 site_accepted = false
 physical_release = false
 
@@ -804,41 +3283,257 @@ physical_release = false
 station = "line-3-0123-0580-s000000"
 line = "line-3"
 archetype = "main-heavy"
-fleet_stalls = 10
-storage_slots = 68
-storage_tracks = 23
+fleet_stalls = 11
+storage_slots = 74
+storage_tracks = 25
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 4046.0
-workshop_bays = 10
-planning_land_area_m2 = 48599.5
-reference_cost_usd = 21733482
+storage_track_m = 4403.0
+workshop_bays = 11
+planning_land_area_m2 = 52407.5
+reference_cost_usd = 22755812
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-4-0689-0268-s000000"
+line = "line-4"
+archetype = "main-heavy"
+fleet_stalls = 3
+storage_slots = 18
+storage_tracks = 6
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1071.0
+workshop_bays = 3
+planning_land_area_m2 = 17124.0
+reference_cost_usd = 14139490
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-5-0586-0457-s000000"
+line = "line-5"
+archetype = "main-heavy"
+fleet_stalls = 4
+storage_slots = 28
+storage_tracks = 10
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1666.0
+workshop_bays = 4
+planning_land_area_m2 = 24145.0
+reference_cost_usd = 15433775
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-6-0397-0237-s000000"
+line = "line-6"
+archetype = "main-heavy"
+fleet_stalls = 3
+storage_slots = 16
+storage_tracks = 6
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 952.0
+workshop_bays = 3
+planning_land_area_m2 = 17124.0
+reference_cost_usd = 14109740
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-7-0298-0559-s000000"
+line = "line-7"
+archetype = "main-heavy"
+fleet_stalls = 3
+storage_slots = 17
+storage_tracks = 6
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1011.5
+workshop_bays = 3
+planning_land_area_m2 = 17124.0
+reference_cost_usd = 14124615
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-8-0811-0508-s000000"
+line = "line-8"
+archetype = "main-heavy"
+fleet_stalls = 4
+storage_slots = 27
+storage_tracks = 9
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1606.5
+workshop_bays = 4
+planning_land_area_m2 = 22538.5
+reference_cost_usd = 15312672
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-9-0481-0648-s000000"
+line = "line-9"
+archetype = "main-heavy"
+fleet_stalls = 2
+storage_slots = 12
+storage_tracks = 4
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 714.0
+workshop_bays = 2
+planning_land_area_m2 = 13316.0
+reference_cost_usd = 13117160
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-10-0395-0236-s000000"
+line = "line-10"
+archetype = "main-heavy"
+fleet_stalls = 6
+storage_slots = 40
+storage_tracks = 14
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 2380.0
+workshop_bays = 6
+planning_land_area_m2 = 31761.0
+reference_cost_usd = 17478435
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-11-0330-0542-s000000"
+line = "line-11"
+archetype = "main-heavy"
+fleet_stalls = 3
+storage_slots = 19
+storage_tracks = 7
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1130.5
+workshop_bays = 3
+planning_land_area_m2 = 18730.5
+reference_cost_usd = 14260592
+site_accepted = false
+physical_release = false
+
+[[depots]]
+station = "line-12-0811-0508-s000000"
+line = "line-12"
+archetype = "main-heavy"
+fleet_stalls = 3
+storage_slots = 19
+storage_tracks = 7
+train_length_m = 49.5
+slot_length_m = 59.5
+storage_track_m = 1130.5
+workshop_bays = 3
+planning_land_area_m2 = 18730.5
+reference_cost_usd = 14260592
 site_accepted = false
 physical_release = false
 
 [[fleets]]
 line               = "line-1"
-peak_count         = 34
+peak_count         = 33
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 38
+trainset_count     = 37
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 63
+peak_count         = 67
 service_rotation_count = 0
 spare_count        = 6
 cold_reserve_count = 1
-trainset_count     = 70
+trainset_count     = 74
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 61
+peak_count         = 67
 service_rotation_count = 0
 spare_count        = 6
 cold_reserve_count = 1
-trainset_count     = 68
+trainset_count     = 74
+
+[[fleets]]
+line               = "line-4"
+peak_count         = 16
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 18
+
+[[fleets]]
+line               = "line-5"
+peak_count         = 25
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 28
+
+[[fleets]]
+line               = "line-6"
+peak_count         = 14
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 16
+
+[[fleets]]
+line               = "line-7"
+peak_count         = 15
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 17
+
+[[fleets]]
+line               = "line-8"
+peak_count         = 24
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 27
+
+[[fleets]]
+line               = "line-9"
+peak_count         = 10
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 12
+
+[[fleets]]
+line               = "line-10"
+peak_count         = 36
+service_rotation_count = 0
+spare_count        = 3
+cold_reserve_count = 1
+trainset_count     = 40
+
+[[fleets]]
+line               = "line-11"
+peak_count         = 17
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 19
+
+[[fleets]]
+line               = "line-12"
+peak_count         = 17
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 19
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -850,38 +3545,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; adopted full-fleet line-depot geometry and prices supersede the retained maintenance-only depot unit benchmarks; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 25833023
-at_grade_eur         = 23766381
-elevated_usd         = 375410102
-elevated_eur         = 345377294
-bridge_usd           = 105066000
-bridge_eur           = 96660720
+at_grade_usd         = 74687682
+at_grade_eur         = 68712668
+elevated_usd         = 674588804
+elevated_eur         = 620621700
+bridge_usd           = 179428052
+bridge_eur           = 165073808
 junction_premium_usd = 0  # $4.5 M per elevated interchange.
 junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 506309125
-civil_subtotal_eur   = 465804395
+civil_subtotal_usd   = 928704538
+civil_subtotal_eur   = 854408175
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 105700000
-stations_eur         = 97244000
+stations_usd         = 297600000
+stations_eur         = 273792000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 60945400
-depots_eur           = 56069768
+depots_usd           = 195076277
+depots_eur           = 179470175
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 158400000
-rolling_stock_eur    = 145728000
+rolling_stock_usd    = 342900000
+rolling_stock_eur    = 315468000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_usd       = 2717290
-signalling_eur       = 2499907
-charging_microgrid_usd = 2350000
-charging_microgrid_eur = 2162000
+signalling_usd       = 5403746
+signalling_eur       = 4971446
+charging_microgrid_usd = 6050000
+charging_microgrid_eur = 5566000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 58549527
-epc_overhead_eur     = 53865565
-total_usd            = 894971342  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 823373635  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 124301419
+epc_overhead_eur     = 114357305
+total_usd            = 1900035980  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 1748033102  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -896,7 +3591,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 26928000
+fleet_core_electrical_usd = 58293000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

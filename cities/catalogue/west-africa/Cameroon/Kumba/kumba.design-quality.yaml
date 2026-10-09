@@ -1,29 +1,29 @@
 slug: kumba
 pass: true
 metrics:
-  total_route_m: 35802.1
-  n_lines: 3
-  n_stations: 16
-  anchor_hit_rate: 0.375
-  high_demand_coverage: 0.435
+  total_route_m: 71224.4
+  n_lines: 11
+  n_stations: 52
+  anchor_hit_rate: 0.192
+  high_demand_coverage: 0.657
   civil_mix_m:
-    at_grade: 4005.800
-    elevated: 30888.600
-    bridge:   907.700
-  elevated_fraction: 0.888
+    at_grade: 16120.5
+    elevated: 54156.2
+    bridge:   947.7
+  elevated_fraction: 0.774
   viaduct_products_m:
-    osr_pi20_pi25: 30723.676
-    osr_us:      164.924
-    special:     907.700
-    realign:     0.000
-  max_elevated_cost_multiplier: 4.281
+    osr_pi20_pi25: 51674.5
+    osr_us:      2481.7
+    special:     947.7
+    realign:     0.0
+  max_elevated_cost_multiplier: 4.221
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: true
     soft_pass_all:      false

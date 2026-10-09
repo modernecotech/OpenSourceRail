@@ -1,29 +1,29 @@
 slug: huambo
 pass: true
 metrics:
-  total_route_m: 42843.8
-  n_lines: 3
-  n_stations: 17
-  anchor_hit_rate: 0.412
-  high_demand_coverage: 0.251
+  total_route_m: 85536.4
+  n_lines: 13
+  n_stations: 61
+  anchor_hit_rate: 0.230
+  high_demand_coverage: 0.508
   civil_mix_m:
-    at_grade: 3179.800
-    elevated: 37436.300
-    bridge:   2227.700
-  elevated_fraction: 0.926
+    at_grade: 10180.3
+    elevated: 72958.7
+    bridge:   2397.4
+  elevated_fraction: 0.881
   viaduct_products_m:
-    osr_pi20_pi25: 37203.268
-    osr_us:      213.032
-    special:     2227.700
-    realign:     20.000
-  max_elevated_cost_multiplier: 6.923
+    osr_pi20_pi25: 68744.5
+    osr_us:      3772.8
+    special:     2397.4
+    realign:     441.4
+  max_elevated_cost_multiplier: 16.336
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
+    coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

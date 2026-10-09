@@ -7,7 +7,7 @@
     "west": 36.825851
   },
   "core_analytical_length_m": 5373.86267,
-  "core_final_route_length_m": 5694.213562,
+  "core_final_route_length_m": 10862.152955,
   "core_original_length_m": 10266.214998,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -63,19 +63,176 @@
       "reworked_cells": 265,
       "reworked_route_m": 5694.213562,
       "water_route_changes": []
+    },
+    {
+      "core_runs": [],
+      "final_core_route_m": 5167.939392,
+      "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
+      "line": "line-2",
+      "original_cells": 0,
+      "original_route_m": 0,
+      "reworked_cells": 242,
+      "reworked_route_m": 5167.939392,
+      "water_route_changes": []
     }
   ],
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "actual_regenerated_station_coverage": null,
+    "added_line_count": 1,
+    "added_lines": [
+      {
+        "connection_cell": [
+          420,
+          470
+        ],
+        "connection_kind": "actual common corridor cell; mandatory native platform pair and civil junction design required",
+        "connection_line": "line-1",
+        "end_connection_cell": null,
+        "end_connection_line": null,
+        "geometry_basis": "bounded water/buildability raster investigation route",
+        "incremental_residents_2020": 60427.115,
+        "length_m": 5167.939392,
+        "line": "line-2",
+        "priority_areas": [
+          [
+            20,
+            19
+          ],
+          [
+            20,
+            22
+          ],
+          [
+            19,
+            25
+          ]
+        ],
+        "priority_cells": [
+          [
+            511,
+            487
+          ],
+          [
+            512,
+            562
+          ],
+          [
+            488,
+            637
+          ]
+        ],
+        "property_curve_vertical_profile_and_structural_release": false
+      }
+    ],
+    "added_route_limit_m": 5694.214,
+    "added_route_m": 5167.939,
+    "as_of": "2026-10-09",
+    "base_line_junction_changes": [],
+    "base_line_junction_reviews": [],
+    "baseline_actual_station_radial_fraction": 0.184896,
+    "baseline_with_sampled_infill_radial_fraction": 0.191928,
+    "bbox_population_2020": 337461.619,
+    "city": "quelimane",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 2,
+    "operating_release": false,
+    "original_line_count": 1,
+    "original_route_m": 5694.214,
+    "outcome": "bounded candidates exhausted; remaining residential gaps require further route/source/site investigation",
+    "physical_release": false,
+    "planned_stop_cells_by_line": {
+      "line-1": [
+        [
+          373,
+          716
+        ],
+        [
+          380,
+          679
+        ],
+        [
+          394,
+          605
+        ],
+        [
+          408,
+          530
+        ],
+        [
+          422,
+          456
+        ],
+        [
+          423,
+          452
+        ]
+      ],
+      "line-2": [
+        [
+          420,
+          470
+        ],
+        [
+          460,
+          470
+        ],
+        [
+          511,
+          509
+        ],
+        [
+          493,
+          581
+        ],
+        [
+          488,
+          637
+        ]
+      ]
+    },
+    "population_is_current_census": false,
+    "population_year": 2020,
+    "proposed_station_sample_radial_fraction": 0.36396,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-pixels.npz.gz": "dc238457644361e766dce88610b86535542981f972981b594fbeac063d3d0578",
+      "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-source.json": "1e11aecfacc04ed739f73d99d45316a28f90e304e0c352dcf3c31565e2b42adb",
+      "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/network-expansion-baseline.json.gz": "eace212f57bdddf6693190481d96e9f0801428d8ea64d00bf962eebfc748ec1f",
+      "cities/catalogue/east-africa/Mozambique/Quelimane/station-spacing-policy.toml": "2dfec60e4f1a23b73f9096b829e780cc98c56ebb0675f661227564bb9873cab6",
+      "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "status": "expanded-controlled-planning-layout",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_met_in_proposed_station_sample": false,
+    "target_radial_fraction": 0.8
+  },
   "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/east-africa/Mozambique/Quelimane/alignment-policy.toml": "6c82b9a487f8f434d50234a0804824c95f047e32c2fba05cb2ad7d8a31d9334d",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-pixels.npz.gz": "dc238457644361e766dce88610b86535542981f972981b594fbeac063d3d0578",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/access/population-source.json": "1e11aecfacc04ed739f73d99d45316a28f90e304e0c352dcf3c31565e2b42adb",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/network-expansion-baseline.json.gz": "eace212f57bdddf6693190481d96e9f0801428d8ea64d00bf962eebfc748ec1f",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-buildability-mask.bin.gz": "7540ee7b156575cb673b5f95f3523ce49875482d4c0fca3a709419368eb8e706",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-grid.json": "1e7109b48b98e9636020dfc659611a170aa16da1ca1fdbd832edd86640fc153d",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/planning-water-mask.bin.gz": "ea6cc74a0492480ac135dd865698ee8e69e9d5ced5b2fae9c3e54e16d0627cf9",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/pre-rework-corridors.json.gz": "083d4b1f8d5462957af902dc48359f952442a90e5912f2939a91c66d356850d7",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/residential-line-expansion.json": "b4607a49b7a2a15405aee2888cb4b4eec01e252c7915f3fa8a160cc199821929",
     "cities/catalogue/east-africa/Mozambique/Quelimane/engineering/alignment/water-source-receipt.json": "513c415a872f28e8489d5d43e8f173c6d49c3c8294740d68ae5b809b73a84c0a",
+    "cities/catalogue/east-africa/Mozambique/Quelimane/station-spacing-policy.toml": "2dfec60e4f1a23b73f9096b829e780cc98c56ebb0675f661227564bb9873cab6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/rework-baghdad-alignment.py": "f55b7e1ed50135e21bcfea38f5591231cd1d0c743a3681292ba10394083d1e87",
-    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+    "tools/automation/rework-baghdad-alignment.py": "1b21cbf8d724910b7c86fbfaecbac2dadf04345dd2a777c865f93742ad436255",
+    "tools/automation/rework-city-alignment.py": "019423389e9d787e024cf4e6df6eb987c3811b94a30dff51137262f7da7e0088",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"

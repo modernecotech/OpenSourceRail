@@ -1,29 +1,29 @@
 slug: mbuji-mayi
 pass: true
 metrics:
-  total_route_m: 105293.0
-  n_lines: 4
-  n_stations: 36
-  anchor_hit_rate: 0.306
-  high_demand_coverage: 0.547
+  total_route_m: 143811.4
+  n_lines: 12
+  n_stations: 98
+  anchor_hit_rate: 0.082
+  high_demand_coverage: 0.724
   civil_mix_m:
-    at_grade: 13588.300
-    elevated: 87979.100
-    bridge:   3725.700
-  elevated_fraction: 0.871
+    at_grade: 13588.2
+    elevated: 125677.1
+    bridge:   4546.2
+  elevated_fraction: 0.906
   viaduct_products_m:
-    osr_pi20_pi25: 87452.826
-    osr_us:      449.706
-    special:     3725.700
-    realign:     76.568
-  max_elevated_cost_multiplier: 12.085
+    osr_pi20_pi25: 120911.7
+    osr_us:      3974.2
+    special:     4546.2
+    realign:     791.1
+  max_elevated_cost_multiplier: 14.611
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

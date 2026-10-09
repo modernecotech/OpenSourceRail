@@ -1,0 +1,141 @@
+# OSR-ALN v1.0 — deterministic current-network planning export.
+# NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
+# curve fitting, surveyed top-of-rail levels, and cant remain release gates.
+# Source city: conakry; source line: line-6; length: 3284.4 m.
+
+[meta]
+schema_version = "1.0"
+line_id        = "line-6"
+design_date    = "2026-08-12"
+surveyor       = "UNSURVEYED — OSR generated planning trace"
+preset         = "standard-metro"
+consist        = "metro-4car"
+crs            = "EPSG:32628"
+units          = "metric"
+is_ring        = false
+source_status  = "planning-only; replace with signed survey/CAD export"
+source_design_sha256 = "7dcd2fb23f8901226344dba7e4d25cdeb7bb0ef1ca57309b1e5a4cc7059e9d3a"
+source_geojson_sha256 = "da0df8a620e42cad3fc082017009eaaca193ce476cbecfa2c94635d508ced48c"
+horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
+vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
+cant_status       = "not designed; absent means zero only for planning validation"
+civil_status      = "generated planning classification; field verification required"
+
+# Horizontal control points projected from the checked-in WGS84 GeoJSON.
+# Radius/transition are zero because no survey-grade curve fit exists yet.
+
+[[horizontal]]
+station_m           = 0.000
+easting_m           = 652901.782
+northing_m          = 1061444.561
+bearing_in_deg      = 314.635
+bearing_out_deg     = 314.635
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1074.856
+easting_m           = 652138.897
+northing_m          = 1062197.792
+bearing_in_deg      = 314.635
+bearing_out_deg     = 359.769
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1134.719
+easting_m           = 652138.656
+northing_m          = 1062257.501
+bearing_in_deg      = 359.769
+bearing_out_deg     = 44.899
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3284.400
+easting_m           = 653652.113
+northing_m          = 1063776.289
+bearing_in_deg      = 44.899
+bearing_out_deg     = 44.899
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+# Placeholder vertical profile. Replace both rows with surveyed
+# top-of-rail elevations and designed vertical curves before release.
+
+[[vertical]]
+station_m   = 0.000
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+[[vertical]]
+station_m   = 3284.400
+elevation_m = 0.000
+vc_radius_m = 0.000
+
+# Civil spans are the current planner classification, not a surveyed
+# constructability decision. They cover the complete line without gaps.
+
+[[civil]]
+from_station_m = 0.000
+to_station_m   = 1046.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1046.500
+to_station_m   = 1074.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1074.800
+to_station_m   = 1163.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1163.100
+to_station_m   = 1191.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1191.400
+to_station_m   = 1474.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1474.200
+to_station_m   = 1502.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1502.500
+to_station_m   = 1813.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1813.600
+to_station_m   = 1841.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1841.900
+to_station_m   = 3284.400
+class          = "elevated"
+
+# Station IDs and chainages resolve directly to design.toml.
+
+[[station]]
+id                = "line-6-0280-0951-s000000"
+station_m         = 0.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-6-0189-0963-s002549"
+station_m         = 2549.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-6-0163-0989-s003284"
+station_m         = 3284.400
+platform_length_m = 85.000
+
+# No [[cant]] rows: cant has not been designed for this planning trace.

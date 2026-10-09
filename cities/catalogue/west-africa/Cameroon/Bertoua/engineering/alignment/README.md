@@ -4,9 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bertoua-line1.aln.toml`](bertoua-line1.aln.toml) | `line-1` | 6,962.7 m | 3 |
-| [`bertoua-line2.aln.toml`](bertoua-line2.aln.toml) | `line-2` | 8,007.4 m | 4 |
-| [`bertoua-line3.aln.toml`](bertoua-line3.aln.toml) | `line-3` | 8,421.0 m | 4 |
+| [`bertoua-line1.aln.toml`](bertoua-line1.aln.toml) | `line-1` | 6,962.7 m | 5 |
+| [`bertoua-line2.aln.toml`](bertoua-line2.aln.toml) | `line-2` | 8,007.4 m | 5 |
+| [`bertoua-line3.aln.toml`](bertoua-line3.aln.toml) | `line-3` | 8,421.0 m | 8 |
+| [`bertoua-line4.aln.toml`](bertoua-line4.aln.toml) | `line-4` | 4,350.8 m | 4 |
+| [`bertoua-line5.aln.toml`](bertoua-line5.aln.toml) | `line-5` | 3,715.6 m | 3 |
 
 ## Status
 

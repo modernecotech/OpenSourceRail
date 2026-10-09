@@ -53,34 +53,44 @@ def infill(stations, lines, geometry, grid, mask, maximum_gap_m, minimum_gap_m):
     return additions
 
 def transfer_groups(stations, previous, civil, lines=None):
-    """Retain platforms on their own corridors and identify actual transfer legs."""
-    stations=[dict(s) for s in stations];parent=list(range(len(stations)));terminals=set()
+    """Bound every complex by its full 600 m platform diameter."""
+    stations=[dict(s) for s in stations];parent=list(range(len(stations)));members=[[i] for i in parent];terminals=set()
     for line in lines or []:
         if line['shape']=='ring':continue
-        members=sorted((s for s in stations if s['line']==line['name']),key=lambda s:s['s_m'])
-        if members:terminals.update([members[0]['id'],members[-1]['id']])
+        rows=sorted((s for s in stations if s['line']==line['name']),key=lambda s:s['s_m'])
+        if rows:terminals.update([rows[0]['id'],rows[-1]['id']])
     def find(i):
         while parent[i]!=i:i=parent[i]
         return i
-    def union(i,j):parent[find(j)]=find(i)
+    distances={};edges=[]
     for i,first in enumerate(stations):
         for j,second in enumerate(stations[:i]):
-            if first['line']==second['line']:continue
             lat1,lat2=map(math.radians,[first['lat'],second['lat']]);dl=math.radians(first['lon']-second['lon'])
-            distance=6371000*2*math.asin(min(1,math.sqrt(math.sin((lat1-lat2)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin(dl/2)**2)))
-            if distance<=600 or first.get('junction_group') is not None and first.get('junction_group')==second.get('junction_group'):union(i,j)
+            distance=round(6371000*2*math.asin(min(1,math.sqrt(math.sin((lat1-lat2)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin(dl/2)**2))),3)
+            distances[i,j]=distances[j,i]=distance
+            if first['line']!=second['line'] and distance<=600:edges.append((distance,j,i))
+    for _,i,j in sorted(edges):
+        left,right=find(i),find(j)
+        if left==right:continue
+        if any(a!=b and distances[a,b]>600 for a in members[left] for b in members[right]):continue
+        keep,drop=min(left,right),max(left,right);parent[drop]=keep;members[keep]+=members[drop];members[drop]=[]
     components={}
-    for i,s in enumerate(stations):components.setdefault(find(i),[]).append(s)
-    existing={g['junction_group']:g for g in previous};next_id=max(existing,default=-1)+1;groups=[]
-    for members in components.values():
-        if len({s['line'] for s in members})<2:continue
-        old={s['junction_group'] for s in members if 'junction_group' in s};group=min(old) if old else next_id
+    for i,station in enumerate(stations):components.setdefault(find(i),[]).append(station)
+    existing={g['junction_group']:g for g in previous};next_id=max(existing,default=-1)+1;used=set();groups=[]
+    for rows in components.values():
+        old=sorted({s['junction_group'] for s in rows if 'junction_group' in s}-used)
+        for station in rows:
+            station.pop('junction_group',None)
+            if station['archetype'] not in {'terminal','depot-terminal'}:station['archetype']='standard'
+        if len({s['line'] for s in rows})<2:continue
+        group=old[0] if old else next_id
         if not old:next_id+=1
-        elevated=any(c['line']==s['line'] and c['from_station_m']<=s['s_m']<=c['to_station_m'] and c['class']=='elevated' for s in members for c in civil)
-        for station in members:
+        used.add(group)
+        elevated=any(c['line']==s['line'] and c['from_station_m']<=s['s_m']<=c['to_station_m'] and c['class']=='elevated' for s in rows for c in civil)
+        for station in rows:
             role=station['archetype'] if station['archetype'] in {'terminal','depot-terminal'} else 'terminal' if station['id'] in terminals else 'interchange-elevated' if elevated else 'interchange'
             station.update(junction_group=group,archetype=role)
-        groups.append(dict(id=existing.get(group,{}).get('id',f'interchange-{group:03d}'),junction_group=group,lat=math.fsum(s['lat'] for s in members)/len(members),lon=math.fsum(s['lon'] for s in members)/len(members),lines=sorted({s['line'] for s in members}),platforms=sorted(s['id'] for s in members)))
+        groups.append(dict(id=existing.get(group,{}).get('id',f'interchange-{group:03d}'),junction_group=group,lat=math.fsum(s['lat'] for s in rows)/len(rows),lon=math.fsum(s['lon'] for s in rows)/len(rows),lines=sorted({s['line'] for s in rows}),platforms=sorted(s['id'] for s in rows)))
     return stations,sorted(groups,key=lambda g:g['junction_group'])
 
 def apply(path, report_only=False):
@@ -90,6 +100,23 @@ def apply(path, report_only=False):
     if set(policy)!={'maximum_gap_m','minimum_gap_m','basis'} or not str(policy['basis']).strip():raise ValueError('Infill policy requires bounded spacing and a planning basis')
     text=path.read_text();d=tomllib.loads(text);slug=d['city']['slug'];city=path.parent;out=city/'engineering/alignment'
     corridor=city/(slug+'.corridor.geojson');grid_path=out/'planning-grid.json';mask_path=out/'planning-water-mask.bin.gz'
+    native_spacing=city/'station-spacing-policy.toml'
+    if native_spacing.exists():
+        spacing=tomllib.loads(native_spacing.read_text());reviews=[]
+        for line in d['lines']:
+            ordered=sorted((s for s in d['stations'] if s['line']==line['name']),key=lambda s:s['s_m'])
+            for first,last in zip(ordered,ordered[1:]):
+                if last['s_m']-first['s_m']>spacing['maximum_gap_m']+.1:
+                    reviews.append(dict(line=line['name'],stations=[first['id'],last['id']],gap_m=last['s_m']-first['s_m'],
+                        disposition='native retained junction/end/ground constraints; investigate access or revised station sites',accepted=False))
+        report=dict(city=slug,physical_release=False,policy=policy,station_spacing_owner='native population-led station generation',
+                    legacy_overlay_is_not_reapplied=True,unresolved_station_gap_reviews=reviews,
+                    planning_infill_stations=[s for s in d['stations'] if s.get('anchor_kind','').startswith('planning:residential')],
+                    sources_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [path,policy_path,native_spacing,corridor,grid_path,mask_path,Path(__file__)]},
+                    limitations=['The prior overlay is retained as a comparator; new native spacing, forced junctions and planned sites control this revision.',
+                                 'Unresolved gap exceptions do not grant walking coverage, new sites, field acceptance or fare demand.'])
+        (out/'station-infill.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+        return False
     geometry={f['properties']['name']:f['geometry']['coordinates'] for f in json.loads(corridor.read_text())['features'] if f['properties'].get('kind')=='line'}
     additions=infill(d['stations'],d['lines'],geometry,json.loads(grid_path.read_text()),gzip.decompress(mask_path.read_bytes()),policy['maximum_gap_m'],policy['minimum_gap_m'])
     existing=[s for s in d['stations'] if s.get('anchor_kind')=='planning:infill']

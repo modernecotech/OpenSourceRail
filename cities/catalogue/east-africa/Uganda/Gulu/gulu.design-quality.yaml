@@ -1,29 +1,29 @@
 slug: gulu
 pass: true
 metrics:
-  total_route_m: 54919.6
-  n_lines: 3
-  n_stations: 19
-  anchor_hit_rate: 0.368
-  high_demand_coverage: 0.467
+  total_route_m: 108453.5
+  n_lines: 15
+  n_stations: 74
+  anchor_hit_rate: 0.135
+  high_demand_coverage: 0.703
   civil_mix_m:
-    at_grade: 10488.500
-    elevated: 44431.100
-    bridge:   0.000
-  elevated_fraction: 0.809
+    at_grade: 17508.1
+    elevated: 90945.4
+    bridge:   0.0
+  elevated_fraction: 0.839
   viaduct_products_m:
-    osr_pi20_pi25: 44277.962
-    osr_us:      133.138
-    special:     0.000
-    realign:     20.000
-  max_elevated_cost_multiplier: 9.529
+    osr_pi20_pi25: 85304.1
+    osr_us:      5171.6
+    special:     0.0
+    realign:     469.7
+  max_elevated_cost_multiplier: 13.649
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

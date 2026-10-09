@@ -92,7 +92,7 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
         if funding is not None and funding.get("schedule_status") != "linked-to-budget-work-packages":
             findings.append({"artifact": "engineering/finance/summary.json", "source": "funding_schedule", "expected_sha256": "current schedule-linked appraisal", "recorded_sha256": funding.get("schedule_status")})
     if slug != 'baghdad' and (city_dir/'alignment-policy.toml').is_file():
-        for relative in ('alignment/core-realignment.json','alignment/station-water-screen.json','alignment/station-infill.json','line-depots/summary.json','factory/summary.json'):
+        for relative in ('alignment/core-realignment.json','alignment/station-water-screen.json','alignment/station-infill.json','alignment/residential-line-expansion.json','alignment/residential-expansion-evaluation.json','line-depots/summary.json','factory/summary.json'):
             path=city_dir/'engineering'/relative
             if not path.is_file():continue
             report=json.loads(path.read_text())
@@ -379,6 +379,12 @@ def main() -> int:
             required.append(city_dir/'station-bank-policy.toml')
         if (city_dir/'engineering/alignment/station-site-review.json').is_file():
             required.append(city_dir/'engineering/alignment/station-site-review.json')
+    if (city_dir/'engineering/alignment/residential-line-expansion.json').exists():
+        required.extend(city_dir/relative for relative in (
+            'engineering/alignment/residential-line-expansion.json',
+            'engineering/alignment/residential-expansion-evaluation.json',
+            'engineering/alignment/network-expansion-baseline.json.gz'))
+        if (city_dir/'station-spacing-policy.toml').exists():required.append(city_dir/'station-spacing-policy.toml')
     missing = [str(path.relative_to(city_dir)) for path in required if not path.is_file()]
     failed_summaries: list[str] = []
     for path in required:

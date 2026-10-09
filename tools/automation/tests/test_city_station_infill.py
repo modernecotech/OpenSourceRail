@@ -53,3 +53,12 @@ def test_transfer_group_preserves_radial_terminal_and_depot_roles():
     current,groups=module.transfer_groups(platforms,[],[],lines)
     assert current[1]['archetype']=='terminal' and current[2]['archetype']=='depot-terminal'
     assert current[1]['junction_group']==current[2]['junction_group']
+
+def test_infill_rebuild_does_not_reintroduce_transitive_oversized_complexes():
+    platforms=[dict(id=name,line='line-'+str(i),lat=0,lon=distance/111195,s_m=0,
+                    archetype='interchange',junction_group=0)
+               for i,(name,distance) in enumerate([('a',0),('b',500),('c',1000)],1)]
+    current,groups=module.transfer_groups(platforms,[dict(junction_group=0,id='old-complex')],[])
+    assert not any({'a','c'}<=set(group['platforms']) for group in groups)
+    assert len({g['junction_group'] for g in groups})==len(groups)
+    assert [(s['lat'],s['lon']) for s in current]==[(s['lat'],s['lon']) for s in platforms]

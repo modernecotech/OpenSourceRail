@@ -1,28 +1,28 @@
 slug: ilorin
 pass: true
 metrics:
-  total_route_m: 40769.7
-  n_lines: 3
-  n_stations: 16
-  anchor_hit_rate: 0.688
-  high_demand_coverage: 0.258
+  total_route_m: 79846.6
+  n_lines: 11
+  n_stations: 54
+  anchor_hit_rate: 0.241
+  high_demand_coverage: 0.487
   civil_mix_m:
-    at_grade: 4155.400
-    elevated: 35911.400
-    bridge:   702.900
-  elevated_fraction: 0.898
+    at_grade: 5955.0
+    elevated: 70602.8
+    bridge:   3288.8
+  elevated_fraction: 0.925
   viaduct_products_m:
-    osr_pi20_pi25: 35490.012
-    osr_us:      293.088
-    special:     702.900
-    realign:     128.300
+    osr_pi20_pi25: 66380.3
+    osr_us:      3882.5
+    special:     3288.8
+    realign:     340.0
   max_elevated_cost_multiplier: 32.400
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   false
+    coverage_ge_0.30:   true
     anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false

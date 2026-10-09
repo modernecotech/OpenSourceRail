@@ -1,7 +1,7 @@
 # OSR-ALN v1.0 — deterministic current-network planning export.
 # NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
 # curve fitting, surveyed top-of-rail levels, and cant remain release gates.
-# Source city: bamako; source line: line-3; length: 16396.1 m.
+# Source city: bamako; source line: line-3; length: 16384.3 m.
 
 [meta]
 schema_version = "1.0"
@@ -14,8 +14,8 @@ crs            = "EPSG:32629"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "3c4e8852b503078101b39430a1a823b5368a5fc8970358acfa9fd86103d16560"
-source_geojson_sha256 = "72da43e5dfdd1ae74edd38a30a31c280994b986f96639befcdc83d35115a3efe"
+source_design_sha256 = "afc5cc72a888e0fc4087daa3e66b0ee967eddb516428cdb5799f8a89008721d7"
+source_geojson_sha256 = "6ca496baa6d9d96cb507b84ec632ef309fe1650257d9ec8bf103cf55711ecc35"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -26,15 +26,24 @@ civil_status      = "generated planning classification; field verification requi
 
 [[horizontal]]
 station_m           = 0.000
-easting_m           = 604930.905
-northing_m          = 1389010.987
-bearing_in_deg      = 359.790
+easting_m           = 604910.828
+northing_m          = 1389030.817
+bearing_in_deg      = 44.935
+bearing_out_deg     = 44.935
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 29.809
+easting_m           = 604930.759
+northing_m          = 1389050.795
+bearing_in_deg      = 44.935
 bearing_out_deg     = 359.790
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 168.270
+station_m           = 155.956
 easting_m           = 604930.321
 northing_m          = 1389170.217
 bearing_in_deg      = 359.790
@@ -43,25 +52,43 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 227.912
+station_m           = 215.573
 easting_m           = 604890.167
 northing_m          = 1389209.877
 bearing_in_deg      = 314.645
-bearing_out_deg     = 26.471
+bearing_out_deg     = 359.790
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 322.073
+station_m           = 236.598
+easting_m           = 604890.094
+northing_m          = 1389229.781
+bearing_in_deg      = 359.790
+bearing_out_deg     = 44.934
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 296.215
+easting_m           = 604929.956
+northing_m          = 1389269.735
+bearing_in_deg      = 44.934
+bearing_out_deg     = 359.790
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 317.239
 easting_m           = 604929.883
 northing_m          = 1389289.639
-bearing_in_deg      = 26.471
+bearing_in_deg      = 359.790
 bearing_out_deg     = 89.790
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 343.213
+station_m           = 338.370
 easting_m           = 604949.888
 northing_m          = 1389289.712
 bearing_in_deg      = 89.790
@@ -70,7 +97,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 437.374
+station_m           = 432.490
 easting_m           = 604989.604
 northing_m          = 1389369.474
 bearing_in_deg      = 26.470
@@ -79,7 +106,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 458.514
+station_m           = 453.621
 easting_m           = 605009.608
 northing_m          = 1389369.547
 bearing_in_deg      = 89.790
@@ -88,7 +115,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 552.675
+station_m           = 547.741
 easting_m           = 605049.324
 northing_m          = 1389449.309
 bearing_in_deg      = 26.470
@@ -97,7 +124,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 573.815
+station_m           = 568.871
 easting_m           = 605069.328
 northing_m          = 1389449.383
 bearing_in_deg      = 89.790
@@ -106,7 +133,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 594.848
+station_m           = 589.896
 easting_m           = 605069.255
 northing_m          = 1389469.286
 bearing_in_deg      = 359.790
@@ -115,7 +142,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 654.491
+station_m           = 649.513
 easting_m           = 605109.117
 northing_m          = 1389509.241
 bearing_in_deg      = 44.934
@@ -124,7 +151,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 675.525
+station_m           = 670.537
 easting_m           = 605109.044
 northing_m          = 1389529.144
 bearing_in_deg      = 359.789
@@ -133,7 +160,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 722.747
+station_m           = 717.740
 easting_m           = 605148.979
 northing_m          = 1389549.195
 bearing_in_deg      = 63.339
@@ -142,7 +169,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 743.781
+station_m           = 738.764
 easting_m           = 605148.906
 northing_m          = 1389569.099
 bearing_in_deg      = 359.789
@@ -151,7 +178,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 833.245
+station_m           = 828.189
 easting_m           = 605208.698
 northing_m          = 1389629.031
 bearing_in_deg      = 44.933
@@ -160,7 +187,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 854.278
+station_m           = 849.214
 easting_m           = 605208.625
 northing_m          = 1389648.935
 bearing_in_deg      = 359.789
@@ -169,7 +196,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 943.742
+station_m           = 938.638
 easting_m           = 605268.417
 northing_m          = 1389708.867
 bearing_in_deg      = 44.933
@@ -178,7 +205,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 964.776
+station_m           = 959.663
 easting_m           = 605268.344
 northing_m          = 1389728.770
 bearing_in_deg      = 359.789
@@ -187,7 +214,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1054.239
+station_m           = 1049.088
 easting_m           = 605328.136
 northing_m          = 1389788.702
 bearing_in_deg      = 44.933
@@ -196,7 +223,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1075.273
+station_m           = 1070.112
 easting_m           = 605328.063
 northing_m          = 1389808.606
 bearing_in_deg      = 359.789
@@ -205,7 +232,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1164.736
+station_m           = 1159.537
 easting_m           = 605387.855
 northing_m          = 1389868.539
 bearing_in_deg      = 44.933
@@ -214,7 +241,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1185.770
+station_m           = 1180.562
 easting_m           = 605387.781
 northing_m          = 1389888.442
 bearing_in_deg      = 359.789
@@ -223,7 +250,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1275.233
+station_m           = 1269.986
 easting_m           = 605447.573
 northing_m          = 1389948.375
 bearing_in_deg      = 44.932
@@ -232,7 +259,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1296.267
+station_m           = 1291.011
 easting_m           = 605447.499
 northing_m          = 1389968.278
 bearing_in_deg      = 359.789
@@ -241,7 +268,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1806.423
+station_m           = 1800.946
 easting_m           = 605746.158
 northing_m          = 1390347.558
 bearing_in_deg      = 38.218
@@ -250,7 +277,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1827.457
+station_m           = 1821.971
 easting_m           = 605746.084
 northing_m          = 1390367.462
 bearing_in_deg      = 359.788
@@ -259,7 +286,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1874.679
+station_m           = 1869.172
 easting_m           = 605786.017
 northing_m          = 1390387.514
 bearing_in_deg      = 63.337
@@ -268,7 +295,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1941.227
+station_m           = 1935.691
 easting_m           = 605805.800
 northing_m          = 1390447.299
 bearing_in_deg      = 18.309
@@ -277,7 +304,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1988.448
+station_m           = 1982.892
 easting_m           = 605845.733
 northing_m          = 1390467.351
 bearing_in_deg      = 63.337
@@ -286,7 +313,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2054.996
+station_m           = 2049.411
 easting_m           = 605865.515
 northing_m          = 1390527.136
 bearing_in_deg      = 18.309
@@ -295,7 +322,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2102.218
+station_m           = 2096.612
 easting_m           = 605905.449
 northing_m          = 1390547.188
 bearing_in_deg      = 63.337
@@ -304,7 +331,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2168.766
+station_m           = 2163.131
 easting_m           = 605925.231
 northing_m          = 1390606.974
 bearing_in_deg      = 18.309
@@ -313,7 +340,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2215.987
+station_m           = 2210.332
 easting_m           = 605965.164
 northing_m          = 1390627.026
 bearing_in_deg      = 63.337
@@ -322,7 +349,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2282.535
+station_m           = 2276.851
 easting_m           = 605984.946
 northing_m          = 1390686.811
 bearing_in_deg      = 18.308
@@ -331,7 +358,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2329.756
+station_m           = 2324.052
 easting_m           = 606024.878
 northing_m          = 1390706.863
 bearing_in_deg      = 63.337
@@ -340,7 +367,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2396.304
+station_m           = 2390.571
 easting_m           = 606044.660
 northing_m          = 1390766.649
 bearing_in_deg      = 18.308
@@ -349,7 +376,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2443.526
+station_m           = 2437.772
 easting_m           = 606084.593
 northing_m          = 1390786.701
 bearing_in_deg      = 63.336
@@ -358,7 +385,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2510.074
+station_m           = 2504.291
 easting_m           = 606104.374
 northing_m          = 1390846.487
 bearing_in_deg      = 18.308
@@ -367,7 +394,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2557.295
+station_m           = 2551.492
 easting_m           = 606144.307
 northing_m          = 1390866.539
 bearing_in_deg      = 63.336
@@ -376,7 +403,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2623.843
+station_m           = 2618.011
 easting_m           = 606164.088
 northing_m          = 1390926.325
 bearing_in_deg      = 18.308
@@ -385,7 +412,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2671.064
+station_m           = 2665.211
 easting_m           = 606204.021
 northing_m          = 1390946.377
 bearing_in_deg      = 63.336
@@ -394,7 +421,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2737.611
+station_m           = 2731.731
 easting_m           = 606223.802
 northing_m          = 1391006.163
 bearing_in_deg      = 18.308
@@ -403,7 +430,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2784.832
+station_m           = 2778.931
 easting_m           = 606263.734
 northing_m          = 1391026.216
 bearing_in_deg      = 63.336
@@ -412,7 +439,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2851.380
+station_m           = 2845.450
 easting_m           = 606283.515
 northing_m          = 1391086.001
 bearing_in_deg      = 18.308
@@ -421,7 +448,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2898.601
+station_m           = 2892.650
 easting_m           = 606323.447
 northing_m          = 1391106.054
 bearing_in_deg      = 63.336
@@ -430,7 +457,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2965.149
+station_m           = 2959.170
 easting_m           = 606343.228
 northing_m          = 1391165.840
 bearing_in_deg      = 18.307
@@ -439,7 +466,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3012.370
+station_m           = 3006.370
 easting_m           = 606383.160
 northing_m          = 1391185.893
 bearing_in_deg      = 63.335
@@ -448,7 +475,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3033.404
+station_m           = 3027.394
 easting_m           = 606383.086
 northing_m          = 1391205.796
 bearing_in_deg      = 359.787
@@ -457,7 +484,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3227.735
+station_m           = 3221.642
 easting_m           = 606502.584
 northing_m          = 1391345.570
 bearing_in_deg      = 40.529
@@ -466,7 +493,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3248.769
+station_m           = 3242.667
 easting_m           = 606502.510
 northing_m          = 1391365.474
 bearing_in_deg      = 359.786
@@ -475,7 +502,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3295.990
+station_m           = 3289.867
 easting_m           = 606542.441
 northing_m          = 1391385.527
 bearing_in_deg      = 63.335
@@ -484,7 +511,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3362.538
+station_m           = 3356.386
 easting_m           = 606562.221
 northing_m          = 1391445.313
 bearing_in_deg      = 18.307
@@ -493,7 +520,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3409.758
+station_m           = 3403.586
 easting_m           = 606602.153
 northing_m          = 1391465.366
 bearing_in_deg      = 63.335
@@ -502,7 +529,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3476.306
+station_m           = 3470.105
 easting_m           = 606621.933
 northing_m          = 1391525.152
 bearing_in_deg      = 18.307
@@ -511,7 +538,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3523.526
+station_m           = 3517.305
 easting_m           = 606661.864
 northing_m          = 1391545.206
 bearing_in_deg      = 63.334
@@ -520,7 +547,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3590.074
+station_m           = 3583.824
 easting_m           = 606681.644
 northing_m          = 1391604.992
 bearing_in_deg      = 18.306
@@ -529,7 +556,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3637.294
+station_m           = 3631.023
 easting_m           = 606721.575
 northing_m          = 1391625.045
 bearing_in_deg      = 63.334
@@ -538,7 +565,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3703.842
+station_m           = 3697.542
 easting_m           = 606741.354
 northing_m          = 1391684.831
 bearing_in_deg      = 18.306
@@ -547,7 +574,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3751.062
+station_m           = 3744.742
 easting_m           = 606781.285
 northing_m          = 1391704.885
 bearing_in_deg      = 63.334
@@ -556,7 +583,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3817.610
+station_m           = 3811.261
 easting_m           = 606801.065
 northing_m          = 1391764.671
 bearing_in_deg      = 18.306
@@ -565,7 +592,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3864.830
+station_m           = 3858.461
 easting_m           = 606840.995
 northing_m          = 1391784.725
 bearing_in_deg      = 63.334
@@ -574,7 +601,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3931.378
+station_m           = 3924.980
 easting_m           = 606860.774
 northing_m          = 1391844.511
 bearing_in_deg      = 18.306
@@ -583,7 +610,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 3978.598
+station_m           = 3972.179
 easting_m           = 606900.705
 northing_m          = 1391864.565
 bearing_in_deg      = 63.334
@@ -592,7 +619,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4045.146
+station_m           = 4038.698
 easting_m           = 606920.484
 northing_m          = 1391924.351
 bearing_in_deg      = 18.306
@@ -601,7 +628,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4092.365
+station_m           = 4085.897
 easting_m           = 606960.414
 northing_m          = 1391944.405
 bearing_in_deg      = 63.334
@@ -610,7 +637,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4186.525
+station_m           = 4180.016
 easting_m           = 607000.121
 northing_m          = 1392024.170
 bearing_in_deg      = 26.464
@@ -619,7 +646,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4207.663
+station_m           = 4201.145
 easting_m           = 607020.124
 northing_m          = 1392024.245
 bearing_in_deg      = 89.785
@@ -628,7 +655,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4228.697
+station_m           = 4222.170
 easting_m           = 607020.049
 northing_m          = 1392044.149
 bearing_in_deg      = 359.785
@@ -637,7 +664,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4288.337
+station_m           = 4281.784
 easting_m           = 607059.905
 northing_m          = 1392084.106
 bearing_in_deg      = 44.927
@@ -646,7 +673,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4309.371
+station_m           = 4302.809
 easting_m           = 607059.830
 northing_m          = 1392104.010
 bearing_in_deg      = 359.785
@@ -655,7 +682,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4330.509
+station_m           = 4323.938
 easting_m           = 607079.832
 northing_m          = 1392104.085
 bearing_in_deg      = 89.785
@@ -664,7 +691,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4424.669
+station_m           = 4418.057
 easting_m           = 607119.538
 northing_m          = 1392183.851
 bearing_in_deg      = 26.463
@@ -673,7 +700,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4445.807
+station_m           = 4439.185
 easting_m           = 607139.541
 northing_m          = 1392183.926
 bearing_in_deg      = 89.785
@@ -682,7 +709,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4466.841
+station_m           = 4460.210
 easting_m           = 607139.466
 northing_m          = 1392203.830
 bearing_in_deg      = 359.785
@@ -691,7 +718,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4556.301
+station_m           = 4549.632
 easting_m           = 607199.249
 northing_m          = 1392263.767
 bearing_in_deg      = 44.926
@@ -700,7 +727,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4577.335
+station_m           = 4570.656
 easting_m           = 607199.174
 northing_m          = 1392283.670
 bearing_in_deg      = 359.785
@@ -709,7 +736,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4666.795
+station_m           = 4660.078
 easting_m           = 607258.956
 northing_m          = 1392343.607
 bearing_in_deg      = 44.926
@@ -718,7 +745,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 4687.828
+station_m           = 4681.102
 easting_m           = 607258.882
 northing_m          = 1392363.511
 bearing_in_deg      = 359.785
@@ -727,7 +754,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5197.971
+station_m           = 5191.024
 easting_m           = 607557.490
 northing_m          = 1392742.814
 bearing_in_deg      = 38.212
@@ -736,7 +763,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5219.005
+station_m           = 5212.049
 easting_m           = 607557.415
 northing_m          = 1392762.718
 bearing_in_deg      = 359.784
@@ -745,7 +772,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5338.284
+station_m           = 5331.276
 easting_m           = 607637.122
 northing_m          = 1392842.635
 bearing_in_deg      = 44.925
@@ -754,7 +781,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5359.318
+station_m           = 5352.301
 easting_m           = 607637.047
 northing_m          = 1392862.539
 bearing_in_deg      = 359.784
@@ -763,7 +790,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5764.143
+station_m           = 5756.951
 easting_m           = 607875.941
 northing_m          = 1393162.004
 bearing_in_deg      = 38.581
@@ -772,7 +799,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5785.177
+station_m           = 5777.975
 easting_m           = 607875.866
 northing_m          = 1393181.908
 bearing_in_deg      = 359.783
@@ -781,7 +808,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5806.314
+station_m           = 5799.104
 easting_m           = 607895.867
 northing_m          = 1393181.984
 bearing_in_deg      = 89.783
@@ -790,7 +817,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5900.473
+station_m           = 5893.222
 easting_m           = 607935.570
 northing_m          = 1393261.751
 bearing_in_deg      = 26.461
@@ -799,7 +826,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 5921.611
+station_m           = 5914.350
 easting_m           = 607955.571
 northing_m          = 1393261.826
 bearing_in_deg      = 89.783
@@ -808,7 +835,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6015.770
+station_m           = 6008.468
 easting_m           = 607995.273
 northing_m          = 1393341.593
 bearing_in_deg      = 26.461
@@ -817,7 +844,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6036.907
+station_m           = 6029.596
 easting_m           = 608015.275
 northing_m          = 1393341.669
 bearing_in_deg      = 89.783
@@ -826,7 +853,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6131.066
+station_m           = 6123.714
 easting_m           = 608054.976
 northing_m          = 1393421.436
 bearing_in_deg      = 26.460
@@ -835,7 +862,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6152.203
+station_m           = 6144.842
 easting_m           = 608074.978
 northing_m          = 1393421.512
 bearing_in_deg      = 89.783
@@ -844,7 +871,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6246.362
+station_m           = 6238.961
 easting_m           = 608114.679
 northing_m          = 1393501.279
 bearing_in_deg      = 26.460
@@ -853,7 +880,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6267.499
+station_m           = 6260.088
 easting_m           = 608134.680
 northing_m          = 1393501.355
 bearing_in_deg      = 89.783
@@ -862,7 +889,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6361.658
+station_m           = 6354.207
 easting_m           = 608174.381
 northing_m          = 1393581.123
 bearing_in_deg      = 26.460
@@ -871,7 +898,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6382.795
+station_m           = 6375.334
 easting_m           = 608194.383
 northing_m          = 1393581.199
 bearing_in_deg      = 89.783
@@ -880,7 +907,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6476.954
+station_m           = 6469.453
 easting_m           = 608234.083
 northing_m          = 1393660.966
 bearing_in_deg      = 26.460
@@ -889,7 +916,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6524.172
+station_m           = 6516.650
 easting_m           = 608274.011
 northing_m          = 1393681.022
 bearing_in_deg      = 63.329
@@ -898,7 +925,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6590.719
+station_m           = 6583.169
 easting_m           = 608293.785
 northing_m          = 1393740.810
 bearing_in_deg      = 18.301
@@ -907,7 +934,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6637.937
+station_m           = 6630.366
 easting_m           = 608333.712
 northing_m          = 1393760.866
 bearing_in_deg      = 63.329
@@ -916,7 +943,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6704.485
+station_m           = 6696.885
 easting_m           = 608353.486
 northing_m          = 1393820.653
 bearing_in_deg      = 18.301
@@ -925,7 +952,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6751.702
+station_m           = 6744.082
 easting_m           = 608393.413
 northing_m          = 1393840.709
 bearing_in_deg      = 63.329
@@ -934,7 +961,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6818.250
+station_m           = 6810.601
 easting_m           = 608413.188
 northing_m          = 1393900.497
 bearing_in_deg      = 18.301
@@ -943,7 +970,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6865.467
+station_m           = 6857.798
 easting_m           = 608453.114
 northing_m          = 1393920.553
 bearing_in_deg      = 63.329
@@ -952,7 +979,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6932.015
+station_m           = 6924.317
 easting_m           = 608472.888
 northing_m          = 1393980.341
 bearing_in_deg      = 18.301
@@ -961,7 +988,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 6979.232
+station_m           = 6971.513
 easting_m           = 608512.815
 northing_m          = 1394000.397
 bearing_in_deg      = 63.328
@@ -970,7 +997,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7000.266
+station_m           = 6992.538
 easting_m           = 608512.739
 northing_m          = 1394020.301
 bearing_in_deg      = 359.782
@@ -979,7 +1006,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7089.724
+station_m           = 7081.957
 easting_m           = 608572.515
 northing_m          = 1394080.242
 bearing_in_deg      = 44.921
@@ -988,7 +1015,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7110.758
+station_m           = 7102.982
 easting_m           = 608572.439
 northing_m          = 1394100.146
 bearing_in_deg      = 359.782
@@ -997,7 +1024,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7620.891
+station_m           = 7612.894
 easting_m           = 608871.011
 northing_m          = 1394479.465
 bearing_in_deg      = 38.207
@@ -1006,7 +1033,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7641.925
+station_m           = 7633.919
 easting_m           = 608870.935
 northing_m          = 1394499.369
 bearing_in_deg      = 359.781
@@ -1015,7 +1042,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7689.142
+station_m           = 7681.115
 easting_m           = 608910.860
 northing_m          = 1394519.426
 bearing_in_deg      = 63.327
@@ -1024,7 +1051,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7755.689
+station_m           = 7747.634
 easting_m           = 608930.633
 northing_m          = 1394579.214
 bearing_in_deg      = 18.300
@@ -1033,7 +1060,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7802.906
+station_m           = 7794.830
 easting_m           = 608970.558
 northing_m          = 1394599.271
 bearing_in_deg      = 63.327
@@ -1042,7 +1069,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7869.454
+station_m           = 7861.349
 easting_m           = 608990.331
 northing_m          = 1394659.060
 bearing_in_deg      = 18.299
@@ -1051,7 +1078,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7916.670
+station_m           = 7908.545
 easting_m           = 609030.256
 northing_m          = 1394679.117
 bearing_in_deg      = 63.327
@@ -1060,7 +1087,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 7983.218
+station_m           = 7975.064
 easting_m           = 609050.028
 northing_m          = 1394738.905
 bearing_in_deg      = 18.299
@@ -1069,7 +1096,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8030.434
+station_m           = 8022.259
 easting_m           = 609089.953
 northing_m          = 1394758.962
 bearing_in_deg      = 63.326
@@ -1078,7 +1105,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8096.982
+station_m           = 8088.778
 easting_m           = 609109.725
 northing_m          = 1394818.751
 bearing_in_deg      = 18.299
@@ -1087,7 +1114,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8144.198
+station_m           = 8135.974
 easting_m           = 609149.650
 northing_m          = 1394838.808
 bearing_in_deg      = 63.326
@@ -1096,7 +1123,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8210.746
+station_m           = 8202.493
 easting_m           = 609169.422
 northing_m          = 1394898.597
 bearing_in_deg      = 18.299
@@ -1105,7 +1132,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8257.962
+station_m           = 8249.689
 easting_m           = 609209.347
 northing_m          = 1394918.654
 bearing_in_deg      = 63.326
@@ -1114,7 +1141,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8324.510
+station_m           = 8316.207
 easting_m           = 609229.118
 northing_m          = 1394978.443
 bearing_in_deg      = 18.299
@@ -1123,7 +1150,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8371.726
+station_m           = 8363.403
 easting_m           = 609269.043
 northing_m          = 1394998.500
 bearing_in_deg      = 63.326
@@ -1132,7 +1159,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8438.273
+station_m           = 8429.922
 easting_m           = 609288.814
 northing_m          = 1395058.289
 bearing_in_deg      = 18.298
@@ -1141,7 +1168,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8485.489
+station_m           = 8477.117
 easting_m           = 609328.739
 northing_m          = 1395078.346
 bearing_in_deg      = 63.326
@@ -1150,7 +1177,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8552.037
+station_m           = 8543.636
 easting_m           = 609348.510
 northing_m          = 1395138.135
 bearing_in_deg      = 18.298
@@ -1159,7 +1186,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8599.253
+station_m           = 8590.832
 easting_m           = 609388.434
 northing_m          = 1395158.193
 bearing_in_deg      = 63.325
@@ -1168,7 +1195,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8665.800
+station_m           = 8657.351
 easting_m           = 609408.205
 northing_m          = 1395217.982
 bearing_in_deg      = 18.298
@@ -1177,7 +1204,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8713.016
+station_m           = 8704.546
 easting_m           = 609448.130
 northing_m          = 1395238.039
 bearing_in_deg      = 63.325
@@ -1186,7 +1213,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8779.564
+station_m           = 8771.065
 easting_m           = 609467.900
 northing_m          = 1395297.828
 bearing_in_deg      = 18.298
@@ -1195,7 +1222,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8826.780
+station_m           = 8818.260
 easting_m           = 609507.824
 northing_m          = 1395317.886
 bearing_in_deg      = 63.325
@@ -1204,7 +1231,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8847.814
+station_m           = 8839.285
 easting_m           = 609507.748
 northing_m          = 1395337.790
 bearing_in_deg      = 359.780
@@ -1213,7 +1240,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8937.269
+station_m           = 8928.702
 easting_m           = 609567.519
 northing_m          = 1395397.733
 bearing_in_deg      = 44.918
@@ -1222,7 +1249,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8958.303
+station_m           = 8949.727
 easting_m           = 609567.442
 northing_m          = 1395417.637
 bearing_in_deg      = 359.780
@@ -1231,7 +1258,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9468.429
+station_m           = 9459.631
 easting_m           = 609865.986
 northing_m          = 1395796.969
 bearing_in_deg      = 38.204
@@ -1240,7 +1267,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9489.463
+station_m           = 9480.656
 easting_m           = 609865.909
 northing_m          = 1395816.873
 bearing_in_deg      = 359.779
@@ -1249,7 +1276,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9536.678
+station_m           = 9527.851
 easting_m           = 609905.833
 northing_m          = 1395836.932
 bearing_in_deg      = 63.324
@@ -1258,7 +1285,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9603.226
+station_m           = 9594.370
 easting_m           = 609925.602
 northing_m          = 1395896.721
 bearing_in_deg      = 18.296
@@ -1267,7 +1294,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9650.441
+station_m           = 9641.564
 easting_m           = 609965.525
 northing_m          = 1395916.780
 bearing_in_deg      = 63.324
@@ -1276,7 +1303,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9716.988
+station_m           = 9708.083
 easting_m           = 609985.294
 northing_m          = 1395976.569
 bearing_in_deg      = 18.296
@@ -1285,7 +1312,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9764.203
+station_m           = 9755.277
 easting_m           = 610025.217
 northing_m          = 1395996.628
 bearing_in_deg      = 63.323
@@ -1294,7 +1321,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9830.751
+station_m           = 9821.796
 easting_m           = 610044.986
 northing_m          = 1396056.417
 bearing_in_deg      = 18.296
@@ -1303,7 +1330,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9877.965
+station_m           = 9868.990
 easting_m           = 610084.908
 northing_m          = 1396076.476
 bearing_in_deg      = 63.323
@@ -1312,7 +1339,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9944.513
+station_m           = 9935.509
 easting_m           = 610104.677
 northing_m          = 1396136.266
 bearing_in_deg      = 18.296
@@ -1321,7 +1348,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9991.728
+station_m           = 9982.703
 easting_m           = 610144.599
 northing_m          = 1396156.324
 bearing_in_deg      = 63.323
@@ -1330,7 +1357,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10085.886
+station_m           = 10076.820
 easting_m           = 610184.291
 northing_m          = 1396236.095
 bearing_in_deg      = 26.453
@@ -1339,7 +1366,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10107.021
+station_m           = 10097.946
 easting_m           = 610204.290
 northing_m          = 1396236.173
 bearing_in_deg      = 89.778
@@ -1348,7 +1375,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10128.055
+station_m           = 10118.971
 easting_m           = 610204.213
 northing_m          = 1396256.077
 bearing_in_deg      = 359.778
@@ -1357,7 +1384,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10187.691
+station_m           = 10178.582
 easting_m           = 610244.058
 northing_m          = 1396296.040
 bearing_in_deg      = 44.915
@@ -1366,7 +1393,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10208.725
+station_m           = 10199.607
 easting_m           = 610243.981
 northing_m          = 1396315.944
 bearing_in_deg      = 359.778
@@ -1375,7 +1402,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10229.860
+station_m           = 10220.733
 easting_m           = 610263.981
 northing_m          = 1396316.022
 bearing_in_deg      = 89.778
@@ -1384,7 +1411,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10324.018
+station_m           = 10314.850
 easting_m           = 610303.672
 northing_m          = 1396395.793
 bearing_in_deg      = 26.453
@@ -1393,7 +1420,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10345.153
+station_m           = 10335.976
 easting_m           = 610323.671
 northing_m          = 1396395.870
 bearing_in_deg      = 89.778
@@ -1402,7 +1429,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10439.311
+station_m           = 10430.093
 easting_m           = 610363.361
 northing_m          = 1396475.642
 bearing_in_deg      = 26.453
@@ -1411,7 +1438,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10460.446
+station_m           = 10451.218
 easting_m           = 610383.361
 northing_m          = 1396475.719
 bearing_in_deg      = 89.778
@@ -1420,7 +1447,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10554.604
+station_m           = 10545.335
 easting_m           = 610423.051
 northing_m          = 1396555.491
 bearing_in_deg      = 26.452
@@ -1429,7 +1456,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10575.739
+station_m           = 10566.461
 easting_m           = 610443.050
 northing_m          = 1396555.568
 bearing_in_deg      = 89.778
@@ -1438,7 +1465,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10669.896
+station_m           = 10660.578
 easting_m           = 610482.740
 northing_m          = 1396635.340
 bearing_in_deg      = 26.452
@@ -1447,7 +1474,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10691.031
+station_m           = 10681.704
 easting_m           = 610502.740
 northing_m          = 1396635.418
 bearing_in_deg      = 89.777
@@ -1456,7 +1483,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10712.065
+station_m           = 10702.729
 easting_m           = 610502.662
 northing_m          = 1396655.322
 bearing_in_deg      = 359.777
@@ -1465,7 +1492,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11116.873
+station_m           = 11107.361
 easting_m           = 610741.493
 northing_m          = 1396954.816
 bearing_in_deg      = 38.570
@@ -1474,7 +1501,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11137.907
+station_m           = 11128.386
 easting_m           = 610741.415
 northing_m          = 1396974.720
 bearing_in_deg      = 359.777
@@ -1483,7 +1510,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11257.179
+station_m           = 11247.606
 easting_m           = 610821.102
 northing_m          = 1397054.648
 bearing_in_deg      = 44.913
@@ -1492,7 +1519,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11278.213
+station_m           = 11268.631
 easting_m           = 610821.024
 northing_m          = 1397074.553
 bearing_in_deg      = 359.777
@@ -1501,7 +1528,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11367.666
+station_m           = 11358.045
 easting_m           = 610880.789
 northing_m          = 1397134.499
 bearing_in_deg      = 44.913
@@ -1510,7 +1537,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11388.700
+station_m           = 11379.070
 easting_m           = 610880.711
 northing_m          = 1397154.403
 bearing_in_deg      = 359.777
@@ -1519,7 +1546,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11478.154
+station_m           = 11468.485
 easting_m           = 610940.475
 northing_m          = 1397214.349
 bearing_in_deg      = 44.913
@@ -1528,7 +1555,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 11499.188
+station_m           = 11489.510
 easting_m           = 610940.398
 northing_m          = 1397234.253
 bearing_in_deg      = 359.776
@@ -1537,7 +1564,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12009.303
+station_m           = 11999.404
 easting_m           = 611238.904
 northing_m          = 1397613.604
 bearing_in_deg      = 38.199
@@ -1546,7 +1573,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12030.337
+station_m           = 12020.429
 easting_m           = 611238.826
 northing_m          = 1397633.508
 bearing_in_deg      = 359.776
@@ -1555,7 +1582,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12051.472
+station_m           = 12041.554
 easting_m           = 611258.824
 northing_m          = 1397633.586
 bearing_in_deg      = 89.776
@@ -1564,7 +1591,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12145.629
+station_m           = 12135.671
 easting_m           = 611298.510
 northing_m          = 1397713.359
 bearing_in_deg      = 26.450
@@ -1573,7 +1600,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12166.763
+station_m           = 12156.796
 easting_m           = 611318.509
 northing_m          = 1397713.437
 bearing_in_deg      = 89.776
@@ -1582,7 +1609,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12187.797
+station_m           = 12177.821
 easting_m           = 611318.431
 northing_m          = 1397733.342
 bearing_in_deg      = 359.776
@@ -1591,7 +1618,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12247.432
+station_m           = 12237.430
 easting_m           = 611358.272
 northing_m          = 1397773.306
 bearing_in_deg      = 44.911
@@ -1600,7 +1627,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12268.466
+station_m           = 12258.455
 easting_m           = 611358.194
 northing_m          = 1397793.211
 bearing_in_deg      = 359.776
@@ -1609,7 +1636,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12289.600
+station_m           = 12279.580
 easting_m           = 611378.193
 northing_m          = 1397793.289
 bearing_in_deg      = 89.776
@@ -1618,7 +1645,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12383.758
+station_m           = 12373.696
 easting_m           = 611417.878
 northing_m          = 1397873.062
 bearing_in_deg      = 26.449
@@ -1627,7 +1654,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12430.970
+station_m           = 12420.888
 easting_m           = 611457.797
 northing_m          = 1397893.123
 bearing_in_deg      = 63.319
@@ -1636,7 +1663,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12497.518
+station_m           = 12487.407
 easting_m           = 611477.562
 northing_m          = 1397952.914
 bearing_in_deg      = 18.292
@@ -1645,7 +1672,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12544.730
+station_m           = 12534.599
 easting_m           = 611517.481
 northing_m          = 1397972.975
 bearing_in_deg      = 63.318
@@ -1654,7 +1681,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12611.278
+station_m           = 12601.118
 easting_m           = 611537.245
 northing_m          = 1398032.766
 bearing_in_deg      = 18.292
@@ -1663,7 +1690,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12658.490
+station_m           = 12648.310
 easting_m           = 611577.164
 northing_m          = 1398052.827
 bearing_in_deg      = 63.318
@@ -1672,7 +1699,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12725.037
+station_m           = 12714.828
 easting_m           = 611596.928
 northing_m          = 1398112.618
 bearing_in_deg      = 18.291
@@ -1681,7 +1708,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12772.250
+station_m           = 12762.020
 easting_m           = 611636.846
 northing_m          = 1398132.679
 bearing_in_deg      = 63.318
@@ -1690,7 +1717,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12838.797
+station_m           = 12828.539
 easting_m           = 611656.610
 northing_m          = 1398192.470
 bearing_in_deg      = 18.291
@@ -1699,7 +1726,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12886.009
+station_m           = 12875.730
 easting_m           = 611696.529
 northing_m          = 1398212.532
 bearing_in_deg      = 63.318
@@ -1708,7 +1735,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12952.557
+station_m           = 12942.249
 easting_m           = 611716.292
 northing_m          = 1398272.323
 bearing_in_deg      = 18.291
@@ -1717,7 +1744,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 12999.769
+station_m           = 12989.441
 easting_m           = 611756.211
 northing_m          = 1398292.384
 bearing_in_deg      = 63.318
@@ -1726,7 +1753,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13066.316
+station_m           = 13055.959
 easting_m           = 611775.974
 northing_m          = 1398352.176
 bearing_in_deg      = 18.291
@@ -1735,7 +1762,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13113.528
+station_m           = 13103.151
 easting_m           = 611815.892
 northing_m          = 1398372.237
 bearing_in_deg      = 63.317
@@ -1744,7 +1771,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13180.076
+station_m           = 13169.670
 easting_m           = 611835.656
 northing_m          = 1398432.028
 bearing_in_deg      = 18.291
@@ -1753,7 +1780,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13227.288
+station_m           = 13216.861
 easting_m           = 611875.574
 northing_m          = 1398452.090
 bearing_in_deg      = 63.317
@@ -1762,7 +1789,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13248.322
+station_m           = 13237.886
 easting_m           = 611875.495
 northing_m          = 1398471.994
 bearing_in_deg      = 359.774
@@ -1771,7 +1798,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13442.636
+station_m           = 13432.116
 easting_m           = 611994.935
 northing_m          = 1398611.796
 bearing_in_deg      = 40.509
@@ -1780,7 +1807,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13463.670
+station_m           = 13453.141
 easting_m           = 611994.857
 northing_m          = 1398631.700
 bearing_in_deg      = 359.774
@@ -1789,7 +1816,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13510.882
+station_m           = 13500.332
 easting_m           = 612034.774
 northing_m          = 1398651.762
 bearing_in_deg      = 63.317
@@ -1798,7 +1825,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13577.429
+station_m           = 13566.851
 easting_m           = 612054.537
 northing_m          = 1398711.554
 bearing_in_deg      = 18.290
@@ -1807,7 +1834,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13624.641
+station_m           = 13614.042
 easting_m           = 612094.454
 northing_m          = 1398731.616
 bearing_in_deg      = 63.317
@@ -1816,7 +1843,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13691.188
+station_m           = 13680.561
 easting_m           = 612114.217
 northing_m          = 1398791.407
 bearing_in_deg      = 18.290
@@ -1825,7 +1852,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13738.400
+station_m           = 13727.751
 easting_m           = 612154.134
 northing_m          = 1398811.469
 bearing_in_deg      = 63.316
@@ -1834,7 +1861,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13804.947
+station_m           = 13794.270
 easting_m           = 612173.896
 northing_m          = 1398871.261
 bearing_in_deg      = 18.290
@@ -1843,7 +1870,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13852.158
+station_m           = 13841.461
 easting_m           = 612213.814
 northing_m          = 1398891.323
 bearing_in_deg      = 63.316
@@ -1852,7 +1879,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13918.706
+station_m           = 13907.980
 easting_m           = 612233.576
 northing_m          = 1398951.115
 bearing_in_deg      = 18.289
@@ -1861,7 +1888,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 13965.917
+station_m           = 13955.170
 easting_m           = 612273.493
 northing_m          = 1398971.177
 bearing_in_deg      = 63.316
@@ -1870,7 +1897,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14032.465
+station_m           = 14021.689
 easting_m           = 612293.254
 northing_m          = 1399030.969
 bearing_in_deg      = 18.289
@@ -1879,7 +1906,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14079.676
+station_m           = 14068.880
 easting_m           = 612333.171
 northing_m          = 1399051.031
 bearing_in_deg      = 63.316
@@ -1888,7 +1915,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14146.223
+station_m           = 14135.398
 easting_m           = 612352.933
 northing_m          = 1399110.823
 bearing_in_deg      = 18.289
@@ -1897,7 +1924,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14193.434
+station_m           = 14182.589
 easting_m           = 612392.850
 northing_m          = 1399130.885
 bearing_in_deg      = 63.316
@@ -1906,7 +1933,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14259.982
+station_m           = 14249.107
 easting_m           = 612412.611
 northing_m          = 1399190.677
 bearing_in_deg      = 18.289
@@ -1915,7 +1942,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14307.193
+station_m           = 14296.298
 easting_m           = 612452.528
 northing_m          = 1399210.739
 bearing_in_deg      = 63.315
@@ -1924,7 +1951,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14373.740
+station_m           = 14362.816
 easting_m           = 612472.289
 northing_m          = 1399270.531
 bearing_in_deg      = 18.289
@@ -1933,7 +1960,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14420.951
+station_m           = 14410.007
 easting_m           = 612512.205
 northing_m          = 1399290.594
 bearing_in_deg      = 63.315
@@ -1942,7 +1969,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14487.498
+station_m           = 14476.525
 easting_m           = 612531.966
 northing_m          = 1399350.386
 bearing_in_deg      = 18.289
@@ -1951,7 +1978,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14534.709
+station_m           = 14523.716
 easting_m           = 612571.883
 northing_m          = 1399370.449
 bearing_in_deg      = 63.315
@@ -1960,7 +1987,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14601.256
+station_m           = 14590.234
 easting_m           = 612591.643
 northing_m          = 1399430.241
 bearing_in_deg      = 18.288
@@ -1969,7 +1996,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14648.467
+station_m           = 14637.424
 easting_m           = 612631.559
 northing_m          = 1399450.303
 bearing_in_deg      = 63.315
@@ -1978,7 +2005,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 14669.501
+station_m           = 14658.450
 easting_m           = 612631.481
 northing_m          = 1399470.208
 bearing_in_deg      = 359.773
@@ -1987,7 +2014,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15179.604
+station_m           = 15168.331
 easting_m           = 612929.939
 northing_m          = 1399849.580
 bearing_in_deg      = 38.193
@@ -1996,7 +2023,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15200.638
+station_m           = 15189.356
 easting_m           = 612929.860
 northing_m          = 1399869.484
 bearing_in_deg      = 359.772
@@ -2005,7 +2032,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15710.739
+station_m           = 15699.236
 easting_m           = 613228.310
 northing_m          = 1400248.860
 bearing_in_deg      = 38.192
@@ -2014,7 +2041,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15731.773
+station_m           = 15720.261
 easting_m           = 613228.231
 northing_m          = 1400268.765
 bearing_in_deg      = 359.771
@@ -2023,7 +2050,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15778.983
+station_m           = 15767.450
 easting_m           = 613268.145
 northing_m          = 1400288.829
 bearing_in_deg      = 63.313
@@ -2032,7 +2059,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15873.139
+station_m           = 15861.565
 easting_m           = 613307.821
 northing_m          = 1400368.605
 bearing_in_deg      = 26.443
@@ -2041,7 +2068,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15894.271
+station_m           = 15882.688
 easting_m           = 613327.818
 northing_m          = 1400368.685
 bearing_in_deg      = 89.771
@@ -2050,7 +2077,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 15988.427
+station_m           = 15976.804
 easting_m           = 613367.494
 northing_m          = 1400448.462
 bearing_in_deg      = 26.443
@@ -2059,7 +2086,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16009.559
+station_m           = 15997.927
 easting_m           = 613387.491
 northing_m          = 1400448.542
 bearing_in_deg      = 89.771
@@ -2068,7 +2095,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16103.715
+station_m           = 16092.042
 easting_m           = 613427.166
 northing_m          = 1400528.319
 bearing_in_deg      = 26.443
@@ -2077,7 +2104,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16124.848
+station_m           = 16113.165
 easting_m           = 613447.163
 northing_m          = 1400528.399
 bearing_in_deg      = 89.771
@@ -2086,7 +2113,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16219.004
+station_m           = 16207.280
 easting_m           = 613486.838
 northing_m          = 1400608.176
 bearing_in_deg      = 26.442
@@ -2095,7 +2122,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16240.136
+station_m           = 16228.403
 easting_m           = 613506.835
 northing_m          = 1400608.256
 bearing_in_deg      = 89.771
@@ -2104,7 +2131,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16261.170
+station_m           = 16249.428
 easting_m           = 613506.755
 northing_m          = 1400628.160
 bearing_in_deg      = 359.771
@@ -2113,7 +2140,7 @@ curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 16396.100
+station_m           = 16384.300
 easting_m           = 613586.344
 northing_m          = 1400728.002
 bearing_in_deg      = 38.560
@@ -2130,7 +2157,7 @@ elevation_m = 0.000
 vc_radius_m = 0.000
 
 [[vertical]]
-station_m   = 16396.100
+station_m   = 16384.300
 elevation_m = 0.000
 vc_radius_m = 0.000
 
@@ -2139,809 +2166,819 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
-to_station_m   = 546.300
+to_station_m   = 534.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 546.300
-to_station_m   = 614.600
+from_station_m = 534.600
+to_station_m   = 602.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 614.600
-to_station_m   = 662.800
+from_station_m = 602.800
+to_station_m   = 651.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 662.800
-to_station_m   = 682.800
+from_station_m = 651.100
+to_station_m   = 671.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 682.800
-to_station_m   = 787.700
+from_station_m = 671.100
+to_station_m   = 776.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 787.700
-to_station_m   = 864.300
+from_station_m = 776.000
+to_station_m   = 852.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 864.300
-to_station_m   = 920.800
+from_station_m = 852.500
+to_station_m   = 909.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 920.800
-to_station_m   = 969.100
+from_station_m = 909.100
+to_station_m   = 957.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 969.100
-to_station_m   = 997.400
+from_station_m = 957.400
+to_station_m   = 985.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 997.400
-to_station_m   = 1130.500
+from_station_m = 985.700
+to_station_m   = 1118.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1130.500
-to_station_m   = 1178.800
+from_station_m = 1118.800
+to_station_m   = 1167.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1178.800
-to_station_m   = 1207.100
+from_station_m = 1167.100
+to_station_m   = 1195.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1207.100
-to_station_m   = 1235.400
+from_station_m = 1195.400
+to_station_m   = 1223.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1235.400
-to_station_m   = 1255.400
+from_station_m = 1223.700
+to_station_m   = 1243.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1255.400
-to_station_m   = 1388.500
+from_station_m = 1243.700
+to_station_m   = 1376.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1388.500
-to_station_m   = 1416.800
+from_station_m = 1376.800
+to_station_m   = 1405.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1416.800
-to_station_m   = 1465.100
+from_station_m = 1405.100
+to_station_m   = 1453.400
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1465.100
-to_station_m   = 1549.900
+from_station_m = 1453.400
+to_station_m   = 1538.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1549.900
-to_station_m   = 1569.900
+from_station_m = 1538.200
+to_station_m   = 1558.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1569.900
-to_station_m   = 1779.700
+from_station_m = 1558.200
+to_station_m   = 1767.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1779.700
-to_station_m   = 1807.900
+from_station_m = 1767.900
+to_station_m   = 1796.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 1807.900
-to_station_m   = 1847.900
+from_station_m = 1796.200
+to_station_m   = 1836.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1847.900
-to_station_m   = 2032.800
+from_station_m = 1836.200
+to_station_m   = 2021.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2032.800
-to_station_m   = 2061.100
+from_station_m = 2021.100
+to_station_m   = 2049.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2061.100
-to_station_m   = 2109.400
+from_station_m = 2049.400
+to_station_m   = 2097.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2109.400
-to_station_m   = 2129.400
+from_station_m = 2097.600
+to_station_m   = 2117.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2129.400
-to_station_m   = 2294.200
+from_station_m = 2117.600
+to_station_m   = 2282.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2294.200
-to_station_m   = 2342.500
+from_station_m = 2282.500
+to_station_m   = 2330.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2342.500
-to_station_m   = 2382.500
+from_station_m = 2330.800
+to_station_m   = 2370.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2382.500
-to_station_m   = 2527.400
+from_station_m = 2370.800
+to_station_m   = 2515.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2527.400
-to_station_m   = 2547.400
+from_station_m = 2515.600
+to_station_m   = 2535.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2547.400
-to_station_m   = 2595.600
+from_station_m = 2535.600
+to_station_m   = 2583.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2595.600
-to_station_m   = 2663.900
+from_station_m = 2583.900
+to_station_m   = 2652.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2663.900
-to_station_m   = 2712.200
+from_station_m = 2652.200
+to_station_m   = 2700.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2712.200
-to_station_m   = 2732.200
+from_station_m = 2700.500
+to_station_m   = 2720.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2732.200
-to_station_m   = 2780.500
+from_station_m = 2720.500
+to_station_m   = 2768.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2780.500
-to_station_m   = 2848.800
+from_station_m = 2768.800
+to_station_m   = 2837.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2848.800
-to_station_m   = 2925.300
+from_station_m = 2837.100
+to_station_m   = 2913.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2925.300
-to_station_m   = 2945.300
+from_station_m = 2913.600
+to_station_m   = 2933.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 2945.300
-to_station_m   = 3013.600
+from_station_m = 2933.600
+to_station_m   = 3001.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3013.600
-to_station_m   = 3041.900
+from_station_m = 3001.900
+to_station_m   = 3030.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3041.900
-to_station_m   = 3070.200
+from_station_m = 3030.200
+to_station_m   = 3058.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3070.200
-to_station_m   = 3098.500
+from_station_m = 3058.500
+to_station_m   = 3086.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3098.500
-to_station_m   = 3223.300
+from_station_m = 3086.800
+to_station_m   = 3211.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3223.300
-to_station_m   = 3271.600
+from_station_m = 3211.600
+to_station_m   = 3259.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3271.600
-to_station_m   = 3339.900
+from_station_m = 3259.900
+to_station_m   = 3328.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3339.900
-to_station_m   = 3408.200
+from_station_m = 3328.200
+to_station_m   = 3396.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3408.200
-to_station_m   = 3436.500
+from_station_m = 3396.500
+to_station_m   = 3424.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3436.500
-to_station_m   = 3456.500
+from_station_m = 3424.800
+to_station_m   = 3444.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3456.500
-to_station_m   = 3484.800
+from_station_m = 3444.800
+to_station_m   = 3473.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3484.800
-to_station_m   = 3504.800
+from_station_m = 3473.000
+to_station_m   = 3493.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3504.800
-to_station_m   = 3553.000
+from_station_m = 3493.000
+to_station_m   = 3541.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3553.000
-to_station_m   = 3601.300
+from_station_m = 3541.300
+to_station_m   = 3589.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3601.300
-to_station_m   = 3669.600
+from_station_m = 3589.600
+to_station_m   = 3657.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3669.600
-to_station_m   = 3689.600
+from_station_m = 3657.900
+to_station_m   = 3677.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3689.600
-to_station_m   = 3757.900
+from_station_m = 3677.900
+to_station_m   = 3746.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3757.900
-to_station_m   = 3834.500
+from_station_m = 3746.200
+to_station_m   = 3822.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 3834.500
-to_station_m   = 4019.300
+from_station_m = 3822.700
+to_station_m   = 4007.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4019.300
-to_station_m   = 4067.600
+from_station_m = 4007.600
+to_station_m   = 4055.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 4067.600
-to_station_m   = 4087.600
+from_station_m = 4055.900
+to_station_m   = 4075.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4087.600
-to_station_m   = 4107.600
+from_station_m = 4075.900
+to_station_m   = 4095.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 4107.600
-to_station_m   = 4437.300
+from_station_m = 4095.900
+to_station_m   = 4425.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4437.300
-to_station_m   = 4457.300
+from_station_m = 4425.600
+to_station_m   = 4445.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 4457.300
-to_station_m   = 4513.900
+from_station_m = 4445.600
+to_station_m   = 4502.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4513.900
-to_station_m   = 4542.200
+from_station_m = 4502.200
+to_station_m   = 4530.400
 class          = "bridge"
 
 [[civil]]
-from_station_m = 4542.200
-to_station_m   = 4961.600
+from_station_m = 4530.400
+to_station_m   = 4949.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4961.600
-to_station_m   = 5114.700
+from_station_m = 4949.800
+to_station_m   = 5103.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5114.700
-to_station_m   = 5143.000
+from_station_m = 5103.000
+to_station_m   = 5131.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5143.000
-to_station_m   = 5171.300
+from_station_m = 5131.300
+to_station_m   = 5159.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5171.300
-to_station_m   = 5219.600
+from_station_m = 5159.600
+to_station_m   = 5207.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5219.600
-to_station_m   = 5247.800
+from_station_m = 5207.800
+to_station_m   = 5236.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5247.800
-to_station_m   = 5324.400
+from_station_m = 5236.100
+to_station_m   = 5312.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5324.400
-to_station_m   = 5352.700
+from_station_m = 5312.700
+to_station_m   = 5341.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5352.700
-to_station_m   = 5381.000
+from_station_m = 5341.000
+to_station_m   = 5369.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5381.000
-to_station_m   = 5409.300
+from_station_m = 5369.300
+to_station_m   = 5397.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5409.300
-to_station_m   = 5429.300
+from_station_m = 5397.500
+to_station_m   = 5417.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5429.300
-to_station_m   = 5485.800
+from_station_m = 5417.500
+to_station_m   = 5474.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5485.800
-to_station_m   = 5562.400
+from_station_m = 5474.100
+to_station_m   = 5550.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5562.400
-to_station_m   = 5590.700
+from_station_m = 5550.700
+to_station_m   = 5579.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5590.700
-to_station_m   = 5619.000
+from_station_m = 5579.000
+to_station_m   = 5607.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5619.000
-to_station_m   = 5695.500
+from_station_m = 5607.200
+to_station_m   = 5683.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5695.500
-to_station_m   = 5880.400
+from_station_m = 5683.800
+to_station_m   = 5868.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5880.400
-to_station_m   = 5900.400
+from_station_m = 5868.700
+to_station_m   = 5888.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5900.400
-to_station_m   = 5957.000
+from_station_m = 5888.700
+to_station_m   = 5945.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5957.000
-to_station_m   = 5977.000
+from_station_m = 5945.200
+to_station_m   = 5965.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 5977.000
-to_station_m   = 5997.000
+from_station_m = 5965.200
+to_station_m   = 5985.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 5997.000
-to_station_m   = 6017.000
+from_station_m = 5985.200
+to_station_m   = 6005.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6017.000
-to_station_m   = 6093.500
+from_station_m = 6005.200
+to_station_m   = 6081.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6093.500
-to_station_m   = 6133.500
+from_station_m = 6081.800
+to_station_m   = 6121.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6133.500
-to_station_m   = 6326.700
+from_station_m = 6121.800
+to_station_m   = 6314.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6326.700
-to_station_m   = 6366.700
+from_station_m = 6314.900
+to_station_m   = 6354.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6366.700
-to_station_m   = 6423.200
+from_station_m = 6354.900
+to_station_m   = 6411.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6423.200
-to_station_m   = 6443.200
+from_station_m = 6411.500
+to_station_m   = 6431.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6443.200
-to_station_m   = 6463.200
+from_station_m = 6431.500
+to_station_m   = 6451.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6463.200
-to_station_m   = 6511.500
+from_station_m = 6451.500
+to_station_m   = 6499.800
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6511.500
-to_station_m   = 6559.800
+from_station_m = 6499.800
+to_station_m   = 6548.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6559.800
-to_station_m   = 6656.400
+from_station_m = 6548.100
+to_station_m   = 6644.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6656.400
-to_station_m   = 6676.400
+from_station_m = 6644.700
+to_station_m   = 6664.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6676.400
-to_station_m   = 6724.700
+from_station_m = 6664.700
+to_station_m   = 6712.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6724.700
-to_station_m   = 6744.700
+from_station_m = 6712.900
+to_station_m   = 6732.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6744.700
-to_station_m   = 6841.200
+from_station_m = 6732.900
+to_station_m   = 6829.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 6841.200
-to_station_m   = 6889.500
+from_station_m = 6829.500
+to_station_m   = 6877.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 6889.500
-to_station_m   = 7034.400
+from_station_m = 6877.800
+to_station_m   = 7022.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7034.400
-to_station_m   = 7110.900
+from_station_m = 7022.600
+to_station_m   = 7099.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7110.900
-to_station_m   = 7139.200
+from_station_m = 7099.200
+to_station_m   = 7127.500
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7139.200
-to_station_m   = 7167.500
+from_station_m = 7127.500
+to_station_m   = 7155.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7167.500
-to_station_m   = 7215.800
+from_station_m = 7155.800
+to_station_m   = 7204.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7215.800
-to_station_m   = 7292.300
+from_station_m = 7204.100
+to_station_m   = 7280.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7292.300
-to_station_m   = 7320.600
+from_station_m = 7280.600
+to_station_m   = 7308.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7320.600
-to_station_m   = 7348.900
+from_station_m = 7308.900
+to_station_m   = 7337.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7348.900
-to_station_m   = 7453.800
+from_station_m = 7337.200
+to_station_m   = 7442.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7453.800
-to_station_m   = 7751.800
+from_station_m = 7442.100
+to_station_m   = 7740.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7751.800
-to_station_m   = 7791.800
+from_station_m = 7740.000
+to_station_m   = 7780.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7791.800
-to_station_m   = 7840.000
+from_station_m = 7780.000
+to_station_m   = 7828.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7840.000
-to_station_m   = 7936.600
+from_station_m = 7828.300
+to_station_m   = 7924.900
 class          = "bridge"
 
 [[civil]]
-from_station_m = 7936.600
-to_station_m   = 7984.900
+from_station_m = 7924.900
+to_station_m   = 7973.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7984.900
-to_station_m   = 8004.900
+from_station_m = 7973.200
+to_station_m   = 7993.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8004.900
-to_station_m   = 8024.900
+from_station_m = 7993.200
+to_station_m   = 8013.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8024.900
-to_station_m   = 8101.500
+from_station_m = 8013.200
+to_station_m   = 8089.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8101.500
-to_station_m   = 8121.500
+from_station_m = 8089.700
+to_station_m   = 8109.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8121.500
-to_station_m   = 8141.500
+from_station_m = 8109.700
+to_station_m   = 8129.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8141.500
-to_station_m   = 8238.000
+from_station_m = 8129.700
+to_station_m   = 8226.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8238.000
-to_station_m   = 8286.300
+from_station_m = 8226.300
+to_station_m   = 8274.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8286.300
-to_station_m   = 8374.600
+from_station_m = 8274.600
+to_station_m   = 8362.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8374.600
-to_station_m   = 8402.900
+from_station_m = 8362.900
+to_station_m   = 8391.200
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8402.900
-to_station_m   = 8559.500
+from_station_m = 8391.200
+to_station_m   = 8547.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8559.500
-to_station_m   = 8636.000
+from_station_m = 8547.700
+to_station_m   = 8624.300
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8636.000
-to_station_m   = 8704.300
+from_station_m = 8624.300
+to_station_m   = 8692.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8704.300
-to_station_m   = 8724.300
+from_station_m = 8692.600
+to_station_m   = 8712.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8724.300
-to_station_m   = 8869.200
+from_station_m = 8712.600
+to_station_m   = 8857.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8869.200
-to_station_m   = 8897.400
+from_station_m = 8857.400
+to_station_m   = 8885.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8897.400
-to_station_m   = 8925.700
+from_station_m = 8885.700
+to_station_m   = 8914.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 8925.700
-to_station_m   = 8945.700
+from_station_m = 8914.000
+to_station_m   = 8934.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 8945.700
-to_station_m   = 9107.100
+from_station_m = 8934.000
+to_station_m   = 9095.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9107.100
-to_station_m   = 9135.400
+from_station_m = 9095.400
+to_station_m   = 9123.700
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9135.400
-to_station_m   = 9183.700
+from_station_m = 9123.700
+to_station_m   = 9172.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9183.700
-to_station_m   = 9240.300
+from_station_m = 9172.000
+to_station_m   = 9228.600
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9240.300
-to_station_m   = 9316.900
+from_station_m = 9228.600
+to_station_m   = 9305.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9316.900
-to_station_m   = 9345.100
+from_station_m = 9305.100
+to_station_m   = 9333.400
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9345.100
-to_station_m   = 9393.400
+from_station_m = 9333.400
+to_station_m   = 9381.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9393.400
-to_station_m   = 9614.800
+from_station_m = 9381.700
+to_station_m   = 9603.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9614.800
-to_station_m   = 9634.800
+from_station_m = 9603.100
+to_station_m   = 9623.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9634.800
-to_station_m   = 9654.800
+from_station_m = 9623.100
+to_station_m   = 9643.100
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9654.800
-to_station_m   = 9771.400
+from_station_m = 9643.100
+to_station_m   = 9759.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9771.400
-to_station_m   = 9799.700
+from_station_m = 9759.700
+to_station_m   = 9788.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9799.700
-to_station_m   = 9819.700
+from_station_m = 9788.000
+to_station_m   = 9808.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9819.700
-to_station_m   = 9848.000
+from_station_m = 9808.000
+to_station_m   = 9836.300
 class          = "bridge"
 
 [[civil]]
-from_station_m = 9848.000
-to_station_m   = 9916.300
+from_station_m = 9836.300
+to_station_m   = 9904.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 9916.300
-to_station_m   = 10615.700
+from_station_m = 9904.500
+to_station_m   = 10604.000
 class          = "bridge"
 
 [[civil]]
-from_station_m = 10615.700
-to_station_m   = 10664.000
+from_station_m = 10604.000
+to_station_m   = 10652.200
 class          = "elevated"
 
 [[civil]]
-from_station_m = 10664.000
-to_station_m   = 11075.100
+from_station_m = 10652.200
+to_station_m   = 11063.400
 class          = "bridge"
 
 [[civil]]
-from_station_m = 11075.100
-to_station_m   = 16396.100
+from_station_m = 11063.400
+to_station_m   = 16384.300
 class          = "elevated"
 
 # Station IDs and chainages resolve directly to design.toml.
 
 [[station]]
-id                = "line-3-1316-0792-s000000"
+id                = "line-3-1315-0791-s000000"
 station_m         = 0.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-1206-0865-s003014"
-station_m         = 3013.600
+id                = "line-3-1256-0828-s001572"
+station_m         = 1572.400
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-1111-0937-s005639"
-station_m         = 5639.000
+id                = "line-3-1174-0889-s003911"
+station_m         = 3911.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-1066-0972-s006958"
-station_m         = 6957.800
+id                = "line-3-1111-0937-s005627"
+station_m         = 5627.200
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-1050-0984-s007377"
-station_m         = 7377.200
+id                = "line-3-1066-0972-s006946"
+station_m         = 6946.100
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-1009-1015-s008559"
-station_m         = 8559.500
+id                = "line-3-1050-0984-s007365"
+station_m         = 7365.500
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-0936-1070-s010616"
-station_m         = 10615.700
+id                = "line-3-1009-1015-s008548"
+station_m         = 8547.700
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-0860-1127-s012690"
-station_m         = 12689.900
+id                = "line-3-0936-1070-s010604"
+station_m         = 10604.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-3-0729-1227-s016396"
-station_m         = 16396.100
+id                = "line-3-0860-1127-s012678"
+station_m         = 12678.200
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-3-0798-1174-s014472"
+station_m         = 14471.600
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-3-0729-1227-s016384"
+station_m         = 16384.300
 platform_length_m = 85.000
 
 # No [[cant]] rows: cant has not been designed for this planning trace.

@@ -1,29 +1,29 @@
 slug: hofuf
 pass: true
 metrics:
-  total_route_m: 72279.9
-  n_lines: 3
-  n_stations: 26
-  anchor_hit_rate: 0.538
-  high_demand_coverage: 0.391
+  total_route_m: 143117.6
+  n_lines: 19
+  n_stations: 98
+  anchor_hit_rate: 0.153
+  high_demand_coverage: 0.486
   civil_mix_m:
-    at_grade: 25464.600
-    elevated: 46786.900
-    bridge:   28.300
-  elevated_fraction: 0.648
+    at_grade: 46090.0
+    elevated: 96999.2
+    bridge:   28.3
+  elevated_fraction: 0.678
   viaduct_products_m:
-    osr_pi20_pi25: 46488.866
-    osr_us:      249.713
-    special:     28.300
-    realign:     48.321
-  max_elevated_cost_multiplier: 9.065
+    osr_pi20_pi25: 90757.9
+    osr_us:      5939.9
+    special:     28.3
+    realign:     301.4
+  max_elevated_cost_multiplier: 14.413
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

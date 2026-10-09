@@ -1060,12 +1060,85 @@ fn replace_station_near(
     });
 }
 
+/// Place explicit population-planning stops on their own retained corridor.
+/// These are ordinary proposed stops, not forced crossings or surveyed sites.
+pub fn force_planning_station_sites(
+    stations: &mut Vec<Station>,
+    lines: &[Line],
+    grid: &Grid,
+    sites: &std::collections::BTreeMap<String, Vec<(usize, usize)>>,
+    priority: bool,
+) -> Vec<String> {
+    let mut issues = Vec::new();
+    for (name, cells) in sites {
+        let Some(line) = lines.iter().find(|line| &line.name == name) else {
+            issues.push(format!("planning station references missing line {name}"));
+            continue;
+        };
+        let last_s = cumulative_m(&line.cells, line.cells.len() - 1, grid.reference.cell_m);
+        for &cell in cells {
+            let Some(index) = line.cells.iter().position(|&point| point == cell) else {
+                issues.push(format!(
+                    "planning station {name} {cell:?} is off its retained corridor"
+                ));
+                continue;
+            };
+            if grid.excludes_station_for_water(cell.0, cell.1) {
+                issues.push(format!(
+                    "planning station {name} {cell:?} requires a dry site"
+                ));
+                continue;
+            }
+            let chainage = cumulative_m(&line.cells, index, grid.reference.cell_m);
+            if stations
+                .iter()
+                .any(|s| s.line_name == *name && (s.s_m - chainage).abs() < 40.0)
+            {
+                continue;
+            }
+            stations.retain(|s| {
+                s.line_name != *name
+                    || s.mandatory_crossing
+                    || s.s_m <= 1.0
+                    || (s.s_m - last_s).abs() <= 1.0
+                    || (s.s_m - chainage).abs() >= 1200.0
+                    || s.anchor_kind
+                        .as_deref()
+                        .is_some_and(|kind| kind.starts_with("planning:residential"))
+            });
+            let (lat, lon) = grid.reference.rc_to_latlon(cell.0, cell.1);
+            stations.push(Station {
+                row: cell.0,
+                col: cell.1,
+                lat,
+                lon,
+                anchor_id: None,
+                anchor_kind: Some(
+                    if priority {
+                        "planning:residential-priority"
+                    } else {
+                        "planning:residential"
+                    }
+                    .to_string(),
+                ),
+                anchor_name: Some("Residential planning stop; site release open".to_string()),
+                line_name: name.clone(),
+                s_m: chainage,
+                demand: grid.demand_at(cell.0, cell.1),
+                junction_group: None,
+                mandatory_crossing: false,
+            });
+        }
+    }
+    issues
+}
+
 /// Cross-line interchange merging.
 ///
 /// Within `merge_radius_m` (default 250 m) of each other, stations on
 /// *different* lines are grouped into one interchange. Neighbouring
-/// interchange groups on the same line are then amalgamated into one
-/// multi-line complex. Each grouped
+/// complexes use the full pairwise diameter rather than transitive proximity.
+/// Each grouped
 /// station retains its actual platform coordinates and receives a stable
 /// `junction_group`. Complex centroids are descriptive metadata, not physical
 /// platform positions. Ordinary stations on the same line are never merged.
@@ -1085,85 +1158,53 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
         return;
     }
 
-    // Union-find by lat/lon proximity, only across distinct lines. The routing
-    // invariants are evaluated on the 20 m raster, while station coordinates
-    // are later converted back to geodesic lat/lon. Accept either measure so a
-    // forced raster-envelope transfer cannot be stranded by projection drift.
+    // Complete-link grouping: every retained platform pair in a complex must
+    // fit the envelope. A chain of close pairs cannot join distant ends, and
+    // same-line platforms cannot enlarge a complex through a second union.
     let mut parent: Vec<usize> = (0..n).collect();
+    let mut members: Vec<Vec<usize>> = (0..n).map(|i| vec![i]).collect();
     fn find(parent: &mut [usize], x: usize) -> usize {
         if parent[x] == x {
             x
         } else {
-            let r = find(parent, parent[x]);
-            parent[x] = r;
-            r
+            let root = find(parent, parent[x]);
+            parent[x] = root;
+            root
         }
     }
     let r2 = merge_radius_m * merge_radius_m;
+    let mut distances = vec![vec![0.0; n]; n];
+    let mut edges = Vec::new();
     for i in 0..n {
         for j in (i + 1)..n {
-            if stations[i].line_name == stations[j].line_name {
-                continue;
-            }
-            let geo_d2 = haversine_sq_m(
+            let distance = haversine_sq_m(
                 stations[i].lat,
                 stations[i].lon,
                 stations[j].lat,
                 stations[j].lon,
             );
-            let dr = stations[i].row as f64 - stations[j].row as f64;
-            let dc = stations[i].col as f64 - stations[j].col as f64;
-            let grid_d2 = (dr * dr + dc * dc) * 20.0 * 20.0;
-            if geo_d2 <= r2 || (grid_d2 > 0.0 && grid_d2 <= r2) {
-                let ri = find(&mut parent, i);
-                let rj = find(&mut parent, j);
-                if ri != rj {
-                    parent[ri] = rj;
-                }
+            distances[i][j] = distance;
+            distances[j][i] = distance;
+            if stations[i].line_name != stations[j].line_name && distance <= r2 {
+                edges.push((distance, i, j));
             }
         }
     }
-
-    // If two independently formed interchanges sit on the same line inside
-    // one 1.2 km station envelope, treat them as a single multi-change
-    // complex. This is the explicit exception to ordinary in-line spacing;
-    // ordinary cross-line grouping remains at the stricter 600 m envelope.
-    let mut component_lines =
-        std::collections::HashMap::<usize, std::collections::BTreeSet<&str>>::new();
-    for (index, station) in stations.iter().enumerate() {
-        let root = find(&mut parent, index);
-        component_lines
-            .entry(root)
-            .or_default()
-            .insert(station.line_name.as_str());
-    }
-    let multichange_r2 = 1200.0 * 1200.0;
-    for i in 0..n {
-        for j in (i + 1)..n {
-            if stations[i].line_name != stations[j].line_name {
-                continue;
-            }
-            let ri = find(&mut parent, i);
-            let rj = find(&mut parent, j);
-            if ri == rj
-                || component_lines.get(&ri).map_or(0, |lines| lines.len()) < 2
-                || component_lines.get(&rj).map_or(0, |lines| lines.len()) < 2
-            {
-                continue;
-            }
-            let geo_d2 = haversine_sq_m(
-                stations[i].lat,
-                stations[i].lon,
-                stations[j].lat,
-                stations[j].lon,
-            );
-            let dr = stations[i].row as f64 - stations[j].row as f64;
-            let dc = stations[i].col as f64 - stations[j].col as f64;
-            let grid_d2 = (dr * dr + dc * dc) * 20.0 * 20.0;
-            if geo_d2 <= multichange_r2 || (grid_d2 > 0.0 && grid_d2 <= multichange_r2) {
-                parent[ri] = rj;
-            }
+    edges.sort_by(|a, b| a.0.total_cmp(&b.0).then(a.1.cmp(&b.1)).then(a.2.cmp(&b.2)));
+    for (_, i, j) in edges {
+        let ri = find(&mut parent, i);
+        let rj = find(&mut parent, j);
+        if ri == rj
+            || !members[ri]
+                .iter()
+                .all(|&a| members[rj].iter().all(|&b| distances[a][b] <= r2))
+        {
+            continue;
         }
+        let (keep, drop) = (ri.min(rj), ri.max(rj));
+        parent[drop] = keep;
+        let removed = std::mem::take(&mut members[drop]);
+        members[keep].extend(removed);
     }
 
     // Materialize groups. Singletons get no group id.
@@ -1452,12 +1493,27 @@ pub fn station_layout_issues(
             if first.line_name == second.line_name {
                 continue;
             }
-            if haversine_sq_m(first.lat, first.lon, second.lat, second.lon) <= transfer2
-                && (first.junction_group.is_none() || first.junction_group != second.junction_group)
+            let same_group =
+                first.junction_group.is_some() && first.junction_group == second.junction_group;
+            let distance2 = haversine_sq_m(first.lat, first.lon, second.lat, second.lon);
+            if same_group && distance2 > transfer2 {
+                issues.push(format!(
+                    "{} and {} enlarge their interchange beyond the {:.0} m full-diameter limit",
+                    first.line_name, second.line_name, transfer_envelope_m
+                ));
+            }
+            // Distinct nearby complexes need an investigated walking link;
+            // proximity alone cannot require a transitive passenger complex.
+            // Actual geometric crossings retain their separate hard validator.
+            if !same_group
+                && ((first.row, first.col) == (second.row, second.col)
+                    || (first.junction_group.is_none()
+                        && second.junction_group.is_none()
+                        && distance2 <= transfer2))
             {
                 issues.push(format!(
-                    "{} and {} have platforms within {:.0} m but no common interchange",
-                    first.line_name, second.line_name, transfer_envelope_m
+                    "{} and {} have an ungrouped platform contact and no common interchange",
+                    first.line_name, second.line_name
                 ));
             }
         }
@@ -1639,6 +1695,8 @@ pub fn consolidate_inline_station_clusters(
                     endpoint(station),
                     station.mandatory_crossing,
                     station.junction_group.is_some(),
+                    station.anchor_kind.as_deref() == Some("planning:residential-priority"),
+                    station.anchor_kind.as_deref() == Some("planning:residential"),
                     (station.demand * 1_000_000.0).round() as i64,
                     station.anchor_name.is_some(),
                     station.anchor_id.is_some(),
@@ -2128,6 +2186,68 @@ mod tests {
         assert!((s[0].lat - 0.001).abs() < 1e-9);
         assert!((s[1].lat - 0.001003).abs() < 1e-9);
         assert!((s[2].lat - 0.001).abs() < 1e-9);
+    }
+
+    #[test]
+    fn interchange_diameter_cannot_expand_through_transitive_or_same_line_links() {
+        let mut stations = vec![
+            st("A", 0.0, 0.0),
+            st("B", 0.0, 500.0 / 111_195.0),
+            st("C", 0.0, 1000.0 / 111_195.0),
+        ];
+        let coordinates: Vec<_> = stations.iter().map(|s| (s.lat, s.lon)).collect();
+        merge_interchanges(&mut stations, 600.0);
+        assert_ne!(stations[0].junction_group, stations[2].junction_group);
+        assert_eq!(
+            coordinates,
+            stations.iter().map(|s| (s.lat, s.lon)).collect::<Vec<_>>()
+        );
+        let mut stations = vec![
+            st("A", 0.0, 0.0),
+            st("B", 0.0, 0.0),
+            st("A", 0.0, 900.0 / 111_195.0),
+            st("C", 0.0, 900.0 / 111_195.0),
+        ];
+        merge_interchanges(&mut stations, 600.0);
+        assert_eq!(stations[0].junction_group, stations[1].junction_group);
+        assert_eq!(stations[2].junction_group, stations[3].junction_group);
+        assert_ne!(stations[0].junction_group, stations[2].junction_group);
+    }
+
+    #[test]
+    fn residential_priority_sites_are_ordinary_on_corridor_stops_and_reject_wet_sites() {
+        let mut grid = uniform_grid(201, 201);
+        let lines = vec![line(
+            "A",
+            LineShape::Radial,
+            (0..201).map(|c| (100, c)).collect(),
+        )];
+        let sites = std::collections::BTreeMap::from([("A".to_string(), vec![(100, 90)])]);
+        let mut stations = Vec::new();
+        assert!(
+            force_planning_station_sites(&mut stations, &lines, &grid, &sites, true).is_empty()
+        );
+        assert_eq!(stations.len(), 1);
+        assert_eq!((stations[0].row, stations[0].col), (100, 90));
+        assert!(!stations[0].mandatory_crossing);
+        assert!(stations[0].junction_group.is_none());
+        assert!(stations[0].anchor_id.is_none());
+        assert_eq!(
+            stations[0].anchor_kind.as_deref(),
+            Some("planning:residential-priority")
+        );
+        let mut water = vec![0; grid.reference.height * grid.reference.width];
+        water[grid.idx(100, 90)] = 1;
+        grid.water = Some(water);
+        assert_eq!(
+            force_planning_station_sites(&mut Vec::new(), &lines, &grid, &sites, true).len(),
+            1
+        );
+        let off_line = std::collections::BTreeMap::from([("A".to_string(), vec![(99, 90)])]);
+        assert_eq!(
+            force_planning_station_sites(&mut Vec::new(), &lines, &grid, &off_line, true).len(),
+            1
+        );
     }
 
     #[test]

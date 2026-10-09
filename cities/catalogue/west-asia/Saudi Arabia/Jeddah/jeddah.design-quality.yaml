@@ -1,29 +1,29 @@
 slug: jeddah
-pass: true
+pass: false
 metrics:
-  total_route_m: 346968.0
-  n_lines: 9
-  n_stations: 128
-  anchor_hit_rate: 0.281
-  high_demand_coverage: 0.601
+  total_route_m: 692107.3
+  n_lines: 52
+  n_stations: 515
+  anchor_hit_rate: 0.103
+  high_demand_coverage: 0.705
   civil_mix_m:
-    at_grade: 57525.200
-    elevated: 281213.000
-    bridge:   8229.800
-  elevated_fraction: 0.834
+    at_grade: 157199.3
+    elevated: 525627.4
+    bridge:   9280.6
+  elevated_fraction: 0.773
   viaduct_products_m:
-    osr_pi20_pi25: 276704.274
-    osr_us:      3821.027
-    special:     8229.800
-    realign:     687.699
-  max_elevated_cost_multiplier: 25.201
+    osr_pi20_pi25: 492965.2
+    osr_us:      26622.9
+    special:     9280.6
+    realign:     6039.3
+  max_elevated_cost_multiplier: 29.841
 gates:
   hard:
     has_stations:      true
-    length_reasonable: true
+    length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: true
+    anchor_hit_ge_0.20: false
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

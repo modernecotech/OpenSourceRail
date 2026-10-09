@@ -32,6 +32,7 @@ ONLY=()
 FROM_SCRATCH=false
 RESYNTHESISE_CORRIDORS=false
 CURRENT_DESIGN_LOGIC=false
+PREPARE_ONLY=false
 if [[ -z "${PYTHON:-}" ]]; then
     if [[ -x "$REPO/.venv/bin/python" ]]; then
         PYTHON="$REPO/.venv/bin/python"
@@ -67,6 +68,9 @@ while [[ $# -gt 0 ]]; do
             shift ;;
         --current-design-logic)
             CURRENT_DESIGN_LOGIC=true
+            shift ;;
+        --prepare-only)
+            PREPARE_ONLY=true
             shift ;;
         --resynthesise-design)
             RESYNTHESISE_DESIGN=true
@@ -139,5 +143,8 @@ if [[ "${RESYNTHESISE_DESIGN:-false}" == true ]]; then
 fi
 if [[ "$CURRENT_DESIGN_LOGIC" == true ]]; then
     COMMAND+=(--current-design-logic)
+fi
+if [[ "$PREPARE_ONLY" == true ]]; then
+    COMMAND+=(--prepare-only)
 fi
 exec "${COMMAND[@]}"

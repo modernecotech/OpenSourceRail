@@ -7,7 +7,7 @@
     "west": 81.538321
   },
   "core_analytical_length_m": 107146.879341,
-  "core_final_route_length_m": 114131.277016,
+  "core_final_route_length_m": 115076.962441,
   "core_original_length_m": 127023.96026,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -35,7 +35,13 @@
               6600.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-continuous-junction-route-requires-profile-and-structural-review",
+          "original_length_m": 24125.518867,
+          "seed_from_index": 90,
+          "seed_to_index": 454,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 16100.0,
@@ -48,20 +54,15 @@
                 25800.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 24125.518867,
-          "seed_from_index": 90,
-          "seed_to_index": 454,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 19792.203461,
+      "final_core_route_m": 20416.46753,
       "line": "line-1",
       "original_cells": 494,
       "original_route_m": 33090.670339,
-      "reworked_cells": 1360,
-      "reworked_route_m": 29010.823946,
+      "reworked_cells": 1385,
+      "reworked_route_m": 29635.088014,
       "water_route_changes": []
     },
     {
@@ -78,7 +79,13 @@
               18200.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "superseded-by-continuous-junction-route-requires-profile-and-structural-review",
+          "original_length_m": 24343.673383,
+          "seed_from_index": 0,
+          "seed_to_index": 364,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 6520.0,
@@ -91,20 +98,15 @@
                 16100.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 24343.673383,
-          "seed_from_index": 0,
-          "seed_to_index": 364,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 19269.848481,
+      "final_core_route_m": 19591.269837,
       "line": "line-2",
       "original_cells": 458,
       "original_route_m": 30355.843591,
-      "reworked_cells": 1219,
-      "reworked_route_m": 25842.884553,
+      "reworked_cells": 1233,
+      "reworked_route_m": 26164.30591,
       "water_route_changes": []
     },
     {
@@ -522,17 +524,70 @@
       "water_route_changes": []
     }
   ],
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "added_line_count": 0,
+    "as_of": "2026-10-09",
+    "base_line_junction_changes": [
+      {
+        "final_route_m": 29635.088,
+        "kind": "continuous physical ring connection",
+        "line": "line-1",
+        "original_route_m": 29010.824,
+        "original_station_cells_preserved": true,
+        "profile_structure_and_site_release": false,
+        "relocated_original_proposed_station_cells": []
+      },
+      {
+        "final_route_m": 26164.306,
+        "kind": "continuous physical ring connection",
+        "line": "line-2",
+        "original_route_m": 25842.885,
+        "original_station_cells_preserved": true,
+        "profile_structure_and_site_release": false,
+        "relocated_original_proposed_station_cells": []
+      }
+    ],
+    "base_line_junction_reviews": [],
+    "city": "raipur",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 6,
+    "operating_release": false,
+    "original_line_count": 6,
+    "physical_release": false,
+    "population_is_current_census": false,
+    "reason": "No retained native population counts; additional-line targeting remains unavailable.",
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/south-asia/India/Raipur/engineering/alignment/network-expansion-baseline.json.gz": "b90deabdf0deaeb42385eff253ceb595c277638e4e91de2c9dc42d6b764c2e32",
+      "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "status": "population-evidence-unavailable",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_radial_fraction": 0.8
+  },
   "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/south-asia/India/Raipur/alignment-policy.toml": "48e14bd1653bf539538ec8a4bd821c9804eb43cd49563a6d5753288c561cf7ef",
+    "cities/catalogue/south-asia/India/Raipur/engineering/alignment/network-expansion-baseline.json.gz": "b90deabdf0deaeb42385eff253ceb595c277638e4e91de2c9dc42d6b764c2e32",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-buildability-mask.bin.gz": "f2e7278f1c1ee193bc620a86faedd05a136f9c6cb83c47c3de1b256e73c14aed",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-grid.json": "f1ce63167e54bdfe113a27d01365aef1bffbf61af2f98376f6f3df24091d1428",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/planning-water-mask.bin.gz": "e6d121eeac812fb61b174b1afe712fde92fd4ad820016c233de1ecc83472a09c",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/pre-rework-corridors.json.gz": "7d9631835a718828a076a2465f94d666825b709ece8120d36fff92bbe1848ba8",
+    "cities/catalogue/south-asia/India/Raipur/engineering/alignment/residential-line-expansion.json": "6e037b57be9a4b985982e6c4de57d197ef277e01a9468f4edda97425e5efd569",
     "cities/catalogue/south-asia/India/Raipur/engineering/alignment/water-source-receipt.json": "0468610dabefd790f09d8309a4793f35d4964ad92764fa390affd0d6088c0527",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/rework-baghdad-alignment.py": "f55b7e1ed50135e21bcfea38f5591231cd1d0c743a3681292ba10394083d1e87",
-    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+    "tools/automation/rework-baghdad-alignment.py": "1b21cbf8d724910b7c86fbfaecbac2dadf04345dd2a777c865f93742ad436255",
+    "tools/automation/rework-city-alignment.py": "019423389e9d787e024cf4e6df6eb987c3811b94a30dff51137262f7da7e0088",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"

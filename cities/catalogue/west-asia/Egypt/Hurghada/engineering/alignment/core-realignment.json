@@ -7,7 +7,7 @@
     "west": 33.766093
   },
   "core_analytical_length_m": 24196.238949,
-  "core_final_route_length_m": 26721.202,
+  "core_final_route_length_m": 31313.060582,
   "core_original_length_m": 33000.310217,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -168,19 +168,260 @@
       "reworked_cells": 231,
       "reworked_route_m": 5312.447327,
       "water_route_changes": []
+    },
+    {
+      "core_runs": [],
+      "final_core_route_m": 4591.858582,
+      "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
+      "line": "line-4",
+      "original_cells": 0,
+      "original_route_m": 0,
+      "reworked_cells": 190,
+      "reworked_route_m": 4591.858582,
+      "water_route_changes": []
     }
   ],
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "actual_regenerated_station_coverage": null,
+    "added_line_count": 1,
+    "added_lines": [
+      {
+        "connection_cell": [
+          451,
+          431
+        ],
+        "connection_kind": "actual common corridor cell; mandatory native platform pair and civil junction design required",
+        "connection_line": "line-1",
+        "end_connection_cell": null,
+        "end_connection_line": null,
+        "geometry_basis": "bounded water/buildability raster investigation route",
+        "incremental_residents_2020": 18700.671,
+        "length_m": 4591.858582,
+        "line": "line-4",
+        "priority_areas": [
+          [
+            16,
+            18
+          ],
+          [
+            14,
+            15
+          ],
+          [
+            14,
+            12
+          ]
+        ],
+        "priority_cells": [
+          [
+            411,
+            461
+          ],
+          [
+            354,
+            391
+          ],
+          [
+            365,
+            312
+          ]
+        ],
+        "property_curve_vertical_profile_and_structural_release": false
+      }
+    ],
+    "added_route_limit_m": 32631.883,
+    "added_route_m": 4591.859,
+    "as_of": "2026-10-09",
+    "base_line_junction_changes": [],
+    "base_line_junction_reviews": [],
+    "baseline_actual_station_radial_fraction": 0.650648,
+    "baseline_with_sampled_infill_radial_fraction": 0.792717,
+    "bbox_population_2020": 112414.464,
+    "city": "hurghada",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 4,
+    "operating_release": false,
+    "original_line_count": 3,
+    "original_route_m": 32631.883,
+    "outcome": "target reached in station-sample screen",
+    "physical_release": false,
+    "planned_stop_cells_by_line": {
+      "line-1": [
+        [
+          155,
+          41
+        ],
+        [
+          171,
+          73
+        ],
+        [
+          208,
+          138
+        ],
+        [
+          255,
+          194
+        ],
+        [
+          300,
+          249
+        ],
+        [
+          346,
+          304
+        ],
+        [
+          391,
+          359
+        ],
+        [
+          437,
+          413
+        ],
+        [
+          483,
+          469
+        ],
+        [
+          528,
+          523
+        ],
+        [
+          533,
+          545
+        ]
+      ],
+      "line-2": [
+        [
+          729,
+          464
+        ],
+        [
+          711,
+          432
+        ],
+        [
+          639,
+          414
+        ],
+        [
+          578,
+          377
+        ],
+        [
+          518,
+          335
+        ],
+        [
+          459,
+          294
+        ],
+        [
+          400,
+          252
+        ],
+        [
+          341,
+          211
+        ],
+        [
+          282,
+          169
+        ],
+        [
+          242,
+          142
+        ]
+      ],
+      "line-3": [
+        [
+          460,
+          535
+        ],
+        [
+          474,
+          502
+        ],
+        [
+          502,
+          434
+        ],
+        [
+          529,
+          366
+        ],
+        [
+          552,
+          311
+        ]
+      ],
+      "line-4": [
+        [
+          451,
+          431
+        ],
+        [
+          422,
+          458
+        ],
+        [
+          363,
+          413
+        ],
+        [
+          357,
+          338
+        ],
+        [
+          365,
+          312
+        ]
+      ]
+    },
+    "population_is_current_census": false,
+    "population_year": 2020,
+    "proposed_station_sample_radial_fraction": 0.817003,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-pixels.npz.gz": "2d593d31102bfa0117a39ef26636ab239ec656aa98e9de77a9e00f92a40e38e4",
+      "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-source.json": "8332681a813c0878ca45a961aa041ba7e493ba25f41ed8a5ad2bcbc2eebc6c66",
+      "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/network-expansion-baseline.json.gz": "7a5c35cd7769e3f70353565b358a4e44d7578bbfbd5d60b3d51137bc597ba92d",
+      "cities/catalogue/west-asia/Egypt/Hurghada/station-spacing-policy.toml": "2dfec60e4f1a23b73f9096b829e780cc98c56ebb0675f661227564bb9873cab6",
+      "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "status": "expanded-controlled-planning-layout",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_met_in_proposed_station_sample": true,
+    "target_radial_fraction": 0.8
+  },
   "schema_version": 3,
   "sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Hurghada/alignment-policy.toml": "5fa8639c417ba051e55ab11c3aaa49f6d6ff06624f352d74b7db3959537e6f34",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-pixels.npz.gz": "2d593d31102bfa0117a39ef26636ab239ec656aa98e9de77a9e00f92a40e38e4",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-source.json": "8332681a813c0878ca45a961aa041ba7e493ba25f41ed8a5ad2bcbc2eebc6c66",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/network-expansion-baseline.json.gz": "7a5c35cd7769e3f70353565b358a4e44d7578bbfbd5d60b3d51137bc597ba92d",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/planning-buildability-mask.bin.gz": "67991d90ae0806b50cb201e8713b07f515f41a69d7c4e91d7001dd887bb2be0d",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/planning-grid.json": "dc6ab5eb7c4a35dbb20176164bffc47305b1d1992ac215471c23f49b149dd7f3",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/planning-water-mask.bin.gz": "0b8d6706dce65a68a1ee282327457073c1ed7bd0cfb9eeee58b1b588184ecb15",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/pre-rework-corridors.json.gz": "8069cc4d4986e2c21bd2d8bdb2130ce5c4b2d96f6735b629e932c37c5a048f52",
+    "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/residential-line-expansion.json": "165ce8fea188cdf9982e9e46dddb8041e3d49c4a63e876d0a1626da4bc7d9e7b",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/alignment/water-source-receipt.json": "ec79d42187c5592b28b824e1d18d4056a78d8eb67eb9635e0e43bf46c857147e",
+    "cities/catalogue/west-asia/Egypt/Hurghada/station-spacing-policy.toml": "2dfec60e4f1a23b73f9096b829e780cc98c56ebb0675f661227564bb9873cab6",
+    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/rework-baghdad-alignment.py": "f55b7e1ed50135e21bcfea38f5591231cd1d0c743a3681292ba10394083d1e87",
-    "tools/automation/rework-city-alignment.py": "bd69162e563ad7e03a782f884fb93ba1df39d348d5581d406803cc0016566478",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+    "tools/automation/rework-baghdad-alignment.py": "1b21cbf8d724910b7c86fbfaecbac2dadf04345dd2a777c865f93742ad436255",
+    "tools/automation/rework-city-alignment.py": "019423389e9d787e024cf4e6df6eb987c3811b94a30dff51137262f7da7e0088",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"

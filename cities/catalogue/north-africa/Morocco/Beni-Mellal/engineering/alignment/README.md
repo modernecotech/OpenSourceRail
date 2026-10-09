@@ -4,9 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`beni-mellal-line1.aln.toml`](beni-mellal-line1.aln.toml) | `line-1` | 8,527.7 m | 3 |
-| [`beni-mellal-line2.aln.toml`](beni-mellal-line2.aln.toml) | `line-2` | 9,671.4 m | 4 |
+| [`beni-mellal-line1.aln.toml`](beni-mellal-line1.aln.toml) | `line-1` | 8,527.7 m | 6 |
+| [`beni-mellal-line2.aln.toml`](beni-mellal-line2.aln.toml) | `line-2` | 9,671.4 m | 6 |
 | [`beni-mellal-line3.aln.toml`](beni-mellal-line3.aln.toml) | `line-3` | 8,825.0 m | 5 |
+| [`beni-mellal-line4.aln.toml`](beni-mellal-line4.aln.toml) | `line-4` | 2,568.5 m | 2 |
+| [`beni-mellal-line5.aln.toml`](beni-mellal-line5.aln.toml) | `line-5` | 4,094.5 m | 3 |
 
 ## Status
 
