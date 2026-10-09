@@ -13,6 +13,7 @@ release gates are tracked in
 
 | File | Scope |
 |---|---|
+| [`design-exploration.md`](design-exploration.md) | Reproducible complete civil-system research, native moving-load/flexible-support models and the staged acceptance backlog |
 | [`line-based-foundation-and-assembly-planning.md`](line-based-foundation-and-assembly-planning.md) | Per-support ground/load/install packets, directed line/front bay assemblies and inspection/handover dependencies |
 | [`network-junction-and-residential-integration.md`](network-junction-and-residential-integration.md) | Bounded interchanges, crossings/shared corridors, source-bound residential infill and branch/feeder planning |
 | [`integrated Baghdad plans`](../../engineering/network-planning/baghdad/README.md) | Nine line plans, offline support/junction viewer, individual foundation/bay registers and 266-city geometry/coverage audit |

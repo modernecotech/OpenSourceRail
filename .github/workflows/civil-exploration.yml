@@ -1,0 +1,55 @@
+name: Civil exploration numerical verification
+
+on:
+  pull_request:
+    paths:
+      - 'engineering/civil_exploration/**'
+      - 'engineering/analysis/benchmarks/civil/**'
+      - 'engineering/analysis/tests/test_civil_exploration.py'
+      - 'engineering/analysis/tests/test_civil_exploration_review.py'
+      - 'design/component-catalogue/src/osr_mech/civil/**'
+      - 'tools/automation/civil-study.py'
+      - '.github/workflows/civil-exploration.yml'
+  workflow_dispatch:
+    inputs:
+      campaign:
+        description: Run the complete bounded research comparison
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  numerical-verification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONPATH: .:design/component-catalogue/src
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install bounded numerical test environment
+        run: python -m pip install pytest==9.1.1 numpy==2.3.5 openseespy==3.8.0.0
+      - name: Verify contracts, independent equations and native integrity
+        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py
+      - name: Install existing native reference replay dependencies
+        if: ${{ inputs.campaign }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y calculix-ccx
+          python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
+      - name: Run complete research campaign
+        if: ${{ inputs.campaign }}
+        run: python tools/automation/civil-study.py run
+      - name: Retain comparison and failed numerical evidence
+        if: ${{ always() && inputs.campaign }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: civil-exploration-research
+          path: build/engineering/civil-studies/first-campaign/
+          retention-days: 30

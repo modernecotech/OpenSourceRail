@@ -1,0 +1,853 @@
+{
+  "$id": "osr-civil-study/1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis": {
+      "additionalProperties": false,
+      "properties": {
+        "braking_fraction": {
+          "maximum": 0.3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "convergence_relative_limit": {
+          "maximum": 0.2,
+          "minimum": 0.001,
+          "type": "number"
+        },
+        "damping_ratio": {
+          "maximum": 0.1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "max_evaluations": {
+          "maximum": 100,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "meshes": {
+          "items": {
+            "maximum": 64,
+            "minimum": 4,
+            "type": "integer"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "speeds_m_s": {
+          "items": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "type": "array"
+        },
+        "static_positions": {
+          "maximum": 101,
+          "minimum": 5,
+          "type": "integer"
+        },
+        "time_step_s": {
+          "maximum": 0.05,
+          "minimum": 0.002,
+          "type": "number"
+        },
+        "worker_timeout_s": {
+          "maximum": 600,
+          "minimum": 5,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "meshes",
+        "speeds_m_s",
+        "time_step_s",
+        "damping_ratio",
+        "braking_fraction",
+        "static_positions",
+        "worker_timeout_s",
+        "max_evaluations",
+        "convergence_relative_limit"
+      ],
+      "type": "object"
+    },
+    "bearing": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "horizontal_stiffness_n_m": {
+          "maximum": 10000000000.0,
+          "minimum": 1000.0,
+          "type": "number"
+        },
+        "vertical_stiffness_n_m": {
+          "maximum": 1000000000000.0,
+          "minimum": 1000000.0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "horizontal_stiffness_n_m",
+        "vertical_stiffness_n_m",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "candidates": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "deck": {
+            "additionalProperties": false,
+            "properties": {
+              "family": {
+                "enum": [
+                  "pi",
+                  "hollow-box"
+                ],
+                "type": "string"
+              },
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "bottom_m": {
+                    "maximum": 0.5,
+                    "minimum": 0.03,
+                    "type": "number"
+                  },
+                  "top_m": {
+                    "maximum": 0.5,
+                    "minimum": 0.03,
+                    "type": "number"
+                  },
+                  "wall_m": {
+                    "maximum": 0.5,
+                    "minimum": 0.03,
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "span_m": {
+                "maximum": 35,
+                "minimum": 15,
+                "type": "number"
+              }
+            },
+            "required": [
+              "family",
+              "span_m",
+              "parameters"
+            ],
+            "type": "object"
+          },
+          "modification_reason": {
+            "minLength": 3,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "parents": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 0,
+            "type": "array"
+          },
+          "pier": {
+            "additionalProperties": false,
+            "properties": {
+              "family": {
+                "enum": [
+                  "solid",
+                  "hollow-tapered"
+                ],
+                "type": "string"
+              },
+              "height_m": {
+                "maximum": 12,
+                "minimum": 5,
+                "type": "number"
+              },
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "count": {
+                    "maximum": 64,
+                    "minimum": 2,
+                    "type": "integer"
+                  },
+                  "top_scale": {
+                    "maximum": 1,
+                    "minimum": 0.5,
+                    "type": "number"
+                  },
+                  "wall_m": {
+                    "maximum": 0.5,
+                    "minimum": 0.1,
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "family",
+              "height_m",
+              "parameters"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "deck",
+          "pier"
+        ],
+        "type": "object"
+      },
+      "maxItems": 30,
+      "minItems": 4,
+      "type": "array"
+    },
+    "foundation": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "cap_depth_m": {
+          "maximum": 3,
+          "minimum": 0.5,
+          "type": "number"
+        },
+        "cap_length_m": {
+          "maximum": 10,
+          "minimum": 2,
+          "type": "number"
+        },
+        "cap_width_m": {
+          "maximum": 10,
+          "minimum": 2,
+          "type": "number"
+        },
+        "pile_count": {
+          "maximum": 16,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "pile_diameter_m": {
+          "maximum": 3,
+          "minimum": 0.3,
+          "type": "number"
+        },
+        "pile_length_m": {
+          "maximum": 60,
+          "minimum": 3,
+          "type": "number"
+        },
+        "site_verified": {
+          "enum": [
+            false
+          ],
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pile_count",
+        "pile_diameter_m",
+        "pile_length_m",
+        "cap_length_m",
+        "cap_width_m",
+        "cap_depth_m",
+        "basis",
+        "site_verified"
+      ],
+      "type": "object"
+    },
+    "ground_scenarios": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "axial_stiffness_n_m": {
+            "maximum": 1000000000000.0,
+            "minimum": 100000.0,
+            "type": "number"
+          },
+          "basis": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "calibrated": {
+            "enum": [
+              false
+            ],
+            "type": "boolean"
+          },
+          "lateral_stiffness_n_m": {
+            "maximum": 1000000000000.0,
+            "minimum": 10000.0,
+            "type": "number"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rotational_stiffness_nm_rad": {
+            "maximum": 10000000000000.0,
+            "minimum": 10000.0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "axial_stiffness_n_m",
+          "lateral_stiffness_n_m",
+          "rotational_stiffness_nm_rad",
+          "basis",
+          "calibrated"
+        ],
+        "type": "object"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "type": "array"
+    },
+    "lineage_records": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "definition": {
+            "additionalProperties": false,
+            "properties": {
+              "deck": {
+                "additionalProperties": false,
+                "properties": {
+                  "family": {
+                    "enum": [
+                      "pi",
+                      "hollow-box"
+                    ],
+                    "type": "string"
+                  },
+                  "parameters": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "bottom_m": {
+                        "maximum": 0.5,
+                        "minimum": 0.03,
+                        "type": "number"
+                      },
+                      "top_m": {
+                        "maximum": 0.5,
+                        "minimum": 0.03,
+                        "type": "number"
+                      },
+                      "wall_m": {
+                        "maximum": 0.5,
+                        "minimum": 0.03,
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "span_m": {
+                    "maximum": 35,
+                    "minimum": 15,
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "family",
+                  "span_m",
+                  "parameters"
+                ],
+                "type": "object"
+              },
+              "pier": {
+                "additionalProperties": false,
+                "properties": {
+                  "family": {
+                    "enum": [
+                      "solid",
+                      "hollow-tapered"
+                    ],
+                    "type": "string"
+                  },
+                  "height_m": {
+                    "maximum": 12,
+                    "minimum": 5,
+                    "type": "number"
+                  },
+                  "parameters": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "count": {
+                        "maximum": 64,
+                        "minimum": 2,
+                        "type": "integer"
+                      },
+                      "top_scale": {
+                        "maximum": 1,
+                        "minimum": 0.5,
+                        "type": "number"
+                      },
+                      "wall_m": {
+                        "maximum": 0.5,
+                        "minimum": 0.1,
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "family",
+                  "height_m",
+                  "parameters"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "deck",
+              "pier"
+            ],
+            "type": "object"
+          },
+          "foundation": {
+            "additionalProperties": false,
+            "properties": {
+              "basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "cap_depth_m": {
+                "maximum": 3,
+                "minimum": 0.5,
+                "type": "number"
+              },
+              "cap_length_m": {
+                "maximum": 10,
+                "minimum": 2,
+                "type": "number"
+              },
+              "cap_width_m": {
+                "maximum": 10,
+                "minimum": 2,
+                "type": "number"
+              },
+              "pile_count": {
+                "maximum": 16,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "pile_diameter_m": {
+                "maximum": 3,
+                "minimum": 0.3,
+                "type": "number"
+              },
+              "pile_length_m": {
+                "maximum": 60,
+                "minimum": 3,
+                "type": "number"
+              },
+              "site_verified": {
+                "enum": [
+                  false
+                ],
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "pile_count",
+              "pile_diameter_m",
+              "pile_length_m",
+              "cap_length_m",
+              "cap_width_m",
+              "cap_depth_m",
+              "basis",
+              "site_verified"
+            ],
+            "type": "object"
+          },
+          "geometry_sha256": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mass_allowances": {
+            "additionalProperties": false,
+            "properties": {
+              "basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "embedded_kg_per_beam": {
+                "maximum": 3000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "prestress_kg_m": {
+                "maximum": 150,
+                "minimum": 0,
+                "type": "number"
+              },
+              "reinforcement_kg_m3": {
+                "maximum": 500,
+                "minimum": 0,
+                "type": "number"
+              },
+              "rigging_kg_per_lift": {
+                "maximum": 10000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "superimposed_dead_kg_m_per_track": {
+                "maximum": 5000,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "reinforcement_kg_m3",
+              "prestress_kg_m",
+              "embedded_kg_per_beam",
+              "superimposed_dead_kg_m_per_track",
+              "rigging_kg_per_lift",
+              "basis"
+            ],
+            "type": "object"
+          },
+          "material": {
+            "additionalProperties": false,
+            "properties": {
+              "basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "density_kg_m3": {
+                "maximum": 4000,
+                "minimum": 500,
+                "type": "number"
+              },
+              "measured": {
+                "type": "boolean"
+              },
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "poisson_ratio": {
+                "maximum": 0.49,
+                "minimum": 0,
+                "type": "number"
+              },
+              "stiffness_factor": {
+                "maximum": 1,
+                "minimum": 0.1,
+                "type": "number"
+              },
+              "youngs_modulus_pa": {
+                "maximum": 100000000000.0,
+                "minimum": 1000000000.0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "youngs_modulus_pa",
+              "poisson_ratio",
+              "density_kg_m3",
+              "stiffness_factor",
+              "basis",
+              "measured"
+            ],
+            "type": "object"
+          },
+          "modification_reason": {
+            "minLength": 3,
+            "type": "string"
+          },
+          "parents": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 0,
+            "type": "array"
+          },
+          "schema": {
+            "enum": [
+              "osr-civil-candidate/1"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema",
+          "id",
+          "parents",
+          "definition",
+          "material",
+          "mass_allowances",
+          "foundation",
+          "geometry_sha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 100,
+      "minItems": 0,
+      "type": "array"
+    },
+    "mass_allowances": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "embedded_kg_per_beam": {
+          "maximum": 3000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "prestress_kg_m": {
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        },
+        "reinforcement_kg_m3": {
+          "maximum": 500,
+          "minimum": 0,
+          "type": "number"
+        },
+        "rigging_kg_per_lift": {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "superimposed_dead_kg_m_per_track": {
+          "maximum": 5000,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "reinforcement_kg_m3",
+        "prestress_kg_m",
+        "embedded_kg_per_beam",
+        "superimposed_dead_kg_m_per_track",
+        "rigging_kg_per_lift",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "material": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "density_kg_m3": {
+          "maximum": 4000,
+          "minimum": 500,
+          "type": "number"
+        },
+        "measured": {
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "poisson_ratio": {
+          "maximum": 0.49,
+          "minimum": 0,
+          "type": "number"
+        },
+        "stiffness_factor": {
+          "maximum": 1,
+          "minimum": 0.1,
+          "type": "number"
+        },
+        "youngs_modulus_pa": {
+          "maximum": 100000000000.0,
+          "minimum": 1000000000.0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "youngs_modulus_pa",
+        "poisson_ratio",
+        "density_kg_m3",
+        "stiffness_factor",
+        "basis",
+        "measured"
+      ],
+      "type": "object"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "research_limits": {
+      "additionalProperties": false,
+      "properties": {
+        "deck_acceleration_m_s2": {
+          "exclusiveMinimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "deck_displacement_m": {
+          "exclusiveMinimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "foundation_settlement_m": {
+          "exclusiveMinimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "suspended_mass_kg": {
+          "exclusiveMinimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "deck_displacement_m",
+        "deck_acceleration_m_s2",
+        "foundation_settlement_m",
+        "suspended_mass_kg"
+      ],
+      "type": "object"
+    },
+    "route_length_m": {
+      "maximum": 500,
+      "minimum": 20,
+      "type": "number"
+    },
+    "schema": {
+      "enum": [
+        "osr-civil-study/1"
+      ],
+      "type": "string"
+    },
+    "sources_sha256": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "track_count": {
+      "enum": [
+        2
+      ],
+      "type": "integer"
+    },
+    "train": {
+      "additionalProperties": false,
+      "properties": {
+        "axle_loads_kn": {
+          "items": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "number"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "type": "array"
+        },
+        "axle_offsets_m": {
+          "items": {
+            "maximum": 200,
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "type": "array"
+        },
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "load_distribution_length_m": {
+          "maximum": 4,
+          "minimum": 0.2,
+          "type": "number"
+        },
+        "loaded_tracks": {
+          "enum": [
+            2
+          ],
+          "type": "integer"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "supplier_verified": {
+          "enum": [
+            false
+          ],
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "axle_offsets_m",
+        "axle_loads_kn",
+        "loaded_tracks",
+        "basis",
+        "supplier_verified",
+        "load_distribution_length_m"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "name",
+    "route_length_m",
+    "track_count",
+    "material",
+    "mass_allowances",
+    "foundation",
+    "bearing",
+    "train",
+    "ground_scenarios",
+    "analysis",
+    "research_limits",
+    "candidates",
+    "sources_sha256"
+  ],
+  "type": "object"
+}

@@ -273,6 +273,17 @@ revision through the interchange tests.
 Exit: every station variant is either a controlled parameter delta or has a
 complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.
 
+### Civil exploration alongside the surveyed pilot
+
+The [civil exploration implementation](civil/design-exploration.md) adds a
+source-bound complete-system campaign to the existing civil geometry and native
+reference checks. Its planar elastic Timoshenko models include diaphragm regions,
+finite bearings, shared piers, ground compliance, moving axle histories, braking
+and handling overhangs. Analytical benchmarks verify the declared numerical
+domain; supplier/site inputs, nonlinear/local models and physical validation
+remain separate acceptance work. The research runner cannot promote a product
+or change structural release status.
+
 ### Wave 2 — COMP-017 surveyed Samawah pilot and civil checks
 
 - [x] **COMP-017-01 — Issue the field evidence brief.** The shared controlled

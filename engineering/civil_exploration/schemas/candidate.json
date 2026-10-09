@@ -1,0 +1,288 @@
+{
+  "$id": "osr-civil-candidate/1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "definition": {
+      "additionalProperties": false,
+      "properties": {
+        "deck": {
+          "additionalProperties": false,
+          "properties": {
+            "family": {
+              "enum": [
+                "pi",
+                "hollow-box"
+              ],
+              "type": "string"
+            },
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {
+                "bottom_m": {
+                  "maximum": 0.5,
+                  "minimum": 0.03,
+                  "type": "number"
+                },
+                "top_m": {
+                  "maximum": 0.5,
+                  "minimum": 0.03,
+                  "type": "number"
+                },
+                "wall_m": {
+                  "maximum": 0.5,
+                  "minimum": 0.03,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            },
+            "span_m": {
+              "maximum": 35,
+              "minimum": 15,
+              "type": "number"
+            }
+          },
+          "required": [
+            "family",
+            "span_m",
+            "parameters"
+          ],
+          "type": "object"
+        },
+        "pier": {
+          "additionalProperties": false,
+          "properties": {
+            "family": {
+              "enum": [
+                "solid",
+                "hollow-tapered"
+              ],
+              "type": "string"
+            },
+            "height_m": {
+              "maximum": 12,
+              "minimum": 5,
+              "type": "number"
+            },
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {
+                "count": {
+                  "maximum": 64,
+                  "minimum": 2,
+                  "type": "integer"
+                },
+                "top_scale": {
+                  "maximum": 1,
+                  "minimum": 0.5,
+                  "type": "number"
+                },
+                "wall_m": {
+                  "maximum": 0.5,
+                  "minimum": 0.1,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "family",
+            "height_m",
+            "parameters"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "deck",
+        "pier"
+      ],
+      "type": "object"
+    },
+    "foundation": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "cap_depth_m": {
+          "maximum": 3,
+          "minimum": 0.5,
+          "type": "number"
+        },
+        "cap_length_m": {
+          "maximum": 10,
+          "minimum": 2,
+          "type": "number"
+        },
+        "cap_width_m": {
+          "maximum": 10,
+          "minimum": 2,
+          "type": "number"
+        },
+        "pile_count": {
+          "maximum": 16,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "pile_diameter_m": {
+          "maximum": 3,
+          "minimum": 0.3,
+          "type": "number"
+        },
+        "pile_length_m": {
+          "maximum": 60,
+          "minimum": 3,
+          "type": "number"
+        },
+        "site_verified": {
+          "enum": [
+            false
+          ],
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pile_count",
+        "pile_diameter_m",
+        "pile_length_m",
+        "cap_length_m",
+        "cap_width_m",
+        "cap_depth_m",
+        "basis",
+        "site_verified"
+      ],
+      "type": "object"
+    },
+    "geometry_sha256": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "mass_allowances": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "embedded_kg_per_beam": {
+          "maximum": 3000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "prestress_kg_m": {
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        },
+        "reinforcement_kg_m3": {
+          "maximum": 500,
+          "minimum": 0,
+          "type": "number"
+        },
+        "rigging_kg_per_lift": {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "superimposed_dead_kg_m_per_track": {
+          "maximum": 5000,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "reinforcement_kg_m3",
+        "prestress_kg_m",
+        "embedded_kg_per_beam",
+        "superimposed_dead_kg_m_per_track",
+        "rigging_kg_per_lift",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "material": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "density_kg_m3": {
+          "maximum": 4000,
+          "minimum": 500,
+          "type": "number"
+        },
+        "measured": {
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "poisson_ratio": {
+          "maximum": 0.49,
+          "minimum": 0,
+          "type": "number"
+        },
+        "stiffness_factor": {
+          "maximum": 1,
+          "minimum": 0.1,
+          "type": "number"
+        },
+        "youngs_modulus_pa": {
+          "maximum": 100000000000.0,
+          "minimum": 1000000000.0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "youngs_modulus_pa",
+        "poisson_ratio",
+        "density_kg_m3",
+        "stiffness_factor",
+        "basis",
+        "measured"
+      ],
+      "type": "object"
+    },
+    "modification_reason": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "parents": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 0,
+      "type": "array"
+    },
+    "schema": {
+      "enum": [
+        "osr-civil-candidate/1"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "parents",
+    "definition",
+    "material",
+    "mass_allowances",
+    "foundation",
+    "geometry_sha256"
+  ],
+  "type": "object"
+}
