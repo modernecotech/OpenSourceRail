@@ -81,6 +81,19 @@ def validate_study(value):
         raise ValueError('duplicate candidate names')
     if len({s['name'] for s in value['ground_scenarios']}) != len(value['ground_scenarios']):
         raise ValueError('duplicate ground scenarios')
+    if 'concrete' in value.get('material_records',{}):
+        raise ValueError('reference concrete belongs in material, not a second record')
+    evidence=value.get('evidence_refs',{})
+    claims=[('foundation',value['foundation']['site_verified']),('train',value['train']['supplier_verified']),
+            ('material',value['material']['measured'])]
+    claims += [('ground:'+g['name'],g['calibrated']) for g in value['ground_scenarios']]
+    claims += [('material:'+name,m['measured']) for name,m in value.get('material_records',{}).items()]
+    for role,claimed in claims:
+        if claimed and role not in evidence:raise ValueError('measured/calibrated claim needs controlled evidence: '+role)
+    for role,receipt in evidence.items():
+        path=(ROOT/receipt['source']).resolve()
+        if Path(receipt['source']).is_absolute() or not path.is_relative_to(ROOT) or not path.is_file() or sha(path)!=receipt['sha256']:
+            raise ValueError('measured evidence source missing/stale: '+role)
     for candidate in value['candidates']:
         ratio = value['route_length_m']/candidate['deck']['span_m']
         if not math.isclose(ratio, round(ratio), abs_tol=1e-10):
@@ -89,6 +102,10 @@ def validate_study(value):
             raise ValueError('canonical Pi section parameters cannot be overridden')
         if candidate['pier']['family'] == 'solid' and candidate['pier']['parameters']:
             raise ValueError('canonical solid pier parameters cannot be overridden')
+        if candidate['deck']['family'] in ('uhpc-ribbed','hybrid-shell'):
+            role='uhpc' if candidate['deck']['family']=='uhpc-ribbed' else 'frp'
+            if role not in value.get('material_records',{}):
+                raise ValueError('research family requires explicit material record: '+role)
     train = value['train']
     if len(train['axle_offsets_m']) != len(train['axle_loads_kn']):
         raise ValueError('axle positions and loads differ in count')
@@ -103,12 +120,13 @@ def validate_study(value):
 
 
 def dependencies():
-    paths = list(HERE.rglob('*.py'))+list((HERE/'schemas').glob('*.json'))
+    paths = list(HERE.rglob('*.py'))+list((HERE/'schemas').glob('*.json'))+list((HERE/'config').glob('*.json'))
     paths += list((ROOT/'design/component-catalogue/src/osr_mech/civil').glob('*.py'))
     paths += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('cad.py', 'common.py', 'provenance.py')]
     paths += [ROOT/'engineering/analysis/benchmarks/civil/exploration.py', ROOT/'tools/automation/civil-study.py']
     paths += [ROOT/name for name in ('tools/automation/civil_reference.py', 'engineering/analysis/benchmarks/civil_reference.py',
-                                    'engineering/analysis/drainage_ground_design.py', 'engineering/analysis/solver_results.py')]
+                                    'engineering/analysis/drainage_ground_design.py', 'engineering/analysis/solver_results.py',
+                                    'lib/templates/foundation-catalog.toml')]
     reference = ROOT/'engineering/assurance/civil-reference'
     paths += [p for p in reference.rglob('*') if p.is_file()]
     return {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(paths)}

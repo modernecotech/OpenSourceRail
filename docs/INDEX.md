@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6216**.
+Indexed Markdown files: **6217**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6216**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 207 |
-| [engineering](#engineering) | 89 |
+| [engineering](#engineering) | 90 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6223,6 +6223,7 @@ Indexed Markdown files: **6216**.
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/civil_exploration/README.md`](../engineering/civil_exploration/README.md) | Civil system exploration |
 | [`engineering/civil_exploration/examples/README.md`](../engineering/civil_exploration/examples/README.md) | Retained civil campaign review |
+| [`engineering/civil_exploration/examples/programme-review.md`](../engineering/civil_exploration/examples/programme-review.md) | C01–C14 executed software and remaining acceptance |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |

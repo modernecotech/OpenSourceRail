@@ -12,7 +12,13 @@
             "family": {
               "enum": [
                 "pi",
-                "hollow-box"
+                "hollow-box",
+                "conventional-I",
+                "U-girder",
+                "ribbed-deck",
+                "uhpc-ribbed",
+                "hybrid-shell",
+                "segmental-box"
               ],
               "type": "string"
             },
@@ -22,6 +28,26 @@
                 "bottom_m": {
                   "maximum": 0.5,
                   "minimum": 0.03,
+                  "type": "number"
+                },
+                "depth_m": {
+                  "maximum": 2,
+                  "minimum": 0.8,
+                  "type": "number"
+                },
+                "flange_width_m": {
+                  "maximum": 0.7,
+                  "minimum": 0.3,
+                  "type": "number"
+                },
+                "rib_count": {
+                  "maximum": 6,
+                  "minimum": 2,
+                  "type": "integer"
+                },
+                "rib_width_m": {
+                  "maximum": 0.4,
+                  "minimum": 0.1,
                   "type": "number"
                 },
                 "top_m": {
@@ -139,9 +165,6 @@
           "type": "number"
         },
         "site_verified": {
-          "enum": [
-            false
-          ],
           "type": "boolean"
         }
       },
@@ -252,6 +275,115 @@
         "basis",
         "measured"
       ],
+      "type": "object"
+    },
+    "material_records": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "density_kg_m3": {
+            "maximum": 4000,
+            "minimum": 500,
+            "type": "number"
+          },
+          "measured": {
+            "type": "boolean"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "orthotropic": {
+            "additionalProperties": false,
+            "properties": {
+              "ex_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "ey_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "ez_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "gxy_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "gxz_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "gyz_pa": {
+                "maximum": 1000000000000.0,
+                "minimum": 1000000.0,
+                "type": "number"
+              },
+              "nu_xy": {
+                "maximum": 0.99,
+                "minimum": -0.99,
+                "type": "number"
+              },
+              "nu_xz": {
+                "maximum": 0.99,
+                "minimum": -0.99,
+                "type": "number"
+              },
+              "nu_yz": {
+                "maximum": 0.99,
+                "minimum": -0.99,
+                "type": "number"
+              }
+            },
+            "required": [
+              "ex_pa",
+              "ey_pa",
+              "ez_pa",
+              "nu_xy",
+              "nu_xz",
+              "nu_yz",
+              "gxy_pa",
+              "gxz_pa",
+              "gyz_pa"
+            ],
+            "type": "object"
+          },
+          "poisson_ratio": {
+            "maximum": 0.49,
+            "minimum": 0,
+            "type": "number"
+          },
+          "stiffness_factor": {
+            "maximum": 1,
+            "minimum": 0.1,
+            "type": "number"
+          },
+          "youngs_modulus_pa": {
+            "maximum": 100000000000.0,
+            "minimum": 1000000000.0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "youngs_modulus_pa",
+          "poisson_ratio",
+          "density_kg_m3",
+          "basis",
+          "measured"
+        ],
+        "type": "object"
+      },
       "type": "object"
     },
     "modification_reason": {

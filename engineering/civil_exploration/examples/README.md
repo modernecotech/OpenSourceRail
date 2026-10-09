@@ -18,3 +18,18 @@ with unresolved engineering feasibility and no physical or operating release.
 Run the exporter with `--check` against the same sealed bundle to verify this
 compact derivative. Historical review inputs stay explicit; future material,
 train or model changes require a new campaign and intentional fixture refresh.
+
+`programme-review.json` and `programme-review.md` retain the expanded C01–C14
+software audit, component benchmarks, multi-seed search, range sensitivity,
+native solid/nonlinear shortlist checks, commercial unknowns, safe retrieval
+and the blocked promotion proposal. Generate them with:
+
+```sh
+tools/automation/osr-python tools/automation/export-civil-programme-review.py \
+  build/engineering/civil-studies/completed-software-programme
+```
+
+The named consumer is
+`engineering/analysis/tests/test_civil_exploration_programme_review.py`.
+Every external acceptance item remains visible; actual physical measurements,
+supplier commitments and authority signatures are not supplied by these records.

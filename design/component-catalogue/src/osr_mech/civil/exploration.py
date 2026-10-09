@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import math
 
-from osr_mech.cad import Box, Compound, Location
+from osr_mech.cad import Box, Compound, Cylinder, Location
 from . import decked_pi as pi, substructure as sub
 
 
@@ -50,10 +50,13 @@ def hollow_regions(width, depth, top, bottom, wall):
             rectangle(wall, clear, y=(width-wall)/2, z=bottom+clear/2)]
 
 
-def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, *, diaphragm=False):
+def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, depth_m=None,
+                 flange_width_m=.65, rib_count=3, rib_width_m=.18, *, diaphragm=False):
     width, depth = pi.DECK_WIDTH_MM/1000, pi.OVERALL_DEPTH_MM/1000
-    if family not in ('pi', 'hollow-box'):
+    depth = depth_m or depth
+    if family not in ('pi', 'hollow-box', 'conventional-I', 'U-girder', 'ribbed-deck', 'uhpc-ribbed', 'hybrid-shell', 'segmental-box'):
         raise ValueError('unknown deck family')
+    roles = []
     if diaphragm:
         regions = [rectangle(width, depth, z=depth/2)]
         shear_area = 5*width*depth/6
@@ -62,10 +65,38 @@ def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, *, diaphragm=
         regions = [rectangle(width, flange, z=height+flange/2)]
         regions += [rectangle(stem, height, y=side*pi.STEM_CENTRE_OFFSET_MM/1000, z=height/2) for side in (-1, 1)]
         shear_area = 5*2*stem*height/6
-    else:
+    elif family in ('hollow-box', 'hybrid-shell', 'segmental-box'):
         regions = hollow_regions(width, depth, top_m, bottom_m, wall_m)
         shear_area = 5*2*wall_m*(depth-top_m-bottom_m)/6
-    return dict(regions=regions, shear_area_m2=shear_area, **section_properties(regions))
+        roles = ['concrete']*4 if family != 'hybrid-shell' else ['concrete', 'frp', 'frp', 'frp']
+    elif family == 'conventional-I':
+        if 2*flange_width_m >= 1.435 or top_m+bottom_m*2 >= depth:
+            raise ValueError('conventional girders overlap or have no clear web')
+        web_height = depth-top_m-2*bottom_m
+        regions = [rectangle(width, top_m, z=depth-top_m/2)]
+        for side in (-1., 1.):
+            y = side*pi.STEM_CENTRE_OFFSET_MM/1000
+            regions += [rectangle(flange_width_m, bottom_m, y, bottom_m/2),
+                        rectangle(wall_m, web_height, y, bottom_m+web_height/2),
+                        rectangle(flange_width_m, bottom_m, y, depth-top_m-bottom_m/2)]
+        shear_area = 5*2*wall_m*web_height/6
+    elif family == 'U-girder':
+        if bottom_m >= depth or 2*wall_m >= width:
+            raise ValueError('invalid U-girder clear opening')
+        regions = [rectangle(width, bottom_m, z=bottom_m/2)]
+        regions += [rectangle(wall_m, depth-bottom_m, side*(width-wall_m)/2, (depth+bottom_m)/2) for side in (-1., 1.)]
+        shear_area = 5*2*wall_m*(depth-bottom_m)/6
+    else:
+        if type(rib_count) is not int or rib_count < 2 or rib_count*rib_width_m >= width or top_m >= depth:
+            raise ValueError('invalid ribbed deck')
+        regions = [rectangle(width, top_m, z=depth-top_m/2)]
+        regions += [rectangle(rib_width_m, depth-top_m,
+                              -width/2+rib_width_m/2+i*(width-rib_width_m)/(rib_count-1), (depth-top_m)/2)
+                    for i in range(rib_count)]
+        shear_area = 5*rib_count*rib_width_m*(depth-top_m)/6
+        roles = ['concrete']+['uhpc']*rib_count if family == 'uhpc-ribbed' else []
+    return dict(regions=regions, material_roles=roles or ['concrete']*len(regions),
+                shear_area_m2=shear_area, **section_properties(regions))
 
 
 def deck_segments(span_m: float, family: str, **parameters):
@@ -97,6 +128,15 @@ def pier_segments(family: str, height_m: float, wall_m=.25, top_scale=.85, count
 def geometry(definition: dict) -> dict:
     """Canonical geometry adapter consumed by takeoff, CAD and analysis."""
     deck, pier = definition['deck'], definition['pier']
+    allowed={'pi':set(),'hollow-box':{'top_m','bottom_m','wall_m','depth_m'},
+             'hybrid-shell':{'top_m','bottom_m','wall_m','depth_m'},'segmental-box':{'top_m','bottom_m','wall_m','depth_m'},
+             'conventional-I':{'top_m','bottom_m','wall_m','depth_m','flange_width_m'},
+             'U-girder':{'bottom_m','wall_m','depth_m'},
+             'ribbed-deck':{'top_m','depth_m','rib_count','rib_width_m'},'uhpc-ribbed':{'top_m','depth_m','rib_count','rib_width_m'}}
+    if deck['family'] not in allowed or set(deck['parameters'])-allowed[deck['family']]:
+        raise ValueError('unknown or ignored family parameters')
+    if pier['family']=='solid' and pier['parameters']:
+        raise ValueError('solid pier parameters cannot be overridden')
     return dict(deck=deck_segments(deck['span_m'], deck['family'], **deck['parameters']),
                 pier=pier_segments(pier['family'], pier['height_m'], **pier['parameters']),
                 cap_concrete_m3=(sub.PIER_CAP_X_MM*sub.PIER_CAP_Y_MM*sub.PIER_CAP_HEIGHT_MM-2000*6500*800)/1e9,
@@ -104,6 +144,69 @@ def geometry(definition: dict) -> dict:
                 cap_width_m=sub.PIER_CAP_Y_MM/1000,
                 track_centres_m=[-sub.GIRDER_CENTRE_SPACING_MM/2000, sub.GIRDER_CENTRE_SPACING_MM/2000],
                 geometry_maturity='research-envelope', smooth_pier_taper=False)
+
+
+def foundation_geometry(parameters: dict) -> dict:
+    """Common authoritative pile-group geometry for takeoff, CAD and BIM."""
+    count, diameter = parameters['pile_count'], parameters['pile_diameter_m']
+    nx = math.ceil(math.sqrt(count)); ny = math.ceil(count/nx)
+    length, width = parameters['cap_length_m'], parameters['cap_width_m']
+    if min(length, width) <= diameter or (nx > 1 and length/nx <= diameter) or (ny > 1 and width/ny <= diameter):
+        raise ValueError('pile arrangement does not fit the cap')
+    centres = [[(i % nx+.5)*length/nx-length/2, (i//nx+.5)*width/ny-width/2] for i in range(count)]
+    pile_volume = math.pi*diameter**2/4*parameters['pile_length_m']
+    return dict(piles=[dict(id=f'pile-{i+1}', centre_xy_m=xy, diameter_m=diameter,
+                           length_m=parameters['pile_length_m'], concrete_m3=pile_volume) for i, xy in enumerate(centres)],
+                cap_dimensions_m=[length, width, parameters['cap_depth_m']],
+                cap_concrete_m3=length*width*parameters['cap_depth_m'], pile_concrete_m3=count*pile_volume,
+                layout_basis='illustrative regular grid; not a site or reinforcement design')
+
+
+def assembly_parts(definition, foundation, route_length_m):
+    """Whole corridor solids in metres, with stable product/type identifiers."""
+    geo = geometry(definition); f = foundation_geometry(foundation)
+    span = definition['deck']['span_m']; bays = round(route_length_m/span)
+    height = definition['pier']['height_m']; parts = []
+    def box(identifier, kind, dimensions, centre, material='concrete'):
+        parts.append(dict(id=identifier, kind=kind, material=material, shape='box', dimensions_m=dimensions, centre_m=centre))
+    for bay in range(bays):
+        for track, track_y in enumerate(geo['track_centres_m'], 1):
+            for j, segment in enumerate(geo['deck']):
+                for k, r in enumerate(segment['regions']):
+                    box(f'B{bay}-T{track}-S{j}-R{k}', 'deck',
+                        [segment['end_m']-segment['start_m'], r['width_m'], r['height_m']],
+                        [bay*span+(segment['start_m']+segment['end_m'])/2, track_y+r['y_m'], height+geo['cap_height_m']+r['z_m']],
+                        segment['material_roles'][k])
+    for support in range(bays+1):
+        x = support*span
+        for j, s in enumerate(geo['pier']):
+            for k, r in enumerate(s['regions']):
+                box(f'S{support}-P{j}-R{k}', 'pier', [r['height_m'], r['width_m'], s['end_m']-s['start_m']],
+                    [x+r['z_m']-s['centroid_z_m'], r['y_m'], (s['end_m']+s['start_m'])/2])
+        # Disjoint cap shell plates reproduce the existing hollow cap net volume.
+        for j, (dims, centre) in enumerate([
+            ([2.5, 7., .2], [x, 0., height+.1]), ([2.5, 7., .2], [x, 0., height+1.1]),
+            ([.25, 7., .8], [x-1.125, 0., height+.6]), ([.25, 7., .8], [x+1.125, 0., height+.6]),
+            ([2., .25, .8], [x, -3.375, height+.6]), ([2., .25, .8], [x, 3.375, height+.6])]):
+            box(f'S{support}-CAP{j}', 'cap', dims, centre)
+        box(f'S{support}-FOUND-CAP', 'foundation', f['cap_dimensions_m'], [x, 0., -foundation['cap_depth_m']/2])
+        for pile in f['piles']:
+            parts.append(dict(id=f'S{support}-{pile["id"]}', kind='pile', material='concrete', shape='cylinder',
+                              diameter_m=pile['diameter_m'], length_m=pile['length_m'],
+                              centre_m=[x+pile['centre_xy_m'][0], pile['centre_xy_m'][1], -foundation['cap_depth_m']-pile['length_m']/2]))
+    return parts
+
+
+def assembly_cad(definition, foundation, route_length_m):
+    parts = []
+    for description in assembly_parts(definition, foundation, route_length_m):
+        if description['shape'] == 'box':
+            part = Box(*[1000*v for v in description['dimensions_m']])
+        else:
+            part = Cylinder(description['diameter_m']*500, description['length_m']*1000)
+        part = part.locate(Location([1000*v for v in description['centre_m']]))
+        part.label = description['id']; parts.append(part)
+    return Compound(label='Unreleased complete civil research assembly', children=parts)
 
 
 def deck_cad(definition: dict) -> Compound:
@@ -120,9 +223,10 @@ def deck_cad(definition: dict) -> Compound:
 def section_svg(definition: dict) -> str:
     """Review diagram of the actual midspan material regions, not a stress plot."""
     section = geometry(definition)['deck'][1]
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.8 -1.5 3.6 2.1">',
+    upper=section['top_m']+.3;height=upper+.6
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.8 {-upper:.8g} 3.6 {height:.8g}">',
              '<title>Research midspan material section; capacity unresolved</title>',
-             '<rect x="-1.8" y="-1.5" width="3.6" height="2.1" fill="white"/>']
+             f'<rect x="-1.8" y="{-upper:.8g}" width="3.6" height="{height:.8g}" fill="white"/>']
     for r in section['regions']:
         parts.append(f'<rect x="{r["y_m"]-r["width_m"]/2:.8g}" y="{-r["z_m"]-r["height_m"]/2:.8g}" '
                      f'width="{r["width_m"]:.8g}" height="{r["height_m"]:.8g}" fill="#59859e" stroke="#25475a" stroke-width="0.008"/>')

@@ -28,6 +28,8 @@ def candidate(value, study, parents=None, reason=None):
                   modification_reason=reason or value.get('modification_reason', 'registered control or research seed'),
                   material=study['material'], mass_allowances=study['mass_allowances'],
                   foundation=study['foundation'], geometry_sha256=identity(geometry(definition)))
+    if study.get('material_records'):
+        result['material_records']=study['material_records']
     result['id'] = identity({k: v for k, v in result.items() if k not in ('parents', 'modification_reason')})
     validate(result, load(HERE/'schemas/candidate.json'))
     return result
@@ -109,7 +111,8 @@ def prepare(config, output):
     for relative in source_hashes:
         target = output/'sources'/relative
         target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes((ROOT/relative).read_bytes())
-    for relative in study['sources_sha256']:
+    study_sources={**study['sources_sha256'],**{r['source']:r['sha256'] for r in study.get('evidence_refs',{}).values()}}
+    for relative in study_sources:
         target = output/'sources'/relative
         target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes((ROOT/relative).read_bytes())
     for value in study['candidates']:
@@ -222,6 +225,9 @@ def worker(job_path, output):
         from .model import evaluate
         validate_study(job['study']); validate_candidate(job['candidate'])
         result = evaluate(job, output)
+    if job['dependencies']!=dependencies():
+        raise ValueError('governing source changed during native execution; results cannot be sealed')
+    if job.get('study'):validate_study(job['study'])
     write(output/'result.json', result)
 
 
@@ -246,6 +252,8 @@ def run_campaign(config, output, *, resume=False, retry_failed=False):
             previous = [r for r in manifest['evaluations'] if load(output/r['path'])['evaluation_id'] == identity(job)]
             if previous and (load(output/previous[-1]['path'])['status'] == 'completed' or not retry_failed):
                 continue
+            if len(manifest['evaluations'])>=study['analysis']['max_evaluations']:
+                raise ValueError('campaign attempt budget exhausted; completed and failed evidence retained')
             print(f"Evaluating {case['name']} / {ground['name']}", flush=True)
             manifest['evaluations'].append(execute(output, job))
             write(output/'manifest.json', manifest)

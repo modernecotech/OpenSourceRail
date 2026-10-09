@@ -14,9 +14,19 @@ import shutil
 
 import numpy as np
 
-from osr_mech.civil.exploration import geometry
+from osr_mech.civil.exploration import geometry, foundation_geometry
+from .materials import elastic_matrix
 
 G = 9.81
+
+
+def deck_physics(candidate, section):
+    records={'concrete':candidate['material'],**candidate.get('material_records',{})}
+    return elastic_matrix(section,records,candidate['material']['youngs_modulus_pa']*candidate['material']['stiffness_factor'])
+
+
+def cement_area(section):
+    return math.fsum(r['width_m']*r['height_m'] for r,role in zip(section['regions'],section['material_roles']) if role in ('concrete','uhpc'))
 
 
 def takeoff(candidate, study):
@@ -27,26 +37,36 @@ def takeoff(candidate, study):
     density = candidate['material']['density_kg_m3']
     allowance, foundation = candidate['mass_allowances'], candidate['foundation']
     deck_volume = math.fsum((s['end_m']-s['start_m'])*s['area_m2'] for s in geo['deck'])
+    deck_cement_volume=math.fsum((s['end_m']-s['start_m'])*cement_area(s) for s in geo['deck'])
+    deck_role_volumes={}
+    for s in geo['deck']:
+        for r,role in zip(s['regions'],s['material_roles']):
+            deck_role_volumes[role]=deck_role_volumes.get(role,0.)+(s['end_m']-s['start_m'])*r['width_m']*r['height_m']
     pier_volume = math.fsum((s['end_m']-s['start_m'])*s['area_m2'] for s in geo['pier'])
-    pile_volume = foundation['pile_count']*math.pi*foundation['pile_diameter_m']**2/4*foundation['pile_length_m']
-    foundation_cap = foundation['cap_length_m']*foundation['cap_width_m']*foundation['cap_depth_m']
-    fabricated = deck_volume*(density+allowance['reinforcement_kg_m3'])+span*allowance['prestress_kg_m']+allowance['embedded_kg_per_beam']
-    concrete = deck_volume*spans*2+(pier_volume+geo['cap_concrete_m3']+pile_volume+foundation_cap)*supports
+    ground_geometry = foundation_geometry(foundation)
+    pile_volume = ground_geometry['pile_concrete_m3']
+    foundation_cap = ground_geometry['cap_concrete_m3']
+    deck_material_mass=math.fsum((s['end_m']-s['start_m'])*deck_physics(candidate,s)['mass_kg_m'] for s in geo['deck'])
+    fabricated = deck_material_mass+deck_cement_volume*allowance['reinforcement_kg_m3']+span*allowance['prestress_kg_m']+allowance['embedded_kg_per_beam']
+    nondeck_concrete=(pier_volume+geo['cap_concrete_m3']+pile_volume+foundation_cap)*supports
+    concrete = deck_cement_volume*spans*2+nondeck_concrete
     reinforcement = concrete*allowance['reinforcement_kg_m3']
     prestress = span*spans*2*allowance['prestress_kg_m']
     embedded = spans*2*allowance['embedded_kg_per_beam']
     track_mass = study['route_length_m']*2*allowance['superimposed_dead_kg_m_per_track']
     return dict(route_length_m=study['route_length_m'], tracks=2, spans=spans, supports=supports,
-                concrete_m3=concrete, deck_concrete_m3=deck_volume*spans*2,
+                concrete_m3=concrete, deck_concrete_m3=deck_cement_volume*spans*2,
+                deck_material_volumes_m3={role:volume*spans*2 for role,volume in deck_role_volumes.items()},
                 pier_concrete_m3=pier_volume*supports, cap_concrete_m3=geo['cap_concrete_m3']*supports,
                 foundation_concrete_m3=(pile_volume+foundation_cap)*supports,
                 reinforcement_allowance_kg=reinforcement, prestress_allowance_kg=prestress,
                 embedded_allowance_kg=embedded, superimposed_dead_allowance_kg=track_mass,
-                installed_study_mass_kg=concrete*density+reinforcement+prestress+embedded+track_mass,
-                bare_beam_mass_kg=geo['deck'][1]['area_m2']*span*density,
+                installed_study_mass_kg=nondeck_concrete*density+deck_material_mass*spans*2+reinforcement+prestress+embedded+track_mass,
+                bare_beam_mass_kg=deck_physics(candidate,geo['deck'][1])['mass_kg_m']*span,
                 fabricated_beam_mass_kg=fabricated, transported_beam_mass_kg=fabricated,
                 suspended_mass_kg=fabricated+allowance['rigging_kg_per_lift'],
-                bearing_count=spans*8, pile_count=supports*foundation['pile_count'],
+                bearing_count=(spans+1)*4 if study.get('connection_scheme') == 'continuous' else spans*8,
+                pile_count=supports*foundation['pile_count'],
                 pile_length_m=supports*foundation['pile_count']*foundation['pile_length_m'],
                 beam_lifts=spans*2, installed_cost_usd=None, whole_life_cost_usd=None,
                 cost_gaps=['supplier material rates', 'bearing and connection quotes', 'ground installation',
@@ -161,18 +181,24 @@ class System:
         for bay in range(self.quantities['spans']):
             positions = mesh_positions(span, mesh, (self.geo['deck'][0]['end_m'], self.geo['deck'][-1]['start_m']))
             nodes = [self.node(bay*span+x, deck_y) for x in positions]
-            self.spring(seats[bay], nodes[0], (study['bearing']['horizontal_stiffness_n_m']*4, study['bearing']['vertical_stiffness_n_m']*4))
+            if bay and study.get('connection_scheme') == 'continuous':
+                ops.equalDOF(self.deck_spans[-1][-1], nodes[0], 1, 2, 3)
+                self.rigid_links.append(dict(from_node=self.deck_spans[-1][-1],to_node=nodes[0],type='structural-continuity'))
+            else:
+                self.spring(seats[bay], nodes[0], (study['bearing']['horizontal_stiffness_n_m']*4, study['bearing']['vertical_stiffness_n_m']*4))
             self.spring(seats[bay+1], nodes[-1], (study['bearing']['horizontal_stiffness_n_m']*4, study['bearing']['vertical_stiffness_n_m']*4))
             self.deck_nodes += nodes
             self.deck_spans.append(nodes)
             for i, (a, b) in enumerate(zip(positions, positions[1:])):
                 s = next(s for s in self.geo['deck'] if s['start_m'] <= (a+b)/2 <= s['end_m'])
-                per_track = density*s['area_m2']+allowance['prestress_kg_m']+allowance['superimposed_dead_kg_m_per_track']
+                properties=deck_physics(candidate,s)
+                per_track = properties['mass_kg_m']+allowance['reinforcement_kg_m3']*cement_area(s)+allowance['prestress_kg_m']+allowance['superimposed_dead_kg_m_per_track']
                 if s is not self.geo['deck'][1]:
                     per_track += allowance['embedded_kg_per_beam']/(2*self.geo['deck'][0]['end_m'])
                 mass = 2*per_track
-                tag = self.beam(nodes[i], nodes[i+1], s, mass, factor=2)
-                self.deck_elements.append((tag, s))
+                effective={**s,'area_m2':properties['area_m2'],'inertia_y_m4':properties['inertia_y_m4'],'shear_area_m2':properties['shear_area_m2']}
+                tag = self.beam(nodes[i], nodes[i+1], effective, mass, factor=2)
+                self.deck_elements.append((tag,{**s,'fibre_factor':properties['fibre_stress_per_moment']/2,'axial_factor':properties['fibre_stress_per_axial']/2}))
                 self.gravity_elements.append((tag, mass*G))
         self.gravity()
 
@@ -269,7 +295,7 @@ class System:
             m = max(abs(forces[2]), abs(forces[5]))
             distance = max(section['top_m']-section['centroid_z_m'], section['centroid_z_m']-section['bottom_m'])
             moments.append(m); shears.append(max(abs(forces[1]), abs(forces[4])))
-            stresses.append(m*distance/(2*section['inertia_y_m4'])+max(abs(forces[0]), abs(forces[3]))/(2*section['area_m2']))
+            stresses.append(m*section['fibre_factor']+max(abs(forces[0]), abs(forces[3]))*section['axial_factor'])
         relative = []
         for nodes in self.deck_spans:
             first, last = nodes[0], nodes[-1]
@@ -330,6 +356,32 @@ class System:
             raise RuntimeError('braking gravity restoration failed')
         return result
 
+    def thermal(self, temperature_change_c, expansion_per_c):
+        """Equivalent eigenstrain loads with physical axial-force correction."""
+        ops=self.ops
+        ops.timeSeries('Constant',600);ops.pattern('Plain',600,600)
+        strain=temperature_change_c*expansion_per_c
+        thermal_forces={}
+        for element in self.element_definitions:
+            if element['type'] != 'deck-beam':continue
+            first,second=element['nodes'];force=element['youngs_modulus_pa']*element['area_m2']*strain
+            ops.load(first,-force,0.,0.);ops.load(second,force,0.,0.)
+            thermal_forces[element['id']]=force
+        self.configure()
+        if ops.analyze(1):raise RuntimeError('thermal system analysis failed')
+        physical_axial=[-ops.eleResponse(tag,'localForce')[0]-force for tag,force in thermal_forces.items()]
+        bearing_movements=[]
+        for e in self.element_definitions:
+            if e['type']=='bearing-spring':
+                bearing_movements.append(ops.nodeDisp(e['nodes'][1],1)-ops.nodeDisp(e['nodes'][0],1))
+        result=dict(delta_temperature_c=temperature_change_c,expansion_per_c=expansion_per_c,
+                    peak_corrected_axial_force_n=max(abs(v) for v in physical_axial),
+                    peak_bearing_movement_m=max(abs(v) for v in bearing_movements),
+                    physical_release=False,load_model='uniform deck eigenstrain; equivalent nodal loads with initial-force subtraction',
+                    uncovered=['thermal gradients','pier thermal strain','joint capacity and movement limits'])
+        ops.remove('loadPattern',600);ops.remove('timeSeries',600)
+        return result
+
     def modes(self):
         eigenvalues = self.ops.eigen('-genBandArpack', 3)
         if any(v <= 0 or not math.isfinite(v) for v in eigenvalues):
@@ -379,8 +431,8 @@ class System:
             raise ValueError('native foundation/element recorder allocation mismatch')
         force = arrays['forces'][:, 1:].reshape(count, len(self.deck_elements), 6)
         moments = np.max(np.abs(force[:, :, [2, 5]]), axis=2)
-        fibre = np.asarray([max(s['top_m']-s['centroid_z_m'], s['centroid_z_m']-s['bottom_m'])/(2*s['inertia_y_m4']) for _, s in self.deck_elements])
-        axial = np.asarray([1/(2*s['area_m2']) for _, s in self.deck_elements])
+        fibre = np.asarray([s['fibre_factor'] for _, s in self.deck_elements])
+        axial = np.asarray([s['axial_factor'] for _, s in self.deck_elements])
         series = dict(deck_displacement_m=np.max(np.abs(arrays['displacement'][:, 1:]), axis=1),
                       deck_acceleration_m_s2=np.max(np.abs(arrays['acceleration'][:, 1:]), axis=1),
                       incremental_train_displacement_m=np.max(np.abs(arrays['displacement'][:, 1:]-np.asarray([self.dead[n] for n in self.deck_nodes])), axis=1),
@@ -428,10 +480,11 @@ def lifting(candidate, mesh):
     total = 0.; sections = []
     for tag, (a, b) in enumerate(zip(positions, positions[1:]), 1):
         s = next(s for s in geo['deck'] if s['start_m'] <= (a+b)/2 <= s['end_m'])
-        mass = s['area_m2']*(material['density_kg_m3']+allowance['reinforcement_kg_m3'])+allowance['prestress_kg_m']
+        physical=deck_physics(candidate,s)
+        mass = physical['mass_kg_m']+cement_area(s)*allowance['reinforcement_kg_m3']+allowance['prestress_kg_m']
         if s is not geo['deck'][1]:
             mass += allowance['embedded_kg_per_beam']/(2*geo['deck'][0]['end_m'])
-        ops.element('ElasticTimoshenkoBeam', tag, tag, tag+1, E, E/(2*(1+material['poisson_ratio'])), s['area_m2'], s['inertia_y_m4'], s['shear_area_m2'], 1)
+        ops.element('ElasticTimoshenkoBeam', tag, tag, tag+1, E, E/(2*(1+material['poisson_ratio'])), physical['area_m2'], physical['inertia_y_m4'], physical['shear_area_m2'], 1)
         ops.eleLoad('-ele', tag, '-type', '-beamUniform', -mass*G)
         total += mass*(b-a)*G; sections.append(s)
     ops.constraints('Plain'); ops.numberer('RCM'); ops.system('BandGeneral'); ops.algorithm('Linear')

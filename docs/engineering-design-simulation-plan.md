@@ -277,11 +277,12 @@ complete unique package, with zero orphan CAD/BOM/drawing/assembly IDs.
 
 The [civil exploration implementation](civil/design-exploration.md) adds a
 source-bound complete-system campaign to the existing civil geometry and native
-reference checks. Its planar elastic Timoshenko models include diaphragm regions,
-finite bearings, shared piers, ground compliance, moving axle histories, braking
-and handling overhangs. Analytical benchmarks verify the declared numerical
-domain; supplier/site inputs, nonlinear/local models and physical validation
-remain separate acceptance work. The research runner cannot promote a product
+reference checks. The programme now also executes nonlinear fibre/pile/P-delta,
+orthotropic and friction benchmarks, actual-section solids, coupled vertical
+suspension/contact, thermal/continuity, commercial scenarios, multi-seed search,
+range sensitivity and safe evidence retrieval. Supplier/site data, calibration,
+full-system applicability and physical validation remain separate acceptance
+work. The research runner cannot promote a product
 or change structural release status.
 
 ### Wave 2 — COMP-017 surveyed Samawah pilot and civil checks
