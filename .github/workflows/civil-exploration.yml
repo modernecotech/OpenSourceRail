@@ -41,6 +41,11 @@ on:
       - 'tools/automation/check-shared-engineering-standard.py'
       - 'tools/automation/tests/test_shared_engineering_standard.py'
       - 'design/component-catalogue/src/osr_mech/joint_design.py'
+      - 'design/component-catalogue/src/osr_mech/automated_geometry.py'
+      - 'engineering/reference-parts/**'
+      - 'tools/automation/compile-reference-parts.py'
+      - 'tools/automation/verify-reference-parts-freecad.py'
+      - 'tools/automation/export-reference-parts-evidence.py'
       - 'tools/automation/shared-engineering-freecad.py'
       - 'tools/automation/tests/test_engineering_identity.py'
       - 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/engineering_identity.py'
@@ -104,7 +109,9 @@ jobs:
       - name: Verify shared geometry, inertia, evidence and train–bridge coupling
         env:
           PYTHONPATH: design/component-catalogue/src:.
-        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py engineering/analysis/tests/test_shared_service.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py tools/automation/tests/test_shared_review_history.py
+        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py engineering/analysis/tests/test_shared_service.py engineering/analysis/tests/test_automated_parts.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py tools/automation/tests/test_shared_review_history.py
+      - name: Verify generated industry-reference parts review
+        run: python tools/automation/compile-reference-parts.py check-review --review engineering/civil_exploration/examples/automated-parts-review.json
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |

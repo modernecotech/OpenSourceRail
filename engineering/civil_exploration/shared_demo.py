@@ -18,11 +18,11 @@ def cuboid_inertia(mass, dimensions):
     return [[mass*(y*y+z*z)/12,0.,0.],[0.,mass*(x*x+z*z)/12,0.],[0.,0.,mass*(x*x+y*y)/12]]
 
 
-def demonstration(family='metro-6car'):
+def demonstration(family='metro-6car', *, full_train=False):
     from .contracts import HERE, load
     from .workflow import candidate
     definition=family_definition(family);instances=[];joints=[];length=definition['car_length_m']
-    if definition['car_count']<2:raise ValueError('articulated demonstration needs a two-car family')
+    if definition['car_count']<2 and not full_train:raise ValueError('articulated demonstration needs a two-car family')
     def instance(identifier,part,parent,mass,dimensions,placement,body=None,bogie=None,axle=None,datums=None):
         record=dict(mass_kg=mass,cg_m=[0.,0.,0.],inertia_tensor_kg_m2=cuboid_inertia(mass,dimensions),
             uncertainty_kg=mass*.02,position_uncertainty_m=.01,inertia_uncertainty_kg_m2=mass*.01,
@@ -40,7 +40,8 @@ def demonstration(family='metro-6car'):
             property_source='design',properties=dict(design=props,supplier=None,measured=None),
             definition={'physical_definition_status':'open-supplier/production-data'},requirements=[],inspections=[]))
     tare=definition['profile']['tare_mass_t']*1000/definition['car_count']
-    for car in definition['cars'][:2]:
+    represented=definition['cars'] if full_train else definition['cars'][:2]
+    for car in represented:
         cid=car['id'];body=cid+'/body';centre=car['centre_x_m'];inset=BOGIE_WHEELBASE_MM/1000
         body_datums={'secondary-A':transform(-length/2+inset,0.,-.7),'secondary-B':transform(length/2-inset,0.,-.7),
                      'end-A':transform(-length/2),'end-B':transform(length/2),'battery':transform(-2.,.45,-1.05)}
@@ -58,7 +59,8 @@ def demonstration(family='metro-6car'):
                 wheel=bid+f'/wheelset-{axle}'
                 instance(wheel,'LM3-BOG-P040' if powered else 'LM3-BOG-P041',frame,500.,[2.,.4,.4],transform(x,0.,.38),bogie=bid,axle=axle)
                 joint(wheel+'/primary','primary','suspension',frame,f'axle-{axle}',wheel,'origin',1.2e6,1.2e4)
-    joint('car-1-2/articulation','articulation','articulation','car-1/body','end-B','car-2/body','end-A',3e5,1.5e4)
+    for index in range(1,len(represented)):
+        joint(f'car-{index}-{index+1}/articulation','articulation','articulation',f'car-{index}/body','end-B',f'car-{index+1}/body','end-A',3e5,1.5e4)
     study=load(HERE/'config/reference.json');c=candidate(study['candidates'][1],study)
     study['route_length_m']=75.
     bridge=dict(candidate=c,study=study,span_count=3,
@@ -68,7 +70,8 @@ def demonstration(family='metro-6car'):
         instances=instances,joints=joints,bridge=bridge,requirements=[],inspections=[
             dict(id='battery-mass-car-1',instance='car-1/battery',characteristic='installed battery mass',unit='kg',minimum=2400.,maximum=2600.,dependencies=['mass-properties']),
             dict(id='car-1-running-correlation',instance='car-1/body',characteristic='ride acceleration',unit='m/s2',minimum=None,maximum=None,dependencies=['bridge-demand'])],
-        notes='Two representative planning cars; every mass, inertia and mechanical property is synthetic. Not a supplier train or Baghdad qualification.')
+        notes=('Complete planning family; ' if full_train else 'Two representative planning cars; ')+
+              'every mass, inertia and mechanical property is synthetic. Not a supplier train or Baghdad qualification.')
 
 
 def variants(model):

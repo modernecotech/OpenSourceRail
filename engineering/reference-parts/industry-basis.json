@@ -1,0 +1,64 @@
+{
+  "schema": "osr-industry-reference-parts/1",
+  "revision": "OSR-REFERENCE-1",
+  "reviewed_on": "2026-10-10",
+  "sources": [
+    {
+      "id": "toshiba-railway-module",
+      "url": "https://www.global.toshiba/jp/products-solutions/battery/scib/about-scib/application/railway.html",
+      "publisher": "Toshiba",
+      "use": "Type3-23 published nominal module data; external envelope only",
+      "evidence_status": "public-catalogue-reference; no purchased-part release",
+      "module": {"name": "Type3-23", "nominal_voltage_v": 27.6, "capacity_ah": 45.0, "approximate_mass_kg": 15.0, "dimensions_xyz_m": [0.361, 0.190, 0.125]}
+    },
+    {
+      "id": "skf-axlebox",
+      "url": "https://evolution.skf.com/en/the-evolution-of-railway-axlebox-technology/",
+      "publisher": "SKF",
+      "use": "Separate wheelset, axlebox housing/bearing and condition-sensor responsibilities",
+      "evidence_status": "architecture-reference; no bearing dimensions or load ratings adopted"
+    },
+    {
+      "id": "continental-secondary",
+      "url": "https://www.continental-industry.com/global/en/products-solutions/airsprings-suspension/railway/secondary-suspension",
+      "publisher": "Continental",
+      "use": "Air spring with auxiliary rubber-metal support between bogie and carbody",
+      "evidence_status": "architecture-reference; no supplier force curves adopted"
+    },
+    {
+      "id": "pandrol-fastening",
+      "url": "https://www.pandrol.com/products/fastening-systems/fasteners/fastclip",
+      "publisher": "Pandrol",
+      "use": "Captive fastening, replaceable rail pad and configurable stiffness; track coverage requirements",
+      "evidence_status": "architecture-reference; proprietary clip geometry and clamping loads not reproduced"
+    },
+    {
+      "id": "nasa-interfaces",
+      "url": "https://www.nasa.gov/reference/system-engineering-handbook-appendix/",
+      "publisher": "NASA",
+      "use": "Interface coordinate systems, units, responsibilities and requirement-to-verification traceability",
+      "evidence_status": "process-reference; OSR checks are internal requirements"
+    },
+    {
+      "id": "iso-battery-method",
+      "url": "https://www.iso.org/standard/71407.html",
+      "publisher": "ISO",
+      "use": "ISO 12405-4:2018 performance-test method reference; road-vehicle scope requires railway applicability review",
+      "evidence_status": "public-scope-reviewed; full clauses and railway applicability open"
+    }
+  ],
+  "assumptions": {
+    "module_resistance_ohm": 0.002,
+    "module_discharge_current_limit_a": 90.0,
+    "module_charge_current_limit_a": 45.0,
+    "module_heat_capacity_j_kg_k": 900.0,
+    "enclosure_density_kg_m3": 2700.0,
+    "enclosure_heat_capacity_j_kg_k": 900.0,
+    "cooling_conductance_w_k_per_module": 5.0,
+    "pack_temperature_limit_c": 50.0,
+    "mass_uncertainty_fraction": 0.05,
+    "status": "OSR research assumptions; not Toshiba ratings or material certificates"
+  },
+  "production_released": false,
+  "physical_validation": false
+}

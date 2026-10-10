@@ -38,7 +38,10 @@ def build_document(model, output):
             source=SourceGeometry('car-body-17m',definition['car_length_m']*1000)
         else:source=SourceGeometry('product:'+row['part_id'])
         feature=root.newObject('Part::Feature',safe_name(row['id']));feature.Label=row['id']
-        if row['geometry']['kind'] in ('released-solid','supplier-installation'):
+        if row['geometry']['kind']=='osr-parametric-reference':
+            from .automated_geometry import from_source, native_shape
+            feature.Shape=native_shape(from_source(row['geometry']),Part,App)
+        elif row['geometry']['kind'] in ('released-solid','supplier-installation'):
             reference=row['geometry']['source'][0];path=ROOT/reference['path']
             if path.suffix.lower()!='.brep':raise ValueError('native released geometry adapter requires an explicit BREP solid')
             shape=Part.Shape();shape.read(str(path))
@@ -99,9 +102,10 @@ def build_document(model, output):
     if not candidates:raise RuntimeError('TechDraw installation lacks drawing templates')
     template.Template=str(sorted(candidates)[0]);page.Template=template
     view=doc.addObject('TechDraw::DrawViewPart','InstalledAssemblyView');view.Source=list(features.values())
-    view.Direction=App.Vector(0,-1,0);view.Scale=.005;view.X=148.;view.Y=100.;page.addView(view)
+    train_scale=min(.005,260./(definition['length_m']*1000))
+    view.Direction=App.Vector(0,-1,0);view.Scale=train_scale;view.X=148.;view.Y=100.;page.addView(view)
     top=doc.addObject('TechDraw::DrawViewPart','InstalledPlanView');top.Source=list(features.values())
-    top.Direction=App.Vector(0,0,1);top.Scale=.005;top.X=148.;top.Y=155.;page.addView(top)
+    top.Direction=App.Vector(0,0,1);top.Scale=train_scale;top.X=148.;top.Y=155.;page.addView(top)
     bogie=next(r for r in model['instances'] if r['part_id']=='LM3-BOG-P010')
     detail=doc.addObject('TechDraw::DrawViewPart','PoweredBogieView')
     detail.Source=[features[r['id']] for r in model['instances'] if r['bogie']==bogie['bogie']]
@@ -116,7 +120,7 @@ def build_document(model, output):
     annotation.Text=['UNISSUED — '+model['revision'],
         'Datums: '+', '.join(sorted({name for r in model['instances'] for name in r['datums']})),
         'Fits/tolerances/procedures: OPEN; refer to physical joint register',
-        'Inspection IDs: '+', '.join(r['id'] for r in model['inspections'])]
+        'Inspection characteristics: '+str(len(model['inspections']))+'; see configuration-bound QA register']
     annotation.TextSize=2.;annotation.X=148.;annotation.Y=18.;page.addView(annotation)
     page.addProperty('App::PropertyBool','DrawingIssued','Shared Engineering');page.DrawingIssued=False
     page.addProperty('App::PropertyString','ConfigurationHash','Shared Engineering');page.ConfigurationHash=fingerprint(model)

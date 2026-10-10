@@ -1,0 +1,82 @@
+{
+  "cad": {
+    "analytic_occ_primitive_checks": 164,
+    "audit_sha256": "05aeb3914383bedee2bb1e01a83a67ef58dee532b9b3c788463dd31b5bda5032",
+    "drawing_issued": false,
+    "drawing_visible_edges": {
+      "InstalledAssemblyView": 4849,
+      "InstalledPlanView": 3595,
+      "PoweredBogieSection": 88,
+      "PoweredBogieView": 30
+    },
+    "fcstd_sha256": "98b9cb5bc9c755fb39b8478c6eb56b459cc2b61c0c0996130d3af75c2f4a3d7f",
+    "instance_count": 192,
+    "maximum_joint_datum_residual_mm": 2.2737883958998993e-13,
+    "maximum_relative_inertia_error": 3.346760143562888e-10,
+    "native_receipt_sha256": "4d735e88a5fe374436bf5166b88b218bb48119467705391d1d289e93a5c98868",
+    "native_solver_result": 0,
+    "represented_car_count": 6,
+    "restored_solver_result": 0
+  },
+  "compiler_review_sha256": "b3fa2ff46457b31885e5b2b4bd04be5a479ccbc7fe5f9e52a4cf15517eda7325",
+  "configuration_sha256": "c79b037e379e4a6514a35438c43bd091b8f2dda1d553613ec31b242a3b25a76c",
+  "engineering_constraints_passed": null,
+  "physical_validation": false,
+  "production_released": false,
+  "publisher_sha256": "78f2c031c6c66f84e163d6849842d1b0d34973a404f0d95fba037e2c327f98e6",
+  "remaining_gates": [
+    "unresolved catalogue allocations and geometry-specific joint capacities",
+    "full-family operating matrix and time/mesh convergence",
+    "traction/braking maps and coupled coolant/control models",
+    "supplier/physical measurements and ISO/railway applicability/conformity"
+  ],
+  "schema": "osr-automated-parts-evidence/1",
+  "service": {
+    "budgets": {
+      "deck_mesh": 2,
+      "rail_step_m": 2.0,
+      "time_step_s": 0.005,
+      "wall_seconds": 1800
+    },
+    "cases": [
+      {
+        "case": "empty-15mps",
+        "complete_passage": false,
+        "engineering_released": false,
+        "error": "spatial nonlinear step did not converge at 9.775s: residual 2.0493e+07 N",
+        "kind": "normal-service",
+        "physical_validation": false,
+        "status": "failed"
+      }
+    ],
+    "complete_full_family_case_ids": [],
+    "numerical_time_and_mesh_confirmation_performed": false,
+    "receipt_sha256": "18df5be4761d64e6321b65d2fc18090e3c99379222cd1a3e56ee3ce6aa2cb010",
+    "retained_history_sha256": {
+      "empty-15mps/history.jsonl.gz": "913200cfa962965aa1b6209ad00749a6a2a916d992c22747b299ec0d0b1a7d4f"
+    },
+    "unexecuted_case_ids": [
+      "empty-10mps",
+      "empty-20mps",
+      "nominal-10mps",
+      "nominal-15mps",
+      "nominal-20mps",
+      "crush-10mps",
+      "crush-15mps",
+      "crush-20mps",
+      "uneven-10mps",
+      "uneven-15mps",
+      "uneven-20mps",
+      "service-braking",
+      "emergency-braking",
+      "acceleration",
+      "rescue-tow",
+      "maintenance",
+      "curve-cant-vertical-curve",
+      "irregularity-wheel-defect",
+      "degraded-suspension-ground-bearings",
+      "worn-tread",
+      "two-track-offset-arrival"
+    ]
+  }
+}

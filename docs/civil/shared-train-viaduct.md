@@ -8,6 +8,12 @@
 · [native car-pair assembly](../../design/component-catalogue/models/cad/shared-car-pair.FCStd)
 · [native joint/drawing receipt](../../design/component-catalogue/models/cad/shared-car-pair.native.json).
 
+The [automated reference-parts compiler](automated-reference-parts.md) now adds a
+separate complete-family variant with 192 reference instances, 191 joints and all
+24 six-car wheelsets. Its parameterised battery architecture, coverage register,
+typed interfaces and manufacturing/QA outputs extend this foundation. The retained
+two-car demonstrations below continue to describe their original configurations.
+
 The first demonstrator connects a representative articulated car pair to a
 three-span viaduct, flexible rail, finite bearings, axial piers and foundation
 springs. Component mass, CG and full inertia tensors feed carbody/bogie heave and

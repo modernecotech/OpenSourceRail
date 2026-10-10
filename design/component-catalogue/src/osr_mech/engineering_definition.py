@@ -141,6 +141,9 @@ def validate(model, *, root=ROOT, catalogue_ids=None):
         if row['axle'] is not None and (type(row['axle']) is not int or row['axle'] not in (1, 2) or row['bogie'] is None):
             raise ValueError('wheelset needs an identified bogie and axle')
         _keys(row['geometry'], ('kind', 'source', 'material_regions', 'thickness_m', 'process'))
+        if row['geometry']['kind']=='osr-parametric-reference':
+            from .automated_geometry import from_source
+            from_source(row['geometry'])
         for reference in row['geometry']['source']:
             if isinstance(reference, dict):evidence(reference, root)
             elif not isinstance(reference, str) or not reference:raise ValueError('geometry source identity required')
