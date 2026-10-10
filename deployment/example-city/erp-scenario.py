@@ -126,12 +126,17 @@ try:
         with open('/tmp/example-snapshot.json') as f:result=json.load(f)
     elif phase=='task-change':
         from osr_erpnext.api import import_file
+        from osr_erpnext.construction_execution import _guarded
         project=frappe.get_doc('Project',INPUT['project'])
-        row=frappe.get_list('Task',filters={'project':project.name},fields=['name'],limit_page_length=1)[0]
-        task=frappe.get_doc('Task',row.name);task.progress=42;task.status='Working';task.save()
+        rows=frappe.get_list('Task',filters={'project':project.name},fields=['name'],limit_page_length=0,order_by='name')
+        # This checks preservation of administrative planning edits. Physical
+        # construction/manufacturing work still requires its allocation review.
+        task=next((doc for row in rows for doc in [frappe.get_doc('Task',row.name)] if not _guarded(doc)),None)
+        if task is None:raise ValueError('Imported project has no administrative task for reimport acceptance')
+        task.progress=42;task.status='Working';task.save()
         imported=import_file(INPUT['path'],project.company);task.reload()
         assert task.progress==42 and task.status=='Working' and imported['project']==project.name
-        result=dict(task=task.name,progress=task.progress,status=task.status,reimport_preserved=True)
+        result=dict(task=task.name,progress=task.progress,status=task.status,reimport_preserved=True,construction_release=False)
     elif phase=='audit-plan':
         rows=frappe.get_list('Task',filters={'project':INPUT['project']},fields=['name','subject','exp_start_date','exp_end_date','department'],limit_page_length=0)
         row=next(r for r in rows if 'Example approved calendar check' in r.subject)
