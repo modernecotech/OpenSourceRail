@@ -1,7 +1,7 @@
 # Retained civil campaign review
 
 `first-campaign.json` is the compact intentional review output of
-`tools/automation/civil-study.py run`, exported with:
+`tools/automation/civil-study.py run --deployment reference`, exported with:
 
 ```sh
 tools/automation/osr-python tools/automation/export-civil-study-review.py \
@@ -33,3 +33,10 @@ The named consumer is
 `engineering/analysis/tests/test_civil_exploration_programme_review.py`.
 Every external acceptance item remains visible; actual physical measurements,
 supplier commitments and authority signatures are not supplied by these records.
+
+`baghdad-qualification/qualification.json` and `.md` retain the user-selected
+deployment readiness and source hashes. They are input-gap records, with no
+solver results or release claim. Their generator is `civil-study.py qualification`
+and their named consumer is `engineering/analysis/tests/test_civil_qualification.py`.
+Regenerate into a fresh scratch directory, compare to the retained pair, and
+refresh intentionally if the controlled inputs change.

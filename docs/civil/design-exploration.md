@@ -20,13 +20,19 @@ Foundation dimensions/stiffness, damping and material/steel allowances are
 explicit scenario inputs. Supplier costs and accepted railway limits are absent.
 These gaps prevent engineering-feasible rankings regardless of numerical passes.
 
-The expanded `civil-study.py programme` command now connects eight geometric
+The expanded `civil-study.py programme --deployment reference` command now connects eight geometric
 families, material-region matrices, whole-assembly CAD/IFC, actual C3D20R solids,
 nonlinear sections/piles/P-delta, cyclic friction, coupled suspension/contact,
 thermal/continuity, complete costing interfaces, multi-seed Pareto search,
 range sensitivity, safe artifact retrieval, physical-test planning and the
 existing structural release gate. The generated C01–C14 audit records executed
 software separately from outstanding engineering acceptance.
+
+Baghdad is now the active deployment qualification target. Its source-bound
+[input readiness record](baghdad-qualification.md) retains the six-car planning
+profile and open supplier/site inputs. Default `run`/`programme` commands stop
+before numerical execution when these inputs are missing. The existing LM3
+results remain explicit reference verification evidence.
 
 Existing baseline verification found stale Baghdad proposal evidence and missing
 catalogue manifests. The workbench isolates its source-bound civil reference;

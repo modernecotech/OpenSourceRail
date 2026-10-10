@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "axle_count": {
+      "enum": [
+        24
+      ],
+      "type": "integer"
+    },
+    "axle_loads_kn": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "maximum": 500,
+        "type": "number"
+      },
+      "maxItems": 24,
+      "minItems": 24,
+      "type": "array"
+    },
+    "axle_positions_m": {
+      "items": {
+        "maximum": 200,
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 24,
+      "minItems": 24,
+      "type": "array"
+    },
+    "basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cars": {
+      "enum": [
+        6
+      ],
+      "type": "integer"
+    },
+    "deployment": {
+      "enum": [
+        "baghdad"
+      ],
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "metro-6car"
+      ],
+      "type": "string"
+    },
+    "length_m": {
+      "maximum": 200,
+      "minimum": 50,
+      "type": "number"
+    },
+    "load_case": {
+      "enum": [
+        "tare",
+        "AW2",
+        "AW3",
+        "infrastructure",
+        "maintenance",
+        "rescue"
+      ],
+      "type": "string"
+    },
+    "loaded_mass_kg": {
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "schema": {
+      "enum": [
+        "osr-civil-supplier-train/1"
+      ],
+      "type": "string"
+    },
+    "source": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_sha256": {
+      "minLength": 64,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "deployment",
+    "family",
+    "cars",
+    "axle_count",
+    "length_m",
+    "loaded_mass_kg",
+    "load_case",
+    "basis",
+    "source",
+    "source_sha256",
+    "axle_positions_m",
+    "axle_loads_kn"
+  ],
+  "type": "object"
+}

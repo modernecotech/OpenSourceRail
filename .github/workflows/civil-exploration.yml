@@ -8,6 +8,12 @@ on:
       - 'engineering/analysis/tests/test_civil_exploration.py'
       - 'engineering/analysis/tests/test_civil_exploration_review.py'
       - 'engineering/analysis/tests/test_civil_exploration_extensions.py'
+      - 'engineering/analysis/tests/test_civil_qualification.py'
+      - 'docs/civil/viaduct-load-model.toml'
+      - 'lib/templates/rolling-stock.toml'
+      - 'cities/catalogue/west-asia/Iraq/Baghdad/design.toml'
+      - 'cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/summary.json'
+      - 'cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/*readiness.json'
       - 'design/component-catalogue/src/osr_mech/civil/**'
       - 'tools/automation/civil-study.py'
       - '.github/workflows/civil-exploration.yml'
@@ -40,14 +46,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y calculix-ccx
       - name: Verify contracts, independent equations and native integrity
-        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py
+        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |
           python -m pip install pyswmm==2.1.0 swmm-toolkit==0.17.0
       - name: Run complete research campaign
         if: ${{ inputs.campaign }}
-        run: python tools/automation/civil-study.py programme --search-evaluations 96
+        run: python tools/automation/civil-study.py programme --deployment reference --search-evaluations 96
       - name: Retain comparison and failed numerical evidence
         if: ${{ always() && inputs.campaign }}
         uses: actions/upload-artifact@v4

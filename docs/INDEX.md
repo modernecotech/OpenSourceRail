@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6217**.
+Indexed Markdown files: **6219**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **6217**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 207 |
-| [engineering](#engineering) | 90 |
+| [docs](#docs) | 208 |
+| [engineering](#engineering) | 91 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6024,6 +6024,7 @@ Indexed Markdown files: **6217**.
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
 | [`docs/city-workforce-design-development.md`](../docs/city-workforce-design-development.md) | City workforce, design refinements and remaining development |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
+| [`docs/civil/baghdad-qualification.md`](../docs/civil/baghdad-qualification.md) | Baghdad civil qualification inputs |
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/civil-inspection-and-handover.md`](../docs/civil/civil-inspection-and-handover.md) | Civil inspection, testing and handover plan |
 | [`docs/civil/civil-programme-and-controls.md`](../docs/civil/civil-programme-and-controls.md) | Civil programme and workface controls |
@@ -6223,6 +6224,7 @@ Indexed Markdown files: **6217**.
 | [`engineering/changes/README.md`](../engineering/changes/README.md) | Controlled engineering changes |
 | [`engineering/civil_exploration/README.md`](../engineering/civil_exploration/README.md) | Civil system exploration |
 | [`engineering/civil_exploration/examples/README.md`](../engineering/civil_exploration/examples/README.md) | Retained civil campaign review |
+| [`engineering/civil_exploration/examples/baghdad-qualification/qualification.md`](../engineering/civil_exploration/examples/baghdad-qualification/qualification.md) | Baghdad civil qualification input readiness |
 | [`engineering/civil_exploration/examples/programme-review.md`](../engineering/civil_exploration/examples/programme-review.md) | C01–C14 executed software and remaining acceptance |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |

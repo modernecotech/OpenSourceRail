@@ -10,19 +10,19 @@ From the repository root, using the normal engineering Python environment and
 native `ccx` installed for the existing reference replay:
 
 ```sh
-tools/automation/osr-python tools/automation/civil-study.py run
+tools/automation/osr-python tools/automation/civil-study.py run --deployment reference
 tools/automation/osr-python tools/automation/civil-study.py verify \
   build/engineering/civil-studies/first-campaign
 ```
 
-`run` freezes the input contract, copies governing source files, reproduces the
+`run --deployment reference` freezes the input contract, copies governing source files, reproduces the
 existing native beam/drainage reference, verifies independent new benchmarks,
 executes isolated bounded workers and writes `comparison.md`, `comparison.csv`
 and `comparison.json`. The repository commit and source hashes identify the
 baseline even when the implementation has not yet been committed. Set
 `--output` to a fresh directory for each campaign.
 
-Use `run --resume` to reuse only hash-verified results from the same study,
+Use `run --deployment reference --resume` to reuse only hash-verified results from the same study,
 code and native environment. `--retry-failed` creates another attempt while
 retaining the failed one. A terminated attempt's job/log files remain in its
 attempt directory. `verify --historical` checks retained artifact binding without
@@ -32,7 +32,7 @@ claiming that old dependencies are current. A checksum is not a reviewer signatu
 
 ```sh
 tools/automation/osr-python tools/automation/civil-study.py programme \
-  --search-evaluations 96 --output build/engineering/civil-studies/programme
+  --deployment reference --search-evaluations 96 --output build/engineering/civil-studies/programme
 ```
 
 This executes numerical component benchmarks, eight registered deck families,
@@ -137,6 +137,50 @@ Controlled evidence can be supplied through `evidence_refs`. A measured,
 supplier-verified or site-calibrated flag requires its role's source and checksum;
 those raw records are copied into the sealed study. Source currency is checked
 again after execution. Such a flag does not itself grant engineering acceptance.
+
+## Baghdad deployment inputs
+
+**Baghdad is the active qualification target.** The commands `run` and
+`programme` default to this target, report missing evidence and exit with code 2
+before any solver runs. Existing LM3 software verification requires explicit
+`--deployment reference`. Missing quotations remain open with unknown costs.
+
+```sh
+tools/automation/osr-python tools/automation/civil-study.py qualification \
+  --output build/engineering/civil-studies/baghdad-qualification
+```
+
+This writes source-bound JSON and a readiness table with owners. The retained
+profile is six cars, 24 axles and 111 m long, with planning masses of 204 t tare,
+258 t AW2 and 276 t AW3. The 384 t infrastructure allowance is an envelope; it
+does not define axle forces. All 54 city lines select this train family. The
+desktop ground inventory has 30 missing profiles and is not site calibration.
+
+A supplier can provide a retained repository JSON record conforming to
+[`schemas/supplier-train.json`](schemas/supplier-train.json). It must bind an
+original drawing/load document by relative path and SHA-256, list all 24 sorted
+axle positions from a leading-end datum increasing towards the trailing end, and provide positive case-specific
+axle forces balanced against loaded mass. Tests use synthetic records only to
+verify this contract; no synthetic record is installed as Baghdad input.
+
+```sh
+tools/automation/osr-python tools/automation/civil-study.py run \
+  --train-record path/to/retained-supplier-record.json \
+  --output build/engineering/civil-studies/baghdad-moving-force
+```
+
+With valid inputs this creates a six-car moving-force research profile and runs
+the selected geometry/ground cases. Use `--config` for a different study contract;
+the Baghdad pattern replaces that contract's train. `--resume` and
+`--retry-failed` preserve the existing attempt history and source checks.
+Verify the resulting `evaluation/` directory with the normal `verify` command.
+
+The complete Baghdad `programme` remains blocked even after this record is
+supplied: its coupled diagnostic needs actual per-axle suspension, bogie and
+contact data and an appropriate adapter. Project load combinations, lateral/3D
+response, material/ground calibration, costs, physical validation and acceptance
+also remain open. Reference models are never relabelled as Baghdad qualification.
+See [Baghdad qualification](../../docs/civil/baghdad-qualification.md).
 
 See the [implementation and acceptance backlog](../../docs/civil/design-exploration.md).
 The [compact retained campaign review](examples/README.md) keeps numerical

@@ -15,10 +15,13 @@ from engineering.civil_exploration.workflow import run_campaign, verify, compare
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    active=load(HERE/'config/qualification-target.json')['deployment']
     commands = parser.add_subparsers(dest='command', required=True)
     run = commands.add_parser('run')
     run.add_argument('--config', type=Path, default=HERE/'config/reference.json')
-    run.add_argument('--output', type=Path, default=ROOT/'build/engineering/civil-studies/first-campaign')
+    run.add_argument('--output', type=Path)
+    run.add_argument('--deployment',choices=['reference','baghdad'],default=active)
+    run.add_argument('--train-record',type=Path)
     run.add_argument('--resume', action='store_true')
     run.add_argument('--retry-failed', action='store_true')
     check = commands.add_parser('verify')
@@ -31,7 +34,9 @@ def main():
     start=commands.add_parser('prepare',aliases=['generate'])
     start.add_argument('--config',type=Path,default=HERE/'config/reference.json');start.add_argument('--output',type=Path,required=True)
     programme=commands.add_parser('programme')
-    programme.add_argument('--output',type=Path,default=ROOT/'build/engineering/civil-studies/programme')
+    programme.add_argument('--output',type=Path)
+    programme.add_argument('--deployment',choices=['reference','baghdad'],default=active)
+    programme.add_argument('--train-record',type=Path)
     programme.add_argument('--quick',action='store_true',help='Run refinements without repeating full reference transient campaign')
     programme.add_argument('--search-evaluations',type=int,default=32)
     benchmark=commands.add_parser('benchmark');benchmark.add_argument('--output',type=Path,required=True)
@@ -54,10 +59,33 @@ def main():
     tests=commands.add_parser('test-plan');tests.add_argument('--candidate-ids',nargs='+',required=True);tests.add_argument('--output',type=Path,required=True)
     promotion=commands.add_parser('promotion-check');promotion.add_argument('bundle',type=Path);promotion.add_argument('--output',type=Path,required=True)
     promotion.add_argument('--design',type=Path);promotion.add_argument('--receipt-manifest',type=Path);promotion.add_argument('--evidence-root',type=Path)
+    qualification=commands.add_parser('qualification')
+    qualification.add_argument('--train-record',type=Path)
+    qualification.add_argument('--output',type=Path,default=ROOT/'build/engineering/civil-studies/baghdad-qualification')
     native = commands.add_parser('_worker', help=argparse.SUPPRESS)
     native.add_argument('job', type=Path); native.add_argument('output', type=Path)
     args = parser.parse_args()
     try:
+        if args.command=='qualification':
+            from engineering.civil_exploration.qualification import build,write
+            report=build(args.train_record);write(report,args.output);print(args.output/'qualification.md');return 0
+        if args.command in ('run','programme'):
+            if args.output is None:
+                name=('first-campaign' if args.command=='run' else 'programme') if args.deployment=='reference' else 'baghdad-'+args.command
+                args.output=ROOT/'build/engineering/civil-studies'/name
+            if args.deployment=='baghdad':
+                from engineering.civil_exploration.qualification import build,write
+                report=build(args.train_record)
+                if args.command=='programme' or not report['moving_force_execution_ready']:
+                    write(report,args.output,resume=getattr(args,'resume',False))
+                    reason=report['status'] if not report['moving_force_execution_ready'] else 'blocked-coupled-programme-inputs-and-project-model-selection'
+                    print(f'Baghdad: {reason}; {args.output/"qualification.md"}',file=sys.stderr);return 2
+                write(report,args.output,config=args.config,resume=args.resume)
+                result=run_campaign(args.output/'solver-profile.json',args.output/'evaluation',resume=args.resume,retry_failed=args.retry_failed)
+                rows=load(args.output/'evaluation/comparison.json')['rows']
+                print(args.output/'evaluation/comparison.md')
+                return int(any(r['execution']!='completed' or r['numerical_screen']!='passed' for r in rows))
+            if args.train_record:raise ValueError('supplier train record belongs to the Baghdad deployment')
         if args.command in ('prepare','generate'):
             result=prepare(args.config,args.output);print(f"Prepared {len(result['cases'])} immutable candidates");return 0
         if args.command=='programme':

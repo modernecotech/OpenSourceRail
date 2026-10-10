@@ -1,0 +1,122 @@
+{
+  "catalogue_context": {
+    "city": "baghdad",
+    "ground_status": "desktop-soil-screening-with-coverage-gaps",
+    "lines": 54,
+    "missing_ground_profiles": 30,
+    "structural_authority_accepted": false,
+    "structural_status": "awaiting-structural-evidence",
+    "survey_status": "awaiting-surveyed-alignments"
+  },
+  "comparison_scope": {
+    "basis": "bounded comparison segment, not the complete city",
+    "route_length_m": 100,
+    "tracks": 2
+  },
+  "coupled_programme_execution_ready": false,
+  "deployment": "baghdad",
+  "engineering_qualification_ready": false,
+  "missing_inputs": [
+    {
+      "blocks_moving_load": true,
+      "id": "TRAIN-AXLE-POSITIONS",
+      "owner": "rolling-stock supplier",
+      "required": "six-car supplier drawing with all 24 axle positions",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": true,
+      "id": "TRAIN-LOADED-DISTRIBUTION",
+      "owner": "rolling-stock supplier/structural lead",
+      "required": "case-specific loaded axle forces and balanced loaded mass",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "TRAIN-SUSPENSION",
+      "owner": "rolling-stock supplier",
+      "required": "per-axle sprung/unsprung masses, suspension, contact and bogie/articulation relationships",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "TRAIN-OTHER-CASES",
+      "owner": "supplier/structural lead",
+      "required": "AW3, infrastructure, braking/rescue/maintenance, lateral and dynamic combinations",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "GROUND-CALIBRATION",
+      "owner": "geotechnical lead",
+      "required": "support-zone boreholes, calibrated axial/lateral/group/settlement parameters and pile tests",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "MATERIAL-AND-TENDONS",
+      "owner": "materials/structural lead",
+      "required": "actual concrete/composite batches, reinforcement, tendons, anchorage and losses",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "CODES-AND-LIMITS",
+      "owner": "engineers of record",
+      "required": "adopted Iraqi/project standards, load combinations and accepted limits",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "SURVEY-AND-ERECTION",
+      "owner": "survey/construction leads",
+      "required": "accepted alignment/support locations, temporary stages, actual rigging/routes and equipment charts",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "QUOTATIONS",
+      "owner": "cost/manufacturing owner",
+      "required": "Baghdad-local supplier quotations, productivity and maintenance/replacement inputs",
+      "status": "open"
+    },
+    {
+      "blocks_moving_load": false,
+      "id": "PHYSICAL-AND-INDEPENDENT",
+      "owner": "independent checker/authority",
+      "required": "instrumented validation, independent review and existing controlled authority acceptance",
+      "status": "open"
+    }
+  ],
+  "moving_force_execution_ready": false,
+  "physical_release": false,
+  "planning_train": {
+    "aw2_mass_t": 258.0,
+    "aw3_mass_t": 276.0,
+    "axles": 24,
+    "basis": "planning envelopes; infrastructure allowance and averages do not define loaded axle forces",
+    "cars": 6,
+    "family": "metro-6car",
+    "infrastructure_full_train_allowance_t": 384.0,
+    "length_m": 111.0,
+    "tare_mass_t": 204.0
+  },
+  "qualification_target": true,
+  "reference_results": "Existing LM3 results remain reference-software evidence and are not Baghdad qualification results",
+  "schema": "osr-civil-deployment-readiness/1",
+  "source_hashes": {
+    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "0932e191830c3dbf30260807eef96ebb0e99009e39612ccc53d88d2e78081545",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/summary.json": "b30410efc5f70e571a8371517ecc3190ca45527577bc76d77236e37fd87b45e2",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/structural-release-readiness.json": "02ce44874c65e04a6c850c1098c1766c2af403527d4273f5c209da96bae70e31",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/surveyed-alignment-readiness.json": "860b6bca5bb3996ba7a225e19a16be4af65f01672fd0bd2ad74c5906c88926d8",
+    "docs/civil/viaduct-load-model.toml": "964d0c6711c8e3ee5d179303307a0ae1bf5192ab844f155638a910bfefdac4a3",
+    "engineering/civil_exploration/config/qualification-target.json": "64b02479470744f3a3256082c545644e72e22450302f242252de9362d98e7207",
+    "engineering/civil_exploration/qualification.py": "02bf35db340468b4aa6043b97985e91513f46e084fff7b260f99635364fd940b",
+    "engineering/civil_exploration/schemas/qualification-target.json": "846b479e9da0facf0a6e5f49d812ac6b3e45b3db56608c79f0cc600d36104e0f",
+    "engineering/civil_exploration/schemas/supplier-train.json": "b84a47573972bcab162d66e08c167a85891e4e9fd8e34b492e26f50632f0fe87",
+    "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
+    "tools/automation/civil-study.py": "c1b0ce4d368e4f0083ce3311e7e03858b9ffce0a4925229451bf6fd0a00de588"
+  },
+  "status": "blocked-missing-supplier-axle-inputs",
+  "supplier_pattern": null
+}

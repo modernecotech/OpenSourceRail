@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "deployment", "city_path", "train_family", "comparison_route_length_m", "supplier_train_record", "basis"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["osr-civil-qualification-target/1"]},
+    "deployment": {"type": "string", "enum": ["baghdad"]},
+    "city_path": {"type": "string", "enum": ["cities/catalogue/west-asia/Iraq/Baghdad"]},
+    "train_family": {"type": "string", "enum": ["metro-6car"]},
+    "comparison_route_length_m": {"type": "number", "exclusiveMinimum": 0},
+    "supplier_train_record": {"type": ["string", "null"]},
+    "basis": {"type": "string", "minLength": 1}
+  }
+}
