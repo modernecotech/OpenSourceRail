@@ -1,0 +1,3261 @@
+{
+  "schema": "osr-shared-engineering/1",
+  "revision": "SYNTHETIC-1",
+  "state": "as-designed",
+  "asset_id": null,
+  "family": "metro-6car",
+  "family_definition": {
+    "schema": "osr-family-definition/1",
+    "family": "metro-6car",
+    "cars": [
+      {
+        "id": "car-1",
+        "start_x_m": 0.0,
+        "centre_x_m": 9.25,
+        "length_m": 18.5,
+        "supports": [
+          "car-1/bogie-1",
+          "car-1/bogie-2"
+        ]
+      },
+      {
+        "id": "car-2",
+        "start_x_m": 18.5,
+        "centre_x_m": 27.75,
+        "length_m": 18.5,
+        "supports": [
+          "car-2/bogie-1",
+          "car-2/bogie-2"
+        ]
+      },
+      {
+        "id": "car-3",
+        "start_x_m": 37.0,
+        "centre_x_m": 46.25,
+        "length_m": 18.5,
+        "supports": [
+          "car-3/bogie-1",
+          "car-3/bogie-2"
+        ]
+      },
+      {
+        "id": "car-4",
+        "start_x_m": 55.5,
+        "centre_x_m": 64.75,
+        "length_m": 18.5,
+        "supports": [
+          "car-4/bogie-1",
+          "car-4/bogie-2"
+        ]
+      },
+      {
+        "id": "car-5",
+        "start_x_m": 74.0,
+        "centre_x_m": 83.25,
+        "length_m": 18.5,
+        "supports": [
+          "car-5/bogie-1",
+          "car-5/bogie-2"
+        ]
+      },
+      {
+        "id": "car-6",
+        "start_x_m": 92.5,
+        "centre_x_m": 101.75,
+        "length_m": 18.5,
+        "supports": [
+          "car-6/bogie-1",
+          "car-6/bogie-2"
+        ]
+      }
+    ],
+    "bogies": [
+      {
+        "id": "car-1/bogie-1",
+        "parent": "car-1",
+        "kind": "powered",
+        "pivot_x_m": 2.1,
+        "axle_x_m": [
+          1.05,
+          3.1500000000000004
+        ]
+      },
+      {
+        "id": "car-1/bogie-2",
+        "parent": "car-1",
+        "kind": "trailer",
+        "pivot_x_m": 16.4,
+        "axle_x_m": [
+          15.349999999999998,
+          17.45
+        ]
+      },
+      {
+        "id": "car-2/bogie-1",
+        "parent": "car-2",
+        "kind": "powered",
+        "pivot_x_m": 20.6,
+        "axle_x_m": [
+          19.55,
+          21.650000000000002
+        ]
+      },
+      {
+        "id": "car-2/bogie-2",
+        "parent": "car-2",
+        "kind": "trailer",
+        "pivot_x_m": 34.9,
+        "axle_x_m": [
+          33.85,
+          35.949999999999996
+        ]
+      },
+      {
+        "id": "car-3/bogie-1",
+        "parent": "car-3",
+        "kind": "powered",
+        "pivot_x_m": 39.1,
+        "axle_x_m": [
+          38.050000000000004,
+          40.15
+        ]
+      },
+      {
+        "id": "car-3/bogie-2",
+        "parent": "car-3",
+        "kind": "trailer",
+        "pivot_x_m": 53.4,
+        "axle_x_m": [
+          52.35,
+          54.449999999999996
+        ]
+      },
+      {
+        "id": "car-4/bogie-1",
+        "parent": "car-4",
+        "kind": "powered",
+        "pivot_x_m": 57.6,
+        "axle_x_m": [
+          56.550000000000004,
+          58.65
+        ]
+      },
+      {
+        "id": "car-4/bogie-2",
+        "parent": "car-4",
+        "kind": "trailer",
+        "pivot_x_m": 71.9,
+        "axle_x_m": [
+          70.85000000000001,
+          72.95
+        ]
+      },
+      {
+        "id": "car-5/bogie-1",
+        "parent": "car-5",
+        "kind": "powered",
+        "pivot_x_m": 76.1,
+        "axle_x_m": [
+          75.05,
+          77.14999999999999
+        ]
+      },
+      {
+        "id": "car-5/bogie-2",
+        "parent": "car-5",
+        "kind": "trailer",
+        "pivot_x_m": 90.4,
+        "axle_x_m": [
+          89.35000000000001,
+          91.45
+        ]
+      },
+      {
+        "id": "car-6/bogie-1",
+        "parent": "car-6",
+        "kind": "powered",
+        "pivot_x_m": 94.6,
+        "axle_x_m": [
+          93.55,
+          95.64999999999999
+        ]
+      },
+      {
+        "id": "car-6/bogie-2",
+        "parent": "car-6",
+        "kind": "trailer",
+        "pivot_x_m": 108.9,
+        "axle_x_m": [
+          107.85000000000001,
+          109.95
+        ]
+      }
+    ],
+    "articulations": [
+      {
+        "id": "articulation-1-2",
+        "parents": [
+          "car-1",
+          "car-2"
+        ],
+        "x_m": 18.5,
+        "permitted_motion": [
+          "yaw"
+        ],
+        "geometry_status": "reference-interface"
+      },
+      {
+        "id": "articulation-2-3",
+        "parents": [
+          "car-2",
+          "car-3"
+        ],
+        "x_m": 37.0,
+        "permitted_motion": [
+          "yaw"
+        ],
+        "geometry_status": "reference-interface"
+      },
+      {
+        "id": "articulation-3-4",
+        "parents": [
+          "car-3",
+          "car-4"
+        ],
+        "x_m": 55.5,
+        "permitted_motion": [
+          "yaw"
+        ],
+        "geometry_status": "reference-interface"
+      },
+      {
+        "id": "articulation-4-5",
+        "parents": [
+          "car-4",
+          "car-5"
+        ],
+        "x_m": 74.0,
+        "permitted_motion": [
+          "yaw"
+        ],
+        "geometry_status": "reference-interface"
+      },
+      {
+        "id": "articulation-5-6",
+        "parents": [
+          "car-5",
+          "car-6"
+        ],
+        "x_m": 92.5,
+        "permitted_motion": [
+          "yaw"
+        ],
+        "geometry_status": "reference-interface"
+      }
+    ],
+    "length_m": 111.0,
+    "car_length_m": 18.5,
+    "car_count": 6,
+    "profile": {
+      "cars": 6,
+      "length_m": 111,
+      "tare_mass_t": 204,
+      "passenger_capacity": 720,
+      "seat_count": 120,
+      "crush_capacity": 960,
+      "onboard_battery_kwh": 1080,
+      "onboard_battery_nameplate_kwh": 1350,
+      "battery_chemistry": "lfp",
+      "battery_profile": "lfp-onboard-study",
+      "battery_profile_module_count_basis": "one module per car; reference tare includes LFP pack",
+      "battery_nominal_voltage_v": 675,
+      "battery_normal_max_voltage_v": 740,
+      "traction_controller_count": 12,
+      "central_aux_ac_bus": false,
+      "traction_peak_kw": 3600,
+      "hvac_design_ambient_c": 50,
+      "max_speed_mps": 28,
+      "cad_module": "osr_cad.rolling_stock.metro_6car"
+    },
+    "source_sha256": {
+      "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877"
+    },
+    "geometry_basis": "equal-length planning car modules; reference inset and two bogies per car",
+    "supplier_geometry_verified": false,
+    "engineering_released": false
+  },
+  "instances": [
+    {
+      "id": "car-1/body",
+      "part_id": "LM3-CAR-A900",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-CAR-A900"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          9.25,
+          0.0,
+          1.5
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "secondary-A": {
+          "translation_m": [
+            -7.15,
+            0.0,
+            -0.7
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "secondary-B": {
+          "translation_m": [
+            7.15,
+            0.0,
+            -0.7
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "end-A": {
+          "translation_m": [
+            -9.25,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "end-B": {
+          "translation_m": [
+            9.25,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "battery": {
+          "translation_m": [
+            -2.0,
+            0.45,
+            -1.05
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": "car-1",
+      "bogie": null,
+      "axle": null,
+      "scope": [
+        "car-1/body"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 26500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              24932.083333333332,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              764635.4166666666,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              771900.8333333334
+            ]
+          ],
+          "uncertainty_kg": 530.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 265.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume; remaining sprung-body allocation excludes the separately instantiated battery, frames and wheelsets",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/battery",
+      "part_id": "LM3-TRC-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-TRC-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          7.25,
+          0.45,
+          0.45
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": "car-1",
+      "bogie": null,
+      "axle": null,
+      "scope": [
+        "car-1/battery"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 2500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              104.16666666666667,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1927.0833333333333,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1927.0833333333333
+            ]
+          ],
+          "uncertainty_kg": 50.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 25.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/frame",
+      "part_id": "LM3-BOG-P010",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P010"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          2.1,
+          0.0,
+          0.8
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-1": {
+          "translation_m": [
+            -1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-2": {
+          "translation_m": [
+            1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-1",
+      "axle": null,
+      "scope": [
+        "car-1/bogie-1/frame"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 1500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              650.0000000000001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              956.2500000000001,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1516.2500000000002
+            ]
+          ],
+          "uncertainty_kg": 30.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 15.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/wheelset-1",
+      "part_id": "LM3-BOG-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/bogie-1/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          1.05,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-1",
+      "axle": 1,
+      "scope": [
+        "car-1/bogie-1/wheelset-1"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/wheelset-2",
+      "part_id": "LM3-BOG-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/bogie-1/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          3.1500000000000004,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-1",
+      "axle": 2,
+      "scope": [
+        "car-1/bogie-1/wheelset-2"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/frame",
+      "part_id": "LM3-BOG-P020",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P020"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          16.4,
+          0.0,
+          0.8
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-1": {
+          "translation_m": [
+            -1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-2": {
+          "translation_m": [
+            1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-2",
+      "axle": null,
+      "scope": [
+        "car-1/bogie-2/frame"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 1500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              650.0000000000001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              956.2500000000001,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1516.2500000000002
+            ]
+          ],
+          "uncertainty_kg": 30.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 15.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/wheelset-1",
+      "part_id": "LM3-BOG-P041",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/bogie-2/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P041"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          15.349999999999998,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-2",
+      "axle": 1,
+      "scope": [
+        "car-1/bogie-2/wheelset-1"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/wheelset-2",
+      "part_id": "LM3-BOG-P041",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-1/bogie-2/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P041"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          17.45,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-1/bogie-2",
+      "axle": 2,
+      "scope": [
+        "car-1/bogie-2/wheelset-2"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/body",
+      "part_id": "LM3-CAR-A900",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-CAR-A900"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          27.75,
+          0.0,
+          1.5
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "secondary-A": {
+          "translation_m": [
+            -7.15,
+            0.0,
+            -0.7
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "secondary-B": {
+          "translation_m": [
+            7.15,
+            0.0,
+            -0.7
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "end-A": {
+          "translation_m": [
+            -9.25,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "end-B": {
+          "translation_m": [
+            9.25,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "battery": {
+          "translation_m": [
+            -2.0,
+            0.45,
+            -1.05
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": "car-2",
+      "bogie": null,
+      "axle": null,
+      "scope": [
+        "car-2/body"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 26500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              24932.083333333332,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              764635.4166666666,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              771900.8333333334
+            ]
+          ],
+          "uncertainty_kg": 530.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 265.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume; remaining sprung-body allocation excludes the separately instantiated battery, frames and wheelsets",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/battery",
+      "part_id": "LM3-TRC-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-TRC-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          25.75,
+          0.45,
+          0.45
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": "car-2",
+      "bogie": null,
+      "axle": null,
+      "scope": [
+        "car-2/battery"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 2500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              104.16666666666667,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1927.0833333333333,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1927.0833333333333
+            ]
+          ],
+          "uncertainty_kg": 50.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 25.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/frame",
+      "part_id": "LM3-BOG-P010",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P010"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          20.6,
+          0.0,
+          0.8
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-1": {
+          "translation_m": [
+            -1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-2": {
+          "translation_m": [
+            1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-1",
+      "axle": null,
+      "scope": [
+        "car-2/bogie-1/frame"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 1500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              650.0000000000001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              956.2500000000001,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1516.2500000000002
+            ]
+          ],
+          "uncertainty_kg": 30.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 15.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/wheelset-1",
+      "part_id": "LM3-BOG-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/bogie-1/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          19.55,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-1",
+      "axle": 1,
+      "scope": [
+        "car-2/bogie-1/wheelset-1"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/wheelset-2",
+      "part_id": "LM3-BOG-P040",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/bogie-1/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P040"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          21.650000000000002,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-1",
+      "axle": 2,
+      "scope": [
+        "car-2/bogie-1/wheelset-2"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/frame",
+      "part_id": "LM3-BOG-P020",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/body",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P020"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          34.9,
+          0.0,
+          0.8
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-1": {
+          "translation_m": [
+            -1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "axle-2": {
+          "translation_m": [
+            1.05,
+            0.0,
+            -0.42
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-2",
+      "axle": null,
+      "scope": [
+        "car-2/bogie-2/frame"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 1500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              650.0000000000001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              956.2500000000001,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1516.2500000000002
+            ]
+          ],
+          "uncertainty_kg": 30.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 15.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/wheelset-1",
+      "part_id": "LM3-BOG-P041",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/bogie-2/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P041"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          33.85,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-2",
+      "axle": 1,
+      "scope": [
+        "car-2/bogie-2/wheelset-1"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/wheelset-2",
+      "part_id": "LM3-BOG-P041",
+      "revision": "SYNTHETIC-1",
+      "serial": null,
+      "batch": null,
+      "parent": "car-2/bogie-2/frame",
+      "quantity": 1,
+      "unit": "ea",
+      "geometry": {
+        "kind": "synthetic-verification",
+        "source": [
+          "LM3-BOG-P041"
+        ],
+        "material_regions": [],
+        "thickness_m": null,
+        "process": null
+      },
+      "transform": {
+        "translation_m": [
+          35.949999999999996,
+          0.0,
+          0.38
+        ],
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "datums": {
+        "origin": {
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "body": null,
+      "bogie": "car-2/bogie-2",
+      "axle": 2,
+      "scope": [
+        "car-2/bogie-2/wheelset-2"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "mass_kg": 500.0,
+          "cg_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inertia_tensor_kg_m2": [
+            [
+              13.333333333333336,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              173.33333333333334,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              173.33333333333334
+            ]
+          ],
+          "uncertainty_kg": 10.0,
+          "position_uncertainty_m": 0.01,
+          "inertia_uncertainty_kg_m2": 5.0,
+          "basis": "synthetic uniform-mass verification body; mass declared independently of CAD/envelope volume",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "requirements": [],
+      "inspections": []
+    }
+  ],
+  "joints": [
+    {
+      "id": "car-1/battery-retention",
+      "revision": "SYNTHETIC-1",
+      "connection": "fixed",
+      "type": "bolted",
+      "endpoints": [
+        {
+          "instance": "car-1/body",
+          "datum": "battery"
+        },
+        {
+          "instance": "car-1/battery",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": null,
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/secondary",
+      "revision": "SYNTHETIC-1",
+      "connection": "secondary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/body",
+          "datum": "secondary-A"
+        },
+        {
+          "instance": "car-1/bogie-1/frame",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 700000.0,
+          "damping_ns_m": 40000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/wheelset-1/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/bogie-1/frame",
+          "datum": "axle-1"
+        },
+        {
+          "instance": "car-1/bogie-1/wheelset-1",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-1/wheelset-2/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/bogie-1/frame",
+          "datum": "axle-2"
+        },
+        {
+          "instance": "car-1/bogie-1/wheelset-2",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/secondary",
+      "revision": "SYNTHETIC-1",
+      "connection": "secondary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/body",
+          "datum": "secondary-B"
+        },
+        {
+          "instance": "car-1/bogie-2/frame",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 700000.0,
+          "damping_ns_m": 40000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/wheelset-1/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/bogie-2/frame",
+          "datum": "axle-1"
+        },
+        {
+          "instance": "car-1/bogie-2/wheelset-1",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1/bogie-2/wheelset-2/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-1/bogie-2/frame",
+          "datum": "axle-2"
+        },
+        {
+          "instance": "car-1/bogie-2/wheelset-2",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/battery-retention",
+      "revision": "SYNTHETIC-1",
+      "connection": "fixed",
+      "type": "bolted",
+      "endpoints": [
+        {
+          "instance": "car-2/body",
+          "datum": "battery"
+        },
+        {
+          "instance": "car-2/battery",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": null,
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/secondary",
+      "revision": "SYNTHETIC-1",
+      "connection": "secondary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/body",
+          "datum": "secondary-A"
+        },
+        {
+          "instance": "car-2/bogie-1/frame",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 700000.0,
+          "damping_ns_m": 40000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/wheelset-1/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/bogie-1/frame",
+          "datum": "axle-1"
+        },
+        {
+          "instance": "car-2/bogie-1/wheelset-1",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-1/wheelset-2/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/bogie-1/frame",
+          "datum": "axle-2"
+        },
+        {
+          "instance": "car-2/bogie-1/wheelset-2",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/secondary",
+      "revision": "SYNTHETIC-1",
+      "connection": "secondary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/body",
+          "datum": "secondary-B"
+        },
+        {
+          "instance": "car-2/bogie-2/frame",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 700000.0,
+          "damping_ns_m": 40000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/wheelset-1/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/bogie-2/frame",
+          "datum": "axle-1"
+        },
+        {
+          "instance": "car-2/bogie-2/wheelset-1",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-2/bogie-2/wheelset-2/primary",
+      "revision": "SYNTHETIC-1",
+      "connection": "primary",
+      "type": "suspension",
+      "endpoints": [
+        {
+          "instance": "car-2/bogie-2/frame",
+          "datum": "axle-2"
+        },
+        {
+          "instance": "car-2/bogie-2/wheelset-2",
+          "datum": "origin"
+        }
+      ],
+      "permitted_motion": [],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 1200000.0,
+          "damping_ns_m": 12000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    },
+    {
+      "id": "car-1-2/articulation",
+      "revision": "SYNTHETIC-1",
+      "connection": "articulation",
+      "type": "articulation",
+      "endpoints": [
+        {
+          "instance": "car-1/body",
+          "datum": "end-B"
+        },
+        {
+          "instance": "car-2/body",
+          "datum": "end-A"
+        }
+      ],
+      "permitted_motion": [
+        "yaw"
+      ],
+      "property_source": "design",
+      "properties": {
+        "design": {
+          "stiffness_n_m": 300000.0,
+          "damping_ns_m": 15000.0,
+          "friction_coefficient": 0.0,
+          "lower_stop_m": -0.1,
+          "upper_stop_m": 0.1,
+          "basis": "synthetic equivalent vertical joint; no supplier or measured curve",
+          "evidence": null
+        },
+        "supplier": null,
+        "measured": null
+      },
+      "definition": {
+        "physical_definition_status": "open-supplier/production-data"
+      },
+      "requirements": [],
+      "inspections": []
+    }
+  ],
+  "bridge": {
+    "candidate": {
+      "schema": "osr-civil-candidate/1",
+      "parents": [],
+      "definition": {
+        "deck": {
+          "family": "pi",
+          "parameters": {},
+          "span_m": 25
+        },
+        "pier": {
+          "family": "solid",
+          "height_m": 8,
+          "parameters": {}
+        }
+      },
+      "modification_reason": "registered control or research seed",
+      "material": {
+        "basis": "Existing elastic control; gross uncracked concrete. No measured mix or capacity model.",
+        "density_kg_m3": 2500,
+        "measured": false,
+        "name": "reference-concrete",
+        "poisson_ratio": 0.2,
+        "stiffness_factor": 1,
+        "youngs_modulus_pa": 30000000000.0
+      },
+      "mass_allowances": {
+        "basis": "Existing Pi reinforcement/prestress/inserts takeoff; track and rigging are explicit unverified study allowances.",
+        "embedded_kg_per_beam": 150,
+        "prestress_kg_m": 25,
+        "reinforcement_kg_m3": 120,
+        "rigging_kg_per_lift": 1000,
+        "superimposed_dead_kg_m_per_track": 1500
+      },
+      "foundation": {
+        "basis": "Illustrative geometry for equal-scope takeoff, not site-derived dimensions or pile resistance.",
+        "cap_depth_m": 1.5,
+        "cap_length_m": 4,
+        "cap_width_m": 4,
+        "pile_count": 4,
+        "pile_diameter_m": 1,
+        "pile_length_m": 15,
+        "site_verified": false
+      },
+      "geometry_sha256": "41b677ddceedc1fad8739db9501699d7c9fc24df617df09269838ff4b0142380",
+      "id": "ef0b41d1e1fa52f0c63e24cf9cd8d92cc594cb4b5091aa76b2a029090052d3d2"
+    },
+    "study": {
+      "analysis": {
+        "braking_fraction": 0.15,
+        "convergence_relative_limit": 0.05,
+        "damping_ratio": 0.02,
+        "max_evaluations": 20,
+        "meshes": [
+          8,
+          16,
+          32
+        ],
+        "speeds_m_s": [
+          10,
+          20
+        ],
+        "static_positions": 21,
+        "time_step_s": 0.005,
+        "worker_timeout_s": 180
+      },
+      "bearing": {
+        "basis": "Illustrative finite bearing stiffness; capacities, slip and movement ranges unresolved.",
+        "horizontal_stiffness_n_m": 2000000.0,
+        "vertical_stiffness_n_m": 1000000000.0
+      },
+      "candidates": [
+        {
+          "deck": {
+            "family": "pi",
+            "parameters": {},
+            "span_m": 20
+          },
+          "name": "pi20-reference",
+          "pier": {
+            "family": "solid",
+            "height_m": 8,
+            "parameters": {}
+          }
+        },
+        {
+          "deck": {
+            "family": "pi",
+            "parameters": {},
+            "span_m": 25
+          },
+          "name": "pi25-reference",
+          "pier": {
+            "family": "solid",
+            "height_m": 8,
+            "parameters": {}
+          }
+        },
+        {
+          "deck": {
+            "family": "hollow-box",
+            "parameters": {},
+            "span_m": 25
+          },
+          "name": "hollow-deck25",
+          "pier": {
+            "family": "solid",
+            "height_m": 8,
+            "parameters": {}
+          }
+        },
+        {
+          "deck": {
+            "family": "pi",
+            "parameters": {},
+            "span_m": 25
+          },
+          "name": "hollow-pier25",
+          "pier": {
+            "family": "hollow-tapered",
+            "height_m": 8,
+            "parameters": {}
+          }
+        },
+        {
+          "deck": {
+            "family": "hollow-box",
+            "parameters": {},
+            "span_m": 25
+          },
+          "name": "combined-hollow25",
+          "pier": {
+            "family": "hollow-tapered",
+            "height_m": 8,
+            "parameters": {}
+          }
+        }
+      ],
+      "foundation": {
+        "basis": "Illustrative geometry for equal-scope takeoff, not site-derived dimensions or pile resistance.",
+        "cap_depth_m": 1.5,
+        "cap_length_m": 4,
+        "cap_width_m": 4,
+        "pile_count": 4,
+        "pile_diameter_m": 1,
+        "pile_length_m": 15,
+        "site_verified": false
+      },
+      "ground_scenarios": [
+        {
+          "axial_stiffness_n_m": 400000000.0,
+          "basis": "Uncalibrated equivalent pile-group support stiffness scenario; no axial/lateral capacity, group or settlement calibration.",
+          "calibrated": false,
+          "lateral_stiffness_n_m": 40000000.0,
+          "name": "stiffer-support",
+          "rotational_stiffness_nm_rad": 400000000.0
+        },
+        {
+          "axial_stiffness_n_m": 100000000.0,
+          "basis": "Uncalibrated equivalent pile-group support stiffness scenario; no axial/lateral capacity, group or settlement calibration.",
+          "calibrated": false,
+          "lateral_stiffness_n_m": 10000000.0,
+          "name": "softer-support",
+          "rotational_stiffness_nm_rad": 100000000.0
+        }
+      ],
+      "mass_allowances": {
+        "basis": "Existing Pi reinforcement/prestress/inserts takeoff; track and rigging are explicit unverified study allowances.",
+        "embedded_kg_per_beam": 150,
+        "prestress_kg_m": 25,
+        "reinforcement_kg_m3": 120,
+        "rigging_kg_per_lift": 1000,
+        "superimposed_dead_kg_m_per_track": 1500
+      },
+      "material": {
+        "basis": "Existing elastic control; gross uncracked concrete. No measured mix or capacity model.",
+        "density_kg_m3": 2500,
+        "measured": false,
+        "name": "reference-concrete",
+        "poisson_ratio": 0.2,
+        "stiffness_factor": 1,
+        "youngs_modulus_pa": 30000000000.0
+      },
+      "name": "first-complete-civil-campaign",
+      "research_limits": {
+        "deck_acceleration_m_s2": null,
+        "deck_displacement_m": null,
+        "foundation_settlement_m": null,
+        "suspended_mass_kg": 75000
+      },
+      "route_length_m": 75.0,
+      "schema": "osr-civil-study/1",
+      "sources_sha256": {
+        "engineering/industrialisation/vehicle-civil-load-trace.json": "93ca2fe1e7507532ffc4997ff03cc55fcb47b5fc690752cd7b796c26d766d2dd"
+      },
+      "track_count": 2,
+      "train": {
+        "axle_loads_kn": [
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625,
+          86.450625
+        ],
+        "axle_offsets_m": [
+          0.0,
+          2.1,
+          12.3,
+          14.4,
+          16.5,
+          18.6,
+          28.8,
+          30.9,
+          33.0,
+          35.1,
+          45.3,
+          47.4
+        ],
+        "basis": "AW2 planning reference, equal mass and passengers per car; retained three-car, 12-axle pattern; two synchronous tracks; not Baghdad six-car loading. A 2 m triangular rail load-distribution footprint is an unverified track assumption.",
+        "load_distribution_length_m": 2.0,
+        "loaded_tracks": 2,
+        "name": "LM3-AW2-planning-control",
+        "supplier_verified": false
+      }
+    },
+    "span_count": 3,
+    "track": {
+      "EI_nm2": 12800000.0,
+      "mass_kg_m": 120.0,
+      "pad_stiffness_n_m": 80000000.0,
+      "pad_damping_ns_m": 40000.0,
+      "basis": "synthetic two-rail equivalent on distributed pads; no measured track calibration"
+    },
+    "contact_n_m": 80000000.0
+  },
+  "requirements": [],
+  "inspections": [
+    {
+      "id": "battery-mass-car-1",
+      "instance": "car-1/battery",
+      "characteristic": "installed battery mass",
+      "unit": "kg",
+      "minimum": 2400.0,
+      "maximum": 2600.0,
+      "dependencies": [
+        "mass-properties"
+      ]
+    },
+    {
+      "id": "car-1-running-correlation",
+      "instance": "car-1/body",
+      "characteristic": "ride acceleration",
+      "unit": "m/s2",
+      "minimum": null,
+      "maximum": null,
+      "dependencies": [
+        "bridge-demand"
+      ]
+    }
+  ],
+  "notes": "Two representative planning cars; every mass, inertia and mechanical property is synthetic. Not a supplier train or Baghdad qualification."
+}

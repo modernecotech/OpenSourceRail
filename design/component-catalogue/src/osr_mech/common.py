@@ -103,19 +103,13 @@ RAIL_GEOMETRY: dict[RailProfile, RailGeometry] = {
 
 # RFC 0008 consist lengths. Station platforms add the RFC 0010 clearance
 # instead of maintaining a second, independently edited length table.
-_CONSIST_LENGTH_M: dict[ConsistFamily, float] = {
-    ConsistFamily.URBAN_SHUTTLE_1CAR: 21.0,
-    ConsistFamily.TRAM_2CAR: 39.0,
-    ConsistFamily.LIGHT_METRO_3CAR: 49.5,
-    ConsistFamily.METRO_4CAR: 75.0,
-    ConsistFamily.METRO_6CAR: 111.0,
-}
 
 
 def consist_length_m(consist: ConsistFamily) -> float:
     """Published overall consist length from RFC 0008."""
 
-    return _CONSIST_LENGTH_M[consist]
+    from .family_definition import family_profile
+    return float(family_profile(consist.value)["length_m"])
 
 
 def consist_platform_length_m(consist: ConsistFamily) -> float:

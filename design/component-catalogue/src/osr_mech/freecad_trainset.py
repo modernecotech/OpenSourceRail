@@ -30,10 +30,10 @@ else:
     _FREECAD_IMPORT_ERROR = None
 
 
-from osr_mech.rolling_stock.baseline import PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
+from osr_mech.family_definition import family_definition
+from osr_mech.common import ConsistFamily
 from osr_mech.rolling_stock.bogie import WHEELBASE_MM
 
-CAR_LENGTH_MM = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
 COWL_LENGTH_MM = 1_800.0
 # The bogie pivot datum is one bogie wheelbase inboard from each car end.
 # Keep this tied to the detailed bogie model rather than duplicating a
@@ -47,13 +47,7 @@ BOGIE_INSET_MM = WHEELBASE_MM
 BOGIE_SEAT_Z_MM = 740.0 - 1_072.5
 COUPLING_GAP_MM = 0.0
 
-FAMILY_CAR_COUNT = {
-    "urban-shuttle-1car": 1,
-    "tram-2car": 2,
-    "light-metro-3car": 3,
-    "metro-4car": 4,
-    "metro-6car": 6,
-}
+FAMILY_CAR_COUNT = {family.value: family_definition(family.value)['car_count'] for family in ConsistFamily}
 
 COLOURS = {
     "body": (0.88, 0.91, 0.92, 0.0),
@@ -144,12 +138,12 @@ def _artifact_root() -> Path:
     return Path(__file__).resolve().parents[2] / "models" / "cad"
 
 
-def _source(key: str) -> SourceGeometry:
-    return SourceGeometry(key=key)
+def _source(key: str, car_length_mm: float | None = None) -> SourceGeometry:
+    return SourceGeometry(key=key, car_length_mm=car_length_mm)
 
 
-def _interface_source(key: str) -> SourceGeometry:
-    return _source(key)
+def _interface_source(key: str, car_length_mm: float | None = None) -> SourceGeometry:
+    return _source(key, car_length_mm)
 
 
 def _add_shape(
@@ -185,6 +179,8 @@ def _add_shape(
     group.addObject(obj)
     obj.addProperty("App::PropertyString", "SourceKey", "OSR Installed Assembly")
     obj.SourceKey = item.source.key
+    obj.addProperty("App::PropertyFloat", "SourceCarLengthMm", "OSR Installed Assembly")
+    obj.SourceCarLengthMm = item.source.car_length_mm or 0.0
     obj.addProperty("App::PropertyStringList", "ControlledIds", "OSR Installed Assembly")
     obj.ControlledIds = list(SOURCE_PRODUCT_IDS.get(item.source.key, ()))
     obj.addProperty("App::PropertyVector", "InstalledPositionMm", "OSR Installed Assembly")
@@ -195,9 +191,11 @@ def _add_shape(
 
 
 def _trainset_items(family: str) -> list[GeometryItem]:
-    car_count = FAMILY_CAR_COUNT[family]
+    definition = family_definition(family)
+    car_count = definition["car_count"]
+    car_length_mm = definition["car_length_m"] * 1000
 
-    total_length = car_count * CAR_LENGTH_MM + (car_count - 1) * COUPLING_GAP_MM
+    total_length = definition["length_m"] * 1000
     start_x = -total_length / 2.0
     items: list[GeometryItem] = []
 
@@ -222,12 +220,12 @@ def _trainset_items(family: str) -> list[GeometryItem]:
     )
 
     for car_index in range(car_count):
-        car_centre_x = start_x + car_index * (CAR_LENGTH_MM + COUPLING_GAP_MM) + CAR_LENGTH_MM / 2.0
+        car_centre_x = start_x + definition["cars"][car_index]["centre_x_m"] * 1000
         car_label = f"Car {car_index + 1}"
         items.extend(
             [
                 GeometryItem(
-                    _source("car-body-17m"),
+                    _source("car-body-17m", car_length_mm),
                     f"{car_label} body",
                     "Car Bodies",
                     x_mm=car_centre_x,
@@ -241,14 +239,14 @@ def _trainset_items(family: str) -> list[GeometryItem]:
                     colour=COLOURS["door"],
                 ),
                 GeometryItem(
-                    _source("battery-pack-set"),
+                    _source("battery-pack-set", car_length_mm),
                     f"{car_label} battery pack set",
                     "Onboard Systems",
                     x_mm=car_centre_x,
                     colour=COLOURS["systems"],
                 ),
                 GeometryItem(
-                    _source("car-systems"),
+                    _source("car-systems", car_length_mm),
                     f"{car_label} systems",
                     "Onboard Systems",
                     x_mm=car_centre_x,
@@ -259,7 +257,7 @@ def _trainset_items(family: str) -> list[GeometryItem]:
         for key, label in CAR_INTERFACE_SOURCES:
             items.append(
                 GeometryItem(
-                    _interface_source(key),
+                    _interface_source(key, car_length_mm),
                     f"{car_label} {label}",
                     "Mechanical Interfaces",
                     x_mm=car_centre_x,
@@ -281,7 +279,7 @@ def _trainset_items(family: str) -> list[GeometryItem]:
                     source,
                     f"{car_label} {end_name}-end {kind} bogie",
                     "Bogies",
-                    x_mm=car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM),
+                    x_mm=car_centre_x + sign * (car_length_mm / 2.0 - BOGIE_INSET_MM),
                     z_mm=BOGIE_SEAT_Z_MM,
                     colour=COLOURS["bogie"],
                 )
@@ -292,14 +290,14 @@ def _trainset_items(family: str) -> list[GeometryItem]:
                         _interface_source("bogie-to-motor-connector"),
                         f"{car_label} {end_name}-end bogie-to-motor connector",
                         "Mechanical Interfaces",
-                        x_mm=car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM),
+                        x_mm=car_centre_x + sign * (car_length_mm / 2.0 - BOGIE_INSET_MM),
                         z_mm=BOGIE_SEAT_Z_MM,
                         colour=COLOURS["mechanical"],
                     )
                 )
 
         if car_index + 1 < car_count:
-            joint_x = car_centre_x + CAR_LENGTH_MM / 2.0 + COUPLING_GAP_MM / 2.0
+            joint_x = start_x + definition["articulations"][car_index]["x_m"] * 1000
             items.extend(
                 [
                     GeometryItem(
@@ -344,7 +342,7 @@ def _trainset_items(family: str) -> list[GeometryItem]:
                 colour=COLOURS["interface"],
             ),
             GeometryItem(
-                _source("kinematic-envelope"),
+                _source("kinematic-envelope", car_length_mm),
                 "Kinematic envelope reference",
                 "Clearance References",
                 colour=(0.75, 0.75, 0.75, 0.0),
@@ -380,15 +378,18 @@ def build_trainset_document(*, family: str, output: Path) -> None:
     App.closeDocument(doc.Name)
     _canonicalise_fcstd(output)
     sidecar = output.with_suffix(".installed-coordinate.json")
+    definition = family_definition(family)
+    count = definition["car_count"]
     states = [
-        {"id": "nominal-installed", "joint_yaw_deg": [0.0, 0.0], "car_roll_deg": [0.0, 0.0, 0.0]},
-        {"id": "curve-left-screen", "joint_yaw_deg": [6.0, 6.0], "car_roll_deg": [0.0, 0.0, 0.0]},
-        {"id": "curve-right-screen", "joint_yaw_deg": [-6.0, -6.0], "car_roll_deg": [0.0, 0.0, 0.0]},
-        {"id": "twist-screen", "joint_yaw_deg": [0.0, 0.0], "car_roll_deg": [-1.0, 0.0, 1.0]},
+        {"id": "nominal-installed", "joint_yaw_deg": [0.0] * (count - 1), "car_roll_deg": [0.0] * count},
+        {"id": "curve-left-screen", "joint_yaw_deg": [6.0] * (count - 1), "car_roll_deg": [0.0] * count},
+        {"id": "curve-right-screen", "joint_yaw_deg": [-6.0] * (count - 1), "car_roll_deg": [0.0] * count},
+        {"id": "twist-screen", "joint_yaw_deg": [0.0] * (count - 1), "car_roll_deg": [(-1.0 + 2 * i / (count - 1)) if count > 1 else 0.0 for i in range(count)]},
     ]
     payload = {
         "schema": "org.opensourcerail.installed-coordinate-assembly.v1",
         "family": family,
+        "family_definition": definition,
         "status": "design-reference-not-released",
         "release_boundary": "Nominal installed datums and named kinematic screening states; tolerance, swept-volume and dynamic release remain open.",
         "fcstd": str(output.relative_to(_artifact_root().parents[3])),
@@ -397,6 +398,7 @@ def build_trainset_document(*, family: str, output: Path) -> None:
             {
                 "occurrence": item.name,
                 "source_key": item.source.key,
+                "source_car_length_mm": item.source.car_length_mm,
                 "controlled_ids": list(SOURCE_PRODUCT_IDS.get(item.source.key, ())),
                 "position_mm": [item.x_mm, item.y_mm, item.z_mm],
                 "yaw_deg": item.yaw_deg,

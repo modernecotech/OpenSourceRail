@@ -49,6 +49,13 @@ independent acceptance are still required; the software cannot manufacture them.
 
 ## More realistic response models
 
+The [shared trainset–viaduct demonstrator](../../docs/civil/shared-train-viaduct.md)
+adds one instance definition for family geometry, mass/inertia, joints, native
+Assembly placement, ERP inspection identity and coupled car/bogie/rail/multi-span
+response. It retains explicit synthetic inputs, source-bound change propagation
+and independent convergence/native equation checks. Supplier/physical release
+remains separate from the numerical demonstration.
+
 The complete `system-study` workflow now compares ten beam, six pier and nine
 foundation layouts, GFRP/CFRP matrices, material/geometry variants, continuity
 and construction methods. It uses 300 m of double track and a distinctly labelled

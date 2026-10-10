@@ -1,0 +1,129 @@
+{
+  "asset_id": null,
+  "engineering_released": false,
+  "governing_internal_standard": {
+    "id": "OSR-ENG-001",
+    "version": "1.0.0"
+  },
+  "hardware_definition_sha256": "a0d6d1702e6ba5196a01d4168fbb558a8ffee2c281715275cac9f4769d70a364",
+  "levels": [
+    {
+      "adopted_standard": "OSR-ENG-001@1.0.0",
+      "applicable_iso_references": [
+        "ISO 1101:2017",
+        "ISO 1920-4:2020",
+        "ISO 14125:1998",
+        "ISO 9712:2021"
+      ],
+      "iso_clause_review_complete": false,
+      "level": "part",
+      "project_limits": null,
+      "required_records": [
+        "calibrated gauges/scales",
+        "material batch",
+        "inspection characteristic limits"
+      ],
+      "status": "prepared-under-internal-standard; physical execution and limit-state review open",
+      "stop_conditions": [
+        "instrument saturation or calibration expiry",
+        "approved test envelope exceeded",
+        "contact loss/slip, damage or abnormal motion beyond the approved stop limit"
+      ],
+      "tests": [
+        "dimensions and thickness",
+        "weighing and CG",
+        "material coupons",
+        "NDT"
+      ]
+    },
+    {
+      "adopted_standard": "OSR-ENG-001@1.0.0",
+      "applicable_iso_references": [
+        "ISO 898-1:2013",
+        "ISO 16047:2005",
+        "ISO 5817:2023",
+        "ISO 15614-1:2017"
+      ],
+      "iso_clause_review_complete": false,
+      "level": "subassembly",
+      "project_limits": null,
+      "required_records": [
+        "calibrated load cell/displacement",
+        "joint serial",
+        "approved safe test load"
+      ],
+      "status": "prepared-under-internal-standard; physical execution and limit-state review open",
+      "stop_conditions": [
+        "instrument saturation or calibration expiry",
+        "approved test envelope exceeded",
+        "contact loss/slip, damage or abnormal motion beyond the approved stop limit"
+      ],
+      "tests": [
+        "joint preload",
+        "proof load and slip",
+        "compliance and free motion",
+        "interference"
+      ]
+    },
+    {
+      "adopted_standard": "OSR-ENG-001@1.0.0",
+      "applicable_iso_references": [
+        "ISO 2631-4:2001",
+        "ISO/IEC 17025:2017",
+        "ISO 22163:2023"
+      ],
+      "iso_clause_review_complete": false,
+      "level": "train",
+      "project_limits": null,
+      "required_records": [
+        "wheel-force and acceleration calibration",
+        "approved test route/speeds",
+        "safe stop envelope"
+      ],
+      "status": "prepared-under-internal-standard; physical execution and limit-state review open",
+      "stop_conditions": [
+        "instrument saturation or calibration expiry",
+        "approved test envelope exceeded",
+        "contact loss/slip, damage or abnormal motion beyond the approved stop limit"
+      ],
+      "tests": [
+        "wheel weighing empty/nominal/crush/uneven",
+        "braking",
+        "ride and articulation"
+      ]
+    },
+    {
+      "adopted_standard": "OSR-ENG-001@1.0.0",
+      "applicable_iso_references": [
+        "ISO 2394:2015",
+        "ISO 22477-1:2018",
+        "ISO 12107:2012",
+        "ISO/IEC 17025:2017"
+      ],
+      "iso_clause_review_complete": false,
+      "level": "train-infrastructure",
+      "project_limits": null,
+      "required_records": [
+        "synchronised clocks",
+        "span/soil instrumentation",
+        "adopted limits",
+        "independent holdout plan"
+      ],
+      "status": "prepared-under-internal-standard; physical execution and limit-state review open",
+      "stop_conditions": [
+        "instrument saturation or calibration expiry",
+        "approved test envelope exceeded",
+        "contact loss/slip, damage or abnormal motion beyond the approved stop limit"
+      ],
+      "tests": [
+        "static span influence line",
+        "repeated passages",
+        "two-track passages",
+        "holdout passages"
+      ]
+    }
+  ],
+  "physical_tests_performed": false,
+  "revision": "SYNTHETIC-1",
+  "schema": "osr-engineering-test-protocols/1"
+}

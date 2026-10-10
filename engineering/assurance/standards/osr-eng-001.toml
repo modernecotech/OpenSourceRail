@@ -1,0 +1,159 @@
+id = "OSR-ENG-001"
+version = "1.0.0"
+title = "Shared engineering definition, numerical verification and physical correlation"
+status = "active-internal-process-standard"
+effective_date = "2026-10-10"
+owner = "OpenSourceRail engineering"
+iso_catalogue_checked = "2026-10-10"
+iso_conformity_claimed = false
+basis = "OpenSourceRail engineering practice; ISO references define applicable method and quality domains. Numerical thresholds below are OpenSourceRail rules, not ISO limits."
+precedence = ["applicable law and authority requirements", "accepted project design basis", "applicable adopted ISO method/edition", "OpenSourceRail process and numerical rules"]
+
+[numerical]
+refinement_relative_limit = 0.05
+force_equilibrium_relative_limit = 0.001
+moment_equilibrium_relative_limit = 0.001
+contact_work_absolute_limit_w = 0.000001
+section_equilibrium_relative_limit = 0.00001
+benchmark_relative_limit = 0.000001
+native_datum_residual_limit_mm = 0.00001
+native_orientation_residual_limit_rad = 0.00000001
+minimum_independent_refinement_levels = 2
+
+[correlation]
+standardised_holdout_rmse_limit = 2.0
+standardised_absolute_holdout_bias_limit = 1.0
+holdout_specimens_must_be_separate = true
+require_identifiable_parameters = true
+require_positive_measurement_uncertainty = true
+require_retained_measurement_and_calibration_hashes = true
+synthetic_data_can_establish_physical_validation = false
+basis = "Candidate model screening against declared measurement uncertainty; not a reliability probability or an ISO acceptance band. Residual autocorrelation, model discrepancy and extrapolation require independent review."
+
+[service]
+minimum_normal_contact_n = 0.0
+normal_contact_must_be_strictly_positive = true
+require_geometry_specific_lateral_vertical_limit = true
+require_weighted_ride_evaluation = true
+require_complete_passage_and_resonance_cases = true
+require_empty_nominal_crush_uneven = true
+require_braking_rescue_maintenance_degradation = true
+require_both_tracks_and_arrival_offsets = true
+raw_peak_acceleration_is_iso_comfort_result = false
+basis = "OpenSourceRail normal-service contact policy. Distress tests are separately authorised; their contact loss is retained and cannot qualify normal operation."
+
+[manufacturing]
+require_released_installation_geometry = true
+require_complete_physical_joint_definition = true
+require_measured_mass_cg_inertia = true
+require_material_batch_and_serial_traceability = true
+require_calibrated_characteristic_results = true
+require_resolved_nonconformances = true
+require_frozen_as_built_and_as_maintained = true
+require_independent_review_and_authority_release = true
+successful_cad_generation_issues_drawing = false
+
+[[iso_references]]
+id = "ISO 22163:2023"
+amendments = ["Amd 1:2024"]
+url = "https://www.iso.org/standard/79427.html"
+application = "Railway quality management and customer/regulatory requirement traceability"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO/IEC 17025:2017"
+amendments = []
+url = "https://www.iso.org/standard/66912.html"
+application = "Testing/calibration competence and retained measurement evidence"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 2394:2015"
+amendments = []
+url = "https://www.iso.org/standard/58036.html"
+application = "Structural reliability and risk-informed design basis; project resistance factors required"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 2631-4:2001"
+amendments = ["Amd 1:2010"]
+url = "https://www.iso.org/standard/32178.html"
+application = "Fixed-guideway relative ride comfort; use the applicable ISO 2631-1 method and weighting"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 1101:2017"
+amendments = []
+url = "https://www.iso.org/standard/66777.html"
+application = "Functional datum and geometrical tolerance specification"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 286-1:2010"
+amendments = ["Cor 1:2013"]
+url = "https://www.iso.org/standard/45975.html"
+application = "Fits and linear-size tolerance system; use applicable ISO 286-2 tables"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 898-1:2013"
+amendments = ["Cor 1:2013"]
+url = "https://www.iso.org/standard/60610.html"
+application = "Applicable carbon/alloy steel fastener mechanical properties; not fatigue or shear resistance"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 16047:2005"
+amendments = ["Amd 1:2012"]
+url = "https://www.iso.org/standard/27788.html"
+application = "Applicable threaded-fastener torque/clamp-force tests; locking-feature applicability must be checked"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 5817:2023"
+amendments = []
+url = "https://www.iso.org/standard/80209.html"
+application = "Applicable steel/nickel/titanium fusion-weld workmanship; select project quality level and fatigue detailing"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 15614-1:2017"
+amendments = ["Amd 1:2019"]
+url = "https://www.iso.org/standard/51792.html"
+application = "Applicable steel/nickel welding procedure qualification; material/process scope must be checked"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 9712:2021"
+amendments = []
+url = "https://www.iso.org/standard/75614.html"
+application = "Qualification/certification of relevant industrial NDT personnel"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 1920-4:2020"
+amendments = []
+url = "https://www.iso.org/standard/72260.html"
+application = "Hardened-concrete strength testing; age/temperature/creep/interface data require additional procedures"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 14125:1998"
+amendments = ["Cor 1:2001", "Amd 1:2011"]
+url = "https://www.iso.org/standard/23637.html"
+application = "Composite flexural coupon testing; not a complete laminate/delamination resistance definition"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 12107:2012"
+amendments = []
+url = "https://www.iso.org/standard/50242.html"
+application = "Metallic fatigue test planning/statistical analysis; measured S-N coverage required"
+full_text_clause_review_completed = false
+
+[[iso_references]]
+id = "ISO 22477-1:2018"
+amendments = ["Corrected version 2019-03"]
+url = "https://www.iso.org/standard/70807.html"
+application = "Maintained axial static pile compression tests; cyclic and lateral tests need separate procedures"
+full_text_clause_review_completed = false

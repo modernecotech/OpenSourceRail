@@ -5430,6 +5430,10 @@ def write_outputs(
     out_dir: Path,
 ) -> tuple[Path, Path, Path, DefinitionPackPaths, ShopTravelerPackPaths]:
     out_dir.mkdir(parents=True, exist_ok=True)
+    from osr_mech.engineering_definition import catalogue_template
+    (out_dir / "engineering-instance-definition.json").write_text(
+        json.dumps(catalogue_template(design), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     manifest_json = out_dir / "buildable-trainset-manifest.json"
     manifest_md = out_dir / "buildable-trainset-manifest.md"
     review_md = out_dir / "current-design-buildability-review.md"

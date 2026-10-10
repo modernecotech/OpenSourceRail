@@ -50,8 +50,163 @@
     }
   ],
   "family": "light-metro-3car",
+  "family_definition": {
+    "articulations": [
+      {
+        "geometry_status": "reference-interface",
+        "id": "articulation-1-2",
+        "parents": [
+          "car-1",
+          "car-2"
+        ],
+        "permitted_motion": [
+          "yaw"
+        ],
+        "x_m": 16.5
+      },
+      {
+        "geometry_status": "reference-interface",
+        "id": "articulation-2-3",
+        "parents": [
+          "car-2",
+          "car-3"
+        ],
+        "permitted_motion": [
+          "yaw"
+        ],
+        "x_m": 33.0
+      }
+    ],
+    "bogies": [
+      {
+        "axle_x_m": [
+          1.05,
+          3.1500000000000004
+        ],
+        "id": "car-1/bogie-1",
+        "kind": "powered",
+        "parent": "car-1",
+        "pivot_x_m": 2.1
+      },
+      {
+        "axle_x_m": [
+          13.35,
+          15.450000000000001
+        ],
+        "id": "car-1/bogie-2",
+        "kind": "trailer",
+        "parent": "car-1",
+        "pivot_x_m": 14.4
+      },
+      {
+        "axle_x_m": [
+          17.55,
+          19.650000000000002
+        ],
+        "id": "car-2/bogie-1",
+        "kind": "powered",
+        "parent": "car-2",
+        "pivot_x_m": 18.6
+      },
+      {
+        "axle_x_m": [
+          29.849999999999998,
+          31.95
+        ],
+        "id": "car-2/bogie-2",
+        "kind": "trailer",
+        "parent": "car-2",
+        "pivot_x_m": 30.9
+      },
+      {
+        "axle_x_m": [
+          34.050000000000004,
+          36.15
+        ],
+        "id": "car-3/bogie-1",
+        "kind": "powered",
+        "parent": "car-3",
+        "pivot_x_m": 35.1
+      },
+      {
+        "axle_x_m": [
+          46.35,
+          48.449999999999996
+        ],
+        "id": "car-3/bogie-2",
+        "kind": "trailer",
+        "parent": "car-3",
+        "pivot_x_m": 47.4
+      }
+    ],
+    "car_count": 3,
+    "car_length_m": 16.5,
+    "cars": [
+      {
+        "centre_x_m": 8.25,
+        "id": "car-1",
+        "length_m": 16.5,
+        "start_x_m": 0.0,
+        "supports": [
+          "car-1/bogie-1",
+          "car-1/bogie-2"
+        ]
+      },
+      {
+        "centre_x_m": 24.75,
+        "id": "car-2",
+        "length_m": 16.5,
+        "start_x_m": 16.5,
+        "supports": [
+          "car-2/bogie-1",
+          "car-2/bogie-2"
+        ]
+      },
+      {
+        "centre_x_m": 41.25,
+        "id": "car-3",
+        "length_m": 16.5,
+        "start_x_m": 33.0,
+        "supports": [
+          "car-3/bogie-1",
+          "car-3/bogie-2"
+        ]
+      }
+    ],
+    "engineering_released": false,
+    "family": "light-metro-3car",
+    "geometry_basis": "equal-length planning car modules; reference inset and two bogies per car",
+    "length_m": 49.5,
+    "profile": {
+      "battery_chemistry": "lfp",
+      "battery_nominal_voltage_v": 675,
+      "battery_normal_max_voltage_v": 740,
+      "battery_profile": "lfp-onboard-study",
+      "battery_profile_module_count_basis": "one module per car; reference tare includes LFP pack",
+      "cad_module": "osr_cad.rolling_stock.articulated_3car",
+      "cars": 3,
+      "central_aux_ac_bus": false,
+      "crush_capacity": 480,
+      "hvac_design_ambient_c": 50,
+      "length_m": 49.5,
+      "max_speed_mps": 25,
+      "onboard_battery_kwh": 540,
+      "onboard_battery_nameplate_kwh": 675,
+      "passenger_capacity": 360,
+      "seat_count": 60,
+      "tare_mass_t": 78.75,
+      "traction_controller_count": 6,
+      "traction_hardware_peak_kw": 2100,
+      "traction_peak_kw": 1800
+    },
+    "schema": "osr-family-definition/1",
+    "source_sha256": {
+      "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877"
+    },
+    "supplier_geometry_verified": false
+  },
   "fcstd": "design/component-catalogue/models/cad/trainset-light-metro-3car.FCStd",
-  "fcstd_sha256": "57521692c13f57fbfa6a8b3ddcaa8fdb8ad27f9e418b9f37752eba4146de85f9",
+  "fcstd_sha256": "ac7e23140bdba0367285217f60cd8fd40d980cd66430d132859ab09e5dbdf3c3",
   "items": [
     {
       "controlled_ids": [
@@ -64,6 +219,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "sensor-cowl",
       "yaw_deg": 180.0
     },
@@ -78,6 +234,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "sensor-cowl",
       "yaw_deg": 0.0
     },
@@ -92,6 +249,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-body-17m",
       "yaw_deg": 0.0
     },
@@ -106,6 +264,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "door-system-pair",
       "yaw_deg": 0.0
     },
@@ -121,6 +280,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-pack-set",
       "yaw_deg": 0.0
     },
@@ -134,6 +294,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-systems",
       "yaw_deg": 0.0
     },
@@ -148,6 +309,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bogie-to-chassis-connector",
       "yaw_deg": 0.0
     },
@@ -161,6 +323,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "low-floor-chassis",
       "yaw_deg": 0.0
     },
@@ -175,6 +338,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "side-body-frame-attachments",
       "yaw_deg": 0.0
     },
@@ -189,6 +353,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "composite-body-roof-attachments",
       "yaw_deg": 0.0
     },
@@ -203,6 +368,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "window-installations",
       "yaw_deg": 0.0
     },
@@ -216,6 +382,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-mounts",
       "yaw_deg": 0.0
     },
@@ -229,6 +396,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-design",
       "yaw_deg": 0.0
     },
@@ -243,6 +411,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-installations",
       "yaw_deg": 0.0
     },
@@ -257,6 +426,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-to-body-installations",
       "yaw_deg": 0.0
     },
@@ -271,6 +441,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "cabin-flooring",
       "yaw_deg": 0.0
     },
@@ -285,6 +456,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-installations",
       "yaw_deg": 0.0
     },
@@ -299,6 +471,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bench-on-battery-installations",
       "yaw_deg": 0.0
     },
@@ -313,6 +486,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "internal-lighting-installation",
       "yaw_deg": 0.0
     },
@@ -327,6 +501,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "hvac-roof-ducting-installation",
       "yaw_deg": 0.0
     },
@@ -341,6 +516,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "screen-speaker-mountings",
       "yaw_deg": 0.0
     },
@@ -355,6 +531,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "external-lighting-lidar-system",
       "yaw_deg": 0.0
     },
@@ -368,6 +545,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "train-connector-mount-pair",
       "yaw_deg": 0.0
     },
@@ -381,6 +559,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "motor-bogie",
       "yaw_deg": 0.0
     },
@@ -394,6 +573,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "bogie-to-motor-connector",
       "yaw_deg": 0.0
     },
@@ -407,6 +587,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "trailer-bogie",
       "yaw_deg": 0.0
     },
@@ -420,6 +601,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "inter-car-articulation",
       "yaw_deg": 0.0
     },
@@ -433,6 +615,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "end-coupler",
       "yaw_deg": 0.0
     },
@@ -447,6 +630,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-body-17m",
       "yaw_deg": 0.0
     },
@@ -461,6 +645,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "door-system-pair",
       "yaw_deg": 0.0
     },
@@ -476,6 +661,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-pack-set",
       "yaw_deg": 0.0
     },
@@ -489,6 +675,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-systems",
       "yaw_deg": 0.0
     },
@@ -503,6 +690,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bogie-to-chassis-connector",
       "yaw_deg": 0.0
     },
@@ -516,6 +704,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "low-floor-chassis",
       "yaw_deg": 0.0
     },
@@ -530,6 +719,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "side-body-frame-attachments",
       "yaw_deg": 0.0
     },
@@ -544,6 +734,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "composite-body-roof-attachments",
       "yaw_deg": 0.0
     },
@@ -558,6 +749,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "window-installations",
       "yaw_deg": 0.0
     },
@@ -571,6 +763,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-mounts",
       "yaw_deg": 0.0
     },
@@ -584,6 +777,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-design",
       "yaw_deg": 0.0
     },
@@ -598,6 +792,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-installations",
       "yaw_deg": 0.0
     },
@@ -612,6 +807,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-to-body-installations",
       "yaw_deg": 0.0
     },
@@ -626,6 +822,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "cabin-flooring",
       "yaw_deg": 0.0
     },
@@ -640,6 +837,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-installations",
       "yaw_deg": 0.0
     },
@@ -654,6 +852,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bench-on-battery-installations",
       "yaw_deg": 0.0
     },
@@ -668,6 +867,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "internal-lighting-installation",
       "yaw_deg": 0.0
     },
@@ -682,6 +882,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "hvac-roof-ducting-installation",
       "yaw_deg": 0.0
     },
@@ -696,6 +897,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "screen-speaker-mountings",
       "yaw_deg": 0.0
     },
@@ -710,6 +912,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "external-lighting-lidar-system",
       "yaw_deg": 0.0
     },
@@ -723,6 +926,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "train-connector-mount-pair",
       "yaw_deg": 0.0
     },
@@ -736,6 +940,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "motor-bogie",
       "yaw_deg": 0.0
     },
@@ -749,6 +954,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "bogie-to-motor-connector",
       "yaw_deg": 0.0
     },
@@ -762,6 +968,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "trailer-bogie",
       "yaw_deg": 0.0
     },
@@ -775,6 +982,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "inter-car-articulation",
       "yaw_deg": 0.0
     },
@@ -788,6 +996,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "end-coupler",
       "yaw_deg": 0.0
     },
@@ -802,6 +1011,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-body-17m",
       "yaw_deg": 0.0
     },
@@ -816,6 +1026,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "door-system-pair",
       "yaw_deg": 0.0
     },
@@ -831,6 +1042,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-pack-set",
       "yaw_deg": 0.0
     },
@@ -844,6 +1056,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "car-systems",
       "yaw_deg": 0.0
     },
@@ -858,6 +1071,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bogie-to-chassis-connector",
       "yaw_deg": 0.0
     },
@@ -871,6 +1085,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "low-floor-chassis",
       "yaw_deg": 0.0
     },
@@ -885,6 +1100,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "side-body-frame-attachments",
       "yaw_deg": 0.0
     },
@@ -899,6 +1115,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "composite-body-roof-attachments",
       "yaw_deg": 0.0
     },
@@ -913,6 +1130,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "window-installations",
       "yaw_deg": 0.0
     },
@@ -926,6 +1144,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-mounts",
       "yaw_deg": 0.0
     },
@@ -939,6 +1158,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-design",
       "yaw_deg": 0.0
     },
@@ -953,6 +1173,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-installations",
       "yaw_deg": 0.0
     },
@@ -967,6 +1188,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "door-to-body-installations",
       "yaw_deg": 0.0
     },
@@ -981,6 +1203,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "cabin-flooring",
       "yaw_deg": 0.0
     },
@@ -995,6 +1218,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "battery-installations",
       "yaw_deg": 0.0
     },
@@ -1009,6 +1233,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "bench-on-battery-installations",
       "yaw_deg": 0.0
     },
@@ -1023,6 +1248,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "internal-lighting-installation",
       "yaw_deg": 0.0
     },
@@ -1037,6 +1263,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "hvac-roof-ducting-installation",
       "yaw_deg": 0.0
     },
@@ -1051,6 +1278,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "screen-speaker-mountings",
       "yaw_deg": 0.0
     },
@@ -1065,6 +1293,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "external-lighting-lidar-system",
       "yaw_deg": 0.0
     },
@@ -1078,6 +1307,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "train-connector-mount-pair",
       "yaw_deg": 0.0
     },
@@ -1091,6 +1321,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "motor-bogie",
       "yaw_deg": 0.0
     },
@@ -1104,6 +1335,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "bogie-to-motor-connector",
       "yaw_deg": 0.0
     },
@@ -1117,6 +1349,7 @@
         0.0,
         -332.5
       ],
+      "source_car_length_mm": null,
       "source_key": "trailer-bogie",
       "yaw_deg": 0.0
     },
@@ -1130,6 +1363,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "end-coupler",
       "yaw_deg": 180.0
     },
@@ -1143,6 +1377,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "end-coupler",
       "yaw_deg": 0.0
     },
@@ -1157,6 +1392,7 @@
         2200.0,
         0.0
       ],
+      "source_car_length_mm": null,
       "source_key": "platform-safety-interface",
       "yaw_deg": 0.0
     },
@@ -1170,6 +1406,7 @@
         0.0,
         0.0
       ],
+      "source_car_length_mm": 16500.0,
       "source_key": "kinematic-envelope",
       "yaw_deg": 0.0
     }

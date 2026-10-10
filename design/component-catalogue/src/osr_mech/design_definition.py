@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Iterable
 
 from osr_mech.common import ConsistFamily, consist_platform_length_m
+from osr_mech.family_definition import family_definition
 
 
 @dataclass(frozen=True)
@@ -116,13 +117,7 @@ class DesignRun:
     trace: tuple[DesignCandidate, ...]
 
 
-CAR_COUNT: dict[ConsistFamily, int] = {
-    ConsistFamily.URBAN_SHUTTLE_1CAR: 1,
-    ConsistFamily.TRAM_2CAR: 2,
-    ConsistFamily.LIGHT_METRO_3CAR: 3,
-    ConsistFamily.METRO_4CAR: 4,
-    ConsistFamily.METRO_6CAR: 6,
-}
+CAR_COUNT: dict[ConsistFamily, int] = {family: family_definition(family.value)['car_count'] for family in ConsistFamily}
 
 
 REQUIREMENTS: tuple[Requirement, ...] = (

@@ -1,0 +1,663 @@
+{
+  "campaign_bindings": {
+    "correlation": {
+      "output_count": 6,
+      "receipt_sha256": "90427981138ec86c6f2161b2eeff3fa183c8f3dcf83eaa42311d2e59f22638dd"
+    },
+    "joint-coarse": {
+      "output_count": 26,
+      "receipt_sha256": "82c21c0851889701fd093281e2719733ad05dbe1658c7611b423929baad637c0"
+    },
+    "joint-fine": {
+      "output_count": 26,
+      "receipt_sha256": "4c2f2a077e51dff9985a1ee6840e2cc3b94fb365341a6dc8214d2366c76da357"
+    },
+    "search": {
+      "output_count": 3,
+      "receipt_sha256": "5b645ecb06ad8446e64ee8af411508b5243157068f34dde4ac3eff7810f748ed"
+    },
+    "spatial": {
+      "output_count": 23,
+      "receipt_sha256": "a26ad07ab17a10990e5ca9ab345567907d0828f7916fa276462dd5b9b6d3ed3a"
+    }
+  },
+  "engineering_released": false,
+  "figure_sha256": "59539b8a5cfdfa350b2c872175a7a66acbb4e1a6c6d9b523a4d70a54d7474ac3",
+  "joint_mesh_refinement": {
+    "levels": [
+      {
+        "contact_model": "unilateral face-to-face penalty contact, Coulomb friction 0.3",
+        "elements": 1251,
+        "engineering_released": false,
+        "force_equilibrium_relative_error": 9.71594249583305e-09,
+        "geometry_basis": "80x60mm two 20mm plates, 22mm holes, 20mm shank, 34mm cylindrical head/nut; synthetic coupon",
+        "load_case": {
+          "dynamic_result_sha256": "f695622dfcd4a1f00885699337bf3a8ca254704c094dedc1ae460c30af563e70",
+          "force_moment_si": [
+            -0.005554214952187568,
+            -0.022942303763441658,
+            -145350.4994434537,
+            -5517.948113195178,
+            -148.51042660274672,
+            -0.001344358291702002
+          ],
+          "hardware_definition_sha256": "a0d6d1702e6ba5196a01d4168fbb558a8ffee2c281715275cac9f4769d70a364",
+          "joint_id": "car-1/bogie-1/secondary",
+          "selection": "largest simultaneous force magnitude, moments at the same timestep",
+          "time_s": 0.001,
+          "train_id": "train-A"
+        },
+        "locked_pretension_reference_displacement_m": 6.535417e-06,
+        "maximum_displacement_m": 0.00035162849036411557,
+        "mesh_m": 0.012,
+        "moment_equilibrium_relative_error": 0.0009084827867858229,
+        "native_binary_sha256": "373f7ef4c118a1b5e1b53041fe4f7ef1f1f854051326e0d3f1eeb890ec34885b",
+        "native_mesher": "Gmsh",
+        "native_solve_completed": true,
+        "native_solver": "CalculiX",
+        "nodal_force_moment_relative_error": 2.0018636216009267e-16,
+        "nodes": 2693,
+        "numerical_equilibrium_passed": true,
+        "open_gates": [
+          "actual grip/fastener/head/retention geometry and material",
+          "measured preload and friction",
+          "mesh/contact-stiffness convergence",
+          "strength/fatigue limits and independent review"
+        ],
+        "peak_bolt_von_mises_pa": 669061630.2786231,
+        "physical_validation": false,
+        "pretension_control": "force preload, then lock measured reference displacement for the external load step",
+        "pretension_n": 30000.0,
+        "schema": "osr-native-joint-submodel/1",
+        "shank_volume_weighted_rms_von_mises_pa": 218785293.0882561,
+        "stress_convergence_basis": "four-point volume-weighted RMS in shank 5\u201315mm from pretension cut; singular peak retained separately",
+        "support_force_moment_si": [
+          0.0048795100094632116,
+          0.02180929999151715,
+          145350.4989380501,
+          5528.510307825323,
+          148.69868768649505,
+          -0.004923118713510588
+        ]
+      },
+      {
+        "contact_model": "unilateral face-to-face penalty contact, Coulomb friction 0.3",
+        "elements": 2105,
+        "engineering_released": false,
+        "force_equilibrium_relative_error": 2.6780534612372098e-08,
+        "geometry_basis": "80x60mm two 20mm plates, 22mm holes, 20mm shank, 34mm cylindrical head/nut; synthetic coupon",
+        "load_case": {
+          "dynamic_result_sha256": "f695622dfcd4a1f00885699337bf3a8ca254704c094dedc1ae460c30af563e70",
+          "force_moment_si": [
+            -0.005554214952187568,
+            -0.022942303763441658,
+            -145350.4994434537,
+            -5517.948113195178,
+            -148.51042660274672,
+            -0.001344358291702002
+          ],
+          "hardware_definition_sha256": "a0d6d1702e6ba5196a01d4168fbb558a8ffee2c281715275cac9f4769d70a364",
+          "joint_id": "car-1/bogie-1/secondary",
+          "selection": "largest simultaneous force magnitude, moments at the same timestep",
+          "time_s": 0.001,
+          "train_id": "train-A"
+        },
+        "locked_pretension_reference_displacement_m": 5.99101e-06,
+        "maximum_displacement_m": 0.00036936501829184853,
+        "mesh_m": 0.009,
+        "moment_equilibrium_relative_error": 0.0009336613330594172,
+        "native_binary_sha256": "373f7ef4c118a1b5e1b53041fe4f7ef1f1f854051326e0d3f1eeb890ec34885b",
+        "native_mesher": "Gmsh",
+        "native_solve_completed": true,
+        "native_solver": "CalculiX",
+        "nodal_force_moment_relative_error": 2.0018559925984195e-16,
+        "nodes": 4392,
+        "numerical_equilibrium_passed": true,
+        "open_gates": [
+          "actual grip/fastener/head/retention geometry and material",
+          "measured preload and friction",
+          "mesh/contact-stiffness convergence",
+          "strength/fatigue limits and independent review"
+        ],
+        "peak_bolt_von_mises_pa": 1055387495.6576109,
+        "physical_validation": false,
+        "pretension_control": "force preload, then lock measured reference displacement for the external load step",
+        "pretension_n": 30000.0,
+        "schema": "osr-native-joint-submodel/1",
+        "shank_volume_weighted_rms_von_mises_pa": 216167190.57816935,
+        "stress_convergence_basis": "four-point volume-weighted RMS in shank 5\u201315mm from pretension cut; singular peak retained separately",
+        "support_force_moment_si": [
+          0.004977590002336978,
+          0.024156119998878012,
+          145350.50309670006,
+          5528.803390097102,
+          148.6831706448131,
+          0.001211188817242581
+        ]
+      }
+    ],
+    "numerical_screen_passed": true,
+    "relative_changes": {
+      "maximum_displacement_m": 0.048018970528819,
+      "shank_volume_weighted_rms_von_mises_pa": 0.012111470307238874
+    },
+    "singular_peak_is_not_strength_acceptance": true
+  },
+  "mixed_search": {
+    "beam_families": [
+      "U-girder",
+      "conventional-I",
+      "hollow-box",
+      "hybrid-shell",
+      "pi",
+      "ribbed-deck",
+      "segmental-box",
+      "uhpc-ribbed"
+    ],
+    "budgets": {
+      "evaluations_per_method": 8,
+      "population": 4,
+      "seeds": [
+        11,
+        23
+      ],
+      "wall_seconds": 1200
+    },
+    "comparison_scope": {
+      "route_length_m": 75.0,
+      "span_count": 3,
+      "tracks": 2
+    },
+    "connection_schemes": [
+      "continuous",
+      "link-slab",
+      "simple-span"
+    ],
+    "detailed_finalists": [
+      "6bdac723efb12efa23bcf54f6cf84cc5c6cb92b7adcb71d9f19568b8801bc8e8",
+      "97d9ae162b9b2d75549f5277d8b545640ee8fcdfa2c198d56f0ad14c4ed5d648"
+    ],
+    "methods": [
+      {
+        "candidate_ids": [
+          "6bdac723efb12efa23bcf54f6cf84cc5c6cb92b7adcb71d9f19568b8801bc8e8",
+          "8ac5e013dc7db121d94d975af53d4029beeec1c0de0fd6df16a309bfd274a78d",
+          "35e7b605bce2eba7b66bad0360d3a653005a92240a770e7c98dd0290c912a4b5",
+          "4fa2281a9a2e321449abb119b41c4ed017beb3a2b293f694f5c90f68c167d1bf",
+          "0fc08d01e0340387fd6112e409013391c185c812bb0c7b755e485700cad62049",
+          "ea326d8d0fce09411792f2adf1f9fd21f436f52c020be5a7d57fd90fbb36434b",
+          "5be627a3c424f59b1e8f4845398572104916a3339ebae7aabd3f01aea9a7d7d6",
+          "257dc22fda9bfa9886fefd6ac98c5cfc3c633449e928e5cc2babe9c8bdf7cb55"
+        ],
+        "completed_trials": 8,
+        "method": "random",
+        "numerically_completed": 8,
+        "requested_evaluations": 8,
+        "seed": 11
+      },
+      {
+        "candidate_ids": [
+          "6bdac723efb12efa23bcf54f6cf84cc5c6cb92b7adcb71d9f19568b8801bc8e8",
+          "8ac5e013dc7db121d94d975af53d4029beeec1c0de0fd6df16a309bfd274a78d",
+          "35e7b605bce2eba7b66bad0360d3a653005a92240a770e7c98dd0290c912a4b5",
+          "4fa2281a9a2e321449abb119b41c4ed017beb3a2b293f694f5c90f68c167d1bf",
+          "12fd31df4c17aacc88793e380c8aad45e5a3e2d47c640df0f769dbfad0edc076",
+          "db960486391b8cf381a8eec0afbf3d00db0ec37004d141ab6d328c9429584a7b",
+          "21593a3e7475d415de4cff76853cdda02fbb855555982fa00328f4ede92bf3dd",
+          "a1ef8642bbbcc9832e91ce4da492dee9b62612a42fd7de05176a4951c126f7d6"
+        ],
+        "completed_trials": 8,
+        "method": "pareto-evolution",
+        "numerically_completed": 8,
+        "requested_evaluations": 8,
+        "seed": 11
+      },
+      {
+        "candidate_ids": [
+          "aa7746145940ba4f1ccdf4994629c5f7dda2215f651e8cb3dcd869d53d411958",
+          "90f63b85b6ff485d2848db7c550189db9a4fe657fdac64a3a510b673c14e731c",
+          "0c0f92d789a83c49dd8079d2a960552fa76d9a6682a9f38bf692b1c7317aa1a8",
+          "5d3c71e3b44bb06979e4a1e9ed1c251c4589535ee0ae9b9f5b8cda57908acab3",
+          "8c82f459af91abca6728bf815a35b6d47f361b3eb603b92cfbc2cd4fdbc48b18",
+          "d1f37a00d52ece0679cef7c1923ab751d0bca53e6d149b3570842b3ca31c3c59",
+          "97d9ae162b9b2d75549f5277d8b545640ee8fcdfa2c198d56f0ad14c4ed5d648",
+          "bcd42f4c3eb897241ee5d58e113c1c1754b0cd00a21e58f794b01ce061fed506"
+        ],
+        "completed_trials": 8,
+        "method": "random",
+        "numerically_completed": 8,
+        "requested_evaluations": 8,
+        "seed": 23
+      },
+      {
+        "candidate_ids": [
+          "aa7746145940ba4f1ccdf4994629c5f7dda2215f651e8cb3dcd869d53d411958",
+          "90f63b85b6ff485d2848db7c550189db9a4fe657fdac64a3a510b673c14e731c",
+          "0c0f92d789a83c49dd8079d2a960552fa76d9a6682a9f38bf692b1c7317aa1a8",
+          "5d3c71e3b44bb06979e4a1e9ed1c251c4589535ee0ae9b9f5b8cda57908acab3",
+          "121b833ea8f4f7f35a69a87be9317dc3f7126d20d6b103d9d845908fe97974db",
+          "f21352e8f76773e7642b5a945db57d8b932d64b9931aea3d7e147a70bafa0ced",
+          "2368e45f47e86066b4c233a0a456dfbf2ab174df419f70d7ba15fbdffe051d2e",
+          "cce7cba70746cf915c27ce1c278c743150a70517c192a1ad49d1e06946480bd6"
+        ],
+        "completed_trials": 8,
+        "method": "pareto-evolution",
+        "numerically_completed": 8,
+        "requested_evaluations": 8,
+        "seed": 23
+      }
+    ],
+    "open_gates": [
+      "short startup screening is not an operating envelope",
+      "complete passage and resonance refinement",
+      "nonlinear capacity/fatigue and calibrated soil",
+      "complete supplier lifecycle quotations",
+      "continuous construction/joint resistance and calibrated link-slab laws",
+      "flexible component sensitivity and physical holdout correlation"
+    ],
+    "pier_families": [
+      "double-skin-hybrid",
+      "hollow-prismatic",
+      "hollow-tapered",
+      "segmental-hollow",
+      "solid",
+      "solid-tapered"
+    ],
+    "qualified_feasible_pareto_set": [],
+    "unique_candidates": 24
+  },
+  "native_assembly": {
+    "configuration_sha256": "a0d6d1702e6ba5196a01d4168fbb558a8ffee2c281715275cac9f4769d70a364",
+    "drawing_issued": false,
+    "drawing_visible_edges": {
+      "InstalledAssemblyView": 1537,
+      "InstalledPlanView": 1199,
+      "PoweredBogieSection": 63,
+      "PoweredBogieView": 27
+    },
+    "nominal_datums_reconciled": true,
+    "receipt_sha256": "4f6ee58d10f8e1acd50195dd1b569b1b62ac04cab97d60f1e4bef86bd2076fb7"
+  },
+  "open_gates": [
+    "released supplier/manufacturing geometry and properties",
+    "adopted standards and project acceptance limits",
+    "complete operating/erection envelope and local resistance",
+    "actual calibration/independent physical holdout",
+    "independent authority acceptance"
+  ],
+  "physical_validation": false,
+  "publication_source_sha256": "0c72e37638f6592b6648cd2b1704f4d7b43c7fdbd5ff7b873aab48e8bb570c4e",
+  "schema": "osr-shared-spatial-engineering-review/1",
+  "scope": "synthetic articulated car pair and three-span two-track numerical research; startup transients included",
+  "solver_environment": {
+    "libraries": {
+      "numpy": "2.3.5",
+      "openseespy": "3.8.0.0",
+      "scipy": "1.16.3"
+    },
+    "native_library_sha256": {
+      "numpy-core": "36aaa2e181f47ba7a7a9ea9dd37f293e99cf289286f86250da3710e5b1430745",
+      "opensees": "b1bfa97ceb8f0f5d3c3c49eb498ac4e9dc57f86971f0f54c03074968a0f830a3",
+      "scipy-lapack": "278c101d57ca20453be046d4e6e59ec5e34da40fa06f9d51d8339acad4aac661",
+      "scipy-superlu": "79b50613b04397546f66a34628a9cd43c3843a29ea06bafa8042c4393f83d044"
+    },
+    "python": "3.13.15",
+    "thread_limits": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "sources_sha256": {
+    "design/component-catalogue/schemas/shared-engineering-model.json": "2de36c458f6f1c3cd069e9a2db1b8b83b954654d191716d82f57572fc845740e",
+    "design/component-catalogue/src/osr_mech/__init__.py": "8d38f8858dbae9f1dcf87d5ea53b1cc212f8453155d11d04bd2bf0868cce279c",
+    "design/component-catalogue/src/osr_mech/battery_profiles.py": "dde7881c9e8f14be22603b1a9052e9066c6963f400788ef6a193747e005632d7",
+    "design/component-catalogue/src/osr_mech/blender_fabrication_assembly_twin.py": "e6591056644487b797361b3a18543cb853a62b7e01ec2c311a6d45693d7deead",
+    "design/component-catalogue/src/osr_mech/blender_freecad_renders.py": "770be9ea1a82d2d7be1e6f36a28e48eda7aec9c9b5b49242be9d811f405f5496",
+    "design/component-catalogue/src/osr_mech/blender_samawah_line_twin.py": "e7faa7a507f9914055e34ea5923c396183bb96b34ebef9644e3997661e546a2a",
+    "design/component-catalogue/src/osr_mech/buildable_civil.py": "07f8f484fd19e18513fc2fc22b6383e69c4074927bcbdab2cab40a1d88d93fc3",
+    "design/component-catalogue/src/osr_mech/buildable_stations.py": "84b366c3d28637972c6d6ebdef2e005d02b950d41fb709ef8b2868769e8744a7",
+    "design/component-catalogue/src/osr_mech/buildable_trainset.py": "2aa50d06f66febc58a55f58166d6e7dd1e192472eeb6531e953b98e00a467bee",
+    "design/component-catalogue/src/osr_mech/cad.py": "9910c5e687628d13d6d0bb4c82b40424762534efd37a496e958017f6cb9595a9",
+    "design/component-catalogue/src/osr_mech/civil/__init__.py": "e3677b4fce9b7cb6b4fc636c33296710562a203c133b709c1c6e6aea199c6627",
+    "design/component-catalogue/src/osr_mech/civil/approach.py": "f10eccfdbbfb750824465b254165bee792a9a6962fdf0607e7c6ec330fec47ba",
+    "design/component-catalogue/src/osr_mech/civil/at_grade.py": "656184bbfb4a58e8aea1164cd994a7fa92406fd75935bd6539ca6920d5d9ddc8",
+    "design/component-catalogue/src/osr_mech/civil/calendar.py": "d6d23a6278c1be3738fb7887c168e1dd596025d554ed7f1038ccd4900ca300ca",
+    "design/component-catalogue/src/osr_mech/civil/construction.py": "ec614f9f06c40211fa8f5be51282ebc068fe34b2a2150fbcd3803dc14baa9ba1",
+    "design/component-catalogue/src/osr_mech/civil/continuity.py": "9041270819c1e166c8e3b02a44fc8203e9bca837ce875a7037953b666cd6be59",
+    "design/component-catalogue/src/osr_mech/civil/costing.py": "0a800db59fff2ae95495761c5b40b9f413f8e54793f569465360ab6ae3eb9a41",
+    "design/component-catalogue/src/osr_mech/civil/decked_pi.py": "006f59ad74e25a80c4e72b7ccb029fda1711d80c1bd04d5e96c3a48325e1d172",
+    "design/component-catalogue/src/osr_mech/civil/exploration.py": "3e7d18934046fd1967a9f577222e5b036ebc5396d6099f7972d23a7125131a83",
+    "design/component-catalogue/src/osr_mech/civil/foundation.py": "da06165baacd3ed10d3151842ebee3ddeb83d810fd22040bd9eb36689add153b",
+    "design/component-catalogue/src/osr_mech/civil/guideway_channel_edge.py": "70ada7915a8a73f830f1a7aa1498fbe0ed558fc2034bcbd80c86b9fa6b947723",
+    "design/component-catalogue/src/osr_mech/civil/platform_l_unit.py": "97e5a1b1b7a81338abec3de40fbde3abedd7e78243a786fad87079320ab0f47b",
+    "design/component-catalogue/src/osr_mech/civil/quantity_model.py": "dbaec29edfd2e7b4f38e43945931e41252fe6dff661ec5f36a06c192befd9c9e",
+    "design/component-catalogue/src/osr_mech/civil/railway_interfaces.py": "bcd64c9fd752849ec7b29904d2b6cf633917c340c5edcb86e685bb497ea90723",
+    "design/component-catalogue/src/osr_mech/civil/reference.py": "c51ab6fad8eb3821d67358de91895a40b6355e5468eeb63d0d180cbbfc674dcd",
+    "design/component-catalogue/src/osr_mech/civil/segmental.py": "fb7477f74c6d2d5c4aac4916e411ef911698acdf0a2627e91a4568b4ce335f82",
+    "design/component-catalogue/src/osr_mech/civil/shift_schedule.py": "92922a28bd75ed3851181647ec8e2013cd245ff5838b1c42c401fe590a5f55b3",
+    "design/component-catalogue/src/osr_mech/civil/slab.py": "54ca57999580aaab0b9280eaa5991ed50926140f9f7abfb0812391aa8fba4837",
+    "design/component-catalogue/src/osr_mech/civil/span_layout.py": "b6db1dd60f43dd8bbfe3b6f4cea24d75dcead8112d1d9e1df03202f5ff2ddf29",
+    "design/component-catalogue/src/osr_mech/civil/special_span.py": "f60d2314dbc110bafbc5a85a830337876a87824f47185fa51078a0b32739436e",
+    "design/component-catalogue/src/osr_mech/civil/substructure.py": "32a8bfe6786e8e94efca5c04c61fddaed1f8c5d2cc92ec0f065a02a1b650681e",
+    "design/component-catalogue/src/osr_mech/civil/supply.py": "6ad75f48c724b58f7b50c3e93eaa27b0fb74aac2a8898e6a8c5137e7eb088cfc",
+    "design/component-catalogue/src/osr_mech/civil/supply_chain.py": "465ddc32e8f4a882f350ad769b3594206d357f56069faf207a9efb00c141cc08",
+    "design/component-catalogue/src/osr_mech/civil/ugirder.py": "2daf60fbd70fbed48b6ccafaf16dd2fb139c4efc060f6e825e5b280d52220bd8",
+    "design/component-catalogue/src/osr_mech/civil/viaduct.py": "74baaeb0eba06bd145f7366010084423a15304b059307c641a023d269b7305aa",
+    "design/component-catalogue/src/osr_mech/civil_systems_integration.py": "47cca730cb17127d89305705c95557d010649691c6e66caac0bee20ecb7dde63",
+    "design/component-catalogue/src/osr_mech/common.py": "c9458364474b936c228c8f462a579f8fc8e444098211c1add43c194a02fc79c5",
+    "design/component-catalogue/src/osr_mech/coupled_scenario.py": "a0026eb782f6836d2adc380e411c0e4c2b69ec8a84e4b13e3ce54a305923a983",
+    "design/component-catalogue/src/osr_mech/crashworthiness.py": "a64785fc075ea0b105b026fd9a4f39f8cadfeb1197eb50aec2cefac45aed53e2",
+    "design/component-catalogue/src/osr_mech/delivery_commercial.py": "80812f2b8017a1ec306f62e0ba1f63434282d41426cd4b9fc36ecb819a1dd7e4",
+    "design/component-catalogue/src/osr_mech/depot_dispatch.py": "f0a2a5b7dd31c60188925cac4e39c4046e87ce2102f5fc814725acb64a96eb55",
+    "design/component-catalogue/src/osr_mech/design_definition.py": "f8ee94cd04b3ccd314c4f6608085fddcb99be4fd445a0e11aad33df790771c09",
+    "design/component-catalogue/src/osr_mech/engineering_definition.py": "51bb323840a900b11677b82c3353cc3c64927a02409ae48eae9a7d1335924863",
+    "design/component-catalogue/src/osr_mech/fabrication_assembly_twin.py": "671242018de6742bed701e78f9338348093c71405c52f184861a04b36744e5c7",
+    "design/component-catalogue/src/osr_mech/family_definition.py": "46a46f1ff54e8df9e5cf2d61b8359697133681389182ddf9457d72492ee8186d",
+    "design/component-catalogue/src/osr_mech/freecad_assembly_review.py": "4978cfd60a3c6856c848a95cbd9af450713ab9e1c5652f3aa59810f70e1de422",
+    "design/component-catalogue/src/osr_mech/freecad_catalog.py": "f95fb04454a093d61c31b166a87f1067406d05bc67b801c6f68daf2d648c5978",
+    "design/component-catalogue/src/osr_mech/freecad_civil_systems_example.py": "879059a5cf4f5dbd2b99647df8587c9edc9863162ee4ff6dac6428c107b61b91",
+    "design/component-catalogue/src/osr_mech/freecad_digital_twin_animation.py": "7ddfffa30640064c39a2e8b423b9da2b42db096a4d4dbbef250a471beac7a6b6",
+    "design/component-catalogue/src/osr_mech/freecad_engineering_definition.py": "539ab4eacdadb3e92771572debfd91822d5ceb7d50179c4e72d4eade3523ac13",
+    "design/component-catalogue/src/osr_mech/freecad_fea.py": "843091d52fec6171500d2c5d37deac3431b4c5e4c07d5fd9cc0802bfeea024b1",
+    "design/component-catalogue/src/osr_mech/freecad_mesh_exports.py": "0bfa82a4e4ffd2a917bff33651ee04b6f4888c0f1618645f41ff02c4162babc3",
+    "design/component-catalogue/src/osr_mech/freecad_occ_bridge.py": "85df5ead7db1ba3dd39992047815276866a8883b4dfa81ddb42e2f58f81699ed",
+    "design/component-catalogue/src/osr_mech/freecad_platform_l_unit.py": "daf9673d8e833d74acd5a60e60027501d02ddf7fec36f585e454dd6b9c461306",
+    "design/component-catalogue/src/osr_mech/freecad_product_library.py": "893f41f12c9ccc8caafea864407f96ff5559c631452a5ce82b6ceacc192e7d6d",
+    "design/component-catalogue/src/osr_mech/freecad_samawah_line_twin.py": "1890fec722d19520e56ab45b17c1a43eacc5ffc13fb39a682631050a816a43ac",
+    "design/component-catalogue/src/osr_mech/freecad_screenshots.py": "cacce129253f7251358ecb0ec410d810d8e47f8a0c2326787b1c430e7220c6ef",
+    "design/component-catalogue/src/osr_mech/freecad_sources.py": "220b502afe88956fb6c97fb11e240ab4a0e11d276909e3d8a92892483d5f8629",
+    "design/component-catalogue/src/osr_mech/freecad_station_library.py": "b38b6530dac4aa516b399882ceada380a768dc5f778fef56930d9c1b21264b8a",
+    "design/component-catalogue/src/osr_mech/freecad_station_scenes.py": "86caf621ae35063b793781f8f40c8016f741104d9b23671fded490e306045675",
+    "design/component-catalogue/src/osr_mech/freecad_trainset.py": "b8e3319f85b94b8366cfe31900cf1a6980b8f8bee052b872640eb02cd4f7dc26",
+    "design/component-catalogue/src/osr_mech/handling_assurance.py": "9bed06e6eb18a5e3aa3f7a06969f69b5ab58e573aad93f478200c7e95bf5872c",
+    "design/component-catalogue/src/osr_mech/industrialisation.py": "ae88b18260fcb7e39d0b5f6ac47629ffd751d10b37efdee3e6368734589a981c",
+    "design/component-catalogue/src/osr_mech/joint_design.py": "509a6abc397e9596acc2e3ae11704e771f5edf858c544e2d6c8d54cc4dfb2993",
+    "design/component-catalogue/src/osr_mech/maintenance_interface.py": "06c3513ada6070dabb46d186843d0d34f4b405bbfe652fdad3b6367d9047d89f",
+    "design/component-catalogue/src/osr_mech/network_energy_control.py": "411aeccd7ca5a42255d2224cb0b29fc36616cec76bd454f16101907c38ee91ac",
+    "design/component-catalogue/src/osr_mech/network_energy_duty.py": "38084b6f60fa5c817eae4d950c0654ca48a6d1ab86bb4cec17753c59e64a740d",
+    "design/component-catalogue/src/osr_mech/neutral_manufacturing_exports.py": "86c50294a22847a0b87bd0e4791e3c8f323f8692fff2b3b596fde1e8ee8c8b7a",
+    "design/component-catalogue/src/osr_mech/pack_thermal.py": "aa1ec76ab7c67a2ccdc8fc2d4bc9d81613c77765e050e9f24da6bf4792850dd6",
+    "design/component-catalogue/src/osr_mech/provenance.py": "74dbc6e4c8895a753ce680e9c9d574e8f21316190038101d2be581a5b49a5e9a",
+    "design/component-catalogue/src/osr_mech/recovery_interface.py": "28ebbeb261c950c9b95bd832d9605dd39c533d7d066ac4e56bf287b747593856",
+    "design/component-catalogue/src/osr_mech/samawah_line_twin.py": "3cd0a8b77d5bf3be029bdf6a5bdfae2fd9d9e8650c558c37e2eecd46329d534c",
+    "design/component-catalogue/src/osr_mech/schema_validation.py": "ce87f228ae853b70f87d9056d1d9086b364e91229b2c6084c812e10dad1fb9ff",
+    "design/component-catalogue/src/osr_mech/service_trace.py": "0083d53371581a75a689a0e3a5eafb559ef0ce63e210b31e50e425cdd1c179e6",
+    "design/component-catalogue/src/osr_mech/station_capacity.py": "d7e68ba5270213956f680302cbaff52866ab64c9913afdfb2deb6d9abf36aa68",
+    "design/component-catalogue/src/osr_mech/trainset_cots_candidates.py": "d844a36f02688be87a516ca2213280451f2a730c149a6fdfdc27062cb9bafce1",
+    "design/component-catalogue/src/osr_mech/trainset_manufacturing_methods.py": "3aa1829461ae4c611e770ebd0c5eb011f2ed1f9a9a30da475fac1be290ca1d54",
+    "design/component-catalogue/src/osr_mech/trainset_supplier_anchors.py": "12d0470915fe8426a1ac511605fc769c497b0858e76822e33f34ac5be809fd89",
+    "design/component-catalogue/src/osr_mech/vehicle_mass_properties.py": "e1dc4f876242f9025f8ac11bfadd52ae448f20688e4702faa3af765e1f260d47",
+    "design/component-catalogue/src/osr_mech/workload_staffing.py": "3884ed10ec3050b015177c262d8415a46bfbc3ba1695afbe631f7acba3826828",
+    "engineering/civil_exploration/__init__.py": "9cc01b16e017482b13b460adb5c72252760adf01061138f1903caaa5b2218eaf",
+    "engineering/civil_exploration/assembled_materials.py": "f83040f28bd47b639816ec599717180b43c2deddfb26d325b44162cf1a9ed763",
+    "engineering/civil_exploration/bim.py": "a36eb019970969c30bf36b086ff10f9e250642963818aad1dd1dc6d1d14c9f31",
+    "engineering/civil_exploration/commercial.py": "7c4c9aae17e0ec5f266fae99f1574a951bcb854e6e4b034491a76620fb5f4085",
+    "engineering/civil_exploration/config/commercial.json": "7be72314b3e864737aee2a530ffeecb39318ebc797b1ecc5012975b51fd64bab",
+    "engineering/civil_exploration/config/components.json": "b00fdf0582df7bdaa8ec02ccbc2e01b5cfcaeb54809cf3d45080431d0ba42070",
+    "engineering/civil_exploration/config/qualification-target.json": "64b02479470744f3a3256082c545644e72e22450302f242252de9362d98e7207",
+    "engineering/civil_exploration/config/reference.json": "c2c0f3b2dcda774f99bf98640c58f44b81d01311aaac5751bce9fd2910fd65bf",
+    "engineering/civil_exploration/config/requirements.json": "b7ec11d1cc9be94a7521112869e4b72f28581a344103a3ec23c15b4f37d8e2b7",
+    "engineering/civil_exploration/config/system-options.json": "c9bb9151d0e8e69c8c2b30b0fbca281ad88c3de8882684246a575c11507336cb",
+    "engineering/civil_exploration/config/system-scenarios.json": "b1eb575ad402145f9766ad48640e003d57765ea2525d239cb283d2233d4f416c",
+    "engineering/civil_exploration/connections.py": "74f0a0f2316455f4772959eb49f98b03ce11cda886f77d54310b657008fa1673",
+    "engineering/civil_exploration/constitutive.py": "d2e8278725fdf8928543a6e01dc1b217a1ee3b76ec00358850172e7551171aa9",
+    "engineering/civil_exploration/constraints.py": "60d3bd1d2ad79974f5085a46a5dbf7d22c4af36c073ee3c471015aea99de6aad",
+    "engineering/civil_exploration/construction.py": "38044f9ea300bf3ae916f690bc78fbabcdb98de7c17b0cf5eafe2ae05046b302",
+    "engineering/civil_exploration/contracts.py": "b94eab6bd05ab5c0f0221cd9ce35a399567496a7b4ca733e202c61fa7c7e7a61",
+    "engineering/civil_exploration/correlation.py": "9a43522381a350039604109d472e5abbeaaf259f15726ab03224298fac15a7f6",
+    "engineering/civil_exploration/detailed.py": "a2e0f9d8b903d8541a8c9eb284463933099352005e24f0737a83f33012e22eb0",
+    "engineering/civil_exploration/foundations.py": "648f314d38324ac651d9f4ddc45a4acb008b8a3ee27fcbd452e1811a3cdbf2ca",
+    "engineering/civil_exploration/joint_laws.py": "43b592151c8d4bb264237ea24c0747ea6763fc950b7b26cfb7a48f02a0124aa8",
+    "engineering/civil_exploration/joint_submodel.py": "b6a7b56ca22a66ee9592cda8309bd5c149ca697eb0c7ef8537e9d0e5690c197d",
+    "engineering/civil_exploration/materials.py": "c552b85220a1e71a2ff2c27dfa1fd5f769533cd632289a39bae3a12614cea1fb",
+    "engineering/civil_exploration/model.py": "d40aea2e9c54a6edfd0f719309ff71beed4900e11b4900e6647d3f4d806f4531",
+    "engineering/civil_exploration/nonlinear.py": "97e75c898f2d996e5996cc10a1722d3adc8db680f0bd863b61ed6c6087bc0678",
+    "engineering/civil_exploration/orthotropic.py": "8a34044104056fa32a540061224eb243116d8ee79d36983fbdec2ca8f5cb532f",
+    "engineering/civil_exploration/programme.py": "915f67129f91f5cca9047ecd7c8f23362493d1cf5cbdb4fc5a23d6f15f20100f",
+    "engineering/civil_exploration/qualification.py": "02bf35db340468b4aa6043b97985e91513f46e084fff7b260f99635364fd940b",
+    "engineering/civil_exploration/robustness.py": "6d72eab7444a05fade2170f282c101bf22eb7f5ff637829bd3e81b92907c6028",
+    "engineering/civil_exploration/search.py": "10f8c0b8f6462bba68761f35b5d23d785e9e8054e64b81a240c15064b33db065",
+    "engineering/civil_exploration/section_mechanics.py": "d12c3de5df5946d14ac290ac79159fa4a1910c51f5ce5b631725c12008599b0e",
+    "engineering/civil_exploration/shared_demo.py": "d8520c93e23f8a83172aa988778ea021841d38b4d22af61edc2f5951f29e64f0",
+    "engineering/civil_exploration/shared_search.py": "ac9800965391b3972090a28545737486f3eb6ec5e9d1ee73930ef01a28209c6b",
+    "engineering/civil_exploration/space_frame.py": "503060340bac58426124ab3c094ed47db25e52e1713854e8d6ee00109579b7f5",
+    "engineering/civil_exploration/spatial_demo.py": "88312fda679bdd14ccb1a1d4e91bfa2ea9013f5f790eedbc90927c8a551fbe8f",
+    "engineering/civil_exploration/spatial_structure.py": "35c9bdf5f328a460d86e1641030c8dfbb39c3be60f71e776597e910cf5d96abd",
+    "engineering/civil_exploration/spatial_vehicle.py": "9710613c4f4fa75e5449e54a8811f729915ee31fdfb38fd1ea456e62c47006d5",
+    "engineering/civil_exploration/storage.py": "ff30b2468f4bf4cda8478c350bd8fc0bfa1c41fc644f20a0823b1f101c579a86",
+    "engineering/civil_exploration/system_economics.py": "514b4e5363b219d4e92c350249303d6d853588d400f6625f29dbcf71f21837b4",
+    "engineering/civil_exploration/system_report.py": "0f0ae70bb61b1ee09af22ade35a02ed74c83547b6a6b670359e669a397f8033f",
+    "engineering/civil_exploration/systems.py": "cce576237ddb35c5c84f08a428961b6aa45d5352ff05d4716326c1e4619dbf1a",
+    "engineering/civil_exploration/train_bridge.py": "46d9bc04251a160fa23c810b64951cb088753d5dd6744fbc55b8cf65ec0c7c0b",
+    "engineering/civil_exploration/validation.py": "1e005eaed98e2eff0519d671d631eb6edd9cb07432a7cdd6294031d5cb7e45b5",
+    "engineering/civil_exploration/vehicle.py": "bd3c9f01237231d23ad8fe49b4301f853e5d1e7e581f7e0e57b2997328311c2a",
+    "engineering/civil_exploration/wheel_contact.py": "f90b3291bb67b67ff83ad9dceeb6963b04536d86fc0fc0b77a92e4bcdf3d1488",
+    "engineering/civil_exploration/workflow.py": "58123b6e1bb797eb1c86e8d39920211bb07fe475fb31232dbe3887c00879fa1b",
+    "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
+    "tools/automation/shared-engineering-campaign.py": "2040a0ec666b8d185b054839de710e27d4f02584b0250000683d9582042684b4",
+    "tools/automation/shared-train-viaduct.py": "078b168573238db58ffe855385cf34f6ac000d93fbb7e2819690a804c824d312"
+  },
+  "spatial": {
+    "adopted_project_standards": null,
+    "cases": [
+      {
+        "capacity_accepted": false,
+        "case": "straight-empty",
+        "contact_work_residual_w": 3.637978807091713e-12,
+        "peak_carbody_acceleration_m_s2": 0.6100792584581503,
+        "peak_contact_n": 68776.24608326369,
+        "unloading": 0.7520437739396694,
+        "within_adapter_domain": true
+      },
+      {
+        "capacity_accepted": false,
+        "case": "curve-cant-braking-uneven",
+        "contact_work_residual_w": 1.4551915228366852e-11,
+        "peak_carbody_acceleration_m_s2": 11.519088426266833,
+        "peak_contact_n": 91732.77906057257,
+        "unloading": 0.8080126194809957,
+        "within_adapter_domain": true
+      },
+      {
+        "capacity_accepted": false,
+        "case": "two-track-crush-defect",
+        "contact_work_residual_w": 1.1920928955078125e-07,
+        "peak_carbody_acceleration_m_s2": 0.6480403587443527,
+        "peak_contact_n": 1867048.1090594076,
+        "unloading": 1.0,
+        "within_adapter_domain": true
+      },
+      {
+        "capacity_accepted": false,
+        "case": "degraded-joints-adhesion",
+        "contact_work_residual_w": 3.637978807091713e-12,
+        "peak_carbody_acceleration_m_s2": 0.5367485472092259,
+        "peak_contact_n": 68846.36782747839,
+        "unloading": 0.7519833853828815,
+        "within_adapter_domain": true
+      }
+    ],
+    "contact_benchmark": {
+      "contact_reference_comparison_performed": false,
+      "friction_bound_n": 24000.0,
+      "observed_tangent_n": 22360.679774997898,
+      "passed": true,
+      "patch_radius_relative_error": 3.752553823233029e-14,
+      "physical_validation": false,
+      "schema": "osr-wheel-contact-benchmarks/1",
+      "sphere_halfspace_relative_error": 5.639932965095795e-14,
+      "unilateral_open_force_n": 0.0
+    },
+    "engineering_released": false,
+    "native_structure": {
+      "analytic_relative_error": 1.5915815184278245e-16,
+      "native_relative_error": 0.0,
+      "native_solver": "OpenSees ElasticTimoshenkoBeam",
+      "numerical_benchmark_passed": true,
+      "physical_validation": false,
+      "schema": "osr-spatial-beam-benchmark/1"
+    },
+    "physical_validation": false,
+    "refinement_tolerance_basis": "5% numerical research check; not a railway acceptance limit",
+    "schema": "osr-spatial-campaign/1",
+    "spatial_refinement": {
+      "checks": {
+        "maximum_wheel_contact_n": {
+          "passed": true,
+          "relative_change": 0.010143097989825347
+        },
+        "maximum_wheel_unloading": {
+          "passed": true,
+          "relative_change": 0.002880681011208927
+        },
+        "peak_ride_acceleration_m_s2": {
+          "passed": true,
+          "relative_change": 0.0034278848491279476
+        },
+        "peak_structure_displacement_m": {
+          "passed": true,
+          "relative_change": 0.022315708939059372
+        }
+      },
+      "passed": true,
+      "relative_limit": 0.05
+    },
+    "temporal_levels_s": [
+      0.001,
+      0.0005,
+      0.00025,
+      0.000125
+    ],
+    "temporal_refinement": {
+      "checks": {
+        "maximum_wheel_contact_n": {
+          "passed": true,
+          "relative_change": 0.006611545817665033
+        },
+        "maximum_wheel_unloading": {
+          "passed": true,
+          "relative_change": 0.013143264964874031
+        },
+        "peak_ride_acceleration_m_s2": {
+          "passed": true,
+          "relative_change": 0.0005736543690946361
+        },
+        "peak_structure_displacement_m": {
+          "passed": true,
+          "relative_change": 0.0002512098394945308
+        }
+      },
+      "passed": true,
+      "relative_limit": 0.05
+    }
+  },
+  "synthetic_correlation": {
+    "covariance_basis": "local linearised weighted residual variance; no physical acceptance",
+    "dataset_sha256": "ebae16ccb16b99f107edf094138e5089c45786c7ffd8c710e2b41124a274f312",
+    "engineering_released": false,
+    "evidence_sha256": {
+      "engineering/civil_exploration/examples/shared-spatial-correlation-inputs/synthetic-calibration.json": "40e1ce3b947b9e8ab08c171405ac5184d7dee43b4f6652924f3e1b59e3feb9c7",
+      "engineering/civil_exploration/examples/shared-spatial-correlation-inputs/synthetic-samples.json": "cbfccd59f94a3d00623a86f66f20b9ecd6435e0594192566ce9acff08853da41"
+    },
+    "fitted_parameters": {
+      "primary_factor": 0.9098550944116737
+    },
+    "hardware_definition_sha256": "a0d6d1702e6ba5196a01d4168fbb558a8ffee2c281715275cac9f4769d70a364",
+    "holdout_tests": [
+      {
+        "acceptance_limit": null,
+        "accepted": false,
+        "bias": -3.4347161040766676,
+        "measurement_95_percent_band": [
+          [
+            33733.52054051526,
+            33929.52054051526
+          ],
+          [
+            61085.9091244189,
+            61281.9091244189
+          ],
+          [
+            54368.38561236814,
+            54564.38561236814
+          ],
+          [
+            59278.67714466467,
+            59474.67714466467
+          ],
+          [
+            38451.67252357712,
+            38647.67252357712
+          ],
+          [
+            32471.87392730013,
+            32667.87392730013
+          ],
+          [
+            34153.5475573774,
+            34349.5475573774
+          ],
+          [
+            37830.30813116881,
+            38026.30813116881
+          ],
+          [
+            52757.602763841314,
+            52953.602763841314
+          ]
+        ],
+        "prediction": [
+          33828.16982827681,
+          61184.772661272706,
+          54458.94087495025,
+          59368.90308299944,
+          38547.63356125514,
+          32556.136297269055,
+          34246.25996451528,
+          37933.35898046451,
+          52858.40962929186
+        ],
+        "project_requirement": null,
+        "residual": [
+          -3.3507122384471586,
+          0.8635368538089097,
+          -7.444737417892611,
+          -7.774061665229965,
+          -2.0389623219816713,
+          -13.737630031075241,
+          -5.287592862121528,
+          5.050849295701482,
+          2.8068654505477753
+        ],
+        "rmse": 6.515461739935081,
+        "specimen_id": "B",
+        "standardised_rmse": 0.1303092347987016,
+        "test_id": "synthetic-B",
+        "unit": "N"
+      }
+    ],
+    "identifiable": true,
+    "open_gates": [
+      "adopted project residual/error limits",
+      "independent reviewer",
+      "model discrepancy and extrapolation assessment"
+    ],
+    "optimisation_converged": true,
+    "parameter_covariance": [
+      [
+        1.0501948441824394e-05
+      ]
+    ],
+    "physical_measurements_used": false,
+    "physical_validation": false,
+    "schema": "osr-correlation-result/1",
+    "sensitivity_rank": 1,
+    "sensitivity_singular_values": [
+      34.94265521884194
+    ],
+    "training_tests": [
+      "synthetic-A"
+    ]
+  }
+}

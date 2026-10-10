@@ -7,6 +7,8 @@ on:
     paths:
       - 'engineering/analysis/**'
       - 'engineering/assurance/civil-reference/**'
+      - 'engineering/assurance/standards/**'
+      - 'docs/standards/**'
       - 'engineering/toolchain/tool-manifest.toml'
       - 'tools/automation/project_twin.py'
       - 'tools/automation/civil_reference.py'
@@ -16,6 +18,31 @@ on:
       - 'design/component-catalogue/src/osr_mech/cad.py'
       - 'design/component-catalogue/src/osr_mech/common.py'
       - 'design/component-catalogue/src/osr_mech/provenance.py'
+      - 'design/component-catalogue/src/osr_mech/family_definition.py'
+      - 'design/component-catalogue/src/osr_mech/schema_validation.py'
+      - 'design/component-catalogue/src/osr_mech/buildable_trainset.py'
+      - 'design/component-catalogue/src/osr_mech/design_definition.py'
+      - 'design/component-catalogue/src/osr_mech/freecad_engineering_definition.py'
+      - 'design/component-catalogue/src/osr_mech/freecad_trainset.py'
+      - 'design/component-catalogue/src/osr_mech/freecad_sources.py'
+      - 'design/component-catalogue/src/osr_mech/freecad_occ_bridge.py'
+      - 'design/component-catalogue/src/osr_mech/rolling_stock/**'
+      - 'design/component-catalogue/src/osr_mech/engineering_definition.py'
+      - 'design/component-catalogue/src/osr_mech/vehicle_mass_properties.py'
+      - 'design/component-catalogue/schemas/shared-engineering-model.json'
+      - 'design/component-catalogue/tests/test_shared_engineering.py'
+      - 'tools/automation/shared-train-viaduct.py'
+      - 'tools/automation/shared-engineering-campaign.py'
+      - 'tools/automation/export-shared-campaign-review.py'
+      - 'tools/automation/check-shared-engineering-standard.py'
+      - 'tools/automation/tests/test_shared_engineering_standard.py'
+      - 'design/component-catalogue/src/osr_mech/joint_design.py'
+      - 'tools/automation/shared-engineering-freecad.py'
+      - 'tools/automation/tests/test_engineering_identity.py'
+      - 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/engineering_identity.py'
+      - 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/integration.py'
+      - 'services/integration/osr_integration/engineering.py'
+      - 'engineering/analysis/tests/test_shared_train_bridge.py'
       - 'docs/civil/**'
       - 'OpenSourceRail_Civil_Exploration_Plan.docx'
       - 'engineering/civil_exploration/**'
@@ -63,11 +90,15 @@ jobs:
           python-version: '3.12'
       - name: Install bounded numerical test environment
         run: |
-          python -m pip install pytest==9.1.1 numpy==2.3.5 openseespy==3.8.0.0 ifcopenshell==0.8.5
+          python -m pip install pytest==9.1.1 numpy==2.3.5 scipy==1.16.3 jsonschema==4.25.1 openseespy==3.8.0.0 ifcopenshell==0.8.5
           sudo apt-get update
           sudo apt-get install -y calculix-ccx
       - name: Verify contracts, independent equations and native integrity
         run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py engineering/analysis/tests/test_civil_system_choices.py engineering/analysis/tests/test_civil_review_acceptance.py
+      - name: Verify shared geometry, inertia, evidence and train–bridge coupling
+        env:
+          PYTHONPATH: design/component-catalogue/src:.
+        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |

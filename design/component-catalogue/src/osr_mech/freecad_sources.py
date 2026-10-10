@@ -146,24 +146,34 @@ def export_source_brep(key: str, path: str | Path) -> None:
         raise RuntimeError(f"could not export temporary BREP for {key}")
 
 
-def source_object(key: str) -> object:
+def source_object(key: str, *, car_length_mm: float | None = None) -> object:
     try:
         builder = SOURCE_BUILDERS[key]
     except KeyError as exc:
         known = ", ".join(sorted(SOURCE_BUILDERS))
         raise KeyError(f"unknown FreeCAD source geometry {key!r}; known keys: {known}") from exc
 
+    if car_length_mm is not None:
+        import inspect
+        import math
+        from osr_mech.rolling_stock.car_body import CarDimensions
+        if type(car_length_mm) not in (int, float) or not math.isfinite(car_length_mm) or car_length_mm <= 0:
+            raise ValueError("positive finite car length required")
+        if "dims" in inspect.signature(builder).parameters:
+            return builder(dims=CarDimensions(body_length_mm=car_length_mm))
+        if key == "kinematic-envelope":
+            return swept_envelope_part(reference_envelope(), body_length_mm=car_length_mm)
     return builder()
 
 
-def source_shape(key: str, *, clean: bool = False):
+def source_shape(key: str, *, clean: bool = False, car_length_mm: float | None = None):
     """Build a catalogue item and return its native FreeCAD shape.
 
     Assembly review keeps the catalogue's separate part solids separate;
     callers that require a single boolean body may opt into ``clean=True``.
     """
 
-    shape = to_freecad_shape(source_object(key), clean=clean)
+    shape = to_freecad_shape(source_object(key, car_length_mm=car_length_mm), clean=clean)
     if shape is None:
         raise RuntimeError(
             f"could not build FreeCAD shape for {key!r}; run under FreeCADCmd or install FreeCAD modules"

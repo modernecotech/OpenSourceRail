@@ -42,6 +42,10 @@ def artifact(root, relative, tool, version):
             result['layers'] = [dict(table=r[0], data_type=r[1], srs_id=r[2]) for r in db.execute('SELECT table_name,data_type,srs_id FROM gpkg_contents')]
     elif path.suffix.lower() in ('.geojson', '.json'):
         value = json.loads(raw)
+        if isinstance(value, dict) and value.get('schema') == 'osr-shared-engineering/1':
+            result['configuration_sha256'] = digest(value)
+            result['engineering_revision'] = value.get('revision')
+            result['configuration_state'] = value.get('state')
         if isinstance(value, dict) and isinstance(value.get('tool'), dict):
             result['tool_version'] = value['tool'].get('version_output', value['tool'].get('version', version))
         if isinstance(value, dict) and value.get('type') == 'FeatureCollection':
@@ -57,6 +61,15 @@ def package(root, manifest):
         raise ValueError('Incomplete engineering manifest')
     result = dict(schema='osr-engineering-evidence/1', **manifest, review_status='unreviewed')
     result['artifacts'] = [artifact(root, r['path'], r['tool'], r['tool_version']) for r in manifest['artifacts']]
+    identity = result.get('engineering_identity')
+    if identity is not None:
+        if (not isinstance(identity, dict) or identity.get('schema') != 'osr-engineering-qa-map/1' or
+            identity.get('sha256') != digest({k: v for k, v in identity.items() if k != 'sha256'})):
+            raise ValueError('Engineering characteristic map checksum/schema differs')
+        if identity.get('design_revision') != result['engineering_revision'] or identity.get('asset_id') != result['asset_id']:
+            raise ValueError('Engineering characteristic map revision/asset differs')
+        if not any(a.get('configuration_sha256') == identity.get('configuration_sha256') for a in result['artifacts']):
+            raise ValueError('Engineering characteristic map requires the exact retained instance definition')
     result['sha256'] = digest(result)
     return result
 
@@ -78,6 +91,8 @@ def execution_proposal(engineering, mapping):
     result = dict(schema='osr-execution-proposal/1', engineering_sha256=engineering['sha256'],
                   city=engineering['city'], asset_id=engineering['asset_id'], engineering_revision=engineering['engineering_revision'],
                   mapping=mapping, status='review-required', automatic_order_release=False)
+    if engineering.get('engineering_identity') is not None:
+        result['engineering_identity'] = engineering['engineering_identity']
     result['sha256'] = digest(result)
     return result
 

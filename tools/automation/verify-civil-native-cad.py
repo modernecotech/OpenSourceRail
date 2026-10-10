@@ -45,7 +45,7 @@ def verify(output):
         shortlist.append(dict(package_id=case['package_id'],candidate_id=case['candidate_id'],native_solid_count=len(shape.Solids),
                               native_volume_m3=actual,expected_ifc_volume_m3=case['expected_ifc_volume_m3'],passed=True))
     sources=[Path(__file__),path,inputs_path,*sorted((ROOT/'design/component-catalogue/src/osr_mech/civil').glob('*.py')),
-             *[ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('cad.py','common.py','provenance.py')]]
+             *[ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('cad.py','common.py','provenance.py','family_definition.py','schema_validation.py')]]
     receipt=dict(schema='osr-civil-native-cad-verification/1',kernel='FreeCAD Part/OpenCASCADE',freecad_version=FreeCAD.Version(),opencascade_version=Part.OCC_VERSION,
                  native_binary_sha256=hashlib.sha256(Path(sys.executable).read_bytes()).hexdigest(),
                  source_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6222**.
+Indexed Markdown files: **6224**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6222**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 209 |
+| [docs](#docs) | 211 |
 | [engineering](#engineering) | 93 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6044,6 +6044,7 @@ Indexed Markdown files: **6222**.
 | [`docs/civil/population-led-network-regeneration.md`](../docs/civil/population-led-network-regeneration.md) | Population-led additional lines and country regeneration |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
 | [`docs/civil/reference-demonstration.md`](../docs/civil/reference-demonstration.md) | Civil reference and numerical evidence workflow |
+| [`docs/civil/shared-train-viaduct.md`](../docs/civil/shared-train-viaduct.md) | Shared trainset and viaduct engineering model |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
 | [`docs/civil/station-construction-method.md`](../docs/civil/station-construction-method.md) | Station civil and access construction method |
 | [`docs/civil/viaduct-bearing-and-movement-schedule.md`](../docs/civil/viaduct-bearing-and-movement-schedule.md) | Viaduct Bearing And Movement Schedule |
@@ -6187,6 +6188,7 @@ Indexed Markdown files: **6222**.
 | [`docs/safety-case/result-validation.md`](../docs/safety-case/result-validation.md) | Safety evidence: traceability, results and acceptance |
 | [`docs/simulation-software-coverage.md`](../docs/simulation-software-coverage.md) | Simulation software coverage |
 | [`docs/software-architecture-diagrams.md`](../docs/software-architecture-diagrams.md) | Software Architecture Diagrams |
+| [`docs/standards/OSR-ENG-001.md`](../docs/standards/OSR-ENG-001.md) | OpenSourceRail engineering standard OSR-ENG-001 |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
 | [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
 | [`docs/stations/standard-archetype/accessibility.md`](../docs/stations/standard-archetype/accessibility.md) | Accessibility - `standard` Archetype Worked Example |

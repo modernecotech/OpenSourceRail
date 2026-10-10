@@ -48,7 +48,9 @@ from .wheelset import (
 )
 
 # Published top-level bogie dimensions.
-WHEELBASE_MM = 2_100.0
+from ...family_definition import BOGIE_WHEELBASE_MM
+
+WHEELBASE_MM = BOGIE_WHEELBASE_MM
 WHEEL_DIAMETER_MM = WHEEL_DIAMETER_NEW_MM
 BOGIE_FRAME_HEIGHT_MM = FRAME_HEIGHT_MM
 BOGIE_FRAME_LENGTH_MM = FRAME_LENGTH_MM

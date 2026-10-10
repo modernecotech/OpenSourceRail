@@ -3,18 +3,18 @@
 Each consist family from RFC 0008 §1 has a characteristic car count
 and dimensions:
 
-- `urban-shuttle-1car`: 1 car × 17 m body.
-- `tram-2car`         : 2 cars × 17 m body.
+- `urban-shuttle-1car`: 1 car × 21 m planning module.
+- `tram-2car`         : 2 cars × 19.5 m planning module.
 - `light-metro-3car`  : 3 cars × 16.5 m promoted v2A body.
-- `metro-4car`        : 4 cars × 17 m body.
-- `metro-6car`        : 6 cars × 17 m body.
+- `metro-4car`        : 4 cars × 18.75 m planning module.
+- `metro-6car`        : 6 cars × 18.5 m planning module.
 
 The trainset assembly places one sensor cowl at each end (RFC 0015
 makes the trainset symmetric), N car bodies joined by semi-permanent
 articulation/gangway modules, and 2 bogies per car. Cowls and
 articulation interfaces are overlays inside each repeated car module
-envelope, so a `metro-6car` trainset at 17 m per car is
-102.0 m — consistent with the 121 m platform length RFC 0008 publishes
+envelope, so a `metro-6car` trainset is 111 m long — consistent
+with the 121 m platform length RFC 0008 publishes
 for that family (accounting for stopping tolerance and door-control
 clearance).
 """
@@ -24,35 +24,20 @@ from __future__ import annotations
 from osr_mech.cad import Axis, Compound, Part
 
 from ..common import ConsistFamily, consist_platform_length_m
+from ..family_definition import family_definition
 from .bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from .car_body import CarDimensions, car_body
-from .baseline import PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
 from .sensor_cowl import COWL_LENGTH_MM, sensor_cowl
 from .systems import system_layout, trainset_systems
 
 
-# Car body length per family (RFC 0008 §3.1).
-_FAMILY_CAR_LENGTH_MM: dict[ConsistFamily, float] = {
-    ConsistFamily.URBAN_SHUTTLE_1CAR: 17_000.0,
-    ConsistFamily.TRAM_2CAR: 17_000.0,
-    ConsistFamily.LIGHT_METRO_3CAR: PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
-    ConsistFamily.METRO_4CAR: 17_000.0,
-    ConsistFamily.METRO_6CAR: 17_000.0,
-}
-_FAMILY_CAR_COUNT: dict[ConsistFamily, int] = {
-    ConsistFamily.URBAN_SHUTTLE_1CAR: 1,
-    ConsistFamily.TRAM_2CAR: 2,
-    ConsistFamily.LIGHT_METRO_3CAR: 3,
-    ConsistFamily.METRO_4CAR: 4,
-    ConsistFamily.METRO_6CAR: 6,
-}
 COUPLING_GAP_MM = 0.0
 
 
 def family_dimensions(family: ConsistFamily) -> CarDimensions:
     """Default `CarDimensions` for each consist family."""
     return CarDimensions(
-        body_length_mm=_FAMILY_CAR_LENGTH_MM[family],
+        body_length_mm=family_definition(family.value)["car_length_m"] * 1000,
     )
 
 
@@ -65,7 +50,7 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
     """
 
     dims = family_dimensions(family)
-    car_count = _FAMILY_CAR_COUNT[family]
+    car_count = family_definition(family.value)["car_count"]
 
     parts: list[Part | Compound] = []
 
@@ -130,7 +115,7 @@ def trainset_length_m(family: ConsistFamily) -> float:
     §1 with a 150 mm stopping-tolerance allowance per end.
     """
     dims = family_dimensions(family)
-    n = _FAMILY_CAR_COUNT[family]
+    n = family_definition(family.value)["car_count"]
     mm = n * dims.body_length_mm + (n - 1) * COUPLING_GAP_MM
     return mm / 1000.0
 

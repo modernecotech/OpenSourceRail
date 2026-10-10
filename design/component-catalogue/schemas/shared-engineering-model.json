@@ -1,0 +1,944 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "state",
+    "asset_id",
+    "family",
+    "instances",
+    "joints",
+    "bridge",
+    "requirements",
+    "inspections",
+    "family_definition"
+  ],
+  "properties": {
+    "schema": {
+      "const": "osr-shared-engineering/1"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "enum": [
+        "as-designed",
+        "as-built",
+        "as-maintained"
+      ]
+    },
+    "asset_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "family": {
+      "enum": [
+        "urban-shuttle-1car",
+        "tram-2car",
+        "light-metro-3car",
+        "metro-4car",
+        "metro-6car"
+      ]
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/instance"
+      }
+    },
+    "joints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/joint"
+      }
+    },
+    "bridge": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "inspections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/inspection"
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "family_definition": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "osr-family-definition/1"
+        },
+        "family": {
+          "enum": [
+            "urban-shuttle-1car",
+            "tram-2car",
+            "light-metro-3car",
+            "metro-4car",
+            "metro-6car"
+          ]
+        },
+        "cars": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "start_x_m": {
+                "type": "number"
+              },
+              "centre_x_m": {
+                "type": "number"
+              },
+              "length_m": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "supports": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "start_x_m",
+              "centre_x_m",
+              "length_m",
+              "supports"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "bogies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "parent": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "powered",
+                  "trailer"
+                ]
+              },
+              "pivot_x_m": {
+                "type": "number"
+              },
+              "axle_x_m": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "id",
+              "parent",
+              "kind",
+              "pivot_x_m",
+              "axle_x_m"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "articulations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "parents": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true
+              },
+              "x_m": {
+                "type": "number"
+              },
+              "permitted_motion": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "geometry_status": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "parents",
+              "x_m",
+              "permitted_motion",
+              "geometry_status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "car_length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "car_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "profile": {
+          "type": "object",
+          "required": [
+            "cars",
+            "length_m"
+          ],
+          "properties": {
+            "cars": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "length_m": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "source_sha256": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "geometry_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supplier_geometry_verified": {
+          "const": false
+        },
+        "engineering_released": {
+          "const": false
+        }
+      },
+      "required": [
+        "schema",
+        "family",
+        "cars",
+        "bogies",
+        "articulations",
+        "length_m",
+        "car_length_m",
+        "car_count",
+        "profile",
+        "source_sha256",
+        "geometry_basis",
+        "supplier_geometry_verified",
+        "engineering_released"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opensourcerail:shared-engineering-model:1",
+  "title": "Shared trainset and viaduct engineering model",
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "kind"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "kind": {
+          "enum": [
+            "design",
+            "supplier",
+            "measurement",
+            "calibration"
+          ]
+        }
+      }
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "translation_m",
+        "rotation"
+      ],
+      "properties": {
+        "translation_m": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "rotation": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "mass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mass_kg",
+        "cg_m",
+        "inertia_tensor_kg_m2",
+        "uncertainty_kg",
+        "position_uncertainty_m",
+        "inertia_uncertainty_kg_m2",
+        "basis",
+        "evidence"
+      ],
+      "properties": {
+        "mass_kg": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cg_m": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "number"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inertia_tensor_kg_m2": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertainty_kg": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "position_uncertainty_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inertia_uncertainty_kg_m2": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/evidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "source",
+        "material_regions",
+        "thickness_m",
+        "process"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "$ref": "#/$defs/evidence"
+              }
+            ]
+          }
+        },
+        "material_regions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "thickness_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "process": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "part_id",
+        "revision",
+        "serial",
+        "batch",
+        "parent",
+        "quantity",
+        "unit",
+        "geometry",
+        "transform",
+        "datums",
+        "body",
+        "bogie",
+        "axle",
+        "scope",
+        "property_source",
+        "properties",
+        "requirements",
+        "inspections"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "serial": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "batch": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "number",
+          "minimum": 0
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geometry": {
+          "$ref": "#/$defs/geometry"
+        },
+        "transform": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/transform"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "datums": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/transform"
+          }
+        },
+        "body": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bogie": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "axle": {
+          "enum": [
+            null,
+            1,
+            2
+          ]
+        },
+        "scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "property_source": {
+          "enum": [
+            "design",
+            "supplier",
+            "measured"
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "design",
+            "supplier",
+            "measured"
+          ],
+          "properties": {
+            "design": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mass"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "supplier": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mass"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "measured": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mass"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "inspections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "mechanical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stiffness_n_m",
+        "damping_ns_m",
+        "friction_coefficient",
+        "lower_stop_m",
+        "upper_stop_m",
+        "basis",
+        "evidence"
+      ],
+      "properties": {
+        "stiffness_n_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "damping_ns_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "friction_coefficient": {
+          "type": "number",
+          "minimum": 0
+        },
+        "lower_stop_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "upper_stop_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/evidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "joint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "connection",
+        "type",
+        "endpoints",
+        "permitted_motion",
+        "property_source",
+        "properties",
+        "definition",
+        "requirements",
+        "inspections"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "connection": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "fixed",
+            "revolute",
+            "slider",
+            "bolted",
+            "welded",
+            "bonded",
+            "suspension",
+            "articulation"
+          ]
+        },
+        "endpoints": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance",
+              "datum"
+            ],
+            "properties": {
+              "instance": {
+                "type": "string",
+                "minLength": 1
+              },
+              "datum": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "permitted_motion": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "property_source": {
+          "enum": [
+            "design",
+            "supplier",
+            "measured"
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "design",
+            "supplier",
+            "measured"
+          ],
+          "properties": {
+            "design": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mechanical"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "supplier": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mechanical"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "measured": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/mechanical"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "definition": {
+          "type": "object"
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "inspections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "inspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "instance",
+        "characteristic",
+        "unit",
+        "minimum",
+        "maximum",
+        "dependencies"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instance": {
+          "type": "string",
+          "minLength": 1
+        },
+        "characteristic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

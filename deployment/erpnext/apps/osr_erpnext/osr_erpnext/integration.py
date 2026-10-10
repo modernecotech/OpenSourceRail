@@ -254,9 +254,14 @@ def execution_feedback(project):
                         'erp_item', 'source_package'], order_by='modified desc', limit_page_length=0):
             source = frappe.parse_json(row.source_package)
             item = source.get('item', {}) if isinstance(source, dict) else {}
+            engineering_identity = source.get('package', {}).get('engineering_identity') if isinstance(source, dict) else None
+            if engineering_identity is not None:
+                from osr_erpnext.engineering_identity import validate_identity
+                validate_identity(engineering_identity)
             result['execution_mappings'].append(dict(name=row.name,
                 component_type_id=row.component_type, engineering_revision=row.engineering_revision,
                 engineering_sha256=row.engineering_sha256, erp_item_code=row.erp_item,
+                **({'engineering_identity': engineering_identity} if engineering_identity is not None else {}),
                 production_bom=item.get('production_bom'), uom=item.get('uom'),
                 review_reference=(source.get('package', {}).get('mapping', {}).get('review_reference')
                                   if isinstance(source, dict) else None)))
@@ -350,6 +355,12 @@ def preview_execution(project, package):
     calculated = hashlib.sha256(json.dumps({k: v for k, v in package.items() if k != 'sha256'}, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
     if package.get('sha256') != calculated or not package['mapping'].get('review_reference'):
         frappe.throw('Reviewed execution package checksum required')
+    if package.get('engineering_identity') is not None:
+        from osr_erpnext.engineering_identity import validate_identity
+        validate_identity(package['engineering_identity'])
+        if (package['engineering_identity']['design_revision'] != package['engineering_revision'] or
+            package['engineering_identity']['asset_id'] != package.get('asset_id')):
+            frappe.throw('Engineering QA identity differs from execution revision/asset')
     mappings = []
     for entry in package['mapping']['items']:
         item = frappe.get_doc('Item', entry['erp_item_code']); item.check_permission('read')
