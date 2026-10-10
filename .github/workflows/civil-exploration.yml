@@ -33,6 +33,10 @@ on:
       - 'design/component-catalogue/tests/test_shared_engineering.py'
       - 'tools/automation/shared-train-viaduct.py'
       - 'tools/automation/shared-engineering-campaign.py'
+      - 'tools/automation/shared-service-envelope.py'
+      - 'tools/automation/export-shared-service-review.py'
+      - 'tools/automation/verify-shared-review-history.py'
+      - 'tools/automation/tests/test_shared_review_history.py'
       - 'tools/automation/export-shared-campaign-review.py'
       - 'tools/automation/check-shared-engineering-standard.py'
       - 'tools/automation/tests/test_shared_engineering_standard.py'
@@ -85,6 +89,8 @@ jobs:
       OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the retained research evidence source commit
+        run: git fetch --no-tags --depth=1 origin bcb21593fb6e4d0c73645429d4fbf059252b4002
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -98,7 +104,7 @@ jobs:
       - name: Verify shared geometry, inertia, evidence and train–bridge coupling
         env:
           PYTHONPATH: design/component-catalogue/src:.
-        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py
+        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py engineering/analysis/tests/test_shared_service.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py tools/automation/tests/test_shared_review_history.py
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |

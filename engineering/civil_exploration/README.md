@@ -277,3 +277,11 @@ are separate diagnostics; they do not confer full-system nonlinear or physical
 qualification. Unmeasured material matrices and range scenarios are labelled
 research inputs. Hybrid bond/slip, calibrated cyclic degradation, scour and 3D
 vehicle lateral interaction need project data and model selection.
+
+
+The [service-envelope workflow](../../docs/civil/shared-train-viaduct.md#complete-passage-planning-and-motion-histories)
+adds full represented-pair passage coverage, individual body histories and
+unweighted ride diagnostics. It distinguishes executed cases from plans and
+keeps full-family, ISO comfort and physical acceptance open. Earlier published
+reviews retain their producing source commit and can be checked with
+`tools/automation/verify-shared-review-history.py`.

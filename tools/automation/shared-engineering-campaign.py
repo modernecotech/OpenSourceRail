@@ -43,6 +43,15 @@ def publish(path,value):
 
 def forward(model,cfg,parameters,test,dt,mesh,rail):
     import numpy as np
+    channel=test['channel'];kind=channel.get('kind','contact')
+    if kind=='contact':
+        if test['quantity']!='force' or test['unit']!='N':raise ValueError('contact calibration channel requires force in N')
+        if channel['metric'] not in ('normal_n','vertical_n','lateral_n','longitudinal_n'):raise ValueError('unsupported calibration channel')
+    elif kind=='body':
+        expected={'acceleration_body_m_s2':('acceleration','m/s2'),'angular_acceleration_body_rad_s2':('angular-acceleration','rad/s2')}
+        if channel['metric'] not in expected or (test['quantity'],test['unit'])!=expected[channel['metric']]:raise ValueError('body calibration quantity/unit mismatch')
+        if type(channel.get('axis')) is not int or not 0<=channel['axis']<3:raise ValueError('body calibration requires axis 0, 1 or 2')
+    else:raise ValueError('unsupported calibration channel kind')
     m=deepcopy(model);c=deepcopy(cfg)
     for name,value in parameters.items():
         value=float(value)
@@ -55,11 +64,16 @@ def forward(model,cfg,parameters,test,dt,mesh,rail):
         elif name=='friction_coefficient':c['contact']['friction_coefficient']=value
         else:raise ValueError('unregistered spatial calibration parameter: '+name)
     r=run_spatial(m,c,dt=dt,duration_s=max(test['time_s']),deck_mesh=mesh,rail_step=rail)
-    values=[];channel=test['channel']
+    if not r['within_adapter_domain']:
+        raise ValueError('calibration prediction is outside the spatial adapter domain: '+', '.join(r['domain_exceedances']))
+    values=[]
     for h in r['history']:
-        row=next(x for x in h['contacts'] if x['train']==channel['train'] and x['wheelset']==channel['wheelset'] and x['side']==channel['side'])
-        if channel['metric'] not in ('normal_n','lateral_n','longitudinal_n'):raise ValueError('unsupported calibration channel')
-        values.append(row[channel['metric']])
+        if kind=='contact':
+            row=next(x for x in h['contacts'] if x['train']==channel['train'] and x['wheelset']==channel['wheelset'] and x['side']==channel['side'])
+            values.append(row[channel['metric']])
+        else:
+            row=next(x for x in h['bodies'] if x['train']==channel['train'] and x['body']==channel['body'])
+            values.append(row[channel['metric']][channel['axis']])
     if min(test['time_s'])<dt:raise ValueError('measured sample predates the forward solver output')
     return np.interp(test['time_s'],[h['time_s'] for h in r['history']],values)
 

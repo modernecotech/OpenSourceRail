@@ -295,6 +295,82 @@ ISO method references. Its numerical thresholds are OpenSourceRail rules.
 keeps ISO conformity and physical release open while evaluating the numerical
 evidence.
 
+## Complete-passage planning and motion histories
+
+[Retained complete-passage review](../../engineering/civil_exploration/examples/shared-service-envelope-review.json).
+The empty represented car pair completes an 8.13-second passage at 15 m/s.
+Every recorded contact enters and clears the modelled track; separate time-step
+and mesh checks pass the 5% numerical screen. The other planned cases are
+explicitly unexecuted, and the full six-car operating envelope remains open.
+
+The service-envelope workflow now places every represented wheel before the
+modelled approach track and computes the time needed for the last wheel to clear
+it. The case matrix includes empty/nominal/crush/uneven loads, operating speeds,
+acceleration, service/emergency braking, rescue, maintenance, curves/cant/vertical
+curves, irregularity/defects, synthetic wear, degraded suspension/ground/bearings,
+and simultaneous traffic with different speeds and arrival offsets. A supplied
+fine speed band adds resonance screening cases; generating a plan does not execute
+or qualify those cases. Braking that stops before clearance is a stopping test.
+
+```sh
+tools/automation/osr-python tools/automation/shared-service-envelope.py \
+  plan --output build/engineering/service-plan --resonance-band 14:16:.25
+
+tools/automation/osr-python tools/automation/shared-service-envelope.py \
+  run --output build/engineering/service-passages --cases empty-15mps \
+  --dt .005 --mesh 2 --rail-step 2
+
+tools/automation/osr-python tools/automation/shared-service-envelope.py \
+  verify --output build/engineering/service-passages
+```
+
+Coverage uses each recorded wheel contact on both sides at every timestep, its
+entry into the structure and clearance of the approach. Duration metadata alone
+cannot establish a passage. These are the linearised adapter's nominal contact
+interpolation stations; finite contact motion and actual operational train
+clearance need the appropriate geometry and validation. The demonstration still
+represents two cars of the six-car planning family; it does not qualify the full
+111 m train. Unexecuted cases remain explicit in the campaign report.
+
+Motion histories retain each body's global and nominal-body-axis acceleration,
+angular acceleration, velocity, rotation perturbation and reference frame at the
+rigid CG. Unweighted RMS, crest factor and fourth-power VDV are computed from the
+actual time series. They are not ISO frequency-weighted comfort results or
+seat/body-interface measurements. Body linear/angular acceleration and vertical
+wheel-force channels can now be selected by the inverse-calibration adapter.
+Invalid units, invalid solver domains and relabelled specimen serials are rejected.
+
+Every converged sample is streamed to a deterministic compressed JSONL file.
+Nonconvergence and wall-budget termination preserve the converged prefix. The
+normal gap now includes lateral profile movement once, and sliding traction has
+tangents for displacement direction and normal-force dependence. Lateral/vertical
+ratios use the vertical force component; normal force is retained separately.
+Powered axles receive the equivalent positive-traction demand; braking uses all
+axles. Wheel-spin reference acceleration is included. Actual motor/brake control
+laws, torque limits and finite moving-patch geometry remain required for release.
+
+Finalist confirmation now uses the same uneven payload and adverse conditions as
+its search scenarios. Time and mesh refinements are separate; a failed refinement
+or domain check prevents a numerical confirmation claim. Assembly/capacity and
+physical acceptance remain separate.
+
+## Published evidence versions
+
+The earlier vertical/spatial reviews and standards assessment are retained
+unchanged as research evidence produced by commit `bcb21593fb`. Their source hashes
+are not rewritten to match new solver code. Verify the producing source version:
+
+```sh
+tools/automation/osr-python tools/automation/verify-shared-review-history.py \
+  engineering/civil_exploration/examples/shared-spatial-engineering-review.json \
+  --revision bcb21593fb
+```
+
+This checks the publication and recorded code against the immutable Git commit.
+It reports whether the current implementation matches, and does not requalify the
+current solver or claim to verify unavailable bulk campaign outputs. New service
+campaign receipts bind their own current source/environment and retained traces.
+
 ## Numerical scope and remaining release gates
 
 Independent tests cover spherical Hertz contact/pressure, stick/slip passivity,

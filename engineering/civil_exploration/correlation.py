@@ -9,7 +9,7 @@ from osr_mech.engineering_definition import fingerprint
 
 
 UNITS = {'displacement': 'm', 'acceleration': 'm/s2', 'force': 'N',
-         'moment': 'N*m', 'strain': '1', 'mass': 'kg', 'rotation': 'rad'}
+         'moment': 'N*m', 'strain': '1', 'mass': 'kg', 'rotation': 'rad', 'angular-acceleration':'rad/s2'}
 
 
 def evidence(reference, root):
@@ -37,7 +37,7 @@ def calibrate(model, dataset, parameters, predict, *, root, holdout_specimens):
     tests = dataset['tests']; holdout = set(holdout_specimens)
     if len({t['id'] for t in tests}) != len(tests) or not holdout:
         raise ValueError('unique tests and independent holdout specimens required')
-    sources = {}; training = []; validation = []
+    sources = {}; training = []; validation = []; specimen_serials={}; serial_specimens={}
     for test in tests:
         if test['quantity'] not in UNITS or test['unit'] != UNITS[test['quantity']]:
             raise ValueError('measurement units do not match the declared physical channel')
@@ -50,6 +50,12 @@ def calibrate(model, dataset, parameters, predict, *, root, holdout_specimens):
             raise ValueError('ordered timestamps, finite samples and positive uncertainty required')
         if not test['specimen_id'] or not test['serial'] or not test['design_revision']:
             raise ValueError('specimen, serial and design revision must be retained')
+        specimen=test['specimen_id'];serial=test['serial']
+        if specimen in specimen_serials and specimen_serials[specimen]!=serial:
+            raise ValueError('one calibration/holdout specimen identity cannot refer to different serials')
+        if serial in serial_specimens and serial_specimens[serial]!=specimen:
+            raise ValueError('one serial cannot be relabelled as independent calibration/holdout specimens')
+        specimen_serials[specimen]=serial;serial_specimens[serial]=specimen
         if test['design_revision'] != model['revision']:
             raise ValueError('measurement revision differs from the model')
         for reference in (test['source'], test['calibration_record']):

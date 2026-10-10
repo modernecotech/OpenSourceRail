@@ -1,4 +1,4 @@
-"""Single-patch nonconformal Hertz/Mindlin contact with explicit validity checks.
+"""Single-patch Hertz and bristle/Coulomb contact with explicit validity checks.
 
 Supplied wheel/rail profiles locate the patch; no circular pressure assumption is
 substituted for an elliptical patch. Conformal/flange/multiple-patch contact is
@@ -55,6 +55,18 @@ def normal_force(penetration,coefficients):
     return coefficients['coefficient_n_m32']*max(penetration,0.)**1.5
 
 
+def profile_normal_gap(vertical_displacement_m,location,reference,irregularity_m=0.):
+    """Profile minimisation already includes lateral shift: do not add it twice.
+
+    Convert the vertical surface gap to its normal component. Force application
+    remains at the linearised nominal port; a finite moving patch needs a more
+    detailed geometry/force adapter.
+    """
+    vertical=finite(vertical_displacement_m,'vertical displacement')
+    rough=finite(irregularity_m,'irregularity')
+    return float(location['normal_local'][2])*(vertical+location['relative_height_m']-reference['relative_height_m']+rough)
+
+
 class ProfilePair:
     def __init__(self,wheel,rail,rolling_radius_m,effective_modulus_pa):
         def spline(points):
@@ -97,13 +109,19 @@ class TangentialContact:
         previous=np.zeros(2) if self.displacement is None else self.displacement
         if normal_n==0:
             lost=.5*stiffness_n_m*float(previous@previous)
-            return dict(force_n=np.zeros(2),next_displacement=np.zeros(2),dissipation_j=lost,stored_energy_j=0.)
+            return dict(force_n=np.zeros(2),next_displacement=np.zeros(2),dissipation_j=lost,stored_energy_j=0.,
+                        restoring_tangent_n_m=np.zeros((2,2)),restoring_normal_derivative=np.zeros(2))
         trial=previous+v*dt;traction=stiffness_n_m*trial;limit=friction*normal_n
         magnitude=np.linalg.norm(traction)
-        if magnitude>limit:traction*=limit/magnitude
+        tangent=np.eye(2)*stiffness_n_m;normal_derivative=np.zeros(2)
+        if magnitude>limit:
+            direction=traction/magnitude
+            tangent=limit/magnitude*stiffness_n_m*(np.eye(2)-np.outer(direction,direction))
+            normal_derivative=friction*direction;traction*=limit/magnitude
         current=traction/stiffness_n_m;dissipation=max(0.,float(traction@(trial-current)))
         return dict(force_n=-traction,next_displacement=current,dissipation_j=dissipation,
-                    stored_energy_j=.5*stiffness_n_m*float(current@current))
+                    stored_energy_j=.5*stiffness_n_m*float(current@current),
+                    restoring_tangent_n_m=tangent,restoring_normal_derivative=normal_derivative)
 
     def commit(self,result):
         self.displacement=result['next_displacement'].copy();self.dissipated_j+=result['dissipation_j']

@@ -17,6 +17,34 @@ from .search import select,fronts
 from .spatial_demo import configuration
 from .spatial_vehicle import run_spatial
 from .foundations import stiffness as foundation_stiffness
+from .constraints import convergence
+
+
+def confirm(row):
+    """Confirm each sampled loading/environment, separating time and mesh changes."""
+    metrics=['maximum_wheel_contact_n','peak_structure_displacement_m','peak_ride_acceleration_m_s2','maximum_wheel_unloading']
+    scenarios=[]
+    for sample in row['scenarios']:
+        inputs=sample['inputs'];hardware=deepcopy(row['hardware']);cfg=deepcopy(row['analysis'])
+        hardware['bridge']['candidate']['material']['youngs_modulus_pa']*=inputs['modulus_factor']
+        cfg['contact']['friction_coefficient']=inputs['friction']
+        cfg['traffic'][0]['load_case'].update(id='uneven',passenger_mass_kg=75.*inputs['passenger_mass_factor'])
+        if sample['id']!='nominal':cfg['infrastructure_condition']=dict(foundation_stiffness_factor=.5,bearing_stiffness_factor=.8)
+        levels=[];dt=.001
+        for _ in range(5):
+            r=run_spatial(hardware,cfg,dt=dt,duration_s=.1,deck_mesh=4,rail_step=1.)
+            levels.append(r)
+            if len(levels)>=2 and convergence(levels,metrics)['passed']:break
+            if dt/2<.0000625:break
+            dt/=2
+        fine=run_spatial(hardware,cfg,dt=dt,duration_s=.1,deck_mesh=8,rail_step=.5)
+        scenarios.append(dict(id=sample['id'],inputs=inputs,hardware_definition_sha256=fingerprint(hardware),configuration_sha256=fingerprint(cfg),
+            temporal_levels=levels,spatial_level=fine,temporal_refinement=convergence(levels,metrics),
+            spatial_refinement=convergence([levels[-1],fine],metrics),
+            within_adapter_domain=all(r['within_adapter_domain'] for r in levels+[fine]),capacity_accepted=False))
+    return dict(candidate_id=row['candidate_id'],scenarios=scenarios,capacity_accepted=False,
+        requires_separate_temporal_and_spatial_refinement=False,
+        numerical_confirmation_passed=bool(scenarios) and all(s['within_adapter_domain'] and s['temporal_refinement']['passed'] and s['spatial_refinement']['passed'] for s in scenarios))
 
 
 def search(model,*,seeds=(11,23),evaluations=8,population=4,wall_seconds=1200):
@@ -100,12 +128,9 @@ def search(model,*,seeds=(11,23),evaluations=8,population=4,wall_seconds=1200):
     selected=select(fronts(good)[0],min(2,len(fronts(good)[0]))) if good else []
     confirmations=[]
     for row in selected:
-        levels=[]
-        for dt,mesh,rail in [(.001,4,1.),(.0005,8,.5)]:
-            r=run_spatial(row['hardware'],row['analysis'],dt=dt,duration_s=.1,deck_mesh=mesh,rail_step=rail)
-            levels.append(dict(time_step_s=dt,deck_mesh=mesh,rail_step_m=rail,result=r))
-        confirmations.append(dict(candidate_id=row['candidate_id'],levels=levels,
-            capacity_accepted=False,requires_separate_temporal_and_spatial_refinement=True))
+        try:confirmations.append(confirm(row))
+        except (ValueError,RuntimeError,np.linalg.LinAlgError) as error:
+            confirmations.append(dict(candidate_id=row['candidate_id'],status='failed',error=str(error),numerical_confirmation_passed=False,capacity_accepted=False))
     return dict(schema='osr-shared-mixed-search/1',hardware_definition_sha256=fingerprint(model),
         budgets=dict(seeds=list(seeds),evaluations_per_method=evaluations,population=population,wall_seconds=wall_seconds),
         status='budget-exhausted' if budget_exhausted else 'completed',methods=methods,events=events,candidates=list(cache.values()),

@@ -23,6 +23,12 @@ def response(law, displacement, velocity):
         for axis,points in enumerate(curves):
             if points is None:continue
             value,slope=curve(points,values[axis]);base=K if is_displacement else C
+            if np.any(np.delete(base[axis],axis)!=0) or np.any(np.delete(base[:,axis],axis)!=0):
+                raise ValueError('independent nonlinear axis curves cannot replace a coupled joint matrix; supply a passive coupled potential')
+            if not is_displacement:
+                zero,_=curve(points,0.)
+                if abs(zero)>1e-12 or value*values[axis]<-1e-12:
+                    raise ValueError('damping curve must vanish at rest and dissipate energy')
             force[axis]+=value-base[axis]@values
             matrix[axis,:]=0.;matrix[axis,axis]=slope
     stops=law.get('bump_stops',[None]*6)

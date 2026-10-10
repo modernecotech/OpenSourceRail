@@ -47,16 +47,19 @@ def assess(review,standard):
     correlation=review['synthetic_correlation'];climits=standard['correlation']
     add('identifiable-calibration','numerical',correlation['identifiable'] is True and correlation['optimisation_converged'] is True,
         dict(fitted_parameters=correlation['fitted_parameters'],sensitivity_rank=correlation['sensitivity_rank']))
-    # RMS is already normalised sample-by-sample by the declared uncertainties.
-    add('holdout-residual','numerical',bool(correlation['holdout_tests']) and all(bounded(r['standardised_rmse'],climits['standardised_holdout_rmse_limit']) for r in correlation['holdout_tests']),
-        dict(limit=climits['standardised_holdout_rmse_limit'],holdout_tests=[r['test_id'] for r in correlation['holdout_tests']],
-             physical_measurements_used=correlation['physical_measurements_used']))
-    biases=[]
+    # Recompute metrics from retained samples rather than trusting summary flags.
+    biases=[];rms=[]
     for test in correlation['holdout_tests']:
         sigma=[(band[1]-band[0])/3.92 for band in test['measurement_95_percent_band']]
         if len(sigma)!=len(test['residual']) or not sigma or any(not math.isfinite(s) or s<=0 for s in sigma):
             raise ValueError('holdout bias requires aligned positive sample uncertainty')
-        biases.append(abs(sum(r/s for r,s in zip(test['residual'],sigma))/len(sigma)))
+        if any(type(r) not in (int,float) or not math.isfinite(r) for r in test['residual']):
+            raise ValueError('finite holdout residuals required')
+        normalised=[r/s for r,s in zip(test['residual'],sigma)]
+        biases.append(abs(sum(normalised)/len(sigma)));rms.append(math.sqrt(sum(r*r for r in normalised)/len(sigma)))
+    add('holdout-residual','numerical',bool(rms) and all(bounded(r,climits['standardised_holdout_rmse_limit']) for r in rms),
+        dict(limit=climits['standardised_holdout_rmse_limit'],standardised_rms=rms,
+             holdout_tests=[r['test_id'] for r in correlation['holdout_tests']],physical_measurements_used=correlation['physical_measurements_used']))
     add('holdout-bias','numerical',bool(biases) and all(bounded(v,climits['standardised_absolute_holdout_bias_limit']) for v in biases),
         dict(standardised_absolute_biases=biases,limit=climits['standardised_absolute_holdout_bias_limit']))
     add('iso-method-conformity','physical',None,dict(required='controlled applicable full texts, edition/amendment/clauses and recorded conformity review',
