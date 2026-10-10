@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const source = 'docs/open-source-rail-brochure.html';
-const outputs = ['OpenSourceRail-Brochure.pdf', 'OpenSourceRail-Brochure-A4-Landscape-QR-Fixed.pdf'];
+const outputs = ['OpenSourceRail-Brochure.pdf'];
 const receiptPath = path.join(root, 'docs/brochure-publication.json');
 const digest = async relative => createHash('sha256').update(await fs.readFile(path.join(root, relative))).digest('hex');
 const html = await fs.readFile(path.join(root, source), 'utf8');
@@ -40,7 +40,6 @@ if (arguments_[0] === '--check') {
     if (missing.length) throw new Error('Missing brochure images: ' + missing.join(', '));
     if (await page.locator('.page').count() !== 2) throw new Error('Expected two brochure pages');
     await page.pdf({ path: path.join(root, outputs[0]), preferCSSPageSize: true, printBackground: true });
-    await fs.copyFile(path.join(root, outputs[0]), path.join(root, outputs[1]));
   } finally {
     await browser.close();
   }

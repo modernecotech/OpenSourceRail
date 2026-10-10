@@ -15,6 +15,9 @@ __pycache__/
 # All build, simulation, book, BOM, and generated deployment outputs.
 /build/
 
+# Retired generated city output tree; canonical packages live in cities/catalogue/.
+/designs/
+
 # Every city publishes a compact engineering and operations review package.
 # Keep high-volume raw solver and manufacturing outputs local: they are
 # reproducible from the tracked design, summaries, manifests, and scripts.
@@ -49,6 +52,7 @@ target_kani/
 # Editor / OS cruft
 .DS_Store
 *.swp
+*.swo
 *~
 
 # Claude Code runtime state (not useful in git history)
