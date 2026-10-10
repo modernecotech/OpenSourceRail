@@ -49,6 +49,54 @@ independent acceptance are still required; the software cannot manufacture them.
 
 ## More realistic response models
 
+The complete `system-study` workflow now compares ten beam, six pier and nine
+foundation layouts, GFRP/CFRP matrices, material/geometry variants, continuity
+and construction methods. It uses 300 m of double track and a distinctly labelled
+static Baghdad planning sensitivity, without a substituted axle array.
+It reruns component checks, searches cost/mass/working-time Pareto tradeoffs,
+retains failures/checkpoints, and confirms a diverse shortlist with three native
+solid meshes and three 3D frame meshes. The frame includes separate tracks,
+flexible transverse caps, finite bearing roll and coupled foundation stiffness;
+single-track and braking sensitivities are retained. Composite shear-slip
+diagnostics show dependence on still-unmeasured connection properties.
+
+```sh
+tools/automation/osr-python tools/automation/civil-study.py system-study \
+  --output build/engineering/civil-studies/baghdad-complete-systems-v2
+tools/automation/osr-python tools/automation/civil-study.py system-verify \
+  build/engineering/civil-studies/baghdad-complete-systems-v2
+```
+
+This writes a self-contained `report.html`, CSV/Markdown comparisons, section and
+Pareto SVGs, candidate/input/source records, native fields, method-specific CPM
+schedules and complete cost rows. Actual Baghdad prices remain unknown.
+Three synthetic rate/productivity cases give conditional comparisons;
+their hypothetical crane tiers are not crane charts. Empty/segment shipping and
+lifting units differ from service mass. Precast pile production, delivery/splices
+and site concrete transport are included. Carbon totals remain unknown without
+controlled EPDs. Read the [full workflow and remaining acceptance](../../docs/civil/complete-system-exploration.md).
+
+Use `--resume` only with matching frozen inputs/source/native hashes.
+`--skip-detail` supplies reduced evidence only and cannot create the retained
+confirmed review. `--evaluations-per-method`, `--seeds` and `--shortlist` bound
+pilots; the full default uses three seeds, equal random/evolution attempt budgets
+and 24 detailed packages. Numerical-library threads are fixed at one; every
+CalculiX call has a 180-second limit and retains failures. Search wall/evaluation
+limits are in [`config/system-options.json`](config/system-options.json).
+
+Export a fully checked review, optionally updating the requested root README:
+
+```sh
+tools/automation/osr-python tools/automation/export-civil-system-review.py \
+  build/engineering/civil-studies/baghdad-complete-systems-v2 --update-readme
+```
+
+All C01–C14 engineering acceptance gates remain open. The new workflow does not
+give material capacity, prestress, cyclic/fire/fatigue, surveyed ground or actual
+train dynamics an invented pass. The existing reference models below retain
+their original scope; their limitations should be read separately from the
+additional 3D and coupled-pile diagnostics.
+
 - Actual disjoint section regions drive CAD, quantities, area, centroid and both
   bending inertias. Solid end diaphragm regions are counted once and have their
   own stiffness/mass. The hollow deck is a research box, not a qualified product.

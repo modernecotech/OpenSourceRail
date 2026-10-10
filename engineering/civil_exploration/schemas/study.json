@@ -116,7 +116,9 @@
                   "ribbed-deck",
                   "uhpc-ribbed",
                   "hybrid-shell",
-                  "segmental-box"
+                  "segmental-box",
+                  "steel-composite-I",
+                  "frp-composite-I"
                 ],
                 "type": "string"
               },
@@ -125,7 +127,7 @@
                 "properties": {
                   "bottom_m": {
                     "maximum": 0.5,
-                    "minimum": 0.03,
+                    "minimum": 0.006,
                     "type": "number"
                   },
                   "depth_m": {
@@ -155,7 +157,7 @@
                   },
                   "wall_m": {
                     "maximum": 0.5,
-                    "minimum": 0.03,
+                    "minimum": 0.006,
                     "type": "number"
                   }
                 },
@@ -197,7 +199,11 @@
               "family": {
                 "enum": [
                   "solid",
-                  "hollow-tapered"
+                  "hollow-tapered",
+                  "solid-tapered",
+                  "hollow-prismatic",
+                  "segmental-hollow",
+                  "double-skin-hybrid"
                 ],
                 "type": "string"
               },
@@ -214,6 +220,16 @@
                     "minimum": 2,
                     "type": "integer"
                   },
+                  "depth_m": {
+                    "maximum": 3.0,
+                    "minimum": 1.0,
+                    "type": "number"
+                  },
+                  "skin_m": {
+                    "maximum": 0.05,
+                    "minimum": 0.006,
+                    "type": "number"
+                  },
                   "top_scale": {
                     "maximum": 1,
                     "minimum": 0.5,
@@ -222,6 +238,11 @@
                   "wall_m": {
                     "maximum": 0.5,
                     "minimum": 0.1,
+                    "type": "number"
+                  },
+                  "width_m": {
+                    "maximum": 3.0,
+                    "minimum": 0.8,
                     "type": "number"
                   }
                 },
@@ -303,23 +324,53 @@
           "minimum": 2,
           "type": "number"
         },
+        "installation_method": {
+          "enum": [
+            "bored",
+            "CFA",
+            "displacement",
+            "driven",
+            "shallow"
+          ],
+          "type": "string"
+        },
         "pile_count": {
           "maximum": 16,
-          "minimum": 1,
+          "minimum": 0,
           "type": "integer"
         },
         "pile_diameter_m": {
           "maximum": 3,
-          "minimum": 0.3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "pile_inner_diameter_m": {
+          "maximum": 2.5,
+          "minimum": 0.0,
           "type": "number"
         },
         "pile_length_m": {
           "maximum": 60,
-          "minimum": 3,
+          "minimum": 0,
           "type": "number"
+        },
+        "pile_shape": {
+          "enum": [
+            "round",
+            "square"
+          ],
+          "type": "string"
         },
         "site_verified": {
           "type": "boolean"
+        },
+        "type": {
+          "enum": [
+            "pile-group",
+            "single-shaft",
+            "spread"
+          ],
+          "type": "string"
         }
       },
       "required": [
@@ -331,6 +382,52 @@
         "cap_depth_m",
         "basis",
         "site_verified"
+      ],
+      "type": "object"
+    },
+    "foundation_material": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "density_kg_m3": {
+          "maximum": 8500,
+          "minimum": 500,
+          "type": "number"
+        },
+        "measured": {
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "poisson_ratio": {
+          "maximum": 0.49,
+          "minimum": 0,
+          "type": "number"
+        },
+        "stiffness_factor": {
+          "maximum": 1,
+          "minimum": 0.1,
+          "type": "number"
+        },
+        "youngs_modulus_pa": {
+          "maximum": 250000000000.0,
+          "minimum": 1000000000.0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "youngs_modulus_pa",
+        "poisson_ratio",
+        "density_kg_m3",
+        "stiffness_factor",
+        "basis",
+        "measured"
       ],
       "type": "object"
     },
@@ -398,7 +495,9 @@
                       "ribbed-deck",
                       "uhpc-ribbed",
                       "hybrid-shell",
-                      "segmental-box"
+                      "segmental-box",
+                      "steel-composite-I",
+                      "frp-composite-I"
                     ],
                     "type": "string"
                   },
@@ -407,7 +506,7 @@
                     "properties": {
                       "bottom_m": {
                         "maximum": 0.5,
-                        "minimum": 0.03,
+                        "minimum": 0.006,
                         "type": "number"
                       },
                       "depth_m": {
@@ -437,7 +536,7 @@
                       },
                       "wall_m": {
                         "maximum": 0.5,
-                        "minimum": 0.03,
+                        "minimum": 0.006,
                         "type": "number"
                       }
                     },
@@ -462,7 +561,11 @@
                   "family": {
                     "enum": [
                       "solid",
-                      "hollow-tapered"
+                      "hollow-tapered",
+                      "solid-tapered",
+                      "hollow-prismatic",
+                      "segmental-hollow",
+                      "double-skin-hybrid"
                     ],
                     "type": "string"
                   },
@@ -479,6 +582,16 @@
                         "minimum": 2,
                         "type": "integer"
                       },
+                      "depth_m": {
+                        "maximum": 3.0,
+                        "minimum": 1.0,
+                        "type": "number"
+                      },
+                      "skin_m": {
+                        "maximum": 0.05,
+                        "minimum": 0.006,
+                        "type": "number"
+                      },
                       "top_scale": {
                         "maximum": 1,
                         "minimum": 0.5,
@@ -487,6 +600,11 @@
                       "wall_m": {
                         "maximum": 0.5,
                         "minimum": 0.1,
+                        "type": "number"
+                      },
+                      "width_m": {
+                        "maximum": 3.0,
+                        "minimum": 0.8,
                         "type": "number"
                       }
                     },
@@ -529,23 +647,53 @@
                 "minimum": 2,
                 "type": "number"
               },
+              "installation_method": {
+                "enum": [
+                  "bored",
+                  "CFA",
+                  "displacement",
+                  "driven",
+                  "shallow"
+                ],
+                "type": "string"
+              },
               "pile_count": {
                 "maximum": 16,
-                "minimum": 1,
+                "minimum": 0,
                 "type": "integer"
               },
               "pile_diameter_m": {
                 "maximum": 3,
-                "minimum": 0.3,
+                "minimum": 0,
+                "type": "number"
+              },
+              "pile_inner_diameter_m": {
+                "maximum": 2.5,
+                "minimum": 0.0,
                 "type": "number"
               },
               "pile_length_m": {
                 "maximum": 60,
-                "minimum": 3,
+                "minimum": 0,
                 "type": "number"
+              },
+              "pile_shape": {
+                "enum": [
+                  "round",
+                  "square"
+                ],
+                "type": "string"
               },
               "site_verified": {
                 "type": "boolean"
+              },
+              "type": {
+                "enum": [
+                  "pile-group",
+                  "single-shaft",
+                  "spread"
+                ],
+                "type": "string"
               }
             },
             "required": [
@@ -557,6 +705,52 @@
               "cap_depth_m",
               "basis",
               "site_verified"
+            ],
+            "type": "object"
+          },
+          "foundation_material": {
+            "additionalProperties": false,
+            "properties": {
+              "basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "density_kg_m3": {
+                "maximum": 8500,
+                "minimum": 500,
+                "type": "number"
+              },
+              "measured": {
+                "type": "boolean"
+              },
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "poisson_ratio": {
+                "maximum": 0.49,
+                "minimum": 0,
+                "type": "number"
+              },
+              "stiffness_factor": {
+                "maximum": 1,
+                "minimum": 0.1,
+                "type": "number"
+              },
+              "youngs_modulus_pa": {
+                "maximum": 250000000000.0,
+                "minimum": 1000000000.0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "youngs_modulus_pa",
+              "poisson_ratio",
+              "density_kg_m3",
+              "stiffness_factor",
+              "basis",
+              "measured"
             ],
             "type": "object"
           },
@@ -619,7 +813,7 @@
                 "type": "string"
               },
               "density_kg_m3": {
-                "maximum": 4000,
+                "maximum": 8500,
                 "minimum": 500,
                 "type": "number"
               },
@@ -641,7 +835,7 @@
                 "type": "number"
               },
               "youngs_modulus_pa": {
-                "maximum": 100000000000.0,
+                "maximum": 250000000000.0,
                 "minimum": 1000000000.0,
                 "type": "number"
               }
@@ -666,7 +860,7 @@
                   "type": "string"
                 },
                 "density_kg_m3": {
-                  "maximum": 4000,
+                  "maximum": 8500,
                   "minimum": 500,
                   "type": "number"
                 },
@@ -750,7 +944,7 @@
                   "type": "number"
                 },
                 "youngs_modulus_pa": {
-                  "maximum": 100000000000.0,
+                  "maximum": 250000000000.0,
                   "minimum": 1000000000.0,
                   "type": "number"
                 }
@@ -784,6 +978,52 @@
               "osr-civil-candidate/1"
             ],
             "type": "string"
+          },
+          "support_material": {
+            "additionalProperties": false,
+            "properties": {
+              "basis": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "density_kg_m3": {
+                "maximum": 8500,
+                "minimum": 500,
+                "type": "number"
+              },
+              "measured": {
+                "type": "boolean"
+              },
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "poisson_ratio": {
+                "maximum": 0.49,
+                "minimum": 0,
+                "type": "number"
+              },
+              "stiffness_factor": {
+                "maximum": 1,
+                "minimum": 0.1,
+                "type": "number"
+              },
+              "youngs_modulus_pa": {
+                "maximum": 250000000000.0,
+                "minimum": 1000000000.0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "youngs_modulus_pa",
+              "poisson_ratio",
+              "density_kg_m3",
+              "stiffness_factor",
+              "basis",
+              "measured"
+            ],
+            "type": "object"
           }
         },
         "required": [
@@ -853,7 +1093,7 @@
           "type": "string"
         },
         "density_kg_m3": {
-          "maximum": 4000,
+          "maximum": 8500,
           "minimum": 500,
           "type": "number"
         },
@@ -875,7 +1115,7 @@
           "type": "number"
         },
         "youngs_modulus_pa": {
-          "maximum": 100000000000.0,
+          "maximum": 250000000000.0,
           "minimum": 1000000000.0,
           "type": "number"
         }
@@ -900,7 +1140,7 @@
             "type": "string"
           },
           "density_kg_m3": {
-            "maximum": 4000,
+            "maximum": 8500,
             "minimum": 500,
             "type": "number"
           },
@@ -984,7 +1224,7 @@
             "type": "number"
           },
           "youngs_modulus_pa": {
-            "maximum": 100000000000.0,
+            "maximum": 250000000000.0,
             "minimum": 1000000000.0,
             "type": "number"
           }
@@ -1059,6 +1299,52 @@
       "additionalProperties": {
         "type": "string"
       },
+      "type": "object"
+    },
+    "support_material": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "density_kg_m3": {
+          "maximum": 8500,
+          "minimum": 500,
+          "type": "number"
+        },
+        "measured": {
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "poisson_ratio": {
+          "maximum": 0.49,
+          "minimum": 0,
+          "type": "number"
+        },
+        "stiffness_factor": {
+          "maximum": 1,
+          "minimum": 0.1,
+          "type": "number"
+        },
+        "youngs_modulus_pa": {
+          "maximum": 250000000000.0,
+          "minimum": 1000000000.0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "youngs_modulus_pa",
+        "poisson_ratio",
+        "density_kg_m3",
+        "stiffness_factor",
+        "basis",
+        "measured"
+      ],
       "type": "object"
     },
     "track_count": {

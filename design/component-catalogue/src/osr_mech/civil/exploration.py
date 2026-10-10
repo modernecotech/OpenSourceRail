@@ -54,7 +54,7 @@ def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, depth_m=None,
                  flange_width_m=.65, rib_count=3, rib_width_m=.18, *, diaphragm=False):
     width, depth = pi.DECK_WIDTH_MM/1000, pi.OVERALL_DEPTH_MM/1000
     depth = depth_m or depth
-    if family not in ('pi', 'hollow-box', 'conventional-I', 'U-girder', 'ribbed-deck', 'uhpc-ribbed', 'hybrid-shell', 'segmental-box'):
+    if family not in ('pi', 'hollow-box', 'conventional-I', 'steel-composite-I', 'frp-composite-I', 'U-girder', 'ribbed-deck', 'uhpc-ribbed', 'hybrid-shell', 'segmental-box'):
         raise ValueError('unknown deck family')
     roles = []
     if diaphragm:
@@ -69,7 +69,7 @@ def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, depth_m=None,
         regions = hollow_regions(width, depth, top_m, bottom_m, wall_m)
         shear_area = 5*2*wall_m*(depth-top_m-bottom_m)/6
         roles = ['concrete']*4 if family != 'hybrid-shell' else ['concrete', 'frp', 'frp', 'frp']
-    elif family == 'conventional-I':
+    elif family in ('conventional-I', 'steel-composite-I', 'frp-composite-I'):
         if 2*flange_width_m >= 1.435 or top_m+bottom_m*2 >= depth:
             raise ValueError('conventional girders overlap or have no clear web')
         web_height = depth-top_m-2*bottom_m
@@ -80,6 +80,8 @@ def deck_section(family: str, top_m=.16, bottom_m=.10, wall_m=.14, depth_m=None,
                         rectangle(wall_m, web_height, y, bottom_m+web_height/2),
                         rectangle(flange_width_m, bottom_m, y, depth-top_m-bottom_m/2)]
         shear_area = 5*2*wall_m*web_height/6
+        if family != 'conventional-I':
+            roles = ['concrete']+['steel' if family == 'steel-composite-I' else 'frp']*6
     elif family == 'U-girder':
         if bottom_m >= depth or 2*wall_m >= width:
             raise ValueError('invalid U-girder clear opening')
@@ -107,21 +109,34 @@ def deck_segments(span_m: float, family: str, **parameters):
             for a, b, d in ((0., end, True), (end, span_m-end, False), (span_m-end, span_m, True))]
 
 
-def pier_segments(family: str, height_m: float, wall_m=.25, top_scale=.85, count=8):
-    if family not in ('solid', 'hollow-tapered') or not 5 <= height_m <= 12:
+def pier_segments(family: str, height_m: float, wall_m=.25, top_scale=.85, count=8,
+                  width_m=None, depth_m=None, skin_m=.012):
+    if family not in ('solid', 'hollow-tapered', 'solid-tapered', 'hollow-prismatic', 'segmental-hollow', 'double-skin-hybrid') or not 5 <= height_m <= 12:
         raise ValueError('unsupported pier family/height')
     if type(count) is not int or not 2 <= count <= 64 or not .5 <= top_scale <= 1:
         raise ValueError('invalid taper discretisation')
     result = []
     for i in range(count):
-        scale = 1. if family == 'solid' else 1-(1-top_scale)*(i+.5)/count
-        longitudinal = sub.PIER_COLUMN_X_MM/1000*scale
-        transverse = sub.PIER_COLUMN_Y_MM/1000*scale
-        regions = ([rectangle(transverse, longitudinal, z=longitudinal/2)] if family == 'solid'
-                   else hollow_regions(transverse, longitudinal, wall_m, wall_m, wall_m))
+        scale = 1. if family in ('solid', 'hollow-prismatic') else 1-(1-top_scale)*(i+.5)/count
+        longitudinal = (depth_m or sub.PIER_COLUMN_X_MM/1000)*scale
+        transverse = (width_m or sub.PIER_COLUMN_Y_MM/1000)*scale
+        roles = None
+        if family in ('solid', 'solid-tapered'):
+            regions = [rectangle(transverse, longitudinal, z=longitudinal/2)]
+        elif family == 'double-skin-hybrid':
+            if not 0 < 2*skin_m < wall_m:
+                raise ValueError('hybrid skins must leave a concrete core')
+            regions = []; roles = []
+            for inset, thickness, material in ((0.,skin_m,'frp'), (skin_m,wall_m-2*skin_m,'concrete'), (wall_m-skin_m,skin_m,'frp')):
+                layer = hollow_regions(transverse-2*inset, longitudinal-2*inset, thickness, thickness, thickness)
+                for r in layer:r['z_m']+=inset
+                regions.extend(layer);roles.extend([material]*len(layer))
+        else:
+            regions = hollow_regions(transverse, longitudinal, wall_m, wall_m, wall_m)
         properties = section_properties(regions)
         result.append(dict(start_m=i*height_m/count, end_m=(i+1)*height_m/count,
                            regions=regions, shear_area_m2=5*properties['area_m2']/6, **properties))
+        if roles is not None:result[-1]['material_roles']=roles
     return result
 
 
@@ -131,12 +146,21 @@ def geometry(definition: dict) -> dict:
     allowed={'pi':set(),'hollow-box':{'top_m','bottom_m','wall_m','depth_m'},
              'hybrid-shell':{'top_m','bottom_m','wall_m','depth_m'},'segmental-box':{'top_m','bottom_m','wall_m','depth_m'},
              'conventional-I':{'top_m','bottom_m','wall_m','depth_m','flange_width_m'},
+             'steel-composite-I':{'top_m','bottom_m','wall_m','depth_m','flange_width_m'},
+             'frp-composite-I':{'top_m','bottom_m','wall_m','depth_m','flange_width_m'},
              'U-girder':{'bottom_m','wall_m','depth_m'},
              'ribbed-deck':{'top_m','depth_m','rib_count','rib_width_m'},'uhpc-ribbed':{'top_m','depth_m','rib_count','rib_width_m'}}
     if deck['family'] not in allowed or set(deck['parameters'])-allowed[deck['family']]:
         raise ValueError('unknown or ignored family parameters')
     if pier['family']=='solid' and pier['parameters']:
         raise ValueError('solid pier parameters cannot be overridden')
+    pier_allowed={'solid':set(),'hollow-tapered':{'wall_m','top_scale','count'},
+                  'solid-tapered':{'top_scale','count','width_m','depth_m'},
+                  'hollow-prismatic':{'wall_m','count','width_m','depth_m'},
+                  'segmental-hollow':{'wall_m','top_scale','count','width_m','depth_m'},
+                  'double-skin-hybrid':{'wall_m','top_scale','count','width_m','depth_m','skin_m'}}
+    if pier['family'] not in pier_allowed or set(pier['parameters'])-pier_allowed[pier['family']]:
+        raise ValueError('unknown or ignored pier parameters')
     return dict(deck=deck_segments(deck['span_m'], deck['family'], **deck['parameters']),
                 pier=pier_segments(pier['family'], pier['height_m'], **pier['parameters']),
                 cap_concrete_m3=(sub.PIER_CAP_X_MM*sub.PIER_CAP_Y_MM*sub.PIER_CAP_HEIGHT_MM-2000*6500*800)/1e9,
@@ -149,14 +173,28 @@ def geometry(definition: dict) -> dict:
 def foundation_geometry(parameters: dict) -> dict:
     """Common authoritative pile-group geometry for takeoff, CAD and BIM."""
     count, diameter = parameters['pile_count'], parameters['pile_diameter_m']
-    nx = math.ceil(math.sqrt(count)); ny = math.ceil(count/nx)
     length, width = parameters['cap_length_m'], parameters['cap_width_m']
+    kind=parameters.get('type','pile-group');shape=parameters.get('pile_shape','round');inner=parameters.get('pile_inner_diameter_m',0.)
+    if kind not in ('pile-group','single-shaft','spread') or shape not in ('round','square'):
+        raise ValueError('unknown foundation type or pile shape')
+    if kind=='spread':
+        if count!=0 or diameter!=0 or parameters['pile_length_m']!=0 or inner!=0:
+            raise ValueError('spread footing cannot retain fictitious piles')
+        return dict(piles=[],cap_dimensions_m=[length,width,parameters['cap_depth_m']],
+                    cap_concrete_m3=length*width*parameters['cap_depth_m'],pile_concrete_m3=0.,layout_basis='research spread footing; site bearing/settlement qualification required')
+    if type(count) is not int or count<1 or (kind=='single-shaft' and count!=1) or not 0<=inner<diameter or (shape=='square' and inner):
+        raise ValueError('invalid foundation count or hollow pile section')
+    nx = math.ceil(math.sqrt(count)); ny = math.ceil(count/nx)
     if min(length, width) <= diameter or (nx > 1 and length/nx <= diameter) or (ny > 1 and width/ny <= diameter):
         raise ValueError('pile arrangement does not fit the cap')
     centres = [[(i % nx+.5)*length/nx-length/2, (i//nx+.5)*width/ny-width/2] for i in range(count)]
-    pile_volume = math.pi*diameter**2/4*parameters['pile_length_m']
-    return dict(piles=[dict(id=f'pile-{i+1}', centre_xy_m=xy, diameter_m=diameter,
-                           length_m=parameters['pile_length_m'], concrete_m3=pile_volume) for i, xy in enumerate(centres)],
+    pile_area=(diameter**2 if shape=='square' else math.pi*(diameter**2-inner**2)/4)
+    pile_volume = pile_area*parameters['pile_length_m']
+    piles=[dict(id=f'pile-{i+1}', centre_xy_m=xy, diameter_m=diameter,
+                length_m=parameters['pile_length_m'], concrete_m3=pile_volume) for i, xy in enumerate(centres)]
+    if shape!='round' or inner:
+        for p in piles:p.update(shape=shape,inner_diameter_m=inner)
+    return dict(piles=piles,
                 cap_dimensions_m=[length, width, parameters['cap_depth_m']],
                 cap_concrete_m3=length*width*parameters['cap_depth_m'], pile_concrete_m3=count*pile_volume,
                 layout_basis='illustrative regular grid; not a site or reinforcement design')
@@ -182,7 +220,8 @@ def assembly_parts(definition, foundation, route_length_m):
         for j, s in enumerate(geo['pier']):
             for k, r in enumerate(s['regions']):
                 box(f'S{support}-P{j}-R{k}', 'pier', [r['height_m'], r['width_m'], s['end_m']-s['start_m']],
-                    [x+r['z_m']-s['centroid_z_m'], r['y_m'], (s['end_m']+s['start_m'])/2])
+                    [x+r['z_m']-s['centroid_z_m'], r['y_m'], (s['end_m']+s['start_m'])/2],
+                    s.get('material_roles',['concrete']*len(s['regions']))[k])
         # Disjoint cap shell plates reproduce the existing hollow cap net volume.
         for j, (dims, centre) in enumerate([
             ([2.5, 7., .2], [x, 0., height+.1]), ([2.5, 7., .2], [x, 0., height+1.1]),
@@ -191,9 +230,13 @@ def assembly_parts(definition, foundation, route_length_m):
             box(f'S{support}-CAP{j}', 'cap', dims, centre)
         box(f'S{support}-FOUND-CAP', 'foundation', f['cap_dimensions_m'], [x, 0., -foundation['cap_depth_m']/2])
         for pile in f['piles']:
-            parts.append(dict(id=f'S{support}-{pile["id"]}', kind='pile', material='concrete', shape='cylinder',
-                              diameter_m=pile['diameter_m'], length_m=pile['length_m'],
-                              centre_m=[x+pile['centre_xy_m'][0], pile['centre_xy_m'][1], -foundation['cap_depth_m']-pile['length_m']/2]))
+            centre=[x+pile['centre_xy_m'][0],pile['centre_xy_m'][1],-foundation['cap_depth_m']-pile['length_m']/2]
+            if pile.get('shape')=='square':
+                box(f'S{support}-{pile["id"]}','pile',[pile['diameter_m'],pile['diameter_m'],pile['length_m']],centre)
+            else:
+                description=dict(id=f'S{support}-{pile["id"]}',kind='pile',material='concrete',shape='cylinder',diameter_m=pile['diameter_m'],length_m=pile['length_m'],centre_m=centre)
+                if pile.get('inner_diameter_m'):description.update(shape='annulus',inner_diameter_m=pile['inner_diameter_m'])
+                parts.append(description)
     return parts
 
 
@@ -204,6 +247,7 @@ def assembly_cad(definition, foundation, route_length_m):
             part = Box(*[1000*v for v in description['dimensions_m']])
         else:
             part = Cylinder(description['diameter_m']*500, description['length_m']*1000)
+            if description['shape']=='annulus':part=part-Cylinder(description['inner_diameter_m']*500,description['length_m']*1000)
         part = part.locate(Location([1000*v for v in description['centre_m']]))
         part.label = description['id']; parts.append(part)
     return Compound(label='Unreleased complete civil research assembly', children=parts)

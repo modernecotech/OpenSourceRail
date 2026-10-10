@@ -88,6 +88,7 @@ def validate_study(value):
             ('material',value['material']['measured'])]
     claims += [('ground:'+g['name'],g['calibrated']) for g in value['ground_scenarios']]
     claims += [('material:'+name,m['measured']) for name,m in value.get('material_records',{}).items()]
+    claims += [(role,value[role]['measured']) for role in ('support_material','foundation_material') if role in value]
     for role,claimed in claims:
         if claimed and role not in evidence:raise ValueError('measured/calibrated claim needs controlled evidence: '+role)
     for role,receipt in evidence.items():
@@ -102,10 +103,14 @@ def validate_study(value):
             raise ValueError('canonical Pi section parameters cannot be overridden')
         if candidate['pier']['family'] == 'solid' and candidate['pier']['parameters']:
             raise ValueError('canonical solid pier parameters cannot be overridden')
-        if candidate['deck']['family'] in ('uhpc-ribbed','hybrid-shell'):
-            role='uhpc' if candidate['deck']['family']=='uhpc-ribbed' else 'frp'
+        if candidate['deck']['family'] in ('uhpc-ribbed','hybrid-shell','frp-composite-I','steel-composite-I'):
+            role={'uhpc-ribbed':'uhpc','steel-composite-I':'steel'}.get(candidate['deck']['family'],'frp')
             if role not in value.get('material_records',{}):
                 raise ValueError('research family requires explicit material record: '+role)
+        if candidate['pier']['family']=='double-skin-hybrid' and 'frp' not in value.get('material_records',{}):
+            raise ValueError('hybrid pier requires explicit FRP material record')
+    from osr_mech.civil.exploration import foundation_geometry
+    foundation_geometry(value['foundation'])
     train = value['train']
     if len(train['axle_offsets_m']) != len(train['axle_loads_kn']):
         raise ValueError('axle positions and loads differ in count')

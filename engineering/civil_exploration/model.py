@@ -26,7 +26,14 @@ def deck_physics(candidate, section):
 
 
 def cement_area(section):
-    return math.fsum(r['width_m']*r['height_m'] for r,role in zip(section['regions'],section['material_roles']) if role in ('concrete','uhpc'))
+    return math.fsum(r['width_m']*r['height_m'] for r,role in zip(section['regions'],section.get('material_roles',['concrete']*len(section['regions']))) if role in ('concrete','uhpc'))
+
+
+def pier_physics(candidate,section):
+    material=candidate.get('support_material',candidate['material'])
+    regions={**section,'material_roles':section.get('material_roles',['concrete']*len(section['regions']))}
+    return elastic_matrix(regions,{'concrete':material,**candidate.get('material_records',{})},
+                          candidate['material']['youngs_modulus_pa']*candidate['material']['stiffness_factor'])
 
 
 def takeoff(candidate, study):
@@ -42,7 +49,14 @@ def takeoff(candidate, study):
     for s in geo['deck']:
         for r,role in zip(s['regions'],s['material_roles']):
             deck_role_volumes[role]=deck_role_volumes.get(role,0.)+(s['end_m']-s['start_m'])*r['width_m']*r['height_m']
-    pier_volume = math.fsum((s['end_m']-s['start_m'])*s['area_m2'] for s in geo['pier'])
+    pier_volume = math.fsum((s['end_m']-s['start_m'])*cement_area(s) for s in geo['pier'])
+    pier_role_volumes={}
+    for s in geo['pier']:
+        for r,role in zip(s['regions'],s.get('material_roles',['concrete']*len(s['regions']))):
+            pier_role_volumes[role]=pier_role_volumes.get(role,0.)+(s['end_m']-s['start_m'])*r['width_m']*r['height_m']*supports
+    pier_mass=math.fsum((s['end_m']-s['start_m'])*pier_physics(candidate,s)['mass_kg_m'] for s in geo['pier'])
+    support_material=candidate.get('support_material',candidate['material'])
+    foundation_material=candidate.get('foundation_material',support_material)
     ground_geometry = foundation_geometry(foundation)
     pile_volume = ground_geometry['pile_concrete_m3']
     foundation_cap = ground_geometry['cap_concrete_m3']
@@ -61,7 +75,8 @@ def takeoff(candidate, study):
                 foundation_concrete_m3=(pile_volume+foundation_cap)*supports,
                 reinforcement_allowance_kg=reinforcement, prestress_allowance_kg=prestress,
                 embedded_allowance_kg=embedded, superimposed_dead_allowance_kg=track_mass,
-                installed_study_mass_kg=nondeck_concrete*density+deck_material_mass*spans*2+reinforcement+prestress+embedded+track_mass,
+                installed_study_mass_kg=(pier_mass+geo['cap_concrete_m3']*support_material['density_kg_m3']+(pile_volume+foundation_cap)*foundation_material['density_kg_m3'])*supports+deck_material_mass*spans*2+reinforcement+prestress+embedded+track_mass,
+                pier_material_volumes_m3=pier_role_volumes,
                 bare_beam_mass_kg=deck_physics(candidate,geo['deck'][1])['mass_kg_m']*span,
                 fabricated_beam_mass_kg=fabricated, transported_beam_mass_kg=fabricated,
                 suspended_mass_kg=fabricated+allowance['rigging_kg_per_lift'],
@@ -132,6 +147,7 @@ class System:
         self.quantities = takeoff(candidate, study)
         self.next_node = self.next_element = self.next_material = 0
         self.deck_nodes, self.deck_elements, self.deck_spans = [], [], []
+        self.pier_elements=[]
         self.fixed_nodes, self.base_nodes, self.top_nodes = [], [], []
         self.seat_nodes = []
         self.gravity_nodes = {}
@@ -143,7 +159,9 @@ class System:
         material = candidate['material']
         self.E = material['youngs_modulus_pa']*material['stiffness_factor']
         self.G = self.E/(2*(1+material['poisson_ratio']))
-        density = material['density_kg_m3']+candidate['mass_allowances']['reinforcement_kg_m3']
+        support_material=candidate.get('support_material',material)
+        foundation_material=candidate.get('foundation_material',support_material)
+        density = support_material['density_kg_m3']+candidate['mass_allowances']['reinforcement_kg_m3']
         span = candidate['definition']['deck']['span_m']
         height = candidate['definition']['pier']['height_m']
         deck_y = height+self.geo['cap_height_m']+self.geo['deck'][1]['centroid_z_m']
@@ -152,12 +170,27 @@ class System:
             fixed, base = self.node(x, 0), self.node(x, 0)
             ops.fix(fixed, 1, 1, 1)
             self.fixed_nodes.append(fixed); self.base_nodes.append(base)
-            self.spring(fixed, base, (ground['lateral_stiffness_n_m'], ground['axial_stiffness_n_m'], ground['rotational_stiffness_nm_rad']))
+            coupling=ground.get('horizontal_rotation_coupling_n',0.)
+            if coupling:
+                kx=ground['lateral_stiffness_n_m'];offset=coupling/kx
+                residual=ground['rotational_stiffness_nm_rad']-coupling**2/kx
+                if residual<=0:raise ValueError('foundation condensed stiffness is not positive definite')
+                auxiliary=self.node(x,-offset);anchor=self.node(x,-offset)
+                ops.fix(anchor,1,1,1);self.fixed_nodes.append(anchor)
+                ops.rigidLink('beam',base,auxiliary)
+                self.rigid_links.append(dict(from_node=base,to_node=auxiliary,type='condensed-foundation-coupling'))
+                self.spring(anchor,auxiliary,(kx,),directions=[1],kind='foundation-offset-spring')
+                self.spring(fixed,base,(0.,ground['axial_stiffness_n_m'],residual))
+            else:
+                self.spring(fixed, base, (ground['lateral_stiffness_n_m'], ground['axial_stiffness_n_m'], ground['rotational_stiffness_nm_rad']))
             previous = base
             for s in self.geo['pier']:
                 node = self.node(x, s['end_m'])
-                mass = density*s['area_m2']
-                self.beam(previous, node, s, mass)
+                properties=pier_physics(candidate,s)
+                mass=properties['mass_kg_m']+candidate['mass_allowances']['reinforcement_kg_m3']*cement_area(s)
+                effective={**s,'area_m2':properties['area_m2'],'inertia_y_m4':properties['inertia_y_m4'],'shear_area_m2':properties['shear_area_m2']}
+                tag=self.beam(previous, node, effective, mass)
+                self.pier_elements.append((tag,properties))
                 weight = mass*(s['end_m']-s['start_m'])*G/2
                 self.gravity_nodes[previous] = self.gravity_nodes.get(previous, 0)+weight
                 self.gravity_nodes[node] = self.gravity_nodes.get(node, 0)+weight
@@ -171,8 +204,10 @@ class System:
             ops.mass(previous, cap_mass, cap_mass, 0.)
             self.gravity_nodes[previous] = self.gravity_nodes.get(previous, 0)+cap_mass*G
             f = candidate['foundation']
-            foundation_cap_mass = f['cap_length_m']*f['cap_width_m']*f['cap_depth_m']*density
-            pile_mass = f['pile_count']*math.pi*f['pile_diameter_m']**2/4*f['pile_length_m']*density
+            fgeo=foundation_geometry(f)
+            fdensity=foundation_material['density_kg_m3']+candidate['mass_allowances']['reinforcement_kg_m3']
+            foundation_cap_mass = fgeo['cap_concrete_m3']*fdensity
+            pile_mass = fgeo['pile_concrete_m3']*fdensity
             ops.mass(base, foundation_cap_mass, foundation_cap_mass, 0.)
             self.gravity_nodes[base] = self.gravity_nodes.get(base, 0)+(foundation_cap_mass+pile_mass)*G
             self.x[seat] = x
@@ -209,7 +244,7 @@ class System:
         self.node_coordinates[str(self.next_node)] = [x, y]
         return self.next_node
 
-    def spring(self, first, second, stiffnesses):
+    def spring(self, first, second, stiffnesses, directions=None, kind=None):
         materials = []
         for k in stiffnesses:
             self.next_material += 1
@@ -217,10 +252,10 @@ class System:
             materials.append(self.next_material)
         self.next_element += 1
         self.ops.element('zeroLength', self.next_element, first, second, '-mat', *materials,
-                         '-dir', *range(1, len(materials)+1), '-doRayleigh', 1)
+                         '-dir', *(directions or range(1, len(materials)+1)), '-doRayleigh', 1)
         self.element_definitions.append(dict(id=self.next_element, nodes=[first, second],
-                                              type='foundation-spring' if len(stiffnesses) == 3 else 'bearing-spring',
-                                              stiffness=list(stiffnesses), directions=list(range(1, len(materials)+1))))
+                                              type=kind or ('foundation-spring' if len(stiffnesses) == 3 else 'bearing-spring'),
+                                              stiffness=list(stiffnesses), directions=list(directions or range(1, len(materials)+1))))
 
     def beam(self, first, second, section, mass, factor=1):
         self.next_element += 1
@@ -338,6 +373,44 @@ class System:
         if ops.analyze(1) != 0:
             raise RuntimeError('gravity restoration failed')
         return dict(dead=dead, envelope=maximum, governing=governing, positions=snapshots)
+
+    def uniform_service(self,kn_m_per_track,loaded_tracks=2,*,braking_fraction=0.):
+        """Static distributed planning sensitivity, never a moving-axle envelope."""
+        if not math.isfinite(kn_m_per_track) or kn_m_per_track<0 or loaded_tracks not in (1,2) or not math.isfinite(braking_fraction) or not 0<=braking_fraction<=1:
+            raise ValueError('invalid distributed planning load')
+        ops=self.ops;ops.timeSeries('Constant',750);ops.pattern('Plain',750,750)
+        intensity=kn_m_per_track*1000*loaded_tracks
+        for nodes in self.deck_spans:
+            for first,second in zip(nodes,nodes[1:]):
+                force=intensity*(self.x[second]-self.x[first])/2
+                ops.load(first,force*braking_fraction,-force,0.);ops.load(second,force*braking_fraction,-force,0.)
+        self.configure()
+        if ops.analyze(1):raise RuntimeError('distributed planning-load analysis failed')
+        expected=self.quantities['installed_study_mass_kg']*G+intensity*self.study['route_length_m']
+        self.check_balance(expected)
+        horizontal=math.fsum(ops.nodeReaction(n,1) for n in self.fixed_nodes)
+        if not math.isclose(horizontal,-intensity*self.study['route_length_m']*braking_fraction,rel_tol=1e-7,abs_tol=.1):
+            raise ValueError('distributed braking load path does not balance')
+        actions=[];span=self.candidate['definition']['deck']['span_m']
+        for support in range(self.quantities['supports']):
+            x=support*span
+            roots=[n for n in self.fixed_nodes if math.isclose(self.node_coordinates[str(n)][0],x,abs_tol=1e-8)]
+            reactions=[(n,ops.nodeReaction(n)) for n in roots]
+            actions.append(dict(support=support,vertical_n=math.fsum(r[1] for _,r in reactions),
+                                horizontal_n=math.fsum(r[0] for _,r in reactions),
+                                moment_nm=math.fsum(r[2]-self.node_coordinates[str(n)][1]*r[0] for n,r in reactions)))
+        pier=[]
+        for tag,p in self.pier_elements:
+            forces=ops.eleResponse(tag,'localForce')
+            stress=max(abs(forces[0]),abs(forces[3]))*p['fibre_stress_per_axial']+max(abs(forces[2]),abs(forces[5]))*p['fibre_stress_per_moment']
+            pier.append(dict(element=tag,gross_elastic_fibre_stress_pa=stress,local_force=forces))
+        result=dict(response=self.responses(),support_actions=actions,pier_actions=pier,kn_m_per_track=kn_m_per_track,loaded_tracks=loaded_tracks,braking_fraction=braking_fraction,
+                    coverage='static distributed planning load with declared braking sensitivity; actual axle concentrations, dynamics and asymmetry not covered',
+                    expected_total_reaction_n=expected,physical_release=False)
+        ops.remove('loadPattern',750);ops.remove('timeSeries',750)
+        self.configure()
+        if ops.analyze(1):raise RuntimeError('planning gravity restoration failed')
+        return result
 
     def braking(self):
         ops = self.ops

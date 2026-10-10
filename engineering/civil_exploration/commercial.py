@@ -35,8 +35,11 @@ def bill(candidate,study):
         'site_reinstatement':dict(quantity=1.,unit='package'),
     }
     volumes=q['deck_material_volumes_m3']
-    if volumes.get('frp'):
-        rows['frp_material_and_fabrication']=dict(quantity=volumes['frp'],unit='m3')
+    frp=volumes.get('frp',0.)+q['pier_material_volumes_m3'].get('frp',0.)
+    if frp:
+        rows['frp_material_and_fabrication']=dict(quantity=frp,unit='m3')
+    if volumes.get('steel'):
+        rows['structural_steel_material_and_fabrication']=dict(quantity=volumes['steel'],unit='m3')
     if volumes.get('uhpc'):
         # UHPC receives its own rate rather than an ordinary-concrete rate.
         rows['deck_concrete']['quantity']-=volumes['uhpc']
@@ -79,17 +82,20 @@ def equipment(candidate,study,proposal):
                 construction_release=False,gaps=['outrigger/launcher ground bearing','route axle loads/clearances','rigging and lateral stability','supplier availability confirmation'])
 
 
-def price(candidate,study,inputs):
+def price(candidate,study,inputs,*,quantities=None):
     required={'schema','price_date','location','fx_to_usd','fx_basis','rates','life_years','real_discount_rate','maintenance_annual','replacement_events','equipment'}
     if set(inputs)!=required or inputs['schema']!='osr-civil-commercial/1' or not inputs['location']:
         raise ValueError('commercial contract scope incomplete')
     dt.date.fromisoformat(inputs['price_date'])
-    quantities=bill(candidate,study)
+    quantities=bill(candidate,study) if quantities is None else quantities
+    for row in quantities.values():
+        if set(row)!={'quantity','unit'} or not row['unit']:raise ValueError('bill quantity/unit contract incomplete')
+        number(row['quantity'])
     if set(inputs['rates'])-quantities.keys():raise ValueError('unknown cost scope item')
     rows=[];missing=[]
     for item,quantity in quantities.items():
         rate=inputs['rates'].get(item)
-        cost=None
+        cost=0. if quantity['quantity']==0 else None
         if rate is not None:
             if set(rate)!={'unit','rate','currency','source','source_sha256','classification','expiry_date'} or rate['unit']!=quantity['unit']:
                 raise ValueError('rate quantity/unit/source contract mismatch: '+item)

@@ -9,6 +9,7 @@ on:
       - 'engineering/analysis/tests/test_civil_exploration_review.py'
       - 'engineering/analysis/tests/test_civil_exploration_extensions.py'
       - 'engineering/analysis/tests/test_civil_qualification.py'
+      - 'engineering/analysis/tests/test_civil_system_choices.py'
       - 'docs/civil/viaduct-load-model.toml'
       - 'lib/templates/rolling-stock.toml'
       - 'cities/catalogue/west-asia/Iraq/Baghdad/design.toml'
@@ -16,11 +17,16 @@ on:
       - 'cities/catalogue/west-asia/Iraq/Baghdad/engineering/survey/*readiness.json'
       - 'design/component-catalogue/src/osr_mech/civil/**'
       - 'tools/automation/civil-study.py'
+      - 'tools/automation/export-civil-system-review.py'
       - '.github/workflows/civil-exploration.yml'
   workflow_dispatch:
     inputs:
       campaign:
         description: Run the complete bounded research comparison
+        type: boolean
+        default: false
+      complete_systems:
+        description: Run the complete Baghdad static research package search and detailed shortlist
         type: boolean
         default: false
 
@@ -30,7 +36,7 @@ permissions:
 jobs:
   numerical-verification:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       PYTHONPATH: .:design/component-catalogue/src
       OPENBLAS_NUM_THREADS: '1'
@@ -46,7 +52,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y calculix-ccx
       - name: Verify contracts, independent equations and native integrity
-        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py
+        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py engineering/analysis/tests/test_civil_system_choices.py
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |
@@ -54,6 +60,16 @@ jobs:
       - name: Run complete research campaign
         if: ${{ inputs.campaign }}
         run: python tools/automation/civil-study.py programme --deployment reference --search-evaluations 96
+      - name: Run complete-system search and native refinements
+        if: ${{ inputs.complete_systems }}
+        run: python tools/automation/civil-study.py system-study
+      - name: Retain complete-system evidence
+        if: ${{ always() && inputs.complete_systems }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: baghdad-civil-complete-systems
+          path: build/engineering/civil-studies/baghdad-complete-systems/
+          retention-days: 30
       - name: Retain comparison and failed numerical evidence
         if: ${{ always() && inputs.campaign }}
         uses: actions/upload-artifact@v4

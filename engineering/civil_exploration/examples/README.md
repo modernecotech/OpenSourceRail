@@ -40,3 +40,16 @@ solver results or release claim. Their generator is `civil-study.py qualificatio
 and their named consumer is `engineering/analysis/tests/test_civil_qualification.py`.
 Regenerate into a fresh scratch directory, compare to the retained pair, and
 refresh intentionally if the controlled inputs change.
+
+`complete-system-review.json` and `.md` retain the expanded whole-package search,
+source/native identities, conditional cost/mass/time leaders, failed/provisional
+outcomes, diverse 3D/solid confirmations and all external gates.
+`system-choices.svg` shows canonical sections/footprints; `pareto.svg` shows
+synthetic scenario tradeoffs. Actual prices remain null and no qualified/global
+optimum is claimed. The named consumer is
+`engineering/analysis/tests/test_civil_system_choices.py`; the generator is:
+
+```sh
+tools/automation/osr-python tools/automation/export-civil-system-review.py \
+  build/engineering/civil-studies/baghdad-complete-systems-v2 --update-readme
+```

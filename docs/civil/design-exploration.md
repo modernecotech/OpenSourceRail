@@ -28,6 +28,14 @@ range sensitivity, safe artifact retrieval, physical-test planning and the
 existing structural release gate. The generated C01–C14 audit records executed
 software separately from outstanding engineering acceptance.
 
+The [complete-system extension](complete-system-exploration.md) adds ten beam,
+six pier and nine foundation choices, lightweight/HPC/UHPC/steel/GFRP/CFRP
+matrices, variable pile/cap sizes, complete construction-unit/CPM/cost scopes,
+geometry-specific coupled foundation stiffness, 3D caps/tracks/bearings,
+composite slip and multi-family cost/mass/time search. Its native shortlist and
+root README are generated from the sealed research campaign. Accepted criteria,
+actual supplier/site inputs and physical/independent validation remain open.
+
 Baghdad is now the active deployment qualification target. Its source-bound
 [input readiness record](baghdad-qualification.md) retains the six-car planning
 profile and open supplier/site inputs. Default `run`/`programme` commands stop

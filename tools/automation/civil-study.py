@@ -3,7 +3,11 @@
 from pathlib import Path
 import argparse
 import json
+import os
 import sys
+
+os.environ['OPENBLAS_NUM_THREADS']='1'
+os.environ['OMP_NUM_THREADS']='1'
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -62,10 +66,34 @@ def main():
     qualification=commands.add_parser('qualification')
     qualification.add_argument('--train-record',type=Path)
     qualification.add_argument('--output',type=Path,default=ROOT/'build/engineering/civil-studies/baghdad-qualification')
+    systems=commands.add_parser('system-study',help='Compare complete Baghdad research packages without inventing moving axle loads')
+    systems.add_argument('--config',type=Path,default=HERE/'config/system-options.json')
+    systems.add_argument('--scenarios',type=Path,default=HERE/'config/system-scenarios.json')
+    systems.add_argument('--quotes',type=Path,default=HERE/'config/commercial.json')
+    systems.add_argument('--output',type=Path,default=ROOT/'build/engineering/civil-studies/baghdad-complete-systems')
+    systems.add_argument('--evaluations-per-method',type=int)
+    systems.add_argument('--seeds',type=int,nargs='+')
+    systems.add_argument('--shortlist',type=int)
+    systems.add_argument('--skip-detail',action='store_true',help='Screen only; no detailed confirmation claim')
+    systems.add_argument('--resume',action='store_true')
+    system_check=commands.add_parser('system-verify');system_check.add_argument('bundle',type=Path)
+    system_check.add_argument('--historical',action='store_true')
     native = commands.add_parser('_worker', help=argparse.SUPPRESS)
     native.add_argument('job', type=Path); native.add_argument('output', type=Path)
     args = parser.parse_args()
     try:
+        if args.command=='system-study':
+            from engineering.civil_exploration.systems import run as system_run
+            result=system_run(args.output,config_path=args.config,scenario_path=args.scenarios,quotes_path=args.quotes,
+                              evaluations=args.evaluations_per_method,seeds=args.seeds,shortlist_count=args.shortlist,
+                              detail=not args.skip_detail,resume=args.resume)
+            print(args.output/'report.html')
+            return int(result['status']!='completed' or (not args.skip_detail and not result['numerical_refinement_passed']))
+        if args.command=='system-verify':
+            from engineering.civil_exploration.systems import verify as system_verify
+            result=system_verify(args.bundle,current=not args.historical)
+            print(f"Verified {result['distinct_packages']} complete-system packages; qualification and supplier costs remain open")
+            return 0
         if args.command=='qualification':
             from engineering.civil_exploration.qualification import build,write
             report=build(args.train_record);write(report,args.output);print(args.output/'qualification.md');return 0

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6219**.
+Indexed Markdown files: **6221**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **6219**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 208 |
-| [engineering](#engineering) | 91 |
+| [docs](#docs) | 209 |
+| [engineering](#engineering) | 92 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6029,6 +6029,7 @@ Indexed Markdown files: **6219**.
 | [`docs/civil/civil-inspection-and-handover.md`](../docs/civil/civil-inspection-and-handover.md) | Civil inspection, testing and handover plan |
 | [`docs/civil/civil-programme-and-controls.md`](../docs/civil/civil-programme-and-controls.md) | Civil programme and workface controls |
 | [`docs/civil/civil-works-master-plan.md`](../docs/civil/civil-works-master-plan.md) | Civil works master plan |
+| [`docs/civil/complete-system-exploration.md`](../docs/civil/complete-system-exploration.md) | Complete viaduct system exploration |
 | [`docs/civil/construction-logistics-plan.md`](../docs/civil/construction-logistics-plan.md) | Civil construction logistics plan |
 | [`docs/civil/construction-system-selection.md`](../docs/civil/construction-system-selection.md) | Civil Construction-System Selection |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
@@ -6225,6 +6226,7 @@ Indexed Markdown files: **6219**.
 | [`engineering/civil_exploration/README.md`](../engineering/civil_exploration/README.md) | Civil system exploration |
 | [`engineering/civil_exploration/examples/README.md`](../engineering/civil_exploration/examples/README.md) | Retained civil campaign review |
 | [`engineering/civil_exploration/examples/baghdad-qualification/qualification.md`](../engineering/civil_exploration/examples/baghdad-qualification/qualification.md) | Baghdad civil qualification input readiness |
+| [`engineering/civil_exploration/examples/complete-system-review.md`](../engineering/civil_exploration/examples/complete-system-review.md) | Complete viaduct system exploration |
 | [`engineering/civil_exploration/examples/programme-review.md`](../engineering/civil_exploration/examples/programme-review.md) | C01–C14 executed software and remaining acceptance |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |

@@ -84,7 +84,9 @@ def stress_fields(path):
     return rows
 
 
-def run(candidate, study, size_m, output):
+def run(candidate, study, size_m, output,*,additional_service_kn_m=0.):
+    if type(additional_service_kn_m) not in (int,float) or not math.isfinite(additional_service_kn_m) or additional_service_kn_m<0:
+        raise ValueError('solid service intensity must be finite and nonnegative')
     output.mkdir(parents=True,exist_ok=False)
     model=mesh(candidate['definition'],size_m)
     nodes=model['nodes'];span=model['span_m']
@@ -122,13 +124,17 @@ def run(candidate, study, size_m, output):
     # The ALL set is generated, not a list containing only the two end IDs.
     text[-2]='*ELSET,ELSET=ALL,GENERATE'
     text += ['*BOUNDARY','SUPPORTS,3,3',f'{left[0]},1,2',f'{right[0]},2,2','*STEP','*STATIC','*DLOAD','ALL,GRAV,9.81,0.,0.,-1.','*CLOAD']
-    pressure=candidate['mass_allowances']['superimposed_dead_kg_m_per_track']*9.81/2.9
+    pressure=(candidate['mass_allowances']['superimposed_dead_kg_m_per_track']*9.81+additional_service_kn_m*1000)/2.9
     text += [f'{node},3,{-pressure*area:.12g}' for node,area in model['top_face_weights_m2'].items() if area]
     text += ['*NODE PRINT,NSET=MID','U','*NODE PRINT,NSET=SUPPORTS','RF','*EL PRINT,ELSET=ALL','S','*END STEP']
     deck=output/'solid.inp';deck.write_text('\n'.join(text)+'\n')
     binary=shutil.which('ccx')
     if not binary:raise RuntimeError('native CalculiX is required')
-    result=subprocess.run([binary,'solid'],cwd=output,capture_output=True,text=True,timeout=180)
+    try:result=subprocess.run([binary,'solid'],cwd=output,capture_output=True,text=True,timeout=180)
+    except subprocess.TimeoutExpired as error:
+        def log(value):return value.decode(errors='replace') if isinstance(value,bytes) else value or ''
+        (output/'stdout.log').write_text(log(error.stdout));(output/'stderr.log').write_text(log(error.stderr))
+        raise RuntimeError('native solid exceeded its 180-second limit; partial outputs retained') from error
     (output/'stdout.log').write_text(result.stdout);(output/'stderr.log').write_text(result.stderr)
     if result.returncode or 'Job finished' not in result.stdout:raise RuntimeError('native CalculiX solid failed; logs retained')
     dat=output/'solid.dat';rows=stress_fields(dat)
@@ -145,5 +151,8 @@ def run(candidate, study, size_m, output):
                  native_binary_sha256=sha(Path(binary)),physical_release=False,
                  applicability='actual-section linear elastic C3D20R solids; idealized end supports, no prestress/contact/strength acceptance')
     summary['mass_model']='matrix density plus rebar allowance; prestress/inserts spread as explicit bulk mass, not structural reinforcement'
+    if additional_service_kn_m:
+        summary['additional_static_planning_kn_m']=additional_service_kn_m
+        summary['planning_load_is_not_actual_axle_envelope']=True
     (output/'stress-fields.json').write_bytes(encoded(rows));(output/'result.json').write_bytes(encoded(summary))
     return summary

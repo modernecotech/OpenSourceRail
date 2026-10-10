@@ -27,6 +27,66 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 The city catalogue uses **elevated land sections in its controlled central study areas**, radial tangents and curved ring connections where terrain and water permit; retained shore detours and priced bridge candidates replace long lake crossings. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Water and interchange checks](engineering/assurance/catalogue-geography/README.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
 
+## Complete viaduct design exploration
+
+The [civil workbench](engineering/civil_exploration/README.md) compares complete
+**beam–pier–foundation packages**, with Baghdad as the qualification target.
+It searches for separate low-cost, low-mass and short-construction-time choices
+and retains the Pareto tradeoffs, failures, changed parameters and evidence gaps.
+The retained LM3 verification studies and Baghdad research results have distinct
+load bases; Baghdad supplier axle positions are still missing.
+
+| Part of the system | Choices investigated |
+|---|---|
+| Beams and decks | Pi20/Pi25 controls; hollow box; prestressed I; U; ribbed; targeted UHPC ribs; FRP shell/concrete; segmental box; steel–concrete I; FRP–concrete I. Research spans include 20, 25 and 30 m. |
+| Materials and composites | Normal, high-performance and structural lightweight concrete; targeted UHPC; steel; GFRP and CFRP orthotropic matrices. Properties remain declared research hypotheses until measured. |
+| Piers | Solid; solid tapered; hollow tapered; hollow prismatic; segmental hollow; experimental double-skin FRP/concrete. Reinforcement, confinement, joint and cyclic acceptance remain open. |
+| Foundations | Reference pile group; four/six bored piles; single shaft; CFA; displacement piles; hollow and square driven precast piles; spread footings. Diameter, length and cap sizes are investigated with each package. |
+| Assembly and delivery | Simple spans, link slabs and continuity; full precast, segmental, shell/infill and in-situ construction; finite factory/rig/transport/erection resources, curing and inspection. |
+
+![Parametric beam, pier and foundation research choices](engineering/civil_exploration/examples/system-choices.svg)
+
+Colours identify beam/pier materials; blue foundation markers show pile positions.
+
+<!-- GENERATED: complete viaduct choices -->
+Executed comparison: **731 distinct complete packages**, **779 evaluations**, **24 detailed packages**, using **300 m of double track**.
+
+| Conditional objective | Beam | Pier | Foundation | Synthetic installed cost | Installed study mass | Working time |
+|---|---|---|---|---:|---:|---:|
+| Cheapest in `concrete-first` | U-girder 20 m, lightweight | hollow-tapered | CFA-six | $1,774,796 | 6,504.4 t | 120 working days |
+| Lightest in `concrete-first` | hybrid-shell 20 m, high-performance | hollow-prismatic | square-driven-six | $7,374,804 | 5,499.2 t | 154.625 working days |
+| Fastest in `concrete-first` | uhpc-ribbed 20 m, normal | solid-tapered | CFA-six | $2,259,846 | 7,803.8 t | 64.375 working days |
+
+These are the best confirmed research choices found within the declared search budget and synthetic price/productivity scenarios. Supplier-priced cheapest design, railway qualification and global optimality remain unresolved. All physical and operating release flags remain false.
+<!-- END GENERATED: complete viaduct choices -->
+
+Reduced native models screen the packages. A diverse shortlist receives three
+actual-section CalculiX solid meshes and three 3D OpenSees meshes, including
+separate tracks, asymmetric uniform loading, braking sensitivity, transverse cap
+bending, torsion and coupled foundation translation/rotation. Composite-slip
+diagnostics expose dependence on connectors. Empty shipping/lifting units remain
+separate from complete service mass; driven-pile production and delivery are
+included in construction planning.
+
+```sh
+tools/automation/osr-python tools/automation/civil-study.py system-study \
+  --output build/engineering/civil-studies/baghdad-complete-systems-v2
+tools/automation/osr-python tools/automation/civil-study.py system-verify \
+  build/engineering/civil-studies/baghdad-complete-systems-v2
+```
+
+Open the generated `report.html` to filter choices and compare objectives, or
+read the [retained comparison](engineering/civil_exploration/examples/complete-system-review.md)
+and [implementation/acceptance details](docs/civil/complete-system-exploration.md).
+The scope includes materials, reinforcement/tendon allowances, foundations,
+connections, production, transport, plant, temporary works, labour, QA, site
+carrying cost, maintenance and bearing/joint replacement scenarios.
+**Actual Baghdad supplier prices and construction commitments remain open.**
+Static distributed planning loads support research comparisons; actual axle
+loading, calibrated soil/material/connection behaviour, physical tests and
+independent acceptance are required for railway qualification. No numerical
+winner automatically changes the catalogue, city finances or release status.
+
 ## Feature Highlights
 
 ```mermaid

@@ -30,6 +30,8 @@ def candidate(value, study, parents=None, reason=None):
                   foundation=study['foundation'], geometry_sha256=identity(geometry(definition)))
     if study.get('material_records'):
         result['material_records']=study['material_records']
+    for role in ('support_material','foundation_material'):
+        if role in study:result[role]=study[role]
     result['id'] = identity({k: v for k, v in result.items() if k not in ('parents', 'modification_reason')})
     validate(result, load(HERE/'schemas/candidate.json'))
     return result

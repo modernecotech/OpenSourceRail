@@ -21,7 +21,7 @@ def export(candidate, study, output: Path):
     project = f.create_entity('IfcProject', GlobalId=guid('project'), Name='Unreleased civil exploration', RepresentationContexts=[context], UnitsInContext=units)
     bridge = f.create_entity('IfcBridge', GlobalId=guid('bridge'), Name=study['name'], ObjectPlacement=f.create_entity('IfcLocalPlacement', RelativePlacement=axis([0,0,0])))
     f.create_entity('IfcRelAggregates', GlobalId=guid('project-bridge'), RelatingObject=project, RelatedObjects=[bridge])
-    products, rows = [], []
+    products, rows = [], [];material_cache={}
     descriptions = assembly_parts(candidate['definition'], candidate['foundation'], study['route_length_m'])
     for part in descriptions:
         centre = part['centre_m']
@@ -31,8 +31,12 @@ def export(candidate, study, output: Path):
             volume = length*width*height
         else:
             height = part['length_m']
-            profile = f.create_entity('IfcCircleProfileDef', ProfileType='AREA', Radius=part['diameter_m']/2)
-            volume = math.pi*part['diameter_m']**2/4*height
+            if part['shape']=='annulus':
+                profile=f.create_entity('IfcCircleHollowProfileDef',ProfileType='AREA',Radius=part['diameter_m']/2,WallThickness=(part['diameter_m']-part['inner_diameter_m'])/2)
+                volume=math.pi*(part['diameter_m']**2-part['inner_diameter_m']**2)/4*height
+            else:
+                profile = f.create_entity('IfcCircleProfileDef', ProfileType='AREA', Radius=part['diameter_m']/2)
+                volume = math.pi*part['diameter_m']**2/4*height
         solid = f.create_entity('IfcExtrudedAreaSolid', SweptArea=profile, Position=axis([0,0,-height/2]),
                                 ExtrudedDirection=f.create_entity('IfcDirection', DirectionRatios=[0.,0.,1.]), Depth=height)
         representation = f.create_entity('IfcShapeRepresentation', ContextOfItems=context, RepresentationIdentifier='Body',
@@ -44,7 +48,21 @@ def export(candidate, study, output: Path):
         q = f.create_entity('IfcQuantityVolume', Name='NetVolume', VolumeValue=volume)
         element_q = f.create_entity('IfcElementQuantity', GlobalId=guid(part['id']+'-quantity'), Name='ResearchNetQuantities', Quantities=[q])
         f.create_entity('IfcRelDefinesByProperties', GlobalId=guid(part['id']+'-qrel'), RelatedObjects=[product], RelatingPropertyDefinition=element_q)
-        material = f.create_entity('IfcMaterial', Name=part['material'])
+        base=(candidate['material'] if part['kind']=='deck' else candidate.get('foundation_material',candidate.get('support_material',candidate['material'])) if part['kind'] in ('pile','foundation') else candidate.get('support_material',candidate['material']))
+        record=base if part['material']=='concrete' else candidate['material_records'][part['material']]
+        key=encoded(record)
+        if key not in material_cache:
+            material=f.create_entity('IfcMaterial',Name=record['name'],Description=record['basis'])
+            properties=[]
+            for name,value,kind in [('YoungsModulusPa',record['youngs_modulus_pa'],'IfcReal'),('DensityKgM3',record['density_kg_m3'],'IfcReal'),
+                                    ('StiffnessFactor',record['stiffness_factor'],'IfcReal'),
+                                    ('PoissonRatio',record['poisson_ratio'],'IfcReal'),('Measured',record['measured'],'IfcBoolean'),('Basis',record['basis'],'IfcText')]:
+                properties.append(f.create_entity('IfcPropertySingleValue',Name=name,NominalValue=f.create_entity(kind,value)))
+            for name,value in record.get('orthotropic',{}).items():
+                properties.append(f.create_entity('IfcPropertySingleValue',Name=name,NominalValue=f.create_entity('IfcReal',value)))
+            f.create_entity('IfcMaterialProperties',Name='UnqualifiedResearchMaterialRecord',Properties=properties,Material=material)
+            material_cache[key]=material
+        material=material_cache[key]
         f.create_entity('IfcRelAssociatesMaterial', GlobalId=guid(part['id']+'-material'), RelatedObjects=[product], RelatingMaterial=material)
         products.append(product); rows.append(dict(id=part['id'], ifc_guid=product.GlobalId, kind=part['kind'], material=part['material'], volume_m3=volume))
     f.create_entity('IfcRelContainedInSpatialStructure', GlobalId=guid('containment'), RelatedElements=products, RelatingStructure=bridge)
