@@ -63,6 +63,8 @@ def main() -> int:
         relative = design_path.parent.relative_to(DESIGNS)
         slug = str(city.get("slug", design_path.parent.name.lower().replace(" ", "-")))
         target = relative.as_posix() + "/"
+        package_evidence = (f"[{package_label}; {stale_count} stale sources]({target}package-manifest.json)"
+                            if manifest_path.is_file() else "incomplete; package evidence missing")
         depot_report='engineering/delivery-baseline/DEPOT-PACKAGE.md' if slug=='baghdad' else 'engineering/line-depots/README.md'
         row = (
             f"| [{city.get('name', design_path.parent.name)}]({target}) "
@@ -70,7 +72,7 @@ def main() -> int:
             f"{route_km:.1f} | {sum(int(item.get('trainset_count', 0)) for item in fleets)} "
             f"| [{_coverage(design_path.parent):.0%} routing demand; access report]({target}engineering/access/README.md) "
             f"| [{'pass' if energy.get('passed') else 'fail/missing'}; {len(failed_sites)} sites]({target}engineering/energy/summary.json) "
-            f"| [{package_label}; {stale_count} stale sources]({target}package-manifest.json) |"
+            f"| {package_evidence} |"
             f" [full-fleet depot planning]({target}{depot_report}); [station-stabling diagnostic]({target}engineering/stabling/README.md) |"
         )
         if relative.parts[0] == "europe":

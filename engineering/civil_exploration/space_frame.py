@@ -44,11 +44,15 @@ def run(candidate,study,longitudinal,transverse,kn_m_per_track,loaded_tracks=2,m
             GAz+=(m['orthotropic']['gxz_pa']*factor if m.get('orthotropic') else localG)*RA*section['shear_area_m2']/area
         element_id+=1
         ops.element('ElasticTimoshenkoBeam',element_id,first,second,E,G,s['EA_n']/E,s['GJ_nm2']/G,s['EIy_nm2']/E,s['EIz_nm2']/E,GAy/G,GAz/G,transf)
-        elements.append(dict(id=element_id,kind=kind,nodes=[first,second],properties=s,mass_kg_m=mass))
+        stress_factor_y=max(m['youngs_modulus_pa']*m.get('stiffness_factor',1.)*(abs(r['z_m']-s['centroid_z_m'])+r['height_m']/2)/s['EIy_nm2'] for r,role in zip(section['regions'],roles) for m in [materials[role]])
+        stress_factor_z=max(m['youngs_modulus_pa']*m.get('stiffness_factor',1.)*(abs(r['y_m']-s['centroid_y_m'])+r['width_m']/2)/s['EIz_nm2'] for r,role in zip(section['regions'],roles) for m in [materials[role]])
+        stress_factor_n=max(materials[role]['youngs_modulus_pa']*materials[role].get('stiffness_factor',1.)/s['EA_n'] for role in roles)
+        elements.append(dict(id=element_id,kind=kind,nodes=[first,second],properties=s,mass_kg_m=mass,
+                             stress_factors=[stress_factor_n,stress_factor_y,stress_factor_z]))
         if mass and transf==1:
             length=math.dist(coordinates[first],coordinates[second]);line_gravity.append((element_id,mass*9.81,length,[(x+y)/2 for x,y in zip(coordinates[first],coordinates[second])]))
         return element_id
-    bases=[];cap_seats=[]
+    bases=[];pier_tops=[];cap_seats=[];support_roots=[]
     for i in range(q['supports']):
         x=i*span;base=node(x,0.,0.);anchor=node(x,0.,0.);ops.fix(anchor,1,1,1,1,1,1);fixed.append(anchor);bases.append(base)
         Kx=longitudinal['lateral_stiffness_n_m'];Ky=transverse['lateral_stiffness_n_m'];Kz=longitudinal['axial_stiffness_n_m']
@@ -59,12 +63,14 @@ def run(candidate,study,longitudinal,transverse,kn_m_per_track,loaded_tracks=2,m
         krx=transverse['rotational_stiffness_nm_rad']-cy*cy/Ky;kry=longitudinal['rotational_stiffness_nm_rad']-cx*cx/Kx
         f=candidate['foundation'];kt=max(Kx,Ky)*(f['cap_length_m']**2+f['cap_width_m']**2)/12
         spring(anchor,base,[Kz,krx,kry,kt],[3,4,5,6],'foundation')
+        support_roots.append(fixed[-3:])
         fg=foundation_geometry(f);gravity.append((base,(fg['cap_concrete_m3']+fg['pile_concrete_m3'])*(foundation['density_kg_m3']+a['reinforcement_kg_m3'])*9.81))
         previous=base
         for s in geo['pier']:
             current=node(x,0.,s['end_m']);properties=pier_physics(candidate,s);mass=properties['mass_kg_m']+a['reinforcement_kg_m3']*cement_area(s)
             beam(previous,current,s,support_records,'pier',2,closed=len(s['regions'])%4==0,mass=mass)
             weight=mass*(s['end_m']-s['start_m'])*9.81/2;gravity.extend([(previous,weight),(current,weight)]);previous=current
+        pier_tops.append(previous)
         centre=node(x,0.,height+.6);rigid(previous,centre,'column-to-cap-centroid')
         cap_nodes={0.:centre};positions=sorted(set([-3.5,-3.25,*geo['track_centres_m'],0.,3.25,3.5]))
         for y in positions:
@@ -128,9 +134,24 @@ def run(candidate,study,longitudinal,transverse,kn_m_per_track,loaded_tracks=2,m
     fields=[dict(element=e['id'],kind=e['kind'],local_force=ops.eleResponse(e['id'],'localForce')) for e in elements if e['kind'] in ('deck','cap','pier')]
     for field in fields:
         if len(field['local_force'])!=12 or not all(math.isfinite(v) for v in field['local_force']):raise ValueError('3D native force field invalid')
+        element=next(e for e in elements if e['id']==field['element']);n,my,mz=element['stress_factors'];f=field['local_force']
+        field['gross_elastic_fibre_stress_pa']=max(abs(f[0]),abs(f[6]))*n+max(abs(f[4]),abs(f[10]))*my+max(abs(f[5]),abs(f[11]))*mz
+    support_actions=[]
+    for i,roots in enumerate(support_roots):
+        # Sum all anchor reactions at the physical base, including offset couples.
+        origin=coordinates[bases[i]]
+        reactions=[ops.nodeReaction(n) for n in roots]
+        support_actions.append(dict(support=i,vertical_n=sum(r[2] for r in reactions),
+                                    horizontal_n=math.hypot(sum(r[0] for r in reactions),sum(r[1] for r in reactions)),
+                                    moments_nm=[sum(r[3]+(coordinates[n][1]-origin[1])*r[2]-(coordinates[n][2]-origin[2])*r[1] for n,r in zip(roots,reactions)),
+                                                sum(r[4]+(coordinates[n][2]-origin[2])*r[0]-(coordinates[n][0]-origin[0])*r[2] for n,r in zip(roots,reactions))]))
     return dict(schema='osr-civil-space-frame/1',loaded_tracks=loaded_tracks,braking_fraction=braking_fraction,mesh_per_span=mesh,
                 peak_relative_deflection_m=max(relative),peak_deck_roll_rad=max(abs(ops.nodeDisp(n,4)) for s in deck_spans for n in s['nodes']),
                 peak_foundation_settlement_m=max(abs(ops.nodeDisp(n,3)) for n in bases),
+                peak_pier_top_horizontal_m=max(math.hypot(ops.nodeDisp(n,1),ops.nodeDisp(n,2)) for n in pier_tops),
+                peak_support_vertical_n=max(abs(r['vertical_n']) for r in support_actions),support_actions=support_actions,
+                peak_deck_gross_elastic_stress_pa=max(f['gross_elastic_fibre_stress_pa'] for f in fields if f['kind']=='deck'),
+                peak_pier_gross_elastic_stress_pa=max(f['gross_elastic_fibre_stress_pa'] for f in fields if f['kind']=='pier'),
                 peak_cap_bending_nm=max(max(abs(f['local_force'][4]),abs(f['local_force'][10])) for f in fields if f['kind']=='cap'),
                 peak_deck_torsion_nm=max(max(abs(f['local_force'][3]),abs(f['local_force'][9])) for f in fields if f['kind']=='deck'),
                 expected_vertical_n=expected,actual_vertical_n=actual,moment_equilibrium=moments,

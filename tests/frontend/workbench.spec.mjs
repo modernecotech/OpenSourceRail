@@ -60,10 +60,12 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   await expect(module.locator("#summary .summary-card").first()).toBeVisible({ timeout: 60_000 });
   await expect(module.locator("#gis-layer-count")).toHaveText("(20)");
   await expect(module.locator('[data-layer-control="planning-structures"]')).toContainText("Likely bridges / viaducts");
-  await module.locator("#network-map .station").first().click();
+  const stationId = await module.locator("#network-map .station").first().getAttribute("data-id");
+  await module.getByLabel("Find station").selectOption(stationId);
   await expect(module.locator("#station-site")).toContainText("terrain slope");
   await expect(module.locator("#station-site")).toContainText("Survey verification remains required");
   await expect(page.locator("#contextAsset")).not.toHaveText("none");
+  await expect(page.locator("#contextAsset")).toHaveText(stationId);
   const selectedAsset = await page.locator("#contextAsset").textContent();
 
   const [materialized] = await Promise.all([

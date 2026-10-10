@@ -45,7 +45,8 @@ def mesh(definition, size_m):
                 corners=np.asarray([(xa,ya,za),(xb,ya,za),(xb,yb,za),(xa,yb,za),(xa,ya,zb),(xb,ya,zb),(xb,yb,zb),(xa,yb,zb)])
                 ids=[node(p) for p in corners]+[node((corners[i]+corners[j])/2) for i,j in edges]
                 if len(set(ids))!=20:raise ValueError('collapsed quadratic solid element')
-                elements.append(dict(id=len(elements)+1,nodes=ids,material=section['material_roles'][index]))
+                elements.append(dict(id=len(elements)+1,nodes=ids,material=section['material_roles'][index],
+                                     volume_m3=(xb-xa)*(yb-ya)*(zb-za),centroid_x_m=(xa+xb)/2))
                 volume+=(xb-xa)*(yb-ya)*(zb-za)
                 if math.isclose(zb,load_plane,abs_tol=1e-10):
                     # Exact consistent load for an 8-node serendipity face.
@@ -144,9 +145,17 @@ def run(candidate, study, size_m, output,*,additional_service_kn_m=0.):
     register=dict(criteria={'calculix':[dict(asset_id=candidate['id'],load_case_id='dead-service',metric='midspan_displacement',unit='m')]},native_output_spec={'calculix':spec})
     native=dict(input_sha256=sha(deck),native_output_paths=['solid.dat'],output_hashes={'solid.dat':sha(dat)},native_parser=solver_results.parser_provenance('calculix',spec))
     exchange=solver_results.extract_results(native,output,register,'calculix');solver_results.write_exchange(output/'native-exchange.csv',exchange)
+    central={e['id']:e for e in model['elements'] if span/4<=e['centroid_x_m']<=3*span/4}
+    points=[r for r in rows if r['element_id'] in central]
+    from collections import Counter
+    counts=Counter(r['element_id'] for r in points)
+    if not points or any(counts[eid]!=8 for eid in central):raise ValueError('central stress integration coverage incomplete')
+    rms=math.sqrt(math.fsum(r['von_mises_pa']**2*central[r['element_id']]['volume_m3']/8 for r in points)/math.fsum(e['volume_m3'] for e in central.values()))
     summary=dict(schema='osr-civil-solid/1',candidate_id=candidate['id'],mesh_m=size_m,node_count=len(nodes),element_count=len(model['elements']),
                  source_volume_m3=model['concrete_or_matrix_volume_m3'],midspan_displacement_m=abs(exchange[0]['value']),
-                 peak_von_mises_pa=max(r['von_mises_pa'] for r in rows),native_register=register,native_receipt=native,
+                 peak_von_mises_pa=max(r['von_mises_pa'] for r in rows),central_rms_von_mises_pa=rms,
+                 stress_convergence_basis='volume-weighted eight-point RMS in central half-span; support singular peaks retained separately',
+                 native_register=register,native_receipt=native,
                  stress_parser='calculix-integration-stress/1',stress_parser_sha256=sha(Path(__file__)),
                  native_binary_sha256=sha(Path(binary)),physical_release=False,
                  applicability='actual-section linear elastic C3D20R solids; idealized end supports, no prestress/contact/strength acceptance')

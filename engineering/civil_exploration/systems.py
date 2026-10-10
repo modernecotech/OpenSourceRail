@@ -17,7 +17,7 @@ from osr_mech.civil.exploration import geometry,foundation_geometry
 from .contracts import ROOT,HERE,encoded,identity,load,sha,validate,dependencies
 from .workflow import candidate,environment,validate_candidate
 from .model import System,takeoff,pier_physics
-from . import construction,foundations,system_economics,search,qualification,detailed,validation,bim,storage,space_frame,section_mechanics,nonlinear
+from . import construction,foundations,system_economics,search,qualification,detailed,validation,bim,storage,space_frame,section_mechanics,nonlinear,constraints
 
 
 def write(path,value):
@@ -167,6 +167,30 @@ def metrics_for(row,scenario):
     return [row['scenarios'][scenario]['installed_cost_usd'],row['quantities']['installed_study_mass_kg'],row['scenarios'][scenario]['working_days']]
 
 
+def search_objectives(row, scenarios):
+    return [row['scenarios'][s][k] for s in scenarios for k in ('installed_cost_usd','whole_life_cost_usd','working_days')] + [
+        row['quantities']['installed_study_mass_kg'],row['construction']['maximum_lift_mass_kg']]
+
+
+def benchmark_search(summaries, events, cache, scenarios):
+    feasible=[r for r in cache.values() if r['status']=='completed' and r['violation']==0]
+    reference=search.fronts(feasible)[0] if feasible else []
+    if feasible:
+        vectors=np.asarray([r['objectives'] for r in feasible]);lo=vectors.min(axis=0);scale=np.maximum(vectors.max(axis=0)-lo,1e-12)
+    for summary in summaries:
+        trials=[e for e in events if e['seed']==summary['seed'] and e['method']==summary['method']]
+        ids={e['package_id'] for e in trials};good=[cache[i] for i in ids if cache[i]['status']=='completed' and cache[i]['violation']==0]
+        front=search.fronts(good)[0] if good else []
+        # Additive epsilon to pooled nondominated observations: zero covers the
+        # pooled front. This is an empirical benchmark, not a global optimum.
+        epsilon=max((min(float(np.max((np.asarray(a['objectives'])-np.asarray(b['objectives']))/scale)) for a in front) for b in reference),default=None) if front else None
+        summary.update(unique_packages=len(ids),new_native_evaluations=sum(e['status']!='verified-cache-hit' for e in trials),
+                       evaluation_elapsed_s=sum(e.get('elapsed_s',0.) for e in trials),
+                       provisional_unique_passes=len(good),pareto_ids=[r['package_id'] for r in front],
+                       normalized_additive_epsilon_to_pooled_front=epsilon,
+                       span_coverage_m=sorted({r['choice']['span_m'] for r in good}),beam_coverage=sorted({r['choice']['beam'] for r in good}))
+
+
 def pareto(rows,scenario):
     eligible=[{**r,'objectives':metrics_for(r,scenario),'violation':0.} for r in rows if r['status']=='completed' and r['violation']==0.]
     return search.fronts(eligible)[0] if eligible else []
@@ -186,6 +210,12 @@ def choose_shortlist(rows,scenarios,number):
     good=[r for r in rows if r['status']=='completed' and r['violation']==0.];chosen=[]
     def keep(row):
         if row and row['package_id'] not in {r['package_id'] for r in chosen} and len(chosen)<number:chosen.append(row)
+    # Reserve at least two detailed cases per span before commercial leaders.
+    # If screening found none, retain the least violating completed designs
+    # as diagnostics; they cannot enter the confirmed winner set.
+    for span in sorted({r['choice']['span_m'] for r in rows},reverse=True):
+        subset=[r for r in rows if r['status']=='completed' and r['choice']['span_m']==span]
+        for row in sorted(subset,key=lambda r:(r['violation'],metrics_for(r,scenarios[0])[0],r['package_id']))[:2]:keep(row)
     for scenario in scenarios:
         for key,value in leaders(good,scenario).items():
             if key!='pareto_ids':keep(next((r for r in good if r['package_id']==value),None))
@@ -328,6 +358,7 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
         selected_study,_=study_for(choice,config)
         package_id=identity(dict(choice=choice,material=config['materials'][choice['material']],support_material=config['materials'][choice['support_material']],
                                  material_roles=selected_study['material_records'],foundation=selected_study['foundation']))
+        evaluation_started=time.monotonic()
         event=dict(seed=seed,method=method,iteration=iteration,package_id=package_id,parents=list(parents))
         previous=prior.get((seed,method,iteration))
         if previous:
@@ -335,7 +366,7 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
             return cache[package_id]
         if package_id in cache:row=cache[package_id];event['status']='verified-cache-hit'
         else:
-            row=dict(package_id=package_id,choice=choice,status='failed',violation=1e30,objectives=[1e30]*3,
+            row=dict(package_id=package_id,choice=choice,status='failed',violation=1e30,objectives=[1e30]*(3*len(scenario_ids)+2),
                      engineering_feasibility='unresolved',physical_release=False)
             phase='geometry-contract'
             try:
@@ -355,16 +386,15 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
                     for braking in (0.,study['analysis']['braking_fraction']):
                         response=model.uniform_service(load_case['kn_m_per_track'],braking_fraction=braking)
                         responses.append(dict(soil=soil['id'],foundation_response=ground,**response))
-                        values=[('relative_deflection',response['response']['relative_deck_deflection_m'],choice['span_m']*lim['relative_deflection_span_ratio']),
-                            ('settlement',response['response']['foundation_settlement_m'],lim['settlement_m']),
-                            ('gross_elastic_stress',response['response']['gross_elastic_fibre_stress_pa'],lim['gross_elastic_stress_pa']),
-                            ('pier_gross_elastic_stress',max(a['gross_elastic_fibre_stress_pa'] for a in response['pier_actions']),lim['gross_elastic_stress_pa']),
-                            ('pier_drift',response['response']['pier_top_horizontal_m'],config['pier_height_m']*lim['pier_drift_ratio']),
-                            ('planning_axial_resistance',max(a['vertical_n'] for a in response['support_actions']),ground['planning_axial_resistance_n'])]
-                        for name,value,limit in values:
-                            if limit is not None and value>limit:violations.append(dict(soil=soil['id'],braking_fraction=braking,metric=name,value=value,provisional_limit=limit,ratio=value/limit))
-                if units['maximum_lift_mass_kg']>lim['max_lift_mass_kg']:
-                    violations.append(dict(soil=None,metric='max_lift_mass',value=units['maximum_lift_mass_kg'],provisional_limit=lim['max_lift_mass_kg'],ratio=units['maximum_lift_mass_kg']/lim['max_lift_mass_kg']))
+                        demands=dict(relative_deflection=response['response']['relative_deck_deflection_m'],
+                                     settlement=response['response']['foundation_settlement_m'],
+                                     gross_elastic_stress=response['response']['gross_elastic_fibre_stress_pa'],
+                                     pier_gross_elastic_stress=max(a['gross_elastic_fibre_stress_pa'] for a in response['pier_actions']),
+                                     pier_drift=response['response']['pier_top_horizontal_m'],
+                                     planning_axial_resistance=max(abs(a['vertical_n']) for a in response['support_actions']),
+                                     max_lift_mass=units['maximum_lift_mass_kg'])
+                        violations.extend(constraints.evaluate(demands,lim,span_m=choice['span_m'],pier_height_m=config['pier_height_m'],
+                                          axial_resistance_n=ground['planning_axial_resistance_n'],context=dict(soil=soil['id'],braking_fraction=braking)))
                 costs={}
                 for scenario in scenarios:
                     phase='construction-schedule'
@@ -384,11 +414,12 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
                            actual_supplier_costs_source_bound=actual['actual_baghdad_price'],
                            material_capacity_status='unresolved; gross stresses retained, no strength/fatigue/prestress acceptance inferred',
                            research_violations=violations,violation=sum(r['ratio']-1 for r in violations),status='completed',
-                           objective_basis='first declared synthetic price/productivity scenario; not Baghdad quotations or approved feasibility')
-                row['objectives']=metrics_for(row,scenario_ids[0])
+                           objective_basis='all declared synthetic installed/whole-life cost and productivity scenarios plus installed and erection mass; not quotations or approved feasibility')
+                row['objectives']=search_objectives(row,scenario_ids)
             except (ValueError,RuntimeError) as error:
                 row['error']=str(error);row['failure_kind']=phase
             cache[package_id]=row;event['status']=row['status'];retain(Path(f'results/{package_id}.json'),row)
+        event['elapsed_s']=time.monotonic()-evaluation_started
         events.append(event);checkpoint()
         if len(events)%24==0:print(f'Complete systems: {len(events)} evaluations, {sum(r["status"]=="completed" and r["violation"]==0 for r in cache.values())} provisional passes',flush=True)
         return row
@@ -407,11 +438,12 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
             except TimeoutError:timeout=True
             good=[r for r in rows if r['status']=='completed' and r['violation']==0.]
             summaries.append(dict(seed=seed,method=method,requested_evaluations=evaluations,completed_evaluations=len(rows),
-                                  provisional_passes=len(good),best_synthetic_cost_usd=min((r['objectives'][0] for r in good),default=None),
-                                  best_mass_kg=min((r['objectives'][1] for r in good),default=None),best_working_days=min((r['objectives'][2] for r in good),default=None)))
+                                  provisional_passes=len(good),best_synthetic_cost_usd=min((metrics_for(r,scenario_ids[0])[0] for r in good),default=None),
+                                  best_mass_kg=min((metrics_for(r,scenario_ids[0])[1] for r in good),default=None),best_working_days=min((metrics_for(r,scenario_ids[0])[2] for r in good),default=None)))
             if timeout:break
         if timeout:break
-    rows=list(cache.values());shortlist=choose_shortlist(rows,scenario_ids,number);refinements=[]
+    rows=list(cache.values());benchmark_search(summaries,events,cache,scenario_ids)
+    shortlist=choose_shortlist(rows,scenario_ids,number);refinements=[]
     for row in shortlist:
         cid=row['candidate_id'];c=load(output/f'candidates/{cid}.json');study=load(output/f'studies/{cid}.json')
         refinement=dict(package_id=row['package_id'],candidate_id=cid,solid_meshes=[],physical_release=False)
@@ -428,8 +460,9 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
                 try:
                     native_meshes=[detailed.run(c,study,h,attempt/f'solid-{h:g}',additional_service_kn_m=load_case['kn_m_per_track']) for h in (.8,.4,.2)]
                     error=abs(native_meshes[-1]['midspan_displacement_m']/native_meshes[-2]['midspan_displacement_m']-1)
-                    refinement.update(solid_meshes=native_meshes,relative_displacement_change=error,convergence_passed=error<=.05)
-                    frame_checks=[];fine_frames=[]
+                    solid_check=constraints.convergence(native_meshes,['midspan_displacement_m','central_rms_von_mises_pa'])
+                    refinement.update(solid_meshes=native_meshes,relative_displacement_change=error,solid_convergence=solid_check,convergence_passed=solid_check['passed'])
+                    frame_checks=[];fine_frames=[];refined_violations=[]
                     for soil in config['soil_scenarios']:
                         long=next(r['foundation_response'] for r in row['native_responses'] if r['soil']==soil['id'])
                         transverse_refinement=foundations.refinement(c['foundation'],config['materials']['normal'],soil,axis='transverse')
@@ -438,12 +471,27 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
                         for loaded,braking in ((2,0.),(1,0.),(2,study['analysis']['braking_fraction'])):
                             frames=[space_frame.run(c,study,long,trans,load_case['kn_m_per_track'],loaded,m,braking_fraction=braking) for m in (8,16,32)]
                             relative=abs(frames[-1]['peak_relative_deflection_m']/frames[-2]['peak_relative_deflection_m']-1)
+                            frame_convergence=constraints.convergence(frames,['peak_relative_deflection_m','peak_foundation_settlement_m',
+                                'peak_pier_top_horizontal_m','peak_support_vertical_n','peak_cap_bending_nm','peak_deck_torsion_nm',
+                                'peak_deck_gross_elastic_stress_pa','peak_pier_gross_elastic_stress_pa'])
+                            fine=frames[-1]
+                            demands=dict(relative_deflection=fine['peak_relative_deflection_m'],settlement=fine['peak_foundation_settlement_m'],
+                                pier_drift=fine['peak_pier_top_horizontal_m'],planning_axial_resistance=fine['peak_support_vertical_n'],
+                                gross_elastic_stress=fine['peak_deck_gross_elastic_stress_pa'],pier_gross_elastic_stress=fine['peak_pier_gross_elastic_stress_pa'],
+                                max_lift_mass=row['construction']['maximum_lift_mass_kg'])
+                            violations=constraints.evaluate(demands,config['research_constraints'],span_m=row['choice']['span_m'],
+                                pier_height_m=config['pier_height_m'],axial_resistance_n=long['planning_axial_resistance_n'],
+                                context=dict(soil=soil['id'],loaded_tracks=loaded,braking_fraction=braking))
+                            refined_violations.extend(violations)
                             path=attempt/f'frame-{soil["id"]}-{loaded}-track-braking-{braking:g}.json.gz';path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(gzip.compress(encoded(frames),mtime=0))
-                            frame_checks.append(dict(soil=soil['id'],loaded_tracks=loaded,braking_fraction=braking,relative_deflection_change=relative,passed=relative<=.05,
+                            frame_checks.append(dict(soil=soil['id'],loaded_tracks=loaded,braking_fraction=braking,relative_deflection_change=relative,passed=frame_convergence['passed'],
+                                                     convergence=frame_convergence,demands=demands,research_violations=violations,
                                                      peak_relative_deflection_m=frames[-1]['peak_relative_deflection_m'],peak_cap_bending_nm=frames[-1]['peak_cap_bending_nm'],
                                                      peak_deck_torsion_nm=frames[-1]['peak_deck_torsion_nm'],peak_deck_roll_rad=frames[-1]['peak_deck_roll_rad']))
                             fine_frames.append(frames[-1])
                     refinement['space_frame_checks']=frame_checks
+                    refinement['refined_research_violations']=refined_violations
+                    refinement['refined_research_constraints_passed']=not refined_violations
                     refinement['composite_slip_diagnostic']=composite_diagnostics(c,row['choice']['span_m'],load_case['kn_m_per_track'])
                     sections=[pier_physics(c,s) for s in geometry(c['definition'])['pier']]
                     forces=[p['local_force'] for r in row['native_responses'] for p in r['pier_actions']]
@@ -468,7 +516,7 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
         refinements.append(refinement)
     if not (output/'physical-tests').exists():validation.protocols(output/'physical-tests',[r['candidate_id'] for r in shortlist[:5]])
     wins={sid:leaders(rows,sid) for sid in scenario_ids}
-    confirmed_ids={r['package_id'] for r in refinements if r.get('convergence_passed') and r.get('refined_research_deflection_passed')}
+    confirmed_ids={r['package_id'] for r in refinements if r.get('convergence_passed') and r.get('refined_research_constraints_passed')}
     confirmed=[r for r in rows if r['package_id'] in confirmed_ids]
     acceptance=qualification.build()
     report=dict(schema='osr-civil-complete-system-report/1',deployment='baghdad',scope=dict(route_length_m=config['route_length_m'],tracks=2),
@@ -477,9 +525,10 @@ def run(output,*,config_path=None,scenario_path=None,quotes_path=None,evaluation
                 budgets=frozen['budgets'],elapsed_s=elapsed_before+time.monotonic()-started,
                 evaluated_attempts=len(events),distinct_packages=len(rows),native_completed=sum(r['status']=='completed' for r in rows),
                 provisional_passes=sum(r['status']=='completed' and r['violation']==0 for r in rows),search_methods=summaries,
-                objectives=['conditional installed/whole-life cost','installed study mass and maximum erection-unit mass','finite-resource working time'],
+                objectives=['installed_cost_usd','whole_life_cost_usd','working_days across each declared scenario','installed_study_mass_kg','maximum_lift_mass_kg'],
+                detailed_coverage=[dict(package_id=r['package_id'],span_m=r['choice']['span_m'],beam=r['choice']['beam'],screening_passed=r['violation']==0) for r in shortlist],
                 screening_winners=wins,winners={sid:leaders(confirmed,sid) for sid in scenario_ids} if detail else wins,
-                winner_basis='converged native shortlist and provisional deflection screen' if detail else 'reduced static planning screen only',
+                winner_basis='converged native shortlist and all shared provisional constraints' if detail else 'reduced static planning screen only',
                 shortlist=[r['package_id'] for r in shortlist],refinements=refinements,component_benchmarks=benchmarks,
                 numerical_refinement_passed=bool(refinements) and detail and all(r.get('convergence_passed') for r in refinements),
                 cheapest_qualified_design=None,qualified_feasible_pareto_set=[],global_optimum_proven=False,

@@ -13,6 +13,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`safety-case-summary.py`](safety-case-summary.py) | Generate or check GSN inventory counts without claiming successful proofs or independent acceptance |
 | [`build-all.sh`](build-all.sh) | One-command regeneration of shared product/cost/catalogue data, browser and native applications, BOM/IFC packages, the root reader PDF, and documentation checks; invoked as `./osr build` |
 | [`../../osr`](../../osr) | Root user command for the Workbench, build, simulator, tests and engineering workflows |
+| [`verify-civil-native-cad.py`](verify-civil-native-cad.py) | Run with FreeCADCmd to verify native solids and independent net volumes for all registered civil families; retains a source-bound kernel receipt |
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
 | [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `cities/catalogue/`; use `--from-scratch` to force source-data rebuilding |
 | [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |

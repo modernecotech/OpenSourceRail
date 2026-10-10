@@ -129,7 +129,7 @@ def dependencies():
     paths += list((ROOT/'design/component-catalogue/src/osr_mech/civil').glob('*.py'))
     paths += [ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('cad.py', 'common.py', 'provenance.py')]
     paths += [ROOT/'engineering/analysis/benchmarks/civil/exploration.py', ROOT/'tools/automation/civil-study.py']
-    paths += [ROOT/name for name in ('tools/automation/civil_reference.py', 'engineering/analysis/benchmarks/civil_reference.py',
+    paths += [ROOT/name for name in ('tools/automation/project_twin.py', 'tools/automation/civil_reference.py', 'engineering/analysis/benchmarks/civil_reference.py',
                                     'engineering/analysis/drainage_ground_design.py', 'engineering/analysis/solver_results.py',
                                     'lib/templates/foundation-catalog.toml')]
     reference = ROOT/'engineering/assurance/civil-reference'

@@ -1,5 +1,45 @@
 # Complete viaduct system exploration
 
+## Review corrections and remaining sequence
+
+The review of `4a20d183` found four baseline weaknesses. Construction scheduling
+now hashes its imported `tools/automation/project_twin.py` implementation, and a
+regression test verifies that changing it rejects campaign resume. The dedicated
+civil workflow runs its bounded numerical tests on every main push and includes
+the imported model, parser, geometry, scheduler and reference dependencies in its
+pull-request filters. General CI and station selection are checked separately.
+
+Screening and detailed confirmation use the same provisional constraint evaluator:
+relative deflection, settlement, pier drift, foundation axial demand, lifting mass
+and gross deck/pier stresses where a limit is actually declared. Unknown strength
+limits stay open. Detailed 3D checks retain individual support reactions, offset
+reaction couples and pier motion under two-track, one-track and braking cases in
+both ground scenarios. Convergence covers these demands, cap bending, deck
+torsion and gross stresses. Solid stress convergence uses a volume-weighted
+integration-point RMS in the central half-span, avoiding support singularities;
+the unrestricted peak stresses are still retained.
+
+The shortlist reserves two cases per registered span before filling commercial
+leaders and beam families. A span with no screening passes contributes its least
+violating designs for detailed diagnostics. Their failed constraints stay visible
+and exclude them from confirmed winners. No limits are relaxed to obtain coverage.
+
+Evolution now uses installed cost, whole-life cost and working time in every
+declared commercial scenario, plus installed mass and maximum erection mass.
+Per-seed benchmarks report distinct packages, new evaluations, measured evaluation
+time, feasible span/family coverage and normalized additive epsilon against the
+pooled observed Pareto front. This comparison does not establish a global optimum.
+
+The next model extensions remain purpose-specific: V/Y supports, variable haunch
+and tendon geometry, ground treatment/load transfer, assembled nonlinear cyclic
+behaviour, and structural construction stages. Fabrication/curing/erection
+schedules do not validate prestress transfer, temporary support stability or joint
+locking. Their adoption requires explicit model adapters and independently
+benchmarked load paths. Measured Baghdad axle, soil/pile, material/connector and
+equipment records, supplier quotations, physical tests and independent acceptance
+remain open. The ordinary Python CAD facade remains a fallback; native kernel
+verification must carry a separate FreeCAD receipt.
+
 The workbench now investigates complete packages rather than varying one hollow
 beam/pier with a fixed foundation. It extends the original
 [Word action plan](../../OpenSourceRail_Civil_Exploration_Plan.docx) and preserves

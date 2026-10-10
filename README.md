@@ -55,7 +55,7 @@ Executed comparison: **731 distinct complete packages**, **779 evaluations**, **
 |---|---|---|---|---:|---:|---:|
 | Cheapest in `concrete-first` | U-girder 20 m, lightweight | hollow-tapered | CFA-six | $1,774,796 | 6,504.4 t | 120 working days |
 | Lightest in `concrete-first` | hybrid-shell 20 m, high-performance | hollow-prismatic | square-driven-six | $7,374,804 | 5,499.2 t | 154.625 working days |
-| Fastest in `concrete-first` | uhpc-ribbed 20 m, normal | solid-tapered | CFA-six | $2,259,846 | 7,803.8 t | 64.375 working days |
+| Fastest in `concrete-first` | uhpc-ribbed 20 m, high-performance | hollow-prismatic | CFA-six | $2,640,915 | 7,609.1 t | 63 working days |
 
 These are the best confirmed research choices found within the declared search budget and synthetic price/productivity scenarios. Supplier-priced cheapest design, railway qualification and global optimality remain unresolved. All physical and operating release flags remain false.
 <!-- END GENERATED: complete viaduct choices -->
@@ -68,11 +68,30 @@ diagnostics expose dependence on connectors. Empty shipping/lifting units remain
 separate from complete service mass; driven-pile production and delivery are
 included in construction planning.
 
+The detailed shortlist contains 16 designs at 20 m, six at 25 m and two at 30 m.
+All 24 converged; 22 passed every shared provisional constraint. The two 30 m
+cases remain rejected diagnostics, with their failed limits retained.
+Every refined load case repeats the shared drift, settlement, foundation-demand,
+deflection and lifting checks. Force and central solid-stress convergence are
+recorded as well as displacement convergence. Evolution considers all three
+commercial scenarios, whole-life cost and erection mass; per-seed benchmarks
+retain unique evaluations, timing, coverage and observed Pareto quality.
+
+Native **FreeCAD 1.1.4** verification passed all **25 registered beam, pier and
+foundation families** and all **24 complete shortlisted assemblies**, including
+valid kernel solids, independent net volumes and agreement with the retained IFC
+quantities. The [source-bound receipt](engineering/civil_exploration/examples/native-cad-verification.json)
+is separate from ordinary Python CAD fallback tests. Reproduce with
+`FreeCADCmd tools/automation/verify-civil-native-cad.py` in a FreeCAD environment.
+Structural construction-stage load paths, V/Y supports, haunched sections and
+calibrated ground improvement remain explicit model extensions; measured inputs,
+physical validation and independent acceptance remain open.
+
 ```sh
 tools/automation/osr-python tools/automation/civil-study.py system-study \
-  --output build/engineering/civil-studies/baghdad-complete-systems-v2
+  --output build/engineering/civil-studies/baghdad-complete-systems-v3
 tools/automation/osr-python tools/automation/civil-study.py system-verify \
-  build/engineering/civil-studies/baghdad-complete-systems-v2
+  build/engineering/civil-studies/baghdad-complete-systems-v3
 ```
 
 Open the generated `report.html` to filter choices and compare objectives, or

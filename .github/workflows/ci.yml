@@ -35,7 +35,7 @@ jobs:
   python-and-generated:
     name: Python, links, and generated drift
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.92.0
@@ -62,6 +62,7 @@ jobs:
           python -m pip install pandapower==3.5.3 pvlib==0.15.2 pyproj==3.7.2
       - name: Check connected Baghdad generation before build prerequisites
         run: |
+          python -m pytest -q tools/automation/tests/test_connected_source_manifest.py
           python tools/automation/connected-build-study.py --city baghdad --check
           python tools/automation/industrialisation-study.py --check
       - name: Restore exact Baghdad operations test input

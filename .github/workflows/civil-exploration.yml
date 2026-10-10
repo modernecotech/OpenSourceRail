@@ -1,8 +1,23 @@
 name: Civil exploration numerical verification
 
 on:
+  push:
+    branches: [main]
   pull_request:
     paths:
+      - 'engineering/analysis/**'
+      - 'engineering/assurance/civil-reference/**'
+      - 'engineering/toolchain/tool-manifest.toml'
+      - 'tools/automation/project_twin.py'
+      - 'tools/automation/civil_reference.py'
+      - 'tools/automation/engineering-change.py'
+      - 'tools/automation/verify-civil-native-cad.py'
+      - 'lib/templates/foundation-catalog.toml'
+      - 'design/component-catalogue/src/osr_mech/cad.py'
+      - 'design/component-catalogue/src/osr_mech/common.py'
+      - 'design/component-catalogue/src/osr_mech/provenance.py'
+      - 'docs/civil/**'
+      - 'OpenSourceRail_Civil_Exploration_Plan.docx'
       - 'engineering/civil_exploration/**'
       - 'engineering/analysis/benchmarks/civil/**'
       - 'engineering/analysis/tests/test_civil_exploration.py'
@@ -52,7 +67,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y calculix-ccx
       - name: Verify contracts, independent equations and native integrity
-        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py engineering/analysis/tests/test_civil_system_choices.py
+        run: python -m pytest -q engineering/analysis/tests/test_civil_exploration.py engineering/analysis/tests/test_civil_exploration_review.py engineering/analysis/tests/test_civil_exploration_extensions.py engineering/analysis/tests/test_civil_qualification.py engineering/analysis/tests/test_civil_system_choices.py engineering/analysis/tests/test_civil_review_acceptance.py
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |

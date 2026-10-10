@@ -516,6 +516,11 @@ function renderGisLayers(svg) {
 
 function renderMap() {
   projection = makeProjection();
+  const picker = $("#station-picker");
+  picker.replaceChildren(new Option("Select a station", ""), ...view.snapshot.stations.map(
+    station => new Option(`${station.name} · ${station.line} · ${station.id}`, station.id)
+  ));
+  picker.value = selectedStation?.id || "";
   const svg = $("#network-map");
   svg.innerHTML = "";
   applyMapCamera();
@@ -823,6 +828,8 @@ $("#network-map").addEventListener("pointermove", (event) => {
 
 $("#network-map").addEventListener("pointerup", () => { drag = null; mapPan = null; });
 $("#network-map").addEventListener("pointercancel", () => { drag = null; mapPan = null; });
+
+$("#station-picker").addEventListener("change", event => selectStation(event.target.value));
 
 function selectStation(id) {
   selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;

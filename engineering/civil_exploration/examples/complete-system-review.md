@@ -1,39 +1,39 @@
 # Complete viaduct system exploration
 
-Baghdad target. Common scope: **300 m, double track**. 731 distinct packages, 779 evaluation attempts, 128 provisional screening passes.
+Baghdad target. Common scope: **300 m, double track**. 731 distinct packages, 779 evaluation attempts, 175 provisional screening passes.
 
 **Actual supplier costs are unknown. No engineering-qualified cheapest design or global optimum is claimed.**
 The static load is the retained infrastructure full-train allowance spread over the retained train length. It is not an actual axle pattern or dynamic envelope.
 
-Winner basis: converged native shortlist and provisional deflection screen. Price and productivity scenarios are synthetic assumptions; masses follow canonical material regions and full package quantities.
+Winner basis: converged native shortlist and all shared provisional constraints. Price and productivity scenarios are synthetic assumptions; masses follow canonical material regions and full package quantities.
 Material strength/prestress/fatigue capacity remains unresolved. Gross stresses are retained without an invented material-independent acceptance limit.
 
 | Scenario | Objective | Beam / pier / foundation / method | Installed cost USD | Installed mass t | Working days | Largest lift t |
 |---|---|---|---:|---:|---:|---:|
 | concrete-first | cheapest | U-girder 20 m / lightweight / hollow-tapered / CFA-six / in-situ / link-slab | 1,774,796 | 6,504.4 | 120 | 0.0 |
 | concrete-first | lightest | hybrid-shell 20 m / high-performance + GFRP / hollow-prismatic / square-driven-six / precast-full / link-slab | 7,374,804 | 5,499.2 | 154.625 | 43.3 |
-| concrete-first | fastest | uhpc-ribbed 20 m / normal / solid-tapered / CFA-six / precast-full / simple-span | 2,259,846 | 7,803.8 | 64.375 | 57.6 |
+| concrete-first | fastest | uhpc-ribbed 20 m / high-performance / hollow-prismatic / CFA-six / precast-full / simple-span | 2,640,915 | 7,609.1 | 63 | 64.9 |
 | lightweight-industrial | cheapest | U-girder 20 m / lightweight / hollow-tapered / CFA-six / in-situ / link-slab | 1,723,577 | 6,504.4 | 120 | 0.0 |
 | lightweight-industrial | lightest | hybrid-shell 20 m / high-performance + GFRP / hollow-prismatic / square-driven-six / precast-full / link-slab | 4,034,997 | 5,499.2 | 137.5 | 43.3 |
-| lightweight-industrial | fastest | uhpc-ribbed 20 m / normal / solid-tapered / CFA-six / precast-full / simple-span | 2,088,820 | 7,803.8 | 64.375 | 57.6 |
-| resource-constrained | cheapest | U-girder 20 m / lightweight / hollow-tapered / CFA-six / in-situ / link-slab | 2,071,624 | 6,504.4 | 119.125 | 0.0 |
+| lightweight-industrial | fastest | uhpc-ribbed 20 m / high-performance / hollow-prismatic / CFA-six / precast-full / simple-span | 2,320,060 | 7,609.1 | 63 | 64.9 |
+| resource-constrained | cheapest | conventional-I 25 m / lightweight / hollow-tapered / CFA-six / precast-full / continuous | 2,061,077 | 8,033.3 | 92.375 | 64.5 |
 | resource-constrained | lightest | hybrid-shell 20 m / high-performance + GFRP / hollow-prismatic / square-driven-six / precast-full / link-slab | 7,977,508 | 5,499.2 | 214.25 | 43.3 |
-| resource-constrained | fastest | uhpc-ribbed 20 m / normal / solid-tapered / CFA-six / precast-full / simple-span | 2,466,096 | 7,803.8 | 76.875 | 57.6 |
+| resource-constrained | fastest | uhpc-ribbed 20 m / high-performance / hollow-prismatic / CFA-six / precast-full / simple-span | 2,853,243 | 7,609.1 | 78.125 | 64.9 |
 
 ## Family coverage
 
 | Beam family | Native completed packages | Model / evidence maturity |
 |---|---:|---|
-| pi | 43 | Research; gross elastic properties, actual supplier details and physical validation open |
-| hollow-box | 61 | Research; gross elastic properties, actual supplier details and physical validation open |
-| conventional-I | 42 | Research; gross elastic properties, actual supplier details and physical validation open |
-| U-girder | 85 | Research; gross elastic properties, actual supplier details and physical validation open |
+| pi | 105 | Research; gross elastic properties, actual supplier details and physical validation open |
+| hollow-box | 78 | Research; gross elastic properties, actual supplier details and physical validation open |
+| conventional-I | 77 | Research; gross elastic properties, actual supplier details and physical validation open |
+| U-girder | 114 | Research; gross elastic properties, actual supplier details and physical validation open |
 | ribbed-deck | 42 | Research; gross elastic properties, actual supplier details and physical validation open |
-| uhpc-ribbed | 88 | Research; gross elastic properties, actual supplier details and physical validation open |
-| hybrid-shell | 75 | Research; gross elastic properties, actual supplier details and physical validation open |
-| segmental-box | 131 | Research; gross elastic properties, actual supplier details and physical validation open |
-| steel-composite-I | 97 | Research; gross elastic properties, actual supplier details and physical validation open |
-| frp-composite-I | 67 | Research; gross elastic properties, actual supplier details and physical validation open |
+| uhpc-ribbed | 130 | Research; gross elastic properties, actual supplier details and physical validation open |
+| hybrid-shell | 41 | Research; gross elastic properties, actual supplier details and physical validation open |
+| segmental-box | 41 | Research; gross elastic properties, actual supplier details and physical validation open |
+| steel-composite-I | 66 | Research; gross elastic properties, actual supplier details and physical validation open |
+| frp-composite-I | 37 | Research; gross elastic properties, actual supplier details and physical validation open |
 
 ## Detailed confirmation
 
