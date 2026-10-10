@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6221**.
+Indexed Markdown files: **6222**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6221**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 209 |
-| [engineering](#engineering) | 92 |
+| [engineering](#engineering) | 93 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6208,6 +6208,7 @@ Indexed Markdown files: **6221**.
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
 | [`engineering/assurance/access-clearance/README.md`](../engineering/assurance/access-clearance/README.md) | Population access, transfers and viaduct obstacle review |
+| [`engineering/assurance/baghdad-test-inputs/README.md`](../engineering/assurance/baghdad-test-inputs/README.md) | Current Baghdad test inputs |
 | [`engineering/assurance/battery-cooling/qualification-report.md`](../engineering/assurance/battery-cooling/qualification-report.md) | Battery-cooling qualification readiness |
 | [`engineering/assurance/catalogue-geography/README.md`](../engineering/assurance/catalogue-geography/README.md) | Catalogue water and junction placement review |
 | [`engineering/assurance/civil-reference/README.md`](../engineering/assurance/civil-reference/README.md) | Civil reference demonstration A |

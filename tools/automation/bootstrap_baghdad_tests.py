@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Restore the exact ignored operations input from the tracked proposal archive."""
+"""Restore exact current test inputs, with legacy proposal-snapshot support."""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -11,9 +11,23 @@ from proposal_archives import read_members
 
 ROOT = Path(__file__).resolve().parents[2]
 CITY = ROOT / 'cities/catalogue/west-asia/Iraq/Baghdad'
+CURRENT_INPUTS = Path('engineering/assurance/baghdad-test-inputs')
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
+
+def current_inputs(root):
+    directory=root/CURRENT_INPUTS
+    path=directory/'manifest.json'
+    if not path.exists():return None
+    value=json.loads(path.read_text())
+    if value.get('schema')!='osr-current-baghdad-test-inputs/1' or value.get('physical_release') is not False:
+        raise ValueError('Invalid current test-input snapshot')
+    for name,digest in value['source_sha256'].items():
+        source=(root/name).resolve()
+        if Path(name).is_absolute() or not source.is_relative_to(root.resolve()) or sha(source.read_bytes())!=digest:
+            raise ValueError('Current test-input source receipt differs: '+name)
+    return directory,value
 
 def restore(root=ROOT, *, check=False):
     city = root / CITY.relative_to(ROOT)
@@ -29,10 +43,13 @@ def restore(root=ROOT, *, check=False):
         return 'verified-existing'
     if check:
         raise ValueError('Operations input missing; run bootstrap_baghdad_tests.py')
-    proposal = city
-    manifest = json.loads((proposal/'manifest.json').read_text())
     relative = target.relative_to(root).as_posix()
-    member = json.loads((proposal/'archive-manifest.json').read_text())['members'][relative]
+    snapshot=current_inputs(root)
+    if snapshot:
+        proposal,manifest=snapshot;member=manifest['members'][relative]
+    else:
+        proposal=city;manifest=json.loads((proposal/'manifest.json').read_text())
+        member=json.loads((proposal/'archive-manifest.json').read_text())['members'][relative]
     if member != {'bytes': size, 'sha256': expected}:
         raise ValueError('Publication and operations receipts disagree')
     raw = read_members(root,proposal,manifest,[relative])[relative]
@@ -54,16 +71,20 @@ def main():
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     print('Baghdad test input: '+restore(check=args.check))
-    print('Baghdad proposal solver/GIS inputs: '+restore_proposal_inputs(check=args.check))
+    print('Baghdad solver/GIS test inputs: '+restore_proposal_inputs(check=args.check))
 
 def restore_proposal_inputs(root=ROOT, *, check=False):
-    """Restore declared solver/GIS/alignment inputs, preserving local drift."""
-    city=root/CITY.relative_to(ROOT);proposal=city
-    manifest=json.loads((proposal/'manifest.json').read_text())
+    """Restore receipt-bound solver/GIS/alignment inputs, preserving local drift."""
+    city=root/CITY.relative_to(ROOT)
+    snapshot=current_inputs(root)
+    if snapshot:
+        proposal,manifest=snapshot;inputs=manifest['members']
+    else:
+        proposal=city;manifest=json.loads((proposal/'manifest.json').read_text());inputs=manifest['inputs']
     prefix=city.relative_to(root).as_posix()+'/engineering/'
     allowed=('energy/','gis/','sumo/')
     corridor=(city/'corridors.json').relative_to(root).as_posix()
-    receipts={path:value for path,value in manifest['inputs'].items()
+    receipts={path:value for path,value in inputs.items()
         if path==corridor or path.startswith(prefix) and path[len(prefix):].startswith(allowed)}
     missing=[]
     for relative,receipt in receipts.items():

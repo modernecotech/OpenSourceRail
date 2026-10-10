@@ -101,3 +101,37 @@ def test_core_corridor_input_is_restored_from_declared_archive_and_local_drift_i
     corridor.write_bytes(b'local alignment')
     with pytest.raises(ValueError,match='Existing'):restore_proposal_inputs(root)
     assert corridor.read_bytes()==b'local alignment'
+
+
+def current_snapshot(checkout):
+    root,city,target,old_archive,raw=checkout
+    folder=root/'engineering/assurance/baghdad-test-inputs';folder.mkdir(parents=True)
+    archive=folder/'Baghdad-Current-Test-Inputs.zip';relative=target.relative_to(root).as_posix()
+    with zipfile.ZipFile(archive,'w') as z:z.writestr(relative,raw)
+    meta=dict(schema='osr-current-baghdad-test-inputs/1',physical_release=False,source_sha256={},
+              members={relative:dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())},
+              supporting_archives={archive.name:[relative]},archive_members=[relative],
+              outputs={archive.relative_to(root).as_posix():dict(bytes=archive.stat().st_size,sha256=hashlib.sha256(archive.read_bytes()).hexdigest())})
+    dump(folder/'manifest.json',meta)
+    return folder,archive,meta
+
+
+def test_current_snapshot_restores_current_operations_without_retagging_old_publication(checkout):
+    root,city,target,old_archive,raw=checkout
+    folder,archive,meta=current_snapshot(checkout)
+    dump(city/'archive-manifest.json',dict(members={target.relative_to(root).as_posix():dict(bytes=1,sha256='0'*64)}))
+    assert restore(root)=='restored-hash-bound-input' and target.read_bytes()==raw
+    assert json.loads((city/'archive-manifest.json').read_text())['members'][target.relative_to(root).as_posix()]['bytes']==1
+
+
+def test_current_snapshot_archive_and_source_changes_are_rejected(checkout):
+    root,city,target,old_archive,raw=checkout
+    folder,archive,meta=current_snapshot(checkout)
+    source=city/'operations/baghdad-operations-manifest.json';relative=source.relative_to(root).as_posix()
+    meta['source_sha256'][relative]=hashlib.sha256(source.read_bytes()).hexdigest();dump(folder/'manifest.json',meta)
+    archive.write_bytes(b'changed archive')
+    with pytest.raises(ValueError,match='archive differs'):restore(root)
+    assert not target.exists()
+    source.write_text(source.read_text()+' ')
+    with pytest.raises(ValueError,match='source receipt differs'):restore(root)
+    assert not target.exists()
