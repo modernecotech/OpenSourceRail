@@ -13,7 +13,7 @@ from scipy.sparse.linalg import splu
 from scipy.spatial.transform import Rotation
 from osr_mech.engineering_definition import validate,component_mass_records,fingerprint
 from osr_mech.vehicle_mass_properties import combined_inertia
-from .spatial_structure import SpatialStructure,Route,skew
+from .spatial_structure import SpatialStructure,Route,skew,cross3
 from .wheel_contact import ProfilePair,TangentialContact,patch,normal_force,profile_normal_gap,profile_footprint
 from .joint_laws import response as joint_response
 
@@ -30,6 +30,23 @@ class SpatialConvergenceError(RuntimeError):
         self.time_s=float(time_s);self.residual_n=float(residual_n);self.iterations=int(iterations)
         self.trial_domain_exceedances=sorted(set(trial_domain))
         super().__init__(f'spatial nonlinear step did not converge at {time_s:g}s: residual {residual_n:g} N')
+
+
+def rolling_reference_velocity(speed,radius,rolling_radius,frame,rotation):
+    """First-order steering of the circular rolling direction, excluding spin.
+
+    A yawed wheel has lateral rolling velocity -V*yaw. Ignoring the angle while
+    retaining only angular *rate* removes wheelset steering from creepage.
+    """
+    R=np.asarray(frame,dtype=float);theta=np.asarray(rotation,dtype=float)
+    if R.shape!=(3,3) or theta.shape!=(3,) or not np.isfinite(R).all() or not np.isfinite(theta).all():
+        raise ValueError('finite rolling frame and perturbation rotation required')
+    if not np.allclose(R.T@R,np.eye(3),atol=1e-10) or radius<=0 or rolling_radius<=0:
+        raise ValueError('orthonormal rolling frame and positive radii required')
+    axis=R[:,1];P=np.eye(3)-np.outer(axis,axis)
+    base=-speed*rolling_radius/radius*R[:,0]
+    derivative=-skew(base)@P
+    return base+derivative@theta,derivative
 
 
 def loaded_model(model,case):
@@ -61,8 +78,13 @@ def loaded_model(model,case):
 
 
 class SpatialVehicle:
-    def __init__(self,model,joint_laws):
+    def __init__(self,model,joint_laws,*,equipment_mounts=None):
         definition=validate(model);self.model=model;self.groups={};self.instances={r['id']:r for r in model['instances']};records=component_mass_records(model)
+        equipment_mounts=deepcopy(equipment_mounts or {})
+        for identifier in equipment_mounts:
+            row=self.instances.get(identifier)
+            if row is None or not row['body'] or row['bogie'] or row['axle'] is not None or identifier.endswith('/body'):
+                raise ValueError('finite equipment mount requires a represented carbody equipment instance')
         if any(r.get('mass_kg') is None or r.get('inertia_tensor_kg_m2') is None for r in records):raise ValueError('spatial vehicle requires complete component mass/inertia')
         index=0
         def rigid(key,rows,wheel=False,kind='bogie'):
@@ -74,8 +96,10 @@ class SpatialVehicle:
             if np.linalg.eigvalsh(inertia).min()<=0:raise ValueError('positive full rigid-body inertia required')
             self.groups[key]=dict(id=key,index=index,mass=mass,cg=np.array(list(cg.values())),inertia=inertia,wheel=wheel,kind=kind);index+=6
         for body in definition['cars']:
-            rows=[r for r in records if r['body']==body['id']]
+            rows=[r for r in records if r['body']==body['id'] and r['id'] not in equipment_mounts]
             if rows:rigid(body['id'],rows,kind='carbody')
+        for identifier in equipment_mounts:
+            rigid(identifier,[r for r in records if r['id']==identifier],kind='equipment')
         for bogie in definition['bogies']:
             rows=[r for r in records if r['bogie']==bogie['id'] and self.instances[r['id']]['axle'] is None]
             if not rows:continue
@@ -87,15 +111,19 @@ class SpatialVehicle:
                 self.groups[f"{bogie['id']}/axle-{axle}"]['powered']=bogie['kind']=='powered'
         self.size=index;self.joints=[]
         for joint in model['joints']:
-            if joint['connection']=='fixed':continue
-            if joint['id'] not in joint_laws:raise ValueError('six-direction mechanical law missing: '+joint['id'])
-            law=joint_laws[joint['id']];K=np.asarray(law['stiffness_si'],dtype=float);C=np.asarray(law['damping_si'],dtype=float)
+            equipment=[e['instance'] for e in joint['endpoints'] if e['instance'] in equipment_mounts]
+            if joint['connection']=='fixed' and not equipment:continue
+            if len(equipment)>1:raise ValueError('equipment connector must attach to a represented body')
+            if not equipment and joint['id'] not in joint_laws:raise ValueError('six-direction mechanical law missing: '+joint['id'])
+            law=equipment_mounts[equipment[0]] if equipment else joint_laws[joint['id']];K=np.asarray(law['stiffness_si'],dtype=float);C=np.asarray(law['damping_si'],dtype=float)
+            if equipment and np.linalg.eigvalsh(K).min()<=0:raise ValueError('equipment mount must restrain six coordinates')
             for a in (K,C):
                 if a.shape!=(6,6) or not np.isfinite(a).all() or not np.allclose(a,a.T) or np.linalg.eigvalsh(a).min()<-1e-7:
                     raise ValueError('passive symmetric six-DOF joint matrices required')
             endpoints=[]
             for e in joint['endpoints']:
                 instance=self.instances[e['instance']];group=instance['body'] or instance['bogie']
+                if e['instance'] in equipment_mounts:group=e['instance']
                 if instance['axle'] is not None:group=f"{instance['bogie']}/axle-{instance['axle']}"
                 r=self.groups[group];t=instance['transform'];d=instance['datums'][e['datum']]
                 world=np.asarray(t['translation_m'])+np.asarray(t['rotation'])@d['translation_m']
@@ -132,16 +160,18 @@ class SpatialVehicle:
                 J[:3,i:i+3]+=np.eye(3)*sign;J[:3,i+3:i+6]-=sign*skew(r);J[3:,i+3:i+6]+=np.eye(3)*sign
                 points.append(p['position']+r);Rs.append(p['R'])
             frame=Rs[0];G=np.zeros((6,6));G[:3,:3]=frame;G[3:,3:]=frame
-            localJ=G.T@J;K+=localJ.T@joint['K']@localJ;C+=localJ.T@joint['C']@localJ
+            localJ=G.T@J;columns=np.flatnonzero(np.any(localJ!=0,axis=0));compact=localJ[:,columns]
+            K[np.ix_(columns,columns)]+=compact.T@joint['K']@compact;C[np.ix_(columns,columns)]+=compact.T@joint['C']@compact
             error=np.concatenate([frame.T@(points[0]-points[1]),-Rotation.from_matrix(Rs[0].T@Rs[1]).as_rotvec()])
             plans.append(dict(joint=joint,J=localJ,error=error))
             if 'preload_extension' not in joint:joint['straight_J']=localJ
         return K,C,M,(poses,plans)
 
 
-def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_step=1.,sample_callback=None):
+def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_step=1.,sample_callback=None,actuator_callback=None):
     """Implicit sparse monolithic integration, contact opening and return mapping."""
-    if not .0000625<=dt<=.005 or not 0<duration_s<=30. or math.ceil(duration_s/dt)>200000:raise ValueError('spatial time/budget outside domain')
+    if not .0000625<=dt<=.005 or not 0<duration_s<=120. or math.ceil(duration_s/dt)>200000:raise ValueError('spatial time/budget outside domain')
+    model=deepcopy(model);configuration=deepcopy(configuration)
     maximum_iterations=configuration.get('newton_max_iterations',50)
     if type(maximum_iterations) is not int or not 2<=maximum_iterations<=100:raise ValueError('bounded integer Newton iteration limit required')
     bridge=deepcopy(model['bridge']);condition=configuration.get('infrastructure_condition',{})
@@ -159,11 +189,20 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
     trains=[];nb=structure.K.shape[0];size=nb
     for entry in configuration['traffic']:
         if entry['track'] not in (0,1):raise ValueError('traffic requires track 0/1')
-        vehicle=SpatialVehicle(loaded_model(model,entry['load_case']),configuration['joint_laws'])
+        cls=SpatialVehicle;options={}
+        if configuration.get('flexible_vehicle'):
+            from engineering.integration_programme.flexible_vehicle import FlexibleVehicle
+            cls=FlexibleVehicle;options=configuration['flexible_vehicle']
+        vehicle=cls(loaded_model(model,entry['load_case']),configuration['joint_laws'],equipment_mounts=configuration.get('equipment_mounts'),**options)
         trains.append(dict(vehicle=vehicle,entry=entry,start=size));size+=vehicle.size
     if len({r['entry']['id'] for r in trains})!=len(trains) or not 1<=len(trains)<=4:raise ValueError('unique bounded train identities required')
     unconstrained=np.asarray([i for i in range(size) if i not in structure.fixed])
     material=configuration['contact'];E=material['effective_modulus_pa'];radius=material['rolling_radius_m']
+    tangential_model=material.get('tangential_model','stationary-bristle')
+    if tangential_model not in ('stationary-bristle','convected-bristle'):raise ValueError('unknown tangential contact model')
+    renewal_factor=material.get('renewal_length_factor',2.)
+    if type(renewal_factor) not in (int,float) or not math.isfinite(renewal_factor) or not .5<=renewal_factor<=10:
+        raise ValueError('bounded rolling renewal length factor required')
     profiles={side:ProfilePair(material['wheel_profiles'][str(side)],material['rail_profile'],radius,E) for side in (-1,1)}
     reference_profiles={side:profiles[side].locate(0.,0.) for side in (-1,1)}
     q=np.zeros(size);q[:nb]=structure.dead_displacement;v=np.zeros(size);acc=np.zeros(size)
@@ -181,11 +220,16 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
             if e['acceleration_m_s2']<0 and elapsed>=-e['speed_m_s']/e['acceleration_m_s2']:
                 elapsed=-e['speed_m_s']/e['acceleration_m_s2'];speed=0.;drive_acceleration=0.
             train['drive_acceleration']=drive_acceleration
+            train['current_speed']=speed
             advance=e['initial_advance_m']+e['speed_m_s']*elapsed+.5*e['acceleration_m_s2']*elapsed**2
             K,C,M,geometry=train['vehicle'].matrices(route,advance,structure.tracks[e['track']]);massblocks.append(csc_matrix(M));Kblocks.append(csc_matrix(K));Cblocks.append(csc_matrix(C))
             train['poses']=geometry[0]
             for group in train['vehicle'].groups.values():
                 p=geometry[0][group['id']];s=p['s'];h=.01;y=structure.tracks[e['track']]+group['cg'][1];z=group['cg'][2]
+                if route.constant_frame is not None:
+                    p['reference_velocity']=p['R'][:,0]*speed;p['reference_acceleration']=p['R'][:,0]*drive_acceleration
+                    p['reference_omega']=np.zeros(3);p['reference_alpha']=np.zeros(3)
+                    continue
                 plus=route.position(s+h,y,z);minus=route.position(s-h,y,z);centre=p['position']
                 derivative=(plus-minus)/(2*h);second=(plus-2*centre+minus)/(h*h)
                 p['reference_velocity']=derivative*speed
@@ -197,13 +241,33 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                 joint=plan['joint'];velocities=[];omegas=[]
                 for endpoint in joint['endpoints']:
                     pg=geometry[0][endpoint['group']['id']];lever=pg['R']@endpoint['offset']
-                    velocities.append(pg['reference_velocity']+np.cross(pg['reference_omega'],lever));omegas.append(pg['reference_omega'])
+                    velocities.append(pg['reference_velocity']+cross3(pg['reference_omega'],lever));omegas.append(pg['reference_omega'])
                 first=geometry[0][joint['endpoints'][0]['group']['id']]
-                plan['reference_rate']=np.concatenate([first['R'].T@(velocities[0]-velocities[1])-np.cross(first['R'].T@first['reference_omega'],plan['error'][:3]),first['R'].T@(omegas[0]-omegas[1])])
+                plan['reference_rate']=np.concatenate([first['R'].T@(velocities[0]-velocities[1])-cross3(first['R'].T@first['reference_omega'],plan['error'][:3]),first['R'].T@(omegas[0]-omegas[1])])
             plans.append((train,speed,advance,geometry))
         M=block_diag(massblocks,format='csc');K=block_diag(Kblocks,format='csc');C=block_diag(Cblocks,format='csc')
         A=M/(beta*dt*dt)+C*gamma/(beta*dt)+K
         current=pred.copy();contact_rows=[];joint_rows=[];last_states=[]
+        actuator_rows=[];applied={}
+        if actuator_callback is not None:
+            if not configuration.get('actuator_contract'):raise ValueError('actuation requires a configuration-bound declared contract')
+            for train,speed,advance,geometry in plans:
+                vehicle=train['vehicle'];offset=train['start'];wheel_states=[]
+                for g in vehicle.groups.values():
+                    if not g['wheel']:continue
+                    pose=geometry[0][g['id']];i=offset+g['index'];omega=speed/radius+float(pose['R'][:,1]@(pose['reference_omega']+v[i+3:i+6]))
+                    wheel_states.append(dict(id=g['id'],powered=g['powered'],angular_velocity_rad_s=omega,rolling_speed_m_s=omega*radius))
+                context=dict(time_s=t,dt_s=dt,train=train['entry']['id'],reference_speed_m_s=speed,wheelsets=wheel_states,
+                    previous_body_states=[r for r in (history[-1]['bodies'] if history else []) if r['train']==train['entry']['id']],source='previous converged numerical state, not measured hardware')
+                response=actuator_callback(deepcopy(context))
+                if not isinstance(response,dict) or set(response)!={'wheel_torque_nm','evidence'} or not isinstance(response['wheel_torque_nm'],dict):raise ValueError('complete actuator torque/evidence contract required')
+                if not isinstance(response['evidence'],dict) or not response['evidence']:raise ValueError('actuator execution identity required')
+                wheels={r['id']:r for r in wheel_states}
+                for identifier,torque in response['wheel_torque_nm'].items():
+                    if identifier not in wheels or type(torque) not in (int,float) or not math.isfinite(torque):raise ValueError('finite represented wheelset torque required')
+                    if torque>0 and not wheels[identifier]['powered']:raise ValueError('positive torque on an unpowered wheelset')
+                    applied[train['entry']['id'],identifier]=float(torque)
+                actuator_rows.append(dict(train=train['entry']['id'],context=context,response=response))
         for iteration in range(maximum_iterations):
             av=(current-pred)/(beta*dt*dt);vv=predv+gamma*dt*av;external=np.zeros(size);external[:nb]=structure.dead_load
             kr=[];kc=[];kv=[];contact_rows=[];joint_rows=[];last_states=[];step_domain=[];domain_details=[]
@@ -213,6 +277,8 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                 driven=[g for g in wheel_groups if g['powered']] if train['drive_acceleration']>0 else wheel_groups
                 if train['drive_acceleration']>0 and not driven:raise ValueError('positive traction demand requires powered wheelsets')
                 effective_mass=vehicle.total_mass+sum(g['inertia'][1,1]/radius**2 for g in wheel_groups)
+                if getattr(vehicle,'intrinsic_preload',None) is not None:
+                    external[offset:offset+vehicle.size]-=vehicle.intrinsic_preload
                 for g in vehicle.groups.values():
                     p=poses[g['id']];i=offset+g['index'];R=p['R'];a_ref=p['reference_acceleration']
                     external[i:i+3]+=g['mass']*(np.array([0.,0.,-9.81])-a_ref)
@@ -220,10 +286,12 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                     reference_alpha=p['reference_alpha'].copy()
                     if g['wheel']:
                         spin=R[:,1]*speed/radius;wref+=spin
-                        reference_alpha+=R[:,1]*train['drive_acceleration']/radius+np.cross(p['reference_omega'],spin)
+                        reference_alpha+=R[:,1]*train['drive_acceleration']/radius+cross3(p['reference_omega'],spin)
                     inertia=R@g['inertia']@R.T;w=wref+vq[g['index']+3:g['index']+6]
-                    external[i+3:i+6]-=np.cross(w,inertia@w)+inertia@reference_alpha
-                    if g['wheel'] and any(g is drive for drive in driven):
+                    external[i+3:i+6]-=cross3(w,inertia@w)+inertia@reference_alpha
+                    if actuator_callback is not None and g['wheel']:
+                        external[i+3:i+6]+=R[:,1]*applied.get((e['id'],g['id']),0.)
+                    elif g['wheel'] and any(g is drive for drive in driven):
                         torque=train['drive_acceleration']*effective_mass*radius/len(driven)
                         external[i+3:i+6]+=R[:,1]*torque
                 for plan in joint_plans:
@@ -236,9 +304,10 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                     force,kt,ct=joint_response(law,displacement,jvelocity)
                     linear=joint['K']@displacement+joint['C']@jvelocity
                     external[offset:offset+vehicle.size]-=J.T@(force-linear)
-                    delta=J.T@(kt-joint['K']+(ct-joint['C'])*gamma/(beta*dt))@J
+                    columns=np.flatnonzero(np.any(J!=0,axis=0));compact=J[:,columns]
+                    delta=compact.T@(kt-joint['K']+(ct-joint['C'])*gamma/(beta*dt))@compact
                     for ia,ib in zip(*np.nonzero(delta)):
-                        kr.append(offset+int(ia));kc.append(offset+int(ib));kv.append(float(delta[ia,ib]))
+                        kr.append(offset+int(columns[ia]));kc.append(offset+int(columns[ib]));kv.append(float(delta[ia,ib]))
                     limits=np.asarray(law['motion_bounds_si'])
                     if np.any(displacement<limits[:,0]) or np.any(displacement>limits[:,1]):step_domain.append('joint-motion:'+joint['id'])
                     joint_rows.append(dict(train=e['id'],joint=joint['id'],relative_pose_si=displacement.tolist(),force_moment_si=force.tolist()))
@@ -264,7 +333,9 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                     d0=patch(contact['static_n']/float(reference['normal_local'][2]),reference['coefficients'])['penetration_m']
                     rough=configuration['irregularity']['amplitude_m']*math.sin(2*math.pi*s/configuration['irregularity']['wavelength_m'])
                     if configuration['wheel_defect']['depth_m']:
-                        rough+=configuration['wheel_defect']['depth_m']*math.cos(speed*t/radius)
+                        reference_spin=(advance-e['initial_advance_m'])/radius
+                        perturbation_spin=float(R[:,1]@uq[gi+3:gi+6])
+                        rough+=configuration['wheel_defect']['depth_m']*math.cos(reference_spin+perturbation_spin)
                     penetration=d0-profile_normal_gap(float(R[:,2]@(d_vehicle-d_bridge)),location,reference,rough)
                     N=normal_force(penetration,coefficient);patch_values=patch(N,coefficient)
                     footprint=profile_footprint(location,patch_values,profiles[side].wheel_range,profiles[side].rail_range)
@@ -275,23 +346,30 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                             lateral_shift_m=shift,roll_rad=roll,**footprint))
                     if patch_values['semi_axis_x_m']>radius*.1 or patch_values['semi_axis_y_m']>.025:step_domain.append('contact-patch-validity')
                     r_material=R@np.array([0.,side*structure.gauge/2,-location['rolling_radius_m']])
-                    velocity=p['reference_velocity']+np.cross(p['reference_omega'],r_material)+(Jv@vq)
-                    velocity+=np.cross(R@np.array([0.,speed/radius,0.]),r_material)
+                    velocity=p['reference_velocity']+cross3(p['reference_omega'],r_material)+(Jv@vq)
+                    spin_velocity,spin_derivative=rolling_reference_velocity(speed,radius,location['rolling_radius_m'],R,uq[gi+3:gi+6])
+                    velocity+=spin_velocity
                     if port is not None:velocity-=(port['H']@vv[port['dofs']])[:3]
-                    tangents=np.column_stack([R[:,0],np.cross(normal,R[:,0])]);tangent_velocity=tangents.T@velocity
-                    state=contact['state'];tangent=state.trial(tangent_velocity,dt,N,material['tangential_stiffness_n_m'],material['friction_coefficient'])
+                    tangents=np.column_stack([R[:,0],cross3(normal,R[:,0])]);tangent_velocity=tangents.T@velocity
+                    state=contact['state']
+                    if tangential_model=='convected-bristle' and abs(speed)>.01 and N>0:
+                        residence=renewal_factor*patch_values['semi_axis_x_m']/abs(speed)
+                        tangent=state.rolling_trial(tangent_velocity,dt,N,material['tangential_stiffness_n_m'],material['friction_coefficient'],residence,tangents)
+                    else:tangent=state.trial(tangent_velocity,dt,N,material['tangential_stiffness_n_m'],material['friction_coefficient'])
                     F=N*normal+tangents@tangent['force_n'];external[offset:offset+vehicle.size]+=Jv.T@F
                     bridge_map=None
                     if port is not None:
                         Hb=port['H'][:3];external[port['dofs']]-=Hb.T@F;bridge_map=(port['dofs'],Hb)
                     columns=list(range(offset,offset+vehicle.size));G=Jposition;Gt=Jv
+                    Gspin=np.zeros_like(Jv);Gspin[:,gi+3:gi+6]=spin_derivative
                     if bridge_map is not None:
                         columns=bridge_map[0]+columns;G=np.hstack([-bridge_map[1],Jposition]);Gt=np.hstack([-bridge_map[1],Jv])
-                    active=np.any(np.abs(G)+np.abs(Gt)>0,axis=0);columns=np.asarray(columns)[active];G=G[:,active];Gt=Gt[:,active]
+                        Gspin=np.hstack([np.zeros_like(bridge_map[1]),Gspin])
+                    active=np.any(np.abs(G)+np.abs(Gt)+np.abs(Gspin)>0,axis=0);columns=np.asarray(columns)[active];G=G[:,active];Gt=Gt[:,active];Gspin=Gspin[:,active]
                     normal_tangent=1.5*coefficient['coefficient_n_m32']*math.sqrt(max(penetration,0.))
                     effective_normal=normal-tangents@tangent['restoring_normal_derivative']
                     jac=Gt.T@(normal_tangent*np.outer(effective_normal,normal))@G
-                    jac+=Gt.T@(gamma/beta*tangents@tangent['restoring_tangent_n_m']@tangents.T)@Gt
+                    jac+=Gt.T@(tangents@tangent['restoring_tangent_n_m']@tangents.T)@(gamma/beta*Gt+dt*Gspin)
                     for ia,ib in zip(*np.nonzero(jac)):kr.append(int(columns[ia]));kc.append(int(columns[ib]));kv.append(float(jac[ia,ib]))
                     vehicle_power=F@(Jv@vq);bridge_power=0. if port is None else F@((port['H']@vv[port['dofs']])[:3])
                     relative_power=F@(Jv@vq-(np.zeros(3) if port is None else (port['H']@vv[port['dofs']])[:3]))
@@ -301,7 +379,8 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                         longitudinal_n=float(R[:,0]@F),lateral_vertical_ratio=float(abs(R[:,1]@F)/max(vertical_force,1e-9)),
                         unloading_ratio=1-vertical_force/contact['static_n'],contact_closed=N>0,creep_velocity_m_s=tangent_velocity.tolist(),
                         contact_y_m=location['contact_y_m'],wheel_y_m=location['wheel_y_m'],
-                        patch=patch_values,profile_footprint=footprint,friction_dissipation_j=tangent['dissipation_j']))
+                        patch=patch_values,profile_footprint=footprint,friction_dissipation_j=tangent['dissipation_j'],
+                        tangential_model=tangential_model,rolling_energy_residual_j=tangent.get('energy_residual_j')))
                     last_states.append((state,tangent))
             residual=M@av+C@vv+K@current-external
             norm=float(np.max(np.abs(residual[unconstrained])))
@@ -321,14 +400,22 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                 if np.max(np.abs(angles))>.15:
                     step_domain.append('small-angle-body-domain')
                     domain_details.append(dict(kind='small-angle-body-domain',train=train['entry']['id'],body=group['id'],rotation_rad=angles.tolist()))
+                if actuator_callback is not None and np.max(np.abs(current[i:i+3]))>.2:
+                    step_domain.append('actuated-reference-translation-domain')
+                    domain_details.append(dict(kind='actuated-reference-translation-domain',train=train['entry']['id'],body=group['id'],translation_m=current[i:i+3].tolist()))
         if step_domain:raise SpatialDomainError(t,step_domain,domain_details)
         domain.extend(step_domain)
         minimum=min(minimum,min(row['normal_n'] for row in contact_rows));maximum=max(maximum,max(row['normal_n'] for row in contact_rows))
         for state,result in last_states:state.commit(result)
         q=current;acc=(q-pred)/(beta*dt*dt);v=predv+gamma*dt*acc;iterations.append(iteration+1)
-        body_rows=[]
+        body_rows=[];wheel_rows=[]
         for train in trains:
             for group in train['vehicle'].groups.values():
+                if group['wheel']:
+                    i=train['start']+group['index'];pose=train['poses'][group['id']];R=pose['R']
+                    wheel_rows.append(dict(train=train['entry']['id'],wheelset=group['id'],powered=group['powered'],
+                        angular_velocity_rad_s=train['current_speed']/radius+float(R[:,1]@(pose['reference_omega']+v[i+3:i+6])),
+                        centre_velocity_m_s=(pose['reference_velocity']+v[i:i+3]).tolist(),rolling_radius_m=radius))
                 if group['kind']!='carbody':continue
                 i=train['start']+group['index'];pose=train['poses'][group['id']];R=pose['R']
                 # Specific force is excluded: these are kinematic acceleration
@@ -343,10 +430,16 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                     acceleration_global_m_s2=linear.tolist(),acceleration_body_m_s2=(R.T@linear).tolist(),
                     angular_acceleration_body_rad_s2=(R.T@angular).tolist(),
                     reference_point='rigid-body centre of gravity; flexible seat transfer not represented'))
-        history.append(dict(time_s=t,contacts=contact_rows,joints=joint_rows,bodies=body_rows,
+        modal_rows=[]
+        for train in trains:
+            vehicle=train['vehicle'];offset=train['start']
+            for body,record in getattr(vehicle,'modal',{}).items():
+                for station in (record['basis']['length_m']*.25,record['basis']['length_m']*.5,record['basis']['length_m']*.75):
+                    modal_rows.append(dict(train=train['entry']['id'],**vehicle.modal_observation(body,station,q[offset:offset+vehicle.size],v[offset:offset+vehicle.size],acc[offset:offset+vehicle.size])))
+        history.append(dict(time_s=t,contacts=contact_rows,joints=joint_rows,bodies=body_rows,wheelset_observations=wheel_rows,flexible_body_observations=modal_rows,actuator_execution=actuator_rows,
             peak_structure_displacement_m=float(np.max(np.abs(q[:nb].reshape(-1,6)[:,:3]))),
             peak_structure_acceleration_m_s2=float(np.max(np.abs(acc[:nb].reshape(-1,6)[:,:3]))),
-            peak_vehicle_acceleration_m_s2=float(np.max(np.abs(acc[nb:].reshape(-1,6)[:,:3]))),
+            peak_vehicle_acceleration_m_s2=max(float(np.max(np.abs(acc[train['start']+g['index']:train['start']+g['index']+3]))) for train in trains for g in train['vehicle'].groups.values()),
             peak_carbody_acceleration_m_s2=max(float(np.max(np.abs(acc[train['start']+g['index']:train['start']+g['index']+3])))
                 for train in trains for g in train['vehicle'].groups.values() if g['kind']=='carbody'),
             peak_total_carbody_acceleration_m_s2=max(max(abs(v) for v in body['acceleration_body_m_s2']) for body in body_rows),
@@ -355,7 +448,8 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
             newton_residual_n=norm,newton_iterations=iteration+1))
         if sample_callback is not None:sample_callback(deepcopy(history[-1]))
     return dict(schema='osr-spatial-train-track-bridge/1',configuration_sha256=fingerprint(configuration),hardware_definition_sha256=fingerprint(model),
-        dofs=size,full_sparse_fem=True,modal_truncation_used=False,tracks=2,span_count=model['bridge']['span_count'],
+        dofs=size,full_sparse_fem=True,modal_truncation_used=any(getattr(t['vehicle'],'modal',{}) for t in trains),structure_modal_truncation_used=False,
+        actuator_callback_executed=actuator_callback is not None,tracks=2,span_count=model['bridge']['span_count'],
         trains=[dict(id=t['entry']['id'],body_groups=len(t['vehicle'].groups),mass_kg=t['vehicle'].total_mass,load_case=t['entry']['load_case']) for t in trains],
         time_step_s=dt,duration_s=duration_s,steps=len(history),maximum_newton_iterations=max(iterations),
         contact_power_balance_residual_w=work_error,minimum_wheel_contact_n=minimum,maximum_wheel_contact_n=maximum,
@@ -368,6 +462,7 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
         initial_condition='dead-equilibrated structure and gravity-preloaded vehicle; live load startup transient included',
         within_adapter_domain=not domain,domain_exceedances=sorted(set(domain)),history=history,
         physical_validation=False,engineering_released=False,contact_reference_comparison_performed=False,
+        tangential_model=tangential_model,
         limitations=['single nonconformal Hertz patch; flange/multiple patch contact rejected','small perturbation rotations; finite alignment/cant prescribed',
                      'forces use nominal contact ports; finite patch motion/rail roll needs a dedicated geometry adapter',
                      'equivalent powered-axle traction/all-axle braking; supplier control and torque limits not represented',

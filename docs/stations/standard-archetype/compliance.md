@@ -1,8 +1,11 @@
 # Compliance Matrix - `standard` Archetype Worked Example
 
-Standards the envelope is designed against. Per-deployment
-NRSA / NRCA (national-rail + national-construction authority)
-approvals overlay — those are per-country and not repeated here.
+Candidate standards and verification routes for the planning envelope. No
+configuration-specific conformity or authority approval is established here.
+The [Digital Standards Thread](../../certification/digital-standards-adherence.md)
+governs deployment applicability, current adopted editions/clauses, evidence and
+independent decisions. National construction, fire, access and railway
+requirements remain project-specific inputs.
 
 ## Structural + fire
 
@@ -12,17 +15,17 @@ approvals overlay — those are per-country and not repeated here.
 | **EN 1993** | Design of steel structures | First-pass column + truss check in [`canopy.md`](canopy.md) (v1) → EN 1993 stamped calc (v2) |
 | **EN 1997** | Geotechnical design | Planning-grade bearing capacity (v1) → site-specific geotech (v2) |
 | **EN 1998** | Seismic design of structures | Iraq PGA 0.1 g baseline (v1) → site-specific seismic microzonation (v2) |
-| **NFPA 130** | Fixed guideway transit + passenger rail systems | Egress 4-minute rule checked in [`envelope.md`](envelope.md) + [`services.md`](services.md) (v1) |
-| **EN 45545** (parts 2 + 3) | Fire behaviour of railway vehicles + stations | Materials flagged HL1 for outdoor station in [`services.md`](services.md) (v1) → per-material test reports (v2) |
+| **NFPA 130** | Candidate fixed-guideway transit fire/egress route where adopted | Simple planning checks in [`envelope.md`](envelope.md) do not establish interacting crowd, fire or disruption-case compliance; adopted clauses and fire-engineer assessment open |
+| **EN 45545** (parts 2 + 3) | Railway-vehicle materials and fire barriers | Vehicle interface only where applicable. Outdoor stations have no automatic HL1 classification; building/station fire rules, installed material build-ups and test evidence require separate adoption |
 | **EN 1838** | Emergency lighting | Spec'd in [`services.md`](services.md) (v1) → product selection + test (v2) |
 
 ## Accessibility
 
 | Standard | Scope | Evidence status |
 |---|---|---|
-| **EN 16586** | PRM (Persons with Reduced Mobility) | [`accessibility.md`](accessibility.md) (v1 ✓) |
-| **ISO 23599** | Tactile walking-surface indicators | Applied throughout [`accessibility.md`](accessibility.md) |
-| **ISO 7001** | Public-information pictograms | Applied in [`services.md`](services.md) signage |
+| **EN 16586** | Vehicle PRM boarding interface candidate; applicability review required | Planning intentions in [`accessibility.md`](accessibility.md); actual vehicle/platform compatibility and physical access tests open |
+| **ISO 23599** | Tactile walking-surface indicators | Candidate tactile layout in [`accessibility.md`](accessibility.md); installed assessment open |
+| **ISO 7001** | Public-information pictograms | Candidate signage basis in [`services.md`](services.md); user and installed evidence open |
 | **ISO 21542** | Building construction — accessibility | Flat pedestrian-grade access; local ramps only where site grading requires them |
 | **EN 81-70** | Lifts accessible to persons with disabilities | n/a for flat at-grade `standard`; applies to elevated/stacked overrides |
 
@@ -30,9 +33,9 @@ approvals overlay — those are per-country and not repeated here.
 
 | Standard | Scope | Evidence status |
 |---|---|---|
-| **EN 60439** | Low-voltage switchgear assemblies | Ticket-hall MCB board (v2 product spec) |
-| **EN 61000-6-3** | EMC — emission standard for residential, commercial, light-industrial | LED lighting + PIS equipment class-B compliant |
-| **EN 12464-2** | Light and lighting — outdoor workplaces | Illuminance targets in [`services.md`](services.md) (v1 ✓) |
+| **IEC/EN 61439 series** | Low-voltage switchgear/controlgear assemblies; select the relevant product part with Part 1 | Exact assembly, adopted edition, design/routine verification and installation evidence open; IEC 60439-1 is replaced |
+| **EN 61000-6-3** | Candidate generic EMC emission scope; railway/system applicability review required | LED/PIS compliance and installed compatibility unassessed |
+| **EN 12464-2** | Candidate outdoor workplace lighting scope | Planning illuminance targets in [`services.md`](services.md); adopted values and installed measurements open |
 | **IEC 60947-5-1** | Auxiliary contacts for emergency-stop circuits | Used on emergency help buttons |
 | **ISO 14644** | Cleanrooms / contamination control | n/a for transit station — not specified |
 
@@ -42,31 +45,34 @@ approvals overlay — those are per-country and not repeated here.
 |---|---|---|
 | **ISO 3095** | Acoustics — railway applications, noise emitted | Pass-by noise target 80 dB(A) at platform (v1) |
 | **WHO community-noise guidelines** | Night-time outdoor noise | Target 45 dB(A) at façade (RFC 0011 §5.1 acoustic screens on elevated) |
-| **EN 12101** (parts 1–9) | Smoke + heat control systems | n/a — open-air platform |
-| **NFPA 110** | Emergency + standby power systems | UPS in services cabinet — spec level 1 |
+| **EN 12101** (applicable parts) | Smoke/heat control candidate | Open-air configuration does not automatically exempt cabinets, enclosed approaches or future variants; applicability assessment open |
+| **Applicable UPS and emergency-power requirements** | Station backup power, battery/fire protection and load endurance | UPS specification, critical-load allocation, product scope, installed runtime and authority decisions open; no NFPA 110 classification claimed |
 
 ## Cybersecurity + physical security
 
 | Standard | Scope | Evidence status |
 |---|---|---|
 | **IEC 62443** (parts 2-4 + 4-2) | Industrial automation + control systems cybersecurity | `osr-station-scada` designed per `osr-crypto` discipline |
-| **EN 50159** | Railway applications — communications, signalling, processing systems | `osr-station-scada` interfaces conform |
+| **EN 50159** | Safety-related railway communications candidate | `osr-station-scada` design intent; channel classification, adopted clauses, configuration-specific tests and acceptance open |
 
 ## National overlays (Iraq — per-deployment)
 
-- Iraqi Electrical Code (based on NEC) — deployment electrical
-  contractor scope.
-- Iraqi Fire Code — applied via the national fire directorate's
-  approval process.
-- Iraqi Accessibility Act — overlays EN 16586 with Arabic-
-  specific signage requirements.
+Confirm the actual national/local electrical, fire, accessibility and railway
+rules, identifiers, editions, competent authorities and approval route. This
+planning document does not establish their current legal status or adoption.
+Arabic signage and representative user needs belong in the project access plan.
 
-**Upstream (this doc) provides the EN-standard base.** Per-
-deployment overlays are the operator's compliance-team scope.
+Publisher scope review: [BSI EN 45545-1](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-general)
+concerns onboard vehicle fire protection. [IEC 60439-1](https://webstore.iec.ch/en/publication/16182)
+is replaced; [IEC 61439-1:2020](https://webstore.iec.ch/en/publication/32338)
+is a general assembly scope used with the applicable product part. These public
+records do not establish full-clause conformity.
 
 ## Acceptance-test outline (pre-opening)
 
-A `standard` station's pre-opening sign-off checklist:
+Unperformed candidate test outline. Adopt configuration-specific procedures,
+limits, calibration, representative scenarios and independent acceptance before
+using any entry as a pre-opening sign-off:
 
 1. **Structural:** inspector visual walk-through + spot-check
    on column anchorage, truss welds.

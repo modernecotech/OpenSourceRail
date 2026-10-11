@@ -100,6 +100,21 @@ def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bo
                 actual=sha256(REPO_ROOT/source) if (REPO_ROOT/source).is_file() else None
                 if actual!=digest:
                     findings.append({'artifact':'engineering/'+relative,'source':source,'expected_sha256':actual,'recorded_sha256':digest})
+    mapping_policy=REPO_ROOT/f'design/network-planning/{slug}-mapping-sources.json'
+    if mapping_policy.is_file():
+        for relative in ('mapping/summary.json','mapping/map-source.json'):
+            path=city_dir/'engineering'/relative
+            if not path.is_file():continue
+            report=json.loads(path.read_text())
+            for source,digest in report.get('sources_sha256',{}).items():
+                actual=sha256(REPO_ROOT/source) if (REPO_ROOT/source).is_file() else None
+                if actual!=digest:
+                    findings.append({'artifact':'engineering/'+relative,'source':source,'expected_sha256':actual,'recorded_sha256':digest})
+            if relative=='mapping/map-source.json':
+                image=city_dir/f'engineering/mapping/{slug}-population-access.png'
+                actual=sha256(image) if image.is_file() else None
+                if report.get('image_sha256')!=actual:
+                    findings.append({'artifact':'engineering/'+relative,'source':'population-map','expected_sha256':actual,'recorded_sha256':report.get('image_sha256')})
     for relative, inputs in families.items():
         path = city_dir / "engineering" / relative
         if not path.is_file():
@@ -335,6 +350,13 @@ def main() -> int:
         city_dir / "operations/acceptance-evidence-report.md",
         city_dir / "operations" / f"{slug}-operations-manifest.json",
     ]
+    mapping_policy=REPO_ROOT/f'design/network-planning/{slug}-mapping-sources.json'
+    if mapping_policy.is_file():
+        mapping=json.loads(mapping_policy.read_text())
+        required.extend(city_dir/'engineering/mapping'/name for name in (
+            'README.md','summary.json','street-source.json','walking-graph.npz.gz','walking-streets.geojson.gz','map-source.json',f'{slug}-population-access.png'))
+        for source in mapping['population']:
+            required.extend(city_dir/'engineering/mapping'/f"{source['id']}-{suffix}" for suffix in ('source.json','pixels.npz.gz'))
     if design.get("city", {}).get("country") == "IQ":
         required.extend(city_dir / "engineering/finance" / name for name in (
             "FUNDING-MODEL.md", "funding-input.csv", "funding-monthly-cashflow.csv", "funding-annual-cashflow.csv", "funding-cashflows.png"))

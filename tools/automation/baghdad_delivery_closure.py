@@ -688,8 +688,8 @@ def closure_packets(scope,depots,bom,corridors,people):
         'PUBLICATION':['Restore exact archive-bound test input in empty checkout','Run calculation, permissions, recovery and scale checks','Reconcile headline/source/output/archive hashes','Publish controlled proposal and reader book','Keep field acceptance distinct from repository verification']}
     descriptions={
         'ESTIMATE':'Scope, reference/cost-reconciled funding, six-month subscriptions and reserve cash',
-        'DEPOT':'Nine local planning layouts, labelled storage tracks/slots and yard slab manufacture quantities',
-        'DEMAND':'Nine standalone operating break-even comparisons and OD/site investigation forms',
+        'DEPOT':f"{len(corridors['cases'])} local planning layouts, labelled storage tracks/slots and yard slab manufacture quantities",
+        'DEMAND':f"{len(corridors['cases'])} standalone operating break-even comparisons and OD/site investigation forms",
         'PRODUCT':'Six-car child parts/interface RFQs, 12m qualification WBS and actual quote/applicability fields',
         'PEOPLE':'Task-derived maintenance, reserve ledger, backward cohorts, practical lesson cards and rest-limited pilot slots',
         'PUBLICATION':'Exact-input restore, automated checks, native read-only ERP probe and isolated backup recovery receipt'}
@@ -782,7 +782,7 @@ This continuation completes repository calculations, concept layouts, RFQ/field 
 
 Run `.venv/bin/python tools/automation/baghdad_delivery_closure.py`, then rebuild the proposal. `--check` rejects source/output drift. Existing `bootstrap_baghdad_tests.py` restores the exact test input. Native personal records and recovery receipts remain private in `var/erpnext/`.
 ''',
-        'DEPOTS-SLAB-MANUFACTURE.md':f'''# Nine depot/storage design studies and Iraqi slab manufacture
+        'DEPOTS-SLAB-MANUFACTURE.md':f'''# {len(layouts['sites'])} depot/storage design studies and Iraqi slab manufacture
 
 [Located track and slot register](depot-layouts.json) identifies **{layouts['total_storage_positions']} storage positions**, {len(layouts['tracks'])} tracks, {layouts['total_usable_track_m']:,.0f} usable track metres, {layouts['rail_m']:,.0f} rail metres and {layouts['fastener_seat_kits']:,} reference fixation-seat kits. {layouts['concrete_reference_m3']:,.1f} m³ concrete is a geometric reference for yard slabs, excluding foundations, reinforcement, grout/stray-current systems and point panels. Existing track/package costs are not supplemented by these quantities a second time.
 
@@ -926,6 +926,12 @@ def main():
         if abs(cases['reference']['metrics'][key]-reference['metrics'][key])>.02:raise ValueError('Saved reference case changed: '+key)
     roster=pilot_roster(c);packets=closure_packets(scope,depots,bom,corridors,people)
     OUT.mkdir(parents=True,exist_ok=True);outputs=[]
+    active_lines={line['name'] for line in d['lines']}
+    expected_line_files={f'energy-{name}-hourly.csv' for name in active_lines}|{f'depot-{name}.svg' for name in active_lines}
+    for pattern in ('energy-line-*-hourly.csv','depot-line-*.svg'):
+        for obsolete in OUT.glob(pattern):
+            if obsolete.name not in expected_line_files:
+                obsolete.unlink()
     def save(name,value):
         path=OUT/name;path.write_text(json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n');outputs.append(path)
     def csvout(name,rows,fields=None):

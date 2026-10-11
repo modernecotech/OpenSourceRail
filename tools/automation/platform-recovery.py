@@ -211,6 +211,12 @@ def checkpoint(profile_path, output, report_path):
                 name = c['Config']['Labels']['com.docker.compose.service']; cfg = c['Config']
                 service = dict(image=c['Image'], entrypoint=cfg['Entrypoint'], command=cfg['Cmd'],
                     environment=cfg['Env'], working_dir=cfg['WorkingDir'], user=cfg['User'], volumes=[])
+                runtime=c.get('HostConfig',{})
+                service['read_only']=bool(runtime.get('ReadonlyRootfs',False))
+                if runtime.get('Tmpfs'):
+                    service['tmpfs']=[target+(':'+options if options else '') for target,options in sorted(runtime['Tmpfs'].items())]
+                for source,target in [('CapAdd','cap_add'),('CapDrop','cap_drop'),('SecurityOpt','security_opt')]:
+                    if runtime.get(source):service[target]=runtime[source]
                 for m in c['Mounts']:
                     if m['Type'] == 'volume':
                         key = 'v' + str(list(state['volumes']).index(m['Name'])) if m['Name'] in state['volumes'] else 'v' + str(len(state['volumes']))
@@ -282,6 +288,11 @@ def clone_config(state, checkpoint_dir, private, project, port):
     for name, original in state['services'].items():
         service = {k:v for k,v in original.items() if k != 'volumes' and v is not None}
         service['pull_policy'] = 'never'
+        if name=='db' and not service.get('tmpfs'):
+            # Old checkpoints did not retain HostConfig.Tmpfs. MariaDB needs
+            # an empty writable temporary directory; no persisted data lives
+            # here. The rehearsal report names this compatibility reconstruction.
+            service['tmpfs']=['/tmp:mode=1777,size=512m']
         service['restart'] = 'no'; service['networks'] = ['default']; service['volumes'] = []
         for mount in original['volumes']:
             m = dict(mount)
@@ -381,6 +392,7 @@ def rehearse(checkpoint_dir, report_path, port):
         source_sha256={name:sha(ROOT / name) for name in ['tools/automation/platform-recovery.py',
             'deployment/recovery/audit-erp.py','deployment/recovery/reconcile-gateway.py']})
     cfg = clone_config(state, checkpoint_dir, private, project, port); write(private / 'compose.json', cfg)
+    report['runtime_compatibility_reconstructions']=['legacy MariaDB empty /tmp tmpfs, mode 1777, 512 MiB; snapshot bytes unchanged'] if not state['services']['db'].get('tmpfs') else []
     compose = [DOCKER, 'compose', '-p', project, '-f', str(private / 'compose.json')]
     created = []; tunnels = []; workbench = None; logpath = private / 'recovery.log'
     started = time.monotonic()
@@ -424,12 +436,22 @@ def rehearse(checkpoint_dir, report_path, port):
             report['ops_attestations_verified']=signed
             run(compose + ['up','-d','db','redis-cache','redis-queue'],log)
             # Wait for native MariaDB readiness without injecting database secrets into commands.
-            end=time.monotonic()+90
+            end=time.monotonic()+180;probe=None
             while time.monotonic()<end:
                 probe=subprocess.run(compose+['exec','-T','db','healthcheck.sh','--connect','--innodb_initialized'],capture_output=True)
                 if probe.returncode==0:break
                 time.sleep(1)
-            else:raise RuntimeError('Restored database did not become ready')
+            else:
+                # Diagnostics stay in the private recovery directory. Public
+                # evidence records the failed readiness gate, never credentials.
+                report['database_readiness_passed']=False
+                report['database_probe_exit_code']=probe.returncode if probe else None
+                if probe:
+                    log.write(probe.stdout.decode(errors='replace')+probe.stderr.decode(errors='replace'));log.flush()
+                diagnostics=subprocess.run(compose+['logs','--no-color','--tail','80','db'],capture_output=True,text=True)
+                log.write(diagnostics.stdout+diagnostics.stderr);log.flush()
+                raise RuntimeError('Restored database did not become ready; inspect private recovery diagnostics')
+            report['database_readiness_passed']=True
             run(compose + ['up','-d','backend','websocket','integration'],log)
             run(compose + ['up','-d','frontend','fuxa'],log)
             relay=run(compose+['ps','-q','integration'],log).strip()

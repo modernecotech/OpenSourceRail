@@ -128,7 +128,7 @@ def test_latest_scope_and_every_native_cashflow_are_published():
     inputs=set(manifest['inputs'])
     assert manifest['facts']['programme_recalculation']==summary['finance_cases']
     assert manifest['facts']['programme_operating_fte']==summary['operating_fte']
-    assert manifest['facts']['programme_depot_count']==9
+    assert manifest['facts']['programme_depot_count']==len(__import__('tomllib').loads((CITY/'design.toml').read_text())['lines'])
     assert manifest['facts']['programme_depot_slots']==current_fleet()
     assert not manifest['facts']['programme_budget_complete']
     for case in summary['finance_cases']:

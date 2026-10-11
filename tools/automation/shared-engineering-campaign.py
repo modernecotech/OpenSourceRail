@@ -33,7 +33,8 @@ def common_api():return runpy.run_path(str(ROOT/'tools/automation/shared-train-v
 
 def sources(api):
     return {**api['source_hashes'](),str(Path(__file__).relative_to(ROOT)):sha(__file__),
-            **{str(p.relative_to(ROOT)):sha(p) for p in sorted((ROOT/'engineering/civil_exploration/config').glob('*.json'))}}
+            **{str(p.relative_to(ROOT)):sha(p) for p in sorted((ROOT/'engineering/civil_exploration/config').glob('*.json'))},
+            **{str(p.relative_to(ROOT)):sha(p) for p in sorted((ROOT/'engineering/integration_programme').glob('*.py'))}}
 
 
 def publish(path,value):

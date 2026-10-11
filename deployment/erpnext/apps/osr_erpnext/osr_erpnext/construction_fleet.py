@@ -76,7 +76,8 @@ def construction_custom_fields() -> dict:
     """Install lifecycle/crew handoffs on native Asset and Task records."""
     return {
         'Employee': [dict(fieldname='custom_osr_construction_authorisations',label='Controlled construction authorisations',fieldtype='Code',options='JSON',read_only=1,no_copy=1)],
-        'Asset': [dict(fieldname='custom_osr_fleet_'+name,label=label,fieldtype=kind,options=options,read_only=1,no_copy=1)
+        'Asset': [dict(fieldname='custom_osr_fleet_'+name,label=label,fieldtype=kind,options=options,read_only=1,no_copy=1,
+                       allow_on_submit=1 if name=='lifecycle' else 0)
                   for name,label,kind,options in (
                       ('kind','OSR construction equipment family','Data',None),
                       ('lifecycle','OSR construction fleet lifecycle evidence','Code','JSON'),

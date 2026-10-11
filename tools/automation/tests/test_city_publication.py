@@ -63,7 +63,7 @@ def test_stale_study_stops_publication_without_overwriting_readme(tmp_path,monke
 def test_other_city_keeps_its_own_catalogue_basis(tmp_path):
     city=CITY.parent/'Samawah';output=tmp_path/'README.md'
     publication.publish(city/'design.toml',city/'samawah.toml',output)
-    assert output.read_text()==publication.current_catalogue_context(city/'design.toml',publication.access_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml')))
+    assert output.read_text()==publication.current_catalogue_context(city/'design.toml',publication.residential_context(city/'design.toml',publication.access_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml'))))
     assert '| Estimated station catchment |' not in output.read_text()
     assert '| Direct transfers / reachable line pairs |' in output.read_text()
     assert '| Residents within 800 m radial station catchments |' in output.read_text()
@@ -79,7 +79,10 @@ def test_contexts_are_idempotent_and_retain_original_reference_bodies():
         assert publication.reference_context(path,STUDY)==path.read_bytes()
         if path.name in ('NATIONAL-BRIEF.md','IRAQ-FUNDING-PROGRAMME.md'):
             assert path.read_text().count('<!-- OSR CURRENT IRAQ BASIS -->')==1
-            assert 'no month in which all debt is cleared' in path.read_text()
+            from iraq_current_basis import current_basis
+            financial=current_basis()['financial_case']
+            debt_text='no month in which all debt is cleared' if financial['all_debt_cleared_month'] is None else f"All debt clears at model month {financial['all_debt_cleared_month']}"
+            assert debt_text in path.read_text()
         else:
             assert path.read_text().count(publication.BEGIN)==1
             assert 'Original catalogue or earlier scope reference' in path.read_text()

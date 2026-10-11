@@ -203,12 +203,17 @@ def test_manifest_is_source_of_physical_hierarchy_and_report_is_deterministic(ba
     assert all(row["evaluated_state"] == "blocked" for row in first["nodes"] if row["kind"] == "decisions")
 
 
-def test_current_controller_execution_is_real_and_remains_unreviewed():
+def test_retained_controller_execution_is_real_and_reopens_changed_configuration():
     execution = json.loads((thread.ROOT / thread.EXECUTION).read_text())
     assert execution["state"] == "generated-unreviewed"
     assert len(execution["results"]) == 4
     assert all(row["passed"] for row in execution["results"])
     report = thread.compile_thread()
     executable = [row for row in report["nodes"] if row["kind"] == "scenarios" and row["status"] == "controller-executable"]
-    assert all(row["controller_execution"] == "passed-unreviewed" for row in executable)
+    # The retained execution binds the earlier car/trainset revisions.
+    # Changed design fingerprints must reopen it rather than updating its hashes.
+    assert report["gaps"]["CFG-DEMO-COOL-A"] == ["stale design revision: LM3-CAR-A900", "stale design revision: LM3-TRAINSET-A000"]
+    assert all(row["controller_execution"] == "stale" for row in executable)
+    with pytest.raises(ValueError,match="stale configuration"):
+        thread.run_scenarios(thread.ROOT,thread.ROOT/"build/forbidden-stale-controller.json")
     assert report["release_ready"] is False

@@ -772,6 +772,9 @@ def main():
         return
     outputs = finish(outputs, sources, routes, stations, heat, summary)
     OUT.mkdir(parents=True, exist_ok=True)
+    for obsolete in OUT.glob('line-*-construction-plan.md'):
+        if obsolete.name not in outputs:
+            obsolete.unlink()
     for name, raw in outputs.items():
         if len(raw) > 50 * 1024**2:
             raise ValueError('planning artifact exceeds repository file limit: ' + name)

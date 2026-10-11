@@ -84,7 +84,7 @@ def run_verifier(command, stream, seconds, memory_mib=4096):
         proc.wait()
 
 
-def execute(output,seconds,selected=None,package=None,memory_mib=4096):
+def execute(output,seconds,selected=None,package=None,memory_mib=4096,solver=None):
     if seconds <= 0 or memory_mib < 64:
         raise ValueError('Proof limits require positive time and at least 64 MiB')
     output=output.resolve()
@@ -101,6 +101,7 @@ def execute(output,seconds,selected=None,package=None,memory_mib=4096):
         anchor=row['anchor'];source=ROOT/row['path']
         if 'fn '+anchor+'(' not in source.read_text():raise ValueError('Declared harness missing: '+anchor)
         command=['cargo','kani','-p',row['path'].split('/')[1],'--harness','kani_proofs::'+anchor,'--exact']
+        if solver is not None:command.extend(['--solver',solver])
         path=output/(row['solution']+'.log');started=time.monotonic()
         with path.open('w') as stream:
             stream.write(json.dumps(dict(command=command,tool_version=version,source_commit=commit,timeout_seconds=seconds,memory_limit_mib=memory_mib))+'\n');stream.flush()
@@ -154,11 +155,12 @@ def verify_acceptance(results,envelope,signature,policy):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='action',required=True)
     run=sub.add_parser('run');run.add_argument('--output',type=Path,required=True);run.add_argument('--timeout',type=int,default=600);run.add_argument('--solution',action='append');run.add_argument('--package');run.add_argument('--memory-mib',type=int,default=4096,help='Per-process virtual address-space limit inherited by verifier children (MiB)')
+    run.add_argument('--solver',choices=['bitwuzla','cadical','cvc5','kissat','minisat','z3'],help='Explicit supported backend; retained command records the choice and keeps all checks')
     verify=sub.add_parser('verify-acceptance')
     for name in ['results','envelope','signature','policy']:verify.add_argument('--'+name,type=Path,required=True)
     args=parser.parse_args()
     if args.action=='run':
-        result=execute(args.output,args.timeout,args.solution,args.package,args.memory_mib)
+        result=execute(args.output,args.timeout,args.solution,args.package,args.memory_mib,args.solver)
         if not result['passed']:raise SystemExit(1)
     else:print(json.dumps(verify_acceptance(args.results,args.envelope,args.signature,args.policy)))
 if __name__=='__main__':main()

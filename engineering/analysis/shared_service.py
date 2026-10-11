@@ -111,7 +111,7 @@ def case_matrix(model, base, speeds=(10.,15.,20.), resonance_band=None):
             add(f'resonance-{speed:g}mps','resonance',deepcopy(nominal),float(speed))
     return dict(schema='osr-service-case-matrix/1',hardware_definition_sha256=fingerprint(model),cases=records,
         operating_speeds_m_s=list(speeds),resonance_band_m_s=list(resonance_band) if resonance_band else None,
-        numerical_budget=dict(maximum_duration_per_case_s=30.,maximum_steps_per_case=200000),
+        numerical_budget=dict(maximum_duration_per_case_s=120.,maximum_steps_per_case=200000),
         unexecuted_case_ids=[r['id'] for r in records],physical_validation=False,engineering_released=False,
         basis='synthetic research matrix; rescue payload, braking distributions, route/wear and ground cases require project records')
 

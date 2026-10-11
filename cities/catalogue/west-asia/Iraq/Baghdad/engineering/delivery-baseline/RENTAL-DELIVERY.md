@@ -4,9 +4,9 @@ The existing medium portfolio retains identical physical fit-out and timing. The
 
 | Option | Landlord capital USD m | Partner capital USD m | Landlord before-tax NPV USD m | Partner value NPV USD m | Combined value NPV USD m |
 | --- | --- | --- | --- | --- | --- |
-| landlord_funded | 122.403 | 0.000 | 11.240 | 0.000 | 11.240 |
-| tenant_funded_shell | 73.442 | 48.961 | 12.279 | -1.040 | 11.240 |
-| developer_concession | 0.000 | 122.403 | 18.537 | -7.297 | 11.240 |
+| landlord_funded | 92.758 | 0.000 | 16.395 | 0.000 | 16.395 |
+| tenant_funded_shell | 55.655 | 37.103 | 17.939 | -1.544 | 16.395 |
+| developer_concession | 0.000 | 92.758 | 27.134 | -10.739 | 16.395 |
 
 Tenant-funded shells assume tenants pay 40% of fit-out/refurbishment for a 20% rent discount; their value column is avoided rent minus costs, not cash receipts or trading profit. The developer concession allocates 35% of collected rent and 20% of routine costs to the landlord; the developer funds fit-out/refurbishment. No concessions or subscriptions are signed.
 

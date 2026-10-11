@@ -131,6 +131,9 @@ def rework(seed,grid,config,water_mask=None,buildable=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
+    if (ROOT/'design/network-planning/baghdad-compact-expansion.json').exists():
+        from baghdad_compact_network import run as compact_run
+        compact_run(args.check);return
     seed=json.loads(gzip.decompress(SEED.read_bytes()));grid=json.loads(GRID.read_text());config=tomllib.loads(CONFIG.read_text())
     import numpy as np
     mask_path=OUT/'planning-water-mask.bin.gz';receipt_path=OUT/'water-source-receipt.json'

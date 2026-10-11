@@ -2,12 +2,12 @@
 
 Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.
 
-Route length 52.851 km. 1,015 unique proposed support packets; 855 identified catalogue bay assemblies and 72 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
+Route length 52.851 km. 1,048 unique proposed support packets; 868 identified catalogue bay assemblies and 81 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
 
 | Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |
 |---|---|---|---:|---:|---:|
-| line-2-front-1 | launcher-03 | initial mobilisation | 1 | 2228.8 | 427 |
-| line-2-front-2 | launcher-04 | initial mobilisation | -1 | 50294.4 | 428 |
+| line-2-front-1 | launcher-03 | initial mobilisation | 1 | 2228.8 | 434 |
+| line-2-front-2 | launcher-04 | initial mobilisation | -1 | 50294.4 | 434 |
 
 ## Foundation workface plan
 
@@ -35,22 +35,22 @@ Run boundaries, stations and specials require a passage or dismantle/transport/r
 | line-2-front-1 | 4 | line-2-run-0003-span-0002 | OSR-Pi25 | FND:line-2-support-000002604900 | FND:line-2-support-000002629900 | line-2-run-0003-span-0001 |
 | line-2-front-1 | 5 | line-2-run-0004-span-0001 | OSR-Pi25 | FND:line-2-support-000004649300 | FND:line-2-support-000004674300 | line-2-run-0003-span-0002 |
 | line-2-front-1 | 6 | line-2-run-0008-span-0001 | OSR-Pi25 | FND:line-2-support-000009625600 | FND:line-2-support-000009650600 | line-2-run-0004-span-0001 |
-| line-2-front-2 | 1 | line-2-run-0088-span-0001 | OSR-Pi20 | FND:line-2-support-000050274400 | FND:line-2-support-000050294400 | mobilisation |
-| line-2-front-2 | 2 | line-2-run-0087-span-0001 | OSR-Pi25 | FND:line-2-support-000049952900 | FND:line-2-support-000049977900 | line-2-run-0088-span-0001 |
-| line-2-front-2 | 3 | line-2-run-0086-span-0055 | OSR-Pi20 | FND:line-2-support-000049890200 | FND:line-2-support-000049910200 | line-2-run-0087-span-0001 |
-| line-2-front-2 | 4 | line-2-run-0086-span-0054 | OSR-Pi20 | FND:line-2-support-000049870200 | FND:line-2-support-000049890200 | line-2-run-0086-span-0055 |
-| line-2-front-2 | 5 | line-2-run-0086-span-0053 | OSR-Pi25 | FND:line-2-support-000049845200 | FND:line-2-support-000049870200 | line-2-run-0086-span-0054 |
-| line-2-front-2 | 6 | line-2-run-0086-span-0052 | OSR-Pi25 | FND:line-2-support-000049820200 | FND:line-2-support-000049845200 | line-2-run-0086-span-0053 |
+| line-2-front-2 | 1 | line-2-run-0099-span-0001 | OSR-Pi20 | FND:line-2-support-000050274400 | FND:line-2-support-000050294400 | mobilisation |
+| line-2-front-2 | 2 | line-2-run-0098-span-0001 | OSR-Pi25 | FND:line-2-support-000049952900 | FND:line-2-support-000049977900 | line-2-run-0099-span-0001 |
+| line-2-front-2 | 3 | line-2-run-0097-span-0046 | OSR-Pi20 | FND:line-2-support-000049889900 | FND:line-2-support-000049909900 | line-2-run-0098-span-0001 |
+| line-2-front-2 | 4 | line-2-run-0097-span-0045 | OSR-Pi20 | FND:line-2-support-000049869900 | FND:line-2-support-000049889900 | line-2-run-0097-span-0046 |
+| line-2-front-2 | 5 | line-2-run-0097-span-0044 | OSR-Pi20 | FND:line-2-support-000049849900 | FND:line-2-support-000049869900 | line-2-run-0097-span-0045 |
+| line-2-front-2 | 6 | line-2-run-0097-span-0043 | OSR-Pi25 | FND:line-2-support-000049824900 | FND:line-2-support-000049849900 | line-2-run-0097-span-0044 |
 
 The compressed [span register](span-assembly-register.csv.gz) provides the full sequence, individual beam IDs, predecessors and junction holds. [Stage library](assembly-stage-library.json) supplies the method dependencies. [Front package](launcher-fronts.json) lists every assigned span and actual disconnected working interval.
 
 ## Junctions, stations and residential interfaces
 
-Coordinated structural interface IDs on this line: crossing-14ae595f5b6f, crossing-1c3badfbb529, crossing-4358f14a1a1a, crossing-45a385a7c3d2, crossing-5f20f0d56458, crossing-6644faf065db, crossing-713fc8424e6f, crossing-72b6ecc1b9fd, crossing-778f06209d30, crossing-868cd72fc737, crossing-8fe8b39f5bfc, crossing-910ef33be0b6, crossing-9eea764fde61, crossing-a63764c4e0bc, crossing-c6d75358875e, crossing-c9cacdc51c5b, crossing-f8a7f7acae3d, shared-corridor-1f400bb8d665, shared-corridor-ea625bfc9e95.
+Coordinated structural interface IDs on this line: crossing-1c3badfbb529, crossing-6644faf065db, crossing-778f06209d30, crossing-868cd72fc737, crossing-9eea764fde61, crossing-c9cacdc51c5b, crossing-e9726d0cba9c, crossing-ed1ece1da61a, shared-corridor-ea625bfc9e95.
 
 Evaluate grade-separated crossings, shared four-track civil footprints or separate deck levels, and bounded platform/concourse/access complexes with the station authority. Freeze actual vertical profiles and gradients before selecting supports and ordinary spans. Preserve rail/PSD/egress/waterproofing/earthing interfaces. Proposed residential infill sites on this line require station/approach structures and revised service, fleet, power and full installed prices; they are not existing paid journeys.
 
-Candidate infill IDs: no qualifying candidate under this screen.
+Candidate infill IDs: infill-line-2-033500, infill-line-2-042500, infill-line-2-027500.
 
 ## Inspection, handover and programme
 

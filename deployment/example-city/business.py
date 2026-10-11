@@ -11,7 +11,7 @@ def verify(h):
     report=dict(passed=False,checks=[])
     h.write(h.OUTPUT/'business-report.json',report)
     try:
-        script='INPUT = '+repr(dict(site=h.SITE,source=source))+'\n'+(h.ROOT/'deployment/example-city/business-flows.py').read_text()
+        script='INPUT = '+repr(dict(site=h.SITE,source=source))+'\n'+(h.ROOT/'deployment/example-city/assignment-fixtures.py').read_text()+'\n'+(h.ROOT/'deployment/example-city/business-flows.py').read_text()
         result=subprocess.run(h.compose('erp','exec','-T','backend','env/bin/python'),input=script,text=True,capture_output=True,cwd=h.ROOT)
         h.write(h.OUTPUT/'business-flows.log',result.stdout+result.stderr)
         payload=next((json.loads(line.removeprefix('OSR_BUSINESS:')) for line in result.stdout.splitlines() if line.startswith('OSR_BUSINESS:')),None)

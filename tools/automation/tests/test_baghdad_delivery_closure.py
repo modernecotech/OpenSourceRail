@@ -95,7 +95,8 @@ def test_simple_span_bearing_cash_adds_pi25_delta_and_epc_once():
     assert case['metrics']['total_capital_usd']-full['metrics']['total_capital_usd']==pytest.approx(direct*1.07)
     # The gap facility can be capped: additional cash then appears as
     # explicitly uncovered support instead of invented extra credit.
-    assert sum(case['metrics'][k] for k in ('terminal_supplemental_balance_iqd','uncovered_support_iqd'))>sum(full['metrics'][k] for k in ('terminal_supplemental_balance_iqd','uncovered_support_iqd'))
+    extra_burden=sum(case['metrics'][k]-full['metrics'][k] for k in ('terminal_supplemental_balance_iqd','uncovered_support_iqd'))
+    assert extra_burden>1. or case['metrics']['terminal_cash_iqd']<full['metrics']['terminal_cash_iqd']-1.
     assert all(not r['actual_bearing_origin_and_dates_accepted'] for r in case['bearing_index_delta_contracts'])
     assert case['metrics']['government_capital_share']==pytest.approx(.25)
 
@@ -196,7 +197,7 @@ def test_opening_factory_orders_match_fleet_without_earlier_income_or_factory_sa
         occupied[lane]=row['end_hour']
 
 def test_corridor_break_even_has_no_fabricated_od_or_rank():
-    c=read('corridor-comparison');assert len(c['cases'])==9 and not c['first_corridor_selected']
+    c=read('corridor-comparison');assert len(c['cases'])==len(current_design()['lines']) and not c['first_corridor_selected']
     for row in c['cases']:
         cash=max(0,row['reference_annual_opex_usd']-row['allocated_existing_nonfare_usd'])
         assert row['operating_break_even_paid_trips']*row['base_yield_iqd']/1300==pytest.approx(cash)

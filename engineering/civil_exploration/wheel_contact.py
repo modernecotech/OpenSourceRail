@@ -100,6 +100,12 @@ class ProfilePair:
             return CubicSpline(array[:,0],array[:,1],extrapolate=False),(array[0,0],array[-1,0])
         self.wheel,self.wheel_range=spline(wheel);self.rail,self.rail_range=spline(rail)
         self.radius=finite(rolling_radius_m,'rolling radius',1e-6);self.modulus=finite(effective_modulus_pa,'modulus',1.)
+        self.quadratic=None
+        if all(np.max(np.abs(s.c[0]))<1e-9 for s in (self.wheel,self.rail)):
+            midw=sum(self.wheel_range)/2;midr=sum(self.rail_range)/2
+            aw=float(self.wheel(midw,2));ar=float(self.rail(midr,2))
+            if all(np.ptp(s(s.x,2))<1e-9 for s in (self.wheel,self.rail)):
+                self.quadratic=(aw,ar,float(self.wheel(midw,1))-aw*midw,float(self.rail(midr,1))-ar*midr)
 
     def locate(self,lateral_shift_m,roll_rad=0.):
         shift=finite(lateral_shift_m,'lateral shift');roll=finite(roll_rad,'roll')
@@ -107,13 +113,19 @@ class ProfilePair:
         high=min(self.rail_range[1],self.wheel_range[1]+shift)
         if low>=high:raise ValueError('wheel/rail profile overlap lost')
         def gap(y):return float(self.wheel(y-shift)+roll*(y-shift)-self.rail(y))
-        result=minimize_scalar(gap,bounds=(low,high),method='bounded',options={'xatol':1e-12})
-        y=float(result.x);curvature=float(self.wheel(y-shift,2)-self.rail(y,2))
-        if not result.success or min(y-low,high-y)<1e-5 or curvature<=0:
+        if self.quadratic is not None:
+            aw,ar,bw,br=self.quadratic;curvature=aw-ar
+            if curvature<=0:raise ValueError('flange/conformal contact needs another contact adapter')
+            y=(aw*shift-roll-bw+br)/curvature;success=low<=y<=high
+        else:
+            result=minimize_scalar(gap,bounds=(low,high),method='bounded',options={'xatol':1e-12})
+            y=float(result.x);curvature=float(self.wheel(y-shift,2)-self.rail(y,2));success=result.success
+        if not success or min(y-low,high-y)<1e-5 or curvature<=0:
             raise ValueError('flange/conformal contact needs another contact adapter')
-        grid=np.linspace(low,high,65);derivative=self.wheel(grid-shift,1)+roll-self.rail(grid,1)
-        if np.count_nonzero((derivative[:-1]<0)&(derivative[1:]>=0))!=1:
-            raise ValueError('multiple contact patches are outside this adapter')
+        if self.quadratic is None:
+            grid=np.linspace(low,high,65);derivative=self.wheel(grid-shift,1)+roll-self.rail(grid,1)
+            if np.count_nonzero((derivative[:-1]<0)&(derivative[1:]>=0))!=1:
+                raise ValueError('multiple contact patches are outside this adapter')
         slope=float(self.rail(y,1));normal=np.asarray([0.,-slope,1.]);normal/=np.linalg.norm(normal)
         coefficient=hertz_coefficients(1/self.radius,curvature,self.modulus)
         return dict(contact_y_m=y,wheel_y_m=y-shift,relative_height_m=gap(y),normal_local=normal,
@@ -124,6 +136,7 @@ class ProfilePair:
 class TangentialContact:
     displacement: np.ndarray | None = None
     dissipated_j: float = 0.
+    tangent_basis: np.ndarray | None = None
 
     def trial(self,velocity,dt,normal_n,stiffness_n_m,friction):
         """Elastic stick plus radial-return slip; does not mutate until committed."""
@@ -149,6 +162,44 @@ class TangentialContact:
 
     def commit(self,result):
         self.displacement=result['next_displacement'].copy();self.dissipated_j+=result['dissipation_j']
+        if 'next_basis' in result:self.tangent_basis=result['next_basis'].copy()
+
+    def rolling_trial(self,velocity,dt,normal_n,stiffness_n_m,friction,residence_s,basis):
+        """Lumped convected brush: backward-Euler renewal plus Coulomb return.
+
+        This is an original reduced research law, not FASTSIM/CONTACT. Residence
+        is a declared hypothesis. Discrete work equals stored-energy change plus
+        material renewal, return-map, frame-transport and integration losses.
+        """
+        v=np.asarray(velocity,dtype=float);B=np.asarray(basis,dtype=float)
+        if v.shape!=(2,) or B.shape!=(3,2) or not np.isfinite(v).all() or not np.isfinite(B).all() or not np.allclose(B.T@B,np.eye(2),atol=1e-10):
+            raise ValueError('finite orthonormal rolling contact basis required')
+        for value,name,minimum in [(dt,'step',1e-12),(normal_n,'compression',0.),(stiffness_n_m,'stiffness',1e-12),
+            (friction,'friction',0.),(residence_s,'residence',1e-12)]:finite(value,name,minimum)
+        old=np.zeros(2) if self.displacement is None else self.displacement
+        previous=old if self.tangent_basis is None else B.T@self.tangent_basis@old
+        k=stiffness_n_m;initial=.5*k*float(old@old)
+        if normal_n==0:
+            return dict(force_n=np.zeros(2),next_displacement=np.zeros(2),next_basis=B.copy(),
+                stored_energy_j=0.,dissipation_j=initial,work_input_j=0.,energy_residual_j=0.,
+                restoring_tangent_n_m=np.zeros((2,2)),restoring_normal_derivative=np.zeros(2))
+        renewal=dt/residence_s;trial=(previous+dt*v)/(1+renewal);traction=k*trial;mag=np.linalg.norm(traction);limit=friction*normal_n
+        tangent=np.eye(2)*k/(1+renewal)
+        normal_derivative=traction*renewal/(3*normal_n*(1+renewal))
+        if mag>limit:
+            direction=traction/mag;tangent=(np.eye(2)-np.outer(direction,direction))*k/(1+renewal)*limit/mag
+            traction=direction*limit;normal_derivative=friction*direction
+        current=traction/k;plastic=previous+dt*v-(1+renewal)*current
+        transport=max(0.,initial-.5*k*float(previous@previous))
+        friction_loss=max(0.,float(traction@plastic));renewal_loss=k*renewal*float(current@current)
+        integration_loss=.5*k*float((current-previous)@(current-previous))
+        stored=.5*k*float(current@current);work=float(traction@v)*dt
+        dissipated=transport+friction_loss+renewal_loss+integration_loss
+        return dict(force_n=-traction,next_displacement=current,next_basis=B.copy(),stored_energy_j=stored,
+            dissipation_j=dissipated,friction_loss_j=friction_loss,renewal_loss_j=renewal_loss,
+            integration_loss_j=integration_loss,transport_loss_j=transport,work_input_j=work,
+            energy_residual_j=work-(stored-initial)-dissipated,
+            restoring_tangent_n_m=tangent,restoring_normal_derivative=normal_derivative)
 
 
 def benchmarks():

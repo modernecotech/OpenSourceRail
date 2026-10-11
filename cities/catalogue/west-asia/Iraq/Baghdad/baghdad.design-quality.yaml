@@ -1,29 +1,29 @@
 slug: baghdad
 pass: false
 metrics:
-  total_route_m: 863923.9
-  n_lines: 54
-  n_stations: 600
-  anchor_hit_rate: 0.160
-  high_demand_coverage: 0.664
+  total_route_m: 539504.9
+  n_lines: 17
+  n_stations: 251
+  anchor_hit_rate: 0.223
+  high_demand_coverage: 0.461
   civil_mix_m:
-    at_grade: 273878.100
-    elevated: 545911.100
-    bridge:   44134.600
-  elevated_fraction: 0.683
+    at_grade: 181837.600
+    elevated: 326785.100
+    bridge:   30882.200
+  elevated_fraction: 0.663
   viaduct_products_m:
-    osr_pi20_pi25: 492770.789
-    osr_us:      44171.530
-    special:     44134.600
-    realign:     8968.781
-  max_elevated_cost_multiplier: 27.919
+    osr_pi20_pi25: 302158.736
+    osr_us:      21004.775
+    special:     30882.200
+    realign:     3621.589
+  max_elevated_cost_multiplier: 27.908
 gates:
   hard:
     has_stations:      true
     length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

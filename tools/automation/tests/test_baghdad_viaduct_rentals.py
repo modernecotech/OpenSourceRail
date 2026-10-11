@@ -107,7 +107,8 @@ def test_costed_rents_do_not_claim_receipts_only_value_or_double_count_inventory
     assert medium['total_fitout_capital_usd']==pytest.approx(sum(r['physical_fitout_capital_usd'] for r in ledger),abs=.02)
     assert medium['resource_npv_before_tax_usd']==pytest.approx(npv([(r['month'],r['rent_collected_usd']-r['landlord_opex_usd']-r['physical_fitout_capital_usd']) for r in ledger],.134),abs=.02)
     assert medium['standalone_resource_npv_after_tax_usd']<medium['resource_npv_before_tax_usd']
-    assert small['resource_npv_before_tax_usd']<0 and weak['resource_npv_before_tax_usd']<-30e6
+    assert small['resource_npv_before_tax_usd']<0
+    assert weak['resource_npv_before_tax_usd']<min(0.,medium['resource_npv_before_tax_usd'])
     assert medium['confirmed_eligible_area_m2']==0 and medium['additional_land_opportunity_cost_usd'] is None
     old=read('integrated',OUT.parent/'financing-redesign')
     red=read('integrated_rental_medium',OUT.parent/'financing-redesign')

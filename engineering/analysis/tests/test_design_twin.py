@@ -24,14 +24,14 @@ def twin():return compile_design()
 
 def test_design_instances_are_in_the_actual_shared_model_and_catalogue_allocations(twin):
     m=twin['model'];validate(m);r=twin['review']
-    assert r['instance_count']==318 and r['added_instance_count']==126 and r['joint_count']==317
-    assert r['interface_count']==449 and r['infrastructure_instance_count']==38
-    assert r['explicit_reference_allocations']==204 and r['required_allocations']==1367
-    assert r['remaining_allocations']==1163 and not r['contact_domain_issue_resolved']
+    assert r['instance_count']==414 and r['added_instance_count']==222 and r['joint_count']==413
+    assert r['interface_count']==545 and r['infrastructure_instance_count']==38
+    assert r['explicit_reference_allocations']==210 and r['required_allocations']==1367
+    assert r['remaining_allocations']==1157 and not r['contact_domain_issue_resolved']
     instances={row['id']:row for row in m['instances']}
     assert all(f['instance_id'] in instances for f in twin['features'])
     assert all(from_source(instances[f['instance_id']]['geometry'])==f['geometry'] for f in twin['features'])
-    assert all(len([f for f in twin['features'] if f['instance_id'].startswith(c['id']+'/')])==21 for c in m['family_definition']['cars'])
+    assert all(len([f for f in twin['features'] if f['instance_id'].startswith(c['id']+'/')])==37 for c in m['family_definition']['cars'])
     assert all(row['representation']=='partial-original-study-decomposition' for row in twin['coverage']['rows'] if row['part_id']=='LM3-TRC-P030')
 
 
@@ -181,7 +181,7 @@ def test_published_twin_and_native_artifacts_are_bound_to_the_design(twin):
     cli.check_public(twin)
     folder=cli.PUBLIC;native=load_definition(folder/'reference-twin.native.json')
     assert native['configuration_sha256']==fingerprint(twin['model'])
-    assert native['native_train_instance_count']==318 and native['new_train_design_instance_count']==126
+    assert native['native_train_instance_count']==414 and native['new_train_design_instance_count']==222
     assert native['infrastructure_instance_count']==38
     assert native['native_solver_result']=='0' and native['reopened_solver_result']==0
     assert native['new_car_component_collisions']==native['intra_component_collisions']==[]
@@ -201,3 +201,17 @@ def test_published_twin_and_native_artifacts_are_bound_to_the_design(twin):
     assert smoke['hardware_definition_sha256']==fingerprint(twin['model']) and smoke['steps']==4
     assert smoke['within_adapter_domain'] and not smoke['complete_passage_qualified']
     assert smoke['producer_sha256']==hashlib.sha256((ROOT/'tools/automation/design-twin-smoke.py').read_bytes()).hexdigest()
+
+
+def test_service_pieces_have_material_sections_and_share_existing_kit_groups(twin):
+    from osr_mech.automated_geometry import primitive_volume
+    by_id={f['instance_id']:f for f in twin['features']};p=twin['inputs']['service_parts']
+    cable=by_id['car-1/hv-routed-harness'];a,b=cable['geometry']['primitives']
+    assert a['axis']==b['axis']=='x' and b['inner_radius_m']==a['radius_m']
+    expected=primitive_volume(a)*p['conductor_density_kg_m3']+primitive_volume(b)*p['insulation_density_kg_m3']
+    assert cable['mass_kg']==pytest.approx(expected)
+    pipe=by_id['car-1/coolant-line-1'];assert pipe['geometry']['primitives'][0]['inner_radius_m']==.008
+    assert pipe['mass_kg']==pytest.approx(math.pi*(.01**2-.008**2)*8.8*2700)
+    for f in twin['features']:
+        if f['role'] in ('replaceable-weather-seal','keyed-connector-reservation','insulated-pipe-clamp'):
+            assert f['mass_kg']>0 and not f['production_released']

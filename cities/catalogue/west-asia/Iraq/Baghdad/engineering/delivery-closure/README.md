@@ -1,5 +1,9 @@
 # Baghdad remaining-work delivery packages
 
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
 This continuation completes repository calculations, concept layouts, RFQ/field forms, financial sensitivities and competence/recovery checks. **It does not complete surveys, obtain quotes, appoint people, sign leases/loans or release a railway.** The original financing and engineering examples remain their controlled baseline. All alternatives are unquoted/uncommitted and retain unknown costs.
 
 - [Depot track/slot layout and yard slab production](DEPOTS-SLAB-MANUFACTURE.md)

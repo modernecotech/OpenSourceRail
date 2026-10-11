@@ -1,6 +1,7 @@
 """Sparse 3D Timoshenko deck/rail/cap/pier/foundation assembly and modal ports."""
 from __future__ import annotations
 import math
+from copy import deepcopy
 import numpy as np
 from scipy.sparse import coo_matrix,csc_matrix
 from scipy.sparse.linalg import eigsh,splu
@@ -15,11 +16,17 @@ def skew(v):
     return np.asarray([[0.,-z,y],[z,0.,-x],[-y,x,0.]])
 
 
+def cross3(a,b):
+    """Three-vector cross product without general ndarray axis machinery."""
+    if len(a)!=3 or len(b)!=3:raise ValueError('cross3 requires three-vectors')
+    return np.array([a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]])
+
+
 def rotation_frame(first,second):
     ex=np.asarray(second)-first;length=np.linalg.norm(ex)
     if length<=1e-8:raise ValueError('3D beam has coincident ends')
     ex=ex/length;reference=np.array([0.,0.,1.]) if abs(ex[2])<.9 else np.array([1.,0.,0.])
-    ey=np.cross(reference,ex);ey/=np.linalg.norm(ey);ez=np.cross(ex,ey)
+    ey=cross3(reference,ex);ey/=np.linalg.norm(ey);ez=cross3(ex,ey)
     return np.asarray([ex,ey,ez]),float(length)
 
 
@@ -51,18 +58,23 @@ class Route:
         if record.get('vertical_radius_m',0.)!=0 and abs(record['vertical_radius_m'])<1000:raise ValueError('vertical curve radius must be >=1000 m')
         if abs(record['cant_rad'])>.2 or abs(record['grade_rad'])>.1 or record['cant_end_m']<=record['cant_start_m']:
             raise ValueError('route outside spatial adapter angular range')
-        self.record=record
+        self.record=deepcopy(record)
+        self.constant_frame=None
+        if record['radius_m']==0 and record.get('vertical_radius_m',0.)==0 and record['cant_rad']==0:
+            self.constant_frame=self.frame(0.)
 
     def frame(self,s):
+        if self.constant_frame is not None:return self.constant_frame.copy()
         r=self.record;angle=s/r['radius_m'] if r['radius_m'] else 0.;grade=r['grade_rad']+(s/r['vertical_radius_m'] if r.get('vertical_radius_m') else 0.)
         if abs(grade)>.1:raise ValueError('vertical alignment outside grade domain')
         cant=r['cant_rad']*np.clip((s-r['cant_start_m'])/(r['cant_end_m']-r['cant_start_m']),0.,1.)
         tangent=np.array([math.cos(angle)*math.cos(grade),math.sin(angle)*math.cos(grade),math.sin(grade)])
-        lateral=np.array([-math.sin(angle),math.cos(angle),0.]);normal=np.cross(tangent,lateral)
-        y=math.cos(cant)*lateral+math.sin(cant)*normal;z=np.cross(tangent,y)
+        lateral=np.array([-math.sin(angle),math.cos(angle),0.]);normal=cross3(tangent,lateral)
+        y=math.cos(cant)*lateral+math.sin(cant)*normal;z=cross3(tangent,y)
         return np.column_stack([tangent,y,z])
 
     def position(self,s,y=0.,z=0.):
+        if self.constant_frame is not None:return self.constant_frame@np.array([s,y,z])
         r=self.record;h=1/r['radius_m'] if r['radius_m'] else 0.;v=1/r['vertical_radius_m'] if r.get('vertical_radius_m') else 0.;g=r['grade_rad']
         def ci(f,p):return (math.sin(f*s+p)-math.sin(p))/f if f else s*math.cos(p)
         def si(f,p):return (math.cos(p)-math.cos(f*s+p))/f if f else s*math.sin(p)

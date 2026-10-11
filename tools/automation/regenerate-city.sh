@@ -30,13 +30,16 @@
 set -euo pipefail
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "usage: $(basename "$0") <slug>" >&2
+    echo "usage: $(basename "$0") <slug> [--reuse-retained-inputs]" >&2
     echo "       (slug must exist in lib/city-batches/world-sample.toml)" >&2
     exit 2
 fi
 
 SLUG="$1"
-if [[ ${2:-} == "--publish-reference" ]]; then
+REUSE_RETAINED_INPUTS=0
+if [[ ${2:-} == "--reuse-retained-inputs" ]]; then
+    REUSE_RETAINED_INPUTS=1
+elif [[ ${2:-} == "--publish-reference" ]]; then
     echo "note: --publish-reference is now the default; writing to cities/catalogue/" >&2
 elif [[ $# -eq 2 ]]; then
     echo "error: unknown option: $2" >&2
@@ -127,6 +130,7 @@ mkdir -p "$DESIGN_DIR/engineering/alignment" \
 echo "1) OSM pull → $OSM_CACHE/$SLUG.json (cached on query text)"
 # Use --bbox=... (no space) so a southern-hemisphere bbox (leading
 # minus sign on south/north) doesn't get parsed as an argparse flag.
+if [[ "$REUSE_RETAINED_INPUTS" == "0" ]]; then
 "$PYTHON" -m osr_osm.cli --slug "$SLUG" --bbox="$BBOX" \
     --out "$OSM_CACHE/$SLUG.json"
 
@@ -136,9 +140,18 @@ echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,an
     --out-dir "$RASTER_CACHE" \
     --country "$COUNTRY"
 
+else
+    for suffix in grid.json demand.npy cost.npy buildability.npy anchors.json; do
+        [[ -f "$RASTER_CACHE/$SLUG.$suffix" ]] || { echo "missing retained input: $SLUG.$suffix" >&2; exit 1; }
+    done
+    echo "Using retained raster inputs; alignment and water source integrity checks remain required."
+fi
+
 echo "3) design synthesis → $DESIGN_DIR/design.toml"
 if [[ "$SLUG" == "baghdad" ]]; then
-    "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
+    if [[ "$REUSE_RETAINED_INPUTS" == "0" ]]; then
+        "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
+    fi
     "$PYTHON" "$REPO/tools/automation/rework-baghdad-alignment.py"
     "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml" --prepare-grid
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
@@ -213,6 +226,14 @@ echo "7) operations + project digital twin → $DESIGN_DIR/operations/ and engin
 "$PYTHON" "$REPO/engineering/analysis/city_delivery.py" --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/engineering/analysis/city_deployment.py" --design "$DESIGN_DIR/design.toml"
 
+# Refresh access/source accounting before any study publisher consumes it.
+"$PYTHON" "$REPO/tools/automation/audit-city-access.py" --city "$SLUG" --fetch-population
+"$PYTHON" "$REPO/tools/automation/evaluate-residential-expansion.py" --design "$DESIGN_DIR/design.toml"
+if [[ -f "$REPO/design/network-planning/$SLUG-mapping-sources.json" ]]; then
+    "$PYTHON" "$REPO/tools/automation/refresh-city-mapping.py" --city "$SLUG"
+    "$PYTHON" "$REPO/tools/automation/render-city-population-map.py" --design "$DESIGN_DIR/design.toml"
+fi
+
 if [[ "$SLUG" == "baghdad" ]]; then
     "$PYTHON" "$REPO/tools/automation/render-baghdad-alignment-review.py"
     "$PYTHON" "$REPO/tools/automation/regenerate-baghdad-studies.py"
@@ -221,9 +242,18 @@ elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
     "$PYTHON" "$REPO/tools/automation/render-baghdad-alignment-review.py" --design "$DESIGN_DIR/design.toml"
 fi
 
+# Studies can refresh finance and the operations manifest. Bind delivery and
+# deployment to those final outputs before publication/package checks.
+"$PYTHON" "$REPO/engineering/analysis/city_delivery.py" --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/engineering/analysis/city_deployment.py" --design "$DESIGN_DIR/design.toml"
+
 echo "8) per-network README → $DESIGN_DIR/README.md"
 "$PYTHON" "$REPO/tools/automation/audit-city-access.py" --city "$SLUG" --fetch-population
 "$PYTHON" "$REPO/tools/automation/evaluate-residential-expansion.py" --design "$DESIGN_DIR/design.toml"
+if [[ -f "$REPO/design/network-planning/$SLUG-mapping-sources.json" ]]; then
+    "$PYTHON" "$REPO/tools/automation/refresh-city-mapping.py" --city "$SLUG"
+    "$PYTHON" "$REPO/tools/automation/render-city-population-map.py" --design "$DESIGN_DIR/design.toml"
+fi
 "$PYTHON" "$REPO/tools/automation/audit-viaduct-clearance.py" --city "$SLUG" --retain-inputs --fetch-terrain
 "$PYTHON" "$REPO/tools/automation/publish-city-summary.py" \
     --design "$DESIGN_DIR/design.toml" \

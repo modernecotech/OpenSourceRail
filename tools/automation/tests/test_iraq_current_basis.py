@@ -17,8 +17,10 @@ def test_country_basis_matches_its_inputs_and_retained_financial_case():
     for relative,digest in current['sources_sha256'].items():
         assert hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()==digest
     financial=current['financial_case']
-    assert financial['all_debt_cleared_month'] is None
-    assert financial['terminal_debt_iqd']>0 and not financial['financing_committed']
+    case=json.loads((basis.CITY/'engineering/programme-recalculation/local_positive.json').read_text())['metrics']
+    assert financial['all_debt_cleared_month']==case['all_debt_cleared_month']
+    assert financial['terminal_debt_iqd']==case['terminal_all_debt_iqd']
+    assert not financial['financing_committed']
     assert current['national_budget_usd'] is None
     assert current['accelerated_case']['capital_usd'] is None
 
@@ -28,7 +30,7 @@ def test_country_documents_lead_with_current_basis_and_preserve_historical_scope
         text=(basis.COUNTRY/name).read_text()
         assert basis.current_header() in text
         assert '**Foreign-capital advantage:**' not in text
-        assert 'USD 8.312bn' in text
+        assert f"USD {basis.current_basis()['financial_case']['capital_usd']/1e9:.3f}bn" in text
         assert 'purchase cash only' in text
         assert 'Iraq has existing precast facilities and expertise' in text
     funding=(basis.COUNTRY/'IRAQ-FUNDING-PROGRAMME.md').read_text()

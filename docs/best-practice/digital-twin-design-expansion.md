@@ -153,3 +153,38 @@ stationary storage/PV protection, approved connector and refrigerant selections,
 and route-specific gangway/crash endurance. Extend the existing standards thread
 and [OSR-BP-001](../standards/OSR-BP-001.md) with project applicability, adopted
 clauses, acceptance limits, procedures and independent decisions before release.
+
+
+## Integration review continuation — 11 October 2026
+
+The current twin has **414 train instances, 413 installed joints and 545 typed
+interfaces**, including 222 new study instances and 38 infrastructure study
+objects. The additional 96 service instances cover conductor/insulation sections,
+keyed connector reservations, empty coolant pipes, replaceable pipe clamps and
+perimeter weather seals. They extend existing kit allocations; the coolant kit
+adds six partial allocations. **210 of 1,367 catalogue allocations** now have
+explicit reference decomposition. This does not qualify their complete contents.
+
+The service pieces have actual material sections and density-derived masses.
+Those masses are extracted from the residual body allowance, preserving the
+201,240.108273 kg train total while recomputing CG and inertia. Cable ampacity,
+termination/pinout, circuit continuity, coolant/fittings/fluid mass, seal compression,
+fire build-up and mounting capacities remain unqualified. Their placement and
+occupied volumes have been checked in the saved/reopened native CAD.
+
+The expanded twin completed a full six-car passage at 15 m/s following the
+wheel-yaw rolling-velocity correction. This is configuration-specific numerical
+coverage. The retained four-step smoke remains labelled as a smoke test.
+Separate refinement found a substantial coarse-mesh ride-acceleration change;
+full operating and convergence acceptance remains open.
+
+The [23-item integration programme](../../engineering/integration_programme/data/programme.json)
+tracks the attached review separately from implementation and physical acceptance.
+[OSR-INT-001](../standards/OSR-INT-001.md) defines the open project evidence rules.
+Executable additions include native Rust controller/plant experiments, tabulated
+SOC/temperature battery maps, simultaneous battery mounting loads from retained
+passages, free-free modal transfer verification, a hollow carbody shell with four
+door portals, interacting station outage queues, installed lifetime cost scope,
+and serial/calibration-bound condition records. Research fixtures remain labelled;
+missing physical records, nonlinear resistance, full spatial modal/actuator insertion
+and independent acceptance remain open.

@@ -5,7 +5,7 @@
 
 [Current country basis](CURRENT-PLANNING-BASIS.json) · [Baghdad summary](Baghdad/README.md) · [Connected design, production and energy study](Baghdad/engineering/connected-build/README.md).
 
-The retained `local_positive` Baghdad financial comparator is **USD 19.407bn**, with **IQD 0.000tn unsourced support** and **IQD 0.000tn terminal debt**. All debt clears at model month 226, conditional on the recorded funding assumptions. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
+The retained `local_positive` Baghdad financial comparator is **USD 10.121bn**, with **IQD 0.000tn unsourced support** and **IQD 0.000tn terminal debt**. All debt clears at model month 279, conditional on the recorded funding assumptions. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
 
 The accelerated scenario's complete CAPEX, financing, net island savings and accepted opening dates remain unknown. Its **USD 9m / 18-launcher allowance covers purchase cash only**; freight, assembly, commissioning, transporters, lifting frames, temporary supports, spares, crews and relocations require separate scope-matched prices. The earlier delivered-and-commissioned interpretation is not used. No launcher saving is added to an installed civil rate before removing a verified matching embedded allowance.
 
@@ -21,11 +21,11 @@ No current consolidated national budget or funded rollout is established. Other 
 
 | Case | Days for modelled running bays | Scope |
 | --- | ---: | --- |
-| full-doubling | 1420 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| higher-productivity | 1525 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-accelerated | 1683 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-accelerated-reassigned | 1273 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-six-day-calendar | 1859 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| full-doubling | 940 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| higher-productivity | 1005 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated | 1115 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated-reassigned | 912 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-six-day-calendar | 1233 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
 
 These are conditional resource schedules. Station structures, special/closure spans, approved pier locations, delivery access and release evidence remain opening gates. Empty supplier/contract registers indicate missing qualifying evidence; they do not imply that Iraqi industry lacks capability.
 
@@ -33,9 +33,9 @@ These are conditional resource schedules. Station structures, special/closure sp
 
 | Case, lower-solar duty | Minimum SOC | Unserved traction kWh |
 | --- | ---: | ---: |
-| lfp-throughout | 0.0% | 3,318 |
-| sodium-both | 0.0% | 3,604,141 |
-| sodium-stationary | 0.0% | 3,318 |
+| lfp-throughout | 0.0% | 57,567 |
+| sodium-both | 0.0% | 3,748,910 |
+| sodium-stationary | 0.0% | 57,567 |
 
 The fixed-assignment diagnostic above uses both ring directions, declared dispatch stations and native rest-to-rest section timing. The current screen spans 4,440 continuous model minutes (3.08 days), including overnight state carry-over and a study strategy permitting grid replenishment within remaining site import capacity. Charge-rate, thermal and life inputs are unqualified profiles, so these results do not establish a chemistry advantage or suitability.
 
@@ -43,9 +43,9 @@ The separate [coupled energy/service controller](Baghdad/engineering/connected-b
 
 | Controlled case | Completed journeys | Missed dispatch opportunities | Distinct energy-held journeys |
 | --- | ---: | ---: | ---: |
-| lfp-throughout | 74,361 | 70 | 45 |
-| sodium-both | 54,329 | 19,131 | 7,860 |
-| sodium-stationary | 74,361 | 70 | 45 |
+| lfp-throughout | 22,580 | 219 | 123 |
+| sodium-both | 12,268 | 9,981 | 3,551 |
+| sodium-stationary | 22,580 | 219 | 123 |
 
 Geometry/operating-distance findings remain recorded. Conflict-capable timetable, berth/depot access, transient traction and operational multi-day acceptance remain open. Current station passenger demand is unknown where no surveyed station/OD assignment has been entered; the common 3,000 pax/h value is retained only as a separate stress case.
 <!-- END OSR CURRENT IRAQ BASIS -->
@@ -54,7 +54,7 @@ Geometry/operating-distance findings remain recorded. Conflict-capable timetable
 
 | City | Population | Fleet | City-case capital | Assumed imported purchases | Basis |
 | --- | ---: | ---: | ---: | ---: | --- |
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 2,067 | $19.41 B | $4.45 B | Retained local_positive comparator; accelerated scope unpriced |
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 958 | $10.12 B | $2.33 B | Retained local_positive comparator; accelerated scope unpriced |
 | [Basra](Basra/README.md) | 3,955,000 | 972 | $9.43 B | $2.07 B | Catalogue base estimate; scope and field releases open |
 | [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 337 | $3.32 B | $693.6 M | Catalogue base estimate; scope and field releases open |
 | [Erbil](Erbil/README.md) | 1,952,000 | 628 | $4.68 B | $994.9 M | Catalogue base estimate; scope and field releases open |
@@ -89,7 +89,7 @@ The city inventories include additional lines selected from retained unserved re
 | City | Current lines | Added residential lines | Original station circles | Current station circles |
 | --- | ---: | ---: | ---: | ---: |
 | [Amarah](Amarah/README.md) | 9 | 6 | 37.4% | 80.1% |
-| [Baghdad](Baghdad/README.md) | 54 | 45 | 40.3% | 78.7% |
+| [Baghdad](Baghdad/README.md) | 17 | 8 | 40.3% | 49.0% |
 | [Baqubah](Baqubah/README.md) | 12 | 9 | 37.2% | 77.7% |
 | [Basra](Basra/README.md) | 25 | 18 | 42.9% | 83.4% |
 | [Diwaniyah](Diwaniyah/README.md) | 9 | 6 | 30.6% | 68.5% |

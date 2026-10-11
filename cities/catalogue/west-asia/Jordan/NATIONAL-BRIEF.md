@@ -3,7 +3,7 @@
 This page contains only Jordan-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$13.44 B (88.1%) of external capital** and **$16.52 B of external interest**. Capital plus saved interest totals **$29.95 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$25.65 B (88.0%) of external capital** and **$31.54 B of external interest**. Capital plus saved interest totals **$57.19 B**.
 
 ## National Programme
 
@@ -11,49 +11,49 @@ This page contains only Jordan-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 4 |
 | Represented population | 5,557,000 |
-| Trainsets / vehicle modules | 920 / 4,258 |
-| City infrastructure and fleet CAPEX | $7.82 B |
-| Shared national factory | $607.5 M |
-| Factory sizing basis | 3,138 modules for Amman, then reused nationally |
-| **Total national programme** | **$8.47 B** |
+| Trainsets / vehicle modules | 1,952 / 9,286 |
+| City infrastructure and fleet CAPEX | $15.28 B |
+| Shared national factory | $863.1 M |
+| Factory sizing basis | 7,068 modules for Amman, then reused nationally |
+| **Total national programme** | **$16.20 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.81 B (21.4%) |
-| Domestic / local capital | $6.66 B (78.6%) |
-| Annual external capital draw | $362.1 M / yr |
-| Annual local capital draw | $1.33 B / yr |
-| Annual public construction commitment | $747.4 M / yr for 5 years |
-| Annual post-grace debt service | $537.8 M / yr |
-| Default foreign-turnkey external capital | $15.25 B |
-| External capital saved | $13.44 B |
-| Capital + lifetime external interest saved | $29.95 B |
+| Imported / external capital | $3.51 B (21.7%) |
+| Domestic / local capital | $12.69 B (78.3%) |
+| Annual external capital draw | $702.5 M / yr |
+| Annual local capital draw | $2.54 B / yr |
+| Annual public construction commitment | $1.43 B / yr for 5 years |
+| Annual post-grace debt service | $1.03 B / yr |
+| Default foreign-turnkey external capital | $29.17 B |
+| External capital saved | $25.65 B |
+| Capital + lifetime external interest saved | $57.19 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $4.08 B | $611.3 M | $3.46 B |
-| Stations | $1.07 B | $213.2 M | $853.0 M |
-| Depots | $402.9 M | $100.7 M | $302.2 M |
-| Rolling stock | $1.21 B | $424.1 M | $787.7 M |
-| Dedicated solar plants | $504.5 M | $227.0 M | $277.5 M |
-| Residual train control | $22.7 M | $11.3 M | $11.3 M |
-| Charging microgrids | $58.0 M | $23.2 M | $34.8 M |
-| EPC / project services | $521.1 M | $78.2 M | $443.0 M |
-| Shared national trainset factory | $607.5 M | $121.5 M | $486.0 M |
-| **Total** | **$8.47 B** | **$1.81 B** | **$6.66 B** |
+| Civil works | $6.82 B | $1.02 B | $5.80 B |
+| Stations | $2.87 B | $574.7 M | $2.30 B |
+| Depots | $1.13 B | $281.9 M | $845.7 M |
+| Rolling stock | $2.64 B | $924.1 M | $1.72 B |
+| Dedicated solar plants | $688.7 M | $309.9 M | $378.8 M |
+| Residual train control | $36.9 M | $18.5 M | $18.5 M |
+| Charging microgrids | $139.2 M | $55.7 M | $83.5 M |
+| EPC / project services | $1.01 B | $152.2 M | $862.7 M |
+| Shared national trainset factory | $863.1 M | $172.6 M | $690.5 M |
+| **Total** | **$16.20 B** | **$3.51 B** | **$12.69 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Amman](Amman/README.md) | 4,007,000 | 523 | $5.49 B | $1.21 B | $4.28 B |
-| [Zarqa](Zarqa/README.md) | 700,000 | 205 | $1.17 B | $239.2 M | $927.9 M |
-| [Irbid](Irbid/README.md) | 600,000 | 121 | $664.5 M | $138.5 M | $526.0 M |
-| [Aqaba](Aqaba/README.md) | 250,000 | 71 | $495.9 M | $93.0 M | $402.9 M |
+| [Amman](Amman/README.md) | 4,007,000 | 1,178 | $10.73 B | $2.41 B | $8.33 B |
+| [Zarqa](Zarqa/README.md) | 700,000 | 391 | $2.40 B | $485.8 M | $1.92 B |
+| [Irbid](Irbid/README.md) | 600,000 | 279 | $1.46 B | $306.0 M | $1.15 B |
+| [Aqaba](Aqaba/README.md) | 250,000 | 104 | $686.2 M | $130.6 M | $555.6 M |
 
 ## Local Basis And Regeneration
 
@@ -62,3 +62,17 @@ Country finance parameters use `JO` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [Amman](Amman/README.md) | 31 | 22 | 46.2% | 82.4% |
+| [Aqaba](Aqaba/README.md) | 5 | 2 | 58.2% | 79.5% |
+| [Irbid](Irbid/README.md) | 12 | 9 | 27.7% | 60.1% |
+| [Zarqa](Zarqa/README.md) | 13 | 10 | 33.6% | 77.3% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

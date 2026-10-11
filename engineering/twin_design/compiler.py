@@ -17,6 +17,7 @@ from engineering.civil_exploration.shared_demo import transform
 from engineering.civil_exploration.spatial_demo import configuration
 from engineering.civil_exploration.spatial_vehicle import SpatialVehicle
 from .physics import precharge, closure_decision, thermal_study, rail_support
+from .service_parts import install as install_service_parts
 
 DATA=ROOT/'engineering/twin_design/data'
 
@@ -132,7 +133,7 @@ def infrastructure(p):
         structural_design_released=False,physical_validation=False)
 
 
-def compile_design(inputs=None):
+def compile_design(inputs=None, *, variant_choices=None):
     inputs=deepcopy(inputs if inputs is not None else load_definition(DATA/'design-inputs.json'))
     if inputs.get('schema')!='osr-twin-design-inputs/1' or any(v is not False for v in inputs['gates'].values()):
         raise ValueError('study inputs cannot establish release or physical validation')
@@ -143,7 +144,7 @@ def compile_design(inputs=None):
         if not set(inputs[category]['source_ids']) <= known_sources:raise ValueError('unknown design source')
     if inputs['hvac']['module_count_per_car'] != 4 or inputs['hvac']['baseline_allowance_modules_per_car']!=3:
         raise ValueError('four-module proposal with a three-module baseline allowance is the studied topology')
-    base=compile_variant();model=deepcopy(base['model']);baseline_hash=fingerprint(model)
+    base=compile_variant(variant_choices);model=deepcopy(base['model']);baseline_hash=fingerprint(model)
     rail_study=rail_support(inputs['infrastructure'])
     # SpatialStructure distributes this historical key by tributary length and
     # divides between two rails. Its dimensional meaning is N/m², despite the
@@ -250,6 +251,7 @@ def compile_design(inputs=None):
                 dict(role='battery-sensor-reservation',primitives=[box('pod',[0,0,0],[.08,.06,.04])]),
                 [x+sign*4.8,0,.75],1400.,['roxtec-rolling','siemens-bogie-diagnostics'],['batteries','fire-response']))
         allocated.setdefault('LM3-SAF-P010',[]).append(sensors)
+        install_service_parts(car,inputs,add,allocated)
         installed=sum(r['mass_kg'] for r in features[before:])
         additional=(h['module_count_per_car']-h['baseline_allowance_modules_per_car'])*h['module_mass_kg']
         extracted=installed-additional;body=parts[cid+'/body'];props=body['properties']['design'];old=props['mass_kg']
@@ -263,7 +265,7 @@ def compile_design(inputs=None):
             allowance_basis='OSR assumed three-module allowance inside original synthetic body budget; not a measured original HVAC mass'))
     for row in model['instances']:row['revision']=model['revision']
     for row in model['joints']:row['revision']=model['revision']
-    model['notes']='Best-practice study variant: explicit installed modules, carriers, service panels, segregated cable supports, transit frames and sensor reservations. Material/process/load/supplier/physical release open. Original residual budget redistributed; CG/inertia recomputed. Baseline contact-domain failure remains unresolved.'
+    model['notes']='Best-practice study variant: explicit modules, carriers, service panels, supports, routed harness sections, connector reservations, coolant pipe walls/clamps, seals and sensors. Material/process/load/supplier/physical release open. Original residual budget redistributed; CG/inertia recomputed. Service evidence is configuration-specific.'
     validate(model);interfaces=_interfaces(model,base['battery'])
     def interface(id,kind,left,right,ports,limits,refs):
         units={'electrical':dict(voltage='V',current='A',power='W'),'control':dict(timestamp='s',latency='s')}
@@ -326,6 +328,8 @@ def compile_design(inputs=None):
                  ROOT/'engineering/best_practice/data/practices.json',ROOT/'engineering/best_practice/data/sources.json',
                  ROOT/'tools/automation/design-best-practice-twin.py',ROOT/'tools/automation/design-twin-freecad.py']:
         paths[str(path.relative_to(ROOT))]=hashlib.sha256(path.read_bytes()).hexdigest()
+    comparison=ROOT/'engineering/assurance/numerical_reproducibility.py'
+    paths[str(comparison.relative_to(ROOT))]=hashlib.sha256(comparison.read_bytes()).hexdigest()
     dynamics=[dict(id=g['id'],mass_kg=g['mass'],cg_m=g['cg'].tolist(),inertia_kg_m2=g['inertia'].tolist(),
         cg_change_m=(g['cg']-base_vehicle.groups[g['id']]['cg']).tolist()) for g in vehicle.groups.values() if g['kind']=='carbody']
     report=dict(schema='osr-best-practice-twin-review/1',configuration_sha256=fingerprint(model),baseline_configuration_sha256=baseline_hash,

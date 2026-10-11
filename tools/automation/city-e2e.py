@@ -189,6 +189,9 @@ def stop(reset=False):
 
 
 def host_commands(fresh=False):
+    # Retained data survives target cleanup. Rebuild the native evaluator before
+    # reopening services so a missing executable cannot silently kill telemetry.
+    command(['cargo','build','-p','osr-sim','--example','operating_bridge'],'build-controller')
     env={**os.environ,'OSR_ERP_URL':'http://127.0.0.1:8180','OSR_FUXA_URL':'http://127.0.0.1:1981',
         'OSR_INTEGRATION_URL':'http://127.0.0.1:8192','OSR_SUPERVISION_ROOT':str(OUTPUT/'supervision'),
         'OSR_SUPERVISION_CONFIG':str(PRIVATE/'integration.json'),'OSR_ERP_SNAPSHOT':str(PRIVATE/'operating-twins.json'),

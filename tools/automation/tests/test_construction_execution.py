@@ -63,6 +63,25 @@ def test_hooks_cover_native_tasks_assignments_and_controlled_resource_changes():
     assert hooks['ToDo']['validate'].endswith('validate_assignment')
     assert 'OSR Construction Release' in hooks
     assert hooks['Employee']['validate'].endswith('validate_controlled_evidence')
+    assert hooks['Asset']['before_update_after_submit'].endswith('validate_controlled_evidence')
+
+
+def test_submitted_asset_lifecycle_updates_keep_authority_checks(monkeypatch):
+    from types import SimpleNamespace
+    from osr_erpnext.construction_execution import validate_controlled_evidence
+    from osr_erpnext.construction_fleet import construction_custom_fields
+    fields={r['fieldname']:r for r in construction_custom_fields()['Asset']}
+    assert fields['custom_osr_fleet_lifecycle']['allow_on_submit']==1
+    assert fields['custom_osr_fleet_purchase_usd']['allow_on_submit']==0
+    class Doc(dict):
+        doctype='Asset'
+        def get_doc_before_save(self):return {'custom_osr_fleet_lifecycle':'old'}
+    doc=Doc(custom_osr_fleet_lifecycle='new')
+    def throw(message):raise ValueError(message)
+    fake=SimpleNamespace(get_roles=lambda:['Projects User'],throw=throw)
+    monkeypatch.setitem(sys.modules,'frappe',fake)
+    with pytest.raises(ValueError,match='requires'):validate_controlled_evidence(doc)
+    fake.get_roles=lambda:['Projects Manager'];validate_controlled_evidence(doc)
 
 
 def test_native_work_transition_rejects_a_draft_or_cancelled_review(monkeypatch):

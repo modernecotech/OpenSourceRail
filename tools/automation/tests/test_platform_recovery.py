@@ -80,3 +80,16 @@ def test_duplicate_manifest_keys_rejected(bundle):
 def test_malformed_integrity_entry_rejected(bundle,record):
     p=bundle/'manifest.json';m=json.loads(p.read_text());m['files']['ops.zip']=record;p.write_text(json.dumps(m))
     with pytest.raises(ValueError,match='Invalid checksum'):recovery.verify(bundle)
+
+
+@pytest.mark.parametrize('tmpfs',[None,['/tmp:mode=1777,size=512m','/run:size=16m']])
+def test_recovery_preserves_runtime_mounts_and_names_legacy_db_reconstruction(tmp_path,tmpfs):
+    source=tmp_path/'checkpoint';source.mkdir();private=tmp_path/'clone';private.mkdir()
+    service=dict(image='sha256:'+'a'*64,volumes=[],read_only=True,cap_drop=['ALL'],security_opt=['no-new-privileges:true'])
+    if tmpfs is not None:service['tmpfs']=tmpfs
+    state=dict(volumes={},services={'db':service});before=copy.deepcopy(state)
+    cloned=recovery.clone_config(state,source,private,'isolated-project',28880)['services']['db']
+    assert cloned['tmpfs']==(tmpfs or ['/tmp:mode=1777,size=512m'])
+    assert cloned['read_only'] is True and cloned['cap_drop']==['ALL']
+    assert cloned['security_opt']==['no-new-privileges:true']
+    assert state==before

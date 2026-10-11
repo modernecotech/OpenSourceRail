@@ -81,6 +81,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
     let app = Router::new()
         .route("/", get(index))
         .route("/app.js", get(javascript))
+        .route("/map-layout.js", get(map_layout))
         .route("/app.css", get(stylesheet))
         .route("/api/project", get(get_project))
         .route("/api/gis/manifest", get(get_gis_manifest))
@@ -156,6 +157,13 @@ async fn stylesheet() -> ([(&'static str, &'static str); 1], &'static str) {
     (
         [("content-type", "text/css; charset=utf-8")],
         include_str!("../web/app.css"),
+    )
+}
+
+async fn map_layout() -> ([(&'static str, &'static str); 1], &'static str) {
+    (
+        [("content-type", "text/javascript; charset=utf-8")],
+        include_str!("../web/map-layout.js"),
     )
 }
 

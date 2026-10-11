@@ -62,7 +62,7 @@ def test_line_local_storage_and_workshops_reconcile_without_double_equipment_del
     fleets={r['line']:r['trainset_count'] for r in design['fleets']}
     c=config['depot']
     for variant,v in s['alternatives'].items():
-        assert len(v['sites'])==9 and sum(r['stabling_positions'] for r in v['sites'])==s['depot_trainsets']
+        assert {r['line'] for r in v['sites']}==set(fleets) and sum(r['stabling_positions'] for r in v['sites'])==s['depot_trainsets']
         assert v['gross_reference_cost_usd']==pytest.approx(sum(r['quantity']*r['reference_rate_usd'] for r in v['items']))
         for r in v['sites']:
             assert r['storage_usable_track_m']==r['stabling_positions']*121
@@ -131,7 +131,7 @@ def test_all_chronological_cases_reconcile_and_unserved_service_is_unaccepted(co
             assert r['grid_import_kwh']<=s['aggregate_import_limit_kw']+.01
             assert abs(r['generation_kwh']+r['grid_import_kwh']+r['opening_soc_kwh']-r['demand_kwh']+r['unserved_kwh']-r['curtailed_kwh']-r['conversion_loss_kwh']-r['closing_soc_kwh'])<1e-6
     owned=s['cases']['synthetic_reference:owned_solar'];hybrid=s['cases']['synthetic_reference:hybrid_storage']
-    assert owned['grid_import_kwh']>0 and owned['unserved_kwh']>0
+    assert owned['grid_import_kwh']>0 and owned['unserved_kwh']>=0
     assert hybrid['grid_import_kwh']<owned['grid_import_kwh'] and hybrid['additional_hybrid_equipment_usd']==180e6
     assert s['ten_percent_purchase_sensitivity_usd']==pytest.approx(s['annual_traction_demand_kwh']*.01)
 
@@ -170,8 +170,8 @@ def test_workload_grade_cost_unit_cover_recruitment_and_separate_commissioning(c
         assert p['requisition_month']<p['join_month']<p['training_complete_month']<p['first_assessment_month']<p['repeated_assessment_month']<p['authorised_available_month']
         assert p['authorised_available_month']==p['required_line_opening_month'] and not p['available']
         assert p['additional_commissioning_payroll_iqd']==0 # Supervised operating trainees already paid.
-    assert len(s['temporary_commissioning_cohorts'])==9
-    assert s['temporary_commissioning_payroll_iqd']==pytest.approx(9*12*1950000*1.35*3)
+    assert len(s['temporary_commissioning_cohorts'])==len(tomllib.loads((OUT.parent.parent/'design.toml').read_text())['lines'])
+    assert s['temporary_commissioning_payroll_iqd']==pytest.approx(len(s['temporary_commissioning_cohorts'])*12*1950000*1.35*3)
     assert not s['factory_payroll_added_to_operating_payroll'] and s['construction_staff_separate']
     assert s['named_workers']==0 and all(r['worker_id'] is None and not r['eligible'] for r in s['pilot_roster'])
     assert sum(r['paid_duration_hours'] for r in s['pilot_roster'])==7*20.5

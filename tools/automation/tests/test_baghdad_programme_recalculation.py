@@ -79,8 +79,8 @@ def test_station_rosters_wages_and_depot_slots_bind_full_baghdad_scope():
     assert all(r['monthly_base_iqd']>=1.5*median-.01 for r in people['roles'])
     assert sum(r['required_fte'] for r in people['roles'])==people['reference_required_fte']
     assert sum(r['annual_loaded_payroll_iqd'] for r in people['roles'])==pytest.approx(people['reference_annual_loaded_payroll_iqd'])
-    assert depots['number_of_depots']==9 and depots['full_fleet_storage_slots']==current_fleet()
-    assert len({r['line'] for r in depots['sites']})==9
+    assert depots['number_of_depots']==len(current_design()['lines']) and depots['full_fleet_storage_slots']==current_fleet()
+    assert {r['line'] for r in depots['sites']}=={r['name'] for r in current_design()['lines']}
     for depot in depots['sites']:
         assert sum(t['slots'] for t in depot['tracks'])==depot['trainsets']
         assert depot['workshop_bay_hours_capacity']>=depot['workshop_bay_hours_demand']
@@ -111,7 +111,7 @@ def test_fabrication_counts_capacity_parent_budgets_and_residual_imports():
     assert industry['no_cell_manufacturing_plant_assumed']
     assert all(r['annual_cell_output_capacity']>=r['annual_required_output'] for r in products.values())
     assert all(r['imported_input_usd_per_unit']>0 and not r['first_article_accepted'] for r in products.values())
-    assert 'window-cassette' not in read('local_positive')['selected_component_factories']
+    assert set(read('local_positive')['selected_component_factories'])=={r['id'] for r in products.values() if r['economically_positive_before_finance']}
     assert read('local_positive')['metrics']['imported_invoices_usd']<read('revised_scope_buy')['metrics']['imported_invoices_usd']
 
 

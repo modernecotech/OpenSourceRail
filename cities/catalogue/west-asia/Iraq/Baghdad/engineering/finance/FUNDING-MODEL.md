@@ -1,10 +1,14 @@
 # Baghdad — Iraq funding appraisal
 
+<!-- OSR CURRENT SCOPE CONTEXT -->
+> **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
+<!-- END OSR CURRENT SCOPE CONTEXT -->
+
 Generated from current city CAPEX and procurement milestones. All facilities and appropriations remain uncommitted.
 
 Government capital is **25% of total city CAPEX**, before Chinese credit is deducted. The residual after that contribution and proposed Chinese proceeds is split 75% IQD bonds / 25% IQD bank credit. Imported purchases use 50% government USD cash and 50% proposed Chinese credit, assuming full-basket eligibility is later qualified; the remaining government contribution is IQD. Financing fees, construction interest, reserves and operating/debt support are additional funding requirements, not included in the 25% capital contribution. See the [Baghdad-only programme](../../../IRAQ-FUNDING-PROGRAMME.md) for the uncovered cash requirements if no additional government cash is available.
 
-Construction cash runs through month **201**; full-network operations start in month **201** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
+Construction cash runs through month **89**; full-network operations start in month **89** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
@@ -12,12 +16,12 @@ USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds a
 
 | Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
 |---|---|---:|---:|
-| chinese export credit | USD | 1,922,752,504.02 | 1,922,752,504.02 |
-| domestic bonds | IQD | 10,289,113,915,331.24 | 7,914,703,011.79 |
-| bank credit | IQD | 3,429,704,638,443.75 | 2,638,234,337.26 |
-| government import cash | USD | 1,922,752,504.02 | 1,922,752,504.02 |
-| government local cash | IQD | 2,906,554,014,436.90 | 2,235,810,780.34 |
-| **Total city capital uses** | Mixed | — | **16,634,253,137.44** |
+| chinese export credit | USD | 994,655,247.91 | 994,655,247.91 |
+| domestic bonds | IQD | 5,427,384,901,687.24 | 4,174,911,462.84 |
+| bank credit | IQD | 1,809,128,300,562.41 | 1,391,637,154.28 |
+| government import cash | USD | 994,655,247.91 | 994,655,247.91 |
+| government local cash | IQD | 1,550,136,519,230.94 | 1,192,412,707.10 |
+| **Total city capital uses** | Mixed | — | **8,748,271,820.03** |
 
 Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 
@@ -35,20 +39,20 @@ These allocations divide existing imported budgets; they are not additional cost
 
 | Bucket | Component | Assumed eligible invoice USD |
 |---|---|---:|
-| civil | other_imports_pending_lender_and_origin_qualification | 1,044,474,781.95 |
-| stations | other_imports_pending_lender_and_origin_qualification | 714,820,000.00 |
+| civil | other_imports_pending_lender_and_origin_qualification | 639,112,366.95 |
+| stations | other_imports_pending_lender_and_origin_qualification | 278,520,000.00 |
 | depots | other_imports_pending_lender_and_origin_qualification | 2,000,000.00 |
-| rolling_stock | bogies | 486,158,400.00 |
-| rolling_stock | traction_batteries | 364,618,800.00 |
-| rolling_stock | windows | 60,769,800.00 |
-| rolling_stock | doors | 121,539,600.00 |
-| rolling_stock | other_imports_pending_lender_and_origin_qualification | 182,309,400.00 |
-| solar_plant | solar_panels_and_inverters | 610,209,553.25 |
-| signalling | other_imports_pending_lender_and_origin_qualification | 21,598,098.00 |
-| charging_microgrid | solar_panels_and_inverters | 30,478,000.00 |
-| charging_microgrid | station_batteries | 34,832,000.00 |
-| charging_microgrid | other_imports_pending_lender_and_origin_qualification | 21,770,000.00 |
-| epc_overhead | other_imports_pending_lender_and_origin_qualification | 149,926,574.85 |
+| rolling_stock | bogies | 225,321,600.00 |
+| rolling_stock | traction_batteries | 168,991,200.00 |
+| rolling_stock | windows | 28,165,200.00 |
+| rolling_stock | doors | 56,330,400.00 |
+| rolling_stock | other_imports_pending_lender_and_origin_qualification | 84,495,600.00 |
+| solar_plant | solar_panels_and_inverters | 378,165,581.11 |
+| signalling | other_imports_pending_lender_and_origin_qualification | 13,487,622.00 |
+| charging_microgrid | solar_panels_and_inverters | 12,992,000.00 |
+| charging_microgrid | station_batteries | 14,848,000.00 |
+| charging_microgrid | other_imports_pending_lender_and_origin_qualification | 9,280,000.00 |
+| epc_overhead | other_imports_pending_lender_and_origin_qualification | 77,600,925.75 |
 
 ## Annual cash requirements
 
@@ -56,69 +60,60 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 674.38 | 0.00 | 0.00 | 20.56 | 192.67 | 0.00 |
-| 2 | 863.15 | 0.00 | 0.00 | 84.93 | 305.26 | 0.00 |
-| 3 | 919.66 | 0.00 | 0.00 | 151.77 | 386.65 | 0.00 |
-| 4 | 813.75 | 0.00 | 0.00 | 235.27 | 443.17 | 0.00 |
-| 5 | 835.44 | 0.00 | 0.00 | 309.94 | 523.36 | 0.00 |
-| 6 | 1021.24 | 0.00 | 0.00 | 392.69 | 653.55 | 0.00 |
-| 7 | 973.43 | 0.00 | 0.00 | 487.78 | 736.42 | 0.00 |
-| 8 | 1044.22 | 0.00 | 0.00 | 570.96 | 837.68 | 0.00 |
-| 9 | 1109.08 | 0.00 | 0.00 | 648.97 | 932.22 | 0.00 |
-| 10 | 1053.27 | 0.00 | 0.00 | 721.31 | 990.34 | 0.00 |
-| 11 | 1084.24 | 0.00 | 0.00 | 798.58 | 1075.49 | 0.00 |
-| 12 | 1028.64 | 0.00 | 0.00 | 876.69 | 1139.41 | 0.00 |
-| 13 | 1175.15 | 0.00 | 0.00 | 955.84 | 1255.95 | 0.00 |
-| 14 | 1125.30 | 0.00 | 0.00 | 1030.69 | 1318.09 | 0.00 |
-| 15 | 1249.17 | 0.00 | 0.00 | 1114.69 | 1433.69 | 0.00 |
-| 16 | 1289.86 | 0.00 | 0.00 | 1200.23 | 1529.60 | 0.00 |
-| 17 | 374.29 | 345.23 | 122.08 | 1265.69 | 1772.03 | 0.18 |
-| 18 | 0.00 | 1553.52 | 488.30 | 1249.92 | 258.85 | 0.85 |
-| 19 | 0.00 | 2243.97 | 488.30 | 1191.79 | 0.00 | 1.47 |
-| 20 | 0.00 | 2761.81 | 488.30 | 1118.23 | 0.00 | 2.03 |
-| 21 | 0.00 | 2761.81 | 488.30 | 1031.18 | 0.00 | 2.20 |
-| 22 | 0.00 | 2761.81 | 488.30 | 943.42 | 0.00 | 2.41 |
-| 23 | 0.00 | 2761.81 | 488.30 | 847.11 | 0.00 | 2.68 |
-| 24 | 0.00 | 2761.81 | 488.30 | 749.14 | 0.00 | 3.03 |
-| 25 | 0.00 | 2761.81 | 488.30 | 683.79 | 0.00 | 3.32 |
-| 26 | 0.00 | 2761.81 | 488.30 | 611.32 | 0.00 | 3.72 |
-| 27 | 0.00 | 2761.81 | 488.30 | 543.32 | 0.00 | 4.18 |
-| 28 | 0.00 | 2761.81 | 488.30 | 471.30 | 0.00 | 4.82 |
-| 29 | 0.00 | 2761.81 | 488.30 | 400.95 | 0.00 | 5.67 |
-| 30 | 0.00 | 2761.81 | 488.30 | 329.56 | 0.00 | 6.90 |
-| 31 | 0.00 | 2761.81 | 488.30 | 256.10 | 0.00 | 8.88 |
-| 32 | 0.00 | 2761.81 | 488.30 | 178.29 | 0.00 | 12.75 |
-| 33 | 0.00 | 2761.81 | 488.30 | 95.99 | 0.00 | 23.68 |
-| 34 | 0.00 | 2761.81 | 488.30 | 28.63 | 0.00 | 79.40 |
-| 35 | 0.00 | 2761.81 | 488.30 | 10.86 | 0.00 | 209.36 |
-| 36 | 0.00 | 2761.81 | 488.30 | 0.76 | 0.00 | 2993.36 |
-| 37 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 38 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 39 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 40 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 41 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 42 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 43 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 44 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 45 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 46 | 0.00 | 2761.81 | 488.30 | 0.00 | 0.00 | — |
-| 47 | 0.00 | 2071.36 | 366.23 | 0.00 | 0.00 | — |
+| 1 | 451.80 | 0.00 | 0.00 | 13.91 | 129.28 | 0.00 |
+| 2 | 940.22 | 0.00 | 0.00 | 67.29 | 307.34 | 0.00 |
+| 3 | 1310.73 | 0.00 | 0.00 | 152.91 | 487.66 | 0.00 |
+| 4 | 1499.86 | 0.00 | 0.00 | 270.61 | 653.69 | 0.00 |
+| 5 | 1559.68 | 0.00 | 0.00 | 404.67 | 803.00 | 0.00 |
+| 6 | 1568.08 | 0.00 | 0.00 | 547.69 | 948.17 | 0.00 |
+| 7 | 1393.82 | 0.00 | 0.00 | 692.49 | 1048.40 | 0.00 |
+| 8 | 24.08 | 250.91 | 141.38 | 770.75 | 1056.95 | 0.14 |
+| 9 | 0.00 | 555.58 | 242.36 | 782.95 | 471.74 | 0.40 |
+| 10 | 0.00 | 770.64 | 242.36 | 769.13 | 225.90 | 0.69 |
+| 11 | 0.00 | 860.25 | 242.36 | 733.91 | 97.42 | 0.84 |
+| 12 | 0.00 | 860.25 | 242.36 | 690.35 | 48.59 | 0.90 |
+| 13 | 0.00 | 860.25 | 242.36 | 642.57 | 6.37 | 0.96 |
+| 14 | 0.00 | 860.25 | 242.36 | 595.42 | 0.00 | 1.04 |
+| 15 | 0.00 | 860.25 | 242.36 | 573.30 | 0.00 | 1.08 |
+| 16 | 0.00 | 860.25 | 242.36 | 573.16 | 0.00 | 1.08 |
+| 17 | 0.00 | 860.25 | 242.36 | 573.16 | 0.00 | 1.08 |
+| 18 | 0.00 | 860.25 | 242.36 | 563.61 | 0.00 | 1.10 |
+| 19 | 0.00 | 860.25 | 242.36 | 525.05 | 0.00 | 1.18 |
+| 20 | 0.00 | 860.25 | 242.36 | 463.06 | 0.00 | 1.33 |
+| 21 | 0.00 | 860.25 | 242.36 | 378.90 | 0.00 | 1.63 |
+| 22 | 0.00 | 860.25 | 242.36 | 284.07 | 0.00 | 2.18 |
+| 23 | 0.00 | 860.25 | 242.36 | 182.97 | 0.00 | 3.38 |
+| 24 | 0.00 | 860.25 | 242.36 | 81.71 | 0.00 | 7.56 |
+| 25 | 0.00 | 860.25 | 242.36 | 24.94 | 0.00 | 24.78 |
+| 26 | 0.00 | 860.25 | 242.36 | 7.69 | 0.00 | 80.37 |
+| 27 | 0.00 | 860.25 | 242.36 | 0.05 | 0.00 | 13079.05 |
+| 28 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 29 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 30 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 31 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 32 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 33 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 34 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 35 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 36 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 37 | 0.00 | 860.25 | 242.36 | 0.00 | 0.00 | — |
+| 38 | 0.00 | 358.44 | 100.98 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 1772.03 | 0.18 | 0.00 |
-| high capacity use | 1643.92 | 0.33 | 0.00 |
-| capex plus 25 percent | 2270.83 | 0.14 | 0.00 |
-| demand minus 40 percent | 1910.12 | 0.07 | 0.00 |
-| iqd depreciation 35 percent | 1742.20 | 0.14 | 0.00 |
-| commissioning delay two years | 1548.67 | 0.19 | 0.00 |
-| china credit unavailable | 1532.09 | 0.20 | 13.24 |
-| four year bullet bonds | 1553.08 | 0.20 | 0.00 |
-| government payment delay six months | 1927.17 | 0.18 | 17.47 |
-| interest plus three points | 2140.83 | 0.15 | 0.00 |
-| combined downside | 2466.67 | 0.04 | 0.00 |
+| base low demand | 1056.95 | 0.14 | 0.00 |
+| high capacity use | 1048.40 | 0.33 | 0.00 |
+| capex plus 25 percent | 1348.57 | 0.11 | 0.00 |
+| demand minus 40 percent | 1157.31 | 0.01 | 0.00 |
+| iqd depreciation 35 percent | 924.18 | 0.13 | 0.00 |
+| commissioning delay two years | 1048.40 | 0.14 | 0.00 |
+| china credit unavailable | 991.40 | 0.16 | 16.53 |
+| four year bullet bonds | 1784.53 | 0.09 | 0.00 |
+| government payment delay six months | 1212.52 | 0.14 | 12.31 |
+| interest plus three points | 1281.55 | 0.12 | 0.00 |
+| combined downside | 1432.32 | 0.01 | 0.00 |
 
 ## Assumptions and evidence
 
@@ -149,63 +144,26 @@ The base above withholds all fares until every capital milestone. This separate 
 
 Revenue and variable OPEX use each line's share of controlled trainsets. Each line has its own 50% / 75% / 100% revenue ramp. Fixed OPEX is 25% of the full-network annual budget from first opening; remaining OPEX scales with opened fleet. These are explicit uncalibrated sensitivity assumptions, not a ridership survey or verified staffing plan.
 
-First / last planned opening: month 45 / 200 from financial close (month zero). City additional funding requirement: USD 1,720.35 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
+First / last planned opening: month 40 / 88 from financial close (month zero). City additional funding requirement: USD 2,877.17 million. The plant remains separate. Future surplus is retained; gross additional support is not net lifetime loss or discounted cost.
 
 | Line | Opening month | Revenue / variable OPEX share |
 |---|---:|---:|
-| line-1 | 45 | 6.10% |
-| line-10 | 47 | 0.82% |
-| line-11 | 49 | 1.21% |
-| line-12 | 50 | 1.11% |
-| line-13 | 52 | 0.97% |
-| line-14 | 53 | 0.92% |
-| line-15 | 56 | 1.45% |
-| line-16 | 58 | 1.11% |
-| line-17 | 59 | 0.97% |
-| line-18 | 61 | 1.02% |
-| line-19 | 62 | 0.92% |
-| line-2 | 75 | 5.95% |
-| line-20 | 75 | 0.97% |
-| line-21 | 76 | 1.35% |
-| line-22 | 77 | 0.82% |
-| line-23 | 79 | 1.31% |
-| line-24 | 82 | 1.50% |
-| line-25 | 83 | 1.02% |
-| line-26 | 85 | 0.92% |
-| line-27 | 88 | 1.98% |
-| line-28 | 90 | 1.21% |
-| line-29 | 92 | 1.40% |
-| line-3 | 101 | 5.47% |
-| line-30 | 103 | 1.16% |
-| line-31 | 106 | 1.55% |
-| line-32 | 108 | 1.21% |
-| line-33 | 110 | 1.21% |
-| line-34 | 112 | 1.11% |
-| line-35 | 114 | 1.16% |
-| line-36 | 116 | 1.21% |
-| line-37 | 118 | 1.79% |
-| line-38 | 120 | 0.92% |
-| line-39 | 121 | 0.92% |
-| line-4 | 129 | 4.69% |
-| line-40 | 131 | 0.97% |
-| line-41 | 132 | 0.97% |
-| line-42 | 134 | 0.77% |
-| line-43 | 136 | 1.69% |
-| line-44 | 139 | 1.55% |
-| line-45 | 140 | 0.97% |
-| line-46 | 142 | 1.21% |
-| line-47 | 145 | 1.64% |
-| line-48 | 146 | 0.82% |
-| line-49 | 149 | 1.35% |
-| line-5 | 158 | 5.61% |
-| line-50 | 161 | 1.84% |
-| line-51 | 163 | 1.02% |
-| line-52 | 165 | 1.40% |
-| line-53 | 168 | 1.79% |
-| line-54 | 170 | 1.31% |
-| line-6 | 179 | 5.76% |
-| line-7 | 186 | 4.16% |
-| line-8 | 194 | 4.93% |
-| line-9 | 200 | 2.81% |
+| line-1 | 40 | 10.02% |
+| line-10 | 41 | 1.88% |
+| line-11 | 42 | 2.19% |
+| line-12 | 44 | 2.71% |
+| line-13 | 45 | 2.40% |
+| line-14 | 46 | 2.19% |
+| line-15 | 47 | 1.98% |
+| line-16 | 48 | 1.57% |
+| line-17 | 49 | 2.51% |
+| line-2 | 55 | 10.86% |
+| line-3 | 60 | 10.23% |
+| line-4 | 64 | 8.25% |
+| line-5 | 70 | 10.23% |
+| line-6 | 75 | 10.13% |
+| line-7 | 79 | 7.83% |
+| line-8 | 84 | 10.13% |
+| line-9 | 88 | 4.91% |
 
 [Phased monthly cashflow](funding-phased-monthly-cashflow.csv) · [phased annual cashflow](funding-phased-annual-cashflow.csv)

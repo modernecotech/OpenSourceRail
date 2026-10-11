@@ -25,6 +25,7 @@ from engineering.civil_exploration.commercial import bill
 
 def source_hashes():
     paths=[*(ROOT/'engineering/civil_exploration').glob('*.py'),
+        ROOT/'engineering/integration_programme/flexible.py',ROOT/'engineering/integration_programme/flexible_vehicle.py',
         *(ROOT/'design/component-catalogue/src/osr_mech/civil').glob('*.py'),
         *(ROOT/'design/component-catalogue/src/osr_mech').glob('*.py'),
         ROOT/'design/component-catalogue/src/osr_mech/vehicle_mass_properties.py',ROOT/'lib/templates/rolling-stock.toml',Path(__file__),

@@ -152,6 +152,9 @@ main { padding: 1.25rem; max-width: 1800px; margin: auto; }
 .network-line.manual { stroke-dasharray: 12 6; }
 .pending-line-point { fill: var(--accent); stroke: white; stroke-width: 4; pointer-events: none; }
 .station { stroke: #07110f; stroke-width: 4; cursor: grab; }
+.station-location-leader { stroke: #b3c4bb; stroke-width: 1.5; pointer-events: none; }
+/* The outer Workbench owns navigation; an embedded header must not cover map hits. */
+.embedded-workbench .topbar { position: relative; }
 .station:hover, .station.selected { stroke: white; stroke-width: 5; }
 .station.generated { fill: var(--accent-2); }
 .station.preferred { fill: #a98aef; }

@@ -419,6 +419,10 @@ def export_network(
         return output_paths
 
     output_dir.mkdir(parents=True, exist_ok=True)
+    slug=tomllib.loads(design_path.read_text())['city']['slug']
+    for obsolete in output_dir.glob(f'{slug}-line*.aln.toml'):
+        if obsolete.name not in rendered:
+            obsolete.unlink()
     for path in output_paths:
         path.write_text(package[path.name])
     return output_paths

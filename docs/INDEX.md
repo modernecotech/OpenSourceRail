@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6234**.
+Indexed Markdown files: **6202**.
 
 ## Sections
 
@@ -22,13 +22,13 @@ Indexed Markdown files: **6234**.
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [cities](#cities) | 5437 |
+| [cities](#cities) | 5438 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 221 |
-| [engineering](#engineering) | 93 |
+| [docs](#docs) | 224 |
+| [engineering](#engineering) | 57 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4267,7 +4267,7 @@ Indexed Markdown files: **6234**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md) | Baghdad controlled six-car planning product |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md) | Baghdad workload, recruitment and competence pilot |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md) | Comparable standalone opening corridors |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md) | Nine depot/storage design studies and Iraqi slab manufacture |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md) | 17 depot/storage design studies and Iraqi slab manufacture |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEVELOPMENT-TRAINING.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEVELOPMENT-TRAINING.md) | Development leadership and training mobilisation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md) | Field investigations, quotations and actual appointments |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md) | Delivery-cost financial reconciliation |
@@ -4286,6 +4286,7 @@ Indexed Markdown files: **6234**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-MODEL.md) | Baghdad — Iraq funding appraisal |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/FUNDING-RECONCILIATION.md) | Baghdad financing reconciliation and six-month placement programme |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/financing-redesign/README.md) | Baghdad financing redesign — 2026-10-04 |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/README.md) | Baghdad mapping inputs and neighbourhood access |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md) | Baghdad programme recalculation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md) | Baghdad qualification, funding gates and first operating section |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/simulation/operations-crosscheck.md) | Baghdad operations cross-check |
@@ -6001,6 +6002,7 @@ Indexed Markdown files: **6234**.
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
 | [`docs/best-practice/digital-twin-design-expansion.md`](../docs/best-practice/digital-twin-design-expansion.md) | Research incorporated into the design twin |
+| [`docs/best-practice/engineering-integration-review.md`](../docs/best-practice/engineering-integration-review.md) | Engineering integration review — 11 October 2026 |
 | [`docs/best-practice/handbook.md`](../docs/best-practice/handbook.md) | OpenSourceRail best-practice handbook |
 | [`docs/best-practice/research-plan.md`](../docs/best-practice/research-plan.md) | Best-practice research and implementation plan |
 | [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |
@@ -6069,6 +6071,7 @@ Indexed Markdown files: **6234**.
 | [`docs/competitive-position-and-proof-roadmap.md`](../docs/competitive-position-and-proof-roadmap.md) | Competitive Position And Proof Roadmap |
 | [`docs/component-rfc-readiness.md`](../docs/component-rfc-readiness.md) | Component RFC Implementation Readiness |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
+| [`docs/data/automatic-mapping-sources.md`](../docs/data/automatic-mapping-sources.md) | Automatic mapping: population, streets and traffic |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
@@ -6198,6 +6201,7 @@ Indexed Markdown files: **6234**.
 | [`docs/standards/OSR-BP-001.md`](../docs/standards/OSR-BP-001.md) | OSR-BP-001: Source-backed component and system practice |
 | [`docs/standards/OSR-ENG-001.md`](../docs/standards/OSR-ENG-001.md) | OpenSourceRail engineering standard OSR-ENG-001 |
 | [`docs/standards/OSR-ENG-002.md`](../docs/standards/OSR-ENG-002.md) | OSR-ENG-002: Automated reference part generation |
+| [`docs/standards/OSR-INT-001.md`](../docs/standards/OSR-INT-001.md) | OSR-INT-001 — configuration-bound integration evidence |
 | [`docs/standards/OSR-MFG-001.md`](../docs/standards/OSR-MFG-001.md) | OSR-MFG-001: Open factory execution and quality evidence |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
 | [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
@@ -6244,6 +6248,7 @@ Indexed Markdown files: **6234**.
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
+| [`engineering/integration_programme/data/contact/LICENSE.md`](../engineering/integration_programme/data/contact/LICENSE.md) | License |
 | [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil and LM3 BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |
@@ -6258,47 +6263,10 @@ Indexed Markdown files: **6234**.
 | [`engineering/network-planning/baghdad/line-15-construction-plan.md`](../engineering/network-planning/baghdad/line-15-construction-plan.md) | line-15 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-16-construction-plan.md`](../engineering/network-planning/baghdad/line-16-construction-plan.md) | line-16 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-17-construction-plan.md`](../engineering/network-planning/baghdad/line-17-construction-plan.md) | line-17 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-18-construction-plan.md`](../engineering/network-planning/baghdad/line-18-construction-plan.md) | line-18 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-19-construction-plan.md`](../engineering/network-planning/baghdad/line-19-construction-plan.md) | line-19 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-2-construction-plan.md`](../engineering/network-planning/baghdad/line-2-construction-plan.md) | line-2 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-20-construction-plan.md`](../engineering/network-planning/baghdad/line-20-construction-plan.md) | line-20 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-21-construction-plan.md`](../engineering/network-planning/baghdad/line-21-construction-plan.md) | line-21 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-22-construction-plan.md`](../engineering/network-planning/baghdad/line-22-construction-plan.md) | line-22 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-23-construction-plan.md`](../engineering/network-planning/baghdad/line-23-construction-plan.md) | line-23 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-24-construction-plan.md`](../engineering/network-planning/baghdad/line-24-construction-plan.md) | line-24 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-25-construction-plan.md`](../engineering/network-planning/baghdad/line-25-construction-plan.md) | line-25 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-26-construction-plan.md`](../engineering/network-planning/baghdad/line-26-construction-plan.md) | line-26 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-27-construction-plan.md`](../engineering/network-planning/baghdad/line-27-construction-plan.md) | line-27 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-28-construction-plan.md`](../engineering/network-planning/baghdad/line-28-construction-plan.md) | line-28 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-29-construction-plan.md`](../engineering/network-planning/baghdad/line-29-construction-plan.md) | line-29 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-3-construction-plan.md`](../engineering/network-planning/baghdad/line-3-construction-plan.md) | line-3 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-30-construction-plan.md`](../engineering/network-planning/baghdad/line-30-construction-plan.md) | line-30 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-31-construction-plan.md`](../engineering/network-planning/baghdad/line-31-construction-plan.md) | line-31 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-32-construction-plan.md`](../engineering/network-planning/baghdad/line-32-construction-plan.md) | line-32 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-33-construction-plan.md`](../engineering/network-planning/baghdad/line-33-construction-plan.md) | line-33 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-34-construction-plan.md`](../engineering/network-planning/baghdad/line-34-construction-plan.md) | line-34 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-35-construction-plan.md`](../engineering/network-planning/baghdad/line-35-construction-plan.md) | line-35 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-36-construction-plan.md`](../engineering/network-planning/baghdad/line-36-construction-plan.md) | line-36 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-37-construction-plan.md`](../engineering/network-planning/baghdad/line-37-construction-plan.md) | line-37 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-38-construction-plan.md`](../engineering/network-planning/baghdad/line-38-construction-plan.md) | line-38 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-39-construction-plan.md`](../engineering/network-planning/baghdad/line-39-construction-plan.md) | line-39 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-4-construction-plan.md`](../engineering/network-planning/baghdad/line-4-construction-plan.md) | line-4 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-40-construction-plan.md`](../engineering/network-planning/baghdad/line-40-construction-plan.md) | line-40 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-41-construction-plan.md`](../engineering/network-planning/baghdad/line-41-construction-plan.md) | line-41 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-42-construction-plan.md`](../engineering/network-planning/baghdad/line-42-construction-plan.md) | line-42 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-43-construction-plan.md`](../engineering/network-planning/baghdad/line-43-construction-plan.md) | line-43 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-44-construction-plan.md`](../engineering/network-planning/baghdad/line-44-construction-plan.md) | line-44 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-45-construction-plan.md`](../engineering/network-planning/baghdad/line-45-construction-plan.md) | line-45 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-46-construction-plan.md`](../engineering/network-planning/baghdad/line-46-construction-plan.md) | line-46 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-47-construction-plan.md`](../engineering/network-planning/baghdad/line-47-construction-plan.md) | line-47 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-48-construction-plan.md`](../engineering/network-planning/baghdad/line-48-construction-plan.md) | line-48 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-49-construction-plan.md`](../engineering/network-planning/baghdad/line-49-construction-plan.md) | line-49 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-5-construction-plan.md`](../engineering/network-planning/baghdad/line-5-construction-plan.md) | line-5 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-50-construction-plan.md`](../engineering/network-planning/baghdad/line-50-construction-plan.md) | line-50 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-51-construction-plan.md`](../engineering/network-planning/baghdad/line-51-construction-plan.md) | line-51 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-52-construction-plan.md`](../engineering/network-planning/baghdad/line-52-construction-plan.md) | line-52 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-53-construction-plan.md`](../engineering/network-planning/baghdad/line-53-construction-plan.md) | line-53 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-54-construction-plan.md`](../engineering/network-planning/baghdad/line-54-construction-plan.md) | line-54 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-6-construction-plan.md`](../engineering/network-planning/baghdad/line-6-construction-plan.md) | line-6 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-7-construction-plan.md`](../engineering/network-planning/baghdad/line-7-construction-plan.md) | line-7 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-8-construction-plan.md`](../engineering/network-planning/baghdad/line-8-construction-plan.md) | line-8 — foundation and assembly construction plan |

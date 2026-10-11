@@ -1,8 +1,8 @@
 # Baghdad route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 54
-- Stations: 600
+- Lines: 17
+- Stations: 251
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

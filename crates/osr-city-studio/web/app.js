@@ -1,3 +1,4 @@
+if (window.self !== window.top) document.documentElement.classList.add("embedded-workbench");
 const api = {
   async request(path, options = {}) {
     const response = await fetch(path, {
@@ -547,8 +548,20 @@ function renderMap() {
   });
 
   const movedIds = new Set(view.snapshot.changes.map((change) => change.id));
-  view.snapshot.stations.forEach((station) => {
+  const markerLayout = OSRStationMarkerLayout(view.snapshot.stations.map((station) => {
     const [x, y] = projection.point(station.lon, station.lat);
+    return { id: station.id, x, y };
+  }));
+  view.snapshot.stations.forEach((station, index) => {
+    const marker = markerLayout[index];
+    const { x, y } = marker;
+    if (Math.hypot(x - marker.sourceX, y - marker.sourceY) > .01) {
+      const leader = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      leader.setAttribute("x1", marker.sourceX); leader.setAttribute("y1", marker.sourceY);
+      leader.setAttribute("x2", x); leader.setAttribute("y2", y);
+      leader.setAttribute("class", "station-location-leader");
+      candidateGroup.appendChild(leader);
+    }
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", x);
     circle.setAttribute("cy", y);
@@ -558,6 +571,7 @@ function renderMap() {
       `station ${station.state} ${station.site_assessment?.station_permitted === false ? "site-blocked" : ""} ${movedIds.has(station.id) ? "moved" : ""} ${selectedStation?.id === station.id ? "selected" : ""}`
     );
     circle.dataset.id = station.id;
+    circle.setAttribute("aria-label", `${station.name} · ${station.line}`);
     const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
     title.textContent = `${station.name} · ${station.line} · ${station.state}${station.site_assessment?.station_permitted === false ? " · prohibited over mapped water" : ""}`;
     circle.appendChild(title);
@@ -667,9 +681,12 @@ $("#network-map").addEventListener("pointerdown", (event) => {
 function startStationDrag(event) {
   if (mapMode === "line" || mapMode === "pan") return;
   const id = event.currentTarget.dataset.id;
-  drag = { id, node: event.currentTarget, kind: "station" };
+  const pointer = eventToMap(event);
+  drag = { id, node: event.currentTarget, kind: "station", pointer,
+    display: [Number(event.currentTarget.getAttribute("cx")), Number(event.currentTarget.getAttribute("cy"))] };
   event.currentTarget.setPointerCapture(event.pointerId);
   selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;
+  if (selectedStation) drag.origin = projection.point(selectedStation.lon, selectedStation.lat);
   selectedControl = null;
   selectedLine = null;
   if (selectedStation) publishWorkbenchContext({ selected_asset: selectedStation.id });
@@ -804,12 +821,15 @@ $("#network-map").addEventListener("pointermove", (event) => {
   }
   if (!drag) return;
   if (drag.kind === "station") {
-    drag.node.setAttribute("cx", x);
-    drag.node.setAttribute("cy", y);
-    selectedStation.lat = lat;
-    selectedStation.lon = lon;
-    $("#station-lat").value = lat.toFixed(7);
-    $("#station-lon").value = lon.toFixed(7);
+    const dx = x - drag.pointer[0], dy = y - drag.pointer[1];
+    if (Math.hypot(dx, dy) < 3) return;
+    const [stationLon, stationLat] = projection.inverse(drag.origin[0] + dx, drag.origin[1] + dy);
+    drag.node.setAttribute("cx", drag.display[0] + dx);
+    drag.node.setAttribute("cy", drag.display[1] + dy);
+    selectedStation.lat = stationLat;
+    selectedStation.lon = stationLon;
+    $("#station-lat").value = stationLat.toFixed(7);
+    $("#station-lon").value = stationLon.toFixed(7);
     if (selectedStation.state !== "manual") {
       $("#station-state").value = "preferred";
       selectedStation.state = "preferred";

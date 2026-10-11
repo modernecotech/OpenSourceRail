@@ -3,7 +3,7 @@
 This page contains only Bangladesh-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$31.52 B (88.3%) of external capital** and **$39.51 B of external interest**. Capital plus saved interest totals **$71.03 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$66.22 B (88.1%) of external capital** and **$83.01 B of external interest**. Capital plus saved interest totals **$149.23 B**.
 
 ## National Programme
 
@@ -11,55 +11,55 @@ This page contains only Bangladesh-specific aggregation. Shared network, service
 |---|---:|
 | Catalogue cities | 10 |
 | Represented population | 13,550,000 |
-| Trainsets / vehicle modules | 2,161 / 8,674 |
-| City infrastructure and fleet CAPEX | $18.90 B |
-| Shared national factory | $861.2 M |
-| Factory sizing basis | 3,138 modules for Chittagong, then reused nationally |
-| **Total national programme** | **$19.82 B** |
+| Trainsets / vehicle modules | 5,336 / 21,957 |
+| City infrastructure and fleet CAPEX | $40.84 B |
+| Shared national factory | $874.1 M |
+| Factory sizing basis | 8,592 modules for Chittagong, then reused nationally |
+| **Total national programme** | **$41.78 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $4.16 B (21.0%) |
-| Domestic / local capital | $15.66 B (79.0%) |
-| Annual external capital draw | $595.0 M / yr |
-| Annual local capital draw | $2.24 B / yr |
-| Annual public construction commitment | $1.70 B / yr for 7 years |
-| Annual post-grace debt service | $1.39 B / yr |
-| Default foreign-turnkey external capital | $35.68 B |
-| External capital saved | $31.52 B |
-| Capital + lifetime external interest saved | $71.03 B |
+| Imported / external capital | $8.98 B (21.5%) |
+| Domestic / local capital | $32.80 B (78.5%) |
+| Annual external capital draw | $1.28 B / yr |
+| Annual local capital draw | $4.69 B / yr |
+| Annual public construction commitment | $3.57 B / yr for 7 years |
+| Annual post-grace debt service | $2.92 B / yr |
+| Default foreign-turnkey external capital | $75.20 B |
+| External capital saved | $66.22 B |
+| Capital + lifetime external interest saved | $149.23 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $10.57 B | $1.59 B | $8.98 B |
-| Stations | $2.32 B | $463.7 M | $1.85 B |
-| Depots | $881.8 M | $220.5 M | $661.4 M |
-| Rolling stock | $2.49 B | $871.4 M | $1.62 B |
-| Dedicated solar plants | $1.33 B | $599.3 M | $732.5 M |
-| Residual train control | $54.5 M | $27.2 M | $27.2 M |
-| Charging microgrids | $109.5 M | $43.8 M | $65.7 M |
-| EPC / project services | $1.21 B | $181.5 M | $1.03 B |
-| Shared national trainset factory | $861.2 M | $172.2 M | $688.9 M |
-| **Total** | **$19.82 B** | **$4.16 B** | **$15.66 B** |
+| Civil works | $18.64 B | $2.80 B | $15.84 B |
+| Stations | $7.93 B | $1.59 B | $6.34 B |
+| Depots | $3.04 B | $759.6 M | $2.28 B |
+| Rolling stock | $6.28 B | $2.20 B | $4.08 B |
+| Dedicated solar plants | $1.97 B | $888.6 M | $1.09 B |
+| Residual train control | $98.6 M | $49.3 M | $49.3 M |
+| Charging microgrids | $341.6 M | $136.7 M | $205.0 M |
+| EPC / project services | $2.60 B | $390.6 M | $2.21 B |
+| Shared national trainset factory | $874.1 M | $174.8 M | $699.3 M |
+| **Total** | **$41.78 B** | **$8.98 B** | **$32.80 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Chittagong](Chittagong/README.md) | 5,200,000 | 523 | $6.01 B | $1.33 B | $4.68 B |
-| [Khulna](Khulna/README.md) | 1,500,000 | 280 | $3.53 B | $701.2 M | $2.83 B |
-| [Gazipur](Gazipur/README.md) | 1,400,000 | 342 | $3.65 B | $761.5 M | $2.89 B |
-| [Narayanganj](Narayanganj/README.md) | 950,000 | 229 | $1.30 B | $269.5 M | $1.03 B |
-| [Rajshahi](Rajshahi/README.md) | 950,000 | 104 | $571.9 M | $120.4 M | $451.6 M |
-| [Sylhet](Sylhet/README.md) | 900,000 | 131 | $700.2 M | $148.0 M | $552.2 M |
-| [Rangpur](Rangpur/README.md) | 800,000 | 120 | $659.6 M | $138.3 M | $521.3 M |
-| [Mymensingh](Mymensingh/README.md) | 700,000 | 118 | $715.1 M | $146.2 M | $568.9 M |
-| [Comilla](Comilla/README.md) | 600,000 | 139 | $768.9 M | $160.6 M | $608.2 M |
-| [Barisal](Barisal/README.md) | 550,000 | 175 | $1.01 B | $209.0 M | $799.9 M |
+| [Chittagong](Chittagong/README.md) | 5,200,000 | 1,432 | $12.92 B | $2.97 B | $9.95 B |
+| [Khulna](Khulna/README.md) | 1,500,000 | 531 | $5.46 B | $1.11 B | $4.35 B |
+| [Gazipur](Gazipur/README.md) | 1,400,000 | 1,122 | $9.86 B | $2.08 B | $7.77 B |
+| [Narayanganj](Narayanganj/README.md) | 950,000 | 533 | $3.10 B | $643.3 M | $2.46 B |
+| [Rajshahi](Rajshahi/README.md) | 950,000 | 234 | $1.29 B | $270.9 M | $1.02 B |
+| [Sylhet](Sylhet/README.md) | 900,000 | 297 | $1.56 B | $329.5 M | $1.23 B |
+| [Rangpur](Rangpur/README.md) | 800,000 | 261 | $1.44 B | $302.3 M | $1.14 B |
+| [Mymensingh](Mymensingh/README.md) | 700,000 | 269 | $1.63 B | $331.1 M | $1.30 B |
+| [Comilla](Comilla/README.md) | 600,000 | 310 | $1.61 B | $342.7 M | $1.27 B |
+| [Barisal](Barisal/README.md) | 550,000 | 347 | $1.97 B | $410.7 M | $1.56 B |
 
 ## Local Basis And Regeneration
 
@@ -68,3 +68,23 @@ Country finance parameters use `BD` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [Barisal](Barisal/README.md) | 10 | 7 | 39.6% | 81.8% |
+| [Chittagong](Chittagong/README.md) | 37 | 29 | 46.6% | 83.8% |
+| [Comilla](Comilla/README.md) | 9 | 6 | 28.7% | 61.0% |
+| [Gazipur](Gazipur/README.md) | 41 | 35 | 29.1% | 76.5% |
+| [Khulna](Khulna/README.md) | 16 | 10 | 51.8% | 79.3% |
+| [Mymensingh](Mymensingh/README.md) | 10 | 7 | 18.8% | 47.8% |
+| [Narayanganj](Narayanganj/README.md) | 19 | 16 | 34.2% | 77.6% |
+| [Rajshahi](Rajshahi/README.md) | 9 | 6 | 36.1% | 63.8% |
+| [Rangpur](Rangpur/README.md) | 11 | 8 | 22.4% | 52.8% |
+| [Sylhet](Sylhet/README.md) | 12 | 9 | 25.1% | 56.4% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

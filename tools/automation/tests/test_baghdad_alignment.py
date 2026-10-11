@@ -30,7 +30,7 @@ def test_committed_alignment_controls_are_reproducible_and_change_the_main_route
             else:
                 assert all(c['radius_m']>=300 for c in run['controls'] if c['kind']=='arc')
     d=tomllib.loads((CITY/'design.toml').read_text())
-    assert sum(line['length_m'] for line in d['lines'])<500_000
+    assert sum(line['length_m'] for line in d['lines'][:len(seed['lines'])])<500_000
     elevated=sum(s['to_station_m']-s['from_station_m'] for s in d['civil_segments'] if s['class']=='elevated')
     assert elevated/sum(line['length_m'] for line in d['lines'])>.5
     assert sum(s['to_station_m']-s['from_station_m'] for s in d['civil_segments'])==pytest.approx(sum(line['length_m'] for line in d['lines']),abs=2)

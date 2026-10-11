@@ -248,7 +248,8 @@ def compile_variant(choices=None, *, basis=None):
     source_paths=[BASIS_PATH,CHOICES_PATH,ROOT/'lib/templates/rolling-stock.toml',
         ROOT/'design/component-catalogue/schemas/shared-engineering-model.json',
         *sorted((ROOT/'design/component-catalogue/src/osr_mech').rglob('*.py')),
-        *sorted((ROOT/'engineering/civil_exploration').glob('*.py'))]
+        *sorted((ROOT/'engineering/civil_exploration').glob('*.py')),
+        ROOT/'engineering/integration_programme/flexible.py',ROOT/'engineering/integration_programme/flexible_vehicle.py']
     provenance={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths}
     duty=duty_cycle(pack,[dict(duration_s=60.,terminal_power_w=200000.),dict(duration_s=60.,terminal_power_w=30000.),dict(duration_s=20.,terminal_power_w=-75000.)])
     summary=dict(schema='osr-automated-parts-review/1',variant_choices_sha256=fingerprint(choices),industry_basis_sha256=fingerprint(basis),

@@ -3,7 +3,7 @@
 This page contains only Sudan-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$21.45 B (88.4%) of external capital** and **$27.70 B of external interest**. Capital plus saved interest totals **$49.15 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$48.94 B (88.0%) of external capital** and **$63.22 B of external interest**. Capital plus saved interest totals **$112.16 B**.
 
 ## National Programme
 
@@ -11,51 +11,51 @@ This page contains only Sudan-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 6 |
 | Represented population | 10,729,000 |
-| Trainsets / vehicle modules | 1,313 / 6,049 |
-| City infrastructure and fleet CAPEX | $12.76 B |
-| Shared national factory | $669.3 M |
-| Factory sizing basis | 3,588 modules for Khartoum, then reused nationally |
-| **Total national programme** | **$13.48 B** |
+| Trainsets / vehicle modules | 3,662 / 17,269 |
+| City infrastructure and fleet CAPEX | $30.04 B |
+| Shared national factory | $796.5 M |
+| Factory sizing basis | 10,458 modules for Khartoum, then reused nationally |
+| **Total national programme** | **$30.89 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $2.81 B (20.9%) |
-| Domestic / local capital | $10.66 B (79.1%) |
-| Annual external capital draw | $281.1 M / yr |
-| Annual local capital draw | $1.07 B / yr |
-| Annual public construction commitment | $1.62 B / yr for 10 years |
-| Annual post-grace debt service | $1.47 B / yr |
-| Default foreign-turnkey external capital | $24.26 B |
-| External capital saved | $21.45 B |
-| Capital + lifetime external interest saved | $49.15 B |
+| Imported / external capital | $6.66 B (21.6%) |
+| Domestic / local capital | $24.23 B (78.4%) |
+| Annual external capital draw | $666.1 M / yr |
+| Annual local capital draw | $2.42 B / yr |
+| Annual public construction commitment | $3.69 B / yr for 10 years |
+| Annual post-grace debt service | $3.36 B / yr |
+| Default foreign-turnkey external capital | $55.60 B |
+| External capital saved | $48.94 B |
+| Capital + lifetime external interest saved | $112.16 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $7.03 B | $1.06 B | $5.98 B |
-| Stations | $1.73 B | $346.9 M | $1.39 B |
-| Depots | $588.0 M | $147.0 M | $441.0 M |
-| Rolling stock | $1.72 B | $601.2 M | $1.12 B |
-| Dedicated solar plants | $766.7 M | $345.0 M | $421.7 M |
-| Residual train control | $37.3 M | $18.7 M | $18.7 M |
-| Charging microgrids | $96.0 M | $38.4 M | $57.6 M |
-| EPC / project services | $831.4 M | $124.7 M | $706.7 M |
-| Shared national trainset factory | $669.3 M | $133.9 M | $535.5 M |
-| **Total** | **$13.48 B** | **$2.81 B** | **$10.66 B** |
+| Civil works | $13.13 B | $1.97 B | $11.16 B |
+| Stations | $6.26 B | $1.25 B | $5.01 B |
+| Depots | $2.26 B | $564.5 M | $1.69 B |
+| Rolling stock | $4.89 B | $1.71 B | $3.18 B |
+| Dedicated solar plants | $1.23 B | $552.1 M | $674.8 M |
+| Residual train control | $73.3 M | $36.7 M | $36.7 M |
+| Charging microgrids | $310.4 M | $124.2 M | $186.2 M |
+| EPC / project services | $1.94 B | $291.1 M | $1.65 B |
+| Shared national trainset factory | $796.5 M | $159.3 M | $637.2 M |
+| **Total** | **$30.89 B** | **$6.66 B** | **$24.23 B** |
 
 ## City Programme
 
 | City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| [Khartoum](Khartoum/README.md) | 5,829,000 | 598 | $6.90 B | $1.49 B | $5.41 B |
-| [Omdurman](Omdurman/README.md) | 2,800,000 | 316 | $3.59 B | $720.3 M | $2.87 B |
-| [Nyala](Nyala/README.md) | 600,000 | 126 | $737.8 M | $149.8 M | $587.9 M |
-| [El Obeid](El-Obeid/README.md) | 500,000 | 122 | $618.6 M | $129.7 M | $488.9 M |
-| [Kassala](Kassala/README.md) | 500,000 | 69 | $459.7 M | $90.6 M | $369.1 M |
-| [Port Sudan](Port-Sudan/README.md) | 500,000 | 82 | $455.6 M | $92.8 M | $362.8 M |
+| [Khartoum](Khartoum/README.md) | 5,829,000 | 1,743 | $15.78 B | $3.55 B | $12.23 B |
+| [Omdurman](Omdurman/README.md) | 2,800,000 | 1,054 | $9.12 B | $1.90 B | $7.22 B |
+| [Nyala](Nyala/README.md) | 600,000 | 276 | $1.68 B | $336.6 M | $1.34 B |
+| [El Obeid](El-Obeid/README.md) | 500,000 | 262 | $1.50 B | $307.9 M | $1.19 B |
+| [Kassala](Kassala/README.md) | 500,000 | 152 | $1.02 B | $201.0 M | $817.0 M |
+| [Port Sudan](Port-Sudan/README.md) | 500,000 | 175 | $949.7 M | $195.2 M | $754.5 M |
 
 ## Local Basis And Regeneration
 
@@ -64,3 +64,19 @@ Country finance parameters use `SD` in `lib/templates/country-finance.toml`. The
 ```bash
 python3 tools/automation/generate-national-briefs.py
 ```
+
+
+## Population-led route regeneration (2026-10-09)
+
+The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
+
+| City | Current lines | Added residential lines | Original station circles | Current station circles |
+| --- | ---: | ---: | ---: | ---: |
+| [El Obeid](El-Obeid/README.md) | 10 | 7 | 18.7% | 42.5% |
+| [Kassala](Kassala/README.md) | 8 | 5 | 21.7% | 46.9% |
+| [Khartoum](Khartoum/README.md) | 50 | 41 | 22.4% | 59.3% |
+| [Nyala](Nyala/README.md) | 12 | 9 | 18.4% | 41.6% |
+| [Omdurman](Omdurman/README.md) | 40 | 34 | 24.5% | 65.9% |
+| [Port Sudan](Port-Sudan/README.md) | 7 | 4 | 18.2% | 43.4% |
+
+Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

@@ -68,7 +68,12 @@ def refresh(path,report_only=False):
     new_control={k:v for k,v in revised.items() if k not in {'civil_segments','costs'}}
     if old_control!=new_control:raise ValueError('Noncivil controlled data changed: '+slug)
     if report_only:
-        if revised['civil_segments']!=design['civil_segments']:
+        # The native emitter may explicitly return the documented unit cost
+        # multiplier that the design serializer omits. Compare its effective
+        # value; every other geometry/property field remains exact.
+        def effective(rows):
+            return [dict(row,elevated_cost_multiplier=row.get('elevated_cost_multiplier',1.0)) for row in rows]
+        if effective(revised['civil_segments'])!=effective(design['civil_segments']):
             raise ValueError('Native civil register differs; controlled reclassification required: '+slug)
         # Recompute capital in an isolated copy and reject an actual budget
         # change. This refresh is proof of the unchanged design, not a retag.

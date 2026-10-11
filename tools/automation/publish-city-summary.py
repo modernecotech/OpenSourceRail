@@ -298,12 +298,42 @@ def access_context(design_path, baseline):
     return re.sub(r'^(Auto-planned.*)$',lambda match:match[0]+' '+details,baseline,count=1,flags=re.M)
 
 
+def mapping_context(design_path, baseline):
+    city=design_path.parent;path=city/'engineering/mapping/summary.json'
+    if not path.exists():return baseline
+    report=read(path);map_source=read(city/'engineering/mapping/map-source.json')
+    for evidence in (report,map_source):
+        for relative,digest in evidence['sources_sha256'].items():
+            source=ROOT/relative
+            if not source.is_file() or sha(source.read_bytes())!=digest:raise ValueError('Stale mapping evidence: '+relative)
+    slug=report['city'];image=city/f'engineering/mapping/{slug}-population-access.png'
+    if sha(image.read_bytes())!=map_source['image_sha256']:raise ValueError('Altered mapping image')
+    selected=report['datasets'][report['selected_population']];year=selected['source']['year']
+    sector_rows=[row for row in selected['access']['sectors'] if row['sector']!='city']
+    rows='\n'.join(f"| {row['sector']} | {row['population']:,.0f} | {row['radial_fraction']:.1%} | {row['radial_unserved_population']:,.0f} |" for row in sector_rows)
+    section=f"""## Neighbourhood population and mapping sources
+
+Native WorldPop {year} counts guide the compact corridor additions, with separate GHSL 2025 and retained WorldPop 2020 comparisons. The {year} epoch is an alpha modelled projection using older population inputs, not the 2024 census. Planning sectors are explicit rectangles, not administrative boundaries.
+
+| Sector | Modelled native population | Within 1 km of emitted stations | Outside station circles |
+|---|---:|---:|---:|
+{rows}
+
+Measured Baghdad traffic counts, speeds and OD demand remain unavailable. Pedestrian topology is screened on a dated OSM graph; station entrances, snap connections, sidewalks and accessible paths remain unverified. Station circles are potential radial access, not validated walking coverage or paid trips. [Source comparisons, licences and neighbourhood gaps](engineering/mapping/README.md).
+
+![Population and underserved planning sectors](engineering/mapping/{slug}-population-access.png)
+
+"""
+    marker='## Evidence and regeneration';i=baseline.find(marker)
+    return baseline[:i]+section+baseline[i:] if i>=0 else baseline+'\n'+section
+
+
 def publish(design, scenario, output, *, check=False, allow_stale_evidence=False):
     registry=tomllib.loads(CONFIG.read_text())['city']
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
     baseline=residential_context(design,access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)))
     if not entry:
-        expected=current_catalogue_context(design,baseline).encode()
+        expected=mapping_context(design,current_catalogue_context(design,baseline)).encode()
         if check:
             if not output.is_file() or output.read_bytes()!=expected:raise ValueError('Stale catalogue README: '+str(output))
         else:output.write_bytes(expected)
@@ -322,11 +352,11 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
         if isinstance(data,dict) and any(key in data for key in ('sources_sha256','outputs_sha256','external_outputs_sha256','sources','source_sha256')):paths.append(path)
     planned=refresh_receipts(ROOT,paths,planned)
     # The text uses numerical data, which receipt refresh cannot change.
-    planned[output]=current_readme(city,study,entry['case'],baseline)
+    planned[output]=mapping_context(design,current_readme(city,study,entry['case'],baseline).decode()).encode()
     manifest=city/'publication-manifest.json'
     sources={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in (Path(__file__),CONFIG,design,scenario,
         ROOT/'design/city-generation/src/osr_scenario/network_readme.py')}
-    for path in (city/'engineering/access/summary.json',city/'engineering/clearance/summary.json',city/'engineering/alignment/residential-line-expansion.json',city/'engineering/alignment/residential-expansion-evaluation.json',ROOT/'tools/automation/city_access.py'):
+    for path in (city/'engineering/access/summary.json',city/'engineering/clearance/summary.json',city/'engineering/alignment/residential-line-expansion.json',city/'engineering/alignment/residential-expansion-evaluation.json',ROOT/'tools/automation/city_access.py',city/'engineering/mapping/summary.json',city/'engineering/mapping/map-source.json'):
         if path.is_file():sources[path.relative_to(ROOT).as_posix()]=sha(path.read_bytes())
     study_summary=study/'summary.json'
     sources[study_summary.relative_to(ROOT).as_posix()]=sha(planned.get(study_summary,study_summary.read_bytes()))

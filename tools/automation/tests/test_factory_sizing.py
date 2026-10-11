@@ -93,7 +93,7 @@ def test_published_baghdad_factory_reconciles_actual_fleet_space_budget_and_sour
     assert max(int(r['working_day']) for r in deliveries)==p['stock_finish_working_day']<=p['infrastructure_target_working_day']
     assert p['readiness_months_from_ntp']==18
     assert p['budgeted_plant_direct_usd']>=p['plant_cost_envelope_usd']
-    assert p['incremental_plant_capex_with_epc_usd']>0
+    assert p['incremental_plant_capex_with_epc_usd']==pytest.approx(max(0.,p['plant_cost_envelope_usd']-p['budgeted_plant_direct_usd'])*1.07)
     assert p['planning_site_m2']>p['process_and_support_floor_m2']>0
     assert p['original_lines_civil_complete_before_factory_ready']==[line for line,day in p['original_infrastructure_deadlines'].items() if day<p['factory_ready_working_day']]
     assert p['lines_civil_complete_before_factory_ready']==[]
@@ -125,3 +125,20 @@ def test_generic_opening_waits_for_the_physical_test_path_limit():
     assert p['stock_finish_working_day']<=p['integrated_target_working_day']
     assert p['integrated_target_working_day']>p['original_infrastructure_target_working_day']
     assert p['minimum_steady_output_trainsets_per_year']<=p['exclusive_test_path_capacity_trainsets_per_year']
+
+
+def test_shared_iraq_factory_can_have_a_larger_city_order_than_baghdad(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    path=ROOT/'tools/automation/generate-national-briefs.py'
+    spec=importlib.util.spec_from_file_location('national_factory_scope',path)
+    national=importlib.util.module_from_spec(spec);sys.modules[spec.name]=national;spec.loader.exec_module(national)
+    monkeypatch.setattr(national,'REPO_ROOT',tmp_path)
+    cities=[SimpleNamespace(slug='baghdad',vehicle_modules=6),SimpleNamespace(slug='larger-order',vehicle_modules=60)]
+    folder=tmp_path/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/factory';folder.mkdir(parents=True)
+    (folder/'summary.json').write_text(json.dumps(dict(city='baghdad',vehicle_modules=6,plant_cost_envelope_usd=10e6)))
+    other=tmp_path/'cities/catalogue/west-asia/Iraq/Larger/engineering/factory';other.mkdir(parents=True)
+    (other/'summary.json').write_text(json.dumps(dict(city='larger-order',vehicle_modules=60,plant_cost_envelope_usd=40e6)))
+    assert national.factory_budget('IQ',cities)==max(60*national.NATIONAL_FACTORY_PER_VEHICLE_USD,40e6)
+    (folder/'summary.json').write_text(json.dumps(dict(city='baghdad',vehicle_modules=7,plant_cost_envelope_usd=10e6)))
+    with pytest.raises(ValueError,match='current city order'):
+        national.factory_budget('IQ',cities)

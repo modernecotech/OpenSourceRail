@@ -8,6 +8,7 @@
     "STN-CHG-SA700",
     "STN-PAX-SA500",
     "STN-ACC-SA600",
+    "STN-TRK-SA800",
     "STN-STATION-A900"
   ],
   "datums_and_zones": [
@@ -263,7 +264,7 @@
     "design/component-catalogue/src/osr_mech/station/product_geometry.py": "3109ed927eb25e6ccc5b2b124f18fd18de6b6da1f7b28a213f37c0e067306069"
   },
   "manifest": "cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/station-products.json",
-  "manifest_sha256": "7870efe2057dcdccfec5eaff579b42ca055bd3e57baa5a275f4d51bf8a59358b",
+  "manifest_sha256": "2df979ff6eefd6f50d9cc2e366cff24932822e94b7f9d06b02a11599ace4e229",
   "product_ids": [
     "STN-CIV-P010",
     "STN-CIV-P020",
@@ -299,7 +300,14 @@
     "STN-ACC-P040",
     "STN-ACC-P050",
     "STN-ACC-P060",
-    "STN-ACC-P030"
+    "STN-ACC-P030",
+    "STN-TRK-P010",
+    "STN-TRK-P020",
+    "STN-TRK-P030",
+    "STN-TRK-P040",
+    "STN-TRK-P050",
+    "STN-TRK-P060",
+    "STN-TRK-P070"
   ],
   "products": [
     {
@@ -791,6 +799,104 @@
       ],
       "parent_assembly": "STN-ACC-SA600",
       "product_id": "STN-ACC-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P010"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P020"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P030"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P040"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P050"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P060"
+    },
+    {
+      "exploded_offset_mm": [
+        24000.0,
+        -12000.0,
+        1000.0
+      ],
+      "installed_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent_assembly": "STN-TRK-SA800",
+      "product_id": "STN-TRK-P070"
     }
   ],
   "release_boundary": "Design-reference station geometry only; site survey, supplier freeze, structural calculations, local-code review and construction release remain mandatory.",
@@ -799,12 +905,12 @@
     {
       "default_visible": true,
       "id": "installed",
-      "primitive_count": 352
+      "primitive_count": 434
     },
     {
       "default_visible": false,
       "id": "exploded",
-      "primitive_count": 352
+      "primitive_count": 434
     }
   ],
   "status": "design-reference-not-released"

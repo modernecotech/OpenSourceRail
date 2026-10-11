@@ -121,10 +121,11 @@ def factory_budget(country_code: str, cities: list[CityCapital]) -> float:
         if path.is_file():
             import json
             plan=json.loads(path.read_text())
-            anchor=max(cities,key=lambda c:c.vehicle_modules)
-            if anchor.slug != 'baghdad' or anchor.vehicle_modules != plan['vehicle_modules']:
-                raise ValueError('Iraq factory envelope must match its Baghdad anchor fleet')
-            amount=max(amount,plan['plant_cost_envelope_usd'])
+            baghdad=requested.get('baghdad')
+            if baghdad is not None:
+                if baghdad.vehicle_modules != plan['vehicle_modules']:
+                    raise ValueError('Iraq factory envelope must match the current Baghdad fleet')
+                amount=max(amount,plan['plant_cost_envelope_usd'])
     return amount
 
 

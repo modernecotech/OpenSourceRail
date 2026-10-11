@@ -3817,6 +3817,7 @@ fn compiler_source_hash() -> String {
         ("src/server.rs", include_bytes!("server.rs")),
         ("web/app.css", include_bytes!("../web/app.css")),
         ("web/app.js", include_bytes!("../web/app.js")),
+        ("web/map-layout.js", include_bytes!("../web/map-layout.js")),
         ("web/index.html", include_bytes!("../web/index.html")),
     ];
     let mut hasher = Sha256::new();

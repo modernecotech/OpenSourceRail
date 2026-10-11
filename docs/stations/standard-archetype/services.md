@@ -47,13 +47,17 @@ station: ~4 kW.
 
 ## Fire + life safety
 
-Per NFPA 130 + Iraqi national fire code (whichever is stricter):
+Planning fire/life-safety intentions. Applicable station/building rules,
+adopted NFPA 130 clauses where relevant and competent fire-authority requirements
+must be resolved through the [standards workflow](../../certification/digital-standards-adherence.md):
 
 - **Smoke detection:** ceiling detector in services cabinet; open
   platform has no enclosed smoke zone.
 - **Heat detection:** services cabinet (rate-of-rise).
-- **Passive protection:** all materials per EN 45545 HL1 (one
-  step below HL2 rolling stock since the station is outdoor).
+- **Passive protection:** qualify installed station material and barrier
+  build-ups against the adopted building/station fire strategy. EN 45545 is a
+  railway-vehicle reference; being outdoors does not establish a station HL1
+  classification or an exemption from smoke/fire assessment.
 - **Fire extinguishers:** 1× CO₂ at services cabinet, 1× water per
   platform end.
 - **Fire alarm signal:** goes directly to the OCC via

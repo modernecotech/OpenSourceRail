@@ -33,11 +33,9 @@ def test_wgs84_projection_places_samawah_in_utm_zone_38n() -> None:
 def test_rendered_network_matches_every_design_line_station_and_civil_span() -> None:
     design = _design()
     rendered = render_network(DESIGN, GEOJSON, design_date=DESIGN_DATE)
-    assert set(rendered) == {
-        "samawah-line1.aln.toml",
-        "samawah-line2.aln.toml",
-        "samawah-line3.aln.toml",
-    }
+    slug=design['city']['slug']
+    assert set(rendered)=={f"{slug}-{line['name'].replace('line-','line')}.aln.toml" for line in design['lines']}
+
 
     known_stations = {station["id"] for station in design["stations"]}
     known_lines = {line["name"] for line in design["lines"]}
@@ -73,7 +71,7 @@ def test_checked_in_current_network_has_no_generator_drift() -> None:
         design_date=DESIGN_DATE,
         check=True,
     )
-    assert len(paths) == 4
+    assert len(paths) == len(_design()["lines"])+1
 
 
 def test_check_detects_drift(tmp_path: Path) -> None:
@@ -93,7 +91,7 @@ def test_shared_alignment_evidence_is_preserved_and_is_not_export_drift(tmp_path
     export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE)
     evidence=tmp_path/'station-water-screen.json'
     evidence.write_text('{"physical_release":false}\n')
-    assert len(export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE,check=True))==4
+    assert len(export_network(DESIGN,GEOJSON,tmp_path,design_date=DESIGN_DATE,check=True))==len(_design()["lines"])+1
     assert evidence.read_text()=='{"physical_release":false}\n'
     (tmp_path/'removed-line.aln.toml').write_text('obsolete\n')
     with pytest.raises(ValueError,match='removed-line'):

@@ -12,7 +12,8 @@ doctype_js = {"Project": "public/js/project.js", "Task": "public/js/task.js", "I
 doc_events = {
     "Task": {"validate": "osr_erpnext.construction_execution.validate_task"},
     "ToDo": {"validate": "osr_erpnext.construction_execution.validate_assignment"},
-    "Asset": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence"},
+    "Asset": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence",
+              "before_update_after_submit": "osr_erpnext.construction_execution.validate_controlled_evidence"},
     "Employee": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence"},
     "OSR Construction Release": {"before_submit": "osr_erpnext.construction_execution.submit_review", "on_submit": "osr_erpnext.construction_execution.attach_review"},
     "Material Request": {"before_validate": "osr_erpnext.replenishment.assign_city_scope"},

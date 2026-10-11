@@ -152,15 +152,49 @@ def test_finalist_confirmation_preserves_uncertainty_loading_and_separates_refin
     def forward(h,cfg,**kwargs):
         calls.append((deepcopy(h),deepcopy(cfg),kwargs))
         return dict(maximum_wheel_contact_n=100.,peak_structure_displacement_m=.01,peak_ride_acceleration_m_s2=.1,maximum_wheel_unloading=.2,within_adapter_domain=True)
-    monkeypatch.setattr(search,'run_spatial',forward)
+    monkeypatch.setattr(search,'complete_run',forward)
     row=dict(candidate_id='candidate',hardware=m,analysis=c,scenarios=[dict(id=name,inputs=dict(modulus_factor=E,passenger_mass_factor=mass,friction=mu))
         for name,E,mass,mu in [('nominal',1.,1.,.3),('adverse',.9,1.05,.1)]])
     r=search.confirm(row)
     assert len(calls)==6 and r['numerical_confirmation_passed']
     for start in (0,3):
-        assert calls[start][2]['deck_mesh']==calls[start+1][2]['deck_mesh']
+        assert calls[start][2]['mesh']==calls[start+1][2]['mesh']
         assert calls[start+1][2]['dt']==calls[start+2][2]['dt']
         assert calls[start][1]['traffic'][0]['load_case']['id']=='uneven'
     assert calls[3][1]['traffic'][0]['load_case']['passenger_mass_kg']==pytest.approx(78.75)
     assert calls[3][1]['infrastructure_condition']['foundation_stiffness_factor']==.5
     assert calls[3][0]['bridge']['candidate']['material']['youngs_modulus_pa']==pytest.approx(m['bridge']['candidate']['material']['youngs_modulus_pa']*.9)
+
+
+def test_search_reserves_time_for_both_methods_and_every_seed(monkeypatch):
+    import types
+    import engineering.civil_exploration.shared_search as search
+    clock=[0.]
+    monkeypatch.setattr(search,'time',types.SimpleNamespace(monotonic=lambda:clock[0]))
+    def exhausted(*args):
+        clock[0]+=12.
+        raise TimeoutError('fixture compilation quota exhausted')
+    monkeypatch.setattr(search,'compiled_hardware',exhausted)
+    r=search.search(demonstration(),seeds=(11,23),wall_seconds=60)
+    assert [(m['seed'],m['method']) for m in r['methods']]==[(11,'random'),(11,'pareto-evolution'),(23,'random'),(23,'pareto-evolution')]
+    assert all(m['completed_trials']==1 and m['elapsed_s']==12. for m in r['methods'])
+    assert r['budgets']['wall_seconds_per_method_seed']==12.
+    assert r['budgets']['finalist_reserved_wall_seconds']==12.
+    assert r['qualified_feasible_pareto_set']==[]
+    # An identical candidate timing out for random search must still receive
+    # its own evaluation allowance under the second method.
+    assert [e['status'] for e in r['events']]==['evaluated']*4
+
+
+def test_finalist_spatial_refinement_can_reach_finer_levels(monkeypatch):
+    import engineering.civil_exploration.shared_search as search
+    seen=[]
+    def forward(h,cfg,**kwargs):
+        mesh=kwargs['mesh'];seen.append(mesh)
+        return dict(maximum_wheel_contact_n=100.+100./mesh**2,peak_structure_displacement_m=.01,peak_ride_acceleration_m_s2=.1,maximum_wheel_unloading=.2,within_adapter_domain=True)
+    monkeypatch.setattr(search,'complete_run',forward)
+    row=dict(candidate_id='candidate',hardware=demonstration(),analysis=configuration(demonstration()),scenarios=[dict(id='nominal',inputs=dict(modulus_factor=1.,passenger_mass_factor=1.,friction=.3))],adopted_limits={})
+    result=search.confirm(row)
+    assert seen==[2,2,4,8]
+    assert result['numerical_confirmation_passed']
+    assert not result['scenarios'][0]['refined_constraints']['passed']

@@ -8,7 +8,11 @@ on:
       - 'engineering/models/digital-twins/best-practice/**'
       - 'engineering/best_practice/data/**'
       - 'engineering/analysis/tests/test_design_twin.py'
+      - 'engineering/analysis/tests/test_numerical_reproducibility.py'
+      - 'engineering/assurance/numerical_reproducibility.py'
       - 'engineering/civil_exploration/**'
+      - 'engineering/integration_programme/flexible.py'
+      - 'engineering/integration_programme/flexible_vehicle.py'
       - 'design/component-catalogue/src/osr_mech/**'
       - 'lib/templates/rolling-stock.toml'
       - 'tools/automation/design-best-practice-twin.py'
@@ -32,7 +36,7 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install pytest==9.1.1 numpy==2.3.5 scipy==1.16.3 jsonschema==4.25.1
       - run: python tools/automation/design-best-practice-twin.py check-public
-      - run: python -m pytest -q engineering/analysis/tests/test_design_twin.py
+      - run: python -m pytest -q engineering/analysis/tests/test_design_twin.py engineering/analysis/tests/test_numerical_reproducibility.py
       - run: |
           python tools/automation/design-best-practice-twin.py generate --output build/engineering/design-twin-ci
           python tools/automation/design-best-practice-twin.py verify --output build/engineering/design-twin-ci

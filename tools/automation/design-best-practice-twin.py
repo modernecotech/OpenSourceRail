@@ -13,6 +13,7 @@ sys.path[:0]=[str(ROOT),str(ROOT/'design/component-catalogue/src')]
 from osr_mech.engineering_definition import fingerprint,load_definition
 from engineering.twin_design.compiler import compile_design
 from engineering.twin_design.viewer import html,netlist,circuit_svg,component_csv
+from engineering.assurance.numerical_reproducibility import require_equivalent,require_html_equivalent
 
 PUBLIC=ROOT/'engineering/models/digital-twins/best-practice'
 
@@ -32,12 +33,20 @@ def published(result):
         production_released=False,physical_validation=False)
 
 
-def check_public(result):
-    expected=encoded(published(result))
-    if (PUBLIC/'reference-twin.json').read_bytes()!=expected.encode():raise ValueError('published design twin is stale')
-    if load_definition(PUBLIC/'review.json')!=result['review']:raise ValueError('published design review is stale')
+def check_public(result, *, integrity=True):
+    # Integrity of retained bytes remains exact; only recomputed solver output
+    # uses the narrowly registered numerical reproduction tolerances.
+    execution=PUBLIC/'execution.json'
+    if integrity and not execution.exists():raise ValueError('published execution record missing')
+    if integrity:
+        record=load_definition(execution)
+        for name,key in [('reference-twin.json','published_twin_sha256'),('review.json','published_review_sha256')]:
+            if sha(PUBLIC/name)!=record[key]:raise ValueError('published artifact bytes changed: '+name)
+    require_equivalent(load_definition(PUBLIC/'reference-twin.json'),published(result),'published design twin')
+    require_equivalent(load_definition(PUBLIC/'review.json'),result['review'],'published design review')
     for name,value in exports(result).items():
-        if (PUBLIC/name).read_bytes()!=value.encode():raise ValueError('published design export is stale: '+name)
+        if name=='index.html':require_html_equivalent((PUBLIC/name).read_text(),value)
+        elif (PUBLIC/name).read_bytes()!=value.encode():raise ValueError('published design export is stale: '+name)
 
 
 def exports(result):
@@ -70,7 +79,7 @@ def main():
             (PUBLIC/'reference-twin.json').write_text(encoded(published(result)))
             (PUBLIC/'review.json').write_text(json.dumps(result['review'],indent=2,sort_keys=True)+'\n')
             for name,value in exports(result).items():(PUBLIC/name).write_bytes(value.encode())
-            check_public(result)
+            check_public(result,integrity=False)
     else:
         if args.output is None:parser.error('verify requires --output')
         folder=args.output.resolve();receipt=load_definition(folder/'receipt.json')
@@ -82,7 +91,7 @@ def main():
             if not p.is_relative_to(ROOT) or sha(p)!=digest:raise ValueError('changed study source: '+relative)
         result=compile_design(load_definition(folder/'inputs.json'))
         for name,value in result.items():
-            if fingerprint(load_definition(folder/(name+'.json')))!=fingerprint(value):raise ValueError('study no longer reproduces: '+name)
+            require_equivalent(load_definition(folder/(name+'.json')),value,'study output '+name)
     print(json.dumps({k:result['review'][k] for k in ('configuration_sha256','instance_count','added_instance_count',
         'infrastructure_instance_count','total_train_mass_kg','one_module_out_comfort_screen_passed','physical_validation')}))
 

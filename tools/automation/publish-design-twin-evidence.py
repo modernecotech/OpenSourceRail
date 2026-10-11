@@ -7,9 +7,11 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import runpy
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT),str(ROOT/'design/component-catalogue/src')]
 from osr_mech.engineering_definition import load_definition,fingerprint
+from engineering.assurance.numerical_reproducibility import require_equivalent
 PUBLIC=ROOT/'engineering/models/digital-twins/best-practice'
 
 
@@ -19,11 +21,14 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--package',type=Path,required=True);a=parser.parse_args();folder=a.package.resolve()
     subprocess.run([sys.executable,str(ROOT/'tools/automation/design-best-practice-twin.py'),'verify','--output',str(folder)],check=True)
-    subprocess.run([sys.executable,str(ROOT/'tools/automation/design-best-practice-twin.py'),'check-public'],check=True)
+    # The prior execution record deliberately binds prior bytes. Verify the
+    # newly authored exports before replacing that record with fresh execution.
+    author=runpy.run_path(str(ROOT/'tools/automation/design-best-practice-twin.py'))
+    author['check_public'](author['compile_design'](),integrity=False)
     model=load_definition(folder/'model.json');review=load_definition(folder/'review.json');config=fingerprint(model)
     native=load_definition(folder/'reference-twin.native.json');smoke=load_definition(folder/'spatial-smoke.json')
     if native['configuration_sha256']!=config or smoke['hardware_definition_sha256']!=config:raise ValueError('executed evidence targets another twin')
-    if fingerprint(load_definition(PUBLIC/'review.json'))!=fingerprint(review):raise ValueError('published review differs from executed package')
+    require_equivalent(load_definition(PUBLIC/'review.json'),review,'published executed review')
     if native['compiler_review_sha256']!=sha(folder/'review.json') or smoke['compiler_review_sha256']!=sha(folder/'review.json'):raise ValueError('compiled review hash differs')
     if native['generator_sha256']!=sha(ROOT/'tools/automation/design-twin-freecad.py') or smoke['producer_sha256']!=sha(ROOT/'tools/automation/design-twin-smoke.py'):raise ValueError('execution producer changed')
     if native['fcstd_sha256']!=sha(folder/'reference-twin.FCStd') or native['step_sha256']!=sha(folder/'reference-twin.step'):raise ValueError('native geometry bytes changed')
@@ -42,6 +47,7 @@ def main():
         artifact_sha256={name:sha(PUBLIC/name) for name in names},native_constraint_and_geometry_checks_passed=True,
         coupled_smoke_completed=True,complete_passage_qualified=False,physical_validation=False,production_released=False)
     (PUBLIC/'execution.json').write_text(json.dumps(execution,indent=2,sort_keys=True)+'\n')
+    author['check_public'](author['compile_design']())
     print(json.dumps(dict(executed_design_twin_published=True,configuration_sha256=config,physical_validation=False)))
 
 

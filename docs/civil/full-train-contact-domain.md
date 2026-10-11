@@ -99,7 +99,7 @@ normal force at the first boundary differs from the coarse replay by approximate
 0.00376%. This diagnoses a profile-domain limit; it is not a complete-passage
 time/mesh convergence result.
 
-The current guarded run stops at **9.130 s** with `outside-model-domain` and
+The retained pre-correction guarded run stops at **9.130 s** with `outside-model-domain` and
 retains the last supported sample at **9.125 s**. Independent replay checks
 **87,600 contacts across 1,825 supported samples**, with no unsupported footprint
 in the committed history. The failed state is retained separately in the case
@@ -110,3 +110,26 @@ The focused suite passes **124 tests**, including contact-centre/ellipse boundar
 cases, rejection before contact-state commitment, corrupt-history rejection,
 service failure classification and retained-proof hash checks. No complete
 six-car service passage or physical qualification is claimed.
+
+
+## Steering correction and retained passage comparisons — 11 October 2026
+
+The lateral rolling-reference velocity previously omitted steady wheel yaw.
+The current small-rotation model projects body steering into the rolling direction,
+while excluding the wheel spin coordinate. Independent rotation and Jacobian
+checks exercise that term. The finite profile, patch-footprint, contact opening
+and multiple-patch guards remain active.
+
+With that correction, the 192-instance reference six-car train completed its
+13.06 s passage at 15 m/s. The expanded 414-instance design also completed the
+same passage. A cylindrical-profile verification benchmark completed separately;
+it is not a supplier profile. Experimental convected-bristle runs still leave the
+finite profile domain and are retained as rejected research cases.
+
+Halving the reference time step from 0.005 to 0.0025 s changed maximum wheel
+force from 44,123.906 to 44,128.648 N. Refining deck mesh 2 to 4 and rail step
+2 to 1 m at the smaller time step changed peak carbody acceleration from
+0.351569 to 0.247309 m/s². This substantial spatial change prevents a convergence
+claim. Finer meshes and the broader load/speed/degradation matrix are separate
+retained runs. Approved profiles, creep-law comparisons, suspension data and
+physical contact/ride correlation are still required.
