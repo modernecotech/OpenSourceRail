@@ -2,7 +2,7 @@
 
 Research baseline 2026-10-11 · generated from the reviewed open register.
 
-54 practice cards, 43 primary references and 356 explicitly mapped definitions. Coverage means guidance exists for the scoped inventory. Project adoption, production release and physical qualification remain open.
+54 practice cards, 73 primary references and 356 explicitly mapped definitions. Coverage means guidance exists for the scoped inventory. Project adoption, production release and physical qualification remain open.
 
 The design, materials, assembly, inspection and maintenance guidance below is original OSR synthesis. References support the method or application context; public standard scopes and supplier examples do not establish clause conformity or product performance.
 
@@ -106,7 +106,7 @@ Existing assurance objectives: STD-CTRL-001, STD-CTRL-002, STD-CTRL-010, STD-CTR
 
 **Open evidence and decisions:** Accepted project configuration and authority. Complete physical allocation of kits and area quantities.
 
-Basis: [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/), [buildingSMART: IFC railway domain and open exchange](https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcRailway.htm), [ISO: ISO 22163:2023 railway quality-management scope](https://www.iso.org/standard/79427.html).
+Basis: [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/), [buildingSMART: IFC railway domain and open exchange](https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcRailway.htm), [ISO: ISO 22163:2023 railway quality-management scope](https://www.iso.org/standard/79427.html), [NIST: ISO 23247 implementation scenarios](https://www.nist.gov/publications/use-case-scenarios-digital-twin-implementation-based-iso-23247), [NIST: AMS 400-2 digital twin implementation report](https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=932269).
 
 <a id="rams"></a>
 
@@ -154,7 +154,7 @@ Existing assurance objectives: STD-CTRL-012, STD-CTRL-013. Use the [Digital Stan
 
 **Open evidence and decisions:** Released limits and uncertainty coverage. Fixture clamp capacity and load verification.
 
-Basis: [BIPM: Uncertainty-aware conformity decisions; explicit decision-rule selection](https://www.bipm.org/en/doi/10.59161/jcgm106-2012), [Siemens: Measurement context, temperature and calibration traceability](https://references.siemens.com/en/reference/32785?id=32785), [NIST: Diagnostic spread/capability statistics and their stability/distribution/sample assumptions](https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm).
+Basis: [BIPM: Uncertainty-aware conformity decisions; explicit decision-rule selection](https://www.bipm.org/en/doi/10.59161/jcgm106-2012), [Siemens: Measurement context, temperature and calibration traceability](https://references.siemens.com/en/reference/32785?id=32785), [NIST: Diagnostic spread/capability statistics and their stability/distribution/sample assumptions](https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm), [PCI: Precast tolerance responsibilities and PCI 135 transition](https://www.pci.org/PCI/PCI/Design_Resources/Guides_and_Manuals/Tolerances.aspx).
 
 <a id="materials"></a>
 
@@ -202,7 +202,7 @@ Existing assurance objectives: STD-CTRL-011, STD-CTRL-012, STD-CTRL-014. Use the
 
 **Open evidence and decisions:** Approved process windows and product coverage. Released drawings, competence and real production records.
 
-Basis: [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf), [Alstom: Digital work instructions and per-joint smart torque records](https://www.alstom.com/press-releases-news/2024/4/different-and-smart-approach-maintaining-trains), [ISO: ISO 3834-2:2021 fusion-welding quality scope](https://www.iso.org/standard/81651.html), [NIST: Diagnostic spread/capability statistics and their stability/distribution/sample assumptions](https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm).
+Basis: [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf), [Alstom: Digital work instructions and per-joint smart torque records](https://www.alstom.com/press-releases-news/2024/4/different-and-smart-approach-maintaining-trains), [ISO: ISO 3834-2:2021 fusion-welding quality scope](https://www.iso.org/standard/81651.html), [NIST: Diagnostic spread/capability statistics and their stability/distribution/sample assumptions](https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm), [Liebherr: Development and qualification tests](https://assets-cdn.liebherr.com/versions/aaefbfad-f8e5-4f93-8f5b-a74aa0655739/original/), [Roxtec: Installation instructions and guidance](https://www.roxtec.com/en-ca/products/installation-of-roxtec-sealing-solutions/instructions-videos-and-guidelines/), [Böllhoff: RIVNUT setting-process controls](https://www.boellhoff.com/ca-en/services/technical-forum/rivnut-neo-b107-b109/), [ECARV: EN 17460 interpretation and implementation](https://www.en17460.com/), [NIST: ISO 23247 implementation scenarios](https://www.nist.gov/publications/use-case-scenarios-digital-twin-implementation-based-iso-23247), [ISO: ISO 21368:2022](https://www.iso.org/standard/77454.html).
 
 <a id="environment"></a>
 
@@ -298,7 +298,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-008, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Released laminate schedules and cure windows. Repair qualification and allowable defects.
 
-Basis: [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf).
+Basis: [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf), [Sika: Bonding and sealing processing guideline](https://usa.sika.com/dms/getdocument.get/49beafaf-b5c2-49ef-9fb0-9fc45a1d638b/General-Guideline-Bonding-Sealing-1-Component-Sikaflex-US-12-25.pdf), [ECARV: EN 17460 interpretation and implementation](https://www.en17460.com/), [ISO: ISO 21368:2022](https://www.iso.org/standard/77454.html).
 
 <a id="coatings"></a>
 
@@ -322,7 +322,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-008, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Exposure category and coating system. Radiative-coating durability and actual energy benefit.
 
-Basis: [ISO: ISO 12944-2:2017](https://www.iso.org/standard/64834.html), [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [Siemens: Resource scheduling with coating/drying and quality dependencies](https://resources.sw.siemens.com/de-DE/case-study-increase-efficiency-and-productivity-with-digital-scheduling/).
+Basis: [ISO: ISO 12944-2:2017](https://www.iso.org/standard/64834.html), [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [Siemens: Resource scheduling with coating/drying and quality dependencies](https://resources.sw.siemens.com/de-DE/case-study-increase-efficiency-and-productivity-with-digital-scheduling/), [Sika: Bonding and sealing processing guideline](https://usa.sika.com/dms/getdocument.get/49beafaf-b5c2-49ef-9fb0-9fc45a1d638b/General-Guideline-Bonding-Sealing-1-Component-Sikaflex-US-12-25.pdf).
 
 <a id="fasteners"></a>
 
@@ -346,7 +346,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-008, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Released torque/angle or tension limits. Joint-specific friction, fatigue and service reuse evidence.
 
-Basis: [Alstom: Digital work instructions and per-joint smart torque records](https://www.alstom.com/press-releases-news/2024/4/different-and-smart-approach-maintaining-trains), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/).
+Basis: [Alstom: Digital work instructions and per-joint smart torque records](https://www.alstom.com/press-releases-news/2024/4/different-and-smart-approach-maintaining-trains), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/), [Böllhoff: RIVNUT setting-process controls](https://www.boellhoff.com/ca-en/services/technical-forum/rivnut-neo-b107-b109/).
 
 <a id="bogie-frame"></a>
 
@@ -418,7 +418,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-008, STD-CTRL-012, STD-CTR
 
 **Open evidence and decisions:** Released fits, loads and lubrication data. Validated alarm thresholds and response policy.
 
-Basis: [SKF: Evolution of railway axlebox technology](https://evolution.skf.com/en/the-evolution-of-railway-axlebox-technology/), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/).
+Basis: [SKF: Evolution of railway axlebox technology](https://evolution.skf.com/en/the-evolution-of-railway-axlebox-technology/), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/), [Siemens Mobility: Bogie diagnostic architecture](https://www.mobility.siemens.com/us/en/portfolio/rolling-stock-components/bogie-diagnostic.html).
 
 <a id="suspension"></a>
 
@@ -514,7 +514,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Released chemistry and cell-to-pack qualification. LTO reference geometry does not release an LFP substitution.
 
-Basis: [IEC: IEC 62928:2017](https://webstore.iec.ch/en/publication/31101), [IEC: IEC 61373:2010](https://webstore.iec.ch/en/publication/5395), [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2).
+Basis: [IEC: IEC 62928:2017](https://webstore.iec.ch/en/publication/31101), [IEC: IEC 61373:2010](https://webstore.iec.ch/en/publication/5395), [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [Schaltbau: Rail and industrial DC contactors](https://schaltbau.com/en/products/contactors/).
 
 <a id="hv-distribution"></a>
 
@@ -538,7 +538,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Adopted voltage/altitude/pollution design basis. Qualified protection and installed-system EMC evidence.
 
-Basis: [IEC: IEC 62497-1:2010 with AMD1:2013 review required](https://webstore.iec.ch/en/publication/7117), [IEC: IEC 62236-3-2:2018](https://webstore.iec.ch/en/publication/62682), [IEC: IEC 61373:2010](https://webstore.iec.ch/en/publication/5395).
+Basis: [IEC: IEC 62497-1:2010 with AMD1:2013 review required](https://webstore.iec.ch/en/publication/7117), [IEC: IEC 62236-3-2:2018](https://webstore.iec.ch/en/publication/62682), [IEC: IEC 61373:2010](https://webstore.iec.ch/en/publication/5395), [Roxtec: Rolling-stock sealing and clamping](https://www.roxtec.com/en-ca/knowledge-library/application-areas/cable-sealing-and-cable-clamping-for-rolling-stock/), [Roxtec: Compact replaceable transit frames](https://www.roxtec.com/en-ca/knowledge-library/sealing-solutions/same-frame-but-different/), [Roxtec: Rolling-stock cable clamping](https://www.roxtec.com/en-ca/knowledge-library/sealing-solutions/efficient-cable-management-in-rolling-stock/), [Roxtec: Installation instructions and guidance](https://www.roxtec.com/en-ca/products/installation-of-roxtec-sealing-solutions/instructions-videos-and-guidelines/), [HARTING: Transportation users guide](https://www.harting.com.cn/en-CN/railway/users-guide), [Schaltbau: Rail and industrial DC contactors](https://schaltbau.com/en/products/contactors/), [nVent ERICO: Rail connections, bonding and protection](https://www.nvent.com/en-us/erico/applications/railway), [Texas Instruments: Precharge circuit application brief](https://www.ti.com/document-viewer/lit/html/slvafb0), [Texas Instruments: TIDA-050063 active precharge reference](https://www.ti.com/tool/TIDA-050063), [Texas Instruments: TIDA-050063 design guide](https://www.ti.com/lit/ug/tiduf21a/tiduf21a.pdf).
 
 <a id="cooling"></a>
 
@@ -586,7 +586,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Project comfort values and fresh-air basis. Actual climate/load performance and cab applicability.
 
-Basis: [ISO: ISO 19659-2:2020](https://www.iso.org/standard/70232.html), [ISO: ISO 19659-4:2026](https://www.iso.org/standard/85202.html), [ISO: ISO 3381:2021](https://www.iso.org/standard/77368.html).
+Basis: [ISO: ISO 19659-2:2020](https://www.iso.org/standard/70232.html), [ISO: ISO 19659-4:2026](https://www.iso.org/standard/85202.html), [ISO: ISO 3381:2021](https://www.iso.org/standard/77368.html), [Liebherr: Modular railway HVAC](https://www.liebherr.com/en-int/aerospace-and-transportation-systems/solutions-and-services/solutions-for-railway/plug-play-hvac/plug-and-play-hvac-7174981), [Liebherr: Transportation downloads and certificates](https://www.liebherr.com/en-int/aerospace-and-transportation-systems/about-us/downloads-and-certificates/downloads-and-certificates-7174884), [Liebherr: MACS 8.0 product brochure](https://assets-cdn.liebherr.com/versions/de503e8d-bb31-4aa2-8e5c-b6717cb3a11c/original/), [Liebherr: Acoustic test capability](https://assets-cdn.liebherr.com/versions/586c08d2-96bd-4925-8bb3-7dd2ca9f3762/original/), [Liebherr: Development and qualification tests](https://assets-cdn.liebherr.com/versions/aaefbfad-f8e5-4f93-8f5b-a74aa0655739/original/).
 
 <a id="doors"></a>
 
@@ -634,7 +634,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Approved glazing performance and opening geometry. Bonding qualification and replacement release times.
 
-Basis: [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en).
+Basis: [Sika: Rail bonding and coating applications](https://industry.sika.com/en/home/transportation/rail.html), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [Sika: Bonding and sealing processing guideline](https://usa.sika.com/dms/getdocument.get/49beafaf-b5c2-49ef-9fb0-9fc45a1d638b/General-Guideline-Bonding-Sealing-1-Component-Sikaflex-US-12-25.pdf).
 
 <a id="interiors"></a>
 
@@ -682,7 +682,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Released motion/load envelope and coupling compatibility. Optional train-to-train configuration transfer qualification.
 
-Basis: [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/).
+Basis: [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/), [HÜBNER: Gangway maintenance and motion recording](https://www.hubner-group.com/en/services-spare-parts/rail/).
 
 <a id="automation"></a>
 
@@ -730,7 +730,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-006, STD-CTRL-014, STD-CTR
 
 **Open evidence and decisions:** Qualified safety communication channels and time budgets. Crashworthy recorder and actual coverage evidence.
 
-Basis: [NIST: SP 800-82 Rev. 3: operational technology security](https://csrc.nist.gov/pubs/sp/800/82/r3/final), [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/).
+Basis: [NIST: SP 800-82 Rev. 3: operational technology security](https://csrc.nist.gov/pubs/sp/800/82/r3/final), [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/), [HARTING: Transportation users guide](https://www.harting.com.cn/en-CN/railway/users-guide).
 
 <a id="passenger-systems"></a>
 
@@ -778,7 +778,7 @@ Existing assurance objectives: STD-CTRL-001, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Applicable fire codes and evacuation criteria. Physical fire propagation, containment and rescue evidence.
 
-Basis: [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [FTA: Emergency preparedness planning guide (2003)](https://www.transit.dot.gov/oversight-policy-areas/public-transportation-system-security-and-emergency-preparedness-planning), [IEC: IEC 62928:2017](https://webstore.iec.ch/en/publication/31101).
+Basis: [BSI: BS EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [FTA: Emergency preparedness planning guide (2003)](https://www.transit.dot.gov/oversight-policy-areas/public-transportation-system-security-and-emergency-preparedness-planning), [IEC: IEC 62928:2017](https://webstore.iec.ch/en/publication/31101), [Roxtec: Rolling-stock sealing and clamping](https://www.roxtec.com/en-ca/knowledge-library/application-areas/cable-sealing-and-cable-clamping-for-rolling-stock/), [Roxtec: Fire protection of plastic conduits](https://www.roxtec.com/en-ca/knowledge-library/sealing-challenges/fire-protection-of-plastic-conduits/).
 
 <a id="survey"></a>
 
@@ -850,7 +850,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-009, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Project resistance/durability criteria and reinforcement. Released mix, strength-at-handling and prestress procedures.
 
-Basis: [FHWA: Bridge concrete technical resources](https://www.fhwa.dot.gov/bridge/concrete/), [ISO: ISO 3834-2:2021 fusion-welding quality scope](https://www.iso.org/standard/81651.html), [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf).
+Basis: [FHWA: Bridge concrete technical resources](https://www.fhwa.dot.gov/bridge/concrete/), [ISO: ISO 3834-2:2021 fusion-welding quality scope](https://www.iso.org/standard/81651.html), [Alstom: Repeatable special processes, equipment monitoring, competence and lean production](https://www.alstom.com/sites/alstom.com/files/2025/04/24/Alstom_Whitepaper_SmartManufacturing_EN.pdf), [PCI: Precast tolerance responsibilities and PCI 135 transition](https://www.pci.org/PCI/PCI/Design_Resources/Guides_and_Manuals/Tolerances.aspx).
 
 <a id="bearings"></a>
 
@@ -874,7 +874,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-009, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Released bridge movement/load envelope. Supplier bearing qualification and replacement procedure.
 
-Basis: [FHWA: Bridge preservation resources](https://www.fhwa.dot.gov/bridge/preservation/), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/).
+Basis: [FHWA: Bridge preservation resources](https://www.fhwa.dot.gov/bridge/preservation/), [NASA: Systems engineering handbook: interfaces and verification](https://www.nasa.gov/reference/system-engineering-handbook-appendix/), [Freyssinet: Bearing movement and load interfaces](https://www.freyssinet.com/solution/build/bearings/), [Freyssinet: Bearing replacement and jacking](https://www.freyssinet.com/solution/repair/bearings-maintenance/).
 
 <a id="erection"></a>
 
@@ -898,7 +898,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-009, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Site-specific lifting capacity and wind limits. Released temporary works and actual strength evidence.
 
-Basis: [FHWA: Bridge concrete technical resources](https://www.fhwa.dot.gov/bridge/concrete/), [Siemens: Resource scheduling with coating/drying and quality dependencies](https://resources.sw.siemens.com/de-DE/case-study-increase-efficiency-and-productivity-with-digital-scheduling/), [ISO: ISO 22163:2023 railway quality-management scope](https://www.iso.org/standard/79427.html).
+Basis: [FHWA: Bridge concrete technical resources](https://www.fhwa.dot.gov/bridge/concrete/), [Siemens: Resource scheduling with coating/drying and quality dependencies](https://resources.sw.siemens.com/de-DE/case-study-increase-efficiency-and-productivity-with-digital-scheduling/), [ISO: ISO 22163:2023 railway quality-management scope](https://www.iso.org/standard/79427.html), [Freyssinet: Bearing replacement and jacking](https://www.freyssinet.com/solution/repair/bearings-maintenance/).
 
 <a id="drainage"></a>
 
@@ -946,7 +946,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-009, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Actual rail/wheel profiles and track stiffness. Approved wear/geometry limits and inspection intervals.
 
-Basis: [Pandrol: Fastclip rail fastening system](https://www.pandrol.com/products/fastening-systems/fasteners/fastclip), [FTA: Report 0215: track inspection and maintenance](https://www.transit.dot.gov/research-innovation/research-report-and-findings-review-standards-track-inspection-and-maintenance), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en).
+Basis: [Pandrol: Fastclip rail fastening system](https://www.pandrol.com/products/fastening-systems/fasteners/fastclip), [FTA: Report 0215: track inspection and maintenance](https://www.transit.dot.gov/research-innovation/research-report-and-findings-review-standards-track-inspection-and-maintenance), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [nVent ERICO: Rail connections, bonding and protection](https://www.nvent.com/en-us/erico/applications/railway), [Pandrol: Fastclip baseplate technical sheet](https://d34owxkulrectk.cloudfront.net/asset/714610888164/document_3ou0npodvd2u76ft416cke9q6v?content-disposition=inline), [Pandrol: VIPA SP technical sheet](https://d34owxkulrectk.cloudfront.net/asset/714610888164/document_tvmvqjuaih33hf0bujaesitr02?content-disposition=inline).
 
 <a id="turnouts"></a>
 
@@ -970,7 +970,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-009, STD-CTRL-011, STD-CTR
 
 **Open evidence and decisions:** Released point forces, detector logic and stopping envelope. Qualified turnout and terminal-overrun protection.
 
-Basis: [voestalpine Railway Systems: Turnout systems and lifecycle integration](https://www.voestalpine.com/railway-systems/en/company/news/turnout-systems-intelligent-networked-and-future-proof.-system-thinking-for-rail-infrastructure-excellence./?year=2025), [FTA: Report 0215: track inspection and maintenance](https://www.transit.dot.gov/research-innovation/research-report-and-findings-review-standards-track-inspection-and-maintenance), [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773).
+Basis: [voestalpine Railway Systems: Turnout systems and lifecycle integration](https://www.voestalpine.com/railway-systems/en/company/news/turnout-systems-intelligent-networked-and-future-proof.-system-thinking-for-rail-infrastructure-excellence./?year=2025), [FTA: Report 0215: track inspection and maintenance](https://www.transit.dot.gov/research-innovation/research-report-and-findings-review-standards-track-inspection-and-maintenance), [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773), [Frauscher: RSR180 wheel sensor installation](https://www.frauscher.com/en/products/wheel-sensors/rsr180).
 
 <a id="signalling"></a>
 
@@ -994,7 +994,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-003, STD-CTRL-004, STD-CTR
 
 **Open evidence and decisions:** Applicable complete signalling/safety standards. Actual safety architecture and physical train/wayside integration.
 
-Basis: [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773), [IEC: IEC 62278-1:2025](https://webstore.iec.ch/en/publication/68933), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/).
+Basis: [IEC: IEC 62290-1:2025](https://webstore.iec.ch/en/publication/83773), [IEC: IEC 62278-1:2025](https://webstore.iec.ch/en/publication/68933), [ERA: LOC&PAS TSI and current application guidance](https://www.era.europa.eu/domains/technical-specifications-interoperability/rolling-stock-locomotives-and-passengers-tsi_en), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/), [Frauscher: RSR180 wheel sensor installation](https://www.frauscher.com/en/products/wheel-sensors/rsr180).
 
 <a id="platforms"></a>
 
@@ -1066,7 +1066,7 @@ Existing assurance objectives: STD-CTRL-002, STD-CTRL-007, STD-CTRL-009, STD-CTR
 
 **Open evidence and decisions:** Applicable installation codes and emergency duration. Approved protection settings and actual load evidence.
 
-Basis: [IEC: IEC 62497-1:2010 with AMD1:2013 review required](https://webstore.iec.ch/en/publication/7117), [ISO: ISO 21542:2021](https://www.iso.org/standard/71860.html), [FTA: Emergency preparedness planning guide (2003)](https://www.transit.dot.gov/oversight-policy-areas/public-transportation-system-security-and-emergency-preparedness-planning).
+Basis: [IEC: IEC 62497-1:2010 with AMD1:2013 review required](https://webstore.iec.ch/en/publication/7117), [ISO: ISO 21542:2021](https://www.iso.org/standard/71860.html), [FTA: Emergency preparedness planning guide (2003)](https://www.transit.dot.gov/oversight-policy-areas/public-transportation-system-security-and-emergency-preparedness-planning), [nVent ERICO: Rail connections, bonding and protection](https://www.nvent.com/en-us/erico/applications/railway).
 
 <a id="station-passenger"></a>
 
@@ -1234,7 +1234,7 @@ Existing assurance objectives: STD-CTRL-001, STD-CTRL-003, STD-CTRL-014, STD-CTR
 
 **Open evidence and decisions:** Approved supplier/project intervals and acceptance authority. Validated diagnostic thresholds and interval changes.
 
-Basis: [ERA: Entities in charge of maintenance](https://www.era.europa.eu/domains/trains/certification-entities-charge-maintenance_en), [ISO: ISO 55001:2024](https://www.iso.org/standard/83054.html), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/).
+Basis: [ERA: Entities in charge of maintenance](https://www.era.europa.eu/domains/trains/certification-entities-charge-maintenance_en), [ISO: ISO 55001:2024](https://www.iso.org/standard/83054.html), [Hitachi Rail: HMAX for signalling](https://www.hitachirail.com/products-and-solutions/digital-asset-management/hmax-for-signalling/), [Liebherr: Modular railway HVAC](https://www.liebherr.com/en-int/aerospace-and-transportation-systems/solutions-and-services/solutions-for-railway/plug-play-hvac/plug-and-play-hvac-7174981), [HÜBNER: Gangway maintenance and motion recording](https://www.hubner-group.com/en/services-spare-parts/rail/), [Siemens Mobility: Bogie diagnostic architecture](https://www.mobility.siemens.com/us/en/portfolio/rolling-stock-components/bogie-diagnostic.html).
 
 <a id="level-crossings"></a>
 
@@ -1471,6 +1471,66 @@ Refresh policies are OSR research rules: regulatory sources 90 days, manufacture
 - [buildingSMART: IFC railway domain and open exchange](https://standards.buildingsmart.org/IFC/RELEASE/IFC4_3/HTML/lexical/IfcRailway.htm) (method; reviewed 2026-10-11). IFC 4.3 provides railway spatial structures for open information exchange. Export must be checked for units, identity and semantics; an IFC file is not a construction release.
 
 - [IEC: IEC 62279:2015](https://webstore.iec.ch/en/publication/22781) (standard-scope; reviewed 2026-10-11). Railway control/protection software development process scope. Full clauses, tool qualification and applicable edition transitions require project review. Source SIL/GoA target labels do not establish achieved integrity.
+
+- [Liebherr: Modular railway HVAC](https://www.liebherr.com/en-int/aerospace-and-transportation-systems/solutions-and-services/solutions-for-railway/plug-play-hvac/plug-and-play-hvac-7174981) (manufacturer-practice; reviewed 2026-10-11). Replaceable cooling cycles support off-car repair; public module mass is 125 kg and height 220 mm. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Liebherr: Transportation downloads and certificates](https://www.liebherr.com/en-int/aerospace-and-transportation-systems/about-us/downloads-and-certificates/downloads-and-certificates-7174884) (manufacturer-practice; reviewed 2026-10-11). Primary route from product overview to technical brochures and qualification context. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Liebherr: MACS 8.0 product brochure](https://assets-cdn.liebherr.com/versions/de503e8d-bb31-4aa2-8e5c-b6717cb3a11c/original/) (manufacturer-practice; reviewed 2026-10-11). Brochure page 2 gives one-module envelope 1000 × 1600 × 220 mm and nominal 8 kW cooling. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Liebherr: Acoustic test capability](https://assets-cdn.liebherr.com/versions/586c08d2-96bd-4925-8bb3-7dd2ca9f3762/original/) (manufacturer-practice; reviewed 2026-10-11). Controlled noise testing distinguishes test-cell context from installed passenger noise. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Liebherr: Development and qualification tests](https://assets-cdn.liebherr.com/versions/aaefbfad-f8e5-4f93-8f5b-a74aa0655739/original/) (manufacturer-practice; reviewed 2026-10-11). Combined mechanical, climatic, pneumatic and electrical conditions inform equipment test planning. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Roxtec: Rolling-stock sealing and clamping](https://www.roxtec.com/en-ca/knowledge-library/application-areas/cable-sealing-and-cable-clamping-for-rolling-stock/) (manufacturer-practice; reviewed 2026-10-11). Cable/pipe penetrations connect fire, ingress, vibration and retention responsibilities. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Roxtec: Compact replaceable transit frames](https://www.roxtec.com/en-ca/knowledge-library/sealing-solutions/same-frame-but-different/) (manufacturer-practice; reviewed 2026-10-11). Replaceable frame and seal elements support configuration-specific penetrations and retrofit. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Roxtec: Fire protection of plastic conduits](https://www.roxtec.com/en-ca/knowledge-library/sealing-challenges/fire-protection-of-plastic-conduits/) (manufacturer-practice; reviewed 2026-10-11). Plastic conduit penetrations require qualified fire sealing; an empty frame has no fire integrity. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Roxtec: Rolling-stock cable clamping](https://www.roxtec.com/en-ca/knowledge-library/sealing-solutions/efficient-cable-management-in-rolling-stock/) (manufacturer-practice; reviewed 2026-10-11). Cable support and strain relief are distinct from barrier sealing. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Roxtec: Installation instructions and guidance](https://www.roxtec.com/en-ca/products/installation-of-roxtec-sealing-solutions/instructions-videos-and-guidelines/) (manufacturer-practice; reviewed 2026-10-11). Product-specific installation and aperture details matter to sealing performance. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [HARTING: Transportation users guide](https://www.harting.com.cn/en-CN/railway/users-guide) (manufacturer-practice; reviewed 2026-10-11). Connector and cable interfaces need railway application-specific installation guidance. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Schaltbau: Rail and industrial DC contactors](https://schaltbau.com/en/products/contactors/) (manufacturer-practice; reviewed 2026-10-11). Switching equipment must be selected for the actual DC duty and disconnect role. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Freyssinet: Bearing movement and load interfaces](https://www.freyssinet.com/solution/build/bearings/) (manufacturer-practice; reviewed 2026-10-11). Fixed, guided and free bearing functions differ; replacement access belongs in the design. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Freyssinet: Bearing replacement and jacking](https://www.freyssinet.com/solution/repair/bearings-maintenance/) (manufacturer-practice; reviewed 2026-10-11). Bearing assessment and replacement require site-specific synchronized jacking and load control. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Frauscher: RSR180 wheel sensor installation](https://www.frauscher.com/en/products/wheel-sensors/rsr180) (manufacturer-practice; reviewed 2026-10-11). Rail-mounted sensing separates installation, electromagnetic behaviour and safe detection assessment. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [HÜBNER: Gangway maintenance and motion recording](https://www.hubner-group.com/en/services-spare-parts/rail/) (manufacturer-practice; reviewed 2026-10-11). Actual route-relative movements inform gangway design and endurance testing. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [PCI: Precast tolerance responsibilities and PCI 135 transition](https://www.pci.org/PCI/PCI/Design_Resources/Guides_and_Manuals/Tolerances.aspx) (standard-scope; reviewed 2026-10-11). Production, erection and interfacing tolerances need separate ownership; PCI 135-25 changes earlier MNL references. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [nVent ERICO: Rail connections, bonding and protection](https://www.nvent.com/en-us/erico/applications/railway) (manufacturer-practice; reviewed 2026-10-11). Rail bonding, cable connections and surge protection need coordinated installation evidence. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Siemens Mobility: Bogie diagnostic architecture](https://www.mobility.siemens.com/us/en/portfolio/rolling-stock-components/bogie-diagnostic.html) (manufacturer-practice; reviewed 2026-10-11). Running-gear monitoring supports condition-based maintenance with configured data interfaces. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Böllhoff: RIVNUT setting-process controls](https://www.boellhoff.com/ca-en/services/technical-forum/rivnut-neo-b107-b109/) (manufacturer-practice; reviewed 2026-10-11). Tool setting, stroke and alarm records inform installation traceability. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Sika: Bonding and sealing processing guideline](https://usa.sika.com/dms/getdocument.get/49beafaf-b5c2-49ef-9fb0-9fc45a1d638b/General-Guideline-Bonding-Sealing-1-Component-Sikaflex-US-12-25.pdf) (manufacturer-practice; reviewed 2026-10-11). Joint design, surface preparation and professional processing jointly control bond quality. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [ECARV: EN 17460 interpretation and implementation](https://www.en17460.com/) (method; reviewed 2026-10-11). Rail adhesive processes require consistent quality implementation across production and repair. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Texas Instruments: Precharge circuit application brief](https://www.ti.com/document-viewer/lit/html/slvafb0) (method; reviewed 2026-10-11). A resistor and separate switching path can limit DC-link capacitor inrush before main contactor closure. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Texas Instruments: TIDA-050063 active precharge reference](https://www.ti.com/tool/TIDA-050063) (method; reviewed 2026-10-11). Active precharge offers an alternative architecture; OSR does not copy its circuit or claim railway qualification. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [NIST: ISO 23247 implementation scenarios](https://www.nist.gov/publications/use-case-scenarios-digital-twin-implementation-based-iso-23247) (method; reviewed 2026-10-11). Digital-twin use cases connect observable elements, models, information exchange and manufacturing decisions. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [ISO: ISO 21368:2022](https://www.iso.org/standard/77454.html) (standard-scope; reviewed 2026-10-11). Adhesive structure fabrication/reporting scope complements application-specific rail bonding review. Public method/installation reference only; actual configuration, clauses, performance, material and independent qualification remain open. Vendor gains and proprietary internals are not adopted.
+
+- [Pandrol: Fastclip baseplate technical sheet](https://d34owxkulrectk.cloudfront.net/asset/714610888164/document_3ou0npodvd2u76ft416cke9q6v?content-disposition=inline) (manufacturer-practice; reviewed 2026-10-11). Replaceable pads, insulation, anchor inserts and adjustable interfaces form a complete fastening system. Public technical reference; no supplier design, guaranteed result, product selection or qualification adopted. Values used by OSR remain explicitly scoped.
+
+- [Pandrol: VIPA SP technical sheet](https://d34owxkulrectk.cloudfront.net/asset/714610888164/document_tvmvqjuaih33hf0bujaesitr02?content-disposition=inline) (manufacturer-practice; reviewed 2026-10-11). Two resilient interfaces provide configurable support; assembly properties depend on actual pads, restraint and installation. Public technical reference; no supplier design, guaranteed result, product selection or qualification adopted. Values used by OSR remain explicitly scoped.
+
+- [NIST: AMS 400-2 digital twin implementation report](https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=932269) (method; reviewed 2026-10-11). Reference use cases clarify information exchange and observable manufacturing elements. Public technical reference; no supplier design, guaranteed result, product selection or qualification adopted. Values used by OSR remain explicitly scoped.
+
+- [Texas Instruments: TIDA-050063 design guide](https://www.ti.com/lit/ug/tiduf21a/tiduf21a.pdf) (method; reviewed 2026-10-11). Active precharge reference demonstrates component and verification responsibilities; no automotive-to-rail approval inferred. Public technical reference; no supplier design, guaranteed result, product selection or qualification adopted. Values used by OSR remain explicitly scoped.
 
 ## Expansion boundaries
 

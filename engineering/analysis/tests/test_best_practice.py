@@ -48,7 +48,7 @@ def test_all_catalogue_system_and_software_definitions_have_explicit_guidance(ba
         "station-product": 50, "station-assembly": 10, "station-system": 7,
         "software-package": 60, "subsystem-template": 64,
     }
-    assert result["practice_count"] == 54 and result["source_count"] == 43
+    assert result["practice_count"] == 54 and result["source_count"] == 73
     assert result["documentation_coverage_complete"]
     assert not result["engineering_accepted"] and not result["production_released"]
     assert not result["physical_validation"] and not result["all_possible_rail_components_covered"]

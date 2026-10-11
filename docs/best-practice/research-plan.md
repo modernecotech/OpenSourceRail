@@ -9,6 +9,11 @@ guidance together. Its source inputs are the
 The [coverage audit](../../engineering/best_practice/coverage.json) reports the
 actual inventory counts rather than a separately maintained headline total.
 
+The follow-up [digital-twin design expansion](digital-twin-design-expansion.md)
+incorporates recursive primary-source research into original installed CAD,
+mass/interface models, fault studies and infrastructure details. It retains the
+initial failed HVAC case and the proposed four-module alternative.
+
 The approach follows OSR's open-hardware philosophy: use original designs,
 supplier-neutral interface requirements, repairable modules, local production
 where qualified, portable work records and retained failed results. A supplier

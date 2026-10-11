@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6233**.
+Indexed Markdown files: **6234**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6233**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 220 |
+| [docs](#docs) | 221 |
 | [engineering](#engineering) | 93 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6000,6 +6000,7 @@ Indexed Markdown files: **6233**.
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Baghdad delivery review — regenerated planning scope |
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
+| [`docs/best-practice/digital-twin-design-expansion.md`](../docs/best-practice/digital-twin-design-expansion.md) | Research incorporated into the design twin |
 | [`docs/best-practice/handbook.md`](../docs/best-practice/handbook.md) | OpenSourceRail best-practice handbook |
 | [`docs/best-practice/research-plan.md`](../docs/best-practice/research-plan.md) | Best-practice research and implementation plan |
 | [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |

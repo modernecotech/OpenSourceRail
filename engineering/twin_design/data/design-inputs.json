@@ -1,0 +1,143 @@
+{
+  "schema": "osr-twin-design-inputs/1",
+  "revision": "OSR-TD-1",
+  "basis": "Original OSR study design from publicly reviewed architecture and installation practices; public dimensions are candidate envelopes, all other values are declared assumptions.",
+  "hvac": {
+    "module_dimensions_m": [
+      1.0,
+      1.6,
+      0.22
+    ],
+    "module_mass_kg": 125.0,
+    "module_cooling_w": 8000.0,
+    "module_count_per_car": 4,
+    "module_spacing_m": 1.15,
+    "roof_base_z_m": 3.0,
+    "source_ids": [
+      "liebherr-modules",
+      "liebherr-macs-data"
+    ],
+    "rating_status": "public-nominal-candidate; ambient/refrigerant/voltage/installed capacity open",
+    "carrier_thickness_m": 0.004,
+    "carrier_density_kg_m3": 2700.0,
+    "thermal_assumptions": {
+      "ambient_c": 45.0,
+      "setpoint_c": 26.0,
+      "internal_gain_w": 6000.0,
+      "solar_gain_w": 3500.0,
+      "conductance_w_k": 500.0,
+      "heat_capacity_j_k": 1200000.0,
+      "cop": 2.5,
+      "study_limit_c": 27.0,
+      "duration_s": 1800.0,
+      "step_s": 10.0
+    },
+    "baseline_allowance_modules_per_car": 3
+  },
+  "doors": {
+    "opening_width_m": 1.27,
+    "opening_height_m": 2.2,
+    "leaf_mass_kg": 80.0,
+    "carrier_density_kg_m3": 7850.0,
+    "carrier_thickness_m": 0.008,
+    "longitudinal_fraction": 0.23,
+    "lateral_m": 1.31,
+    "centre_z_m": 1.9,
+    "source_ids": [
+      "knorr-doors",
+      "bollhoff-setting"
+    ],
+    "basis": "OSR envelope and installation assumptions, not IFE dimensions or ratings",
+    "stile_thickness_m": 0.004
+  },
+  "electrical": {
+    "cabinet_dimensions_m": [
+      1.0,
+      0.38,
+      0.28
+    ],
+    "cabinet_thickness_m": 0.002,
+    "density_kg_m3": 2700.0,
+    "cabinet_position_m": [
+      0.0,
+      -0.85,
+      0.67
+    ],
+    "tray_length_m": 9.2,
+    "tray_width_m": 0.1,
+    "tray_height_m": 0.06,
+    "tray_thickness_m": 0.002,
+    "hv_tray_y_m": -0.56,
+    "lv_tray_y_m": 0.56,
+    "tray_z_m": 0.86,
+    "source_ids": [
+      "schaltbau-contactors",
+      "ti-precharge",
+      "harting-rail-guide",
+      "roxtec-transit",
+      "roxtec-clamping"
+    ],
+    "precharge": {
+      "maximum_voltage_v": 900.0,
+      "resistance_ohm": 150.0,
+      "resistance_tolerance": 0.05,
+      "capacitance_f": 0.006,
+      "capacitance_tolerance": 0.1,
+      "close_ratio": 0.95,
+      "timeout_s": 5.0,
+      "energy_margin": 1.5,
+      "qualified_resistor_pulse_j": null,
+      "qualified_contactor_ratings": null
+    }
+  },
+  "infrastructure": {
+    "length_m": 6.0,
+    "gauge_m": 1.435,
+    "seat_spacing_m": 0.6,
+    "steel_density_kg_m3": 7850.0,
+    "pad_density_kg_m3": 1200.0,
+    "base_pad_thickness_m": 0.005,
+    "rail_pad_thickness_m": 0.01,
+    "baseplate_dimensions_m": [
+      0.3,
+      0.36,
+      0.02
+    ],
+    "hole_radius_m": 0.009,
+    "holes_xy_m": [
+      [
+        -0.07,
+        -0.14
+      ],
+      [
+        -0.07,
+        0.14
+      ],
+      [
+        0.07,
+        -0.14
+      ],
+      [
+        0.07,
+        0.14
+      ]
+    ],
+    "anchor_diameter_m": 0.016,
+    "minimum_edge_distance_ratio": 2.0,
+    "rail_pad_stiffness_n_m": 60000000.0,
+    "base_pad_stiffness_n_m": 60000000.0,
+    "rail_profile_status": "box-composite visualization surrogate; cannot supply wheel/rail contact geometry",
+    "source_ids": [
+      "pandrol-baseplate-data",
+      "pandrol-vipa-data",
+      "freyssinet-bearings",
+      "freyssinet-replacement",
+      "pci-tolerances"
+    ]
+  },
+  "gates": {
+    "production_released": false,
+    "physical_validation": false,
+    "supplier_selection_released": false
+  }
+}
