@@ -1,0 +1,32 @@
+name: Best-practice research coverage
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'engineering/best_practice/**'
+      - 'engineering/analysis/tests/test_best_practice.py'
+      - 'tools/automation/best-practice.py'
+      - 'docs/best-practice/**'
+      - 'docs/standards/**'
+      - 'design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json'
+      - 'design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json'
+      - 'design/component-catalogue/catalog/buildable-stations/station-kit-manifest.json'
+      - 'lib/templates/**'
+      - 'Cargo.toml'
+      - 'crates/**/Cargo.toml'
+      - '.github/workflows/best-practice.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pytest==9.1.1
+      - run: python tools/automation/best-practice.py check --as-of 2026-10-11
+      - run: python tools/automation/best-practice.py review-sources --as-of "$(date -u +%F)"
+      - run: python -m pytest -q engineering/analysis/tests/test_best_practice.py

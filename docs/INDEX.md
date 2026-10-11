@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6224**.
+Indexed Markdown files: **6233**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6224**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 211 |
+| [docs](#docs) | 220 |
 | [engineering](#engineering) | 93 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6000,6 +6000,8 @@ Indexed Markdown files: **6224**.
 | [`docs/baghdad-delivery-review-2026-10-04.md`](../docs/baghdad-delivery-review-2026-10-04.md) | Baghdad delivery review — regenerated planning scope |
 | [`docs/baghdad-manufactured-viaduct-review-2026-10-04.md`](../docs/baghdad-manufactured-viaduct-review-2026-10-04.md) | Baghdad manufactured viaduct and cost review |
 | [`docs/baghdad-scope-and-industrial-review-2026-10-04.md`](../docs/baghdad-scope-and-industrial-review-2026-10-04.md) | Baghdad scope and industrial review — 4 October 2026 |
+| [`docs/best-practice/handbook.md`](../docs/best-practice/handbook.md) | OpenSourceRail best-practice handbook |
+| [`docs/best-practice/research-plan.md`](../docs/best-practice/research-plan.md) | Best-practice research and implementation plan |
 | [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
@@ -6024,6 +6026,7 @@ Indexed Markdown files: **6224**.
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
 | [`docs/city-workforce-design-development.md`](../docs/city-workforce-design-development.md) | City workforce, design refinements and remaining development |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
+| [`docs/civil/automated-reference-parts.md`](../docs/civil/automated-reference-parts.md) | Automated reference parts and full-train variants |
 | [`docs/civil/baghdad-qualification.md`](../docs/civil/baghdad-qualification.md) | Baghdad civil qualification inputs |
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/civil-inspection-and-handover.md`](../docs/civil/civil-inspection-and-handover.md) | Civil inspection, testing and handover plan |
@@ -6036,6 +6039,7 @@ Indexed Markdown files: **6224**.
 | [`docs/civil/depot-bogie-change-interface.md`](../docs/civil/depot-bogie-change-interface.md) | LM3 Depot Bogie-Change Interface |
 | [`docs/civil/design-exploration.md`](../docs/civil/design-exploration.md) | Civil design exploration implementation and acceptance |
 | [`docs/civil/foundation-and-production-system.md`](../docs/civil/foundation-and-production-system.md) | Foundation And Civil Production System |
+| [`docs/civil/full-train-contact-domain.md`](../docs/civil/full-train-contact-domain.md) | Full-train contact-domain verification |
 | [`docs/civil/line-based-foundation-and-assembly-planning.md`](../docs/civil/line-based-foundation-and-assembly-planning.md) | Line-based foundation and viaduct assembly planning |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/network-junction-and-residential-integration.md`](../docs/civil/network-junction-and-residential-integration.md) | Network junction and residential integration |
@@ -6160,6 +6164,8 @@ Indexed Markdown files: **6224**.
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/design-system.md`](../docs/rolling-stock/design-system.md) | Rolling-stock top-down / bottom-up design system |
+| [`docs/rolling-stock/industrialisation-execution.md`](../docs/rolling-stock/industrialisation-execution.md) | Executed trainset industrialisation expansion |
+| [`docs/rolling-stock/industrialisation-expansion-plan.md`](../docs/rolling-stock/industrialisation-expansion-plan.md) | OpenSourceRail trainset improvement and industrialisation plan |
 | [`docs/rolling-stock/light-metro-3car/README.md`](../docs/rolling-stock/light-metro-3car/README.md) | `light-metro-3car` trainset package |
 | [`docs/rolling-stock/light-metro-3car/articulation.md`](../docs/rolling-stock/light-metro-3car/articulation.md) | Inter-car articulation - `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/assembly-plan.md`](../docs/rolling-stock/light-metro-3car/assembly-plan.md) | Assembly and joining plan — `light-metro-3car` |
@@ -6188,7 +6194,10 @@ Indexed Markdown files: **6224**.
 | [`docs/safety-case/result-validation.md`](../docs/safety-case/result-validation.md) | Safety evidence: traceability, results and acceptance |
 | [`docs/simulation-software-coverage.md`](../docs/simulation-software-coverage.md) | Simulation software coverage |
 | [`docs/software-architecture-diagrams.md`](../docs/software-architecture-diagrams.md) | Software Architecture Diagrams |
+| [`docs/standards/OSR-BP-001.md`](../docs/standards/OSR-BP-001.md) | OSR-BP-001: Source-backed component and system practice |
 | [`docs/standards/OSR-ENG-001.md`](../docs/standards/OSR-ENG-001.md) | OpenSourceRail engineering standard OSR-ENG-001 |
+| [`docs/standards/OSR-ENG-002.md`](../docs/standards/OSR-ENG-002.md) | OSR-ENG-002: Automated reference part generation |
+| [`docs/standards/OSR-MFG-001.md`](../docs/standards/OSR-MFG-001.md) | OSR-MFG-001: Open factory execution and quality evidence |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
 | [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
 | [`docs/stations/standard-archetype/accessibility.md`](../docs/stations/standard-archetype/accessibility.md) | Accessibility - `standard` Archetype Worked Example |
