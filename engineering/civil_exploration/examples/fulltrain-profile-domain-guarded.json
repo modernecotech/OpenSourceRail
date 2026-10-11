@@ -1,0 +1,72 @@
+{
+  "affected_contacts": [],
+  "all_retained_footprints_inside_supplied_profiles": true,
+  "audit_sources_sha256": {
+    "engineering/analysis/contact_domain.py": "19027b08d48547c090b082559e26ae50457dd3e4121478431df72c808581761c",
+    "engineering/civil_exploration/wheel_contact.py": "37608050d29b53db489ed3a1ee8335cae01ed8224e69ce0752c587fb68c3c954",
+    "tools/automation/audit-contact-profile-domain.py": "65f37671f550306d7196b2bade181c04a8e7d4d518ae06583a8171c09ad3bea1"
+  },
+  "campaign_budgets": {
+    "deck_mesh": 2,
+    "rail_step_m": 2.0,
+    "time_step_s": 0.005,
+    "wall_seconds": 1800
+  },
+  "campaign_cases": [
+    {
+      "case": "empty-15mps",
+      "complete_passage": false,
+      "domain_details": [
+        {
+          "basis": "conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification",
+          "contact_y_m": -0.0051873243054283615,
+          "inside_supplied_profiles": false,
+          "kind": "contact-footprint",
+          "lateral_semi_axis_m": 0.003944283305756537,
+          "lateral_shift_m": -0.06125152391846425,
+          "minimum_clearance_m": -8.482918792427317e-06,
+          "normal_n": 43776.54860205626,
+          "rail_margin_m": 0.054812675694571635,
+          "roll_rad": -0.0007410187884233811,
+          "side": -1,
+          "station_m": 128.85000000000002,
+          "train": "train-A",
+          "wheel_margin_m": 0.00393580038696411,
+          "wheel_y_m": 0.05606419961303589,
+          "wheelset": "car-6/bogie-2/axle-1"
+        }
+      ],
+      "domain_exceedances": [
+        "contact-footprint:train-A/car-6/bogie-2/axle-1/-1"
+      ],
+      "engineering_released": false,
+      "error": "spatial model domain exceeded at 9.13s: contact-footprint:train-A/car-6/bogie-2/axle-1/-1",
+      "kind": "normal-service",
+      "physical_validation": false,
+      "status": "outside-model-domain",
+      "time_s": 9.13
+    }
+  ],
+  "campaign_receipt_sha256": "9e8eb9c5c6924ba9ab31abe8a651a146a25baf4830188da2424b34872410cdd9",
+  "complete_passage_verified": false,
+  "configuration_sha256": "8b775746c68dd44a3760aa74a381f9ca231cbb7e735b2e1217137a01ceba28b1",
+  "contact_check_count": 87600,
+  "engineering_released": false,
+  "first_footprint_exceedance": null,
+  "footprint_exceedance_count": 0,
+  "hardware_definition_sha256": "c79b037e379e4a6514a35438c43bd091b8f2dda1d553613ec31b242a3b25a76c",
+  "history_sha256": "49ac83676f7cc2119676fba231aeec0c5d80218dd1d710563e70c030144b10de",
+  "last_retained_time_s": 9.125,
+  "limitations": [
+    "replay checks the saved nominal contact coordinates and Hertz ellipse",
+    "a reference-location fallback cannot be identified unambiguously from old coordinates alone",
+    "no flange, multiple patch, rail-roll or measured-profile qualification"
+  ],
+  "physical_validation": false,
+  "producer_sources_verified": true,
+  "producing_commit": null,
+  "sample_count": 1825,
+  "schema": "osr-contact-profile-domain-audit/1",
+  "solver_environment_reverified": false,
+  "worst_footprint_exceedance": null
+}

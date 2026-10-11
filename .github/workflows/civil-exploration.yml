@@ -46,6 +46,8 @@ on:
       - 'tools/automation/compile-reference-parts.py'
       - 'tools/automation/verify-reference-parts-freecad.py'
       - 'tools/automation/export-reference-parts-evidence.py'
+      - 'tools/automation/audit-contact-profile-domain.py'
+      - 'tools/automation/export-contact-domain-comparison.py'
       - 'tools/automation/shared-engineering-freecad.py'
       - 'tools/automation/tests/test_engineering_identity.py'
       - 'deployment/erpnext/apps/osr_erpnext/osr_erpnext/engineering_identity.py'
@@ -95,7 +97,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Fetch the retained research evidence source commit
-        run: git fetch --no-tags --depth=1 origin bcb21593fb6e4d0c73645429d4fbf059252b4002
+        run: |
+          git fetch --no-tags --depth=1 origin bcb21593fb6e4d0c73645429d4fbf059252b4002
+          git fetch --no-tags --depth=1 origin 349cf69d3cc0607924ac6671a59b7f851eff9395
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -109,9 +113,9 @@ jobs:
       - name: Verify shared geometry, inertia, evidence and train–bridge coupling
         env:
           PYTHONPATH: design/component-catalogue/src:.
-        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py engineering/analysis/tests/test_shared_service.py engineering/analysis/tests/test_automated_parts.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py tools/automation/tests/test_shared_review_history.py
+        run: python -m pytest -q design/component-catalogue/tests/test_shared_engineering.py engineering/analysis/tests/test_shared_train_bridge.py engineering/analysis/tests/test_shared_spatial_engineering.py engineering/analysis/tests/test_shared_service.py engineering/analysis/tests/test_contact_domain.py engineering/analysis/tests/test_automated_parts.py tools/automation/tests/test_engineering_identity.py tools/automation/tests/test_shared_engineering_standard.py tools/automation/tests/test_shared_review_history.py
       - name: Verify generated industry-reference parts review
-        run: python tools/automation/compile-reference-parts.py check-review --review engineering/civil_exploration/examples/automated-parts-review.json
+        run: python tools/automation/compile-reference-parts.py check-review --review engineering/civil_exploration/examples/automated-parts-current-review.json
       - name: Install existing native reference replay dependencies
         if: ${{ inputs.campaign }}
         run: |

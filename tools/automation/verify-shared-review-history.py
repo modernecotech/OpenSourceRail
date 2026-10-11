@@ -37,7 +37,8 @@ def verify(path,revision):
         publication={'tools/automation/export-shared-campaign-review.py':review['publication_source_sha256']}
     for name,digest in publication.items():
         if sha(git_file(commit,name))!=digest:raise ValueError('review publisher does not match its producing commit')
-    if review.get('physical_validation') is not False or review.get('engineering_released') is not False:
+    releases=[review[k] for k in ('engineering_released','production_released') if k in review]
+    if review.get('physical_validation') is not False or not releases or any(r is not False for r in releases):
         raise ValueError('this verifier handles unqualified research publications only')
     current=all((ROOT/name).is_file() and sha((ROOT/name).read_bytes())==digest for name,digest in sources.items())
     return dict(schema='osr-published-review-history/1',review_path=relative,review_sha256=sha(raw),

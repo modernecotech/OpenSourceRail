@@ -1,0 +1,62 @@
+{
+  "archived_probe_first_exceedances": {
+    "coarse": {
+      "basis": "conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification",
+      "contact_y_m": -0.0051873243054283615,
+      "inside_supplied_profiles": false,
+      "lateral_semi_axis_m": 0.003944283305756537,
+      "minimum_clearance_m": -8.482918792427317e-06,
+      "normal_n": 43776.54860205626,
+      "rail_margin_m": 0.054812675694571635,
+      "side": -1,
+      "time_s": 9.13,
+      "train": "train-A",
+      "wheel_margin_m": 0.00393580038696411,
+      "wheel_y_m": 0.05606419961303589,
+      "wheelset": "car-6/bogie-2/axle-1"
+    },
+    "time_refined": {
+      "basis": "conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification",
+      "contact_y_m": -0.0051877028980063505,
+      "inside_supplied_profiles": false,
+      "lateral_semi_axis_m": 0.003944233896959738,
+      "minimum_clearance_m": -1.1032272468879285e-05,
+      "normal_n": 43774.903497484134,
+      "rail_margin_m": 0.054812297101993646,
+      "side": -1,
+      "time_s": 9.13,
+      "train": "train-A",
+      "wheel_margin_m": 0.003933201624490859,
+      "wheel_y_m": 0.05606679837550914,
+      "wheelset": "car-6/bogie-2/axle-1"
+    }
+  },
+  "boundary_normal_force_relative_difference": 3.757958598062544e-05,
+  "boundary_time_difference_s": 0.0,
+  "completed_full_family_passages": 0,
+  "conclusion": "The same profile-boundary exceedance occurs in both archived timestep probes; the current guard rejects it before commitment. Full service qualification remains open.",
+  "configuration_sha256": "8b775746c68dd44a3760aa74a381f9ca231cbb7e735b2e1217137a01ceba28b1",
+  "engineering_released": false,
+  "guarded_case_status": "outside-model-domain",
+  "guarded_stop_time_s": 9.13,
+  "hardware_definition_sha256": "c79b037e379e4a6514a35438c43bd091b8f2dda1d553613ec31b242a3b25a76c",
+  "input_sha256": {
+    "engineering/civil_exploration/examples/automated-parts-current-evidence.json": "05a0b4dff9b19bf1dad2b40ffdb69d986adb205f7bd559a89bf7f7320ba031af",
+    "engineering/civil_exploration/examples/fulltrain-profile-domain-349cf69d.json": "7ec0806b61e03cb2a67e2f1c6f363f7dab6131991173c827aaac7110224cece3",
+    "engineering/civil_exploration/examples/fulltrain-profile-domain-guarded.json": "73c845fb793cf401c6ce5ea20270013ae0d513fce6670bb3f566c74aa856bfe3",
+    "engineering/civil_exploration/examples/fulltrain-profile-domain-time-refined-349cf69d.json": "378b7dc1b6603229a5466072cc54a6b5e12cc6ee3fcf5337da44377b9a9e6395"
+  },
+  "last_committed_supported_time_s": 9.125,
+  "numerical_time_and_mesh_confirmation_performed": false,
+  "physical_validation": false,
+  "probe_time_steps_s": {
+    "coarse": 0.005,
+    "guarded": 0.005,
+    "time_refined": 0.0025
+  },
+  "publisher_sha256": "296aaadf41d46044c50e9b7b0a60e73ad91c10084190fe1cbfcbc8e22b7ea036",
+  "schema": "osr-contact-domain-comparison/1",
+  "supported_contact_check_count": 87600,
+  "supported_sample_count": 1825,
+  "unsupported_contact_states_committed": 0
+}

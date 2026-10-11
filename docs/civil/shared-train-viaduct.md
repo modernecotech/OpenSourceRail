@@ -13,6 +13,9 @@ separate complete-family variant with 192 reference instances, 191 joints and al
 24 six-car wheelsets. Its parameterised battery architecture, coverage register,
 typed interfaces and manufacturing/QA outputs extend this foundation. The retained
 two-car demonstrations below continue to describe their original configurations.
+The [full-train contact-domain investigation](full-train-contact-domain.md)
+adds explicit supplied-profile footprint checks and distinguishes domain failures
+from numerical non-convergence.
 
 The first demonstrator connects a representative articulated car pair to a
 three-span viaduct, flexible rail, finite bearings, axial piers and foundation

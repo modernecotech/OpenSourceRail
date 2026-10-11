@@ -39,3 +39,9 @@ Generated inspection nominal values are design targets. Acceptance intervals,
 measurement calibration/uncertainty, joint capacity, fatigue, fire protection,
 electromagnetic compatibility and operating cases require their own controlled
 evidence. None can be closed by a CAD placement constraint or a numerical mass sum.
+
+For OSR-AP-004/010, a positive-load Hertz footprint shall fit inside the supplied
+wheel and rail profile tables. An unsupported converged contact shall be rejected
+before state/history commitment and reported as outside the model domain.
+The [contact-domain investigation](../civil/full-train-contact-domain.md)
+records this applicability clarification; it adds no ISO or railway acceptance limit.

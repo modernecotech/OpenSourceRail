@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from functools import lru_cache
 import math
+from numbers import Real
 import numpy as np
 from scipy.integrate import quad
 from scipy.interpolate import CubicSpline
@@ -65,6 +66,29 @@ def profile_normal_gap(vertical_displacement_m,location,reference,irregularity_m
     vertical=finite(vertical_displacement_m,'vertical displacement')
     rough=finite(irregularity_m,'irregularity')
     return float(location['normal_local'][2])*(vertical+location['relative_height_m']-reference['relative_height_m']+rough)
+
+
+def profile_footprint(location, patch_values, wheel_range, rail_range):
+    """Conservative lateral ellipse coverage inside the supplied profile tables.
+
+    The full lateral semi-axis is compared with horizontal profile margins.
+    This is conservative for the inclined tangent plane; it cannot qualify a
+    truncated, flange or multiple patch using values outside a supplied table.
+    """
+    values=(location['contact_y_m'],location['wheel_y_m'],patch_values['semi_axis_y_m'])
+    if any(isinstance(v,bool) or not isinstance(v,Real) for v in values):raise ValueError('numeric contact footprint coordinates required')
+    y=finite(float(values[0]),'rail contact coordinate')
+    wy=finite(float(values[1]),'wheel contact coordinate')
+    half=finite(float(values[2]),'patch lateral semi-axis',0.)
+    for bounds in (wheel_range,rail_range):
+        if len(bounds)!=2 or not all(math.isfinite(v) for v in bounds) or bounds[0]>=bounds[1]:
+            raise ValueError('ordered finite contact profile range required')
+    wheel_margin=float(min(wy-wheel_range[0],wheel_range[1]-wy))
+    rail_margin=float(min(y-rail_range[0],rail_range[1]-y))
+    return dict(wheel_margin_m=wheel_margin,rail_margin_m=rail_margin,
+        lateral_semi_axis_m=half,minimum_clearance_m=min(wheel_margin,rail_margin)-half,
+        inside_supplied_profiles=bool(half<=min(wheel_margin,rail_margin)),
+        basis='conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification')
 
 
 class ProfilePair:

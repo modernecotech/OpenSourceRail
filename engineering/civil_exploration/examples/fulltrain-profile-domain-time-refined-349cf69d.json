@@ -1,0 +1,87 @@
+{
+  "affected_contacts": [
+    {
+      "side": -1,
+      "train": "train-A",
+      "wheelset": "car-6/bogie-2/axle-1"
+    },
+    {
+      "side": 1,
+      "train": "train-A",
+      "wheelset": "car-6/bogie-2/axle-1"
+    }
+  ],
+  "all_retained_footprints_inside_supplied_profiles": false,
+  "audit_sources_sha256": {
+    "engineering/analysis/contact_domain.py": "19027b08d48547c090b082559e26ae50457dd3e4121478431df72c808581761c",
+    "engineering/civil_exploration/wheel_contact.py": "37608050d29b53db489ed3a1ee8335cae01ed8224e69ce0752c587fb68c3c954",
+    "tools/automation/audit-contact-profile-domain.py": "65f37671f550306d7196b2bade181c04a8e7d4d518ae06583a8171c09ad3bea1"
+  },
+  "campaign_budgets": {
+    "deck_mesh": 2,
+    "rail_step_m": 2.0,
+    "time_step_s": 0.0025,
+    "wall_seconds": 3600
+  },
+  "campaign_cases": [
+    {
+      "case": "empty-15mps",
+      "complete_passage": false,
+      "engineering_released": false,
+      "error": "spatial nonlinear step did not converge at 9.6775s: residual 114291 N",
+      "kind": "normal-service",
+      "physical_validation": false,
+      "status": "failed"
+    }
+  ],
+  "campaign_receipt_sha256": "9c52e1e22cfe5f5fa01aebcbba1961df028411bedb53902e82d3dcfcc2754bba",
+  "complete_passage_verified": false,
+  "configuration_sha256": "8b775746c68dd44a3760aa74a381f9ca231cbb7e735b2e1217137a01ceba28b1",
+  "contact_check_count": 185760,
+  "engineering_released": false,
+  "first_footprint_exceedance": {
+    "basis": "conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification",
+    "contact_y_m": -0.0051877028980063505,
+    "inside_supplied_profiles": false,
+    "lateral_semi_axis_m": 0.003944233896959738,
+    "minimum_clearance_m": -1.1032272468879285e-05,
+    "normal_n": 43774.903497484134,
+    "rail_margin_m": 0.054812297101993646,
+    "side": -1,
+    "time_s": 9.13,
+    "train": "train-A",
+    "wheel_margin_m": 0.003933201624490859,
+    "wheel_y_m": 0.05606679837550914,
+    "wheelset": "car-6/bogie-2/axle-1"
+  },
+  "footprint_exceedance_count": 210,
+  "hardware_definition_sha256": "c79b037e379e4a6514a35438c43bd091b8f2dda1d553613ec31b242a3b25a76c",
+  "history_sha256": "d28d6aa2cdc032e8fc8e736b6a6aad826d8e70a25f227b6e50a1806eed954172",
+  "last_retained_time_s": 9.675,
+  "limitations": [
+    "replay checks the saved nominal contact coordinates and Hertz ellipse",
+    "a reference-location fallback cannot be identified unambiguously from old coordinates alone",
+    "no flange, multiple patch, rail-roll or measured-profile qualification"
+  ],
+  "physical_validation": false,
+  "producer_sources_verified": true,
+  "producing_commit": "349cf69d3cc0607924ac6671a59b7f851eff9395",
+  "sample_count": 3870,
+  "schema": "osr-contact-profile-domain-audit/1",
+  "solver_environment_reverified": false,
+  "worst_footprint_exceedance": {
+    "basis": "conservative full lateral semi-axis inside supplied y ranges; no flange/truncated-patch qualification",
+    "contact_y_m": -0.005758279044302617,
+    "inside_supplied_profiles": false,
+    "lateral_semi_axis_m": 0.003935095418187924,
+    "minimum_clearance_m": -0.003915537360562968,
+    "normal_n": 43471.33892650999,
+    "rail_margin_m": 0.05424172095569738,
+    "side": -1,
+    "time_s": 9.635,
+    "train": "train-A",
+    "wheel_margin_m": 1.955805762495627e-05,
+    "wheel_y_m": 0.05998044194237504,
+    "wheelset": "car-6/bogie-2/axle-1"
+  }
+}

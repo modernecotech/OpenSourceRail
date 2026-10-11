@@ -1,6 +1,7 @@
 # Automated reference parts and full-train variants
 
-[Generated review](../../engineering/civil_exploration/examples/automated-parts-review.json)
+[Current generated review](../../engineering/civil_exploration/examples/automated-parts-current-review.json)
+· [original generated review](../../engineering/civil_exploration/examples/automated-parts-review.json)
 · [native and operating evidence](../../engineering/civil_exploration/examples/automated-parts-evidence.json)
 · [complete native assembly](../../design/component-catalogue/models/cad/reference-full-train.FCStd)
 · [native CAD receipt](../../design/component-catalogue/models/cad/reference-full-train.native.json)
@@ -186,3 +187,9 @@ No full-train passage or time/mesh convergence is accepted from that attempt.
 The other 21 planned cases remain unexecuted. Resolving this coarse-run failure
 and independently refining the full-train operating cases is the next numerical
 qualification task, separate from the completed part-generation and CAD checks.
+
+The subsequent [contact-domain investigation](full-train-contact-domain.md) finds
+an unsupported Hertz footprint at 9.130 s, before the reported non-convergence.
+The current solver rejects unsupported converged states before committing their
+contact state/history. The original review retains its producing commit; a
+separate current compiler review records the updated implementation.

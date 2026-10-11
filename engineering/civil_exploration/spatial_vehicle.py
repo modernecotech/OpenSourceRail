@@ -14,8 +14,22 @@ from scipy.spatial.transform import Rotation
 from osr_mech.engineering_definition import validate,component_mass_records,fingerprint
 from osr_mech.vehicle_mass_properties import combined_inertia
 from .spatial_structure import SpatialStructure,Route,skew
-from .wheel_contact import ProfilePair,TangentialContact,patch,normal_force,profile_normal_gap
+from .wheel_contact import ProfilePair,TangentialContact,patch,normal_force,profile_normal_gap,profile_footprint
 from .joint_laws import response as joint_response
+
+
+class SpatialDomainError(RuntimeError):
+    """A converged trial is outside the declared physics domain; never commit it."""
+    def __init__(self,time_s,violations,details):
+        self.time_s=float(time_s);self.violations=sorted(set(violations));self.details=deepcopy(details)
+        super().__init__(f'spatial model domain exceeded at {time_s:g}s: '+', '.join(self.violations))
+
+
+class SpatialConvergenceError(RuntimeError):
+    def __init__(self,time_s,residual_n,iterations,trial_domain):
+        self.time_s=float(time_s);self.residual_n=float(residual_n);self.iterations=int(iterations)
+        self.trial_domain_exceedances=sorted(set(trial_domain))
+        super().__init__(f'spatial nonlinear step did not converge at {time_s:g}s: residual {residual_n:g} N')
 
 
 def loaded_model(model,case):
@@ -192,7 +206,7 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
         current=pred.copy();contact_rows=[];joint_rows=[];last_states=[]
         for iteration in range(maximum_iterations):
             av=(current-pred)/(beta*dt*dt);vv=predv+gamma*dt*av;external=np.zeros(size);external[:nb]=structure.dead_load
-            kr=[];kc=[];kv=[];contact_rows=[];joint_rows=[];last_states=[];step_domain=[]
+            kr=[];kc=[];kv=[];contact_rows=[];joint_rows=[];last_states=[];step_domain=[];domain_details=[]
             for train,speed,advance,(poses,joint_plans) in plans:
                 vehicle=train['vehicle'];offset=train['start'];uq=current[offset:offset+vehicle.size];vq=vv[offset:offset+vehicle.size];e=train['entry']
                 wheel_groups=[g for g in vehicle.groups.values() if g['wheel']]
@@ -239,7 +253,13 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                     shift=float(R[:,1]@(d_vehicle-d_bridge));roll=float(R[:,0]@uq[gi+3:gi+6])
                     try:location=profiles[side].locate(shift,roll)
                     except ValueError as error:
-                        step_domain.append(str(error));location=profiles[side].locate(0.,0.)
+                        step_domain.append(str(error))
+                        domain_details.append(dict(kind='contact-location',train=e['id'],wheelset=g['id'],side=side,
+                            station_m=float(s),lateral_shift_m=shift,roll_rad=roll,error=str(error)))
+                        # A temporary reference tangent can return a Newton trial
+                        # to the supported domain. It must never be committed as
+                        # a replacement for unsupported physical contact.
+                        location=reference_profiles[side]
                     reference=reference_profiles[side];normal=R@location['normal_local'];coefficient=location['coefficients']
                     d0=patch(contact['static_n']/float(reference['normal_local'][2]),reference['coefficients'])['penetration_m']
                     rough=configuration['irregularity']['amplitude_m']*math.sin(2*math.pi*s/configuration['irregularity']['wavelength_m'])
@@ -247,6 +267,12 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                         rough+=configuration['wheel_defect']['depth_m']*math.cos(speed*t/radius)
                     penetration=d0-profile_normal_gap(float(R[:,2]@(d_vehicle-d_bridge)),location,reference,rough)
                     N=normal_force(penetration,coefficient);patch_values=patch(N,coefficient)
+                    footprint=profile_footprint(location,patch_values,profiles[side].wheel_range,profiles[side].rail_range)
+                    if N>0 and not footprint['inside_supplied_profiles']:
+                        step_domain.append('contact-footprint:'+e['id']+'/'+g['id']+'/'+str(side))
+                        domain_details.append(dict(kind='contact-footprint',train=e['id'],wheelset=g['id'],side=side,
+                            station_m=float(s),normal_n=N,contact_y_m=location['contact_y_m'],wheel_y_m=location['wheel_y_m'],
+                            lateral_shift_m=shift,roll_rad=roll,**footprint))
                     if patch_values['semi_axis_x_m']>radius*.1 or patch_values['semi_axis_y_m']>.025:step_domain.append('contact-patch-validity')
                     r_material=R@np.array([0.,side*structure.gauge/2,-location['rolling_radius_m']])
                     velocity=p['reference_velocity']+np.cross(p['reference_omega'],r_material)+(Jv@vq)
@@ -275,7 +301,7 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
                         longitudinal_n=float(R[:,0]@F),lateral_vertical_ratio=float(abs(R[:,1]@F)/max(vertical_force,1e-9)),
                         unloading_ratio=1-vertical_force/contact['static_n'],contact_closed=N>0,creep_velocity_m_s=tangent_velocity.tolist(),
                         contact_y_m=location['contact_y_m'],wheel_y_m=location['wheel_y_m'],
-                        patch=patch_values,friction_dissipation_j=tangent['dissipation_j']))
+                        patch=patch_values,profile_footprint=footprint,friction_dissipation_j=tangent['dissipation_j']))
                     last_states.append((state,tangent))
             residual=M@av+C@vv+K@current-external
             norm=float(np.max(np.abs(residual[unconstrained])))
@@ -286,17 +312,20 @@ def run_spatial(model,configuration,*,dt=.002,duration_s=1.,deck_mesh=4,rail_ste
             if not np.isfinite(increment).all():raise RuntimeError('nonfinite spatial Newton increment')
             # Bounded relaxation helps when contact opens/returns to the surface.
             factor=min(1.,.02/max(np.max(np.abs(increment)),.02));current+=factor*increment
-        else:raise RuntimeError(f'spatial nonlinear step did not converge at {t:g}s: residual {norm:g} N')
+        else:raise SpatialConvergenceError(t,norm,maximum_iterations,step_domain)
+        for train in trains:
+            for group in train['vehicle'].groups.values():
+                i=train['start']+group['index'];angles=current[i+3:i+6].copy()
+                if group['wheel']:
+                    spin=train['poses'][group['id']]['R'][:,1];angles-=spin*(spin@angles)
+                if np.max(np.abs(angles))>.15:
+                    step_domain.append('small-angle-body-domain')
+                    domain_details.append(dict(kind='small-angle-body-domain',train=train['entry']['id'],body=group['id'],rotation_rad=angles.tolist()))
+        if step_domain:raise SpatialDomainError(t,step_domain,domain_details)
         domain.extend(step_domain)
         minimum=min(minimum,min(row['normal_n'] for row in contact_rows));maximum=max(maximum,max(row['normal_n'] for row in contact_rows))
         for state,result in last_states:state.commit(result)
         q=current;acc=(q-pred)/(beta*dt*dt);v=predv+gamma*dt*acc;iterations.append(iteration+1)
-        for train in trains:
-            for group in train['vehicle'].groups.values():
-                i=train['start']+group['index'];angles=q[i+3:i+6].copy()
-                if group['wheel']:
-                    spin=train['poses'][group['id']]['R'][:,1];angles-=spin*(spin@angles)
-                if np.max(np.abs(angles))>.15:domain.append('small-angle-body-domain')
         body_rows=[]
         for train in trains:
             for group in train['vehicle'].groups.values():

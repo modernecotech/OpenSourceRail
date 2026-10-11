@@ -17,7 +17,7 @@ from osr_mech.engineering_definition import fingerprint,load_definition
 from engineering.analysis.shared_service import case_matrix,coverage,ride_diagnostics
 from engineering.civil_exploration.shared_demo import demonstration
 from engineering.civil_exploration.spatial_demo import configuration
-from engineering.civil_exploration.spatial_vehicle import run_spatial
+from engineering.civil_exploration.spatial_vehicle import run_spatial,SpatialDomainError,SpatialConvergenceError
 
 
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -90,6 +90,12 @@ def main():
                 if isinstance(error,TimeoutError):budget_exhausted=True
                 failed=True;row=dict(case=case['id'],kind=case['kind'],status='failed',error=str(error),
                     complete_passage=False,physical_validation=False,engineering_released=False)
+                if isinstance(error,SpatialDomainError):
+                    row.update(status='outside-model-domain',time_s=error.time_s,
+                        domain_exceedances=error.violations,domain_details=error.details)
+                elif isinstance(error,SpatialConvergenceError):
+                    row.update(time_s=error.time_s,newton_residual_n=error.residual_n,newton_iterations=error.iterations,
+                        last_trial_domain_exceedances=error.trial_domain_exceedances)
                 write(folder/'failure.json',row)
             summaries.append(row);print(json.dumps({k:v for k,v in row.items() if k!='ride'}),flush=True)
     executed={r['case'] for r in summaries};missing=[r['id'] for r in matrix['cases'] if r['id'] not in executed]
