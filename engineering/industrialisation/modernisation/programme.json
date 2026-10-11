@@ -1,0 +1,34 @@
+{
+  "schema":"osr-trainset-industrialisation-programme/1",
+  "revision":"OSR-IM-1",
+  "standard":"OSR-MFG-001",
+  "work_packages":[
+    {"id":"IM-01","title":"Source-backed design expansion","deliverable":"design_requirements"},
+    {"id":"IM-02","title":"Materials and energy screening","deliverable":"material_passports"},
+    {"id":"IM-03","title":"Assembly quality and datum control","deliverable":"assembly_package"},
+    {"id":"IM-04","title":"Production planning and travelers","deliverable":"production_package"},
+    {"id":"IM-05","title":"Executable quality checks","deliverable":"quality_protocols"},
+    {"id":"IM-06","title":"Offline commissioning contracts","deliverable":"commissioning_protocols"}
+  ],
+  "features":[
+    {"id":"OSR-IM-D01","title":"Explicit automated lifecycle and depot/mainline handoff","parts":["LM3-CTRL-P010","LM3-CTRL-P030"],"source":"crrc-hangzhou","verification":"state/interlock/fault matrix, timing and independent safety assessment","limits":"Offline contract only; actual TCMS/ATP/ATO and GoA4 evidence open"},
+    {"id":"OSR-IM-D02","title":"Diverse obstacle detection and critical-channel independence","parts":["LM3-CTRL-P010","LM3-EXT-P065"],"source":"crrc-hangzhou","verification":"coverage, latency, common-cause fault injection and independent wiring/power audit","limits":"CCTV is not a qualified obstacle detector; new sensor allocations and safety case required"},
+    {"id":"OSR-IM-D03","title":"Bearing, brake, speed and suspension condition monitoring","parts":["LM3-BOG-P042","LM3-BOG-P043","LM3-BOG-P060","LM3-BOG-P061"],"source":"crrc-hangzhou","verification":"sensor frame/calibration, plausibility, failure timing and holdout observations","limits":"No supplier warning thresholds or real measurements available"},
+    {"id":"OSR-IM-D04","title":"Traction and regenerative-energy comparison on a fixed duty","parts":["LM3-TRC-P010","LM3-TRC-P020","LM3-TRC-P030","LM3-TRC-P040","LM3-TRC-P050"],"source":"crrc-hangzhou","verification":"energy balance, motor/inverter/pack limits and measured baseline","limits":"Manufacturer saving claims not adopted; efficiencies in examples are declared assumptions"},
+    {"id":"OSR-IM-D05","title":"HVAC zoning, airflow, filtration and roof thermal load","parts":["LM3-EXT-P040","LM3-INT-P010","LM3-ROOF-P010"],"source":"crrc-hangzhou","verification":"thermal/airflow/condensation/maintenance tests under approved ambient duty","limits":"No antibacterial performance claim without product and maintenance evidence"},
+    {"id":"OSR-IM-D06","title":"Sealed, maintainable doors and compatible acoustic isolation","parts":["LM3-EXT-P010","LM3-BDY-P100","LM3-INT-P052","LM3-EXT-P080"],"source":"crrc-hangzhou","verification":"door interlocks, obstruction/water tests, acoustic/fire data and removal trial","limits":"Seals/damping cannot obstruct egress or substitute for measured noise evidence"},
+    {"id":"OSR-IM-D07","title":"Modular lightweight parts with repair and material passports","parts":["LM3-BDY-P130","LM3-BDY-P131","LM3-BDY-P132","LM3-BDY-P133","LM3-INT-P020"],"source":"alstom-environment","verification":"mass/stiffness/fire/fatigue/corrosion/repair/EPD and interchange evidence","limits":"No envelope-density mass inference or unqualified carbon/strength benefit"},
+    {"id":"OSR-IM-D08","title":"Datum fixtures, qualified joins and recorded fastening","parts":["LM3-BDY-P010","LM3-BOG-P010","LM3-BOG-P020","LM3-TRC-P040"],"source":"alstom-work-instructions","verification":"fixture survey, WPS/cure/torque trace and independent first article","limits":"Reference fixture and generated records are not production release"}
+  ],
+  "quality_protocols":[
+    {"id":"OSR-IM-Q01","method":"material/lot/expiry genealogy","authority":"released material specification and certificate"},
+    {"id":"OSR-IM-Q02","method":"datum survey and uncertainty-aware conformity","authority":"released drawing, decision rule and calibrated method"},
+    {"id":"OSR-IM-Q03","method":"per-fastener torque/angle trace with rework authority","authority":"released joint procedure; torque is not inferred preload"},
+    {"id":"OSR-IM-Q04","method":"weld/bond/cure/coating process-window trace","authority":"qualified process, competent operator and specified sample interval"},
+    {"id":"OSR-IM-Q05","method":"NCR containment and independent disposition","authority":"controlled quality workflow and responsible engineer"},
+    {"id":"OSR-IM-Q06","method":"process stability/measurement-system/capability diagnostics","authority":"approved sample and process study; no default acceptance Cpk"}
+  ],
+  "open_physical_gates":["family-specific issued design and supplier interfaces","material/fire/repair evidence","qualified weld/bond/cure and trained personnel","actual first-article measurements and NCR dispositions","supported wheel-rail service envelope","actual commissioning and independent safety assessment"],
+  "production_released":false,
+  "physical_validation":false
+}
