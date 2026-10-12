@@ -2,20 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **52**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **38**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | height-unresolved | 49 |
-| Beam/building | product-depth-unresolved | 10 |
-| Reference support/foundation | foundation-footprint-conflict | 70 |
-| Reference support/foundation | foundation-setback-conflict | 18 |
-| Reference support/foundation | mapped-footprints-only-clear | 5,699 |
-| Terrain | beam-terrain-collision | 1 |
-| Terrain | reference-gradient-exceeded | 3,448 |
-| Terrain | reference-gradient-within-policy | 2,150 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 189 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 95 |
+| Beam/building | height-unresolved | 27 |
+| Beam/building | product-depth-unresolved | 13 |
+| Reference support/foundation | foundation-footprint-conflict | 50 |
+| Reference support/foundation | foundation-setback-conflict | 12 |
+| Reference support/foundation | mapped-footprints-only-clear | 7,609 |
+| Terrain | reference-gradient-exceeded | 3,856 |
+| Terrain | reference-gradient-within-policy | 2,739 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 1,061 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 568 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

@@ -4,10 +4,10 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`meerut-line1.aln.toml`](meerut-line1.aln.toml) | `line-1` | 21,717.0 m | 10 |
-| [`meerut-line2.aln.toml`](meerut-line2.aln.toml) | `line-2` | 26,946.7 m | 11 |
-| [`meerut-line3.aln.toml`](meerut-line3.aln.toml) | `line-3` | 25,128.1 m | 8 |
-| [`meerut-line4.aln.toml`](meerut-line4.aln.toml) | `line-4` | 53,407.7 m | 17 |
+| [`meerut-line1.aln.toml`](meerut-line1.aln.toml) | `line-1` | 27,391.6 m | 8 |
+| [`meerut-line2.aln.toml`](meerut-line2.aln.toml) | `line-2` | 32,090.0 m | 15 |
+| [`meerut-line3.aln.toml`](meerut-line3.aln.toml) | `line-3` | 33,048.1 m | 15 |
+| [`meerut-line4.aln.toml`](meerut-line4.aln.toml) | `line-4` | 57,110.1 m | 12 |
 
 ## Status
 

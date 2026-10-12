@@ -1,29 +1,29 @@
 slug: biratnagar
 pass: true
 metrics:
-  total_route_m: 49415.5
-  n_lines: 6
-  n_stations: 31
-  anchor_hit_rate: 0.194
-  high_demand_coverage: 0.575
+  total_route_m: 34316.1
+  n_lines: 4
+  n_stations: 12
+  anchor_hit_rate: 0.500
+  high_demand_coverage: 0.494
   civil_mix_m:
-    at_grade: 9102.500
-    elevated: 16260.600
-    bridge:   24052.400
-  elevated_fraction: 0.816
+    at_grade: 3828.100
+    elevated: 9073.500
+    bridge:   21414.500
+  elevated_fraction: 0.888
   viaduct_products_m:
-    osr_pi20_pi25: 15019.600
-    osr_us:      1172.700
-    special:     24052.400
-    realign:     68.300
-  max_elevated_cost_multiplier: 18.000
+    osr_pi20_pi25: 7050.523
+    osr_us:      1528.477
+    special:     21414.500
+    realign:     494.500
+  max_elevated_cost_multiplier: 11.479
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

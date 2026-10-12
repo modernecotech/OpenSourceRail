@@ -1,29 +1,29 @@
 slug: mazar-e-sharif
 pass: true
 metrics:
-  total_route_m: 68841.7
-  n_lines: 6
-  n_stations: 50
-  anchor_hit_rate: 0.180
-  high_demand_coverage: 0.488
+  total_route_m: 73882.4
+  n_lines: 5
+  n_stations: 35
+  anchor_hit_rate: 0.200
+  high_demand_coverage: 0.578
   civil_mix_m:
-    at_grade: 12278.400
-    elevated: 54708.700
-    bridge:   1854.700
-  elevated_fraction: 0.822
+    at_grade: 12256.400
+    elevated: 61321.200
+    bridge:   304.800
+  elevated_fraction: 0.834
   viaduct_products_m:
-    osr_pi20_pi25: 52529.972
-    osr_us:      1773.937
-    special:     1854.700
-    realign:     404.791
-  max_elevated_cost_multiplier: 20.543
+    osr_pi20_pi25: 51900.582
+    osr_us:      7236.318
+    special:     304.800
+    realign:     2184.300
+  max_elevated_cost_multiplier: 39.507
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

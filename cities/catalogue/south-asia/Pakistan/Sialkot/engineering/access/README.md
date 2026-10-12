@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 15.4% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 58.8% |
+| Reachable with at most two transfers | 90.0% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 1,914,474**. Catalogue planning population: 750,0
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 424,782 | 22.2% |
-| 800 m | 973,397 | 50.8% |
-| 1000 m | 1,261,214 | 65.9% |
-| 1500 m | 1,527,985 | 79.8% |
-| 2000 m | 1,638,834 | 85.6% |
+| 500 m | 163,207 | 8.5% |
+| 800 m | 405,453 | 21.2% |
+| 1000 m | 602,951 | 31.5% |
+| 1500 m | 984,980 | 51.4% |
+| 2000 m | 1,206,084 | 63.0% |
 
 Excluded nodata pixels: 51,448; valid pixels: 15,668.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 51,448; valid pixels: 15,668.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (59.9%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (50.4%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

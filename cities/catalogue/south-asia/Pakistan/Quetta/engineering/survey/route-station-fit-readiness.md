@@ -1,8 +1,8 @@
 # Quetta route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 22
-- Stations: 123
+- Lines: 6
+- Stations: 41
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -8,31 +8,97 @@
       "city": "agra",
       "city_centre_cluster_envelope_m": 600.0,
       "city_centre_radius_m": 3000.0,
-      "design_sha256": "bc099ed75169e429430c27bdd46121f98747479f13aef681d85c3d1362780150",
+      "design_sha256": "e21717918edaf436f17a4eb5befd093f9b3cc38d1815ba555038694ea516c5b7",
       "failures": [],
       "generator_sha256": "86b50622e6dbd857fcc37a74c0e527f69079558fd645a6f95d5690a833787110",
-      "interchange_count": 13,
+      "interchange_count": 14,
       "minimum_inline_chainage_m": 1180.0,
       "passed": true,
       "preferred_inline_chainage_m": 1200.0,
-      "review_finding_count": 2,
+      "review_finding_count": 9,
       "review_findings": [
         {
-          "chainage_gap_m": 1180.8,
-          "code": "same-line-stations-too-close",
-          "distance_m": 1082.1,
-          "first_station": "line-2-0903-0860-s005130",
+          "chainage_gap_m": 428.2,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 295.1,
+          "first_station": "line-1-0771-0724-s010002",
+          "line": "line-1",
+          "second_station": "line-1-0778-0737-s010430",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 1080.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 836.0,
+          "first_station": "line-1-0839-0854-s014830",
+          "line": "line-1",
+          "second_station": "line-1-0878-0869-s015910",
+          "severity": "review"
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 550.5,
+          "first_line": "line-1",
+          "first_station": "line-1-0878-0869-s015910",
+          "second_line": "line-2",
+          "second_station": "line-2-0852-0878-s006310",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 550.5,
+          "first_line": "line-1",
+          "first_station": "line-1-0878-0869-s015910",
+          "second_line": "line-4",
+          "second_station": "line-4-0852-0878-s013219",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 594.5,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 550.5,
+          "first_station": "line-2-0878-0869-s005716",
           "line": "line-2",
           "second_station": "line-2-0852-0878-s006310",
           "severity": "review"
         },
         {
-          "chainage_gap_m": 200.0,
+          "code": "nearby-bounded-complex-link-requires-path-review",
+          "distance_m": 550.5,
+          "first_line": "line-2",
+          "first_station": "line-2-0878-0869-s005716",
+          "second_line": "line-4",
+          "second_station": "line-4-0852-0878-s013219",
+          "severity": "review",
+          "walking_path_accepted": false
+        },
+        {
+          "chainage_gap_m": 814.5,
           "code": "distinct-crossing-spacing-requires-site-review",
-          "distance_m": 200.1,
-          "first_station": "line-5-0802-0374-s050318",
-          "line": "line-5",
-          "second_station": "line-5-0792-0374-s050518",
+          "distance_m": 760.8,
+          "first_station": "line-3-0792-0376-s018409",
+          "line": "line-3",
+          "second_station": "line-3-0801-0339-s019223",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 622.9,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 545.5,
+          "first_station": "line-4-0852-0878-s013219",
+          "line": "line-4",
+          "second_station": "line-4-0839-0854-s013841",
+          "severity": "review"
+        },
+        {
+          "chainage_gap_m": 318.0,
+          "code": "distinct-crossing-spacing-requires-site-review",
+          "distance_m": 295.1,
+          "first_station": "line-4-0778-0737-s016710",
+          "line": "line-4",
+          "second_station": "line-4-0771-0724-s017028",
           "severity": "review"
         }
       ],
@@ -40,5 +106,5 @@
       "transfer_envelope_m": 600.0
     }
   ],
-  "review_finding_count": 2
+  "review_finding_count": 9
 }

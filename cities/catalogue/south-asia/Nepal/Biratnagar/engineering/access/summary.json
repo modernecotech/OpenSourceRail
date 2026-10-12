@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.575,
+    "high_demand_cell_fraction": 0.494,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 463267.9861545563,
     "catchments": [
       {
-        "covered_population_2020": 118483.41785240173,
-        "fraction_of_raster_population": 0.255755677908797,
+        "covered_population_2020": 44332.30400085449,
+        "fraction_of_raster_population": 0.09569472816121655,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 239593.52083969116,
-        "fraction_of_raster_population": 0.5171812600919882,
+        "covered_population_2020": 101842.10572433472,
+        "fraction_of_raster_population": 0.21983411064013816,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 320868.20584869385,
-        "fraction_of_raster_population": 0.6926189925449441,
+        "covered_population_2020": 148293.3554649353,
+        "fraction_of_raster_population": 0.3201027480786497,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 409815.18541908264,
-        "fraction_of_raster_population": 0.8846179698727539,
+        "covered_population_2020": 235724.98083019257,
+        "fraction_of_raster_population": 0.5088307154286064,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 423484.95321941376,
-        "fraction_of_raster_population": 0.9141252274620374,
+        "covered_population_2020": 306681.3066596985,
+        "fraction_of_raster_population": 0.6619954666096503,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 27,
+    "unique_station_coordinates": 11,
     "valid_pixels": 6000
   },
   "population_source_country": "NP",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "0a7b8e0d42a88c012c5eca543a13737ded91fa2a8f16efaed825fa8c5972b09b",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "259823256d9620b139b5fb57190d847be7245e4fe6ca28f2574a11ee4f87e33d",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "dc89dcd8d470424750a9e2cd726bfd3db90a255ec59ee894b98fe93ad8decd0f",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "a6fe205be668275afaf62c8e91bee59c19fa509903241f61bc0b29bb1a01e212",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-pixels.npz.gz": "25842ad6472566654bbd841a294b58c1f2ea420dbc04e3b36a9dd6897b0dcfa5",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-source.json": "cff23b8bbecb45cf0bf957b65963fdeb533f2cc04386e685014535734eceead6",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [
@@ -107,10 +107,10 @@
         "property and operating approval"
       ],
       "stations": [
-        "line-1-0371-0395-s005472",
+        "line-1-0371-0379-s005999",
         "line-2-0339-0471-s004279"
       ],
-      "straight_distance_m": 1647.765,
+      "straight_distance_m": 1946.239,
       "transfer_created": false,
       "walk_time_minutes": null
     }
@@ -121,18 +121,16 @@
       [
         "line-1",
         "line-3",
-        "line-4",
-        "line-5",
-        "line-6"
+        "line-4"
       ],
       [
         "line-2"
       ]
     ],
-    "direct_transfer_fraction": 0.26666666666666666,
-    "line_count": 6,
-    "line_pair_count": 15,
-    "maximum_required_transfers": 3,
+    "direct_transfer_fraction": 0.3333333333333333,
+    "line_count": 4,
+    "line_pair_count": 6,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
@@ -153,20 +151,6 @@
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-5"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-6"
-        ],
         "minimum_transfers": 2
       },
       {
@@ -185,62 +169,13 @@
       },
       {
         "lines": [
-          "line-2",
-          "line-5"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-6"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-5"
-        ],
         "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-5"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-6"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-6"
-        ],
-        "minimum_transfers": 2
       }
     ],
-    "reachable_line_pair_fraction": 0.6666666666666666,
-    "reachable_with_at_most_two_transfers_fraction": 0.5333333333333333
+    "reachable_line_pair_fraction": 0.5,
+    "reachable_with_at_most_two_transfers_fraction": 0.5
   }
 }

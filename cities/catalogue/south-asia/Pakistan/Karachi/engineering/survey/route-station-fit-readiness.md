@@ -1,8 +1,8 @@
 # Karachi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 193
+- Lines: 14
+- Stations: 242
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

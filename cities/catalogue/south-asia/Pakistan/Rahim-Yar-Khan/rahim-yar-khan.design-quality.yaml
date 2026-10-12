@@ -1,29 +1,29 @@
 slug: rahim-yar-khan
 pass: true
 metrics:
-  total_route_m: 100942.9
-  n_lines: 10
-  n_stations: 73
-  anchor_hit_rate: 0.123
-  high_demand_coverage: 0.536
+  total_route_m: 69461.7
+  n_lines: 5
+  n_stations: 31
+  anchor_hit_rate: 0.323
+  high_demand_coverage: 0.885
   civil_mix_m:
-    at_grade: 22020.200
-    elevated: 69981.900
-    bridge:   8940.900
-  elevated_fraction: 0.782
+    at_grade: 10563.400
+    elevated: 55254.200
+    bridge:   3644.100
+  elevated_fraction: 0.848
   viaduct_products_m:
-    osr_pi20_pi25: 67477.005
-    osr_us:      2504.895
-    special:     8940.900
-    realign:     0.000
-  max_elevated_cost_multiplier: 4.221
+    osr_pi20_pi25: 44245.444
+    osr_us:      9003.900
+    special:     3644.100
+    realign:     2004.856
+  max_elevated_cost_multiplier: 18.908
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
-    elevated_geometry_constructible: true
+    elevated_geometry_constructible: false
     soft_pass_all:      false

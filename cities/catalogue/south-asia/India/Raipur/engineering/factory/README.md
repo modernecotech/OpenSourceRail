@@ -1,17 +1,17 @@
 # Raipur city-order factory requirement
 
-**202 metro-4car trainsets / 808 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**195 metro-4car trainsets / 780 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 574.7 trainsets/year, 6 separate test paths, 1886 direct production FTE. Plant reference envelope: **USD 646.176m**.
+Planning output: 554.7 trainsets/year, 6 separate test paths, 1814 direct production FTE. Plant reference envelope: **USD 625.417m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 49 | 591 | 681 | 681 |
-| line-2 | 42 | 610 | 700 | 700 |
-| line-3 | 25 | 622 | 712 | 712 |
-| line-4 | 38 | 639 | 729 | 729 |
+| line-1 | 47 | 591 | 681 | 681 |
+| line-2 | 42 | 611 | 701 | 701 |
+| line-3 | 20 | 620 | 710 | 710 |
+| line-4 | 38 | 638 | 728 | 728 |
 | line-5 | 35 | 655 | 745 | 745 |
 | line-6 | 13 | 661 | 751 | 751 |
 

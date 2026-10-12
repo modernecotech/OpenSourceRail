@@ -1,29 +1,29 @@
 slug: kandahar
 pass: true
 metrics:
-  total_route_m: 83933.8
-  n_lines: 12
-  n_stations: 62
-  anchor_hit_rate: 0.145
-  high_demand_coverage: 0.416
+  total_route_m: 64786.5
+  n_lines: 5
+  n_stations: 26
+  anchor_hit_rate: 0.423
+  high_demand_coverage: 0.644
   civil_mix_m:
-    at_grade: 12332.700
-    elevated: 71436.100
-    bridge:   164.900
-  elevated_fraction: 0.853
+    at_grade: 6762.100
+    elevated: 57759.400
+    bridge:   264.900
+  elevated_fraction: 0.896
   viaduct_products_m:
-    osr_pi20_pi25: 67049.540
-    osr_us:      3992.172
-    special:     164.900
-    realign:     394.388
-  max_elevated_cost_multiplier: 12.778
+    osr_pi20_pi25: 47852.912
+    osr_us:      7435.700
+    special:     264.900
+    realign:     2470.788
+  max_elevated_cost_multiplier: 34.615
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

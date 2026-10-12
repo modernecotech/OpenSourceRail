@@ -1,29 +1,29 @@
 slug: gazipur
-pass: false
+pass: true
 metrics:
-  total_route_m: 506916.3
-  n_lines: 41
-  n_stations: 365
-  anchor_hit_rate: 0.132
-  high_demand_coverage: 0.659
+  total_route_m: 289698.9
+  n_lines: 9
+  n_stations: 97
+  anchor_hit_rate: 0.278
+  high_demand_coverage: 0.467
   civil_mix_m:
-    at_grade: 159146.900
-    elevated: 284064.100
-    bridge:   63705.300
-  elevated_fraction: 0.686
+    at_grade: 64810.400
+    elevated: 209133.100
+    bridge:   15755.300
+  elevated_fraction: 0.776
   viaduct_products_m:
-    osr_pi20_pi25: 262893.729
-    osr_us:      17637.985
-    special:     63705.300
-    realign:     3532.386
-  max_elevated_cost_multiplier: 29.382
+    osr_pi20_pi25: 171612.028
+    osr_us:      31855.002
+    special:     15755.300
+    realign:     5666.070
+  max_elevated_cost_multiplier: 26.471
 gates:
   hard:
     has_stations:      true
-    length_reasonable: false
+    length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

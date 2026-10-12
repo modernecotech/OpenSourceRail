@@ -7,7 +7,7 @@
     "west": 70.707981
   },
   "core_analytical_length_m": 101482.216197,
-  "core_final_route_length_m": 112829.291424,
+  "core_final_route_length_m": 112672.134137,
   "core_original_length_m": 122629.983857,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
@@ -22,6 +22,7 @@
   ],
   "lines": [
     {
+      "closed_retraces_removed": [],
       "core_runs": [
         {
           "analytical_length_m": 16176.192383,
@@ -65,6 +66,7 @@
       "water_route_changes": []
     },
     {
+      "closed_retraces_removed": [],
       "core_runs": [
         {
           "analytical_length_m": 11080.685899,
@@ -108,6 +110,7 @@
       "water_route_changes": []
     },
     {
+      "closed_retraces_removed": [],
       "core_runs": [
         {
           "analytical_length_m": 11450.240172,
@@ -151,6 +154,16 @@
       "water_route_changes": []
     },
     {
+      "closed_retraces_removed": [
+        {
+          "closing_source_index": 552,
+          "common_cell": [
+            990,
+            974
+          ],
+          "removed_cells": 1
+        }
+      ],
       "core_runs": [
         {
           "analytical_length_m": 18681.209811,
@@ -165,33 +178,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "geometry_basis": "superseded-by-continuous-junction-route-requires-profile-and-structural-review",
           "original_length_m": 22011.532536,
           "seed_from_index": 0,
           "seed_to_index": 484,
           "simplification_tolerance_m": 600.0,
-          "superseded_analytical_controls": [
-            {
-              "end": [
-                23040.0,
-                25560.0
-              ],
-              "kind": "tangent",
-              "length_m": 18681.209811,
-              "start": [
-                14280.0,
-                9060.0
-              ]
-            }
-          ]
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 22517.139956,
+      "final_core_route_m": 22359.982669,
       "line": "line-4",
       "original_cells": 506,
       "original_route_m": 23052.715828,
-      "reworked_cells": 1011,
-      "reworked_route_m": 23671.109653,
+      "reworked_cells": 999,
+      "reworked_route_m": 23513.952365,
       "water_route_changes": [
         {
           "detour_route_m": 5251.614716,
@@ -212,6 +212,7 @@
       ]
     },
     {
+      "closed_retraces_removed": [],
       "core_runs": [
         {
           "analytical_length_m": 35904.53612,
@@ -812,17 +813,19 @@
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "added_line_count": 0,
-    "as_of": "2026-10-09",
-    "base_line_junction_changes": [],
-    "base_line_junction_reviews": [
+    "as_of": "2026-10-12",
+    "base_line_junction_changes": [
       {
-        "bounded_platform_complex_must_pass_native_validation": true,
-        "continuous_diversion_adopted": false,
+        "final_route_m": 23513.952,
+        "kind": "continuous physical ring connection",
         "line": "line-4",
-        "reason": "No simple protected/water-compliant continuous ring connection preserves priority sites",
-        "site_profile_structure_and_walking_access_accepted": false
+        "original_route_m": 23631.11,
+        "original_station_cells_preserved": true,
+        "profile_structure_and_site_release": false,
+        "relocated_original_proposed_station_cells": []
       }
     ],
+    "base_line_junction_reviews": [],
     "city": "rajkot",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 5,
@@ -834,10 +837,12 @@
     "schema": "osr-residential-line-expansion/1",
     "sources_sha256": {
       "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/network-expansion-baseline.json.gz": "025e278d6700d376942420eca88267a01ebe01e73fcc94670886f4229fbe7d37",
-      "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+      "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-terrain-slope.f32.gz": "2bdb317e19384dbce2ff30ac795790fdc59203fa7ebbc04f473d6d6e1d81f663",
+      "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-terrain-source.json": "9a4ec3b168b6889de65a9c4fa48e20d5bcac7dd4c2779bd88ff215465f8a07b3",
+      "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
       "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
       "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-      "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
+      "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
     "status": "population-evidence-unavailable",
@@ -850,17 +855,19 @@
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/network-expansion-baseline.json.gz": "025e278d6700d376942420eca88267a01ebe01e73fcc94670886f4229fbe7d37",
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-buildability-mask.bin.gz": "4d4152cd1d10fe7d4d7b6d635493834670ee158589ff72ccbb290247b582d4f1",
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-grid.json": "571738467cea9a7c091d7278fba0cb2ffa6a58ddd93ebc91719ca7ac62c5e387",
+    "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-terrain-slope.f32.gz": "2bdb317e19384dbce2ff30ac795790fdc59203fa7ebbc04f473d6d6e1d81f663",
+    "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-terrain-source.json": "9a4ec3b168b6889de65a9c4fa48e20d5bcac7dd4c2779bd88ff215465f8a07b3",
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/planning-water-mask.bin.gz": "0ad6749b759cd32a4040dc1d4f1c103dea3b07536b23dc27b0b6138bffe80008",
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/pre-rework-corridors.json.gz": "14d4a9da7b3c15d96cca47949c8338dba327e86694e8e14238e9dabdfdf456fc",
-    "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/residential-line-expansion.json": "6abed94f5bff4e1710479d9167b9318047294770a4c92aeee0796e4fe8a2f839",
+    "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/residential-line-expansion.json": "1500abe1ff5e0bd07b2543bd1f1c817ef94fe03a18288e3834b16fc99ca012e6",
     "cities/catalogue/south-asia/India/Rajkot/engineering/alignment/water-source-receipt.json": "11a2b9061c454bdeebf89b4d0ae689a2ba3fd38a973e68b949cae2b10391bc77",
-    "design/network-planning/residential-expansion.json": "2bacae8aaa322a941ad029082fa17e4d6e3ca53dd36411d26fbf0f7c84c27c6d",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "f15a80fb352d79e6dff67e9695ae5340d8055de1a0207c4b9a35b571bde19fe1",
-    "tools/automation/rework-baghdad-alignment.py": "1b21cbf8d724910b7c86fbfaecbac2dadf04345dd2a777c865f93742ad436255",
-    "tools/automation/rework-city-alignment.py": "019423389e9d787e024cf4e6df6eb987c3811b94a30dff51137262f7da7e0088",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
   },

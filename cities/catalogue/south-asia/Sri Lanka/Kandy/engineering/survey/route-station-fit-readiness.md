@@ -1,8 +1,8 @@
 # Kandy route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 18
-- Stations: 97
+- Lines: 5
+- Stations: 28
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

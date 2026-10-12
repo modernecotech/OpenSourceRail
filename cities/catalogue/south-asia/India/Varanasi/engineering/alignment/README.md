@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`varanasi-line1.aln.toml`](varanasi-line1.aln.toml) | `line-1` | 29,442.0 m | 12 |
-| [`varanasi-line2.aln.toml`](varanasi-line2.aln.toml) | `line-2` | 47,197.6 m | 16 |
-| [`varanasi-line3.aln.toml`](varanasi-line3.aln.toml) | `line-3` | 14,755.2 m | 6 |
-| [`varanasi-line4.aln.toml`](varanasi-line4.aln.toml) | `line-4` | 21,975.4 m | 8 |
-| [`varanasi-line5.aln.toml`](varanasi-line5.aln.toml) | `line-5` | 22,965.1 m | 8 |
-| [`varanasi-line6.aln.toml`](varanasi-line6.aln.toml) | `line-6` | 60,609.0 m | 17 |
+| [`varanasi-line1.aln.toml`](varanasi-line1.aln.toml) | `line-1` | 33,336.2 m | 10 |
+| [`varanasi-line2.aln.toml`](varanasi-line2.aln.toml) | `line-2` | 57,107.3 m | 23 |
+| [`varanasi-line3.aln.toml`](varanasi-line3.aln.toml) | `line-3` | 14,143.3 m | 6 |
+| [`varanasi-line4.aln.toml`](varanasi-line4.aln.toml) | `line-4` | 21,975.4 m | 6 |
+| [`varanasi-line5.aln.toml`](varanasi-line5.aln.toml) | `line-5` | 22,925.1 m | 7 |
+| [`varanasi-line6.aln.toml`](varanasi-line6.aln.toml) | `line-6` | 64,191.6 m | 23 |
 
 ## Status
 

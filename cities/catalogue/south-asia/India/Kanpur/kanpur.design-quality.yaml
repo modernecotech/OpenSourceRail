@@ -1,29 +1,29 @@
 slug: kanpur
 pass: true
 metrics:
-  total_route_m: 359077.6
+  total_route_m: 372168.3
   n_lines: 8
-  n_stations: 144
-  anchor_hit_rate: 0.174
-  high_demand_coverage: 0.497
+  n_stations: 115
+  anchor_hit_rate: 0.226
+  high_demand_coverage: 0.507
   civil_mix_m:
-    at_grade: 35911.500
-    elevated: 289063.200
-    bridge:   34102.900
-  elevated_fraction: 0.900
+    at_grade: 30595.000
+    elevated: 322794.100
+    bridge:   18779.300
+  elevated_fraction: 0.918
   viaduct_products_m:
-    osr_pi20_pi25: 285221.062
-    osr_us:      3224.038
-    special:     34102.900
-    realign:     618.100
-  max_elevated_cost_multiplier: 24.915
+    osr_pi20_pi25: 284897.356
+    osr_us:      29862.080
+    special:     18779.300
+    realign:     8034.664
+  max_elevated_cost_multiplier: 28.375
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

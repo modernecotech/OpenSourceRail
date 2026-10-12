@@ -1,8 +1,8 @@
 # Mymensingh route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 54
+- Lines: 4
+- Stations: 28
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

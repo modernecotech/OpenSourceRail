@@ -1,6 +1,6 @@
 # Jalalabad-Af organisation and design work
 
-1256 indicative operating FTE, including management; annual labour allowance $2,830,342. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
+621 indicative operating FTE, including management; annual labour allowance $1,450,710. Group totals reconcile to the existing finance model. Individual role shares are editable planning allocations, not measured workload or an accepted duty roster.
 
 GoA 4 control and remote assistance; local station batteries supply train top-ups. The adopted planning scope stores the full fleet in line-local depots, with storage slots separate from workshop bays. Shared domestic design/software/factory capability serves city teams.
 
@@ -9,26 +9,26 @@ GoA 4 control and remote assistance; local station batteries supply train top-up
 | Function | FTE | Reports to | Skills | Tasks |
 |---|---:|---|---|---|
 | City accountable lead | 1 | Local owner board | Local operating governance; budget and emergency accountability | Own city delivery and operations; coordinate shared domestic capabilities |
-| Engineering authority | 7 | City director | Systems integration; configuration and design checking | Own interfaces and technical concessions; commission competent discipline checks |
-| Quality and safety assurance | 13 | Local owner board (independent escalation) | Independent inspection; hazard review; traceability | Audit evidence; raise stop-work/hold points independently of production |
-| Training and competence assessors | 13 | City director | Practical assessment; instruction; competence records | Train local recruits and apprentices; witness competence before unsupervised work |
-| Procurement and stores | 15 | City director | BOM traceability; repairable spares; supplier quality | Purchase controlled common parts; manage local repair loops and critical stock |
-| Finance and people administration | 13 | City director | Payroll; cost control; roster and employment administration | Maintain local pay/leave inputs; reconcile labour budget and workload |
-| Fleet workshop supervision | 14 | Chief engineer | Isolation authority; work planning; calibrated tooling | Allocate same-line workshop slots; control defect and release records |
-| Mechanical technicians | 47 | Workshop lead | Wheels/brakes; joint inspection; controlled fastener assembly | Inspect bogies and brakes; replace modules; record torque/preload evidence |
-| Electrical and battery technicians | 41 | Workshop lead | HV isolation; LFP diagnostics; controls and harness repair | Diagnose packs, HVAC and controllers; verify protective interlocks |
-| Vehicle cleaning and finish repair | 34 | Workshop lead | GFRP/EPDM compatibility; coating preparation; controlled washing | Turnaround clean; inspect seals; repair finish damage under qualified process |
-| Infrastructure work supervision | 12 | Chief engineer | Track access; lifting and electrical isolation coordination | Plan possessions; check civil and energy defect closure |
-| Track and civil technicians | 44 | Infrastructure lead | Survey checks; track geometry; bearing/joint inspection | Inspect settlement, track, deck joints, drainage and walkways |
-| Solar and station storage technicians | 39 | Infrastructure lead | PV DC safety; storage BMS; charger and protection testing | Maintain PV/storage/top-up equipment; measure soiling and energy balance |
-| Wayside and communications technicians | 17 | Infrastructure lead | Fail-restrictive controls; networking; configuration control | Maintain point/crossing equipment where installed; test communications and recovery |
-| Shift leadership and degraded-operation authority | 34 | City director | GoA 4 incident command; dispatch competence | Own service start; coordinate recovery and same-line depot releases |
-| Line dispatch and control | 89 | OCC lead | Timetable supervision; protected movement authority | Monitor headways and station berths; authorise line-local recovery |
-| Remote assistance | 99 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
-| Passenger service and fare support | 89 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
-| Station cleaning and waste | 73 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
-| Station team coordination | 85 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
-| Platform and accessibility assistance | 477 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
+| Engineering authority | 4 | City director | Systems integration; configuration and design checking | Own interfaces and technical concessions; commission competent discipline checks |
+| Quality and safety assurance | 8 | Local owner board (independent escalation) | Independent inspection; hazard review; traceability | Audit evidence; raise stop-work/hold points independently of production |
+| Training and competence assessors | 7 | City director | Practical assessment; instruction; competence records | Train local recruits and apprentices; witness competence before unsupervised work |
+| Procurement and stores | 9 | City director | BOM traceability; repairable spares; supplier quality | Purchase controlled common parts; manage local repair loops and critical stock |
+| Finance and people administration | 8 | City director | Payroll; cost control; roster and employment administration | Maintain local pay/leave inputs; reconcile labour budget and workload |
+| Fleet workshop supervision | 9 | Chief engineer | Isolation authority; work planning; calibrated tooling | Allocate same-line workshop slots; control defect and release records |
+| Mechanical technicians | 29 | Workshop lead | Wheels/brakes; joint inspection; controlled fastener assembly | Inspect bogies and brakes; replace modules; record torque/preload evidence |
+| Electrical and battery technicians | 25 | Workshop lead | HV isolation; LFP diagnostics; controls and harness repair | Diagnose packs, HVAC and controllers; verify protective interlocks |
+| Vehicle cleaning and finish repair | 21 | Workshop lead | GFRP/EPDM compatibility; coating preparation; controlled washing | Turnaround clean; inspect seals; repair finish damage under qualified process |
+| Infrastructure work supervision | 7 | Chief engineer | Track access; lifting and electrical isolation coordination | Plan possessions; check civil and energy defect closure |
+| Track and civil technicians | 25 | Infrastructure lead | Survey checks; track geometry; bearing/joint inspection | Inspect settlement, track, deck joints, drainage and walkways |
+| Solar and station storage technicians | 22 | Infrastructure lead | PV DC safety; storage BMS; charger and protection testing | Maintain PV/storage/top-up equipment; measure soiling and energy balance |
+| Wayside and communications technicians | 10 | Infrastructure lead | Fail-restrictive controls; networking; configuration control | Maintain point/crossing equipment where installed; test communications and recovery |
+| Shift leadership and degraded-operation authority | 20 | City director | GoA 4 incident command; dispatch competence | Own service start; coordinate recovery and same-line depot releases |
+| Line dispatch and control | 51 | OCC lead | Timetable supervision; protected movement authority | Monitor headways and station berths; authorise line-local recovery |
+| Remote assistance | 57 | OCC lead | Vehicle fault diagnosis; passenger emergency response | Resolve remote-assist requests; coordinate on-site responders |
+| Passenger service and fare support | 44 | City director | Accessible communication; fare-system support | Resolve passenger queries; verify fare equipment and complaints |
+| Station cleaning and waste | 37 | Station lead | Product compatibility; wet-floor control; waste segregation | Clean measured public areas; record defects and wash-water disposal |
+| Station team coordination | 35 | OCC lead | Accessible evacuation; platform protection | Allocate mobile teams; inspect opening and closing readiness |
+| Platform and accessibility assistance | 192 | Station lead | Accessibility assistance; crowd management; first aid | Assist boarding; manage obstructions and platform incidents |
 
 Recruit and apprentice locally; assess practical task competence, isolate/hold/release authority and refresher needs. Training duration follows the demonstrated skills gap, not a universal weeks-to-qualification claim.
 
@@ -42,23 +42,23 @@ Concurrent crews/workstations below come from the existing dated work orders, wi
 
 | Work centre | Peak resources (unknown if unsized) | Peak task slots | First peak day | Resource-days | Skills/tasks |
 |---|---:|---:|---:|---:|---|
-| corridor civil crew | 2 | 2 | 257 | 518 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
-| depot works | unknown | 1 | 130 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
-| energy crew | unknown | 2 | 293 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
-| jalalabad-af light-metro-3car body installation | unknown | 10 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
-| jalalabad-af light-metro-3car composite kits | unknown | 39 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
-| jalalabad-af light-metro-3car electrical integration | unknown | 77 | 627 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
-| jalalabad-af light-metro-3car fitout and static test | unknown | 61 | 646 | unknown | HVAC technician; door technician; fit-out lead; quality technician / rs-40-fitout-static-test |
-| jalalabad-af light-metro-3car structural assembly | unknown | 93 | 588 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
-| jalalabad-af trainset acceptance bays | unknown | 48 | 661 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
-| jalalabad-af trainset kitting | unknown | 13 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
+| corridor civil crew | 2 | 2 | 437 | 340 | civil supervisor; drainage technician; permit coordinator; plant operator; quality technician; safety officer; survey lead / trk-10-survey-utility, trk-20-subgrade-drainage |
+| depot works | unknown | 1 | 359 | unknown | depot operations lead; depot supervisor; electrical supervisor; quality technician; systems technician; tooling technician / dep-10-building-plant, dep-20-charging-stabling |
+| energy crew | unknown | 2 | 497 | unknown | PV technician; battery technician; commissioning lead; electrical supervisor; quality technician; software technician / en-10-energy-build, en-20-energy-commission |
+| jalalabad-af light-metro-3car body installation | unknown | 6 | 601 | unknown | body-cell lead; composite fitter; quality technician / rs-25-clip-on-body |
+| jalalabad-af light-metro-3car composite kits | unknown | 23 | 597 | unknown | composite cell lead; laminator; quality technician; trim technician / rs-23-moulded-body-modules |
+| jalalabad-af light-metro-3car electrical integration | unknown | 45 | 626 | unknown | battery technician; electrical lead; quality technician; software technician / rs-30-traction-battery-control |
+| jalalabad-af light-metro-3car fitout and static test | unknown | 36 | 646 | unknown | HVAC technician; door technician; fit-out lead; quality technician / rs-40-fitout-static-test |
+| jalalabad-af light-metro-3car structural assembly | unknown | 54 | 584 | unknown | bogie technician; brake technician; fabrication lead; weld inspector / rs-20-carbody-bogie |
+| jalalabad-af trainset acceptance bays | unknown | 28 | 660 | unknown | commissioning lead; quality manager; software technician; test operator / rs-50-dynamic-commissioning |
+| jalalabad-af trainset kitting | unknown | 8 | 556 | unknown | production planner; quality technician; stores clerk / rs-10-material-kit |
 | project controls | unknown | 1 | 0 | unknown | production planner; project controls lead; quality manager; safety assurance lead / sys-00-baseline-freeze |
-| station civil crew | unknown | 2 | 251 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
-| station systems crew | unknown | 2 | 373 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
-| track crew | 2 | 2 | 388 | 416 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
-| track/switch crew | unknown | 2 | 369 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
-| wayside bench | unknown | 3 | 453 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
-| wayside systems crew | unknown | 3 | 556 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
+| station civil crew | unknown | 2 | 498 | unknown | accessibility lead; quality technician; station civil supervisor; steelwork lead / st-10-civil-structure |
+| station systems crew | unknown | 2 | 552 | unknown | electrical supervisor; fare-system technician; quality technician; systems technician / st-20-mep-passenger-systems |
+| track crew | 2 | 2 | 489 | 278 | quality technician; rail welder; survey technician; track supervisor / trk-30-trackform-rail |
+| track/switch crew | unknown | 2 | 472 | unknown | quality technician; survey technician; switch technician; systems technician; track supervisor / sw-10-turnout-build, sw-20-install-proof |
+| wayside bench | unknown | 3 | 556 | unknown | quality technician; software technician; systems technician / wpt-10-cabinet-bench |
+| wayside systems crew | unknown | 3 | 580 | unknown | quality technician; radio technician; software technician; systems supervisor / wpt-20-install-commission |
 
 ## Civil and mechanical refinements
 
@@ -74,21 +74,274 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-1 2682.8–6238.8 m | 100.0 | 716 | 107 | 16.8 / 21.0 / 25.2 |
 | line-1 6467.1–8245.1 m | 100.0 | 360 | 54 | 16.8 / 21.0 / 25.2 |
 | line-2 0.0–20.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 20.0–48.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-2 48.3–68.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 68.3–88.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 88.3–10618.3 m | 100.0 | 2112 | 316 | 16.8 / 21.0 / 25.2 |
-| line-2 10726.6–10803.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-2 10851.4–15505.3 m | 100.0 | 936 | 140 | 16.8 / 21.0 / 25.2 |
-| line-2 15835.0–15903.3 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-2 15923.3–16394.4 m | 100.0 | 96 | 14 | 16.8 / 21.0 / 25.2 |
-| line-2 16422.7–16519.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-2 16539.3–16559.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 17731.2–17751.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 17971.2–17991.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 18031.2–18051.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 19131.2–19151.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-2 19191.2–19211.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20.0–40.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 40.0–60.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 60.0–240.0 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-2 240.0–260.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 260.0–280.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 280.0–368.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 368.3–436.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 436.6–456.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 456.6–496.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 496.6–516.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 516.6–536.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 536.6–576.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 576.6–596.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 596.6–636.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 636.6–656.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 656.6–696.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 696.6–716.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 716.6–756.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 756.6–776.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 776.6–816.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 816.6–836.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 836.6–876.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 876.6–896.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 896.6–916.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 916.6–956.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 956.6–976.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 976.6–1093.1 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 1093.1–1113.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1113.1–1153.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1153.1–1173.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1173.1–1193.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1193.1–1233.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1233.1–1253.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1253.1–1293.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1293.1–1313.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1313.1–1353.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1353.1–1373.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1373.1–1413.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1413.1–1433.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1433.1–1453.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1453.1–1493.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 1493.1–1513.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 1513.1–3734.2 m | 100.0 | 448 | 66 | 16.8 / 21.0 / 25.2 |
+| line-2 3734.2–3754.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3754.2–3774.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3774.2–3870.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 3870.8–3890.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3890.8–3910.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3910.8–3930.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3930.8–3950.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 3950.8–4030.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 4030.8–4050.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 4050.8–4360.5 m | 100.0 | 68 | 9 | 16.8 / 21.0 / 25.2 |
+| line-2 4360.5–4380.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 4380.5–4400.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 4400.5–4420.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 4420.5–7254.1 m | 100.0 | 572 | 85 | 16.8 / 21.0 / 25.2 |
+| line-2 7254.1–7314.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 7314.1–7334.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 7334.1–7354.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 7354.1–7470.7 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 7470.7–7490.7 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 7490.7–7710.7 m | 100.0 | 48 | 6 | 16.8 / 21.0 / 25.2 |
+| line-2 7710.7–7790.7 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 7790.7–7910.7 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 7910.7–7970.7 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 7970.7–8350.7 m | 100.0 | 80 | 12 | 16.8 / 21.0 / 25.2 |
+| line-2 8350.7–8470.7 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 8470.7–8510.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 8510.7–8587.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 8587.2–8675.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 8675.5–8723.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 8723.8–8743.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 8743.8–8783.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 8783.8–8803.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 8803.8–8843.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 8843.8–9123.8 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
+| line-2 9123.8–9163.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 9163.8–9263.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 9263.8–9283.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9283.8–9303.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9303.8–9403.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 9403.8–9423.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9423.8–9443.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9443.8–9463.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9463.8–9743.8 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
+| line-2 9743.8–9783.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 9783.8–9860.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 9860.4–9900.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 9900.4–9940.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 9940.4–9960.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 9960.4–10000.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10000.4–10100.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 10100.4–10148.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10148.7–10177.0 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10177.0–10205.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10205.2–10350.1 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
+| line-2 10350.1–10370.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10370.1–10390.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10390.1–10410.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10410.1–10450.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10450.1–10490.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10490.1–10510.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10510.1–10550.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10550.1–10570.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10570.1–10610.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10610.1–10630.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10630.1–10690.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 10690.1–10710.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10710.1–10770.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 10770.1–10790.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10790.1–10830.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10830.1–10850.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 10850.1–10890.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10890.1–10950.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 10950.1–10990.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 10990.1–11010.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11010.1–11050.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11050.1–11110.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 11110.1–11150.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11150.1–11170.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11170.1–11210.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11210.1–11230.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11230.1–11290.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 11290.1–11310.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11310.1–11370.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 11370.1–11390.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11390.1–11430.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11430.1–11450.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11450.1–11490.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11490.1–11510.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11510.1–11570.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 11570.1–11590.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11590.1–11650.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 11650.1–11670.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 11670.1–11710.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 11710.1–12230.1 m | 100.0 | 108 | 15 | 16.8 / 21.0 / 25.2 |
+| line-2 12230.1–12290.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 12290.1–12378.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 12438.4–12538.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 12538.4–14038.4 m | 100.0 | 300 | 45 | 16.8 / 21.0 / 25.2 |
+| line-2 14038.4–14078.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 14078.4–14098.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14098.4–14178.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 14178.4–14198.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14198.4–14238.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 14238.4–14478.4 m | 100.0 | 52 | 7 | 16.8 / 21.0 / 25.2 |
+| line-2 14478.4–14498.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14498.4–14518.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14518.4–14558.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 14558.4–14578.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14578.4–14598.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14598.4–14658.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 14658.4–14678.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14678.4–14718.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 14718.4–14738.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14738.4–14758.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14758.4–14778.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14778.4–14838.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 14838.4–14858.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14858.4–14878.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14878.4–14918.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 14918.4–14938.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14938.4–14958.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14958.4–14978.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 14978.4–15026.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 15026.7–15131.5 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 15131.5–15171.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 15171.5–15191.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15191.5–15231.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 15231.5–15311.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 15331.5–15411.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 15411.5–15431.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15431.5–15511.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 15511.5–15531.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 15531.5–15712.9 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-2 15712.9–15821.2 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 15821.2–15961.2 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
+| line-2 15961.2–16049.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 16049.5–16117.8 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 16117.8–16177.8 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 16177.8–16217.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16217.8–16237.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 16237.8–16277.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16277.8–16326.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16326.1–16354.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16354.4–16374.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 16374.4–16394.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 16394.4–16490.9 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 16490.9–16550.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 16550.9–16590.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16590.9–16670.9 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 16670.9–16690.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 16690.9–16750.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 16750.9–16770.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 16770.9–16810.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16810.9–16850.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16850.9–16899.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 16899.2–17007.5 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 17007.5–17047.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 17047.5–17107.5 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 17107.5–17147.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 17147.5–17207.5 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 17207.5–17227.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17227.5–17307.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 17307.5–17327.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17327.5–17347.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17347.5–17424.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 17424.1–17520.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 17520.6–17540.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17540.6–17580.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 17757.2–17837.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 17837.2–17857.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17857.2–17877.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17877.2–17897.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17897.2–17937.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 17957.2–17977.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17977.2–17997.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 17997.2–18037.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 18037.2–18137.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 18137.2–18157.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 18157.2–18337.2 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-2 18553.8–18642.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 18642.1–18670.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 18698.6–18880.0 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-2 18880.0–18920.0 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 18920.0–18940.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 19473.2–19493.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 19513.2–19533.2 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 19702.9–19787.7 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 19816.0–19844.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 19900.9–19985.7 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 20127.1–20235.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 20335.4–20355.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20395.4–20415.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20415.4–20435.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20435.4–20475.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 20575.4–20595.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20615.4–20635.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20635.4–20655.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20975.4–20995.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 20995.4–21015.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 21055.4–21095.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 21095.4–21135.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 21135.4–21215.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 21395.4–21475.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 21535.4–21575.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 21575.4–21635.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 21635.4–21655.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 21675.4–21695.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 21695.4–21755.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 21755.4–21815.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 21835.4–21855.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 21855.4–21875.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 21875.4–21923.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 21952.0–22008.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 22008.6–22088.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 22108.6–22128.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 22128.6–22205.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 22261.7–22321.7 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 22378.3–22418.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-2 22418.3–22546.6 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
+| line-2 22546.6–22671.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 22671.4–22751.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-2 22751.4–22891.4 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
+| line-2 22891.4–22911.4 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-2 22931.4–22987.981 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-2 22987.981–22988.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
 | line-3 0.0–28.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
 | line-3 28.3–48.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
 | line-3 48.3–68.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
@@ -104,219 +357,75 @@ Each elevated segment is separate; 25 m catalogue span, up to 4 spans/unit from 
 | line-3 11894.5–11914.5 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
 | line-3 11914.5–11942.784 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
 | line-3 11942.784–11942.8 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-4 0.0–60.0 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-4 60.0–148.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-4 148.3–176.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-4 176.6–236.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-4 236.6–444.9 m | 100.0 | 48 | 6 | 16.8 / 21.0 / 25.2 |
-| line-4 444.9–561.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-4 561.4–1042.3 m | 100.0 | 100 | 15 | 16.8 / 21.0 / 25.2 |
-| line-4 1042.3–1150.5 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-4 1150.5–2030.5 m | 100.0 | 180 | 27 | 16.8 / 21.0 / 25.2 |
-| line-4 2030.5–2147.1 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-4 2147.1–2769.4 m | 100.0 | 128 | 18 | 16.8 / 21.0 / 25.2 |
-| line-5 0.0–60.0 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-5 60.0–148.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 148.3–176.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-5 176.6–236.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-5 236.6–564.9 m | 100.0 | 72 | 10 | 16.8 / 21.0 / 25.2 |
-| line-5 564.9–681.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 681.4–1436.8 m | 100.0 | 156 | 23 | 16.8 / 21.0 / 25.2 |
-| line-5 1436.8–1465.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-5 1465.1–1601.7 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
-| line-5 1601.7–1621.7 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-5 1621.7–1669.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-5 1669.9–1698.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-5 1698.2–1758.2 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-5 1758.2–1966.5 m | 100.0 | 48 | 6 | 16.8 / 21.0 / 25.2 |
-| line-5 1966.5–2043.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 2043.1–2523.9 m | 100.0 | 100 | 15 | 16.8 / 21.0 / 25.2 |
-| line-5 2552.2–2657.1 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 2657.1–2773.6 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 2773.6–2813.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-5 2813.6–2910.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-5 2910.2–3504.2 m | 100.0 | 120 | 18 | 16.8 / 21.0 / 25.2 |
-| line-6 0.0–620.0 m | 100.0 | 128 | 18 | 16.8 / 21.0 / 25.2 |
-| line-6 620.0–736.6 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-6 736.6–1669.9 m | 100.0 | 192 | 28 | 16.8 / 21.0 / 25.2 |
-| line-6 1669.9–1778.2 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-6 1778.2–2078.2 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
-| line-6 2078.2–2166.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-6 2166.5–2194.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-6 2194.8–2274.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-6 2274.8–2734.8 m | 100.0 | 96 | 14 | 16.8 / 21.0 / 25.2 |
-| line-6 2734.8–2851.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-6 2851.4–3137.6 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
-| line-7 0.0–140.0 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
-| line-7 140.0–438.0 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
-| line-7 438.0–1638.0 m | 100.0 | 240 | 36 | 16.8 / 21.0 / 25.2 |
-| line-7 1658.0–1678.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 0.0–60.0 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 60.0–148.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-8 148.3–176.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 176.6–236.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 236.6–444.9 m | 100.0 | 48 | 6 | 16.8 / 21.0 / 25.2 |
-| line-8 444.9–521.4 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-8 521.4–2275.0 m | 100.0 | 356 | 53 | 16.8 / 21.0 / 25.2 |
-| line-8 2303.3–2331.6 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 2657.9–2677.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 3117.9–3257.9 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
-| line-8 3317.9–3377.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 3497.9–3577.9 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-8 3637.9–3697.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 3717.9–3737.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 3777.9–3797.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 3817.9–3837.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 3877.9–3897.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 4037.9–4057.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 4097.9–4117.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 4177.9–4217.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 4257.9–4317.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 4357.9–4377.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 4397.9–4457.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 4517.9–4537.9 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 4566.2–4594.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 4594.5–4622.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 4651.0–4679.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 4764.2–4792.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 4849.0–4905.6 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 4933.9–4962.2 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 5295.3–5315.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 5355.3–5375.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 5395.3–5435.3 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 5455.3–5535.3 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-8 5755.3–5775.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 5875.3–5895.3 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-8 5935.3–5995.3 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-8 6123.6–6151.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-8 6151.9–6236.7 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-8 6293.3–6349.8 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-9 0.0–20.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-9 20.0–116.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-9 116.6–2520.7 m | 100.0 | 488 | 72 | 16.8 / 21.0 / 25.2 |
-| line-9 2520.7–2629.0 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-9 2629.0–3977.3 m | 100.0 | 272 | 40 | 16.8 / 21.0 / 25.2 |
-| line-9 3977.3–4065.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-9 4065.6–4122.2 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-9 4122.2–4202.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-9 4202.2–5602.2 m | 100.0 | 280 | 42 | 16.8 / 21.0 / 25.2 |
-| line-9 5602.2–5718.7 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-9 5718.7–6114.7 m | 100.0 | 80 | 12 | 16.8 / 21.0 / 25.2 |
-| line-10 0.0–1368.3 m | 100.0 | 276 | 41 | 16.8 / 21.0 / 25.2 |
-| line-10 1368.3–1484.9 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 1484.9–1513.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 1513.1–1553.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 1553.1–1613.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 1613.1–1673.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 1673.1–1713.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 1713.1–1733.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 1733.1–1753.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 1753.1–1773.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 1773.1–1813.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 1813.1–1873.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 1873.1–1913.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 1913.1–2213.1 m | 100.0 | 60 | 9 | 16.8 / 21.0 / 25.2 |
-| line-10 2213.1–2293.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 2293.1–2313.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 2313.1–2393.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 2393.1–2633.1 m | 100.0 | 52 | 7 | 16.8 / 21.0 / 25.2 |
-| line-10 2633.1–2773.1 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
-| line-10 2773.1–2793.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 2793.1–2833.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 2833.1–2873.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 2873.1–2893.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 2893.1–2913.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 2913.1–2933.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 2933.1–2993.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 2993.1–3013.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3013.1–3033.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3033.1–3073.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 3073.1–3093.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3093.1–3113.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3113.1–3133.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3133.1–3153.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3153.1–3193.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 3193.1–3213.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3213.1–3293.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3293.1–3313.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3313.1–3413.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3413.1–3433.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3433.1–3513.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3513.1–3593.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3593.1–3613.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3613.1–3693.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3693.1–3753.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 3753.1–3773.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3773.1–3853.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 3853.1–3873.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3873.1–3893.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3893.1–3913.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 3913.1–3953.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 3953.1–3993.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 3993.1–4033.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 4033.1–4113.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 4113.1–4133.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 4133.1–6033.1 m | 100.0 | 380 | 57 | 16.8 / 21.0 / 25.2 |
-| line-10 6033.1–6053.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6053.1–6173.1 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 6173.1–6193.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6193.1–6213.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6213.1–6273.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 6273.1–6293.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6293.1–6313.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6313.1–6333.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6333.1–6353.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6353.1–6373.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6373.1–6393.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6393.1–6473.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 6473.1–6493.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6493.1–6513.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6513.1–6533.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6533.1–6553.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6553.1–6573.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6573.1–6593.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6593.1–6613.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6613.1–6633.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6633.1–6653.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6653.1–6853.1 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
-| line-10 6853.1–6873.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6873.1–6893.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6893.1–6913.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6913.1–6933.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6933.1–6953.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6953.1–6973.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6973.1–6993.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 6993.1–7013.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7013.1–7033.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7033.1–7153.1 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 7153.1–7173.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7173.1–7193.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7193.1–7213.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7213.1–7233.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7233.1–7253.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7253.1–7273.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7273.1–7293.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7293.1–7313.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7313.1–7333.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7333.1–7353.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7353.1–7373.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7373.1–7393.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7393.1–7413.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7413.1–7433.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7433.1–7453.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7453.1–7473.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7473.1–7533.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 7533.1–7553.1 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
-| line-10 7553.1–7593.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 7593.1–7653.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
-| line-10 7653.1–7681.4 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 7681.4–7709.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
-| line-10 7709.7–7789.7 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
-| line-10 7789.7–7829.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 0.0–20.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-4 20.0–136.6 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 136.6–507.7 m | 100.0 | 76 | 11 | 16.8 / 21.0 / 25.2 |
+| line-4 507.7–547.7 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 547.7–576.0 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 576.0–616.0 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 616.0–1561.7 m | 100.0 | 192 | 28 | 16.8 / 21.0 / 25.2 |
+| line-4 1561.7–1618.2 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 1618.2–1734.8 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 1734.8–1783.1 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 1783.1–1907.9 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 1907.9–1967.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 1967.9–2027.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 2027.9–2116.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 2116.2–2144.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 2144.5–2244.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 2244.5–2481.1 m | 100.0 | 52 | 7 | 16.8 / 21.0 / 25.2 |
+| line-4 2481.1–2549.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 2549.4–2749.4 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-4 2749.4–2837.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 2837.6–2894.2 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 2894.2–2974.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 2974.2–3494.2 m | 100.0 | 108 | 15 | 16.8 / 21.0 / 25.2 |
+| line-4 3494.2–3610.8 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 3610.8–3695.6 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 3695.6–3763.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 3763.9–3823.9 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 3823.9–3900.5 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 3900.5–4053.6 m | 100.0 | 36 | 5 | 16.8 / 21.0 / 25.2 |
+| line-4 4053.6–4130.2 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 4130.2–4291.6 m | 100.0 | 36 | 5 | 16.8 / 21.0 / 25.2 |
+| line-4 4291.6–4399.9 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 4399.9–4519.9 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 4519.9–4636.5 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 4636.5–5428.4 m | 100.0 | 160 | 24 | 16.8 / 21.0 / 25.2 |
+| line-4 5456.7–5581.6 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-4 5581.6–5638.1 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 5638.1–6057.5 m | 100.0 | 88 | 12 | 16.8 / 21.0 / 25.2 |
+| line-4 6057.5–6105.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-4 6105.8–6165.8 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 6165.8–6222.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-4 6222.4–6420.4 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-5 0.0–20.0 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-5 20.0–236.6 m | 100.0 | 48 | 6 | 16.8 / 21.0 / 25.2 |
+| line-5 236.6–256.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-5 256.6–276.6 m | 25.0 | 8 | 0 | 4.2 / 5.25 / 6.3 |
+| line-5 276.6–353.1 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 353.1–744.3 m | 100.0 | 80 | 12 | 16.8 / 21.0 / 25.2 |
+| line-5 744.3–852.5 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 852.5–1032.5 m | 100.0 | 40 | 6 | 16.8 / 21.0 / 25.2 |
+| line-5 1032.5–1120.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 1120.8–1177.4 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-5 1177.4–1274.0 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 1274.0–1594.0 m | 100.0 | 68 | 9 | 16.8 / 21.0 / 25.2 |
+| line-5 1594.0–1727.1 m | 100.0 | 32 | 4 | 16.8 / 21.0 / 25.2 |
+| line-5 1727.1–2066.5 m | 100.0 | 72 | 10 | 16.8 / 21.0 / 25.2 |
+| line-5 2066.5–2106.5 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-5 2106.5–2134.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-5 2134.8–2174.8 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
+| line-5 2174.8–2274.8 m | 100.0 | 20 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 2274.8–2391.4 m | 100.0 | 28 | 3 | 16.8 / 21.0 / 25.2 |
+| line-5 2391.4–3335.0 m | 100.0 | 192 | 28 | 16.8 / 21.0 / 25.2 |
+| line-5 3476.5–3533.0 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-5 4070.4–4127.0 m | 75.0 | 16 | 2 | 12.6 / 15.75 / 18.9 |
+| line-5 4183.6–4211.9 m | 50.0 | 12 | 1 | 8.4 / 10.5 / 12.6 |
 
-Mapped soil has 14 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
+Mapped soil has 15 incomplete profiles. Prioritise investigation and settlement/drainage monitoring; mapped pH/texture do not determine bearing resistance, pile depth, sulfate/chloride exposure or a coating category.
 
-[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 14, "fine-soil-plasticity-and-shrink-swell-tests": 750, "granular-density-and-groundwater-tests": 689, "silt-moisture-frost-and-erosion-review": 171}.
+[Location-specific soil investigation plan](../soil/README.md). Flag counts: {"coverage-gap": 15, "fine-soil-plasticity-and-shrink-swell-tests": 1032, "granular-density-and-groundwater-tests": 802, "silt-moisture-frost-and-erosion-review": 86}.
 
 ## Joints, paints, finishes and cleaning
 
@@ -324,10 +433,10 @@ Steel, GFRP body and roof finish zones retain their shared qualified process. Pr
 
 | Work package | Asset-level tasks generated |
 |---|---:|
-| rs-finish-seal-joint | 291 |
-| rs-controlled-wash | 291 |
-| civil-joint-drain-finish | 104 |
-| energy-soiling-cleaning | 48 |
+| rs-finish-seal-joint | 170 |
+| rs-controlled-wash | 170 |
+| civil-joint-drain-finish | 41 |
+| energy-soiling-cleaning | 23 |
 
 The operations bundle carries these inspection/cleaning triggers, owners and required work-order evidence. Cleaning intervals follow measured condition and access; material compatibility and wash-water handling must be qualified locally.
 

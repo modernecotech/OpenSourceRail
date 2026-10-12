@@ -6,8 +6,8 @@
     {
       "backtrack_excursion_m": 750.0,
       "city": "vadodara",
-      "corridor_sha256": "9985a7f14b0295caf0d84eb728e6b9614f4b6009bfc4228a29488805cf3becdb",
-      "design_sha256": "2fe93e1e2b3d4c4502a69116ee14056934f5510cb60e9cded8090ad05a9ba6b2",
+      "corridor_sha256": "0b8eba5b7a9cbbc1fd7799962b04e24534b73dc92e274ace5604f011de18b99d",
+      "design_sha256": "02fc360ccaa4553cc4cc2497faa96efe67e0446faa8990a24ed11ca5e66501e2",
       "failures": [],
       "generator_sha256": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
       "passed": true,
@@ -15,15 +15,24 @@
       "review_findings": [
         {
           "code": "ring-radial-layout-disconnected",
-          "geometry_distance_m": 2016.3,
+          "geometry_distance_m": 834.6,
           "radial": "line-2",
           "ring": "line-6",
           "severity": "review",
-          "terminus_distance_m": 2304.8
+          "terminus_distance_m": 1319.5
+        },
+        {
+          "code": "terminus-extension-omitted-to-avoid-poor-alignment",
+          "endpoint": "start",
+          "radial": "line-3",
+          "ring": "line-6",
+          "severity": "review",
+          "terminal_station_present": true,
+          "terminus_distance_m": 1065.2
         }
       ],
       "ring_count": 1
     }
   ],
-  "review_finding_count": 1
+  "review_finding_count": 2
 }

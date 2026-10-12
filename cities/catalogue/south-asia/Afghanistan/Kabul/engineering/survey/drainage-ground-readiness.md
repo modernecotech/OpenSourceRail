@@ -1,7 +1,7 @@
 # Kabul drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 22 / 195
+- Lines/stations: 11 / 205
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

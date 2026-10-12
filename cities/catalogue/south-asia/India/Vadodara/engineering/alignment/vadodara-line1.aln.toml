@@ -14,8 +14,8 @@ crs            = "EPSG:32643"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "2fe93e1e2b3d4c4502a69116ee14056934f5510cb60e9cded8090ad05a9ba6b2"
-source_geojson_sha256 = "9985a7f14b0295caf0d84eb728e6b9614f4b6009bfc4228a29488805cf3becdb"
+source_design_sha256 = "02fc360ccaa4553cc4cc2497faa96efe67e0446faa8990a24ed11ca5e66501e2"
+source_geojson_sha256 = "0b8eba5b7a9cbbc1fd7799962b04e24534b73dc92e274ace5604f011de18b99d"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -574,6 +574,46 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 40.000
+to_station_m   = 236.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 236.600
+to_station_m   = 256.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 256.600
+to_station_m   = 1116.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1116.600
+to_station_m   = 1156.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1156.600
+to_station_m   = 2276.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2276.600
+to_station_m   = 2356.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2356.600
+to_station_m   = 3216.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3216.600
+to_station_m   = 3296.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3296.600
 to_station_m   = 5656.600
 class          = "at-grade"
 
@@ -625,33 +665,23 @@ station_m         = 10016.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-1-0882-0916-s013017"
-station_m         = 13016.600
-platform_length_m = 85.000
-
-[[station]]
 id                = "line-1-0881-0845-s014457"
 station_m         = 14456.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-1-0881-0745-s016457"
-station_m         = 16456.600
+id                = "line-1-0881-0748-s016397"
+station_m         = 16396.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-1-0881-0731-s016737"
-station_m         = 16736.600
+id                = "line-1-0881-0654-s018277"
+station_m         = 18276.600
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-1-0881-0649-s018377"
-station_m         = 18376.600
-platform_length_m = 85.000
-
-[[station]]
-id                = "line-1-0881-0567-s020017"
-station_m         = 20016.600
+id                = "line-1-0881-0525-s020857"
+station_m         = 20856.600
 platform_length_m = 85.000
 
 [[station]]

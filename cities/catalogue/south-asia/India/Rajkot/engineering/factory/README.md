@@ -1,16 +1,16 @@
 # Rajkot city-order factory requirement
 
-**155 metro-4car trainsets / 620 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**153 metro-4car trainsets / 612 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 444.2 trainsets/year, 5 separate test paths, 1458 direct production FTE. Plant reference envelope: **USD 517.349m**.
+Planning output: 437.9 trainsets/year, 4 separate test paths, 1438 direct production FTE. Plant reference envelope: **USD 503.587m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 39 | 588 | 681 | 681 |
-| line-2 | 27 | 608 | 698 | 698 |
-| line-3 | 29 | 625 | 715 | 715 |
+| line-1 | 39 | 591 | 681 | 681 |
+| line-2 | 25 | 607 | 697 | 697 |
+| line-3 | 29 | 624 | 714 | 714 |
 | line-4 | 39 | 648 | 738 | 738 |
 | line-5 | 21 | 660 | 750 | 750 |
 

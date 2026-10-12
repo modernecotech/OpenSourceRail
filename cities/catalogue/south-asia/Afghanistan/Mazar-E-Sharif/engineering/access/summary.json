@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.488,
+    "high_demand_cell_fraction": 0.578,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 459997.78901553154,
     "catchments": [
       {
-        "covered_population_2020": 131178.6144809723,
-        "fraction_of_raster_population": 0.2851722717226867,
+        "covered_population_2020": 78944.20132136345,
+        "fraction_of_raster_population": 0.17161865384248173,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 283321.92928147316,
-        "fraction_of_raster_population": 0.615920197981445,
+        "covered_population_2020": 182917.3923482895,
+        "fraction_of_raster_population": 0.3976484163973088,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 358316.32183623314,
-        "fraction_of_raster_population": 0.7789522697556592,
+        "covered_population_2020": 265719.01850676537,
+        "fraction_of_raster_population": 0.5776528167134158,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 425082.79910612106,
-        "fraction_of_raster_population": 0.9240974831984864,
+        "covered_population_2020": 398420.15874004364,
+        "fraction_of_raster_population": 0.866134942936848,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 438240.1038696766,
-        "fraction_of_raster_population": 0.9527004571208486,
+        "covered_population_2020": 429344.42407250404,
+        "fraction_of_raster_population": 0.9333619298287703,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 41,
+    "unique_station_coordinates": 24,
     "valid_pixels": 16726
   },
   "population_source_country": "AF",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/design.toml": "c0da3f6b0c43537b7988ed1794fa422d251ea73c36e00e3203679981941b85eb",
+    "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/design.toml": "8545d4af01819765ae8bda8207a2687dfa3562fe0e0a66bad3e1285700474cd8",
     "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/access/population-pixels.npz.gz": "0cdad4e497bdb97ef4e9e4da847315aa61c156eed48540aaf8c621246f3995a5",
     "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/access/population-source.json": "4c35ed9784695e5ddfb25be6a0eb16d866eeb6c3bc5956e298f598f94a3102de",
-    "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/mazar-e-sharif.design-quality.yaml": "2c0f70d1a22cdc16cd752135747bacec7248f923c6b5c6453767350a2097f7b8",
+    "cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/mazar-e-sharif.design-quality.yaml": "4f21136f2d8a9e1c4a8d05c20004ed0d2ccdb7c2fdede8a9e4335188af760882",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [],
@@ -97,35 +97,34 @@
         "line-2",
         "line-3",
         "line-4",
-        "line-5",
-        "line-6"
+        "line-5"
       ]
     ],
-    "direct_transfer_fraction": 0.4,
-    "line_count": 6,
-    "line_pair_count": 15,
-    "maximum_required_transfers": 3,
+    "direct_transfer_fraction": 0.6,
+    "line_count": 5,
+    "line_pair_count": 10,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
           "line-1",
           "line-2"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-1",
           "line-3"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -133,13 +132,6 @@
           "line-5"
         ],
         "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-6"
-        ],
-        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -164,13 +156,6 @@
       },
       {
         "lines": [
-          "line-2",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
           "line-3",
           "line-4"
         ],
@@ -185,34 +170,13 @@
       },
       {
         "lines": [
-          "line-3",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
           "line-4",
           "line-5"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-6"
         ],
         "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.8
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

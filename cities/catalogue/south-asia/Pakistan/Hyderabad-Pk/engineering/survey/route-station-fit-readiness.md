@@ -1,8 +1,8 @@
 # Hyderabad-Pk route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 15
-- Stations: 136
+- Lines: 9
+- Stations: 115
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

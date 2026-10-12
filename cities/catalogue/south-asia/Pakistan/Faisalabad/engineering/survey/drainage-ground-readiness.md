@@ -1,7 +1,7 @@
 # Faisalabad drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 23 / 192
+- Lines/stations: 9 / 79
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

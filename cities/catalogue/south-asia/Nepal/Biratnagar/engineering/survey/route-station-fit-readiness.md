@@ -1,8 +1,8 @@
 # Biratnagar route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 31
+- Lines: 4
+- Stations: 12
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

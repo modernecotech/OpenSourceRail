@@ -1,8 +1,8 @@
 # Gujranwala route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 33
-- Stations: 266
+- Lines: 8
+- Stations: 63
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

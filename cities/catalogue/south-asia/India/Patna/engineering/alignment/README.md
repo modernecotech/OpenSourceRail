@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`patna-line1.aln.toml`](patna-line1.aln.toml) | `line-1` | 57,612.6 m | 49 |
-| [`patna-line2.aln.toml`](patna-line2.aln.toml) | `line-2` | 40,683.0 m | 42 |
-| [`patna-line3.aln.toml`](patna-line3.aln.toml) | `line-3` | 39,373.3 m | 28 |
-| [`patna-line4.aln.toml`](patna-line4.aln.toml) | `line-4` | 52,878.7 m | 39 |
+| [`patna-line1.aln.toml`](patna-line1.aln.toml) | `line-1` | 40,720.4 m | 26 |
+| [`patna-line2.aln.toml`](patna-line2.aln.toml) | `line-2` | 30,270.6 m | 23 |
+| [`patna-line3.aln.toml`](patna-line3.aln.toml) | `line-3` | 39,083.6 m | 27 |
+| [`patna-line4.aln.toml`](patna-line4.aln.toml) | `line-4` | 44,707.0 m | 32 |
 | [`patna-line5.aln.toml`](patna-line5.aln.toml) | `line-5` | 29,218.8 m | 15 |
-| [`patna-line6.aln.toml`](patna-line6.aln.toml) | `line-6` | 113,161.3 m | 69 |
+| [`patna-line6.aln.toml`](patna-line6.aln.toml) | `line-6` | 115,035.6 m | 50 |
 
 ## Status
 

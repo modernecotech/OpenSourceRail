@@ -1,8 +1,8 @@
 # Rajshahi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 50
+- Lines: 4
+- Stations: 51
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

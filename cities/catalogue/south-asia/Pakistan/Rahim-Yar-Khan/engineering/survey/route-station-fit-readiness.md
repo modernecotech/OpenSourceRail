@@ -1,8 +1,8 @@
 # Rahim-Yar-Khan route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 73
+- Lines: 5
+- Stations: 31
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

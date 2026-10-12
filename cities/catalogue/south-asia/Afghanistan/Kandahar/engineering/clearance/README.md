@@ -2,20 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **971**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **449**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | height-unresolved | 769 |
-| Beam/building | product-depth-unresolved | 41 |
-| Reference support/foundation | foundation-footprint-conflict | 339 |
-| Reference support/foundation | foundation-setback-conflict | 96 |
-| Reference support/foundation | mapped-footprints-only-clear | 2,624 |
-| Terrain | beam-terrain-collision | 27 |
-| Terrain | reference-gradient-exceeded | 1,661 |
-| Terrain | reference-gradient-within-policy | 1,273 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 124 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 61 |
+| Beam/building | height-unresolved | 313 |
+| Beam/building | product-depth-unresolved | 67 |
+| Reference support/foundation | foundation-footprint-conflict | 160 |
+| Reference support/foundation | foundation-setback-conflict | 53 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,580 |
+| Terrain | reference-gradient-exceeded | 1,274 |
+| Terrain | reference-gradient-within-policy | 1,182 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 325 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 192 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

@@ -1,8 +1,8 @@
 # Comilla route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 60
+- Lines: 5
+- Stations: 62
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

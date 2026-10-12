@@ -1,29 +1,29 @@
 slug: galle
 pass: true
 metrics:
-  total_route_m: 116904.4
-  n_lines: 15
-  n_stations: 78
-  anchor_hit_rate: 0.192
-  high_demand_coverage: 0.546
+  total_route_m: 77483.6
+  n_lines: 5
+  n_stations: 27
+  anchor_hit_rate: 0.556
+  high_demand_coverage: 0.541
   civil_mix_m:
-    at_grade: 31127.500
-    elevated: 82463.200
-    bridge:   3313.700
-  elevated_fraction: 0.734
+    at_grade: 5753.400
+    elevated: 70527.600
+    bridge:   1202.600
+  elevated_fraction: 0.926
   viaduct_products_m:
-    osr_pi20_pi25: 75583.425
-    osr_us:      5592.900
-    special:     3313.700
-    realign:     1286.875
-  max_elevated_cost_multiplier: 37.036
+    osr_pi20_pi25: 41024.846
+    osr_us:      22729.800
+    special:     1202.600
+    realign:     6772.954
+  max_elevated_cost_multiplier: 44.308
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

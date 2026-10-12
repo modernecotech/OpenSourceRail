@@ -1,8 +1,8 @@
 # Khulna route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 16
-- Stations: 188
+- Lines: 9
+- Stations: 82
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

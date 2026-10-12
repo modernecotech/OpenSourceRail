@@ -1,8 +1,8 @@
 # Kabul route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 22
-- Stations: 195
+- Lines: 11
+- Stations: 205
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

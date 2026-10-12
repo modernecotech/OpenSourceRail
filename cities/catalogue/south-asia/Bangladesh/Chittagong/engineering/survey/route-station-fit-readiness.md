@@ -1,8 +1,8 @@
 # Chittagong route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 8
-- Stations: 125
+- Lines: 12
+- Stations: 191
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

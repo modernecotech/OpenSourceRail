@@ -1,29 +1,29 @@
 slug: sukkur
 pass: true
 metrics:
-  total_route_m: 75726.2
-  n_lines: 12
-  n_stations: 57
-  anchor_hit_rate: 0.158
-  high_demand_coverage: 0.541
+  total_route_m: 50258.7
+  n_lines: 4
+  n_stations: 23
+  anchor_hit_rate: 0.304
+  high_demand_coverage: 0.575
   civil_mix_m:
-    at_grade: 7237.800
-    elevated: 12090.000
-    bridge:   56398.500
-  elevated_fraction: 0.904
+    at_grade: 3490.700
+    elevated: 16638.600
+    bridge:   30129.400
+  elevated_fraction: 0.931
   viaduct_products_m:
-    osr_pi20_pi25: 10901.000
-    osr_us:      1160.700
-    special:     56398.500
-    realign:     28.300
-  max_elevated_cost_multiplier: 7.377
+    osr_pi20_pi25: 15346.000
+    osr_us:      862.800
+    special:     30129.400
+    realign:     429.800
+  max_elevated_cost_multiplier: 25.071
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

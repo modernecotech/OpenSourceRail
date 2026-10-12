@@ -14,8 +14,8 @@ crs            = "EPSG:32644"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "cd9d9717048782641e003e6f890445e8134f6eb713735677af6fe16ed5f18d0c"
-source_geojson_sha256 = "f563ef114a90e72a5160fd6286c1ea71cf45c58a215b97ad61456805f2ce0582"
+source_design_sha256 = "fee256537d86882cb5c433224daa899ac2c1a7392c7525d24d7c86d4b808997e"
+source_geojson_sha256 = "477d420e590840185448a7fe40392867c4c145b86bdeab103f15d44df2e4a18e"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -3471,8 +3471,13 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
+to_station_m   = 20.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20.000
 to_station_m   = 40.000
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 40.000
@@ -3481,11 +3486,6 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 80.000
-to_station_m   = 120.000
-class          = "at-grade"
-
-[[civil]]
-from_station_m = 120.000
 to_station_m   = 140.000
 class          = "elevated"
 
@@ -3497,7 +3497,7 @@ class          = "bridge"
 [[civil]]
 from_station_m = 180.000
 to_station_m   = 240.000
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 240.000
@@ -3516,8 +3516,18 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 360.000
-to_station_m   = 440.000
+to_station_m   = 380.000
 class          = "at-grade"
+
+[[civil]]
+from_station_m = 380.000
+to_station_m   = 400.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 400.000
+to_station_m   = 440.000
+class          = "elevated"
 
 [[civil]]
 from_station_m = 440.000
@@ -3527,7 +3537,7 @@ class          = "bridge"
 [[civil]]
 from_station_m = 460.000
 to_station_m   = 488.300
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 488.300
@@ -3537,7 +3547,7 @@ class          = "bridge"
 [[civil]]
 from_station_m = 676.600
 to_station_m   = 696.600
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 696.600
@@ -3546,8 +3556,13 @@ class          = "bridge"
 
 [[civil]]
 from_station_m = 756.600
+to_station_m   = 816.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 816.600
 to_station_m   = 836.600
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 836.600
@@ -3557,7 +3572,7 @@ class          = "elevated"
 [[civil]]
 from_station_m = 856.600
 to_station_m   = 916.600
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 916.600
@@ -3566,36 +3581,106 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 936.600
+to_station_m   = 976.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 976.600
+to_station_m   = 1016.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1016.600
+to_station_m   = 1036.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1036.600
+to_station_m   = 1076.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1076.600
 to_station_m   = 1116.600
 class          = "at-grade"
 
 [[civil]]
 from_station_m = 1116.600
-to_station_m   = 1136.600
+to_station_m   = 1176.600
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1136.600
-to_station_m   = 1293.100
+from_station_m = 1176.600
+to_station_m   = 1224.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1224.900
+to_station_m   = 1273.100
 class          = "at-grade"
+
+[[civil]]
+from_station_m = 1273.100
+to_station_m   = 1293.100
+class          = "elevated"
 
 [[civil]]
 from_station_m = 1293.100
-to_station_m   = 1313.100
+to_station_m   = 1333.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1313.100
-to_station_m   = 1673.100
+from_station_m = 1333.100
+to_station_m   = 1353.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1353.100
+to_station_m   = 1453.100
 class          = "at-grade"
 
 [[civil]]
-from_station_m = 1673.100
-to_station_m   = 1693.100
+from_station_m = 1453.100
+to_station_m   = 1513.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1693.100
+from_station_m = 1513.100
+to_station_m   = 1613.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1613.100
+to_station_m   = 1633.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1633.100
+to_station_m   = 1733.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1733.100
+to_station_m   = 1773.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 1773.100
+to_station_m   = 1793.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1793.100
+to_station_m   = 2533.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2533.100
+to_station_m   = 2553.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2553.100
 to_station_m   = 2709.700
 class          = "at-grade"
 
@@ -3606,6 +3691,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 2729.700
+to_station_m   = 2769.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2769.700
+to_station_m   = 2798.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2798.000
 to_station_m   = 2906.300
 class          = "at-grade"
 
@@ -3616,6 +3711,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 2926.300
+to_station_m   = 2982.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 2982.800
+to_station_m   = 3002.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3002.800
 to_station_m   = 3022.800
 class          = "at-grade"
 
@@ -3626,16 +3731,21 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 3042.800
-to_station_m   = 3091.100
-class          = "at-grade"
-
-[[civil]]
-from_station_m = 3091.100
-to_station_m   = 3111.100
+to_station_m   = 3071.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3111.100
+from_station_m = 3071.100
+to_station_m   = 3091.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3091.100
+to_station_m   = 3131.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3131.100
 to_station_m   = 3211.100
 class          = "at-grade"
 
@@ -3646,16 +3756,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 3231.100
-to_station_m   = 3411.100
+to_station_m   = 3331.100
 class          = "at-grade"
 
 [[civil]]
-from_station_m = 3411.100
-to_station_m   = 3431.100
+from_station_m = 3331.100
+to_station_m   = 3451.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3431.100
+from_station_m = 3451.100
 to_station_m   = 3511.100
 class          = "at-grade"
 
@@ -3666,33 +3776,33 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 3531.100
-to_station_m   = 3591.100
+to_station_m   = 3551.100
 class          = "at-grade"
 
 [[civil]]
-from_station_m = 3591.100
+from_station_m = 3551.100
+to_station_m   = 3571.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3571.100
 to_station_m   = 3611.100
 class          = "elevated"
 
 [[civil]]
 from_station_m = 3611.100
-to_station_m   = 3631.100
+to_station_m   = 3731.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 3731.100
+to_station_m   = 3751.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 3631.100
-to_station_m   = 3691.100
-class          = "elevated"
-
-[[civil]]
-from_station_m = 3691.100
-to_station_m   = 3711.100
-class          = "elevated"
-
-[[civil]]
-from_station_m = 3711.100
+from_station_m = 3751.100
 to_station_m   = 3771.100
-class          = "elevated"
+class          = "at-grade"
 
 [[civil]]
 from_station_m = 3771.100
@@ -3706,18 +3816,23 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 3987.700
-to_station_m   = 4127.696
+to_station_m   = 4087.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4127.696
-to_station_m   = 4207.696
+from_station_m = 4087.700
+to_station_m   = 4107.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4107.700
+to_station_m   = 4127.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 4207.696
+from_station_m = 4127.700
 to_station_m   = 4227.700
-class          = "elevated"
+class          = "at-grade"
 
 [[civil]]
 from_station_m = 4227.700
@@ -3741,8 +3856,13 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 18827.500
-to_station_m   = 18955.800
+to_station_m   = 18935.800
 class          = "at-grade"
+
+[[civil]]
+from_station_m = 18935.800
+to_station_m   = 18955.800
+class          = "elevated"
 
 [[civil]]
 from_station_m = 18955.800
@@ -3756,11 +3876,16 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 19955.820
-to_station_m   = 20044.100
+to_station_m   = 20072.388
 class          = "elevated"
 
 [[civil]]
-from_station_m = 20044.100
+from_station_m = 20072.388
+to_station_m   = 20213.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20213.800
 to_station_m   = 20402.100
 class          = "at-grade"
 
@@ -3771,16 +3896,461 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 20422.100
+to_station_m   = 20722.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 20722.100
+to_station_m   = 20742.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20742.100
+to_station_m   = 20802.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 20802.100
+to_station_m   = 20882.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20882.100
+to_station_m   = 20902.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20902.100
+to_station_m   = 20962.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 20962.100
+to_station_m   = 20982.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 20982.100
+to_station_m   = 21002.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21002.100
+to_station_m   = 21022.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21022.100
+to_station_m   = 21062.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21062.100
+to_station_m   = 21082.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 21082.100
+to_station_m   = 21222.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21222.100
+to_station_m   = 21282.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21282.100
+to_station_m   = 21302.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21302.100
+to_station_m   = 21358.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21358.700
+to_station_m   = 21378.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21378.700
+to_station_m   = 21398.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 21398.700
+to_station_m   = 21438.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21438.700
+to_station_m   = 21458.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21458.700
+to_station_m   = 21478.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21478.700
+to_station_m   = 21498.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21498.700
+to_station_m   = 21518.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21518.700
+to_station_m   = 21538.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21538.700
+to_station_m   = 21598.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21598.700
+to_station_m   = 21626.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21626.900
+to_station_m   = 21695.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21695.200
+to_station_m   = 21775.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21775.200
+to_station_m   = 21823.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21823.500
+to_station_m   = 21851.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21851.800
+to_station_m   = 21908.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 21908.400
+to_station_m   = 22113.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22113.200
 to_station_m   = 22161.500
 class          = "at-grade"
 
 [[civil]]
 from_station_m = 22161.500
-to_station_m   = 22181.500
+to_station_m   = 22258.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 22181.500
+from_station_m = 22258.100
+to_station_m   = 22338.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 22338.100
+to_station_m   = 22358.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22358.100
+to_station_m   = 22418.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 22418.100
+to_station_m   = 22538.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22538.100
+to_station_m   = 22614.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22614.600
+to_station_m   = 22671.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 22671.200
+to_station_m   = 22711.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22711.200
+to_station_m   = 22731.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22731.200
+to_station_m   = 22751.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22751.200
+to_station_m   = 22931.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 22931.200
+to_station_m   = 22991.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 22991.200
+to_station_m   = 23011.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23011.200
+to_station_m   = 23051.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23051.200
+to_station_m   = 23091.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23091.200
+to_station_m   = 23111.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23111.200
+to_station_m   = 23131.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23131.200
+to_station_m   = 23151.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23151.200
+to_station_m   = 23191.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23191.200
+to_station_m   = 23231.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23231.200
+to_station_m   = 23251.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23251.200
+to_station_m   = 23291.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23291.200
+to_station_m   = 23311.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23311.200
+to_station_m   = 23491.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23491.200
+to_station_m   = 23511.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23511.200
+to_station_m   = 23531.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23531.200
+to_station_m   = 23591.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23591.200
+to_station_m   = 23611.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23611.200
+to_station_m   = 23631.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23631.200
+to_station_m   = 23651.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23651.200
+to_station_m   = 23671.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23671.200
+to_station_m   = 23691.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23691.200
+to_station_m   = 23711.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23711.200
+to_station_m   = 23751.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23751.200
+to_station_m   = 23771.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23771.200
+to_station_m   = 23791.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23791.200
+to_station_m   = 23811.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23811.200
+to_station_m   = 23831.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23831.200
+to_station_m   = 23911.200
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23911.200
+to_station_m   = 23931.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 23931.200
+to_station_m   = 23979.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 23979.500
+to_station_m   = 24007.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24007.800
+to_station_m   = 24164.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24164.300
+to_station_m   = 24260.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 24260.900
+to_station_m   = 24280.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24280.900
+to_station_m   = 24300.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24300.900
+to_station_m   = 24340.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24340.900
+to_station_m   = 24360.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24360.900
+to_station_m   = 24380.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24380.900
+to_station_m   = 24420.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24420.900
+to_station_m   = 24440.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24440.900
+to_station_m   = 24460.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 24460.900
+to_station_m   = 24480.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24480.900
+to_station_m   = 24640.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 24640.900
+to_station_m   = 24660.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24660.900
+to_station_m   = 24800.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 24800.900
+to_station_m   = 24860.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24860.900
+to_station_m   = 24920.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 24920.900
+to_station_m   = 24960.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 24960.900
 to_station_m   = 24980.900
 class          = "at-grade"
 
@@ -3796,23 +4366,13 @@ class          = "at-grade"
 
 [[civil]]
 from_station_m = 25020.900
-to_station_m   = 25040.900
-class          = "elevated"
-
-[[civil]]
-from_station_m = 25040.900
 to_station_m   = 25060.900
-class          = "at-grade"
+class          = "elevated"
 
 [[civil]]
 from_station_m = 25060.900
-to_station_m   = 25080.900
-class          = "elevated"
-
-[[civil]]
-from_station_m = 25080.900
 to_station_m   = 25100.900
-class          = "at-grade"
+class          = "elevated"
 
 # Station IDs and chainages resolve directly to design.toml.
 
@@ -3852,48 +4412,23 @@ station_m         = 4107.700
 platform_length_m = 121.000
 
 [[station]]
-id                = "line-7-0886-0271-s005580"
-station_m         = 5579.700
+id                = "line-7-0914-0314-s006704"
+station_m         = 6704.300
 platform_length_m = 121.000
 
 [[station]]
-id                = "line-7-0939-0351-s007712"
-station_m         = 7712.400
+id                = "line-7-0972-0401-s009033"
+station_m         = 9032.700
 platform_length_m = 121.000
 
 [[station]]
-id                = "line-7-0941-0355-s007795"
-station_m         = 7794.900
+id                = "line-7-1032-0493-s011475"
+station_m         = 11475.200
 platform_length_m = 121.000
 
 [[station]]
-id                = "line-7-0950-0368-s008144"
-station_m         = 8143.600
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-0973-0403-s009067"
-station_m         = 9066.800
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-1004-0452-s010376"
-station_m         = 10376.400
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-1042-0509-s011890"
-station_m         = 11889.700
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-1102-0600-s014324"
-station_m         = 14324.000
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-1163-0693-s016771"
-station_m         = 16771.300
+id                = "line-7-1137-0654-s015729"
+station_m         = 15729.100
 platform_length_m = 121.000
 
 [[station]]
@@ -3905,16 +4440,6 @@ platform_length_m = 121.000
 id                = "line-7-1221-0835-s020228"
 station_m         = 20228.000
 platform_length_m = 121.000
-
-[[station]]
-id                = "line-7-1250-0870-s021579"
-station_m         = 21578.700
-platform_length_m = 117.000
-
-[[station]]
-id                = "line-7-1309-0900-s023171"
-station_m         = 23171.200
-platform_length_m = 117.000
 
 [[station]]
 id                = "line-7-1339-0954-s025101"

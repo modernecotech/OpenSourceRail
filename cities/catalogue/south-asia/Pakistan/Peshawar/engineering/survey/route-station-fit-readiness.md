@@ -1,8 +1,8 @@
 # Peshawar route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 31
-- Stations: 225
+- Lines: 8
+- Stations: 61
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 
