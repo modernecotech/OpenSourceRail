@@ -46,6 +46,8 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/network-expansion-baseline.json.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-buildability-mask.bin.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-grid.json",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-slope.f32.gz",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-source.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-water-features.json.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-water-mask.bin.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/pre-rework-corridors.json.gz",
@@ -268,7 +270,7 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-aged10-sites.csv",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-poor-sites.csv",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-reference-sites.csv",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv.gz",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-task-import.csv",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-tasks.json",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/fare-sensitivities.csv",
@@ -1464,7 +1466,7 @@
   "baghdad_financing_scope": [
     "Baghdad"
   ],
-  "baseline_revision": "6287a1af7e8a4fbfc9241c5da85b56d3b7c0a359",
+  "baseline_revision": "59b8f28d1d428e69a863826630a98a85e8cec0c3",
   "companion_archives": {
     "engineering/network-planning/baghdad/Baghdad-Network-and-Foundation-Planning.zip": {
       "bytes": 4752433,
@@ -2043,6 +2045,14 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-grid.json": {
       "bytes": 229,
       "sha256": "fe531936a003b0ce9563ac8de36d2a2d57d50690c3f9fa4934edf12a50337a43"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-slope.f32.gz": {
+      "bytes": 3760019,
+      "sha256": "8bc937002cffb35f53eca1c5d5856c9ef4059100f832718ea033675cd210742e"
+    },
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-source.json": {
+      "bytes": 1199,
+      "sha256": "6eb19ecf55c3fa2658c2aca2bb523a8287aa6f63087a3eccb7969625b56969b4"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-water-features.json.gz": {
       "bytes": 138935,
@@ -2737,8 +2747,8 @@
       "sha256": "1ece28230388fa823f3cfbdf1af72134e7cba19bd78cbfcc4b94e4d61355d05c"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SITE-ENERGY.md": {
-      "bytes": 1986,
-      "sha256": "defea41d2d49e90213a45741239bd51630a47cdfc7d8d887c4a7ab42bee50ce9"
+      "bytes": 2016,
+      "sha256": "9dc0935ba01ef661e71c7c9ff1b39512f7db74259824546ab9b92cf9ec92fdd9"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/SIX-CAR-PROCUREMENT.md": {
       "bytes": 1258,
@@ -2932,17 +2942,17 @@
       "bytes": 57763,
       "sha256": "f622fa544723684df192ae3d93a4e1ddcabcd0f052ece8c42f6c09e405569052"
     },
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv": {
-      "bytes": 67012320,
-      "sha256": "1126bc8b4845b272527ce49b35534d9c9db3dc9e2d5b1d13d2cf6f4a31913a19"
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv.gz": {
+      "bytes": 7043039,
+      "sha256": "660fbd64f6b35e0bc58588ffcbb0b2f63374a615e2efbeee43cb0d3d34ab865b"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-task-import.csv": {
       "bytes": 12357,
-      "sha256": "8338d09398109470e5b686b8e57d3a5a3752068025c0c2d5f1f61fe657c82385"
+      "sha256": "d362feb104377e81885c40a7733d5cd140ae9ad483ae90068d779064e948fdef"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-tasks.json": {
       "bytes": 13183,
-      "sha256": "3399010c8ac511af73e1bd5ed25247f952d7c6da19870053b17cf3a6aca95485"
+      "sha256": "e4e6a053987a17b04b14ff75b80f868d6121ef7a1462b2c298fce03cabfd0edf"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/fare-sensitivities.csv": {
       "bytes": 876,
@@ -3117,8 +3127,8 @@
       "sha256": "32897cb3d598ecc02f798b88c218ad7dcbee4c697cd382a13fe33d09c956392e"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/summary.json": {
-      "bytes": 45225,
-      "sha256": "a81905ba02b560a19fd30490d271cbf6c807f806b4b7fc44b6a72308086b6d22"
+      "bytes": 45228,
+      "sha256": "d6984e3e36295c8153a38a8937facc148615843ff803e7289dabae9d55355dd7"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/supplier-rfq.csv": {
       "bytes": 2215,
@@ -5022,7 +5032,7 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/summary.json": {
       "bytes": 28973,
-      "sha256": "550a726859df2a8e6899d2f26ebbd5fead5ca4834560b88e2bde361634d8da3c"
+      "sha256": "ae2628ceed01498fb6301fd4f0fd8cc87f9141e8f740ef944c012956728406bc"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/workforce.csv": {
       "bytes": 5416,
@@ -5530,11 +5540,11 @@
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/package-manifest.json": {
       "bytes": 21038,
-      "sha256": "c773eeb34cfe63d8c78093af29ef1ba2ebfd33cf2daad55bc0701f8157158de4"
+      "sha256": "b2cc7f6729f7e8c58ac800b3f2edf36581a27a991a28c67cc2c9e55980cb18c3"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json": {
       "bytes": 13654,
-      "sha256": "28729edcbfa0b9386b246eec546330333c683f01c547a7914787d5285d80a040"
+      "sha256": "dfcb32f980cbc029f9e21236cf08a267a09a406ef8c8db1be51d6db7ece7b382"
     },
     "cities/catalogue/west-asia/Iraq/Baqubah/README.md": {
       "bytes": 9139,
@@ -5562,7 +5572,7 @@
     },
     "cities/catalogue/west-asia/Iraq/CURRENT-PLANNING-BASIS.json": {
       "bytes": 7211,
-      "sha256": "6ca00b7cc0b88790c05c1f90e3e9a111d4a0f75166413b6cbeafc2d96f6dab24"
+      "sha256": "7ecb6e386dc146866e7de1b4a155ad5a00fca44012cdbadfbbb8ccfc34a322e7"
     },
     "cities/catalogue/west-asia/Iraq/Diwaniyah/README.md": {
       "bytes": 9161,
@@ -7485,8 +7495,8 @@
       "sha256": "748f2cfa255ee383ba6cbea1cc05276555f154f73ff58ace3b1f29f019c33b0f"
     },
     "tools/automation/baghdad_delivery_closure.py": {
-      "bytes": 108062,
-      "sha256": "99f907720be76691b39a90f583868d7bd3b521719c78997a4db6e1cf31b8441f"
+      "bytes": 108527,
+      "sha256": "d0abb0284704747175e6ce76d44e39e30f43a6fb06e0080a2d7952a011cddb76"
     },
     "tools/automation/baghdad_delivery_stress.py": {
       "bytes": 50022,
@@ -7672,16 +7682,16 @@
       "sha256": "9fc7fb55a79d53767b547ab020a33ddfde01c9a8f2cfcb4cce8ed22413e05dac"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal-Supporting-Data-part-002.zip": {
-      "bytes": 18592948,
-      "sha256": "c9b0fafe5d08afd87ff07a268856172cab7984736d565ae61e7d34565e205c78"
+      "bytes": 26165151,
+      "sha256": "64ad15971a1c408a150b301b6b18095e648bd946f1a76d3394b8d249ba02191f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal-Supporting-Data.zip": {
-      "bytes": 50256447,
-      "sha256": "46692e74f2a702dab3c617d7dcaec3a4e2e0793095db52166a5989e1c1176146"
+      "bytes": 51983399,
+      "sha256": "d793ccd27cd2009c9fcd2ff64c3df7eb9c79938991a64c77e4742f13feca5226"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/Baghdad-Proposal.pdf": {
-      "bytes": 4171436,
-      "sha256": "c1d80edcc258ae2a22786406cf1547210c7586029c83df0889b957575764107d"
+      "bytes": 4171461,
+      "sha256": "09b04fb27cd45cbb9ddcb7338c8f92fb73cd83d4294c94d834ee565d3c8b1796"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md": {
       "bytes": 37891,
@@ -7692,8 +7702,8 @@
       "sha256": "a0668508c27e08c2c0fa24ae211959364d8cf39ca941d8607d142b97b348ddef"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/archive-manifest.json": {
-      "bytes": 294301,
-      "sha256": "1262add676f8ab2d470a49e882a8b6e43823fc1696e3cfb3726d254a09e11f38"
+      "bytes": 294729,
+      "sha256": "8762b0e5d42d460a978ac2532ff01b430162fff026f99b4054b5a379e543484f"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/national-context.json": {
       "bytes": 6387,
@@ -7724,13 +7734,14 @@
       "sha256": "20945a74bc60a5c458fd65d1e9bd1ab358f0012c736a64750132a30da2a7c1b8"
     },
     "cities/catalogue/west-asia/Iraq/Baghdad/source-inventory.csv": {
-      "bytes": 219783,
-      "sha256": "4c0528f3b3a8c362c99592474bd4bfa833f67ca5cc06ed6205d2b86792253f35"
+      "bytes": 220111,
+      "sha256": "6dfc6534c69f867ef648d33a266b01b09dfa9abe1977ceb5ec39ed5673872430"
     }
   },
   "schema_version": "1.0",
   "supporting_archives": {
     "Baghdad-Proposal-Supporting-Data-part-002.zip": [
+      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/walking-graph.npz.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/walking-streets.geojson.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/worldpop-2026-pixels.npz.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/worldpop-2026-source.json",
@@ -8513,6 +8524,8 @@
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/network-expansion-baseline.json.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-buildability-mask.bin.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-grid.json",
+      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-slope.f32.gz",
+      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-terrain-source.json",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-water-features.json.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-water-mask.bin.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/pre-rework-corridors.json.gz",
@@ -8735,7 +8748,7 @@
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-aged10-sites.csv",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-poor-sites.csv",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-opening-reference-sites.csv",
-      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv",
+      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/energy-site-shortage-hours.csv.gz",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-task-import.csv",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/erpnext-tasks.json",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/fare-sensitivities.csv",
@@ -9189,8 +9202,7 @@
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/ghsl-2025-source.json",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/map-source.json",
       "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/street-source.json",
-      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/summary.json",
-      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/walking-graph.npz.gz"
+      "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/summary.json"
     ]
   },
   "title": "Baghdad Proposal"
