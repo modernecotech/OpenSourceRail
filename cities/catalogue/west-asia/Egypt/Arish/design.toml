@@ -1160,14 +1160,14 @@ station = "line-1-0307-0518-s012876"
 line = "line-1"
 archetype = "main-heavy"
 fleet_stalls = 4
-storage_slots = 25
-storage_tracks = 9
+storage_slots = 29
+storage_tracks = 10
 train_length_m = 39
 slot_length_m = 49.0
-storage_track_m = 1225.0
+storage_track_m = 1421.0
 workshop_bays = 4
-planning_land_area_m2 = 19567.0
-reference_cost_usd = 14760495
+planning_land_area_m2 = 20890.0
+reference_cost_usd = 14905800
 site_accepted = false
 physical_release = false
 [[depots.switches]]
@@ -1240,10 +1240,10 @@ physical_release = false
 [[fleets]]
 line               = "line-1"
 peak_count         = 22
-service_rotation_count = 0
+service_rotation_count = 4
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 25
+trainset_count     = 29
 
 [[fleets]]
 line               = "line-2"
@@ -1277,24 +1277,24 @@ civil_subtotal_eur   = 125735685
 stations_usd         = 37000000
 stations_eur         = 34040000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 27598215
-depots_eur           = 25390358
+depots_usd           = 27743520
+depots_eur           = 25524038
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 19600000
-rolling_stock_eur    = 18032000
+rolling_stock_usd    = 21840000
+rolling_stock_eur    = 20092800
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 741683
 signalling_eur       = 682349
-charging_microgrid_usd = 850000
-charging_microgrid_eur = 782000
+charging_microgrid_usd = 1700000
+charging_microgrid_eur = 1564000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 15572138
-epc_overhead_eur     = 14326367
-total_usd            = 238031259  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 218988758  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 15798610
+epc_overhead_eur     = 14534721
+total_usd            = 241493036  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 222173593  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -1316,4 +1316,4 @@ station_dcdc_500kw_usd = 15000
 station_contact_protection_control_usd = 12500
 station_equipment_total_usd = 65000
 normal_integrated_charging_site_usd = 100000
-station_charging_cabinet_count = 1
+station_charging_cabinet_count = 2

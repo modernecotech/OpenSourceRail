@@ -15,8 +15,16 @@ def apply(design_path: Path) -> bool:
     if not override_path.is_file():
         return False
     override = tomllib.loads(override_path.read_text())
-    if set(override) - {"operations", "charging"} or set(override.get("operations", {})) - {"habd"}:
-        raise ValueError("city overrides support operations.habd and repeated charging cabinets only")
+    if set(override) - {"operations", "charging", "fleets"} or set(override.get("operations", {})) - {"habd"}:
+        raise ValueError("city overrides support operations.habd, repeated charging cabinets and controlled fleet minima only")
+    fleets = override.get("fleets", {})
+    known = {row['line'] for row in tomllib.loads(design_path.read_text()).get('fleets', [])}
+    for line, requirement in fleets.items():
+        if (line not in known or set(requirement) != {'minimum_trainset_count', 'basis'}
+                or type(requirement['minimum_trainset_count']) is not int
+                or not 1 <= requirement['minimum_trainset_count'] <= 4096
+                or not isinstance(requirement['basis'], str) or not requirement['basis'].strip()):
+            raise ValueError('fleet minimum requires an existing line, integer quantity and engineering basis')
     if "charging" in override:
         charging = override["charging"]
         if set(charging) != {"station_cabinet_count", "basis"}:
@@ -26,7 +34,8 @@ def apply(design_path: Path) -> bool:
             raise ValueError("charging override requires 1–8 repeated cabinets and a nonempty basis")
     policy = override.get("operations", {}).get("habd")
     if policy is None:
-        return apply_charging(design_path, override.get("charging"))
+        charged = apply_charging(design_path, override.get("charging"))
+        return apply_fleet_minima(design_path, fleets) or charged
     if set(policy) - {"enabled", "approach_distance_m"} or type(policy.get("enabled")) is not bool:
         raise ValueError("HABD override requires a boolean enabled policy and known keys")
     distance = policy.get("approach_distance_m", 500)
@@ -35,7 +44,8 @@ def apply(design_path: Path) -> bool:
     text = design_path.read_text()
     previous = tomllib.loads(text)
     if previous.get("operations", {}).get("habd", {}) == policy:
-        return apply_charging(design_path, override.get("charging"))
+        charged = apply_charging(design_path, override.get("charging"))
+        return apply_fleet_minima(design_path, fleets) or charged
     block = "[operations.habd]\n" + "".join(f"{k} = {json.dumps(v)}\n" for k, v in sorted(policy.items()))
     pattern = r"(?ms)^\[operations\.habd\]\n.*?(?=^\[|\Z)"
     if re.search(pattern, text):
@@ -57,7 +67,51 @@ def apply(design_path: Path) -> bool:
         temporary = Path(handle.name)
     temporary.replace(design_path)
     apply_charging(design_path, override.get("charging"))
+    apply_fleet_minima(design_path, fleets)
     return True
+
+
+def apply_fleet_minima(design_path: Path, policies: dict) -> bool:
+    """Retain priced service-rotation stock without reducing native quantities.
+
+    The recipe recalculates full-fleet depots and capital after this pass.
+    Geometry, cadence, peak allocation, spares and protected reserves remain
+    unchanged; the added gross pool must pass the actual operating screens.
+    """
+    if not policies:
+        return False
+    text = design_path.read_text()
+    previous = tomllib.loads(text)
+    expected = tomllib.loads(text)
+    changes = {}
+    for fleet in expected['fleets']:
+        policy = policies.get(fleet['line'])
+        if policy is None:
+            continue
+        extra = max(0, policy['minimum_trainset_count'] - fleet['trainset_count'])
+        if extra:
+            fleet['trainset_count'] += extra
+            fleet['service_rotation_count'] = fleet.get('service_rotation_count', 0) + extra
+            changes[fleet['line']] = fleet
+    if not changes:
+        return False
+    def update(match):
+        block = match.group(0)
+        line = tomllib.loads(block)['fleets'][0]['line']
+        if line not in changes:
+            return block
+        for key in ('trainset_count', 'service_rotation_count'):
+            pattern = r'^(' + key + r'\s*=\s*)[^\s#]+'
+            if re.search(pattern, block, re.M):
+                block = re.sub(pattern, lambda m: m[1] + str(changes[line][key]), block, count=1, flags=re.M)
+            else:
+                block = block.rstrip() + f'\n{key} = {changes[line][key]}\n\n'
+        return block
+    updated = re.sub(r'(?ms)^\[\[fleets\]\]\n.*?(?=^\[|\Z)', update, text)
+    if tomllib.loads(updated) != expected:
+        raise ValueError('fleet minimum changed fields beyond service-rotation quantities')
+    design_path.write_text(updated)
+    return expected != previous
 
 
 def apply_charging(design_path: Path, policy: dict | None) -> bool:

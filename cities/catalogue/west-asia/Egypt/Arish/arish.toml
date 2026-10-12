@@ -73,26 +73,26 @@ dust_loss_recovery_frac = 0.75
 [[stations]]
 id = "line-1-0697-0528-s000000"
 name = "مطار العريش الدولى"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
 id = "line-1-0437-0446-s006727"
 name = "line-1-0437-0446-s006727"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
 id = "line-1-0354-0450-s010904"
 name = "line-1-0354-0450-s010904"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
 id = "line-1-0307-0518-s012876"
 name = "Arish Military Hospital"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 240
 is_terminal = true
 is_depot = true
@@ -101,7 +101,7 @@ depot_service = true
 [[stations]]
 id = "line-2-0368-0517-s000000"
 name = "Arish University"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 is_depot = true
@@ -110,13 +110,13 @@ depot_service = true
 [[stations]]
 id = "line-2-0354-0450-s001456"
 name = "line-2-0354-0450-s001456"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 120
 
 [[stations]]
 id = "line-2-0349-0427-s001957"
 name = "مستشفي العريش العام"
-charging_power_kw = 500
+charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 
@@ -191,7 +191,7 @@ station = "line-2-0349-0427-s001957"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 25
+trainset_count = 29
 dispatch_points = [
     { station = "line-1-0697-0528-s000000", heading = "forward" },
     { station = "line-1-0307-0518-s012876", heading = "reverse" },
@@ -232,52 +232,52 @@ schedule = [
 station = "line-1-0697-0528-s000000"
 tier = "terminal"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0437-0446-s006727"
 tier = "standard"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0354-0450-s010904"
 tier = "interchange"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 1200.0
+grid_export_kw = 1200.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-1-0307-0518-s012876"
@@ -287,14 +287,14 @@ storage_capacity_kwh = 40000.0
 storage_max_charge_kw = 10000.0
 storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000.0
-grid_export_kw = 3000.0
+grid_import_kw = 6000.0
+grid_export_kw = 6000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0368-0517-s000000"
@@ -304,45 +304,45 @@ storage_capacity_kwh = 40000.0
 storage_max_charge_kw = 10000.0
 storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000.0
-grid_export_kw = 3000.0
+grid_import_kw = 6000.0
+grid_export_kw = 6000.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0354-0450-s001456"
 tier = "interchange"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 1200.0
+grid_export_kw = 1200.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4
 
 [[sites]]
 station = "line-2-0349-0427-s001957"
 tier = "terminal"
 pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
-grid_import_kw = 800.0
-grid_export_kw = 800.0
+grid_import_kw = 1600.0
+grid_export_kw = 1600.0
 storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
 charger_bus_voltage_v = 650.0
 charger_efficiency = 0.98
-charger_contact_count = 2
+charger_contact_count = 4

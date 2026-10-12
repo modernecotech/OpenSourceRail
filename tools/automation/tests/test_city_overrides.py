@@ -59,6 +59,44 @@ def test_charging_recovery_prices_repeated_equipment_without_changing_fleet(tmp_
     assert path.read_bytes() == first
 
 
+def test_fleet_minimum_adds_only_required_service_rotation_stock_and_is_idempotent(tmp_path):
+    path = tmp_path / 'design.toml'
+    path.write_bytes((ROOT / 'cities/catalogue/west-asia/Egypt/Arish/design.toml').read_bytes())
+    baseline = tomllib.loads(path.read_text())
+    fleet = baseline['fleets'][0]
+    target = fleet['trainset_count'] + 4
+    (tmp_path / 'design-overrides.toml').write_text(
+        f'[fleets.{fleet["line"]}]\nminimum_trainset_count={target}\nbasis="Full-day service recovery"\n'
+    )
+    assert module.apply(path)
+    current = tomllib.loads(path.read_text())
+    expected = tomllib.loads(path.read_text())
+    expected['fleets'] = baseline['fleets']
+    assert expected == baseline
+    assert current['fleets'][0]['trainset_count'] == target
+    assert current['fleets'][0]['service_rotation_count'] == fleet.get('service_rotation_count', 0) + 4
+    for key in ('peak_count', 'spare_count', 'cold_reserve_count'):
+        assert current['fleets'][0][key] == fleet[key]
+    assert current['fleets'][1:] == baseline['fleets'][1:]
+    first = path.read_bytes()
+    assert not module.apply(path)
+    assert path.read_bytes() == first
+
+
+@pytest.mark.parametrize('line,count', [('missing', 29), ('line-1', 0), ('line-1', True), ('line-1', 4.5), ('line-1', 4097)])
+def test_invalid_fleet_minimum_cannot_partially_apply_charging_changes(tmp_path, line, count):
+    import json
+    path = tmp_path / 'design.toml'
+    path.write_bytes((ROOT / 'cities/catalogue/west-asia/Egypt/Arish/design.toml').read_bytes())
+    before = path.read_bytes()
+    (tmp_path / 'design-overrides.toml').write_text(
+        f'[charging]\nstation_cabinet_count=2\nbasis="Test"\n[fleets.{line}]\nminimum_trainset_count={json.dumps(count)}\nbasis="Test"\n'
+    )
+    with pytest.raises(ValueError, match='fleet minimum'):
+        module.apply(path)
+    assert path.read_bytes() == before
+
+
 @pytest.mark.parametrize("count", [0, 9, True, 1.5])
 def test_unbounded_or_noninteger_charging_recovery_is_rejected(tmp_path, count):
     path = tmp_path / "design.toml"
