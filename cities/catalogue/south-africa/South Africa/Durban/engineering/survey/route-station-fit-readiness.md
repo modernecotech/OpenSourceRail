@@ -1,8 +1,8 @@
 # Durban route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 161
+- Lines: 14
+- Stations: 201
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

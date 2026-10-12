@@ -1,7 +1,7 @@
 # Bloemfontein drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 9 / 54
+- Lines/stations: 5 / 74
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

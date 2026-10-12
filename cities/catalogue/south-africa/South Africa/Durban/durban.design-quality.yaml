@@ -1,29 +1,29 @@
 slug: durban
-pass: false
+pass: true
 metrics:
-  total_route_m: 716422.1
-  n_lines: 47
-  n_stations: 533
-  anchor_hit_rate: 0.103
-  high_demand_coverage: 0.791
+  total_route_m: 458287.8
+  n_lines: 14
+  n_stations: 201
+  anchor_hit_rate: 0.244
+  high_demand_coverage: 0.764
   civil_mix_m:
-    at_grade: 151125.800
-    elevated: 495773.800
-    bridge:   69522.300
-  elevated_fraction: 0.789
+    at_grade: 15275.100
+    elevated: 427842.600
+    bridge:   15170.100
+  elevated_fraction: 0.967
   viaduct_products_m:
-    osr_pi20_pi25: 462192.822
-    osr_us:      28747.384
-    special:     69522.300
-    realign:     4833.594
-  max_elevated_cost_multiplier: 24.211
+    osr_pi20_pi25: 300693.430
+    osr_us:      104613.453
+    special:     15170.100
+    realign:     22535.717
+  max_elevated_cost_multiplier: 26.899
 gates:
   hard:
     has_stations:      true
-    length_reasonable: false
+    length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

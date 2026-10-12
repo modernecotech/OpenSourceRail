@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 53.3% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 93.3% |
+| Reachable with at most two transfers | 83.3% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 79,342**. Catalogue planning population: 300,000.
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 23,510 | 29.6% |
-| 800 m | 48,812 | 61.5% |
-| 1000 m | 62,597 | 78.9% |
-| 1500 m | 71,685 | 90.3% |
-| 2000 m | 73,917 | 93.2% |
+| 500 m | 10,293 | 13.0% |
+| 800 m | 21,838 | 27.5% |
+| 1000 m | 29,985 | 37.8% |
+| 1500 m | 48,094 | 60.6% |
+| 2000 m | 64,265 | 81.0% |
 
 Excluded nodata pixels: 42; valid pixels: 29,118.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 42; valid pixels: 29,118.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (44.2%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (54.5%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).
