@@ -1,7 +1,7 @@
 # Dodoma drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 14 / 63
+- Lines/stations: 5 / 23
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

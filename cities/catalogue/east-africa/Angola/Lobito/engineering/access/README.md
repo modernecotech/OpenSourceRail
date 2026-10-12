@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 42.9% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 85.7% |
+| Reachable with at most two transfers | 83.3% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 256,291**. Catalogue planning population: 500,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 59,834 | 23.3% |
-| 800 m | 129,408 | 50.5% |
-| 1000 m | 162,994 | 63.6% |
-| 1500 m | 203,098 | 79.2% |
-| 2000 m | 219,333 | 85.6% |
+| 500 m | 21,273 | 8.3% |
+| 800 m | 47,834 | 18.7% |
+| 1000 m | 68,086 | 26.6% |
+| 1500 m | 122,303 | 47.7% |
+| 2000 m | 162,047 | 63.2% |
 
 Excluded nodata pixels: 32,374; valid pixels: 25,460.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 32,374; valid pixels: 25,460.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (51.9%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (71.5%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

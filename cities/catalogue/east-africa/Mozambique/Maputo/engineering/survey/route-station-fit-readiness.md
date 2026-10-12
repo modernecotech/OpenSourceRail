@@ -1,8 +1,8 @@
 # Maputo route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 23
-- Stations: 190
+- Lines: 9
+- Stations: 92
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

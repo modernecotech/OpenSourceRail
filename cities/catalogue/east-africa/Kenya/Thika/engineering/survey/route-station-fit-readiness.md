@@ -1,8 +1,8 @@
 # Thika route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 15
-- Stations: 88
+- Lines: 5
+- Stations: 25
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

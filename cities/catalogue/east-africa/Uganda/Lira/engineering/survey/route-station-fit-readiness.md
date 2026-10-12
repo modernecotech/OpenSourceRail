@@ -1,8 +1,8 @@
 # Lira route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 11
-- Stations: 52
+- Lines: 4
+- Stations: 17
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

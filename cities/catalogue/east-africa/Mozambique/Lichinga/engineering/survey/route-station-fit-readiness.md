@@ -1,8 +1,8 @@
 # Lichinga route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 4
-- Stations: 11
+- Lines: 2
+- Stations: 5
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

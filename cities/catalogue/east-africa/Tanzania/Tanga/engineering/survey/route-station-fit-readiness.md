@@ -1,8 +1,8 @@
 # Tanga route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 41
+- Lines: 5
+- Stations: 25
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

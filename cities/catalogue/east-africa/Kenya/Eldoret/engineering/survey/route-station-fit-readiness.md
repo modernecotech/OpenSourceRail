@@ -1,8 +1,8 @@
 # Eldoret route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 16
-- Stations: 79
+- Lines: 5
+- Stations: 51
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

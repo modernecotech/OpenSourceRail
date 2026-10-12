@@ -1,8 +1,8 @@
 # Kisii route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 26
+- Lines: 4
+- Stations: 16
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

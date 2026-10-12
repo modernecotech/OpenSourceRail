@@ -1,29 +1,29 @@
 slug: chimoio
 pass: true
 metrics:
-  total_route_m: 59985.3
-  n_lines: 7
-  n_stations: 42
-  anchor_hit_rate: 0.167
-  high_demand_coverage: 0.668
+  total_route_m: 38107.8
+  n_lines: 3
+  n_stations: 15
+  anchor_hit_rate: 0.333
+  high_demand_coverage: 0.519
   civil_mix_m:
-    at_grade: 5692.800
-    elevated: 53750.900
-    bridge:   541.500
-  elevated_fraction: 0.905
+    at_grade: 2131.100
+    elevated: 34057.000
+    bridge:   1919.700
+  elevated_fraction: 0.944
   viaduct_products_m:
-    osr_pi20_pi25: 48624.315
-    osr_us:      3881.800
-    special:     541.500
-    realign:     1244.785
-  max_elevated_cost_multiplier: 15.231
+    osr_pi20_pi25: 27008.837
+    osr_us:      5382.900
+    special:     1919.700
+    realign:     1665.263
+  max_elevated_cost_multiplier: 14.413
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

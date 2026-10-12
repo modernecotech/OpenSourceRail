@@ -1,8 +1,8 @@
 # Nyeri route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 53
+- Lines: 4
+- Stations: 16
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

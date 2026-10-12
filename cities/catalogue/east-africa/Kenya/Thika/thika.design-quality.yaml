@@ -1,29 +1,29 @@
 slug: thika
 pass: true
 metrics:
-  total_route_m: 134836.6
-  n_lines: 15
-  n_stations: 88
-  anchor_hit_rate: 0.114
-  high_demand_coverage: 0.615
+  total_route_m: 82712.5
+  n_lines: 5
+  n_stations: 25
+  anchor_hit_rate: 0.320
+  high_demand_coverage: 0.598
   civil_mix_m:
-    at_grade: 48935.200
-    elevated: 72367.500
-    bridge:   13534.000
-  elevated_fraction: 0.637
+    at_grade: 12420.600
+    elevated: 67624.500
+    bridge:   2667.500
+  elevated_fraction: 0.850
   viaduct_products_m:
-    osr_pi20_pi25: 67970.509
-    osr_us:      4055.639
-    special:     13534.000
-    realign:     341.352
-  max_elevated_cost_multiplier: 18.337
+    osr_pi20_pi25: 54823.805
+    osr_us:      11216.643
+    special:     2667.500
+    realign:     1584.052
+  max_elevated_cost_multiplier: 29.403
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

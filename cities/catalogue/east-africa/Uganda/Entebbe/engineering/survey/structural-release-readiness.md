@@ -1,7 +1,7 @@
 # Entebbe structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 8
+- Lines: 4
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

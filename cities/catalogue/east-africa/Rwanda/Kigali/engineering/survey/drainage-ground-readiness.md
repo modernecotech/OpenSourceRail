@@ -1,7 +1,7 @@
 # Kigali drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 30 / 226
+- Lines/stations: 9 / 64
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

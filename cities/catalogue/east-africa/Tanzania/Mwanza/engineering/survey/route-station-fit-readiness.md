@@ -1,8 +1,8 @@
 # Mwanza route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 20
-- Stations: 203
+- Lines: 9
+- Stations: 88
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -5,19 +5,19 @@
     {
       "line": "line-1",
       "physical_release": false,
-      "storage_slots": 16,
-      "workshop_bays": 3
+      "storage_slots": 14,
+      "workshop_bays": 2
     },
     {
       "line": "line-2",
       "physical_release": false,
-      "storage_slots": 17,
+      "storage_slots": 19,
       "workshop_bays": 3
     },
     {
       "line": "line-3",
       "physical_release": false,
-      "storage_slots": 10,
+      "storage_slots": 12,
       "workshop_bays": 2
     }
   ],
@@ -34,7 +34,7 @@
         "additional_equipment_reference_usd": 5930000.0,
         "additional_pv_reference_usd": 3080000.0,
         "additional_storage_reference_usd": 2850000.0,
-        "adopted_depot_reference_usd": 13732580,
+        "adopted_depot_reference_usd": 12983025,
         "applied_to_city_capex": true,
         "basis": "sensitivity using existing utility-PV and 500 kWh battery equipment rates; not an installed depot quotation",
         "depot_base_allowance_usd": 8000000.0,
@@ -57,12 +57,12 @@
       "reference_pv_canopy_m2": 4000.0,
       "required_pv_module_area_m2": 33333.333333333336,
       "site_override_from_catalogue": false,
-      "station": "line-1-0486-0395-s006627",
+      "station": "line-1-0239-0231-s000000",
       "storage_capacity_kwh": 40000.0,
       "storage_compound_area_m2": null,
       "storage_module_count": 80,
       "storage_module_kwh": 500.0,
-      "workshop_bays": 3
+      "workshop_bays": 2
     },
     {
       "additional_pv_kw": 4400.0,
@@ -74,7 +74,7 @@
         "additional_equipment_reference_usd": 5930000.0,
         "additional_pv_reference_usd": 3080000.0,
         "additional_storage_reference_usd": 2850000.0,
-        "adopted_depot_reference_usd": 13744830,
+        "adopted_depot_reference_usd": 13865635,
         "applied_to_city_capex": true,
         "basis": "sensitivity using existing utility-PV and 500 kWh battery equipment rates; not an installed depot quotation",
         "depot_base_allowance_usd": 8000000.0,
@@ -97,7 +97,7 @@
       "reference_pv_canopy_m2": 4000.0,
       "required_pv_module_area_m2": 33333.333333333336,
       "site_override_from_catalogue": false,
-      "station": "line-2-0075-0290-s000000",
+      "station": "line-2-0376-0351-s007885",
       "storage_capacity_kwh": 40000.0,
       "storage_compound_area_m2": null,
       "storage_module_count": 80,
@@ -114,7 +114,7 @@
         "additional_equipment_reference_usd": 5930000.0,
         "additional_pv_reference_usd": 3080000.0,
         "additional_storage_reference_usd": 2850000.0,
-        "adopted_depot_reference_usd": 12837720,
+        "adopted_depot_reference_usd": 12862220,
         "applied_to_city_capex": true,
         "basis": "sensitivity using existing utility-PV and 500 kWh battery equipment rates; not an installed depot quotation",
         "depot_base_allowance_usd": 8000000.0,
@@ -145,28 +145,38 @@
       "workshop_bays": 2
     }
   ],
-  "design_sha256": "2729ee52fcbbd4d3c80afa65c3746f70c94d0e1638e81d0cda1fb10ae1203dbb",
+  "design_sha256": "b6f85404f5dea6b50b08beadf67546abd2dc7e5d4010784b9d0358a1400dd96e",
   "energy_template_sha256": "73b1fbc369b16b3921b7787cb3bf725b213051bb7520564c378b6b5fabccb932",
-  "fleet_trainsets": 43,
+  "fleet_trainsets": 45,
   "generator_sha256": "f0e223de1041aa4ebd8e8cd18e18c73986e58dbb6c93c1906d7fa1aa70639569",
   "initial_dispatch_requirements": [
     {
-      "initial_trainset_count": 8,
+      "initial_trainset_count": 7,
       "line": "line-1",
-      "minimum_slot_length_with_clearance_m": 392.0,
+      "minimum_slot_length_with_clearance_m": 343.0,
       "station": "line-1-0239-0231-s000000",
       "status": "physical-allocation-missing",
-      "train_body_length_m": 312.0,
+      "train_body_length_m": 273.0,
       "train_length_m": 39.0,
       "verified_stabling_slots": null
     },
     {
-      "initial_trainset_count": 8,
+      "initial_trainset_count": 7,
       "line": "line-1",
-      "minimum_slot_length_with_clearance_m": 392.0,
+      "minimum_slot_length_with_clearance_m": 343.0,
       "station": "line-1-0486-0395-s006627",
       "status": "physical-allocation-missing",
-      "train_body_length_m": 312.0,
+      "train_body_length_m": 273.0,
+      "train_length_m": 39.0,
+      "verified_stabling_slots": null
+    },
+    {
+      "initial_trainset_count": 10,
+      "line": "line-2",
+      "minimum_slot_length_with_clearance_m": 490.0,
+      "station": "line-2-0075-0290-s000000",
+      "status": "physical-allocation-missing",
+      "train_body_length_m": 390.0,
       "train_length_m": 39.0,
       "verified_stabling_slots": null
     },
@@ -174,39 +184,29 @@
       "initial_trainset_count": 9,
       "line": "line-2",
       "minimum_slot_length_with_clearance_m": 441.0,
-      "station": "line-2-0075-0290-s000000",
+      "station": "line-2-0376-0351-s007885",
       "status": "physical-allocation-missing",
       "train_body_length_m": 351.0,
       "train_length_m": 39.0,
       "verified_stabling_slots": null
     },
     {
-      "initial_trainset_count": 8,
-      "line": "line-2",
-      "minimum_slot_length_with_clearance_m": 392.0,
-      "station": "line-2-0376-0351-s006605",
-      "status": "physical-allocation-missing",
-      "train_body_length_m": 312.0,
-      "train_length_m": 39.0,
-      "verified_stabling_slots": null
-    },
-    {
-      "initial_trainset_count": 5,
+      "initial_trainset_count": 6,
       "line": "line-3",
-      "minimum_slot_length_with_clearance_m": 245.0,
+      "minimum_slot_length_with_clearance_m": 294.0,
       "station": "line-3-0368-0370-s000000",
       "status": "physical-allocation-missing",
-      "train_body_length_m": 195.0,
+      "train_body_length_m": 234.0,
       "train_length_m": 39.0,
       "verified_stabling_slots": null
     },
     {
-      "initial_trainset_count": 5,
+      "initial_trainset_count": 6,
       "line": "line-3",
-      "minimum_slot_length_with_clearance_m": 245.0,
-      "station": "line-3-0301-0309-s002033",
+      "minimum_slot_length_with_clearance_m": 294.0,
+      "station": "line-3-0301-0309-s002301",
       "status": "physical-allocation-missing",
-      "train_body_length_m": 195.0,
+      "train_body_length_m": 234.0,
       "train_length_m": 39.0,
       "verified_stabling_slots": null
     }
@@ -237,7 +237,7 @@
   "passed": false,
   "quantities_reconciled": true,
   "rolling_stock_template_sha256": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
-  "scenario_sha256": "e1c51eb999522f28039bdf78bfd1e13c991b726b077516784c99f2b46dc4d897",
+  "scenario_sha256": "0eb4eea52ecd1ffbd82571e3b9791c20d1fa469ff051f7ef2751420eec18e65d",
   "schema_version": 1,
   "scope_model_sha256": "4cee526efafae40aa6c5fce2a9859ad1e2bc27a156e6b2f84b6dd03ae3063ace",
   "simulator_source_sha256": "60af8dfdfdb65e062da3b651c5bb9a6d319c1f3152b2848056ff3d58a45ee341",

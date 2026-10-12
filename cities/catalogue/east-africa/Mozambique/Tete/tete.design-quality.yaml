@@ -1,29 +1,29 @@
 slug: tete
 pass: true
 metrics:
-  total_route_m: 80159.5
-  n_lines: 12
-  n_stations: 68
-  anchor_hit_rate: 0.088
-  high_demand_coverage: 0.675
+  total_route_m: 52152.2
+  n_lines: 5
+  n_stations: 29
+  anchor_hit_rate: 0.241
+  high_demand_coverage: 0.784
   civil_mix_m:
-    at_grade: 560.000
-    elevated: 54757.300
-    bridge:   24842.100
-  elevated_fraction: 0.993
+    at_grade: 0.000
+    elevated: 35184.900
+    bridge:   16967.400
+  elevated_fraction: 1.000
   viaduct_products_m:
-    osr_pi20_pi25: 50330.400
-    osr_us:      3514.400
-    special:     24842.100
-    realign:     912.500
-  max_elevated_cost_multiplier: 18.317
+    osr_pi20_pi25: 28713.700
+    osr_us:      5297.100
+    special:     16967.400
+    realign:     1174.100
+  max_elevated_cost_multiplier: 16.824
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

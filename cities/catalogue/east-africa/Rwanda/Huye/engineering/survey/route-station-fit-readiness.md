@@ -1,8 +1,8 @@
 # Huye route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 58
+- Lines: 5
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

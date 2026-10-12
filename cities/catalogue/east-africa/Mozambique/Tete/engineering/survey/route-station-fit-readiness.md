@@ -1,8 +1,8 @@
 # Tete route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 68
+- Lines: 5
+- Stations: 29
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

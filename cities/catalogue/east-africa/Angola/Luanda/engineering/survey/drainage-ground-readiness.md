@@ -1,7 +1,7 @@
 # Luanda drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 45 / 507
+- Lines/stations: 14 / 160
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

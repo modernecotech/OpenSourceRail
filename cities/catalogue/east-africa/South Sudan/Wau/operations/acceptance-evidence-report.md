@@ -10,22 +10,22 @@ records, release authorities, and predecessor controls must be closed.
 
 | Item | Count / Status |
 |---|---:|
-| Assets in register | 116 |
-| Manufacturing schedule rows | 452 |
-| Manufacturing material/BOM rows | 984 |
-| Manufacturing QA verification rows | 452 |
-| Construction QA action rows | 381 |
-| Maintenance handover schedule rows | 597 |
-| Manufacturing rows with material refs | 452 / 452 |
-| Manufacturing rows with verification refs | 452 / 452 |
-| Manufacturing rows linked to QA actions | 452 / 452 |
+| Assets in register | 119 |
+| Manufacturing schedule rows | 468 |
+| Manufacturing material/BOM rows | 1,008 |
+| Manufacturing QA verification rows | 468 |
+| Construction QA action rows | 394 |
+| Maintenance handover schedule rows | 619 |
+| Manufacturing rows with material refs | 468 / 468 |
+| Manufacturing rows with verification refs | 468 / 468 |
+| Manufacturing rows linked to QA actions | 468 / 468 |
 | Unresolved external predecessors | 0 |
 
 ## Material / BOM Basis
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 984 |
+| `project_kit` | 1,008 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -36,16 +36,16 @@ until detailed civil/station/energy BOMs are added.
 | QA gate | Verification rows |
 |---|---:|
 | `qa-00-design-freeze` | 1 |
-| `qa-10-carbody-structure` | 129 |
-| `qa-11-bogie-wheelset` | 43 |
-| `qa-12-traction-brake-battery` | 43 |
-| `qa-13-passenger-systems` | 43 |
-| `qa-15-first-article-trainset` | 43 |
+| `qa-10-carbody-structure` | 135 |
+| `qa-11-bogie-wheelset` | 45 |
+| `qa-12-traction-brake-battery` | 45 |
+| `qa-13-passenger-systems` | 45 |
+| `qa-15-first-article-trainset` | 45 |
 | `qa-20-survey-geotech` | 9 |
 | `qa-21-earthworks-drainage` | 9 |
 | `qa-22-trackform-rail` | 35 |
 | `qa-24-stations-depots-plant` | 30 |
-| `qa-25-power-energy` | 25 |
+| `qa-25-power-energy` | 27 |
 | `qa-26-wayside-comms-safety` | 42 |
 
 ## Acceptance Control Logic

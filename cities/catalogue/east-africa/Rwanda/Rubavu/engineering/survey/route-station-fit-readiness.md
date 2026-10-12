@@ -1,8 +1,8 @@
 # Rubavu route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 50
+- Lines: 4
+- Stations: 17
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

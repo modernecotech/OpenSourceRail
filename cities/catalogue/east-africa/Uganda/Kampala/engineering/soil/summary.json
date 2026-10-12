@@ -1,8 +1,8 @@
 {
   "city": "kampala",
-  "civil_plan_sha256": "d41a399767b34a7dd0a81ae8b64549cc26cb4fbdb117624b2a62aa7b6708cde6",
-  "civil_segment_count": 1354,
-  "complete_profile_count": 4521,
+  "civil_plan_sha256": "6c6c8391d65eb7b4223451a8130ec27eb15869c71f302c214db4d91afeebbb04",
+  "civil_segment_count": 1940,
+  "complete_profile_count": 6004,
   "density_unit_reconciliation": "TIFF/filename g/cm3 × 1000 = kg/m3; upstream catalogue unit label differs",
   "deployment_release_ready": false,
   "depth_intervals": [
@@ -14,15 +14,16 @@
   "generator_sha256": "f9cb87c93d9c5fcfaa58854c7af922389c06f38a1498ded9ac0becd02ce5833c",
   "ground_design_validated": false,
   "input_sha256": {
-    "civil_segments": "9e5fa5f4d15c2805d965af05c6e8881bb808d41ac604f7231892039d7a39da7a",
-    "design": "acbc9f9ed90293d9abfaf3745317e07b19598a8583ecbed9e5c7f29cb7c2d49c",
+    "civil_segments": "89265ffbef8ded9fc58cd7643cbc7431ffb219c88633c7a6fd38fcdfd83dea83",
+    "design": "5773db87165b5246cdb9f5d8ea1a858b332305d13b0c00d699d22190053cd71b",
     "source_lock": "9f7303c6c2d14d3ab992d50a5e99326046493aececc4f90b294036bcf8d6f6e5",
-    "stations": "5233dbde16ae95b0d6921dad2d1d060acea5b4a23e10c3b049597f58df3a1502"
+    "stations": "65ec362b621154ee0ce259f71a2ec514801de544c3a276061ff291c42b2f1bad"
   },
   "investigation_flag_counts": {
-    "acidic-soil-durability-testing": 2671,
-    "fine-soil-plasticity-and-shrink-swell-tests": 4521,
-    "granular-density-and-groundwater-tests": 269
+    "acidic-soil-durability-testing": 2881,
+    "fine-soil-plasticity-and-shrink-swell-tests": 6004,
+    "granular-density-and-groundwater-tests": 281,
+    "organic-content-and-compressibility-tests": 5
   },
   "limitations": [
     "No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.",
@@ -35,17 +36,17 @@
   "prediction_interval": "p16-p84; nominal 68% prediction interval; not engineering design characteristic values",
   "property_sample_ranges": [
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
       "mean_max": 44.0,
       "mean_min": 29.0,
-      "p16_min": 12.0,
-      "p84_max": 54.0,
+      "p16_min": 15.0,
+      "p84_max": 53.0,
       "property": "clay",
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
       "mean_max": 49.0,
       "mean_min": 26.0,
@@ -55,38 +56,98 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
-      "mean_max": 33.0,
+      "mean_max": 34.0,
       "mean_min": 18.0,
-      "p16_min": 4.0,
-      "p84_max": 47.0,
+      "p16_min": 2.0,
+      "p84_max": 48.0,
       "property": "silt",
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
       "mean_max": 1330.0,
-      "mean_min": 1010.0,
-      "p16_min": 820.0,
-      "p84_max": 1550.0,
+      "mean_min": 1090.0,
+      "p16_min": 840.0,
+      "p84_max": 1540.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
-      "mean_max": 24.6,
-      "mean_min": 8.8,
-      "p16_min": 4.4,
-      "p84_max": 49.9,
+      "mean_max": 23.5,
+      "mean_min": 8.4,
+      "p16_min": 4.0,
+      "p84_max": 50.7,
       "property": "soc",
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "0..30cm",
+      "mean_max": 6.4,
+      "mean_min": 5.8,
+      "p16_min": 5.1,
+      "p84_max": 7.1,
+      "property": "ph.h2o",
+      "unit": "pH"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
+      "mean_max": 47.0,
+      "mean_min": 31.0,
+      "p16_min": 15.0,
+      "p84_max": 59.0,
+      "property": "clay",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
+      "mean_max": 48.0,
+      "mean_min": 23.0,
+      "p16_min": 8.0,
+      "p84_max": 81.0,
+      "property": "sand",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
+      "mean_max": 30.0,
+      "mean_min": 18.0,
+      "p16_min": 0.0,
+      "p84_max": 46.0,
+      "property": "silt",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
+      "mean_max": 1380.0,
+      "mean_min": 1140.0,
+      "p16_min": 850.0,
+      "p84_max": 1600.0,
+      "property": "bd.core",
+      "unit": "kg/m3"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
+      "mean_max": 12.0,
+      "mean_min": 4.9,
+      "p16_min": 1.9,
+      "p84_max": 26.9,
+      "property": "soc",
+      "unit": "g/kg"
+    },
+    {
+      "available_mean_count": 6004,
+      "depth_interval": "30..60cm",
       "mean_max": 6.4,
       "mean_min": 5.7,
       "p16_min": 5.0,
@@ -95,87 +156,27 @@
       "unit": "pH"
     },
     {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 47.0,
+      "available_mean_count": 6004,
+      "depth_interval": "60..100cm",
+      "mean_max": 48.0,
       "mean_min": 32.0,
       "p16_min": 15.0,
-      "p84_max": 58.0,
+      "p84_max": 59.0,
       "property": "clay",
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 47.0,
-      "mean_min": 23.0,
-      "p16_min": 10.0,
-      "p84_max": 81.0,
-      "property": "sand",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 30.0,
-      "mean_min": 18.0,
-      "p16_min": 1.0,
-      "p84_max": 45.0,
-      "property": "silt",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 1400.0,
-      "mean_min": 1030.0,
-      "p16_min": 720.0,
-      "p84_max": 1620.0,
-      "property": "bd.core",
-      "unit": "kg/m3"
-    },
-    {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 12.3,
-      "mean_min": 5.1,
-      "p16_min": 2.2,
-      "p84_max": 34.5,
-      "property": "soc",
-      "unit": "g/kg"
-    },
-    {
-      "available_mean_count": 4521,
-      "depth_interval": "30..60cm",
-      "mean_max": 6.4,
-      "mean_min": 5.6,
-      "p16_min": 4.9,
-      "p84_max": 7.5,
-      "property": "ph.h2o",
-      "unit": "pH"
-    },
-    {
-      "available_mean_count": 4521,
-      "depth_interval": "60..100cm",
-      "mean_max": 48.0,
-      "mean_min": 31.0,
-      "p16_min": 15.0,
-      "p84_max": 58.0,
-      "property": "clay",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "60..100cm",
       "mean_max": 48.0,
       "mean_min": 23.0,
-      "p16_min": 7.0,
+      "p16_min": 6.0,
       "p84_max": 80.0,
       "property": "sand",
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "60..100cm",
       "mean_max": 30.0,
       "mean_min": 18.0,
@@ -185,39 +186,39 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "60..100cm",
-      "mean_max": 1440.0,
-      "mean_min": 1020.0,
-      "p16_min": 690.0,
-      "p84_max": 1670.0,
+      "mean_max": 1420.0,
+      "mean_min": 1160.0,
+      "p16_min": 830.0,
+      "p84_max": 1640.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "60..100cm",
-      "mean_max": 11.0,
+      "mean_max": 11.7,
       "mean_min": 4.8,
       "p16_min": 1.2,
-      "p84_max": 32.6,
+      "p84_max": 40.5,
       "property": "soc",
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 4521,
+      "available_mean_count": 6004,
       "depth_interval": "60..100cm",
       "mean_max": 6.5,
-      "mean_min": 5.6,
+      "mean_min": 5.7,
       "p16_min": 4.8,
-      "p84_max": 7.8,
+      "p84_max": 7.7,
       "property": "ph.h2o",
       "unit": "pH"
     }
   ],
-  "sample_count": 4521,
-  "sample_locations_sha256": "38cbb570e6dedb3b5e5d6d5017070823ff0e8fbde9be8f2ded7ef2afbc4b18ea",
-  "samples_sha256": "ce2ac4c92d802422f4bfb225c4d6ba0297afd6cf14e2238595da0558319fba43",
+  "sample_count": 6004,
+  "sample_locations_sha256": "feb44e898658350c567929586c47430c2bf2e47bb5ce9fafda70f154c3e3f6be",
+  "samples_sha256": "c06acbb01cba6b65ca221f935a6dc49f65a4db584503a1b01f92963ac682743c",
   "sampling_resolution_m": 120,
   "sampling_spacing_m": 1000,
   "schema_version": 1,
@@ -227,8 +228,8 @@
     "source_lock": "engineering/data/soildb/sources.json",
     "stations": "cities/catalogue/east-africa/Uganda/Kampala/engineering/gis/layers/stations.geojson"
   },
-  "source_receipt_sha256": "6b961c395e70300a096d5b2dbcd519709b45892543048d24242e8700dbe54dff",
-  "station_count": 271,
+  "source_receipt_sha256": "8545284c956d1b55c935d399ebc1e52e124f9631617a1b9bef662fa2a157bc41",
+  "station_count": 108,
   "status": "desktop-soil-screening-complete",
   "units": {
     "bd.core": "kg/m3",

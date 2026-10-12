@@ -1,8 +1,8 @@
 # Benguela route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 14
-- Stations: 63
+- Lines: 5
+- Stations: 22
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

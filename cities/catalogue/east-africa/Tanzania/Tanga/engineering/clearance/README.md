@@ -2,20 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **2,133**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **1,424**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 1 |
-| Beam/building | height-unresolved | 1,572 |
-| Beam/building | product-depth-unresolved | 145 |
-| Reference support/foundation | foundation-footprint-conflict | 501 |
-| Reference support/foundation | foundation-setback-conflict | 96 |
-| Reference support/foundation | mapped-footprints-only-clear | 1,747 |
-| Terrain | reference-gradient-exceeded | 1,231 |
-| Terrain | reference-gradient-within-policy | 952 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 157 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 84 |
+| Beam/building | height-unresolved | 939 |
+| Beam/building | product-depth-unresolved | 294 |
+| Reference support/foundation | foundation-footprint-conflict | 375 |
+| Reference support/foundation | foundation-setback-conflict | 94 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,009 |
+| Terrain | reference-gradient-exceeded | 1,160 |
+| Terrain | reference-gradient-within-policy | 1,018 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 296 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 168 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

@@ -4,8 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`uige-line1.aln.toml`](uige-line1.aln.toml) | `line-1` | 7,014.9 m | 4 |
-| [`uige-line2.aln.toml`](uige-line2.aln.toml) | `line-2` | 5,085.6 m | 4 |
+| [`uige-line1.aln.toml`](uige-line1.aln.toml) | `line-1` | 12,024.8 m | 6 |
 
 ## Status
 

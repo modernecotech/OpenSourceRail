@@ -2,20 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **432**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **321**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 5 |
-| Beam/building | height-unresolved | 320 |
-| Beam/building | product-depth-unresolved | 46 |
-| Reference support/foundation | foundation-footprint-conflict | 189 |
-| Reference support/foundation | foundation-setback-conflict | 47 |
-| Reference support/foundation | mapped-footprints-only-clear | 3,004 |
-| Terrain | reference-gradient-exceeded | 1,579 |
-| Terrain | reference-gradient-within-policy | 1,515 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 145 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 69 |
+| Beam/building | height-unresolved | 238 |
+| Beam/building | product-depth-unresolved | 35 |
+| Reference support/foundation | foundation-footprint-conflict | 115 |
+| Reference support/foundation | foundation-setback-conflict | 34 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,149 |
+| Terrain | reference-gradient-exceeded | 1,063 |
+| Terrain | reference-gradient-within-policy | 1,065 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 169 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 88 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

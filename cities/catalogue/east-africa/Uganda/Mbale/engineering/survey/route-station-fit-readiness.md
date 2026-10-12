@@ -1,8 +1,8 @@
 # Mbale route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 34
+- Lines: 5
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

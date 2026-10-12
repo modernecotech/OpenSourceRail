@@ -1,8 +1,8 @@
 # Gulu route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 15
-- Stations: 74
+- Lines: 5
+- Stations: 48
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

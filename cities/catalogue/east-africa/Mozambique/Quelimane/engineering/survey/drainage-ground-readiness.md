@@ -1,7 +1,7 @@
 # Quelimane drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 2 / 9
+- Lines/stations: 1 / 5
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

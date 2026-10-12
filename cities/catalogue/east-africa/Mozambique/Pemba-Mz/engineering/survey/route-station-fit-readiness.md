@@ -1,8 +1,8 @@
 # Pemba-Mz route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 8
-- Stations: 37
+- Lines: 4
+- Stations: 19
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

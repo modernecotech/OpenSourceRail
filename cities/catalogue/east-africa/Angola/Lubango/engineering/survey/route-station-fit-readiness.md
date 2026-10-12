@@ -1,8 +1,8 @@
 # Lubango route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 62
+- Lines: 4
+- Stations: 32
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

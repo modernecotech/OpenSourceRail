@@ -1,7 +1,7 @@
 # Antananarivo drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 40 / 429
+- Lines/stations: 14 / 198
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 27.3% |
+| Direct transfer line pairs | 60.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 60.6% |
+| Reachable with at most two transfers | 90.0% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 313,087**. Catalogue planning population: 350,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 68,215 | 21.8% |
-| 800 m | 153,653 | 49.1% |
-| 1000 m | 201,675 | 64.4% |
-| 1500 m | 244,976 | 78.2% |
-| 2000 m | 258,681 | 82.6% |
+| 500 m | 24,338 | 7.8% |
+| 800 m | 53,349 | 17.0% |
+| 1000 m | 77,054 | 24.6% |
+| 1500 m | 141,764 | 45.3% |
+| 2000 m | 195,979 | 62.6% |
 
 Excluded nodata pixels: 5,418; valid pixels: 53,368.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 5,418; valid pixels: 53,368.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (67.5%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (78.4%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

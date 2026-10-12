@@ -1,21 +1,21 @@
 slug: nacala
 pass: true
 metrics:
-  total_route_m: 86425.5
-  n_lines: 13
-  n_stations: 57
-  anchor_hit_rate: 0.193
-  high_demand_coverage: 0.666
+  total_route_m: 55215.7
+  n_lines: 4
+  n_stations: 25
+  anchor_hit_rate: 0.400
+  high_demand_coverage: 0.709
   civil_mix_m:
-    at_grade: 37821.500
-    elevated: 48292.800
-    bridge:   311.200
-  elevated_fraction: 0.562
+    at_grade: 14176.100
+    elevated: 41039.700
+    bridge:   0.000
+  elevated_fraction: 0.743
   viaduct_products_m:
-    osr_pi20_pi25: 44324.340
-    osr_us:      3454.060
-    special:     311.200
-    realign:     514.400
+    osr_pi20_pi25: 34080.049
+    osr_us:      5475.831
+    special:     0.000
+    realign:     1483.820
   max_elevated_cost_multiplier: 22.567
 gates:
   hard:
@@ -23,7 +23,7 @@ gates:
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

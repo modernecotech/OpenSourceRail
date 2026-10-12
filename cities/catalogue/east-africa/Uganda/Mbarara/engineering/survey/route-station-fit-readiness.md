@@ -1,8 +1,8 @@
 # Mbarara route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 13
-- Stations: 67
+- Lines: 4
+- Stations: 26
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

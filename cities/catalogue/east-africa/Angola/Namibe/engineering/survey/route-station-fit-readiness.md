@@ -1,8 +1,8 @@
 # Namibe route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 11
-- Stations: 49
+- Lines: 5
+- Stations: 23
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Mogadishu route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 105
+- Lines: 6
+- Stations: 120
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

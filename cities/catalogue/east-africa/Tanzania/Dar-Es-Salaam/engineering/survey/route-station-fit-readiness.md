@@ -1,8 +1,8 @@
 # Dar-Es-Salaam route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 212
+- Lines: 14
+- Stations: 309
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

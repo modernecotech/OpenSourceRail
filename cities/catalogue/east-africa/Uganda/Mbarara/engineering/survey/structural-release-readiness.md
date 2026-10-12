@@ -1,7 +1,7 @@
 # Mbarara structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 13
+- Lines: 4
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

@@ -1,8 +1,8 @@
 # Jinja route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 14
-- Stations: 72
+- Lines: 4
+- Stations: 31
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Kigali route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 30
-- Stations: 226
+- Lines: 9
+- Stations: 64
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

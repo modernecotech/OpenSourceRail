@@ -1,8 +1,8 @@
 # Arua route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 49
+- Lines: 4
+- Stations: 22
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

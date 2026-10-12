@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.791,
+    "high_demand_cell_fraction": 0.827,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 202964.38758096844,
     "catchments": [
       {
-        "covered_population_2020": 42269.93424153328,
-        "fraction_of_raster_population": 0.20826281272950195,
+        "covered_population_2020": 22476.329857230186,
+        "fraction_of_raster_population": 0.11074026397002144,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 87952.715873003,
-        "fraction_of_raster_population": 0.43334063143425144,
+        "covered_population_2020": 45948.15401053429,
+        "fraction_of_raster_population": 0.22638530117607072,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 111341.0916942954,
-        "fraction_of_raster_population": 0.548574520985255,
+        "covered_population_2020": 61566.339117228985,
+        "fraction_of_raster_population": 0.3033356730754964,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 143046.9575573206,
-        "fraction_of_raster_population": 0.704788457040302,
+        "covered_population_2020": 97490.57397031784,
+        "fraction_of_raster_population": 0.48033339805204,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 160935.79158484936,
-        "fraction_of_raster_population": 0.7929262542210631,
+        "covered_population_2020": 124204.58225697279,
+        "fraction_of_raster_population": 0.611952588024458,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 26,
+    "unique_station_coordinates": 10,
     "valid_pixels": 26406
   },
   "population_source_country": "KE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/design.toml": "12f89d29526e828eed0320a86dfb859efe8dd04ae4b3c2fbe15a68974cf9e75d",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/design.toml": "4f720890fbccaf291ce592dcb9ca0859c3fc453eabd550474b6823414c248a85",
     "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-pixels.npz.gz": "f3ceb110d6470a8f19c2da8e0c052839bd7b3b75be08d029c86eaecdc2641d83",
     "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-source.json": "ead61a364dc36aff1eaea88af91fda42c256c7894e0078d9d1f939f4ac0051cf",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/meru-ke.design-quality.yaml": "f7ab023154b8d3cec3b7a35344988927b9368367f0e8aba96ad860213dc8390b",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/meru-ke.design-quality.yaml": "e768b3c3298c6431db4dace321083d9b90c28c46db5bdbb9da7a1614b158813f",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [
@@ -97,8 +97,8 @@
         1
       ],
       "lines": [
-        "line-4",
-        "line-3"
+        "line-1",
+        "line-2"
       ],
       "required_evidence": [
         "surveyed entrances and accessible pedestrian path",
@@ -107,10 +107,10 @@
         "property and operating approval"
       ],
       "stations": [
-        "line-4-0412-0289-s002101",
-        "line-3-0431-0258-s002395"
+        "line-1-0387-0378-s006732",
+        "line-2-0349-0364-s000000"
       ],
-      "straight_distance_m": 726.705,
+      "straight_distance_m": 810.233,
       "transfer_created": false,
       "walk_time_minutes": null
     }
@@ -120,76 +120,36 @@
     "components": [
       [
         "line-1",
-        "line-2",
-        "line-4",
-        "line-5",
-        "line-6",
-        "line-7",
-        "line-8",
-        "line-9"
+        "line-3",
+        "line-4"
       ],
       [
-        "line-3"
+        "line-2"
       ]
     ],
-    "direct_transfer_fraction": 0.2777777777777778,
-    "line_count": 9,
-    "line_pair_count": 36,
-    "maximum_required_transfers": 3,
+    "direct_transfer_fraction": 0.5,
+    "line_count": 4,
+    "line_pair_count": 6,
+    "maximum_required_transfers": 1,
     "pairs": [
       {
         "lines": [
           "line-1",
           "line-2"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": null
       },
       {
         "lines": [
           "line-1",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-1",
           "line-4"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-5"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-7"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-8"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-9"
         ],
         "minimum_transfers": 1
       },
@@ -205,192 +165,17 @@
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-5"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-7"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-8"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-9"
-        ],
-        "minimum_transfers": 2
+        "minimum_transfers": null
       },
       {
         "lines": [
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-5"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-6"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-7"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-8"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-9"
-        ],
-        "minimum_transfers": null
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-5"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-6"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-7"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-8"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-9"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-7"
-        ],
         "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-8"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-9"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-7"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-8"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-9"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-8"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-9"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-9"
-        ],
-        "minimum_transfers": 2
       }
     ],
-    "reachable_line_pair_fraction": 0.7777777777777778,
-    "reachable_with_at_most_two_transfers_fraction": 0.6666666666666666
+    "reachable_line_pair_fraction": 0.5,
+    "reachable_with_at_most_two_transfers_fraction": 0.5
   }
 }

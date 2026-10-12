@@ -1,8 +1,8 @@
 # Lusaka route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 32
-- Stations: 292
+- Lines: 12
+- Stations: 113
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

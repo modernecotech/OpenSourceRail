@@ -1,8 +1,8 @@
 # Entebbe route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 8
-- Stations: 34
+- Lines: 4
+- Stations: 27
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

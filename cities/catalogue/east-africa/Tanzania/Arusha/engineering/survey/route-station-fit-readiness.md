@@ -1,8 +1,8 @@
 # Arusha route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 18
-- Stations: 79
+- Lines: 4
+- Stations: 23
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

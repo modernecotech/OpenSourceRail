@@ -1,29 +1,29 @@
 slug: nairobi
 pass: false
 metrics:
-  total_route_m: 740709.0
-  n_lines: 41
-  n_stations: 533
-  anchor_hit_rate: 0.199
-  high_demand_coverage: 0.776
+  total_route_m: 589497.6
+  n_lines: 14
+  n_stations: 304
+  anchor_hit_rate: 0.365
+  high_demand_coverage: 0.546
   civil_mix_m:
-    at_grade: 154165.000
-    elevated: 574760.100
-    bridge:   11783.900
-  elevated_fraction: 0.792
+    at_grade: 49151.400
+    elevated: 535244.500
+    bridge:   5101.700
+  elevated_fraction: 0.917
   viaduct_products_m:
-    osr_pi20_pi25: 548888.431
-    osr_us:      20695.409
-    special:     11783.900
-    realign:     5176.260
-  max_elevated_cost_multiplier: 28.886
+    osr_pi20_pi25: 394369.546
+    osr_us:      119803.776
+    special:     5101.700
+    realign:     21071.178
+  max_elevated_cost_multiplier: 30.852
 gates:
   hard:
     has_stations:      true
     length_reasonable: false
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false
