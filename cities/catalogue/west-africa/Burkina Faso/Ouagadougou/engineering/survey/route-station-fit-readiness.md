@@ -1,8 +1,8 @@
 # Ouagadougou route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 33
-- Stations: 262
+- Lines: 9
+- Stations: 105
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

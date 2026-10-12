@@ -1,8 +1,8 @@
 # Ibadan route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 27
-- Stations: 163
+- Lines: 8
+- Stations: 127
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

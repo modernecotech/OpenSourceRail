@@ -1,8 +1,8 @@
 # Onitsha route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 33
-- Stations: 267
+- Lines: 8
+- Stations: 79
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

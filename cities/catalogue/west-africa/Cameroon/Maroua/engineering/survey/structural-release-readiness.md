@@ -1,7 +1,7 @@
 # Maroua structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 13
+- Lines: 5
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

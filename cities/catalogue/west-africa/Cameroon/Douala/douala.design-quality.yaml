@@ -1,29 +1,29 @@
 slug: douala
 pass: true
 metrics:
-  total_route_m: 384651.6
-  n_lines: 33
-  n_stations: 284
-  anchor_hit_rate: 0.127
-  high_demand_coverage: 0.693
+  total_route_m: 222086.3
+  n_lines: 8
+  n_stations: 78
+  anchor_hit_rate: 0.218
+  high_demand_coverage: 0.571
   civil_mix_m:
-    at_grade: 26488.200
-    elevated: 299054.500
-    bridge:   59108.900
-  elevated_fraction: 0.931
+    at_grade: 12244.600
+    elevated: 189871.100
+    bridge:   19970.600
+  elevated_fraction: 0.945
   viaduct_products_m:
-    osr_pi20_pi25: 274464.734
-    osr_us:      20397.967
-    special:     59108.900
-    realign:     4191.799
-  max_elevated_cost_multiplier: 23.104
+    osr_pi20_pi25: 144031.114
+    osr_us:      37684.386
+    special:     19970.600
+    realign:     8155.600
+  max_elevated_cost_multiplier: 37.129
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

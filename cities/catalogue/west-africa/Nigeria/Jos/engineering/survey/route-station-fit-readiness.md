@@ -1,8 +1,8 @@
 # Jos route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 52
+- Lines: 5
+- Stations: 21
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

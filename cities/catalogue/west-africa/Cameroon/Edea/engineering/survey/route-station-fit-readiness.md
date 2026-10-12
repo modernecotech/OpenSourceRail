@@ -1,8 +1,8 @@
 # Edea route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 2
-- Stations: 10
+- Lines: 1
+- Stations: 4
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

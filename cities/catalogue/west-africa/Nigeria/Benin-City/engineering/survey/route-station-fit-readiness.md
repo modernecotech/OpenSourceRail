@@ -1,8 +1,8 @@
 # Benin-City route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 28
-- Stations: 159
+- Lines: 8
+- Stations: 89
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

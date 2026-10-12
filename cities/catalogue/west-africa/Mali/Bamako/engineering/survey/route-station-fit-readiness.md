@@ -1,8 +1,8 @@
 # Bamako route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 22
-- Stations: 237
+- Lines: 9
+- Stations: 173
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

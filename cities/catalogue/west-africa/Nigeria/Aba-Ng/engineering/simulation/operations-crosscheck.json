@@ -6,92 +6,47 @@
   "status": "running-time-screen-passed-awaiting-junction-evidence",
   "automatic_crosscheck_passed": true,
   "full_service_evidence_current": true,
-  "full_service_evidence_basis": "exact-local-executable",
+  "full_service_evidence_basis": "source-bound-CI-executable",
   "full_service_evidence_passed": true,
   "line_scope_matches": true,
   "reference_findings": [],
-  "reference_basis": "retained simulator reference timings",
+  "reference_basis": "separately generated kinematic reference; not a service replay",
   "relative_tolerance": 0.15,
   "absolute_tolerance_s": 120.0,
   "line_comparisons": [
     {
       "line_id": "line-1",
-      "osr_reference_trip_time_s": 1316.0,
-      "sumo_mean_trip_time_s": 1293.5,
-      "delta_s": -22.5,
-      "delta_percent_of_osr": -1.71,
-      "tolerance_s": 197.4,
+      "osr_reference_trip_time_s": 1276.091,
+      "sumo_mean_trip_time_s": 1279.0,
+      "delta_s": 2.909,
+      "delta_percent_of_osr": 0.228,
+      "tolerance_s": 191.414,
       "passed": true
     },
     {
       "line_id": "line-2",
-      "osr_reference_trip_time_s": 825.551,
-      "sumo_mean_trip_time_s": 813.5,
-      "delta_s": -12.051,
-      "delta_percent_of_osr": -1.46,
-      "tolerance_s": 123.833,
+      "osr_reference_trip_time_s": 687.5,
+      "sumo_mean_trip_time_s": 688.0,
+      "delta_s": 0.5,
+      "delta_percent_of_osr": 0.073,
+      "tolerance_s": 120.0,
       "passed": true
     },
     {
       "line_id": "line-3",
-      "osr_reference_trip_time_s": 1330.136,
-      "sumo_mean_trip_time_s": 1312.0,
-      "delta_s": -18.136,
-      "delta_percent_of_osr": -1.363,
-      "tolerance_s": 199.52,
+      "osr_reference_trip_time_s": 1348.624,
+      "sumo_mean_trip_time_s": 1347.0,
+      "delta_s": -1.624,
+      "delta_percent_of_osr": -0.12,
+      "tolerance_s": 202.294,
       "passed": true
     },
     {
       "line_id": "line-4",
-      "osr_reference_trip_time_s": 275.977,
-      "sumo_mean_trip_time_s": 258.5,
-      "delta_s": -17.477,
-      "delta_percent_of_osr": -6.333,
-      "tolerance_s": 120.0,
-      "passed": true
-    },
-    {
-      "line_id": "line-5",
-      "osr_reference_trip_time_s": 150.455,
-      "sumo_mean_trip_time_s": 128.0,
-      "delta_s": -22.455,
-      "delta_percent_of_osr": -14.924,
-      "tolerance_s": 120.0,
-      "passed": true
-    },
-    {
-      "line_id": "line-6",
-      "osr_reference_trip_time_s": 302.0,
-      "sumo_mean_trip_time_s": 284.5,
-      "delta_s": -17.5,
-      "delta_percent_of_osr": -5.795,
-      "tolerance_s": 120.0,
-      "passed": true
-    },
-    {
-      "line_id": "line-7",
-      "osr_reference_trip_time_s": 992.318,
-      "sumo_mean_trip_time_s": 964.0,
-      "delta_s": -28.318,
-      "delta_percent_of_osr": -2.854,
-      "tolerance_s": 148.848,
-      "passed": true
-    },
-    {
-      "line_id": "line-8",
-      "osr_reference_trip_time_s": 535.136,
-      "sumo_mean_trip_time_s": 510.5,
-      "delta_s": -24.636,
-      "delta_percent_of_osr": -4.604,
-      "tolerance_s": 120.0,
-      "passed": true
-    },
-    {
-      "line_id": "line-9",
-      "osr_reference_trip_time_s": 164.636,
-      "sumo_mean_trip_time_s": 140.0,
-      "delta_s": -24.636,
-      "delta_percent_of_osr": -14.964,
+      "osr_reference_trip_time_s": 240.227,
+      "sumo_mean_trip_time_s": 231.0,
+      "delta_s": -9.227,
+      "delta_percent_of_osr": -3.841,
       "tolerance_s": 120.0,
       "passed": true
     }
@@ -105,10 +60,11 @@
     "signed operational acceptance record not received"
   ],
   "evidence_hashes": {
-    "design_sha256": "2cf7d0806c8ec1b028a1e5b9978ebb6d1c13ae88419c33bb0315c84f236964c3",
-    "sumo_summary_sha256": "90d89f28c7f98a61b4006c8d95b03e4c5fece655c74dc65a0ecfba2f76842287",
-    "simulation_summary_sha256": "4e009f6f47f53ccbe7af6d181b4a18da993213c0af79a7625632c39fb2d777da",
-    "ci_execution_sha256": "c3cd4125aa032872e10a331288770205f536e31d655644323452e07565cfa91c",
+    "design_sha256": "40fe04b16de5f9cfdf1b218b91ffa62e07f16c4058d5bd87e7ae2796d15516cd",
+    "sumo_summary_sha256": "dc9cafe7c208bcacc79441aa52e3a939004cf2e1a93b5c7479b8624499247c3b",
+    "simulation_summary_sha256": "2082388990abe8d0c4f3dada6a9e1e67a553ffa9c746eac98207139c1901e764",
+    "native_timing_reference_sha256": "ca996f37461da01f42a3182b928f651de8eb36f10569650f227a4478d2817ff3",
+    "ci_execution_sha256": "0b14b15f88e534f977ad5798b8162344f9653ec717f144e3ac76e37330403aac",
     "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
   },
   "junction_evidence_sha256": null,
@@ -118,6 +74,7 @@
     "design": "cities/catalogue/west-africa/Nigeria/Aba-Ng/design.toml",
     "sumo_summary": "cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/sumo/summary.json",
     "simulation_summary": "cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/native-timing-reference.json",
     "ci_execution": "cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/simulation/ci-execution.json",
     "ci_verifier": "tools/automation/planning_ci_evidence.py"
   },

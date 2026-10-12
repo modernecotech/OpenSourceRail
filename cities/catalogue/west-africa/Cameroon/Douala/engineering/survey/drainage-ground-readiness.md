@@ -1,7 +1,7 @@
 # Douala drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 33 / 284
+- Lines/stations: 8 / 78
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

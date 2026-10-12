@@ -1,23 +1,16 @@
 # Kumba city-order factory requirement
 
-**258 light-metro-3car trainsets / 774 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**150 light-metro-3car trainsets / 450 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 735.2 trainsets/year, 7 separate test paths, 1770 direct production FTE. Plant reference envelope: **USD 740.447m**.
+Planning output: 430.3 trainsets/year, 4 separate test paths, 1038 direct production FTE. Plant reference envelope: **USD 460.694m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 52 | 576 | 677 | 677 |
-| line-2 | 37 | 596 | 691 | 691 |
-| line-3 | 30 | 612 | 702 | 702 |
-| line-4 | 14 | 617 | 707 | 707 |
-| line-5 | 14 | 622 | 712 | 712 |
-| line-6 | 24 | 630 | 720 | 720 |
-| line-7 | 24 | 639 | 729 | 729 |
-| line-8 | 14 | 644 | 734 | 734 |
-| line-9 | 24 | 652 | 742 | 742 |
-| line-10 | 11 | 580 | 746 | 746 |
-| line-11 | 14 | 587 | 751 | 751 |
+| line-1 | 64 | 608 | 698 | 698 |
+| line-2 | 39 | 632 | 722 | 722 |
+| line-3 | 27 | 648 | 738 | 738 |
+| line-4 | 20 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

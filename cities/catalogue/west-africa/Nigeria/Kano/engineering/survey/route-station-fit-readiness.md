@@ -1,7 +1,7 @@
 # Kano route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
+- Lines: 14
 - Stations: 168
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**

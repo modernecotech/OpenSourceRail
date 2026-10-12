@@ -1,8 +1,8 @@
 # Ngaoundere route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 30
+- Lines: 4
+- Stations: 15
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

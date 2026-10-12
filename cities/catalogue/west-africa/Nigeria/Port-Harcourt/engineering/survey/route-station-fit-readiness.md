@@ -1,8 +1,8 @@
 # Port-Harcourt route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 30
-- Stations: 254
+- Lines: 8
+- Stations: 77
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

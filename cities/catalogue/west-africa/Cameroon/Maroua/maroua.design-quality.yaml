@@ -1,29 +1,29 @@
 slug: maroua
 pass: true
 metrics:
-  total_route_m: 90903.8
-  n_lines: 13
-  n_stations: 66
-  anchor_hit_rate: 0.182
-  high_demand_coverage: 0.791
+  total_route_m: 59698.0
+  n_lines: 5
+  n_stations: 23
+  anchor_hit_rate: 0.391
+  high_demand_coverage: 0.693
   civil_mix_m:
-    at_grade: 14105.900
-    elevated: 57748.000
-    bridge:   19050.000
-  elevated_fraction: 0.845
+    at_grade: 7359.800
+    elevated: 42964.700
+    bridge:   9373.500
+  elevated_fraction: 0.877
   viaduct_products_m:
-    osr_pi20_pi25: 53177.537
-    osr_us:      3895.863
-    special:     19050.000
-    realign:     674.600
-  max_elevated_cost_multiplier: 18.000
+    osr_pi20_pi25: 37793.053
+    osr_us:      4337.583
+    special:     9373.500
+    realign:     834.064
+  max_elevated_cost_multiplier: 21.107
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

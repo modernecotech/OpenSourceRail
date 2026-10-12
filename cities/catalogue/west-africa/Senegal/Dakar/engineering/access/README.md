@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 31.9% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 93.4% |
+| Reachable with at most two transfers | 91.7% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 3,656,311**. Catalogue planning population: 4,030
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 1,226,253 | 33.5% |
-| 800 m | 2,520,085 | 68.9% |
-| 1000 m | 3,103,323 | 84.9% |
-| 1500 m | 3,490,963 | 95.5% |
-| 2000 m | 3,550,014 | 97.1% |
+| 500 m | 736,881 | 20.2% |
+| 800 m | 1,536,179 | 42.0% |
+| 1000 m | 2,079,608 | 56.9% |
+| 1500 m | 3,139,901 | 85.9% |
+| 2000 m | 3,498,232 | 95.7% |
 
 Excluded nodata pixels: 57,753; valid pixels: 43,047.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 57,753; valid pixels: 43,047.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (72.6%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (67.1%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

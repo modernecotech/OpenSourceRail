@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.343,
+    "high_demand_cell_fraction": 0.303,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 380384.4558531642,
     "catchments": [
       {
-        "covered_population_2020": 70118.54137140512,
-        "fraction_of_raster_population": 0.18433597980268743,
+        "covered_population_2020": 24657.985780596733,
+        "fraction_of_raster_population": 0.06482385229252163,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 165198.49924868345,
-        "fraction_of_raster_population": 0.43429350675794515,
+        "covered_population_2020": 60796.914181530476,
+        "fraction_of_raster_population": 0.15983017509264172,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 224016.71235269308,
-        "fraction_of_raster_population": 0.5889218365935749,
+        "covered_population_2020": 89809.46895295382,
+        "fraction_of_raster_population": 0.2361018374200391,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 288743.07544857264,
-        "fraction_of_raster_population": 0.7590822153890354,
+        "covered_population_2020": 153283.111104846,
+        "fraction_of_raster_population": 0.4029689140715473,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 311352.7982878089,
-        "fraction_of_raster_population": 0.8185213499049949,
+        "covered_population_2020": 205995.5175833702,
+        "fraction_of_raster_population": 0.5415455716279018,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 64,
+    "unique_station_coordinates": 22,
     "valid_pixels": 56881
   },
   "population_source_country": "CM",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-africa/Cameroon/Bafoussam/bafoussam.design-quality.yaml": "5c9b3d531f33059102fd12a049469c72a82a25bcf61408b3eb47923b081ae645",
-    "cities/catalogue/west-africa/Cameroon/Bafoussam/design.toml": "4f9bad3672e01cbcdf8267743cfba140f11242ce1fe42037faea37f218426324",
+    "cities/catalogue/west-africa/Cameroon/Bafoussam/bafoussam.design-quality.yaml": "a11ceb9ba3307d20e00f61bc470c0fd893a1df54b84729e17e1da2620b4f3b1c",
+    "cities/catalogue/west-africa/Cameroon/Bafoussam/design.toml": "b08429954a0a5435fa28d3741527be8545fdece11cf3a320ccb2ac9925930254",
     "cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/access/population-pixels.npz.gz": "9ee9ed1086f7fb62cd98dfb3404d276ea267b50a18bbd59d5cb4a3be18806f3f",
     "cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/access/population-source.json": "89f39e29e3344ea686352ba388fb8d4e2e85757781148c04450f28a2dd748262",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [],
@@ -94,25 +94,15 @@
     "components": [
       [
         "line-1",
-        "line-10",
-        "line-11",
-        "line-12",
-        "line-13",
-        "line-14",
-        "line-15",
         "line-2",
         "line-3",
         "line-4",
-        "line-5",
-        "line-6",
-        "line-7",
-        "line-8",
-        "line-9"
+        "line-5"
       ]
     ],
-    "direct_transfer_fraction": 0.2,
-    "line_count": 15,
-    "line_pair_count": 105,
+    "direct_transfer_fraction": 0.5,
+    "line_count": 5,
+    "line_pair_count": 10,
     "maximum_required_transfers": 3,
     "pairs": [
       {
@@ -134,7 +124,7 @@
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -142,76 +132,6 @@
           "line-5"
         ],
         "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-7"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-8"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-9"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-10"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-12"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-15"
-        ],
-        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -225,82 +145,12 @@
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-2",
           "line-5"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-7"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-8"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-9"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-10"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-11"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-12"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-13"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-14"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-15"
         ],
         "minimum_transfers": 1
       },
@@ -320,538 +170,13 @@
       },
       {
         "lines": [
-          "line-3",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-7"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-8"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-9"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-10"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
           "line-4",
           "line-5"
         ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-7"
-        ],
         "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-8"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-9"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-10"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-6"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-7"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-8"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-9"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-10"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-7"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-8"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-9"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-10"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-13"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-8"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-9"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-10"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-11"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-12"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-13"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-14"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-15"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-9"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-10"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-11"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-13"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-14"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-10"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-11"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-12"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-13"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-14"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-15"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-11"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-15"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-12"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-13"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-13",
-          "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-13",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-14",
-          "line-15"
-        ],
-        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.7523809523809524
+    "reachable_with_at_most_two_transfers_fraction": 0.9
   }
 }
