@@ -33,12 +33,14 @@ line="line-1"
 s_m=0.0
 lat=-6.8
 lon=39.0
+platform_length_m=121.0
 [[stations]]
 id="b"
 line="line-1"
 s_m=3000.0
 lat=-6.8
 lon=39.027
+platform_length_m=121.0
 ''')
     (tmp_path/'speed-envelope.corridor.geojson').write_text(json.dumps({
         'type':'FeatureCollection','features':[{'type':'Feature','properties':{'name':'line-1','kind':'line'},
