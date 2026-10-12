@@ -8,6 +8,7 @@ import csv
 import gzip
 import hashlib
 import html
+import io
 import json
 import math
 from pathlib import Path
@@ -936,9 +937,14 @@ def main():
         path=OUT/name;path.write_text(json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n');outputs.append(path)
     def csvout(name,rows,fields=None):
         path=OUT/name
-        with path.open('w',newline='') as stream:
+        stream=io.StringIO(newline='') if name.endswith('.gz') else path.open('w',newline='')
+        with stream:
             columns=fields if fields is not None else list(rows[0]) if rows else []
             writer=csv.DictWriter(stream,fieldnames=columns,lineterminator='\n');writer.writeheader();writer.writerows(rows)
+            if name.endswith('.gz'):
+                with path.open('wb') as compressed:
+                    with gzip.GzipFile(filename='',mode='wb',fileobj=compressed,mtime=0) as zipped:
+                        zipped.write(stream.getvalue().encode('utf-8'))
         outputs.append(path)
     save('depot-layouts.json',layouts);csvout('depot-tracks.csv',layouts['tracks']);csvout('depot-slots.csv',layouts['slots'])
     for site in layouts['sites']:
@@ -954,7 +960,9 @@ def main():
     for label,model in [('full',energy),('opening',opening_energy)]:
         for weather,case in model['cases'].items():
             shortage_rows=case.pop('shortage_hours')
-            if label=='full' and weather=='reference':csvout('energy-site-shortage-hours.csv',[{k:format(v,'.12g') if isinstance(v,float) else v for k,v in row.items()} for row in shortage_rows])
+            if label=='full' and weather=='reference':
+                csvout('energy-site-shortage-hours.csv.gz',[{k:format(v,'.12g') if isinstance(v,float) else v for k,v in row.items()} for row in shortage_rows])
+                (OUT/'energy-site-shortage-hours.csv').unlink(missing_ok=True)
             for line,rows in case.pop('hourly_by_line').items():
                 if label=='full' and weather=='reference':csvout('energy-'+line+'-hourly.csv',rows)
             csvout('energy-'+label+'-'+weather+'-sites.csv',case['sites'])
@@ -995,7 +1003,7 @@ Interim development authorities begin at NTP. The training head mobilises at mon
 
 The native Employee attachment preview validates a controlled snapshot only. It returns `snapshot_eligible` for those assertions, keeps `eligible` and `live_start_check` false, and does not resolve current authoritative revocation. Real task start requires current permits, calibration, stock release, competence, availability and human work-release authority.
 '''
-    reports['SITE-ENERGY.md']+=f'\n[All {len(aggregate_shortages)} aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
+    reports['SITE-ENERGY.md']+=f'\n[All {len(aggregate_shortages)} aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [All site-specific shortage hours, losslessly compressed](energy-site-shortage-hours.csv.gz) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.\n'
     reports['FINANCE-RECONCILIATION.md']+=f"\n[Opening factory replay](opening-factory-replay.json) manufactures exactly {opening_factory['selected_trainsets']} planned trains, including the extra line-9 spare, with rebuilt finite factory queues. Dropped orders are removed from manufacturing and invoice cash; original expansion-capable factory CAPEX is retained. Openings are the later of civil readiness and replayed fleet acceptance; later dates flow through receipts, payroll, reserves and the operating horizon. Depots retain full eventual-network capacity; staffing, maintenance, reserve and site energy follow the lower supply. All sensitivities retain zero modelled dividends; retained cash is not distributable profit without taxes, covenants and approvals.\n"
     reports['FINANCE-RECONCILIATION.md']+='\nThe `simple_span_bearing_index` sensitivity removes the bearing reduction only from existing standard Pi25 length, then adds the declared incremental EPC once. It inherits original civil invoice dates and procurement-origin proportions as assumptions, keeps government at 25%, splits assumed imports 50% USD government cash / 50% Chinese USD credit, and retains all other funding in IQD. Monthly/six-month ledgers, interest, fees, reserves and early repayment are recalculated. This is an unquoted index counterfactual, not a bearing supplier offer; finite end effects, connection costs, actual import eligibility and consequential foundations remain unpriced. OSR-US and special segments do not inherit Pi25 bearing quantities.\n'
     reports['DEPOTS-SLAB-MANUFACTURE.md']+='\n![Line 6 storage and workshop packing study](depot-line-6.svg)\n'

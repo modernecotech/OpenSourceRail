@@ -1,6 +1,7 @@
 """Independent physical quantities, reserve cash, scenario funding and evidence."""
 from copy import deepcopy
 import csv
+import gzip
 import hashlib
 import json
 import math
@@ -142,7 +143,7 @@ def test_budget_replacements_preserve_factory_and_original_reference():
     assert any(r['supply_income_multiplier']<1 for r in opening['opex_components'])
 
 def test_hourly_site_diagnostics_identify_bus_and_charger_limits_without_netting():
-    with (OUT/'energy-site-shortage-hours.csv').open() as f:rows=list(csv.DictReader(f))
+    with gzip.open(OUT/'energy-site-shortage-hours.csv.gz','rt',encoding='utf-8') as f:rows=list(csv.DictReader(f))
     sites={r['station']:r for r in read('site-energy')['cases']['reference']['sites']}
     assert rows and all(float(r['unserved_bus_kwh'])>0 or float(r['charger_delivery_shortfall_kwh'])>0 for r in rows)
     for station,site in sites.items():
