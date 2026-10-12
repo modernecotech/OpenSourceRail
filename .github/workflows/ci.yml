@@ -92,6 +92,8 @@ jobs:
           tools/automation/buildable-stations.sh
           tools/automation/buildable-civil.sh
       - run: python -m pytest -q design/component-catalogue/tests
+      - name: Check layered GFRP development geometry and study provenance
+        run: python tools/automation/composite-panel-study.py --check
       - run: python -m pytest -q engineering/analysis/tests
       - run: python engineering/toolchain/baseline_assurance.py --check
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests

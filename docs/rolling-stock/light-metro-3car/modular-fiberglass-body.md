@@ -3,7 +3,8 @@
 The train exterior is a replaceable, non-structural weather skin made from
 simple fiberglass modules on a **1,000 mm longitudinal pitch**. The welded
 S355 underframe, side posts, door portals, window carriers, roof bows, end
-rings, anti-climbers, and crash structure remain the certified load path.
+rings, anti-climbers, and crash structure remain the designated primary load
+path; structural qualification and acceptance remain separate release gates.
 
 Each 16.5 m car has sixteen full 1 m cladding bays between two 250 mm steel
 end-ring transitions. A three-car train therefore uses 144 main modules:
@@ -111,3 +112,16 @@ three-car trainset planning unit, and **$60 k per supported car module** for the
 allowance. The high plant sensitivity is $120 k per car. These remain
 planning values until supplier quotes and timed first-article builds replace
 them.
+
+## Sandwich-panel development
+
+The [hybrid panel development package](../../../engineering/composite_panels/reference/README.md)
+adds explicit fibre directions, skin/core/bond/finish layers, reinforced edges,
+potted inserts, curved roof CAD and an aperture-based 144-module mass takeoff.
+Its [interactive comparison](../../../engineering/composite_panels/reference/report.html)
+varies skin, core, module/support spacing, crown and ribs under stated pressure
+and ageing assumptions. The steel/aluminium comparisons require equivalent
+reinforcement and performance evidence before claiming savings. Material
+coupons, clipped-module/roof-bay tests and complete-cost quotations remain open.
+These development results do not reduce the frame, adopt a new train mass,
+qualify a fire stack or replace the B6/B7 planning allowance.

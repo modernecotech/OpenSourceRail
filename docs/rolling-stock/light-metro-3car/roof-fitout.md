@@ -64,3 +64,16 @@ glands; drains; seals; safety labels; and all service or adhesive lands.
 The HVAC and PV product selections remain supplier freezes. These moulds and
 interfaces let the local factory progress without pretending that a generic
 box is the final certified unit.
+
+## Curved sandwich development and heat qualification
+
+The [development CAD and volume verification](../../../engineering/composite_panels/reference/cad/verification.json)
+separates ply skins, adhesive, foam and solid edge lands on a parametric curved
+roof. Its 50 mm crown is an assumption pending the coordination drawing, and
+curved insert lands still require local mounting detail. The
+[test and quotation register](../../../engineering/composite_panels/evidence/register.json)
+requires an equipment-adjacent heat-soak bay beneath PV, aged bonds/inserts,
+water ingress, pressure, fatigue, clip-loss retention and electrical bonding.
+Core thermal stability and resin glass-transition temperature do not establish
+an allowable temperature for the assembled panel. No equipment or personnel
+load is transferred to the weather skin by these development calculations.

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6199**.
+Indexed Markdown files: **6200**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6199**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 224 |
-| [engineering](#engineering) | 54 |
+| [engineering](#engineering) | 55 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6245,6 +6245,7 @@ Indexed Markdown files: **6199**.
 | [`engineering/civil_exploration/examples/baghdad-qualification/qualification.md`](../engineering/civil_exploration/examples/baghdad-qualification/qualification.md) | Baghdad civil qualification input readiness |
 | [`engineering/civil_exploration/examples/complete-system-review.md`](../engineering/civil_exploration/examples/complete-system-review.md) | Complete viaduct system exploration |
 | [`engineering/civil_exploration/examples/programme-review.md`](../engineering/civil_exploration/examples/programme-review.md) | C01–C14 executed software and remaining acceptance |
+| [`engineering/composite_panels/reference/README.md`](../engineering/composite_panels/reference/README.md) | Hybrid GFRP exterior-panel development |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
