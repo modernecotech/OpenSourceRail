@@ -16,40 +16,34 @@ The equipment reference is an unapproved sensitivity using existing repository r
 
 | Initial dispatch station | Line | Trainsets | Train-body length m | Slot length with clearance m | Physical slots |
 |---|---|---:|---:|---:|---|
-| line-1-2500-0775-s000000 | line-1 | 48 | 5,328.0 | 5,808.0 | unverified |
-| line-1-0166-0866-s049067 | line-1 | 48 | 5,328.0 | 5,808.0 | unverified |
-| line-2-1987-2192-s000000 | line-2 | 52 | 5,772.0 | 6,292.0 | unverified |
-| line-2-0595-0296-s052851 | line-2 | 52 | 5,772.0 | 6,292.0 | unverified |
-| line-3-2271-1120-s000000 | line-3 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-3-0151-1637-s049496 | line-3 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-4-0146-0199-s000000 | line-4 | 40 | 4,440.0 | 4,840.0 | unverified |
-| line-4-1230-1627-s041932 | line-4 | 39 | 4,329.0 | 4,719.0 | unverified |
-| line-5-1199-0260-s000000 | line-5 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-5-0677-2304-s047345 | line-5 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-6-2322-0251-s000000 | line-6 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-6-0495-1669-s052503 | line-6 | 48 | 5,328.0 | 5,808.0 | unverified |
-| line-7-1069-2206-s000000 | line-7 | 38 | 4,218.0 | 4,598.0 | unverified |
-| line-7-1531-0418-s039957 | line-7 | 37 | 4,107.0 | 4,477.0 | unverified |
-| line-8-2231-1783-s000000 | line-8 | 49 | 5,439.0 | 5,929.0 | unverified |
-| line-8-0785-0290-s048137 | line-8 | 48 | 5,328.0 | 5,808.0 | unverified |
-| line-9-0582-0636-s003491 | line-9 | 24 | 2,664.0 | 2,904.0 | unverified |
-| line-9-0689-0569-s097310 | line-9 | 23 | 2,553.0 | 2,783.0 | unverified |
-| line-10-0562-1131-s000000 | line-10 | 9 | 999.0 | 1,089.0 | unverified |
-| line-10-0623-1300-s006499 | line-10 | 9 | 999.0 | 1,089.0 | unverified |
-| line-11-0634-1426-s000000 | line-11 | 11 | 1,221.0 | 1,331.0 | unverified |
-| line-11-0775-1118-s008163 | line-11 | 10 | 1,110.0 | 1,210.0 | unverified |
-| line-12-1268-0502-s000000 | line-12 | 13 | 1,443.0 | 1,573.0 | unverified |
-| line-12-0937-0562-s008590 | line-12 | 13 | 1,443.0 | 1,573.0 | unverified |
-| line-13-0781-0575-s000000 | line-13 | 12 | 1,332.0 | 1,452.0 | unverified |
-| line-13-0798-0352-s007369 | line-13 | 11 | 1,221.0 | 1,331.0 | unverified |
-| line-14-0462-0842-s000000 | line-14 | 11 | 1,221.0 | 1,331.0 | unverified |
-| line-14-0512-1236-s008294 | line-14 | 10 | 1,110.0 | 1,210.0 | unverified |
-| line-15-0646-1172-s000000 | line-15 | 10 | 1,110.0 | 1,210.0 | unverified |
-| line-15-0902-1307-s006634 | line-15 | 9 | 999.0 | 1,089.0 | unverified |
-| line-16-0758-0836-s000000 | line-16 | 8 | 888.0 | 968.0 | unverified |
-| line-16-0566-0992-s006146 | line-16 | 7 | 777.0 | 847.0 | unverified |
-| line-17-0951-1119-s000000 | line-17 | 12 | 1,332.0 | 1,452.0 | unverified |
-| line-17-1037-1461-s008838 | line-17 | 12 | 1,332.0 | 1,452.0 | unverified |
+| line-1-2500-0775-s000000 | line-1 | 43 | 4,773.0 | 5,203.0 | unverified |
+| line-1-0166-0866-s049067 | line-1 | 43 | 4,773.0 | 5,203.0 | unverified |
+| line-2-1987-2192-s000000 | line-2 | 48 | 5,328.0 | 5,808.0 | unverified |
+| line-2-0595-0296-s052851 | line-2 | 47 | 5,217.0 | 5,687.0 | unverified |
+| line-3-2271-1120-s000000 | line-3 | 45 | 4,995.0 | 5,445.0 | unverified |
+| line-3-0151-1637-s049496 | line-3 | 45 | 4,995.0 | 5,445.0 | unverified |
+| line-4-0146-0199-s000000 | line-4 | 38 | 4,218.0 | 4,598.0 | unverified |
+| line-4-1230-1627-s041932 | line-4 | 38 | 4,218.0 | 4,598.0 | unverified |
+| line-5-1199-0260-s000000 | line-5 | 43 | 4,773.0 | 5,203.0 | unverified |
+| line-5-0677-2304-s047345 | line-5 | 43 | 4,773.0 | 5,203.0 | unverified |
+| line-6-2322-0251-s000000 | line-6 | 48 | 5,328.0 | 5,808.0 | unverified |
+| line-6-0495-1669-s052503 | line-6 | 47 | 5,217.0 | 5,687.0 | unverified |
+| line-7-1069-2206-s000000 | line-7 | 36 | 3,996.0 | 4,356.0 | unverified |
+| line-7-1531-0418-s039957 | line-7 | 36 | 3,996.0 | 4,356.0 | unverified |
+| line-8-2231-1783-s000000 | line-8 | 45 | 4,995.0 | 5,445.0 | unverified |
+| line-8-0785-0290-s048137 | line-8 | 44 | 4,884.0 | 5,324.0 | unverified |
+| line-9-0606-0636-s003011 | line-9 | 23 | 2,553.0 | 2,783.0 | unverified |
+| line-9-0689-0569-s097310 | line-9 | 22 | 2,442.0 | 2,662.0 | unverified |
+| line-10-0562-1131-s000000 | line-10 | 8 | 888.0 | 968.0 | unverified |
+| line-10-0686-1312-s006804 | line-10 | 7 | 777.0 | 847.0 | unverified |
+| line-11-0605-1228-s000000 | line-11 | 7 | 777.0 | 847.0 | unverified |
+| line-11-0337-1112-s006884 | line-11 | 7 | 777.0 | 847.0 | unverified |
+| line-12-0701-0415-s000000 | line-12 | 8 | 888.0 | 968.0 | unverified |
+| line-12-0760-0138-s006586 | line-12 | 7 | 777.0 | 847.0 | unverified |
+| line-13-1336-0518-s000000 | line-13 | 9 | 999.0 | 1,089.0 | unverified |
+| line-13-1193-0313-s008042 | line-13 | 9 | 999.0 | 1,089.0 | unverified |
+| line-14-0804-1072-s000000 | line-14 | 7 | 777.0 | 847.0 | unverified |
+| line-14-0688-1260-s006047 | line-14 | 6 | 666.0 | 726.0 | unverified |
 
 - Operating PV/storage capacities are retained assumptions, not validated depot sizing. Reassess depot and station energy duties after distributed overnight placement and charging are represented.
 - PV area is module area at the catalogue 0.15 kWp/m2, not gross land area; setbacks, access and packing require layout.

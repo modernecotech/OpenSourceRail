@@ -1,8 +1,8 @@
 # Samawah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 46
+- Lines: 5
+- Stations: 26
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

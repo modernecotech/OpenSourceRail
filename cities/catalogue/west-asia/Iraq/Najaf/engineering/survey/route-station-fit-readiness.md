@@ -1,8 +1,8 @@
 # Najaf route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 16
-- Stations: 152
+- Lines: 9
+- Stations: 84
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

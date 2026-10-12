@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 52.4% |
+| Direct transfer line pairs | 60.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 95.2% |
+| Reachable with at most two transfers | 90.0% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 479,036**. Catalogue planning population: 373,770
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 141,930 | 29.6% |
-| 800 m | 299,835 | 62.6% |
-| 1000 m | 381,443 | 79.6% |
-| 1500 m | 455,083 | 95.0% |
-| 2000 m | 461,669 | 96.4% |
+| 500 m | 69,884 | 14.6% |
+| 800 m | 158,459 | 33.1% |
+| 1000 m | 228,897 | 47.8% |
+| 1500 m | 370,702 | 77.4% |
+| 2000 m | 429,923 | 89.7% |
 
 Excluded nodata pixels: 45,378; valid pixels: 6,462.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 45,378; valid pixels: 6,462.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (64.2%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (53.8%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

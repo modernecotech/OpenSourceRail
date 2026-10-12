@@ -5,7 +5,7 @@
 
 [Current country basis](CURRENT-PLANNING-BASIS.json) · [Baghdad summary](Baghdad/README.md) · [Connected design, production and energy study](Baghdad/engineering/connected-build/README.md).
 
-The retained `local_positive` Baghdad financial comparator is **USD 10.121bn**, with **IQD 0.000tn unsourced support** and **IQD 0.000tn terminal debt**. All debt clears at model month 279, conditional on the recorded funding assumptions. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
+The retained `local_positive` Baghdad financial comparator is **USD 8.667bn**, with **IQD 0.000tn unsourced support** and **IQD 0.000tn terminal debt**. All debt clears at model month 295, conditional on the recorded funding assumptions. Its prices and facilities are unquoted and uncommitted. It does not price the complete accelerated construction and battery scenario.
 
 The accelerated scenario's complete CAPEX, financing, net island savings and accepted opening dates remain unknown. Its **USD 9m / 18-launcher allowance covers purchase cash only**; freight, assembly, commissioning, transporters, lifting frames, temporary supports, spares, crews and relocations require separate scope-matched prices. The earlier delivered-and-commissioned interpretation is not used. No launcher saving is added to an installed civil rate before removing a verified matching embedded allowance.
 
@@ -21,11 +21,11 @@ No current consolidated national budget or funded rollout is established. Other 
 
 | Case | Days for modelled running bays | Scope |
 | --- | ---: | --- |
-| full-doubling | 940 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| higher-productivity | 1005 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-accelerated | 1115 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-accelerated-reassigned | 912 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
-| initial-six-day-calendar | 1233 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| full-doubling | 1022 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| higher-productivity | 1098 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated | 1218 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-accelerated-reassigned | 966 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
+| initial-six-day-calendar | 1348 | identified catalogue planning spans only; unresolved closures, station structures and special crossings remain separate gates |
 
 These are conditional resource schedules. Station structures, special/closure spans, approved pier locations, delivery access and release evidence remain opening gates. Empty supplier/contract registers indicate missing qualifying evidence; they do not imply that Iraqi industry lacks capability.
 
@@ -33,9 +33,9 @@ These are conditional resource schedules. Station structures, special/closure sp
 
 | Case, lower-solar duty | Minimum SOC | Unserved traction kWh |
 | --- | ---: | ---: |
-| lfp-throughout | 0.0% | 57,567 |
-| sodium-both | 0.0% | 3,748,910 |
-| sodium-stationary | 0.0% | 57,567 |
+| lfp-throughout | 0.0% | 676,286 |
+| sodium-both | 0.0% | 4,024,245 |
+| sodium-stationary | 0.0% | 676,383 |
 
 The fixed-assignment diagnostic above uses both ring directions, declared dispatch stations and native rest-to-rest section timing. The current screen spans 4,440 continuous model minutes (3.08 days), including overnight state carry-over and a study strategy permitting grid replenishment within remaining site import capacity. Charge-rate, thermal and life inputs are unqualified profiles, so these results do not establish a chemistry advantage or suitability.
 
@@ -43,9 +43,9 @@ The separate [coupled energy/service controller](Baghdad/engineering/connected-b
 
 | Controlled case | Completed journeys | Missed dispatch opportunities | Distinct energy-held journeys |
 | --- | ---: | ---: | ---: |
-| lfp-throughout | 22,580 | 219 | 123 |
-| sodium-both | 12,268 | 9,981 | 3,551 |
-| sodium-stationary | 22,580 | 219 | 123 |
+| lfp-throughout | 17,491 | 909 | 706 |
+| sodium-both | 8,536 | 9,605 | 2,761 |
+| sodium-stationary | 17,492 | 908 | 719 |
 
 Geometry/operating-distance findings remain recorded. Conflict-capable timetable, berth/depot access, transient traction and operational multi-day acceptance remain open. Current station passenger demand is unknown where no surveyed station/OD assignment has been entered; the common 3,000 pax/h value is retained only as a separate stress case.
 <!-- END OSR CURRENT IRAQ BASIS -->
@@ -54,24 +54,24 @@ Geometry/operating-distance findings remain recorded. Conflict-capable timetable
 
 | City | Population | Fleet | City-case capital | Assumed imported purchases | Basis |
 | --- | ---: | ---: | ---: | ---: | --- |
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 958 | $10.12 B | $2.33 B | Retained local_positive comparator; accelerated scope unpriced |
-| [Basra](Basra/README.md) | 3,955,000 | 972 | $9.43 B | $2.07 B | Catalogue base estimate; scope and field releases open |
-| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 337 | $3.32 B | $693.6 M | Catalogue base estimate; scope and field releases open |
-| [Erbil](Erbil/README.md) | 1,952,000 | 628 | $4.68 B | $994.9 M | Catalogue base estimate; scope and field releases open |
-| [Mosul](Mosul/README.md) | 1,940,000 | 521 | $5.26 B | $1.05 B | Catalogue base estimate; scope and field releases open |
-| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 428 | $4.04 B | $823.9 M | Catalogue base estimate; scope and field releases open |
-| [Najaf](Najaf/README.md) | 1,540,000 | 439 | $4.07 B | $834.5 M | Catalogue base estimate; scope and field releases open |
-| [Karbala](Karbala/README.md) | 1,390,000 | 424 | $3.94 B | $805.2 M | Catalogue base estimate; scope and field releases open |
-| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 282 | $1.69 B | $338.6 M | Catalogue base estimate; scope and field releases open |
-| [Hillah](Hillah/README.md) | 700,000 | 381 | $1.91 B | $401.5 M | Catalogue base estimate; scope and field releases open |
-| [Amarah](Amarah/README.md) | 660,000 | 293 | $1.99 B | $390.7 M | Catalogue base estimate; scope and field releases open |
-| [Ramadi](Ramadi/README.md) | 525,000 | 275 | $1.57 B | $323.0 M | Catalogue base estimate; scope and field releases open |
-| [Baqubah](Baqubah/README.md) | 470,000 | 381 | $1.93 B | $405.6 M | Catalogue base estimate; scope and field releases open |
-| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 266 | $1.54 B | $315.6 M | Catalogue base estimate; scope and field releases open |
-| [Kut](Kut/README.md) | 410,000 | 276 | $1.80 B | $355.0 M | Catalogue base estimate; scope and field releases open |
-| [Samawah](Samawah/README.md) | 373,770 | 236 | $1.30 B | $268.5 M | Catalogue base estimate; scope and field releases open |
-| [Duhok](Duhok/README.md) | 360,000 | 299 | $1.49 B | $326.5 M | Catalogue base estimate; scope and field releases open |
-| [Fallujah](Fallujah/README.md) | 360,000 | 316 | $1.70 B | $353.5 M | Catalogue base estimate; scope and field releases open |
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 809 | $8.67 B | $2.02 B | Retained local_positive comparator; accelerated scope unpriced | 14 | 5 | 40.3% | 27.7% |
+| [Basra](Basra/README.md) | 3,955,000 | 557 | $6.58 B | $1.40 B | Catalogue base estimate; scope and field releases open | 11 | 4 | 42.9% | 38.3% |
+| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 144 | $2.00 B | $398.7 M | Catalogue base estimate; scope and field releases open | 6 | 2 | 35.5% | 31.1% |
+| [Erbil](Erbil/README.md) | 1,952,000 | 261 | $2.35 B | $489.5 M | Catalogue base estimate; scope and field releases open | 8 | 3 | 31.8% | 29.8% |
+| [Mosul](Mosul/README.md) | 1,940,000 | 308 | $3.93 B | $763.6 M | Catalogue base estimate; scope and field releases open | 9 | 3 | 40.6% | 41.0% |
+| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 235 | $2.81 B | $556.2 M | Catalogue base estimate; scope and field releases open | 8 | 3 | 41.2% | 41.1% |
+| [Najaf](Najaf/README.md) | 1,540,000 | 309 | $3.33 B | $674.7 M | Catalogue base estimate; scope and field releases open | 9 | 3 | 33.3% | 46.2% |
+| [Karbala](Karbala/README.md) | 1,390,000 | 253 | $2.84 B | $567.5 M | Catalogue base estimate; scope and field releases open | 9 | 3 | 46.1% | 42.0% |
+| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 184 | $1.09 B | $221.0 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 41.8% | 34.8% |
+| [Hillah](Hillah/README.md) | 700,000 | 236 | $1.19 B | $250.8 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 29.0% | 37.7% |
+| [Amarah](Amarah/README.md) | 660,000 | 177 | $1.13 B | $224.6 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 37.4% | 35.1% |
+| [Ramadi](Ramadi/README.md) | 525,000 | 181 | $978.5 M | $204.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 30.0% | 36.9% |
+| [Baqubah](Baqubah/README.md) | 470,000 | 243 | $1.32 B | $275.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 37.2% | 33.8% |
+| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 171 | $935.4 M | $192.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 30.6% | 26.8% |
+| [Kut](Kut/README.md) | 410,000 | 166 | $1.05 B | $209.6 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 40.8% | 42.7% |
+| [Samawah](Samawah/README.md) | 373,770 | 182 | $1.03 B | $211.9 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 40.9% | 47.8% |
+| [Duhok](Duhok/README.md) | 360,000 | 213 | $1.08 B | $235.9 M | Catalogue base estimate; scope and field releases open | 4 | 1 | 46.8% | 53.3% |
+| [Fallujah](Fallujah/README.md) | 360,000 | 195 | $1.06 B | $218.6 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 35.4% | 30.3% |
 
 These case envelopes have different appraisal scopes. They are not summed into a current national project budget. Baghdad's included assembly/component facilities must be reconciled with any national shared-factory allowance before aggregation.
 
@@ -85,26 +85,5 @@ Run `python3 tools/automation/generate-national-briefs.py --country IQ` after re
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Amarah](Amarah/README.md) | 9 | 6 | 37.4% | 80.1% |
-| [Baghdad](Baghdad/README.md) | 17 | 8 | 40.3% | 49.0% |
-| [Baqubah](Baqubah/README.md) | 12 | 9 | 37.2% | 77.7% |
-| [Basra](Basra/README.md) | 25 | 18 | 42.9% | 83.4% |
-| [Diwaniyah](Diwaniyah/README.md) | 9 | 6 | 30.6% | 68.5% |
-| [Duhok](Duhok/README.md) | 9 | 6 | 46.8% | 81.4% |
-| [Erbil](Erbil/README.md) | 31 | 26 | 31.8% | 75.0% |
-| [Fallujah](Fallujah/README.md) | 12 | 9 | 35.4% | 63.7% |
-| [Hillah](Hillah/README.md) | 11 | 8 | 29.0% | 70.3% |
-| [Karbala](Karbala/README.md) | 16 | 10 | 46.1% | 83.1% |
-| [Kirkuk](Kirkuk/README.md) | 18 | 13 | 41.2% | 78.0% |
-| [Kut](Kut/README.md) | 9 | 6 | 40.8% | 80.9% |
-| [Mosul](Mosul/README.md) | 19 | 13 | 40.6% | 77.6% |
-| [Najaf](Najaf/README.md) | 16 | 10 | 33.3% | 74.6% |
-| [Nasiriyah](Nasiriyah/README.md) | 9 | 6 | 41.8% | 77.1% |
-| [Ramadi](Ramadi/README.md) | 12 | 9 | 30.0% | 66.2% |
-| [Samawah](Samawah/README.md) | 7 | 4 | 40.9% | 79.6% |
-| [Sulaymaniyah](Sulaymaniyah/README.md) | 17 | 13 | 35.5% | 80.6% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

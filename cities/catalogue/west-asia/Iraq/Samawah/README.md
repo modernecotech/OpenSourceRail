@@ -5,13 +5,13 @@
 This page contains only Samawah-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$2.06 bn (88.5%) of external capital** and **$2.54 bn of external interest**. Capital plus saved interest totals **$4.60 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$1.64 bn (88.5%) of external capital** and **$2.01 bn of external interest**. Capital plus saved interest totals **$3.65 bn**. See the common reference for interpretation and limitations.
 
-**Population-led network revision (2026-10-09).** The controlled planning inventory contains **7 lines**, including **4 additional residential lines**. **79.6%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
+**Population-led network revision (2026-10-12).** The controlled planning inventory contains **5 lines**, including **2 additional residential lines**. **47.8%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
 
-**Current alignment, depot and production basis.** Core corridors change from **41.554 km to 51.954 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **46 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **41.554 km to 46.814 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **26 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**7 line-local depots** provide **236 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **236 light-metro-3car trainsets / 708 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**5 line-local depots** provide **182 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **182 light-metro-3car trainsets / 546 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -23,55 +23,53 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 7 / 46 / 9 |
-| Route length | 66.5 km double track |
-| Direct transfers / reachable line pairs | 52.4% / 100.0% |
-| Residents within 800 m radial station catchments | 299,835 (2020 raster; 62.6% of bbox) |
+| Lines / unique stations / interchanges | 5 / 26 / 4 |
+| Route length | 57.9 km double track |
+| Direct transfers / reachable line pairs | 60.0% / 100.0% |
+| Residents within 800 m radial station catchments | 158,459 (2020 raster; 33.1% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 236 × 3-car `light-metro-3car` trainsets (211 peak revenue) |
-| Peak network throughput | 100,800 passengers/hour |
-| Practical service capacity | 937,440 passenger-trips/day |
-| Annual paid-trip planning range | 171.1–273.7 M |
+| Fleet | 182 × 3-car `light-metro-3car` trainsets (163 peak revenue) |
+| Peak network throughput | 72,000 passengers/hour |
+| Practical service capacity | 669,600 passenger-trips/day |
+| Annual paid-trip planning range | 122.2–195.5 M |
 
 ### Lines
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 22.7 km | 15 | 81 | N Mid ↔ SW Outer |
-| line-2 | 10.5 km | 8 | 36 | SE Mid ↔ N Mid |
+| line-1 | 26.6 km | 10 | 81 | N Mid ↔ SW Outer |
+| line-2 | 12.8 km | 6 | 40 | SE Mid ↔ N Mid |
 | line-3 |  8.8 km | 6 | 28 | E Mid ↔ W Inner |
-| line-4 |  9.3 km | 6 | 32 | N Inner ↔ S Inner |
-| line-5 |  3.9 km | 4 | 17 | E Inner ↔ NW Inner |
-| line-6 |  6.7 km | 4 | 25 | SE Inner ↔ S Mid |
-| line-7 |  4.5 km | 3 | 17 | N Mid ↔ N Outer |
-| **Total** | **66.5 km** | **46 unique** | **236** | |
+| line-4 |  5.4 km | 2 | 18 | NE Inner ↔ E Inner |
+| line-5 |  4.3 km | 2 | 15 | N Inner ↔ N Mid |
+| **Total** | **57.9 km** | **26 unique** | **182** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 3,255 one-way journeys / 30,905 train-km/day |
-| Annual traction demand | 146.2 GWh |
-| Station/depot PV / storage | 44.6 MW / 296.0 MWh |
-| Aggregate charging power | 19.5 MW |
-| Dedicated solar plant | 25.5 MW |
+| Scheduled service | 2,325 one-way journeys / 26,917 train-km/day |
+| Annual traction demand | 127.3 GWh |
+| Station/depot PV / storage | 30.7 MW / 209.5 MWh |
+| Aggregate charging power | 12.0 MW |
+| Dedicated solar plant | 31.6 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-1: 10.7 km / 87 kWh |
-| Lowest traversal charging margin | line-7: 18 kWh |
+| Worst powered-stop gap | line-1: 12.7 km / 103 kWh |
+| Lowest traversal charging margin | line-5: 11 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $619 M |
-| Stations | $237 M |
-| Depots | $116 M |
-| Rolling stock | $212 M |
-| Dedicated solar plant | $20 M |
-| Residual train control | $3.3 M |
-| Charging microgrids | $4.1 M |
-| EPC / project services | $83 M |
-| **Total city programme** | **$1.30 bn** |
+| Civil works | $538 M |
+| Stations | $145 M |
+| Depots | $85 M |
+| Rolling stock | $164 M |
+| Dedicated solar plant | $25 M |
+| Residual train control | $2.9 M |
+| Charging microgrids | $2.5 M |
+| EPC / project services | $66 M |
+| **Total city programme** | **$1.03 bn** |
 
 ## Iraq funding
 
@@ -79,14 +77,14 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 
 | Capital source | Planning USD equivalent |
 |---|---:|
-| bank credit | $123 M |
-| chinese export credit | $63 M |
-| domestic bonds | $370 M |
-| government | $740 M |
+| bank credit | $98 M |
+| chinese export credit | $52 M |
+| domestic bonds | $293 M |
+| government | $586 M |
 
 The procurement schedule requires **41 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$540 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$499 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 
@@ -94,7 +92,7 @@ The model includes actual scheduled draws, native-currency principal/interest, f
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) . This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Annual operating allowance: $40 M; demand remains capacity-led.
+Annual operating allowance: $30 M; demand remains capacity-led.
 
 ## Local Evidence
 
@@ -105,8 +103,8 @@ Annual operating allowance: $40 M; demand remains capacity-led.
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 5 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 517 assets / 2,960 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 0 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 354 assets / 2,126 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

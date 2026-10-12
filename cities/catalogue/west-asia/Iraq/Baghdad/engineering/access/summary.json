@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.461,
+    "high_demand_cell_fraction": 0.405,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 5985974.440899372,
     "catchments": [
       {
-        "covered_population_2020": 894224.8623895645,
-        "fraction_of_raster_population": 0.1493866823552976,
+        "covered_population_2020": 472960.4493365288,
+        "fraction_of_raster_population": 0.07901143815533367,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 2100982.0215644836,
-        "fraction_of_raster_population": 0.3509841283667122,
+        "covered_population_2020": 1129864.353984356,
+        "fraction_of_raster_population": 0.18875195093793246,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 2934279.732360363,
-        "fraction_of_raster_population": 0.49019249268954407,
+        "covered_population_2020": 1660587.824728489,
+        "fraction_of_raster_population": 0.27741311646479255,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 4349140.128646374,
-        "fraction_of_raster_population": 0.7265550783061697,
+        "covered_population_2020": 3110312.789732933,
+        "fraction_of_raster_population": 0.5196000785572381,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 4934510.263688564,
-        "fraction_of_raster_population": 0.8243453613789856,
+        "covered_population_2020": 4332753.010881424,
+        "fraction_of_raster_population": 0.7238174926504435,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 193,
+    "unique_station_coordinates": 116,
     "valid_pixels": 107803
   },
   "population_source_country": "IQ",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.design-quality.yaml": "d02d29d7d7dbb6c5f91b0c337ae38923614c97a5e6c17057325fb6c2a1c0015d",
-    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "43f1cd496fe789eddba57e416316982a7b8474da1faf269e95f09d751023f192",
+    "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.design-quality.yaml": "371bf7bd6676e24e010a43003b7367444d68540830eb287e66d4834c7f4369f7",
+    "cities/catalogue/west-asia/Iraq/Baghdad/design.toml": "482231214bc008fe36c63a27c6fd5116ce8fd2675938dbe2c5d0dd477049f1f9",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/population-pixels.npz.gz": "2a5a94aec63edb90d7cb8980a1c440c5aaa53c6021053ed3b39fae538aaaf1c2",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/population-source.json": "f09e44e3086dc581828e9ed77bc21e678de97e071b30d84ebac9702c50704e2a",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [],
@@ -99,9 +99,6 @@
         "line-12",
         "line-13",
         "line-14",
-        "line-15",
-        "line-16",
-        "line-17",
         "line-2",
         "line-3",
         "line-4",
@@ -112,17 +109,17 @@
         "line-9"
       ]
     ],
-    "direct_transfer_fraction": 0.36764705882352944,
-    "line_count": 17,
-    "line_pair_count": 136,
-    "maximum_required_transfers": 3,
+    "direct_transfer_fraction": 0.3956043956043956,
+    "line_count": 14,
+    "line_pair_count": 91,
+    "maximum_required_transfers": 4,
     "pairs": [
       {
         "lines": [
           "line-1",
           "line-2"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -143,7 +140,7 @@
           "line-1",
           "line-5"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -192,7 +189,7 @@
           "line-1",
           "line-12"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -205,27 +202,6 @@
         "lines": [
           "line-1",
           "line-14"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-16"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-17"
         ],
         "minimum_transfers": 2
       },
@@ -297,42 +273,21 @@
           "line-2",
           "line-12"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-2",
           "line-13"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-2",
           "line-14"
         ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-17"
-        ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -409,28 +364,7 @@
           "line-3",
           "line-14"
         ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-15"
-        ],
         "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-17"
-        ],
-        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -486,7 +420,7 @@
           "line-4",
           "line-12"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -499,27 +433,6 @@
         "lines": [
           "line-4",
           "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-16"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-17"
         ],
         "minimum_transfers": 1
       },
@@ -570,14 +483,14 @@
           "line-5",
           "line-12"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-5",
           "line-13"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -585,27 +498,6 @@
           "line-14"
         ],
         "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-15"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-17"
-        ],
-        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -665,27 +557,6 @@
       },
       {
         "lines": [
-          "line-6",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-6",
-          "line-17"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
           "line-7",
           "line-8"
         ],
@@ -735,27 +606,6 @@
       },
       {
         "lines": [
-          "line-7",
-          "line-15"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-7",
-          "line-17"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
           "line-8",
           "line-9"
         ],
@@ -780,42 +630,21 @@
           "line-8",
           "line-12"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 3
       },
       {
         "lines": [
           "line-8",
           "line-13"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-8",
           "line-14"
         ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-8",
-          "line-17"
-        ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -836,7 +665,7 @@
           "line-9",
           "line-12"
         ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -849,27 +678,6 @@
         "lines": [
           "line-9",
           "line-14"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-16"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-9",
-          "line-17"
         ],
         "minimum_transfers": 2
       },
@@ -885,7 +693,7 @@
           "line-10",
           "line-12"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -899,35 +707,14 @@
           "line-10",
           "line-14"
         ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-15"
-        ],
         "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-10",
-          "line-17"
-        ],
-        "minimum_transfers": 3
       },
       {
         "lines": [
           "line-11",
           "line-12"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -945,59 +732,17 @@
       },
       {
         "lines": [
-          "line-11",
-          "line-15"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-11",
-          "line-17"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
           "line-12",
           "line-13"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 3
       },
       {
         "lines": [
           "line-12",
           "line-14"
         ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-15"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-12",
-          "line-17"
-        ],
-        "minimum_transfers": 2
+        "minimum_transfers": 4
       },
       {
         "lines": [
@@ -1005,72 +750,9 @@
           "line-14"
         ],
         "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-13",
-          "line-15"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-13",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-13",
-          "line-17"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-14",
-          "line-15"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-14",
-          "line-16"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-14",
-          "line-17"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-15",
-          "line-16"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-15",
-          "line-17"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-16",
-          "line-17"
-        ],
-        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.9044117647058824
+    "reachable_with_at_most_two_transfers_fraction": 0.8791208791208791
   }
 }

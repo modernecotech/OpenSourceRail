@@ -1,8 +1,8 @@
 # Fallujah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 63
+- Lines: 5
+- Stations: 23
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Baqubah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 75
+- Lines: 5
+- Stations: 32
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

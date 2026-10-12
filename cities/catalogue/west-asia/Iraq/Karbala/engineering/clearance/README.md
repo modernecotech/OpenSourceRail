@@ -2,21 +2,20 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **115**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **60**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
 | Beam/building | ground-collision | 1 |
-| Beam/building | ground-lateral-clearance-conflict | 1 |
-| Beam/building | height-unresolved | 93 |
-| Beam/building | product-depth-unresolved | 14 |
-| Reference support/foundation | foundation-footprint-conflict | 96 |
-| Reference support/foundation | foundation-setback-conflict | 16 |
-| Reference support/foundation | mapped-footprints-only-clear | 7,925 |
-| Terrain | reference-gradient-exceeded | 3,930 |
-| Terrain | reference-gradient-within-policy | 3,855 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 246 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 133 |
+| Beam/building | height-unresolved | 50 |
+| Beam/building | product-depth-unresolved | 3 |
+| Reference support/foundation | foundation-footprint-conflict | 39 |
+| Reference support/foundation | foundation-setback-conflict | 11 |
+| Reference support/foundation | mapped-footprints-only-clear | 7,402 |
+| Terrain | reference-gradient-exceeded | 3,316 |
+| Terrain | reference-gradient-within-policy | 3,389 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 729 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 409 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

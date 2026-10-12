@@ -1,8 +1,8 @@
 # Erbil route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 31
-- Stations: 180
+- Lines: 8
+- Stations: 56
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,8 +1,8 @@
 # Basra route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 25
-- Stations: 300
+- Lines: 11
+- Stations: 137
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

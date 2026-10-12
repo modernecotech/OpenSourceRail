@@ -2,7 +2,7 @@
 
 Generated from the current city design, six-car profile, engineering parts and software/ERP contracts. Engineering release remains **false**. Cost and finance rates remain unchanged; unknown unit costs are open rather than zero.
 
-Reference allocation: **958 trainsets**, **5,748 cars**, **11,496 bogies**, **251 stations**, **225 energy sites** and **one** shared plant.
+Reference allocation: **809 trainsets**, **4,854 cars**, **9,708 bogies**, **159 stations**, **139 energy sites** and **one** shared plant.
 
 See [complete parts CSV](parts.csv), [source-bound register](register.json), [dimensioned ST6 reference](slab-reference.svg) and [design and Iraqi manufacturing plan](../../DETAILED-ENGINEERING.md). The two-bogie-per-car allocation and repeated mechanical kit quantities are reference architecture, subject to Metro-6car family release. Nested wheelsets, clips and batteries are not extra charges on top of complete bought assemblies.
 
@@ -12,7 +12,7 @@ The rail reference covers net mainline running length only. Actual procurement a
 
 | ID | Part / assembly | Basis | Per basis | Network reference | Route |
 |---|---|---|---:|---:|---|
-| TR-01 | 60E1 reference running rail | route-km (m) | 4000 | 2,158,019.6 | import-or-qualified-local-source |
+| TR-01 | 60E1 reference running rail | route-km (m) | 4000 | 2,053,342 | import-or-qualified-local-source |
 | TR-02 | Resilient direct-fixation complete seat kit | rail-seat (each) | 1 | Open | import-first-local-assembly-later |
 | TR-03 | Elastic clips | rail-seat (each) | 2 | Open | import-qualified |
 | TR-04 | Rail pad / bonded resilient layer | rail-seat (each) | 1 | Open | import-qualified |
@@ -24,59 +24,59 @@ The rail reference covers net mainline running length only. Actual procurement a
 | TR-10 | ST6 reinforcement planning allowance | slab-panel (kg) | 761.94 | Open | Iraqi-cage-fabrication |
 | TR-11 | ST6 bedding / levelling grout | slab-panel (m3) | 0.522 | Open | local-qualified-material |
 | TR-12 | ST6 lifting sockets / engineered anchors | slab-panel (each) | 4 | Open | import-qualified-local-install |
-| TR-13 | Drainage channel and removable cover | route-km (m) | 2000 | 1,079,009.8 | Iraqi-precast |
+| TR-13 | Drainage channel and removable cover | route-km (m) | 2000 | 1,026,671 | Iraqi-precast |
 | TR-14 | Rail electrical continuity bond / monitored stray-current provision | project (set) | Open | Open | local-harness-import-terminals |
 | TR-15 | Turnout slab bearer, point drive, detection and locking kit | project (set) | Open | Open | mixed |
 | TR-16 | Rail/deck expansion interface and transition section | project (set) | Open | Open | mixed |
 | TR-17 | Utility ducts, draw pits, barriers and fencing | project (set) | Open | Open | Iraqi-manufacture |
-| ME-01 | Underframe and load-bearing car structure | car (each) | 1 | 5,748 | Iraqi-fabrication |
-| ME-02 | Modular FRP cladding, end frames and service rails | car (each) | 1 | 5,748 | Iraqi-composite-and-metalwork |
-| ME-03 | Powered bogie complete including frame, suspension and brakes | car (each) | 1 | 5,748 | import-first |
-| ME-04 | Trailer bogie complete including frame, suspension and brakes | car (each) | 1 | 5,748 | import-first |
-| ME-05 | Wheelset including wheels, axle, bearings and axleboxes | bogie (each) | 2 | 22,992 | included-in-bogie-import |
-| ME-06 | Motor and traction inverter/controller set | car (each) | 2 | 11,496 | import-qualified |
-| ME-07 | 225 kWh nameplate traction battery allocation | car (each) | 1 | 5,748 | import-cells-local-pack-after-qualification |
-| ME-08 | Battery support, HV junction box, fuse, contactors and precharge | car (each) | 1 | 5,748 | mixed |
-| ME-09 | Battery/inverter liquid cooling loop | car (each) | 1 | 5,748 | local-assembly-import-pump-and-chiller |
-| ME-10 | HV-to-LV DC/DC and battery-backed auxiliary distribution | car (each) | 1 | 5,748 | import-qualified-local-harness |
-| ME-11 | HVAC unit, ducts, filters, condensate and mounts | car (each) | 1 | 5,748 | mixed |
-| ME-12 | Passenger door package including leaves, drive, locks and detection | car (each) | 4 | 22,992 | import-qualified-local-fitting |
+| ME-01 | Underframe and load-bearing car structure | car (each) | 1 | 4,854 | Iraqi-fabrication |
+| ME-02 | Modular FRP cladding, end frames and service rails | car (each) | 1 | 4,854 | Iraqi-composite-and-metalwork |
+| ME-03 | Powered bogie complete including frame, suspension and brakes | car (each) | 1 | 4,854 | import-first |
+| ME-04 | Trailer bogie complete including frame, suspension and brakes | car (each) | 1 | 4,854 | import-first |
+| ME-05 | Wheelset including wheels, axle, bearings and axleboxes | bogie (each) | 2 | 19,416 | included-in-bogie-import |
+| ME-06 | Motor and traction inverter/controller set | car (each) | 2 | 9,708 | import-qualified |
+| ME-07 | 225 kWh nameplate traction battery allocation | car (each) | 1 | 4,854 | import-cells-local-pack-after-qualification |
+| ME-08 | Battery support, HV junction box, fuse, contactors and precharge | car (each) | 1 | 4,854 | mixed |
+| ME-09 | Battery/inverter liquid cooling loop | car (each) | 1 | 4,854 | local-assembly-import-pump-and-chiller |
+| ME-10 | HV-to-LV DC/DC and battery-backed auxiliary distribution | car (each) | 1 | 4,854 | import-qualified-local-harness |
+| ME-11 | HVAC unit, ducts, filters, condensate and mounts | car (each) | 1 | 4,854 | mixed |
+| ME-12 | Passenger door package including leaves, drive, locks and detection | car (each) | 4 | 19,416 | import-qualified-local-fitting |
 | ME-13 | Side glazing, window frames, seals and adhesives | car (each) | Open | Open | import-glass-local-frame |
-| ME-14 | Intercar coupler, gangway, jumper and air/electrical interfaces | trainset (each) | 5 | 4,790 | mixed |
-| ME-15 | Train-end recovery coupler and sensor cowl | trainset (each) | 2 | 1,916 | mixed |
-| ME-16 | Brake supply/control and parking brake package | car (each) | 1 | 5,748 | mixed |
-| ME-17 | Roof PV, MPPT, mounts and protected DC wiring | car (each) | 1 | 5,748 | import-panels-local-mounts |
-| ME-18 | Interior, seats, grab rails, lighting and accessibility kit | car (each) | 1 | 5,748 | Iraqi-assembly |
-| ME-19 | Fire detection, alarm, segregation and suppression provisions | car (each) | 1 | 5,748 | mixed |
-| ME-20 | HV/LV/data harness, connector and clamp schedule | car (each) | 1 | 5,748 | Iraqi-harness-production |
+| ME-14 | Intercar coupler, gangway, jumper and air/electrical interfaces | trainset (each) | 5 | 4,045 | mixed |
+| ME-15 | Train-end recovery coupler and sensor cowl | trainset (each) | 2 | 1,618 | mixed |
+| ME-16 | Brake supply/control and parking brake package | car (each) | 1 | 4,854 | mixed |
+| ME-17 | Roof PV, MPPT, mounts and protected DC wiring | car (each) | 1 | 4,854 | import-panels-local-mounts |
+| ME-18 | Interior, seats, grab rails, lighting and accessibility kit | car (each) | 1 | 4,854 | Iraqi-assembly |
+| ME-19 | Fire detection, alarm, segregation and suppression provisions | car (each) | 1 | 4,854 | mixed |
+| ME-20 | HV/LV/data harness, connector and clamp schedule | car (each) | 1 | 4,854 | Iraqi-harness-production |
 | ME-21 | Service consumables, fasteners, fluids and replacement spares | project (each) | Open | Open | mixed |
-| EL-01 | T-ECU/S end host assembly | trainset (each) | 2 | 1,916 | import-electronics-Iraqi-integration |
-| EL-02 | T-ECU/A application end host assembly | trainset (each) | 2 | 1,916 | import-electronics-Iraqi-integration |
-| EL-03 | T-OBS end host and external sensor assembly | trainset (each) | 2 | 1,916 | import-electronics-Iraqi-integration |
-| EL-04 | Safety evaluator MCU channel | t-obs (each) | 2 | 3,832 | import-electronics-Iraqi-integration |
-| EL-05 | Independent hardware heartbeat watchdog | t-obs (each) | 2 | 3,832 | import-electronics-Iraqi-integration |
-| EL-06 | Channel power conversion and voltage monitoring branch | t-obs (each) | 2 | 3,832 | import-electronics-Iraqi-integration |
-| EL-07 | Application compute module and carrier | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-08 | Radar evaluation assembly and CAN interface adapter | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-09 | Lidar HAP TX candidate and data/power harness | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-10 | Stereo camera, carrier-compatible flex and rigid calibration bar | t-obs (each) | 2 | 3,832 | import-electronics-Iraqi-integration |
-| EL-11 | Ultrasonic sensing position | t-obs (each) | 4 | 7,664 | import-electronics-Iraqi-integration |
-| EL-12 | Isolated peer cross-check SPI link | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-13 | Hardware series permission contacts and independent coil drivers | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-14 | HV/LV input surge protection and branch fuse assemblies | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
-| EL-15 | Enclosure, heat spreader, glands, vents and grounding hardware | t-obs (each) | 1 | 1,916 | import-electronics-Iraqi-integration |
+| EL-01 | T-ECU/S end host assembly | trainset (each) | 2 | 1,618 | import-electronics-Iraqi-integration |
+| EL-02 | T-ECU/A application end host assembly | trainset (each) | 2 | 1,618 | import-electronics-Iraqi-integration |
+| EL-03 | T-OBS end host and external sensor assembly | trainset (each) | 2 | 1,618 | import-electronics-Iraqi-integration |
+| EL-04 | Safety evaluator MCU channel | t-obs (each) | 2 | 3,236 | import-electronics-Iraqi-integration |
+| EL-05 | Independent hardware heartbeat watchdog | t-obs (each) | 2 | 3,236 | import-electronics-Iraqi-integration |
+| EL-06 | Channel power conversion and voltage monitoring branch | t-obs (each) | 2 | 3,236 | import-electronics-Iraqi-integration |
+| EL-07 | Application compute module and carrier | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-08 | Radar evaluation assembly and CAN interface adapter | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-09 | Lidar HAP TX candidate and data/power harness | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-10 | Stereo camera, carrier-compatible flex and rigid calibration bar | t-obs (each) | 2 | 3,236 | import-electronics-Iraqi-integration |
+| EL-11 | Ultrasonic sensing position | t-obs (each) | 4 | 6,472 | import-electronics-Iraqi-integration |
+| EL-12 | Isolated peer cross-check SPI link | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-13 | Hardware series permission contacts and independent coil drivers | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-14 | HV/LV input surge protection and branch fuse assemblies | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
+| EL-15 | Enclosure, heat spreader, glands, vents and grounding hardware | t-obs (each) | 1 | 1,618 | import-electronics-Iraqi-integration |
 | EL-16 | Train network switch, isolated CAN and external Ethernet controller set | trainset (each) | Open | Open | import-electronics-Iraqi-integration |
 | EL-17 | Train-to-ground radios, modem carrier, antennas and surge arresters | trainset (each) | Open | Open | import-electronics-Iraqi-integration |
 | EL-18 | W-SBC field cabinet and point/crossing I/O | project (each) | Open | Open | import-electronics-Iraqi-integration |
-| EL-19 | S-SBC station host and protected UPS/network enclosure | station (each) | 1 | 251 | import-electronics-Iraqi-integration |
+| EL-19 | S-SBC station host and protected UPS/network enclosure | station (each) | 1 | 159 | import-electronics-Iraqi-integration |
 | EL-20 | Operator/server cluster, backup and disaster recovery | project (each) | Open | Open | import-electronics-Iraqi-integration |
 | CI-01 | Pi20/Pi25 beam, pier cap, column and foundation package | project (each) | Open | Open | Iraqi-precast-and-site |
 | CI-02 | Walkway, barrier, cable tray and access cassette | project (each) | Open | Open | Iraqi-fabrication |
-| CI-03 | Station accessible platform, ramp/lift/stair and canopy package | station (each) | 1 | 251 | Iraqi-civil-and-metalwork |
-| CI-04 | Station fire, water, drainage, power and earthing services | station (each) | 1 | 251 | mixed |
+| CI-03 | Station accessible platform, ramp/lift/stair and canopy package | station (each) | 1 | 159 | Iraqi-civil-and-metalwork |
+| CI-04 | Station fire, water, drainage, power and earthing services | station (each) | 1 | 159 | mixed |
 | CI-05 | Ticket validators, vending, gates and settlement terminals | station (each) | Open | Open | mixed |
-| CI-06 | Station PA/PIS, CCTV, help points and telecom cabinet | station (each) | 1 | 251 | mixed |
-| CI-07 | Charging contact, interlock, protection, DC/DC and site battery | site (each) | 1 | 225 | import-core-local-assembly |
+| CI-06 | Station PA/PIS, CCTV, help points and telecom cabinet | station (each) | 1 | 159 | mixed |
+| CI-07 | Charging contact, interlock, protection, DC/DC and site battery | site (each) | 1 | 139 | import-core-local-assembly |
 | CI-08 | Depot lifts, pits, wheel service, wash and recovery equipment | project (each) | Open | Open | mixed |
 | CI-09 | Precast plant moulds, cage jigs, batch/curing and survey tools | plant (each) | 1 | 1 | Iraqi-fabrication-import-special-tooling |
 | CI-10 | Rail weld/clip/anchor tools and track survey trolley | plant (each) | 1 | 1 | mixed |

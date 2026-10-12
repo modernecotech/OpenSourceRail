@@ -5,13 +5,13 @@
 This page contains only Amarah-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$3.18 bn (89.1%) of external capital** and **$3.92 bn of external interest**. Capital plus saved interest totals **$7.10 bn**. See the common reference for interpretation and limitations.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$1.81 bn (89.0%) of external capital** and **$2.22 bn of external interest**. Capital plus saved interest totals **$4.03 bn**. See the common reference for interpretation and limitations.
 
-**Population-led network revision (2026-10-09).** The controlled planning inventory contains **9 lines**, including **6 additional residential lines**. **80.1%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
+**Population-led network revision (2026-10-12).** The controlled planning inventory contains **5 lines**, including **2 additional residential lines**. **35.1%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
 
-**Current alignment, depot and production basis.** Core corridors change from **40.741 km to 68.785 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **61 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+**Current alignment, depot and production basis.** Core corridors change from **40.741 km to 49.079 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **21 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
 
-**9 line-local depots** provide **293 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **293 light-metro-3car trainsets / 879 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+**5 line-local depots** provide **177 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **177 light-metro-3car trainsets / 531 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
 
 Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
 
@@ -23,57 +23,53 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 
 | Local measure | Value |
 |---|---:|
-| Lines / unique stations / interchanges | 9 / 61 / 13 |
-| Route length | 79.7 km double track |
-| Direct transfers / reachable line pairs | 55.6% / 100.0% |
-| Residents within 800 m radial station catchments | 398,671 (2020 raster; 63.9% of bbox) |
+| Lines / unique stations / interchanges | 5 / 21 / 6 |
+| Route length | 55.3 km double track |
+| Direct transfers / reachable line pairs | 60.0% / 100.0% |
+| Residents within 800 m radial station catchments | 155,109 (2020 raster; 24.9% of bbox) |
 | Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 293 × 3-car `light-metro-3car` trainsets (261 peak revenue) |
-| Peak network throughput | 129,600 passengers/hour |
-| Practical service capacity | 1,205,280 passenger-trips/day |
-| Annual paid-trip planning range | 220.0–351.9 M |
+| Fleet | 177 × 3-car `light-metro-3car` trainsets (159 peak revenue) |
+| Peak network throughput | 72,000 passengers/hour |
+| Practical service capacity | 669,600 passenger-trips/day |
+| Annual paid-trip planning range | 122.2–195.5 M |
 
 ### Lines
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---:|---:|---:|---|
-| line-1 | 21.7 km | 14 | 72 | NW Mid ↔ SE Outer |
-| line-2 |  9.8 km | 8 | 35 | SW Inner ↔ N Mid |
-| line-3 | 10.5 km | 9 | 39 | E Mid ↔ W Mid |
-| line-4 |  7.7 km | 7 | 30 | NW Inner ↔ SE Inner |
-| line-5 |  3.8 km | 4 | 17 | E Inner ↔ NE Mid |
-| line-6 |  8.4 km | 5 | 31 | SW Inner ↔ SW Outer |
-| line-7 |  2.1 km | 2 | 10 | E Inner ↔ SE Inner |
-| line-8 |  5.6 km | 6 | 25 | W Inner ↔ N Mid |
-| line-9 |  9.9 km | 6 | 34 | E Inner ↔ NW Mid |
-| **Total** | **79.7 km** | **61 unique** | **293** | |
+| line-1 | 24.6 km | 7 | 76 | NW Mid ↔ SE Outer |
+| line-2 |  9.8 km | 5 | 32 | SW Inner ↔ N Mid |
+| line-3 | 10.5 km | 4 | 35 | E Inner ↔ W Mid |
+| line-4 |  4.2 km | 2 | 14 | NE Inner ↔ NE Mid |
+| line-5 |  6.1 km | 3 | 20 | W Inner ↔ SE Inner |
+| **Total** | **55.3 km** | **21 unique** | **177** | |
 
 ## Energy
 
 | Local measure | Value |
 |---|---:|
-| Scheduled service | 4,185 one-way journeys / 37,049 train-km/day |
-| Annual traction demand | 175.3 GWh |
-| Station/depot PV / storage | 58.5 MW / 382.5 MWh |
-| Aggregate charging power | 27.0 MW |
-| Dedicated solar plant | 24.8 MW |
+| Scheduled service | 2,325 one-way journeys / 25,700 train-km/day |
+| Annual traction demand | 121.6 GWh |
+| Station/depot PV / storage | 29.5 MW / 207.5 MWh |
+| Aggregate charging power | 10.0 MW |
+| Dedicated solar plant | 29.9 MW |
 | Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-6: 8.4 km / 68 kWh |
-| Lowest traversal charging margin | line-6: 23 kWh |
+| Worst powered-stop gap | line-1: 12.4 km / 100 kWh |
+| Lowest traversal charging margin | line-4: 12 kWh |
 
 ## Capital And Funding
 
 | Local CAPEX bucket | Planning value |
 |---|---:|
-| Civil works | $1.09 bn |
-| Stations | $332 M |
-| Depots | $147 M |
-| Rolling stock | $264 M |
-| Dedicated solar plant | $20 M |
-| Residual train control | $4.0 M |
-| Charging microgrids | $5.5 M |
-| EPC / project services | $129 M |
-| **Total city programme** | **$1.99 bn** |
+| Civil works | $660 M |
+| Stations | $126 M |
+| Depots | $83 M |
+| Rolling stock | $159 M |
+| Dedicated solar plant | $24 M |
+| Residual train control | $2.8 M |
+| Charging microgrids | $2.1 M |
+| EPC / project services | $72 M |
+| **Total city programme** | **$1.13 bn** |
 
 ## Iraq funding
 
@@ -81,14 +77,14 @@ Proposed facilities and appropriations remain uncommitted. The conditional ledge
 
 | Capital source | Planning USD equivalent |
 |---|---:|
-| bank credit | $191 M |
-| chinese export credit | $76 M |
-| domestic bonds | $573 M |
-| government | $1.15 bn |
+| bank credit | $108 M |
+| chinese export credit | $50 M |
+| domestic bonds | $324 M |
+| government | $648 M |
 
 The procurement schedule requires **41 calendar months** of capital cash under an assumed 260-working-day year. The resource-constrained full-network rollout needs review before a construction commitment.
 
-Peak annual government cash: **$714 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
+Peak annual government cash: **$594 M**. This includes support required under the low capacity-use case; it is not a funded appropriation.
 
 Chinese export buyer credit is allocated within existing imported budgets for solar equipment, bogies, batteries, windows and doors. City CAPEX excludes manufacturing tooling; the Baghdad-only programme separately funds one plant for Baghdad. IQD bonds assume a proposed Ministry of Finance programme; municipal borrowing authority is pending legal review.
 
@@ -96,7 +92,7 @@ The model includes actual scheduled draws, native-currency principal/interest, f
 
 See [funding model](engineering/finance/FUNDING-MODEL.md), [monthly cashflow](engineering/finance/funding-monthly-cashflow.csv), [annual cashflow](engineering/finance/funding-annual-cashflow.csv) . This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Annual operating allowance: $57 M; demand remains capacity-led.
+Annual operating allowance: $32 M; demand remains capacity-led.
 
 ## Local Evidence
 
@@ -107,8 +103,8 @@ Annual operating allowance: $57 M; demand remains capacity-led.
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 7 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 654 assets / 3,724 tasks | [`amarah-operations-manifest.json`](operations/amarah-operations-manifest.json) |
+| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 0 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
+| Operations, QA and maintenance | 319 assets / 1,979 tasks | [`amarah-operations-manifest.json`](operations/amarah-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

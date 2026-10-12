@@ -1,8 +1,8 @@
 # Mosul route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 19
-- Stations: 175
+- Lines: 9
+- Stations: 85
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -4,7 +4,7 @@ Generated from current city CAPEX and procurement milestones. All facilities and
 
 This standalone city appraisal is outside the Baghdad-only funding programme.
 
-Construction cash runs through month **56**; full-network operations start in month **56** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
+Construction cash runs through month **41**; full-network operations start in month **41** after retention. This conservative rollout follows the current resource-constrained CPM, not a five-year promise.
 
 ## Capital sources and uses
 
@@ -12,11 +12,11 @@ USD is the comparison unit below. **Chinese credit is USD debt; domestic bonds a
 
 | Capital source | Contract / cash currency | Native amount at model FX | USD equivalent |
 |---|---|---:|---:|
-| chinese export credit | USD | 180,435,182.00 | 180,435,182.00 |
-| domestic bonds | IQD | 1,464,560,282,864.70 | 1,126,584,832.97 |
-| bank credit | IQD | 488,186,760,954.90 | 375,528,277.66 |
-| government | IQD | 2,929,120,565,729.39 | 2,253,169,665.95 |
-| **Total city capital uses** | Mixed | — | **3,935,717,958.58** |
+| chinese export credit | USD | 128,604,203.95 | 128,604,203.95 |
+| domestic bonds | IQD | 1,055,949,866,655.62 | 812,269,128.20 |
+| bank credit | IQD | 351,983,288,885.21 | 270,756,376.07 |
+| government | IQD | 2,111,899,733,311.24 | 1,624,538,256.39 |
+| **Total city capital uses** | Mixed | — | **2,836,167,964.61** |
 
 Chinese buyer credit is proposed for eligible Chinese component invoices only. Government contributes its configured capital share, including the eligible-invoice downpayment; IQD bonds and bank credit finance the residual. The conditional ledger also calculates cash needed for fees, construction interest, reserves and operating/debt shortfalls. That additional support is uncommitted and is an unfunded requirement if Baghdad public cash is capped at its 25% capital contribution.
 
@@ -34,13 +34,13 @@ These allocations divide existing imported budgets; they are not additional cost
 
 | Bucket | Component | Assumed eligible invoice USD |
 |---|---|---:|
-| rolling_stock | bogies | 66,483,200.00 |
-| rolling_stock | traction_batteries | 49,862,400.00 |
-| rolling_stock | windows | 8,310,400.00 |
-| rolling_stock | doors | 16,620,800.00 |
-| solar_plant | solar_panels_and_inverters | 59,074,884.71 |
-| charging_microgrid | solar_panels_and_inverters | 5,565,000.00 |
-| charging_microgrid | station_batteries | 6,360,000.00 |
+| rolling_stock | bogies | 39,670,400.00 |
+| rolling_stock | traction_batteries | 29,752,800.00 |
+| rolling_stock | windows | 4,958,800.00 |
+| rolling_stock | doors | 9,917,600.00 |
+| solar_plant | solar_panels_and_inverters | 61,104,463.47 |
+| charging_microgrid | solar_panels_and_inverters | 2,751,000.00 |
+| charging_microgrid | station_batteries | 3,144,000.00 |
 
 ## Annual cash requirements
 
@@ -48,57 +48,56 @@ Year 1 begins at assumed financial close; NTP follows 30 working days later. Amo
 
 | Year | CAPEX | Revenue | OPEX | Debt service | Public cash | DSCR before support |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 458.00 | 0.00 | 0.00 | 8.63 | 279.98 | 0.00 |
-| 2 | 767.26 | 0.00 | 0.00 | 34.39 | 487.07 | 0.00 |
-| 3 | 1273.76 | 0.00 | 0.00 | 81.62 | 815.20 | 0.00 |
-| 4 | 1204.21 | 0.00 | 0.00 | 144.46 | 817.91 | 0.00 |
-| 5 | 232.49 | 89.65 | 37.31 | 188.34 | 367.88 | 0.28 |
-| 6 | 0.00 | 313.77 | 111.92 | 203.26 | 33.78 | 0.99 |
-| 7 | 0.00 | 448.25 | 111.92 | 212.16 | 0.00 | 1.59 |
-| 8 | 0.00 | 537.90 | 111.92 | 212.75 | 0.00 | 2.00 |
-| 9 | 0.00 | 537.90 | 111.92 | 204.22 | 0.00 | 2.09 |
-| 10 | 0.00 | 537.90 | 111.92 | 185.01 | 0.00 | 2.30 |
-| 11 | 0.00 | 537.90 | 111.92 | 161.43 | 0.00 | 2.64 |
-| 12 | 0.00 | 537.90 | 111.92 | 147.13 | 0.00 | 2.90 |
-| 13 | 0.00 | 537.90 | 111.92 | 146.32 | 0.00 | 2.91 |
-| 14 | 0.00 | 537.90 | 111.92 | 146.32 | 0.00 | 2.91 |
-| 15 | 0.00 | 537.90 | 111.92 | 146.32 | 0.00 | 2.91 |
-| 16 | 0.00 | 537.90 | 111.92 | 146.32 | 0.00 | 2.91 |
-| 17 | 0.00 | 537.90 | 111.92 | 146.32 | 0.00 | 2.91 |
-| 18 | 0.00 | 537.90 | 111.92 | 140.04 | 0.00 | 3.04 |
-| 19 | 0.00 | 537.90 | 111.92 | 120.45 | 0.00 | 3.54 |
-| 20 | 0.00 | 537.90 | 111.92 | 85.92 | 0.00 | 4.96 |
-| 21 | 0.00 | 537.90 | 111.92 | 42.61 | 0.00 | 10.00 |
-| 22 | 0.00 | 537.90 | 111.92 | 14.59 | 0.00 | 29.19 |
-| 23 | 0.00 | 537.90 | 111.92 | 5.38 | 0.00 | 79.12 |
-| 24 | 0.00 | 537.90 | 111.92 | 0.18 | 0.00 | 2354.89 |
-| 25 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 26 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 27 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 28 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 29 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 30 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 31 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 32 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 33 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 34 | 0.00 | 537.90 | 111.92 | 0.00 | 0.00 | — |
-| 35 | 0.00 | 358.60 | 74.61 | 0.00 | 0.00 | — |
+| 1 | 455.78 | 0.00 | 0.00 | 5.59 | 276.93 | 0.00 |
+| 2 | 1297.59 | 0.00 | 0.00 | 46.37 | 809.93 | 0.00 |
+| 3 | 1074.38 | 0.00 | 0.00 | 105.41 | 699.49 | 0.00 |
+| 4 | 8.42 | 85.93 | 43.47 | 134.10 | 165.76 | 0.32 |
+| 5 | 0.00 | 190.28 | 74.52 | 147.50 | 37.46 | 0.78 |
+| 6 | 0.00 | 263.94 | 74.52 | 152.73 | 2.81 | 1.24 |
+| 7 | 0.00 | 294.63 | 74.52 | 155.12 | 0.00 | 1.42 |
+| 8 | 0.00 | 294.63 | 74.52 | 155.41 | 0.00 | 1.42 |
+| 9 | 0.00 | 294.63 | 74.52 | 138.20 | 0.00 | 1.59 |
+| 10 | 0.00 | 294.63 | 74.52 | 113.47 | 0.00 | 1.94 |
+| 11 | 0.00 | 294.63 | 74.52 | 105.37 | 0.00 | 2.09 |
+| 12 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 13 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 14 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 15 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 16 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 17 | 0.00 | 294.63 | 74.52 | 105.35 | 0.00 | 2.09 |
+| 18 | 0.00 | 294.63 | 74.52 | 101.43 | 0.00 | 2.17 |
+| 19 | 0.00 | 294.63 | 74.52 | 70.74 | 0.00 | 3.11 |
+| 20 | 0.00 | 294.63 | 74.52 | 26.63 | 0.00 | 8.26 |
+| 21 | 0.00 | 294.63 | 74.52 | 10.37 | 0.00 | 21.23 |
+| 22 | 0.00 | 294.63 | 74.52 | 5.30 | 0.00 | 41.51 |
+| 23 | 0.00 | 294.63 | 74.52 | 0.03 | 0.00 | 7096.74 |
+| 24 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 25 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 26 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 27 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 28 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 29 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 30 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 31 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 32 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 33 | 0.00 | 294.63 | 74.52 | 0.00 | 0.00 | — |
+| 34 | 0.00 | 122.76 | 31.05 | 0.00 | 0.00 | — |
 
 ## Sensitivities
 
 | Scenario | Peak annual public cash USD m | Minimum operating DSCR | Peak uncovered monthly capital USD m |
 |---|---:|---:|---:|
-| base low demand | 817.91 | 0.28 | 0.00 |
-| high capacity use | 817.91 | 0.55 | 0.00 |
-| capex plus 25 percent | 1022.38 | 0.22 | 0.00 |
-| demand minus 40 percent | 817.91 | 0.09 | 0.00 |
-| iqd depreciation 35 percent | 817.91 | 0.28 | 0.00 |
-| commissioning delay two years | 817.91 | 0.25 | 0.00 |
-| china credit unavailable | 812.23 | 0.29 | 8.10 |
-| four year bullet bonds | 813.30 | 0.17 | 0.00 |
-| government payment delay six months | 902.69 | 0.28 | 29.56 |
-| interest plus three points | 852.75 | 0.23 | 0.00 |
-| combined downside | 1065.94 | 0.05 | 0.00 |
+| base low demand | 809.93 | 0.32 | 0.00 |
+| high capacity use | 809.93 | 0.68 | 0.00 |
+| capex plus 25 percent | 1012.42 | 0.25 | 0.00 |
+| demand minus 40 percent | 809.93 | 0.06 | 0.00 |
+| iqd depreciation 35 percent | 809.93 | 0.32 | 0.00 |
+| commissioning delay two years | 809.93 | 0.28 | 0.00 |
+| china credit unavailable | 808.50 | 0.33 | 15.47 |
+| four year bullet bonds | 809.93 | 0.34 | 0.00 |
+| government payment delay six months | 918.54 | 0.32 | 39.86 |
+| interest plus three points | 822.14 | 0.26 | 0.00 |
+| combined downside | 1027.68 | 0.04 | 0.00 |
 
 ## Assumptions and evidence
 

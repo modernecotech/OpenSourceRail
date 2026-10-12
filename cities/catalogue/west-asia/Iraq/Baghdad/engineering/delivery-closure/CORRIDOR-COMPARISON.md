@@ -4,22 +4,19 @@ Each corridor pays for its own workload/shift cover including central leadership
 
 | Line | Fleet | FTE | OPEX USD m/year | Operating-neutral paid trips m/year | Neutral capacity use | Fare at 20% use IQD |
 | --- | --- | --- | --- | --- | --- | --- |
-| line-1 | 50 | 297 | 24.636 | 20.765 | 32.9% | 2168 |
-| line-2 | 53 | 314 | 26.347 | 22.115 | 35.1% | 2310 |
-| line-3 | 51 | 309 | 25.036 | 20.822 | 33.0% | 2174 |
-| line-4 | 41 | 244 | 20.912 | 17.766 | 28.2% | 1855 |
-| line-5 | 51 | 314 | 24.289 | 19.916 | 31.6% | 2080 |
-| line-6 | 50 | 303 | 26.139 | 22.079 | 35.0% | 2306 |
-| line-7 | 39 | 242 | 20.109 | 16.973 | 26.9% | 1773 |
-| line-8 | 50 | 279 | 24.256 | 20.559 | 32.6% | 2147 |
-| line-9 | 48 | 475 | 43.128 | 35.467 | 58.0% | 3823 |
-| line-10 | 10 | 88 | 4.226 | 3.325 | 5.3% | 347 |
-| line-11 | 12 | 94 | 5.024 | 4.113 | 6.5% | 430 |
-| line-12 | 15 | 111 | 5.481 | 4.227 | 6.7% | 441 |
-| line-13 | 12 | 101 | 4.765 | 3.689 | 5.8% | 385 |
-| line-14 | 12 | 94 | 5.069 | 4.158 | 6.6% | 434 |
-| line-15 | 11 | 94 | 4.388 | 3.485 | 5.5% | 364 |
-| line-16 | 9 | 69 | 3.865 | 3.307 | 5.2% | 345 |
-| line-17 | 14 | 103 | 5.472 | 4.387 | 7.0% | 458 |
+| line-1 | 44 | 250 | 22.943 | 19.498 | 30.9% | 2036 |
+| line-2 | 49 | 238 | 24.551 | 21.640 | 34.3% | 2260 |
+| line-3 | 47 | 245 | 23.427 | 20.161 | 32.0% | 2105 |
+| line-4 | 40 | 202 | 19.949 | 17.468 | 27.7% | 1824 |
+| line-5 | 44 | 237 | 22.393 | 19.141 | 30.3% | 1999 |
+| line-6 | 49 | 249 | 24.791 | 21.507 | 34.1% | 2246 |
+| line-7 | 38 | 210 | 19.141 | 16.486 | 26.1% | 1722 |
+| line-8 | 45 | 231 | 22.764 | 19.691 | 31.2% | 2056 |
+| line-9 | 45 | 333 | 40.140 | 34.805 | 57.0% | 3752 |
+| line-10 | 9 | 69 | 3.990 | 3.383 | 5.4% | 353 |
+| line-11 | 8 | 61 | 3.910 | 3.488 | 5.5% | 364 |
+| line-12 | 9 | 69 | 3.909 | 3.303 | 5.2% | 345 |
+| line-13 | 10 | 77 | 4.548 | 3.749 | 5.9% | 391 |
+| line-14 | 8 | 61 | 3.612 | 3.195 | 5.1% | 334 |
 
 [Detailed cases and investigation forms](corridor-comparison.json) retain fares, affordability, OD/transfers, paid demand, pedestrian/feeder catchments, interchange and standalone debt-service fields. The affordability column prices 44 monthly trips against the historical model income proxy; it is not surveyed disposable income. Lower vehicle procurement reduces service/capacity; unchanged receipts and earlier openings are not assumed. Surveyed ground, utilities, foundations, drainage, erection/temporary works, evacuation/access and actual shared dependencies must accompany selection. A 10% civil opportunity is not claimed as a saving.

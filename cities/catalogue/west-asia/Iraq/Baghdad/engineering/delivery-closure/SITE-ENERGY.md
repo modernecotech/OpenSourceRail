@@ -4,10 +4,10 @@ Each station retains its own storage capacity/power and grid limit. Timetable tr
 
 | Weather | Imports GWh | Unserved GWh | Firm energy services USD m/year | Required grid upgrade MW | Charger overload MW |
 | --- | --- | --- | --- | --- | --- |
-| reference | 960.0 | 1.3 | 143.908 | 50.707 | 101.692 |
-| poor | 1095.3 | 2.0 | 152.990 | 53.828 | 101.692 |
-| aged10 | 985.1 | 1.3 | 146.417 | 50.707 | 101.692 |
+| reference | 940.2 | 10.5 | 140.310 | 141.504 | 203.587 |
+| poor | 1055.9 | 23.9 | 148.841 | 145.359 | 203.587 |
+| aged10 | 955.2 | 11.0 | 141.856 | 141.504 | 203.587 |
 
 The firm-service cash sensitivity buys unmet energy and pays the increased connection charges. It **requires physical connection and charger upgrades whose capital is unpriced**. It does not claim a trip can be served by paying a bill. [Site totals](site-energy.json) and reference line-hourly ledgers expose every node requirement. Whole-grid pooling is removed; within-line duty allocation, site transformer/feeder limits, rights/outages, charging times, installed storage ageing and weather still need measurements. Original annual-netting finance remains unchanged, with no export income or energy ownership proceeds invented.
 
-[All 0 aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.
+[All 28 aggregate shortage hours](aggregate-reference-shortage-hours.csv) remain an explicit pooled comparator. [Site-specific shortage hours](energy-site-shortage-hours.csv) expose grid/charger limits, opening/closing stored energy, local PV and remote generation before wheeling. Local PV never incurs remote wheeling losses/charges. The installed-throughput case reduces fare, station and additional commercial receipts; it is an energy upper bound, not a validated achieved timetable.

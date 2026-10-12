@@ -4,26 +4,23 @@
 > **Original catalogue or earlier scope reference.** The figures and policies below retain their original assumptions; they are not the latest Baghdad staffing, depot, procurement or funding basis. See the [current Baghdad recalculation](../programme-recalculation/README.md) and [current city summary](../../README.md). National/portfolio totals have not been repriced with that conditional Baghdad option.
 <!-- END OSR CURRENT SCOPE CONTEXT -->
 
-The original allocation remains **418 station trains + 540 depot/storage trains = 958** and its morning-direction check remains failed. The 5 missing directional starts require an operating/stabling revision with conflict-aware evening returns, morning launches, recovery and degraded charging. This package does not turn storage capacity arithmetic into a physically accepted allocation.
+The original allocation remains **270 station trains + 539 depot/storage trains = 809** and its morning-direction check remains failed. The 5 missing directional starts require an operating/stabling revision with conflict-aware evening returns, morning launches, recovery and degraded charging. This package does not turn storage capacity arithmetic into a physically accepted allocation.
 
 | Line | Station storage ID | Storage positions | Usable track m | Tracks / turnouts | Declared / workload bays |
 | --- | --- | --- | --- | --- | --- |
-| line-1 | line-1-0166-0866-s049067 | 54 | 6,534 | 18 / 20 | 0 / 14 |
-| line-10 | line-10-0623-1300-s006499 | 10 | 1,210 | 4 / 6 | 0 / 3 |
-| line-11 | line-11-0775-1118-s008163 | 11 | 1,331 | 4 / 6 | 0 / 3 |
-| line-12 | line-12-0937-0562-s008590 | 12 | 1,452 | 4 / 6 | 0 / 4 |
-| line-13 | line-13-0798-0352-s007369 | 11 | 1,331 | 4 / 6 | 0 / 4 |
-| line-14 | line-14-0512-1236-s008294 | 11 | 1,331 | 4 / 6 | 0 / 3 |
-| line-15 | line-15-0902-1307-s006634 | 9 | 1,089 | 3 / 5 | 0 / 3 |
-| line-16 | line-16-0566-0992-s006146 | 9 | 1,089 | 3 / 5 | 0 / 3 |
-| line-17 | line-17-1037-1461-s008838 | 12 | 1,452 | 4 / 6 | 0 / 4 |
-| line-2 | line-2-0595-0296-s052851 | 60 | 7,260 | 20 / 22 | 144 / 15 |
-| line-3 | line-3-0151-1637-s049496 | 58 | 7,018 | 20 / 22 | 0 / 14 |
-| line-4 | line-4-1230-1627-s041932 | 47 | 5,687 | 16 / 18 | 0 / 11 |
-| line-5 | line-5-0677-2304-s047345 | 58 | 7,018 | 20 / 22 | 0 / 14 |
-| line-6 | line-6-0495-1669-s052503 | 61 | 7,381 | 21 / 23 | 0 / 14 |
-| line-7 | line-7-1531-0418-s039957 | 47 | 5,687 | 16 / 18 | 0 / 11 |
-| line-8 | line-8-0785-0290-s048137 | 65 | 7,865 | 22 / 24 | 0 / 14 |
+| line-1 | line-1-0166-0866-s049067 | 52 | 6,292 | 18 / 20 | 0 / 12 |
+| line-10 | line-10-0686-1312-s006804 | 9 | 1,089 | 3 / 5 | 0 / 3 |
+| line-11 | line-11-0337-1112-s006884 | 10 | 1,210 | 4 / 6 | 0 / 2 |
+| line-12 | line-12-0760-0138-s006586 | 9 | 1,089 | 3 / 5 | 0 / 3 |
+| line-13 | line-13-1193-0313-s008042 | 10 | 1,210 | 4 / 6 | 0 / 3 |
+| line-14 | line-14-0688-1260-s006047 | 9 | 1,089 | 3 / 5 | 0 / 2 |
+| line-2 | line-2-0595-0296-s052851 | 69 | 8,349 | 23 / 25 | 122 / 14 |
+| line-3 | line-3-0151-1637-s049496 | 62 | 7,502 | 21 / 23 | 0 / 13 |
+| line-4 | line-4-1230-1627-s041932 | 56 | 6,776 | 19 / 21 | 0 / 11 |
+| line-5 | line-5-0677-2304-s047345 | 60 | 7,260 | 20 / 22 | 0 / 12 |
+| line-6 | line-6-0495-1669-s052503 | 71 | 8,591 | 24 / 26 | 0 / 14 |
+| line-7 | line-7-1531-0418-s039957 | 50 | 6,050 | 17 / 19 | 0 / 10 |
+| line-8 | line-8-0785-0290-s048137 | 67 | 8,107 | 23 / 25 | 0 / 13 |
 | line-9 | line-9-0689-0569-s097310 | 5 | 605 | 2 / 4 | 0 / 7 |
 
 The planning arrangement uses at most three 121 m usable train slots per storage track, separate fan/throat turnouts and 5 m track spacing, with a 1.8 access/land multiplier. Track metres are single-track storage lengths, not route-km or workshop bays. Yard geometry is not located on a surveyed parcel. Storage charging shares existing powered sites; connecting tracks, peak chargers/feeders, protection, rescue access and quarantine need site engineering.

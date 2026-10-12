@@ -1,29 +1,29 @@
 slug: hillah
 pass: true
 metrics:
-  total_route_m: 106990.5
-  n_lines: 11
-  n_stations: 67
-  anchor_hit_rate: 0.179
-  high_demand_coverage: 0.663
+  total_route_m: 74653.2
+  n_lines: 5
+  n_stations: 26
+  anchor_hit_rate: 0.538
+  high_demand_coverage: 0.673
   civil_mix_m:
-    at_grade: 36959.000
-    elevated: 52505.200
-    bridge:   17526.300
-  elevated_fraction: 0.655
+    at_grade: 15202.500
+    elevated: 56288.800
+    bridge:   3161.900
+  elevated_fraction: 0.796
   viaduct_products_m:
-    osr_pi20_pi25: 49323.626
-    osr_us:      2900.174
-    special:     17526.300
-    realign:     281.400
-  max_elevated_cost_multiplier: 21.173
+    osr_pi20_pi25: 43066.814
+    osr_us:      11494.286
+    special:     3161.900
+    realign:     1727.700
+  max_elevated_cost_multiplier: 22.801
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

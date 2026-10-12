@@ -1,8 +1,8 @@
 # Kut route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 52
+- Lines: 5
+- Stations: 19
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

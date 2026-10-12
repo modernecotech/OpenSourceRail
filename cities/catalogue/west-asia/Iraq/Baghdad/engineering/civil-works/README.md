@@ -4,27 +4,24 @@
 
 [Master plan](../../../../../../../docs/civil/civil-works-master-plan.md) connects detailed viaduct, station, other works, logistics, programme and inspection methods.
 
-The 25 m average sizing basis reconciles to 10,128 identified catalogue bays, 422 unresolved specials/closures and 24.58 m actual running-span average. Orders retain span/track IDs and actual products.
+The 25 m average sizing basis reconciles to 9,973 identified catalogue bays, 404 unresolved specials/closures and 24.64 m actual running-span average. Orders retain span/track IDs and actual products.
 
 | Line | At grade km | Elevated km | Bridge km | Catalogue bays | Special spans | Stations |
 |---|---:|---:|---:|---:|---:|---:|
-| line-1 | 23.195 | 21.223 | 4.650 | 700 | 29 | 21 |
-| line-2 | 18.479 | 28.786 | 5.586 | 868 | 81 | 23 |
-| line-3 | 23.386 | 24.989 | 1.121 | 770 | 21 | 23 |
-| line-4 | 13.457 | 26.874 | 1.601 | 857 | 45 | 17 |
-| line-5 | 20.636 | 24.249 | 2.460 | 737 | 30 | 24 |
-| line-6 | 25.180 | 24.500 | 2.823 | 748 | 48 | 22 |
-| line-7 | 13.529 | 24.273 | 2.155 | 767 | 22 | 17 |
-| line-8 | 17.427 | 24.763 | 5.947 | 746 | 44 | 20 |
-| line-9 | 26.182 | 66.964 | 4.539 | 2090 | 68 | 42 |
-| line-10 | 0.000 | 6.499 | 0.000 | 191 | 4 | 5 |
-| line-11 | 0.000 | 8.163 | 0.000 | 258 | 4 | 5 |
-| line-12 | 0.000 | 8.590 | 0.000 | 240 | 6 | 7 |
-| line-13 | 0.368 | 7.002 | 0.000 | 215 | 6 | 6 |
-| line-14 | 0.000 | 8.294 | 0.000 | 262 | 4 | 5 |
-| line-15 | 0.000 | 6.633 | 0.000 | 196 | 4 | 5 |
-| line-16 | 0.000 | 6.146 | 0.000 | 211 | 2 | 3 |
-| line-17 | 0.000 | 8.838 | 0.000 | 272 | 4 | 6 |
+| line-1 | 22.625 | 21.621 | 4.821 | 770 | 32 | 17 |
+| line-2 | 18.284 | 28.987 | 5.579 | 988 | 76 | 14 |
+| line-3 | 22.833 | 25.542 | 1.121 | 863 | 29 | 16 |
+| line-4 | 13.480 | 26.810 | 1.641 | 943 | 44 | 12 |
+| line-5 | 19.248 | 25.830 | 2.267 | 874 | 35 | 16 |
+| line-6 | 24.426 | 25.388 | 2.689 | 846 | 60 | 16 |
+| line-7 | 13.565 | 24.296 | 2.095 | 813 | 21 | 13 |
+| line-8 | 18.200 | 23.633 | 6.303 | 811 | 39 | 15 |
+| line-9 | 26.038 | 67.067 | 4.579 | 2280 | 61 | 26 |
+| line-10 | 0.000 | 6.804 | 0.000 | 238 | 2 | 3 |
+| line-11 | 2.828 | 4.057 | 0.000 | 153 | 1 | 2 |
+| line-12 | 5.207 | 1.380 | 0.000 | 46 | 1 | 3 |
+| line-13 | 4.299 | 3.743 | 0.000 | 123 | 2 | 4 |
+| line-14 | 0.000 | 6.047 | 0.000 | 225 | 1 | 2 |
 
 [Line quantities](line-quantities.json) separate running structures from elevated station/transition scope. [Run register](workfront-register.csv) retains the identified disconnected access/launcher boundary packages. [Station packages](station-work-packages.csv) retain individual layouts and equipment; [civil segments](civil-segments.csv) retain every class/chainage.
 

@@ -1,21 +1,17 @@
 # Kut city-order factory requirement
 
-**276 light-metro-3car trainsets / 828 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**166 light-metro-3car trainsets / 498 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 789.0 trainsets/year, 8 separate test paths, 1904 direct production FTE. Plant reference envelope: **USD 796.539m**.
+Planning output: 475.2 trainsets/year, 5 separate test paths, 1147 direct production FTE. Plant reference envelope: **USD 507.247m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 83 | 593 | 687 | 687 |
-| line-2 | 26 | 605 | 695 | 695 |
-| line-3 | 47 | 616 | 711 | 711 |
-| line-4 | 21 | 624 | 718 | 718 |
-| line-5 | 17 | 632 | 724 | 724 |
-| line-6 | 19 | 640 | 730 | 730 |
-| line-7 | 28 | 649 | 739 | 739 |
-| line-8 | 21 | 656 | 746 | 746 |
-| line-9 | 14 | 661 | 751 | 751 |
+| line-1 | 67 | 606 | 696 | 696 |
+| line-2 | 23 | 619 | 709 | 709 |
+| line-3 | 42 | 641 | 731 | 731 |
+| line-4 | 20 | 653 | 743 | 743 |
+| line-5 | 14 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.
