@@ -18,6 +18,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 ROLLING_STOCK = REPO_ROOT / "lib/templates/rolling-stock.toml"
+# The native planning network in osr-sim/scenario_file.rs bounds track
+# sections at 22 m/s. A train's nameplate speed cannot raise that envelope.
+# SUMO retains its independent motion model and the comparison tolerances.
+PLANNING_TRACK_SPEED_MPS = 22.0
 sys.path.insert(0, str(REPO_ROOT))
 
 from engineering.analysis.city_geometry import (  # noqa: E402
@@ -105,9 +109,12 @@ def generate_city(
         candidate = design_path.parent / f"{design.get('city', {}).get('slug', '')}.toml"
         scenario_path = candidate if candidate.exists() else None
     scenario_station_dwells: dict[str, int] = {}
+    scenario_vehicle_speed_mps: float | None = None
     if scenario_path is not None:
         scenario_path = scenario_path.resolve()
         scenario = tomllib.loads(scenario_path.read_text(encoding="utf-8"))
+        if 'max_speed_kmh' in scenario.get('consist', {}):
+            scenario_vehicle_speed_mps = float(scenario['consist']['max_speed_kmh']) / 3.6
         scenario_station_dwells = {
             str(station["id"]): int(station["dwell_seconds"])
             for station in scenario.get("stations", [])
@@ -166,7 +173,9 @@ def generate_city(
         if profile is None:
             raise RuntimeError(f"{city_slug}/{line_name}: unknown rolling-stock profile {rolling_stock_id!r}")
         train_length = float(profile["length_m"])
-        maximum_speed = float(profile["max_speed_mps"])
+        maximum_speed = min(float(profile["max_speed_mps"]), PLANNING_TRACK_SPEED_MPS)
+        if scenario_vehicle_speed_mps is not None:
+            maximum_speed = min(maximum_speed, scenario_vehicle_speed_mps)
         start_gap = round(chainages[0], 3)
         # A ring has one physical station at chainage zero and a final track
         # segment returning to that same node. It must not duplicate the
@@ -386,6 +395,8 @@ def generate_city(
         "corridor_input": str(geometry_path.relative_to(REPO_ROOT)),
         "corridor_sha256": hashlib.sha256(geometry_path.read_bytes()).hexdigest(),
         "geometry_mode": "canonical-corridor",
+        "planning_track_speed_limit_mps": PLANNING_TRACK_SPEED_MPS,
+        "speed_limit_basis": "minimum of shared native planning track envelope, rolling-stock profile and scenario consist",
         "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "local_coordinate_origin": {"latitude": lat0, "longitude": lon0},
         "input_issues": input_issues,
