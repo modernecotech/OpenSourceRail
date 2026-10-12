@@ -1,29 +1,29 @@
 slug: phnom-penh
 pass: true
 metrics:
-  total_route_m: 383209.6
-  n_lines: 25
-  n_stations: 289
-  anchor_hit_rate: 0.176
-  high_demand_coverage: 0.739
+  total_route_m: 298527.9
+  n_lines: 9
+  n_stations: 159
+  anchor_hit_rate: 0.327
+  high_demand_coverage: 0.723
   civil_mix_m:
-    at_grade: 68321.400
-    elevated: 209386.300
-    bridge:   105501.800
-  elevated_fraction: 0.822
+    at_grade: 42744.600
+    elevated: 198298.100
+    bridge:   57485.000
+  elevated_fraction: 0.857
   viaduct_products_m:
-    osr_pi20_pi25: 190476.910
-    osr_us:      15769.278
-    special:     105501.800
-    realign:     3140.112
-  max_elevated_cost_multiplier: 34.615
+    osr_pi20_pi25: 160069.400
+    osr_us:      27939.557
+    special:     57485.000
+    realign:     10289.143
+  max_elevated_cost_multiplier: 40.143
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

@@ -1,8 +1,8 @@
 # Vientiane route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 16
-- Stations: 83
+- Lines: 5
+- Stations: 34
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

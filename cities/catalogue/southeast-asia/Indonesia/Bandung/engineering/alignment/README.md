@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bandung-line1.aln.toml`](bandung-line1.aln.toml) | `line-1` | 34,594.4 m | 15 |
-| [`bandung-line2.aln.toml`](bandung-line2.aln.toml) | `line-2` | 38,963.9 m | 15 |
-| [`bandung-line3.aln.toml`](bandung-line3.aln.toml) | `line-3` | 17,817.6 m | 25 |
-| [`bandung-line4.aln.toml`](bandung-line4.aln.toml) | `line-4` | 29,712.5 m | 14 |
-| [`bandung-line5.aln.toml`](bandung-line5.aln.toml) | `line-5` | 28,660.8 m | 14 |
-| [`bandung-line6.aln.toml`](bandung-line6.aln.toml) | `line-6` | 68,618.0 m | 39 |
+| [`bandung-line1.aln.toml`](bandung-line1.aln.toml) | `line-1` | 41,633.9 m | 20 |
+| [`bandung-line2.aln.toml`](bandung-line2.aln.toml) | `line-2` | 48,604.3 m | 36 |
+| [`bandung-line3.aln.toml`](bandung-line3.aln.toml) | `line-3` | 24,590.0 m | 35 |
+| [`bandung-line4.aln.toml`](bandung-line4.aln.toml) | `line-4` | 34,820.6 m | 33 |
+| [`bandung-line5.aln.toml`](bandung-line5.aln.toml) | `line-5` | 32,276.6 m | 23 |
+| [`bandung-line6.aln.toml`](bandung-line6.aln.toml) | `line-6` | 72,809.0 m | 42 |
 
 ## Status
 

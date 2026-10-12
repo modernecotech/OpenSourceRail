@@ -1,7 +1,7 @@
 # Davao drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 15 / 209
+- Lines/stations: 9 / 97
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

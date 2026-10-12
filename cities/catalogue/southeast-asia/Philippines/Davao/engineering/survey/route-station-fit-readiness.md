@@ -1,8 +1,8 @@
 # Davao route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 15
-- Stations: 209
+- Lines: 9
+- Stations: 97
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

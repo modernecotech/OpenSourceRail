@@ -1,8 +1,8 @@
 # Mandalay route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 20
-- Stations: 223
+- Lines: 9
+- Stations: 81
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 
