@@ -2,22 +2,19 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **356**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **189**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 14 |
-| Beam/building | ground-lateral-clearance-conflict | 3 |
-| Beam/building | height-unresolved | 289 |
-| Beam/building | product-depth-unresolved | 6 |
-| Reference support/foundation | foundation-footprint-conflict | 201 |
-| Reference support/foundation | foundation-setback-conflict | 39 |
-| Reference support/foundation | mapped-footprints-only-clear | 3,156 |
-| Terrain | beam-terrain-collision | 1 |
-| Terrain | reference-gradient-exceeded | 1,929 |
-| Terrain | reference-gradient-within-policy | 1,385 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 79 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 34 |
+| Beam/building | height-unresolved | 134 |
+| Beam/building | product-depth-unresolved | 38 |
+| Reference support/foundation | foundation-footprint-conflict | 107 |
+| Reference support/foundation | foundation-setback-conflict | 19 |
+| Reference support/foundation | mapped-footprints-only-clear | 3,682 |
+| Terrain | reference-gradient-exceeded | 1,704 |
+| Terrain | reference-gradient-within-policy | 1,446 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 642 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 347 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

@@ -1,8 +1,8 @@
 # Buraidah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 14
-- Stations: 76
+- Lines: 5
+- Stations: 27
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

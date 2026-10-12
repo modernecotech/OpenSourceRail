@@ -1,29 +1,29 @@
 slug: ibb
 pass: true
 metrics:
-  total_route_m: 77507.9
-  n_lines: 11
-  n_stations: 52
-  anchor_hit_rate: 0.192
-  high_demand_coverage: 0.597
+  total_route_m: 48980.5
+  n_lines: 5
+  n_stations: 21
+  anchor_hit_rate: 0.286
+  high_demand_coverage: 0.232
   civil_mix_m:
-    at_grade: 9689.900
-    elevated: 67818.100
+    at_grade: 56.600
+    elevated: 48923.900
     bridge:   0.000
-  elevated_fraction: 0.875
+  elevated_fraction: 0.999
   viaduct_products_m:
-    osr_pi20_pi25: 63754.245
-    osr_us:      3902.555
+    osr_pi20_pi25: 43746.348
+    osr_us:      4113.400
     special:     0.000
-    realign:     161.300
-  max_elevated_cost_multiplier: 12.162
+    realign:     1064.152
+  max_elevated_cost_multiplier: 13.846
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
-    coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    coverage_ge_0.30:   false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

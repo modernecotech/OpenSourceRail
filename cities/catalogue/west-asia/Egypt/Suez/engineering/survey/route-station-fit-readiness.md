@@ -1,8 +1,8 @@
 # Suez route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 43
+- Lines: 5
+- Stations: 24
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

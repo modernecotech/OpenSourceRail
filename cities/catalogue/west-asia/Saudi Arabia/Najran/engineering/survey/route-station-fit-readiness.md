@@ -1,8 +1,8 @@
 # Najran route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 13
-- Stations: 72
+- Lines: 5
+- Stations: 23
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

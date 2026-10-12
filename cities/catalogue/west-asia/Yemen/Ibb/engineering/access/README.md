@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 20.0% |
-| Reachable line pairs, including intermediate lines | 67.3% |
-| Reachable with at most two transfers | 52.7% |
+| Direct transfer line pairs | 30.0% |
+| Reachable line pairs, including intermediate lines | 60.0% |
+| Reachable with at most two transfers | 50.0% |
 | Connected line components | 2 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 871,783**. Catalogue planning population: 750,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 132,635 | 15.2% |
-| 800 m | 305,926 | 35.1% |
-| 1000 m | 412,849 | 47.4% |
-| 1500 m | 532,106 | 61.0% |
-| 2000 m | 575,133 | 66.0% |
+| 500 m | 30,281 | 3.5% |
+| 800 m | 81,642 | 9.4% |
+| 1000 m | 127,179 | 14.6% |
+| 1500 m | 275,357 | 31.6% |
+| 2000 m | 431,977 | 49.6% |
 
 Excluded nodata pixels: 43,450; valid pixels: 14,615.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 43,450; valid pixels: 14,615.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (59.7%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (23.2%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

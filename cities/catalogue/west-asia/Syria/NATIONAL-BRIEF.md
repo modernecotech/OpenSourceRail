@@ -3,7 +3,7 @@
 This page contains only Syria-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$32.33 B (88.6%) of external capital** and **$41.77 B of external interest**. Capital plus saved interest totals **$74.10 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$23.73 B (88.7%) of external capital** and **$30.65 B of external interest**. Capital plus saved interest totals **$54.39 B**.
 
 ## National Programme
 
@@ -11,54 +11,54 @@ This page contains only Syria-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 9 |
 | Represented population | 7,617,000 |
-| Trainsets / vehicle modules | 2,753 / 9,079 |
-| City infrastructure and fleet CAPEX | $19.34 B |
-| Shared national factory | $863.1 M |
-| Factory sizing basis | 2,228 modules for Damascus, then reused nationally |
-| **Total national programme** | **$20.27 B** |
+| Trainsets / vehicle modules | 1,853 / 6,206 |
+| City infrastructure and fleet CAPEX | $14.15 B |
+| Shared national factory | $667.5 M |
+| Factory sizing basis | 1,864 modules for Aleppo, then reused nationally |
+| **Total national programme** | **$14.86 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $4.14 B (20.5%) |
-| Domestic / local capital | $16.12 B (79.5%) |
-| Annual external capital draw | $414.5 M / yr |
-| Annual local capital draw | $1.61 B / yr |
-| Annual public construction commitment | $3.09 B / yr for 10 years |
-| Annual post-grace debt service | $2.84 B / yr |
-| Default foreign-turnkey external capital | $36.48 B |
-| External capital saved | $32.33 B |
-| Capital + lifetime external interest saved | $74.10 B |
+| Imported / external capital | $3.02 B (20.3%) |
+| Domestic / local capital | $11.84 B (79.7%) |
+| Annual external capital draw | $302.4 M / yr |
+| Annual local capital draw | $1.18 B / yr |
+| Annual public construction commitment | $2.27 B / yr for 10 years |
+| Annual post-grace debt service | $2.09 B / yr |
+| Default foreign-turnkey external capital | $26.76 B |
+| External capital saved | $23.73 B |
+| Capital + lifetime external interest saved | $54.39 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $9.26 B | $1.39 B | $7.87 B |
-| Stations | $3.89 B | $779.0 M | $3.12 B |
-| Depots | $1.75 B | $438.2 M | $1.31 B |
-| Rolling stock | $2.63 B | $920.3 M | $1.71 B |
-| Dedicated solar plants | $386.8 M | $174.1 M | $212.7 M |
-| Residual train control | $50.5 M | $25.3 M | $25.3 M |
-| Charging microgrids | $129.1 M | $51.6 M | $77.4 M |
-| EPC / project services | $1.30 B | $195.1 M | $1.11 B |
-| Shared national trainset factory | $863.1 M | $172.6 M | $690.5 M |
-| **Total** | **$20.27 B** | **$4.14 B** | **$16.12 B** |
+| Civil works | $7.15 B | $1.07 B | $6.08 B |
+| Stations | $2.85 B | $569.8 M | $2.28 B |
+| Depots | $874.6 M | $218.7 M | $656.0 M |
+| Rolling stock | $1.79 B | $626.5 M | $1.16 B |
+| Dedicated solar plants | $451.3 M | $203.1 M | $248.2 M |
+| Residual train control | $38.6 M | $19.3 M | $19.3 M |
+| Charging microgrids | $97.7 M | $39.1 M | $58.6 M |
+| EPC / project services | $942.9 M | $141.4 M | $801.5 M |
+| Shared national trainset factory | $667.5 M | $133.5 M | $534.0 M |
+| **Total** | **$14.86 B** | **$3.02 B** | **$11.84 B** |
 
 ## City Programme
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Damascus](Damascus/README.md) | 2,503,000 | 557 | $4.95 B | $1.02 B | $3.93 B |
-| [Aleppo](Aleppo/README.md) | 1,639,000 | 503 | $4.66 B | $963.2 M | $3.70 B |
-| [Homs](Homs/README.md) | 775,000 | 234 | $1.35 B | $276.9 M | $1.07 B |
-| [Latakia](Latakia/README.md) | 700,000 | 210 | $1.13 B | $233.7 M | $893.0 M |
-| [Hama](Hama/README.md) | 600,000 | 297 | $1.59 B | $329.1 M | $1.26 B |
-| [Deir Ez Zor](Deir-Ez-Zor/README.md) | 500,000 | 395 | $2.27 B | $465.2 M | $1.80 B |
-| [Raqqa](Raqqa/README.md) | 350,000 | 317 | $1.88 B | $382.0 M | $1.49 B |
-| [Idlib](Idlib/README.md) | 300,000 | 132 | $780.0 M | $151.7 M | $628.3 M |
-| [Tartus](Tartus/README.md) | 250,000 | 108 | $742.5 M | $141.5 M | $601.0 M |
+| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Damascus](Damascus/README.md) | 2,503,000 | 348 | $3.88 B | $777.1 M | $3.10 B | 9 | 3 | 38.4% | 41.2% |
+| [Aleppo](Aleppo/README.md) | 1,639,000 | 466 | $4.31 B | $892.1 M | $3.42 B | 9 | 3 | 44.1% | 40.4% |
+| [Homs](Homs/README.md) | 775,000 | 142 | $846.6 M | $173.4 M | $673.2 M | 4 | 1 | 29.8% | 29.9% |
+| [Latakia](Latakia/README.md) | 700,000 | 135 | $742.9 M | $153.4 M | $589.5 M | 5 | 2 | 37.5% | 41.0% |
+| [Hama](Hama/README.md) | 600,000 | 229 | $1.26 B | $262.2 M | $1.00 B | 5 | 2 | 33.5% | 43.6% |
+| [Deir Ez Zor](Deir-Ez-Zor/README.md) | 500,000 | 210 | $1.12 B | $232.2 M | $883.2 M | 5 | 2 | 43.1% | 45.2% |
+| [Raqqa](Raqqa/README.md) | 350,000 | 156 | $834.9 M | $173.8 M | $661.2 M | 4 | 1 | 42.1% | 45.2% |
+| [Idlib](Idlib/README.md) | 300,000 | 87 | $617.1 M | $116.2 M | $500.8 M | 4 | 1 | 55.7% | 60.4% |
+| [Tartus](Tartus/README.md) | 250,000 | 80 | $542.4 M | $103.3 M | $439.1 M | 4 | 1 | 43.7% | 49.0% |
 
 ## Local Basis And Regeneration
 
@@ -72,17 +72,5 @@ python3 tools/automation/generate-national-briefs.py
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Aleppo](Aleppo/README.md) | 22 | 16 | 44.1% | 78.2% |
-| [Damascus](Damascus/README.md) | 25 | 19 | 38.4% | 79.8% |
-| [Deir Ez Zor](Deir-Ez-Zor/README.md) | 12 | 9 | 43.1% | 81.4% |
-| [Hama](Hama/README.md) | 11 | 8 | 33.5% | 69.2% |
-| [Homs](Homs/README.md) | 10 | 7 | 29.8% | 60.3% |
-| [Idlib](Idlib/README.md) | 7 | 4 | 55.7% | 81.1% |
-| [Latakia](Latakia/README.md) | 10 | 7 | 37.5% | 78.9% |
-| [Raqqa](Raqqa/README.md) | 9 | 6 | 42.1% | 75.1% |
-| [Tartus](Tartus/README.md) | 7 | 4 | 43.7% | 78.0% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

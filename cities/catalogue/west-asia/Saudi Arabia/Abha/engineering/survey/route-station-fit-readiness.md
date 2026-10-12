@@ -1,8 +1,8 @@
 # Abha route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 64
+- Lines: 4
+- Stations: 24
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

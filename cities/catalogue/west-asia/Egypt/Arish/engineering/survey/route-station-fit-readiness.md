@@ -1,8 +1,8 @@
 # Arish route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 4
-- Stations: 14
+- Lines: 2
+- Stations: 7
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

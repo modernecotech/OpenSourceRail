@@ -1,7 +1,7 @@
 # Damietta drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 11 / 83
+- Lines/stations: 5 / 31
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

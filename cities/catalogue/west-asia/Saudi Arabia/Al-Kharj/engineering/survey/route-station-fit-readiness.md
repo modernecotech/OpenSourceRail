@@ -1,8 +1,8 @@
 # Al-Kharj route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 13
-- Stations: 81
+- Lines: 5
+- Stations: 28
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

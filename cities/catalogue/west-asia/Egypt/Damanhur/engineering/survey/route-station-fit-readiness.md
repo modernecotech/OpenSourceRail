@@ -1,8 +1,8 @@
 # Damanhur route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 11
-- Stations: 58
+- Lines: 5
+- Stations: 26
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

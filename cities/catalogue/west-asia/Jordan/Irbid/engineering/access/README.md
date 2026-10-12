@@ -4,9 +4,9 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 21.2% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 66.7% |
+| Reachable with at most two transfers | 90.0% |
 | Connected line components | 1 |
 | Maximum transfers within a connected component | 3 |
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 754,141**. Catalogue planning population: 600,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 149,787 | 19.9% |
-| 800 m | 347,139 | 46.0% |
-| 1000 m | 452,900 | 60.1% |
-| 1500 m | 563,214 | 74.7% |
-| 2000 m | 595,944 | 79.0% |
+| 500 m | 74,944 | 9.9% |
+| 800 m | 174,972 | 23.2% |
+| 1000 m | 245,159 | 32.5% |
+| 1500 m | 399,788 | 53.0% |
+| 2000 m | 486,305 | 64.5% |
 
 Excluded nodata pixels: 46,891; valid pixels: 20,463.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 46,891; valid pixels: 20,463.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (64.3%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (57.0%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

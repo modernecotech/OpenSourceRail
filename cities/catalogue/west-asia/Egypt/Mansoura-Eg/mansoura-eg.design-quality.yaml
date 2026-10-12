@@ -1,29 +1,29 @@
 slug: mansoura-eg
 pass: true
 metrics:
-  total_route_m: 87665.7
-  n_lines: 11
-  n_stations: 58
-  anchor_hit_rate: 0.190
-  high_demand_coverage: 0.624
+  total_route_m: 56874.4
+  n_lines: 4
+  n_stations: 20
+  anchor_hit_rate: 0.400
+  high_demand_coverage: 0.447
   civil_mix_m:
-    at_grade: 22823.300
-    elevated: 55733.200
-    bridge:   9109.300
-  elevated_fraction: 0.740
+    at_grade: 9335.900
+    elevated: 40531.800
+    bridge:   7006.700
+  elevated_fraction: 0.836
   viaduct_products_m:
-    osr_pi20_pi25: 52370.921
-    osr_us:      2939.579
-    special:     9109.300
-    realign:     422.700
-  max_elevated_cost_multiplier: 15.231
+    osr_pi20_pi25: 35850.660
+    osr_us:      3688.340
+    special:     7006.700
+    realign:     992.800
+  max_elevated_cost_multiplier: 23.824
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

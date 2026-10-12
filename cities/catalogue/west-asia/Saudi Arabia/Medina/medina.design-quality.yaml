@@ -1,29 +1,29 @@
 slug: medina
 pass: true
 metrics:
-  total_route_m: 344951.1
-  n_lines: 35
-  n_stations: 230
-  anchor_hit_rate: 0.148
-  high_demand_coverage: 0.733
+  total_route_m: 202767.0
+  n_lines: 9
+  n_stations: 63
+  anchor_hit_rate: 0.254
+  high_demand_coverage: 0.464
   civil_mix_m:
-    at_grade: 95745.300
-    elevated: 218790.100
-    bridge:   30415.400
-  elevated_fraction: 0.722
+    at_grade: 24728.000
+    elevated: 174210.000
+    bridge:   3828.800
+  elevated_fraction: 0.878
   viaduct_products_m:
-    osr_pi20_pi25: 204019.840
-    osr_us:      12732.178
-    special:     30415.400
-    realign:     2038.082
-  max_elevated_cost_multiplier: 18.173
+    osr_pi20_pi25: 150237.038
+    osr_us:      19721.767
+    special:     3828.800
+    realign:     4251.195
+  max_elevated_cost_multiplier: 34.615
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

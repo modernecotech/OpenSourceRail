@@ -1,8 +1,8 @@
 # Tartus route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 7
-- Stations: 28
+- Lines: 4
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

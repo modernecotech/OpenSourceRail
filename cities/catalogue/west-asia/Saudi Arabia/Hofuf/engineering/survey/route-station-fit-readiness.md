@@ -1,8 +1,8 @@
 # Hofuf route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 19
-- Stations: 98
+- Lines: 5
+- Stations: 29
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

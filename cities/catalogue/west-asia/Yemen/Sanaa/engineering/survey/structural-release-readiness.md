@@ -1,7 +1,7 @@
 # Sanaa structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 13
+- Lines: 11
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

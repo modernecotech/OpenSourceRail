@@ -1,7 +1,7 @@
 # Khamis-Mushait structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 17
+- Lines: 5
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

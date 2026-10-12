@@ -1,8 +1,8 @@
 # Aleppo route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 22
-- Stations: 167
+- Lines: 9
+- Stations: 163
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

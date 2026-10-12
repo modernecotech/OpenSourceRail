@@ -1,8 +1,8 @@
 # Jeddah route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 128
+- Lines: 14
+- Stations: 159
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

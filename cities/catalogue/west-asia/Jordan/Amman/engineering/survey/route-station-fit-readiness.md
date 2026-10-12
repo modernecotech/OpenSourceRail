@@ -1,8 +1,8 @@
 # Amman route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 31
-- Stations: 349
+- Lines: 14
+- Stations: 132
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

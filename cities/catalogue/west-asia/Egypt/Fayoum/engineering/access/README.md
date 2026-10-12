@@ -4,11 +4,11 @@ Controlled planning screen; population counts, passenger transfers and routing d
 
 | Transfer measure | Value |
 |---|---:|
-| Direct transfer line pairs | 19.2% |
+| Direct transfer line pairs | 50.0% |
 | Reachable line pairs, including intermediate lines | 100.0% |
-| Reachable with at most two transfers | 69.2% |
+| Reachable with at most two transfers | 100.0% |
 | Connected line components | 1 |
-| Maximum transfers within a connected component | 3 |
+| Maximum transfers within a connected component | 2 |
 
 A crossing creates no transfer unless passenger interchange membership is recorded. Physical access, waiting time, timetable and fares remain unverified.
 
@@ -18,11 +18,11 @@ Native **2020 bbox population: 1,494,121**. Catalogue planning population: 500,0
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 417,478 | 27.9% |
-| 800 m | 867,884 | 58.1% |
-| 1000 m | 1,073,022 | 71.8% |
-| 1500 m | 1,258,240 | 84.2% |
-| 2000 m | 1,330,332 | 89.0% |
+| 500 m | 167,450 | 11.2% |
+| 800 m | 387,518 | 25.9% |
+| 1000 m | 541,186 | 36.2% |
+| 1500 m | 843,467 | 56.5% |
+| 2000 m | 991,820 | 66.4% |
 
 Excluded nodata pixels: 52,627; valid pixels: 11,837.
 

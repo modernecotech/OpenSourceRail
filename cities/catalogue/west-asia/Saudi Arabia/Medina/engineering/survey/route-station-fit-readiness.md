@@ -1,8 +1,8 @@
 # Medina route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 35
-- Stations: 230
+- Lines: 9
+- Stations: 63
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

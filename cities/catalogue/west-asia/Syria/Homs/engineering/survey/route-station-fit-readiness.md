@@ -1,8 +1,8 @@
 # Homs route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 46
+- Lines: 4
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

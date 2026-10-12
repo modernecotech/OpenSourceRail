@@ -1,29 +1,29 @@
 slug: fayoum
 pass: true
 metrics:
-  total_route_m: 120318.8
-  n_lines: 13
-  n_stations: 82
-  anchor_hit_rate: 0.146
+  total_route_m: 74087.1
+  n_lines: 5
+  n_stations: 24
+  anchor_hit_rate: 0.292
   high_demand_coverage: 0.697
   civil_mix_m:
-    at_grade: 47867.200
-    elevated: 72065.400
-    bridge:   386.200
-  elevated_fraction: 0.602
+    at_grade: 11609.400
+    elevated: 62119.800
+    bridge:   357.900
+  elevated_fraction: 0.843
   viaduct_products_m:
-    osr_pi20_pi25: 67853.459
-    osr_us:      3902.241
-    special:     386.200
-    realign:     309.700
-  max_elevated_cost_multiplier: 22.331
+    osr_pi20_pi25: 58292.522
+    osr_us:      3227.878
+    special:     357.900
+    realign:     599.400
+  max_elevated_cost_multiplier: 18.382
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

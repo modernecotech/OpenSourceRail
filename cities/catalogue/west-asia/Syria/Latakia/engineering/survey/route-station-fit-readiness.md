@@ -1,8 +1,8 @@
 # Latakia route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 40
+- Lines: 5
+- Stations: 16
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

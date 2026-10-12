@@ -4,15 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`aden-line1.aln.toml`](aden-line1.aln.toml) | `line-1` | 20,196.1 m | 13 |
-| [`aden-line2.aln.toml`](aden-line2.aln.toml) | `line-2` | 13,690.2 m | 9 |
-| [`aden-line3.aln.toml`](aden-line3.aln.toml) | `line-3` | 13,799.1 m | 10 |
-| [`aden-line4.aln.toml`](aden-line4.aln.toml) | `line-4` | 2,450.2 m | 2 |
-| [`aden-line5.aln.toml`](aden-line5.aln.toml) | `line-5` | 2,516.8 m | 2 |
-| [`aden-line6.aln.toml`](aden-line6.aln.toml) | `line-6` | 2,241.9 m | 2 |
-| [`aden-line7.aln.toml`](aden-line7.aln.toml) | `line-7` | 2,574.6 m | 2 |
-| [`aden-line8.aln.toml`](aden-line8.aln.toml) | `line-8` | 3,010.2 m | 3 |
-| [`aden-line9.aln.toml`](aden-line9.aln.toml) | `line-9` | 9,577.4 m | 5 |
+| [`aden-line1.aln.toml`](aden-line1.aln.toml) | `line-1` | 17,082.4 m | 8 |
+| [`aden-line2.aln.toml`](aden-line2.aln.toml) | `line-2` | 13,690.2 m | 6 |
+| [`aden-line3.aln.toml`](aden-line3.aln.toml) | `line-3` | 15,095.0 m | 6 |
+| [`aden-line4.aln.toml`](aden-line4.aln.toml) | `line-4` | 4,647.6 m | 3 |
+| [`aden-line5.aln.toml`](aden-line5.aln.toml) | `line-5` | 5,870.4 m | 3 |
 
 ## Status
 

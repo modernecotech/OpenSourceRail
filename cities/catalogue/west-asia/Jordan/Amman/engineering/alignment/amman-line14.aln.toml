@@ -1,7 +1,7 @@
 # OSR-ALN v1.0 — deterministic current-network planning export.
 # NOT FOR CONSTRUCTION: horizontal geometry is the generated GIS trace;
 # curve fitting, surveyed top-of-rail levels, and cant remain release gates.
-# Source city: amman; source line: line-14; length: 10613.8 m.
+# Source city: amman; source line: line-14; length: 7591.5 m.
 
 [meta]
 schema_version = "1.0"
@@ -14,8 +14,8 @@ crs            = "EPSG:32636"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "752588e3d57b920e65b850252e738ef03b2be4537c37c8d84ee002213241b029"
-source_geojson_sha256 = "5dad8a3fc4d3e1f5c09979af436453fc00a3f1c3ec3a61e8f87454b4a65d3aea"
+source_design_sha256 = "0e72614f940eb72d01143bb0b479b13742af11f9e83176f13efeb759bb405694"
+source_geojson_sha256 = "448877557ec792c564b0c5b0e907dfd2817c4d5012defe4c22d6ee7115e271e7"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -26,118 +26,793 @@ civil_status      = "generated planning classification; field verification requi
 
 [[horizontal]]
 station_m           = 0.000
-easting_m           = 784255.824
-northing_m          = 3544436.214
-bearing_in_deg      = 88.404
+easting_m           = 785427.470
+northing_m          = 3531145.239
+bearing_in_deg      = 178.405
+bearing_out_deg     = 178.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 20.236
+easting_m           = 785428.026
+northing_m          = 3531125.279
+bearing_in_deg      = 178.405
+bearing_out_deg     = 268.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 40.549
+easting_m           = 785407.990
+northing_m          = 3531124.721
+bearing_in_deg      = 268.405
+bearing_out_deg     = 223.515
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 126.568
+easting_m           = 785349.548
+northing_m          = 3531063.168
+bearing_in_deg      = 223.515
+bearing_out_deg     = 178.406
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 207.512
+easting_m           = 785351.770
+northing_m          = 3530983.329
+bearing_in_deg      = 178.406
+bearing_out_deg     = 133.296
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 293.532
+easting_m           = 785413.546
+northing_m          = 3530925.123
+bearing_in_deg      = 133.296
+bearing_out_deg     = 151.752
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 384.100
+easting_m           = 785455.841
+northing_m          = 3530846.399
+bearing_in_deg      = 151.752
+bearing_out_deg     = 133.295
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 441.446
+easting_m           = 785497.026
+northing_m          = 3530807.595
+bearing_in_deg      = 133.295
+bearing_out_deg     = 164.317
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 524.901
+easting_m           = 785519.285
+northing_m          = 3530728.313
+bearing_in_deg      = 164.317
+bearing_out_deg     = 223.515
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 582.248
+easting_m           = 785480.323
+northing_m          = 3530687.278
+bearing_in_deg      = 223.515
+bearing_out_deg     = 178.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 663.192
+easting_m           = 785482.546
+northing_m          = 3530607.439
+bearing_in_deg      = 178.405
+bearing_out_deg     = 223.517
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 921.255
+easting_m           = 785307.211
+northing_m          = 3530422.782
+bearing_in_deg      = 223.517
+bearing_out_deg     = 171.254
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1084.414
+easting_m           = 785331.691
+northing_m          = 3530263.661
+bearing_in_deg      = 171.254
+bearing_out_deg     = 223.518
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1113.088
+easting_m           = 785312.208
+northing_m          = 3530243.143
+bearing_in_deg      = 223.518
+bearing_out_deg     = 178.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1194.032
+easting_m           = 785314.429
+northing_m          = 3530163.304
+bearing_in_deg      = 178.407
+bearing_out_deg     = 223.518
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1222.706
+easting_m           = 785294.947
+northing_m          = 3530142.787
+bearing_in_deg      = 223.518
+bearing_out_deg     = 268.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1263.337
+easting_m           = 785254.871
+northing_m          = 3530141.672
+bearing_in_deg      = 268.407
+bearing_out_deg     = 178.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1303.809
+easting_m           = 785255.981
+northing_m          = 3530101.753
+bearing_in_deg      = 178.407
+bearing_out_deg     = 223.519
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1332.483
+easting_m           = 785236.498
+northing_m          = 3530081.236
+bearing_in_deg      = 223.519
+bearing_out_deg     = 178.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1453.899
+easting_m           = 785239.829
+northing_m          = 3529961.477
+bearing_in_deg      = 178.407
+bearing_out_deg     = 223.520
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1482.574
+easting_m           = 785220.346
+northing_m          = 3529940.960
+bearing_in_deg      = 223.520
+bearing_out_deg     = 178.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1644.462
+easting_m           = 785224.786
+northing_m          = 3529781.282
+bearing_in_deg      = 178.407
+bearing_out_deg     = 121.993
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1717.624
+easting_m           = 785286.012
+northing_m          = 3529743.034
+bearing_in_deg      = 121.993
+bearing_out_deg     = 88.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1778.572
+easting_m           = 785346.128
+northing_m          = 3529744.706
+bearing_in_deg      = 88.407
+bearing_out_deg     = 125.168
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 1880.009
+easting_m           = 785427.948
+northing_m          = 3529687.056
+bearing_in_deg      = 125.168
+bearing_out_deg     = 88.406
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2001.906
+easting_m           = 785548.181
+northing_m          = 3529690.403
+bearing_in_deg      = 88.406
+bearing_out_deg     = 125.167
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2103.343
+easting_m           = 785630.004
+northing_m          = 3529632.755
+bearing_in_deg      = 125.167
+bearing_out_deg     = 88.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2164.292
+easting_m           = 785690.121
+northing_m          = 3529634.429
+bearing_in_deg      = 88.405
+bearing_out_deg     = 141.426
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2265.617
+easting_m           = 785752.461
+northing_m          = 3529556.264
+bearing_in_deg      = 141.426
+bearing_out_deg     = 178.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2346.562
+easting_m           = 785754.685
+northing_m          = 3529476.425
+bearing_in_deg      = 178.404
+bearing_out_deg     = 129.477
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2562.161
+easting_m           = 785918.893
+northing_m          = 3529341.172
+bearing_in_deg      = 129.477
+bearing_out_deg     = 178.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2582.397
+easting_m           = 785919.450
+northing_m          = 3529321.213
+bearing_in_deg      = 178.404
+bearing_out_deg     = 268.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2602.714
+easting_m           = 785899.410
+northing_m          = 3529320.654
+bearing_in_deg      = 268.404
+bearing_out_deg     = 223.518
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2660.065
+easting_m           = 785860.443
+northing_m          = 3529279.618
+bearing_in_deg      = 223.518
+bearing_out_deg     = 189.758
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2763.265
+easting_m           = 785843.184
+northing_m          = 3529179.260
+bearing_in_deg      = 189.758
+bearing_out_deg     = 223.519
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2791.941
+easting_m           = 785823.700
+northing_m          = 3529158.742
+bearing_in_deg      = 223.519
+bearing_out_deg     = 268.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2832.575
+easting_m           = 785783.620
+northing_m          = 3529157.626
+bearing_in_deg      = 268.404
+bearing_out_deg     = 223.519
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2889.927
+easting_m           = 785744.652
+northing_m          = 3529116.590
+bearing_in_deg      = 223.519
+bearing_out_deg     = 178.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 2910.163
+easting_m           = 785745.208
+northing_m          = 3529096.630
+bearing_in_deg      = 178.405
+bearing_out_deg     = 133.289
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3053.542
+easting_m           = 785848.189
+northing_m          = 3528999.622
+bearing_in_deg      = 133.289
+bearing_out_deg     = 114.877
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3189.728
+easting_m           = 785970.099
+northing_m          = 3528943.093
+bearing_in_deg      = 114.877
+bearing_out_deg     = 178.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3230.200
+easting_m           = 785971.211
+northing_m          = 3528903.173
+bearing_in_deg      = 178.404
+bearing_out_deg     = 133.288
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3258.876
+easting_m           = 785991.808
+northing_m          = 3528883.772
+bearing_in_deg      = 133.288
+bearing_out_deg     = 178.403
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3339.821
+easting_m           = 785994.033
+northing_m          = 3528803.933
+bearing_in_deg      = 178.403
+bearing_out_deg     = 223.519
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3425.849
+easting_m           = 785935.580
+northing_m          = 3528742.378
+bearing_in_deg      = 223.519
+bearing_out_deg     = 178.404
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3527.030
+easting_m           = 785938.361
+northing_m          = 3528642.578
+bearing_in_deg      = 178.404
+bearing_out_deg     = 121.987
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3600.198
+easting_m           = 785999.596
+northing_m          = 3528604.334
+bearing_in_deg      = 121.987
+bearing_out_deg     = 159.899
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3728.235
+easting_m           = 786043.016
+northing_m          = 3528485.692
+bearing_in_deg      = 159.899
+bearing_out_deg     = 133.287
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3814.265
+easting_m           = 786104.809
+northing_m          = 3528427.489
+bearing_in_deg      = 133.287
+bearing_out_deg     = 223.520
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3871.618
+easting_m           = 786065.839
+northing_m          = 3528386.452
+bearing_in_deg      = 223.520
+bearing_out_deg     = 178.403
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 3912.090
+easting_m           = 786066.952
+northing_m          = 3528346.532
+bearing_in_deg      = 178.403
+bearing_out_deg     = 229.858
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4041.989
+easting_m           = 785968.969
+northing_m          = 3528263.900
+bearing_in_deg      = 229.858
+bearing_out_deg     = 189.759
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4145.189
+easting_m           = 785951.708
+northing_m          = 3528163.543
+bearing_in_deg      = 189.759
+bearing_out_deg     = 223.522
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4259.898
+easting_m           = 785873.765
+northing_m          = 3528081.470
+bearing_in_deg      = 223.522
+bearing_out_deg     = 178.405
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4482.495
+easting_m           = 785879.880
+northing_m          = 3527861.913
+bearing_in_deg      = 178.405
+bearing_out_deg     = 133.286
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 4625.882
+easting_m           = 785982.872
+northing_m          = 3527764.905
+bearing_in_deg      = 133.286
 bearing_out_deg     = 88.404
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 40.060
-easting_m           = 784295.844
-northing_m          = 3544437.329
+station_m           = 4666.523
+easting_m           = 786022.958
+northing_m          = 3527766.022
 bearing_in_deg      = 88.404
-bearing_out_deg     = 43.472
+bearing_out_deg     = 43.522
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1001.965
-easting_m           = 784957.224
-northing_m          = 3545134.948
-bearing_in_deg      = 43.472
-bearing_out_deg     = 313.332
+station_m           = 4695.200
+easting_m           = 786042.444
+northing_m          = 3527786.540
+bearing_in_deg      = 43.522
+bearing_out_deg     = 178.404
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1482.906
-easting_m           = 784607.614
-northing_m          = 3545464.775
-bearing_in_deg      = 313.332
-bearing_out_deg     = 358.402
+station_m           = 4715.436
+easting_m           = 786043.000
+northing_m          = 3527766.580
+bearing_in_deg      = 178.404
+bearing_out_deg     = 139.628
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1622.769
-easting_m           = 784603.716
-northing_m          = 3545604.496
-bearing_in_deg      = 358.402
-bearing_out_deg     = 313.334
+station_m           = 4845.221
+easting_m           = 786125.952
+northing_m          = 3527669.016
+bearing_in_deg      = 139.628
+bearing_out_deg     = 178.403
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1707.640
-easting_m           = 784542.023
-northing_m          = 3545662.701
-bearing_in_deg      = 313.334
-bearing_out_deg     = 358.402
+station_m           = 4885.693
+easting_m           = 786127.065
+northing_m          = 3527629.096
+bearing_in_deg      = 178.403
+bearing_out_deg     = 133.284
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 1767.581
-easting_m           = 784540.352
-northing_m          = 3545722.582
-bearing_in_deg      = 358.402
-bearing_out_deg     = 43.467
+station_m           = 4971.727
+easting_m           = 786188.863
+northing_m          = 3527570.893
+bearing_in_deg      = 133.284
+bearing_out_deg     = 178.403
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2729.428
-easting_m           = 785201.623
-northing_m          = 3546420.225
-bearing_in_deg      = 43.467
-bearing_out_deg     = 313.332
+station_m           = 4991.963
+easting_m           = 786189.420
+northing_m          = 3527550.933
+bearing_in_deg      = 178.403
+bearing_out_deg     = 212.204
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 2757.717
-easting_m           = 785181.059
-northing_m          = 3546439.626
-bearing_in_deg      = 313.332
-bearing_out_deg     = 43.445
+station_m           = 5065.019
+easting_m           = 786151.003
+northing_m          = 3527489.936
+bearing_in_deg      = 212.204
+bearing_out_deg     = 274.718
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8867.636
-easting_m           = 789379.918
-northing_m          = 3550872.871
-bearing_in_deg      = 43.445
-bearing_out_deg     = 88.372
+station_m           = 5249.021
+easting_m           = 785970.058
+northing_m          = 3527504.869
+bearing_in_deg      = 274.718
+bearing_out_deg     = 223.524
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 8887.654
-easting_m           = 789399.916
-northing_m          = 3550873.440
-bearing_in_deg      = 88.372
-bearing_out_deg     = 43.423
+station_m           = 5306.377
+easting_m           = 785931.084
+northing_m          = 3527463.833
+bearing_in_deg      = 223.524
+bearing_out_deg     = 268.405
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 9594.750
-easting_m           = 789885.654
-northing_m          = 3551386.678
-bearing_in_deg      = 43.423
-bearing_out_deg     = 358.369
+station_m           = 5347.018
+easting_m           = 785890.997
+northing_m          = 3527462.717
+bearing_in_deg      = 268.405
+bearing_out_deg     = 223.525
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
 [[horizontal]]
-station_m           = 10613.800
-easting_m           = 789856.664
-northing_m          = 3552404.673
-bearing_in_deg      = 358.369
-bearing_out_deg     = 358.369
+station_m           = 5605.121
+easting_m           = 785715.608
+northing_m          = 3527278.057
+bearing_in_deg      = 223.525
+bearing_out_deg     = 268.406
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 5686.405
+easting_m           = 785635.434
+northing_m          = 3527275.826
+bearing_in_deg      = 268.406
+bearing_out_deg     = 223.527
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 5743.762
+easting_m           = 785596.457
+northing_m          = 3527234.791
+bearing_in_deg      = 223.527
+bearing_out_deg     = 268.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 5845.367
+easting_m           = 785496.239
+northing_m          = 3527232.004
+bearing_in_deg      = 268.407
+bearing_out_deg     = 313.287
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 5874.045
+easting_m           = 785475.640
+northing_m          = 3527251.406
+bearing_in_deg      = 313.287
+bearing_out_deg     = 268.407
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 5935.008
+easting_m           = 785415.510
+northing_m          = 3527249.735
+bearing_in_deg      = 268.407
+bearing_out_deg     = 223.528
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6021.043
+easting_m           = 785357.043
+northing_m          = 3527188.184
+bearing_in_deg      = 223.528
+bearing_out_deg     = 268.409
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6285.217
+easting_m           = 785096.476
+northing_m          = 3527180.945
+bearing_in_deg      = 268.409
+bearing_out_deg     = 223.530
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6457.286
+easting_m           = 784979.538
+northing_m          = 3527057.848
+bearing_in_deg      = 223.530
+bearing_out_deg     = 268.411
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6640.177
+easting_m           = 784799.143
+northing_m          = 3527052.843
+bearing_in_deg      = 268.411
+bearing_out_deg     = 223.532
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6898.283
+easting_m           = 784623.728
+northing_m          = 3526868.203
+bearing_in_deg      = 223.532
+bearing_out_deg     = 268.412
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 6979.569
+easting_m           = 784543.551
+northing_m          = 3526865.981
+bearing_in_deg      = 268.412
+bearing_out_deg     = 313.292
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7008.248
+easting_m           = 784522.954
+northing_m          = 3526885.385
+bearing_in_deg      = 313.292
+bearing_out_deg     = 268.413
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7130.177
+easting_m           = 784402.689
+northing_m          = 3526882.054
+bearing_in_deg      = 268.413
+bearing_out_deg     = 223.535
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7158.856
+easting_m           = 784383.198
+northing_m          = 3526861.539
+bearing_in_deg      = 223.535
+bearing_out_deg     = 268.414
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7219.820
+easting_m           = 784323.065
+northing_m          = 3526859.874
+bearing_in_deg      = 268.414
+bearing_out_deg     = 223.535
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7305.856
+easting_m           = 784264.591
+northing_m          = 3526798.330
+bearing_in_deg      = 223.535
+bearing_out_deg     = 268.414
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7346.499
+easting_m           = 784224.502
+northing_m          = 3526797.220
+bearing_in_deg      = 268.414
+bearing_out_deg     = 223.536
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7432.535
+easting_m           = 784166.026
+northing_m          = 3526735.677
+bearing_in_deg      = 223.536
+bearing_out_deg     = 313.294
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7489.892
+easting_m           = 784124.833
+northing_m          = 3526774.487
+bearing_in_deg      = 313.294
+bearing_out_deg     = 268.415
+curve_radius_m      = 0.000
+transition_length_m = 0.000
+
+[[horizontal]]
+station_m           = 7591.500
+easting_m           = 784024.612
+northing_m          = 3526771.714
+bearing_in_deg      = 268.415
+bearing_out_deg     = 268.415
 curve_radius_m      = 0.000
 transition_length_m = 0.000
 
@@ -150,7 +825,7 @@ elevation_m = 0.000
 vc_radius_m = 0.000
 
 [[vertical]]
-station_m   = 10613.800
+station_m   = 7591.500
 elevation_m = 0.000
 vc_radius_m = 0.000
 
@@ -169,124 +844,519 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 40.000
-to_station_m   = 96.600
+to_station_m   = 124.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 96.600
-to_station_m   = 916.800
+from_station_m = 124.900
+to_station_m   = 184.900
 class          = "elevated"
 
 [[civil]]
-from_station_m = 916.800
-to_station_m   = 973.400
+from_station_m = 184.900
+to_station_m   = 261.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 973.400
-to_station_m   = 1058.200
+from_station_m = 261.400
+to_station_m   = 442.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1058.200
-to_station_m   = 1114.800
+from_station_m = 442.800
+to_station_m   = 559.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1114.800
-to_station_m   = 1454.200
+from_station_m = 559.400
+to_station_m   = 667.700
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1454.200
-to_station_m   = 1542.500
+from_station_m = 667.700
+to_station_m   = 724.300
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1542.500
-to_station_m   = 1582.500
+from_station_m = 724.300
+to_station_m   = 894.000
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1582.500
-to_station_m   = 1650.800
+from_station_m = 894.000
+to_station_m   = 1010.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1650.800
-to_station_m   = 1679.100
+from_station_m = 1010.500
+to_station_m   = 1030.500
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1679.100
-to_station_m   = 1727.400
+from_station_m = 1030.500
+to_station_m   = 1118.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1727.400
-to_station_m   = 1795.600
+from_station_m = 1118.800
+to_station_m   = 1158.800
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1795.600
-to_station_m   = 1823.900
+from_station_m = 1158.800
+to_station_m   = 1247.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 1823.900
-to_station_m   = 2757.300
+from_station_m = 1247.100
+to_station_m   = 1267.100
 class          = "elevated"
 
 [[civil]]
-from_station_m = 2757.300
-to_station_m   = 10613.800
-class          = "bridge"
+from_station_m = 1267.100
+to_station_m   = 1375.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1375.400
+to_station_m   = 1563.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1563.700
+to_station_m   = 1623.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1623.700
+to_station_m   = 1692.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1692.000
+to_station_m   = 1740.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1740.200
+to_station_m   = 1885.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1885.100
+to_station_m   = 1925.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1925.100
+to_station_m   = 1985.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1985.100
+to_station_m   = 2033.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2033.400
+to_station_m   = 2149.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2149.900
+to_station_m   = 2226.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2226.500
+to_station_m   = 2246.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2246.500
+to_station_m   = 2294.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2294.800
+to_station_m   = 2334.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2334.800
+to_station_m   = 2439.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2439.700
+to_station_m   = 2487.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2487.900
+to_station_m   = 2544.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2544.500
+to_station_m   = 2641.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2641.100
+to_station_m   = 2669.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2669.400
+to_station_m   = 2757.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2757.600
+to_station_m   = 2825.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2825.900
+to_station_m   = 2845.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2845.900
+to_station_m   = 2874.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2874.200
+to_station_m   = 2979.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 2979.100
+to_station_m   = 3035.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3035.600
+to_station_m   = 3132.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3132.200
+to_station_m   = 3385.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3385.300
+to_station_m   = 3441.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3441.900
+to_station_m   = 3481.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3481.900
+to_station_m   = 3521.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3521.900
+to_station_m   = 3590.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3590.200
+to_station_m   = 3666.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3666.800
+to_station_m   = 3686.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3686.800
+to_station_m   = 3783.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3783.300
+to_station_m   = 3839.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3839.900
+to_station_m   = 3868.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3868.200
+to_station_m   = 3964.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 3964.800
+to_station_m   = 4041.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4041.300
+to_station_m   = 4109.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4109.600
+to_station_m   = 4177.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4177.900
+to_station_m   = 4206.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4206.200
+to_station_m   = 4291.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4291.000
+to_station_m   = 4371.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4371.000
+to_station_m   = 4391.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4391.000
+to_station_m   = 4672.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4672.400
+to_station_m   = 4720.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4720.700
+to_station_m   = 4769.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4769.000
+to_station_m   = 4797.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4797.300
+to_station_m   = 4825.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4825.600
+to_station_m   = 4873.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4873.900
+to_station_m   = 4893.900
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4893.900
+to_station_m   = 4913.900
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 4913.900
+to_station_m   = 4942.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 4942.200
+to_station_m   = 5018.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5018.700
+to_station_m   = 5047.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5047.000
+to_station_m   = 5340.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5340.100
+to_station_m   = 5380.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5380.100
+to_station_m   = 5408.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5408.400
+to_station_m   = 5493.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5493.300
+to_station_m   = 5521.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5521.600
+to_station_m   = 5578.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5578.100
+to_station_m   = 5831.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5831.300
+to_station_m   = 5871.300
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5871.300
+to_station_m   = 5899.600
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5899.600
+to_station_m   = 5939.600
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 5939.600
+to_station_m   = 5987.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 5987.800
+to_station_m   = 6016.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6016.100
+to_station_m   = 6044.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6044.400
+to_station_m   = 6124.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6124.400
+to_station_m   = 6224.400
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6224.400
+to_station_m   = 6244.400
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6244.400
+to_station_m   = 6361.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6361.000
+to_station_m   = 6445.800
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6445.800
+to_station_m   = 6494.100
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6494.100
+to_station_m   = 6654.100
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6654.100
+to_station_m   = 6710.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6710.700
+to_station_m   = 6767.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6767.200
+to_station_m   = 6908.700
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 6908.700
+to_station_m   = 6948.700
+class          = "elevated"
+
+[[civil]]
+from_station_m = 6948.700
+to_station_m   = 7097.000
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7097.000
+to_station_m   = 7117.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7117.000
+to_station_m   = 7137.000
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7137.000
+to_station_m   = 7165.200
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7165.200
+to_station_m   = 7491.500
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7491.500
+to_station_m   = 7531.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 7531.500
+to_station_m   = 7591.500
+class          = "at-grade"
 
 # Station IDs and chainages resolve directly to design.toml.
 
 [[station]]
-id                = "line-14-0553-1222-s000000"
+id                = "line-14-1220-1262-s000000"
 station_m         = 0.000
 platform_length_m = 121.000
 
 [[station]]
-id                = "line-14-0524-1253-s000860"
-station_m         = 860.200
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0521-1256-s000945"
-station_m         = 945.100
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0454-1271-s002757"
-station_m         = 2757.300
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0389-1336-s004596"
-station_m         = 4595.800
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0362-1363-s005359"
-station_m         = 5359.500
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0318-1407-s006604"
-station_m         = 6604.000
-platform_length_m = 121.000
-
-[[station]]
-id                = "line-14-0238-1488-s008887"
-station_m         = 8886.700
+id                = "line-14-1389-1288-s004721"
+station_m         = 4720.700
 platform_length_m = 117.000
 
 [[station]]
-id                = "line-14-0162-1513-s010614"
-station_m         = 10613.800
+id                = "line-14-1437-1186-s007592"
+station_m         = 7591.500
 platform_length_m = 121.000
 
 # No [[cant]] rows: cant has not been designed for this planning trace.

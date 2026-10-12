@@ -1,8 +1,8 @@
 # Mahalla route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 8
-- Stations: 48
+- Lines: 4
+- Stations: 14
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

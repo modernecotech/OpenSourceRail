@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.528,
+    "high_demand_cell_fraction": 0.553,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 112414.46427440643,
     "catchments": [
       {
-        "covered_population_2020": 35828.43511581421,
-        "fraction_of_raster_population": 0.3187173051713001,
+        "covered_population_2020": 29106.19282913208,
+        "fraction_of_raster_population": 0.2589185743756529,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 68616.0239944458,
-        "fraction_of_raster_population": 0.6103842991854893,
+        "covered_population_2020": 55902.40375041962,
+        "fraction_of_raster_population": 0.49728835262658455,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 83639.30417919159,
-        "fraction_of_raster_population": 0.7440261777614847,
+        "covered_population_2020": 71260.0035572052,
+        "fraction_of_raster_population": 0.633904222353965,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 103546.72834205627,
-        "fraction_of_raster_population": 0.921115703485418,
+        "covered_population_2020": 98294.34817790985,
+        "fraction_of_raster_population": 0.8743923552219309,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 111112.06589651108,
-        "fraction_of_raster_population": 0.9884143167313757,
+        "covered_population_2020": 109973.90230417252,
+        "fraction_of_raster_population": 0.9782896090286349,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 20,
+    "unique_station_coordinates": 13,
     "valid_pixels": 4391
   },
   "population_source_country": "EG",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Hurghada/design.toml": "789186145896e42b8caef4133e1107506a00ce39ff37811c46ec328d76268836",
+    "cities/catalogue/west-asia/Egypt/Hurghada/design.toml": "affb3d406204dfa71b4a3c179dc46b09695f445fbdebcf3861c9b7634f608f1e",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-pixels.npz.gz": "2d593d31102bfa0117a39ef26636ab239ec656aa98e9de77a9e00f92a40e38e4",
     "cities/catalogue/west-asia/Egypt/Hurghada/engineering/access/population-source.json": "8332681a813c0878ca45a961aa041ba7e493ba25f41ed8a5ad2bcbc2eebc6c66",
-    "cities/catalogue/west-asia/Egypt/Hurghada/hurghada.design-quality.yaml": "010f5bfeb1462a64361c2d6f23dd3a221c2642758c35b9a3dcb5c4b7535ccb93",
+    "cities/catalogue/west-asia/Egypt/Hurghada/hurghada.design-quality.yaml": "cc3e9b8533bb9b82ff2cc21b9b1d03b9e491f90753053ceecd6d16228ae61851",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [],
@@ -99,34 +99,34 @@
         "line-4"
       ]
     ],
-    "direct_transfer_fraction": 0.5,
+    "direct_transfer_fraction": 0.8333333333333334,
     "line_count": 4,
     "line_pair_count": 6,
-    "maximum_required_transfers": 3,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
           "line-1",
           "line-2"
         ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-3"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-1",
+          "line-4"
+        ],
         "minimum_transfers": 2
       },
       {
         "lines": [
-          "line-1",
-          "line-3"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-4"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
           "line-2",
           "line-3"
         ],
@@ -137,17 +137,17 @@
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.8333333333333334
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

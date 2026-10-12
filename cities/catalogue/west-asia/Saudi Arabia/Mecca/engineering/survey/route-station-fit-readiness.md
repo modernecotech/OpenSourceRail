@@ -1,8 +1,8 @@
 # Mecca route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 27
-- Stations: 214
+- Lines: 9
+- Stations: 73
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -14,8 +14,8 @@ crs            = "EPSG:32636"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "61c6502e55b44f9c96ad05b4085d8e8763cbc30a307640f43db24fa604ac3052"
-source_geojson_sha256 = "c32075421bb20f09ac760f48a5ef4714c1a3a28d404812f66adf90bd3e26a6ae"
+source_design_sha256 = "32f1a94c6a3e693b82203cc96e4fb554356d11792d29de3e80eb75c9dc918d03"
+source_geojson_sha256 = "bc300e5ffb9e8b0693d23eced1f3a326bb5d876bef5bda0919cdbb86160a78d4"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -353,8 +353,33 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 1564.300
-to_station_m   = 1957.400
+to_station_m   = 1612.500
 class          = "bridge"
+
+[[civil]]
+from_station_m = 1612.500
+to_station_m   = 1652.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1652.500
+to_station_m   = 1672.500
+class          = "bridge"
+
+[[civil]]
+from_station_m = 1672.500
+to_station_m   = 1720.800
+class          = "elevated"
+
+[[civil]]
+from_station_m = 1720.800
+to_station_m   = 1937.400
+class          = "bridge"
+
+[[civil]]
+from_station_m = 1937.400
+to_station_m   = 1957.400
+class          = "elevated"
 
 # Station IDs and chainages resolve directly to design.toml.
 
@@ -364,8 +389,8 @@ station_m         = 0.000
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-2-0360-0480-s000806"
-station_m         = 806.300
+id                = "line-2-0354-0450-s001456"
+station_m         = 1456.000
 platform_length_m = 49.000
 
 [[station]]

@@ -2,21 +2,21 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **97**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **44**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 22 |
-| Beam/building | ground-lateral-clearance-conflict | 5 |
-| Beam/building | height-unresolved | 75 |
-| Beam/building | product-depth-unresolved | 14 |
-| Reference support/foundation | foundation-footprint-conflict | 91 |
-| Reference support/foundation | foundation-setback-conflict | 14 |
-| Reference support/foundation | mapped-footprints-only-clear | 2,490 |
-| Terrain | reference-gradient-exceeded | 1,271 |
-| Terrain | reference-gradient-within-policy | 1,208 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 112 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 49 |
+| Beam/building | ground-collision | 6 |
+| Beam/building | ground-lateral-clearance-conflict | 3 |
+| Beam/building | height-unresolved | 24 |
+| Beam/building | product-depth-unresolved | 15 |
+| Reference support/foundation | foundation-footprint-conflict | 47 |
+| Reference support/foundation | foundation-setback-conflict | 6 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,265 |
+| Terrain | reference-gradient-exceeded | 854 |
+| Terrain | reference-gradient-within-policy | 1,129 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 325 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 191 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

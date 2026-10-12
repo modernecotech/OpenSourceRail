@@ -1,29 +1,29 @@
 slug: taif
 pass: true
 metrics:
-  total_route_m: 109002.0
-  n_lines: 13
-  n_stations: 73
-  anchor_hit_rate: 0.164
-  high_demand_coverage: 0.560
+  total_route_m: 70945.5
+  n_lines: 5
+  n_stations: 26
+  anchor_hit_rate: 0.269
+  high_demand_coverage: 0.565
   civil_mix_m:
-    at_grade: 32390.000
-    elevated: 72244.800
-    bridge:   4367.100
-  elevated_fraction: 0.703
+    at_grade: 12920.700
+    elevated: 56270.800
+    bridge:   1754.000
+  elevated_fraction: 0.818
   viaduct_products_m:
-    osr_pi20_pi25: 66331.597
-    osr_us:      4540.003
-    special:     4367.100
-    realign:     1373.200
-  max_elevated_cost_multiplier: 34.615
+    osr_pi20_pi25: 49052.190
+    osr_us:      5320.459
+    special:     1754.000
+    realign:     1898.151
+  max_elevated_cost_multiplier: 17.659
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

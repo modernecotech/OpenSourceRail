@@ -1,8 +1,8 @@
 # Asyut route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 10
-- Stations: 61
+- Lines: 4
+- Stations: 23
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

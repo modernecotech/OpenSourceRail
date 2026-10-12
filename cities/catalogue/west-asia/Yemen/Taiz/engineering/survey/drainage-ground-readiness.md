@@ -1,7 +1,7 @@
 # Taiz drainage and ground-design gate
 
 - Status: **awaiting-drainage-ground-evidence**
-- Lines/stations: 11 / 56
+- Lines/stations: 5 / 28
 - SWMM/ground technical screen passed: **no**
 - OpenGeoSys required by received decision: **no**
 - Authority accepted: **no**

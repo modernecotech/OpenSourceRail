@@ -1,7 +1,7 @@
 # Tanta structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 12
+- Lines: 5
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

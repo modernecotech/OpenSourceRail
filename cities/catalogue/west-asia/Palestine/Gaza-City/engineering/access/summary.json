@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.747,
+    "high_demand_cell_fraction": 0.438,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 1210091.61273098,
     "catchments": [
       {
-        "covered_population_2020": 419684.8792152405,
-        "fraction_of_raster_population": 0.34682074877626823,
+        "covered_population_2020": 175967.93731498718,
+        "fraction_of_raster_population": 0.14541703740748702,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 854241.9630622864,
-        "fraction_of_raster_population": 0.7059316452366786,
+        "covered_population_2020": 398373.83435440063,
+        "fraction_of_raster_population": 0.32920964839623645,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 1010840.6682462692,
-        "fraction_of_raster_population": 0.8353422646777678,
+        "covered_population_2020": 558794.5306882858,
+        "fraction_of_raster_population": 0.46177869907483904,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 1111143.7746887207,
-        "fraction_of_raster_population": 0.9182311182052159,
+        "covered_population_2020": 916986.0921087265,
+        "fraction_of_raster_population": 0.7577823715670899,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 1154119.027132988,
-        "fraction_of_raster_population": 0.9537451668872649,
+        "covered_population_2020": 1119272.8694210052,
+        "fraction_of_raster_population": 0.924948869693418,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,18 +74,18 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 25,
+    "unique_station_coordinates": 10,
     "valid_pixels": 10085
   },
   "population_source_country": "PS",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "411e83d5e740f5db9b8adb280c0d3edf28c302ebb0e6d6038a58388e8aeaf692",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/design.toml": "e6261b748c776eb1ffa5a6c71ba91571d8d53f60b4770b4f3036c450e95fe6c4",
     "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/access/population-pixels.npz.gz": "1b1b46dd56103406068b9034d3a97eacee64d3de6a41335a9f9057199f262e67",
     "cities/catalogue/west-asia/Palestine/Gaza-City/engineering/access/population-source.json": "4ffb5123c7b646f9a5615edd0d7b97745b57c41d66aeef09c4584db1681147df",
-    "cities/catalogue/west-asia/Palestine/Gaza-City/gaza-city.design-quality.yaml": "ca5137447b85fbdd0ebd942fb368edd1ca862351f8b831898b7b8337d97955b3",
+    "cities/catalogue/west-asia/Palestine/Gaza-City/gaza-city.design-quality.yaml": "309092c103feadabd45c98a51e3a71fd9aed2c986439c91adbcbd83fd2bca1f8",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/audit-city-access.py": "65c620cc170089dd7093c26523fb333224c1a4b0ceb28b9716b6314e2696f32f",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
   "transfer_recovery_candidates": [],
@@ -96,15 +96,13 @@
         "line-1",
         "line-2",
         "line-3",
-        "line-4",
-        "line-5",
-        "line-6"
+        "line-4"
       ]
     ],
-    "direct_transfer_fraction": 0.6,
-    "line_count": 6,
-    "line_pair_count": 15,
-    "maximum_required_transfers": 3,
+    "direct_transfer_fraction": 0.5,
+    "line_count": 4,
+    "line_pair_count": 6,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
@@ -125,21 +123,7 @@
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-5"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-1",
-          "line-6"
-        ],
-        "minimum_transfers": 1
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -157,62 +141,13 @@
       },
       {
         "lines": [
-          "line-2",
-          "line-5"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
           "line-3",
           "line-4"
         ],
         "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-5"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-5"
-        ],
-        "minimum_transfers": 2
-      },
-      {
-        "lines": [
-          "line-4",
-          "line-6"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-5",
-          "line-6"
-        ],
-        "minimum_transfers": 2
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.9333333333333333
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

@@ -1,24 +1,17 @@
 # Irbid city-order factory requirement
 
-**279 light-metro-3car trainsets / 837 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**174 light-metro-3car trainsets / 522 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 797.3 trainsets/year, 8 separate test paths, 1925 direct production FTE. Plant reference envelope: **USD 802.388m**.
+Planning output: 498.3 trainsets/year, 5 separate test paths, 1204 direct production FTE. Plant reference envelope: **USD 526.493m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 37 | 572 | 671 | 671 |
-| line-2 | 37 | 592 | 684 | 684 |
-| line-3 | 60 | 613 | 703 | 703 |
-| line-4 | 14 | 618 | 708 | 708 |
-| line-5 | 12 | 622 | 712 | 712 |
-| line-6 | 19 | 628 | 718 | 718 |
-| line-7 | 11 | 632 | 722 | 722 |
-| line-8 | 25 | 639 | 730 | 730 |
-| line-9 | 10 | 643 | 733 | 733 |
-| line-10 | 14 | 576 | 738 | 738 |
-| line-11 | 11 | 580 | 741 | 741 |
-| line-12 | 29 | 588 | 751 | 751 |
+| line-1 | 51 | 596 | 686 | 686 |
+| line-2 | 34 | 614 | 704 | 704 |
+| line-3 | 54 | 642 | 732 | 732 |
+| line-4 | 20 | 652 | 742 | 742 |
+| line-5 | 15 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

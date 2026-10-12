@@ -1,8 +1,8 @@
 # Nablus route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 14
-- Stations: 81
+- Lines: 5
+- Stations: 30
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

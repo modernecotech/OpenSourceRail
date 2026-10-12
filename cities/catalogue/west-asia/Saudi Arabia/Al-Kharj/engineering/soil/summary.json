@@ -1,8 +1,8 @@
 {
   "city": "al-kharj",
-  "civil_plan_sha256": "bda6d4708502a095e76dfee4584577f1cd03fdf70c9d017c8abe68ec012ddcb1",
-  "civil_segment_count": 131,
-  "complete_profile_count": 407,
+  "civil_plan_sha256": "f60a17a4f0664f95e04c8ecdbbfa3fd429bb7f08637c06a492b3998af76b05e1",
+  "civil_segment_count": 396,
+  "complete_profile_count": 1027,
   "density_unit_reconciliation": "TIFF/filename g/cm3 × 1000 = kg/m3; upstream catalogue unit label differs",
   "deployment_release_ready": false,
   "depth_intervals": [
@@ -14,16 +14,16 @@
   "generator_sha256": "f9cb87c93d9c5fcfaa58854c7af922389c06f38a1498ded9ac0becd02ce5833c",
   "ground_design_validated": false,
   "input_sha256": {
-    "civil_segments": "e90c376c110eb249d63982cc72d425f8cd5adc3d0d9c95656fc092dd14e3c0ad",
-    "design": "6350bcb09bdb66a786afcf7c6cf6de41a17c9d1d5db405a357b3ff11900836b2",
+    "civil_segments": "a7a46a903bba0109ad0a75e0f1aac4c5fef4019a3b56557ef87f9a44f84f69d7",
+    "design": "de49dccef9a58ff03bb460ff8f78b47139fd0dc737e1a1ac65502717b4a4cf14",
     "source_lock": "9f7303c6c2d14d3ab992d50a5e99326046493aececc4f90b294036bcf8d6f6e5",
-    "stations": "ad0055471f5d7eb1e9b7bf8e5272a7febb7fcb0aa1077c7e80b85699cec70570"
+    "stations": "9628c45be8a8e548d542dbbd28e4983d7f7a52d8a595359982a0ffde86ac4a86"
   },
   "investigation_flag_counts": {
-    "coverage-gap": 147,
-    "fine-soil-plasticity-and-shrink-swell-tests": 24,
-    "granular-density-and-groundwater-tests": 406,
-    "silt-moisture-frost-and-erosion-review": 53
+    "coverage-gap": 224,
+    "fine-soil-plasticity-and-shrink-swell-tests": 119,
+    "granular-density-and-groundwater-tests": 1017,
+    "silt-moisture-frost-and-erosion-review": 229
   },
   "limitations": [
     "No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.",
@@ -32,31 +32,31 @@
     "Prioritisation thresholds are editable OSR screening rules, not statutory limits or evidence of a hazard.",
     "No excavation depths, foundation dimensions, treatment quantities or civil costs are changed from pedological predictions."
   ],
-  "missing_profile_count": 147,
+  "missing_profile_count": 224,
   "prediction_interval": "p16-p84; nominal 68% prediction interval; not engineering design characteristic values",
   "property_sample_ranges": [
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "0..30cm",
       "mean_max": 22.0,
       "mean_min": 10.0,
       "p16_min": 0.0,
-      "p84_max": 34.0,
+      "p84_max": 35.0,
       "property": "clay",
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "0..30cm",
-      "mean_max": 66.0,
-      "mean_min": 43.0,
+      "mean_max": 67.0,
+      "mean_min": 42.0,
       "p16_min": 18.0,
-      "p84_max": 89.0,
+      "p84_max": 90.0,
       "property": "sand",
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "0..30cm",
       "mean_max": 36.0,
       "mean_min": 23.0,
@@ -66,38 +66,98 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "0..30cm",
       "mean_max": 1490.0,
       "mean_min": 1400.0,
-      "p16_min": 1230.0,
+      "p16_min": 1220.0,
+      "p84_max": 1680.0,
+      "property": "bd.core",
+      "unit": "kg/m3"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "0..30cm",
+      "mean_max": 4.5,
+      "mean_min": 2.6,
+      "p16_min": 0.7,
+      "p84_max": 13.9,
+      "property": "soc",
+      "unit": "g/kg"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "0..30cm",
+      "mean_max": 8.4,
+      "mean_min": 8.1,
+      "p16_min": 7.3,
+      "p84_max": 9.6,
+      "property": "ph.h2o",
+      "unit": "pH"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 24.0,
+      "mean_min": 14.0,
+      "p16_min": 0.0,
+      "p84_max": 41.0,
+      "property": "clay",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 61.0,
+      "mean_min": 43.0,
+      "p16_min": 15.0,
+      "p84_max": 92.0,
+      "property": "sand",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 34.0,
+      "mean_min": 23.0,
+      "p16_min": 4.0,
+      "p84_max": 50.0,
+      "property": "silt",
+      "unit": "%"
+    },
+    {
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 1490.0,
+      "mean_min": 1350.0,
+      "p16_min": 1160.0,
       "p84_max": 1670.0,
       "property": "bd.core",
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "0..30cm",
-      "mean_max": 4.8,
-      "mean_min": 3.0,
-      "p16_min": 0.5,
-      "p84_max": 14.4,
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 3.3,
+      "mean_min": 1.9,
+      "p16_min": 0.3,
+      "p84_max": 11.6,
       "property": "soc",
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "0..30cm",
-      "mean_max": 8.5,
+      "available_mean_count": 1027,
+      "depth_interval": "30..60cm",
+      "mean_max": 8.7,
       "mean_min": 8.1,
-      "p16_min": 7.3,
-      "p84_max": 9.5,
+      "p16_min": 7.0,
+      "p84_max": 9.7,
       "property": "ph.h2o",
       "unit": "pH"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
+      "available_mean_count": 1027,
+      "depth_interval": "60..100cm",
       "mean_max": 23.0,
       "mean_min": 14.0,
       "p16_min": 0.0,
@@ -106,89 +166,29 @@
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
-      "mean_max": 62.0,
+      "available_mean_count": 1027,
+      "depth_interval": "60..100cm",
+      "mean_max": 60.0,
       "mean_min": 43.0,
-      "p16_min": 16.0,
+      "p16_min": 15.0,
       "p84_max": 92.0,
       "property": "sand",
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
+      "available_mean_count": 1027,
+      "depth_interval": "60..100cm",
       "mean_max": 34.0,
       "mean_min": 24.0,
       "p16_min": 4.0,
-      "p84_max": 50.0,
+      "p84_max": 57.0,
       "property": "silt",
       "unit": "%"
     },
     {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
-      "mean_max": 1480.0,
-      "mean_min": 1360.0,
-      "p16_min": 1170.0,
-      "p84_max": 1670.0,
-      "property": "bd.core",
-      "unit": "kg/m3"
-    },
-    {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
-      "mean_max": 4.1,
-      "mean_min": 1.9,
-      "p16_min": 0.3,
-      "p84_max": 14.9,
-      "property": "soc",
-      "unit": "g/kg"
-    },
-    {
-      "available_mean_count": 407,
-      "depth_interval": "30..60cm",
-      "mean_max": 8.7,
-      "mean_min": 8.1,
-      "p16_min": 7.0,
-      "p84_max": 10.0,
-      "property": "ph.h2o",
-      "unit": "pH"
-    },
-    {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "60..100cm",
-      "mean_max": 22.0,
-      "mean_min": 14.0,
-      "p16_min": 0.0,
-      "p84_max": 40.0,
-      "property": "clay",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 407,
-      "depth_interval": "60..100cm",
-      "mean_max": 61.0,
-      "mean_min": 44.0,
-      "p16_min": 16.0,
-      "p84_max": 92.0,
-      "property": "sand",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 407,
-      "depth_interval": "60..100cm",
-      "mean_max": 34.0,
-      "mean_min": 25.0,
-      "p16_min": 4.0,
-      "p84_max": 56.0,
-      "property": "silt",
-      "unit": "%"
-    },
-    {
-      "available_mean_count": 407,
-      "depth_interval": "60..100cm",
-      "mean_max": 1500.0,
+      "mean_max": 1520.0,
       "mean_min": 1410.0,
       "p16_min": 1230.0,
       "p84_max": 1740.0,
@@ -196,29 +196,29 @@
       "unit": "kg/m3"
     },
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "60..100cm",
-      "mean_max": 3.5,
+      "mean_max": 3.0,
       "mean_min": 1.5,
-      "p16_min": 0.3,
-      "p84_max": 11.4,
+      "p16_min": 0.4,
+      "p84_max": 8.1,
       "property": "soc",
       "unit": "g/kg"
     },
     {
-      "available_mean_count": 407,
+      "available_mean_count": 1027,
       "depth_interval": "60..100cm",
-      "mean_max": 8.8,
+      "mean_max": 8.7,
       "mean_min": 8.1,
       "p16_min": 7.4,
-      "p84_max": 10.2,
+      "p84_max": 10.1,
       "property": "ph.h2o",
       "unit": "pH"
     }
   ],
-  "sample_count": 554,
-  "sample_locations_sha256": "773bfb1cc302b2baf15d009066f8b1e07f94911093269bd128853a6862bedc80",
-  "samples_sha256": "9fd154d82515f081fddcd79636dbd65ba9e0320061d75d1ef643761915ef43a8",
+  "sample_count": 1251,
+  "sample_locations_sha256": "04d5df0f8197345b116f85f223d6c5d74b276286a5d298946b1a1b744d5a6fd1",
+  "samples_sha256": "83108eae8f1a1e9444555efe5c2166a0b7ac910670fcfa565c7465a982e4695d",
   "sampling_resolution_m": 120,
   "sampling_spacing_m": 1000,
   "schema_version": 1,
@@ -228,8 +228,8 @@
     "source_lock": "engineering/data/soildb/sources.json",
     "stations": "cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/gis/layers/stations.geojson"
   },
-  "source_receipt_sha256": "88897bf2f51ab4eb6856181d9e30ef2fda512498caef90956996cc06dfbb547c",
-  "station_count": 81,
+  "source_receipt_sha256": "84ad5686496654a9ff25879235312ab5e97e23708dae271ac7da33a4568ef070",
+  "station_count": 28,
   "status": "desktop-soil-screening-with-coverage-gaps",
   "units": {
     "bd.core": "kg/m3",

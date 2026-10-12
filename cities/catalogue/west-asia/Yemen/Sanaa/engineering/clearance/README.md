@@ -2,20 +2,20 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **2,230**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **1,026**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | height-unresolved | 1,778 |
-| Beam/building | product-depth-unresolved | 138 |
-| Reference support/foundation | foundation-footprint-conflict | 1,021 |
-| Reference support/foundation | foundation-setback-conflict | 277 |
-| Reference support/foundation | mapped-footprints-only-clear | 8,094 |
-| Terrain | beam-terrain-collision | 51 |
-| Terrain | reference-gradient-exceeded | 5,098 |
-| Terrain | reference-gradient-within-policy | 3,998 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 282 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 174 |
+| Beam/building | height-unresolved | 603 |
+| Beam/building | product-depth-unresolved | 310 |
+| Reference support/foundation | foundation-footprint-conflict | 519 |
+| Reference support/foundation | foundation-setback-conflict | 156 |
+| Reference support/foundation | mapped-footprints-only-clear | 13,185 |
+| Terrain | beam-terrain-collision | 64 |
+| Terrain | reference-gradient-exceeded | 5,928 |
+| Terrain | reference-gradient-within-policy | 5,478 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 2,396 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 1,359 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 
