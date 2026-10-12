@@ -1,8 +1,8 @@
 # San-Salvador route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 21
-- Stations: 227
+- Lines: 9
+- Stations: 91
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

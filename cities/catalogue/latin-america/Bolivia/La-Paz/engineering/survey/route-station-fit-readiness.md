@@ -1,8 +1,8 @@
 # La-Paz route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 24
-- Stations: 227
+- Lines: 9
+- Stations: 72
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

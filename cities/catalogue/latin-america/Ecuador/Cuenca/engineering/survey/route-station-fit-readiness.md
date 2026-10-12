@@ -1,8 +1,8 @@
 # Cuenca route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 11
-- Stations: 70
+- Lines: 5
+- Stations: 31
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

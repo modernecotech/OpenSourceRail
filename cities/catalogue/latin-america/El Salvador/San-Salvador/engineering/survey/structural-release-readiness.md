@@ -1,7 +1,7 @@
 # San-Salvador structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 21
+- Lines: 9
 - Technical screen passed: **no**
 - Authority accepted: **no**
 
