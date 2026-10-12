@@ -3,7 +3,7 @@
 This page contains only Cameroon-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$42.07 B (87.9%) of external capital** and **$52.74 B of external interest**. Capital plus saved interest totals **$94.81 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$25.63 B (88.2%) of external capital** and **$32.13 B of external interest**. Capital plus saved interest totals **$57.76 B**.
 
 ## National Programme
 
@@ -11,55 +11,55 @@ This page contains only Cameroon-specific aggregation. Shared network, service, 
 |---|---:|
 | Catalogue cities | 10 |
 | Represented population | 11,650,000 |
-| Trainsets / vehicle modules | 3,474 / 15,417 |
-| City infrastructure and fleet CAPEX | $25.67 B |
-| Shared national factory | $869.8 M |
-| Factory sizing basis | 5,916 modules for Douala, then reused nationally |
-| **Total national programme** | **$26.60 B** |
+| Trainsets / vehicle modules | 1,815 / 7,756 |
+| City infrastructure and fleet CAPEX | $15.06 B |
+| Shared national factory | $1.02 B |
+| Factory sizing basis | 2,604 modules for Yaounde, then reused nationally |
+| **Total national programme** | **$16.15 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.80 B (21.8%) |
-| Domestic / local capital | $20.79 B (78.2%) |
-| Annual external capital draw | $829.2 M / yr |
-| Annual local capital draw | $2.97 B / yr |
-| Annual public construction commitment | $2.27 B / yr for 7 years |
-| Annual post-grace debt service | $1.86 B / yr |
-| Default foreign-turnkey external capital | $47.88 B |
-| External capital saved | $42.07 B |
-| Capital + lifetime external interest saved | $94.81 B |
+| Imported / external capital | $3.44 B (21.3%) |
+| Domestic / local capital | $12.71 B (78.7%) |
+| Annual external capital draw | $491.9 M / yr |
+| Annual local capital draw | $1.82 B / yr |
+| Annual public construction commitment | $1.38 B / yr for 7 years |
+| Annual post-grace debt service | $1.13 B / yr |
+| Default foreign-turnkey external capital | $29.07 B |
+| External capital saved | $25.63 B |
+| Capital + lifetime external interest saved | $57.76 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $11.56 B | $1.73 B | $9.82 B |
-| Stations | $4.39 B | $877.5 M | $3.51 B |
-| Depots | $2.18 B | $544.9 M | $1.63 B |
-| Rolling stock | $4.42 B | $1.55 B | $2.87 B |
-| Dedicated solar plants | $1.25 B | $563.5 M | $688.7 M |
-| Residual train control | $60.0 M | $30.0 M | $30.0 M |
-| Charging microgrids | $212.6 M | $85.0 M | $127.5 M |
-| EPC / project services | $1.66 B | $248.7 M | $1.41 B |
-| Shared national trainset factory | $869.8 M | $174.0 M | $695.8 M |
-| **Total** | **$26.60 B** | **$5.80 B** | **$20.79 B** |
+| Civil works | $7.86 B | $1.18 B | $6.68 B |
+| Stations | $2.04 B | $408.7 M | $1.63 B |
+| Depots | $895.7 M | $223.9 M | $671.8 M |
+| Rolling stock | $2.23 B | $781.5 M | $1.45 B |
+| Dedicated solar plants | $979.2 M | $440.6 M | $538.5 M |
+| Residual train control | $39.7 M | $19.9 M | $19.9 M |
+| Charging microgrids | $93.3 M | $37.3 M | $56.0 M |
+| EPC / project services | $992.6 M | $148.9 M | $843.7 M |
+| Shared national trainset factory | $1.02 B | $203.6 M | $814.5 M |
+| **Total** | **$16.15 B** | **$3.44 B** | **$12.71 B** |
 
 ## City Programme
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Yaounde](Yaounde/README.md) | 4,100,000 | 691 | $6.42 B | $1.47 B | $4.95 B |
-| [Douala](Douala/README.md) | 3,900,000 | 986 | $9.23 B | $2.08 B | $7.15 B |
-| [Bafoussam](Bafoussam/README.md) | 600,000 | 416 | $2.19 B | $464.7 M | $1.73 B |
-| [Bamenda](Bamenda/README.md) | 600,000 | 308 | $1.65 B | $348.7 M | $1.30 B |
-| [Garoua](Garoua/README.md) | 600,000 | 179 | $1.09 B | $218.9 M | $873.4 M |
-| [Maroua](Maroua/README.md) | 500,000 | 332 | $1.89 B | $383.6 M | $1.51 B |
-| [Kumba](Kumba/README.md) | 400,000 | 258 | $1.35 B | $287.4 M | $1.07 B |
-| [Bertoua](Bertoua/README.md) | 350,000 | 118 | $669.6 M | $139.0 M | $530.6 M |
-| [Ngaoundere](Ngaoundere/README.md) | 350,000 | 150 | $882.5 M | $178.3 M | $704.2 M |
-| [Edea](Edea/README.md) | 250,000 | 36 | $272.6 M | $50.4 M | $222.3 M |
+| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Yaounde](Yaounde/README.md) | 4,100,000 | 434 | $4.95 B | $1.09 B | $3.86 B | 8 | 3 | 27.3% | 30.3% |
+| [Douala](Douala/README.md) | 3,900,000 | 342 | $4.12 B | $903.5 M | $3.22 B | 8 | 3 | 30.3% | 28.5% |
+| [Bafoussam](Bafoussam/README.md) | 600,000 | 231 | $1.29 B | $270.2 M | $1.02 B | 5 | 2 | 21.2% | 23.6% |
+| [Bamenda](Bamenda/README.md) | 600,000 | 168 | $965.7 M | $201.6 M | $764.1 M | 5 | 2 | 24.3% | 23.5% |
+| [Garoua](Garoua/README.md) | 600,000 | 109 | $649.4 M | $129.9 M | $519.5 M | 4 | 1 | 18.6% | 21.2% |
+| [Maroua](Maroua/README.md) | 500,000 | 193 | $1.11 B | $224.6 M | $881.0 M | 5 | 2 | 30.1% | 31.2% |
+| [Kumba](Kumba/README.md) | 400,000 | 150 | $851.1 M | $177.5 M | $673.6 M | 4 | 1 | 19.2% | 25.5% |
+| [Bertoua](Bertoua/README.md) | 350,000 | 80 | $461.1 M | $95.7 M | $365.4 M | 3 | 0 | 18.4% | 16.3% |
+| [Ngaoundere](Ngaoundere/README.md) | 350,000 | 91 | $545.8 M | $110.1 M | $435.7 M | 4 | 1 | 23.9% | 25.0% |
+| [Edea](Edea/README.md) | 250,000 | 17 | $125.8 M | $23.3 M | $102.5 M | 1 | 0 | 15.2% | 15.2% |
 
 ## Local Basis And Regeneration
 
@@ -73,18 +73,5 @@ python3 tools/automation/generate-national-briefs.py
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Bafoussam](Bafoussam/README.md) | 15 | 12 | 21.2% | 58.9% |
-| [Bamenda](Bamenda/README.md) | 13 | 10 | 24.3% | 54.6% |
-| [Bertoua](Bertoua/README.md) | 5 | 2 | 18.4% | 34.5% |
-| [Douala](Douala/README.md) | 33 | 28 | 30.3% | 71.5% |
-| [Edea](Edea/README.md) | 2 | 1 | 15.2% | 37.4% |
-| [Garoua](Garoua/README.md) | 8 | 5 | 18.6% | 45.1% |
-| [Kumba](Kumba/README.md) | 11 | 8 | 19.2% | 48.3% |
-| [Maroua](Maroua/README.md) | 13 | 10 | 30.1% | 61.3% |
-| [Ngaoundere](Ngaoundere/README.md) | 7 | 4 | 23.9% | 46.6% |
-| [Yaounde](Yaounde/README.md) | 21 | 16 | 27.3% | 82.1% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

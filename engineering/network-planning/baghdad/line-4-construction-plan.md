@@ -2,12 +2,12 @@
 
 Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.
 
-Route length 41.932 km. 960 unique proposed support packets; 857 identified catalogue bay assemblies and 45 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
+Route length 41.932 km. 1,040 unique proposed support packets; 943 identified catalogue bay assemblies and 44 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
 
 | Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |
 |---|---|---|---:|---:|---:|
-| line-4-front-1 | launcher-07 | initial mobilisation | 1 | 220.0 | 428 |
-| line-4-front-2 | launcher-08 | initial mobilisation | -1 | 41503.5 | 429 |
+| line-4-front-1 | launcher-07 | initial mobilisation | 1 | 240.0 | 471 |
+| line-4-front-2 | launcher-08 | initial mobilisation | -1 | 41149.0 | 472 |
 
 ## Foundation workface plan
 
@@ -29,28 +29,28 @@ Run boundaries, stations and specials require a passage or dismantle/transport/r
 
 | Front | Sequence | Span | Product | Foundation A | Foundation B | Prior span |
 |---|---:|---|---|---|---|---|
-| line-4-front-1 | 1 | line-4-run-0001-span-0001 | OSR-Pi25 | FND:line-4-support-000000220000 | FND:line-4-support-000000245000 | mobilisation |
-| line-4-front-1 | 2 | line-4-run-0001-span-0002 | OSR-Pi25 | FND:line-4-support-000000245000 | FND:line-4-support-000000270000 | line-4-run-0001-span-0001 |
-| line-4-front-1 | 3 | line-4-run-0002-span-0001 | OSR-Pi25 | FND:line-4-support-000000421400 | FND:line-4-support-000000446400 | line-4-run-0001-span-0002 |
-| line-4-front-1 | 4 | line-4-run-0002-span-0002 | OSR-Pi20 | FND:line-4-support-000000446400 | FND:line-4-support-000000466400 | line-4-run-0002-span-0001 |
-| line-4-front-1 | 5 | line-4-run-0003-span-0001 | OSR-Pi25 | FND:line-4-support-000000546300 | FND:line-4-support-000000571300 | line-4-run-0002-span-0002 |
-| line-4-front-1 | 6 | line-4-run-0003-span-0002 | OSR-Pi25 | FND:line-4-support-000000571300 | FND:line-4-support-000000596300 | line-4-run-0003-span-0001 |
-| line-4-front-2 | 1 | line-4-run-0058-span-0001 | OSR-Pi20 | FND:line-4-support-000041483500 | FND:line-4-support-000041503500 | mobilisation |
-| line-4-front-2 | 2 | line-4-run-0057-span-0001 | OSR-Pi20 | FND:line-4-support-000041129000 | FND:line-4-support-000041149000 | line-4-run-0058-span-0001 |
-| line-4-front-2 | 3 | line-4-run-0056-span-0001 | OSR-Pi20 | FND:line-4-support-000040884100 | FND:line-4-support-000040904100 | line-4-run-0057-span-0001 |
-| line-4-front-2 | 4 | line-4-run-0055-span-0001 | OSR-Pi20 | FND:line-4-support-000040416400 | FND:line-4-support-000040436400 | line-4-run-0056-span-0001 |
-| line-4-front-2 | 5 | line-4-run-0054-span-0035 | OSR-Pi25 | FND:line-4-support-000039571000 | FND:line-4-support-000039596000 | line-4-run-0055-span-0001 |
-| line-4-front-2 | 6 | line-4-run-0054-span-0034 | OSR-Pi25 | FND:line-4-support-000039546000 | FND:line-4-support-000039571000 | line-4-run-0054-span-0035 |
+| line-4-front-1 | 1 | line-4-run-0001-span-0001 | OSR-Pi25 | FND:line-4-support-000000240000 | FND:line-4-support-000000265000 | mobilisation |
+| line-4-front-1 | 2 | line-4-run-0002-span-0001 | OSR-Pi25 | FND:line-4-support-000000421400 | FND:line-4-support-000000446400 | line-4-run-0001-span-0001 |
+| line-4-front-1 | 3 | line-4-run-0003-span-0001 | OSR-Pi25 | FND:line-4-support-000000546300 | FND:line-4-support-000000571300 | line-4-run-0002-span-0001 |
+| line-4-front-1 | 4 | line-4-run-0003-span-0002 | OSR-Pi25 | FND:line-4-support-000000571300 | FND:line-4-support-000000596300 | line-4-run-0003-span-0001 |
+| line-4-front-1 | 5 | line-4-run-0004-span-0001 | OSR-Pi25 | FND:line-4-support-000000642800 | FND:line-4-support-000000667800 | line-4-run-0003-span-0002 |
+| line-4-front-1 | 6 | line-4-run-0004-span-0002 | OSR-Pi20 | FND:line-4-support-000000667800 | FND:line-4-support-000000687800 | line-4-run-0004-span-0001 |
+| line-4-front-2 | 1 | line-4-run-0053-span-0002 | OSR-Pi20 | FND:line-4-support-000041129000 | FND:line-4-support-000041149000 | mobilisation |
+| line-4-front-2 | 2 | line-4-run-0053-span-0001 | OSR-Pi20 | FND:line-4-support-000041109000 | FND:line-4-support-000041129000 | line-4-run-0053-span-0002 |
+| line-4-front-2 | 3 | line-4-run-0052-span-0001 | OSR-Pi20 | FND:line-4-support-000040884100 | FND:line-4-support-000040904100 | line-4-run-0053-span-0001 |
+| line-4-front-2 | 4 | line-4-run-0051-span-0002 | OSR-Pi20 | FND:line-4-support-000040393100 | FND:line-4-support-000040413100 | line-4-run-0052-span-0001 |
+| line-4-front-2 | 5 | line-4-run-0051-span-0001 | OSR-Pi25 | FND:line-4-support-000040368100 | FND:line-4-support-000040393100 | line-4-run-0051-span-0002 |
+| line-4-front-2 | 6 | line-4-run-0049-span-0188 | OSR-Pi25 | FND:line-4-support-000039568400 | FND:line-4-support-000039593400 | line-4-run-0051-span-0001 |
 
 The compressed [span register](span-assembly-register.csv.gz) provides the full sequence, individual beam IDs, predecessors and junction holds. [Stage library](assembly-stage-library.json) supplies the method dependencies. [Front package](launcher-fronts.json) lists every assigned span and actual disconnected working interval.
 
 ## Junctions, stations and residential interfaces
 
-Coordinated structural interface IDs on this line: crossing-27b707b08a14, crossing-42edbb5cfef1, crossing-4761735b935e, crossing-6f9463d5811f, crossing-7e391e8f627c, crossing-806de0b806d2, crossing-954a77cefa6e, crossing-a79096d48aef, crossing-dff9d62fd115.
+Coordinated structural interface IDs on this line: crossing-27b707b08a14, crossing-42edbb5cfef1, crossing-4761735b935e, crossing-69a6a5b5c4a4, crossing-6f9463d5811f, crossing-954a77cefa6e, crossing-a79096d48aef, crossing-dff9d62fd115.
 
 Evaluate grade-separated crossings, shared four-track civil footprints or separate deck levels, and bounded platform/concourse/access complexes with the station authority. Freeze actual vertical profiles and gradients before selecting supports and ordinary spans. Preserve rail/PSD/egress/waterproofing/earthing interfaces. Proposed residential infill sites on this line require station/approach structures and revised service, fleet, power and full installed prices; they are not existing paid journeys.
 
-Candidate infill IDs: infill-line-4-028000, infill-line-4-005500, infill-line-4-036500, infill-line-4-002000, infill-line-4-013500.
+Candidate infill IDs: infill-line-4-028000, infill-line-4-022000, infill-line-4-037000, infill-line-4-024000, infill-line-4-017000.
 
 ## Inspection, handover and programme
 

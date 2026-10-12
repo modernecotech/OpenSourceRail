@@ -2,12 +2,12 @@
 
 Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.
 
-Route length 97.684 km. 2,241 unique proposed support packets; 2,090 identified catalogue bay assemblies and 68 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
+Route length 97.684 km. 2,423 unique proposed support packets; 2,280 identified catalogue bay assemblies and 61 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
 
 | Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |
 |---|---|---|---:|---:|---:|
-| line-9-front-1 | launcher-17 | initial mobilisation | 1 | 0.0 | 1045 |
-| line-9-front-2 | launcher-18 | initial mobilisation | -1 | 97660.1 | 1045 |
+| line-9-front-1 | launcher-17 | initial mobilisation | 1 | 0.0 | 1140 |
+| line-9-front-2 | launcher-18 | initial mobilisation | -1 | 97660.1 | 1140 |
 
 ## Foundation workface plan
 
@@ -35,22 +35,22 @@ Run boundaries, stations and specials require a passage or dismantle/transport/r
 | line-9-front-1 | 4 | line-9-run-0001-span-0004 | OSR-Pi25 | FND:line-9-support-000000075000 | FND:line-9-support-000000100000 | line-9-run-0001-span-0003 |
 | line-9-front-1 | 5 | line-9-run-0001-span-0005 | OSR-Pi25 | FND:line-9-support-000000100000 | FND:line-9-support-000000125000 | line-9-run-0001-span-0004 |
 | line-9-front-1 | 6 | line-9-run-0001-span-0006 | OSR-Pi25 | FND:line-9-support-000000125000 | FND:line-9-support-000000150000 | line-9-run-0001-span-0005 |
-| line-9-front-2 | 1 | line-9-run-0084-span-0006 | OSR-Pi20 | FND:line-9-support-000097640100 | FND:line-9-support-000097660100 | mobilisation |
-| line-9-front-2 | 2 | line-9-run-0084-span-0005 | OSR-Pi20 | FND:line-9-support-000097620100 | FND:line-9-support-000097640100 | line-9-run-0084-span-0006 |
-| line-9-front-2 | 3 | line-9-run-0084-span-0004 | OSR-Pi25 | FND:line-9-support-000097595100 | FND:line-9-support-000097620100 | line-9-run-0084-span-0005 |
-| line-9-front-2 | 4 | line-9-run-0084-span-0003 | OSR-Pi25 | FND:line-9-support-000097570100 | FND:line-9-support-000097595100 | line-9-run-0084-span-0004 |
-| line-9-front-2 | 5 | line-9-run-0084-span-0002 | OSR-Pi25 | FND:line-9-support-000097545100 | FND:line-9-support-000097570100 | line-9-run-0084-span-0003 |
-| line-9-front-2 | 6 | line-9-run-0084-span-0001 | OSR-Pi25 | FND:line-9-support-000097520100 | FND:line-9-support-000097545100 | line-9-run-0084-span-0002 |
+| line-9-front-2 | 1 | line-9-run-0083-span-0006 | OSR-Pi20 | FND:line-9-support-000097640100 | FND:line-9-support-000097660100 | mobilisation |
+| line-9-front-2 | 2 | line-9-run-0083-span-0005 | OSR-Pi20 | FND:line-9-support-000097620100 | FND:line-9-support-000097640100 | line-9-run-0083-span-0006 |
+| line-9-front-2 | 3 | line-9-run-0083-span-0004 | OSR-Pi25 | FND:line-9-support-000097595100 | FND:line-9-support-000097620100 | line-9-run-0083-span-0005 |
+| line-9-front-2 | 4 | line-9-run-0083-span-0003 | OSR-Pi25 | FND:line-9-support-000097570100 | FND:line-9-support-000097595100 | line-9-run-0083-span-0004 |
+| line-9-front-2 | 5 | line-9-run-0083-span-0002 | OSR-Pi25 | FND:line-9-support-000097545100 | FND:line-9-support-000097570100 | line-9-run-0083-span-0003 |
+| line-9-front-2 | 6 | line-9-run-0083-span-0001 | OSR-Pi25 | FND:line-9-support-000097520100 | FND:line-9-support-000097545100 | line-9-run-0083-span-0002 |
 
 The compressed [span register](span-assembly-register.csv.gz) provides the full sequence, individual beam IDs, predecessors and junction holds. [Stage library](assembly-stage-library.json) supplies the method dependencies. [Front package](launcher-fronts.json) lists every assigned span and actual disconnected working interval.
 
 ## Junctions, stations and residential interfaces
 
-Coordinated structural interface IDs on this line: crossing-1c3badfbb529, crossing-1fc40bbf9e02, crossing-3ba74f14bd23, crossing-3cb62e414f17, crossing-49308c97463a, crossing-49db68457116, crossing-4e4707f7a13b, crossing-526dbc821706, crossing-6644faf065db, crossing-80b4593a8386, crossing-86eb625bd399, crossing-92b255c18da1, crossing-954a77cefa6e, crossing-a79096d48aef, crossing-c15126eb0d40, crossing-c6c859f1b2b3, crossing-c7d529a495dc, crossing-ceea9895589b, crossing-d02bcca1ecd2, crossing-d6bef73aa65f, shared-corridor-481ca8ac8acb, shared-corridor-5c1c3ab579e9, shared-corridor-5c4a28d77910.
+Coordinated structural interface IDs on this line: crossing-1c3badfbb529, crossing-1fc40bbf9e02, crossing-3ba74f14bd23, crossing-4e4707f7a13b, crossing-526dbc821706, crossing-532e0b6bb63c, crossing-6644faf065db, crossing-80b4593a8386, crossing-86eb625bd399, crossing-92b255c18da1, crossing-954a77cefa6e, crossing-a79096d48aef, crossing-c15126eb0d40, crossing-c4ea0b93414e, crossing-c6c859f1b2b3, crossing-c7d529a495dc, crossing-d02bcca1ecd2, shared-corridor-481ca8ac8acb, shared-corridor-5c1c3ab579e9.
 
 Evaluate grade-separated crossings, shared four-track civil footprints or separate deck levels, and bounded platform/concourse/access complexes with the station authority. Freeze actual vertical profiles and gradients before selecting supports and ordinary spans. Preserve rail/PSD/egress/waterproofing/earthing interfaces. Proposed residential infill sites on this line require station/approach structures and revised service, fleet, power and full installed prices; they are not existing paid journeys.
 
-Candidate infill IDs: infill-line-9-011500, infill-line-9-075000, infill-line-9-007500, infill-line-9-002000, infill-line-9-058000, infill-line-9-026500, infill-line-9-037000, infill-line-9-022500, infill-line-9-092500, infill-line-9-005000.
+Candidate infill IDs: infill-line-9-014500, infill-line-9-012000, infill-line-9-087500, infill-line-9-079000, infill-line-9-073500, infill-line-9-092000, infill-line-9-023000, infill-line-9-075000.
 
 ## Inspection, handover and programme
 

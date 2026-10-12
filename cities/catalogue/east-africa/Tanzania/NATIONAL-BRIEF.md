@@ -3,7 +3,7 @@
 This page contains only Tanzania-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$57.96 B (88.1%) of external capital** and **$72.65 B of external interest**. Capital plus saved interest totals **$130.61 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$41.29 B (88.3%) of external capital** and **$51.76 B of external interest**. Capital plus saved interest totals **$93.05 B**.
 
 ## National Programme
 
@@ -11,60 +11,60 @@ This page contains only Tanzania-specific aggregation. Shared network, service, 
 |---|---:|
 | Catalogue cities | 15 |
 | Represented population | 13,854,689 |
-| Trainsets / vehicle modules | 4,667 / 18,579 |
-| City infrastructure and fleet CAPEX | $35.60 B |
-| Shared national factory | $869.8 M |
-| Factory sizing basis | 9,492 modules for Dar Es Salaam, then reused nationally |
-| **Total national programme** | **$36.53 B** |
+| Trainsets / vehicle modules | 2,918 / 11,768 |
+| City infrastructure and fleet CAPEX | $25.00 B |
+| Shared national factory | $910.8 M |
+| Factory sizing basis | 6,318 modules for Dar Es Salaam, then reused nationally |
+| **Total national programme** | **$25.98 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $7.79 B (21.3%) |
-| Domestic / local capital | $28.73 B (78.7%) |
-| Annual external capital draw | $1.11 B / yr |
-| Annual local capital draw | $4.10 B / yr |
-| Annual public construction commitment | $3.36 B / yr for 7 years |
-| Annual post-grace debt service | $2.76 B / yr |
-| Default foreign-turnkey external capital | $65.75 B |
-| External capital saved | $57.96 B |
-| Capital + lifetime external interest saved | $130.61 B |
+| Imported / external capital | $5.47 B (21.1%) |
+| Domestic / local capital | $20.51 B (78.9%) |
+| Annual external capital draw | $781.6 M / yr |
+| Annual local capital draw | $2.93 B / yr |
+| Annual public construction commitment | $2.39 B / yr for 7 years |
+| Annual post-grace debt service | $1.96 B / yr |
+| Default foreign-turnkey external capital | $46.76 B |
+| External capital saved | $41.29 B |
+| Capital + lifetime external interest saved | $93.05 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $16.12 B | $2.42 B | $13.70 B |
-| Stations | $7.11 B | $1.42 B | $5.69 B |
-| Depots | $2.94 B | $734.7 M | $2.20 B |
-| Rolling stock | $5.31 B | $1.86 B | $3.45 B |
-| Dedicated solar plants | $1.53 B | $687.6 M | $840.4 M |
-| Residual train control | $86.5 M | $43.2 M | $43.2 M |
-| Charging microgrids | $276.8 M | $110.7 M | $166.1 M |
-| EPC / project services | $2.29 B | $343.4 M | $1.95 B |
-| Shared national trainset factory | $869.8 M | $174.0 M | $695.8 M |
-| **Total** | **$36.53 B** | **$7.79 B** | **$28.73 B** |
+| Civil works | $12.78 B | $1.92 B | $10.87 B |
+| Stations | $4.18 B | $836.2 M | $3.34 B |
+| Depots | $1.44 B | $361.1 M | $1.08 B |
+| Rolling stock | $3.36 B | $1.18 B | $2.19 B |
+| Dedicated solar plants | $1.46 B | $655.6 M | $801.3 M |
+| Residual train control | $67.4 M | $33.7 M | $33.7 M |
+| Charging microgrids | $168.9 M | $67.6 M | $101.4 M |
+| EPC / project services | $1.60 B | $240.6 M | $1.36 B |
+| Shared national trainset factory | $910.8 M | $182.2 M | $728.6 M |
+| **Total** | **$25.98 B** | **$5.47 B** | **$20.51 B** |
 
 ## City Programme
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Dar Es Salaam](Dar-Es-Salaam/README.md) | 7,404,689 | 1,582 | $15.34 B | $3.48 B | $11.86 B |
-| [Mwanza](Mwanza/README.md) | 1,100,000 | 595 | $5.24 B | $1.11 B | $4.13 B |
-| [Dodoma](Dodoma/README.md) | 800,000 | 314 | $1.79 B | $364.2 M | $1.42 B |
-| [Arusha](Arusha/README.md) | 700,000 | 390 | $2.14 B | $440.9 M | $1.70 B |
-| [Mbeya](Mbeya/README.md) | 550,000 | 292 | $1.62 B | $334.4 M | $1.29 B |
-| [Morogoro](Morogoro/README.md) | 500,000 | 308 | $1.83 B | $377.4 M | $1.45 B |
-| [Zanzibar City](Zanzibar-City/README.md) | 500,000 | 225 | $1.24 B | $260.5 M | $977.3 M |
-| [Tanga](Tanga/README.md) | 400,000 | 198 | $1.16 B | $240.9 M | $918.4 M |
-| [Kigoma](Kigoma/README.md) | 300,000 | 124 | $852.1 M | $163.6 M | $688.5 M |
-| [Moshi](Moshi/README.md) | 300,000 | 148 | $1.06 B | $199.9 M | $855.6 M |
-| [Tabora](Tabora/README.md) | 300,000 | 94 | $606.0 M | $117.3 M | $488.7 M |
-| [Iringa](Iringa/README.md) | 250,000 | 112 | $811.7 M | $154.6 M | $657.0 M |
-| [Shinyanga](Shinyanga/README.md) | 250,000 | 147 | $1.01 B | $192.4 M | $821.2 M |
-| [Songea](Songea/README.md) | 250,000 | 68 | $450.1 M | $87.6 M | $362.4 M |
-| [Sumbawanga](Sumbawanga/README.md) | 250,000 | 70 | $453.8 M | $89.6 M | $364.2 M |
+| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Dar Es Salaam](Dar-Es-Salaam/README.md) | 7,404,689 | 1,053 | $12.15 B | $2.69 B | $9.46 B | 14 | 5 | 44.3% | 45.5% |
+| [Mwanza](Mwanza/README.md) | 1,100,000 | 298 | $3.44 B | $700.5 M | $2.74 B | 9 | 3 | 50.2% | 43.9% |
+| [Dodoma](Dodoma/README.md) | 800,000 | 182 | $1.00 B | $205.4 M | $795.9 M | 5 | 2 | 32.4% | 36.8% |
+| [Arusha](Arusha/README.md) | 700,000 | 218 | $1.18 B | $242.0 M | $936.0 M | 4 | 1 | 33.7% | 37.0% |
+| [Mbeya](Mbeya/README.md) | 550,000 | 182 | $983.0 M | $202.8 M | $780.1 M | 5 | 2 | 37.4% | 37.3% |
+| [Morogoro](Morogoro/README.md) | 500,000 | 178 | $1.05 B | $216.7 M | $831.2 M | 5 | 2 | 30.7% | 36.1% |
+| [Zanzibar City](Zanzibar-City/README.md) | 500,000 | 186 | $1.04 B | $218.1 M | $819.4 M | 5 | 2 | 40.2% | 37.7% |
+| [Tanga](Tanga/README.md) | 400,000 | 178 | $1.02 B | $213.8 M | $808.6 M | 5 | 2 | 29.3% | 48.7% |
+| [Kigoma](Kigoma/README.md) | 300,000 | 75 | $522.2 M | $99.4 M | $422.8 M | 4 | 1 | 44.4% | 45.4% |
+| [Moshi](Moshi/README.md) | 300,000 | 79 | $623.8 M | $116.0 M | $507.8 M | 4 | 1 | 28.8% | 38.9% |
+| [Tabora](Tabora/README.md) | 300,000 | 65 | $458.3 M | $87.5 M | $370.8 M | 4 | 1 | 38.4% | 48.5% |
+| [Iringa](Iringa/README.md) | 250,000 | 86 | $622.3 M | $118.3 M | $503.9 M | 4 | 1 | 51.2% | 49.9% |
+| [Shinyanga](Shinyanga/README.md) | 250,000 | 77 | $512.3 M | $95.5 M | $416.8 M | 4 | 1 | 38.9% | 43.5% |
+| [Songea](Songea/README.md) | 250,000 | 29 | $184.7 M | $35.3 M | $149.4 M | 2 | 0 | 24.3% | 24.3% |
+| [Sumbawanga](Sumbawanga/README.md) | 250,000 | 32 | $219.0 M | $42.9 M | $176.1 M | 3 | 0 | 42.4% | 42.4% |
 
 ## Local Basis And Regeneration
 
@@ -78,23 +78,5 @@ python3 tools/automation/generate-national-briefs.py
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Arusha](Arusha/README.md) | 18 | 15 | 33.7% | 72.4% |
-| [Dar Es Salaam](Dar-Es-Salaam/README.md) | 38 | 29 | 44.3% | 80.6% |
-| [Dodoma](Dodoma/README.md) | 14 | 11 | 32.4% | 73.7% |
-| [Iringa](Iringa/README.md) | 7 | 4 | 51.2% | 77.3% |
-| [Kigoma](Kigoma/README.md) | 7 | 4 | 44.4% | 79.1% |
-| [Mbeya](Mbeya/README.md) | 12 | 9 | 37.4% | 78.3% |
-| [Morogoro](Morogoro/README.md) | 12 | 9 | 30.7% | 71.2% |
-| [Moshi](Moshi/README.md) | 9 | 6 | 28.8% | 65.4% |
-| [Mwanza](Mwanza/README.md) | 20 | 14 | 50.2% | 82.1% |
-| [Shinyanga](Shinyanga/README.md) | 9 | 6 | 38.9% | 74.7% |
-| [Songea](Songea/README.md) | 5 | 3 | 24.3% | 66.9% |
-| [Sumbawanga](Sumbawanga/README.md) | 6 | 3 | 42.4% | 67.2% |
-| [Tabora](Tabora/README.md) | 6 | 3 | 38.4% | 74.7% |
-| [Tanga](Tanga/README.md) | 7 | 4 | 29.3% | 78.0% |
-| [Zanzibar City](Zanzibar-City/README.md) | 9 | 6 | 40.2% | 79.5% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

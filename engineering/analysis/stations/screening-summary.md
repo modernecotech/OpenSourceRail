@@ -14,8 +14,8 @@ reproducible engineering screens, not construction release or authority approval
 | Structure | OpenSeesPy 3.8.0.0 | 22 m shared canopy truss, gravity + uplift | PASS | Site loads, 3D stability, joints, foundations and code combinations |
 | Passenger flow | JuPedSim 1.4.2 | normal, degraded and egress route for 7 variants | PASS | Calibrated demand, conflicts, assisted evacuation and authority criteria |
 | Roof drainage | EPA SWMM via PySWMM 2.1.0 | 7 canopy catchments, 75 mm/h input storm | PASS | Local rainfall, survey, tailwater, blockage and exceedance |
-| Depot thermal | EnergyPlus | baseline room + separated/cooled controls-room comparison | mitigation-screen-pass | Project climate, supplier losses, detailed HVAC, controls and commissioning |
-| Depot fire | FDS | enclosed room + separated/open compound comparison at prescribed 250 kW | mitigation-screen-pass | Supplier fire data, separation/wind cases, suppression and fire-engineer acceptance |
+| Depot thermal | EnergyPlus | baseline room + separated/cooled controls-room comparison | input-prepared | Project climate, supplier losses, detailed HVAC, controls and commissioning |
+| Depot fire | FDS | enclosed room + separated/open compound comparison at prescribed 250 kW | input-prepared | Supplier fire data, separation/wind cases, suppression and fire-engineer acceptance |
 
 ## Structural cases
 
@@ -52,11 +52,6 @@ runoff volume/peak, conduit peak, continuity and no flooding are separate pass g
 | `interchange-elevated` | 3348.0 m² / 32 | 2.18 / 69.75 | 69.75 | 25.00 / -0.046 | 0.031 | PASS |
 | `terminal` | 2561.0 m² / 31 | 1.72 / 53.35 | 53.35 | 25.00 / -0.025 | 0.028 | PASS |
 | `depot-terminal` | 1626.0 m² / 26 | 1.30 / 33.88 | 33.88 | 25.00 / -0.004 | 0.024 | PASS |
-
-## Depot thermal and fire design response
-
-- EnergyPlus baseline: **52.6 °C** (FAIL) with charger losses indoors and ventilation only. Proposed response: move charger power stages outdoors, retain a 10 kW controls/switchgear load in a cooled room, and install 2 × 30 kW packaged DX units (one duty, one standby). The one-unit-available screen reaches **35.0 °C**, draws at most **13.4 kW** and passes the 40 °C screen.
-- FDS enclosed-room baseline: **170.9 °C / 1.0 m visibility** (FAIL). In the proposed physically separated, open-sided charging compound, the same prescribed ~251 kW source gives **21.0 °C / 30.0 m** at the screening devices and passes the provisional 60 °C / 10 m comparison. This is a layout screen, not a fire strategy or battery propagation approval.
 
 ## Release boundary
 

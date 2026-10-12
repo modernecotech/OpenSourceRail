@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6202**.
+Indexed Markdown files: **6199**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6202**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 224 |
-| [engineering](#engineering) | 57 |
+| [engineering](#engineering) | 54 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -4267,7 +4267,7 @@ Indexed Markdown files: **6202**.
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/SIX-CAR-BASELINE.md) | Baghdad controlled six-car planning product |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md) | Baghdad workload, recruitment and competence pilot |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/CORRIDOR-COMPARISON.md) | Comparable standalone opening corridors |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md) | 17 depot/storage design studies and Iraqi slab manufacture |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEPOTS-SLAB-MANUFACTURE.md) | 14 depot/storage design studies and Iraqi slab manufacture |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEVELOPMENT-TRAINING.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/DEVELOPMENT-TRAINING.md) | Development leadership and training mobilisation |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FIELD-WORK-PACKETS.md) | Field investigations, quotations and actual appointments |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-closure/FINANCE-RECONCILIATION.md) | Delivery-cost financial reconciliation |
@@ -6260,9 +6260,6 @@ Indexed Markdown files: **6202**.
 | [`engineering/network-planning/baghdad/line-12-construction-plan.md`](../engineering/network-planning/baghdad/line-12-construction-plan.md) | line-12 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-13-construction-plan.md`](../engineering/network-planning/baghdad/line-13-construction-plan.md) | line-13 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-14-construction-plan.md`](../engineering/network-planning/baghdad/line-14-construction-plan.md) | line-14 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-15-construction-plan.md`](../engineering/network-planning/baghdad/line-15-construction-plan.md) | line-15 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-16-construction-plan.md`](../engineering/network-planning/baghdad/line-16-construction-plan.md) | line-16 — foundation and assembly construction plan |
-| [`engineering/network-planning/baghdad/line-17-construction-plan.md`](../engineering/network-planning/baghdad/line-17-construction-plan.md) | line-17 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-2-construction-plan.md`](../engineering/network-planning/baghdad/line-2-construction-plan.md) | line-2 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-3-construction-plan.md`](../engineering/network-planning/baghdad/line-3-construction-plan.md) | line-3 — foundation and assembly construction plan |
 | [`engineering/network-planning/baghdad/line-4-construction-plan.md`](../engineering/network-planning/baghdad/line-4-construction-plan.md) | line-4 — foundation and assembly construction plan |

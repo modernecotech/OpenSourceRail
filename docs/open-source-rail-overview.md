@@ -14,7 +14,7 @@ developing-world planning models estimate 79% domestic
 value; all values remain planning sensitivities rather than bids or funding
 commitments.
 
-| about $381B | 265 cities | $900k | 120 rows |
+| about $488B | 265 cities | $900k | 120 rows |
 |---|---|---|---|
 | Roughly 79% modeled domestic value across 44 country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record $885k | Traceable LM3 parts and assemblies with visible supplier and release gaps |
 

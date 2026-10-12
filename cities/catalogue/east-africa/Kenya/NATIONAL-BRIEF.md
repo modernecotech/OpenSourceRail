@@ -3,7 +3,7 @@
 This page contains only Kenya-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$63.82 B (88.1%) of external capital** and **$80.01 B of external interest**. Capital plus saved interest totals **$143.83 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$44.42 B (88.3%) of external capital** and **$55.69 B of external interest**. Capital plus saved interest totals **$100.11 B**.
 
 ## National Programme
 
@@ -11,60 +11,60 @@ This page contains only Kenya-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 15 |
 | Represented population | 11,750,000 |
-| Trainsets / vehicle modules | 5,304 / 20,543 |
-| City infrastructure and fleet CAPEX | $39.31 B |
-| Shared national factory | $868.2 M |
-| Factory sizing basis | 10,524 modules for Nairobi, then reused nationally |
-| **Total national programme** | **$40.24 B** |
+| Trainsets / vehicle modules | 3,181 / 12,630 |
+| City infrastructure and fleet CAPEX | $27.14 B |
+| Shared national factory | $750.0 M |
+| Factory sizing basis | 6,768 modules for Nairobi, then reused nationally |
+| **Total national programme** | **$27.95 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $8.61 B (21.4%) |
-| Domestic / local capital | $31.63 B (78.6%) |
-| Annual external capital draw | $1.23 B / yr |
-| Annual local capital draw | $4.52 B / yr |
-| Annual public construction commitment | $4.20 B / yr for 7 years |
-| Annual post-grace debt service | $3.50 B / yr |
-| Default foreign-turnkey external capital | $72.43 B |
-| External capital saved | $63.82 B |
-| Capital + lifetime external interest saved | $143.83 B |
+| Imported / external capital | $5.88 B (21.1%) |
+| Domestic / local capital | $22.06 B (78.9%) |
+| Annual external capital draw | $840.5 M / yr |
+| Annual local capital draw | $3.15 B / yr |
+| Annual public construction commitment | $2.92 B / yr for 7 years |
+| Annual post-grace debt service | $2.43 B / yr |
+| Default foreign-turnkey external capital | $50.31 B |
+| External capital saved | $44.42 B |
+| Capital + lifetime external interest saved | $100.11 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $17.67 B | $2.65 B | $15.02 B |
-| Stations | $7.92 B | $1.58 B | $6.34 B |
-| Depots | $3.25 B | $811.4 M | $2.43 B |
-| Rolling stock | $5.84 B | $2.05 B | $3.80 B |
-| Dedicated solar plants | $1.73 B | $779.8 M | $953.1 M |
-| Residual train control | $100.5 M | $50.3 M | $50.3 M |
-| Charging microgrids | $334.7 M | $133.9 M | $200.8 M |
-| EPC / project services | $2.52 B | $377.9 M | $2.14 B |
-| Shared national trainset factory | $868.2 M | $173.6 M | $694.6 M |
-| **Total** | **$40.24 B** | **$8.61 B** | **$31.63 B** |
+| Civil works | $13.81 B | $2.07 B | $11.74 B |
+| Stations | $4.71 B | $942.1 M | $3.77 B |
+| Depots | $1.51 B | $377.2 M | $1.13 B |
+| Rolling stock | $3.59 B | $1.26 B | $2.33 B |
+| Dedicated solar plants | $1.58 B | $711.3 M | $869.4 M |
+| Residual train control | $73.9 M | $37.0 M | $37.0 M |
+| Charging microgrids | $198.1 M | $79.2 M | $118.9 M |
+| EPC / project services | $1.72 B | $258.7 M | $1.47 B |
+| Shared national trainset factory | $750.0 M | $150.0 M | $600.0 M |
+| **Total** | **$27.95 B** | **$5.88 B** | **$22.06 B** |
 
 ## City Programme
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Nairobi](Nairobi/README.md) | 5,700,000 | 1,754 | $15.45 B | $3.59 B | $11.86 B |
-| [Mombasa](Mombasa/README.md) | 1,350,000 | 690 | $6.79 B | $1.42 B | $5.38 B |
-| [Nakuru](Nakuru/README.md) | 700,000 | 343 | $1.77 B | $369.2 M | $1.40 B |
-| [Kisumu](Kisumu/README.md) | 600,000 | 306 | $1.75 B | $363.7 M | $1.39 B |
-| [Eldoret](Eldoret/README.md) | 500,000 | 400 | $2.15 B | $443.3 M | $1.70 B |
-| [Thika](Thika/README.md) | 350,000 | 490 | $2.43 B | $524.6 M | $1.90 B |
-| [Garissa](Garissa/README.md) | 300,000 | 84 | $561.8 M | $108.1 M | $453.7 M |
-| [Kakamega](Kakamega/README.md) | 300,000 | 201 | $1.27 B | $245.5 M | $1.02 B |
-| [Kisii](Kisii/README.md) | 300,000 | 96 | $624.7 M | $121.2 M | $503.6 M |
-| [Kitale](Kitale/README.md) | 300,000 | 195 | $1.31 B | $251.5 M | $1.05 B |
-| [Machakos](Machakos/README.md) | 300,000 | 123 | $820.0 M | $158.3 M | $661.8 M |
-| [Malindi](Malindi/README.md) | 300,000 | 123 | $857.5 M | $163.8 M | $693.6 M |
-| [Meru Ke](Meru-Ke/README.md) | 250,000 | 124 | $988.7 M | $183.5 M | $805.3 M |
-| [Naivasha](Naivasha/README.md) | 250,000 | 191 | $1.25 B | $241.1 M | $1.01 B |
-| [Nyeri](Nyeri/README.md) | 250,000 | 184 | $1.29 B | $244.8 M | $1.05 B |
+| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Nairobi](Nairobi/README.md) | 5,700,000 | 1,128 | $11.72 B | $2.65 B | $9.07 B | 14 | 5 | 39.3% | 38.4% |
+| [Mombasa](Mombasa/README.md) | 1,350,000 | 423 | $5.18 B | $1.05 B | $4.13 B | 9 | 3 | 49.5% | 48.0% |
+| [Nakuru](Nakuru/README.md) | 700,000 | 202 | $1.09 B | $225.1 M | $865.8 M | 5 | 2 | 28.0% | 48.0% |
+| [Kisumu](Kisumu/README.md) | 600,000 | 191 | $1.08 B | $224.0 M | $851.2 M | 5 | 2 | 26.2% | 32.4% |
+| [Eldoret](Eldoret/README.md) | 500,000 | 261 | $1.45 B | $302.6 M | $1.15 B | 5 | 2 | 33.1% | 44.0% |
+| [Thika](Thika/README.md) | 350,000 | 256 | $1.34 B | $284.9 M | $1.05 B | 5 | 2 | 28.8% | 29.0% |
+| [Garissa](Garissa/README.md) | 300,000 | 57 | $394.6 M | $74.9 M | $319.7 M | 4 | 1 | 55.0% | 61.8% |
+| [Kakamega](Kakamega/README.md) | 300,000 | 98 | $754.4 M | $141.2 M | $613.1 M | 4 | 1 | 31.8% | 35.7% |
+| [Kisii](Kisii/README.md) | 300,000 | 69 | $512.2 M | $95.9 M | $416.3 M | 4 | 1 | 21.4% | 26.4% |
+| [Kitale](Kitale/README.md) | 300,000 | 99 | $727.1 M | $137.5 M | $589.6 M | 4 | 1 | 15.9% | 37.1% |
+| [Machakos](Machakos/README.md) | 300,000 | 68 | $480.0 M | $89.2 M | $390.8 M | 4 | 1 | 28.4% | 34.7% |
+| [Malindi](Malindi/README.md) | 300,000 | 68 | $497.2 M | $92.9 M | $404.4 M | 4 | 1 | 41.1% | 48.8% |
+| [Meru Ke](Meru-Ke/README.md) | 250,000 | 65 | $473.8 M | $87.8 M | $386.0 M | 4 | 1 | 25.7% | 30.3% |
+| [Naivasha](Naivasha/README.md) | 250,000 | 110 | $796.6 M | $150.5 M | $646.1 M | 4 | 1 | 49.3% | 45.5% |
+| [Nyeri](Nyeri/README.md) | 250,000 | 86 | $656.4 M | $122.4 M | $534.0 M | 4 | 1 | 29.0% | 30.5% |
 
 ## Local Basis And Regeneration
 
@@ -78,23 +78,5 @@ python3 tools/automation/generate-national-briefs.py
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Eldoret](Eldoret/README.md) | 16 | 13 | 33.1% | 75.9% |
-| [Garissa](Garissa/README.md) | 6 | 3 | 55.0% | 80.7% |
-| [Kakamega](Kakamega/README.md) | 11 | 8 | 31.8% | 59.3% |
-| [Kisii](Kisii/README.md) | 7 | 4 | 21.4% | 41.1% |
-| [Kisumu](Kisumu/README.md) | 12 | 9 | 26.2% | 70.9% |
-| [Kitale](Kitale/README.md) | 13 | 10 | 15.9% | 68.9% |
-| [Machakos](Machakos/README.md) | 8 | 5 | 28.4% | 56.7% |
-| [Malindi](Malindi/README.md) | 8 | 5 | 41.1% | 70.1% |
-| [Meru Ke](Meru-Ke/README.md) | 9 | 6 | 25.7% | 54.9% |
-| [Mombasa](Mombasa/README.md) | 17 | 11 | 49.5% | 83.5% |
-| [Nairobi](Nairobi/README.md) | 41 | 32 | 39.3% | 80.3% |
-| [Naivasha](Naivasha/README.md) | 10 | 7 | 49.3% | 78.1% |
-| [Nakuru](Nakuru/README.md) | 13 | 10 | 28.0% | 75.4% |
-| [Nyeri](Nyeri/README.md) | 10 | 7 | 29.0% | 66.1% |
-| [Thika](Thika/README.md) | 15 | 12 | 28.8% | 65.7% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

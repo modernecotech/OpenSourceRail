@@ -3,7 +3,7 @@
 This page contains only Cambodia-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$13.28 B (88.6%) of external capital** and **$16.65 B of external interest**. Capital plus saved interest totals **$29.93 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$9.65 B (88.7%) of external capital** and **$12.09 B of external interest**. Capital plus saved interest totals **$21.74 B**.
 
 ## National Programme
 
@@ -11,46 +11,46 @@ This page contains only Cambodia-specific aggregation. Shared network, service, 
 |---|---:|
 | Catalogue cities | 1 |
 | Represented population | 2,281,000 |
-| Trainsets / vehicle modules | 828 / 3,312 |
-| City infrastructure and fleet CAPEX | $8.08 B |
-| Shared national factory | $232.2 M |
-| Factory sizing basis | 3,312 modules for Phnom Penh, then reused nationally |
-| **Total national programme** | **$8.33 B** |
+| Trainsets / vehicle modules | 515 / 2,060 |
+| City infrastructure and fleet CAPEX | $5.67 B |
+| Shared national factory | $351.7 M |
+| Factory sizing basis | 2,060 modules for Phnom Penh, then reused nationally |
+| **Total national programme** | **$6.04 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $1.71 B (20.5%) |
-| Domestic / local capital | $6.62 B (79.5%) |
-| Annual external capital draw | $243.6 M / yr |
-| Annual local capital draw | $945.7 M / yr |
-| Annual public construction commitment | $689.6 M / yr for 7 years |
-| Annual post-grace debt service | $560.1 M / yr |
-| Default foreign-turnkey external capital | $14.99 B |
-| External capital saved | $13.28 B |
-| Capital + lifetime external interest saved | $29.93 B |
+| Imported / external capital | $1.23 B (20.3%) |
+| Domestic / local capital | $4.81 B (79.7%) |
+| Annual external capital draw | $175.4 M / yr |
+| Annual local capital draw | $687.7 M / yr |
+| Annual public construction commitment | $500.9 M / yr for 7 years |
+| Annual post-grace debt service | $406.6 M / yr |
+| Default foreign-turnkey external capital | $10.87 B |
+| External capital saved | $9.65 B |
+| Capital + lifetime external interest saved | $21.74 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $4.14 B | $620.9 M | $3.52 B |
-| Stations | $1.60 B | $319.9 M | $1.28 B |
-| Depots | $448.3 M | $112.1 M | $336.2 M |
-| Rolling stock | $927.4 M | $324.6 M | $602.8 M |
-| Dedicated solar plants | $366.2 M | $164.8 M | $201.4 M |
-| Residual train control | $19.2 M | $9.6 M | $9.6 M |
-| Charging microgrids | $73.0 M | $29.2 M | $43.8 M |
-| EPC / project services | $520.7 M | $78.1 M | $442.6 M |
-| Shared national trainset factory | $232.2 M | $46.4 M | $185.7 M |
-| **Total** | **$8.33 B** | **$1.71 B** | **$6.62 B** |
+| Civil works | $3.08 B | $462.4 M | $2.62 B |
+| Stations | $1.07 B | $213.1 M | $852.4 M |
+| Depots | $203.2 M | $50.8 M | $152.4 M |
+| Rolling stock | $576.8 M | $201.9 M | $374.9 M |
+| Dedicated solar plants | $329.1 M | $148.1 M | $181.0 M |
+| Residual train control | $14.9 M | $7.5 M | $7.5 M |
+| Charging microgrids | $43.7 M | $17.5 M | $26.2 M |
+| EPC / project services | $373.7 M | $56.1 M | $317.6 M |
+| Shared national trainset factory | $351.7 M | $70.3 M | $281.4 M |
+| **Total** | **$6.04 B** | **$1.23 B** | **$4.81 B** |
 
 ## City Programme
 
-| City | Population | Fleet | City CAPEX | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|
-| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 828 | $8.08 B | $1.66 B | $6.42 B |
+| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 515 | $5.67 B | $1.15 B | $4.51 B | 9 | 3 | 34.2% | 44.4% |
 
 ## Local Basis And Regeneration
 
@@ -64,9 +64,5 @@ python3 tools/automation/generate-national-briefs.py
 ## Population-led route regeneration (2026-10-09)
 
 The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.
-
-| City | Current lines | Added residential lines | Original station circles | Current station circles |
-| --- | ---: | ---: | ---: | ---: |
-| [Phnom Penh](Phnom-Penh/README.md) | 25 | 19 | 34.2% | 80.3% |
 
 Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.

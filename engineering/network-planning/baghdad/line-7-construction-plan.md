@@ -2,12 +2,12 @@
 
 Line-specific design-development package; survey, ground, supplier and staged-load releases are still required.
 
-Route length 39.957 km. 820 unique proposed support packets; 767 identified catalogue bay assemblies and 22 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
+Route length 39.957 km. 867 unique proposed support packets; 813 identified catalogue bay assemblies and 21 special packages. Each ordinary bay has two named beam components and both foundation parents. The 25 m average is a sizing basis; actual Pi20/Pi25/closure geometry controls installation.
 
 | Front | Launcher | Previous asset assignment | Direction | Initial assembly chainage m | Bay assemblies |
 |---|---|---|---:|---:|---:|
-| line-7-front-1 | launcher-13 | initial mobilisation | 1 | 3153.1 | 383 |
-| line-7-front-2 | launcher-14 | initial mobilisation | -1 | 39723.4 | 384 |
+| line-7-front-1 | launcher-13 | initial mobilisation | 1 | 1036.6 | 406 |
+| line-7-front-2 | launcher-14 | initial mobilisation | -1 | 39723.9 | 407 |
 
 ## Foundation workface plan
 
@@ -29,18 +29,18 @@ Run boundaries, stations and specials require a passage or dismantle/transport/r
 
 | Front | Sequence | Span | Product | Foundation A | Foundation B | Prior span |
 |---|---:|---|---|---|---|---|
-| line-7-front-1 | 1 | line-7-run-0001-span-0001 | OSR-Pi20 | FND:line-7-support-000003153100 | FND:line-7-support-000003173100 | mobilisation |
-| line-7-front-1 | 2 | line-7-run-0002-span-0001 | OSR-Pi20 | FND:line-7-support-000005093100 | FND:line-7-support-000005113100 | line-7-run-0001-span-0001 |
-| line-7-front-1 | 3 | line-7-run-0004-span-0001 | OSR-Pi20 | FND:line-7-support-000011202200 | FND:line-7-support-000011222200 | line-7-run-0002-span-0001 |
-| line-7-front-1 | 4 | line-7-run-0006-span-0001 | OSR-Pi20 | FND:line-7-support-000013002400 | FND:line-7-support-000013022400 | line-7-run-0004-span-0001 |
-| line-7-front-1 | 5 | line-7-run-0007-span-0001 | OSR-Pi25 | FND:line-7-support-000013227200 | FND:line-7-support-000013252200 | line-7-run-0006-span-0001 |
-| line-7-front-1 | 6 | line-7-run-0007-span-0002 | OSR-Pi20 | FND:line-7-support-000013252200 | FND:line-7-support-000013272200 | line-7-run-0007-span-0001 |
-| line-7-front-2 | 1 | line-7-run-0031-span-0041 | OSR-Pi20 | FND:line-7-support-000039703400 | FND:line-7-support-000039723400 | mobilisation |
-| line-7-front-2 | 2 | line-7-run-0031-span-0040 | OSR-Pi20 | FND:line-7-support-000039683400 | FND:line-7-support-000039703400 | line-7-run-0031-span-0041 |
-| line-7-front-2 | 3 | line-7-run-0031-span-0039 | OSR-Pi20 | FND:line-7-support-000039663400 | FND:line-7-support-000039683400 | line-7-run-0031-span-0040 |
-| line-7-front-2 | 4 | line-7-run-0031-span-0038 | OSR-Pi20 | FND:line-7-support-000039643400 | FND:line-7-support-000039663400 | line-7-run-0031-span-0039 |
-| line-7-front-2 | 5 | line-7-run-0031-span-0037 | OSR-Pi25 | FND:line-7-support-000039618400 | FND:line-7-support-000039643400 | line-7-run-0031-span-0038 |
-| line-7-front-2 | 6 | line-7-run-0031-span-0036 | OSR-Pi25 | FND:line-7-support-000039593400 | FND:line-7-support-000039618400 | line-7-run-0031-span-0037 |
+| line-7-front-1 | 1 | line-7-run-0001-span-0001 | OSR-Pi20 | FND:line-7-support-000001036600 | FND:line-7-support-000001056600 | mobilisation |
+| line-7-front-1 | 2 | line-7-run-0002-span-0001 | OSR-Pi20 | FND:line-7-support-000005141400 | FND:line-7-support-000005161400 | line-7-run-0001-span-0001 |
+| line-7-front-1 | 3 | line-7-run-0003-span-0001 | OSR-Pi20 | FND:line-7-support-000007085100 | FND:line-7-support-000007105100 | line-7-run-0002-span-0001 |
+| line-7-front-1 | 4 | line-7-run-0004-span-0001 | OSR-Pi20 | FND:line-7-support-000011133900 | FND:line-7-support-000011153900 | line-7-run-0003-span-0001 |
+| line-7-front-1 | 5 | line-7-run-0005-span-0001 | OSR-Pi25 | FND:line-7-support-000011173900 | FND:line-7-support-000011198900 | line-7-run-0004-span-0001 |
+| line-7-front-1 | 6 | line-7-run-0006-span-0001 | OSR-Pi20 | FND:line-7-support-000013002400 | FND:line-7-support-000013022400 | line-7-run-0005-span-0001 |
+| line-7-front-2 | 1 | line-7-run-0033-span-0068 | OSR-Pi25 | FND:line-7-support-000039698900 | FND:line-7-support-000039723900 | mobilisation |
+| line-7-front-2 | 2 | line-7-run-0033-span-0067 | OSR-Pi25 | FND:line-7-support-000039673900 | FND:line-7-support-000039698900 | line-7-run-0033-span-0068 |
+| line-7-front-2 | 3 | line-7-run-0033-span-0066 | OSR-Pi25 | FND:line-7-support-000039648900 | FND:line-7-support-000039673900 | line-7-run-0033-span-0067 |
+| line-7-front-2 | 4 | line-7-run-0033-span-0065 | OSR-Pi25 | FND:line-7-support-000039623900 | FND:line-7-support-000039648900 | line-7-run-0033-span-0066 |
+| line-7-front-2 | 5 | line-7-run-0033-span-0064 | OSR-Pi25 | FND:line-7-support-000039598900 | FND:line-7-support-000039623900 | line-7-run-0033-span-0065 |
+| line-7-front-2 | 6 | line-7-run-0033-span-0063 | OSR-Pi25 | FND:line-7-support-000039573900 | FND:line-7-support-000039598900 | line-7-run-0033-span-0064 |
 
 The compressed [span register](span-assembly-register.csv.gz) provides the full sequence, individual beam IDs, predecessors and junction holds. [Stage library](assembly-stage-library.json) supplies the method dependencies. [Front package](launcher-fronts.json) lists every assigned span and actual disconnected working interval.
 
@@ -50,7 +50,7 @@ Coordinated structural interface IDs on this line: crossing-66746bfdc84f, crossi
 
 Evaluate grade-separated crossings, shared four-track civil footprints or separate deck levels, and bounded platform/concourse/access complexes with the station authority. Freeze actual vertical profiles and gradients before selecting supports and ordinary spans. Preserve rail/PSD/egress/waterproofing/earthing interfaces. Proposed residential infill sites on this line require station/approach structures and revised service, fleet, power and full installed prices; they are not existing paid journeys.
 
-Candidate infill IDs: no qualifying candidate under this screen.
+Candidate infill IDs: infill-line-7-035500, infill-line-7-025000.
 
 ## Inspection, handover and programme
 

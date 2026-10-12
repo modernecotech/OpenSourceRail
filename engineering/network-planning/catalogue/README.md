@@ -2,9 +2,9 @@
 
 Controlled planning inventories and actual emitted-station population accounting; field and operating release remain open.
 
-All 266 city designs have a source-bound expansion/evaluation package. 246 inventories contain added lines. Native population evidence is available for 247 and unavailable for 19.
+All 266 city designs have a source-bound expansion/evaluation package. 234 inventories contain added lines. Native population evidence is available for 247 and unavailable for 19.
 
-56 city inventories reach their 80% working station-circle target; every remaining gap is reported. The target is not declared met from proposed sites or a demand score.
+0 city inventories reach their 80% working station-circle target; every remaining gap is reported. The target is not declared met from proposed sites or a demand score.
 
 The [city register](cities.csv) records original/current line counts, added route quantities and actual station-circle fractions. The [country register](countries.csv) counts city programmes and reports the median city fraction; it is not national resident coverage. Population is never summed across potentially overlapping city bboxes. Recorded jurisdiction/source conflicts retain their explicit review gates.
 
