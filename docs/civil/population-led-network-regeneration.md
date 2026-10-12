@@ -8,6 +8,12 @@ New corridors must be at least 4 km long. Additions are limited to half the reta
 
 The network map shows one main junction symbol on an actual platform for each bounded interchange complex, with smaller dots at other platform locations. Connecting strokes identify complex membership schematically; they do not depict surveyed walking paths or rail switches. Platforms and their line chainages remain separate engineering records.
 
+After final junction and bank consolidation, a separate spacing pass restores
+only intervals above the outer 7 km limit, selecting dry cells on the existing
+route. A hard final check includes the closing interval of rings. Local stops
+and mandatory crossing platforms keep their positions; unresolved excess gaps
+stop generation instead of being hidden in a map.
+
 Closed out-and-back excursions on retained radial routes are removed before
 stations and junctions are generated. This preserves the endpoints and uses
 existing route edges, avoiding additional shortcuts through terrain or water.

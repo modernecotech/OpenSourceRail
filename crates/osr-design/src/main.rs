@@ -994,6 +994,17 @@ fn main() -> Result<()> {
         );
     }
     osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    let outer_gap_repairs = osr_routing::fill_outer_station_gaps(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        &bundle.anchors,
+        spacing,
+    );
+    if outer_gap_repairs > 0 {
+        eprintln!("restored {outer_gap_repairs} dry stops after final junction consolidation");
+        osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    }
     let mut layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,
@@ -1007,6 +1018,37 @@ fn main() -> Result<()> {
         &lines,
         &bundle.grid,
     ));
+    for line in &lines {
+        let mut chainages: Vec<_> = all_stations
+            .iter()
+            .filter(|station| station.line_name == line.name)
+            .map(|station| station.s_m)
+            .collect();
+        chainages.sort_by(f64::total_cmp);
+        if matches!(line.shape, osr_routing::LineShape::Ring) {
+            if let Some(first) = chainages.first().copied() {
+                let length: f64 = line
+                    .cells
+                    .windows(2)
+                    .map(|pair| {
+                        (pair[1].0 as f64 - pair[0].0 as f64)
+                            .hypot(pair[1].1 as f64 - pair[0].1 as f64)
+                            * bundle.grid.reference.cell_m
+                    })
+                    .sum();
+                chainages.push(length + first);
+            }
+        }
+        for pair in chainages.windows(2) {
+            if pair[1] - pair[0] > spacing.outer_m + bundle.grid.reference.cell_m {
+                layout_issues.push(format!(
+                    "{} final station interval {:.1} m exceeds the outer spacing cap",
+                    line.name,
+                    pair[1] - pair[0]
+                ));
+            }
+        }
+    }
     if !layout_issues.is_empty() {
         return Err(anyhow!(
             "generated station layout failed hard invariants:\n  - {}",

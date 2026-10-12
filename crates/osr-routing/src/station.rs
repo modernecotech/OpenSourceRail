@@ -1954,6 +1954,29 @@ pub fn fill_large_station_gaps(
     anchors: &[Anchor],
     cfg: SpacingConfig,
 ) -> usize {
+    fill_station_gaps(stations, lines, grid, anchors, cfg, false)
+}
+
+/// Restore the outer spacing cap after final junction and bank consolidation.
+/// Retain local platforms and select only dry cells on the existing route.
+pub fn fill_outer_station_gaps(
+    stations: &mut Vec<Station>,
+    lines: &[Line],
+    grid: &Grid,
+    anchors: &[Anchor],
+    cfg: SpacingConfig,
+) -> usize {
+    fill_station_gaps(stations, lines, grid, anchors, cfg, true)
+}
+
+fn fill_station_gaps(
+    stations: &mut Vec<Station>,
+    lines: &[Line],
+    grid: &Grid,
+    anchors: &[Anchor],
+    cfg: SpacingConfig,
+    outer_only: bool,
+) -> usize {
     if stations.len() < 2 {
         return 0;
     }
@@ -2013,8 +2036,12 @@ pub fn fill_large_station_gaps(
                 .unwrap_or(0);
             let midpoint_demand =
                 grid.demand_at(line.cells[midpoint_index].0, line.cells[midpoint_index].1);
-            let local_target = spacing_for_demand(midpoint_demand, cfg);
-            let repair_threshold = if midpoint_demand < cfg.outer_thr {
+            let local_target = if outer_only {
+                cfg.outer_m
+            } else {
+                spacing_for_demand(midpoint_demand, cfg)
+            };
+            let repair_threshold = if outer_only || midpoint_demand < cfg.outer_thr {
                 cfg.outer_m
             } else {
                 (local_target * 1.25).max(2.0 * cfg.urban_core_m)
@@ -2037,14 +2064,32 @@ pub fn fill_large_station_gaps(
                 let cell_index = cumulative
                     .iter()
                     .enumerate()
+                    .filter(|(index, chainage)| {
+                        if !outer_only {
+                            return true;
+                        }
+                        let unwrapped = if **chainage < start {
+                            **chainage + route_length
+                        } else {
+                            **chainage
+                        };
+                        let cell = line.cells[*index];
+                        !grid.excludes_station_for_water(cell.0, cell.1)
+                            && !occupied.contains(&cell)
+                            && (unwrapped - target).abs() < gap / segment_count as f64 * 0.25
+                            && unwrapped - start >= cfg.urban_core_m
+                            && end - unwrapped >= cfg.urban_core_m
+                    })
                     .min_by(|(_, first), (_, second)| {
                         (*first - wrapped_target)
                             .abs()
                             .partial_cmp(&(*second - wrapped_target).abs())
                             .unwrap_or(std::cmp::Ordering::Equal)
                     })
-                    .map(|(index, _)| index)
-                    .unwrap_or(0);
+                    .map(|(index, _)| index);
+                let Some(cell_index) = cell_index else {
+                    continue;
+                };
                 let cell = line.cells[cell_index];
                 if occupied.insert(cell) {
                     additions.push(make_station(
@@ -2673,6 +2718,41 @@ mod tests {
         let mut chainages: Vec<f64> = stations.iter().map(|station| station.s_m).collect();
         chainages.sort_by(|a, b| a.partial_cmp(b).unwrap());
         assert!(chainages.windows(2).all(|pair| pair[1] - pair[0] <= 5000.0));
+    }
+
+    #[test]
+    fn final_outer_gap_repair_keeps_local_intervals_and_selects_a_dry_route_cell() {
+        let mut grid = uniform_grid(10, 559);
+        grid.demand.fill(1.0);
+        let mut water = vec![0; 10 * 559];
+        water[grid.idx(5, 379)] = 100;
+        grid.water = Some(water);
+        let lines = vec![line(
+            "L1",
+            LineShape::Radial,
+            (0..=558).map(|col| (5, col)).collect(),
+        )];
+        let mut stations: Vec<_> = [0, 200, 558]
+            .into_iter()
+            .map(|col| Station {
+                row: 5,
+                col,
+                s_m: col as f64 * 20.0,
+                mandatory_crossing: true,
+                ..st("L1", 0.0, 0.0)
+            })
+            .collect();
+        assert_eq!(
+            fill_outer_station_gaps(&mut stations, &lines, &grid, &[], SpacingConfig::default()),
+            1
+        );
+        stations.sort_by(|a, b| a.s_m.total_cmp(&b.s_m));
+        assert_eq!(stations[1].s_m, 4000.0);
+        assert!(stations
+            .iter()
+            .all(|s| !grid.excludes_station_for_water(s.row, s.col)));
+        assert!(stations.windows(2).all(|p| p[1].s_m - p[0].s_m <= 7000.0));
+        assert_eq!(stations.iter().filter(|s| s.mandatory_crossing).count(), 3);
     }
 
     #[test]
