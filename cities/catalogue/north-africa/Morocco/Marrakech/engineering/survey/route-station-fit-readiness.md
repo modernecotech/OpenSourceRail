@@ -1,8 +1,8 @@
 # Marrakech route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 15
-- Stations: 156
+- Lines: 9
+- Stations: 128
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

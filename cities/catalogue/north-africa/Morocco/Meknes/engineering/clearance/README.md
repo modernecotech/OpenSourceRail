@@ -2,21 +2,21 @@
 
 **Physical release blocked.** This is a source-bound footprint and terrain screen of the existing planning route, not an obstacle-cleared alignment.
 
-Mapped nearby footprints: **270**; source heights: **0**. Building source: retained; terrain: retained.
+Mapped nearby footprints: **92**; source heights: **0**. Building source: retained; terrain: retained.
 
 | Screen | Status | Count |
 |---|---|---:|
-| Beam/building | ground-collision | 1 |
+| Beam/building | ground-collision | 3 |
 | Beam/building | ground-lateral-clearance-conflict | 1 |
-| Beam/building | height-unresolved | 231 |
-| Beam/building | product-depth-unresolved | 17 |
-| Reference support/foundation | foundation-footprint-conflict | 198 |
-| Reference support/foundation | foundation-setback-conflict | 41 |
-| Reference support/foundation | mapped-footprints-only-clear | 1,881 |
-| Terrain | reference-gradient-exceeded | 1,198 |
-| Terrain | reference-gradient-within-policy | 839 |
-| Unresolved geometry/input | boundary-span-layout-unresolved | 80 |
-| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 39 |
+| Beam/building | height-unresolved | 51 |
+| Beam/building | product-depth-unresolved | 44 |
+| Reference support/foundation | foundation-footprint-conflict | 56 |
+| Reference support/foundation | foundation-setback-conflict | 21 |
+| Reference support/foundation | mapped-footprints-only-clear | 2,288 |
+| Terrain | reference-gradient-exceeded | 1,085 |
+| Terrain | reference-gradient-within-policy | 901 |
+| Unresolved geometry/input | boundary-span-layout-unresolved | 375 |
+| Unresolved geometry/input | special-product-depth-and-support-layout-unresolved | 224 |
 
 Counts are screening events per civil segment/reference support, not unique buildings, accepted piers or procurement quantities. Reference-gradient flags are DEM height differences between provisional supports; designed rail gradients are unavailable. Roof/canopy effects, raster quantisation, noise and real ground slope remain unseparated. These flags neither prove an unbuildable rail profile nor establish clearance.
 

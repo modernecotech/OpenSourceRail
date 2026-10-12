@@ -1,8 +1,8 @@
 # Khartoum route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 160
+- Lines: 14
+- Stations: 181
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

@@ -1,17 +1,16 @@
 # Beni-Mellal city-order factory requirement
 
-**82 tram-2car trainsets / 164 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**69 tram-2car trainsets / 138 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 232.6 trainsets/year, 3 separate test paths, 389 direct production FTE. Plant reference envelope: **USD 282.114m**.
+Planning output: 195.0 trainsets/year, 2 separate test paths, 330 direct production FTE. Plant reference envelope: **USD 242.944m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 21 | 591 | 681 | 681 |
-| line-2 | 21 | 615 | 705 | 705 |
-| line-3 | 19 | 636 | 726 | 726 |
-| line-4 | 9 | 647 | 737 | 737 |
-| line-5 | 12 | 660 | 750 | 750 |
+| line-1 | 18 | 591 | 681 | 681 |
+| line-2 | 19 | 616 | 706 | 706 |
+| line-3 | 18 | 641 | 731 | 731 |
+| line-4 | 14 | 660 | 750 | 750 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

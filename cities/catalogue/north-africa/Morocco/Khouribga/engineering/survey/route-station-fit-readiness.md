@@ -1,8 +1,8 @@
 # Khouribga route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 17
+- Lines: 3
+- Stations: 9
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

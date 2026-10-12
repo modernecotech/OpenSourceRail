@@ -1,8 +1,8 @@
 # Omdurman route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 40
-- Stations: 350
+- Lines: 9
+- Stations: 168
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

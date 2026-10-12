@@ -1,8 +1,8 @@
 # Safi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 5
-- Stations: 30
+- Lines: 4
+- Stations: 20
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

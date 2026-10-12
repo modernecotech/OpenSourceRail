@@ -1,8 +1,8 @@
 # Nador route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 6
-- Stations: 33
+- Lines: 4
+- Stations: 22
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

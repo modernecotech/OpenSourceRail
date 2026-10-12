@@ -1,29 +1,29 @@
 slug: omdurman
 pass: true
 metrics:
-  total_route_m: 487715.1
-  n_lines: 40
-  n_stations: 350
-  anchor_hit_rate: 0.194
-  high_demand_coverage: 0.538
+  total_route_m: 313442.5
+  n_lines: 9
+  n_stations: 168
+  anchor_hit_rate: 0.363
+  high_demand_coverage: 0.587
   civil_mix_m:
-    at_grade: 137197.300
-    elevated: 331557.800
-    bridge:   18960.200
-  elevated_fraction: 0.719
+    at_grade: 39072.700
+    elevated: 268263.800
+    bridge:   6105.800
+  elevated_fraction: 0.875
   viaduct_products_m:
-    osr_pi20_pi25: 301432.001
-    osr_us:      23965.588
-    special:     18960.200
-    realign:     6160.211
-  max_elevated_cost_multiplier: 22.819
+    osr_pi20_pi25: 210665.720
+    osr_us:      43877.576
+    special:     6105.800
+    realign:     13720.504
+  max_elevated_cost_multiplier: 31.661
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

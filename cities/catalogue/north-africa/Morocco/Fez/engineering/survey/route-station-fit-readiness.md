@@ -1,8 +1,8 @@
 # Fez route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 74
+- Lines: 6
+- Stations: 85
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

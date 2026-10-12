@@ -1,8 +1,8 @@
 # Tetouan route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 8
-- Stations: 54
+- Lines: 4
+- Stations: 30
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 
