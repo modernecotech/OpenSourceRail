@@ -1,8 +1,8 @@
 # Kisangani route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 9
-- Stations: 89
+- Lines: 3
+- Stations: 24
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 

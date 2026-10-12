@@ -1,7 +1,7 @@
 # Kisangani structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 9
+- Lines: 3
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

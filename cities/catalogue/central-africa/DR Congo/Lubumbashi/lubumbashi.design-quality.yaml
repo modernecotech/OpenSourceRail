@@ -1,29 +1,29 @@
 slug: lubumbashi
 pass: true
 metrics:
-  total_route_m: 231647.7
-  n_lines: 30
-  n_stations: 159
-  anchor_hit_rate: 0.145
-  high_demand_coverage: 0.563
+  total_route_m: 140345.7
+  n_lines: 8
+  n_stations: 50
+  anchor_hit_rate: 0.200
+  high_demand_coverage: 0.578
   civil_mix_m:
-    at_grade: 22594.100
-    elevated: 204908.100
-    bridge:   4145.500
-  elevated_fraction: 0.902
+    at_grade: 11962.200
+    elevated: 126003.800
+    bridge:   2379.800
+  elevated_fraction: 0.915
   viaduct_products_m:
-    osr_pi20_pi25: 189631.851
-    osr_us:      12930.013
-    special:     4145.500
-    realign:     2346.236
-  max_elevated_cost_multiplier: 30.087
+    osr_pi20_pi25: 114393.234
+    osr_us:      9412.530
+    special:     2379.800
+    realign:     2198.036
+  max_elevated_cost_multiplier: 39.910
 gates:
   hard:
     has_stations:      true
     length_reasonable: true
   soft:
     coverage_ge_0.30:   true
-    anchor_hit_ge_0.20: false
+    anchor_hit_ge_0.20: true
     elevated_le_0.30:   false
     elevated_geometry_constructible: false
     soft_pass_all:      false

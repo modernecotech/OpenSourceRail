@@ -1,7 +1,7 @@
 # Kananga structural-release gate
 
 - Status: **awaiting-structural-evidence**
-- Lines: 10
+- Lines: 3
 - Technical screen passed: **no**
 - Authority accepted: **no**
 

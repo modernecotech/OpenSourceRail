@@ -1,8 +1,8 @@
 # Mbuji-Mayi route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 12
-- Stations: 98
+- Lines: 6
+- Stations: 40
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 
