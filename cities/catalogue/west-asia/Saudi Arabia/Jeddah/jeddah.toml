@@ -365,19 +365,19 @@ charging_power_kw = 2000
 dwell_seconds = 150
 
 [[stations]]
-id = "line-2-0976-0953-s019915"
-name = "line-2-0976-0953-s019915"
+id = "line-2-0810-0894-s021019"
+name = "الخالدية"
 charging_power_kw = 2000
 dwell_seconds = 150
 
 [[stations]]
-id = "line-2-0758-0873-s025699"
-name = "line-2-0758-0873-s025699"
+id = "line-2-0758-0873-s022256"
+name = "line-2-0758-0873-s022256"
 charging_power_kw = 2000
 dwell_seconds = 150
 
 [[stations]]
-id = "line-2-0561-0795-s030344"
+id = "line-2-0561-0795-s026901"
 name = "الشاطئ"
 charging_power_kw = 2000
 dwell_seconds = 180
@@ -592,7 +592,7 @@ name = "line-4-2049-0937-s039105"
 dwell_seconds = 60
 
 [[stations]]
-id = "line-4-2245-0879-s045370"
+id = "line-4-2245-0879-s044452"
 name = "الساحل"
 charging_power_kw = 2000
 dwell_seconds = 180
@@ -1095,9 +1095,9 @@ stations = [
     { id = "line-2-1333-1103-s007373", distance_from_prev_m = 4531 },
     { id = "line-2-1289-1085-s008414", distance_from_prev_m = 1040 },
     { id = "line-2-1036-1037-s014436", distance_from_prev_m = 6022 },
-    { id = "line-2-0976-0953-s019915", distance_from_prev_m = 5479 },
-    { id = "line-2-0758-0873-s025699", distance_from_prev_m = 5783 },
-    { id = "line-2-0561-0795-s030344", distance_from_prev_m = 4644 },
+    { id = "line-2-0810-0894-s021019", distance_from_prev_m = 6583 },
+    { id = "line-2-0758-0873-s022256", distance_from_prev_m = 1237 },
+    { id = "line-2-0561-0795-s026901", distance_from_prev_m = 4644 },
 ]
 
 [[lines]]
@@ -1144,7 +1144,7 @@ stations = [
     { id = "line-4-1942-1208-s032096", distance_from_prev_m = 3494 },
     { id = "line-4-2049-1112-s035605", distance_from_prev_m = 3509 },
     { id = "line-4-2049-0937-s039105", distance_from_prev_m = 3500 },
-    { id = "line-4-2245-0879-s045370", distance_from_prev_m = 6264 },
+    { id = "line-4-2245-0879-s044452", distance_from_prev_m = 5346 },
 ]
 
 [[lines]]
@@ -1362,8 +1362,8 @@ id = "sw-line-2-1645-1227-s000000-tb"
 station = "line-2-1645-1227-s000000"
 
 [[switches]]
-id = "sw-line-2-0561-0795-s030344-tb"
-station = "line-2-0561-0795-s030344"
+id = "sw-line-2-0561-0795-s026901-tb"
+station = "line-2-0561-0795-s026901"
 
 [[switches]]
 id = "sw-line-3-0230-1106-s000000-tb"
@@ -1794,16 +1794,12 @@ id = "sw-line-3-1828-1770-s049241-yd-105"
 station = "line-3-1828-1770-s049241"
 
 [[switches]]
-id = "sw-line-3-1828-1770-s049241-yd-106"
-station = "line-3-1828-1770-s049241"
-
-[[switches]]
 id = "sw-line-4-0594-1322-s000000-tb"
 station = "line-4-0594-1322-s000000"
 
 [[switches]]
-id = "sw-line-4-2245-0879-s045370-tb"
-station = "line-4-2245-0879-s045370"
+id = "sw-line-4-2245-0879-s044452-tb"
+station = "line-4-2245-0879-s044452"
 
 [[switches]]
 id = "sw-line-5-1385-2285-s000000-tb"
@@ -1861,10 +1857,10 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 56
+trainset_count = 52
 dispatch_points = [
     { station = "line-2-1645-1227-s000000", heading = "forward" },
-    { station = "line-2-0561-0795-s030344", heading = "reverse" },
+    { station = "line-2-0561-0795-s026901", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -1900,7 +1896,7 @@ line = "line-4"
 trainset_count = 84
 dispatch_points = [
     { station = "line-4-0594-1322-s000000", heading = "forward" },
-    { station = "line-4-2245-0879-s045370", heading = "reverse" },
+    { station = "line-4-2245-0879-s044452", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -2811,7 +2807,7 @@ charger_efficiency = 0.98
 charger_contact_count = 8
 
 [[sites]]
-station = "line-2-0976-0953-s019915"
+station = "line-2-0810-0894-s021019"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 2000.0
@@ -2828,7 +2824,7 @@ charger_efficiency = 0.98
 charger_contact_count = 8
 
 [[sites]]
-station = "line-2-0758-0873-s025699"
+station = "line-2-0758-0873-s022256"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 2000.0
@@ -2845,7 +2841,7 @@ charger_efficiency = 0.98
 charger_contact_count = 8
 
 [[sites]]
-station = "line-2-0561-0795-s030344"
+station = "line-2-0561-0795-s026901"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 2000.0
@@ -3389,7 +3385,7 @@ charger_efficiency = 0.98
 charger_contact_count = 8
 
 [[sites]]
-station = "line-4-2245-0879-s045370"
+station = "line-4-2245-0879-s044452"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 2000.0

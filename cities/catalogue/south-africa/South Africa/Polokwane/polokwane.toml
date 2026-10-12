@@ -144,13 +144,13 @@ charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0542-0545-s009491"
-name = "line-2-0542-0545-s009491"
+id = "line-2-0562-0536-s009017"
+name = "line-2-0562-0536-s009017"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0702-0472-s014571"
+id = "line-2-0702-0472-s013622"
 name = "Penina Park"
 charging_power_kw = 500
 dwell_seconds = 240
@@ -245,8 +245,8 @@ stations = [
     { id = "line-2-0250-0492-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0430-0490-s005198", distance_from_prev_m = 5197 },
     { id = "line-2-0485-0486-s006466", distance_from_prev_m = 1268 },
-    { id = "line-2-0542-0545-s009491", distance_from_prev_m = 3025 },
-    { id = "line-2-0702-0472-s014571", distance_from_prev_m = 5079 },
+    { id = "line-2-0562-0536-s009017", distance_from_prev_m = 2551 },
+    { id = "line-2-0702-0472-s013622", distance_from_prev_m = 4605 },
 ]
 
 [[lines]]
@@ -408,16 +408,12 @@ id = "sw-line-1-0244-0147-s021187-yd-30"
 station = "line-1-0244-0147-s021187"
 
 [[switches]]
-id = "sw-line-1-0244-0147-s021187-yd-31"
-station = "line-1-0244-0147-s021187"
-
-[[switches]]
 id = "sw-line-2-0250-0492-s000000-tb"
 station = "line-2-0250-0492-s000000"
 
 [[switches]]
-id = "sw-line-2-0702-0472-s014571-tb"
-station = "line-2-0702-0472-s014571"
+id = "sw-line-2-0702-0472-s013622-tb"
+station = "line-2-0702-0472-s013622"
 
 [[switches]]
 id = "sw-line-3-0554-0343-s000000-tb"
@@ -467,10 +463,10 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 45
+trainset_count = 43
 dispatch_points = [
     { station = "line-2-0250-0492-s000000", heading = "forward" },
-    { station = "line-2-0702-0472-s014571", heading = "reverse" },
+    { station = "line-2-0702-0472-s013622", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -728,7 +724,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0542-0545-s009491"
+station = "line-2-0562-0536-s009017"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -745,7 +741,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0702-0472-s014571"
+station = "line-2-0702-0472-s013622"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

@@ -143,31 +143,25 @@ charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0556-0531-s011976"
-name = "line-2-0556-0531-s011976"
+id = "line-2-0558-0531-s012016"
+name = "line-2-0558-0531-s012016"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0627-0663-s017412"
-name = "أكاديمية الجفن الرياضية"
+id = "line-2-0650-0672-s017412"
+name = "line-2-0650-0672-s017412"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0706-0691-s019552"
-name = "line-2-0706-0691-s019552"
+id = "line-2-0725-0742-s020289"
+name = "line-2-0725-0742-s020289"
 charging_power_kw = 500
 dwell_seconds = 240
 
 [[stations]]
-id = "line-2-0733-0772-s021677"
-name = "line-2-0733-0772-s021677"
-charging_power_kw = 500
-dwell_seconds = 240
-
-[[stations]]
-id = "line-2-0718-0840-s023805"
+id = "line-2-0718-0840-s023165"
 name = "الشروق"
 charging_power_kw = 500
 dwell_seconds = 240
@@ -281,11 +275,10 @@ stations = [
     { id = "line-2-0360-0341-s002366", distance_from_prev_m = 2366 },
     { id = "line-2-0423-0406-s005376", distance_from_prev_m = 3009 },
     { id = "line-2-0444-0487-s008389", distance_from_prev_m = 3012 },
-    { id = "line-2-0556-0531-s011976", distance_from_prev_m = 3587 },
-    { id = "line-2-0627-0663-s017412", distance_from_prev_m = 5436 },
-    { id = "line-2-0706-0691-s019552", distance_from_prev_m = 2140 },
-    { id = "line-2-0733-0772-s021677", distance_from_prev_m = 2124 },
-    { id = "line-2-0718-0840-s023805", distance_from_prev_m = 2128 },
+    { id = "line-2-0558-0531-s012016", distance_from_prev_m = 3627 },
+    { id = "line-2-0650-0672-s017412", distance_from_prev_m = 5396 },
+    { id = "line-2-0725-0742-s020289", distance_from_prev_m = 2876 },
+    { id = "line-2-0718-0840-s023165", distance_from_prev_m = 2876 },
 ]
 
 [[lines]]
@@ -482,16 +475,12 @@ id = "sw-line-1-0230-0021-s027031-yd-38"
 station = "line-1-0230-0021-s027031"
 
 [[switches]]
-id = "sw-line-1-0230-0021-s027031-yd-39"
-station = "line-1-0230-0021-s027031"
-
-[[switches]]
 id = "sw-line-2-0301-0299-s000000-tb"
 station = "line-2-0301-0299-s000000"
 
 [[switches]]
-id = "sw-line-2-0718-0840-s023805-tb"
-station = "line-2-0718-0840-s023805"
+id = "sw-line-2-0718-0840-s023165-tb"
+station = "line-2-0718-0840-s023165"
 
 [[switches]]
 id = "sw-line-3-0938-0427-s000000-tb"
@@ -541,10 +530,10 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 75
+trainset_count = 70
 dispatch_points = [
     { station = "line-2-0301-0299-s000000", heading = "forward" },
-    { station = "line-2-0718-0840-s023805", heading = "reverse" },
+    { station = "line-2-0718-0840-s023165", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -785,7 +774,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0556-0531-s011976"
+station = "line-2-0558-0531-s012016"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -802,7 +791,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0627-0663-s017412"
+station = "line-2-0650-0672-s017412"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -819,7 +808,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0706-0691-s019552"
+station = "line-2-0725-0742-s020289"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -836,24 +825,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0733-0772-s021677"
-tier = "standard"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-2-0718-0840-s023805"
+station = "line-2-0718-0840-s023165"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

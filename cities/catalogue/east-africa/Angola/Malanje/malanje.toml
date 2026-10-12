@@ -108,19 +108,19 @@ is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-2-0551-0551-s001810"
-name = "line-2-0551-0551-s001810"
+id = "line-2-0553-0549-s001753"
+name = "line-2-0553-0549-s001753"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0490-0408-s005387"
-name = "line-2-0490-0408-s005387"
+id = "line-2-0490-0408-s005274"
+name = "line-2-0490-0408-s005274"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0471-0405-s005792"
+id = "line-2-0471-0405-s005679"
 name = "Aeroporto de Malanje"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -144,9 +144,9 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0612-0583-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0551-0551-s001810", distance_from_prev_m = 1809 },
-    { id = "line-2-0490-0408-s005387", distance_from_prev_m = 3577 },
-    { id = "line-2-0471-0405-s005792", distance_from_prev_m = 404 },
+    { id = "line-2-0553-0549-s001753", distance_from_prev_m = 1753 },
+    { id = "line-2-0490-0408-s005274", distance_from_prev_m = 3520 },
+    { id = "line-2-0471-0405-s005679", distance_from_prev_m = 404 },
 ]
 
 
@@ -193,8 +193,8 @@ id = "sw-line-2-0612-0583-s000000-tb"
 station = "line-2-0612-0583-s000000"
 
 [[switches]]
-id = "sw-line-2-0471-0405-s005792-tb"
-station = "line-2-0471-0405-s005792"
+id = "sw-line-2-0471-0405-s005679-tb"
+station = "line-2-0471-0405-s005679"
 
 
 
@@ -223,7 +223,7 @@ line = "line-2"
 trainset_count = 19
 dispatch_points = [
     { station = "line-2-0612-0583-s000000", heading = "forward" },
-    { station = "line-2-0471-0405-s005792", heading = "reverse" },
+    { station = "line-2-0471-0405-s005679", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -325,7 +325,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0551-0551-s001810"
+station = "line-2-0553-0549-s001753"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -342,7 +342,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0490-0408-s005387"
+station = "line-2-0490-0408-s005274"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -359,7 +359,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0471-0405-s005792"
+station = "line-2-0471-0405-s005679"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

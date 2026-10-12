@@ -142,19 +142,13 @@ charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-3-0369-0370-s000180"
+id = "line-3-0370-0363-s000288"
 name = "St. Mary's Minor Seminary"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-3-0370-0363-s000328"
-name = "St. Mary's Minor Seminary"
-charging_power_kw = 500
-dwell_seconds = 120
-
-[[stations]]
-id = "line-3-0301-0309-s002341"
+id = "line-3-0301-0309-s002301"
 name = "Saint Joseph Basic School"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -189,9 +183,8 @@ name = "line-3"
 stations = [
     { id = "line-3-0368-0370-s000000", distance_from_prev_m = 0 },
     { id = "line-3-0370-0371-s000100", distance_from_prev_m = 100 },
-    { id = "line-3-0369-0370-s000180", distance_from_prev_m = 80 },
-    { id = "line-3-0370-0363-s000328", distance_from_prev_m = 148 },
-    { id = "line-3-0301-0309-s002341", distance_from_prev_m = 2012 },
+    { id = "line-3-0370-0363-s000288", distance_from_prev_m = 188 },
+    { id = "line-3-0301-0309-s002301", distance_from_prev_m = 2012 },
 ]
 
 
@@ -242,16 +235,12 @@ id = "sw-line-2-0376-0351-s007885-yd-07"
 station = "line-2-0376-0351-s007885"
 
 [[switches]]
-id = "sw-line-2-0376-0351-s007885-yd-08"
-station = "line-2-0376-0351-s007885"
-
-[[switches]]
 id = "sw-line-3-0368-0370-s000000-tb"
 station = "line-3-0368-0370-s000000"
 
 [[switches]]
-id = "sw-line-3-0301-0309-s002341-tb"
-station = "line-3-0301-0309-s002341"
+id = "sw-line-3-0301-0309-s002301-tb"
+station = "line-3-0301-0309-s002301"
 
 
 
@@ -295,10 +284,10 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 14
+trainset_count = 12
 dispatch_points = [
     { station = "line-3-0368-0370-s000000", heading = "forward" },
-    { station = "line-3-0301-0309-s002341", heading = "reverse" },
+    { station = "line-3-0301-0309-s002301", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -485,7 +474,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0369-0370-s000180"
+station = "line-3-0370-0363-s000288"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -502,24 +491,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0370-0363-s000328"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-3-0301-0309-s002341"
+station = "line-3-0301-0309-s002301"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

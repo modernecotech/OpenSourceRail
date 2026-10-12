@@ -114,19 +114,19 @@ charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0410-0406-s006889"
-name = "مستشفى العبور"
+id = "line-2-0412-0406-s006872"
+name = "مباني إسكان الشباب"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0512-0393-s009093"
-name = "line-2-0512-0393-s009093"
+id = "line-2-0512-0393-s009037"
+name = "line-2-0512-0393-s009037"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-2-0512-0417-s009573"
+id = "line-2-0512-0417-s009517"
 name = "مساكن حى الشهداء"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -183,9 +183,9 @@ name = "line-2"
 stations = [
     { id = "line-2-0217-0202-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0375-0333-s004701", distance_from_prev_m = 4701 },
-    { id = "line-2-0410-0406-s006889", distance_from_prev_m = 2187 },
-    { id = "line-2-0512-0393-s009093", distance_from_prev_m = 2204 },
-    { id = "line-2-0512-0417-s009573", distance_from_prev_m = 480 },
+    { id = "line-2-0412-0406-s006872", distance_from_prev_m = 2171 },
+    { id = "line-2-0512-0393-s009037", distance_from_prev_m = 2164 },
+    { id = "line-2-0512-0417-s009517", distance_from_prev_m = 480 },
 ]
 
 [[lines]]
@@ -264,8 +264,8 @@ id = "sw-line-2-0217-0202-s000000-tb"
 station = "line-2-0217-0202-s000000"
 
 [[switches]]
-id = "sw-line-2-0512-0417-s009573-tb"
-station = "line-2-0512-0417-s009573"
+id = "sw-line-2-0512-0417-s009517-tb"
+station = "line-2-0512-0417-s009517"
 
 [[switches]]
 id = "sw-line-3-0291-0458-s000000-tb"
@@ -310,7 +310,7 @@ line = "line-2"
 trainset_count = 20
 dispatch_points = [
     { station = "line-2-0217-0202-s000000", heading = "forward" },
-    { station = "line-2-0512-0417-s009573", heading = "reverse" },
+    { station = "line-2-0512-0417-s009517", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -465,7 +465,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0410-0406-s006889"
+station = "line-2-0412-0406-s006872"
 tier = "major"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -482,7 +482,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0512-0393-s009093"
+station = "line-2-0512-0393-s009037"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -499,7 +499,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-2-0512-0417-s009573"
+station = "line-2-0512-0417-s009517"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

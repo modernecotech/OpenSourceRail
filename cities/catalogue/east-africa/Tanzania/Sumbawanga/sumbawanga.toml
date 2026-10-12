@@ -124,13 +124,7 @@ is_depot = true
 depot_service = true
 
 [[stations]]
-id = "line-3-0346-0348-s001660"
-name = "Soko Kuu"
-charging_power_kw = 500
-dwell_seconds = 120
-
-[[stations]]
-id = "line-3-0375-0363-s003335"
+id = "line-3-0375-0363-s002699"
 name = "Sumbawanga Regional Hospital"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -162,8 +156,7 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0277-0363-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0346-0348-s001660", distance_from_prev_m = 1660 },
-    { id = "line-3-0375-0363-s003335", distance_from_prev_m = 1674 },
+    { id = "line-3-0375-0363-s002699", distance_from_prev_m = 2699 },
 ]
 
 
@@ -206,16 +199,12 @@ id = "sw-line-2-0270-0428-s004130-yd-05"
 station = "line-2-0270-0428-s004130"
 
 [[switches]]
-id = "sw-line-2-0270-0428-s004130-yd-06"
-station = "line-2-0270-0428-s004130"
-
-[[switches]]
 id = "sw-line-3-0277-0363-s000000-tb"
 station = "line-3-0277-0363-s000000"
 
 [[switches]]
-id = "sw-line-3-0375-0363-s003335-tb"
-station = "line-3-0375-0363-s003335"
+id = "sw-line-3-0375-0363-s002699-tb"
+station = "line-3-0375-0363-s002699"
 
 
 
@@ -259,10 +248,10 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 11
+trainset_count = 9
 dispatch_points = [
     { station = "line-3-0277-0363-s000000", heading = "forward" },
-    { station = "line-3-0375-0363-s003335", heading = "reverse" },
+    { station = "line-3-0375-0363-s002699", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -398,24 +387,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0346-0348-s001660"
-tier = "major"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-3-0375-0363-s003335"
+station = "line-3-0375-0363-s002699"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

@@ -98,19 +98,19 @@ charging_power_kw = 500
 dwell_seconds = 210
 
 [[stations]]
-id = "line-1-0502-0518-s010182"
-name = "line-1-0502-0518-s010182"
+id = "line-1-0502-0518-s010142"
+name = "line-1-0502-0518-s010142"
 charging_power_kw = 500
 dwell_seconds = 210
 
 [[stations]]
-id = "line-1-0477-0517-s010746"
-name = "line-1-0477-0517-s010746"
+id = "line-1-0477-0517-s010706"
+name = "line-1-0477-0517-s010706"
 charging_power_kw = 500
 dwell_seconds = 210
 
 [[stations]]
-id = "line-1-0312-0567-s015858"
+id = "line-1-0312-0567-s015818"
 name = "بيت رأس"
 charging_power_kw = 500
 dwell_seconds = 210
@@ -238,9 +238,9 @@ stations = [
     { id = "line-1-0736-0627-s003572", distance_from_prev_m = 3572 },
     { id = "line-1-0673-0623-s005189", distance_from_prev_m = 1616 },
     { id = "line-1-0602-0578-s006982", distance_from_prev_m = 1792 },
-    { id = "line-1-0502-0518-s010182", distance_from_prev_m = 3200 },
-    { id = "line-1-0477-0517-s010746", distance_from_prev_m = 563 },
-    { id = "line-1-0312-0567-s015858", distance_from_prev_m = 5112 },
+    { id = "line-1-0502-0518-s010142", distance_from_prev_m = 3160 },
+    { id = "line-1-0477-0517-s010706", distance_from_prev_m = 563 },
+    { id = "line-1-0312-0567-s015818", distance_from_prev_m = 5112 },
 ]
 
 [[lines]]
@@ -291,8 +291,8 @@ id = "sw-line-1-0840-0623-s000000-tb"
 station = "line-1-0840-0623-s000000"
 
 [[switches]]
-id = "sw-line-1-0312-0567-s015858-tb"
-station = "line-1-0312-0567-s015858"
+id = "sw-line-1-0312-0567-s015818-tb"
+station = "line-1-0312-0567-s015818"
 
 [[switches]]
 id = "sw-line-2-0700-0815-s000000-tb"
@@ -440,10 +440,10 @@ station = "line-5-0838-0762-s004293"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 52
+trainset_count = 51
 dispatch_points = [
     { station = "line-1-0840-0623-s000000", heading = "forward" },
-    { station = "line-1-0312-0567-s015858", heading = "reverse" },
+    { station = "line-1-0312-0567-s015818", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -600,7 +600,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0502-0518-s010182"
+station = "line-1-0502-0518-s010142"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -617,7 +617,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0477-0517-s010746"
+station = "line-1-0477-0517-s010706"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -634,7 +634,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0312-0567-s015858"
+station = "line-1-0312-0567-s015818"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

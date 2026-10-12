@@ -92,20 +92,20 @@ charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0536-0503-s008709"
-name = "مستشفي قنا العام"
+id = "line-1-0534-0480-s008712"
+name = "line-1-0534-0480-s008712"
 charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0557-0382-s011501"
-name = "line-1-0557-0382-s011501"
+id = "line-1-0557-0382-s011028"
+name = "line-1-0557-0382-s011028"
 charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0602-0332-s012874"
-name = "line-1-0602-0332-s012874"
+id = "line-1-0602-0332-s012401"
+name = "line-1-0602-0332-s012401"
 charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
@@ -207,9 +207,9 @@ stations = [
     { id = "line-1-0316-0690-s000000", distance_from_prev_m = 0 },
     { id = "line-1-0437-0634-s003872", distance_from_prev_m = 3872 },
     { id = "line-1-0506-0601-s005695", distance_from_prev_m = 1823 },
-    { id = "line-1-0536-0503-s008709", distance_from_prev_m = 3013 },
-    { id = "line-1-0557-0382-s011501", distance_from_prev_m = 2792 },
-    { id = "line-1-0602-0332-s012874", distance_from_prev_m = 1372 },
+    { id = "line-1-0534-0480-s008712", distance_from_prev_m = 3016 },
+    { id = "line-1-0557-0382-s011028", distance_from_prev_m = 2316 },
+    { id = "line-1-0602-0332-s012401", distance_from_prev_m = 1372 },
 ]
 
 [[lines]]
@@ -256,8 +256,8 @@ id = "sw-line-1-0316-0690-s000000-tb"
 station = "line-1-0316-0690-s000000"
 
 [[switches]]
-id = "sw-line-1-0602-0332-s012874-tb"
-station = "line-1-0602-0332-s012874"
+id = "sw-line-1-0602-0332-s012401-tb"
+station = "line-1-0602-0332-s012401"
 
 [[switches]]
 id = "sw-line-2-0473-0257-s000000-tb"
@@ -401,10 +401,10 @@ station = "line-5-0388-0060-s005447"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 40
+trainset_count = 39
 dispatch_points = [
     { station = "line-1-0316-0690-s000000", heading = "forward" },
-    { station = "line-1-0602-0332-s012874", heading = "reverse" },
+    { station = "line-1-0602-0332-s012401", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -544,7 +544,7 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
-station = "line-1-0536-0503-s008709"
+station = "line-1-0534-0480-s008712"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0
@@ -561,7 +561,7 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
-station = "line-1-0557-0382-s011501"
+station = "line-1-0557-0382-s011028"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0
@@ -578,7 +578,7 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
-station = "line-1-0602-0332-s012874"
+station = "line-1-0602-0332-s012401"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0

@@ -8,6 +8,12 @@ New corridors must be at least 4 km long. Additions are limited to half the reta
 
 The network map shows one main junction symbol on an actual platform for each bounded interchange complex, with smaller dots at other platform locations. Connecting strokes identify complex membership schematically; they do not depict surveyed walking paths or rail switches. Platforms and their line chainages remain separate engineering records.
 
+Closed out-and-back excursions on retained radial routes are removed before
+stations and junctions are generated. This preserves the endpoints and uses
+existing route edges, avoiding additional shortcuts through terrain or water.
+The alignment report records each removed retrace; final route quantities,
+stations, coverage and costs follow the emitted inventory.
+
 ## Controlled revision and actual coverage
 
 Each city retains `engineering/alignment/network-expansion-baseline.json.gz`, preserving the original design bytes and their hash. Its `residential-line-expansion.json` identifies added line IDs, priority cells, actual corridor connections, route quantities, controlled original-line junction changes and unresolved site/geometry reviews. Mandatory native geometry checks can reject a candidate; a failed diversion never creates a fictional transfer.

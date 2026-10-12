@@ -86,13 +86,13 @@ charging_power_kw = 500
 dwell_seconds = 150
 
 [[stations]]
-id = "line-1-0392-0373-s006538"
-name = "line-1-0392-0373-s006538"
+id = "line-1-0392-0373-s005436"
+name = "line-1-0392-0373-s005436"
 charging_power_kw = 500
 dwell_seconds = 150
 
 [[stations]]
-id = "line-1-0341-0217-s010453"
+id = "line-1-0341-0217-s009351"
 name = "mathari hospital"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -191,8 +191,8 @@ name = "line-1"
 stations = [
     { id = "line-1-0476-0588-s000000", distance_from_prev_m = 0 },
     { id = "line-1-0420-0420-s004146", distance_from_prev_m = 4145 },
-    { id = "line-1-0392-0373-s006538", distance_from_prev_m = 2392 },
-    { id = "line-1-0341-0217-s010453", distance_from_prev_m = 3914 },
+    { id = "line-1-0392-0373-s005436", distance_from_prev_m = 1289 },
+    { id = "line-1-0341-0217-s009351", distance_from_prev_m = 3915 },
 ]
 
 [[lines]]
@@ -233,8 +233,8 @@ id = "sw-line-1-0476-0588-s000000-tb"
 station = "line-1-0476-0588-s000000"
 
 [[switches]]
-id = "sw-line-1-0341-0217-s010453-tb"
-station = "line-1-0341-0217-s010453"
+id = "sw-line-1-0341-0217-s009351-tb"
+station = "line-1-0341-0217-s009351"
 
 [[switches]]
 id = "sw-line-2-0096-0563-s000000-tb"
@@ -297,10 +297,6 @@ id = "sw-line-2-0689-0283-s014355-yd-13"
 station = "line-2-0689-0283-s014355"
 
 [[switches]]
-id = "sw-line-2-0689-0283-s014355-yd-14"
-station = "line-2-0689-0283-s014355"
-
-[[switches]]
 id = "sw-line-3-0525-0111-s000000-tb"
 station = "line-3-0525-0111-s000000"
 
@@ -322,10 +318,10 @@ station = "line-4-0512-0486-s005099"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 21
+trainset_count = 20
 dispatch_points = [
     { station = "line-1-0476-0588-s000000", heading = "forward" },
-    { station = "line-1-0341-0217-s010453", heading = "reverse" },
+    { station = "line-1-0341-0217-s009351", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -430,7 +426,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0392-0373-s006538"
+station = "line-1-0392-0373-s005436"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -447,7 +443,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0341-0217-s010453"
+station = "line-1-0341-0217-s009351"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

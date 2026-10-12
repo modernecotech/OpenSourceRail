@@ -108,6 +108,6 @@ def test_surabaya_scoped_terminal_loop_finishes_at_a_real_ring_junction():
     assert tuple(radial['cells'][-1]) in set(map(tuple,ring['cells']))
     report=json.loads((city/'engineering/alignment/residential-line-expansion.json').read_text())
     change=next(row for row in report['base_line_junction_changes'] if row['line']==policy['line'])
-    assert 3000<change['original_route_m']-change['final_route_m']<=policy['maximum_crop_m']
+    assert 1200<change['original_route_m']-change['final_route_m']<=policy['maximum_crop_m']
     assert report['sources_sha256'][policy_path.relative_to(ROOT).as_posix()]==sha(policy_path)
     assert not report['physical_release'] and not report['operating_release']

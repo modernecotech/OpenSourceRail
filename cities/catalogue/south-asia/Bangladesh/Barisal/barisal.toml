@@ -168,13 +168,7 @@ charging_power_kw = 1000
 dwell_seconds = 180
 
 [[stations]]
-id = "line-2-0924-0489-s019234"
-name = "ফয়সাল মটরস"
-charging_power_kw = 1000
-dwell_seconds = 180
-
-[[stations]]
-id = "line-2-1084-0450-s023299"
+id = "line-2-1084-0450-s021401"
 name = "খেজুরতলা বাজার"
 charging_power_kw = 1000
 dwell_seconds = 180
@@ -321,8 +315,7 @@ stations = [
     { id = "line-2-0563-0539-s008199", distance_from_prev_m = 213 },
     { id = "line-2-0610-0498-s009532", distance_from_prev_m = 1332 },
     { id = "line-2-0840-0489-s015177", distance_from_prev_m = 5645 },
-    { id = "line-2-0924-0489-s019234", distance_from_prev_m = 4056 },
-    { id = "line-2-1084-0450-s023299", distance_from_prev_m = 4064 },
+    { id = "line-2-1084-0450-s021401", distance_from_prev_m = 6223 },
 ]
 
 [[lines]]
@@ -376,8 +369,8 @@ id = "sw-line-2-0445-0721-s000000-tb"
 station = "line-2-0445-0721-s000000"
 
 [[switches]]
-id = "sw-line-2-1084-0450-s023299-tb"
-station = "line-2-1084-0450-s023299"
+id = "sw-line-2-1084-0450-s021401-tb"
+station = "line-2-1084-0450-s021401"
 
 [[switches]]
 id = "sw-line-3-0078-0053-s000000-tb"
@@ -536,10 +529,6 @@ id = "sw-line-3-0761-0860-s028101-yd-37"
 station = "line-3-0761-0860-s028101"
 
 [[switches]]
-id = "sw-line-3-0761-0860-s028101-yd-38"
-station = "line-3-0761-0860-s028101"
-
-[[switches]]
 id = "sw-line-4-0799-0560-s000000-tb"
 station = "line-4-0799-0560-s000000"
 
@@ -579,10 +568,10 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 76
+trainset_count = 70
 dispatch_points = [
     { station = "line-2-0445-0721-s000000", heading = "forward" },
-    { station = "line-2-1084-0450-s023299", heading = "reverse" },
+    { station = "line-2-1084-0450-s021401", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -908,24 +897,7 @@ charger_efficiency = 0.98
 charger_contact_count = 4
 
 [[sites]]
-station = "line-2-0924-0489-s019234"
-tier = "standard"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 1000.0
-storage_max_charge_kw = 1000.0
-storage_max_discharge_kw = 1000.0
-storage_initial_soc = 0.5
-grid_import_kw = 1000.0
-grid_export_kw = 1000.0
-storage_module_kwh = 500.0
-charger_max_kw = 1000.0
-charger_max_current_a = 1650.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 4
-
-[[sites]]
-station = "line-2-1084-0450-s023299"
+station = "line-2-1084-0450-s021401"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1000.0

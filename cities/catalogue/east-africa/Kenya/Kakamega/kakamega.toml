@@ -83,40 +83,28 @@ depot_service = true
 id = "line-1-0382-0268-s003572"
 name = "line-1-0382-0268-s003572"
 charging_power_kw = 500
-dwell_seconds = 120
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0375-0364-s005849"
 name = "Nala Hospital"
 charging_power_kw = 500
-dwell_seconds = 120
+dwell_seconds = 150
 
 [[stations]]
 id = "line-1-0373-0371-s006062"
 name = "line-1-0373-0371-s006062"
 charging_power_kw = 500
-dwell_seconds = 120
+dwell_seconds = 150
 
 [[stations]]
-id = "line-1-0371-0369-s006142"
-name = "line-1-0371-0369-s006142"
+id = "line-1-0446-0552-s011906"
+name = "line-1-0446-0552-s011906"
 charging_power_kw = 500
-dwell_seconds = 120
+dwell_seconds = 150
 
 [[stations]]
-id = "line-1-0372-0370-s006227"
-name = "line-1-0372-0370-s006227"
-charging_power_kw = 500
-dwell_seconds = 120
-
-[[stations]]
-id = "line-1-0446-0552-s012031"
-name = "line-1-0446-0552-s012031"
-charging_power_kw = 500
-dwell_seconds = 120
-
-[[stations]]
-id = "line-1-0477-0623-s013736"
+id = "line-1-0477-0623-s013611"
 name = "Murhanda Market"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -229,10 +217,8 @@ stations = [
     { id = "line-1-0382-0268-s003572", distance_from_prev_m = 3572 },
     { id = "line-1-0375-0364-s005849", distance_from_prev_m = 2276 },
     { id = "line-1-0373-0371-s006062", distance_from_prev_m = 213 },
-    { id = "line-1-0371-0369-s006142", distance_from_prev_m = 80 },
-    { id = "line-1-0372-0370-s006227", distance_from_prev_m = 84 },
-    { id = "line-1-0446-0552-s012031", distance_from_prev_m = 5804 },
-    { id = "line-1-0477-0623-s013736", distance_from_prev_m = 1705 },
+    { id = "line-1-0446-0552-s011906", distance_from_prev_m = 5844 },
+    { id = "line-1-0477-0623-s013611", distance_from_prev_m = 1705 },
 ]
 
 [[lines]]
@@ -275,8 +261,8 @@ id = "sw-line-1-0296-0125-s000000-tb"
 station = "line-1-0296-0125-s000000"
 
 [[switches]]
-id = "sw-line-1-0477-0623-s013736-tb"
-station = "line-1-0477-0623-s013736"
+id = "sw-line-1-0477-0623-s013611-tb"
+station = "line-1-0477-0623-s013611"
 
 [[switches]]
 id = "sw-line-2-0086-0716-s000000-tb"
@@ -368,10 +354,10 @@ station = "line-4-0312-0443-s005941"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 31
+trainset_count = 29
 dispatch_points = [
     { station = "line-1-0296-0125-s000000", heading = "forward" },
-    { station = "line-1-0477-0623-s013736", heading = "reverse" },
+    { station = "line-1-0477-0623-s013611", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -510,7 +496,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0371-0369-s006142"
+station = "line-1-0446-0552-s011906"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -527,41 +513,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0372-0370-s006227"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0446-0552-s012031"
-tier = "interchange"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0477-0623-s013736"
+station = "line-1-0477-0623-s013611"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

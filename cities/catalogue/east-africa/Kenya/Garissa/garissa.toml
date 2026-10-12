@@ -136,14 +136,14 @@ charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-3-0431-0303-s003585"
-name = "line-3-0431-0303-s003585"
+id = "line-3-0431-0303-s003545"
+name = "line-3-0431-0303-s003545"
 charging_power_kw = 500
 dwell_seconds = 120
 
 [[stations]]
-id = "line-3-0454-0260-s004762"
-name = "line-3-0454-0260-s004762"
+id = "line-3-0454-0260-s004722"
+name = "line-3-0454-0260-s004722"
 charging_power_kw = 500
 dwell_seconds = 180
 is_terminal = true
@@ -192,8 +192,8 @@ name = "line-3"
 stations = [
     { id = "line-3-0330-0343-s000000", distance_from_prev_m = 0 },
     { id = "line-3-0374-0375-s001415", distance_from_prev_m = 1415 },
-    { id = "line-3-0431-0303-s003585", distance_from_prev_m = 2169 },
-    { id = "line-3-0454-0260-s004762", distance_from_prev_m = 1176 },
+    { id = "line-3-0431-0303-s003545", distance_from_prev_m = 2129 },
+    { id = "line-3-0454-0260-s004722", distance_from_prev_m = 1176 },
 ]
 
 [[lines]]
@@ -264,8 +264,8 @@ id = "sw-line-3-0330-0343-s000000-tb"
 station = "line-3-0330-0343-s000000"
 
 [[switches]]
-id = "sw-line-3-0454-0260-s004762-tb"
-station = "line-3-0454-0260-s004762"
+id = "sw-line-3-0454-0260-s004722-tb"
+station = "line-3-0454-0260-s004722"
 
 [[switches]]
 id = "sw-line-4-0372-0375-s000000-tb"
@@ -320,7 +320,7 @@ line = "line-3"
 trainset_count = 14
 dispatch_points = [
     { station = "line-3-0330-0343-s000000", heading = "forward" },
-    { station = "line-3-0454-0260-s004762", heading = "reverse" },
+    { station = "line-3-0454-0260-s004722", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -508,7 +508,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0431-0303-s003585"
+station = "line-3-0431-0303-s003545"
 tier = "interchange"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -525,7 +525,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-3-0454-0260-s004762"
+station = "line-3-0454-0260-s004722"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

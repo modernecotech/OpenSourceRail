@@ -98,13 +98,13 @@ charging_power_kw = 500
 dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0545-0512-s007644"
-name = "Kakyeka A"
+id = "line-1-0647-0429-s010465"
+name = "line-1-0647-0429-s010465"
 charging_power_kw = 500
 dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0696-0354-s013231"
+id = "line-1-0696-0354-s012871"
 name = "RUTI HEALTH CENTRE II"
 charging_power_kw = 500
 dwell_seconds = 180
@@ -246,8 +246,8 @@ stations = [
     { id = "line-1-0542-0690-s002263", distance_from_prev_m = 2263 },
     { id = "line-1-0558-0613-s004072", distance_from_prev_m = 1809 },
     { id = "line-1-0543-0574-s005664", distance_from_prev_m = 1592 },
-    { id = "line-1-0545-0512-s007644", distance_from_prev_m = 1980 },
-    { id = "line-1-0696-0354-s013231", distance_from_prev_m = 5587 },
+    { id = "line-1-0647-0429-s010465", distance_from_prev_m = 4800 },
+    { id = "line-1-0696-0354-s012871", distance_from_prev_m = 2406 },
 ]
 
 [[lines]]
@@ -295,8 +295,8 @@ id = "sw-line-1-0522-0784-s000000-tb"
 station = "line-1-0522-0784-s000000"
 
 [[switches]]
-id = "sw-line-1-0696-0354-s013231-tb"
-station = "line-1-0696-0354-s013231"
+id = "sw-line-1-0696-0354-s012871-tb"
+station = "line-1-0696-0354-s012871"
 
 [[switches]]
 id = "sw-line-2-0262-0243-s000000-tb"
@@ -451,7 +451,7 @@ line = "line-1"
 trainset_count = 40
 dispatch_points = [
     { station = "line-1-0522-0784-s000000", heading = "forward" },
-    { station = "line-1-0696-0354-s013231", heading = "reverse" },
+    { station = "line-1-0696-0354-s012871", heading = "reverse" },
 ]
 service_start = "05:30"
 service_end = "02:00"
@@ -590,15 +590,15 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0545-0512-s007644"
-tier = "major"
+station = "line-1-0647-0429-s010465"
+tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
 storage_max_charge_kw = 500.0
 storage_max_discharge_kw = 500.0
 storage_initial_soc = 0.5
-grid_import_kw = 600.0
-grid_export_kw = 600.0
+grid_import_kw = 500.0
+grid_export_kw = 500.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0
@@ -607,7 +607,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0696-0354-s013231"
+station = "line-1-0696-0354-s012871"
 tier = "terminal"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
