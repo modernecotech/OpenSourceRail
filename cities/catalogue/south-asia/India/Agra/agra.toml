@@ -402,6 +402,11 @@ id = "line-5-0709-0362-s061011"
 name = "line-5-0709-0362-s061011"
 dwell_seconds = 60
 
+[[stations]]
+id = "line-4-1054-1264-s003520"
+name = "line-4-1054-1264-s003520"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -453,7 +458,8 @@ id = "line-4"
 name = "line-4"
 stations = [
     { id = "line-4-1102-1392-s000000", distance_from_prev_m = 0 },
-    { id = "line-4-0982-1126-s007018", distance_from_prev_m = 7017 },
+    { id = "line-4-1054-1264-s003520", distance_from_prev_m = 3520 },
+    { id = "line-4-0982-1126-s007018", distance_from_prev_m = 3497 },
     { id = "line-4-0954-1072-s008365", distance_from_prev_m = 1347 },
     { id = "line-4-0852-0878-s013219", distance_from_prev_m = 4853 },
     { id = "line-4-0839-0854-s013841", distance_from_prev_m = 622 },
@@ -701,7 +707,7 @@ schedule = [
 
 [[fleets]]
 line = "line-4"
-trainset_count = 48
+trainset_count = 50
 dispatch_points = [
     { station = "line-4-1102-1392-s000000", heading = "forward" },
     { station = "line-4-0543-0259-s028533", heading = "reverse" },

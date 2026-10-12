@@ -829,6 +829,17 @@ charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-2-1221-0162-s003503"
+name = "line-2-1221-0162-s003503"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-6-1189-0878-s048584"
+name = "line-6-1189-0878-s048584"
+charging_power_kw = 1500
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -860,7 +871,8 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-1221-0021-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-1099-0246-s007012", distance_from_prev_m = 7012 },
+    { id = "line-2-1221-0162-s003503", distance_from_prev_m = 3502 },
+    { id = "line-2-1099-0246-s007012", distance_from_prev_m = 3509 },
     { id = "line-2-1058-0372-s010240", distance_from_prev_m = 3227 },
     { id = "line-2-1064-0374-s010376", distance_from_prev_m = 136 },
     { id = "line-2-1066-0378-s010485", distance_from_prev_m = 108 },
@@ -956,7 +968,8 @@ stations = [
     { id = "line-6-1019-1077-s038068", distance_from_prev_m = 5121 },
     { id = "line-6-1153-1055-s041564", distance_from_prev_m = 3496 },
     { id = "line-6-1204-1003-s045079", distance_from_prev_m = 3514 },
-    { id = "line-6-1154-0769-s052083", distance_from_prev_m = 7004 },
+    { id = "line-6-1189-0878-s048584", distance_from_prev_m = 3505 },
+    { id = "line-6-1154-0769-s052083", distance_from_prev_m = 3499 },
     { id = "line-6-1131-0716-s053463", distance_from_prev_m = 1379 },
     { id = "line-6-1123-0639-s055300", distance_from_prev_m = 1837 },
     { id = "line-6-1117-0438-s061024", distance_from_prev_m = 5723 },
@@ -1370,7 +1383,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 106
+trainset_count = 107
 dispatch_points = [
     { station = "line-2-1221-0021-s000000", heading = "forward" },
     { station = "line-2-0656-1448-s047618", heading = "reverse" },
@@ -1442,7 +1455,7 @@ schedule = [
 
 [[fleets]]
 line = "line-6"
-trainset_count = 34
+trainset_count = 35
 dispatch_points = [
     { station = "line-6-0564-0490-s004043", heading = "forward" },
     { station = "line-6-0743-0389-s072248", heading = "reverse" },
@@ -3378,6 +3391,23 @@ storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.6
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-6-1189-0878-s048584"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
 storage_module_kwh = 500.0
 charger_max_kw = 1500.0
 charger_max_current_a = 2475.0

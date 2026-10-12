@@ -74,7 +74,7 @@ dust_loss_recovery_frac = 0.75
 id = "line-1-0733-0710-s000000"
 name = "Moi University School of Law-Annex"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 is_terminal = true
 is_depot = true
 depot_service = true
@@ -83,31 +83,31 @@ depot_service = true
 id = "line-1-0655-0615-s003903"
 name = "line-1-0655-0615-s003903"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 
 [[stations]]
 id = "line-1-0547-0553-s006953"
 name = "line-1-0547-0553-s006953"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 
 [[stations]]
 id = "line-1-0544-0550-s007038"
 name = "line-1-0544-0550-s007038"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 
 [[stations]]
 id = "line-1-0383-0417-s014040"
 name = "line-1-0383-0417-s014040"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 
 [[stations]]
 id = "line-1-0369-0416-s014340"
 name = "Road Block"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 
 [[stations]]
 id = "line-1-0249-0224-s019244"
@@ -118,7 +118,7 @@ dwell_seconds = 60
 id = "line-1-0160-0039-s024146"
 name = "Leseru/Kitale Junction"
 charging_power_kw = 1000
-dwell_seconds = 300
+dwell_seconds = 270
 is_terminal = true
 
 [[stations]]
@@ -386,6 +386,12 @@ charging_power_kw = 1000
 dwell_seconds = 210
 is_terminal = true
 
+[[stations]]
+id = "line-1-0461-0523-s010535"
+name = "line-1-0461-0523-s010535"
+charging_power_kw = 1000
+dwell_seconds = 270
+
 
 
 # Lines — per-line station sequences.
@@ -397,7 +403,8 @@ stations = [
     { id = "line-1-0655-0615-s003903", distance_from_prev_m = 3902 },
     { id = "line-1-0547-0553-s006953", distance_from_prev_m = 3050 },
     { id = "line-1-0544-0550-s007038", distance_from_prev_m = 84 },
-    { id = "line-1-0383-0417-s014040", distance_from_prev_m = 7001 },
+    { id = "line-1-0461-0523-s010535", distance_from_prev_m = 3497 },
+    { id = "line-1-0383-0417-s014040", distance_from_prev_m = 3504 },
     { id = "line-1-0369-0416-s014340", distance_from_prev_m = 300 },
     { id = "line-1-0249-0224-s019244", distance_from_prev_m = 4904 },
     { id = "line-1-0160-0039-s024146", distance_from_prev_m = 4901 },
@@ -653,6 +660,10 @@ id = "sw-line-3-0601-0747-s024173-yd-39"
 station = "line-3-0601-0747-s024173"
 
 [[switches]]
+id = "sw-line-3-0601-0747-s024173-yd-40"
+station = "line-3-0601-0747-s024173"
+
+[[switches]]
 id = "sw-line-4-0604-0500-s000000-tb"
 station = "line-4-0604-0500-s000000"
 
@@ -674,7 +685,7 @@ station = "line-5-0288-0764-s007098"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 75
+trainset_count = 76
 dispatch_points = [
     { station = "line-1-0733-0710-s000000", heading = "forward" },
     { station = "line-1-0160-0039-s024146", heading = "reverse" },
@@ -1540,6 +1551,23 @@ storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.6
 grid_import_kw = 1600.0
 grid_export_kw = 1600.0
+storage_module_kwh = 500.0
+charger_max_kw = 1000.0
+charger_max_current_a = 1650.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 4
+
+[[sites]]
+station = "line-1-0461-0523-s010535"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 1000.0
+grid_export_kw = 1000.0
 storage_module_kwh = 500.0
 charger_max_kw = 1000.0
 charger_max_current_a = 1650.0

@@ -78,7 +78,7 @@ ring_wrap_length_m = 3000
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 210
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-5"
@@ -10802,6 +10802,15 @@ s_m             = 6285.6
 archetype       = "terminal"
 platform_length_m = 85.0
 
+[[stations]]
+id              = "line-4-0456-0861-s017528"
+line            = "line-4"
+lat             = 35.61784544505633
+lon             = 45.46026145171659
+s_m             = 17528.3
+archetype       = "standard"
+platform_length_m = 85.0
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -11200,8 +11209,8 @@ junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 1254399041
 civil_subtotal_eur   = 1154047118
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 199900000
-stations_eur         = 183908000
+stations_usd         = 202400000
+stations_eur         = 186208000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 97717500
 depots_eur           = 89900100
@@ -11214,13 +11223,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 6574634
 signalling_eur       = 6048663
-charging_microgrid_usd = 10725000
-charging_microgrid_eur = 9867000
+charging_microgrid_usd = 11025000
+charging_microgrid_eur = 10143000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 121141732
-epc_overhead_eur     = 111450393
-total_usd            = 1851737907  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 1703598874  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 121337732
+epc_overhead_eur     = 111630713
+total_usd            = 1854733907  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 1706355194  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

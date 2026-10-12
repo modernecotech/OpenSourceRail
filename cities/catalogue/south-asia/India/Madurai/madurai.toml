@@ -565,6 +565,22 @@ name = "line-6-0525-0407-s073782"
 charging_power_kw = 1500
 dwell_seconds = 150
 
+[[stations]]
+id = "line-2-0358-1151-s010501"
+name = "line-2-0358-1151-s010501"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-5-0643-0182-s003508"
+name = "line-5-0643-0182-s003508"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-6-0908-1181-s031564"
+name = "Government Hospital"
+charging_power_kw = 1500
+dwell_seconds = 150
+
 
 
 # Lines — per-line station sequences.
@@ -590,7 +606,8 @@ stations = [
     { id = "line-2-0051-1407-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0092-1302-s003520", distance_from_prev_m = 3519 },
     { id = "line-2-0218-1217-s007025", distance_from_prev_m = 3505 },
-    { id = "line-2-0467-1037-s014035", distance_from_prev_m = 7010 },
+    { id = "line-2-0358-1151-s010501", distance_from_prev_m = 3475 },
+    { id = "line-2-0467-1037-s014035", distance_from_prev_m = 3534 },
     { id = "line-2-0550-0952-s016720", distance_from_prev_m = 2685 },
     { id = "line-2-0679-0816-s020896", distance_from_prev_m = 4175 },
     { id = "line-2-0739-0753-s022829", distance_from_prev_m = 1932 },
@@ -642,7 +659,8 @@ id = "line-5"
 name = "line-5"
 stations = [
     { id = "line-5-0628-0021-s000000", distance_from_prev_m = 0 },
-    { id = "line-5-0643-0357-s007008", distance_from_prev_m = 7008 },
+    { id = "line-5-0643-0182-s003508", distance_from_prev_m = 3508 },
+    { id = "line-5-0643-0357-s007008", distance_from_prev_m = 3500 },
     { id = "line-5-0659-0450-s009036", distance_from_prev_m = 2027 },
     { id = "line-5-0719-0680-s015934", distance_from_prev_m = 6897 },
     { id = "line-5-0715-0686-s016087", distance_from_prev_m = 153 },
@@ -665,7 +683,8 @@ stations = [
     { id = "line-6-0565-1189-s021047", distance_from_prev_m = 6515 },
     { id = "line-6-0588-1271-s023823", distance_from_prev_m = 2775 },
     { id = "line-6-0738-1195-s028048", distance_from_prev_m = 4225 },
-    { id = "line-6-1056-1202-s035061", distance_from_prev_m = 7012 },
+    { id = "line-6-0908-1181-s031564", distance_from_prev_m = 3516 },
+    { id = "line-6-1056-1202-s035061", distance_from_prev_m = 3496 },
     { id = "line-6-1109-1214-s036586", distance_from_prev_m = 1525 },
     { id = "line-6-1190-1024-s042072", distance_from_prev_m = 5486 },
     { id = "line-6-1230-0876-s045568", distance_from_prev_m = 3496 },
@@ -875,6 +894,10 @@ id = "sw-line-1-1342-0089-s038792-yd-44"
 station = "line-1-1342-0089-s038792"
 
 [[switches]]
+id = "sw-line-1-1342-0089-s038792-yd-45"
+station = "line-1-1342-0089-s038792"
+
+[[switches]]
 id = "sw-line-2-0051-1407-s000000-tb"
 station = "line-2-0051-1407-s000000"
 
@@ -930,7 +953,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 43
+trainset_count = 45
 dispatch_points = [
     { station = "line-2-0051-1407-s000000", heading = "forward" },
     { station = "line-2-0853-0635-s026496", heading = "reverse" },
@@ -984,7 +1007,7 @@ schedule = [
 
 [[fleets]]
 line = "line-5"
-trainset_count = 46
+trainset_count = 47
 dispatch_points = [
     { station = "line-5-0628-0021-s000000", heading = "forward" },
     { station = "line-5-0770-1075-s027436", heading = "reverse" },
@@ -1002,7 +1025,7 @@ schedule = [
 
 [[fleets]]
 line = "line-6"
-trainset_count = 31
+trainset_count = 32
 dispatch_points = [
     { station = "line-6-0457-0538-s003513", heading = "forward" },
     { station = "line-6-0525-0407-s073782", heading = "reverse" },
@@ -2170,6 +2193,23 @@ storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.5
 grid_import_kw = 1800.0
 grid_export_kw = 1800.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-6-0908-1181-s031564"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
 storage_module_kwh = 500.0
 charger_max_kw = 1500.0
 charger_max_current_a = 2475.0

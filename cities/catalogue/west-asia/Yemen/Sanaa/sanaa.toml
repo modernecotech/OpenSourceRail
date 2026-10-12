@@ -1041,6 +1041,21 @@ charging_power_kw = 2000
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-1-0370-0432-s010518"
+name = "line-1-0370-0432-s010518"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-11-0611-0151-s003496"
+name = "line-11-0611-0151-s003496"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-11-0548-0350-s010508"
+name = "line-11-0548-0350-s010508"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -1051,7 +1066,8 @@ stations = [
     { id = "line-1-0008-0203-s000000", distance_from_prev_m = 0 },
     { id = "line-1-0132-0327-s003507", distance_from_prev_m = 3507 },
     { id = "line-1-0296-0355-s007019", distance_from_prev_m = 3512 },
-    { id = "line-1-0476-0519-s014020", distance_from_prev_m = 7000 },
+    { id = "line-1-0370-0432-s010518", distance_from_prev_m = 3498 },
+    { id = "line-1-0476-0519-s014020", distance_from_prev_m = 3501 },
     { id = "line-1-0547-0553-s016116", distance_from_prev_m = 2096 },
     { id = "line-1-0598-0575-s017576", distance_from_prev_m = 1460 },
     { id = "line-1-0600-0577-s017656", distance_from_prev_m = 80 },
@@ -1253,8 +1269,10 @@ id = "line-11"
 name = "line-11"
 stations = [
     { id = "line-11-0742-0126-s000000", distance_from_prev_m = 0 },
-    { id = "line-11-0574-0245-s007016", distance_from_prev_m = 7016 },
-    { id = "line-11-0524-0506-s014027", distance_from_prev_m = 7011 },
+    { id = "line-11-0611-0151-s003496", distance_from_prev_m = 3496 },
+    { id = "line-11-0574-0245-s007016", distance_from_prev_m = 3519 },
+    { id = "line-11-0548-0350-s010508", distance_from_prev_m = 3491 },
+    { id = "line-11-0524-0506-s014027", distance_from_prev_m = 3519 },
     { id = "line-11-0598-0575-s016138", distance_from_prev_m = 2110 },
     { id = "line-11-0638-0615-s017269", distance_from_prev_m = 1131 },
     { id = "line-11-0667-0647-s018161", distance_from_prev_m = 891 },
@@ -1617,6 +1635,10 @@ id = "sw-line-1-1395-1093-s044566-yd-84"
 station = "line-1-1395-1093-s044566"
 
 [[switches]]
+id = "sw-line-1-1395-1093-s044566-yd-85"
+station = "line-1-1395-1093-s044566"
+
+[[switches]]
 id = "sw-line-10-1145-0728-s000000-tb"
 station = "line-10-1145-0728-s000000"
 
@@ -1694,7 +1716,7 @@ station = "line-9-0065-0965-s004999"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 116
+trainset_count = 117
 dispatch_points = [
     { station = "line-1-0008-0203-s000000", heading = "forward" },
     { station = "line-1-1395-1093-s044566", heading = "reverse" },
@@ -1874,7 +1896,7 @@ schedule = [
 
 [[fleets]]
 line = "line-11"
-trainset_count = 54
+trainset_count = 58
 dispatch_points = [
     { station = "line-11-0742-0126-s000000", heading = "forward" },
     { station = "line-11-0742-0735-s020946", heading = "reverse" },

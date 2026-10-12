@@ -1296,6 +1296,12 @@ name = "line-9-0705-0495-s070280"
 charging_power_kw = 2000
 dwell_seconds = 210
 
+[[stations]]
+id = "line-1-1275-0865-s003499"
+name = "Bevalala"
+charging_power_kw = 2000
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -1304,7 +1310,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-1358-0772-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-1165-0815-s007005", distance_from_prev_m = 7005 },
+    { id = "line-1-1275-0865-s003499", distance_from_prev_m = 3499 },
+    { id = "line-1-1165-0815-s007005", distance_from_prev_m = 3505 },
     { id = "line-1-1029-0840-s010007", distance_from_prev_m = 3002 },
     { id = "line-1-1025-0841-s010096", distance_from_prev_m = 88 },
     { id = "line-1-0927-0916-s012889", distance_from_prev_m = 2793 },
@@ -2147,7 +2154,7 @@ station = "line-8-0429-0242-s031029"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 141
+trainset_count = 144
 dispatch_points = [
     { station = "line-1-1358-0772-s000000", heading = "forward" },
     { station = "line-1-0173-1201-s035983", heading = "reverse" },
@@ -5572,6 +5579,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.5
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-1-1275-0865-s003499"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

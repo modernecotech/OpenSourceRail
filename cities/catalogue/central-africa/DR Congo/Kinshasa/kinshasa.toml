@@ -3812,6 +3812,12 @@ name = "line-9-0605-0659-s124846"
 charging_power_kw = 2000
 dwell_seconds = 120
 
+[[stations]]
+id = "line-13-1436-1505-s003883"
+name = "line-13-1436-1505-s003883"
+charging_power_kw = 2000
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -4506,7 +4512,8 @@ name = "line-13"
 stations = [
     { id = "line-13-1310-1497-s000000", distance_from_prev_m = 0 },
     { id = "line-13-1306-1489-s000380", distance_from_prev_m = 380 },
-    { id = "line-13-1487-1589-s007387", distance_from_prev_m = 7006 },
+    { id = "line-13-1436-1505-s003883", distance_from_prev_m = 3502 },
+    { id = "line-13-1487-1589-s007387", distance_from_prev_m = 3503 },
 ]
 
 [[lines]]
@@ -5681,6 +5688,10 @@ id = "sw-line-7-1673-0600-s091768-yd-266"
 station = "line-7-1673-0600-s091768"
 
 [[switches]]
+id = "sw-line-7-1673-0600-s091768-yd-267"
+station = "line-7-1673-0600-s091768"
+
+[[switches]]
 id = "sw-line-8-0711-1576-s000000-tb"
 station = "line-8-0711-1576-s000000"
 
@@ -5910,7 +5921,7 @@ schedule = [
 
 [[fleets]]
 line = "line-13"
-trainset_count = 16
+trainset_count = 18
 dispatch_points = [
     { station = "line-13-1310-1497-s000000", heading = "forward" },
     { station = "line-13-1487-1589-s007387", heading = "reverse" },
@@ -16276,6 +16287,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.5
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-13-1436-1505-s003883"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

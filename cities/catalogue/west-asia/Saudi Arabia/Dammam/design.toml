@@ -18169,6 +18169,33 @@ anchor_name     = "الجارودية"
 archetype       = "terminal"
 platform_length_m = 85.0
 
+[[stations]]
+id              = "line-2-0398-0158-s003500"
+line            = "line-2"
+lat             = 26.493083482705252
+lon             = 49.959597700250605
+s_m             = 3500.5
+archetype       = "halt"
+platform_length_m = 81.0
+
+[[stations]]
+id              = "line-2-0761-0706-s019969"
+line            = "line-2"
+lat             = 26.42775576431631
+lon             = 50.069535490391495
+s_m             = 19968.6
+archetype       = "standard"
+platform_length_m = 85.0
+
+[[stations]]
+id              = "line-6-0892-0327-s083197"
+line            = "line-6"
+lat             = 26.404180196523054
+lon             = 49.993501872757555
+s_m             = 83197.0
+archetype       = "standard"
+platform_length_m = 85.0
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -18673,6 +18700,11 @@ kit = "no-9-mainline"
 station = "line-1-0039-0318-s045162"
 side = "yard-throat"
 [[depots.switches]]
+id = "sw-line-1-0039-0318-s045162-yd-58"
+kit = "no-9-mainline"
+station = "line-1-0039-0318-s045162"
+side = "yard-throat"
+[[depots.switches]]
 id = "sw-line-2-0312-0057-s000000-tb"
 kit = "no-9-mainline"
 station = "line-2-0312-0057-s000000"
@@ -18748,14 +18780,14 @@ station = "line-2-0312-0057-s000000"
 line = "line-2"
 archetype = "main-heavy"
 fleet_stalls = 9
-storage_slots = 61
-storage_tracks = 21
+storage_slots = 64
+storage_tracks = 22
 train_length_m = 75
 slot_length_m = 85.0
-storage_track_m = 5185.0
+storage_track_m = 5440.0
 workshop_bays = 9
-planning_land_area_m2 = 61545.0
-reference_cost_usd = 23599325
+planning_land_area_m2 = 63840.0
+reference_cost_usd = 23793400
 site_accepted = false
 physical_release = false
 
@@ -18811,15 +18843,15 @@ physical_release = false
 station = "line-6-0322-0440-s004175"
 line = "line-6"
 archetype = "main-heavy"
-fleet_stalls = 5
-storage_slots = 36
-storage_tracks = 12
+fleet_stalls = 6
+storage_slots = 37
+storage_tracks = 13
 train_length_m = 75
 slot_length_m = 85.0
-storage_track_m = 3060.0
-workshop_bays = 5
-planning_land_area_m2 = 37490.0
-reference_cost_usd = 18120150
+storage_track_m = 3145.0
+workshop_bays = 6
+planning_land_area_m2 = 40635.0
+reference_cost_usd = 19215475
 site_accepted = false
 physical_release = false
 
@@ -18881,11 +18913,11 @@ trainset_count     = 72
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 55
+peak_count         = 58
 service_rotation_count = 0
 spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 61
+trainset_count     = 64
 
 [[fleets]]
 line               = "line-3"
@@ -18913,11 +18945,11 @@ trainset_count     = 68
 
 [[fleets]]
 line               = "line-6"
-peak_count         = 32
+peak_count         = 33
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 36
+trainset_count     = 37
 
 [[fleets]]
 line               = "line-7"
@@ -18964,27 +18996,27 @@ junction_premium_eur = 20700000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 2597648319
 civil_subtotal_eur   = 2389836453
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 632700000
-stations_eur         = 582084000
+stations_usd         = 638300000
+stations_eur         = 587236000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 176381925
-depots_eur           = 162271371
+depots_usd           = 177671325
+depots_eur           = 163457619
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 422240000
-rolling_stock_eur    = 388460800
+rolling_stock_usd    = 426720000
+rolling_stock_eur    = 392582400
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 15303102
 signalling_eur       = 14078854
-charging_microgrid_usd = 28725000
-charging_microgrid_eur = 26427000
+charging_microgrid_usd = 29325000
+charging_microgrid_eur = 26979000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 271109884
-epc_overhead_eur     = 249421093
-total_usd            = 4144108230  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 3812579572  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 271947742
+epc_overhead_eur     = 250191923
+total_usd            = 4156915488  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 3824362249  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -18999,7 +19031,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 204000
-fleet_core_electrical_usd = 76908000
+fleet_core_electrical_usd = 77724000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

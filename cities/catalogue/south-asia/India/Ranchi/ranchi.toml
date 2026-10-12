@@ -717,6 +717,11 @@ name = "Late ilyas azad hospital"
 charging_power_kw = 1500
 dwell_seconds = 120
 
+[[stations]]
+id = "line-6-0280-0738-s010514"
+name = "line-6-0280-0738-s010514"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -837,7 +842,8 @@ ring_wrap_length_m = 60
 stations = [
     { id = "line-6-0439-0540-s003501", distance_from_prev_m = 0 },
     { id = "line-6-0322-0601-s007011", distance_from_prev_m = 3510 },
-    { id = "line-6-0316-0849-s014026", distance_from_prev_m = 7015 },
+    { id = "line-6-0280-0738-s010514", distance_from_prev_m = 3502 },
+    { id = "line-6-0316-0849-s014026", distance_from_prev_m = 3512 },
     { id = "line-6-0322-0931-s015876", distance_from_prev_m = 1849 },
     { id = "line-6-0324-0935-s015984", distance_from_prev_m = 108 },
     { id = "line-6-0325-0938-s016064", distance_from_prev_m = 80 },
@@ -1206,7 +1212,7 @@ schedule = [
 
 [[fleets]]
 line = "line-6"
-trainset_count = 30
+trainset_count = 31
 dispatch_points = [
     { station = "line-6-0439-0540-s003501", heading = "forward" },
     { station = "line-6-0429-0414-s079785", heading = "reverse" },

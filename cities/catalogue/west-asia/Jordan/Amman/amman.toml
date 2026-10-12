@@ -894,6 +894,16 @@ name = "line-9-0793-0331-s079621"
 charging_power_kw = 2000
 dwell_seconds = 180
 
+[[stations]]
+id = "line-8-0214-1313-s003507"
+name = "line-8-0214-1313-s003507"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-9-1067-1328-s038506"
+name = "line-9-1067-1328-s038506"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -1024,7 +1034,8 @@ id = "line-8"
 name = "line-8"
 stations = [
     { id = "line-8-0090-1437-s000000", distance_from_prev_m = 0 },
-    { id = "line-8-0338-1189-s007014", distance_from_prev_m = 7014 },
+    { id = "line-8-0214-1313-s003507", distance_from_prev_m = 3507 },
+    { id = "line-8-0338-1189-s007014", distance_from_prev_m = 3507 },
     { id = "line-8-0458-1022-s012256", distance_from_prev_m = 5241 },
     { id = "line-8-0570-0885-s017204", distance_from_prev_m = 4948 },
     { id = "line-8-0627-0854-s018660", distance_from_prev_m = 1455 },
@@ -1054,7 +1065,8 @@ stations = [
     { id = "line-9-0751-1260-s030824", distance_from_prev_m = 4603 },
     { id = "line-9-0758-1264-s030997", distance_from_prev_m = 173 },
     { id = "line-9-0936-1255-s034988", distance_from_prev_m = 3991 },
-    { id = "line-9-1160-1348-s042007", distance_from_prev_m = 7018 },
+    { id = "line-9-1067-1328-s038506", distance_from_prev_m = 3517 },
+    { id = "line-9-1160-1348-s042007", distance_from_prev_m = 3500 },
     { id = "line-9-1220-1262-s044610", distance_from_prev_m = 2603 },
     { id = "line-9-1178-1170-s047223", distance_from_prev_m = 2612 },
     { id = "line-9-1240-1133-s049015", distance_from_prev_m = 1792 },
@@ -1748,7 +1760,7 @@ schedule = [
 
 [[fleets]]
 line = "line-8"
-trainset_count = 63
+trainset_count = 65
 dispatch_points = [
     { station = "line-8-0090-1437-s000000", heading = "forward" },
     { station = "line-8-1020-0487-s034889", heading = "reverse" },

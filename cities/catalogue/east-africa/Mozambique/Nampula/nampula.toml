@@ -108,20 +108,20 @@ is_terminal = true
 id = "line-2-0302-0278-s000000"
 name = "Hospital Geral de Nampula"
 charging_power_kw = 500
-dwell_seconds = 330
+dwell_seconds = 270
 is_terminal = true
 
 [[stations]]
 id = "line-2-0512-0459-s006238"
 name = "Nagi"
 charging_power_kw = 500
-dwell_seconds = 330
+dwell_seconds = 270
 
 [[stations]]
 id = "line-2-0567-0507-s007888"
 name = "Catholic University"
 charging_power_kw = 500
-dwell_seconds = 330
+dwell_seconds = 270
 
 [[stations]]
 id = "line-2-0803-0711-s014908"
@@ -132,13 +132,13 @@ dwell_seconds = 60
 id = "line-2-0868-0767-s016824"
 name = "line-2-0868-0767-s016824"
 charging_power_kw = 500
-dwell_seconds = 330
+dwell_seconds = 270
 
 [[stations]]
 id = "line-2-0938-0810-s018943"
 name = "Universidade Mussa Bin Bique"
 charging_power_kw = 500
-dwell_seconds = 330
+dwell_seconds = 270
 is_terminal = true
 is_depot = true
 depot_service = true
@@ -215,6 +215,12 @@ charging_power_kw = 500
 dwell_seconds = 210
 is_terminal = true
 
+[[stations]]
+id = "line-2-0685-0609-s011386"
+name = "line-2-0685-0609-s011386"
+charging_power_kw = 500
+dwell_seconds = 270
+
 
 
 # Lines — per-line station sequences.
@@ -236,7 +242,8 @@ stations = [
     { id = "line-2-0302-0278-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0512-0459-s006238", distance_from_prev_m = 6238 },
     { id = "line-2-0567-0507-s007888", distance_from_prev_m = 1649 },
-    { id = "line-2-0803-0711-s014908", distance_from_prev_m = 7019 },
+    { id = "line-2-0685-0609-s011386", distance_from_prev_m = 3497 },
+    { id = "line-2-0803-0711-s014908", distance_from_prev_m = 3521 },
     { id = "line-2-0868-0767-s016824", distance_from_prev_m = 1916 },
     { id = "line-2-0938-0810-s018943", distance_from_prev_m = 2119 },
 ]
@@ -854,6 +861,23 @@ storage_max_discharge_kw = 500.0
 storage_initial_soc = 0.6
 grid_import_kw = 800.0
 grid_export_kw = 800.0
+storage_module_kwh = 500.0
+charger_max_kw = 500.0
+charger_max_current_a = 825.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 2
+
+[[sites]]
+station = "line-2-0685-0609-s011386"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 500.0
+storage_max_charge_kw = 500.0
+storage_max_discharge_kw = 500.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
 storage_module_kwh = 500.0
 charger_max_kw = 500.0
 charger_max_current_a = 825.0

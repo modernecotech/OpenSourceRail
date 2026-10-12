@@ -178,61 +178,61 @@ dwell_seconds = 60
 id = "line-2-0717-0779-s017095"
 name = "line-2-0717-0779-s017095"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-0816-0854-s019834"
 name = "line-2-0816-0854-s019834"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1004-1021-s025730"
 name = "line-2-1004-1021-s025730"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1104-1143-s029706"
 name = "line-2-1104-1143-s029706"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1107-1146-s029814"
 name = "line-2-1107-1146-s029814"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1113-1152-s029996"
 name = "line-2-1113-1152-s029996"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1115-1154-s030064"
 name = "Hôpital Général de Douala"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1109-1222-s031921"
 name = "line-2-1109-1222-s031921"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1232-1306-s036085"
 name = "line-2-1232-1306-s036085"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1372-1412-s041135"
 name = "line-2-1372-1412-s041135"
 charging_power_kw = 2000
-dwell_seconds = 180
+dwell_seconds = 150
 
 [[stations]]
 id = "line-2-1455-1521-s044959"
@@ -557,6 +557,12 @@ charging_power_kw = 2000
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-2-0499-0608-s010514"
+name = "line-2-0499-0608-s010514"
+charging_power_kw = 2000
+dwell_seconds = 150
+
 
 
 # Lines — per-line station sequences.
@@ -586,7 +592,8 @@ stations = [
     { id = "line-2-0197-0345-s000000", distance_from_prev_m = 0 },
     { id = "line-2-0280-0466-s003517", distance_from_prev_m = 3517 },
     { id = "line-2-0399-0564-s007014", distance_from_prev_m = 3496 },
-    { id = "line-2-0579-0744-s014022", distance_from_prev_m = 7007 },
+    { id = "line-2-0499-0608-s010514", distance_from_prev_m = 3500 },
+    { id = "line-2-0579-0744-s014022", distance_from_prev_m = 3507 },
     { id = "line-2-0717-0779-s017095", distance_from_prev_m = 3073 },
     { id = "line-2-0816-0854-s019834", distance_from_prev_m = 2739 },
     { id = "line-2-1004-1021-s025730", distance_from_prev_m = 5895 },
@@ -978,7 +985,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 87
+trainset_count = 84
 dispatch_points = [
     { station = "line-2-0197-0345-s000000", heading = "forward" },
     { station = "line-2-1455-1521-s044959", heading = "reverse" },
@@ -2322,6 +2329,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.6
 grid_import_kw = 3200.0
 grid_export_kw = 3200.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-2-0499-0608-s010514"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

@@ -1122,6 +1122,12 @@ name = "line-6-0153-0893-s114809"
 charging_power_kw = 1500
 dwell_seconds = 120
 
+[[stations]]
+id = "line-6-0542-1022-s016001"
+name = "line-6-0542-1022-s016001"
+charging_power_kw = 1500
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -1289,7 +1295,8 @@ stations = [
     { id = "line-6-0279-1047-s004839", distance_from_prev_m = 2191 },
     { id = "line-6-0432-1125-s008663", distance_from_prev_m = 3823 },
     { id = "line-6-0597-1086-s012484", distance_from_prev_m = 3821 },
-    { id = "line-6-0380-0991-s019498", distance_from_prev_m = 7013 },
+    { id = "line-6-0542-1022-s016001", distance_from_prev_m = 3517 },
+    { id = "line-6-0380-0991-s019498", distance_from_prev_m = 3496 },
     { id = "line-6-0373-0923-s020932", distance_from_prev_m = 1434 },
     { id = "line-6-0373-0852-s022352", distance_from_prev_m = 1420 },
     { id = "line-6-0373-0830-s022792", distance_from_prev_m = 440 },
@@ -4660,6 +4667,23 @@ storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.5
 grid_import_kw = 1800.0
 grid_export_kw = 1800.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-6-0542-1022-s016001"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
 storage_module_kwh = 500.0
 charger_max_kw = 1500.0
 charger_max_current_a = 2475.0

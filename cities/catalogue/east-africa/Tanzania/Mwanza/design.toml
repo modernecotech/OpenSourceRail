@@ -16774,6 +16774,15 @@ anchor_kind     = "amenity:marketplace"
 archetype       = "terminal"
 platform_length_m = 85.0
 
+[[stations]]
+id              = "line-3-1235-0616-s003516"
+line            = "line-3"
+lat             = -2.5946481985386747
+lon             = 32.88406867906421
+s_m             = 3515.6
+archetype       = "halt"
+platform_length_m = 81.0
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -17292,15 +17301,15 @@ physical_release = false
 station = "line-3-0559-0696-s027442"
 line = "line-3"
 archetype = "main-heavy"
-fleet_stalls = 7
-storage_slots = 50
+fleet_stalls = 8
+storage_slots = 51
 storage_tracks = 17
 train_length_m = 75
 slot_length_m = 85.0
-storage_track_m = 4250.0
-workshop_bays = 7
-planning_land_area_m2 = 50665.0
-reference_cost_usd = 20956775
+storage_track_m = 4335.0
+workshop_bays = 8
+planning_land_area_m2 = 51515.0
+reference_cost_usd = 21921775
 site_accepted = false
 physical_release = false
 
@@ -17418,11 +17427,11 @@ trainset_count     = 49
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 45
+peak_count         = 46
 service_rotation_count = 0
 spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 50
+trainset_count     = 51
 
 [[fleets]]
 line               = "line-4"
@@ -17493,14 +17502,14 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 1891525518
 civil_subtotal_eur   = 1740203477
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 605600000
-stations_eur         = 557152000
+stations_usd         = 606200000
+stations_eur         = 557704000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 161855975
-depots_eur           = 148907497
+depots_usd           = 162820975
+depots_eur           = 149795297
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 332640000
-rolling_stock_eur    = 306028800
+rolling_stock_usd    = 333760000
+rolling_stock_eur    = 307059200
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
@@ -17510,10 +17519,10 @@ signalling_eur       = 9178971
 charging_microgrid_usd = 26250000
 charging_microgrid_eur = 24150000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 211949404
-epc_overhead_eur     = 194993452
-total_usd            = 3239798039  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 2980614196  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 212137354
+epc_overhead_eur     = 195166366
+total_usd            = 3242670989  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 2983257310  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -17528,7 +17537,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 204000
-fleet_core_electrical_usd = 60588000
+fleet_core_electrical_usd = 60792000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

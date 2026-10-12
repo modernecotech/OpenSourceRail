@@ -876,6 +876,12 @@ charging_power_kw = 2000
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-5-0461-1101-s010502"
+name = "line-5-0461-1101-s010502"
+charging_power_kw = 2000
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -1001,7 +1007,8 @@ stations = [
     { id = "line-5-0333-0692-s000000", distance_from_prev_m = 0 },
     { id = "line-5-0376-0821-s003518", distance_from_prev_m = 3518 },
     { id = "line-5-0411-0965-s007011", distance_from_prev_m = 3492 },
-    { id = "line-5-0455-1209-s014018", distance_from_prev_m = 7006 },
+    { id = "line-5-0461-1101-s010502", distance_from_prev_m = 3490 },
+    { id = "line-5-0455-1209-s014018", distance_from_prev_m = 3516 },
     { id = "line-5-0472-1322-s016489", distance_from_prev_m = 2471 },
     { id = "line-5-0648-1287-s021039", distance_from_prev_m = 4549 },
     { id = "line-5-0754-1226-s024378", distance_from_prev_m = 3339 },
@@ -1340,6 +1347,10 @@ id = "sw-line-2-0094-0108-s050900-yd-65"
 station = "line-2-0094-0108-s050900"
 
 [[switches]]
+id = "sw-line-2-0094-0108-s050900-yd-66"
+station = "line-2-0094-0108-s050900"
+
+[[switches]]
 id = "sw-line-3-1086-1755-s000000-tb"
 station = "line-3-1086-1755-s000000"
 
@@ -1457,7 +1468,7 @@ schedule = [
 
 [[fleets]]
 line = "line-5"
-trainset_count = 37
+trainset_count = 38
 dispatch_points = [
     { station = "line-5-0333-0692-s000000", heading = "forward" },
     { station = "line-5-0530-0706-s068810", heading = "reverse" },
@@ -3580,6 +3591,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.6
 grid_import_kw = 3200.0
 grid_export_kw = 3200.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-5-0461-1101-s010502"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

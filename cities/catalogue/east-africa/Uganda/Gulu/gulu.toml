@@ -364,6 +364,16 @@ charging_power_kw = 1000
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-2-0872-0914-s003519"
+name = "line-2-0872-0914-s003519"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-3-0564-0222-s003492"
+name = "line-3-0564-0222-s003492"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -392,7 +402,8 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-1012-0957-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0771-0805-s007016", distance_from_prev_m = 7016 },
+    { id = "line-2-0872-0914-s003519", distance_from_prev_m = 3519 },
+    { id = "line-2-0771-0805-s007016", distance_from_prev_m = 3497 },
     { id = "line-2-0715-0726-s009342", distance_from_prev_m = 2325 },
     { id = "line-2-0666-0588-s012792", distance_from_prev_m = 3450 },
     { id = "line-2-0665-0584-s012881", distance_from_prev_m = 88 },
@@ -413,7 +424,8 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-0550-0083-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-0498-0366-s007001", distance_from_prev_m = 7001 },
+    { id = "line-3-0564-0222-s003492", distance_from_prev_m = 3492 },
+    { id = "line-3-0498-0366-s007001", distance_from_prev_m = 3508 },
     { id = "line-3-0460-0448-s009003", distance_from_prev_m = 2001 },
     { id = "line-3-0390-0600-s012693", distance_from_prev_m = 3690 },
     { id = "line-3-0320-0751-s016375", distance_from_prev_m = 3681 },
@@ -619,6 +631,10 @@ id = "sw-line-2-0122-0216-s029308-yd-39"
 station = "line-2-0122-0216-s029308"
 
 [[switches]]
+id = "sw-line-2-0122-0216-s029308-yd-40"
+station = "line-2-0122-0216-s029308"
+
+[[switches]]
 id = "sw-line-3-0550-0083-s000000-tb"
 station = "line-3-0550-0083-s000000"
 
@@ -666,7 +682,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 97
+trainset_count = 100
 dispatch_points = [
     { station = "line-2-1012-0957-s000000", heading = "forward" },
     { station = "line-2-0122-0216-s029308", heading = "reverse" },
@@ -684,7 +700,7 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 49
+trainset_count = 51
 dispatch_points = [
     { station = "line-3-0550-0083-s000000", heading = "forward" },
     { station = "line-3-0320-0751-s016375", heading = "reverse" },

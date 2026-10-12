@@ -745,6 +745,12 @@ name = "Kakori"
 charging_power_kw = 2000
 dwell_seconds = 210
 
+[[stations]]
+id = "line-8-0599-1477-s031543"
+name = "Integral University"
+charging_power_kw = 2000
+dwell_seconds = 210
+
 
 
 # Lines — per-line station sequences.
@@ -889,7 +895,8 @@ stations = [
     { id = "line-8-0723-1024-s017751", distance_from_prev_m = 3727 },
     { id = "line-8-0638-1148-s021474", distance_from_prev_m = 3723 },
     { id = "line-8-0659-1393-s028042", distance_from_prev_m = 6568 },
-    { id = "line-8-0705-1560-s035046", distance_from_prev_m = 7004 },
+    { id = "line-8-0599-1477-s031543", distance_from_prev_m = 3500 },
+    { id = "line-8-0705-1560-s035046", distance_from_prev_m = 3503 },
     { id = "line-8-0766-1584-s037270", distance_from_prev_m = 2223 },
     { id = "line-8-0970-1750-s043225", distance_from_prev_m = 5955 },
     { id = "line-8-1161-1703-s048732", distance_from_prev_m = 5507 },
@@ -1419,7 +1426,7 @@ schedule = [
 
 [[fleets]]
 line = "line-8"
-trainset_count = 46
+trainset_count = 47
 dispatch_points = [
     { station = "line-8-0878-0570-s003504", heading = "forward" },
     { station = "line-8-0995-0478-s100074", heading = "reverse" },
@@ -3046,6 +3053,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.5
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-8-0599-1477-s031543"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

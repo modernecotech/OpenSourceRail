@@ -1105,6 +1105,18 @@ name = "Waziri Gidado General Hospital"
 charging_power_kw = 2000
 dwell_seconds = 150
 
+[[stations]]
+id = "line-5-0904-1703-s010516"
+name = "line-5-0904-1703-s010516"
+charging_power_kw = 2000
+dwell_seconds = 150
+
+[[stations]]
+id = "line-7-0642-1406-s010521"
+name = "line-7-0642-1406-s010521"
+charging_power_kw = 2000
+dwell_seconds = 180
+
 
 
 # Lines — per-line station sequences.
@@ -1206,7 +1218,8 @@ stations = [
     { id = "line-5-0655-2069-s000000", distance_from_prev_m = 0 },
     { id = "line-5-0731-1960-s003509", distance_from_prev_m = 3509 },
     { id = "line-5-0809-1828-s007006", distance_from_prev_m = 3496 },
-    { id = "line-5-0998-1580-s014024", distance_from_prev_m = 7017 },
+    { id = "line-5-0904-1703-s010516", distance_from_prev_m = 3509 },
+    { id = "line-5-0998-1580-s014024", distance_from_prev_m = 3508 },
     { id = "line-5-1034-1533-s015333", distance_from_prev_m = 1308 },
     { id = "line-5-1190-1329-s021080", distance_from_prev_m = 5747 },
     { id = "line-5-1295-1192-s024924", distance_from_prev_m = 3844 },
@@ -1242,7 +1255,8 @@ stations = [
     { id = "line-7-0229-1566-s000000", distance_from_prev_m = 0 },
     { id = "line-7-0324-1484-s003503", distance_from_prev_m = 3502 },
     { id = "line-7-0497-1479-s007004", distance_from_prev_m = 3501 },
-    { id = "line-7-0785-1333-s014021", distance_from_prev_m = 7016 },
+    { id = "line-7-0642-1406-s010521", distance_from_prev_m = 3516 },
+    { id = "line-7-0785-1333-s014021", distance_from_prev_m = 3499 },
     { id = "line-7-0908-1270-s017096", distance_from_prev_m = 3075 },
     { id = "line-7-0924-1263-s017468", distance_from_prev_m = 372 },
     { id = "line-7-1051-1198-s020658", distance_from_prev_m = 3189 },
@@ -1924,6 +1938,10 @@ id = "sw-line-7-2184-0687-s050093-yd-116"
 station = "line-7-2184-0687-s050093"
 
 [[switches]]
+id = "sw-line-7-2184-0687-s050093-yd-117"
+station = "line-7-2184-0687-s050093"
+
+[[switches]]
 id = "sw-line-8-1575-1359-s000000-tb"
 station = "line-8-1575-1359-s000000"
 
@@ -2009,7 +2027,7 @@ schedule = [
 
 [[fleets]]
 line = "line-5"
-trainset_count = 67
+trainset_count = 70
 dispatch_points = [
     { station = "line-5-0655-2069-s000000", heading = "forward" },
     { station = "line-5-1615-0774-s036720", heading = "reverse" },
@@ -2045,7 +2063,7 @@ schedule = [
 
 [[fleets]]
 line = "line-7"
-trainset_count = 94
+trainset_count = 97
 dispatch_points = [
     { station = "line-7-0229-1566-s000000", heading = "forward" },
     { station = "line-7-2184-0687-s050093", heading = "reverse" },
@@ -4750,6 +4768,40 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.5
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-5-0904-1703-s010516"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-7-0642-1406-s010521"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

@@ -589,6 +589,17 @@ charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-4-0885-0417-s048966"
+name = "line-4-0885-0417-s048966"
+charging_power_kw = 1500
+dwell_seconds = 120
+
+[[stations]]
+id = "line-6-0556-1263-s003492"
+name = "line-6-0556-1263-s003492"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -689,7 +700,8 @@ stations = [
     { id = "line-4-0838-0733-s036478", distance_from_prev_m = 188 },
     { id = "line-4-0861-0504-s041930", distance_from_prev_m = 5451 },
     { id = "line-4-0931-0381-s045450", distance_from_prev_m = 3520 },
-    { id = "line-4-0777-0531-s052469", distance_from_prev_m = 7019 },
+    { id = "line-4-0885-0417-s048966", distance_from_prev_m = 3516 },
+    { id = "line-4-0777-0531-s052469", distance_from_prev_m = 3502 },
     { id = "line-4-0686-0532-s054309", distance_from_prev_m = 1840 },
 ]
 
@@ -707,7 +719,8 @@ id = "line-6"
 name = "line-6"
 stations = [
     { id = "line-6-0668-1346-s000000", distance_from_prev_m = 0 },
-    { id = "line-6-0483-1125-s007007", distance_from_prev_m = 7007 },
+    { id = "line-6-0556-1263-s003492", distance_from_prev_m = 3491 },
+    { id = "line-6-0483-1125-s007007", distance_from_prev_m = 3515 },
     { id = "line-6-0511-1012-s010301", distance_from_prev_m = 3293 },
     { id = "line-6-0534-0990-s011362", distance_from_prev_m = 1060 },
     { id = "line-6-0530-0996-s011805", distance_from_prev_m = 442 },
@@ -984,7 +997,7 @@ schedule = [
 
 [[fleets]]
 line = "line-6"
-trainset_count = 20
+trainset_count = 23
 dispatch_points = [
     { station = "line-6-0668-1346-s000000", heading = "forward" },
     { station = "line-6-0530-0996-s011805", heading = "reverse" },
@@ -2390,6 +2403,23 @@ storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.6
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-4-0885-0417-s048966"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
 storage_module_kwh = 500.0
 charger_max_kw = 1500.0
 charger_max_current_a = 2475.0

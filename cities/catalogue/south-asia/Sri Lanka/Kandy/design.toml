@@ -9297,6 +9297,17 @@ s_m             = 4259.9
 archetype       = "terminal"
 platform_length_m = 59.5
 
+[[stations]]
+id              = "line-3-0155-0388-s015881"
+line            = "line-3"
+lat             = 7.361715261130907
+lon             = 80.6041676816106
+s_m             = 15881.3
+anchor_kind     = "place:suburb"
+anchor_name     = "Akurana"
+archetype       = "halt"
+platform_length_m = 55.5
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -9633,14 +9644,14 @@ station = "line-3-0669-0844-s000000"
 line = "line-3"
 archetype = "main-heavy"
 fleet_stalls = 9
-storage_slots = 59
+storage_slots = 60
 storage_tracks = 20
 train_length_m = 49.5
 slot_length_m = 59.5
-storage_track_m = 3510.5
+storage_track_m = 3570.0
 workshop_bays = 9
 planning_land_area_m2 = 43185.0
-reference_cost_usd = 20560300
+reference_cost_usd = 20575175
 site_accepted = false
 physical_release = false
 
@@ -9694,11 +9705,11 @@ trainset_count     = 85
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 53
+peak_count         = 54
 service_rotation_count = 0
 spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 59
+trainset_count     = 60
 
 [[fleets]]
 line               = "line-4"
@@ -9737,14 +9748,14 @@ junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 835304108
 civil_subtotal_eur   = 768479779
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 152600000
-stations_eur         = 140392000
+stations_usd         = 153200000
+stations_eur         = 140944000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 96954350
-depots_eur           = 89198002
+depots_usd           = 96969225
+depots_eur           = 89211687
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 237600000
-rolling_stock_eur    = 218592000
+rolling_stock_usd    = 238500000
+rolling_stock_eur    = 219420000
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
@@ -9754,10 +9765,10 @@ signalling_eur       = 3982245
 charging_microgrid_usd = 2775000
 charging_microgrid_eur = 2553000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 93069339
-epc_overhead_eur     = 85623792
-total_usd            = 1422631324  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 1308820818  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 93175380
+epc_overhead_eur     = 85721350
+total_usd            = 1424252240  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 1310312061  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -9772,7 +9783,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 40392000
+fleet_core_electrical_usd = 40545000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

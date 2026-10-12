@@ -866,6 +866,16 @@ name = "line-8-0682-0918-s080129"
 charging_power_kw = 2000
 dwell_seconds = 180
 
+[[stations]]
+id = "line-4-1556-1835-s010524"
+name = "line-4-1556-1835-s010524"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-8-1784-1580-s038559"
+name = "line-8-1784-1580-s038559"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -940,7 +950,8 @@ stations = [
     { id = "line-4-1748-2185-s000000", distance_from_prev_m = 0 },
     { id = "line-4-1684-2083-s003501", distance_from_prev_m = 3501 },
     { id = "line-4-1624-1974-s007017", distance_from_prev_m = 3515 },
-    { id = "line-4-1494-1721-s014019", distance_from_prev_m = 7001 },
+    { id = "line-4-1556-1835-s010524", distance_from_prev_m = 3507 },
+    { id = "line-4-1494-1721-s014019", distance_from_prev_m = 3494 },
     { id = "line-4-1446-1605-s017351", distance_from_prev_m = 3332 },
     { id = "line-4-1310-1458-s022787", distance_from_prev_m = 5436 },
     { id = "line-4-1294-1301-s028610", distance_from_prev_m = 5822 },
@@ -1036,7 +1047,8 @@ stations = [
     { id = "line-8-1159-1630-s023410", distance_from_prev_m = 2256 },
     { id = "line-8-1446-1605-s030218", distance_from_prev_m = 6807 },
     { id = "line-8-1653-1652-s035062", distance_from_prev_m = 4843 },
-    { id = "line-8-1724-1433-s042067", distance_from_prev_m = 7005 },
+    { id = "line-8-1784-1580-s038559", distance_from_prev_m = 3497 },
+    { id = "line-8-1724-1433-s042067", distance_from_prev_m = 3507 },
     { id = "line-8-1703-1354-s043884", distance_from_prev_m = 1817 },
     { id = "line-8-1712-1098-s049078", distance_from_prev_m = 5194 },
     { id = "line-8-1716-0962-s051832", distance_from_prev_m = 2753 },
@@ -1434,6 +1446,10 @@ id = "sw-line-4-1013-0866-s046495-yd-87"
 station = "line-4-1013-0866-s046495"
 
 [[switches]]
+id = "sw-line-4-1013-0866-s046495-yd-88"
+station = "line-4-1013-0866-s046495"
+
+[[switches]]
 id = "sw-line-5-1522-1369-s000000-tb"
 station = "line-5-1522-1369-s000000"
 
@@ -1517,7 +1533,7 @@ schedule = [
 
 [[fleets]]
 line = "line-4"
-trainset_count = 102
+trainset_count = 103
 dispatch_points = [
     { station = "line-4-1748-2185-s000000", heading = "forward" },
     { station = "line-4-1013-0866-s046495", heading = "reverse" },

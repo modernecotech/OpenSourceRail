@@ -192,7 +192,7 @@ depot_service = true
 id = "line-4-0704-0394-s000807"
 name = "line-4-0704-0394-s000807"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 is_depot = true
 depot_service = true
 
@@ -200,13 +200,13 @@ depot_service = true
 id = "line-4-0570-0587-s007013"
 name = "سامان هواري شار"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0454-0666-s010522"
 name = "line-4-0454-0666-s010522"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0378-0748-s014025"
@@ -222,55 +222,55 @@ dwell_seconds = 60
 id = "line-4-0501-0967-s024131"
 name = "line-4-0501-0967-s024131"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0752-0952-s031064"
 name = "line-4-0752-0952-s031064"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0802-0918-s032439"
 name = "line-4-0802-0918-s032439"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0901-0862-s035618"
 name = "سانا ٣١٣"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-1106-0890-s040583"
 name = "line-4-1106-0890-s040583"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-1064-0785-s044098"
 name = "line-4-1064-0785-s044098"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-1021-0609-s048407"
 name = "line-4-1021-0609-s048407"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0862-0434-s054646"
 name = "line-4-0862-0434-s054646"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-4-0775-0250-s059842"
 name = "تەرمیناڵی فرۆکەخانەی سلێمانی"
 charging_power_kw = 1500
-dwell_seconds = 210
+dwell_seconds = 180
 
 [[stations]]
 id = "line-5-0661-0820-s000000"
@@ -315,6 +315,12 @@ name = "line-6-0613-0313-s006286"
 charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
+
+[[stations]]
+id = "line-4-0456-0861-s017528"
+name = "line-4-0456-0861-s017528"
+charging_power_kw = 1500
+dwell_seconds = 180
 
 
 
@@ -365,7 +371,8 @@ stations = [
     { id = "line-4-0570-0587-s007013", distance_from_prev_m = 6205 },
     { id = "line-4-0454-0666-s010522", distance_from_prev_m = 3509 },
     { id = "line-4-0378-0748-s014025", distance_from_prev_m = 3502 },
-    { id = "line-4-0401-0991-s021044", distance_from_prev_m = 7019 },
+    { id = "line-4-0456-0861-s017528", distance_from_prev_m = 3503 },
+    { id = "line-4-0401-0991-s021044", distance_from_prev_m = 3515 },
     { id = "line-4-0501-0967-s024131", distance_from_prev_m = 3087 },
     { id = "line-4-0752-0952-s031064", distance_from_prev_m = 6933 },
     { id = "line-4-0802-0918-s032439", distance_from_prev_m = 1375 },
@@ -1212,6 +1219,23 @@ storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.6
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-4-0456-0861-s017528"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
 storage_module_kwh = 500.0
 charger_max_kw = 1500.0
 charger_max_current_a = 2475.0

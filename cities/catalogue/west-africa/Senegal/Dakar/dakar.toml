@@ -1083,6 +1083,11 @@ charging_power_kw = 2000
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-5-0652-1659-s003511"
+name = "line-5-0652-1659-s003511"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -1193,7 +1198,8 @@ id = "line-5"
 name = "line-5"
 stations = [
     { id = "line-5-0645-1815-s000000", distance_from_prev_m = 0 },
-    { id = "line-5-0707-1533-s007020", distance_from_prev_m = 7019 },
+    { id = "line-5-0652-1659-s003511", distance_from_prev_m = 3510 },
+    { id = "line-5-0707-1533-s007020", distance_from_prev_m = 3509 },
     { id = "line-5-0734-1416-s009584", distance_from_prev_m = 2563 },
     { id = "line-5-0735-1410-s009712", distance_from_prev_m = 128 },
     { id = "line-5-0738-1375-s010543", distance_from_prev_m = 831 },
@@ -1767,7 +1773,7 @@ schedule = [
 
 [[fleets]]
 line = "line-5"
-trainset_count = 86
+trainset_count = 87
 dispatch_points = [
     { station = "line-5-0645-1815-s000000", heading = "forward" },
     { station = "line-5-0993-0627-s035934", heading = "reverse" },

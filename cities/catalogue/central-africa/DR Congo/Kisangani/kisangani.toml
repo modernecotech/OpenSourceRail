@@ -218,6 +218,11 @@ charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-1-0586-0358-s003517"
+name = "line-1-0586-0358-s003517"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -226,7 +231,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0560-0244-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0650-0503-s007017", distance_from_prev_m = 7017 },
+    { id = "line-1-0586-0358-s003517", distance_from_prev_m = 3516 },
+    { id = "line-1-0650-0503-s007017", distance_from_prev_m = 3500 },
     { id = "line-1-0711-0639-s010301", distance_from_prev_m = 3283 },
     { id = "line-1-0746-0719-s012226", distance_from_prev_m = 1925 },
     { id = "line-1-0800-0839-s015121", distance_from_prev_m = 2894 },
@@ -329,7 +335,7 @@ station = "line-3-0589-0687-s004030"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 46
+trainset_count = 47
 dispatch_points = [
     { station = "line-1-0560-0244-s000000", heading = "forward" },
     { station = "line-1-0931-1133-s022215", heading = "reverse" },

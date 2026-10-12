@@ -1190,6 +1190,17 @@ name = "line-9-0724-0682-s118361"
 charging_power_kw = 2000
 dwell_seconds = 150
 
+[[stations]]
+id = "line-3-1631-1729-s047043"
+name = "line-3-1631-1729-s047043"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-5-0574-1168-s003506"
+name = "line-5-0574-1168-s003506"
+charging_power_kw = 2000
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -1259,7 +1270,8 @@ stations = [
     { id = "line-3-1230-1398-s036042", distance_from_prev_m = 3029 },
     { id = "line-3-1390-1513-s040305", distance_from_prev_m = 4263 },
     { id = "line-3-1504-1627-s043529", distance_from_prev_m = 3224 },
-    { id = "line-3-1774-1746-s050537", distance_from_prev_m = 7008 },
+    { id = "line-3-1631-1729-s047043", distance_from_prev_m = 3513 },
+    { id = "line-3-1774-1746-s050537", distance_from_prev_m = 3494 },
     { id = "line-3-1900-1863-s054589", distance_from_prev_m = 4051 },
     { id = "line-3-2035-2007-s058657", distance_from_prev_m = 4068 },
 ]
@@ -1290,7 +1302,8 @@ id = "line-5"
 name = "line-5"
 stations = [
     { id = "line-5-0482-1235-s000000", distance_from_prev_m = 0 },
-    { id = "line-5-0709-1113-s007013", distance_from_prev_m = 7012 },
+    { id = "line-5-0574-1168-s003506", distance_from_prev_m = 3505 },
+    { id = "line-5-0709-1113-s007013", distance_from_prev_m = 3507 },
     { id = "line-5-0826-1080-s010216", distance_from_prev_m = 3202 },
     { id = "line-5-1082-1035-s017086", distance_from_prev_m = 6870 },
     { id = "line-5-1086-1032-s017203", distance_from_prev_m = 116 },
@@ -1982,6 +1995,10 @@ id = "sw-line-3-2035-2007-s058657-yd-114"
 station = "line-3-2035-2007-s058657"
 
 [[switches]]
+id = "sw-line-3-2035-2007-s058657-yd-115"
+station = "line-3-2035-2007-s058657"
+
+[[switches]]
 id = "sw-line-4-0750-0571-s000000-tb"
 station = "line-4-0750-0571-s000000"
 
@@ -2063,7 +2080,7 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 108
+trainset_count = 111
 dispatch_points = [
     { station = "line-3-0297-0674-s000000", heading = "forward" },
     { station = "line-3-2035-2007-s058657", heading = "reverse" },
@@ -2099,7 +2116,7 @@ schedule = [
 
 [[fleets]]
 line = "line-5"
-trainset_count = 83
+trainset_count = 86
 dispatch_points = [
     { station = "line-5-0482-1235-s000000", heading = "forward" },
     { station = "line-5-1875-0674-s044026", heading = "reverse" },
@@ -5180,6 +5197,23 @@ storage_max_discharge_kw = 2000.0
 storage_initial_soc = 0.5
 grid_import_kw = 2400.0
 grid_export_kw = 2400.0
+storage_module_kwh = 500.0
+charger_max_kw = 2000.0
+charger_max_current_a = 3300.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 8
+
+[[sites]]
+station = "line-5-0574-1168-s003506"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 2000.0
+storage_max_discharge_kw = 2000.0
+storage_initial_soc = 0.5
+grid_import_kw = 2000.0
+grid_export_kw = 2000.0
 storage_module_kwh = 500.0
 charger_max_kw = 2000.0
 charger_max_current_a = 3300.0

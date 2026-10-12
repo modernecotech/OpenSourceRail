@@ -448,6 +448,16 @@ name = "line-6-0786-0501-s071152"
 charging_power_kw = 1500
 dwell_seconds = 210
 
+[[stations]]
+id = "line-1-0451-0223-s003495"
+name = "line-1-0451-0223-s003495"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-6-0541-1179-s024553"
+name = "line-6-0541-1179-s024553"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -456,7 +466,8 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0346-0116-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0519-0362-s007002", distance_from_prev_m = 7002 },
+    { id = "line-1-0451-0223-s003495", distance_from_prev_m = 3495 },
+    { id = "line-1-0519-0362-s007002", distance_from_prev_m = 3507 },
     { id = "line-1-0585-0462-s009666", distance_from_prev_m = 2663 },
     { id = "line-1-0755-0718-s016511", distance_from_prev_m = 6844 },
     { id = "line-1-0781-0757-s017565", distance_from_prev_m = 1053 },
@@ -535,7 +546,8 @@ stations = [
     { id = "line-6-0409-0896-s014027", distance_from_prev_m = 5659 },
     { id = "line-6-0399-0964-s015533", distance_from_prev_m = 1506 },
     { id = "line-6-0488-1032-s021045", distance_from_prev_m = 5512 },
-    { id = "line-6-0669-1229-s028055", distance_from_prev_m = 7010 },
+    { id = "line-6-0541-1179-s024553", distance_from_prev_m = 3508 },
+    { id = "line-6-0669-1229-s028055", distance_from_prev_m = 3502 },
     { id = "line-6-0772-1264-s030581", distance_from_prev_m = 2525 },
     { id = "line-6-0772-1283-s030978", distance_from_prev_m = 396 },
     { id = "line-6-0772-1294-s031198", distance_from_prev_m = 220 },
@@ -730,6 +742,10 @@ id = "sw-line-3-0864-0002-s035511-yd-38"
 station = "line-3-0864-0002-s035511"
 
 [[switches]]
+id = "sw-line-3-0864-0002-s035511-yd-39"
+station = "line-3-0864-0002-s035511"
+
+[[switches]]
 id = "sw-line-4-0864-1021-s000000-tb"
 station = "line-4-0864-1021-s000000"
 
@@ -751,7 +767,7 @@ station = "line-5-1500-0637-s021066"
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 43
+trainset_count = 45
 dispatch_points = [
     { station = "line-1-0346-0116-s000000", heading = "forward" },
     { station = "line-1-1001-1132-s027387", heading = "reverse" },

@@ -738,6 +738,11 @@ charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-4-0313-0285-s003505"
+name = "Kayunga"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -804,7 +809,8 @@ id = "line-4"
 name = "line-4"
 stations = [
     { id = "line-4-0292-0154-s000000", distance_from_prev_m = 0 },
-    { id = "line-4-0437-0302-s007016", distance_from_prev_m = 7016 },
+    { id = "line-4-0313-0285-s003505", distance_from_prev_m = 3505 },
+    { id = "line-4-0437-0302-s007016", distance_from_prev_m = 3511 },
     { id = "line-4-0523-0416-s010472", distance_from_prev_m = 3455 },
     { id = "line-4-0603-0629-s016134", distance_from_prev_m = 5661 },
     { id = "line-4-0649-0657-s017501", distance_from_prev_m = 1367 },
@@ -1132,6 +1138,10 @@ id = "sw-line-1-0931-0035-s037158-yd-54"
 station = "line-1-0931-0035-s037158"
 
 [[switches]]
+id = "sw-line-1-0931-0035-s037158-yd-55"
+station = "line-1-0931-0035-s037158"
+
+[[switches]]
 id = "sw-line-2-1016-0784-s000000-tb"
 station = "line-2-1016-0784-s000000"
 
@@ -1247,7 +1257,7 @@ schedule = [
 
 [[fleets]]
 line = "line-4"
-trainset_count = 61
+trainset_count = 63
 dispatch_points = [
     { station = "line-4-0292-0154-s000000", heading = "forward" },
     { station = "line-4-0768-1152-s032629", heading = "reverse" },

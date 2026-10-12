@@ -59,7 +59,7 @@ length_m        = 18943.2
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 330
+charging_dwell_seconds = 270
 
 [[lines]]
 name            = "line-3"
@@ -2736,6 +2736,15 @@ s_m             = 4781.3
 archetype       = "terminal"
 platform_length_m = 59.5
 
+[[stations]]
+id              = "line-2-0685-0609-s011386"
+line            = "line-2"
+lat             = -15.140766807040277
+lon             = 39.27732905299169
+s_m             = 11386.2
+archetype       = "standard"
+platform_length_m = 59.5
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -3100,8 +3109,8 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 553908136
 civil_subtotal_eur   = 509595485
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 106100000
-stations_eur         = 97612000
+stations_usd         = 108600000
+stations_eur         = 99912000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 84939583
 depots_eur           = 78144416
@@ -3114,13 +3123,13 @@ production_plant_eur = 0
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 2888875
 signalling_eur       = 2657765
-charging_microgrid_usd = 2150000
-charging_microgrid_eur = 1978000
+charging_microgrid_usd = 2250000
+charging_microgrid_eur = 2070000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 63965062
-epc_overhead_eur     = 58847857
-total_usd            = 977751656  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 899531524  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 64147062
+epc_overhead_eur     = 59015297
+total_usd            = 980533656  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 902090964  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"

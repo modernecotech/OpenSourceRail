@@ -16600,6 +16600,26 @@ anchor_name     = "ডুমুরিয়া"
 archetype       = "terminal"
 platform_length_m = 85.0
 
+[[stations]]
+id              = "line-3-1363-1246-s003517"
+line            = "line-3"
+lat             = 22.744316132167153
+lon             = 89.62691220238648
+s_m             = 3517.4
+archetype       = "halt"
+platform_length_m = 81.0
+
+[[stations]]
+id              = "line-8-1311-1257-s003502"
+line            = "line-8"
+lat             = 22.75367437281791
+lon             = 89.62905671440112
+s_m             = 3501.9
+anchor_kind     = "amenity:college"
+anchor_name     = "Shekhpur High School"
+archetype       = "halt"
+platform_length_m = 81.0
+
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
@@ -17121,14 +17141,14 @@ station = "line-3-1472-1318-s000000"
 line = "line-3"
 archetype = "main-heavy"
 fleet_stalls = 7
-storage_slots = 47
+storage_slots = 48
 storage_tracks = 16
 train_length_m = 75
 slot_length_m = 85.0
-storage_track_m = 3995.0
+storage_track_m = 4080.0
 workshop_bays = 7
 planning_land_area_m2 = 48370.0
-reference_cost_usd = 20762700
+reference_cost_usd = 20783950
 site_accepted = false
 physical_release = false
 
@@ -17201,14 +17221,14 @@ station = "line-8-1213-1143-s000000"
 line = "line-8"
 archetype = "main-heavy"
 fleet_stalls = 3
-storage_slots = 20
+storage_slots = 21
 storage_tracks = 7
 train_length_m = 75
 slot_length_m = 85.0
-storage_track_m = 1700.0
+storage_track_m = 1785.0
 workshop_bays = 3
 planning_land_area_m2 = 24315.0
-reference_cost_usd = 15241025
+reference_cost_usd = 15262275
 site_accepted = false
 physical_release = false
 
@@ -17246,11 +17266,11 @@ trainset_count     = 60
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 42
+peak_count         = 43
 service_rotation_count = 0
 spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 47
+trainset_count     = 48
 
 [[fleets]]
 line               = "line-4"
@@ -17286,11 +17306,11 @@ trainset_count     = 10
 
 [[fleets]]
 line               = "line-8"
-peak_count         = 18
+peak_count         = 19
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 20
+trainset_count     = 21
 
 [[fleets]]
 line               = "line-9"
@@ -17321,14 +17341,14 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 2246200501
 civil_subtotal_eur   = 2066504461
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 476200000
-stations_eur         = 438104000
+stations_usd         = 477400000
+stations_eur         = 439208000
 # Depots (RFC 0014 archetype catalogue).
-depots_usd           = 165375700
-depots_eur           = 152145644
+depots_usd           = 165418200
+depots_eur           = 152184744
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 348320000
-rolling_stock_eur    = 320454400
+rolling_stock_usd    = 350560000
+rolling_stock_eur    = 322515200
 # Shared national railway production plant is excluded from city CAPEX.
 production_plant_usd = 0
 production_plant_eur = 0
@@ -17338,10 +17358,10 @@ signalling_eur       = 10288828
 charging_microgrid_usd = 22350000
 charging_microgrid_eur = 20562000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 228874080
-epc_overhead_eur     = 210564154
-total_usd            = 3498503790  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 3218623487  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 229117855
+epc_overhead_eur     = 210788427
+total_usd            = 3502230065  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 3222051660  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -17356,7 +17376,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 204000
-fleet_core_electrical_usd = 63444000
+fleet_core_electrical_usd = 63852000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

@@ -251,6 +251,11 @@ charging_power_kw = 500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-3-0155-0388-s015881"
+name = "Akurana"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -290,7 +295,8 @@ stations = [
     { id = "line-3-0432-0630-s007157", distance_from_prev_m = 4934 },
     { id = "line-3-0430-0628-s007225", distance_from_prev_m = 68 },
     { id = "line-3-0261-0475-s012365", distance_from_prev_m = 5139 },
-    { id = "line-3-0048-0314-s019373", distance_from_prev_m = 7008 },
+    { id = "line-3-0155-0388-s015881", distance_from_prev_m = 3516 },
+    { id = "line-3-0048-0314-s019373", distance_from_prev_m = 3491 },
 ]
 
 [[lines]]
@@ -556,7 +562,7 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 59
+trainset_count = 60
 dispatch_points = [
     { station = "line-3-0669-0844-s000000", heading = "forward" },
     { station = "line-3-0048-0314-s019373", heading = "reverse" },

@@ -519,6 +519,23 @@ name = "line-6-0676-0436-s059102"
 charging_power_kw = 1500
 dwell_seconds = 120
 
+[[stations]]
+id = "line-2-0309-0394-s003514"
+name = "The Health City Hospital & Trauma Centre"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-6-1016-0518-s048588"
+name = "line-6-1016-0518-s048588"
+charging_power_kw = 1500
+dwell_seconds = 120
+
+[[stations]]
+id = "line-6-0792-0509-s055603"
+name = "line-6-0792-0509-s055603"
+charging_power_kw = 1500
+dwell_seconds = 120
+
 
 
 # Lines — per-line station sequences.
@@ -543,7 +560,8 @@ id = "line-2"
 name = "line-2"
 stations = [
     { id = "line-2-0211-0291-s000000", distance_from_prev_m = 0 },
-    { id = "line-2-0380-0520-s007009", distance_from_prev_m = 7009 },
+    { id = "line-2-0309-0394-s003514", distance_from_prev_m = 3514 },
+    { id = "line-2-0380-0520-s007009", distance_from_prev_m = 3494 },
     { id = "line-2-0449-0557-s008693", distance_from_prev_m = 1684 },
     { id = "line-2-0653-0751-s014488", distance_from_prev_m = 5795 },
     { id = "line-2-0846-0802-s020252", distance_from_prev_m = 5763 },
@@ -628,8 +646,10 @@ stations = [
     { id = "line-6-1186-0712-s041534", distance_from_prev_m = 3708 },
     { id = "line-6-1186-0701-s041754", distance_from_prev_m = 220 },
     { id = "line-6-1162-0555-s045082", distance_from_prev_m = 3328 },
-    { id = "line-6-0959-0520-s052085", distance_from_prev_m = 7002 },
-    { id = "line-6-0676-0436-s059102", distance_from_prev_m = 7016 },
+    { id = "line-6-1016-0518-s048588", distance_from_prev_m = 3505 },
+    { id = "line-6-0959-0520-s052085", distance_from_prev_m = 3496 },
+    { id = "line-6-0792-0509-s055603", distance_from_prev_m = 3518 },
+    { id = "line-6-0676-0436-s059102", distance_from_prev_m = 3498 },
 ]
 
 
@@ -863,7 +883,7 @@ schedule = [
 
 [[fleets]]
 line = "line-2"
-trainset_count = 93
+trainset_count = 94
 dispatch_points = [
     { station = "line-2-0211-0291-s000000", heading = "forward" },
     { station = "line-2-1462-1374-s057107", heading = "reverse" },
@@ -935,7 +955,7 @@ schedule = [
 
 [[fleets]]
 line = "line-6"
-trainset_count = 25
+trainset_count = 26
 dispatch_points = [
     { station = "line-6-0449-0557-s001185", heading = "forward" },
     { station = "line-6-0676-0436-s059102", heading = "reverse" },
@@ -2078,6 +2098,40 @@ charger_contact_count = 6
 
 [[sites]]
 station = "line-6-0676-0436-s059102"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-6-1016-0518-s048588"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 1500.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.5
+grid_import_kw = 1500.0
+grid_export_kw = 1500.0
+storage_module_kwh = 500.0
+charger_max_kw = 1500.0
+charger_max_current_a = 2475.0
+charger_bus_voltage_v = 650.0
+charger_efficiency = 0.98
+charger_contact_count = 6
+
+[[sites]]
+station = "line-6-0792-0509-s055603"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 1500.0

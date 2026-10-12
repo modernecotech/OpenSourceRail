@@ -577,6 +577,16 @@ charging_power_kw = 1500
 dwell_seconds = 180
 is_terminal = true
 
+[[stations]]
+id = "line-3-1363-1246-s003517"
+name = "line-3-1363-1246-s003517"
+dwell_seconds = 60
+
+[[stations]]
+id = "line-8-1311-1257-s003502"
+name = "Shekhpur High School"
+dwell_seconds = 60
+
 
 
 # Lines — per-line station sequences.
@@ -624,7 +634,8 @@ id = "line-3"
 name = "line-3"
 stations = [
     { id = "line-3-1472-1318-s000000", distance_from_prev_m = 0 },
-    { id = "line-3-1280-1143-s007015", distance_from_prev_m = 7014 },
+    { id = "line-3-1363-1246-s003517", distance_from_prev_m = 3517 },
+    { id = "line-3-1280-1143-s007015", distance_from_prev_m = 3497 },
     { id = "line-3-1213-1143-s008355", distance_from_prev_m = 1339 },
     { id = "line-3-1083-1126-s012011", distance_from_prev_m = 3656 },
     { id = "line-3-0983-1022-s015843", distance_from_prev_m = 3831 },
@@ -703,7 +714,8 @@ id = "line-8"
 name = "line-8"
 stations = [
     { id = "line-8-1213-1143-s000000", distance_from_prev_m = 0 },
-    { id = "line-8-1446-1351-s007016", distance_from_prev_m = 7015 },
+    { id = "line-8-1311-1257-s003502", distance_from_prev_m = 3501 },
+    { id = "line-8-1446-1351-s007016", distance_from_prev_m = 3513 },
     { id = "line-8-1562-1563-s012292", distance_from_prev_m = 5276 },
 ]
 
@@ -1013,7 +1025,7 @@ schedule = [
 
 [[fleets]]
 line = "line-3"
-trainset_count = 47
+trainset_count = 48
 dispatch_points = [
     { station = "line-3-1472-1318-s000000", heading = "forward" },
     { station = "line-3-0545-0776-s028469", heading = "reverse" },
@@ -1103,7 +1115,7 @@ schedule = [
 
 [[fleets]]
 line = "line-8"
-trainset_count = 20
+trainset_count = 21
 dispatch_points = [
     { station = "line-8-1213-1143-s000000", heading = "forward" },
     { station = "line-8-1562-1563-s012292", heading = "reverse" },
