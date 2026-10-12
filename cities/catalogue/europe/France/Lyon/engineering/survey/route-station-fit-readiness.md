@@ -1,8 +1,8 @@
 # Lyon route and station fit gate
 
 - Status: **awaiting-route-fit-evidence**
-- Lines: 33
-- Stations: 327
+- Lines: 9
+- Stations: 125
 - Technical screen passed: **no**
 - Coordinated authority acceptance: **no**
 
