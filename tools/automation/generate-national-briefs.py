@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import tempfile
 import tomllib
 from collections import defaultdict
@@ -500,11 +501,21 @@ def render_brief(country_code, country_name, cities, *, detailed=False):
         coverage='Unavailable' if fraction is None else f'{fraction:.1%}'
         original=evaluation['original_station_radial_fraction']
         original_text='Unavailable' if original is None else f'{original:.1%}'
-        rows.append(f"| [{city.name}]({city.design_path.parent.name}/README.md) | {evaluation['line_count']} | {evaluation['added_line_count']} | {original_text} | {coverage} |")
+        rows.append((city.name, f"{evaluation['line_count']} | {evaluation['added_line_count']} | {original_text} | {coverage}"))
     if rows:
+        # Put coverage beside the same cities' capital instead of repeating
+        # the complete city inventory in a second table.
+        if not detailed:
+            for name, values in rows:
+                text=re.sub(r'^(\| \['+re.escape(name)+r'\]\([^\n]+?\) \|[^\n]+) \|$',
+                            lambda match:match[1]+' | '+values+' |',text,flags=re.M)
+            text=text.replace('| City | Population | Fleet | City CAPEX | External capital | Local capital |',
+                '| City | Population | Fleet | City CAPEX | External capital | Local capital | Lines | Added lines | Original circles | Current circles |')
+            text=text.replace('|---|---:|---:|---:|---:|---:|', '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|')
         text+='\n\n## Population-led route regeneration (2026-10-09)\n\n'
         text+='The city inventories include additional lines selected from retained unserved residential areas, continuous corridor junctions and bounded station spacing. Fleet, depots, construction, energy, staffing and country finance use those revised inventories. The working target is 80% within 1 km circles of emitted stations; remaining gaps and missing data stay explicit.\n\n'
-        text+='| City | Current lines | Added residential lines | Original station circles | Current station circles |\n| --- | ---: | ---: | ---: | ---: |\n'+'\n'.join(rows)+'\n\n'
+        if detailed:
+            text+='| City | Current lines | Added residential lines | Original station circles | Current station circles |\n| --- | ---: | ---: | ---: | ---: |\n'+'\n'.join(f'| {name} | {values} |' for name,values in rows)+'\n\n'
         text+='Coverage uses retained 2020 city-bbox population counts. Overlapping city populations are not added to claim national coverage. These circles are not current census, surveyed walking catchments, observed fare demand or construction approval. The [catalogue comparison](../../../../engineering/network-planning/catalogue/README.md) records targets and evidence limits.\n'
     finance=_load_country_finance(country_code)
     if finance.get('country_parameters_calibrated') is False:

@@ -39,6 +39,23 @@ def table(headers,rows):
         *['| '+' | '.join(str(x) for x in row)+' |' for row in rows]])
 
 
+def compact_local_summary(text):
+    """Keep large city landing pages bounded without losing local measures."""
+    if len(text.splitlines()) <= 120:
+        return text
+    def prose(match):
+        rows = [line.strip().strip('|').split('|') for line in match[0].splitlines()[2:]]
+        measures = [f"**{cells[0].strip()}:** {cells[1].strip()}" for cells in rows]
+        return '\n\n'.join('; '.join(measures[i:i+4]) + '.' for i in range(0, len(measures), 4))
+    text = re.sub(r'^\| Local measure \| Value \|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+', prose, text, flags=re.M)
+    if len(text.splitlines()) > 120:
+        def products(match):
+            rows = [line.strip().strip('|').split('|') for line in match[0].splitlines()[2:]]
+            return '; '.join(f"**{cells[0].strip()}:** {cells[1].strip()} ({cells[2].strip()})" for cells in rows) + '.\n'
+        text = re.sub(r'^\| Product \| Network quantity \| Current case \|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+', products, text, flags=re.M)
+    return text
+
+
 def without_context(text):
     return re.sub(re.escape(BEGIN)+r'.*?'+re.escape(END)+r'\n\n?', '', text, flags=re.S)
 
@@ -333,7 +350,7 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
     baseline=residential_context(design,access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)))
     if not entry:
-        expected=mapping_context(design,current_catalogue_context(design,baseline)).encode()
+        expected=compact_local_summary(mapping_context(design,current_catalogue_context(design,baseline))).encode()
         if check:
             if not output.is_file() or output.read_bytes()!=expected:raise ValueError('Stale catalogue README: '+str(output))
         else:output.write_bytes(expected)
@@ -352,7 +369,7 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
         if isinstance(data,dict) and any(key in data for key in ('sources_sha256','outputs_sha256','external_outputs_sha256','sources','source_sha256')):paths.append(path)
     planned=refresh_receipts(ROOT,paths,planned)
     # The text uses numerical data, which receipt refresh cannot change.
-    planned[output]=mapping_context(design,current_readme(city,study,entry['case'],baseline).decode()).encode()
+    planned[output]=compact_local_summary(mapping_context(design,current_readme(city,study,entry['case'],baseline).decode())).encode()
     manifest=city/'publication-manifest.json'
     sources={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in (Path(__file__),CONFIG,design,scenario,
         ROOT/'design/city-generation/src/osr_scenario/network_readme.py')}

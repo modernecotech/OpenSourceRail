@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import runpy
 import sys
 import tempfile
@@ -302,6 +303,32 @@ def build_json(data: PortfolioData | None = None) -> str:
     return json.dumps(payload, indent=2, sort_keys=True) + "\n"
 
 
+def build_front_page(data: PortfolioData, text: str) -> str:
+    """Bind the front-page comparison to the same regenerated portfolio."""
+    totals = data.totals
+    imported = float(totals['external']) / float(totals['total'])
+    foreign = float(totals['foreign_external']) / float(totals['total'])
+    multiplier = data.case_totals['default']['multiplier']
+    saved = 100 * (foreign - imported)
+    reduction = (foreign - imported) / foreign
+    block = f'''<!-- GENERATED: portfolio economics -->
+For an illustrative **$100M OpenSourceRail scope**, the editable default comparison applies a {multiplier:.1f}× foreign-turnkey price with {foreign/multiplier:.0%} requiring foreign currency or international capital:
+
+| Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
+|---|---:|---:|
+| Programme price | **$100.0M** | **${100*multiplier:.1f}M** |
+| Value not requiring external capital | ${100*(1-imported):.1f}M | ${100*(multiplier-foreign):.1f}M |
+| External-capital requirement | **${100*imported:.1f}M** | **${100*foreign:.1f}M** |
+
+In that scenario, the external-capital requirement is **${saved:.1f}M ({reduction:.1%})** lower before interest. Across the {data.city_count}-city model, **about ${float(totals['local'])/1e9:.0f}B—roughly {float(totals['local'])/float(totals['total']):.0%} of programme value—is assigned to domestic activity**. This regenerated catalogue comparison retains its own finance assumptions; the revised Baghdad funding scenario is separate. These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
+<!-- END GENERATED: portfolio economics -->'''
+    result, count = re.subn(r'<!-- GENERATED: portfolio economics -->.*?<!-- END GENERATED: portfolio economics -->',
+                           lambda match: block, text, flags=re.S)
+    if count != 1:
+        raise ValueError('The front page must have one portfolio economics block')
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
@@ -310,6 +337,7 @@ def main() -> int:
     expected_outputs = {
         MARKDOWN_OUTPUT: build_summary(data),
         JSON_OUTPUT: build_json(data),
+        REPO_ROOT / 'README.md': build_front_page(data, (REPO_ROOT / 'README.md').read_text()),
     }
     if args.check:
         stale = [
