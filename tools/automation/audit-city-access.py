@@ -18,6 +18,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from city_access import population_audit, transfer_audit, transfer_recovery_candidates
+from catalogue_designs import city_slug
 
 
 def sha(path):
@@ -187,7 +188,7 @@ def main():
     if not (args.all or args.city) or not 1 <= args.jobs <= 4 or (args.check and args.fetch_population):
         parser.error('Select --all or --city; 1–4 workers; checking is offline')
     paths = sorted((ROOT / 'cities/catalogue').glob('*/*/*/design.toml'))
-    selected = [p for p in paths if args.all or tomllib.loads(p.read_text())['city']['slug'] in args.city]
+    selected = [p for p in paths if args.all or city_slug(p) in args.city]
     if not args.all and len(selected) != len(set(args.city)):
         parser.error('Unknown city selection')
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:

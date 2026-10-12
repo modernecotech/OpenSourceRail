@@ -84,13 +84,58 @@ def dry_point(cell, mask, buildable, cell_m, radius_m=400):
     return (r,c)
 
 
-def route_between(start, end, mask, buildable, cfg, cell_m):
+def terrain_cost(city, grid, check=False):
+    """Retain the full terrain screen so layout reproduction is offline."""
+    path=city/'engineering/alignment/planning-terrain-slope.f32.gz'
+    source=city/'engineering/alignment/planning-terrain-source.json'
+    shape=(grid['height'],grid['width'])
+    if not path.exists():
+        if check:raise ValueError('Missing retained terrain routing screen')
+        import sys
+        sys.path.insert(0,str(ROOT/'design/city-generation/src'))
+        from osr_geo.terrain import terrain_slope_percent
+        slug=tomllib.loads((city/'design.toml').read_text())['city']['slug']
+        elevation=ROOT/f'.cache/osr-pipeline/rasters/{slug}.elevation.npy'
+        provenance=elevation.with_name(f'{slug}.terrain-provenance.json')
+        values=np.frombuffer(elevation.read_bytes(),dtype='<f4').reshape(shape)
+        slopes=terrain_slope_percent(values,grid['cell_m'])
+        raw=slopes.astype('<f4').tobytes();path.write_bytes(packed(raw))
+        source.write_bytes(encoded(dict(grid=grid,elevation_sha256=sha(elevation),
+            provenance=json.loads(provenance.read_text()),raw_sha256=hashlib.sha256(raw).hexdigest(),
+            basis='Open DEM ground slope; avoid steep terrain in route selection, not surveyed track grade.')))
+    raw=gzip.decompress(path.read_bytes());receipt=json.loads(source.read_text())
+    if receipt['grid']!=grid or hashlib.sha256(raw).hexdigest()!=receipt['raw_sha256']:
+        raise ValueError('Terrain routing evidence changed')
+    slopes=np.frombuffer(raw,dtype='<f4').reshape(shape)
+    if not check:
+        # Native civil classification and ring connectors must read the same
+        # terrain used by population-led routing, including older sidecars.
+        from catalogue_designs import city_slug
+        slug=city_slug(city/'design.toml')
+        cache=ROOT/'.cache/osr-pipeline/rasters'
+        sidecar_path=cache/f'{slug}.grid.json'
+        sidecar=json.loads(sidecar_path.read_text())
+        if sidecar['grid'].keys()!=grid.keys() or any(
+            not math.isclose(value,sidecar['grid'][key],rel_tol=0.,abs_tol=1e-6)
+            for key,value in grid.items()):
+            raise ValueError('Native routing grid differs from retained terrain grid')
+        slope_path=cache/f'{slug}.terrain-slope.npy'
+        if not slope_path.exists() or sha(slope_path)!=receipt['raw_sha256']:
+            slope_path.write_bytes(raw)
+        for key,filename in [('elevation',f'{slug}.elevation.npy'),('terrain_slope',slope_path.name)]:
+            sidecar['rasters'][key]=dict(path=filename,dtype='f32',shape=list(shape),byteorder='little')
+        sidecar_path.write_bytes(encoded(sidecar))
+    return np.where(np.isfinite(slopes),1.+12.*np.maximum(slopes-4.,0.),np.inf),[path,source]
+
+
+def route_between(start, end, mask, buildable, cfg, cell_m, routing_cost=None):
     """Bounded raster investigation route; short wet runs stay bridge scopes."""
     margin=math.ceil(cfg['route_search_margin_m']/cell_m)
     r0=max(0,min(start[0],end[0])-margin); r1=min(mask.shape[0],max(start[0],end[0])+margin+1)
     c0=max(0,min(start[1],end[1])-margin); c1=min(mask.shape[1],max(start[1],end[1])+margin+1)
     wet=mask[r0:r1,c0:c1]; blocked=(~buildable[r0:r1,c0:c1])|(wet==255)
-    costs=np.where(blocked,np.inf,np.where(wet>0,100.,1.))
+    land_cost=1. if routing_cost is None else routing_cost[r0:r1,c0:c1]
+    costs=np.where(blocked,np.inf,np.where(wet>0,100.,land_cost))
     a=(start[0]-r0,start[1]-c0); b=(end[0]-r0,end[1]-c0)
     for diagonal in [True,False]:
         solver=MCP_Geometric(costs,fully_connected=diagonal)
@@ -225,7 +270,7 @@ def population_inputs(city, design):
     return data,[pixels,receipt],None
 
 
-def plan(routes, stations, grid, mask, buildable, population, cfg):
+def plan(routes, stations, grid, mask, buildable, population, cfg, routing_cost=None):
     """Greedy bounded line addition, with native-pixel union accounting."""
     result=deepcopy(routes); cell_m=grid['cell_m']
     lat,lon,counts=(population[k] for k in ('lat','lon','counts'))
@@ -295,7 +340,7 @@ def plan(routes, stations, grid, mask, buildable, population, cfg):
         key=tuple(sorted((tuple(first),tuple(last))))
         if key not in route_cache:
             try:
-                route_cache[key]=route_between(key[0],key[1],mask,buildable,cfg,cell_m)
+                route_cache[key]=route_between(key[0],key[1],mask,buildable,cfg,cell_m,routing_cost)
             except ValueError as error:
                 route_cache[key]=str(error)
         value=route_cache[key]
@@ -369,13 +414,22 @@ def plan(routes, stations, grid, mask, buildable, population, cfg):
     added=[]; route_m=0.
     next_number=max((int(l['name'].split('-')[-1]) for l in result['lines']),default=0)+1
     minimum_gain=max(cfg['minimum_incremental_population'],total*cfg['minimum_population_fraction_per_line'])
-    while candidates and len(added)<cfg['maximum_added_lines']:
+    maximum_lines=cfg['maximum_added_lines']
+    if 'maximum_added_line_fraction' in cfg:
+        maximum_lines=min(maximum_lines,max(1,math.ceil(len(routes['lines'])*cfg['maximum_added_line_fraction'])))
+    network_tree=base_tree
+    while candidates and len(added)<maximum_lines:
         if math.fsum(map(float,counts[covered]))/total>=cfg['target_station_radial_fraction']:
             break
         ranked=[]
         for i,candidate in enumerate(candidates):
             if route_m+candidate['length_m']>route_limit:
                 continue
+            if cfg.get('minimum_corridor_separation_m',0)>0:
+                distances,_=network_tree.query(candidate['cells'])
+                independent=float(np.mean(distances*cell_m>=cfg['minimum_corridor_separation_m']))
+                if independent<cfg['minimum_independent_route_fraction']:
+                    continue
             indices=candidate['members']; gain=math.fsum(map(float,counts[indices[~covered[indices]]]))
             density=gain/(candidate['length_m']/1000)
             if gain>=minimum_gain and density>=cfg['minimum_incremental_residents_per_km']:
@@ -386,6 +440,8 @@ def plan(routes, stations, grid, mask, buildable, population, cfg):
         candidate=candidates.pop(index); name=f'line-{next_number}'; next_number+=1
         result['lines'].append(dict(name=name,shape='Radial',anchor_ids=[],cells=[list(c) for c in candidate['cells']]))
         covered[candidate['members']]=True; route_m+=candidate['length_m']
+        if cfg.get('minimum_corridor_separation_m',0)>0:
+            network_tree=cKDTree([c for line in result['lines'] for c in line['cells']])
         added.append({k:v for k,v in candidate.items() if k not in ('cells','members')} |
                      dict(line=name,incremental_residents_2020=round(gain,3),
                           connection_kind='actual common corridor cell; mandatory native platform pair and civil junction design required',
@@ -399,8 +455,10 @@ def plan(routes, stations, grid, mask, buildable, population, cfg):
                 baseline_actual_station_radial_fraction=round(baseline_fraction,8),
                 baseline_with_sampled_infill_radial_fraction=round(infill_fraction,8),
                 proposed_station_sample_radial_fraction=round(fraction,8),
-                planned_stop_cells_by_line={line['name']:station_samples(line['cells'],mask,cfg['maximum_ordinary_station_gap_m'],cell_m)
-                                           for line in result['lines']},
+                planned_stop_cells_by_line={} if cfg.get('native_station_spacing') else
+                    {line['name']:station_samples(line['cells'],mask,cfg['maximum_ordinary_station_gap_m'],cell_m)
+                     for line in result['lines']},
+                station_spacing_policy='Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer',
                 target_met_in_proposed_station_sample=fraction>=cfg['target_station_radial_fraction'],
                 actual_regenerated_station_coverage=None,added_lines=added,rejected_priority_areas=rejected,
                 outcome='target reached in station-sample screen' if fraction>=cfg['target_station_radial_fraction'] else
@@ -411,6 +469,7 @@ def plan(routes, stations, grid, mask, buildable, population, cfg):
 def expand(design_path,routes,grid,mask,buildable,check=False):
     cfg=json.loads(CONFIG.read_text()); design,archive=baseline(design_path,check)
     city=design_path.parent; data,inputs,reason=population_inputs(city,design)
+    routing_cost,terrain_inputs=terrain_cost(city,grid,check);inputs+=terrain_inputs
     routes=deepcopy(routes)
     rings=[line for line in routes['lines'] if line['shape']=='Ring']
     base_junction_changes=[];base_junction_reviews=[]
@@ -421,7 +480,7 @@ def expand(design_path,routes,grid,mask,buildable,check=False):
         protected_sites=[cell for cell in protected_sites if cell in existing]
         try:
             revised=connect_nearby_rings(original,protected_sites,rings,
-                lambda a,b:route_between(a,b,mask,buildable,cfg,grid['cell_m']),grid['cell_m'],allow_proposed_terminal_crop=True,
+                lambda a,b:route_between(a,b,mask,buildable,cfg,grid['cell_m'],routing_cost),grid['cell_m'],allow_proposed_terminal_crop=True,
                 maximum_terminal_crop_m=cfg['maximum_proposed_terminal_route_crop_m'])
         except ValueError as error:
             # A retained near-ring line can use a bounded platform complex.
@@ -444,18 +503,21 @@ def expand(design_path,routes,grid,mask,buildable,check=False):
         report=dict(status='population-evidence-unavailable',reason=reason,original_line_count=len(routes['lines']),
                     added_line_count=0,final_line_count=len(routes['lines']),target_radial_fraction=cfg['target_station_radial_fraction'])
     else:
-        result,report=plan(routes,design['stations'],grid,mask,buildable,data,cfg)
+        result,report=plan(routes,design['stations'],grid,mask,buildable,data,cfg,routing_cost)
         report['status']='expanded-controlled-planning-layout'
         policy='\n'.join(['# Population-led planning spacing; field access and platform approval remain open.',
                            f'maximum_gap_m = {float(cfg["maximum_ordinary_station_gap_m"])}',
                            'basis = "Retained population-led network revision; ordinary stop spacing cap, no walkshed or operating acceptance."',''])
         policy_path=city/'station-spacing-policy.toml'
-        if check:
+        if cfg.get('native_station_spacing'):
+            if check and policy_path.exists():raise ValueError('Compact network must use native station spacing')
+            if not check:policy_path.unlink(missing_ok=True)
+        elif check:
             if not policy_path.exists() or policy_path.read_text()!=policy:
                 raise ValueError('Stale population-led station-spacing policy')
         else:
             policy_path.write_text(policy)
-        inputs.append(policy_path)
+        if policy_path.exists():inputs.append(policy_path)
     report.update(schema=cfg['schema'],as_of=cfg['as_of'],city=design['city']['slug'],
                   base_line_junction_changes=base_junction_changes,
                   base_line_junction_reviews=base_junction_reviews,

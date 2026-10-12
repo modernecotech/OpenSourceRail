@@ -213,10 +213,35 @@ def render_city(
                 ]
                 if len(coords) >= 2 and _line_in_range(coords):
                     _draw_line(line_key, is_ring, coords, color)
-        # Draw every actual platform. A transfer-complex centroid can lie
-        # off both tracks or over water; it is not a physical station site.
+        # One prominent junction symbol per complex, on a real platform.
+        # Small platform dots and schematic links preserve each line's actual
+        # location; complex centroids never become fictional station sites.
         big = zoom >= 13
-        for s in doc.get("stations", []):
+        groups: dict[int, list[dict]] = {}
+        ordinary = []
+        for station in doc.get("stations", []):
+            if station.get("junction_group") is None:
+                ordinary.append(station)
+            else:
+                groups.setdefault(station['junction_group'], []).append(station)
+        junctions = []
+        for members in groups.values():
+            representative = min(members, key=lambda s: (
+                sum((s['lat']-other['lat'])**2 +
+                    ((s['lon']-other['lon'])*_math.cos(_math.radians(s['lat'])))**2
+                    for other in members), s['id']))
+            junctions.append(representative)
+            points = {(s['lon'], s['lat']) for s in members}
+            for point in sorted(points):
+                if point == (representative['lon'], representative['lat']):
+                    continue
+                # A diagram link identifies group membership, not a surveyed
+                # walking path, railway switch or additional route.
+                m.add_line(Line([point, (representative['lon'], representative['lat'])], '#ffffff', 5))
+                m.add_line(Line([point, (representative['lon'], representative['lat'])], '#7a3fb8', 2))
+                m.add_marker(CircleMarker(point, '#000000', 9 if big else 7))
+                m.add_marker(CircleMarker(point, '#ffffff', 5 if big else 4))
+        for s in [*ordinary, *junctions]:
             if not _in_range(float(s["lat"]), float(s["lon"])):
                 continue
             arch = s.get("archetype", "standard")

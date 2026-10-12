@@ -982,6 +982,18 @@ fn main() -> Result<()> {
         spacing,
     );
     osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    let removed_neighbours = osr_routing::remove_ordinary_interchange_neighbours(
+        &mut all_stations,
+        &lines,
+        spacing,
+        bundle.grid.reference.cell_m,
+    );
+    if removed_neighbours > 0 {
+        eprintln!(
+            "removed {removed_neighbours} ordinary stops within interchange spacing envelopes"
+        );
+    }
+    osr_routing::merge_interchanges(&mut all_stations, 600.0);
     let mut layout_issues = osr_routing::station_layout_issues(
         &all_stations,
         &lines,

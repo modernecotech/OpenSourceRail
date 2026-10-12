@@ -13,6 +13,8 @@ import sys
 import tempfile
 import tomllib
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from catalogue_designs import city_slug
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -53,8 +55,7 @@ def atomic_json(path: Path, value: object) -> None:
 def discover_designs() -> dict[str, Path]:
     designs: dict[str, Path] = {}
     for path in sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml")):
-        data = tomllib.loads(path.read_text(encoding="utf-8"))
-        slug = str(data.get("city", {}).get("slug", "")).strip()
+        slug = city_slug(path)
         if not slug:
             raise RuntimeError(f"{path}: missing city.slug")
         if slug in designs:

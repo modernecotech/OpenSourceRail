@@ -14,7 +14,7 @@ import json
 import math
 from pathlib import Path
 import tomllib
-from residential_route_expansion import expand
+from residential_route_expansion import expand, terrain_cost
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / 'lib/templates/city-core-alignment.toml'
@@ -110,7 +110,7 @@ def smooth_run(points, radial, config):
     return None
 
 
-def rework(seed, grid, config, water_mask=None, buildable=None):
+def rework(seed, grid, config, water_mask=None, buildable=None, routing_cost=None):
     cell=seed['grid_cell_m']; core=config['core']; result=deepcopy(seed); rows=[]
     def inside(rc):
         lat=grid['bbox_north']-(rc[0]+0.5)*cell/grid['m_per_deg_lat']
@@ -129,12 +129,30 @@ def rework(seed, grid, config, water_mask=None, buildable=None):
                 basis='retained-raster-requires-geometry-review'
             else:
                 samples,controls,waypoints,tolerance=candidate
+                proposed=list(water_routes.sampled_cells([[round(r/cell),round(c/cell)] for r,c in samples]))
+                if any(not (0<=p[0]<seed['grid_height'] and 0<=p[1]<seed['grid_width']) or
+                       (buildable is not None and not buildable[tuple(p)]) or
+                       (water_mask is not None and water_mask[tuple(p)]==255) for p in proposed):
+                    new.extend(original[i:end]);controls=[];waypoints=points;tolerance=None;candidate=None
+                    basis='retained-route-avoids-forbidden-core-shortcut'
+                if routing_cost is not None and candidate is not None:
+                    retained=list(water_routes.sampled_cells(original[i:end]))
+                    # Straight core chords must not replace a contour-following
+                    # route with a climb across a hill or a DEM void.
+                    before=max(float(routing_cost[tuple(p)]) for p in retained)
+                    after=max(float(routing_cost[tuple(p)]) for p in proposed)
+                    if after>max(1.,before)+1e-6:
+                        new.extend(original[i:end]);controls=[];waypoints=points;tolerance=None;candidate=None
+                        basis='retained-contour-route-avoids-new-terrain-conflict'
+                if candidate is not None:
+                    basis='analytical-tangents-and-circular-fillets'
+                else:
+                    samples=[]
                 for r,c in samples:
                     rc=[round(r/cell),round(c/cell)]
                     if not (0<=rc[0]<seed['grid_height'] and 0<=rc[1]<seed['grid_width']):
                         raise ValueError('Candidate outside grid')
                     if not new or new[-1]!=rc:new.append(rc)
-                basis='analytical-tangents-and-circular-fillets'
             before=math.fsum(geometry.distance(a,b) for a,b in zip(points,points[1:]))
             runs.append(dict(seed_from_index=i,seed_to_index=end-1,geometry_basis=basis,controls=controls,
                 control_points=waypoints,simplification_tolerance_m=tolerance,original_length_m=before,
@@ -242,7 +260,8 @@ def generate(design_path, check=False, prepare_inputs=False):
         if check:raise ValueError('Missing retained routing constraints: '+slug)
         raw=buildability.read_bytes();packed=bytearray(gzip.compress(raw,mtime=0));packed[9]=255;constraints_path.write_bytes(packed)
     buildable=np.frombuffer(gzip.decompress(constraints_path.read_bytes()),dtype=np.uint8).reshape(grid['height'],grid['width']).astype(bool)
-    routes,report=rework(seed,grid,config,mask,buildable)
+    routing_cost,_=terrain_cost(city,grid,check)
+    routes,report=rework(seed,grid,config,mask,buildable,routing_cost)
     routes,expansion,expansion_inputs=expand(design_path,routes,grid,mask,buildable,check)
     report['residential_line_expansion']=expansion
     row_by_name={row['line']:row for row in report['lines']}

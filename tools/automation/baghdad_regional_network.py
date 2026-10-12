@@ -6,7 +6,7 @@ import residential_route_expansion as expansion
 from mapping_evidence import coverage,radial_distances,sector_members
 
 
-def plan(routes, stations, grid, mask, buildable, population, old_population, cfg, mapping_cfg):
+def plan(routes, stations, grid, mask, buildable, population, old_population, cfg, mapping_cfg, routing_cost=None):
     """Sector phases rank real resident counts, then fill the remaining budget.
 
     Sector quotas allocate investigation effort; they are not automatic coverage
@@ -21,8 +21,9 @@ def plan(routes, stations, grid, mask, buildable, population, old_population, cf
     true_counts=population['counts'];initial=radial_distances(population,stations)<=radius+1e-7;covered=initial.copy()
     total=math.fsum(map(float,true_counts))
     sectors=mapping_cfg['sectors']
+    maximum_lines=min(cfg['maximum_added_lines'],max(1,math.ceil(len(routes['lines'])*cfg.get('maximum_added_line_fraction',1.))))
     for sector in [*sectors,dict(id='city',reserved_added_lines=cfg['maximum_added_lines'])]:
-        count=min(sector['reserved_added_lines'],cfg['maximum_added_lines']-len(added))
+        count=min(sector['reserved_added_lines'],maximum_lines-len(added))
         if count<=0:break
         region=np.ones(len(true_counts),dtype=bool) if sector['id']=='city' else sector_members(population,sector)
         remaining=region&~covered&(true_counts>0)
@@ -31,7 +32,7 @@ def plan(routes, stations, grid, mask, buildable, population, old_population, cf
         data={k:population[k][region].copy() for k in ('lat','lon','counts')}
         phase=deepcopy(cfg);phase.update(maximum_added_lines=count,maximum_added_route_m=budget-used,
                                        maximum_added_route_fraction=1.,target_station_radial_fraction=1.)
-        candidate,report=expansion.plan(result,stops,grid,mask,buildable,data,phase)
+        candidate,report=expansion.plan(result,stops,grid,mask,buildable,data,phase,routing_cost)
         for row in report['added_lines']:
             # Recover source-year-independent gain from the full native union,
             # rather than summing overlapping sector-only phase totals.
@@ -61,7 +62,8 @@ def plan(routes, stations, grid, mask, buildable, population, old_population, cf
                 original_route_m=round(original_length,3),added_route_m=round(used,3),added_route_limit_m=round(budget,3),
                 target_radial_fraction=cfg['target_station_radial_fraction'],proposed_station_sample_radial_fraction=round(fraction,8),
                 target_met_in_proposed_station_sample=fraction>=cfg['target_station_radial_fraction'],actual_regenerated_station_coverage=None,
-                planned_stop_cells_by_line={line['name']:expansion.station_samples(line['cells'],mask,cfg['maximum_ordinary_station_gap_m'],grid['cell_m']) for line in result['lines']},
+                planned_stop_cells_by_line={} if cfg.get('native_station_spacing') else
+                    {line['name']:expansion.station_samples(line['cells'],mask,cfg['maximum_ordinary_station_gap_m'],grid['cell_m']) for line in result['lines']},
                 sector_selection_phases=phases,sector_baseline=coverage(current,stations,sectors,radius),sector_proposed_stop_screen=coverage(current,stops,sectors,radius),
                 added_lines=added,rejected_priority_areas=rejected,
                 outcome='Compact investigation candidate; actual emitted sector coverage and pedestrian topology must be audited separately')

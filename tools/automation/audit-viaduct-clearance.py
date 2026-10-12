@@ -20,6 +20,7 @@ from shapely.strtree import STRtree
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from viaduct_clearance import DEFAULT_POLICY, projected_buildings, screen_line
+from catalogue_designs import city_slug
 
 
 def sha(path):
@@ -272,7 +273,7 @@ def main():
     if not (args.all or args.city) or (args.check and (args.retain_inputs or args.refresh_terrain)) or (args.fetch_terrain and not (args.retain_inputs or args.refresh_terrain)) or not 1<=args.jobs<=3:
         parser.error('Select cities; --check uses retained evidence offline')
     selected = [p for p in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
-                if args.all or tomllib.loads(p.read_text())['city']['slug'] in args.city]
+                if args.all or city_slug(p) in args.city]
     if not args.all and len(selected) != len(set(args.city)):
         parser.error('Unknown city selection')
     with ProcessPoolExecutor(max_workers=args.jobs) as pool:

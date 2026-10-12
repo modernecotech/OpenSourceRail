@@ -101,8 +101,10 @@ def apply(path, report_only=False):
     text=path.read_text();d=tomllib.loads(text);slug=d['city']['slug'];city=path.parent;out=city/'engineering/alignment'
     corridor=city/(slug+'.corridor.geojson');grid_path=out/'planning-grid.json';mask_path=out/'planning-water-mask.bin.gz'
     native_spacing=city/'station-spacing-policy.toml'
-    if native_spacing.exists():
-        spacing=tomllib.loads(native_spacing.read_text());reviews=[]
+    native_plan=out/'residential-line-expansion.json'
+    if native_spacing.exists() or native_plan.exists():
+        spacing=tomllib.loads(native_spacing.read_text()) if native_spacing.exists() else {'maximum_gap_m':7000.}
+        reviews=[]
         for line in d['lines']:
             ordered=sorted((s for s in d['stations'] if s['line']==line['name']),key=lambda s:s['s_m'])
             for first,last in zip(ordered,ordered[1:]):
@@ -112,7 +114,7 @@ def apply(path, report_only=False):
         report=dict(city=slug,physical_release=False,policy=policy,station_spacing_owner='native population-led station generation',
                     legacy_overlay_is_not_reapplied=True,unresolved_station_gap_reviews=reviews,
                     planning_infill_stations=[s for s in d['stations'] if s.get('anchor_kind','').startswith('planning:residential')],
-                    sources_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [path,policy_path,native_spacing,corridor,grid_path,mask_path,Path(__file__)]},
+                    sources_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in [path,policy_path,native_spacing,native_plan,corridor,grid_path,mask_path,Path(__file__)] if p.is_file()},
                     limitations=['The prior overlay is retained as a comparator; new native spacing, forced junctions and planned sites control this revision.',
                                  'Unresolved gap exceptions do not grant walking coverage, new sites, field acceptance or fare demand.'])
         (out/'station-infill.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')

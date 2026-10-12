@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import hashlib
 import importlib.util
 import json
 import os
@@ -15,6 +16,8 @@ import threading
 import time
 import tomllib
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from catalogue_designs import city_slug
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -43,9 +46,7 @@ def atomic_json(path: Path, value: object) -> None:
 def discover_designs() -> dict[str, Path]:
     designs: dict[str, Path] = {}
     for path in sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml")):
-        with path.open("rb") as handle:
-            design = tomllib.load(handle)
-        slug = str(design.get("city", {}).get("slug", "")).strip()
+        slug = city_slug(path)
         if not slug:
             raise RuntimeError(f"{path}: missing city.slug")
         if slug in designs:
@@ -129,7 +130,8 @@ def repository_review_artifacts(slug: str, design_path: Path) -> list[Path]:
     artifacts.extend(engineering / 'alignment' / name for name in (
         'planning-grid.json','planning-water-mask.bin.gz','water-source-receipt.json',
         'independent-landcover-samples.bin.gz','planning-water-features.json.gz',
-        'planning-buildability-mask.bin.gz'))
+        'planning-buildability-mask.bin.gz','planning-terrain-slope.f32.gz',
+        'planning-terrain-source.json'))
     return artifacts
 
 
@@ -165,6 +167,7 @@ def prepare_city(
     resynthesise_corridors: bool,
     resynthesise_design: bool = False,
     current_design_logic: bool = False,
+    reuse_planned_corridors: bool = False,
 ) -> dict[str, object]:
     started = time.monotonic()
     city_dir = design_path.parent
@@ -226,7 +229,26 @@ def prepare_city(
         design_command.extend(
             ["--design-only", "--corridor-cache", str(corridor_cache)]
         )
-    if slug != 'baghdad' and (current_design_logic or (city_dir/'alignment-policy.toml').is_file()):
+    if reuse_planned_corridors:
+        # A station-rule iteration may reuse only the current source-bound
+        # controlled plan, never an unrelated legacy local corridor cache.
+        reports={}
+        for name in ('core-realignment.json','residential-line-expansion.json'):
+            report_path=city_dir/'engineering/alignment'/name
+            report=json.loads(report_path.read_text())
+            reports[name]=report
+            for source,digest in report['sources_sha256'].items():
+                if hashlib.sha256((REPO_ROOT/source).read_bytes()).hexdigest()!=digest:
+                    raise ValueError('Stale planned corridor input: '+source)
+        if not corridor_cache.is_file():raise ValueError('Missing controlled corridor cache: '+slug)
+        cached=json.loads(corridor_cache.read_text())
+        expansion=reports['residential-line-expansion.json']
+        if expansion['city']!=slug or expansion['final_line_count']!=len(cached['lines']) or {
+            line['name'] for line in cached['lines']}!={row['line'] for row in reports['core-realignment.json']['lines']}:
+            raise ValueError('Corridor cache differs from the controlled line inventory: '+slug)
+        if '--design-only' not in design_command:design_command.append('--design-only')
+        commands.append(design_command)
+    elif slug != 'baghdad' and (current_design_logic or (city_dir/'alignment-policy.toml').is_file()):
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path),'--prepare-inputs'])
         if not (city_dir/'engineering/alignment/water-source-receipt.json').is_file():
             commands.append([sys.executable,str(REPO_ROOT/'tools/automation/refresh-city-water-evidence.py'),'--design',str(design_path)])
@@ -503,12 +525,15 @@ def main() -> int:
     parser.add_argument('--current-design-logic',action='store_true',help='adopt controlled elevated-core geometry and line-local full-fleet depots')
     parser.add_argument('--prepare-only',action='store_true',help='regenerate layouts/scenarios/maps; retain an explicit incomplete batch receipt until engineering is refreshed')
     parser.add_argument('--finish-only',action='store_true',help='preserve frozen layouts/scenarios and refresh engineering and dependent packages')
+    parser.add_argument('--reuse-planned-corridors',action='store_true',help='verify retained plan source hashes and regenerate stations without rerouting')
     parser.add_argument('--native-ci-root',type=Path,help='verified native artifact root containing one folder per city')
     parser.add_argument('--native-ci-commit',help='exact source commit of imported native artifacts')
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
     if args.prepare_only and args.finish_only:parser.error('prepare-only and finish-only are mutually exclusive')
+    if args.reuse_planned_corridors and (args.finish_only or args.from_scratch or args.resynthesise_corridors or args.resynthesise_design):
+        parser.error('Reusing a controlled plan cannot be combined with route replacement or finish-only')
     if (args.native_ci_root is None)!=(args.native_ci_commit is None):parser.error('native artifact root and exact commit are required together')
 
     available = discover_designs()
@@ -552,6 +577,7 @@ def main() -> int:
             args.resynthesise_corridors,
             args.resynthesise_design,
             args.current_design_logic,
+            args.reuse_planned_corridors,
         ),
     )
     ready = {
@@ -566,12 +592,14 @@ def main() -> int:
 
     catalog_validation_return_codes: dict[str, int] = {}
     if ready:
+        validation_selection = ['--all'] if set(ready) == set(available) else [
+            argument for path in ready.values() for argument in ('--design', str(path))]
         catalog_validation_return_codes = {
             "station_clusters": run_logged(
                 [
                     sys.executable,
                     str(REPO_ROOT / "tools/automation/validate-station-clusters.py"),
-                    "--all",
+                    *validation_selection,
                 ],
                 LOG_ROOT / "package-catalog-station-validation.log",
             ),
@@ -579,7 +607,7 @@ def main() -> int:
                 [
                     sys.executable,
                     str(REPO_ROOT / "tools/automation/validate-ring-interchanges.py"),
-                    "--all",
+                    *validation_selection,
                 ],
                 LOG_ROOT / "package-catalog-ring-validation.log",
             ),

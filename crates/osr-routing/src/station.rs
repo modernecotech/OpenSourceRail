@@ -96,6 +96,118 @@ fn spacing_for_demand(demand: f32, cfg: SpacingConfig) -> f64 {
     }
 }
 
+/// Remove ordinary neighbours after the actual transfer platforms are known.
+/// Crossings and operating endpoints retain their geometry and chainage.
+pub fn remove_ordinary_interchange_neighbours(
+    stations: &mut Vec<Station>,
+    lines: &[Line],
+    cfg: SpacingConfig,
+    cell_m: f64,
+) -> usize {
+    let ends: std::collections::BTreeMap<_, _> = lines
+        .iter()
+        .filter(|line| matches!(line.shape, LineShape::Radial))
+        .map(|line| {
+            (
+                line.name.as_str(),
+                stations
+                    .iter()
+                    .filter(|s| s.line_name == line.name)
+                    .map(|s| s.s_m)
+                    .fold(0.0_f64, f64::max),
+            )
+        })
+        .collect();
+    let transfers: Vec<_> = stations
+        .iter()
+        .filter(|s| s.junction_group.is_some())
+        .cloned()
+        .collect();
+    let before = stations.len();
+    let mut remaining = stations.clone();
+    stations.retain(|station| {
+        if station.junction_group.is_some()
+            || station.mandatory_crossing
+            || ends
+                .get(station.line_name.as_str())
+                .is_some_and(|end| station.s_m.abs() <= 1.0 || (*end - station.s_m).abs() <= 1.0)
+        {
+            return true;
+        }
+        let near_transfer = transfers.iter().any(|transfer| {
+            if transfer.line_name != station.line_name {
+                return false;
+            }
+            let gap = (station.s_m - transfer.s_m).abs();
+            let gap = lines
+                .iter()
+                .find(|line| line.name == station.line_name)
+                .filter(|line| matches!(line.shape, LineShape::Ring))
+                .map(|line| {
+                    line.cells
+                        .windows(2)
+                        .map(|pair| {
+                            let dr = pair[1].0 as f64 - pair[0].0 as f64;
+                            let dc = pair[1].1 as f64 - pair[0].1 as f64;
+                            dr.hypot(dc) * cell_m
+                        })
+                        .sum::<f64>()
+                })
+                .map_or(gap, |length| gap.min((length - gap).abs()));
+            gap < spacing_for_demand(station.demand.max(transfer.demand), cfg)
+        });
+        if !near_transfer {
+            return true;
+        }
+        let same_site = |other: &Station| {
+            other.line_name == station.line_name
+                && (other.s_m - station.s_m).abs() < 0.01
+                && other.row == station.row
+                && other.col == station.col
+        };
+        let mut neighbours: Vec<_> = remaining
+            .iter()
+            .filter(|other| other.line_name == station.line_name && !same_site(other))
+            .collect();
+        neighbours.sort_by(|a, b| a.s_m.total_cmp(&b.s_m));
+        let previous = neighbours
+            .iter()
+            .rev()
+            .find(|other| other.s_m < station.s_m);
+        let next = neighbours.iter().find(|other| other.s_m > station.s_m);
+        let closed = lines
+            .iter()
+            .find(|line| line.name == station.line_name)
+            .filter(|line| matches!(line.shape, LineShape::Ring));
+        let gap = match (previous, next) {
+            (Some(a), Some(b)) => b.s_m - a.s_m,
+            _ if closed.is_some() && !neighbours.is_empty() => {
+                let length: f64 = closed
+                    .unwrap()
+                    .cells
+                    .windows(2)
+                    .map(|pair| {
+                        (pair[1].0 as f64 - pair[0].0 as f64)
+                            .hypot(pair[1].1 as f64 - pair[0].1 as f64)
+                            * cell_m
+                    })
+                    .sum();
+                length + neighbours.first().unwrap().s_m - neighbours.last().unwrap().s_m
+            }
+            _ => return true,
+        };
+        // Junction consolidation must not remove the only suburban stop
+        // spanning a long interval. Apply removals sequentially so adjacent
+        // candidates cannot together create a gap beyond the outer cap.
+        if gap > cfg.outer_m + cell_m {
+            return true;
+        }
+        remaining.retain(|other| !same_site(other));
+        false
+    });
+    before - stations.len()
+}
+
 #[must_use]
 pub fn place_stations(
     grid: &Grid,
@@ -2006,6 +2118,59 @@ mod tests {
             junction_group: None,
             mandatory_crossing: false,
         }
+    }
+
+    #[test]
+    fn interchange_neighbours_use_local_spacing_and_preserve_endpoints_and_crossings() {
+        let lines = vec![line("A", LineShape::Radial, vec![(0, 0), (0, 500)])];
+        let mut stations: Vec<_> = [0., 2000., 4000., 5200., 8000., 10000.]
+            .into_iter()
+            .map(|chainage| {
+                let mut station = st("A", 0., chainage / 111132.);
+                station.s_m = chainage;
+                station.demand = 0.5;
+                station
+            })
+            .collect();
+        stations[2].junction_group = Some(1);
+        stations[3].mandatory_crossing = true;
+        assert_eq!(
+            remove_ordinary_interchange_neighbours(
+                &mut stations,
+                &lines,
+                SpacingConfig::default(),
+                20.
+            ),
+            1
+        );
+        assert_eq!(
+            stations.iter().map(|s| s.s_m).collect::<Vec<_>>(),
+            vec![0., 4000., 5200., 8000., 10000.]
+        );
+    }
+
+    #[test]
+    fn interchange_cleanup_keeps_the_stop_needed_to_bound_a_suburban_gap() {
+        let lines = vec![line("A", LineShape::Radial, vec![(0, 0), (0, 600)])];
+        let mut stations: Vec<_> = [0., 6000., 12000.]
+            .into_iter()
+            .map(|chainage| {
+                let mut station = st("A", 0., chainage / 111132.);
+                station.s_m = chainage;
+                station
+            })
+            .collect();
+        stations[0].junction_group = Some(1);
+        assert_eq!(
+            remove_ordinary_interchange_neighbours(
+                &mut stations,
+                &lines,
+                SpacingConfig::default(),
+                20.
+            ),
+            0
+        );
+        assert_eq!(stations.len(), 3);
     }
 
     #[test]

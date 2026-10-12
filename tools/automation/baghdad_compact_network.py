@@ -28,6 +28,7 @@ def run(check=False):
     if hashlib.sha256(raw).hexdigest()!=json.loads(receipt_path.read_text())['mask_sha256']:raise ValueError('Water evidence changed')
     mask=np.frombuffer(raw,dtype=np.uint8).reshape(grid['height'],grid['width'])
     buildable=np.frombuffer(gzip.decompress(build_path.read_bytes()),dtype=np.uint8).reshape(mask.shape).astype(bool)
+    routing_cost,terrain_paths=expansion.terrain_cost(CITY,grid,check)
     routes,core=alignment.rework(seed,grid,core_policy,mask,buildable)
     original,archive=expansion.baseline(CITY/'design.toml',check)
     data,population_paths,reason=expansion.population_inputs(CITY,original)
@@ -39,7 +40,7 @@ def run(check=False):
         protected=[p for p in protected if p in set(before)]
         try:
             after=expansion.connect_nearby_rings(before,protected,rings,
-                lambda a,b:expansion.route_between(a,b,mask,buildable,cfg,grid['cell_m']),grid['cell_m'],
+                lambda a,b:expansion.route_between(a,b,mask,buildable,cfg,grid['cell_m'],routing_cost),grid['cell_m'],
                 allow_proposed_terminal_crop=True,maximum_terminal_crop_m=cfg['maximum_proposed_terminal_route_crop_m'])
         except ValueError as error:
             after=before;reviews.append(dict(line=line['name'],reason=str(error),bounded_platform_complex_must_pass_native_validation=True,site_profile_structure_and_walking_access_accepted=False))
@@ -56,10 +57,10 @@ def run(check=False):
     keep=population['valid']&(population['counts']>0)
     selected={k:population[k][keep].copy() for k in ('lat','lon','counts')}
     mapping_cfg['population_year']=receipt['year']
-    revised,report=regional.plan(routes,original['stations'],grid,mask,buildable,selected,data,cfg,mapping_cfg)
+    revised,report=regional.plan(routes,original['stations'],grid,mask,buildable,selected,data,cfg,mapping_cfg,routing_cost)
     if not 9<len(revised['lines'])<=17:raise ValueError('Compact candidate does not meet the requested more-than-nine bounded line inventory')
     paths=[CONFIG,mapping_path,ROOT/'tools/automation/baghdad_regional_network.py',ROOT/'tools/automation/mapping_evidence.py',*mapping_inputs,Path(__file__),alignment.CONFIG,alignment.SEED,alignment.GRID,mask_path,receipt_path,build_path,archive,
-           ROOT/'tools/automation/residential_route_expansion.py',ROOT/'tools/automation/rework-baghdad-alignment.py',expansion.BACKTRACK_VALIDATOR,ROOT/'tools/automation/city_access.py',ROOT/'docs/data/city-population-source-overrides.json',*population_paths]
+           ROOT/'tools/automation/residential_route_expansion.py',ROOT/'tools/automation/rework-baghdad-alignment.py',expansion.BACKTRACK_VALIDATOR,ROOT/'tools/automation/city_access.py',ROOT/'docs/data/city-population-source-overrides.json',*population_paths,*terrain_paths]
     hashes={p.relative_to(ROOT).as_posix():expansion.sha(p) for p in paths}
     report.update(schema=cfg['schema'],as_of=cfg['as_of'],city='baghdad',status='compact-controlled-planning-layout',
         design_stage='Original trunk network plus bounded residential corridors; survey, structures, accessibility and operations remain open',

@@ -407,6 +407,9 @@ def main() -> int:
             'engineering/alignment/residential-expansion-evaluation.json',
             'engineering/alignment/network-expansion-baseline.json.gz'))
         if (city_dir/'station-spacing-policy.toml').exists():required.append(city_dir/'station-spacing-policy.toml')
+        if slug != 'baghdad':
+            required.extend(city_dir/'engineering/alignment'/name for name in (
+                'planning-terrain-slope.f32.gz','planning-terrain-source.json'))
     missing = [str(path.relative_to(city_dir)) for path in required if not path.is_file()]
     failed_summaries: list[str] = []
     for path in required:

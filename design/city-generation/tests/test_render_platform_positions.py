@@ -10,13 +10,14 @@ def test_transfer_markers_use_platforms_instead_of_the_complex_centroid(tmp_path
     import staticmap
 
     points = []
+    links = []
 
     class Map:
         def __init__(self, *args, **kwargs):
             pass
 
         def add_line(self, line):
-            pass
+            links.append(line)
 
         def add_marker(self, marker):
             points.append(marker.coord)
@@ -52,4 +53,8 @@ lon = 28.005
     outputs = render_city(path, tmp_path, route_on_roads=False)
     assert outputs[0].is_file()
     assert set(points) == {(28.0, -1.0), (28.01, -1.01)}
-    assert len(points) == 6
+    # One full junction symbol (three layers), one smaller platform dot
+    # (two layers). Both remain on actual platforms, with a schematic link.
+    assert len(points) == 5
+    assert sorted(points.count(point) for point in set(points)) == [2, 3]
+    assert len(links) == 3  # railway plus the two-layer complex link

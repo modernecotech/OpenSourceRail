@@ -64,6 +64,21 @@ def test_unacceptable_curve_retains_original_geometry_and_open_gate():
     assert run['analytical_length_m']==run['original_length_m']
 
 
+@pytest.mark.parametrize('constraint',['hill','protected'])
+def test_core_shortcut_cannot_introduce_a_hill_or_protected_crossing(constraint):
+    import numpy as np
+    c=tomllib.loads(alignment.CONFIG.read_text());c['core']=dict(south=-1,north=10,west=-1,east=10)
+    seed=dict(grid_cell_m=20,grid_height=10,grid_width=10,
+              lines=[dict(name='L',shape='Radial',cells=[[1,1],[1,4],[4,4]])])
+    grid=dict(bbox_north=10,bbox_west=0,m_per_deg_lat=20,m_per_deg_lon=20)
+    buildable=np.ones((10,10),dtype=bool);cost=np.ones((10,10))
+    if constraint=='hill':cost[2,2]=1000.
+    else:buildable[2,2]=False
+    routes,report=alignment.rework(seed,grid,c,buildable=buildable,routing_cost=cost)
+    assert routes==seed
+    assert report['lines'][0]['core_runs'][0]['controls']==[]
+
+
 @pytest.mark.parametrize('family',['tram-2car','light-metro-3car','metro-4car','metro-6car'])
 def test_line_depots_cover_whole_fleet_and_price_energy_once(family):
     profile=tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles'][family]

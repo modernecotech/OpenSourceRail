@@ -62,6 +62,26 @@ def test_route_cannot_use_unknown_or_protected_cells_or_unapproved_long_water():
         route_between((160,100),(40,100),mask,buildable,cfg,20.)
 
 
+def test_terrain_penalty_routes_around_a_hill_without_relaxing_protected_cells():
+    _,_,_,_,cfg=fixture()
+    mask=np.zeros((201,201),dtype=np.uint8);buildable=np.ones_like(mask,dtype=bool)
+    terrain=np.ones(mask.shape);terrain[70:130,70:130]=1000.
+    buildable[0:20,:]=False
+    path=route_between((160,100),(40,100),mask,buildable,cfg,20.,terrain)
+    assert all(terrain[cell]==1 and buildable[cell] for cell in path)
+
+
+def test_compact_policy_rejects_parallel_feeders_and_leaves_station_placement_native():
+    grid,routes,stations,population,cfg=fixture()
+    cfg.update(native_station_spacing=True,minimum_corridor_separation_m=5000.,
+               minimum_independent_route_fraction=.45,maximum_added_line_fraction=.5)
+    _,report=plan(routes,stations,grid,np.zeros((401,401),dtype=np.uint8),
+                  np.ones((401,401),dtype=bool),population,cfg)
+    assert report['added_line_count']==0
+    assert report['planned_stop_cells_by_line']=={}
+    assert not report['target_met_in_proposed_station_sample']
+
+
 def test_near_ring_approach_becomes_a_continuous_real_contact_without_losing_priority_site():
     _,_,_,_,cfg=fixture();mask=np.zeros((201,201),dtype=np.uint8);buildable=np.ones_like(mask,dtype=bool)
     route=[(r,100) for r in range(5,196)]

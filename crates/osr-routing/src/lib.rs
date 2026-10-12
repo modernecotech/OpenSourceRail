@@ -37,7 +37,7 @@ pub use station::{
     force_geometric_crossings, force_hub_stations, force_planning_station_sites,
     force_ring_radial_crossings, force_ring_radial_group_ids,
     force_ring_radial_terminal_interchanges, geometric_crossing_issues, merge_interchanges,
-    place_stations, station_layout_issues, Station,
+    place_stations, remove_ordinary_interchange_neighbours, station_layout_issues, Station,
 };
 pub use topology::{
     budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget, Line,

@@ -11,6 +11,8 @@ import subprocess
 import sys
 import tempfile
 import tomllib
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from catalogue_designs import city_slug
 
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('capex_refresh',ROOT/'tools/automation/recalculate-city-capex.py')
@@ -131,6 +133,6 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--city');p.add_argument('--jobs',type=int,default=2)
     p.add_argument('--report-only',action='store_true',help='verify native civil/register budget in an isolated copy; preserve canonical design')
     args=p.parse_args();paths=[p for p in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
-        if not args.city or tomllib.loads(p.read_text())['city']['slug'] in args.city.split(',')]
+        if not args.city or city_slug(p) in args.city.split(',')]
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:list(pool.map(lambda path:refresh(path,args.report_only),paths))
 if __name__=='__main__':main()
