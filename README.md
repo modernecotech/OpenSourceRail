@@ -63,6 +63,8 @@ Reproduce with `tools/automation/osr-python tools/automation/civil-study.py syst
 
 Open the generated `report.html` to filter choices and compare objectives, or read the [retained comparison](engineering/civil_exploration/examples/complete-system-review.md) and [implementation/acceptance details](docs/civil/complete-system-exploration.md). The scope includes materials, reinforcement/tendon allowances, foundations, connections, production, transport, plant, temporary works, labour, QA, site carrying cost, maintenance and bearing/joint replacement scenarios. **Actual Baghdad supplier prices and construction commitments remain open.** Static distributed planning loads support research comparisons; actual axle loading, calibrated soil/material/connection behaviour, physical tests and independent acceptance are required for railway qualification. No numerical winner automatically changes the catalogue, city finances or release status.
 
+## Feature Highlights
+
 ```mermaid
 flowchart LR
   P[1. PLAN<br/>City Studio / GIS] --> E[2. ENGINEER<br/>CAD / IFC4.3 / simulation] --> D[3. DELIVER<br/>CPM / ERP / QA / manufacturing] --> O[4. OPERATE<br/>assets / SCADA views / evidence] --> R[maintain / renew] --> P
@@ -193,9 +195,7 @@ Open <http://127.0.0.1:8090/>. The local server is not an authenticated public d
 
 **Source-locked inputs → validated candidate and deterministic generators → content-addressed Git-reviewable revision → GIS/OSR-ALN/CAD/IFC/cost/simulation/project-twin outputs → independent evidence, named approval and operational baseline.**
 
-This root README is the only human-facing front door. A hash proves which bytes were reviewed; it does not approve them. Generated city packages still require survey, calibrated demand, utility and ground data, supplier qualification, first-article manufacture and testing, competent engineering review and national authorization.
-
-The principal editable sources are:
+This root README is the only human-facing front door. A hash proves which bytes were reviewed; it does not approve them. Generated city packages still require survey, calibrated demand, utility and ground data, supplier qualification, first-article manufacture and testing, competent engineering review and national authorization. The principal editable sources are:
 
 | Concern | Source of truth | Generated/review output |
 |---|---|---|
