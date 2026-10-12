@@ -94,3 +94,20 @@ def test_near_ring_approach_becomes_a_continuous_real_contact_without_losing_pri
     assert set(revised)&set(ring)
     from shapely.geometry import LineString
     assert LineString(revised).is_simple
+
+
+def test_surabaya_scoped_terminal_loop_finishes_at_a_real_ring_junction():
+    import json,tomllib
+    from residential_route_expansion import ROOT, sha
+    city=ROOT/'cities/catalogue/southeast-asia/Indonesia/Surabaya'
+    policy_path=city/'residential-route-policy.toml'
+    policy=tomllib.loads(policy_path.read_text())['terminal_scopes'][0]
+    routes=json.loads((city/'corridors.json').read_text())['lines']
+    radial=next(line for line in routes if line['name']==policy['line'])
+    ring=next(line for line in routes if line['shape']=='Ring')
+    assert tuple(radial['cells'][-1]) in set(map(tuple,ring['cells']))
+    report=json.loads((city/'engineering/alignment/residential-line-expansion.json').read_text())
+    change=next(row for row in report['base_line_junction_changes'] if row['line']==policy['line'])
+    assert 3000<change['original_route_m']-change['final_route_m']<=policy['maximum_crop_m']
+    assert report['sources_sha256'][policy_path.relative_to(ROOT).as_posix()]==sha(policy_path)
+    assert not report['physical_release'] and not report['operating_release']

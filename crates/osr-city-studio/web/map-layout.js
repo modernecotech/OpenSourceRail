@@ -21,3 +21,32 @@ globalThis.OSRStationMarkerLayout = function stationMarkerLayout(points, separat
     return chosen;
   });
 };
+
+// Collapse only declared cross-line complexes. Selecting a platform expands
+// its own complex for editing without changing any physical coordinates.
+globalThis.OSRJunctionMarkerLayout = function junctionMarkerLayout(points, selectedId = null) {
+  const selected = points.find(point => point.id === selectedId);
+  const groups = new Map();
+  for (const point of points) {
+    const grouped = point.junction_group !== undefined && point.junction_group !== null;
+    const key = grouped ? `junction:${point.junction_group}` : `station:${point.id}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(point);
+  }
+  const symbols = [];
+  for (const members of groups.values()) {
+    const lines = [...new Set(members.map(point => point.line))];
+    const expanded = selected && selected.junction_group !== undefined && selected.junction_group !== null
+      && selected.junction_group === members[0].junction_group;
+    if (lines.length < 2 || expanded) {
+      symbols.push(...members.map(point => ({ ...point, memberIds: [point.id], lines: [point.line] })));
+      continue;
+    }
+    const distanceSum = point => members.reduce((sum, other) => sum +
+      (point.x - other.x) ** 2 + (point.y - other.y) ** 2, 0);
+    const representative = [...members].sort((a, b) => distanceSum(a) - distanceSum(b)
+      || a.id.localeCompare(b.id))[0];
+    symbols.push({ ...representative, memberIds: members.map(point => point.id), lines });
+  }
+  return OSRStationMarkerLayout(symbols).map((marker, index) => ({ ...symbols[index], ...marker }));
+};

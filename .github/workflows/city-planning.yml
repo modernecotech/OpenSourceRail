@@ -34,6 +34,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Native qualification needs source and operating inputs, not the
+          # multi-gigabyte city images and engineering archives. Checkout's
+          # sparse mode also fetches blobs lazily.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/*/
+            /.github/
+            /crates/
+            /lib/
+            /tools/automation/
+            /design/city-generation/src/
+            /design/component-catalogue/catalog/buildable-trainset/
+            /engineering/industrialisation/
+            /cities/catalogue/*/*/*/*.toml
       - uses: dtolnay/rust-toolchain@1.92.0
       - uses: Swatinem/rust-cache@v2
       - uses: actions/setup-python@v5

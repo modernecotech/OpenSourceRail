@@ -282,6 +282,29 @@ async function main() {
   assert(baseline.services >= baseline.lines * 3, "line/day service plans rendered", `${baseline.services} plans`);
   assert(baseline.demandPeriods >= 4, "source-controlled demand periods rendered", `${baseline.demandPeriods} periods`);
   assert(baseline.findings === 0, "baseline validation has no errors");
+  const junctionView = await cdp.evaluate(`(() => {
+    const groups = new Map();
+    for (const station of view.snapshot.stations) {
+      if (station.junction_group === undefined || station.junction_group === null) continue;
+      if (!groups.has(station.junction_group)) groups.set(station.junction_group, new Set());
+      groups.get(station.junction_group).add(station.line);
+    }
+    return { expected: [...groups.values()].filter(lines => lines.size > 1).length,
+      rendered: document.querySelectorAll('circle.station.junction').length,
+      first: document.querySelector('circle.station.junction')?.dataset.junctionGroup };
+  })()`);
+  assert(junctionView.expected > 0 && junctionView.rendered === junctionView.expected,
+    "interchanges render as one junction per declared complex");
+  await click(`circle.station.junction[data-junction-group="${junctionView.first}"]`);
+  const platformView = await cdp.evaluate(`(() => {
+    const members = view.snapshot.stations.filter(station => station.junction_group === selectedStation.junction_group);
+    return { count: members.length, rendered: members.every(station =>
+      [...document.querySelectorAll('circle.station')].some(node => node.dataset.id === station.id)),
+      picker: document.querySelector('#station-picker').value === selectedStation.id };
+  })()`);
+  assert(platformView.count > 1 && platformView.rendered && platformView.picker,
+    "selecting a junction exposes its individual platform edit targets");
+  await cdp.page.locator('#station-picker').selectOption('');
   await cdp.wait("gisManifest?.layers?.length > 0 && gisLayers.get('routing-demand')?.features?.length > 0", "deterministic GIS workspace");
   const gisState = await cdp.evaluate(`({
     deterministic: gisManifest?.deterministic,
@@ -368,6 +391,7 @@ async function main() {
   record("civil construction and per-line IFC survey control saved", "5-span unit · EPSG:32638 test transform");
 
   const movedStation = await cdp.evaluate("view.snapshot.stations.find(item => item.state === 'generated').id");
+  await cdp.page.locator('#station-picker').selectOption(movedStation);
   await click(`circle.station[data-id="${movedStation}"]`);
   const movedCoordinates = await cdp.evaluate("({ lat: selectedStation.lat + .00012, lon: selectedStation.lon + .00012 })");
   await form("#station-form", {

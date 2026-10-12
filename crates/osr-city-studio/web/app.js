@@ -548,13 +548,31 @@ function renderMap() {
   });
 
   const movedIds = new Set(view.snapshot.changes.map((change) => change.id));
-  const markerLayout = OSRStationMarkerLayout(view.snapshot.stations.map((station) => {
+  const stationById = new Map(view.snapshot.stations.map(station => [station.id, station]));
+  const markerLayout = OSRJunctionMarkerLayout(view.snapshot.stations.map((station) => {
     const [x, y] = projection.point(station.lon, station.lat);
-    return { id: station.id, x, y };
-  }));
-  view.snapshot.stations.forEach((station, index) => {
-    const marker = markerLayout[index];
+    return { id: station.id, x, y, line: station.line, junction_group: station.junction_group };
+  }), selectedStation?.id);
+  markerLayout.forEach((marker) => {
+    const station = stationById.get(marker.id);
+    const isJunction = marker.memberIds.length > 1;
     const { x, y } = marker;
+    if (isJunction) {
+      for (const id of marker.memberIds) {
+        const member = stationById.get(id);
+        const [px, py] = projection.point(member.lon, member.lat);
+        if (Math.hypot(px - marker.sourceX, py - marker.sourceY) < .01) continue;
+        const link = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        link.setAttribute("x1", px); link.setAttribute("y1", py);
+        link.setAttribute("x2", marker.sourceX); link.setAttribute("y2", marker.sourceY);
+        link.setAttribute("class", "station-complex-link");
+        candidateGroup.appendChild(link);
+        const platform = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        platform.setAttribute("cx", px); platform.setAttribute("cy", py);
+        platform.setAttribute("r", 3); platform.setAttribute("class", "junction-platform");
+        candidateGroup.appendChild(platform);
+      }
+    }
     if (Math.hypot(x - marker.sourceX, y - marker.sourceY) > .01) {
       const leader = document.createElementNS("http://www.w3.org/2000/svg", "line");
       leader.setAttribute("x1", marker.sourceX); leader.setAttribute("y1", marker.sourceY);
@@ -565,17 +583,19 @@ function renderMap() {
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", x);
     circle.setAttribute("cy", y);
-    circle.setAttribute("r", station.archetype.includes("interchange") ? 10 : 8);
+    circle.setAttribute("r", isJunction ? 12 : station.archetype.includes("interchange") ? 10 : 8);
     circle.setAttribute(
       "class",
-      `station ${station.state} ${station.site_assessment?.station_permitted === false ? "site-blocked" : ""} ${movedIds.has(station.id) ? "moved" : ""} ${selectedStation?.id === station.id ? "selected" : ""}`
+      `station ${station.state} ${isJunction ? "junction" : ""} ${marker.memberIds.some(id => stationById.get(id).site_assessment?.station_permitted === false) ? "site-blocked" : ""} ${marker.memberIds.some(id => movedIds.has(id)) ? "moved" : ""} ${selectedStation?.id === station.id ? "selected" : ""}`
     );
     circle.dataset.id = station.id;
-    circle.setAttribute("aria-label", `${station.name} · ${station.line}`);
+    if (isJunction) circle.dataset.junctionGroup = station.junction_group;
+    circle.setAttribute("aria-label", isJunction ? `${station.name} · Interchange: ${marker.lines.join(', ')}` : `${station.name} · ${station.line}`);
     const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-    title.textContent = `${station.name} · ${station.line} · ${station.state}${station.site_assessment?.station_permitted === false ? " · prohibited over mapped water" : ""}`;
+    title.textContent = isJunction ? `${station.name} · ${marker.lines.join(', ')} · ${marker.memberIds.length} platforms · Select to edit platforms`
+      : `${station.name} · ${station.line} · ${station.state}${station.site_assessment?.station_permitted === false ? " · prohibited over mapped water" : ""}`;
     circle.appendChild(title);
-    circle.addEventListener("pointerdown", startStationDrag);
+    if (!isJunction) circle.addEventListener("pointerdown", startStationDrag);
     circle.addEventListener("click", (event) => {
       if (mapMode === "line") return;
       event.stopPropagation();

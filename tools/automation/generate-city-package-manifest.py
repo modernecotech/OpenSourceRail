@@ -407,6 +407,7 @@ def main() -> int:
             'engineering/alignment/residential-expansion-evaluation.json',
             'engineering/alignment/network-expansion-baseline.json.gz'))
         if (city_dir/'station-spacing-policy.toml').exists():required.append(city_dir/'station-spacing-policy.toml')
+        if (city_dir/'residential-route-policy.toml').exists():required.append(city_dir/'residential-route-policy.toml')
         if slug != 'baghdad':
             required.extend(city_dir/'engineering/alignment'/name for name in (
                 'planning-terrain-slope.f32.gz','planning-terrain-source.json'))

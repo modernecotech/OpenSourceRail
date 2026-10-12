@@ -54,7 +54,7 @@ pub fn assign(
         .collect();
     let mut output = PassengerAssignment {
         method: "deterministic shortest scheduled-time all-or-nothing assignment; loads may exceed capacity".into(),
-        transfer_rule: "Interchange-tagged platforms: 5 minutes when co-located within 1 metre, or 5 minutes plus walking at 80 m/min for the same declared junction group within 700 metres. Group access paths require project verification; no other proximity links.".into(),
+        transfer_rule: "Interchange platforms, including terminals in a declared junction group: 5 minutes when co-located within 1 metre, or 5 minutes plus walking at 80 m/min for the same declared junction group within 600 metres. Group access paths require project verification; no other proximity links.".into(),
         ..Default::default()
     };
     let mut metrics = Vec::new();
@@ -105,11 +105,16 @@ pub fn assign(
         for a in 0..ordered.len() {
             for b in a + 1..ordered.len() {
                 let (sa, sb) = (ordered[a], ordered[b]);
+                let transfer_capable = |station: &CompiledStation| {
+                    station.archetype.starts_with("interchange")
+                        || (station.junction_group.is_some()
+                            && matches!(station.archetype.as_str(), "terminal" | "depot-terminal"))
+                };
                 if sa.line == sb.line
                     || caps[a] == 0
                     || caps[b] == 0
-                    || !sa.archetype.starts_with("interchange")
-                    || !sb.archetype.starts_with("interchange")
+                    || !transfer_capable(sa)
+                    || !transfer_capable(sb)
                 {
                     continue;
                 }
@@ -119,7 +124,7 @@ pub fn assign(
                 let distance_m = dx.hypot(dy);
                 let declared_group = sa.junction_group.is_some()
                     && sa.junction_group == sb.junction_group
-                    && distance_m <= 700.0;
+                    && distance_m <= 600.0;
                 if distance_m <= 1.0 || declared_group {
                     let minutes = 5.0
                         + if distance_m > 1.0 {
@@ -474,6 +479,36 @@ mod tests {
         );
         s[2].lat = 0.013;
         s[2].archetype = "standard".into();
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+    }
+
+    #[test]
+    fn terminal_products_keep_their_declared_transfer_role_and_bounded_envelope() {
+        let (d, a) = inputs(&[("a", "d", 50)]);
+        let mut s = vec![
+            station("a", "l", 0.0, 0.0, false),
+            station("b", "l", 1000.0, 0.01, true),
+            station("c", "m", 0.0, 0.013, true),
+            station("d", "m", 1000.0, 0.02, false),
+        ];
+        let lines = [line("l", false), line("m", false)];
+        s[1].junction_group = Some(0);
+        s[2].junction_group = Some(0);
+        for product in ["terminal", "depot-terminal"] {
+            s[1].archetype = product.into();
+            let metrics = assign(&d, &lines, &s, &a, |_, _| 600).0;
+            assert_eq!(metrics[0].transfers, 1);
+        }
+        s[1].junction_group = None;
+        assert_eq!(
+            assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
+            "unavailable"
+        );
+        s[1].junction_group = Some(0);
+        s[2].lat = 0.0158; // About 645 m: exceeds the common 600 m complex bound.
         assert_eq!(
             assign(&d, &lines, &s, &a, |_, _| 600).0[0].status,
             "unavailable"

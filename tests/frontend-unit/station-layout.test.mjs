@@ -16,3 +16,32 @@ test('markers at the map edge remain clickable and well-separated',()=>{
   assert.ok(layout.every(p=>p.x>=12&&p.x<=988&&p.y>=12&&p.y<=608));
   assert.equal(layout[0].sourceX,0);
 });
+
+test('declared interchanges collapse onto a real platform and expand for platform editing',()=>{
+  const points=[
+    {id:'a',line:'A',junction_group:0,x:500,y:310},
+    {id:'b',line:'B',junction_group:0,x:506,y:310},
+    {id:'c',line:'C',junction_group:0,x:512,y:310},
+    {id:'ordinary',line:'A',x:600,y:310},
+  ];
+  const before=structuredClone(points);
+  const layout=globalThis.OSRJunctionMarkerLayout(points);
+  assert.equal(layout.length,2);
+  assert.deepEqual(layout[0].memberIds,['a','b','c']);
+  assert.equal(layout[0].id,'b');
+  assert.equal(layout[0].sourceX,506);
+  const expanded=globalThis.OSRJunctionMarkerLayout(points,'c');
+  assert.equal(expanded.length,4);
+  assert.ok(expanded.every(marker=>marker.memberIds.length===1));
+  assert.deepEqual(points,before);
+  assert.deepEqual(layout,globalThis.OSRJunctionMarkerLayout(points));
+});
+
+test('proximity and same-line groups cannot invent an interchange',()=>{
+  const points=[{id:'a',line:'A',junction_group:1,x:500,y:310},
+    {id:'b',line:'A',junction_group:1,x:500,y:310},
+    {id:'c',line:'B',x:500,y:310}];
+  const layout=globalThis.OSRJunctionMarkerLayout(points);
+  assert.equal(layout.length,3);
+  assert.ok(layout.every(marker=>marker.memberIds.length===1));
+});

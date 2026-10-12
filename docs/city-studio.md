@@ -24,6 +24,12 @@ new rate unless the calibrated driver model maps that input to a quantity.
 The controlling design decision is
 [RFC 0031](rfcs/0031-city-studio-git-revisions.md).
 
+Declared cross-line interchange complexes appear as one junction on the map.
+Select a junction to expose its individual platforms for editing, or choose a
+platform directly from the station picker. Smaller dots retain the actual
+platform locations; connecting strokes identify complex membership. Platform
+coordinates and line chainages remain controlled separately.
+
 ## Interface
 
 ![City Studio deterministic layered GIS workspace](screenshots/city-studio/gis-workspace.png)

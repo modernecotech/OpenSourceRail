@@ -469,6 +469,20 @@ def plan(routes, stations, grid, mask, buildable, population, cfg, routing_cost=
 def expand(design_path,routes,grid,mask,buildable,check=False):
     cfg=json.loads(CONFIG.read_text()); design,archive=baseline(design_path,check)
     city=design_path.parent; data,inputs,reason=population_inputs(city,design)
+    scope_path=city/'residential-route-policy.toml'
+    terminal_limits={}
+    if scope_path.exists():
+        scope=tomllib.loads(scope_path.read_text())
+        if set(scope)!={'schema_version','terminal_scopes'} or scope['schema_version']!=1:
+            raise ValueError('Residential terminal scope requires schema 1 and explicit line bounds')
+        for row in scope['terminal_scopes']:
+            if (set(row)!={'line','maximum_crop_m','basis'} or row['line'] in terminal_limits
+                    or row['line'] not in {line['name'] for line in routes['lines']}
+                    or not cfg['maximum_proposed_terminal_route_crop_m']<=row['maximum_crop_m']<=6000
+                    or not row['basis'].strip()):
+                raise ValueError('Terminal scope needs an existing line, a 1200–6000 m bound and its city-specific basis')
+            terminal_limits[row['line']]=row['maximum_crop_m']
+        inputs.append(scope_path)
     routing_cost,terrain_inputs=terrain_cost(city,grid,check);inputs+=terrain_inputs
     routes=deepcopy(routes)
     rings=[line for line in routes['lines'] if line['shape']=='Ring']
@@ -481,7 +495,7 @@ def expand(design_path,routes,grid,mask,buildable,check=False):
         try:
             revised=connect_nearby_rings(original,protected_sites,rings,
                 lambda a,b:route_between(a,b,mask,buildable,cfg,grid['cell_m'],routing_cost),grid['cell_m'],allow_proposed_terminal_crop=True,
-                maximum_terminal_crop_m=cfg['maximum_proposed_terminal_route_crop_m'])
+                maximum_terminal_crop_m=terminal_limits.get(line['name'],cfg['maximum_proposed_terminal_route_crop_m']))
         except ValueError as error:
             # A retained near-ring line can use a bounded platform complex.
             # Keep the actual corridor if a continuous diversion is infeasible;
