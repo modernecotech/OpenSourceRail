@@ -13,6 +13,7 @@ evidence gates.
 |---|---|
 | ERP business backbone | Pinned ERPNext/Frappe HR deployment, native projects/tasks, procurement, stock, manufacturing, quality, assets, maintenance, finance and workforce components; [deployment](../../deployment/erpnext/README.md) and native component/procurement tests |
 | Generic and city-specific configuration | Shared component/equipment templates, per-city project/company mappings, 266 validated profiles and reproducible task payload generation; [city platform](city-platform.md) and [readiness](readiness.md) |
+| Operations planning and field work | [Six-item management implementation](../../engineering/operations/README.md): declared resource/possession planning, fleet/staff recovery, offline work evidence, reliability validation and operational/GTFS exchange; isolated gateway/browser acceptance, with native-site and measured calibration gates open |
 | One connected UI | Workbench embeds authenticated ERP and FUXA and carries city/equipment context to OSR controls, engineering and lifecycle screens; [guide and screenshots](../workbench/README.md) |
 | Engineering tools and digital twin | Reviewed execution mappings, FreeCAD/IFC/Bonsai/GIS evidence references, stable equipment identities, installed serial history and revision impact; [lifecycle guide](../lifecycle/README.md) |
 | Rust and embedded supervision | Shared controller contracts, native simulation bridge, quality/timestamps, command request/result states and maintained historian; [embedded contract](../lifecycle/embedded-integration.md) |
@@ -45,7 +46,7 @@ local verification; candidate CI evidence must be checked separately by exact co
 
 The additional `expand-check` passed 389 live/native/restoration assertions and a
 separate 230-check schema matrix. Its [coverage register](../../deployment/example-city/coverage-register.md)
-tracks 519 integration entries: 36 scenario, 64 varied, 135 partial and 284 without
+tracks 531 integration entries: 36 scenario, 64 varied, 135 partial and 296 without
 qualifying evidence. Payment posting/cancellation is exercised transactionally;
 other remaining workflows are listed explicitly. Passing examples do not establish
 coverage of every function or variable combination.

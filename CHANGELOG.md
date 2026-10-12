@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Added possession-aware physical-resource planning, energy/maintenance fleet diagrams,
+  combined service/fleet/staff recovery and bounded competence/rest/travel/break-aware
+  staff rostering. Workbench now includes offline typed/photo field work with persistent
+  device/gateway queues, native ERP revalidation and immutable inspection-pending receipts.
+  Added fault/exposure/MDBF/MTTR trends, held-out degradation/RUL validation, operational
+  JSON and GTFS timetable/update exchange, and configured operator identity mappings.
+  The isolated pilot and browser acceptance cover software behaviour; real topology,
+  personnel/method data, measured predictive calibration and native-site commissioning
+  remain open. See [implementation and scope](engineering/operations/README.md).
+
 - Default development train protection to separate A/B processes and journals,
   two-out-of-two permission and either-channel trip. Added missing-channel,
   disagreement, replay and output-feedback scenarios; late feeds cannot hide a

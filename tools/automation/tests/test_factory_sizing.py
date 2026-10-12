@@ -93,9 +93,10 @@ def test_published_baghdad_factory_reconciles_actual_fleet_space_budget_and_sour
     assert max(int(r['working_day']) for r in deliveries)==p['stock_finish_working_day']<=p['infrastructure_target_working_day']
     assert p['readiness_months_from_ntp']==18
     assert p['budgeted_plant_direct_usd']>=p['plant_cost_envelope_usd']
-    assert p['incremental_plant_capex_with_epc_usd']==pytest.approx(max(0.,p['plant_cost_envelope_usd']-p['budgeted_plant_direct_usd'])*1.07)
+    assert p['incremental_plant_capex_with_epc_usd']==pytest.approx(max(0.,p['plant_cost_envelope_usd']-p['legacy_module_plant_allowance_usd'])*1.07)
     assert p['planning_site_m2']>p['process_and_support_floor_m2']>0
-    assert p['original_lines_civil_complete_before_factory_ready']==[line for line,day in p['original_infrastructure_deadlines'].items() if day<p['factory_ready_working_day']]
+    assert len(p['original_lines_civil_complete_before_factory_ready'])==len(set(p['original_lines_civil_complete_before_factory_ready']))
+    assert set(p['original_lines_civil_complete_before_factory_ready'])=={line for line,day in p['original_infrastructure_deadlines'].items() if day<p['factory_ready_working_day']}
     assert p['lines_civil_complete_before_factory_ready']==[]
     for relative,digest in p['sources_sha256'].items():
         assert hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()==digest

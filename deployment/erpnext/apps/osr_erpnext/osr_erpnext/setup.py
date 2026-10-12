@@ -12,6 +12,8 @@ def install():
     construction_install()
     from osr_erpnext.construction_fleet import construction_custom_fields
     create_custom_fields(construction_custom_fields())
+    from osr_erpnext.field_operations import install as install_field_operations
+    install_field_operations()
     fields = []
     for name, label, fieldtype in [
         ("source_key", "OSR source key", "Data"),

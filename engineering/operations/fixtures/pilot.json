@@ -1,0 +1,408 @@
+{
+  "schema": "osr-operations/1",
+  "city": "samawah",
+  "environment": "simulation",
+  "revision": "operations-pilot-v1",
+  "epoch": "2026-10-12T06:00:00+03:00",
+  "horizon_s": 3600,
+  "search_budget": 50000,
+  "source_scope": "synthetic acceptance fixture; not surveyed track or commissioned resource data",
+  "agency": {
+    "id": "osr-pilot",
+    "name": "OSR simulation pilot",
+    "url": "https://github.com/modernecotech/OpenSourceRail",
+    "timezone": "Asia/Baghdad"
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "name": "Pilot A",
+      "station": true,
+      "lat": 31.31,
+      "lon": 45.28
+    },
+    {
+      "id": "B",
+      "name": "Pilot B",
+      "station": true,
+      "lat": 31.32,
+      "lon": 45.29
+    },
+    {
+      "id": "C",
+      "name": "Pilot C",
+      "station": false,
+      "lat": 31.33,
+      "lon": 45.300000000000004
+    }
+  ],
+  "resources": [
+    {
+      "id": "AB",
+      "kind": "track",
+      "capacity": 1,
+      "headway_s": 30
+    },
+    {
+      "id": "AC",
+      "kind": "track",
+      "capacity": 1,
+      "headway_s": 30
+    },
+    {
+      "id": "CB",
+      "kind": "track",
+      "capacity": 1,
+      "headway_s": 30
+    },
+    {
+      "id": "charge-B-1",
+      "kind": "charger",
+      "capacity": 1,
+      "headway_s": 0
+    },
+    {
+      "id": "charge-B-2",
+      "kind": "charger",
+      "capacity": 1,
+      "headway_s": 0
+    },
+    {
+      "id": "charge-A",
+      "kind": "charger",
+      "capacity": 1,
+      "headway_s": 0
+    }
+  ],
+  "edges": [
+    {
+      "id": "AB-e",
+      "from": "A",
+      "to": "B",
+      "resources": [
+        "AB"
+      ],
+      "duration_s": 200,
+      "energy_kwh": 8,
+      "distance_km": 1
+    },
+    {
+      "id": "BA-e",
+      "from": "B",
+      "to": "A",
+      "resources": [
+        "AB"
+      ],
+      "duration_s": 200,
+      "energy_kwh": 8,
+      "distance_km": 1
+    },
+    {
+      "id": "AC-e",
+      "from": "A",
+      "to": "C",
+      "resources": [
+        "AC"
+      ],
+      "duration_s": 150,
+      "energy_kwh": 4,
+      "distance_km": 1
+    },
+    {
+      "id": "CA-e",
+      "from": "C",
+      "to": "A",
+      "resources": [
+        "AC"
+      ],
+      "duration_s": 150,
+      "energy_kwh": 4,
+      "distance_km": 1
+    },
+    {
+      "id": "CB-e",
+      "from": "C",
+      "to": "B",
+      "resources": [
+        "CB"
+      ],
+      "duration_s": 150,
+      "energy_kwh": 4,
+      "distance_km": 1
+    },
+    {
+      "id": "BC-e",
+      "from": "B",
+      "to": "C",
+      "resources": [
+        "CB"
+      ],
+      "duration_s": 150,
+      "energy_kwh": 4,
+      "distance_km": 1
+    }
+  ],
+  "paths": [
+    {
+      "id": "AB",
+      "edges": [
+        "AB-e"
+      ]
+    },
+    {
+      "id": "BA",
+      "edges": [
+        "BA-e"
+      ]
+    },
+    {
+      "id": "ACB",
+      "edges": [
+        "AC-e",
+        "CB-e"
+      ]
+    },
+    {
+      "id": "BCA",
+      "edges": [
+        "BC-e",
+        "CA-e"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "S1",
+      "route_id": "L1",
+      "path_ids": [
+        "AB",
+        "ACB"
+      ],
+      "departures_s": [
+        0,
+        600
+      ],
+      "weight": 10
+    },
+    {
+      "id": "S2",
+      "route_id": "L1",
+      "path_ids": [
+        "BA",
+        "BCA"
+      ],
+      "departures_s": [
+        400,
+        900
+      ],
+      "weight": 10
+    },
+    {
+      "id": "S3",
+      "route_id": "L1",
+      "path_ids": [
+        "AB",
+        "ACB"
+      ],
+      "departures_s": [
+        1200,
+        1600
+      ],
+      "weight": 10
+    }
+  ],
+  "possessions": [],
+  "trains": [
+    {
+      "id": "T1",
+      "node": "A",
+      "ready_s": 0,
+      "energy_kwh": 12,
+      "capacity_kwh": 30,
+      "min_energy_kwh": 2,
+      "compatible_routes": [
+        "L1"
+      ],
+      "maintenance_by_s": 3000
+    },
+    {
+      "id": "T2",
+      "node": "A",
+      "ready_s": 0,
+      "energy_kwh": 12,
+      "capacity_kwh": 30,
+      "min_energy_kwh": 2,
+      "compatible_routes": [
+        "L1"
+      ],
+      "maintenance_by_s": 3000
+    },
+    {
+      "id": "T3",
+      "node": "A",
+      "ready_s": 0,
+      "energy_kwh": 12,
+      "capacity_kwh": 30,
+      "min_energy_kwh": 2,
+      "compatible_routes": [
+        "L1"
+      ],
+      "maintenance_by_s": 3000
+    }
+  ],
+  "chargers": [
+    {
+      "id": "CH-A",
+      "node": "A",
+      "resource_id": "charge-A",
+      "power_kw": 360,
+      "efficiency": 0.9
+    },
+    {
+      "id": "CH-B1",
+      "node": "B",
+      "resource_id": "charge-B-1",
+      "power_kw": 360,
+      "efficiency": 0.9
+    },
+    {
+      "id": "CH-B2",
+      "node": "B",
+      "resource_id": "charge-B-2",
+      "power_kw": 360,
+      "efficiency": 0.9
+    }
+  ],
+  "fleet_jobs": [
+    {
+      "id": "T3-inspection",
+      "train_id": "T3",
+      "kind": "inspection",
+      "node": "A",
+      "start_s": 3200,
+      "end_s": 3400,
+      "extends_maintenance_to_s": 3600
+    }
+  ],
+  "duties": [
+    {
+      "id": "OCC-day",
+      "role": "occ",
+      "start_s": 0,
+      "end_s": 1800,
+      "location": "HQ",
+      "competencies": [
+        "dispatch"
+      ],
+      "weight": 3,
+      "previous_worker": "W1"
+    },
+    {
+      "id": "station-day",
+      "role": "station",
+      "start_s": 0,
+      "end_s": 1800,
+      "location": "A",
+      "competencies": [
+        "station"
+      ],
+      "weight": 2
+    }
+  ],
+  "workers": [
+    {
+      "id": "W1",
+      "roles": [
+        "occ",
+        "station"
+      ],
+      "available": true,
+      "windows": [
+        {
+          "start_s": 0,
+          "end_s": 3600
+        }
+      ],
+      "previous_shift_end_s": -3600,
+      "min_rest_s": 3600,
+      "max_work_s": 3600,
+      "competencies": [
+        {
+          "id": "dispatch",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        },
+        {
+          "id": "station",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        }
+      ]
+    },
+    {
+      "id": "W2",
+      "roles": [
+        "occ",
+        "station"
+      ],
+      "available": true,
+      "windows": [
+        {
+          "start_s": 0,
+          "end_s": 3600
+        }
+      ],
+      "previous_shift_end_s": -3600,
+      "min_rest_s": 3600,
+      "max_work_s": 3600,
+      "competencies": [
+        {
+          "id": "dispatch",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        },
+        {
+          "id": "station",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        }
+      ]
+    },
+    {
+      "id": "W3",
+      "roles": [
+        "occ",
+        "station"
+      ],
+      "available": true,
+      "windows": [
+        {
+          "start_s": 0,
+          "end_s": 3600
+        }
+      ],
+      "previous_shift_end_s": -3600,
+      "min_rest_s": 3600,
+      "max_work_s": 3600,
+      "competencies": [
+        {
+          "id": "dispatch",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        },
+        {
+          "id": "station",
+          "valid_from_s": -3600,
+          "expires_s": 3600,
+          "revoked": false
+        }
+      ]
+    }
+  ],
+  "staff_travel": []
+}

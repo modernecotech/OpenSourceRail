@@ -69,6 +69,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`ops-core-backup.py`](ops-core-backup.py) | Create and verify a consistent SQLite plus managed-evidence backup archive |
 | [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
+| [`operations-pilot.py`](operations-pilot.py) | Reproduce the combined possession/train/charger/staff recovery pilot or serve an isolated gateway/Workbench for offline field acceptance |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
 | [`platform-recovery.py`](platform-recovery.py) | Capture private coordinated platform checkpoints and rehearse fresh-volume recovery; see the [recovery guide](../../docs/operating/platform-recovery.md) |

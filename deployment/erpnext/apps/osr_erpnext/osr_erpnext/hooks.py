@@ -10,6 +10,7 @@ after_migrate = "osr_erpnext.setup.install"
 doctype_js = {"Project": "public/js/project.js", "Task": "public/js/task.js", "Issue": "public/js/issue.js"}
 
 doc_events = {
+    "OSR Field Execution": {"validate": "osr_erpnext.field_operations.validate_receipt"},
     "Task": {"validate": "osr_erpnext.construction_execution.validate_task"},
     "ToDo": {"validate": "osr_erpnext.construction_execution.validate_assignment"},
     "Asset": {"validate": "osr_erpnext.construction_execution.validate_controlled_evidence",

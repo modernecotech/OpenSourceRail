@@ -51,10 +51,15 @@ jobs:
             tools/osr-aln-convert/pyproject.toml
             tools/reference-ma/pyproject.toml
             engineering/toolchain/ifc-python-requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
       - name: Install project test environments
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest CairoSVG mistune Pillow reportlab PyYAML
+          python -m pip install --requirement engineering/operations/test-requirements.txt
           python -m pip install -e './design/city-generation[geography]' -e ./design/component-catalogue
           python -m pip install -e ./tools/osr-aln-convert -e ./tools/reference-ma
           python -m pip install --requirement engineering/toolchain/ifc-python-requirements.txt
@@ -98,6 +103,13 @@ jobs:
       - run: python engineering/toolchain/baseline_assurance.py --check
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python -m pytest -q tools/automation/tests
+      - name: Verify operations management pilot and offline browser workflow
+        run: |
+          python tools/automation/operations-pilot.py --check
+          python tools/automation/operations-pilot.py
+          npm ci
+          npx playwright install --with-deps chromium
+          node deployment/workbench/tests/verify-operations.mjs
       - name: Validate business operating deployment
         run: |
           python tools/automation/erp-platform.py init

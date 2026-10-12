@@ -8,6 +8,13 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 ## Reviewed Open Work
 
+The [six-item operations review implementation](../engineering/operations/README.md)
+adds bounded possession/resource, fleet/energy and staff planning, offline field
+execution evidence, reliability/RUL validation and operational/GTFS exchange.
+Remaining work is real topology/energy and labour-policy calibration, provisioned
+native-site acceptance, measured predictive validation and country/operator
+transport adapters; the existing railML geometry subset is unchanged.
+
 The [2 October platform review follow-up](rfcs/0033-tacs-runtime-and-resource-control.md#default-redundant-protection-and-platform-review-follow-up)
 implements logical A/B train protection, paired outputs, the late-feed fix and
 FMEA applicability checks. The [development policy](certification/redundancy-policy.json)

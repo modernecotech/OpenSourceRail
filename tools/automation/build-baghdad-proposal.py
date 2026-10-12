@@ -772,6 +772,10 @@ def source_inputs():
     paths.update(COUNTRY.glob('*/design.toml')); paths.update(p.parent/(tomllib.loads(p.read_text())['city']['slug']+'.toml') for p in COUNTRY.glob('*/design.toml'))
     paths.update(COUNTRY.glob('*/README.md'))
     paths.update(ROOT/p for p in SHARED)
+    # Native setup/hooks now import the offline field receipt definition. Keep
+    # that import closure in the source archive without inferring site acceptance.
+    paths.update(ROOT/'deployment/erpnext/apps/osr_erpnext/osr_erpnext'/name
+                 for name in ('field_operations.py', 'field_contract.py'))
     connected=CITY/'engineering/connected-build'
     if connected.is_dir():
         paths.update(p for p in connected.rglob('*') if p.is_file())

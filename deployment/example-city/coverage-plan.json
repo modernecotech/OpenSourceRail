@@ -43,6 +43,7 @@
     "erp.api.disposition_execution.preview",
     "erp.api.disposition_execution.record",
     "erp.api.executive.ingest_draft",
+    "erp.api.field_operations.ingest",
     "erp.api.integration.apply_execution",
     "erp.api.integration.apply_repair",
     "erp.api.integration.case_status",
@@ -109,6 +110,7 @@
     "gateway.GET./executive/decisions",
     "gateway.GET./health",
     "gateway.GET./history",
+    "gateway.GET./operations/",
     "gateway.GET./outbox",
     "gateway.GET./snapshot",
     "gateway.POST./alarms/acknowledge",
@@ -118,6 +120,7 @@
     "gateway.POST./executive/ballots",
     "gateway.POST./executive/finalize",
     "gateway.POST./executive/proposals",
+    "gateway.POST./operations/",
     "gateway.POST./packages",
     "gateway.POST./packages/preview",
     "gateway.POST./telemetry",
@@ -487,6 +490,7 @@
     "workbench.GET./api/assurance/readiness",
     "workbench.GET./api/lifecycle/",
     "workbench.GET./api/operating/twins",
+    "workbench.GET./api/operations/",
     "workbench.GET./api/portfolio",
     "workbench.GET./api/twins/catalogue",
     "workbench.GET./api/twins/jobs/",
@@ -494,6 +498,7 @@
     "workbench.GET./api/workbench/city",
     "workbench.GET./api/workbench/services",
     "workbench.POST./api/lifecycle/",
+    "workbench.POST./api/operations/",
     "workbench.POST./api/ops-auth/",
     "workbench.POST./api/ops-core/",
     "workbench.POST./api/twins/generate/",
@@ -1055,7 +1060,12 @@
     "workflow.replenishment-scheduler": "82023cb39c22bf3032858fc93e4b0ba9bdd519705ddc13b924da0031351b3502",
     "workflow.service-sla": "ca6a225d2528934e2fe54168189662ff0e93abfe639ca2cd882a50360e4dd690",
     "workflow.tax": "8258d4b1099d11664c9e0f77718e9b82d3fbca81436a94ee7e1a661c25794065",
-    "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969"
+    "workflow.training-competence": "481a86c800c68d04f6b3450b2dc55f8c115930502a1e818fce74d038b435b969",
+    "erp.api.field_operations.ingest": "8615c19645819be901e7444c42233c3dca2051402d138e56f46b827ab0a5b7aa",
+    "gateway.GET./operations/": "6492c0de95b7d82dd5e53807c65b1359f41b77d3ec13c702dbb9b3b4f926f967",
+    "gateway.POST./operations/": "542e1cce848996ef00892a8c31f2a4d96d192c46dbcea395783a482c3eeb400c",
+    "workbench.GET./api/operations/": "e64873867fd973ca4ed22c97d11fcb4521f9421a8786eca8155beb1a0ab4c446",
+    "workbench.POST./api/operations/": "96a577c14007ca0c6a3a2513832123fba89c57fb0cca124cfc5b70630e3521dc"
   },
   "rules": [
     {
@@ -3858,6 +3868,36 @@
       "pattern": "workbench.setting.OSR_QUALIFICATION_REVIEW_POLICY",
       "status": "partial",
       "remaining": "Signature verification has isolated regression coverage. Exercise a server-configured trusted reviewer policy and invalid policy paths in the complete example deployment before claiming scenario coverage.",
+      "evidence": []
+    },
+    {
+      "pattern": "erp.api.field_operations.ingest",
+      "status": "partial",
+      "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
+      "evidence": []
+    },
+    {
+      "pattern": "gateway.GET./operations/",
+      "status": "partial",
+      "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
+      "evidence": []
+    },
+    {
+      "pattern": "gateway.POST./operations/",
+      "status": "partial",
+      "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.GET./api/operations/",
+      "status": "partial",
+      "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.POST./api/operations/",
+      "status": "partial",
+      "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
       "evidence": []
     }
   ]

@@ -11,6 +11,8 @@ from urllib.parse import parse_qs, urlsplit
 from urllib.request import Request, urlopen
 
 from .store import Store
+from .operations.api import handle as operations_api
+from .operations.field import Conflict
 
 
 def request_json(url, data=None, headers=None, method=None):
@@ -82,6 +84,32 @@ def reconcile(store, config):
             continue
 
 
+
+def deliver_field_events(store, config, now=None):
+    """Retry native field evidence intake; permission/revision rejection is terminal."""
+    from .operations.store import OperationsStore
+    OperationsStore(store)
+    now = time.time() if now is None else now
+    with store.connect() as db:
+        rows = db.execute("SELECT * FROM field_events WHERE state='pending' AND next_try<=? ORDER BY created LIMIT 10", (now,)).fetchall()
+    for row in rows:
+        try:
+            result = request_json(config['url'] + '/api/method/osr_erpnext.field_operations.ingest',
+                {'packet': json.loads(row['body'])}, {'Authorization': 'token ' + config['key'] + ':' + config['secret']})['message']
+            with store.connect() as db:
+                db.execute("UPDATE field_events SET state='delivered',response=?,error=NULL WHERE id=?", (json.dumps(result), row['id']))
+        except HTTPError as exc:
+            with store.connect() as db:
+                if exc.code in (400, 401, 403, 409, 417, 422):
+                    db.execute("UPDATE field_events SET state='rejected',error=? WHERE id=?", ('Native ERP scope, assignment or revision rejected; refresh work pack', row['id']))
+                else:
+                    db.execute('UPDATE field_events SET attempts=attempts+1,next_try=?,error=? WHERE id=?',
+                        (now + min(300, 2 ** min(row['attempts'] + 1, 8)), 'ERP unavailable; field evidence retained for retry', row['id']))
+        except (URLError, OSError, ValueError, KeyError):
+            with store.connect() as db:
+                db.execute('UPDATE field_events SET attempts=attempts+1,next_try=?,error=? WHERE id=?',
+                    (now + min(300, 2 ** min(row['attempts'] + 1, 8)), 'ERP unavailable; field evidence retained for retry', row['id']))
+
 class GatewayHTTPServer(ThreadingHTTPServer):
     # A full city polls hundreds of devices on the same sampling boundary.
     request_queue_size = 128
@@ -147,6 +175,9 @@ class Handler(BaseHTTPRequestHandler):
                 result = self.server.store.executive_decision(query['id'])
                 self.authorize(p, result)
                 return self.send(200, self.executive_view(p, result))
+            if parsed.path.startswith('/operations/'):
+                result = operations_api(self, 'GET', parsed.path.removeprefix('/operations/'), query, p)
+                return self.send(200 if result is not None else 404, result or {'error': 'Unknown operations endpoint'})
             self.authorize(p, query)
             if parsed.path == '/snapshot':
                 return self.send(200, self.server.store.snapshot(query['city'], query['environment']))
@@ -175,6 +206,8 @@ class Handler(BaseHTTPRequestHandler):
                     before=int(query['before']) if 'before' in query else None)
                 return self.send(200, self.executive_view(p, result))
             self.send(404, {'error': 'Unknown endpoint'})
+        except Conflict as exc:
+            self.send(409, {'error': str(exc), 'refresh_required': True})
         except PermissionError as exc:
             self.send(403, {'error': str(exc)})
         except (ValueError, KeyError) as exc:
@@ -191,6 +224,9 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError('Request body must be an object')
             path = urlsplit(self.path).path
             store = self.server.store
+            if path.startswith('/operations/'):
+                result = operations_api(self, 'POST', path.removeprefix('/operations/'), data, p)
+                return self.send(200 if result is not None else 404, result or {'error': 'Unknown operations endpoint'})
             if path == '/packages/preview':
                 self.authorize(p, data['package'])
                 result = store.package_review(data['package'])
@@ -242,6 +278,8 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 return self.send(404, {'error': 'Unknown endpoint'})
             self.send(200, result)
+        except Conflict as exc:
+            self.send(409, {'error': str(exc), 'refresh_required': True})
         except PermissionError as exc:
             self.send(403, {'error': str(exc)})
         except (ValueError, KeyError, TypeError) as exc:
@@ -295,6 +333,7 @@ def main():
                 if config.get('erp'):
                     deliver(store, config['erp'])
                     deliver_executive_actions(store, config['erp'])
+                    deliver_field_events(store, config['erp'])
                     if tick % 6 == 0:
                         reconcile(store, config['erp'])
                 if tick % 60 == 0:

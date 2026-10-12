@@ -145,7 +145,8 @@ def test_midnight_hourly_schedule_conserves_daily_duty():
 def test_fleet_phasing_net_purchase_and_service_supply_reconcile():
     s=read('first-phase')
     assert s['baseline_fleet']-s['deferred_fleet']+s['additional_fleet']==s['opening_fleet']
-    assert s['additional_fleet']==1 # Round 10% spares up on the already 6-minute line 9.
+    # Reconcile the current network rather than an obsolete line-9 extra train.
+    assert s['additional_fleet']==sum(row['additional_trainsets'] for row in s['lines'])
     for r in s['lines']:
         assert r['baseline_trainsets']-r['deferred_trainsets']+r['additional_trainsets']==r['opening_trainsets']
         assert r['opening_trainsets']==r['opening_peak_count']+r['opening_spares']+r['opening_cold_reserves']

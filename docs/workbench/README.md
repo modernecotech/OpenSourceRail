@@ -185,3 +185,12 @@ reads the current coverage, city deployment and analysis registers; every workfl
 keeps its original commit and link. Later commits require their own checks.
 
 ![Workbench verification status with exact CI commits and separate canonical deployment gates](../screenshots/workbench/verification-status.png)
+
+## Service And Field Work
+
+Open **Service & field work** for possession-aware planning, fleet/staff recovery,
+offline work packs, reliability analysis and operational/GTFS exchange. Use an
+explicit city-scoped integration credential; the shell view role grants no access.
+Device evidence survives offline reloads, while gateway/native ERP checks reject
+stale revisions, serials and assignments on reconnect. See the [implementation,
+pilot and commissioning scope](../../engineering/operations/README.md).

@@ -179,7 +179,7 @@ def test_opening_factory_orders_match_fleet_without_earlier_income_or_factory_sa
     stock={r['asset_id'] for r in tasks if r['asset_type']=='rolling-stock'}
     first_phase=json.loads((OUT.parent/'delivery-baseline/first-phase.json').read_text())
     assert len(stock)==factory['selected_trainsets']==first_phase['opening_fleet']
-    assert len({r['asset_id'] for r in tasks if 'OPENING-EXTRA' in r['asset_id']})==1
+    assert len({r['asset_id'] for r in tasks if 'OPENING-EXTRA' in r['asset_id']})==first_phase['additional_fleet']
     baseline=json.loads((OUT.parent/'delivery-risk/summary.json').read_text())['cases']['calendar_baseline']['phases']
     deadlines={r['line']:r['opening_month'] for r in baseline}
     assert all(r['opening_month']>=deadlines[r['line']] for r in factory['delivery']['phases'])

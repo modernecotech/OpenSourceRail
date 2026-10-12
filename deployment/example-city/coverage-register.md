@@ -8,7 +8,7 @@ Status: `scenario` means the function was exercised; `varied` means named values
 
 Native ERP expansion checks run real hooks and ledger posting inside a rolled-back transaction. The live telemetry matrix pauses the example simulator and includes explicitly labelled controller-result fixtures.
 
-Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
+Counts: **gap: 296**, **partial: 135**, **scenario: 36**, **varied: 64**. Inventory consistent: **true**.
 
 ## Remaining workflow gaps
 
@@ -76,6 +76,7 @@ Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `erp.api.disposition_execution.preview` | partial | base: Isolated native lifecycle adapters and negative cases pass with rollback | Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established. |
 | `erp.api.disposition_execution.record` | partial | base: Isolated native lifecycle adapters and negative cases pass with rollback | Native regression suite exercises this adapter family; endpoint-specific HTTP permissions and all argument variants are not individually established. |
 | `erp.api.executive.ingest_draft` | gap | — | Pure contract tests cover checksum, HMAC, allowlist and mutation rejection; a complete example with provisioned external model runners and all four native draft types remains. |
+| `erp.api.field_operations.ingest` | gap | — | Isolated operations Python/gateway/browser checks exist; native complete-city ERP delivery and deployed combinations remain unexercised. |
 | `erp.api.integration.apply_execution` | scenario | base: Exact engineering revision maps to native Item and production BOM | Representative connected lifecycle; full input permutations and all permission combinations remain. |
 | `erp.api.integration.apply_repair` | scenario | base: Native repair consumes the purchased spare and keeps railway release separate | Representative connected lifecycle; full input permutations and all permission combinations remain. |
 | `erp.api.integration.case_status` | scenario | base: ERP recovery delivers a new fault once, without reusing the closed case | Representative connected lifecycle; full input permutations and all permission combinations remain. |
@@ -142,6 +143,7 @@ Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `gateway.GET./executive/decisions` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
 | `gateway.GET./health` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./history` | scenario | base: Sampling interval changes actual controller arrival times | Sampling history observed; full query, pagination/limit and access combinations remain. |
+| `gateway.GET./operations/` | gap | — | Isolated operations Python/gateway/browser checks exist; native complete-city ERP delivery and deployed combinations remain unexercised. |
 | `gateway.GET./outbox` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `gateway.GET./snapshot` | scenario | expansion: telemetry.interaction.1; expansion: telemetry.interaction.2; expansion: telemetry.interaction.3; +69 observations (JSON) | Used by the live scenario; exhaustive filter, permission and failure permutations remain. |
 | `gateway.POST./alarms/acknowledge` | varied | expansion: alarm.stale-acknowledgement | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
@@ -151,6 +153,7 @@ Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `gateway.POST./executive/ballots` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
 | `gateway.POST./executive/finalize` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
 | `gateway.POST./executive/proposals` | gap | — | Unit and local HTTP tests cover authenticated model identity, scope, immutability, quorum, diversity, dissent and authority boundaries; the complete example deployment has no configured external model runners. |
+| `gateway.POST./operations/` | gap | — | Isolated operations Python/gateway/browser checks exist; native complete-city ERP delivery and deployed combinations remain unexercised. |
 | `gateway.POST./packages` | varied | expansion: configuration.concurrent-review | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./packages/preview` | varied | expansion: command.pending-blocks-rule-change | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
 | `gateway.POST./telemetry` | varied | expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.below; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.min; expansion: telemetry.boundary.SAM-RS-L1-001:vehicle-aux.comfort_power.max; +305 observations (JSON) | Named live HTTP scenarios only; request shape limits and all principal/scope/state combinations remain. |
@@ -520,6 +523,7 @@ Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `workbench.GET./api/assurance/readiness` | gap | — | Local browser tests exercise reference scope, city switching, mismatched context and changed-evidence rejection. Map a complete example-deployment report before claiming scenario coverage; physical qualification remains open. |
 | `workbench.GET./api/lifecycle/` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
 | `workbench.GET./api/operating/twins` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
+| `workbench.GET./api/operations/` | gap | — | Isolated operations Python/gateway/browser checks exist; native complete-city ERP delivery and deployed combinations remain unexercised. |
 | `workbench.GET./api/portfolio` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.GET./api/twins/catalogue` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.GET./api/twins/jobs/` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
@@ -527,6 +531,7 @@ Counts: **gap: 291**, **partial: 135**, **scenario: 36**, **varied: 64**. Invent
 | `workbench.GET./api/workbench/city` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
 | `workbench.GET./api/workbench/services` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
 | `workbench.POST./api/lifecycle/` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
+| `workbench.POST./api/operations/` | gap | — | Isolated operations Python/gateway/browser checks exist; native complete-city ERP delivery and deployed combinations remain unexercised. |
 | `workbench.POST./api/ops-auth/` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |
 | `workbench.POST./api/ops-core/` | scenario | base: Workbench, ERP, FUXA, engineering evidence and lifecycle agree in the browser | Real browser lifecycle and railway handoff; per-route error/permission and all payload variants remain. |
 | `workbench.POST./api/twins/generate/` | gap | — | No mapped executed scenario for this inventory entry; add explicit boundary, permission and interaction checks. |

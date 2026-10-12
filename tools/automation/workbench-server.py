@@ -155,6 +155,9 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith("/api/operations/"):
+            self._operations_proxy("GET")
+            return
         if path == "/api/assurance/readiness":
             from urllib.parse import parse_qs
             from subsystem_qualification import compile_package, scoped_readiness
@@ -304,6 +307,9 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith("/api/operations/"):
+            self._operations_proxy("POST")
+            return
         if path.startswith("/api/lifecycle/"):
             self._lifecycle_action(path.removeprefix("/api/lifecycle/"))
             return
@@ -327,6 +333,42 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_DELETE(self) -> None:
         self._proxy_city("DELETE")
+
+    def _operations_proxy(self, method: str) -> None:
+        """Operations reads/writes always use explicit caller scope, never viewer secrets."""
+        from urllib.error import HTTPError, URLError
+        from urllib.request import Request, urlopen
+        import sys
+        sys.path.insert(0, str(REPO_ROOT / "services/integration"))
+        from osr_integration.operations.api import GET_ROUTES, POST_ROUTES
+        endpoint = urlsplit(self.path).path.removeprefix("/api/operations/")
+        if endpoint not in (GET_ROUTES if method == "GET" else POST_ROUTES):
+            self._send_json(404, {"error": "Unknown operations action"})
+            return
+        authorization = self.headers.get("Authorization", "")
+        if not authorization.startswith("Bearer ") or len(authorization) > 1024:
+            self._send_json(403, {"error": "Scoped integration credential required"})
+            return
+        if method == "POST" and self.headers.get("Origin") != "http://" + self.headers.get("Host", ""):
+            self._send_json(403, {"error": "Same-origin browser request required"})
+            return
+        try:
+            content = None
+            if method == "POST":
+                size = int(self.headers.get("Content-Length", "0"))
+                if not 0 < size <= 4_000_000: raise ValueError("Operations request size outside limit")
+                content = self.rfile.read(size)
+            query = urlsplit(self.path).query
+            request = Request(INTEGRATION_URL + "/operations/" + endpoint + ("?" + query if query else ""),
+                data=content, headers={"Authorization": authorization, "Content-Type": "application/json"}, method=method)
+            with urlopen(request, timeout=300) as response:
+                self._send_json(response.status, json.load(response))
+        except HTTPError as error:
+            self._send_json(error.code, json.loads(error.read()))
+        except (URLError, OSError):
+            self._send_json(503, {"error": "Operations service unavailable; queued field work remains on this device"})
+        except (ValueError, TypeError):
+            self._send_json(400, {"error": "Invalid operations request"})
 
     def _lifecycle_action(self, endpoint: str) -> None:
         """Forward only explicit caller credentials; never use the viewer/service secret for writes."""
