@@ -328,6 +328,12 @@ def prepare_city(
     # Reprice the final controlled inventory before emitting operating inputs;
     # validation receipts must be generated only after these edits are complete.
     scenario_index=next(i for i,command in enumerate(commands) if 'osr_scenario' in command)
+    # CAPEX reads the scenario's repeated charging-module power. Emit the
+    # adopted operating override before repricing so an older scenario cannot
+    # silently restore the previous cabinet count. Emit again after pricing
+    # to bind the final quantities and source hashes.
+    commands.insert(scenario_index, commands[scenario_index].copy())
+    scenario_index += 1
     commands.insert(scenario_index,[sys.executable,str(REPO_ROOT/'tools/automation/refresh-local-civil-costs.py'),'--city',slug])
     for command in commands:
         return_code = run_logged(command, log_path)
