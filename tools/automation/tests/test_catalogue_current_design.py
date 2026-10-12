@@ -79,6 +79,16 @@ def test_core_shortcut_cannot_introduce_a_hill_or_protected_crossing(constraint)
     assert report['lines'][0]['core_runs'][0]['controls']==[]
 
 
+def test_closed_radial_retrace_is_removed_without_adding_a_shortcut_or_moving_endpoints():
+    cells=[[0,0],[0,1],[0,2],[1,2],[0,2],[0,1],[1,1],[2,1]]
+    result,removed=alignment.remove_closed_retraces(cells)
+    assert result==[[0,0],[0,1],[1,1],[2,1]]
+    assert result[0]==cells[0] and result[-1]==cells[-1]
+    assert removed
+    original_edges={(tuple(a),tuple(b)) for a,b in zip(cells,cells[1:])}
+    assert all((tuple(a),tuple(b)) in original_edges for a,b in zip(result,result[1:]))
+
+
 @pytest.mark.parametrize('family',['tram-2car','light-metro-3car','metro-4car','metro-6car'])
 def test_line_depots_cover_whole_fleet_and_price_energy_once(family):
     profile=tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles'][family]

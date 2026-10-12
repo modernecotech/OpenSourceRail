@@ -83,6 +83,23 @@ def samples_for_controls(controls, spacing):
     return samples
 
 
+def remove_closed_retraces(cells):
+    """Erase closed out-and-back excursions without adding any new edges."""
+    kept=[];positions={};removed=[]
+    for index,cell in enumerate(cells):
+        key=tuple(cell)
+        if key in positions:
+            start=positions[key]
+            if start<len(kept)-1:
+                removed.append(dict(closing_source_index=index,removed_cells=len(kept)-start-1,
+                                    common_cell=list(key)))
+                for old in kept[start+1:]:positions.pop(tuple(old))
+                del kept[start+1:]
+            continue
+        positions[key]=len(kept);kept.append(list(cell))
+    return kept,removed
+
+
 def smooth_run(points, radial, config):
     g = config['geometry']; closed = points[0] == points[-1]
     tolerance = g['simplification_tolerance_m']
@@ -187,11 +204,18 @@ def rework(seed, grid, config, water_mask=None, buildable=None, routing_cost=Non
                     run['geometry_basis']='superseded-by-water-constrained-route-requires-geometry-review'
                     run['superseded_analytical_controls']=run.pop('controls')
                     run['controls']=[]
+        retraces=[]
+        if line['shape']=='Radial':
+            new,retraces=remove_closed_retraces(new)
+            if retraces:
+                for run in runs:
+                    run['geometry_basis']='superseded-by-closed-retrace-removal; retained-edge geometry review'
+                    run['superseded_analytical_controls']=run.pop('controls');run['controls']=[]
         line['cells']=new
         final_core_m=math.fsum(geometry.distance(a,b)*cell for a,b in zip(new,new[1:])
                              if inside(((a[0]+b[0])/2,(a[1]+b[1])/2)))
         rows.append(dict(line=line['name'],original_cells=len(original),reworked_cells=len(new),core_runs=runs,
-            water_route_changes=water_changes,
+            water_route_changes=water_changes,closed_retraces_removed=retraces,
             final_core_route_m=final_core_m,
             original_route_m=math.fsum(geometry.distance(a,b)*cell for a,b in zip(original,original[1:])),
             reworked_route_m=math.fsum(geometry.distance(a,b)*cell for a,b in zip(new,new[1:]))))
