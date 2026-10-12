@@ -29,6 +29,8 @@ STEPS=(
     'tools/automation/baghdad_programme_recalculation.py',
     'tools/automation/baghdad_demand_bridge.py',
     'tools/automation/baghdad_cost_reconciliation.py',
+    ('tools/automation/refresh-city-mapping.py','--city','baghdad'),
+    ('tools/automation/render-city-population-map.py','--design',CITY+'/design.toml'),
     ('tools/automation/integrated-network-plan.py','--geometry-only'),
     ('tools/automation/connected-build-study.py','--refresh-cad'),
     ('tools/automation/generate-national-briefs.py','--country','IQ'),
