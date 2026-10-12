@@ -15,7 +15,7 @@ at the same address cannot substitute reused sequential record IDs.
 The [retained bundle](examples/samawah-cross-bearer/manifest.json) changes one
 cross-bearer in tracked `LM3-BDY-P020.FCStd`, reopens the candidate, checks all other
 leaf solids remain unchanged, and executes three CalculiX meshes for each revision.
-The canonical CAD remains unchanged. FreeCAD 1.1.3 and CalculiX 2.23 executed this
+The canonical CAD remains unchanged. FreeCAD 1.1.4 and CalculiX 2.23 executed this
 example; complete decks, solver output, native candidate and checksums are retained.
 
 | Quantity | Baseline | Candidate |
@@ -88,7 +88,7 @@ checks and source hashes. Checkpoint evidence before removing example volumes.
 
 To publish a new recorded example, retain its sealed bundle and native report and
 add a city/environment entry to `catalogue.json` with the matching ERP origin.
-Recorded results are historical observations; verification checks source currency,
+The current receipts were rerun in a separate `osr-design-consistency` ERP site, reachable at `http://127.0.0.1:8284` when that local test site is running. Previous examples remain in Git history. Recorded results are historical observations; verification checks source currency,
 not the present state of mutable ERP records. CI exercises the retained bundle
 against a fresh example ERP and uploads its new report. Native CAD regeneration
 requires the tools above and is separately reproducible.

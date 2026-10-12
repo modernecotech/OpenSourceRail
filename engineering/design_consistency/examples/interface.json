@@ -1,0 +1,2433 @@
+{
+  "assembly_joints": [
+    {
+      "bolt_tensile_area_m2": 8.43e-05,
+      "clearance_m": 0.001,
+      "contact_surfaces": "machined steel pad; assumed friction .15, surface calibration required",
+      "fastener_specification": "M12 class 8.8 design seed; supplier/configuration unselected",
+      "grip_stack_m": [
+        0.016,
+        0.008
+      ],
+      "hole_pattern_m": [
+        [
+          -0.15,
+          -0.45,
+          0
+        ],
+        [
+          -0.15,
+          0.45,
+          0
+        ],
+        [
+          0.15,
+          -0.45,
+          0
+        ],
+        [
+          0.15,
+          0.45,
+          0
+        ]
+      ],
+      "id": "bogie-underframe-mount",
+      "inspection_characteristics": [
+        "preload",
+        "locking witness",
+        "surface condition",
+        "weld NDT",
+        "fatigue-critical toes"
+      ],
+      "instance_groups": [
+        {
+          "id": "mount-0",
+          "physical_part_ids": [
+            "bolster-plate-0",
+            "sill-0",
+            "sill-1",
+            "bolt-0-0",
+            "bolt-0-1",
+            "bolt-0-2",
+            "bolt-0-3"
+          ]
+        },
+        {
+          "id": "mount-1",
+          "physical_part_ids": [
+            "bolster-plate-1",
+            "sill-0",
+            "sill-1",
+            "bolt-1-0",
+            "bolt-1-1",
+            "bolt-1-2",
+            "bolt-1-3"
+          ]
+        }
+      ],
+      "kind": "bolted",
+      "locking": "provisional prevailing-torque nut plus witnessed preload",
+      "manufacturing_limits": {
+        "contact_flatness_m": 0.0001,
+        "hole_position_tolerance_m": 0.0002
+      },
+      "material_evidence": null,
+      "member_thickness_m": 0.016,
+      "preload_range_n": [
+        30000,
+        42000
+      ],
+      "production_released": false,
+      "weld_size_m": 0.006
+    }
+  ],
+  "construction_stages": [],
+  "equipment_distribution": {
+    "battery_mass_kg": null,
+    "fluid_inventory_kg": null,
+    "supplier_cg_m": null,
+    "supplier_inertia_kg_m2": null,
+    "whole_vehicle_modal_transfer_accepted": false
+  },
+  "mandatory_evidence": [
+    "supplier dimensions and certificates",
+    "independent strength/fatigue/stability review",
+    "measured joint laws",
+    "issued drawings and procedures",
+    "prototype correlation",
+    "physical release"
+  ],
+  "materials": {
+    "adhesive": {
+      "basis": "research bond elastic seed; peel/fatigue/creep unmeasured",
+      "density_kg_m3": 1200,
+      "poisson": 0.3,
+      "young_pa": 2000000000.0
+    },
+    "concrete": {
+      "basis": "C40 research seed; mix, curing and cyclic data uncalibrated",
+      "compressive_strength_pa": 40000000.0,
+      "density_kg_m3": 2500,
+      "poisson": 0.2,
+      "young_pa": 30000000000.0
+    },
+    "fastener": {
+      "basis": "class 8.8 dimensional design seed; supplier lot, preload and strength acceptance open",
+      "density_kg_m3": 7850,
+      "poisson": 0.3,
+      "young_pa": 210000000000.0
+    },
+    "finish": {
+      "basis": "research finish; complete-stack fire response unknown",
+      "density_kg_m3": 1400,
+      "poisson": 0.3,
+      "young_pa": 1000000000.0
+    },
+    "foam": {
+      "basis": "H80 public nominal data at 23 C; project batch unqualified",
+      "density_kg_m3": 80,
+      "poisson": 0.4,
+      "shear_pa": 27000000.0,
+      "young_pa": 90000000.0
+    },
+    "gfrp": {
+      "basis": "development laminate; allowables unmeasured",
+      "density_kg_m3": 1800,
+      "poisson": 0.25,
+      "young_pa": 20000000000.0
+    },
+    "steel": {
+      "basis": "S355 design seed; heat/certificates not supplied",
+      "density_kg_m3": 7850,
+      "poisson": 0.3,
+      "yield_pa": 355000000.0,
+      "young_pa": 210000000000.0
+    }
+  },
+  "name": "bogie-underframe interface",
+  "parts": [
+    {
+      "analysis": {
+        "cg_m": [
+          0.0,
+          -0.44999999999999996,
+          -4.939428562037644e-05
+        ],
+        "geometry_sha256": "7a70f91dc3dd526e849d3cd7d1c1932b05953caf29815c40f37dba8c269ed345",
+        "inertia_tensor_kg_m2": [
+          [
+            1.5971998575846,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            36.60836922832672,
+            -2.710505431213761e-20
+          ],
+          [
+            0.0,
+            -2.710505431213761e-20,
+            35.949453342812504
+          ]
+        ],
+        "mass_kg": 106.4701307643455,
+        "physical_part_id": "sill-0",
+        "representation": "section/solid",
+        "section": {
+          "area_m2": 0.006783999999999998,
+          "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+          "corner_radius_m": 0,
+          "density_kg_m3": 7850,
+          "height_m": 0.28,
+          "iy_m4": 7.189640533333338e-05,
+          "iz_m4": 2.9881685333333334e-05,
+          "j_torsion_m4": 6.450288060377358e-05,
+          "kind": "rectangular-hollow",
+          "mass_kg_m": 53.25439999999999,
+          "physical_validation": false,
+          "polar_area_moment_m4": 0.0001017780906666667,
+          "schema": "osr-manufacturing-section/1",
+          "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+          "wall_m": 0.008,
+          "width_m": 0.16
+        }
+      },
+      "coordination": {
+        "geometry_sha256": "7a70f91dc3dd526e849d3cd7d1c1932b05953caf29815c40f37dba8c269ed345",
+        "physical_part_id": "sill-0",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "sill-0",
+      "inspection_characteristics": [],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              0,
+              -0.45,
+              0.136
+            ],
+            "dimensions_m": [
+              2,
+              0.16,
+              0.008
+            ],
+            "hole_radius_m": 0.007,
+            "holes_xy_m": [
+              [
+                -0.9,
+                0
+              ],
+              [
+                -0.6,
+                0
+              ],
+              [
+                0.6,
+                0
+              ],
+              [
+                0.9,
+                0
+              ]
+            ],
+            "id": "top",
+            "kind": "plate"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.45,
+              -0.136
+            ],
+            "dimensions_m": [
+              2,
+              0.16,
+              0.008
+            ],
+            "id": "bottom",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.526,
+              0
+            ],
+            "dimensions_m": [
+              2,
+              0.008,
+              0.264
+            ],
+            "id": "left",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.374,
+              0
+            ],
+            "dimensions_m": [
+              2,
+              0.008,
+              0.264
+            ],
+            "id": "right",
+            "kind": "box"
+          }
+        ],
+        "role": "manufactured RHS walls"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.0,
+          -0.44999999999999996,
+          -4.939428562037644e-05
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.5971998575846,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            36.60836922832672,
+            -2.710505431213761e-20
+          ],
+          [
+            0.0,
+            -2.710505431213761e-20,
+            35.949453342812504
+          ]
+        ],
+        "mass_kg": 106.4701307643455
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.0,
+          0.45,
+          -4.939428562037644e-05
+        ],
+        "geometry_sha256": "41d29d64a5a117228304e340a0819788f4b64f3f4f88e92224655b0da7ecc889",
+        "inertia_tensor_kg_m2": [
+          [
+            1.5971998575846,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            36.60836922832672,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            35.949453342812504
+          ]
+        ],
+        "mass_kg": 106.4701307643455,
+        "physical_part_id": "sill-1",
+        "representation": "section/solid",
+        "section": {
+          "area_m2": 0.006783999999999998,
+          "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+          "corner_radius_m": 0,
+          "density_kg_m3": 7850,
+          "height_m": 0.28,
+          "iy_m4": 7.189640533333338e-05,
+          "iz_m4": 2.9881685333333334e-05,
+          "j_torsion_m4": 6.450288060377358e-05,
+          "kind": "rectangular-hollow",
+          "mass_kg_m": 53.25439999999999,
+          "physical_validation": false,
+          "polar_area_moment_m4": 0.0001017780906666667,
+          "schema": "osr-manufacturing-section/1",
+          "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+          "wall_m": 0.008,
+          "width_m": 0.16
+        }
+      },
+      "coordination": {
+        "geometry_sha256": "41d29d64a5a117228304e340a0819788f4b64f3f4f88e92224655b0da7ecc889",
+        "physical_part_id": "sill-1",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "sill-1",
+      "inspection_characteristics": [],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              0,
+              0.45,
+              0.136
+            ],
+            "dimensions_m": [
+              2,
+              0.16,
+              0.008
+            ],
+            "hole_radius_m": 0.007,
+            "holes_xy_m": [
+              [
+                -0.9,
+                0
+              ],
+              [
+                -0.6,
+                0
+              ],
+              [
+                0.6,
+                0
+              ],
+              [
+                0.9,
+                0
+              ]
+            ],
+            "id": "top",
+            "kind": "plate"
+          },
+          {
+            "centre_m": [
+              0,
+              0.45,
+              -0.136
+            ],
+            "dimensions_m": [
+              2,
+              0.16,
+              0.008
+            ],
+            "id": "bottom",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              0.374,
+              0
+            ],
+            "dimensions_m": [
+              2,
+              0.008,
+              0.264
+            ],
+            "id": "left",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              0.526,
+              0
+            ],
+            "dimensions_m": [
+              2,
+              0.008,
+              0.264
+            ],
+            "id": "right",
+            "kind": "box"
+          }
+        ],
+        "role": "manufactured RHS walls"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.0,
+          0.45,
+          -4.939428562037644e-05
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.5971998575846,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            36.60836922832672,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            35.949453342812504
+          ]
+        ],
+        "mass_kg": 106.4701307643455
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          -0.75,
+          0.0,
+          0.148
+        ],
+        "geometry_sha256": "3a61c32d86dcfca770af6be692cf7995a27b1676cafe6f9d862dcb2576351f0e",
+        "inertia_tensor_kg_m2": [
+          [
+            9.029144042276267,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.5698649671118858,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            10.595796949162924
+          ]
+        ],
+        "mass_kg": 75.282661528691,
+        "physical_part_id": "bolster-plate-0",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "3a61c32d86dcfca770af6be692cf7995a27b1676cafe6f9d862dcb2576351f0e",
+        "physical_part_id": "bolster-plate-0",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolster-plate-0",
+      "inspection_characteristics": [
+        "hole position",
+        "flatness",
+        "net ligament"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              -0.75,
+              0,
+              0.148
+            ],
+            "dimensions_m": [
+              0.5,
+              1.2,
+              0.016
+            ],
+            "hole_radius_m": 0.007,
+            "holes_xy_m": [
+              [
+                -0.15,
+                -0.45
+              ],
+              [
+                -0.15,
+                0.45
+              ],
+              [
+                0.15,
+                -0.45
+              ],
+              [
+                0.15,
+                0.45
+              ]
+            ],
+            "id": "plate",
+            "kind": "plate"
+          }
+        ],
+        "role": "bolster interface"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          -0.75,
+          0.0,
+          0.148
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            9.029144042276267,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.5698649671118858,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            10.595796949162924
+          ]
+        ],
+        "mass_kg": 75.282661528691
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          -0.9,
+          -0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "262ca8dacead490fe40bf7ef7b32c31fb06c33bf57d91fcda7532080b42be96d",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-0-0",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "262ca8dacead490fe40bf7ef7b32c31fb06c33bf57d91fcda7532080b42be96d",
+        "physical_part_id": "bolt-0-0",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-0-0",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              -0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              -0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              -0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          -0.9,
+          -0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          -0.9,
+          0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "24b640b2b1492e1cf73c35e84b95b33cf90ffed489ba0d2715938bb3e1270226",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-0-1",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "24b640b2b1492e1cf73c35e84b95b33cf90ffed489ba0d2715938bb3e1270226",
+        "physical_part_id": "bolt-0-1",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-0-1",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.9,
+              0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          -0.9,
+          0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          -0.6000000000000001,
+          -0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "352bf6453aa71651ee92cfe3bc0b20260b68171626f72f503cbfc6f68c6e0d4e",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-0-2",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "352bf6453aa71651ee92cfe3bc0b20260b68171626f72f503cbfc6f68c6e0d4e",
+        "physical_part_id": "bolt-0-2",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-0-2",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              -0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              -0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              -0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          -0.6000000000000001,
+          -0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          -0.6000000000000001,
+          0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "243c766cde09f887cc2218156435b1e54c5eea76d03ebc06a846bb55264e306a",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-0-3",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "243c766cde09f887cc2218156435b1e54c5eea76d03ebc06a846bb55264e306a",
+        "physical_part_id": "bolt-0-3",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-0-3",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              -0.6,
+              0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          -0.6000000000000001,
+          0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.75,
+          0.0,
+          0.148
+        ],
+        "geometry_sha256": "94070a1ff6a58371766bfb6ed5f00a2558ad03a88caacf1e75ce95559f0bac91",
+        "inertia_tensor_kg_m2": [
+          [
+            9.029144042276267,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.5698649671118858,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            10.595796949162924
+          ]
+        ],
+        "mass_kg": 75.282661528691,
+        "physical_part_id": "bolster-plate-1",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "94070a1ff6a58371766bfb6ed5f00a2558ad03a88caacf1e75ce95559f0bac91",
+        "physical_part_id": "bolster-plate-1",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolster-plate-1",
+      "inspection_characteristics": [
+        "hole position",
+        "flatness",
+        "net ligament"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              0.75,
+              0,
+              0.148
+            ],
+            "dimensions_m": [
+              0.5,
+              1.2,
+              0.016
+            ],
+            "hole_radius_m": 0.007,
+            "holes_xy_m": [
+              [
+                -0.15,
+                -0.45
+              ],
+              [
+                -0.15,
+                0.45
+              ],
+              [
+                0.15,
+                -0.45
+              ],
+              [
+                0.15,
+                0.45
+              ]
+            ],
+            "id": "plate",
+            "kind": "plate"
+          }
+        ],
+        "role": "bolster interface"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.75,
+          0.0,
+          0.148
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            9.029144042276267,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.5698649671118858,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            10.595796949162924
+          ]
+        ],
+        "mass_kg": 75.282661528691
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.6000000000000001,
+          -0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "5f689d1fdb2a252c44e77c0277267b9de0de472f3bd7a27a24396ac42c4bd18e",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            -1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            -1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-1-0",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "5f689d1fdb2a252c44e77c0277267b9de0de472f3bd7a27a24396ac42c4bd18e",
+        "physical_part_id": "bolt-1-0",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-1-0",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              -0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              -0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              -0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.6000000000000001,
+          -0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            -1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            -1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.6000000000000001,
+          0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "3081185c69407ec479ea9499d6c6dc080f149e0161124be91117cbb30e8f875d",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            -1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            -1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-1-1",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "3081185c69407ec479ea9499d6c6dc080f149e0161124be91117cbb30e8f875d",
+        "physical_part_id": "bolt-1-1",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-1-1",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.6,
+              0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.6000000000000001,
+          0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            -1.9560225997682864e-34
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            -1.9560225997682864e-34,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.9,
+          -0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "655224f8fa8d6d668bd9c62f6064acf8690a572e1a796c857c0f34d0941e42eb",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-1-2",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "655224f8fa8d6d668bd9c62f6064acf8690a572e1a796c857c0f34d0941e42eb",
+        "physical_part_id": "bolt-1-2",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-1-2",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              -0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              -0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              -0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.9,
+          -0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.9,
+          0.45,
+          0.1478940345368917
+        ],
+        "geometry_sha256": "60522f5bc62a16157a82eaae979bfa7e305de4342bb953fecd8ed47c436a4b06",
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232,
+        "physical_part_id": "bolt-1-3",
+        "representation": "section/solid",
+        "section": null
+      },
+      "coordination": {
+        "geometry_sha256": "60522f5bc62a16157a82eaae979bfa7e305de4342bb953fecd8ed47c436a4b06",
+        "physical_part_id": "bolt-1-3",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "bolt-1-3",
+      "inspection_characteristics": [
+        "bolt traceability",
+        "preload verification"
+      ],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              0.45,
+              0.144
+            ],
+            "id": "bolt",
+            "kind": "cylinder",
+            "length_m": 0.04,
+            "radius_m": 0.006
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              0.45,
+              0.1675
+            ],
+            "id": "head",
+            "kind": "cylinder",
+            "length_m": 0.007,
+            "radius_m": 0.01
+          },
+          {
+            "axis": "z",
+            "centre_m": [
+              0.9,
+              0.45,
+              0.128
+            ],
+            "id": "nut",
+            "inner_radius_m": 0.007,
+            "kind": "tube",
+            "length_m": 0.008,
+            "radius_m": 0.01
+          }
+        ],
+        "role": "M12 simplified shank/head/nut; threads not modelled"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "fastener",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.9,
+          0.45,
+          0.1478940345368917
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            1.714168553884352e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.714168553884352e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.251989746828364e-06
+          ]
+        ],
+        "mass_kg": 0.06283750793857232
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.0,
+          -0.22,
+          -0.18999999999999997
+        ],
+        "geometry_sha256": "e43e67f421fe1f06a7a6b39d39737ee52291f1851da5dcccca79f5b324b807bf",
+        "inertia_tensor_kg_m2": [
+          [
+            0.00900122448,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.84391926144,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.84711716304
+          ]
+        ],
+        "mass_kg": 7.0084800000000005,
+        "physical_part_id": "battery-carrier-0",
+        "representation": "section/solid",
+        "section": {
+          "area_m2": 0.0007439999999999999,
+          "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+          "corner_radius_m": 0,
+          "density_kg_m3": 7850,
+          "height_m": 0.05,
+          "iy_m4": 3.0803200000000004e-07,
+          "iz_m4": 6.475120000000005e-07,
+          "j_torsion_m4": 6.337335967741936e-07,
+          "kind": "rectangular-hollow",
+          "mass_kg_m": 5.840399999999999,
+          "physical_validation": false,
+          "polar_area_moment_m4": 9.555440000000006e-07,
+          "schema": "osr-manufacturing-section/1",
+          "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+          "wall_m": 0.003,
+          "width_m": 0.08
+        }
+      },
+      "coordination": {
+        "geometry_sha256": "e43e67f421fe1f06a7a6b39d39737ee52291f1851da5dcccca79f5b324b807bf",
+        "physical_part_id": "battery-carrier-0",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "battery-carrier-0",
+      "inspection_characteristics": [],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              0,
+              -0.22,
+              -0.1665
+            ],
+            "dimensions_m": [
+              1.2,
+              0.08,
+              0.003
+            ],
+            "id": "top",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.22,
+              -0.2135
+            ],
+            "dimensions_m": [
+              1.2,
+              0.08,
+              0.003
+            ],
+            "id": "bottom",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.2585,
+              -0.19
+            ],
+            "dimensions_m": [
+              1.2,
+              0.003,
+              0.044000000000000004
+            ],
+            "id": "left",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              -0.1815,
+              -0.19
+            ],
+            "dimensions_m": [
+              1.2,
+              0.003,
+              0.044000000000000004
+            ],
+            "id": "right",
+            "kind": "box"
+          }
+        ],
+        "role": "manufactured RHS walls"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.0,
+          -0.22,
+          -0.18999999999999997
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            0.00900122448,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.84391926144,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.84711716304
+          ]
+        ],
+        "mass_kg": 7.0084800000000005
+      },
+      "revision": "RESEARCH-1"
+    },
+    {
+      "analysis": {
+        "cg_m": [
+          0.0,
+          0.22,
+          -0.18999999999999997
+        ],
+        "geometry_sha256": "3961322e3053577b858def8fc7eaa5317891fa66a78d1d82b63788d79c62f1ce",
+        "inertia_tensor_kg_m2": [
+          [
+            0.00900122448,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.84391926144,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.84711716304
+          ]
+        ],
+        "mass_kg": 7.0084800000000005,
+        "physical_part_id": "battery-carrier-1",
+        "representation": "section/solid",
+        "section": {
+          "area_m2": 0.0007439999999999999,
+          "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+          "corner_radius_m": 0,
+          "density_kg_m3": 7850,
+          "height_m": 0.05,
+          "iy_m4": 3.0803200000000004e-07,
+          "iz_m4": 6.475120000000005e-07,
+          "j_torsion_m4": 6.337335967741936e-07,
+          "kind": "rectangular-hollow",
+          "mass_kg_m": 5.840399999999999,
+          "physical_validation": false,
+          "polar_area_moment_m4": 9.555440000000006e-07,
+          "schema": "osr-manufacturing-section/1",
+          "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+          "wall_m": 0.003,
+          "width_m": 0.08
+        }
+      },
+      "coordination": {
+        "geometry_sha256": "3961322e3053577b858def8fc7eaa5317891fa66a78d1d82b63788d79c62f1ce",
+        "physical_part_id": "battery-carrier-1",
+        "simplification": "same physical primitives"
+      },
+      "datums": {
+        "origin_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "evidence": [],
+      "id": "battery-carrier-1",
+      "inspection_characteristics": [],
+      "joints": [],
+      "loads": [],
+      "manufacturing": {
+        "primitives": [
+          {
+            "centre_m": [
+              0,
+              0.22,
+              -0.1665
+            ],
+            "dimensions_m": [
+              1.2,
+              0.08,
+              0.003
+            ],
+            "id": "top",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              0.22,
+              -0.2135
+            ],
+            "dimensions_m": [
+              1.2,
+              0.08,
+              0.003
+            ],
+            "id": "bottom",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              0.1815,
+              -0.19
+            ],
+            "dimensions_m": [
+              1.2,
+              0.003,
+              0.044000000000000004
+            ],
+            "id": "left",
+            "kind": "box"
+          },
+          {
+            "centre_m": [
+              0,
+              0.2585,
+              -0.19
+            ],
+            "dimensions_m": [
+              1.2,
+              0.003,
+              0.044000000000000004
+            ],
+            "id": "right",
+            "kind": "box"
+          }
+        ],
+        "role": "manufactured RHS walls"
+      },
+      "manufacturing_limits": {
+        "minimum_wall_m": null,
+        "tolerance_m": null
+      },
+      "material": "steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0,
+          0,
+          0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.0,
+          0.22,
+          -0.18999999999999997
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            0.00900122448,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.84391926144,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.84711716304
+          ]
+        ],
+        "mass_kg": 7.0084800000000005
+      },
+      "revision": "RESEARCH-1"
+    }
+  ],
+  "physical_validation": false,
+  "production_released": false,
+  "revision": "DESIGN-CONSISTENCY-1",
+  "schema": "osr-engineering-representations/1",
+  "suspension_law": {
+    "basis": "design curve, not supplier/test calibration",
+    "damping_force_n": [
+      -20000,
+      0,
+      20000
+    ],
+    "displacement_m": [
+      -0.04,
+      0,
+      0.04
+    ],
+    "force_n": [
+      -80000,
+      0,
+      80000
+    ],
+    "velocity_m_s": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "unresolved_part_allocations": [
+    "equipment supplier kit",
+    "fluids and cable inventory",
+    "carrier connecting brackets",
+    "weld preparations and thread locking details"
+  ]
+}

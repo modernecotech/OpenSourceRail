@@ -6,7 +6,7 @@ import json
 import shutil
 from pathlib import Path
 
-from osr_mech.freecad_fea import _ccx_deck_stem, _markdown_link_path, all_studies
+from osr_mech.freecad_fea import _ccx_deck_stem, _markdown_link_path, all_studies, ALLOWABLE_SERVICE_MPA
 from osr_mech.freecad_screenshots import _refresh_latest_outputs
 
 
@@ -66,9 +66,12 @@ def test_generated_fea_screening_artifacts_are_solver_backed() -> None:
         assert result["solver_ok"] is True, f"{slug} did not solve"
         assert result["nodes"] > 0
         assert result["elements"] > 0
-        assert result["issue"] is None, f"{slug} has unresolved screening issue: {result['issue']}"
-        assert result["max_displacement_mm"] <= result["deflection_limit_mm"]
-        assert result["safety_factor_to_yield"] > 2.0
+        # Real hollow sections reveal failed screens; failures must be retained.
+        failed=result['max_displacement_mm']>result['deflection_limit_mm']or result['max_von_mises_mpa']>ALLOWABLE_SERVICE_MPA
+        assert (result['issue'] is not None)==failed
+        deck=(repo_root/'design/component-catalogue/catalog/fea'/slug/(slug+'.inp')).read_text()
+        assert 'TYPE=B32R' in deck and 'SECTION=BOX' in deck and 'SECTION=RECT' not in deck
+        assert all(section.wall_mm>0 for section in next(s for s in all_studies()if s.slug==slug).sections.values())
         assert (repo_root / result["result_png"]).exists(), f"{slug} missing catalog result PNG"
         assert (repo_root / result["docs_result_png"]).exists(), f"{slug} missing docs result PNG"
 

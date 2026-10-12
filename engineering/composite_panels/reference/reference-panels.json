@@ -55,19 +55,42 @@
       "thickness_m": 0.028
     },
     "actual_quote": false,
-    "candidate_id": "6ff457d44ed25325",
+    "candidate_id": "5dd38eebf10a8c38",
     "clip_failure_qualified": false,
     "conditional_deflection_screen": false,
+    "core_grade": {
+      "compressive_strength_pa": 1400000.0,
+      "continuous_max_temperature_c": 70,
+      "cost_usd_kg": null,
+      "density_kg_m3": 80,
+      "fatigue_sn_curve": null,
+      "fire_evidence": null,
+      "grade": "Divinycell H80",
+      "hot_wet_allowables": null,
+      "minimum_compressive_strength_pa": 1150000.0,
+      "minimum_shear_pa": 23000000.0,
+      "minimum_shear_strength_pa": 950000.0,
+      "poisson": 0.4,
+      "property_basis": "supplier datasheet nominal/minimum values; not project batch or hot/wet calibration",
+      "qualified": false,
+      "reference_temperature_c": 23,
+      "shear_pa": 27000000.0,
+      "shear_strength_pa": 1150000.0,
+      "source": "https://diab-media.azureedge.net/eyajkrhd/diab-divinycell-h-may-2026-rev26-si.pdf",
+      "source_sha256": "d4a108dd3be35da9fef378037ddbe92133a7e24b991f5098a3ed0a2882c6e4a4",
+      "thermal_conductivity_w_mk": 0.031,
+      "young_pa": 90000000.0
+    },
     "dry": {
       "bending_deflection_m": 0.00330963839737896,
       "bending_stiffness_nm": 7868.43260196949,
       "debonding_passed": null,
       "fatigue_passed": null,
       "maximum_core_shear_stress_pa": 40650.40650406504,
-      "shear_deflection_m": 0.00033875338753387534,
+      "shear_deflection_m": 0.00037639265281541704,
       "small_deflection_screen": true,
       "strength_passed": null,
-      "total_deflection_m": 0.0036483917849128356
+      "total_deflection_m": 0.003686031050194377
     },
     "fatigue": {
       "damage": null,
@@ -82,10 +105,10 @@
       "debonding_passed": null,
       "fatigue_passed": null,
       "maximum_core_shear_stress_pa": 40650.40650406504,
-      "shear_deflection_m": 0.0006775067750677507,
+      "shear_deflection_m": 0.0007527853056308341,
       "small_deflection_screen": true,
       "strength_passed": null,
-      "total_deflection_m": 0.005769258155650767
+      "total_deflection_m": 0.00584453668621385
     },
     "parameters": {
       "core_density_kg_m3": 80,
@@ -137,18 +160,19 @@
       "cost_usd": null,
       "equipment_loads_to_frame": true,
       "foam_area_m2": 3.2096,
-      "installed_mass_kg": 39.23293662974364,
+      "installed_mass_kg": 47.90956533234736,
       "mass_kg": {
         "bond": 1.6460640000000002,
-        "clips": 0.48,
-        "core": 6.306600553052376,
+        "clips": 1.2,
+        "core": 6.291762182630941,
         "finish": 1.4403059999999999,
         "glass": 28.246536000000006,
-        "insert": 0.08736090585620039,
-        "potting": 0.13502917083506133,
+        "insert": 0.21840226464050103,
+        "potting": 0.33757292708765335,
         "retainer": 0.18,
         "ribs": 0,
-        "seal": 0.71104
+        "seal": 0.71104,
+        "supports": 7.637881957988261
       },
       "missing_cost_inputs": [
         "glass_per_kg",
@@ -175,8 +199,9 @@
       "seal_length_m": 8.888,
       "solid_land_area_m2": 0.2197,
       "structural_frame_mass_excluded": true,
+      "support_network_sha256": "9023a359e43188eadf776cea573321ac262d0d92659473bc849c06e225a26b8a",
       "thermal_boundary_basis": "Parallel core/solid-edge conduction; metal fastener bridges, convection and PV radiation unresolved",
-      "thermal_resistance_m2k_w": 0.4752371408291685
+      "thermal_resistance_m2k_w": 0.5111809913896629
     },
     "replacement_minutes": null,
     "ribs": {
@@ -186,9 +211,447 @@
       "tooling_cost_usd": null,
       "volume_m3": 0
     },
-    "single_failed_clip_uniform_share_force_n": 2286.2000000000003,
+    "single_failed_clip_uniform_share_force_n": 762.0666666666667,
+    "support_network": {
+      "actual_max_pitch_m": 0.8325,
+      "aperture_interrupted_stations": [],
+      "bracket_count": 10,
+      "edge_overhang_m": 0.06,
+      "fastener_count": 20,
+      "installed_cost_usd": null,
+      "joint_stiffness_qualified": false,
+      "mass_kg": 7.637881957988261,
+      "nominal_span_realised": true,
+      "panel_attachment_count": 10,
+      "panel_attachment_sites_m": [
+        [
+          0.1988,
+          0.06
+        ],
+        [
+          0.7952,
+          0.06
+        ],
+        [
+          0.1988,
+          0.8925000000000001
+        ],
+        [
+          0.7952,
+          0.8925000000000001
+        ],
+        [
+          0.1988,
+          1.725
+        ],
+        [
+          0.7952,
+          1.725
+        ],
+        [
+          0.1988,
+          2.5575
+        ],
+        [
+          0.7952,
+          2.5575
+        ],
+        [
+          0.1988,
+          3.39
+        ],
+        [
+          0.7952,
+          3.39
+        ]
+      ],
+      "physical_validation": false,
+      "rail_count": 5,
+      "rail_mass_kg": 6.671479500000002,
+      "rails": [
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  0.06,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.06,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.040749999999999995,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.07925,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-0-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 0.06
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  0.8925000000000001,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.8925000000000001,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.8732500000000001,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.9117500000000001,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-1-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 0.8925000000000001
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  1.725,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.725,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.70575,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.74425,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-2-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 1.725
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  2.5575,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.5575,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.53825,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.57675,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-3-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 2.5575
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  3.39,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  3.39,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  3.37075,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  3.40925,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-4-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 3.39
+        }
+      ],
+      "section": {
+        "area_m2": 0.00017100000000000004,
+        "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+        "corner_radius_m": 0,
+        "density_kg_m3": 7850,
+        "height_m": 0.02,
+        "iy_m4": 1.1518250000000003e-08,
+        "iz_m4": 3.4908250000000024e-08,
+        "j_torsion_m4": 2.6700003289473684e-08,
+        "kind": "rectangular-hollow",
+        "mass_kg_m": 1.3423500000000004,
+        "physical_validation": false,
+        "polar_area_moment_m4": 4.642650000000003e-08,
+        "schema": "osr-manufacturing-section/1",
+        "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+        "wall_m": 0.0015,
+        "width_m": 0.04
+      }
+    },
+    "thermal_service_eligible": null,
     "thermal_service_margin_c": null,
-    "uniform_share_clip_force_n": 1714.65
+    "uniform_share_clip_force_n": 685.86
   },
   {
     "abd": {
@@ -246,19 +709,42 @@
       "thickness_m": 0.028
     },
     "actual_quote": false,
-    "candidate_id": "d33739f16d1b13f0",
+    "candidate_id": "e14e4e90f954d7dd",
     "clip_failure_qualified": false,
     "conditional_deflection_screen": false,
+    "core_grade": {
+      "compressive_strength_pa": 1400000.0,
+      "continuous_max_temperature_c": 70,
+      "cost_usd_kg": null,
+      "density_kg_m3": 80,
+      "fatigue_sn_curve": null,
+      "fire_evidence": null,
+      "grade": "Divinycell H80",
+      "hot_wet_allowables": null,
+      "minimum_compressive_strength_pa": 1150000.0,
+      "minimum_shear_pa": 23000000.0,
+      "minimum_shear_strength_pa": 950000.0,
+      "poisson": 0.4,
+      "property_basis": "supplier datasheet nominal/minimum values; not project batch or hot/wet calibration",
+      "qualified": false,
+      "reference_temperature_c": 23,
+      "shear_pa": 27000000.0,
+      "shear_strength_pa": 1150000.0,
+      "source": "https://diab-media.azureedge.net/eyajkrhd/diab-divinycell-h-may-2026-rev26-si.pdf",
+      "source_sha256": "d4a108dd3be35da9fef378037ddbe92133a7e24b991f5098a3ed0a2882c6e4a4",
+      "thermal_conductivity_w_mk": 0.031,
+      "young_pa": 90000000.0
+    },
     "dry": {
       "bending_deflection_m": 0.00330963839737896,
       "bending_stiffness_nm": 7868.43260196949,
       "debonding_passed": null,
       "fatigue_passed": null,
       "maximum_core_shear_stress_pa": 40650.40650406504,
-      "shear_deflection_m": 0.00033875338753387534,
+      "shear_deflection_m": 0.00037639265281541704,
       "small_deflection_screen": true,
       "strength_passed": null,
-      "total_deflection_m": 0.0036483917849128356
+      "total_deflection_m": 0.003686031050194377
     },
     "fatigue": {
       "damage": null,
@@ -273,10 +759,10 @@
       "debonding_passed": null,
       "fatigue_passed": null,
       "maximum_core_shear_stress_pa": 40650.40650406504,
-      "shear_deflection_m": 0.0006775067750677507,
+      "shear_deflection_m": 0.0007527853056308341,
       "small_deflection_screen": true,
       "strength_passed": null,
-      "total_deflection_m": 0.005769258155650767
+      "total_deflection_m": 0.00584453668621385
     },
     "parameters": {
       "core_density_kg_m3": 80,
@@ -328,18 +814,19 @@
       "cost_usd": null,
       "equipment_loads_to_frame": true,
       "foam_area_m2": 2.1738770450805456,
-      "installed_mass_kg": 27.720309745520822,
+      "installed_mass_kg": 34.523113141655074,
       "mass_kg": {
         "bond": 1.1225850421068113,
-        "clips": 0.48,
-        "core": 4.26829777777089,
+        "clips": 0.96,
+        "core": 4.258405530823267,
         "finish": 0.9832668106091235,
         "glass": 19.928276301888406,
-        "insert": 0.08736090585620039,
-        "potting": 0.13502917083506133,
+        "insert": 0.17472181171240078,
+        "potting": 0.27005834167012266,
         "retainer": 0.18,
         "ribs": 0,
-        "seal": 0.5354937364543298
+        "seal": 0.5354937364543298,
+        "supports": 6.1103055663906085
       },
       "missing_cost_inputs": [
         "glass_per_kg",
@@ -366,8 +853,9 @@
       "seal_length_m": 6.693671705679122,
       "solid_land_area_m2": 0.16484179264197785,
       "structural_frame_mass_excluded": true,
+      "support_network_sha256": "9e38f083382c696710698430ba9f557d14ea591a5f9e3c63333e9303b9413813",
       "thermal_boundary_basis": "Parallel core/solid-edge conduction; metal fastener bridges, convection and PV radiation unresolved",
-      "thermal_resistance_m2k_w": 0.4598559704130222
+      "thermal_resistance_m2k_w": 0.49318171459593607
     },
     "replacement_minutes": null,
     "ribs": {
@@ -377,8 +865,366 @@
       "tooling_cost_usd": null,
       "volume_m3": 0
     },
-    "single_failed_clip_uniform_share_force_n": 1559.1458918150156,
+    "single_failed_clip_uniform_share_force_n": 668.2053822064353,
+    "support_network": {
+      "actual_max_pitch_m": 0.7442786176131869,
+      "aperture_interrupted_stations": [],
+      "bracket_count": 8,
+      "edge_overhang_m": 0.06,
+      "fastener_count": 16,
+      "installed_cost_usd": null,
+      "joint_stiffness_qualified": false,
+      "mass_kg": 6.1103055663906085,
+      "nominal_span_realised": true,
+      "panel_attachment_count": 8,
+      "panel_attachment_sites_m": [
+        [
+          0.1988,
+          0.06
+        ],
+        [
+          0.7952,
+          0.06
+        ],
+        [
+          0.1988,
+          0.8042786176131869
+        ],
+        [
+          0.7952,
+          0.8042786176131869
+        ],
+        [
+          0.1988,
+          1.548557235226374
+        ],
+        [
+          0.7952,
+          1.548557235226374
+        ],
+        [
+          0.1988,
+          2.292835852839561
+        ],
+        [
+          0.7952,
+          2.292835852839561
+        ]
+      ],
+      "physical_validation": false,
+      "rail_count": 4,
+      "rail_mass_kg": 5.337183600000001,
+      "rails": [
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  0.06,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.06,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.040749999999999995,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.07925,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-0-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 0.06
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  0.8042786176131869,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.8042786176131869,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.7850286176131869,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  0.8235286176131869,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-1-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 0.8042786176131869
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  1.548557235226374,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.548557235226374,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.529307235226374,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  1.5678072352263739,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-2-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 1.548557235226374
+        },
+        {
+          "brackets": 2,
+          "fasteners": 4,
+          "geometry": {
+            "primitives": [
+              {
+                "centre_m": [
+                  0.497,
+                  2.292835852839561,
+                  -0.03575
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.292835852839561,
+                  -0.05425
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.04,
+                  0.0015
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.273585852839561,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0.497,
+                  2.312085852839561,
+                  -0.045
+                ],
+                "dimensions_m": [
+                  0.994,
+                  0.0015,
+                  0.017
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "role": "manufactured RHS walls"
+          },
+          "id": "support-3-0",
+          "interval_m": [
+            0,
+            0.994
+          ],
+          "mass_kg": 1.3342959000000003,
+          "station_m": 2.292835852839561
+        }
+      ],
+      "section": {
+        "area_m2": 0.00017100000000000004,
+        "corner_radius_basis": "sharp-corner research section; rolled/welded radii require an explicit revision",
+        "corner_radius_m": 0,
+        "density_kg_m3": 7850,
+        "height_m": 0.02,
+        "iy_m4": 1.1518250000000003e-08,
+        "iz_m4": 3.4908250000000024e-08,
+        "j_torsion_m4": 2.6700003289473684e-08,
+        "kind": "rectangular-hollow",
+        "mass_kg_m": 1.3423500000000004,
+        "physical_validation": false,
+        "polar_area_moment_m4": 4.642650000000003e-08,
+        "schema": "osr-manufacturing-section/1",
+        "torsion_basis": "thin-wall closed-cell Bredt approximation; not polar inertia",
+        "wall_m": 0.0015,
+        "width_m": 0.04
+      }
+    },
+    "thermal_service_eligible": false,
     "thermal_service_margin_c": null,
-    "uniform_share_clip_force_n": 1169.3594188612617
+    "uniform_share_clip_force_n": 584.6797094306309
   }
 ]

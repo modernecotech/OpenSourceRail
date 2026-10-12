@@ -13,9 +13,13 @@ EVIDENCE=ROOT/'engineering/composite_panels/evidence/register.json'
 def encoded(value):return (json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def candidate(config,skin,core,density,pitch,span,crown,kind,rib_depth=0):
- c=copy.deepcopy(config);c['core']['density_kg_m3']=density
+ c=copy.deepcopy(config);c['core'].update(panel.coupled_core(c,density))
  width=pitch-.006;height=c['panel']['roof_chord_m'] if kind=='roof' else c['panel']['side_height_m']
- qty=panel.panel_quantities(c,width,height,skin,core,crown=crown)
+ supports=panel.support_network(c,width,panel.roof_arc(height,crown)['arc_length_m'],span)
+ qty=panel.panel_quantities(c,width,height,skin,core,crown=crown,insert_count=supports['panel_attachment_count'])
+ qty['mass_kg']['supports']=supports['mass_kg'];qty['installed_mass_kg']+=supports['mass_kg']
+ qty['support_network_sha256']=hashlib.sha256(encoded(supports)).hexdigest()
+ qty['cost_usd']=None if qty['cost_usd'] is None or supports['installed_cost_usd'] is None else qty['cost_usd']+supports['installed_cost_usd']
  rib=panel.rib_quantities(width,rib_depth,c['ribs']['wall_thickness_m'],c['ribs']['crown_width_m'],c['ribs']['count'],c['glass']['density_kg_m3'])
  qty['mass_kg']['ribs']=rib['mass_kg'];qty['installed_mass_kg']+=rib['mass_kg']
  if rib_depth:qty['cost_usd']=None;qty['missing_cost_inputs'].append('rib manufacturing/joint/tooling quote')
@@ -24,7 +28,8 @@ def candidate(config,skin,core,density,pitch,span,crown,kind,rib_depth=0):
  aged=panel.strip_response(abd,screen['pressure_pa'],span,core,c['core']['shear_pa'],stiffness_factor=screen['hot_wet_modulus_factor'],shear_factor=screen['hot_wet_shear_factor'])
  params=dict(kind=kind,skin_m=skin,core_m=core,core_density_kg_m3=density,pitch_m=pitch,support_span_m=span,crown_m=crown,rib_depth_m=rib_depth)
  identity=hashlib.sha256(encoded(dict(parameters=params,inputs=c))).hexdigest()[:16]
- return dict(candidate_id=identity,parameters=params,quantities=qty,ribs=rib,uniform_share_clip_force_n=screen['pressure_pa']*qty['panel_area_m2']/c['panel']['insert_count'],single_failed_clip_uniform_share_force_n=screen['pressure_pa']*qty['panel_area_m2']/(c['panel']['insert_count']-1),fatigue=panel.fatigue_sensitivity(max(1,aged['maximum_core_shear_stress_pa']),1000000,None),ply_schedule=[dict(thickness_m=p.thickness_m,angle_deg=p.angle_deg) for p in panel.balanced_skin(skin)],abd=abd,dry=dry,hot_wet=aged,
+ return dict(candidate_id=identity,parameters=params,quantities=qty,ribs=rib,core_grade=c['core'],support_network=supports,
+   thermal_service_eligible=(screen['hot_roof_temperature_c']<=c['core']['continuous_max_temperature_c'] if kind=='roof' else None),uniform_share_clip_force_n=screen['pressure_pa']*qty['panel_area_m2']/supports['panel_attachment_count'],single_failed_clip_uniform_share_force_n=screen['pressure_pa']*qty['panel_area_m2']/(supports['panel_attachment_count']-1),fatigue=panel.fatigue_sensitivity(max(1,aged['maximum_core_shear_stress_pa']),1000000,None),ply_schedule=[dict(thickness_m=p.thickness_m,angle_deg=p.angle_deg) for p in panel.balanced_skin(skin)],abd=abd,dry=dry,hot_wet=aged,
    pressure_basis='Editable 2 kPa development load; railway design pressure and clip support conditions unfrozen',
    conditional_deflection_screen=aged['total_deflection_m']<=screen['deflection_review_limit_m'] and aged['small_deflection_screen'],
    thermal_service_margin_c=None if screen['allowable_panel_service_temperature_c'] is None else screen['allowable_panel_service_temperature_c']-screen['hot_roof_temperature_c'],
@@ -38,11 +43,16 @@ def trainset_inventory(config):
   w=(bay.width_mm-.006*1000)/1000;left=(bay.x_center_mm-(bay.width_mm-6)/2)/1000;holes=[]
   for x in _door_centres_x(dims):holes.append((x/1000-DOOR_WIDTH_MM/2000-left,DOOR_SILL_HEIGHT_MM/1000,x/1000+DOOR_WIDTH_MM/2000-left,(DOOR_SILL_HEIGHT_MM+DOOR_HEIGHT_MM)/1000))
   for x,width in _window_zones(dims):holes.append((x/1000-width/2000-left,WINDOW_SILL_MM/1000,x/1000+width/2000-left,(WINDOW_SILL_MM+WINDOW_HEIGHT_MM)/1000))
-  # Apertures may remove clip sites: this inventory is a mass sensitivity,
-  # with four inserts as an explicit allowance, not an accepted trim/clip map.
-  q=panel.panel_quantities(config,w,dims.body_height_mm/1000,.0015,.0246,holes=holes)
+  # Trimmed inventory counts generated rails and split-aperture supports;
+  # local mounting viability remains a separate qualification.
+  network=panel.support_network(config,w,dims.body_height_mm/1000,config['screen']['support_span_m'],holes=holes)
+  q=panel.panel_quantities(config,w,dims.body_height_mm/1000,.0015,.0246,holes=holes,insert_count=network['panel_attachment_count'])
+  q['mass_kg']['supports']=network['mass_kg'];q['installed_mass_kg']+=network['mass_kg'];q['support_network']=network
   records.append(dict(bay=bay.index,kind='side',trainset_count=6,quantities=q,aperture_map=holes,insert_placement_qualified=False))
-  roof=panel.panel_quantities(config,w,(dims.body_width_mm-500)/1000,.0015,.0246,crown=config['panel']['roof_crown_m'])
+  height=(dims.body_width_mm-500)/1000;crown=config['panel']['roof_crown_m']
+  network=panel.support_network(config,w,panel.roof_arc(height,crown)['arc_length_m'],config['screen']['support_span_m'])
+  roof=panel.panel_quantities(config,w,height,.0015,.0246,crown=crown,insert_count=network['panel_attachment_count'])
+  roof['mass_kg']['supports']=network['mass_kg'];roof['installed_mass_kg']+=network['mass_kg'];roof['support_network']=network
   records.append(dict(bay=bay.index,kind='roof',trainset_count=3,quantities=roof,roof_crown_status='development assumption; coordination drawing unfrozen'))
  for r in records:
   for key,value in r['quantities']['mass_kg'].items():totals[key]=totals.get(key,0)+r['trainset_count']*value
@@ -140,29 +150,37 @@ def build(config_path=CONFIG,evidence_path=EVIDENCE):
   required_t=(5*screen['pressure_pa']*screen['support_span_m']**4*12/(384*m['young_pa']*factor*screen['deflection_review_limit_m']))**(1/3)
   assemblies=[]
   for ref in base:
-   q=ref['quantities'];a=q['panel_area_m2'];hardware=sum(q['mass_kg'][k] for k in ('clips','retainer','seal','insert'))
+   q=ref['quantities'];a=q['panel_area_m2'];hardware=sum(q['mass_kg'][k] for k in ('clips','retainer','seal','insert','supports'))
    conductivity=45 if m['name']=='steel sheet' else 200
    # Insulation is a non-load-bearing development allowance, with no bridge
    # or adhesive qualification credit, to match the stated conduction screen.
    insulation=max(0,(q['thermal_resistance_m2k_w']-required_t/conductivity)*config['core']['thermal_conductivity_w_mk'])
    mass=required_t*a*m['density_kg_m3']+insulation*a*config['core']['density_kg_m3']+q['mass_kg']['finish']+hardware
    assemblies.append(dict(kind=ref['parameters']['kind'],plate_thickness_m=required_t,insulation_thickness_m=insulation,installed_mass_kg=mass,
-    attachment_basis='Same assumed clips/retainer/seals/insert quantities; metal edge/attachment detail unqualified',
+    attachment_basis='Same generated rails/brackets/fasteners and assumed clips/retainer/seals/insert quantities; metal edge/attachment detail unqualified',
     hot_wet_surrogate_deflection_m=5*screen['pressure_pa']*screen['support_span_m']**4*12/(384*m['young_pa']*factor*required_t**3),
     shared_modulus_factor_is_hypothetical=True,thermal_bridge_qualification=False,qualified=False))
   metals.append(dict(name=m['name'],material_mass_kg_m2=m['density_kg_m3']*t,strip_deflection_m=delta,small_deflection_screen=delta/config['screen']['support_span_m']<=.01,
    reinforcement_mass_kg=None,equivalent_performance_demonstrated=False,installed_cost_usd=None,matched_target_plate_assemblies=assemblies))
  fronts=[]
  for kind in ('side','roof'):
-  eligible=[c for c in cases if c['parameters']['kind']==kind and c['conditional_deflection_screen']]
+  eligible=[c for c in cases if c['parameters']['kind']==kind and c['conditional_deflection_screen'] and c['thermal_service_eligible'] is not False]
   # Normalize per area: a narrower panel is not an automatic train-level saving.
   metric=lambda c:(c['quantities']['installed_mass_kg']/c['quantities']['panel_area_m2'],c['hot_wet']['total_deflection_m'])
   for c in eligible:
    a,b=metric(c)
    if not any(x<=a and y<=b and (x<a or y<b) for x,y in map(metric,eligible)):fronts.append(c['candidate_id'])
  evidence=evidence_report(register,cases,ROOT)
+ networks={}
+ for case in cases:
+  network=case['support_network'];identity=hashlib.sha256(encoded(network)).hexdigest()
+  networks[identity]=network
+  case['support_network']={k:v for k,v in network.items()if k!='rails'}
+  case['support_network']['definition_sha256']=identity
+  case['support_network']['definition_file']='support-networks.json'
  outputs={'candidates.json':encoded(cases),'reference-panels.json':encoded(base),'trainset-takeoff.json':encoded(trainset_inventory(config)),
   'prototype-and-quotation-status.json':encoded(evidence),'metal-comparators.json':encoded(metals),'section.svg':section_svg(config)}
+ outputs['support-networks.json']=encoded(networks)
  outputs['report.html']=interactive_report(cases,config['screen']['pressure_pa'])
  outputs['rfq.json']=encoded(dict(schema='osr-composite-panel-rfq/1',status='prepared-not-sent',scope='144 three-car side/roof modules plus attachment/retention/seal kits; trim schedules and final roof coordination require supplier review',
   baseline_material_stack='Development 8-ply skins/core/bond/finish; exact resin/glass/core grade unselected',required_quote_scope=register['required_quote_scope'],
@@ -181,14 +199,14 @@ def build(config_path=CONFIG,evidence_path=EVIDENCE):
  text=['# Hybrid GFRP exterior-panel development','',f"{len(cases)} conditional panel/support combinations; no candidate is released or changes the train mass/BOM.",'',
   '![Layered development section](section.svg)','', '[Interactive comparison](report.html) · [Complete-scope RFQ prepared for review](rfq.json).','',
   'The metal frame remains the main structural load path. HVAC, PV, lifting and personnel loads pass into its dedicated supports. The reference section has two 1.5 mm eight-ply skins, two 0.2 mm bonds, 24.6 mm core and a separate 0.3 mm finish. Material values, pressure, ageing factors and roof crown are explicit development assumptions.','',
-  '[Complete comparison](comparison.csv) varies skin, core depth/density, module width, clip/support span, roof crown and hat-rib depth. Rib mass is counted; rib stiffness and bond benefits await evidence. Mass includes solid edge lands, potting, inserts, clips, retention, seals and finish. Curvature earns no stiffness credit. Classical laminate ABD and one-way pressure-strip bending plus core shear are numerical screens, not plate/clip fatigue or debonding qualification. Density variants retain a hypothetical common core stiffness: supplier-grade property curves are required before selection.','',
-  '[Reference panels](reference-panels.json) · [Actual aperture-based 144-module inventory](trainset-takeoff.json) · [Steel/aluminium comparisons](metal-comparators.json) · [All candidates](candidates.json). Shared-joint seal quantities remain a gross allowance; the cutout clip map and final roof crown remain unreleased. Bare 2 mm metal sheets are unequal-performance comparators. Separate metal plate assemblies are thickness-sized to the same pressure/support/deflection surrogate and include common attachment, finish and insulation allowances. This is not an optimum metal stiffener design or demonstrated equivalent rail behaviour. No whole-train saving is claimed.','',
+  '[Complete comparison](comparison.csv) varies skin, core depth/density, module width, clip/support span, roof crown and hat-rib depth. Rib mass is counted; rib stiffness and bond benefits await evidence. Mass includes solid edge lands, potting, inserts, clips, retention, seals and finish. Curvature earns no stiffness credit. Classical laminate ABD and one-way pressure-strip bending plus core shear are numerical screens, not plate/clip fatigue or debonding qualification. Density selects a coupled supplier-grade property record at 23 C. Every support pitch generates steel rails, brackets and fasteners with installed mass; grade-specific hot/wet, fire and attachment qualification remains open. An 85 C roof exceeds the selected grades at their 70 C continuous-temperature datum and cannot pass thermal selection.','',
+  '[Reference panels](reference-panels.json) · [Actual aperture-based 144-module inventory](trainset-takeoff.json) · [Steel/aluminium comparisons](metal-comparators.json) · [All candidates](candidates.json) · [Shared support geometry](support-networks.json). Shared-joint seal quantities remain a gross allowance; the cutout clip map and final roof crown remain unreleased. Bare 2 mm metal sheets are unequal-performance comparators. Separate metal plate assemblies are thickness-sized to the same pressure/support/deflection surrogate and include common attachment, finish and insulation allowances. This is not an optimum metal stiffener design or demonstrated equivalent rail behaviour. No whole-train saving is claimed.','',
   '[Prototype/quotation status](prototype-and-quotation-status.json) derives from the editable [evidence register](../evidence/register.json). Record candidate ID, dry/hot-wet condition, metre-valued measured deflection, uncertainty and original-file SHA-256 for correlation. Tests must reproduce the candidate pressure/support/material configuration. Quotations require the complete named scope. Empty records stay unknown; the $11,000 B6/B7 allowance is a comparator, not a quote.','',
   'Coupon tests precede a clipped side module and an equipment-adjacent roof bay. The register covers aged stiffness/bond/pull-out, pressure, clip loss, vibration/fatigue, impact, heat beneath PV, ingress, UV/sand/wash, bonding and measured replacement. Fire requirement set/hazard level and the exact complete stack remain unfrozen.','',
   'Regenerate: `.venv/bin/python tools/automation/composite-panel-study.py`; use `--check` for source/output drift. [Native layered side and curved roof CAD](cad/verification.json) validates nonoverlapping solids and independent volumes; curved roof insert lands remain separate development. Native CAD export/volume verification uses `tools/automation/verify-composite-panel-cad.py` in FreeCAD. Native exports do not establish physical performance.','',
-  'Supplier and standards references: [BSI EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [Sicomin SR1124](https://sicomin.com/en/epoxy-products/epoxy/contact-vacuum-lamination/sr-1124/), [its datasheet](https://sicomin.com/datasheets/sr1124_sr477x.pdf), [AIREX T90](https://www.3accorematerials.com/en/markets-and-products/airex-foam/airex-t90-fire-resistant-foam), [Mat4Rail results](https://cordis.europa.eu/project/id/777595/reporting). Supplier resin Tg and core thermal stability are separate from allowable panel service temperature.','']
+  'Supplier and standards references: [DIAB coupled core grades, May 2026](https://diab-media.azureedge.net/eyajkrhd/diab-divinycell-h-may-2026-rev26-si.pdf), [BSI EN 45545-2:2020+A1:2023](https://knowledge.bsigroup.com/products/railway-applications-fire-protection-on-railway-vehicles-requirements-for-fire-behaviour-of-materials-and-components-2), [Sicomin SR1124](https://sicomin.com/en/epoxy-products/epoxy/contact-vacuum-lamination/sr-1124/), [its datasheet](https://sicomin.com/datasheets/sr1124_sr477x.pdf), [AIREX T90](https://www.3accorematerials.com/en/markets-and-products/airex-foam/airex-t90-fire-resistant-foam), [Mat4Rail results](https://cordis.europa.eu/project/id/777595/reporting). Supplier resin Tg and core thermal stability are separate from allowable panel service temperature.','']
  outputs['README.md']='\n'.join(text).encode()
- sources=[Path(__file__),config_path,evidence_path,ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/composite_panels.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/car_body.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/modular_fiberglass_body.py',ROOT/'docs/rolling-stock/light-metro-3car/bom-skeleton.md',*[ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('common.py','family_definition.py','provenance.py')]]
+ sources=[ROOT/'design/component-catalogue/src/osr_mech/section_contract.py',Path(__file__),config_path,evidence_path,ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/composite_panels.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/car_body.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/modular_fiberglass_body.py',ROOT/'docs/rolling-stock/light-metro-3car/bom-skeleton.md',*[ROOT/'design/component-catalogue/src/osr_mech'/name for name in ('common.py','family_definition.py','provenance.py')]]
  for record in [*register['tests'],*register['quotes']]:sources.append(ROOT/record['source_path'])
  sources.extend([receipt_path,*[cad_dir/r['output'] for r in receipt['records']]])
  outputs['manifest.json']=encoded(dict(schema='osr-composite-panel-study-manifest/1',sources_sha256={p.relative_to(ROOT).as_posix():sha(p) for p in sources},outputs_sha256={n:hashlib.sha256(v).hexdigest() for n,v in outputs.items()},physical_release=False))

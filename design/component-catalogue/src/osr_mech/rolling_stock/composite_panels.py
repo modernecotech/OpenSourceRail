@@ -240,11 +240,11 @@ def panel_quantities(config, width, height, skin, core, *, holes=(), crown=0, in
                 qualified=False)
 
 
-def cad_layers(config, *, width, height, skin, core, crown=0):
+def cad_layers(config, *, width, height, skin, core, crown=0, holes=(), insert_sites=None):
     """Native exact circular roof layers or flat layered side coupon/module.
 
-    CAD is a full blank module: aperture trims use the separate quantity map.
-    Foam/solid-edge regions and four potted insert/clip lands are disjoint.
+    Apertures cut every layer and generate solid perimeter lands.
+    Flat insert sites cut foam; curved local mounting lands remain open.
     """
     from osr_mech import cad
     arc = roof_arc(height, crown); developed = arc['arc_length_m']
@@ -280,20 +280,98 @@ def cad_layers(config, *, width, height, skin, core, crown=0):
             layer(f'{side} GFRP ply {i+1} {ply.angle_deg:g} degrees',rect,z,z+ply.thickness_m,cad.Color(.8,.9,.75));z+=ply.thickness_m
     for lower in (-core/2-bond,core/2):
         layer('skin/core adhesive',rect,lower,lower+bond,cad.Color(.7,.5,.2))
-    foam=layer('foam core',(land,land,width-land,developed-land),-core/2,core/2,cad.Color(.95,.85,.45))
-    for region in [(0,0,width,land),(0,developed-land,width,developed),(0,land,land,developed-land),(width-land,land,width,developed-land)]:
-        layer('reinforced solid GFRP edge land',region,-core/2,core/2,cad.Color(.2,.6,.5))
+    edges=[(0,0,width,land),(0,developed-land,width,developed),(0,land,land,developed-land),(width-land,land,width,developed-land)]
+    if holes:
+        excluded=edges+[(a-land,b-land,c+land,d+land)for a,b,c,d in holes]
+        foam_rects=remaining_rectangles(width,developed,excluded)
+        old_count=len(parts)
+        foam_parts=[layer('foam core region',rect,-core/2,core/2,cad.Color(.95,.85,.45))for rect in foam_rects]
+        del parts[old_count:]
+        foam=cad.Compound(children=foam_parts,label='trimmed foam core');parts.append(foam)
+        for region in remaining_rectangles(width,developed,foam_rects):
+            layer('reinforced GFRP edge/aperture land',region,-core/2,core/2,cad.Color(.2,.6,.5))
+    else:
+        foam=layer('foam core',(land,land,width-land,developed-land),-core/2,core/2,cad.Color(.95,.85,.45))
+        for region in edges:
+            layer('reinforced solid GFRP edge land',region,-core/2,core/2,cad.Color(.2,.6,.5))
     # Flat modules resolve cylindrical potting explicitly. Curved blank modules
     # retain the insert map for dedicated local flat mounting-land development.
     if not crown:
         r,ri=p['potting_radius_m'],p['insert_radius_m']
-        for x,y in [(width*.2,developed*.2),(width*.8,developed*.2),(width*.2,developed*.8),(width*.8,developed*.8)]:
+        sites=insert_sites if insert_sites is not None else [(width*.2,developed*.2),(width*.8,developed*.2),(width*.2,developed*.8),(width*.8,developed*.8)]
+        for x,y in sites:
             if min(x,width-x,y,developed-y) <= land+r:
                 raise ValueError('insert outside foam land')
+            if any(a-land-r<x<c+land+r and b-land-r<y<d+land+r for a,b,c,d in holes):raise ValueError('insert intersects an aperture or its reinforced land')
             cylinder=cad.Cylinder(r*1000,core*1000).translate((x*1000,y*1000,0))
             insert=cad.Cylinder(ri*1000,core*1000).translate((x*1000,y*1000,0))
             cut=foam-cylinder; foam._shape=cut._shape;foam._volume=cut._volume
             pot=cylinder-insert;pot.label='potted insert annulus';pot.color=cad.Color(.6,.3,.2);parts.append(pot)
             insert.label='metal insert, load into frame clip';insert.color=cad.Color(.5,.5,.5);parts.append(insert)
     layer('outer finish',rect,depth/2,depth/2+config['finish']['thickness_m'],cad.Color(.9,.9,.9))
+    if holes:
+        if any(x0<0 or y0<0 or x1>width or y1>developed for x0,y0,x1,y1 in holes):raise ValueError('trim aperture outside panel')
+        cutters=[]
+        for rect in holes:
+            before=len(parts)
+            cutter=layer('aperture tooling solid',rect,-depth/2-.01,depth/2+config['finish']['thickness_m']+.01,cad.Color(1,0,0))
+            del parts[before:]
+            cutters.append(cutter)
+        trimmed=[]
+        for obj in parts:
+            for cutter in cutters:obj=obj-cutter
+            if obj.volume>1e-9:trimmed.append(obj)
+        parts=trimmed
     return cad.Compound(children=parts,label='Development-only layered hybrid panel')
+
+
+def coupled_core(config, density):
+    """Select a complete grade, rather than varying density at fixed stiffness."""
+    records=config.get('core_grades',{})
+    if str(density) not in records:raise ValueError('Density requires an explicitly coupled core-grade record')
+    grade=records[str(density)]
+    for key in ('density_kg_m3','young_pa','shear_pa','compressive_strength_pa','shear_strength_pa'):
+        positive(grade[key],key)
+    if grade['density_kg_m3']!=density:raise ValueError('Core grade density mismatch')
+    return dict(grade)
+
+
+def support_network(config, width, height, span, *, holes=()):
+    """Actual transverse frame rails, brackets and fasteners for each support pitch.
+
+    Rails are split at apertures; missing attachment/edge support is reported,
+    never credited as a realised shorter unsupported panel span.
+    """
+    from osr_mech.section_contract import rhs,geometry
+    from osr_mech.automated_geometry import primitive_volume
+    for value in (width,height,span):positive(value,'support geometry')
+    s=config['supports'];section=rhs(s['rail_width_m'],s['rail_depth_m'],s['rail_wall_m'],density_kg_m3=s['rail_density_kg_m3'])
+    margin=max(config['panel']['edge_land_m']+config['panel']['potting_radius_m']+.005,.06)
+    if 2*margin>=height:raise ValueError('support attachment lands do not fit panel')
+    count=max(1,math.ceil((height-2*margin)/span));stations=[margin+(height-2*margin)*i/count for i in range(count+1)]
+    rails=[];broken=[]
+    for i,y in enumerate(stations):
+        exclusions=sorted((max(0,x0),min(width,x1))for x0,y0,x1,y1 in holes if y0<y<y1 and x1>0 and x0<width)
+        cursor=0;segments=[]
+        for a,b in exclusions:
+            if a>cursor:segments.append((cursor,a))
+            cursor=max(cursor,b)
+        if cursor<width:segments.append((cursor,width))
+        if exclusions:broken.append(i)
+        for j,(a,b) in enumerate(segments):
+            if b-a<s['rail_width_m']:continue
+            spec=geometry(section,b-a,centre_m=((a+b)/2,y,-.045))
+            rails.append(dict(id=f'support-{i}-{j}',station_m=y,interval_m=[a,b],geometry=spec,
+                mass_kg=(b-a)*section['mass_kg_m'],brackets=s['brackets_per_rail'],
+                fasteners=s['brackets_per_rail']*s['fasteners_per_bracket']))
+    rail_mass=sum(r['mass_kg'] for r in rails)
+    brackets=sum(r['brackets'] for r in rails);fasteners=sum(r['fasteners'] for r in rails)
+    total=rail_mass+brackets*s['bracket_mass_kg_each']+fasteners*s['fastener_mass_kg_each']
+    values=[s.get('rail_usd_kg'),s.get('bracket_usd_each'),s.get('fastener_usd_each')]
+    cost=None if any(v is None for v in values)else rail_mass*values[0]+brackets*values[1]+fasteners*values[2]
+    return dict(rails=rails,rail_count=len(rails),bracket_count=brackets,fastener_count=fasteners,
+        mass_kg=total,rail_mass_kg=rail_mass,section=section,actual_max_pitch_m=(height-2*margin)/count,
+        edge_overhang_m=margin,panel_attachment_count=2*len(rails),
+        panel_attachment_sites_m=[[a+(b-a)*f,r['station_m']]for r in rails for a,b in [r['interval_m']]for f in (.2,.8)],
+        aperture_interrupted_stations=broken,nominal_span_realised=not broken,
+        installed_cost_usd=cost,joint_stiffness_qualified=False,physical_validation=False)

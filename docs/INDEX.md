@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6201**.
+Indexed Markdown files: **6207**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6201**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 224 |
-| [engineering](#engineering) | 56 |
+| [engineering](#engineering) | 62 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6248,6 +6248,12 @@ Indexed Markdown files: **6201**.
 | [`engineering/composite_panels/reference/README.md`](../engineering/composite_panels/reference/README.md) | Hybrid GFRP exterior-panel development |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
+| [`engineering/design_consistency/README.md`](../engineering/design_consistency/README.md) | Shared engineering definitions and demonstrators |
+| [`engineering/design_consistency/examples/README.md`](../engineering/design_consistency/examples/README.md) | Linked research demonstrators |
+| [`engineering/design_consistency/examples/cad/README.md`](../engineering/design_consistency/examples/cad/README.md) | Native manufacturing research geometry |
+| [`engineering/design_consistency/examples/solver/README.md`](../engineering/design_consistency/examples/solver/README.md) | Executed hollow-section benchmarks |
+| [`engineering/design_consistency/examples/solver/coarse/README.md`](../engineering/design_consistency/examples/solver/coarse/README.md) | Hollow cantilever bending execution |
+| [`engineering/design_consistency/examples/solver/refined/README.md`](../engineering/design_consistency/examples/solver/refined/README.md) | Hollow cantilever bending execution |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
 | [`engineering/integration_programme/data/contact/LICENSE.md`](../engineering/integration_programme/data/contact/LICENSE.md) | License |
 | [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |

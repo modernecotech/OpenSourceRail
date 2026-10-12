@@ -1,7 +1,7 @@
 """FreeCAD/CalculiX screening FEA for rolling-stock structures.
 
 This is a first-pass engineering screen, not a certification model. It
-uses axis-aligned B31 beam/space-frame idealisations to check gross load
+uses B32R hollow beam/space-frame idealisations to check gross load
 paths and generate solver-result PNGs for:
 
 - the low-floor chassis supported at bogie interfaces,
@@ -72,7 +72,9 @@ class BeamSection:
     name: str
     width_mm: float
     height_mm: float
-    orientation: tuple[float, float, float] = (0.0, 0.0, -1.0)
+    orientation: tuple[float, float, float] = (0.0, 1.0, 0.0)
+    wall_mm: float = 8.0
+    section_basis: str = 'Proposed 8 mm research wall; not supplier dimensions or legacy catalogue qualification'
 
 
 @dataclass(frozen=True)
@@ -626,39 +628,22 @@ def all_studies() -> list[Study]:
 
 
 def _write_inp(study: Study, path: Path) -> None:
-    section_elements: dict[str, list[Element]] = {name: [] for name in study.sections}
-    for element in study.elements:
-        section_elements[element.section].append(element)
-    all_node_ids = [node.id for node in study.nodes]
-    all_element_ids = [element.id for element in study.elements]
-
-    lines: list[str] = [
-        "*HEADING",
-        study.title,
-        "*NODE",
-    ]
-    lines.extend(f"{node.id},{node.x:.6f},{node.y:.6f},{node.z:.6f}" for node in study.nodes)
-    lines.append("*NSET,NSET=ALLN")
-    lines.extend(",".join(str(v) for v in chunk) for chunk in _chunks(all_node_ids))
-    lines.append("*ELSET,ELSET=ALLE")
-    lines.extend(",".join(str(v) for v in chunk) for chunk in _chunks(all_element_ids))
-    for section_name, elements in section_elements.items():
-        if not elements:
-            continue
-        lines.append(f"*ELEMENT,TYPE=B31,ELSET={section_name}")
-        lines.extend(f"{element.id},{element.n1},{element.n2}" for element in elements)
-    lines.extend(
-        [
-            "*MATERIAL,NAME=S355",
-            "*ELASTIC",
-            f"{E_STEEL_MPA:.1f},{NU_STEEL:.3f}",
-        ]
-    )
-    for section in study.sections.values():
-        lines.append(f"*BEAM SECTION,ELSET={section.name},MATERIAL=S355,SECTION=RECT")
-        lines.append(f"{section.width_mm:.6f},{section.height_mm:.6f}")
-        ox, oy, oz = section.orientation
-        lines.append(f"{ox:.6f},{oy:.6f},{oz:.6f}")
+    from osr_mech.section_contract import rhs,calculix_box
+    nodes={n.id:n for n in study.nodes};mid_start=max(nodes)+1
+    mid_nodes=[Node(mid_start+i,(nodes[e.n1].x+nodes[e.n2].x)/2,(nodes[e.n1].y+nodes[e.n2].y)/2,(nodes[e.n1].z+nodes[e.n2].z)/2)for i,e in enumerate(study.elements)]
+    all_node_ids=list(nodes)+[n.id for n in mid_nodes]
+    all_element_ids=[e.id for e in study.elements]
+    lines=['*HEADING',study.title+'; proposed hollow sections, unqualified','*NODE']
+    lines.extend(f'{n.id},{n.x:.6f},{n.y:.6f},{n.z:.6f}'for n in study.nodes+mid_nodes)
+    lines.append('*NSET,NSET=ALLN');lines.extend(','.join(map(str,c))for c in _chunks(all_node_ids))
+    for e,mid in zip(study.elements,mid_nodes):
+        lines.extend([f'*ELEMENT,TYPE=B32R,ELSET=MEMBER_{e.id}',f'{e.id},{e.n1},{mid.id},{e.n2}'])
+    lines.extend(['*ELSET,ELSET=ALLE',*(','.join(map(str,c))for c in _chunks(all_element_ids)), '*MATERIAL,NAME=S355','*ELASTIC',f'{E_STEEL_MPA:.1f},{NU_STEEL:.3f}'])
+    for e in study.elements:
+        section=study.sections[e.section]
+        sec=rhs(section.width_mm/1000,section.height_mm/1000,section.wall_mm/1000,density_kg_m3=7850)
+        orientation=_member_axes(nodes[e.n1],nodes[e.n2],section)[1]
+        lines.extend([f'*BEAM SECTION,ELSET=MEMBER_{e.id},MATERIAL=S355,SECTION=BOX',calculix_box(sec),','.join(f'{v:.8f}'for v in orientation)])
     lines.append("*BOUNDARY")
     lines.extend(
         f"{bc.node},{bc.first_dof},{bc.last_dof},{bc.value:.6f}" for bc in study.boundaries
@@ -1052,17 +1037,30 @@ def _dependency_report() -> dict[str, object]:
     return report
 
 
+def _member_axes(n1,n2,section):
+    import numpy as np
+    x=np.array([n2.x-n1.x,n2.y-n1.y,n2.z-n1.z],float);length=np.linalg.norm(x)
+    if length<=0:raise ValueError('zero-length manufacturing member')
+    x/=length;y=np.asarray(section.orientation,float);y-=np.dot(y,x)*x
+    if np.linalg.norm(y)<1e-8:
+        y=np.array([1.,0.,0.]);y-=np.dot(y,x)*x
+    if np.linalg.norm(y)<1e-8:
+        y=np.array([0.,0.,1.]);y-=np.dot(y,x)*x
+    y/=np.linalg.norm(y);return x,y,np.cross(x,y)
+
+
 def _axis_box_shape(n1: Node, n2: Node, section: BeamSection):
-    x1, y1, z1 = n1.x, n1.y, n1.z
-    x2, y2, z2 = n2.x, n2.y, n2.z
-    dx, dy, dz = abs(x2 - x1), abs(y2 - y1), abs(z2 - z1)
-    w = section.width_mm
-    h = section.height_mm
-    if dx >= dy and dx >= dz:
-        return Part.makeBox(dx, w, h, App.Vector(min(x1, x2), y1 - w / 2.0, z1 - h / 2.0))
-    if dy >= dx and dy >= dz:
-        return Part.makeBox(w, dy, h, App.Vector(x1 - w / 2.0, min(y1, y2), z1 - h / 2.0))
-    return Part.makeBox(w, h, dz, App.Vector(x1 - w / 2.0, y1 - h / 2.0, min(z1, z2)))
+    from osr_mech.section_contract import rhs,geometry
+    from osr_mech.automated_geometry import native_shape
+    import numpy as np
+    x,y,z=_member_axes(n1,n2,section);length=math.dist((n1.x,n1.y,n1.z),(n2.x,n2.y,n2.z))/1000
+    sec=rhs(section.width_mm/1000,section.height_mm/1000,section.wall_mm/1000,density_kg_m3=7850)
+    shape=native_shape(geometry(sec,length),Part,App)
+    matrix=App.Matrix();rotation=np.column_stack([x,y,z])
+    for i in range(3):
+        for j in range(3):setattr(matrix,f'A{i+1}{j+1}',float(rotation[i,j]))
+    shape.Placement=App.Placement(App.Vector((n1.x+n2.x)/2,(n1.y+n2.y)/2,(n1.z+n2.z)/2),App.Rotation(matrix))
+    return shape
 
 
 def _add_visual_study(
@@ -1202,7 +1200,7 @@ def _write_summary(
         [
             "## Geometry/Model Caveats",
             "",
-            "- Beam sections are conservative rectangular approximations of the CAD envelopes.",
+            "- Native study walls and B32R BOX sections share explicit dimensions and proposed 8 mm walls. These research sections are not supplier/CAD-catalogue acceptance; old solid-envelope results are historical diagnostics.",
             "- Composite body panels, glazing, adhesive lands, local brackets, bolt holes, weld toes, and notches are not meshed.",
             "- Loads are static screening loads only; no crash, fatigue spectrum, modal, thermal, or derailment cases are included.",
             "- Any stress above the 0.6 x S355 yield service screen should trigger a detailed shell/solid mesh and local joint design.",

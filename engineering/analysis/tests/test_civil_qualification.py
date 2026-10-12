@@ -50,8 +50,10 @@ def test_baghdad_retained_envelopes_and_open_inputs():
         family='metro-6car', cars=6, axles=24, length_m=111., tare_mass_t=204.,
         aw2_mass_t=258., aw3_mass_t=276., infrastructure_full_train_allowance_t=384.,
         basis='planning envelopes; infrastructure allowance and averages do not define loaded axle forces')
-    assert report['catalogue_context']['lines'] == 54
-    assert report['catalogue_context']['missing_ground_profiles'] == 30
+    design=__import__('tomllib').loads((ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/design.toml').read_text())
+    assert report['catalogue_context']['lines']==len(design['lines'])
+    soil=load(ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/soil/summary.json')
+    assert report['catalogue_context']['missing_ground_profiles']==soil['missing_profile_count']
     assert report['supplier_pattern'] is None
     assert not report['moving_force_execution_ready']
     assert not report['coupled_programme_execution_ready']

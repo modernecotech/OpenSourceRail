@@ -168,11 +168,12 @@ def test_generated_package_verifies_and_detects_modified_output(tmp_path):
     assert failure.returncode!=0 and 'changed generated part output' in failure.stderr
 
 
-def test_retained_native_parts_match_the_current_variant_and_saved_geometry(compiled):
+def test_retained_native_parts_match_their_historical_variant_and_saved_geometry():
     folder=ROOT/'design/component-catalogue/models/cad'
     native=load_definition(folder/'reference-full-train.native.json');audit=load_definition(folder/'reference-full-train.audit.json')
     cad_hash=hashlib.sha256((folder/'reference-full-train.FCStd').read_bytes()).hexdigest()
-    assert native['configuration_sha256']==audit['configuration_sha256']==fingerprint(compiled['model'])
+    historical=load_definition(ROOT/'engineering/civil_exploration/examples/automated-parts-review.json')
+    assert native['configuration_sha256']==audit['configuration_sha256']==historical['configuration_sha256']
     assert native['fcstd_sha256']==audit['fcstd_sha256']==cad_hash
     assert audit['reopened_native_instance_count']==192 and audit['restored_native_solver_result']==0
     assert audit['analytic_occ_primitive_checks']==164 and audit['maximum_relative_inertia_error']<1e-8
@@ -180,9 +181,11 @@ def test_retained_native_parts_match_the_current_variant_and_saved_geometry(comp
     assert not native['drawing_issued'] and not audit['production_released'] and not audit['physical_validation']
 
 
-def test_retained_failed_service_case_is_kept_out_of_the_completed_passage_set(compiled):
+def test_retained_failed_service_case_is_kept_out_of_the_completed_passage_set():
     proof=load_definition(ROOT/'engineering/civil_exploration/examples/automated-parts-evidence.json')
-    assert proof['configuration_sha256']==fingerprint(compiled['model'])
+    historical=load_definition(ROOT/'engineering/civil_exploration/examples/automated-parts-review.json')
+    assert proof['configuration_sha256']==historical['configuration_sha256']
+    assert proof['compiler_review_sha256']==hashlib.sha256((ROOT/'engineering/civil_exploration/examples/automated-parts-review.json').read_bytes()).hexdigest()
     service=proof['service']
     assert not service['complete_full_family_case_ids'] and not service['numerical_time_and_mesh_confirmation_performed']
     assert len(service['cases'])==1 and service['cases'][0]['status']=='failed'
