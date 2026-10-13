@@ -21,6 +21,7 @@ Usage: ./osr [COMMAND] [arguments]
   build              Build applications, shared data, BIM, BOMs, and the PDF book
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
   test               Run Rust, Python, browser, and repository checks
+  validate ...       Run/plan/verify local checks with source-bound receipts
   engineering ...    Run an engineering-toolchain command
   example-city ...   Run/manage the isolated complete-city acceptance scenario
   readiness [...]    Audit all city ERP, component and supervision inputs
@@ -72,6 +73,9 @@ case "$command_name" in
         ;;
     book)
         exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"
+        ;;
+    validate)
+        exec tools/automation/osr-python tools/automation/local-validation.py "$@"
         ;;
     test)
         cargo fmt --all -- --check

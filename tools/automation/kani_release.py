@@ -16,10 +16,10 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate(directory, commit, run_id):
+def validate(directory, commit, run_id, *, local=False):
     expected = ASSURANCE.declared()
     inputs = ASSURANCE.scope()
-    runner = f'github:modernecotech/OpenSourceRail/actions/runs/{run_id}'
+    runner = 'local-unattested' if local else f'github:modernecotech/OpenSourceRail/actions/runs/{run_id}'
     packages = sorted({row['path'].split('/')[1] for row in expected})
     inventory = []
     for package in packages:
@@ -28,6 +28,8 @@ def validate(directory, commit, run_id):
             raise ValueError(f'Unsafe Kani artifact membership: {package}')
         manifest_path, results_path = folder / 'execution.json', folder / 'results.toml'
         manifest = json.loads(manifest_path.read_text())
+        if local and (manifest.get('runner_authenticated') is not False or manifest.get('independently_accepted') is not False):
+            raise ValueError('Local proof execution cannot authenticate a runner or grant independent acceptance')
         results = tomllib.loads(results_path.read_text())
         declarations = {row['solution']: row for row in expected if row['path'].split('/')[1] == package}
         if (manifest.get('schema') != 'osr-controlled-execution/1' or manifest.get('commit') != commit
@@ -44,7 +46,7 @@ def validate(directory, commit, run_id):
             declaration = declarations[row['solution']]
             report_name = row['solution'] + '.log'
             report = folder / report_name
-            expected_path = f'build/assurance/{package}/{report_name}'
+            expected_path = (folder.relative_to(ROOT) / report_name).as_posix() if local else f'build/assurance/{package}/{report_name}'
             if (any(row.get(key) != declaration[key] for key in ('kind', 'path', 'anchor'))
                     or row.get('inputs') != inputs or row.get('status') != 'passed'
                     or row.get('exit_code') != 0 or row.get('tool') != 'cargo-kani'
@@ -64,6 +66,7 @@ def validate(directory, commit, run_id):
         if any(path.is_symlink() or not path.is_file() for path in folder.iterdir()) or {p.name for p in folder.iterdir()} != allowed:
             raise ValueError(f'Unexpected Kani artifact membership: {package}')
     return dict(schema='osr-kani-release-evidence/1', commit=commit, workflow_run=run_id,
+                execution_location='local' if local else 'github', runner=runner,
                 packages=packages, harnesses=inventory, independently_accepted=False,
                 scope='Executed declared harnesses within recorded assumptions and unwind bounds; no independent safety acceptance.')
 
@@ -72,5 +75,14 @@ def export(directory, destination, commit, run_id):
     summary = validate(directory, commit, run_id)
     for package in summary['packages']:
         shutil.copytree(directory / ('safety-execution-' + package), destination / 'build/assurance' / package)
+    (destination / 'kani-evidence.json').write_text(json.dumps(summary, indent=2) + '\n')
+    return summary
+
+
+def export_local(directory, destination, commit):
+    summary = validate(directory, commit, None, local=True)
+    for package in summary['packages']:
+        folder = directory / ('safety-execution-' + package)
+        shutil.copytree(folder, destination / folder.relative_to(ROOT))
     (destination / 'kani-evidence.json').write_text(json.dumps(summary, indent=2) + '\n')
     return summary

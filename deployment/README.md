@@ -49,7 +49,7 @@ tracked city asset registers through the supervision package and all 266 ERP and
 component profiles, while retaining operator and physical commissioning inputs
 as explicit fail-closed states.
 
-The `integrated-stack` CI workflow builds a clean, disposable Samawah/Mosul
+The [local `integrated-stack` profile](../docs/local-validation.md) builds a clean, disposable Samawah/Mosul
 deployment from these checked-in inputs. It exercises native ERP transactions,
 the gateway, embedded simulator, pinned FUXA application and Workbench together,
 including a gateway outage and recovery, then removes the evaluation volumes.

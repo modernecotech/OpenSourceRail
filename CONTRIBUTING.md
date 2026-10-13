@@ -50,7 +50,12 @@ behaviour is documented there only so it cannot drift between guides.
 
 Useful checks:
 
+GitHub Actions are disabled. Run checks on your machine before pushing; the
+[local validation guide](docs/local-validation.md) explains profiles, recorded
+results and software-release gates.
+
 ```bash
+./osr validate run --profile quick
 python3 tools/automation/repo-health.py --quiet
 python3 tools/automation/check-markdown-links.py
 python3 tools/automation/generate-doc-index.py

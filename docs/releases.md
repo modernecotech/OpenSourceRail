@@ -18,8 +18,8 @@ upgrade procedure and remaining limits. The
 [GitHub release](https://github.com/modernecotech/OpenSourceRail/releases/tag/v0.4.0)
 is the authoritative publication record and asset catalogue.
 
-The release evidence manifest identifies the exact commit, source tree,
-successful CI runs and asset hashes. The two selected Kani properties are
+The historical release evidence manifest identifies the exact commit, source tree,
+successful CI runs and asset hashes. Its two selected Kani properties are
 bounded software checks; they are not independent safety acceptance. Wider
 modelling, supplier, manufacturing and physical commissioning work remains in
 the [roadmap](ROADMAP.md) and controlled release registers.
@@ -31,34 +31,46 @@ the [roadmap](ROADMAP.md) and controlled release registers.
 2. Align `Cargo.toml`, `Cargo.lock`, `VERSION`, package metadata, changelog and
    release notes. Regenerate the reader book, overview, catalogues and evidence
    summaries with `./osr build`, `./osr readiness` and the safety-case summary.
-3. Run `./osr test`, the declared pinned Kani harnesses and native integrated acceptance,
-   including the complete example-city lifecycle, restart, expansion, business and
-   unmocked disposition checks.
-   Review generated changes, commit the complete baseline and push it for CI.
-4. Require successful `ci`, `kani`, `integrated-stack` and `example-city` workflows
-   on that exact commit. The integrated workflow must reach its final outage/recovery
-   test. The city run must start on a clean candidate commit and publish its hashed
-   `city-evidence.json`; release packaging downloads and validates that run's reports.
+3. Run development checks and regenerate prerequisites. Review generated changes
+   and commit the complete baseline. GitHub Actions are disabled; computation runs
+   locally according to the [local validation guide](local-validation.md).
+4. Require successful local `ci`, `kani`, `integrated-stack` and `example-city`
+   profiles on that exact clean commit. Use fresh ignored output directories,
+   for example `build/validation/release-ci`, `release-kani`, `release-integrated`
+   and `release-city` beneath `build/validation/`. Native acceptance must run on a
+   disposable local host; the integrated profile must finish outage/recovery and
+   the city profile must finish lifecycle, restart, expansion, business,
+   disposition, native engineering change and recovery. City public reports are
+   captured before cleanup and their source-bound manifest is validated again
+   during packaging. Every declared Kani harness remains required.
 5. With a clean tracked working tree, create the immutable annotated tag at the
    verified commit. Never move an existing release tag to repair a failure.
 6. Build the publication assets from that tag:
 
    ```bash
-   python3 tools/automation/release-evidence.py --tag v0.4.0 \
+   tools/automation/osr-python tools/automation/release-evidence.py --tag v0.4.0 \
+     --local-validation build/validation/release-ci \
+     --local-validation build/validation/release-kani \
+     --local-validation build/validation/release-integrated \
+     --local-validation build/validation/release-city \
      --output build/releases/v0.4.0/publish
    ```
 
-   The builder checks all four workflows, rebuilds the reader PDF with links
+   Use the intended new version in this example; never recreate the published
+   `v0.4.0` tag. The builder verifies all four local receipts, rebuilds the reader PDF with links
    pinned to the tag, embeds the overview images, exports the readiness report
    and release notes, and writes the evidence manifest and `SHA256SUMS`.
-   It also downloads all eight `safety-execution-*` artifacts from the successful
-   Kani run. Every declared harness must match the commit, runner, dependency
+   It exports all eight local `safety-execution-*` artifact directories from the
+   successful Kani run. Every declared harness must match the commit, local runner, dependency
    hashes, result and log; missing, duplicate, failed and changed evidence is
    rejected. `OpenSourceRail-Kani-Evidence-<tag>.zip` retains all original manifests,
-   TOML results and logs under their `build/assurance/<package>/` paths. The release
-   manifest enumerates all declared harnesses; independent acceptance remains separate.
+   TOML results and logs at their recorded checkout-relative paths. The release
+   manifest enumerates all declared harnesses and local command/log hashes;
+   independent acceptance remains separate. Raw integration logs remain local.
+   `--backend github` is available only to package historical successful run
+   evidence; it reads and downloads artifacts without dispatching any workflow.
 7. Publish the tag and versioned assets. Verify the uploaded assets against the
-   local SHA-256 checksums and preserve the exact commit and workflow evidence.
+   local SHA-256 checksums and preserve the exact commit and execution evidence.
 
 Safety, hardware, rolling-stock, civil and deployment release remain independent
 of this software-publication procedure. A failed or missing software check blocks

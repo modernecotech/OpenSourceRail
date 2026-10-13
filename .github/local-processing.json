@@ -1,0 +1,13 @@
+{
+  "schema": "osr-compute-location-policy/1",
+  "execution_location": "local",
+  "github_role": "repository and release-asset storage",
+  "github_actions_enabled": false,
+  "github_hosted_jobs_permitted": false,
+  "self_hosted_actions_runner_required": false,
+  "workflow_files": "retained historical recipes; repository Actions permission remains disabled",
+  "local_entrypoint": "./osr validate",
+  "raw_validation_outputs": "build/validation/ (ignored, kept locally)",
+  "publication": "push source/generated artifacts; upload reviewed versioned release assets",
+  "physical_release": false
+}

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6211**.
+Indexed Markdown files: **6212**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6211**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 224 |
+| [docs](#docs) | 225 |
 | [engineering](#engineering) | 66 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6081,6 +6081,7 @@ Indexed Markdown files: **6211**.
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
 | [`docs/lifecycle/README.md`](../docs/lifecycle/README.md) | Connected OpenSourceRail lifecycle |
 | [`docs/lifecycle/embedded-integration.md`](../docs/lifecycle/embedded-integration.md) | Native embedded software, ERPNext and FUXA |
+| [`docs/local-validation.md`](../docs/local-validation.md) | Local Processing And GitHub Storage |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail — one-page overview |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
 | [`docs/operating/README.md`](../docs/operating/README.md) | OpenSourceRail operating platform |

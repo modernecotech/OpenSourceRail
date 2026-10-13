@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build versioned release assets only from a clean, workflow-verified Git tag."""
+"""Build versioned release assets from a clean tag with complete local or historical validation."""
 import argparse
 import base64
 import mimetypes
@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tomllib
+from contextlib import contextmanager
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = {'ci', 'kani', 'integrated-stack', 'example-city'}
@@ -34,10 +35,44 @@ def successful_runs(rows, commit):
     return [latest[name] for name in sorted(latest)]
 
 
+@contextmanager
+def release_inputs(backend, folders, commit):
+    """Require the same four release gates before assembling any assets."""
+    if backend == 'local':
+        from local_validation import release_receipts
+        receipts = release_receipts(folders, commit)
+        paths = {json.loads((folder / 'receipt.json').read_text())['profile']: folder.resolve() for folder in folders}
+        checks = [dict(profile=name, execution_location='local', receipt=receipts[name],
+                       receipt_sha256=hashlib.sha256((paths[name] / 'receipt.json').read_bytes()).hexdigest())
+                  for name in sorted(receipts)]
+        yield checks, paths['example-city'] / 'city', paths['kani'], None, None
+        return
+    if folders:
+        raise ValueError('Local validation directories cannot substitute for historical GitHub runs')
+    gh = shutil.which('gh') or str(Path.home() / '.local/bin/gh')
+    rows = json.loads(run(gh, 'run', 'list', '--repo', 'modernecotech/OpenSourceRail',
+                          '--commit', commit, '--limit', '100', '--json',
+                          'databaseId,workflowName,status,conclusion,headSha,url,createdAt'))
+    checks = successful_runs(rows, commit)
+    city_id = next(row['databaseId'] for row in checks if row['workflowName'] == 'example-city')
+    kani_id = next(row['databaseId'] for row in checks if row['workflowName'] == 'kani')
+    with tempfile.TemporaryDirectory(prefix='osr-release-inputs-') as directory:
+        city = Path(directory) / 'city'; kani = Path(directory) / 'kani'
+        for run_id, folder, selection in [(city_id, city, ['--name', 'samawah-city-acceptance']),
+                                         (kani_id, kani, ['--pattern', 'safety-execution-*'])]:
+            subprocess.run([gh, 'run', 'download', str(run_id), '--repo',
+                            'modernecotech/OpenSourceRail', *selection, '--dir', str(folder)], check=True)
+        yield checks, city, kani, city_id, kani_id
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--tag', required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--backend', choices=['local', 'github'], default='local',
+                        help='Local execution by default; github reads historical runs without starting jobs')
+    parser.add_argument('--local-validation', action='append', type=Path, default=[],
+                        help='Repeat for passing ci, kani, integrated-stack and example-city receipt directories')
     args = parser.parse_args()
     version = tomllib.loads((ROOT / 'Cargo.toml').read_text())['workspace']['package']['version']
     if args.tag != 'v' + version:
@@ -45,41 +80,30 @@ def main():
     commit = run('git', 'rev-parse', '--verify', args.tag + '^{commit}')
     if commit != run('git', 'rev-parse', 'HEAD') or run('git', 'status', '--porcelain', '--untracked-files=normal'):
         raise SystemExit('Check out the release tag with a clean working tree, including untracked source')
-    gh = shutil.which('gh') or str(Path.home() / '.local/bin/gh')
-    rows = json.loads(run(gh, 'run', 'list', '--repo', 'modernecotech/OpenSourceRail',
-                          '--commit', commit, '--limit', '100', '--json',
-                          'databaseId,workflowName,status,conclusion,headSha,url,createdAt'))
-    workflows = successful_runs(rows, commit)
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
     book = out / f'OpenSourceRail-Book-{args.tag}.pdf'
-    subprocess.run([str(ROOT / 'tools/automation/osr-python'),
-                    'tools/automation/build-doc-book.py', '--out', str(book), '--source-ref', args.tag], cwd=ROOT, check=True)
-    exported = [book]
-    city_run = next(row for row in workflows if row['workflowName'] == 'example-city')
+    exported = []
     spec = importlib.util.spec_from_file_location('city_release_evidence', ROOT / 'deployment/example-city/evidence.py')
     city_evidence = importlib.util.module_from_spec(spec); spec.loader.exec_module(city_evidence)
-    with tempfile.TemporaryDirectory(prefix='osr-release-city-') as directory:
-        subprocess.run([gh, 'run', 'download', str(city_run['databaseId']), '--repo',
-                        'modernecotech/OpenSourceRail', '--name', 'samawah-city-acceptance', '--dir', directory], check=True)
-        city_manifest = city_evidence.validate(Path(directory), commit)
+    with release_inputs(args.backend, args.local_validation, commit) as (checks, city_folder, kani_folder, city_id, kani_id), tempfile.TemporaryDirectory(prefix='osr-release-export-') as directory:
+        city_manifest = city_evidence.validate(city_folder, commit)
         # Publish the exact reports validated above, not a locally rerun substitute.
         archive_root = Path(directory) / 'release-public'; archive_root.mkdir()
         for relative in ['city-evidence.json', *city_manifest['reports']]:
             destination = archive_root / relative; destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(Path(directory) / relative, destination)
+            shutil.copyfile(city_folder / relative, destination)
         archive = Path(shutil.make_archive(str(out / f'OpenSourceRail-City-Acceptance-{args.tag}'), 'zip', archive_root))
         exported.append(archive)
-    from kani_release import export as export_kani
-    kani_run = next(row for row in workflows if row['workflowName'] == 'kani')
-    with tempfile.TemporaryDirectory(prefix='osr-release-kani-') as directory:
-        subprocess.run([gh, 'run', 'download', str(kani_run['databaseId']), '--repo',
-                        'modernecotech/OpenSourceRail', '--pattern', 'safety-execution-*', '--dir', directory], check=True)
-        archive_root = Path(directory) / 'release-public'
+        from kani_release import export as export_kani, export_local
+        archive_root = Path(directory) / 'release-kani'
         archive_root.mkdir()
-        kani_manifest = export_kani(Path(directory), archive_root, commit, kani_run['databaseId'])
+        kani_manifest = export_local(kani_folder, archive_root, commit) if args.backend == 'local' else export_kani(kani_folder, archive_root, commit, kani_id)
         archive = Path(shutil.make_archive(str(out / f'OpenSourceRail-Kani-Evidence-{args.tag}'), 'zip', archive_root))
         exported.append(archive)
+    subprocess.run([str(ROOT / 'tools/automation/osr-python'),
+                    'tools/automation/build-doc-book.py', '--out', str(book), '--source-ref', args.tag], cwd=ROOT, check=True)
+    exported.append(book)
     for source, name in [
         ('docs/open-source-rail-overview.html', f'OpenSourceRail-Overview-{args.tag}.html'),
         ('docs/open-source-rail-overview.md', f'OpenSourceRail-Overview-{args.tag}.md'),
@@ -104,11 +128,13 @@ def main():
     evidence = {
         'schema': 'osr-software-release/1', 'version': version, 'tag': args.tag,
         'commit': commit, 'source_tree': run('git', 'rev-parse', args.tag + '^{tree}'),
-        'workflows': workflows,
-        'example_city': dict(run_id=city_run['databaseId'], manifest=city_manifest),
+        'execution_location': args.backend,
+        'workflows': checks if args.backend == 'github' else [],
+        'local_validation': checks if args.backend == 'local' else [],
+        'example_city': dict(run_id=city_id, execution_location=args.backend, manifest=city_manifest),
         'kani_release_properties': [row['anchor'] for row in kani_manifest['harnesses']],
         'kani_evidence': kani_manifest,
-        'kani_additional_checks': ['kani_p5_time_bounded_arithmetic', 'kani_a2_expired_ma_trips'],
+        'kani_additional_checks': ['kani_p5_time_bounded_arithmetic', 'tacs_timestamped_output_rejects_invalid_source_age', 'kani_a2_expired_ma_trips'],
         'scope': 'ERPNext/FUXA/OSR software integration and simulation baseline',
         'independent_safety_acceptance': False,
         'physical_deployment_approval': False,

@@ -64,3 +64,46 @@ def test_incomplete_stale_failed_or_tampered_proofs_cannot_be_exported(artifacts
     else: results.write_text(results.read_text() + '\n# altered\n')
     (folder / 'execution.json').write_text(json.dumps(manifest))
     with pytest.raises(ValueError): KANI.validate(root, 'commit', 7)
+
+
+@pytest.fixture
+def local_artifacts(artifacts, monkeypatch):
+    root, folder, row, manifest = artifacts
+    monkeypatch.setattr(KANI, 'ROOT', root)
+    row.update(executed_by='local-unattested', report='safety-execution-example/E1.log')
+    manifest.update(runner='local-unattested', independently_accepted=False, runner_authenticated=False)
+    results = folder / 'results.toml'; results.write_text(KANI.ASSURANCE.toml([row]))
+    manifest['results_sha256'] = KANI.digest(results)
+    (folder / 'execution.json').write_text(json.dumps(manifest))
+    return root, folder, row, manifest
+
+
+def test_local_export_preserves_original_proofs_and_unattested_runner(local_artifacts):
+    root, folder, row, manifest = local_artifacts
+    output = root / 'export'; output.mkdir()
+    summary = KANI.export_local(root, output, 'commit')
+    assert summary['execution_location'] == 'local'
+    assert summary['runner'] == 'local-unattested'
+    assert summary['workflow_run'] is None and summary['independently_accepted'] is False
+    for source in folder.iterdir():
+        assert source.read_bytes() == (output / 'safety-execution-example' / source.name).read_bytes()
+    with pytest.raises(ValueError): KANI.validate(root, 'commit', 7)
+
+
+@pytest.mark.parametrize('fault', ['failed', 'missing', 'runner', 'authenticated', 'accepted', 'path', 'commit', 'log', 'inputs'])
+def test_local_proof_export_preserves_required_gates(local_artifacts, fault):
+    root, folder, row, manifest = local_artifacts
+    records = [row]
+    if fault == 'failed': row.update(status='failed', exit_code=124)
+    elif fault == 'missing': records = []
+    elif fault == 'runner': manifest['runner'] = 'github:modernecotech/OpenSourceRail/actions/runs/7'
+    elif fault == 'authenticated': manifest['runner_authenticated'] = True
+    elif fault == 'accepted': manifest['independently_accepted'] = True
+    elif fault == 'path': row['report'] = 'build/assurance/example/E1.log'
+    elif fault == 'commit': manifest['commit'] = 'old'
+    elif fault == 'inputs': row['inputs'] = {'input.rs': 'old'}
+    elif fault == 'log': (folder / 'E1.log').write_text('invented success')
+    results = folder / 'results.toml'; results.write_text(KANI.ASSURANCE.toml(records))
+    manifest['results_sha256'] = KANI.digest(results)
+    (folder / 'execution.json').write_text(json.dumps(manifest))
+    with pytest.raises(ValueError): KANI.validate(root, 'commit', None, local=True)

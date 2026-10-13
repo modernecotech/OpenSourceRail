@@ -78,6 +78,7 @@ user inspect or build the system. Reproducible scratch output still belongs in
 | BOM exports | `build/bom/` |
 | Published reader book | `OpenSourceRail-Book.pdf` |
 | Release-only media | `build/releases/` before tagged release storage |
+| Local validation receipts and raw logs | `build/validation/` (ignored); reviewed public release evidence is packaged separately |
 | Tagged deliverables | Release storage with version and checksum |
 
 Use `tools/automation/regenerate-city.sh <slug>` for a full city package in the
@@ -91,7 +92,7 @@ folder that produced them.
 1. Change canonical source before regenerating output.
 2. Do not hand-edit generated output.
 3. Every retained fixture must name its generator and test consumer.
-4. CI compares compact fixtures and regenerates larger evidence when required.
+4. Local validation compares compact fixtures and regenerates larger evidence when required; GitHub Actions are disabled. See [local processing](local-validation.md).
 5. Never commit credentials, caches, absolute local paths, or live operational
    databases.
 6. A complete generated city package is not release-ready merely because its

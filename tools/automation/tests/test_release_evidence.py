@@ -27,3 +27,33 @@ def test_new_failed_or_running_workflow_cannot_be_hidden_by_old_success():
                  'status':status, 'conclusion':conclusion}
         with pytest.raises(ValueError, match='incomplete'):
             RELEASE.successful_runs([*rows(),retry], 'revision')
+
+
+def test_missing_local_gates_fail_without_contacting_github(monkeypatch):
+    monkeypatch.syspath_prepend(str(ROOT / 'tools/automation'))
+    monkeypatch.setattr(RELEASE, 'run', lambda *args: pytest.fail('GitHub must not be called by local packaging'))
+    with pytest.raises(ValueError, match='incomplete'):
+        with RELEASE.release_inputs('local', [], 'revision'): pytest.fail('missing gates accepted')
+
+
+def test_local_release_inputs_use_validated_directories_without_network(tmp_path, monkeypatch):
+    import json
+    monkeypatch.syspath_prepend(str(ROOT / 'tools/automation'))
+    import local_validation
+    folders = []
+    receipts = {}
+    for name in RELEASE.WORKFLOWS:
+        folder = tmp_path / name; folder.mkdir()
+        receipts[name] = dict(profile=name, source=dict(commit='revision'))
+        (folder / 'receipt.json').write_text(json.dumps(receipts[name]))
+        folders.append(folder)
+    def checked(values, commit):
+        assert values == folders and commit == 'revision'
+        return receipts
+    monkeypatch.setattr(local_validation, 'release_receipts', checked)
+    monkeypatch.setattr(RELEASE, 'run', lambda *args: pytest.fail('GitHub was contacted'))
+    with RELEASE.release_inputs('local', folders, 'revision') as (checks, city, kani, city_id, kani_id):
+        assert {row['profile'] for row in checks} == RELEASE.WORKFLOWS
+        assert all(row['execution_location'] == 'local' for row in checks)
+        assert city == tmp_path / 'example-city/city' and kani == tmp_path / 'kani'
+        assert city_id is None and kani_id is None
