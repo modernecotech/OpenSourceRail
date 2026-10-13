@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6207**.
+Indexed Markdown files: **6211**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6207**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 224 |
-| [engineering](#engineering) | 62 |
+| [engineering](#engineering) | 66 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6277,6 +6277,10 @@ Indexed Markdown files: **6207**.
 | [`engineering/network-planning/baghdad/line-9-construction-plan.md`](../engineering/network-planning/baghdad/line-9-construction-plan.md) | line-9 — foundation and assembly construction plan |
 | [`engineering/network-planning/catalogue/README.md`](../engineering/network-planning/catalogue/README.md) | Residential network additions across the catalogue |
 | [`engineering/operations/README.md`](../engineering/operations/README.md) | Operations Management: Planning, Field Work And Exchange |
+| [`engineering/panel_response/README.md`](../engineering/panel_response/README.md) | Clipped panel response refinement |
+| [`engineering/panel_response/examples/README.md`](../engineering/panel_response/examples/README.md) | Retained panel response study |
+| [`engineering/panel_response/examples/cad/README.md`](../engineering/panel_response/examples/cad/README.md) | Native refined panel arrangements |
+| [`engineering/panel_response/examples/native-benchmark/README.md`](../engineering/panel_response/examples/native-benchmark/README.md) | Independent plate formulation verification |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 | [`engineering/toolchain/baseline-assurance.md`](../engineering/toolchain/baseline-assurance.md) | Engineering Baseline Assurance |
 | [`engineering/toolchain/tla/README.md`](../engineering/toolchain/tla/README.md) | Retained TLC assurance executable |
