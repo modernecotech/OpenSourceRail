@@ -54,4 +54,12 @@ The earlier browser matrix used the pinned WebKit binary with a local wrapper an
 
 A full local software release additionally requires clean-candidate `ci`, `kani`, `integrated-stack` and `example-city` receipts. This development verification does not claim that release gate or requalification of all 48 formal obligations.
 
+The [Kani diagnostic record](kani-diagnostics.json) preserves execution against
+clean candidate `2ebe96d1da63`: ATP and brake passed, while eight interlocking
+properties exhausted the canonical 4 GiB verifier allowance. Retrying the exact
+non-overlap harness with 8 GiB also exhausted memory; supported SMT alternatives
+encountered backend errors. These are unestablished properties, and the software
+release gate remains blocked. Their original source/tool/output hashes are
+retained; independent later checks cannot replace these failed results.
+
 The panel pilot fixes H80 core/skin dimensions while varying support spacing. Defined masses are 59.57, 65.10, 72.44 and 83.51 kg for 1.0, 0.5, 0.33 and 0.2 m supports. Corresponding combined pressure/clip-loss deflections are 28.87, 12.24, 6.78 and 3.87 mm. The first three fail the provisional 5 mm limit; the last still has unknown installed inventory/strength/fire/fatigue/physical qualification. All 112 individual clip-loss cases were retained.

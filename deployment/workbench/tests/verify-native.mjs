@@ -1,6 +1,7 @@
 // Local installed-stack acceptance. Credentials are read privately and never logged.
 import {chromium,expect} from '@playwright/test';
 import fs from 'node:fs';
+import {openWorkbenchModule} from './navigation.mjs';
 const browser=await chromium.launch();
 try {
  const page=await browser.newPage({viewport:{width:1600,height:1100}});
@@ -14,7 +15,7 @@ try {
  await frame.locator('.btn-login').click();
  await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
  console.log('PASS native ERP sign-in inside Workbench');
- await page.locator('[data-module=projects]').click();
+ await openWorkbenchModule(page,'projects');
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
  await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
  await frame.getByText('Revision dispositions',{exact:true}).click();
@@ -28,11 +29,11 @@ try {
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/docs\/lifecycle/);
  await expect(frame.locator('#overview')).toContainText('SAM-');
  console.log('PASS native ERP project to connected asset inside Workbench');
- await page.locator('[data-module=tasks]').click();
+ await openWorkbenchModule(page,'tasks');
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/task\?project=PROJ-0001/);
  await expect.poll(()=>frame.locator('body').evaluate(()=>(window.cur_list?.filter_area?.get() || []).map(row=>row.slice(0,4))),{timeout:30000}).toContainEqual(['Task','project','=','PROJ-0001']);
  console.log('PASS native ERP task list applies the selected city project filter');
- await page.locator('[data-module=fuxa]').click();
+ await openWorkbenchModule(page,'fuxa');
  const dialog=frame.locator('mat-dialog-container');await dialog.waitFor();
  const cfg=JSON.parse(fs.readFileSync('var/supervision/fuxa.json'));
  await dialog.locator('form input[type=text]').fill('operator');
@@ -49,7 +50,7 @@ try {
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/viewName=samawah.*SAM-RS-L1-001/);
  await expect(frame.locator('svg').filter({hasText:'SAM-RS-L1-001'}).first()).toBeVisible({timeout:30000});
  console.log('PASS native FUXA display follows Mosul and Samawah city selection');
- await page.locator('[data-module=lifecycle]').click();
+ await openWorkbenchModule(page,'lifecycle');
  await frame.locator('#asset').selectOption('SAM-ST-001:facilities');
  await frame.locator('#operatorActions summary').click();
  const credentials=JSON.parse(fs.readFileSync('var/supervision/integration.json'));

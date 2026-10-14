@@ -22,3 +22,22 @@ def test_nested_maps_and_missing_dependencies_are_reported(tmp_path):
     result=m.impact(['old.json'],tmp_path)
     assert result['invalidated'][0]['state']=='scope-review-required'
     assert result['invalidated'][0]['changed_sources'][0]['current_sha256'] is None
+
+
+def test_current_publication_detects_changed_output_locks_without_rewriting(tmp_path):
+    artifact='cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json'
+    source=tmp_path/'coupled/manifest.json';source.parent.mkdir();source.write_text('old')
+    path=tmp_path/artifact;path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(dict(sources_sha256={},
+        outputs_sha256={'coupled/manifest.json':hashlib.sha256(source.read_bytes()).hexdigest()},
+        # Context-free body hashes intentionally differ from full file bytes.
+        reference_bodies_sha256={'coupled/manifest.json':'a'*64})))
+    before=path.read_bytes()
+    assert m.impact([artifact],tmp_path)['invalidated']==[]
+    source.write_text('new')
+    report=m.impact([artifact],tmp_path)
+    assert report['current_regeneration_required']==[artifact]
+    assert report['invalidated'][0]['changed_sources'][0]['source']=='coupled/manifest.json'
+    assert report['invalidated'][0]['regenerate_command']==[
+        'tools/automation/osr-python','tools/automation/publish-city-summary.py']
+    assert path.read_bytes()==before

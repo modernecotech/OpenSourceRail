@@ -1,0 +1,548 @@
+{
+  "schema": "osr-kani-diagnostics/1",
+  "generated_at": "2026-10-14T20:11:54.162424+00:00",
+  "scope": "Actual local software-verifier executions only; native train dynamics and physical qualification are separate.",
+  "source_commit": "2ebe96d1da63e473adf96b4ac927673ccef0167e",
+  "source_tree": "30e598eac8f8e6919961990c28283b2dd67aea2f",
+  "source_clean_at_execution": true,
+  "source_unchanged_for_all_attempts": true,
+  "harness": {
+    "solution": "E1.1a",
+    "fully_qualified_name": "kani_proofs::kani_p2_non_overlap_two_trains",
+    "source_path": "crates/osr-interlocking/src/kani_proofs.rs",
+    "source_file_sha256": "6ce266acfadf6670bca95e75ef9b372cdac9e383eeea8f4620b6e608233abeba",
+    "definition_sha256": "fee3998535121c8b7bacd7183c67cacac832ea0832587097681dc884fe069a0e",
+    "definition_hash_encoding": "UTF-8; exact five-line attributed function without final newline",
+    "dependency_scope_sha256": "67d13883108ffac030c205869228a60d5e918afd8256c92c31936864ef7c630b",
+    "dependency_scope_encoding": "SHA256 of sorted compact JSON owner input map",
+    "dependency_scope_file_count": 365,
+    "dependency_scope_maps_retained_in_raw_owner_results": true
+  },
+  "toolchain": {
+    "versions": {
+      "python": "Python 3.13.15",
+      "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+      "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+      "kani": "cargo-kani 0.67.0",
+      "cbmc": "6.8.0"
+    },
+    "binary_sha256": {
+      "/home/hayder/.cargo/bin/cargo-kani": "d798c1a5efbb03a792544f3a59a4001df6f5e9a188ba0ef1a0022eee608e493c",
+      "/home/hayder/.kani/kani-0.67.0/bin/cbmc": "decfbd8336c557f663d539b3bb4b12aac3396009d616810d325bcd8b42b8a973",
+      "/home/hayder/.kani/kani-0.67.0/bin/kani-driver": "683f3ad1216e67686a39b2fcd6dc661f5090574f55fde9dd407966dca42cbfad",
+      "/home/hayder/.kani/kani-0.67.0/bin/kani-compiler": "f74488368997b6b4e0b417a2f5a3c8e598eccc907288c1a7875d9866056e9ffc"
+    },
+    "official_private_solvers": [
+      {
+        "tool": "Bitwuzla",
+        "version": "0.9.1",
+        "version_output": "0.9.1",
+        "release_url": "https://github.com/bitwuzla/bitwuzla/releases/tag/0.9.1",
+        "release_api": "https://api.github.com/repos/bitwuzla/bitwuzla/releases/tags/0.9.1",
+        "asset_url": "https://github.com/bitwuzla/bitwuzla/releases/download/0.9.1/Bitwuzla-Linux-x86_64-static.zip",
+        "asset_digest": "sha256:057f1546ae2068df57beb178f3eeab1678f0e5f0c378787a05b7bb294617c9c6",
+        "download_sha256": "057f1546ae2068df57beb178f3eeab1678f0e5f0c378787a05b7bb294617c9c6",
+        "binary_sha256": "d98164badcd34c12ccbbd9e5aab9373854bb187e79f99ccda4ec2aa9951c0eab",
+        "release_metadata_sha256": "9f309c4179590541d100a7c5d0c57b23b0e176f5ac0ff2173bb09b3fcd76b942",
+        "installation_scope": "Ignored private directory only; no global PATH or package changes",
+        "binary": "build/validation/private-host/toolchains/bitwuzla-0.9.1/bin/bitwuzla",
+        "provenance": "build/validation/private-host/toolchains/bitwuzla-0.9.1/download-provenance.json",
+        "provenance_sha256": "7a9b44e9298d5f93db8e89b67d6db9bfa879aa2528660f0e8b1b3a3f6eafe841",
+        "installation_sanity_fixtures_passed": true,
+        "installation_sanity_fixtures_are_qualification": false
+      },
+      {
+        "tool": "Z3",
+        "version": "4.15.4",
+        "version_output": "Z3 version 4.15.4 - 64 bit",
+        "release_url": "https://github.com/Z3Prover/z3/releases/tag/z3-4.15.4",
+        "release_api": "https://api.github.com/repos/Z3Prover/z3/releases/tags/z3-4.15.4",
+        "asset_url": "https://github.com/Z3Prover/z3/releases/download/z3-4.15.4/z3-4.15.4-x64-glibc-2.39.zip",
+        "asset_digest": "sha256:a41b690e89c343931471506cdc6d957b6044a200fd2d240cc017432afdff7d3e",
+        "download_sha256": "a41b690e89c343931471506cdc6d957b6044a200fd2d240cc017432afdff7d3e",
+        "binary_sha256": "44c00197fc576e02775a493dad255a20bb41fa5b4c47378a5f9d090cbc1a25c5",
+        "release_metadata_sha256": "383106c3a17d164caae70ba47f7d40b65f3a403f97cef06accd171e3d7c8c2d9",
+        "installation_scope": "Ignored private directory only; no global PATH or package changes",
+        "binary": "build/validation/private-host/toolchains/z3-4.15.4/bin/z3",
+        "provenance": "build/validation/private-host/toolchains/z3-4.15.4/download-provenance.json",
+        "provenance_sha256": "05e0a55942a168a65383d9305401982f879526c314068f57b66c65c817a33b50",
+        "installation_sanity_fixtures_passed": true,
+        "installation_sanity_fixtures_are_qualification": false
+      }
+    ]
+  },
+  "local_artifact_root": "build/validation/private-host/kani-checkout/build/validation/private-release",
+  "canonical": {
+    "profile": "kani",
+    "receipt": "review-kani-2ebe96d1da63/receipt.json",
+    "receipt_sha256": "caead0df1fa4a0ad370925a4e5c2b253e14a44c1ef19ffe83218c5b28669e69b",
+    "started_at": "2026-10-14T19:27:01.313951+00:00",
+    "completed_at": "2026-10-14T19:53:42.784806+00:00",
+    "passed": false,
+    "source_unchanged": true,
+    "commands_planned": 11,
+    "commands_executed": 3,
+    "stopped_after_first_failed_package": true,
+    "packages": [
+      {
+        "package": "osr-atp",
+        "passed": 7,
+        "failed": 0
+      },
+      {
+        "package": "osr-brake",
+        "passed": 5,
+        "failed": 0
+      },
+      {
+        "package": "osr-interlocking",
+        "passed": 3,
+        "failed": 8
+      }
+    ],
+    "declared_proofs_attempted": 23,
+    "declared_proofs_passed": 15,
+    "declared_proofs_failed": 8,
+    "remaining_declared_proofs_not_executed": 25,
+    "extra_canonical_proof_commands_not_executed": 3,
+    "proof_timeout_seconds": 600,
+    "per_process_virtual_memory_limit_mib": 4096,
+    "results": [
+      {
+        "solution": "E4.1a",
+        "harness": "kani_a1_determinism",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1a.log",
+        "log_sha256": "5cf54eae107c19ed5df6cf08078a3150b253aee848ca33935188f7f77e6dd6ef"
+      },
+      {
+        "solution": "E4.1b",
+        "harness": "kani_a2_expired_ma_trips",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1b.log",
+        "log_sha256": "ea97c9cf9e2f9ecd3ffe0d4acfa295274a781f66de31ce23cbc59389f2ffb7ab"
+      },
+      {
+        "solution": "E4.1c",
+        "harness": "kani_a3_unknown_position_trips",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1c.log",
+        "log_sha256": "da8f0bb5ba0bb989febecc95b882ecebbfd58f654783fdde28833c219d58b15f"
+      },
+      {
+        "solution": "E4.1d",
+        "harness": "kani_a4_train_mismatch_trips",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1d.log",
+        "log_sha256": "8e784a74c6b393d5d958dba55cc085909ed2be9bedd35308d50659fe5506ac24"
+      },
+      {
+        "solution": "E4.1e",
+        "harness": "kani_a5_head_past_ma_end_trips_same_section",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1e.log",
+        "log_sha256": "3ecad3c2a641cf47f3d27667f8a561243a49ec7d586d402e561837d256e6dea2"
+      },
+      {
+        "solution": "E4.1f",
+        "harness": "kani_a6_severe_overspeed_trips",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1f.log",
+        "log_sha256": "e4e5e9dd62cfe6aa0466618015b3b6cc902ae96c2db00f7f0f037efd11be97ba"
+      },
+      {
+        "solution": "E4.1g",
+        "harness": "kani_a7_uncertainty_widening_is_conservative",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-atp/E4.1g.log",
+        "log_sha256": "e1e2b38e8317f73be30dc322813810e0dac1e7295ca5618193018ad7d48b845a"
+      },
+      {
+        "solution": "E4.2a",
+        "harness": "kani_b1_determinism",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-brake/E4.2a.log",
+        "log_sha256": "d5e8339425c66757bdabf2062608251f5c90dd099170fc36f7abdada8899accc"
+      },
+      {
+        "solution": "E4.2b",
+        "harness": "kani_b2_emergency_union",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-brake/E4.2b.log",
+        "log_sha256": "882c66b977adb516fe19b79adb9ca639e2c4a6378b10c8a1bb9854af32298e3f"
+      },
+      {
+        "solution": "E4.2c",
+        "harness": "kani_b3_emergency_completeness",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-brake/E4.2c.log",
+        "log_sha256": "cdb4f3fde0d495e6ab922d980796c4a0ba40393dc499e76227a443385d73f711"
+      },
+      {
+        "solution": "E4.2d",
+        "harness": "kani_b4_wsp_conservative",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-brake/E4.2d.log",
+        "log_sha256": "aaab5caec880eed7fc131206498ee01721068076f5f7b66bd88934363f720c67"
+      },
+      {
+        "solution": "E4.2e",
+        "harness": "kani_b5_park_safe",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-brake/E4.2e.log",
+        "log_sha256": "5d861e5cedcdd190de643095c3ceb8eab1ca1a3c3d79af93170f130b7a713127"
+      },
+      {
+        "solution": "E1.1a",
+        "harness": "kani_p2_non_overlap_two_trains",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1a.log",
+        "log_sha256": "113e187162967b09aa0daf91210f04c3fac1dc48cd2ab436af0f4e7d2820addf"
+      },
+      {
+        "solution": "E1.1c",
+        "harness": "kani_p2_non_overlap_missing_verdict",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1c.log",
+        "log_sha256": "eb86aee7742e920581cbcd81b2797c32929b28c050dbeafe32bff5f9fd5c0f3f"
+      },
+      {
+        "solution": "E1.1d",
+        "harness": "kani_p2_non_overlap_unknown_verdict",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1d.log",
+        "log_sha256": "50115c26032b409e75b50591bcdc6f6835a68af8ff36cfec0bc93559ae569bab"
+      },
+      {
+        "solution": "E1.1e",
+        "harness": "kani_p2_non_overlap_present_verdict",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1e.log",
+        "log_sha256": "cb7ca6afbc5ed68e42c39c9c8ea635a11991e8966b6fc05738bbf7aaae1fe649"
+      },
+      {
+        "solution": "E1.1f",
+        "harness": "kani_p2_leading_train_clear",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1f.log",
+        "log_sha256": "1d01361bd7e9558c285b220644a1a23e5fcbaf76c2680926b36b7a4a8005a425"
+      },
+      {
+        "solution": "E1.1g",
+        "harness": "kani_p2_leading_train_missing",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1g.log",
+        "log_sha256": "002adb53682f38697efcd13367e6071c46ff065a6771fbebce3afa2b8c981a67"
+      },
+      {
+        "solution": "E1.1h",
+        "harness": "kani_p2_leading_train_unknown",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1h.log",
+        "log_sha256": "2b86b8d3e4a40e257e98acaa341955d63dd6e08a6342db5ed0cf7b58f8d592ce"
+      },
+      {
+        "solution": "E1.1i",
+        "harness": "kani_p2_leading_train_present",
+        "status": "failed",
+        "owner_exit_code": 1,
+        "outcome": "cbmc_out_of_memory",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E1.1i.log",
+        "log_sha256": "4d32c81a3128453cc5d7af3759f4ce61930df4e04a5a344c2a309be78c6d26c6"
+      },
+      {
+        "solution": "E2.1a",
+        "harness": "kani_p4_fail_restrictive_is_not_less_restrictive_than_known",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E2.1a.log",
+        "log_sha256": "144c50110bb7c8a72a4bb99915205b9acb41a46fc91d91e25f21986eb87613fd"
+      },
+      {
+        "solution": "E2.2a",
+        "harness": "kani_p5_time_bounded",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E2.2a.log",
+        "log_sha256": "387cfd5d5e5da16dc93c958d1612aae7c59ccbc0b7ac2dc2cd183a1b18e54c32"
+      },
+      {
+        "solution": "E3.1a",
+        "harness": "kani_p1_determinism",
+        "status": "passed",
+        "owner_exit_code": 0,
+        "outcome": "bounded_harness_pass",
+        "local_log": "review-kani-2ebe96d1da63/safety-execution-osr-interlocking/E3.1a.log",
+        "log_sha256": "4ada043e599ac59f19bc2d73e2fdb33c7d1a62037845149ef29c97e34370ee7c"
+      }
+    ]
+  },
+  "exact_harness_diagnostics": [
+    {
+      "solver": "cadical",
+      "memory_limit_mib": 8192,
+      "timeout_seconds": 600,
+      "owner_command": [
+        "tools/automation/osr-python",
+        "tools/automation/assurance-evidence.py",
+        "run",
+        "--solution",
+        "E1.1a",
+        "--timeout",
+        "600",
+        "--memory-mib",
+        "8192",
+        "--output",
+        "/home/hayder/Documents/OpenSourceRail/build/validation/private-host/kani-checkout/build/validation/private-release/review-kani-E1-1a-8192-2ebe96d1da63/owner"
+      ],
+      "output_transport_only_diagnostic": false,
+      "outcome": "cbmc_out_of_memory",
+      "proof_established": false,
+      "exit_code": 1,
+      "duration_seconds": 157.237,
+      "max_child_rss_kib": 7543480,
+      "source_unchanged": true,
+      "audit": "review-kani-E1-1a-8192-2ebe96d1da63/diagnostic.json",
+      "audit_sha256": "1f5d60a0f7a1ea3b076c9dbeb82aa6ab153eb10d0860703822636f4b8ac07866",
+      "logs": [
+        {
+          "path": "review-kani-E1-1a-8192-2ebe96d1da63/driver.log",
+          "sha256": "d40a52f1a5aae53e82880c6f0ed8964374bac2336baebf56046ce4c357880570"
+        },
+        {
+          "path": "review-kani-E1-1a-8192-2ebe96d1da63/owner/E1.1a.log",
+          "sha256": "5c6bfe86bd32142c7c7ba746b502c5a9233de56dc3a4542abc6303694b390dee"
+        }
+      ],
+      "wrapper_sha256": "827c000a828c03ced084cb6b539871063d8e52a399b4d8289f8a9fae4886be8b"
+    },
+    {
+      "solver": "bitwuzla",
+      "memory_limit_mib": 8192,
+      "timeout_seconds": 600,
+      "owner_command": [
+        "tools/automation/osr-python",
+        "tools/automation/assurance-evidence.py",
+        "run",
+        "--solution",
+        "E1.1a",
+        "--timeout",
+        "600",
+        "--memory-mib",
+        "8192",
+        "--output",
+        "/home/hayder/Documents/OpenSourceRail/build/validation/private-host/kani-checkout/build/validation/private-release/review-kani-E1-1a-bitwuzla-8192-2ebe96d1da63/owner",
+        "--solver",
+        "bitwuzla"
+      ],
+      "output_transport_only_diagnostic": false,
+      "outcome": "cbmc_error_and_kani_parser_panic_before_private_solver_installation",
+      "proof_established": false,
+      "exit_code": 1,
+      "duration_seconds": 55.028,
+      "max_child_rss_kib": 461280,
+      "source_unchanged": true,
+      "audit": "review-kani-E1-1a-bitwuzla-8192-2ebe96d1da63/diagnostic.json",
+      "audit_sha256": "7549d9f8eacf1d6eb4bca4c3a4a5691c283963923433294ca69d9c2a5d281ab9",
+      "logs": [
+        {
+          "path": "review-kani-E1-1a-bitwuzla-8192-2ebe96d1da63/driver.log",
+          "sha256": "44641b81e3b3150649af23026a46f0d170e81976d32d9690ffb25a2057acedd6"
+        },
+        {
+          "path": "review-kani-E1-1a-bitwuzla-8192-2ebe96d1da63/owner/E1.1a.log",
+          "sha256": "b105ce7e03ac864645f86312cdcc9858f122e709a6a0fce03561af2dd730b895"
+        }
+      ],
+      "wrapper_sha256": "827c000a828c03ced084cb6b539871063d8e52a399b4d8289f8a9fae4886be8b"
+    },
+    {
+      "solver": "bitwuzla",
+      "memory_limit_mib": 4096,
+      "timeout_seconds": 600,
+      "owner_command": [
+        "tools/automation/osr-python",
+        "tools/automation/assurance-evidence.py",
+        "run",
+        "--solution",
+        "E1.1a",
+        "--timeout",
+        "600",
+        "--memory-mib",
+        "4096",
+        "--output",
+        "/home/hayder/Documents/OpenSourceRail/build/validation/private-host/kani-checkout/build/validation/private-release/review-kani-E1-1a-bitwuzla-4096-2ebe96d1da63/owner",
+        "--solver",
+        "bitwuzla"
+      ],
+      "output_transport_only_diagnostic": false,
+      "outcome": "cbmc_error_and_kani_parser_panic_with_official_solver_installed",
+      "proof_established": false,
+      "exit_code": 1,
+      "duration_seconds": 50.921,
+      "max_child_rss_kib": 461436,
+      "source_unchanged": true,
+      "audit": "review-kani-E1-1a-bitwuzla-4096-2ebe96d1da63/diagnostic.json",
+      "audit_sha256": "fb0a1ccff212ba3be34214949e828b59486f9f78778698f57116dad23aae714e",
+      "logs": [
+        {
+          "path": "review-kani-E1-1a-bitwuzla-4096-2ebe96d1da63/driver.log",
+          "sha256": "31242b03fc408c454f07d6fb5f0dca04ad6b7c95f3f9a8a38205783c5d707109"
+        },
+        {
+          "path": "review-kani-E1-1a-bitwuzla-4096-2ebe96d1da63/owner/E1.1a.log",
+          "sha256": "8fa1b7d788bfc495ba8972e18961779f10ec8515c6747d9c11d901d709c99f5f"
+        }
+      ],
+      "wrapper_sha256": "cbef34c9ff6cd26aca7f2a3a9491d5fd9e371bdd44336ed8fd39ac8d5e0bd8c1"
+    },
+    {
+      "solver": "bitwuzla",
+      "memory_limit_mib": 4096,
+      "timeout_seconds": 600,
+      "owner_command": [
+        "cargo",
+        "kani",
+        "-p",
+        "osr-interlocking",
+        "--harness",
+        "kani_proofs::kani_p2_non_overlap_two_trains",
+        "--exact",
+        "--solver",
+        "bitwuzla",
+        "--output-format",
+        "old",
+        "--verbose"
+      ],
+      "output_transport_only_diagnostic": true,
+      "outcome": "raw_backend_verification_error_output_transport_diagnostic",
+      "proof_established": false,
+      "exit_code": 1,
+      "duration_seconds": 54.668,
+      "max_child_rss_kib": 1542540,
+      "source_unchanged": true,
+      "audit": "review-kani-E1-1a-bitwuzla-oldformat-4096-2ebe96d1da63/diagnostic.json",
+      "audit_sha256": "a49642645e777d437bce1a67775722680e6e757e25565fb70ff2a0b5dcd40244",
+      "logs": [
+        {
+          "path": "review-kani-E1-1a-bitwuzla-oldformat-4096-2ebe96d1da63/driver.log",
+          "sha256": "c52033848f5adff907f0917c80705fd08d835a23243919e861951a58227998e8"
+        }
+      ],
+      "wrapper_sha256": "96a533dca92e3eaead114b794ebdfe5a68bb317eed2dbd247190bb984746a070"
+    },
+    {
+      "solver": "z3",
+      "memory_limit_mib": 4096,
+      "timeout_seconds": 600,
+      "owner_command": [
+        "tools/automation/osr-python",
+        "tools/automation/assurance-evidence.py",
+        "run",
+        "--solution",
+        "E1.1a",
+        "--timeout",
+        "600",
+        "--memory-mib",
+        "4096",
+        "--output",
+        "/home/hayder/Documents/OpenSourceRail/build/validation/private-host/kani-checkout/build/validation/private-release/review-kani-E1-1a-z3-4096-2ebe96d1da63/owner",
+        "--solver",
+        "z3"
+      ],
+      "output_transport_only_diagnostic": false,
+      "outcome": "cbmc_map_at_exception_during_smt_ssa_conversion",
+      "proof_established": false,
+      "exit_code": 1,
+      "duration_seconds": 41.062,
+      "max_child_rss_kib": 672280,
+      "source_unchanged": true,
+      "audit": "review-kani-E1-1a-z3-4096-2ebe96d1da63/diagnostic.json",
+      "audit_sha256": "206831c0e0212e448d389cf7305346ba5392ce4f96e33b518447c375282dbe60",
+      "logs": [
+        {
+          "path": "review-kani-E1-1a-z3-4096-2ebe96d1da63/driver.log",
+          "sha256": "48af27c9ef469cc6ab74ca7ed6b92cd57c9599d5c48c48cb8e856ef04a59f8c0"
+        },
+        {
+          "path": "review-kani-E1-1a-z3-4096-2ebe96d1da63/owner/E1.1a.log",
+          "sha256": "bce7c1c872a905e282e92c44115961673cbb48f711fb5a5f527ca855ae407f95"
+        }
+      ],
+      "wrapper_sha256": "451990f8ce5c1a7b08c6b1699d57101b73935a3388b4675550263fb516ea5289"
+    }
+  ],
+  "decision": {
+    "underlying_interlocking_proof": "UNESTABLISHED",
+    "release_gate": "BLOCKED",
+    "bounded_passes_are_not_independent_acceptance": true,
+    "whole_interlocking_diagnostic_not_run": "Conditional prerequisite exact E1.1a pass was never established.",
+    "no_domain_harness_check_or_unwind_relaxation": true,
+    "no_canonical_memory_limit_change": true,
+    "no_limit_above_8192_mib_attempted": true,
+    "no_kani_or_cbmc_toolchain_upgrade": true,
+    "no_pass_retagging_or_transfer": true,
+    "remaining_work": "Resolve the pinned verifier resource/interface limitations and execute all canonical packages and extra harnesses on one clean candidate before claiming this gate passes.",
+    "independent_acceptance": false,
+    "physical_qualification": false,
+    "physical_release": false
+  },
+  "upstream_primary_sources": [
+    {
+      "url": "https://model-checking.github.io/kani/reference/attributes.html",
+      "role": "Official supported solver choices"
+    },
+    {
+      "url": "https://github.com/model-checking/kani/issues/4519",
+      "role": "Upstream report of ERROR enum parser panic in Kani 0.67.0"
+    },
+    {
+      "url": "https://github.com/model-checking/kani/pull/4540",
+      "role": "Upstream parser error handling fix; not installed or treated as a proof fix"
+    },
+    {
+      "url": "https://github.com/model-checking/kani/issues/4590",
+      "role": "Reported x86_64 SMT backend limitation; resemblance is diagnostic context, not proven root cause"
+    }
+  ]
+}

@@ -65,7 +65,7 @@ receipt even when its individual commands finish successfully.
 
 Install optional prerequisites for the checks you select: pinned Kani 0.67.0,
 cargo-audit 0.22.2, Java/TLC, Docker Compose and native CAD/engineering tools are
-needed by their respective profiles. The runner does not install them. `./osr doctor --profile minimal` (or `panel`, `civil`, `browser`, `cad-bim`, `formal`, `stack`) reports prerequisites and can retain an environment receipt. `./osr check --scope impact --changed <files> --plan` selects local tiers; `./osr check --scope all` retains the full periodic profile. Independent CI/Python/evidence/browser checks continue after a failure, and the aggregate receipt still fails. The
+needed by their respective profiles. The runner does not install them. `./osr doctor --profile minimal` (or `panel`, `civil`, `browser`, `cad-bim`, `formal`, `stack`) reports prerequisites and can retain an environment receipt. `./osr check --scope impact --changed <files> --plan` selects local tiers; `./osr check --scope all` retains the full periodic profile. Independent CI/Python/evidence/browser/Kani checks continue after a failure, and the aggregate receipt still fails. The
 `ci` profile retains the original generated-product prerequisites and exact
 Baghdad test-input bootstrap. Missing tools and inputs are failures, not skips.
 
@@ -73,7 +73,17 @@ Run native integration profiles in a fresh checkout on a disposable local host.
 They refuse existing fixture files, occupied service ports, and existing named
 Compose containers or volumes before starting. Their cleanup removes their
 evaluation volumes; city public evidence is copied into the receipt directory
-before cleanup. Private operational deployments must use their own workspace.
+before cleanup, including both native engineering-change reports and the recovery
+checkpoint/result reports. Missing, malformed or linked mandatory reports fail
+capture; their retained bytes are covered by the receipt's artifact hashes.
+Private operational deployments must use their own workspace.
+
+The [14 October Kani diagnostics](design-engine/kani-diagnostics.json) retain an
+actual failure on the earlier clean candidate `2ebe96d1da63`. The pinned
+Kani/CBMC combination exhausted the interlocking verifier's memory allowance;
+larger-memory and alternate-solver attempts did not establish those properties.
+This remains a release blocker. Collecting the other independent proof results
+does not turn a failed profile into a passing receipt.
 
 ## Publish source and release assets
 

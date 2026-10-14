@@ -573,17 +573,61 @@ def guard_containers(profile, root=ROOT):
 def capture_city(destination):
     import importlib.util
 
+    destination = Path(destination).absolute()
+    source = ROOT / "build/city-example"
+
+    def report_path(folder, name):
+        relative = Path(name)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError("unsafe city report path: " + name)
+        path = folder / relative
+        if not path.resolve().is_relative_to(folder.resolve()):
+            raise ValueError("unsafe city report path: " + name)
+        for part in (path, *path.parents):
+            if part.is_symlink():
+                raise ValueError("unsafe city report link: " + name)
+            if part == ROOT:
+                break
+        return path
+
+    for folder in (source, destination):
+        if not folder.resolve().is_relative_to(ROOT.resolve()):
+            raise ValueError("city capture must remain inside the checkout")
+        report_path(folder, ".")
+    manifest_path = report_path(source, "city-evidence.json")
+    manifest = json.loads(manifest_path.read_bytes())
+    additional = (
+        "engineering-change-samawah.json",
+        "engineering-change-mosul.json",
+        "recovery-checkpoint.json",
+        "recovery-result.json",
+    )
+    payloads = {}
+    for name in dict.fromkeys(
+        ["city-evidence.json", *manifest["reports"], *additional]
+    ):
+        path = report_path(source, name)
+        if not path.is_file():
+            raise ValueError("missing mandatory city report: " + name)
+        raw = path.read_bytes()
+        json.loads(raw)
+        payloads[name] = raw
+        report_path(destination, name)
     spec = importlib.util.spec_from_file_location(
         "local_city_evidence", ROOT / "deployment/example-city/evidence.py"
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    source = ROOT / "build/city-example"
-    manifest = module.validate(source, git(ROOT, "rev-parse", "HEAD"))
-    for name in ["city-evidence.json", *manifest["reports"]]:
+    validated = module.validate(source, git(ROOT, "rev-parse", "HEAD"))
+    if manifest != validated or any(
+        hashlib.sha256(payloads[name]).hexdigest() != expected
+        for name, expected in validated["reports"].items()
+    ):
+        raise ValueError("city report changed during capture")
+    for name, raw in payloads.items():
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(source / name, target)
+        target.write_bytes(raw)
 
 
 def artifact_hashes(profile, folder):
@@ -715,7 +759,14 @@ def run(profile, output, root=ROOT):
         )
         path.write_text(encode(receipt))
         print(item["name"], rows[-1]["status"], flush=True)
-        if code and profile not in {"ci", "python", "evidence", "rust", "browser"}:
+        if code and profile not in {
+            "ci",
+            "python",
+            "evidence",
+            "rust",
+            "browser",
+            "kani",
+        }:
             break
     after = snapshot(root)
     receipt["source_unchanged"] = before == after

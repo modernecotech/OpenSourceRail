@@ -61,8 +61,9 @@ def test_success_is_verifiable_and_logs_stay_ignored(checkout):
     assert not LOCAL.git(root, "status", "--porcelain")
 
 
+@pytest.mark.parametrize("profile", ["ci", "kani"])
 def test_independent_source_checks_still_run_after_a_coherence_failure(
-    checkout, monkeypatch
+    checkout, monkeypatch, profile
 ):
     root, output = checkout
     monkeypatch.setattr(
@@ -80,7 +81,7 @@ def test_independent_source_checks_still_run_after_a_coherence_failure(
             ),
         ],
     )
-    row = LOCAL.run("ci", output, root)
+    row = LOCAL.run(profile, output, root)
     assert row["passed"] is False
     assert [r["exit_code"] for r in row["results"]] == [7, 0]
     assert "independent suite executed" in (output / "001.log").read_text()

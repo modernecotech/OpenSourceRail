@@ -3,6 +3,7 @@ import {chromium,expect as baseExpect} from '@playwright/test';
 const expect=baseExpect.configure({timeout:30000});
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
+import {openWorkbenchModule} from '../workbench/tests/navigation.mjs';
 const output='build/city-example/';
 const privateRoot='var/city-example/';
 const setup=JSON.parse(fs.readFileSync(output+'setup.json'));
@@ -31,7 +32,7 @@ try {
  await frame.locator('.btn-login').click();
  await expect.poll(()=>frameState(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
  passed('Native ERP login inside isolated Workbench');
- await page.locator('[data-module=projects]').click();
+ await openWorkbenchModule(page,'projects');
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8180/app/project/'+setup.projects.samawah);
  await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
  await frame.getByText('Connected lifecycle',{exact:true}).click();
@@ -52,13 +53,13 @@ try {
  await page.evaluate(()=>window.scrollTo(0,0));
  await page.screenshot({path:output+'workbench-lifecycle.png',fullPage:true});
  passed('Manufactured serial, native execution records and hashed CAD evidence share the asset context');
- await page.locator('[data-module=tasks]').click();
+ await openWorkbenchModule(page,'tasks');
  await expect.poll(()=>frameState(()=>(window.cur_list?.filter_area?.get() || []).map(row=>row.slice(0,4)))).toContainEqual(['Task','project','=',setup.projects.samawah]);
  await page.screenshot({path:output+'workbench-erp.png',fullPage:true});
  passed('Native task filter follows the actual city project');
  await page.locator('#citySelector').selectOption('mosul');
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',new RegExp('task\\?project='+setup.projects.mosul));
- await page.locator('[data-module=fuxa]').click();
+ await openWorkbenchModule(page,'fuxa');
  const dialog=frame.locator('mat-dialog-container');await dialog.waitFor();
  await dialog.locator('form input[type=text]').fill('operator');
  await dialog.locator('input[type=password]').fill(fuxa.operator_password);
@@ -103,7 +104,7 @@ try {
  passed('Workbench command reaches native controller and returns measured feedback');
  await page.locator('#mode').selectOption('design');
  await page.locator('#role').selectOption('designer');
- await page.locator('[data-module=studio]').click();
+ await openWorkbenchModule(page,'studio');
  await expect(frame.locator('#summary .summary-card').first()).toBeVisible({timeout:60000});
  await frame.locator('#network-map .station').first().click();
  const [materialized]=await Promise.all([
@@ -140,7 +141,7 @@ try {
  await expect.poll(frontendState,{timeout:120000}).toMatchObject({app:'occ',ready:true,error:null,context:{revision,baseline_sha256:approvedRevision.content_sha256,run_id:run}});
  await expect(page.locator('#contextRun')).toHaveText(run);
  passed('City Studio revision and simulation baseline reach native simulator and OCC replay');
- await page.locator('[data-module=operations]').click();
+ await openWorkbenchModule(page,'operations');
  await expect(frame.locator('#cityName')).toHaveText('Samawah');
  const workTitle='Example city railway inspection handoff '+run;
  await frame.locator('#coreTitle').fill(workTitle);

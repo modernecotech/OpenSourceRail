@@ -1,5 +1,38 @@
 import { expect, test } from '@playwright/test';
+import {openWorkbenchModule} from '../../deployment/workbench/tests/navigation.mjs';
 const base='http://127.0.0.1:4177';
+test('native lifecycle handoff can return through visible task areas to ERP tasks and supervision',async({page})=>{
+  await page.route('**/api/workbench/city?**',r=>r.fulfill({json:{
+    city:'samawah',environment:'simulation',
+    erp:{state:'connected',project:'PROJ-0001',stale:false,routes:{
+      projects:'/app/project/PROJ-0001',tasks:'/app/task?project=PROJ-0001',
+    }},
+    supervision:{state:'prepared',sites:['SAM-ST-001'],preferred_site:'SAM-ST-001',equipment_count:4},
+  }}));
+  await page.route('http://127.0.0.1:8080/**',r=>r.fulfill({contentType:'text/html',body:`
+    <button onclick="parent.postMessage({type:'osr:navigate',module:'lifecycle',context:{city:'samawah',selected_asset:'SAM-ST-001:facilities',environment:'simulation'}},'${base}')">Connected lifecycle</button>
+  `}));
+  await page.route('http://127.0.0.1:1881/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Native supervision fixture</h1>'}));
+  await page.goto(base+'/?module=erp&city=samawah');
+  await openWorkbenchModule(page,'projects');
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
+  await page.frameLocator('#moduleFrame').getByRole('button',{name:'Connected lifecycle',exact:true}).click();
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/\/docs\/lifecycle\//);
+  await expect(page.locator('[data-area=Maintain]')).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('[data-module=tasks]')).toBeHidden();
+  await expect(page.locator('#contextAsset')).toHaveText('SAM-ST-001:facilities');
+  await openWorkbenchModule(page,'tasks');
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/task?project=PROJ-0001');
+  await expect(page.locator('[data-area=Deliver]')).toHaveAttribute('aria-pressed','true');
+  await openWorkbenchModule(page,'fuxa');
+  await expect(page.frameLocator('#moduleFrame').locator('h1')).toHaveText('Native supervision fixture');
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/viewName=samawah.*SAM-ST-001/);
+  await expect(page.locator('[data-area=Operate]')).toHaveAttribute('aria-pressed','true');
+  await openWorkbenchModule(page,'lifecycle');
+  await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/\/docs\/lifecycle\//);
+  await expect(page.locator('[data-area=Maintain]')).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('#contextAsset')).toHaveText('SAM-ST-001:facilities');
+});
 test('city switch clears railway authority and uses the selected city bundle',async({page})=>{
   await page.goto(base+'/?module=operations&city=samawah&mode=training&role=reviewer&selected_asset=SAM-ST-001&baseline_sha256='+'a'.repeat(64)+'&revision=osr-1234567890abcdef&run_id=run-1234567890abcdef');
   await page.locator('#citySelector').selectOption('mosul');

@@ -12,6 +12,8 @@ import subprocess
 
 ROOT=Path(__file__).resolve().parents[2]
 OWNERS={
+ 'cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json':
+  ['tools/automation/osr-python','tools/automation/publish-city-summary.py'],
  'engineering/assurance/baghdad-test-inputs/manifest.json':
   ['tools/automation/osr-python','tools/automation/pack-baghdad-test-inputs.py'],
  'cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/manifest.json':
@@ -40,16 +42,16 @@ HISTORICAL={'engineering/civil_exploration/examples/automated-parts-review.json'
 KEYS={'source_sha256','sources_sha256','source_hashes','sources'}
 
 
-def dependency_maps(value):
+def dependency_maps(value, *, publication_outputs=False):
     if isinstance(value,dict):
         for key,child in value.items():
-            if key in KEYS and isinstance(child,dict):
+            if (key in KEYS or publication_outputs and key=='outputs_sha256') and isinstance(child,dict):
                 for name,digest in child.items():
                     if isinstance(name,str) and isinstance(digest,str) and len(digest)==64 and ('/' in name or Path(name).suffix):
                         yield name,digest
-            yield from dependency_maps(child)
+            yield from dependency_maps(child,publication_outputs=publication_outputs)
     elif isinstance(value,list):
-        for child in value:yield from dependency_maps(child)
+        for child in value:yield from dependency_maps(child,publication_outputs=publication_outputs)
 
 
 def impact(paths=None,root=ROOT):
@@ -65,7 +67,7 @@ def impact(paths=None,root=ROOT):
         try:record=json.loads(raw)
         except (ValueError,UnicodeDecodeError):continue
         changes=[]
-        for source,expected in sorted(set(dependency_maps(record))):
+        for source,expected in sorted(set(dependency_maps(record,publication_outputs=path.name=='publication-manifest.json'))):
             target=(root/source).resolve()
             if not target.is_relative_to(root.resolve()):raise ValueError('dependency escapes repository: '+source)
             if source not in cache:cache[source]=hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else None

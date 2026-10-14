@@ -19,31 +19,137 @@ def data(name):
     return json.loads((PROPOSAL/name).read_text())
 
 
-def test_proposal_sources_outputs_and_complete_archive_are_current():
-    manifest = data('manifest.json')
+def verify_proposal_snapshot(root, proposal, manifest, *, retained_context_paths=()):
+    """Verify original archive bytes; only separately checked contexts may evolve.
+
+    Route, price, finance and publication-output drift still fails. The two
+    evolving research/publication manifests are not adopted proposal inputs;
+    their original declared bytes must remain intact in the retained archive.
+    """
     from proposal_archives import part_inventory, read_members
     inventory=part_inventory(manifest)
     flattened=[name for names in inventory.values() for name in names]
     assert len(flattened)==len(set(flattened))
     assert set(flattened)==set(manifest['archive_members'])
-    members=data('archive-manifest.json')['members']
-    archive_manifest_path=(PROPOSAL/'archive-manifest.json').relative_to(ROOT).as_posix()
+    members=json.loads((proposal/'archive-manifest.json').read_text())['members']
+    archive_manifest_path=(proposal/'archive-manifest.json').relative_to(root).as_posix()
     assert set(members)==set(flattened)-{archive_manifest_path}
+    archived_receipts={}
     for part,names in inventory.items():
-        with zipfile.ZipFile(PROPOSAL/part) as archive:assert archive.testzip() is None
-        raw_members=read_members(ROOT,PROPOSAL,manifest,names)
+        with zipfile.ZipFile(proposal/part) as archive:assert archive.testzip() is None
+        raw_members=read_members(root,proposal,manifest,names)
         for relative,raw in raw_members.items():
+            archived_receipts[relative]=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
             if relative in members:
                 assert len(raw)==members[relative]['bytes'],relative
                 assert hashlib.sha256(raw).hexdigest()==members[relative]['sha256'],relative
     for group in ('inputs','outputs'):
         for relative,receipt in manifest[group].items():
-            source=ROOT/relative
+            source=root/relative
+            assert source.resolve().is_relative_to(root.resolve()),relative
+            if relative in archived_receipts:
+                assert archived_receipts[relative]==receipt,relative
+            if group=='inputs':
+                assert relative in members
+                if relative in retained_context_paths:
+                    continue
             assert source.stat().st_size==receipt['bytes'],relative
             assert hashlib.sha256(source.read_bytes()).hexdigest()==receipt['sha256'],relative
-            if group=='inputs':assert relative in members
-    assert (PROPOSAL/'Baghdad-Proposal.pdf').read_bytes().startswith(b'%PDF-')
+    for relative,receipt in manifest.get('companion_archives',{}).items():
+        source=root/relative
+        assert source.resolve().is_relative_to(root.resolve()),relative
+        assert source.stat().st_size==receipt['bytes'],relative
+        assert hashlib.sha256(source.read_bytes()).hexdigest()==receipt['sha256'],relative
+        with zipfile.ZipFile(source) as archive:assert archive.testzip() is None
+    assert (proposal/'Baghdad-Proposal.pdf').read_bytes().startswith(b'%PDF-')
     assert all(v['bytes'] <= 50*1024*1024 for v in manifest['outputs'].values())
+
+
+def retained_research_context_paths(city=CITY, root=ROOT):
+    """Require live non-adoption policy and current source-bound publication."""
+    import importlib.util
+    from iraq_current_basis import current_basis
+
+    basis=json.loads((city.parent/'CURRENT-PLANNING-BASIS.json').read_text())
+    assert basis==current_basis(), 'Current Iraq publication basis is stale'
+    assert basis['financial_case']['status']=='unquoted-retained-financial-comparator'
+    study=city/'engineering/coupled-programme'
+    manifest=json.loads((study/'manifest.json').read_text())
+    summary=json.loads((study/'summary.json').read_text())
+    assert manifest['engineering_and_financial_adoption'] is False
+    assert summary['financial_baseline_replaced'] is False
+    for base,key in ((root,'sources_sha256'),(study,'outputs_sha256')):
+        for name,digest in manifest[key].items():
+            assert hashlib.sha256((base/name).read_bytes()).hexdigest()==digest,name
+    spec=importlib.util.spec_from_file_location('proposal_current_publication',root/'tools/automation/publish-city-summary.py')
+    publisher=importlib.util.module_from_spec(spec);spec.loader.exec_module(publisher)
+    publisher.publish(city/'design.toml',city/'baghdad.toml',city/'README.md',check=True)
+    return {(study/'manifest.json').relative_to(root).as_posix(),
+            (city/'publication-manifest.json').relative_to(root).as_posix()}
+
+
+def test_proposal_snapshot_and_current_nonadopted_contexts_are_verified():
+    contexts=retained_research_context_paths()
+    verify_proposal_snapshot(ROOT,PROPOSAL,data('manifest.json'),retained_context_paths=contexts)
+
+
+@pytest.fixture
+def retained_proposal(tmp_path):
+    proposal=tmp_path/'proposal';proposal.mkdir()
+    route=proposal/'route.json';route.write_bytes(b'{"length":1}')
+    context=proposal/'context.json';context.write_bytes(b'{"revision":1}')
+    pdf=proposal/'Baghdad-Proposal.pdf';pdf.write_bytes(b'%PDF-retained fixture')
+    def receipt(path):
+        return dict(bytes=path.stat().st_size,sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    paths=[route,context,pdf]
+    archive_manifest=proposal/'archive-manifest.json'
+    archive_manifest.write_text(json.dumps(dict(members={p.relative_to(tmp_path).as_posix():receipt(p) for p in paths})))
+    paths.append(archive_manifest)
+    archive=proposal/'Baghdad-Proposal-Supporting-Data.zip'
+    with zipfile.ZipFile(archive,'w') as stream:
+        for p in paths:stream.writestr(p.relative_to(tmp_path).as_posix(),p.read_bytes())
+    names=[p.relative_to(tmp_path).as_posix() for p in paths]
+    manifest=dict(inputs={p.relative_to(tmp_path).as_posix():receipt(p) for p in (route,context)},
+                  outputs={p.relative_to(tmp_path).as_posix():receipt(p) for p in (pdf,archive_manifest,archive)},
+                  archive_members=names,supporting_archives={archive.name:names})
+    return tmp_path,proposal,manifest,route,context,pdf,archive
+
+
+def test_only_explicit_retained_context_can_differ_from_archived_inputs(retained_proposal):
+    root,proposal,manifest,route,context,_,_=retained_proposal
+    contexts={context.relative_to(root).as_posix()}
+    context.write_bytes(b'{"revision":2}')
+    verify_proposal_snapshot(root,proposal,manifest,retained_context_paths=contexts)
+    with pytest.raises(AssertionError,match='context.json'):
+        verify_proposal_snapshot(root,proposal,manifest)  # current/adopted comparison stays strict
+    route.write_bytes(b'{"length":2}')
+    with pytest.raises(AssertionError,match='route.json'):
+        verify_proposal_snapshot(root,proposal,manifest,retained_context_paths=contexts)
+
+
+@pytest.mark.parametrize('change',['archive','output','declared-input','declared-output'])
+def test_retained_context_does_not_mask_archive_output_or_receipt_tampering(retained_proposal,change):
+    root,proposal,manifest,_,context,pdf,archive=retained_proposal
+    contexts={context.relative_to(root).as_posix()}
+    if change=='archive':archive.write_bytes(b'corrupt archive')
+    elif change in ('output','declared-output'):
+        pdf.write_bytes(b'%PDF-altered fixture!')
+        if change=='declared-output':
+            manifest['outputs'][pdf.relative_to(root).as_posix()]=dict(bytes=pdf.stat().st_size,sha256=hashlib.sha256(pdf.read_bytes()).hexdigest())
+    else:manifest['inputs'][context.relative_to(root).as_posix()]['sha256']='0'*64
+    with pytest.raises((AssertionError,ValueError,zipfile.BadZipFile)):
+        verify_proposal_snapshot(root,proposal,manifest,retained_context_paths=contexts)
+
+
+def test_adopted_coupled_case_cannot_use_retained_proposal_exception(monkeypatch):
+    original=json.loads
+    def adopted(raw,*args,**kwargs):
+        value=original(raw,*args,**kwargs)
+        if isinstance(value,dict) and 'financial_baseline_replaced' in value:
+            value['financial_baseline_replaced']=True
+        return value
+    monkeypatch.setattr(json,'loads',adopted)
+    with pytest.raises(AssertionError):retained_research_context_paths()
 
 
 def test_every_baghdad_document_and_financial_case_is_included():

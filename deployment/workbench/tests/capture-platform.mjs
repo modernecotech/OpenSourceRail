@@ -1,6 +1,7 @@
 // Capture the installed simulation UI. Never capture credentials or synthetic mock pages.
 import {chromium,expect} from '@playwright/test';
 import fs from 'node:fs';
+import {openWorkbenchModule} from './navigation.mjs';
 const browser=await chromium.launch();
 try {
  const page=await browser.newPage({viewport:{width:1680,height:1350}});
@@ -11,13 +12,13 @@ try {
  const snapshot=await (await page.request.get(base+'api/lifecycle/snapshot?city=samawah&environment=simulation')).json();
  await expect(frame.locator('#assetResults article')).toHaveCount(snapshot.assets.length);
  await page.screenshot({path:'docs/screenshots/workbench/lifecycle-overview.png',fullPage:true});
- await page.locator('[data-module=projects]').click();
+ await openWorkbenchModule(page,'projects');
  const env=Object.fromEntries(fs.readFileSync('var/erpnext/local.env','utf8').trim().split('\n').map(l=>[l.split('=')[0],l.slice(l.indexOf('=')+1)]));
  await frame.locator('#login_email').fill('Administrator');
  await frame.locator('#login_password').fill(env.ADMIN_PASSWORD);
  await frame.locator('.btn-login').click();
  await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
- await page.locator('[data-module=projects]').click();
+ await openWorkbenchModule(page,'projects');
  await frame.getByRole('button',{name:'OpenSourceRail',exact:true}).click();
  await expect(frame.getByText('Operating components',{exact:true})).toBeVisible();
  await page.screenshot({path:'docs/screenshots/workbench/erp-city-project.png',fullPage:true});
@@ -26,7 +27,7 @@ try {
  await expect(frame.locator('#measurements')).toContainText('valid');
  await expect(frame.locator('#alarms')).toContainText('ERP ISS-');
  await page.screenshot({path:'docs/screenshots/workbench/vehicle-maintenance.png',fullPage:true});
- await page.locator('[data-module=fuxa]').click();
+ await openWorkbenchModule(page,'fuxa');
  const dialog=frame.locator('mat-dialog-container');
  const cfg=JSON.parse(fs.readFileSync('var/supervision/fuxa.json'));
  await dialog.locator('form input[type=text]').fill('operator');

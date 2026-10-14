@@ -2,6 +2,7 @@
 // Actual transaction, permission, stale-review and idempotency checks live in verify-lifecycle.py.
 import {chromium,expect} from '@playwright/test';
 import fs from 'node:fs';
+import {openWorkbenchModule} from './navigation.mjs';
 const browser=await chromium.launch();
 let page;
 try {
@@ -14,7 +15,7 @@ try {
  await frame.locator('#login_password').fill(env.ADMIN_PASSWORD);
  await frame.locator('.btn-login').click();
  await expect.poll(()=>frame.locator('body').evaluate(()=>window.frappe?.session?.user),{timeout:60000}).toBe('Administrator');
- await page.locator('[data-module=projects]').click();
+ await openWorkbenchModule(page,'projects');
  await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/project/PROJ-0001');
  // ERP's asynchronous Administrator update notice is a separate native modal.
  // Dismiss it through its visible close button, even if it arrives mid-flow.
