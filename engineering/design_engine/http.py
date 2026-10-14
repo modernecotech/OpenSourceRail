@@ -9,84 +9,16 @@ from urllib.parse import parse_qs, urlsplit
 from .contracts import load, identity
 from .registry import ROOT, problems, dependencies
 from .runtime import Manager, request, comparison, toolchain, preflight
-from .review import ReviewStore, REQUIRED
+from .review import ReviewStore, REQUIRED, normalize_record_scope
 
 LOCK = threading.Lock()
 
 
-def qualification_template(kind, contract, scope):
-    from .civil_qualification import input_templates
-
-    if kind in {"site", "prestress"}:
-        return input_templates(contract, scope)[kind + "_input"]
-    if kind != "manufacturing":
-        raise ValueError("supported qualification draft kind required")
-    identifier = contract["parts"][0]["id"]
-    return dict(schema="osr-manufacturing-plan/1",
-                part_rules=[dict(physical_id=identifier, stock_bounds_m=[None]*3, minimum_wall_m=None, basis_reference=None)],
-                tool_envelopes=[dict(physical_id=identifier, bounds_m=[[None]*3,[None]*3], keepout_part_ids=[], basis_reference=None)],
-                removal_paths=[dict(physical_id=identifier, bounds_m=[[None]*3,[None]*3], translation_m=[None]*3, keepout_part_ids=[], basis_reference=None)],
-                tolerance_stacks=[dict(physical_id=identifier, nominal_clearance_m=None, required_clearance_m=None,
-                                      contributors=[dict(physical_id=identifier, plus_minus_m=None)], basis_reference=None)],
-                tooling=[dict(id=None, kind=None, count=None, physical_part_ids=[identifier], basis_reference=None)])
-
-
-def _draft_structure(value, template, path="input", depth=0):
-    """Strict structural fields, finite values and bounded future records."""
-    import math
-
-    if depth > 48:
-        raise ValueError("qualification draft nesting exceeds limit")
-    if value is None:
-        return
-    if isinstance(value, float) and not math.isfinite(value):
-        raise ValueError("nonfinite qualification draft value")
-    if isinstance(template, dict):
-        if not isinstance(value, dict) or set(value) != set(template):
-            raise ValueError("exact qualification fields required: " + path)
-        for key in value:
-            _draft_structure(value[key], template[key], path + "." + key, depth+1)
-    elif isinstance(template, list):
-        if not isinstance(value, list) or len(value) > 1024:
-            raise ValueError("bounded qualification list required: " + path)
-        if template:
-            exemplar = template[0]
-        elif path.endswith(".route_station_constraints"):
-            exemplar = dict(id=None,kind=None,source=dict(reference=None,sha256=None,basis=None),
-                            available=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)),
-                            required=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)),
-                            uncertainty=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)))
-        elif path.endswith(".observations"):
-            exemplar = dict(id=None,description=None,position_m=[None]*3)
-        else:
-            exemplar = None
-        for index, row in enumerate(value):
-            _draft_structure(row, exemplar, path + f"[{index}]", depth+1)
-    elif isinstance(value, (dict, list)):
-        # Optional prestress losses use the same source-qualified scalar shape.
-        if path.endswith((".creep_loss", ".shrinkage_loss", ".relaxation_loss")):
-            _draft_structure(value, dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)), path, depth+1)
-        elif path.endswith((".coverage_bounds_m", ".design_origin_in_crs_m", ".design_axes_in_crs")) and isinstance(value, list):
-            for index, row in enumerate(value):
-                if isinstance(row, list):
-                    for item in row:
-                        _draft_structure(item,None,path,depth+1)
-                else:
-                    _draft_structure(row,None,path,depth+1)
-        else:
-            raise ValueError("scalar qualification value required: " + path)
-
-
-def _draft_missing(value, path="input"):
-    if path.endswith((".identity", ".creep_loss", ".shrinkage_loss", ".relaxation_loss")):
-        return []
-    if value is None or value == "" or value == []:
-        return [path]
-    if isinstance(value, dict):
-        return [p for key,row in value.items() for p in _draft_missing(row,path+"."+key)]
-    if isinstance(value, list):
-        return [p for i,row in enumerate(value) for p in _draft_missing(row,path+f"[{i}]")]
-    return []
+from .engineering_inputs import (
+    qualification_template,
+    draft_structure as _draft_structure,
+    draft_missing as _draft_missing,
+)
 
 
 def qualification_draft(store, job, candidate, data, scope, actor):
@@ -94,87 +26,140 @@ def qualification_draft(store, job, candidate, data, scope, actor):
     import shutil
     import tempfile
     from .contracts import fingerprint
-    from .civil_qualification import assess_site, foundation_geometry, prestress_assessment
+    from .civil_qualification import (
+        assess_site,
+        foundation_geometry,
+        prestress_assessment,
+    )
     from .manufacturing_rules import evaluate
     from .store import write_new
 
     adapter = job["request"]["problem"]["adapter"]
     if scope != job["request"]["identity"]:
-        raise PermissionError("qualification draft requires the exact original job identity")
-    if job["request"]["dependencies"] != dependencies(adapter) or job["request"]["toolchain"] != toolchain(adapter):
-        raise ValueError("qualification draft requires current job sources and toolchain")
+        raise PermissionError(
+            "qualification draft requires the exact original job identity"
+        )
+    if job["request"]["dependencies"] != dependencies(adapter) or job["request"][
+        "toolchain"
+    ] != toolchain(adapter):
+        raise ValueError(
+            "qualification draft requires current job sources and toolchain"
+        )
     contract = candidate.get("definition", {}).get("contract")
     if not contract or data["contract_sha256"] != fingerprint(contract):
-        raise ValueError("qualification draft requires the exact physical candidate hash")
+        raise ValueError(
+            "qualification draft requires the exact physical candidate hash"
+        )
     kind = data["kind"]
     proposed = decode_definition(data["input_json"])
-    template = qualification_template(kind,contract,scope)
-    _draft_structure(proposed,template)
-    if not isinstance(proposed,dict):
+    template = qualification_template(kind, contract, scope)
+    _draft_structure(proposed, template)
+    if not isinstance(proposed, dict):
         raise ValueError("structured qualification draft required")
     if kind != "manufacturing":
-        if proposed["identity"] != scope or proposed["contract_sha256"] != fingerprint(contract):
-            raise PermissionError("qualification inputs belong to another identity or physical contract")
+        if proposed["identity"] != scope or proposed["contract_sha256"] != fingerprint(
+            contract
+        ):
+            raise PermissionError(
+                "qualification inputs belong to another identity or physical contract"
+            )
     missing = _draft_missing(proposed)
     if kind == "site":
         partial = deepcopy(proposed)
-        for name in ("survey","layers","groundwater","utilities","calibration","route_station_constraints"):
+        for name in (
+            "survey",
+            "layers",
+            "groundwater",
+            "utilities",
+            "calibration",
+            "route_station_constraints",
+        ):
             if _draft_missing(partial[name]):
                 partial[name] = None
-        result = assess_site(partial,context=scope,contract=contract,
-                             required_depth_m=foundation_geometry(contract)["minimum_investigation_depth_m"])
+        result = assess_site(
+            partial,
+            context=scope,
+            contract=contract,
+            required_depth_m=foundation_geometry(contract)[
+                "minimum_investigation_depth_m"
+            ],
+        )
+    elif kind == "foundation":
+        from .foundation_response import assess_foundation_response
+
+        result = assess_foundation_response(
+            contract, None if missing else proposed, context=scope
+        )
     elif kind == "prestress":
-        trace = load(ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json")
-        result = prestress_assessment(contract,trace,None if missing else proposed,context=scope)
+        trace = load(
+            ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json"
+        )
+        result = prestress_assessment(
+            contract, trace, None if missing else proposed, context=scope
+        )
     else:
         partial = deepcopy(proposed)
-        for name in ("part_rules","tool_envelopes","removal_paths","tolerance_stacks","tooling"):
-            partial[name] = [row for row in (partial[name] or []) if not _draft_missing(row)]
+        for name in (
+            "part_rules",
+            "tool_envelopes",
+            "removal_paths",
+            "tolerance_stacks",
+            "tooling",
+        ):
+            partial[name] = [
+                row for row in (partial[name] or []) if not _draft_missing(row)
+            ]
         amended = deepcopy(contract)
         amended["manufacturing_plan"] = partial
         result = evaluate(amended)
     if job["request"]["dependencies"] != dependencies(adapter):
         raise ValueError("job sources changed during qualification validation")
-    payload = dict(schema="osr-qualification-input-draft/1", identity=scope,job=job["id"],
-                   candidate=candidate["id"],kind=kind,contract_sha256=fingerprint(contract),
-                   input_sha256=fingerprint(proposed),draft_sha256=fingerprint(dict(request=data,actor=actor["username"])),
-                   actor=actor["username"],missing_fields=missing,assessment=result,
-                   state="draft",baseline_modified=False,physical_release=False,
-                   independent_acceptance=False,source_files_verified=False)
-    folder = store.root / "planning-drafts" / ("qualification-"+payload["draft_sha256"])
+    payload = dict(
+        schema="osr-qualification-input-draft/1",
+        identity=scope,
+        job=job["id"],
+        candidate=candidate["id"],
+        kind=kind,
+        contract_sha256=fingerprint(contract),
+        input_sha256=fingerprint(proposed),
+        draft_sha256=fingerprint(dict(request=data, actor=actor["username"])),
+        actor=actor["username"],
+        missing_fields=missing,
+        assessment=result,
+        state="draft",
+        baseline_modified=False,
+        physical_release=False,
+        independent_acceptance=False,
+        source_files_verified=False,
+    )
+    folder = (
+        store.root / "planning-drafts" / ("qualification-" + payload["draft_sha256"])
+    )
     with LOCK:
         if not folder.exists():
-            folder.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
-            staged = Path(tempfile.mkdtemp(prefix=".qualification-",dir=folder.parent))
+            folder.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+            staged = Path(tempfile.mkdtemp(prefix=".qualification-", dir=folder.parent))
             try:
-                write_new(staged / "request.json",data)
-                write_new(staged / "assessment.json",payload)
+                write_new(staged / "request.json", data)
+                write_new(staged / "assessment.json", payload)
                 staged.rename(folder)
             finally:
-                shutil.rmtree(staged,ignore_errors=True)
+                shutil.rmtree(staged, ignore_errors=True)
         else:
             payload = load(folder / "assessment.json")
-    store.event(job["id"],dict(kind="qualification-draft-checked",actor=actor["username"],
-                              draft_sha256=payload["draft_sha256"],physical_release=False))
+    store.event(
+        job["id"],
+        dict(
+            kind="qualification-draft-checked",
+            actor=actor["username"],
+            draft_sha256=payload["draft_sha256"],
+            physical_release=False,
+        ),
+    )
     return payload
 
 
-def decode_definition(text):
-    if not isinstance(text, str) or len(text.encode()) > 4 * 1024**2:
-        raise ValueError("bounded manufactured definition JSON text required")
-
-    def pairs(items):
-        result = {}
-        for key, value in items:
-            if key in result:
-                raise ValueError("duplicate definition field: " + key)
-            result[key] = value
-        return result
-
-    def invalid(value):
-        raise ValueError("nonfinite definition value: " + value)
-
-    return json.loads(text, object_pairs_hook=pairs, parse_constant=invalid)
+from .engineering_inputs import decode_input as decode_definition
 
 
 def manager(handler):
@@ -208,6 +193,37 @@ def scoped(handler, city, environment, *, write=False):
     return actor
 
 
+def query_scope(query, city, environment):
+    def value(name, default=None):
+        return query.get(name, [default])[0] or None
+
+    return identity(
+        dict(
+            schema="osr-design-identity/1",
+            city=city,
+            environment=environment,
+            project=value("project", city),
+            configuration_revision=value("revision", "unselected"),
+            baseline_sha256=value("baseline_sha256"),
+            run_id=value("run_id"),
+            asset_id=value("asset_id"),
+            part_id=value("part_id"),
+        )
+    )
+
+
+def query_applicability(query):
+    return {
+        key: query.get(key, [None])[0] or None
+        for key in (
+            "candidate_id",
+            "physical_part_id",
+            "material_batch",
+            "definition_sha256",
+        )
+    }
+
+
 def get(handler):
     url = urlsplit(handler.path)
     path = url.path.removeprefix("/api/design/").strip("/")
@@ -218,11 +234,25 @@ def get(handler):
         actor = scoped(handler, city, environment)
         service = manager(handler)
         store = service.store
+        selected_scope = query_scope(query, city, environment)
         if path == "problems":
             registered = list(problems().values())
             payload = dict(
                 problems=registered,
                 preflight={p["id"]: preflight(p) for p in registered},
+                operations={
+                    p["id"]: {
+                        operation: preflight(p, operation=operation)
+                        for operation in ("screen", "optimise", "confirm")
+                    }
+                    for p in registered
+                },
+            )
+        elif path == "preflight":
+            from .registry import get as get_problem
+
+            payload = preflight(
+                get_problem(query["problem"][0]), operation=query["operation"][0]
             )
         elif path == "parts":
             payload = load(ROOT / "engineering/design_engine/data/potential-parts.json")
@@ -237,7 +267,12 @@ def get(handler):
 
             payload = matrix()
         elif path == "records":
-            payload = dict(records=ReviewStore(store).list(city, environment))
+            records = ReviewStore(store).list(city, environment)
+            payload = dict(
+                records=[r for r in records if r["identity"] == selected_scope],
+                legacy_unscoped=[r for r in records if r["identity"] is None],
+                identity=selected_scope,
+            )
         elif path == "cost-objectives":
             from datetime import date
             from .economics import installed_objectives
@@ -247,6 +282,15 @@ def get(handler):
                 place=query.get("place", [city])[0],
                 currency=query.get("currency", ["USD"])[0],
                 as_of=query.get("as_of", [date.today().isoformat()])[0],
+                identity=selected_scope,
+                applicability=query_applicability(query),
+            )
+        elif path == "input-revisions":
+            from .input_revisions import InputRevisions
+
+            payload = dict(
+                revisions=InputRevisions(store).list(selected_scope),
+                identity=selected_scope,
             )
         elif path == "jobs":
             jobs = store.list(city, environment)
@@ -413,7 +457,63 @@ def post(handler):
             )
         service = manager(handler)
         store = service.store
-        if path == "jobs":
+        if path.startswith("input-revisions/"):
+            from .input_revisions import InputRevisions
+
+            fields = path.split("/")
+            if len(fields) != 3 or fields[2] not in {"review", "run"}:
+                raise ValueError("controlled input revision action required")
+            revisions = InputRevisions(store)
+            retained = revisions.get(fields[1])
+            if retained["identity"] != scope:
+                raise PermissionError(
+                    "input revision belongs to another exact identity"
+                )
+            if fields[2] == "review":
+                if handler.user_store is None:
+                    raise PermissionError(
+                        "configure named accounts before independent input review"
+                    )
+                if set(data) != {"identity", "revision", "rationale"}:
+                    raise ValueError(
+                        "exact input proposal revision and review rationale required"
+                    )
+                payload = revisions.review(
+                    fields[1], data["revision"], scope, actor, data["rationale"]
+                )
+            else:
+                if not set(actor.get("roles", [])) & {"planner", "admin"}:
+                    raise PermissionError(
+                        "authenticated planner required to run revised inputs"
+                    )
+                if set(data) != {"identity", "search", "refine", "budget"}:
+                    raise ValueError(
+                        "explicit revised run search, confirmation and budget required"
+                    )
+                snapshot = revisions.snapshot(fields[1])
+                parent = store.verify_request(snapshot["parent_job"])
+                req = request(
+                    snapshot["problem_id"],
+                    snapshot["target_identity"],
+                    parent["request"]["candidates"],
+                    search=data["search"],
+                    refine=data["refine"],
+                    budget=data["budget"],
+                    reviewed_inputs=snapshot,
+                )
+                revisions.validate_job(req)
+                from .contracts import fingerprint
+
+                submission = fingerprint(
+                    dict(input_revision=fields[1], request=req, actor=actor["username"])
+                )
+                payload = dict(
+                    job=service.start(req, idempotency_key=submission),
+                    child_identity=snapshot["target_identity"],
+                    baseline_modified=False,
+                    physical_release=False,
+                )
+        elif path == "jobs":
             if set(data) - {
                 "problem",
                 "identity",
@@ -423,6 +523,7 @@ def post(handler):
                 "budget",
                 "seed",
                 "search",
+                "interactions",
             }:
                 raise ValueError("unknown job fields")
             payload = service.start(
@@ -435,14 +536,22 @@ def post(handler):
                     budget=data.get("budget"),
                     seed=data.get("seed", 11),
                     search=data.get("search"),
+                    interactions=data.get("interactions"),
                 )
             )
         elif path.startswith("jobs/"):
             fields = path.split("/")
             qualification = len(fields) == 3 and fields[2] == "qualification-draft"
-            if not qualification and set(data) != {"identity"}:
+            input_proposal = len(fields) == 3 and fields[2] == "input-revisions"
+            if not qualification and not input_proposal and set(data) != {"identity"}:
                 raise ValueError("job action accepts only its scoped identity")
-            if len(fields) != 3 or fields[2] not in {"cancel", "resume", "export", "qualification-draft"}:
+            if len(fields) != 3 or fields[2] not in {
+                "cancel",
+                "resume",
+                "export",
+                "qualification-draft",
+                "input-revisions",
+            }:
                 raise ValueError("unsupported design job action")
             job = store.get(fields[1])
             if job["city"] != city or job["environment"] != environment:
@@ -452,16 +561,47 @@ def post(handler):
                     raise PermissionError(
                         "job belongs to another project/revision/baseline"
                     )
-            if qualification:
-                if set(data) != {"identity","candidate","contract_sha256","kind","input_json"}:
-                    raise ValueError("exact candidate, kind and bounded input JSON draft required")
+            if input_proposal:
+                from .input_revisions import InputRevisions
+
+                report = comparison(store, job["id"])
+                candidate = next(
+                    (r for r in report["candidates"] if r["id"] == data["candidate"]),
+                    None,
+                )
+                if candidate is None:
+                    raise ValueError("unknown parent candidate")
+                payload = InputRevisions(store).propose(
+                    job,
+                    candidate,
+                    data,
+                    scope,
+                    actor,
+                    evidence_root=handler.evidence_root,
+                )
+            elif qualification:
+                if set(data) != {
+                    "identity",
+                    "candidate",
+                    "contract_sha256",
+                    "kind",
+                    "input_json",
+                }:
+                    raise ValueError(
+                        "exact candidate, kind and bounded input JSON draft required"
+                    )
                 if job["status"] != "completed":
-                    raise ValueError("qualification draft requires a completed candidate artifact")
-                report = comparison(store,job["id"])
-                candidate = next((r for r in report["candidates"] if r["id"]==data["candidate"]),None)
+                    raise ValueError(
+                        "qualification draft requires a completed candidate artifact"
+                    )
+                report = comparison(store, job["id"])
+                candidate = next(
+                    (r for r in report["candidates"] if r["id"] == data["candidate"]),
+                    None,
+                )
                 if candidate is None:
                     raise ValueError("unknown physical candidate")
-                payload = qualification_draft(store,job,candidate,data,scope,actor)
+                payload = qualification_draft(store, job, candidate, data, scope, actor)
             elif fields[2] == "cancel":
                 payload = store.cancel(fields[1])
             elif fields[2] == "resume":
@@ -527,7 +667,13 @@ def post(handler):
                 ),
             )
         elif path == "records":
-            if set(data) != {"identity", "kind", "payload", "idempotency_key"}:
+            if set(data) - {
+                "identity",
+                "kind",
+                "payload",
+                "idempotency_key",
+                "applicability",
+            } or not {"identity", "kind", "payload", "idempotency_key"} <= set(data):
                 raise ValueError("controlled record submission required")
             payload = ReviewStore(store).submit(
                 city,
@@ -536,6 +682,8 @@ def post(handler):
                 data["payload"],
                 actor["username"],
                 data["idempotency_key"],
+                identity=scope,
+                applicability=data.get("applicability"),
             )
         elif path == "production-plan":
             from .economics import schedule
@@ -557,7 +705,11 @@ def post(handler):
                 raise PermissionError(
                     "configure named authenticated accounts before independent record verification"
                 )
-            if set(data) != {"identity", "record", "revision"}:
+            if set(data) - {"identity", "record", "revision", "applicability"} or not {
+                "identity",
+                "record",
+                "revision",
+            } <= set(data):
                 raise ValueError("review exact record and revision only")
             payload = ReviewStore(store).verify(
                 data["record"],
@@ -566,6 +718,8 @@ def post(handler):
                 city=city,
                 environment=environment,
                 evidence_root=handler.evidence_root,
+                identity=scope,
+                applicability=data.get("applicability"),
             )
         else:
             raise ValueError("unknown design action")

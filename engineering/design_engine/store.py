@@ -11,12 +11,18 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
 import os
+import re
 from pathlib import Path
 import sqlite3
+import threading
 import uuid
 
 from .contracts import canonical, fingerprint, load, identity
 from .publication import digest, safe
+
+_LOCAL_PID = os.getpid()
+_LOCAL_PROCESS_TOKEN = "local:" + uuid.uuid4().hex
+_IDENTITY_LOCK = threading.Lock()
 
 
 def now():
@@ -55,6 +61,7 @@ class Store:
                 sequence INTEGER PRIMARY KEY, job TEXT NOT NULL, time TEXT NOT NULL, payload TEXT NOT NULL
             );
             CREATE TABLE IF NOT EXISTS dispatches(job TEXT PRIMARY KEY,pid INTEGER NOT NULL,process_start TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS job_submissions(key TEXT PRIMARY KEY,request_sha256 TEXT NOT NULL,job TEXT NOT NULL REFERENCES jobs(id));
             """)
         self.root.chmod(0o700)
 
@@ -73,12 +80,26 @@ class Store:
         finally:
             con.close()
 
-    def create(self, request):
+    def create(self, request, *, idempotency_key=None):
         scope = identity(request["identity"])
+        if idempotency_key is not None and (
+            not isinstance(idempotency_key, str)
+            or not re.fullmatch(r"[a-f0-9]{64}", idempotency_key)
+        ):
+            raise ValueError("exact scoped job submission digest required")
         identifier = "run-" + uuid.uuid4().hex[:16]
-        write_new(self.root / "runs" / identifier / "request.json", request)
         instant = now()
         with self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            if idempotency_key is not None:
+                prior = con.execute(
+                    "SELECT * FROM job_submissions WHERE key=?", (idempotency_key,)
+                ).fetchone()
+                if prior:
+                    if prior["request_sha256"] != fingerprint(request):
+                        raise ValueError("job submission key reused for altered inputs")
+                    return self.get(prior["job"])
+            write_new(self.root / "runs" / identifier / "request.json", request)
             con.execute(
                 "INSERT INTO jobs(id,created,updated,city,environment,status,phase,progress,request) VALUES(?,?,?,?,?,?,?,?,?)",
                 (
@@ -93,6 +114,11 @@ class Store:
                     canonical(request).decode(),
                 ),
             )
+            if idempotency_key is not None:
+                con.execute(
+                    "INSERT INTO job_submissions VALUES(?,?,?)",
+                    (idempotency_key, fingerprint(request), identifier),
+                )
         self.event(
             identifier, dict(kind="created", request_sha256=fingerprint(request))
         )
@@ -235,7 +261,11 @@ class Store:
             previous = con.execute(
                 "SELECT * FROM dispatches WHERE job=?", (identifier,)
             ).fetchone()
-            if previous and process_start(previous["pid"]) == previous["process_start"]:
+            if (
+                previous
+                and process_ownership(previous["pid"], previous["process_start"])
+                is not False
+            ):
                 return False
             con.execute(
                 "INSERT OR REPLACE INTO dispatches VALUES(?,?,?)",
@@ -254,7 +284,8 @@ class Store:
         return [
             r["id"]
             for r in rows
-            if r["pid"] is None or process_start(r["pid"]) != r["process_start"]
+            if r["pid"] is None
+            or process_ownership(r["pid"], r["process_start"]) is False
         ]
 
     def resume(self, identifier, dependencies, toolchain):
@@ -312,7 +343,7 @@ class Store:
         actual = {
             p.relative_to(folder).as_posix()
             for p in folder.rglob("*")
-            if p.is_file() and p.name != "manifest.json"
+            if p.is_file() and p != folder / "manifest.json"
         }
         if actual != set(manifest["artifacts"]):
             raise ValueError("missing or extra attempt artifacts")
@@ -326,7 +357,7 @@ class Store:
                 for r in con.execute("SELECT * FROM jobs WHERE status=?", ("running",))
             ]
         for row in rows:
-            if process_start(row["pid"]) != row["process_start"]:
+            if process_ownership(row["pid"], row["process_start"]) is False:
                 self.finish(
                     row["id"],
                     "interrupted",
@@ -334,10 +365,69 @@ class Store:
                 )
 
 
+def _process_stat(pid):
+    """Return Linux state/start ticks, or raise when procfs is unavailable."""
+    fields = Path(f"/proc/{pid}/stat").read_text().rsplit(")", 1)[1].split()
+    return fields[0], fields[19]
+
+
 def process_start(pid):
+    """Creation identity, with a same-process fallback when procfs is absent.
+
+    The random fallback is only verifiable inside the owning interpreter. A
+    different interpreter must treat a live owner with that token as unknown;
+    it cannot infer that the PID was reused from an unavailable start time.
+    """
+    global _LOCAL_PID, _LOCAL_PROCESS_TOKEN
     try:
-        # Fields after the parenthesised comm name; field 22 is start ticks.
-        fields = Path(f"/proc/{int(pid)}/stat").read_text().rsplit(")", 1)[1].split()
-        return fields[19] if fields[0] != "Z" else None
+        pid = int(pid)
+        if pid <= 0:
+            return None
+        state, started = _process_stat(pid)
+        return started if state != "Z" else None
     except (OSError, ValueError, TypeError, IndexError):
+        if pid == os.getpid():
+            with _IDENTITY_LOCK:
+                if _LOCAL_PID != os.getpid():
+                    # A fork inherits globals but is a new process incarnation.
+                    _LOCAL_PID = os.getpid()
+                    _LOCAL_PROCESS_TOKEN = "local:" + uuid.uuid4().hex
+                return _LOCAL_PROCESS_TOKEN
         return None
+
+
+def process_ownership(pid, expected):
+    """True: matching owner; False: dead/reused; None: identity unverifiable.
+
+    Unknown ownership never authorizes dispatch takeover, recovery, or signals.
+    This deliberately prefers retaining a possibly live job to executing it
+    twice when the platform cannot expose process creation times.
+    """
+    try:
+        if type(pid) is not int or pid <= 0:
+            return False
+        actual = process_start(pid)
+        if actual is not None and expected is not None:
+            if actual == expected:
+                return True
+            if (
+                not str(actual).startswith("local:")
+                and not str(expected).startswith("local:")
+            ):
+                return False
+        try:
+            state, _ = _process_stat(pid)
+            if state == "Z":
+                return False
+        except (OSError, ValueError, TypeError, IndexError):
+            pass
+        if os.name != "posix":
+            # A zero signal is a presence probe on POSIX. On other platforms
+            # os.kill can have different semantics; never signal an unknown PID.
+            return None
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except (PermissionError, OSError):
+        return None
+    return None

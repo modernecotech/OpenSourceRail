@@ -31,7 +31,13 @@ def checkpoint(store, destination):
         finally:
             source.close()
             target.close()
-        for name in ("runs", "exports", "downloads", "planning-drafts"):
+        for name in (
+            "runs",
+            "exports",
+            "downloads",
+            "planning-drafts",
+            "input-revisions",
+        ):
             if (store.root / name).is_dir():
                 shutil.copytree(store.root / name, destination / name)
     manifest = dict(
@@ -86,6 +92,10 @@ def restore(checkpoint, destination):
         for attempt in job["attempts"]:
             if attempt["manifest"]:
                 store.verify_attempt(identifier, attempt["number"])
+        if job["request"].get("reviewed_inputs"):
+            from .input_revisions import InputRevisions
+
+            InputRevisions(store).validate_job(job["request"])
     return dict(
         schema="osr-design-restoration/1",
         restored_jobs=len(ids),

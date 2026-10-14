@@ -12,6 +12,18 @@ uses their validation steps for the complete CI and disposable integration
 profiles, without checkout, cache, artifact-upload or installation actions.
 There is no self-hosted Actions runner or remote job dispatch.
 
+When a verification step also contains the exact setup command `npm ci`, the
+local adapter runs `npm ls --depth=0` to check the installed dependencies.
+The exact `npx playwright install --with-deps chromium` command becomes an
+installed Chromium launch, render and close check. The reviewed
+`PLAYWRIGHT_BROWSERS_PATH="$HOME/.local/share/opensource-rail/toolchains/playwright"`
+prefix is preserved when present. These replacements appear explicitly in each
+planned command's `setup_prerequisites` metadata; every subsequent pilot and
+browser test still runs. Missing dependencies or an unusable browser fail the
+profile. Other inline npm, Playwright or pip installation forms are rejected
+until their local setup adapter is reviewed. Named installation steps remain
+prerequisites handled by the setup command, rather than profile execution.
+
 ## Run checks
 
 Use the [one-command setup](../README.md#one-command-linux-setup), then:

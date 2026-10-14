@@ -97,6 +97,8 @@ def real(unit, low, high):
 
 
 def problems():
+    from .design_alternatives import civil_variables, vehicle_variables
+
     panel_variables = dict(
         support_span_m=choice("m", 1.0, 0.5, 0.33, 0.2),
         grade_density=choice("kg/m3", 60, 80, 100),
@@ -178,6 +180,12 @@ def problems():
             dict(family=choice("1", "metro-6car")),
         ),
         charter(
+            "vehicle-assembly",
+            "vehicle-assembly",
+            "Complete fixed metro-6car assembly with alternative installed battery/HVAC/equipment and joint hypotheses",
+            vehicle_variables(),
+        ),
+        charter(
             "viaduct-bay",
             "viaduct",
             "Fixed 20 m double-track deck/pier/bearing and construction-stage package",
@@ -201,6 +209,12 @@ def problems():
             "civil",
             "Existing complete coupled civil candidates with their exact route, train and ground profile",
             dict(profile=choice("1", "reference")),
+        ),
+        charter(
+            "civil-system-alternatives",
+            "civil-alternatives",
+            "Fixed 100 m, five 20 m spans, two tracks and unchanged reference train; alternative deck, pier, material and foundation families",
+            civil_variables(),
         ),
         charter(
             "city-options",
@@ -234,11 +248,16 @@ def dependencies(adapter):
     shared = {
         "__init__",
         "contracts",
+        "bom",
+        "engineering_inputs",
+        "input_revisions",
+        "review",
         "registry",
         "adapters",
         "manufacturing",
         "manufacturing_rules",
         "optimization",
+        "interaction_study",
         "uncertainty",
         "runtime",
         "store",
@@ -257,27 +276,48 @@ def dependencies(adapter):
         shared.add("electrical_installation")
     if adapter in {"viaduct", "foundation"}:
         shared.add("civil_qualification")
-    if adapter == "vehicle":
+        shared.add("foundation_response")
+    if adapter in {"vehicle", "vehicle-assembly"}:
         shared.add("vehicle_confirmation")
+        shared.add("passage")
+    if adapter in {"vehicle-assembly", "civil-alternatives"}:
+        shared.add("design_alternatives")
+    if adapter == "vehicle-assembly":
+        shared.add("electrical_installation")
     paths = {ROOT / "engineering/design_engine" / (name + ".py") for name in shared}
     paths.add(ROOT / "tools/automation/design-engine.py")
     paths.update((ROOT / "design/component-catalogue/src/osr_mech").rglob("*.py"))
     paths.update((ROOT / "design/component-catalogue/schemas").glob("*.json"))
     paths.update((ROOT / "lib/templates").glob("rolling-stock*.toml"))
-    if adapter in {"panel", "roof", "interface", "viaduct", "foundation"}:
+    if adapter in {
+        "panel",
+        "roof",
+        "interface",
+        "viaduct",
+        "foundation",
+        "civil-alternatives",
+    }:
         paths.update((ROOT / "engineering/design_consistency").glob("*.py"))
         paths.add(ROOT / "engineering/composite_panels/config/development.json")
     if adapter in {"panel", "roof"}:
         paths.update((ROOT / "engineering/panel_response").glob("*.py"))
-    if adapter in {"battery", "twin", "vehicle", "civil", "foundation"}:
+    if adapter in {
+        "battery",
+        "twin",
+        "vehicle",
+        "civil",
+        "foundation",
+        "civil-alternatives",
+        "vehicle-assembly",
+    }:
         paths.update((ROOT / "engineering/civil_exploration").glob("*.py"))
         paths.update((ROOT / "engineering/reference-parts").glob("*.json"))
         paths.update((ROOT / "engineering/integration_programme").glob("*.py"))
-    if adapter in {"twin", "vehicle"}:
+    if adapter in {"twin", "vehicle", "vehicle-assembly"}:
         paths.update((ROOT / "engineering/twin_design").glob("*.py"))
         paths.update((ROOT / "engineering/twin_design/data").glob("*.json"))
         paths.update((ROOT / "engineering/best_practice/data").glob("*.json"))
-    if adapter == "civil":
+    if adapter in {"civil", "civil-alternatives"}:
         paths.update((ROOT / "engineering/civil_exploration/config").glob("*.json"))
     if adapter in {"viaduct", "foundation"}:
         paths.add(ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json")

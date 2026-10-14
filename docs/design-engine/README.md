@@ -44,3 +44,36 @@ Inspect a current physical candidate, then open **Engineering input draft**. Ent
 Manufacturing sweeps use conservative bounding boxes; declared clearances do not qualify a workshop. The [ABB converter sheet](https://library.e.abb.com/public/3ade265d028245cb91b97353a515581c/NEW%20PDS%20BORDLINE_M40_DC_750V_U_.pdf) and [exact Renogy G1 sheet](https://www.renogy.com/content/RSP200DB-72-US/RSP200DB-72-G1%20Datasheet.pdf) supply potential part facts. They earn no installed mass or vehicle energy credit. Civil transfer equations are checked against the [independent FHWA example](https://www.fhwa.dot.gov/bridge/lrfd/pscus054.cfm); its material data are not project properties.
 
 Seeded searches also retain `sensitivity.json`: bounded one-variable re-execution using the same charter, scope and common budget. Unknown costs/carbon stay unknown. Full-train cases start the entire assembly before the approach and calculate exit time under the prescribed motion. Solver timeouts retain converged checkpoints and incomplete joint-resultant cycles, without inventing fatigue life or a full passage.
+
+Review and use a revised input without altering its parent:
+
+1. Start a job with the exact project, configuration revision and known baseline.
+2. Select a physical candidate. Use the guided SI fields and source selectors to
+   retain/check manufacturing, site, prestress or foundation drafts. Blank fields
+   remain unknown; expanding the raw JSON editor is optional.
+3. Retain applicable source documents in People and evidence, with the candidate,
+   physical-definition hash and any part/batch scope. A separate authenticated
+   approver verifies the exact record revision and source bytes.
+4. Select the checked drafts and verified records, supply a new configuration
+   revision and rationale, and propose an input revision. An independent reviewer
+   reviews that exact proposal. This is permission for research use only.
+5. Run the reviewed revision. The server creates a new immutable child job and
+   reruns compilation, mandatory checks and any requested optimisation. Export
+   includes all reviewed ancestors and retained documents for private review.
+
+Screening, optimisation, native confirmation and CAD export report their own
+setup requirements. The assembly inspector links installed parts, joints, mass
+and unresolved allocations to failed/unknown checks. Both English and Arabic
+guided journeys are tested; human accessibility acceptance remains open.
+
+The common engine now has thirteen fixed-function problems. Use
+`civil-system-alternatives` for the existing deck/pier/foundation/material families
+on a fixed 100 m, two-track reference function, and `vehicle-assembly` for actual
+equipment arrangements and declared connection hypotheses within the six-car
+reference family. These choices do not qualify a new material or joint.
+
+An explicit `--interactions build/factors.json` file adds two to six declared
+variables, each with two supplied levels, and an `evaluations` limit. Every actual
+corner is charged to the common job budget. Reports retain engineering failures,
+unknown objectives and missing corners; they infer no probability distribution.
+[Review scope and remaining engineering work](review-follow-up.md).

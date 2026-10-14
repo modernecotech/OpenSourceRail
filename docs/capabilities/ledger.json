@@ -4245,6 +4245,7 @@
           "snapshot",
           "command",
           "python",
+          "installed_setup",
           "workflow_commands",
           "plan",
           "guard_containers",
@@ -6770,6 +6771,167 @@
       "appointed_person": null,
       "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
       "contract": {
+        "adapter": "vehicle-assembly",
+        "applicability": {
+          "environment": [
+            "simulation",
+            "training",
+            "physical"
+          ],
+          "function": "Complete fixed metro-6car assembly with alternative installed battery/HVAC/equipment and joint hypotheses",
+          "interfaces": [
+            "existing physical part and datum identities; unresolved supplier connections remain explicit"
+          ],
+          "loads": [
+            {
+              "id": "research-load",
+              "quantity": {
+                "basis": "define deployment loads before physical qualification",
+                "state": "unknown",
+                "unit": "N",
+                "value": null
+              }
+            }
+          ],
+          "mandatory_checks": [
+            "geometry",
+            "mass_inertia",
+            "interfaces",
+            "service",
+            "degraded_service",
+            "refinement",
+            "complete_installed_inventory",
+            "supplier_calibration",
+            "physical_correlation",
+            "independent_acceptance"
+          ],
+          "manufacturing": [
+            "existing controlled geometry, joints, process and inspection definitions"
+          ],
+          "model_domain": [
+            "source-qualified research model; physical qualification remains separate"
+          ],
+          "service_life": {
+            "cycles": null,
+            "state": "unknown",
+            "years": null
+          }
+        },
+        "budget": {
+          "artifact_mib": 512,
+          "evaluations": 256,
+          "memory_mib": 6144,
+          "wall_seconds": 3600
+        },
+        "id": "vehicle-assembly",
+        "objectives": [
+          "defined_mass_kg",
+          "installed_cost",
+          "lifecycle_cost",
+          "production_time",
+          "disruption",
+          "imported_content"
+        ],
+        "revision": "1",
+        "schema": "osr-design-problem/1",
+        "scope": "Research candidate comparison; no adopted financial, manufacturing or railway release",
+        "variables": {
+          "cabinet_thickness_m": {
+            "choices": [
+              0.0015,
+              0.002,
+              0.0025
+            ],
+            "kind": "choice",
+            "unit": "m"
+          },
+          "carrier_thickness_m": {
+            "choices": [
+              0.003,
+              0.004,
+              0.005
+            ],
+            "kind": "choice",
+            "unit": "m"
+          },
+          "door_carrier_thickness_m": {
+            "choices": [
+              0.006,
+              0.008,
+              0.01
+            ],
+            "kind": "choice",
+            "unit": "m"
+          },
+          "enclosure_thickness_m": {
+            "choices": [
+              0.003,
+              0.004,
+              0.005
+            ],
+            "kind": "choice",
+            "unit": "m"
+          },
+          "family": {
+            "choices": [
+              "metro-6car"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "hvac_modules": {
+            "choices": [
+              3,
+              4,
+              5
+            ],
+            "kind": "choice",
+            "unit": "ea"
+          },
+          "joint_option": {
+            "choices": [
+              "reference",
+              "secondary-minus-20-percent",
+              "articulation-stiffness-doubled"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "parallel_strings": {
+            "choices": [
+              2,
+              3,
+              4
+            ],
+            "kind": "choice",
+            "unit": "ea"
+          },
+          "series_modules": {
+            "choices": [
+              24,
+              28,
+              32
+            ],
+            "kind": "choice",
+            "unit": "ea"
+          }
+        }
+      },
+      "entry": "./osr design run --problem vehicle-assembly --city samawah",
+      "example": "engineering/design_engine/README.md",
+      "id": "design:vehicle-assembly",
+      "kind": "design-adapter",
+      "owner_role": "design and discipline maintainer",
+      "source": "engineering/design_engine/registry.py",
+      "status": "implemented",
+      "tests": [
+        "engineering/analysis/tests/test_design_engine.py"
+      ]
+    },
+    {
+      "appointed_person": null,
+      "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
+      "contract": {
         "adapter": "viaduct",
         "applicability": {
           "environment": [
@@ -7056,6 +7218,140 @@
       "entry": "./osr design run --problem civil-campaign --city samawah",
       "example": "engineering/design_engine/README.md",
       "id": "design:civil-campaign",
+      "kind": "design-adapter",
+      "owner_role": "design and discipline maintainer",
+      "source": "engineering/design_engine/registry.py",
+      "status": "implemented",
+      "tests": [
+        "engineering/analysis/tests/test_design_engine.py"
+      ]
+    },
+    {
+      "appointed_person": null,
+      "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
+      "contract": {
+        "adapter": "civil-alternatives",
+        "applicability": {
+          "environment": [
+            "simulation",
+            "training",
+            "physical"
+          ],
+          "function": "Fixed 100 m, five 20 m spans, two tracks and unchanged reference train; alternative deck, pier, material and foundation families",
+          "interfaces": [
+            "existing physical part and datum identities; unresolved supplier connections remain explicit"
+          ],
+          "loads": [
+            {
+              "id": "research-load",
+              "quantity": {
+                "basis": "define deployment loads before physical qualification",
+                "state": "unknown",
+                "unit": "N",
+                "value": null
+              }
+            }
+          ],
+          "mandatory_checks": [
+            "geometry",
+            "mass_inertia",
+            "interfaces",
+            "service",
+            "degraded_service",
+            "refinement",
+            "complete_installed_inventory",
+            "supplier_calibration",
+            "physical_correlation",
+            "independent_acceptance"
+          ],
+          "manufacturing": [
+            "existing controlled geometry, joints, process and inspection definitions"
+          ],
+          "model_domain": [
+            "source-qualified research model; physical qualification remains separate"
+          ],
+          "service_life": {
+            "cycles": null,
+            "state": "unknown",
+            "years": null
+          }
+        },
+        "budget": {
+          "artifact_mib": 512,
+          "evaluations": 256,
+          "memory_mib": 6144,
+          "wall_seconds": 3600
+        },
+        "id": "civil-system-alternatives",
+        "objectives": [
+          "defined_mass_kg",
+          "installed_cost",
+          "lifecycle_cost",
+          "production_time",
+          "disruption",
+          "imported_content"
+        ],
+        "revision": "1",
+        "schema": "osr-design-problem/1",
+        "scope": "Research candidate comparison; no adopted financial, manufacturing or railway release",
+        "variables": {
+          "deck_family": {
+            "choices": [
+              "pi",
+              "hollow-box",
+              "conventional-I",
+              "U-girder",
+              "ribbed-deck",
+              "uhpc-ribbed",
+              "hybrid-shell",
+              "segmental-box",
+              "steel-composite-I",
+              "frp-composite-I"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "foundation_family": {
+            "choices": [
+              "reference-four",
+              "bored-four",
+              "bored-six",
+              "single-shaft",
+              "CFA-six",
+              "displacement-six",
+              "hollow-driven-six",
+              "square-driven-six",
+              "spread-footing"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "material": {
+            "choices": [
+              "high-performance",
+              "lightweight",
+              "normal"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "pier_family": {
+            "choices": [
+              "solid",
+              "solid-tapered",
+              "hollow-tapered",
+              "hollow-prismatic",
+              "segmental-hollow",
+              "double-skin-hybrid"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          }
+        }
+      },
+      "entry": "./osr design run --problem civil-system-alternatives --city samawah",
+      "example": "engineering/design_engine/README.md",
+      "id": "design:civil-system-alternatives",
       "kind": "design-adapter",
       "owner_role": "design and discipline maintainer",
       "source": "engineering/design_engine/registry.py",
@@ -8042,8 +8338,13 @@
     "design/component-catalogue/tests/test_viaduct_families.py": "4870a1c975a3c6d4d4ba9cd669785047fcf0f5c60a5f782e4614dede1edc1eac",
     "docs/civil/viaduct-load-model.toml": "964d0c6711c8e3ee5d179303307a0ae1bf5192ab844f155638a910bfefdac4a3",
     "docs/civil/viaduct-quantity-cost-model.toml": "046fd296a97df8670542b0a6ce4e6277539a6a02c92a699d61ac412fe5f79896",
-    "docs/design-engine/app.js": "58943f18d3c57e632d13c489c91e77ff94ecd214cbbb2fa3a645784c0cd828e4",
+    "docs/design-engine/app.js": "6eb13857e8b2e30b4c64f21f236279312aa85069db2380bf3e0a73ec913c2d54",
+    "docs/design-engine/assembly-inspector.js": "434bc48ec96537a6dbbc29a62bd738c7801cb505d8961e1d3f5431a25eff2739",
     "docs/design-engine/components.js": "2f483526bec2c942652d2d736250bc7ed48176640d67e9b566d32e28e61d6ed4",
+    "docs/design-engine/engineering-inputs.js": "fda594e13d4bb99a819f6b046bfb260bdbe8202da58edef901f40333d0617b8e",
+    "docs/design-engine/input-revisions.js": "429cb23c1c135912b49027a7a22604f95beaf5cb3e467126f328c632d745ae56",
+    "docs/design-engine/operation-preflight.js": "ef99f674b5d924282b6d735475c75542c02a66b310bcd56a27e1d94258de432e",
+    "docs/design-engine/scope-controls.js": "18b9219b9b2e4ee8881e1443ebf6c6939ad67a0b9361df2f0ed3a53a9c599518",
     "docs/lifecycle/app.js": "ee307cf1adb3c27e9757e6080cc3f3a181f71d19e90ac2821a6248781d4f5f8f",
     "docs/lifecycle/evidence.js": "a2644b0e8f5aed1a9a145d472cdb7e5040f30445f38da297061ab49b109f87dc",
     "docs/lifecycle/execution-impact.js": "db57bd28078d0f9be2ed004cfb43389d2c4578c19c551df9e96981d0b76ce321",
@@ -8115,19 +8416,29 @@
     "engineering/analysis/tests/test_civil_review_acceptance.py": "ff1057d91f0baafc212a75939c2741ee5afed4ec5bcee5d6d30ea367c4998974",
     "engineering/analysis/tests/test_civil_system_choices.py": "10e7465f176e600381eb664fd892c8ee17d0ad324edcb7ef7c207d74adc0abf6",
     "engineering/analysis/tests/test_contact_domain.py": "892233c7e1a90ae46c4f02cc0a3f9fd3d7e977886b9a3bffd575d3eaceb19dc1",
+    "engineering/analysis/tests/test_design_alternatives.py": "6dfa813fff18987b25f1c89d1bc82ed3c6e700a37570fb1c7d44a330544e7b93",
+    "engineering/analysis/tests/test_design_bom.py": "c9c140255c9e1b7bec642ece541b8c55627dec9158d1270e84f1825478ae2e7f",
     "engineering/analysis/tests/test_design_civil_qualification.py": "0642a83a103411036582d9756332b0419110f9fa73866332eb986a53303277d0",
     "engineering/analysis/tests/test_design_consistency.py": "61fa5b15029d4b957f8bbafc686315aab5c688f530b4d903966a8d1724b9ea6e",
     "engineering/analysis/tests/test_design_delivery.py": "686d16e384477ee36f61eaa695e7c27c02176483e1332421cc78309c28eb61ce",
-    "engineering/analysis/tests/test_design_economics.py": "9dc86adc58959a2e5677f4c84fb4c284bfbc0b8e55d343fa9d4451ffca0bb00f",
+    "engineering/analysis/tests/test_design_economics.py": "4b0f15df8e790d64c35a726a366a1635bd8aa17f30085b0e462edfcc6b09ca23",
     "engineering/analysis/tests/test_design_electrical_installation.py": "68979ff1266110b71a552ac2856f044afbabbba32630d83ff4ae99a5d1941838",
     "engineering/analysis/tests/test_design_engine.py": "59c08e1bc67aaf9ff081453100487e30ec9c1b79ef7e7a06037ab8f66e6e1771",
     "engineering/analysis/tests/test_design_exchange.py": "d88120501e2279ccc97ec0b795c29107e9131a6be085f29ad108f657270d962c",
+    "engineering/analysis/tests/test_design_export_lineage.py": "060d1dab1437f368e2558df20509026281b12cc99dec1abcff1b1f2c197d2f8d",
     "engineering/analysis/tests/test_design_graph.py": "a7317b14a522f60ceb53ac985d8130c72d805ac6e20b0d7b8ded99cc8e1dd7a4",
     "engineering/analysis/tests/test_design_http.py": "3fccd51ef1057c724a7e3e28661223908abc7c1d8b6207685d424130a4f6299e",
+    "engineering/analysis/tests/test_design_input_limits.py": "b04b57f8a1d17aa14adeda78a7b835244d65b63c0787363e4351a900a46307ca",
+    "engineering/analysis/tests/test_design_input_revisions.py": "3467653ddb1a6a019591b350d1393093888bce271636548d6ea66789dee310a9",
+    "engineering/analysis/tests/test_design_interaction_study.py": "dbb3af881d7dd92fa23b73eb41befa3bb87c20287cc8ab8356162765fa77bc1c",
     "engineering/analysis/tests/test_design_manufacturing.py": "77f2e33bac62f6041f67a116060688711a831abe3b978950aa1b507376798664",
+    "engineering/analysis/tests/test_design_nested_manifests.py": "3b1b87ab6f0fda1c24d133103a82c49e6e8f546a92cdffdf42f7104096fafdd2",
+    "engineering/analysis/tests/test_design_operations.py": "f1acefd8339993abe39de4cd5d03542940f55a80e7a7bfae5fde1c53574da9a2",
     "engineering/analysis/tests/test_design_optimization.py": "3ae7b6eeafb9c02a5f15c372779649f25f7459b1636e3fa26598707a55a43b65",
+    "engineering/analysis/tests/test_design_process_ownership.py": "d736039ac1e169363605a89a91868a9570694ffc5d9fbcd2f0fa62f133b9a8ee",
     "engineering/analysis/tests/test_design_publication.py": "d1021152693ce1d942dfe4523f0e6e4f78ff8567d796e2118d25db07f2f563a7",
     "engineering/analysis/tests/test_design_qualification_http.py": "9129ba9c98cef9a3638f2a0ca5bc840668e5818e7ba398beee45881b9c07ee0c",
+    "engineering/analysis/tests/test_design_record_scope.py": "a0fff192a43d47f6f15531237453f7aa363b8d4f16d98f785be08ba772a96e76",
     "engineering/analysis/tests/test_design_recovery.py": "faca626be6093203e974df0801a67d1b5f4dc4e74660772068759fd5250e86c7",
     "engineering/analysis/tests/test_design_reviews.py": "55a2fe90336aebcd7d1e8dc6401f57fb8c66baa0d923e188e2c269941d7db001",
     "engineering/analysis/tests/test_design_twin.py": "4a00b5c31cd6efd4eb0e96613bab2163571c0db9861198ed062afd3e258e7395",
@@ -8136,6 +8447,8 @@
     "engineering/analysis/tests/test_drainage_ground_design.py": "8ef4a6982321ca2bc45d267cf403a78572b536eb4e584d865fec5d21f0e42f96",
     "engineering/analysis/tests/test_duty_cycle.py": "523c90fb232b125f556eaf1ae0754cf234d02c087b51ccdc55a4436dea7eda8d",
     "engineering/analysis/tests/test_factory_modernisation.py": "068d4390ff5147c8ee92b5129826e517f2a3f84db75d602c7c28f996ce5b276d",
+    "engineering/analysis/tests/test_flexible_sparse_assembly.py": "0ec8a14313b0d20e09898b76287471dc08978fc493e726dfc33c74ebb144af1b",
+    "engineering/analysis/tests/test_foundation_response.py": "a717dbbb9e9f09fd327667168185c6e3af32a822d2911418e33010b2cb11e9fa",
     "engineering/analysis/tests/test_ground_model.py": "b113e2478d4a9c78e792feea1ce84519107b5530624ae368184a3ad34a4e1e96",
     "engineering/analysis/tests/test_ifc_mesh.py": "645f95f51c994fa894d6fcc27dc63b7da2a4176e3716776742536c31a93128b2",
     "engineering/analysis/tests/test_integration_programme.py": "e8b95dc1f6ce6cfbe12d3cc70ce73951490fef4fc59a3258ccc2ba1abf3f184c",
@@ -8241,21 +8554,27 @@
     "engineering/design_consistency/solver.py": "aaf53327f1e933aac778fedb85b6982b39609b44088f07c9f70203530a80d66e",
     "engineering/design_detail_register.py": "b3e959bd0db68136dc95be2e9c42ac1464f82de54c24e085020a220292cd8617",
     "engineering/design_engine/__init__.py": "7c9a11314732a664900b0d2ef53d1206932a7d32dd584c12516900e5a8b8f7f8",
-    "engineering/design_engine/adapters.py": "747a1039427c87a3c399a2589f9f529f1e49ba2efeb316992a5e964059965cbb",
+    "engineering/design_engine/adapters.py": "55f1ad9ea4a38870f3c63ef082a8f0c2b58e03693e3ee8bccf28a29ad0aabb7b",
     "engineering/design_engine/benchmarks.py": "a924ae949a0248d882104c8f642de465cd966d0855f02df9b8abdb2a1f34d328",
+    "engineering/design_engine/bom.py": "dca40990a0f854d65ca61255a8eaa524258dd55e3f870fc4684fdf9ffce32390",
     "engineering/design_engine/capabilities.py": "3111828908dd53357555756927671f51ad36b02253d36e16b026950a334a2d7c",
     "engineering/design_engine/catalogue.py": "134c452c2df895c161b9451ce55b56d20f4e1e3b4920776880f006ce2be24241",
     "engineering/design_engine/civil_confirmation.py": "3ceffa614e9774860982df1443c4e914f582f973778f762a119e84c69cbc057d",
     "engineering/design_engine/civil_qualification.py": "74f37c111faa455cdf7c8fb01bf0325a987980c4f11caee706a570dad39c1f4b",
     "engineering/design_engine/contracts.py": "a4f87dd613fe0c685465acd9961e0ab23744c8392af74a77d687e9fb74bfdae1",
     "engineering/design_engine/delivery.py": "ec3275c746422a43fbc6fe4e1ee9c4e655f38a3b675da4bb4fd4b0a72eb3bb3d",
+    "engineering/design_engine/design_alternatives.py": "121883bd5aff6c5edec96aa71a52e43253be5ffb6b7f486ce3717ed25983ea4a",
     "engineering/design_engine/doctor.py": "3dfea97844cd41e9fcf68e3157d31475e3aaaa2e3c42de607c0afa6b870fc150",
-    "engineering/design_engine/economics.py": "1e660a348e6b05a2d7ef422f6e426d541106dc8d20a456ef9af6f845bda80f7d",
+    "engineering/design_engine/economics.py": "b57715c4f4cfffaf9f63e51212f01450b88f2c0cb38abe90143457103c4beaf2",
     "engineering/design_engine/electrical_installation.py": "146d7ed6f78b16d1ca2a05df7c1a1c061d67af016a5fcb8be1fb4d7727de5f71",
+    "engineering/design_engine/engineering_inputs.py": "5529d1b43769c7fde006ca2e3486729d971a7b74f7e2a6cc02e52f4d6a8ce4f9",
     "engineering/design_engine/exchange.py": "49cf654948f5a678f12bc3f68346557b4840c636a8fea07d8cd6ddbf6ff4f956",
-    "engineering/design_engine/export.py": "5257db6953f4ed93d62b4af72bbbe026f88ff8283ee64f9a6093f572a542d902",
+    "engineering/design_engine/export.py": "5742b103d17be5b99ef5ccda44555310a74b5695a131b0e2b8cb85acfd06fd83",
+    "engineering/design_engine/foundation_response.py": "999b7df596ded2c01fab6c6fe8216a2a94bd074713809c39ba438273a770f136",
     "engineering/design_engine/graph.py": "2f168aef66e461aa7ea058f3cf99d6d3bc33f40dbc0b7b9f6fe06c0f02db4150",
-    "engineering/design_engine/http.py": "0c31fd42d8e3633c67e9bac37c441014a8656ff5a9ffc87505d835eb8a76e7ee",
+    "engineering/design_engine/http.py": "e3f7441046adc9b059c5437893e9499edfd1ba02badeb07a6b26ca69d9d41da0",
+    "engineering/design_engine/input_revisions.py": "dac0bb0fcd75e9d61c73122b0eca4ebdbbe0f96bd7b4dff526ed5ff8193669c7",
+    "engineering/design_engine/interaction_study.py": "1cfd52a97f6e9aae8470d3897654efe78874595d0e543e9c6110c31739c12875",
     "engineering/design_engine/manufacturing.py": "302aa6b1ead024332dd066956efa2d38282a433ad7dcf389af625c521f043ecb",
     "engineering/design_engine/manufacturing_rules.py": "5bcc8d867b310160f60b076161037e28420320da22b9ff6f3949d5c900b4e99b",
     "engineering/design_engine/native_cad.py": "a7afaf46581beec76e1ffd6a808e3a053a5825e511f7c1651f90ef9713bdf799",
@@ -8264,12 +8583,12 @@
     "engineering/design_engine/passage.py": "8c76f6c35bd82431ef39c9316f548c3609dfa0c2442ca20ce9b33d457d44af73",
     "engineering/design_engine/publication.py": "9d0ff1e75eca26d59c47b8902e07bf665f43f09bced93b1bdc401f758dd53b16",
     "engineering/design_engine/qualification.py": "10c994a2b9f431eea4f2312d3817604508412fd80597e1dd009acd136d04d94c",
-    "engineering/design_engine/recovery.py": "21413078d5fb78be3f4d5aec509c7c5cd377b2c8bffb19da7992c9087e4eb634",
-    "engineering/design_engine/registry.py": "387096d7a8290da1b5f2f665ae55aadff6a68a0a863f0db7ad7115f410fbc489",
-    "engineering/design_engine/review.py": "afebad0d89f1a2a26365c552fcaac9474d1b1a5e0ae810d9031b878a184f1ad4",
+    "engineering/design_engine/recovery.py": "6db6031c282a7fbf7f8408505a24f1a1196450e0a9ec5e09fb9e28625ca7a340",
+    "engineering/design_engine/registry.py": "7a1415af42e8266a92e9093b7157aaafc7264d263d1140bd5c7ce6361f240c7d",
+    "engineering/design_engine/review.py": "010893c61a1cc5c53b8c0170400ee4b5833434334199d645d85b6a96632bd656",
     "engineering/design_engine/roof_shell.py": "6be147a5e69b622c58086f0445f0e398bd0580bae79503a38cd70d6604624e8c",
-    "engineering/design_engine/runtime.py": "de6bec9ee1f50d60c6972d1c3546fe707bab77cfefe827f4db4501cfe96e9897",
-    "engineering/design_engine/store.py": "bbeb52362a4a0d8a51daaa00ae1f7449624b1abbdaafa3693e5bbef15545f700",
+    "engineering/design_engine/runtime.py": "a547b0de403257aef7a9746142260548e000f1f608321e09304fc50a4c67c87a",
+    "engineering/design_engine/store.py": "e1e24bf745c42b8b90b18b41fc73c84779b40ffbbc6364ecdcbff49e69a66048",
     "engineering/design_engine/subsystems.py": "2ffe00b371222fba465153137b017acc034a1cf9b8b903874c0cace388d52f9e",
     "engineering/design_engine/uncertainty.py": "1de0f0f133066aab894b289ad1346c91fc3b7d9038d07e142d20f93079d0bdfb",
     "engineering/design_engine/vehicle_confirmation.py": "9d909b4beefdd8512af3154f1adab32a461628ea4fa7e75814da1b663a0fbf84",
@@ -8288,7 +8607,7 @@
     "engineering/integration_programme/controllers.py": "6f9c09c1b8dae4f9b23f5967e9980fef841934c4c565903a2b3ea5917ab13790",
     "engineering/integration_programme/correspondence.py": "3a592fb1bcb8736f185d96002db3dc2b3c393be06b5362d6b5a27915af3f618a",
     "engineering/integration_programme/flexible.py": "fd39f07b8539405d0cd1d384dd582023cd83aac7753ba49aeaa1512296240750",
-    "engineering/integration_programme/flexible_vehicle.py": "74cf5a79dce06fc5733be4b78977b39d91cac7ab684a68c69f62d64061cec54c",
+    "engineering/integration_programme/flexible_vehicle.py": "2cebf00186fa2bcc21e6f23de3fd6afb8db63f735adcf033da996d483e0bef6a",
     "engineering/integration_programme/joints.py": "d96c035dba7a8aa52c118d4261a204fce35cbd8878ec8960ae9872c86ac84687",
     "engineering/integration_programme/lifecycle.py": "9109b6942daf4476cb2ec1f194f84566035736bb96e722bf24e30a5028263856",
     "engineering/integration_programme/native_spatial.py": "efb04f232ec63f92d41ac5dd9b6cf584cc0178fe12e1854c66c294664c3fd278",
@@ -8402,7 +8721,7 @@
     "lib/templates/workforce.toml": "90a5be91161dce010a1b5c88a31e2bfc9590af56b8953532e7c712c42b5466f1",
     "playwright.accounts.config.mjs": "f52fe1ecff9e0fa0b921b702345c13ee4d8cf1ee472416f533361408b4beaf26",
     "playwright.config.mjs": "9e400c9addbce960a5ab06cce60bf7a24e0219b5d19d3f8fc6aa1de7dbb79167",
-    "playwright.matrix.config.mjs": "fbc2a66edb7e9b4ad97b92f4b291d09204e71e7585bf171e7e0b24f4ee35911e",
+    "playwright.matrix.config.mjs": "2142aeeb2820a44b4392246d6092dee2f23b2aa8a9c1b7ac253f4f5ce956d585",
     "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734",
     "services/integration/osr_integration/__init__.py": "e684a8dc60e41b5f0ad3caeca7d7040cc63b4465dc6c33eeaaa194a65e95e15b",
     "services/integration/osr_integration/config.py": "69cf267b91c6e9401bfb7d6cf14f9eea3c00f5b4e56475004c541ae2b280cb5a",
@@ -8425,6 +8744,7 @@
     "services/integration/osr_integration/store.py": "19870a14bc26bd9923e6490ab085293582c9b9ccde0e0467fb7f29ba658ce72e",
     "tests/acceptance/design-accounts.spec.mjs": "1a2267934b6a9be692538d128164b58e0fe246c4417af7d209f2356142aed5a6",
     "tests/frontend-unit/design-evidence.test.mjs": "d2f90f8c5726351facf5f9992911555e80f64a299ed78e8b396ef94139d1faf3",
+    "tests/frontend-unit/design-guided-inputs.test.mjs": "cb90c6a1cfbdb0a2305892a1d66c9d96107f66006ae0a6492e5b4e0c3b31ab6f",
     "tests/frontend-unit/execution-impact.test.mjs": "02e68e66279ee78005ef003333bd02396040132bc7826962aba62db036da3112",
     "tests/frontend-unit/ops-integrity.test.mjs": "333c4bfce5e7f6568e06fc9e73855b3801c2e707f773815601012352234cd55c",
     "tests/frontend-unit/station-layout.test.mjs": "ac01bf88ea693a60a00aeb1fdbe9e1e5392085ab1b1670009c9b3930472765ed",
@@ -8433,6 +8753,7 @@
     "tests/frontend/city-studio.spec.mjs": "dda3c997759bf5ff39b3210e63cb9210ccdc596c2010d784a17d63662d5bb9fc",
     "tests/frontend/decision-readiness.spec.mjs": "c7ba817764f0f52854c24593d16afdb9fb6d2c47c44b2e13926b4a957be6881e",
     "tests/frontend/design-engine.spec.mjs": "fc513f3b27ad85b9c3e4d89732aec957a4f717c00f9ed70a8af1f780dafdd379",
+    "tests/frontend/design-guided-inputs.spec.mjs": "6716d731748b7db3a173a2f4137b45cb62c8132caab37bfb098e334e962341c9",
     "tests/frontend/design-options.spec.mjs": "217bc58eef344773a7b24f7002c2eb7b2276a29e935c508f4f0779c2d8fd4ec0",
     "tests/frontend/design-qualification-draft.spec.mjs": "1a300c748ee4b3107e49668f2797f74cbcc569c0435e4c74fceead10eda600a9",
     "tests/frontend/design-responsive.spec.mjs": "a01cbc71816aca16e02285712daf88cc15b279d90edd57810493683594b2b3b8",
@@ -8510,7 +8831,7 @@
     "tools/automation/design-benchmark.py": "daf879fc30d441adbd1f7fb38a1cb5ff8835b717384ce26bc2df4f1fcd4fb198",
     "tools/automation/design-best-practice-twin.py": "97d961c0a36355712e5793c54d954c8c1d511316d18ea95897f7250a8009ca2f",
     "tools/automation/design-consistency-study.py": "f257fddff38e3fab9e5b0b8a056baeb92b3f448e037df88c4e239eb76ed2bc9d",
-    "tools/automation/design-engine.py": "c0716d7bf1e5fbdbb10e907677af5ad5316b814b6a370940135f8c0e8172a8e6",
+    "tools/automation/design-engine.py": "8ec544252080223c40bcab3bb1fdd4bd84779f67a7db3a4e3ca540e437a62086",
     "tools/automation/design-iterate.sh": "4b1f5ce38d4d33bc0f5a65601d377b2acf1c3a3d54736e4fe5ff1a430b8311e3",
     "tools/automation/design-option.py": "6c3d4b90d705744c13bbe7dc05d0c7dcfa762c87c02560e0d0d82df7494593ea",
     "tools/automation/design-twin-freecad.py": "fdf7337a5ae8a78d1d117fc7e8173099a7e27da416d861172d3318ab12b6cdc2",
@@ -8574,7 +8895,7 @@
     "tools/automation/iraq_current_basis.py": "3f4f127b11eadc7434334d08543bf0eb7c5c53999367b26c7627a396288ba325",
     "tools/automation/kani_release.py": "4f3278f009e8ac9d4c31745bcefc3722bf1269f2befc6fa07ffb19f12f2783ab",
     "tools/automation/local-validation.py": "ba68b28b67330c390411d69c771f5592320e3dd51677e29f9e8ed39d52fa3480",
-    "tools/automation/local_validation.py": "b84baa3dc336574ccc3f2af9a458466d865834422d4058febd407bf02142f6dd",
+    "tools/automation/local_validation.py": "18cadcbd1fef34df728e2a9a676922c5f796ba0e82356f2d74df279452f0606f",
     "tools/automation/mapping_evidence.py": "3b7c78e12a5ff7fdb0bef6baf2e9a08ae69acbb37e06e7626b0c569739a6fbe8",
     "tools/automation/native-spatial-pilot.py": "9efee823cfa6f0f7db705f64812efb76961b1835450c4cc2ac0d8ae6e66800e4",
     "tools/automation/network_integration.py": "7f65b12f3db36f2c305a01bc1a4a6c10014e87e58f1a32242161862626abd49a",
@@ -8707,7 +9028,7 @@
     "tools/automation/tests/test_launcher_pool.py": "2b2e1db12d63c4b8150bf2911851bf12de494235efca9e8ade3ccd0e56ca6393",
     "tools/automation/tests/test_lifecycle_governance.py": "d8f4dad01274330db8d00bebbe26ced313e2094b62b02794e52c0252b2c8f668",
     "tools/automation/tests/test_local_civil_report_refresh.py": "6760d14dcf6a9d3f398162c238aeec16632731d422ee39c471c567e74db5a245",
-    "tools/automation/tests/test_local_validation.py": "dbbc15c4ff19a8f1adbfa04001eb04acb7a1a3830f1425e2ca79cc84b81bd9bb",
+    "tools/automation/tests/test_local_validation.py": "5a63fd0bcc82775cf92f9c8951ec7c159dbe0a64e08e843a26bba5c44a6bec84",
     "tools/automation/tests/test_mapping_evidence.py": "f571d91698062f2b67283f636c0dc91c725258825c9a7497a850be1b018c14ec",
     "tools/automation/tests/test_native_planning_cache.py": "adfa92da3ea5575f179191cea7021097af59630450873cf394e2b5129cfa5b2d",
     "tools/automation/tests/test_native_run_cache.py": "b678befc77d9df1acc3d4d9d53dfae98c8081b1da2b4b2d8ade27f054dcf27ab",
@@ -8746,7 +9067,7 @@
     "tools/automation/tests/test_water_route_constraints.py": "eef17b157e93389baadcd7cc2b401aefce59b53c0515c7be8dfd07c0910a0547",
     "tools/automation/tests/test_workbench_actions.py": "f8309b441e49b3489411f8c9a8b43a859721e288f1551a71e973eab466dfbf0a",
     "tools/automation/tests/test_workbench_city.py": "348eae3c39854220ee89188f336bd57c0c27615c8b51a229ffd5d5300d5a54ad",
-    "tools/automation/tests/test_workbench_jobs.py": "7c070a0657725a2d5ec1f2dd9d63629fa51b179d0c2eedee5d0a0ad4d5369fb0",
+    "tools/automation/tests/test_workbench_jobs.py": "474651e00a26672f07ac9282f5b9e842d49d903c2e842a0513eadc494d511513",
     "tools/automation/tests/test_workforce_eligibility.py": "64696361a340363f7bc784ea560f1ea76c01248827e8f5ebd80942283cab5815",
     "tools/automation/validate-city-batch.py": "5b592a794acb64cafb03436cd94836630e40621d029b148fdc04aa63551cb7d9",
     "tools/automation/validate-city-projects.py": "718fdda381fb1f66aa0a86ccb64a142950814bc4dc92e8950159b6d1c113ecd8",
@@ -8772,7 +9093,7 @@
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1",
     "tools/automation/workbench-server.py": "25d38fed2fe2b8b358df49dc44bc979af6a3d43fd432e23ecc9f905c1d5856cc",
     "tools/automation/workbench_city.py": "a09955037e9fd69e21c21ddd5ee057d6cb9c831f51c19eb78fa846ca8daa6147",
-    "tools/automation/workbench_jobs.py": "30d64e3cea5d1833124cc0137ada80c693e5d773bd914046f5fe546ab6149749",
+    "tools/automation/workbench_jobs.py": "11d650d9506da709accfb52fe41dbe1ec6907031f6525574dba57d6419466c88",
     "tools/integration/desktop_bridge.py": "3d013599d7c6255948a2a1c9aece4e557a559c13cfdd25afea3fee3b2f8303c9",
     "tools/osr-aln-convert/pyproject.toml": "073aa1fc43f8b55e46cfb0ddb89c44886af08f452cd6ced161468a640ff4f621",
     "tools/osr-aln-convert/samples/samawah-line1.aln.toml": "422eede1fabcd9f78fa4bc55df88498180a718469cc6b4103b98235a22b28579",
@@ -8795,5 +9116,5 @@
     "tools/reference-ma/src/reference_ma/types.py": "7d3467d6145266c29177dad4b3fa32f959b5b461470837da29ace9d462aeb0c4",
     "tools/reference-ma/tests/test_basic.py": "68651d3533a8984e65c0dd04860ed57bd4ed1244edf4beffda1678223f27ba47"
   },
-  "source_index_sha256": "b1bf40c53736f4975902c30e041e258a724330e5ace448c3f20b83b5ea58ae80"
+  "source_index_sha256": "55cec469433549c0e500422079305a3aed891a7cc842473fd8de3cd9288a4377"
 }

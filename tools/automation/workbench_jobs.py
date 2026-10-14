@@ -3,6 +3,8 @@
 from pathlib import Path
 import json, subprocess, sys, threading, tomllib, uuid, os, hashlib
 
+from engineering.design_engine.store import process_ownership, process_start
+
 
 class ProjectTwinManager:
     """Allowlisted, asynchronous generation for tracked catalogue cities."""
@@ -21,19 +23,7 @@ class ProjectTwinManager:
             if job["city"] not in self._cities or path.stem != job["id"]:
                 continue
             if job["status"] in {"queued", "running"}:
-                try:
-                    if type(job.get("owner_pid")) is not int or job["owner_pid"] <= 0:
-                        raise ProcessLookupError("no owner")
-                    os.kill(job["owner_pid"], 0)
-                    current_start = (
-                        Path(f'/proc/{job["owner_pid"]}/stat')
-                        .read_text()
-                        .split(") ", 1)[1]
-                        .split()[19]
-                    )
-                    if current_start != job.get("owner_process_start"):
-                        raise ProcessLookupError("different owner incarnation")
-                except (ProcessLookupError, PermissionError, OSError):
+                if process_ownership(job.get("owner_pid"), job.get("owner_process_start")) is False:
                     job.update(
                         status="interrupted",
                         error="local server stopped; original request and partial output retained",
@@ -133,10 +123,7 @@ class ProjectTwinManager:
                 "progress_percent": 0,
                 "error": None,
                 "owner_pid": os.getpid(),
-                "owner_process_start": Path("/proc/self/stat")
-                .read_text()
-                .split(") ", 1)[1]
-                .split()[19],
+                "owner_process_start": process_start(os.getpid()),
                 "design_sha256": hashlib.sha256(
                     Path(self._cities[slug]["design_path"]).read_bytes()
                 ).hexdigest(),

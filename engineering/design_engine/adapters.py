@@ -40,7 +40,7 @@ def set_check(result, name, state, basis, **observables):
     result["checks"][name] = dict(state=state, basis=basis, **observables)
 
 
-def compile_candidate(charter, scope, values):
+def compile_candidate(charter, scope, values, *, reviewed_inputs=None):
     values = variables(charter, values)
     kind = charter["adapter"]
     data = {}
@@ -87,6 +87,21 @@ def compile_candidate(charter, scope, values):
         )
         data = dict(contract=model, correspondence=summary(model))
         metrics = dict(defined_mass_kg=data["correspondence"]["mass_kg"])
+    elif kind == "civil-alternatives":
+        from .design_alternatives import compile_civil
+
+        data = compile_civil(values)
+        metrics = dict(
+            defined_mass_kg=data["correspondence"]["mass_kg"],
+            unresolved_allowance_mass_kg=data["alternatives_review"][
+                "unresolved_allowance_mass_kg"
+            ],
+        )
+    elif kind == "vehicle-assembly":
+        from .design_alternatives import compile_vehicle
+
+        data = compile_vehicle(values)
+        metrics = dict(defined_mass_kg=data["review"]["total_mass_kg"])
     elif kind in {"battery", "vehicle"}:
         from engineering.civil_exploration.variant_compiler import (
             compile_variant,
@@ -144,7 +159,11 @@ def compile_candidate(charter, scope, values):
     else:
         raise OutsideDomain("unregistered discipline adapter")
     from .manufacturing import compile_register, reconcile
+    from .input_revisions import apply_reviewed_inputs
 
+    apply_reviewed_inputs(data, reviewed_inputs, scope)
+    if reviewed_inputs is not None and data.get("contract") is not None:
+        data["correspondence"] = summary(data["contract"])
     data["installed_register"] = reconcile(compile_register(data), data)
     result = dict(
         schema="osr-design-candidate/1",
@@ -265,17 +284,32 @@ def screen(charter, result, charge, folder):
             input_templates,
         )
 
+        entered = data.get("reviewed_engineering_inputs", {})
         data["prestress_assessment"] = prestress_assessment(
-            data["contract"], trace, context=result["identity"]
+            data["contract"],
+            trace,
+            entered.get("prestress"),
+            context=result["identity"],
         )
         data["site_assessment"] = assess_site(
-            None,
+            entered.get("site"),
             context=result["identity"],
             required_depth_m=result["variables"]["pile_length_m"],
             contract=data["contract"],
         )
         data["civil_input_templates"] = input_templates(
             data["contract"], result["identity"]
+        )
+        from .foundation_response import (
+            input_template as foundation_template,
+            assess_foundation_response,
+        )
+
+        data["civil_input_templates"]["foundation_input"] = foundation_template(
+            data["contract"], result["identity"]
+        )
+        data["foundation_response"] = assess_foundation_response(
+            data["contract"], entered.get("foundation"), context=result["identity"]
         )
         set_check(
             result,
@@ -289,7 +323,32 @@ def screen(charter, result, charge, folder):
             data["stages"]["checks"]["global_elastic_deflection"],
             "complete axle sweep, staged lifting and bearing replacement demand; resistance and site response unqualified",
         )
-    elif kind in {"battery", "vehicle", "twin"}:
+    elif kind == "civil-alternatives":
+        set_check(
+            result,
+            "mass_inertia",
+            "unknown",
+            "actual material-region mass reconciles to takeoff; reinforcement and hardware allowance positions/inertia remain unresolved",
+            material_mass_balance_residual_kg=data["alternatives_review"][
+                "mass_balance_residual_kg"
+            ],
+        )
+        for key in (
+            "interfaces",
+            "service",
+            "degraded_service",
+            "complete_installed_inventory",
+            "supplier_calibration",
+            "physical_correlation",
+            "independent_acceptance",
+        ):
+            set_check(
+                result,
+                key,
+                "unknown",
+                "selected fixed-function reference hypotheses require native confirmation, detailed resistance and independent project evidence",
+            )
+    elif kind in {"battery", "vehicle", "twin", "vehicle-assembly"}:
         review = data["review"]
         residual = review.get(
             "mass_balance_residual_kg", review.get("mass_reallocation_residual_kg")
@@ -304,37 +363,65 @@ def screen(charter, result, charge, folder):
         set_check(
             result,
             "interfaces",
-            "unknown" if kind in {"battery", "twin"} else "passed",
+            "unknown" if kind in {"battery", "twin", "vehicle-assembly"} else "passed",
             (
                 "typed crosswalk passed; battery cooling/fire/mount and DC/AC supplier compatibility remain unqualified"
-                if kind in {"battery", "twin"}
+                if kind in {"battery", "twin", "vehicle-assembly"}
                 else "existing typed physical/electrical/thermal/control crosswalk validation; no supplier compatibility acceptance"
             ),
             typed_crosswalk_state="passed",
             installation=data.get("installation"),
         )
-        if kind == "twin":
+        if kind in {"twin", "vehicle-assembly"}:
+            battery_failed = False
+            if kind == "vehicle-assembly":
+                from engineering.civil_exploration.automated_battery import duty_cycle
+
+                charge(1, "vehicle-battery-reference-duty")
+                data["vehicle_battery_reference_duty"] = duty_cycle(
+                    data["battery"],
+                    [
+                        dict(duration_s=60, terminal_power_w=200000),
+                        dict(duration_s=60, terminal_power_w=30000),
+                        dict(duration_s=20, terminal_power_w=-75000),
+                    ],
+                )
+                battery_failed = (
+                    data["vehicle_battery_reference_duty"].get(
+                        "research_constraints_passed"
+                    )
+                    is False
+                )
             set_check(
                 result,
                 "service",
                 (
-                    "passed"
+                    ("unknown" if kind == "vehicle-assembly" else "passed")
                     if data["studies"]["hvac_nominal"]["within_declared_study_limit"]
+                    and not battery_failed
                     else "failed"
                 ),
-                "existing nominal lumped HVAC duty screen",
+                (
+                    "nominal HVAC and reference battery-duty screens retained; failed subchecks fail service; complete vehicle running/route duty remains unknown"
+                    if kind == "vehicle-assembly"
+                    else "existing nominal lumped HVAC duty screen"
+                ),
             )
             set_check(
                 result,
                 "degraded_service",
                 (
-                    "passed"
+                    ("unknown" if kind == "vehicle-assembly" else "passed")
                     if data["studies"]["hvac_one_module_out"][
                         "within_declared_study_limit"
                     ]
                     else "failed"
                 ),
-                "existing failed-module thermal duty and electrical energy penalty retained",
+                (
+                    "failed-module HVAC duty only; complete vehicle battery, joint and contact fault service remain unknown"
+                    if kind == "vehicle-assembly"
+                    else "existing failed-module thermal duty and electrical energy penalty retained"
+                ),
             )
         elif kind == "battery":
             duty = review["battery_duty"]
@@ -413,7 +500,7 @@ def screen(charter, result, charge, folder):
     return result
 
 
-def refine(charter, result, charge, folder):
+def refine(charter, result, charge, folder, *, remaining_seconds=None):
     kind = charter["adapter"]
     data = result["definition"]
     folder = Path(folder)
@@ -635,6 +722,45 @@ def refine(charter, result, charge, folder):
             "unknown",
             "prestress/anchorage histories, reinforcement resistance, bearing laws and site-ground calibration require entered evidence",
         )
+    elif kind == "civil-alternatives":
+        from .design_alternatives import confirm_civil
+
+        charge(
+            1
+            + len(data["study"]["candidates"]) * len(data["study"]["ground_scenarios"]),
+            "selected-civil-native-with-independent-controls",
+        )
+        data["native_confirmation"] = confirm_civil(data, folder)
+        selected_name = next(
+            case["name"]
+            for case in data["native_confirmation"]["manifest"]["cases"]
+            if case["candidate_id"] == data["civil_candidate"]["id"]
+        )
+        selected = [
+            row
+            for row in data["native_confirmation"]["comparison"]["rows"]
+            if row["candidate"] == selected_name
+        ]
+        if not selected:
+            raise RuntimeError(
+                "native civil confirmation omitted the selected physical alternative"
+            )
+        failed = any(
+            row["execution"] != "completed" or row["numerical_screen"] != "passed"
+            for row in selected
+        )
+        set_check(
+            result,
+            "refinement",
+            "failed" if failed else "passed",
+            "complete existing native selected-candidate campaign and same-scope reference controls; physical soil/resistance unqualified",
+        )
+        set_check(
+            result,
+            "service",
+            "failed" if failed else "unknown",
+            "native numerical demands only; no installed-kit/resistance/site acceptance",
+        )
     elif kind == "civil":
         from engineering.civil_exploration.workflow import run_campaign
 
@@ -658,7 +784,7 @@ def refine(charter, result, charge, folder):
             "failed" if failed else "passed",
             "original complete native campaign and independent benchmark, mesh/time and ground cases retained",
         )
-    elif kind == "vehicle":
+    elif kind in {"vehicle", "vehicle-assembly"}:
         from engineering.civil_exploration.spatial_demo import scenarios
         from .passage import case
         from .vehicle_confirmation import (
@@ -688,7 +814,9 @@ def refine(charter, result, charge, folder):
             ),
             "actual separate battery mounts and mass-normalized research body modes conserve physical mass and static reactions; shell correlation open",
         )
-        for name, config in scenarios(model).items():
+        configurations = scenarios(model)
+        pending_cases = len(configurations) * 2
+        for name, config in configurations.items():
             for index, (level, dt, deck_mesh, rail_step) in enumerate(
                 [
                     ("coarse", 0.002, 4, 1.0),
@@ -715,9 +843,23 @@ def refine(charter, result, charge, folder):
                         requested_parameters=parameters,
                     )
                 else:
-                    results[name + "/" + level] = case(
-                        model, planned, parameters, folder / (name + "-" + level)
+                    # Divide the remaining common campaign budget fairly among
+                    # outstanding cases. Short diagnostic budgets stay short;
+                    # a longer explicit job budget can complete native passages.
+                    timeout = (
+                        45
+                        if remaining_seconds is None
+                        else max(0.001, (remaining_seconds() - 2.0) / pending_cases)
                     )
+                    results[name + "/" + level] = case(
+                        model,
+                        planned,
+                        parameters,
+                        folder / (name + "-" + level),
+                        timeout=timeout,
+                    )
+                    results[name + "/" + level]["allocated_wall_seconds"] = timeout
+                pending_cases -= 1
                 results[name + "/" + level]["passage_plan"] = plan
                 native = results[name + "/" + level]
                 covered = complete_coverage(model, planned, plan, native)

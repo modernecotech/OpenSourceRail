@@ -63,7 +63,14 @@ class FlexibleVehicle(SpatialVehicle):
                 first_frame=poses[joint['endpoints'][0]['group']['id']]['R'];body_frame=poses[g['id']]['R'];R=first_frame.T@body_frame
                 transform=np.zeros((6,6));transform[:3,:3]=R;transform[3:,3:]=R
                 J[:,i:i+n]+=sign*transform@local
-            K+=J.T@joint['K']@J-old.T@joint['K']@old;C+=J.T@joint['C']@J-old.T@joint['C']@old;plan['J']=J
+            # Only the connected bodies and their modal coordinates contribute
+            # to this joint. Assemble that exact submatrix instead of forming
+            # several mostly-zero full-vehicle dense products at every step.
+            columns=np.flatnonzero(np.any(J!=0,axis=0)|np.any(old!=0,axis=0))
+            compact=J[:,columns];previous=old[:,columns];ix=np.ix_(columns,columns)
+            K[ix]+=compact.T@joint['K']@compact-previous.T@joint['K']@previous
+            C[ix]+=compact.T@joint['C']@compact-previous.T@joint['C']@previous
+            plan['J']=J
         # Analytical assembly is symmetric. Remove only the rounding asymmetry
         # of dense products/subtractions before the coupled static solve.
         return (K+K.T)/2,(C+C.T)/2,(M+M.T)/2,(poses,plans)

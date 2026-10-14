@@ -9,6 +9,7 @@ import shutil
 import subprocess
 
 from .contracts import canonical
+from .bom import candidate_bill
 from .publication import digest
 from .registry import ROOT, dependencies
 from .runtime import comparison, toolchain
@@ -26,10 +27,43 @@ def export(store, identifier, destination, *, native=False):
     ):
         raise ValueError("stale candidate cannot be exported as current")
     report = comparison(store, identifier)
+    bills = [
+        candidate_bill(candidate, adapter=adapter) for candidate in report["candidates"]
+    ]
     attempt = store.root / "runs" / identifier / f'attempt-{job["active_attempt"]:04d}'
     destination.mkdir(parents=True)
     shutil.copytree(attempt, destination / "executed-attempt")
     (destination / "request.json").write_bytes(canonical(req) + b"\n")
+    reviewed_input_sources = []
+    input_source_checks = []
+    if req.get("reviewed_inputs"):
+        from .input_revisions import InputRevisions
+
+        input_revisions = InputRevisions(store)
+        for folder in input_revisions.source_directories(req):
+            source_files = {}
+            for path in sorted(folder.rglob("*")):
+                if path.is_symlink() or not path.resolve().is_relative_to(
+                    folder.resolve()
+                ):
+                    raise ValueError("unsafe reviewed input source export")
+                if path.is_file():
+                    source_files[path.relative_to(folder).as_posix()] = digest(path)
+            target = destination / "reviewed-inputs" / folder.name
+            shutil.copytree(folder, target)
+            if any(
+                digest(target / name) != expected
+                for name, expected in source_files.items()
+            ):
+                raise ValueError("reviewed input sources changed during export")
+            input_source_checks.append((folder, source_files))
+            reviewed_input_sources.append(
+                dict(
+                    input_revision=folder.name,
+                    path=target.relative_to(destination).as_posix(),
+                    files=source_files,
+                )
+            )
     source_root = destination / "sources"
     for name, expected in req["dependencies"].items():
         source = ROOT / name
@@ -41,6 +75,7 @@ def export(store, identifier, destination, *, native=False):
     package_sources = {}
     for source in [
         Path(__file__),
+        Path(__file__).with_name("bom.py"),
         Path(__file__).with_name("native_cad.py"),
         Path(__file__).with_name("delivery.py"),
     ]:
@@ -68,29 +103,47 @@ def export(store, identifier, destination, *, native=False):
         writer.writerow(
             [
                 "candidate",
+                "physical_id",
                 "part_id",
+                "quantity",
+                "unit",
                 "material",
                 "revision",
                 "defined_mass_kg",
+                "cg_m",
+                "inertia_tensor_kg_m2",
+                "property_frame",
+                "placement",
                 "installed_kit_complete",
                 "production_released",
             ]
         )
-        for candidate in report["candidates"]:
-            for part in (
-                candidate.get("definition", {}).get("contract", {}).get("parts", [])
-            ):
+        for bill in bills:
+            for part in bill["parts"]:
                 writer.writerow(
                     [
-                        candidate["id"],
-                        part["id"],
+                        bill["candidate"],
+                        part["physical_id"],
+                        part["part_id"],
+                        part["quantity"],
+                        part["unit"],
                         part["material"],
                         part["revision"],
-                        part["properties"]["mass_kg"],
+                        part["defined_mass_kg"],
+                        json.dumps(part["cg_m"]),
+                        json.dumps(part["inertia_tensor_kg_m2"]),
+                        part["property_frame"],
+                        json.dumps(part["placement"], sort_keys=True),
                         "false",
                         "false",
                     ]
                 )
+    (destination / "bill-of-materials.json").write_bytes(
+        canonical(
+            dict(schema="osr-design-bill/1", candidates=bills, physical_release=False)
+        )
+        + b"\n"
+    )
     with (destination / "verification-matrix.csv").open("w", newline="") as stream:
         writer = csv.writer(stream)
         writer.writerow(["candidate", "check", "state", "basis", "observables"])
@@ -142,7 +195,7 @@ def export(store, identifier, destination, *, native=False):
         + ". Scope: "
         + req["problem"]["applicability"]["function"]
         + ".\n\n"
-        "Original failed/unknown/not-run checks remain in the verification matrix. Defined component mass does not close the installed kit. "
+        "Original failed/unknown/not-run checks remain in the verification matrix. The BOM uses reconciled per-instance installed-register quantities; its JSON retains unknown values, catalogue counts and unresolved allocations for each candidate. Defined component mass does not close the installed kit. "
         "The RFQ has no assumed price or supplier commitment. Drawings are unissued; physical tests and independent decisions remain separate.\n\n"
         "Original attempt and source bytes are retained for offline review. Native solver histories keep their original domain schema.\n"
     )
@@ -228,6 +281,24 @@ def export(store, identifier, destination, *, native=False):
         raise ValueError(
             "package generator changed during export; unsealed output retained"
         )
+    if req.get("reviewed_inputs"):
+        current_folders = input_revisions.source_directories(req)
+        if current_folders != [folder for folder, _ in input_source_checks]:
+            raise ValueError("reviewed input ancestry changed during export")
+        for folder, expected in input_source_checks:
+            paths = list(folder.rglob("*"))
+            if (
+                any(path.is_symlink() for path in paths)
+                or {
+                    path.relative_to(folder).as_posix(): digest(path)
+                    for path in paths
+                    if path.is_file()
+                }
+                != expected
+            ):
+                raise ValueError(
+                    "reviewed input sources changed during export; unsealed output retained"
+                )
     files = {
         p.relative_to(destination).as_posix(): digest(p)
         for p in sorted(destination.rglob("*"))
@@ -244,6 +315,7 @@ def export(store, identifier, destination, *, native=False):
         independently_accepted=False,
         native_exports=native_results,
         package_source_sha256=package_sources,
+        reviewed_input_sources=reviewed_input_sources,
     )
     (destination / "manifest.json").write_bytes(canonical(manifest) + b"\n")
     return manifest

@@ -8,6 +8,8 @@ from __future__ import annotations
 from datetime import date
 import math
 
+from .review import normalize_record_scope, record_applicability
+
 REQUIRED_SCOPES = {
     "materials",
     "joints-supports-retention-seals",
@@ -29,15 +31,43 @@ def finite(value, name, minimum=0):
 
 
 def installed_objectives(
-    records, *, place, currency, as_of, complete_installed_inventory=False
+    records,
+    *,
+    place,
+    currency,
+    as_of,
+    complete_installed_inventory=False,
+    identity=None,
+    applicability=None,
 ):
     day = date.fromisoformat(as_of)
+    if identity is None:
+        if applicability is not None:
+            raise ValueError("cost applicability requires its full canonical identity")
+        target_identity, target_applicability = None, None
+    else:
+        target_identity, target_applicability = normalize_record_scope(
+            identity, applicability
+        )
     priced = {}
     rejected = []
     for row in records:
         if row.get("state") != "verified-record" or row.get("kind") != "quotation":
             rejected.append(
                 dict(id=row.get("id"), reason="unverified or wrong record kind")
+            )
+            continue
+        assessment = (
+            record_applicability(row, target_identity, target_applicability)
+            if target_identity is not None
+            else dict(
+                eligible=False,
+                reasons=["explicit appraisal identity and applicability required"],
+            )
+        )
+        if not assessment["eligible"]:
+            rejected.append(
+                dict(id=row.get("id"), reason="; ".join(assessment["reasons"]))
             )
             continue
         quote = row["payload"]
@@ -70,6 +100,9 @@ def installed_objectives(
             quoted_amount=total,
             source_reference=quote["source_reference"],
             quote_date=quote["date"],
+            identity=row["identity"],
+            applicability=row["applicability"],
+            record_revision=row["revision"],
         )
     missing = sorted(REQUIRED_SCOPES - priced.keys())
     subtotal = sum(r["quoted_amount"] for r in priced.values())
@@ -79,6 +112,9 @@ def installed_objectives(
         place=place,
         currency=currency,
         as_of=as_of,
+        identity=target_identity,
+        applicability=target_applicability,
+        applicability_state="explicit" if target_identity is not None else "unknown",
         priced_scopes=priced,
         missing_scopes=missing,
         rejected_records=rejected,

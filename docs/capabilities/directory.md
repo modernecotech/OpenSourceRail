@@ -319,9 +319,11 @@ A source inventory proves retained entry points, not coverage or physical accept
 | design:battery-installation | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem battery-installation --city samawah` | implemented |
 | design:roof-hvac | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem roof-hvac --city samawah` | implemented |
 | design:full-train | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem full-train --city samawah` | implemented |
+| design:vehicle-assembly | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem vehicle-assembly --city samawah` | implemented |
 | design:viaduct-bay | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem viaduct-bay --city samawah` | implemented |
 | design:foundation-site | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem foundation-site --city samawah` | implemented |
 | design:civil-campaign | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem civil-campaign --city samawah` | implemented |
+| design:civil-system-alternatives | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem civil-system-alternatives --city samawah` | implemented |
 | design:city-options | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem city-options --city samawah` | implemented |
 | design:engineering-change | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem engineering-change --city samawah` | implemented |
 | service:erpnext | erpnext maintainer | `deployment/erpnext/README.md` | `./osr erp` | implemented |

@@ -41,7 +41,16 @@ def main():
             default="simulation",
         )
         p.add_argument("--revision", default="research-1")
+        p.add_argument("--baseline-sha256")
+        p.add_argument("--run-id")
+        p.add_argument("--asset-id")
+        p.add_argument("--part-id")
         p.add_argument("--candidates", type=Path)
+        p.add_argument(
+            "--interactions",
+            type=Path,
+            help="JSON containing bounded two-level factors and an evaluation budget",
+        )
         p.add_argument("--shortlist", type=int, default=3)
         p.add_argument("--refine", action="store_true")
         p.add_argument("--evaluations", type=int)
@@ -95,10 +104,10 @@ def main():
                 project=args.project or args.city,
                 environment=args.environment,
                 configuration_revision=args.revision,
-                baseline_sha256=None,
-                run_id=None,
-                asset_id=None,
-                part_id=None,
+                baseline_sha256=args.baseline_sha256,
+                run_id=args.run_id,
+                asset_id=args.asset_id,
+                part_id=args.part_id,
             )
         )
         budget = {}
@@ -118,6 +127,7 @@ def main():
                 if args.action == "search"
                 else None
             ),
+            interactions=load(args.interactions) if args.interactions else None,
         )
         manager = Manager(args.store)
         job = manager.start(req)

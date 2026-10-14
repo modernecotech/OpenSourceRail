@@ -4,6 +4,8 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shlex
+import socket
 import subprocess
 import sys
 import time
@@ -59,15 +61,29 @@ def test_success_is_verifiable_and_logs_stay_ignored(checkout):
     assert not LOCAL.git(root, "status", "--porcelain")
 
 
-def test_independent_source_checks_still_run_after_a_coherence_failure(checkout,monkeypatch):
-    root,output=checkout
-    monkeypatch.setattr(LOCAL,'plan',lambda *args:[
-        LOCAL.command('failed artifact',sys.executable,'-c','raise SystemExit(7)'),
-        LOCAL.command('independent source suite',sys.executable,'-c','print("independent suite executed")')])
-    row=LOCAL.run('ci',output,root)
-    assert row['passed']is False
-    assert [r['exit_code']for r in row['results']]==[7,0]
-    assert 'independent suite executed'in(output/'001.log').read_text()
+def test_independent_source_checks_still_run_after_a_coherence_failure(
+    checkout, monkeypatch
+):
+    root, output = checkout
+    monkeypatch.setattr(
+        LOCAL,
+        "plan",
+        lambda *args: [
+            LOCAL.command(
+                "failed artifact", sys.executable, "-c", "raise SystemExit(7)"
+            ),
+            LOCAL.command(
+                "independent source suite",
+                sys.executable,
+                "-c",
+                'print("independent suite executed")',
+            ),
+        ],
+    )
+    row = LOCAL.run("ci", output, root)
+    assert row["passed"] is False
+    assert [r["exit_code"] for r in row["results"]] == [7, 0]
+    assert "independent suite executed" in (output / "001.log").read_text()
 
 
 @pytest.mark.parametrize("mutation", ["tracked", "untracked", "new-commit"])
@@ -186,6 +202,56 @@ def test_local_run_cannot_inherit_github_execution_identity(checkout, monkeypatc
     assert LOCAL.run("quick", output, root)["passed"]
 
 
+def test_local_run_uses_candidate_packages_instead_of_other_editable_checkout(
+    checkout, monkeypatch
+):
+    root, output = checkout
+    for relative, package in [
+        ("tools/osr-aln-convert/src", "osr_aln"),
+        ("tools/reference-ma/src", "reference_ma"),
+    ]:
+        folder = root / relative / package
+        folder.mkdir(parents=True)
+        (folder / "__init__.py").write_text("CANDIDATE_SOURCE = True\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "-qm",
+            "candidate source packages",
+        ],
+        cwd=root,
+        check=True,
+    )
+    monkeypatch.setenv("PYTHONDONTWRITEBYTECODE", "1")
+    code = (
+        "from pathlib import Path; import osr_aln,reference_ma; "
+        "assert osr_aln.CANDIDATE_SOURCE and reference_ma.CANDIDATE_SOURCE; "
+        "assert all(Path(module.__file__).resolve().is_relative_to(Path.cwd()) for module in (osr_aln,reference_ma)); "
+        "print(osr_aln.__file__); print(reference_ma.__file__)"
+    )
+    monkeypatch.setattr(
+        LOCAL,
+        "plan",
+        lambda *args: [
+            LOCAL.command(
+                "private candidate import origins", sys.executable, "-c", code
+            )
+        ],
+    )
+    receipt = LOCAL.run("quick", output, root)
+    assert receipt["passed"] and receipt["source"]["clean"]
+    assert LOCAL.verify(output, root, clean=True) == receipt
+    log = (output / "000.log").read_text()
+    assert str(root / "tools/osr-aln-convert/src/osr_aln/__init__.py") in log
+    assert str(root / "tools/reference-ma/src/reference_ma/__init__.py") in log
+
+
 def test_timeout_terminates_owned_child(checkout, monkeypatch):
     root, output = checkout
     code = (
@@ -231,13 +297,60 @@ def test_release_requires_all_four_distinct_profiles(checkout, monkeypatch):
             LOCAL.release_receipts(invalid, commit, root)
 
 
-def test_destructive_scenarios_refuse_existing_fixture_files(tmp_path):
-    folder = tmp_path / "var/example-city"
+@pytest.mark.parametrize("relative", ["var/example-city", "var/city-example"])
+def test_destructive_scenarios_refuse_existing_fixture_files(
+    tmp_path, monkeypatch, relative
+):
+    folder = tmp_path / relative
     folder.mkdir(parents=True)
-    (folder / "operator-data").write_text("preserve me")
+    retained = folder / "operator-data"
+    retained.write_text("preserve me")
+    before = retained.stat()
+    monkeypatch.setattr(
+        LOCAL.subprocess,
+        "check_output",
+        lambda *args, **kwargs: pytest.fail(
+            "Existing fixture guard must refuse before contacting Docker"
+        ),
+    )
     with pytest.raises(ValueError, match="existing fixture files"):
         LOCAL.guard_containers("example-city", tmp_path)
-    assert (folder / "operator-data").read_text() == "preserve me"
+    assert retained.read_text() == "preserve me"
+    assert retained.stat().st_mtime_ns == before.st_mtime_ns
+    assert sorted(
+        p.relative_to(tmp_path).as_posix() for p in tmp_path.rglob("*") if p.is_file()
+    ) == [relative + "/operator-data"]
+
+
+def test_example_city_refuses_an_actually_bound_recovery_port_before_docker(
+    tmp_path, monkeypatch
+):
+    real_socket = socket.socket
+    retained = tmp_path / "operator-data"
+    retained.write_text("retain this unrelated operator file")
+    before = retained.stat()
+    with real_socket() as owner:
+        owner.bind(("127.0.0.1", 28880))
+
+        class PortProbe(real_socket):
+            def bind(self, address):
+                # Other canonical ports may belong to user services. Only those
+                # unrelated probes use real ephemeral sockets in this test; the
+                # recovery probe must hit the actual occupied canonical port.
+                return super().bind(address if address[1] == 28880 else (address[0], 0))
+
+        monkeypatch.setattr(LOCAL.socket, "socket", PortProbe)
+        monkeypatch.setattr(
+            LOCAL.subprocess,
+            "check_output",
+            lambda *args, **kwargs: pytest.fail(
+                "Occupied recovery port must refuse before contacting Docker"
+            ),
+        )
+        with pytest.raises(ValueError, match="port 28880 is occupied"):
+            LOCAL.guard_containers("example-city", tmp_path)
+    assert retained.read_text() == "retain this unrelated operator file"
+    assert retained.stat().st_mtime_ns == before.st_mtime_ns
 
 
 def test_workflow_adapter_preserves_background_services_and_always_cleanup(
@@ -264,6 +377,96 @@ def test_workflow_adapter_preserves_background_services_and_always_cleanup(
         commands[0]["argv"], tmp_path, tmp_path / "build/log", 5, dict(os.environ)
     )
     assert code == 9 and (tmp_path / "build/cleaned").is_file()
+
+
+@pytest.mark.parametrize("missing", [None, "npm", "chromium"])
+def test_mixed_setup_step_inspects_installed_tools_and_preserves_actual_pilot(
+    tmp_path, monkeypatch, missing
+):
+    folder = tmp_path / ".github/workflows"
+    folder.mkdir(parents=True)
+    (tmp_path / "build").mkdir()
+    pilot = (
+        shlex.quote(sys.executable)
+        + " -c "
+        + shlex.quote(
+            "from pathlib import Path; Path('build/pilot-ran').write_text('actual verification command executed')"
+        )
+    )
+    (folder / "fixture.yml").write_text(
+        "jobs:\n  test:\n    steps:\n      - name: Verify installed operations pilot\n        run: |\n"
+        "          npm ci\n          npx playwright install --with-deps chromium\n          "
+        + pilot
+        + "\n"
+    )
+    binary = tmp_path / "bin"
+    binary.mkdir()
+    # Stand-ins enforce the allowed prerequisite protocol. They cannot install;
+    # the real installed browser is exercised by the release prerequisite probe.
+    scripts = {
+        "npm": '#!/bin/sh\n[ "$*" = "ls --depth=0" ] || exit 99\n[ "$OSR_MISSING_SETUP" != "npm" ] || exit 6\nprintf inspected > build/npm-inspected\n',
+        "node": '#!/bin/sh\n[ "$1" = "-e" ] || exit 99\nprintf "%s" "$2" > build/browser-probe-source\n[ "$OSR_MISSING_SETUP" != "chromium" ] || exit 7\n',
+        "npx": "#!/bin/sh\nexit 99\n",
+    }
+    for name, content in scripts.items():
+        path = binary / name
+        path.write_text(content)
+        path.chmod(0o755)
+    monkeypatch.setattr(LOCAL, "ROOT", tmp_path)
+    commands = LOCAL.workflow_commands("fixture", tmp_path / "build")
+    assert len(commands) == 1
+    row = commands[0]
+    assert [entry["original"] for entry in row["setup_prerequisites"]] == [
+        "npm ci",
+        "npx playwright install --with-deps chromium",
+    ]
+    assert pilot in row["argv"][-1]
+    assert "npx playwright install" not in row["argv"][-1]
+    environment = dict(
+        os.environ,
+        PATH=str(binary) + os.pathsep + os.environ["PATH"],
+        OSR_MISSING_SETUP=missing or "",
+    )
+    code = LOCAL.execute(row["argv"], tmp_path, tmp_path / "build/log", 10, environment)
+    assert code == (6 if missing == "npm" else 7 if missing == "chromium" else 0)
+    assert (tmp_path / "build/pilot-ran").exists() is (missing is None)
+    if missing != "npm":
+        assert (
+            "chromium.launch({headless:true})"
+            in (tmp_path / "build/browser-probe-source").read_text()
+        )
+    if missing is None:
+        assert (
+            tmp_path / "build/pilot-ran"
+        ).read_text() == "actual verification command executed"
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "npm ci --ignore-scripts",
+        "npm install",
+        "npm --prefix somewhere ci",
+        "npx playwright install firefox",
+        "npx --yes playwright install --with-deps chromium",
+        "npx playwright install --with-deps chromium && node actual-test.mjs",
+        "PLAYWRIGHT_BROWSERS_PATH=/tmp/other npx playwright install --with-deps chromium",
+        "python -m pip install unreviewed-package",
+    ],
+)
+def test_unreviewed_inline_setup_forms_fail_instead_of_installing_or_skipping(line):
+    with pytest.raises(ValueError, match="unsupported inline local setup"):
+        LOCAL.installed_setup(line, "Verification step")
+
+
+def test_reviewed_inline_browser_cache_prefix_is_preserved():
+    prefix = LOCAL.PLAYWRIGHT_CACHE_PREFIX
+    line, metadata = LOCAL.installed_setup(
+        prefix + "npx playwright install --with-deps chromium", "Pilot"
+    )
+    assert line.startswith(prefix + "node -e ")
+    assert metadata["original"].startswith(prefix)
+    assert metadata["mode"] == "installed-prerequisite-check; no installation"
 
 
 def test_every_production_profile_can_be_planned():

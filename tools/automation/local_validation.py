@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import signal
 import socket
 import subprocess
@@ -67,6 +68,55 @@ def python(name, *argv, timeout=3600):
     return command(name, "tools/automation/osr-python", *argv, timeout=timeout)
 
 
+CHROMIUM_PREREQUISITE = (
+    "const {chromium}=require('@playwright/test'); "
+    "(async()=>{const browser=await chromium.launch({headless:true}); "
+    "try {const page=await browser.newPage(); "
+    "await page.setContent('<h1>Installed Chromium prerequisite</h1>'); "
+    "if(await page.textContent('h1')!=='Installed Chromium prerequisite') "
+    "throw Error('Chromium prerequisite render failed'); "
+    "console.log(JSON.stringify({installed_chromium:browser.version()}));} "
+    "finally {await browser.close();}})().catch(error=>{console.error(error);process.exitCode=1;});"
+)
+PLAYWRIGHT_CACHE_PREFIX = 'PLAYWRIGHT_BROWSERS_PATH="$HOME/.local/share/opensource-rail/toolchains/playwright" '
+
+
+def installed_setup(line, title):
+    """Adapt reviewed inline setup only; preserve every verification command.
+
+    Local validation inspects installed npm dependencies and actually launches
+    the installed Chromium. Unknown inline installation forms need an explicit
+    adapter, rather than running installers or silently discarding a test.
+    """
+    text = line.strip()
+    replacement = None
+    if text == "npm ci":
+        replacement = "npm ls --depth=0"
+    elif text in {
+        "npx playwright install --with-deps chromium",
+        PLAYWRIGHT_CACHE_PREFIX + "npx playwright install --with-deps chromium",
+    }:
+        prefix = (
+            PLAYWRIGHT_CACHE_PREFIX if text.startswith(PLAYWRIGHT_CACHE_PREFIX) else ""
+        )
+        replacement = prefix + "node -e " + shlex.quote(CHROMIUM_PREREQUISITE)
+    elif not text.startswith("#") and (
+        re.search(r"\bnpm\b.*\b(?:ci|install)\b", text)
+        or re.search(r"\bnpx\b.*\bplaywright\s+install\b", text)
+        or re.search(r"\bpip\s+install\b", text)
+    ):
+        raise ValueError("unsupported inline local setup in " + title + ": " + text)
+    if replacement is None:
+        return line, None
+    indentation = line[: len(line) - len(line.lstrip())]
+    return indentation + replacement, dict(
+        source_step=title,
+        original=text,
+        replacement=replacement,
+        mode="installed-prerequisite-check; no installation",
+    )
+
+
 def workflow_commands(name, output, selected_jobs=None, *, omit_unit_tests=False):
     import yaml
 
@@ -89,6 +139,7 @@ def workflow_commands(name, output, selected_jobs=None, *, omit_unit_tests=False
             )
         scripts = []
         cleanup = []
+        setup_prerequisites = []
         for i, step in enumerate(job["steps"]):
             if "run" not in step:
                 allowed_actions = (
@@ -125,6 +176,13 @@ def workflow_commands(name, output, selected_jobs=None, *, omit_unit_tests=False
                 raise ValueError(
                     "unsupported workflow expression in local command: " + title
                 )
+            adapted = []
+            for line in script.splitlines():
+                replacement, metadata = installed_setup(line, title)
+                adapted.append(replacement)
+                if metadata is not None:
+                    setup_prerequisites.append(metadata)
+            script = "\n".join(adapted)
             if any(
                 key in step
                 for key in ("env", "working-directory", "shell", "continue-on-error")
@@ -175,14 +233,17 @@ def workflow_commands(name, output, selected_jobs=None, *, omit_unit_tests=False
                 )
             )
         rows.append(
-            command(
-                name + "/" + job_name,
-                "bash",
-                "-euo",
-                "pipefail",
-                "-c",
-                "\n".join(exports) + "\n" + trap + "\n".join(scripts),
-                timeout=7200,
+            dict(
+                **command(
+                    name + "/" + job_name,
+                    "bash",
+                    "-euo",
+                    "pipefail",
+                    "-c",
+                    "\n".join(exports) + "\n" + trap + "\n".join(scripts),
+                    timeout=7200,
+                ),
+                setup_prerequisites=setup_prerequisites,
             )
         )
     if not rows:
@@ -452,7 +513,7 @@ def guard_containers(profile, root=ROOT):
     paths = (
         ["var/erpnext", "var/supervision", "build/integrated-stack"]
         if profile == "integrated-stack"
-        else ["var/example-city", "build/city-example"]
+        else ["var/example-city", "var/city-example", "build/city-example"]
     )
     for relative in paths:
         folder = root / relative
@@ -463,7 +524,7 @@ def guard_containers(profile, root=ROOT):
     ports = (
         [8080, 8090, 8091, 8092, 1881]
         if profile == "integrated-stack"
-        else [8180, 8190, 8191, 8192, 1981]
+        else [8180, 8190, 8191, 8192, 1981, 28880]
     )
     for port in ports:
         with socket.socket() as probe:
@@ -597,6 +658,8 @@ def run(profile, output, root=ROOT):
             str(root),
             str(root / "design/component-catalogue/src"),
             str(root / "design/city-generation/src"),
+            str(root / "tools/osr-aln-convert/src"),
+            str(root / "tools/reference-ma/src"),
             str(root / "tools/automation"),
         ]
     )

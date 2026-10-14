@@ -66,7 +66,9 @@ def toolchain(adapter):
     return result
 
 
-def preflight(charter, *, search=False):
+def preflight(charter, *, search=False, operation="screen"):
+    if operation not in {"screen", "optimise", "confirm", "cad-export"}:
+        raise ValueError("controlled engineering operation required")
     adapter = charter["adapter"]
     tools = toolchain(adapter)
     missing = []
@@ -74,16 +76,44 @@ def preflight(charter, *, search=False):
         if not tools[name]:
             missing.append(name)
     if (
-        adapter in {"panel", "roof", "viaduct", "foundation"}
+        operation == "confirm"
+        and adapter in {"panel", "roof", "viaduct", "foundation"}
         and not tools["calculix_sha256"]
     ):
         missing.append("CalculiX")
-    if search and not tools["pymoo"]:
+    if (search or operation == "optimise") and not tools["pymoo"]:
         missing.append("pymoo")
-    if adapter == "civil" and not tools["openseespy"]:
+    if (
+        operation == "confirm"
+        and adapter in {"civil", "civil-alternatives"}
+        and not tools["openseespy"]
+    ):
         missing.append("OpenSeesPy")
+    if operation == "cad-export" and not (
+        shutil.which("FreeCADCmd") or shutil.which("freecadcmd")
+    ):
+        flatpak = shutil.which("flatpak")
+        available = False
+        try:
+            available = (
+                flatpak
+                and subprocess.run(
+                    [flatpak, "info", "org.freecad.FreeCAD"],
+                    capture_output=True,
+                    timeout=10,
+                ).returncode
+                == 0
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+        if not available:
+            missing.append("FreeCAD")
     return dict(
-        available=not missing, missing=missing, toolchain=tools, physical_release=False
+        available=not missing,
+        missing=missing,
+        operation=operation,
+        toolchain=tools,
+        physical_release=False,
     )
 
 
@@ -97,9 +127,24 @@ def request(
     budget=None,
     seed=11,
     search=None,
+    reviewed_inputs=None,
+    interactions=None,
 ):
     charter = get(problem_id)
     identity(scope)
+    if reviewed_inputs is not None:
+        if (
+            reviewed_inputs.get("schema") != "osr-reviewed-job-inputs/1"
+            or reviewed_inputs.get("problem_id") != problem_id
+            or reviewed_inputs.get("base_problem_sha256")
+            != problem_fingerprint(charter)
+        ):
+            raise ValueError(
+                "reviewed inputs must retain the controlled functional charter"
+            )
+        if reviewed_inputs["target_identity"] != scope:
+            raise ValueError("reviewed inputs refer to another target revision")
+        charter["revision"] += "+inputs-" + reviewed_inputs["proposal_sha256"][:16]
     if scope["environment"] not in charter["applicability"]["environment"]:
         raise ValueError("problem does not apply to the selected environment")
     if budget:
@@ -123,6 +168,32 @@ def request(
         raise ValueError("duplicate candidates do not create free evaluations")
     if type(refine) is not bool:
         raise ValueError("refinement must be an explicit boolean")
+    if interactions is not None:
+        if not isinstance(interactions, dict) or set(interactions) != {
+            "factors",
+            "evaluations",
+        }:
+            raise ValueError(
+                "explicit interaction factors and evaluator budget required"
+            )
+        factors = interactions["factors"]
+        if (
+            not isinstance(factors, dict)
+            or not 2 <= len(factors) <= 6
+            or type(interactions["evaluations"]) is not int
+            or not 1 <= interactions["evaluations"] <= 1024
+        ):
+            raise ValueError("bounded two-to-six-factor study required")
+        for name, levels in factors.items():
+            if (
+                name not in charter["variables"]
+                or not isinstance(levels, list)
+                or len(levels) != 2
+                or fingerprint(levels[0]) == fingerprint(levels[1])
+            ):
+                raise ValueError("two distinct declared variable levels required")
+            for level in levels:
+                variables(charter, {**values[0], name: level})
     if search is not None:
         if not isinstance(search, dict) or set(search) != {"seeds", "evaluations"}:
             raise ValueError("bounded search seeds/proposal budget required")
@@ -146,6 +217,8 @@ def request(
         shortlist=shortlist,
         seed=seed,
         search=search,
+        reviewed_inputs=deepcopy(reviewed_inputs),
+        interactions=deepcopy(interactions),
         dependencies=dependencies(charter["adapter"]),
         toolchain=toolchain(charter["adapter"]),
     )
@@ -158,6 +231,9 @@ class Budget:
         self.limits = limits
         self.started = time.monotonic()
         self.spent = 0
+
+    def remaining_seconds(self):
+        return max(0.0, self.limits["wall_seconds"] - (time.monotonic() - self.started))
 
     def charge(self, count, phase):
         if self.store.cancelled(self.id):
@@ -241,13 +317,24 @@ def worker(store_root, identifier):
     cpu = max(1, math.ceil(limits["wall_seconds"]))
     resource.setrlimit(resource.RLIMIT_CPU, (cpu, cpu + 1))
     try:
+        from .input_revisions import InputRevisions
+
+        InputRevisions(store).validate_job(req)
         if req["dependencies"] != dependencies(charter["adapter"]) or req[
             "toolchain"
         ] != toolchain(charter["adapter"]):
             raise ValueError(
                 "stale source/material/solver environment before execution"
             )
-        check = preflight(charter, search=req.get("search") is not None)
+        check = preflight(
+            charter,
+            search=req.get("search") is not None,
+            operation=(
+                "confirm"
+                if req.get("refine")
+                else "optimise" if req.get("search") else "screen"
+            ),
+        )
         write_new(folder / "preflight.json", check)
         if not check["available"]:
             raise adapters.Unavailable(
@@ -265,7 +352,12 @@ def worker(store_root, identifier):
         def evaluate(values, charge):
             budget.charge(0, "compile")
             try:
-                row = adapters.compile_candidate(charter, req["identity"], values)
+                row = adapters.compile_candidate(
+                    charter,
+                    req["identity"],
+                    values,
+                    reviewed_inputs=req.get("reviewed_inputs"),
+                )
                 row = adapters.screen(charter, row, charge, folder)
             except (ValueError, adapters.OutsideDomain) as failure:
                 row = dict(
@@ -346,6 +438,52 @@ def worker(store_root, identifier):
         else:
             for values in req["candidates"]:
                 rows.append(evaluate(values, budget.charge))
+        interaction_result = None
+        if req.get("interactions"):
+            from .interaction_study import interaction_study
+
+            bases = diverse_shortlist(rows, 2) or rows[:2]
+
+            def interaction_oracle(base, factors):
+                budget.charge(1, "paired-variable-interaction")
+                row = evaluate(
+                    {**base["variables"], **factors},
+                    lambda count, phase: budget.charge(0, phase),
+                )
+                return dict(
+                    state="completed" if row.get("definition") else "outside-domain",
+                    candidate=row["id"],
+                    engineering_state=checks_status(
+                        row["checks"], charter["applicability"]["mandatory_checks"]
+                    ),
+                    checks=row["checks"],
+                    metrics={
+                        **{
+                            k: v
+                            for k, v in row["metrics"].items()
+                            if type(v) in (int, float)
+                        },
+                        "installed_cost": row.get("installed_cost"),
+                        "carbon": row.get("carbon"),
+                    },
+                    physical_release=False,
+                )
+
+            interaction_result = interaction_study(
+                {row["id"]: row for row in bases},
+                req["interactions"]["factors"],
+                interaction_oracle,
+                seed=req["seed"],
+                max_evaluations=req["interactions"]["evaluations"],
+                wall_seconds=max(
+                    0.001,
+                    min(
+                        14400,
+                        limits["wall_seconds"] - (time.monotonic() - budget.started),
+                    ),
+                ),
+                output=folder / "interaction-study",
+            )
         shortlist = diverse_shortlist(rows, req["shortlist"]) if req["refine"] else []
         # An explicitly selected single candidate may be refined diagnostically
         # even when a screening constraint fails. It stays ineligible for ranking.
@@ -353,7 +491,13 @@ def worker(store_root, identifier):
             shortlist = rows
         for row in shortlist:
             try:
-                adapters.refine(charter, row, budget.charge, folder / row["id"])
+                adapters.refine(
+                    charter,
+                    row,
+                    budget.charge,
+                    folder / row["id"],
+                    remaining_seconds=budget.remaining_seconds,
+                )
             except adapters.OutsideDomain as failure:
                 row["evidence_state"] = "outside-domain"
                 row["error"] = str(failure)
@@ -399,6 +543,9 @@ def worker(store_root, identifier):
             sensitivity_artifact="sensitivity.json" if sensitivity_result else None,
             sensitivity_proposals=(
                 sensitivity_result["proposals_charged"] if sensitivity_result else 0
+            ),
+            interaction_artifact=(
+                "interaction-study/report.json" if interaction_result else None
             ),
             elapsed_seconds=time.monotonic() - budget.started,
             physical_release=False,
@@ -460,6 +607,8 @@ def worker(store_root, identifier):
 
 
 def review_package(req, summary):
+    from .bom import candidate_bill
+
     candidates = summary["candidates"]
     return dict(
         schema="osr-design-review-package/1",
@@ -468,14 +617,7 @@ def review_package(req, summary):
         candidate_ids=[r["id"] for r in candidates],
         source_dependencies=req["dependencies"],
         drawings_status="unissued; native CAD/BIM exports and authored drawings retain separate evidence",
-        bill=[
-            dict(
-                candidate=r["id"],
-                parts=r.get("definition", {}).get("contract", {}).get("parts", []),
-                incomplete_installed_inventory=True,
-            )
-            for r in candidates
-        ],
+        bill=[candidate_bill(r, adapter=req["problem"]["adapter"]) for r in candidates],
         rfq_required=[
             "supplier grade/batch",
             "complete joint/retention/seal quantities",
@@ -508,8 +650,8 @@ class Manager:
                     target=self._launch, args=(identifier,), daemon=True
                 ).start()
 
-    def start(self, req):
-        job = self.store.create(req)
+    def start(self, req, *, idempotency_key=None):
+        job = self.store.create(req, idempotency_key=idempotency_key)
         threading.Thread(target=self._launch, args=(job["id"],), daemon=True).start()
         return job
 
