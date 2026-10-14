@@ -135,3 +135,18 @@ def test_current_snapshot_archive_and_source_changes_are_rejected(checkout):
     source.write_text(source.read_text()+' ')
     with pytest.raises(ValueError,match='source receipt differs'):restore(root)
     assert not target.exists()
+
+
+def test_existing_local_payload_cannot_hide_stale_current_source_receipt(checkout):
+    root,city,target,old_archive,raw=checkout
+    folder,archive,meta=current_snapshot(checkout)
+    source=city/'operations/baghdad-operations-manifest.json'
+    relative=source.relative_to(root).as_posix()
+    meta['source_sha256'][relative]=hashlib.sha256(source.read_bytes()).hexdigest()
+    dump(folder/'manifest.json',meta)
+    target.write_bytes(raw)
+    assert restore(root,check=True)=='verified-existing'
+    source.write_text(source.read_text()+' ')
+    with pytest.raises(ValueError,match='source receipt differs'):
+        restore(root,check=True)
+    assert target.read_bytes()==raw

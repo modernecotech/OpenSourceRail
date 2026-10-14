@@ -31,6 +31,8 @@ def current_inputs(root):
 
 def restore(root=ROOT, *, check=False):
     city = root / CITY.relative_to(ROOT)
+    # Existing local payloads must not hide a stale source-bound archive.
+    snapshot=current_inputs(root)
     metadata = json.loads((city/'operations/baghdad-operations-manifest.json').read_text())
     if metadata['file'] != 'baghdad-operations.json.gz':
         raise ValueError('Unexpected operations input name')
@@ -44,7 +46,6 @@ def restore(root=ROOT, *, check=False):
     if check:
         raise ValueError('Operations input missing; run bootstrap_baghdad_tests.py')
     relative = target.relative_to(root).as_posix()
-    snapshot=current_inputs(root)
     if snapshot:
         proposal,manifest=snapshot;member=manifest['members'][relative]
     else:
