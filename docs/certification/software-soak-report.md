@@ -12,10 +12,10 @@
 
 | Profile | Seed | Result | Min SoC | Train-km | Faults | Invariant failures |
 |---|---:|---|---:|---:|---:|---:|
-| normal | `24301` | **PASS** | 0.200 | 36328.3 | 0 | 0 |
-| peak | `24302` | **PASS** | 0.200 | 49460.4 | 0 | 0 |
-| degraded | `24303` | **PASS** | 0.200 | 23443.8 | 2 | 0 |
-| recovery | `24304` | **PASS** | 0.200 | 27206.6 | 3 | 0 |
+| normal | `24301` | **PASS** | 0.200 | 50382.5 | 0 | 0 |
+| peak | `24302` | **PASS** | 0.200 | 65328.9 | 0 | 0 |
+| degraded | `24303` | **PASS** | 0.200 | 33907.8 | 2 | 0 |
+| recovery | `24304` | **PASS** | 0.200 | 38343.7 | 3 | 0 |
 
 ## Retained-State Growth
 
@@ -25,40 +25,40 @@ Every final value is checked against the declared bound. A smaller checkpoint va
 |---|---|---:|---:|---:|
 | normal | detailed events | 0 | 0 | 0 |
 | normal | event-count keys | 8 | 8 | 9 |
-| normal | event records | 540672 | 540672 | 540672 |
-| normal | T2G payloads | 0 | 0 | 540672 |
-| normal | historian metrics | 660 | 660 | 660 |
-| normal | historian samples | 2708640 | 3278880 | 8078400 |
-| normal | CBM components | 4356 | 4356 | 4356 |
+| normal | event records | 745472 | 745472 | 745472 |
+| normal | T2G payloads | 0 | 0 | 745472 |
+| normal | historian metrics | 910 | 910 | 910 |
+| normal | historian samples | 3734640 | 4520880 | 11138400 |
+| normal | CBM components | 6006 | 6006 | 6006 |
 | normal | work orders | 0 | 0 | 4096 |
-| normal | compact result bytes | 171643 | 171987 | 2000000 |
+| normal | compact result bytes | 235918 | 236262 | 2000000 |
 | peak | detailed events | 0 | 0 | 0 |
 | peak | event-count keys | 6 | 6 | 9 |
-| peak | event records | 540672 | 540672 | 540672 |
-| peak | T2G payloads | 0 | 0 | 540672 |
-| peak | historian metrics | 660 | 660 | 660 |
-| peak | historian samples | 2708640 | 3278880 | 8078400 |
-| peak | CBM components | 4356 | 4356 | 4356 |
+| peak | event records | 745472 | 745472 | 745472 |
+| peak | T2G payloads | 0 | 0 | 745472 |
+| peak | historian metrics | 910 | 910 | 910 |
+| peak | historian samples | 3734640 | 4520880 | 11138400 |
+| peak | CBM components | 6006 | 6006 | 6006 |
 | peak | work orders | 0 | 0 | 4096 |
-| peak | compact result bytes | 173108 | 173601 | 2000000 |
+| peak | compact result bytes | 236470 | 236893 | 2000000 |
 | degraded | detailed events | 0 | 0 | 0 |
 | degraded | event-count keys | 8 | 8 | 9 |
-| degraded | event records | 540672 | 540672 | 540672 |
-| degraded | T2G payloads | 540672 | 540672 | 540672 |
-| degraded | historian metrics | 0 | 0 | 660 |
-| degraded | historian samples | 0 | 0 | 8078400 |
-| degraded | CBM components | 0 | 0 | 4356 |
+| degraded | event records | 745472 | 745472 | 745472 |
+| degraded | T2G payloads | 745472 | 745472 | 745472 |
+| degraded | historian metrics | 0 | 0 | 910 |
+| degraded | historian samples | 0 | 0 | 11138400 |
+| degraded | CBM components | 0 | 0 | 6006 |
 | degraded | work orders | 0 | 0 | 4096 |
-| degraded | compact result bytes | 173997 | 174744 | 2000000 |
+| degraded | compact result bytes | 238221 | 238928 | 2000000 |
 | recovery | detailed events | 0 | 0 | 0 |
 | recovery | event-count keys | 8 | 8 | 9 |
-| recovery | event records | 540672 | 540672 | 540672 |
-| recovery | T2G payloads | 540672 | 0 | 540672 |
-| recovery | historian metrics | 660 | 660 | 660 |
-| recovery | historian samples | 13860 | 2866380 | 8078400 |
-| recovery | CBM components | 4356 | 4356 | 4356 |
+| recovery | event records | 745472 | 745472 | 745472 |
+| recovery | T2G payloads | 745472 | 0 | 745472 |
+| recovery | historian metrics | 910 | 910 | 910 |
+| recovery | historian samples | 19110 | 3952130 | 11138400 |
+| recovery | CBM components | 6006 | 6006 | 6006 |
 | recovery | work orders | 0 | 4096 | 4096 |
-| recovery | compact result bytes | 175369 | 610340 | 2000000 |
+| recovery | compact result bytes | 239525 | 674749 | 2000000 |
 
 ## Assertions
 
