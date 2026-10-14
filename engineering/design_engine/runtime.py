@@ -66,15 +66,20 @@ def toolchain(adapter):
     return result
 
 
-def preflight(charter):
+def preflight(charter, *, search=False):
     adapter = charter["adapter"]
     tools = toolchain(adapter)
     missing = []
     for name in ("numpy", "scipy"):
         if not tools[name]:
             missing.append(name)
-    if adapter in {"panel", "roof"} and not tools["calculix_sha256"]:
+    if (
+        adapter in {"panel", "roof", "viaduct", "foundation"}
+        and not tools["calculix_sha256"]
+    ):
         missing.append("CalculiX")
+    if search and not tools["pymoo"]:
+        missing.append("pymoo")
     if adapter == "civil" and not tools["openseespy"]:
         missing.append("OpenSeesPy")
     return dict(
@@ -242,7 +247,7 @@ def worker(store_root, identifier):
             raise ValueError(
                 "stale source/material/solver environment before execution"
             )
-        check = preflight(charter)
+        check = preflight(charter, search=req.get("search") is not None)
         write_new(folder / "preflight.json", check)
         if not check["available"]:
             raise adapters.Unavailable(
@@ -288,6 +293,7 @@ def worker(store_root, identifier):
             return row
 
         search_result = None
+        sensitivity_result = None
         if req.get("search"):
             from .optimization import paired
 
@@ -305,6 +311,38 @@ def worker(store_root, identifier):
             )
             rows = search_result["candidates"]
             write_new(folder / "search.json", search_result)
+            from .uncertainty import sensitivity
+
+            known = [
+                row
+                for row in rows
+                if row.get("metrics", {}).get("defined_mass_kg") is not None
+            ]
+            baseline = (
+                min(known, key=lambda row: row["metrics"]["defined_mass_kg"])[
+                    "variables"
+                ]
+                if known
+                else req["candidates"][0]
+            )
+            sensitivity_result = sensitivity(
+                charter,
+                req["identity"],
+                baseline,
+                lambda values, case: evaluate(
+                    values, lambda count, phase: budget.charge(0, phase)
+                ),
+                budget.charge,
+                max_proposals=16,
+            )
+            write_new(folder / "sensitivity.json", sensitivity_result)
+            if any(
+                case["state"] == "budget-exceeded"
+                for case in sensitivity_result["cases"]
+            ):
+                raise BudgetExceeded(
+                    "sensitivity exhausted the common execution budget; partial report retained"
+                )
         else:
             for values in req["candidates"]:
                 rows.append(evaluate(values, budget.charge))
@@ -358,6 +396,10 @@ def worker(store_root, identifier):
             evaluations_spent=budget.spent,
             cache_hits=search_result["cache_hits"] if search_result else 0,
             optimisation_trials=search_result["trials"] if search_result else [],
+            sensitivity_artifact="sensitivity.json" if sensitivity_result else None,
+            sensitivity_proposals=(
+                sensitivity_result["proposals_charged"] if sensitivity_result else 0
+            ),
             elapsed_seconds=time.monotonic() - budget.started,
             physical_release=False,
             independently_accepted=False,

@@ -177,7 +177,7 @@ On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or Arc
 ./osr test
 ```
 
-Open <http://127.0.0.1:8090/>. The [shared design workflow](docs/design-engine/README.md) adds six task areas, local jobs, potential components and future people/evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
+Open <http://127.0.0.1:8090/>. The [shared design workflow](docs/design-engine/README.md) adds local jobs, dimensional manufacturing checks, electrical previews, scoped site/prestress drafts and future people/evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
 
 ## Find Your Way
 

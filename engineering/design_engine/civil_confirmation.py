@@ -101,7 +101,7 @@ def beam(contract, trace, folder, *, elements=40, stage="service"):
         )
     mode = None
     displacements = []
-    reactions = []
+    reactions = {}
     for line in (folder / "stage.dat").read_text().splitlines():
         if "displacements" in line.lower():
             mode = "U"
@@ -112,12 +112,15 @@ def beam(contract, trace, folder, *, elements=40, stage="service"):
             if mode == "U":
                 displacements.append(abs(float(values[3])))
             if mode == "RF":
-                reactions.append(float(values[3]))
+                reactions[int(values[0])] = float(values[3])
     if not displacements or not reactions:
         raise ValueError("native stage displacement/reaction evidence absent")
     # CCX RF is external nodal force = reaction plus the applied nodal load,
     # per the manual's *NODE PRINT definition. Recover the support reaction.
-    reaction_total = sum(reactions) - sum(forces[tag] for tag in supports)
+    if set(reactions) != set(supports):
+        raise ValueError("native stage must report each actual support reaction")
+    support_reactions = {tag: reactions[tag] - forces[tag] for tag in supports}
+    reaction_total = sum(support_reactions.values())
     balance = abs(reaction_total + sum(forces.values())) / max(
         1, abs(sum(forces.values()))
     )
@@ -132,6 +135,11 @@ def beam(contract, trace, folder, *, elements=40, stage="service"):
         reaction_balance_relative_error=balance,
         applied_force_n=sum(forces.values()),
         support_reaction_n=reaction_total,
+        support_demands=[
+            dict(node=tag, position_m=nodes[tag], reaction_n=support_reactions[tag])
+            for tag in supports
+        ],
+        local_support_demands=support_contact_demands(contract, stage, support_reactions),
         resistance_checks=dict(
             cracking="unknown",
             reinforcement_bond="unknown",
@@ -147,3 +155,43 @@ def beam(contract, trace, folder, *, elements=40, stage="service"):
     )
     (folder / "result.json").write_bytes(canonical(result) + b"\n")
     return result
+
+
+def support_contact_demands(contract, stage, support_reactions):
+    """Map native support force to defined contacts, retaining local unknowns.
+
+    The gross beam has one vertical support per end; equal sharing between the
+    two bearings is an explicit sensitivity assumption, not a bearing solution.
+    Replacement jacks and lifting inserts have no defined footprints and cannot
+    borrow the operating bearing's area or resistance.
+    """
+    if stage not in {"service", "lifting", "bearing-replacement"}:
+        raise ValueError("explicit supported construction stage required")
+    if len(support_reactions) != 2:
+        raise ValueError("two actual gross beam supports required")
+    rows = []
+    for end, (tag, reaction) in enumerate(sorted(support_reactions.items())):
+        if not math.isfinite(reaction):
+            raise ValueError("finite support force required")
+        if stage != "service":
+            rows.append(dict(support_node=tag, reaction_n=reaction, physical_part_ids=[],
+                             contact_area_m2=None, average_contact_pressure_pa=None,
+                             force_share_basis="jack/insert geometry and sharing are not defined",
+                             local_resistance="unknown", stage=stage))
+            continue
+        contacts = [p for p in contract["parts"] if p["id"].startswith(f"bearing-core-{end}-")]
+        if not contacts:
+            raise ValueError("service support lacks its physical bearing contacts")
+        for contact in contacts:
+            primitives = contact["manufacturing"]["primitives"]
+            if len(primitives) != 1 or primitives[0]["kind"] != "box":
+                raise ValueError("defined rectangular bearing contact required")
+            footprint = primitives[0]["dimensions_m"][0] * primitives[0]["dimensions_m"][1]
+            if footprint <= 0:
+                raise ValueError("positive bearing footprint required")
+            rows.append(dict(support_node=tag, reaction_n=reaction / len(contacts),
+                             physical_part_ids=[contact["id"]], contact_area_m2=footprint,
+                             average_contact_pressure_pa=reaction / len(contacts) / footprint,
+                             force_share_basis="equal bearing sharing assumed; rotations/eccentricity/stiffness excluded",
+                             local_resistance="unknown", stage=stage))
+    return rows

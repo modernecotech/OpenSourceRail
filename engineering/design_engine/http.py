@@ -14,6 +14,151 @@ from .review import ReviewStore, REQUIRED
 LOCK = threading.Lock()
 
 
+def qualification_template(kind, contract, scope):
+    from .civil_qualification import input_templates
+
+    if kind in {"site", "prestress"}:
+        return input_templates(contract, scope)[kind + "_input"]
+    if kind != "manufacturing":
+        raise ValueError("supported qualification draft kind required")
+    identifier = contract["parts"][0]["id"]
+    return dict(schema="osr-manufacturing-plan/1",
+                part_rules=[dict(physical_id=identifier, stock_bounds_m=[None]*3, minimum_wall_m=None, basis_reference=None)],
+                tool_envelopes=[dict(physical_id=identifier, bounds_m=[[None]*3,[None]*3], keepout_part_ids=[], basis_reference=None)],
+                removal_paths=[dict(physical_id=identifier, bounds_m=[[None]*3,[None]*3], translation_m=[None]*3, keepout_part_ids=[], basis_reference=None)],
+                tolerance_stacks=[dict(physical_id=identifier, nominal_clearance_m=None, required_clearance_m=None,
+                                      contributors=[dict(physical_id=identifier, plus_minus_m=None)], basis_reference=None)],
+                tooling=[dict(id=None, kind=None, count=None, physical_part_ids=[identifier], basis_reference=None)])
+
+
+def _draft_structure(value, template, path="input", depth=0):
+    """Strict structural fields, finite values and bounded future records."""
+    import math
+
+    if depth > 48:
+        raise ValueError("qualification draft nesting exceeds limit")
+    if value is None:
+        return
+    if isinstance(value, float) and not math.isfinite(value):
+        raise ValueError("nonfinite qualification draft value")
+    if isinstance(template, dict):
+        if not isinstance(value, dict) or set(value) != set(template):
+            raise ValueError("exact qualification fields required: " + path)
+        for key in value:
+            _draft_structure(value[key], template[key], path + "." + key, depth+1)
+    elif isinstance(template, list):
+        if not isinstance(value, list) or len(value) > 1024:
+            raise ValueError("bounded qualification list required: " + path)
+        if template:
+            exemplar = template[0]
+        elif path.endswith(".route_station_constraints"):
+            exemplar = dict(id=None,kind=None,source=dict(reference=None,sha256=None,basis=None),
+                            available=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)),
+                            required=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)),
+                            uncertainty=dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)))
+        elif path.endswith(".observations"):
+            exemplar = dict(id=None,description=None,position_m=[None]*3)
+        else:
+            exemplar = None
+        for index, row in enumerate(value):
+            _draft_structure(row, exemplar, path + f"[{index}]", depth+1)
+    elif isinstance(value, (dict, list)):
+        # Optional prestress losses use the same source-qualified scalar shape.
+        if path.endswith((".creep_loss", ".shrinkage_loss", ".relaxation_loss")):
+            _draft_structure(value, dict(value=None,unit=None,source=dict(reference=None,sha256=None,basis=None)), path, depth+1)
+        elif path.endswith((".coverage_bounds_m", ".design_origin_in_crs_m", ".design_axes_in_crs")) and isinstance(value, list):
+            for index, row in enumerate(value):
+                if isinstance(row, list):
+                    for item in row:
+                        _draft_structure(item,None,path,depth+1)
+                else:
+                    _draft_structure(row,None,path,depth+1)
+        else:
+            raise ValueError("scalar qualification value required: " + path)
+
+
+def _draft_missing(value, path="input"):
+    if path.endswith((".identity", ".creep_loss", ".shrinkage_loss", ".relaxation_loss")):
+        return []
+    if value is None or value == "" or value == []:
+        return [path]
+    if isinstance(value, dict):
+        return [p for key,row in value.items() for p in _draft_missing(row,path+"."+key)]
+    if isinstance(value, list):
+        return [p for i,row in enumerate(value) for p in _draft_missing(row,path+f"[{i}]")]
+    return []
+
+
+def qualification_draft(store, job, candidate, data, scope, actor):
+    from copy import deepcopy
+    import shutil
+    import tempfile
+    from .contracts import fingerprint
+    from .civil_qualification import assess_site, foundation_geometry, prestress_assessment
+    from .manufacturing_rules import evaluate
+    from .store import write_new
+
+    adapter = job["request"]["problem"]["adapter"]
+    if scope != job["request"]["identity"]:
+        raise PermissionError("qualification draft requires the exact original job identity")
+    if job["request"]["dependencies"] != dependencies(adapter) or job["request"]["toolchain"] != toolchain(adapter):
+        raise ValueError("qualification draft requires current job sources and toolchain")
+    contract = candidate.get("definition", {}).get("contract")
+    if not contract or data["contract_sha256"] != fingerprint(contract):
+        raise ValueError("qualification draft requires the exact physical candidate hash")
+    kind = data["kind"]
+    proposed = decode_definition(data["input_json"])
+    template = qualification_template(kind,contract,scope)
+    _draft_structure(proposed,template)
+    if not isinstance(proposed,dict):
+        raise ValueError("structured qualification draft required")
+    if kind != "manufacturing":
+        if proposed["identity"] != scope or proposed["contract_sha256"] != fingerprint(contract):
+            raise PermissionError("qualification inputs belong to another identity or physical contract")
+    missing = _draft_missing(proposed)
+    if kind == "site":
+        partial = deepcopy(proposed)
+        for name in ("survey","layers","groundwater","utilities","calibration","route_station_constraints"):
+            if _draft_missing(partial[name]):
+                partial[name] = None
+        result = assess_site(partial,context=scope,contract=contract,
+                             required_depth_m=foundation_geometry(contract)["minimum_investigation_depth_m"])
+    elif kind == "prestress":
+        trace = load(ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json")
+        result = prestress_assessment(contract,trace,None if missing else proposed,context=scope)
+    else:
+        partial = deepcopy(proposed)
+        for name in ("part_rules","tool_envelopes","removal_paths","tolerance_stacks","tooling"):
+            partial[name] = [row for row in (partial[name] or []) if not _draft_missing(row)]
+        amended = deepcopy(contract)
+        amended["manufacturing_plan"] = partial
+        result = evaluate(amended)
+    if job["request"]["dependencies"] != dependencies(adapter):
+        raise ValueError("job sources changed during qualification validation")
+    payload = dict(schema="osr-qualification-input-draft/1", identity=scope,job=job["id"],
+                   candidate=candidate["id"],kind=kind,contract_sha256=fingerprint(contract),
+                   input_sha256=fingerprint(proposed),draft_sha256=fingerprint(dict(request=data,actor=actor["username"])),
+                   actor=actor["username"],missing_fields=missing,assessment=result,
+                   state="draft",baseline_modified=False,physical_release=False,
+                   independent_acceptance=False,source_files_verified=False)
+    folder = store.root / "planning-drafts" / ("qualification-"+payload["draft_sha256"])
+    with LOCK:
+        if not folder.exists():
+            folder.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+            staged = Path(tempfile.mkdtemp(prefix=".qualification-",dir=folder.parent))
+            try:
+                write_new(staged / "request.json",data)
+                write_new(staged / "assessment.json",payload)
+                staged.rename(folder)
+            finally:
+                shutil.rmtree(staged,ignore_errors=True)
+        else:
+            payload = load(folder / "assessment.json")
+    store.event(job["id"],dict(kind="qualification-draft-checked",actor=actor["username"],
+                              draft_sha256=payload["draft_sha256"],physical_release=False))
+    return payload
+
+
 def decode_definition(text):
     if not isinstance(text, str) or len(text.encode()) > 4 * 1024**2:
         raise ValueError("bounded manufactured definition JSON text required")
@@ -294,9 +439,10 @@ def post(handler):
             )
         elif path.startswith("jobs/"):
             fields = path.split("/")
-            if set(data) != {"identity"}:
+            qualification = len(fields) == 3 and fields[2] == "qualification-draft"
+            if not qualification and set(data) != {"identity"}:
                 raise ValueError("job action accepts only its scoped identity")
-            if len(fields) != 3 or fields[2] not in {"cancel", "resume", "export"}:
+            if len(fields) != 3 or fields[2] not in {"cancel", "resume", "export", "qualification-draft"}:
                 raise ValueError("unsupported design job action")
             job = store.get(fields[1])
             if job["city"] != city or job["environment"] != environment:
@@ -306,7 +452,17 @@ def post(handler):
                     raise PermissionError(
                         "job belongs to another project/revision/baseline"
                     )
-            if fields[2] == "cancel":
+            if qualification:
+                if set(data) != {"identity","candidate","contract_sha256","kind","input_json"}:
+                    raise ValueError("exact candidate, kind and bounded input JSON draft required")
+                if job["status"] != "completed":
+                    raise ValueError("qualification draft requires a completed candidate artifact")
+                report = comparison(store,job["id"])
+                candidate = next((r for r in report["candidates"] if r["id"]==data["candidate"]),None)
+                if candidate is None:
+                    raise ValueError("unknown physical candidate")
+                payload = qualification_draft(store,job,candidate,data,scope,actor)
+            elif fields[2] == "cancel":
                 payload = store.cancel(fields[1])
             elif fields[2] == "resume":
                 payload = service.resume(fields[1])

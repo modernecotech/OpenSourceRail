@@ -1,6 +1,6 @@
 {
   "schema": "osr-potential-parts/1",
-  "reviewed_on": "2026-10-13",
+  "reviewed_on": "2026-10-14",
   "method": "primary manufacturer facts and potential families; no supplier contact, quotation, purchase, qualification or manufacturing licence assumed",
   "sources": {
     "diab-h": {
@@ -49,6 +49,18 @@
       "publisher": "Pandrol",
       "url": "https://www.pandrol.com/wp-content/uploads/2020/03/Fastclip-Baseplate-Datasheet-EN.pdf",
       "version": "baseplate product sheet; confirm project variant",
+      "source_sha256": null
+    },
+    "abb-m40-b": {
+      "publisher": "ABB",
+      "url": "https://library.e.abb.com/public/3ade265d028245cb91b97353a515581c/NEW%20PDS%20BORDLINE_M40_DC_750V_U_.pdf",
+      "version": "exact candidate facts retrieved 2026-10-14; current supplier variant not confirmed",
+      "source_sha256": null
+    },
+    "renogy-rsp200db-72-g1": {
+      "publisher": "Renogy",
+      "url": "https://www.renogy.com/content/RSP200DB-72-US/RSP200DB-72-G1%20Datasheet.pdf",
+      "version": "exact candidate facts retrieved 2026-10-14; current supplier variant not confirmed",
       "source_sha256": null
     }
   },
@@ -295,6 +307,81 @@
       "applicability_limits": [
         "specific pad/toe-load/bridge-restraint variant required",
         "no heavy-haul rating or generic stiffness adopted for the OSR rail seat"
+      ],
+      "evidence_state": "public-potential-component",
+      "price": null,
+      "quotation": null,
+      "regional_availability": null,
+      "manufacturing_rights": null,
+      "selected_supplier": false,
+      "project_qualified": false,
+      "physical_release": false
+    },
+    {
+      "id": "abb-m40-b",
+      "name": "BORDLINE M40_DC_750V_U version B",
+      "category": "auxiliary-converter",
+      "source_id": "abb-m40-b",
+      "properties": {
+        "input_range_v": [
+          400.0,
+          900.0
+        ],
+        "ac_voltage_v": 415.0,
+        "ac_phases": 3,
+        "ac_frequency_hz": 50.0,
+        "apparent_power_va": 25000.0,
+        "control_voltage_v": 110.0,
+        "control_power_w": 18900.0,
+        "mass_kg": 350.0,
+        "dimensions_m": [
+          1.694,
+          0.873,
+          0.593
+        ],
+        "ambient_range_c": [
+          -25.0,
+          50.0
+        ],
+        "efficiency": null
+      },
+      "applicability_limits": [
+        "415 V AC differs from MACS 400 V; supplier tolerance, PF, inrush and control load required",
+        "25 kVA version B cannot supply five nominal 5.5 kW MACS component input sums even at unity PF",
+        "350 kg equipment excludes mounting, harness and cooling installation; battery-fed duty/efficiency not qualified"
+      ],
+      "evidence_state": "public-potential-component",
+      "price": null,
+      "quotation": null,
+      "regional_availability": null,
+      "manufacturing_rights": null,
+      "selected_supplier": false,
+      "project_qualified": false,
+      "physical_release": false
+    },
+    {
+      "id": "renogy-rsp200db-72-g1",
+      "name": "RSP200DB-72 G1 US datasheet variant",
+      "category": "potential-roof-pv",
+      "source_id": "renogy-rsp200db-72-g1",
+      "properties": {
+        "stc_power_w": 200.0,
+        "vmp_v": 20.1,
+        "voc_v": 23.9,
+        "mass_kg": 4.9,
+        "dimensions_m": [
+          1.605,
+          0.748,
+          0.003
+        ],
+        "maximum_system_voltage_v": 600.0,
+        "power_temperature_coefficient_per_k": -0.0038,
+        "voc_temperature_coefficient_per_k": -0.0029
+      },
+      "applicability_limits": [
+        "specific G1 variant; other same-model datasheets differ, confirm purchased revision",
+        "600 V module insulation rating does not establish compatibility with the OSR nominal DC bus",
+        "rail environment, roof retention, thermal, complete-stack fire and MPPT/protection qualification missing"
       ],
       "evidence_state": "public-potential-component",
       "price": null,

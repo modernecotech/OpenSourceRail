@@ -237,7 +237,9 @@ def dependencies(adapter):
         "registry",
         "adapters",
         "manufacturing",
+        "manufacturing_rules",
         "optimization",
+        "uncertainty",
         "runtime",
         "store",
         "publication",
@@ -251,6 +253,12 @@ def dependencies(adapter):
     }
     if adapter in domain:
         shared.add(domain[adapter])
+    if adapter in {"battery", "twin"}:
+        shared.add("electrical_installation")
+    if adapter in {"viaduct", "foundation"}:
+        shared.add("civil_qualification")
+    if adapter == "vehicle":
+        shared.add("vehicle_confirmation")
     paths = {ROOT / "engineering/design_engine" / (name + ".py") for name in shared}
     paths.add(ROOT / "tools/automation/design-engine.py")
     paths.update((ROOT / "design/component-catalogue/src/osr_mech").rglob("*.py"))

@@ -6,6 +6,7 @@ Unknown fits, locking, access, processes or evidence remain explicit blockers.
 
 from collections import Counter
 from .contracts import fingerprint
+from .manufacturing_rules import evaluate, panel_details
 
 
 def compile_register(definition):
@@ -104,6 +105,31 @@ def compile_register(definition):
     missing = model.get(
         "unresolved_part_allocations", definition.get("coverage", {}).get("rows", [])
     )
+    dimensional = evaluate(model)
+    for process in processes:
+        related = [
+            row
+            for row in dimensional["checks"]
+            if row.get("physical_id") == process["physical_id"]
+        ]
+        process["dimensional_checks"] = related
+        for field, key in (
+            ("tool_access", "tool_envelopes"),
+            ("replacement_path", "removal_paths"),
+            ("tolerance_stack", "tolerance"),
+        ):
+            rows = [row for row in related if f"/{key}/" in row["id"]]
+            if rows:
+                process[field] = (
+                    "failed"
+                    if any(row["state"] == "failed" for row in rows)
+                    else (
+                        "unknown"
+                        if any(row["state"] == "unknown" for row in rows)
+                        else "passed; declared dimensional scope only"
+                    )
+                )
+    tooling = dimensional["tooling"]
     return dict(
         schema="osr-installed-variant-register/1",
         physical_definition_sha256=fingerprint(model),
@@ -113,10 +139,21 @@ def compile_register(definition):
         processes=processes,
         inspections=inspections,
         tooling=dict(
-            mould_count=None,
-            fixture_count=None,
+            mould_count=(
+                sum(t["count"] for t in tooling if t["kind"] == "mould")
+                if any(t["kind"] == "mould" for t in tooling)
+                else None
+            ),
+            fixture_count=(
+                sum(t["count"] for t in tooling if t["kind"] == "fixture")
+                if any(t["kind"] == "fixture" for t in tooling)
+                else None
+            ),
+            allocations=tooling,
             scope="explicit tooling needed; missing counts never become zero",
         ),
+        dimensional_manufacturing=dimensional,
+        panel_installed_details=panel_details(model),
         unresolved_allocations=missing,
         complete_installed_kit=False,
         production_released=False,
@@ -135,4 +172,27 @@ def reconcile(register, definition):
         raise ValueError("part inventory correspondence differs")
     if any(p["quantity"] != 1 for p in register["parts"]):
         raise ValueError("physical instances must not be double counted")
+    compiled = {p["physical_id"]: p for p in register["parts"]}
+    for part in physical:
+        prop = part.get("properties", {})
+        if "design" in prop:
+            prop = prop.get("design") or {}
+        row = compiled[part["id"]]
+        expected = dict(
+            defined_mass_kg=prop.get("mass_kg"),
+            cg_m=prop.get("cg_m"),
+            inertia_tensor_kg_m2=prop.get("inertia_tensor_kg_m2"),
+            manufacturing=part.get("manufacturing", part.get("geometry")),
+        )
+        if any(
+            fingerprint(row[key]) != fingerprint(value)
+            for key, value in expected.items()
+        ):
+            raise ValueError(
+                "installed inventory properties must match actual physical geometry"
+            )
+    if register.get("dimensional_manufacturing", {}).get(
+        "physical_definition_sha256"
+    ) != fingerprint(model):
+        raise ValueError("stale dimensional manufacturing constraints")
     return register

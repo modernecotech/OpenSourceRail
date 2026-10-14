@@ -3,6 +3,7 @@
 from copy import deepcopy
 from .contracts import fingerprint
 from engineering.design_consistency.contracts import validate
+from .manufacturing_rules import evaluate, panel_details
 
 
 def definition_diff(original, proposed):
@@ -16,6 +17,10 @@ def definition_diff(original, proposed):
     materials_changed = fingerprint(original["materials"]) != fingerprint(
         proposed["materials"]
     )
+    # A reviewed draft carries dimensional feedback for supplied workshop and
+    # service constraints. An adverse result stays in the diff; it does not
+    # silently repair geometry, adopt a baseline or grant production release.
+    dimensional = evaluate(proposed)
     return dict(
         schema="osr-reviewed-definition-diff/1",
         original_sha256=fingerprint(original),
@@ -25,6 +30,8 @@ def definition_diff(original, proposed):
         added=sorted(new.keys() - old.keys()),
         removed=sorted(old.keys() - new.keys()),
         materials_changed=materials_changed,
+        dimensional_manufacturing=dimensional,
+        panel_installed_details=panel_details(proposed),
         changed_definition=fingerprint(original) != fingerprint(proposed),
         invalidated=(
             [

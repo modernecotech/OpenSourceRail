@@ -4,21 +4,28 @@ The checks below run locally. GitHub Actions remains disabled. They verify the s
 
 | Executed check | Result and scope |
 |---|---|
-| Common design/store/publication/review/search/economics/exchange/recovery tests | 80 targeted final-source tests passed. Scoped contracts, immutable attempts, crash/stale publication rejection, units, absent prices, equal-budget search, hardware mass and fresh restoration exercised |
+| Current design/model/review/exchange/recovery and equipment-mode regression | 189 tests passed after the model integrations and draft publication fixes; includes independent expected values, failed-source/scope/geometry cases, cancellation, truncated-journal recovery and atomic draft retry |
 | Independent native plate, hollow-section, thermal and civil benchmarks | Mathematical/native formulation checks passed; no physical correlation claimed |
-| Three-browser matrix | 27 Chromium/Firefox/WebKit cases passed, including context/origin mismatches, keyboard, touch/reflow and Arabic/RTL |
+| Current three-browser matrix | 33 Chromium/Firefox/WebKit cases passed: 27 existing job/export/context/origin journeys plus six explicitly labelled engineering-draft UI fixtures; keyboard, touch/reflow and Arabic/RTL retained |
+| Frontend unit tests | 18 passed |
 | Named-account evidence UI | Actual inspector → separate authenticated approver record verification passed; engineering acceptance remains false |
 | Full Python regression | 2,629 cases passed initially, one explicit skip; ten failures exposed stale/generated evidence and fixture assumptions. The corrected failure suites passed 84 cases plus five subtests; repository health is checked separately |
 | Offline field acceptance | Actual browser IndexedDB/service-worker capture and reconnection passed; no native ERP delivery or physical authority inferred |
 | Native side-panel CAD/STEP | All four arrangements generated/reopened and STEP volumes reconciled; the tightest has 556 defined parts; drawings remain unissued |
 | Curved roof native shell | Coarse/refined geometry, clip-loss and combined holdouts actually executed; nominal/temperature failures retained; supplier insert/contact/strength/fire qualification absent |
 | Gross viaduct service/lift/replacement | Six actual native cases executed; service deflection approximately 23.97 mm exceeds the provisional 20 mm research limit; gross elastic demand only |
-| Full-train long passage | Initial 600-second attempt timed out and remains historical. Fresh bounded dispatch completed all eight prescribed case attempts: seven exhausted their per-case budget and one exceeded the model domain. Their inputs/logs/results are retained; no convergence pass |
+| Full-train long passage | Earlier attempts remain historical. Current whole-entry/exit dispatch attempted all eight prescribed time/deck/rail/modal cases: seven exhausted 45-second per-case budgets and one exceeded the contact domain. Converged checkpoints cover 0.075–0.566 seconds, below the required full passage; no convergence pass |
 | Default installed twin parity | Actual default compile, four-step spatial smoke, native FreeCAD/STEP replay and controlled public-source check completed; 45 retained twin/part tests passed |
 | Finance parity | Only construction-source provenance changed; other economic fields compare equal; atomic publisher tests passed |
 | City artifact retention | 266 cities and 31,277 retained payloads indexed; existing city files remain in place |
 
 Raw execution outputs remain under ignored `build/consolidation/` on the development machine. Historical results keep their original source/toolchain hashes. Reproduce current results through the [common workflow](README.md), individual benchmark commands or [local validation profiles](../local-validation.md); do not reinterpret a historical result as current by editing its source manifest.
+
+The [current model execution summary](model-verification.json) records exact requests, executed source hashes, sealed manifests, mandatory check states and incomplete passage coverage for seven local jobs: six discipline confirmations plus a three-seed paired search. All seven immutable attempts verified against current model sources and toolchains. The search additionally executed nine charged finite-neighbourhood proposals; installed cost and carbon remained unknown in every result. Execution completion grants no engineering acceptance.
+
+The added electrical-balance, independently published FHWA prestress and actual vehicle mass/reaction benchmarks passed. A fresh civil offline review package verified all retained files and source snapshots. The native civil check reports service bearing demand under explicitly assumed equal sharing; jack/insert/local resistance remains unknown. The twelve public potential-part records include exact ABB and Renogy variants, without supplier quotation, installation or railway qualification.
+
+The current browser matrix used the pinned WebKit binary with a local wrapper and existing userspace compatibility libraries; their hashes are retained with the local toolchain receipt. Browser fixture success does not verify supplier records or site facts. Scope/authentication, actual numerical draft checks, account attribution and atomic interruption/retry also passed their HTTP regression cases.
 
 A full local software release additionally requires clean-candidate `ci`, `kani`, `integrated-stack` and `example-city` receipts. This development verification does not claim that release gate or requalification of all 48 formal obligations.
 

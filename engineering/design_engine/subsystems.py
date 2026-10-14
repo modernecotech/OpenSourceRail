@@ -85,4 +85,7 @@ def hvac(values):
     for name in ("interfaces", "coverage", "joint_register", "verification"):
         if "configuration_sha256" in result[name]:
             result[name]["configuration_sha256"] = fingerprint(model)
+    from .electrical_installation import installation_report
+
+    result["installation"] = installation_report(result, kind="twin")
     return result

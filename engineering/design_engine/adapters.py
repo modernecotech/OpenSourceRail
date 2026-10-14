@@ -100,6 +100,10 @@ def compile_candidate(charter, scope, values):
         else:
             choices["family"] = values["family"]
         data = compile_variant(choices)
+        if kind == "battery":
+            from .electrical_installation import installation_report
+
+            data["installation"] = installation_report(data, kind="battery")
         metrics = dict(defined_mass_kg=data["review"]["total_mass_kg"])
     elif kind == "twin":
         from .subsystems import hvac
@@ -172,8 +176,15 @@ def compile_candidate(charter, scope, values):
     set_check(
         result,
         "geometry",
-        "passed",
-        "existing physical compiler, dimensional and representation validation",
+        (
+            "failed"
+            if data["installed_register"]
+            .get("dimensional_manufacturing", {})
+            .get("state")
+            == "failed"
+            else "passed"
+        ),
+        "existing physical compiler and dimensional validation; any failed entered manufacturing constraint rejects geometry; missing workshop evidence remains open",
     )
     return result
 
@@ -248,6 +259,24 @@ def screen(charter, result, charge, folder):
             ).read_text()
         )
         data["stages"] = civil_stages(data["contract"], trace)
+        from .civil_qualification import (
+            prestress_assessment,
+            assess_site,
+            input_templates,
+        )
+
+        data["prestress_assessment"] = prestress_assessment(
+            data["contract"], trace, context=result["identity"]
+        )
+        data["site_assessment"] = assess_site(
+            None,
+            context=result["identity"],
+            required_depth_m=result["variables"]["pile_length_m"],
+            contract=data["contract"],
+        )
+        data["civil_input_templates"] = input_templates(
+            data["contract"], result["identity"]
+        )
         set_check(
             result,
             "mass_inertia",
@@ -275,8 +304,14 @@ def screen(charter, result, charge, folder):
         set_check(
             result,
             "interfaces",
-            "passed",
-            "existing typed physical/electrical/thermal/control crosswalk validation; no supplier compatibility acceptance",
+            "unknown" if kind in {"battery", "twin"} else "passed",
+            (
+                "typed crosswalk passed; battery cooling/fire/mount and DC/AC supplier compatibility remain unqualified"
+                if kind in {"battery", "twin"}
+                else "existing typed physical/electrical/thermal/control crosswalk validation; no supplier compatibility acceptance"
+            ),
+            typed_crosswalk_state="passed",
+            installation=data.get("installation"),
         )
         if kind == "twin":
             set_check(
@@ -626,59 +661,130 @@ def refine(charter, result, charge, folder):
     elif kind == "vehicle":
         from engineering.civil_exploration.spatial_demo import scenarios
         from .passage import case
+        from .vehicle_confirmation import (
+            assembly_diagnostics,
+            passage_plan,
+            complete_coverage,
+        )
 
         model = data["model"]
         results = {}
-        for name, config in scenarios(model).items():
-            bridge_length = (
-                model["bridge"]["span_count"]
-                * model["bridge"]["candidate"]["definition"]["deck"]["span_m"]
-            )
-            min_speed = min(t["speed_m_s"] for t in config["traffic"])
-            duration = (
-                model["family_definition"]["length_m"] + bridge_length + 10
-            ) / max(min_speed, 1)
-            duration = math.ceil(duration / 0.002) * 0.002
-            for level, dt, deck_mesh, rail_step in [
-                ("coarse", 0.002, 4, 1.0),
-                ("refined", 0.001, 8, 0.5),
-            ]:
-                charge(1, "vehicle-" + name + "-" + level)
-                parameters = dict(
-                    dt=dt, duration_s=duration, deck_mesh=deck_mesh, rail_step=rail_step
+        charge(2, "actual-modal-and-equipment-mass-reconciliation")
+        diagnostics = [assembly_diagnostics(data, mode_count=count) for count in (2, 4)]
+        data["assembly_diagnostics"] = diagnostics
+        set_check(
+            result,
+            "mass_inertia",
+            (
+                "passed"
+                if all(
+                    d["mass_relative_error"] < 1e-12
+                    and d["reaction_relative_error"] < 1e-12
+                    and d["modal_preload_residual_n"] < 1e-6
+                    and d["minimum_static_contact_n"] > 0
+                    for d in diagnostics
                 )
-                if duration > 120:
+                else "failed"
+            ),
+            "actual separate battery mounts and mass-normalized research body modes conserve physical mass and static reactions; shell correlation open",
+        )
+        for name, config in scenarios(model).items():
+            for index, (level, dt, deck_mesh, rail_step) in enumerate(
+                [
+                    ("coarse", 0.002, 4, 1.0),
+                    ("refined", 0.001, 8, 0.5),
+                ]
+            ):
+                charge(1, "vehicle-" + name + "-" + level)
+                plan = passage_plan(model, config, dt=dt)
+                planned = plan["configuration"]
+                planned["equipment_mounts"] = diagnostics[index]["equipment_mount_laws"]
+                planned["flexible_vehicle"] = diagnostics[index][
+                    "flexible_vehicle_parameters"
+                ]
+                parameters = dict(
+                    dt=dt,
+                    duration_s=plan["duration_s"],
+                    deck_mesh=deck_mesh,
+                    rail_step=rail_step,
+                )
+                if not plan["within_adapter_domain"]:
                     results[name + "/" + level] = dict(
                         state="outside-domain",
-                        basis="required full passage exceeds the adapter's 120 second domain; no truncated passage substitute",
+                        basis="the complete assembly cannot clear the approach within the native motion/time/step domain",
                         requested_parameters=parameters,
                     )
                 else:
                     results[name + "/" + level] = case(
-                        model, config, parameters, folder / (name + "-" + level)
+                        model, planned, parameters, folder / (name + "-" + level)
                     )
+                results[name + "/" + level]["passage_plan"] = plan
+                native = results[name + "/" + level]
+                covered = complete_coverage(model, planned, plan, native)
+                native["full_passage_coverage"] = covered
+                if "joint_resultant_cycles" in native:
+                    native["joint_resultant_cycles"]["full_passage_history"] = covered
                 (folder / "passage-progress.json").write_text(
                     json.dumps(
                         dict(cases=results, physical_release=False), allow_nan=False
                     )
                 )
         data["coupled_cases"] = results
+        data["paired_refinement"] = {}
+        for name in scenarios(model):
+            coarse, refined = results[name + "/coarse"], results[name + "/refined"]
+            if all(
+                r.get("state") == "completed" and r.get("within_adapter_domain") is True
+                for r in (coarse, refined)
+            ):
+                differences = {
+                    metric: abs(coarse[metric] - refined[metric])
+                    / max(abs(refined[metric]), 1e-12)
+                    for metric in (
+                        "peak_structure_displacement_m",
+                        "peak_total_carbody_acceleration_m_s2",
+                        "maximum_wheel_contact_n",
+                    )
+                }
+                data["paired_refinement"][name] = dict(
+                    state=(
+                        "passed"
+                        if all(d <= 0.05 for d in differences.values())
+                        else "failed"
+                    ),
+                    relative_differences=differences,
+                    provisional_relative_limit=0.05,
+                    basis="jointly refined time/deck/rail/modal levels; separate sensitivity remains required",
+                )
+            else:
+                data["paired_refinement"][name] = dict(
+                    state="not-run",
+                    basis="both complete, within-domain native histories required",
+                )
         failed = any(
             r.get("state") in {"outside-domain", "failed", "budget-exceeded"}
             or r.get("within_adapter_domain") is not True
+            or r.get("full_passage_coverage") is not True
             for r in results.values()
         )
         set_check(
             result,
             "service",
             "failed" if failed else "unknown",
-            "full-length passage budget for all prescribed native cases; contact/domain failures remain explicit; physical passage unqualified",
+            "whole assembly enters before the approach and clears the exit under its prescribed motion; actual battery mount/modal mass retained; synthetic laws and physical passage unqualified",
         )
         set_check(
             result,
             "refinement",
-            "failed" if failed else "unknown",
-            "paired time steps, deck meshes and rail spatial steps retained; failures cannot create a convergence pass",
+            (
+                "failed"
+                if failed
+                or any(
+                    r["state"] == "failed" for r in data["paired_refinement"].values()
+                )
+                else "passed"
+            ),
+            "paired time/deck/rail/modal refinement only; complete within-domain histories required; no shell or physical correlation claim",
         )
     elif kind == "battery":
         from engineering.civil_exploration.automated_battery import duty_cycle
