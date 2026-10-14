@@ -97,17 +97,39 @@ def test_near_ring_approach_becomes_a_continuous_real_contact_without_losing_pri
 
 
 def test_surabaya_scoped_terminal_loop_finishes_at_a_real_ring_junction():
-    import json,tomllib
-    from residential_route_expansion import ROOT, sha
+    import json,math,tomllib
+    from residential_route_expansion import ROOT, lonlat_cell, sha
     city=ROOT/'cities/catalogue/southeast-asia/Indonesia/Surabaya'
     policy_path=city/'residential-route-policy.toml'
     policy=tomllib.loads(policy_path.read_text())['terminal_scopes'][0]
-    routes=json.loads((city/'corridors.json').read_text())['lines']
+    # Published geometry retains every exact cell-centre vertex. Use its
+    # source-bound grid instead of requiring ignored local generator output.
+    manifest=json.loads((city/'package-manifest.json').read_text())
+    for relative in ('surabaya.corridor.geojson','engineering/alignment/planning-grid.json',
+                     'engineering/alignment/residential-line-expansion.json','residential-route-policy.toml'):
+        path=city/relative
+        assert manifest['artifacts'][relative]==dict(bytes=path.stat().st_size,sha256=sha(path))
+    grid=json.loads((city/'engineering/alignment/planning-grid.json').read_text())
+    geometry=json.loads((city/'surabaya.corridor.geojson').read_text())
+    routes=[]
+    for feature in geometry['features']:
+        if feature['properties']['kind']!='line':
+            continue
+        assert feature['geometry']['type']=='LineString'
+        coordinates=feature['geometry']['coordinates']
+        cells=[lonlat_cell(lon,lat,grid) for lon,lat in coordinates]
+        # Reject off-grid geometry rather than silently rounding a new route.
+        np.testing.assert_allclose(cell_lonlat(cells,grid),coordinates,rtol=0,atol=1e-11)
+        routes.append(dict(name=feature['properties']['name'],
+                           shape=feature['properties']['shape'].title(),cells=cells))
     radial=next(line for line in routes if line['name']==policy['line'])
     ring=next(line for line in routes if line['shape']=='Ring')
     assert tuple(radial['cells'][-1]) in set(map(tuple,ring['cells']))
     report=json.loads((city/'engineering/alignment/residential-line-expansion.json').read_text())
+    assert len(routes)==report['final_line_count']
     change=next(row for row in report['base_line_junction_changes'] if row['line']==policy['line'])
+    final_length=math.fsum(math.dist(a,b)*grid['cell_m'] for a,b in zip(radial['cells'],radial['cells'][1:]))
+    assert final_length==pytest.approx(change['final_route_m'],abs=.001)
     assert 1200<change['original_route_m']-change['final_route_m']<=policy['maximum_crop_m']
     assert report['sources_sha256'][policy_path.relative_to(ROOT).as_posix()]==sha(policy_path)
     assert not report['physical_release'] and not report['operating_release']

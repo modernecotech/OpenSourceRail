@@ -420,7 +420,11 @@ def plan(profile, output):
                 py(
                     "Restore ignored Baghdad test input",
                     "tools/automation/bootstrap_baghdad_tests.py",
-                )
+                ),
+                command(
+                    "Generate station BOM test prerequisites",
+                    "tools/automation/buildable-stations.sh",
+                ),
             ]
             + python_checks
             + workflow_commands(

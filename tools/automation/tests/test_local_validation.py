@@ -483,6 +483,14 @@ def test_every_production_profile_can_be_planned():
     )
 
 
+def test_clean_ci_generates_station_boms_before_their_reconciliation_tests():
+    rows = LOCAL.plan("ci", ROOT / "build/validation/preview")
+    names = [row["name"] for row in rows]
+    prerequisite = names.index("Generate station BOM test prerequisites")
+    assert rows[prerequisite]["argv"] == ["tools/automation/buildable-stations.sh"]
+    assert prerequisite < names.index("Python tests")
+
+
 def test_unknown_workflow_actions_cannot_silently_skip_verification(
     tmp_path, monkeypatch
 ):
