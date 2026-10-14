@@ -14,6 +14,16 @@ ROOT=Path(__file__).resolve().parents[2]
 OWNERS={
  'engineering/assurance/baghdad-test-inputs/manifest.json':
   ['tools/automation/osr-python','tools/automation/pack-baghdad-test-inputs.py'],
+ 'cities/catalogue/west-asia/Iraq/Baghdad/engineering/coupled-programme/manifest.json':
+  ['tools/automation/osr-python','tools/automation/coupled-programme-study.py'],
+ 'cities/catalogue/west-asia/Iraq/Baghdad/engineering/civil-works/manifest.json':
+  ['tools/automation/osr-python','tools/automation/civil-works-plan.py'],
+ 'engineering/network-planning/baghdad/manifest.json':
+  ['tools/automation/osr-python','tools/automation/integrated-network-plan.py'],
+ 'docs/certification/connected-engineering-report.json':
+  ['tools/automation/osr-python','tools/automation/connected_assurance.py'],
+ 'engineering/assurance/battery-cooling/qualification-report.json':
+  ['tools/automation/osr-python','tools/automation/subsystem_qualification.py'],
  'cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/manifest.json':
   ['tools/automation/osr-python','tools/automation/connected-build-study.py','--city','baghdad','--refresh-cad'],
  'engineering/models/digital-twins/best-practice/review.json':

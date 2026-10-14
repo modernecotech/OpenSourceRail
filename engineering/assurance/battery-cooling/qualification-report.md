@@ -26,7 +26,7 @@ Quantitative screens retain their stated input evidence basis. Physical qualific
 
 ## Scoped graph findings
 
-Graph `30a01593b4bc492341219fe29d27a6487032e4a9bead231147e8c48c544b913a`; 79 scoped records. Every scoped blocker requires closure or an authenticated, baseline-bound exclusion.
+Graph `a9fbc74b72573ba519b66109d396955f126f8b76ab80593b39c2e5157bdb948f`; 79 scoped records. Every scoped blocker requires closure or an authenticated, baseline-bound exclusion.
 
 | Record | Finding | Disposition |
 |---|---|---|
