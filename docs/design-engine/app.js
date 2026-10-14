@@ -71,12 +71,13 @@ function renderComparison(report){
 function inspectCandidate(candidate){
   inspectedCandidate=candidate;document.querySelector('#definitionReview').hidden=!candidate.definition?.contract;
   const root=document.querySelector('#inspector');root.replaceChildren(el('h2','Physical definition '+candidate.id));
+  if(candidate.definition?.contract&&currentJob){const q=query();q.set('candidate',candidate.id);root.append(el('a','Download manufactured definition JSON',{href:'/api/design/jobs/'+currentJob+'/definition?'+q,download:'manufactured-definition.json'}));}
   const data=candidate.definition||{};const parts=data.contract?.parts||data.model?.instances||[];
   if(!parts.length){root.append(el('p','No complete physical inventory is available for this candidate.'));return;}
   const select=el('select','',{'aria-label':'Physical part'});for(const part of parts)select.append(new Option(part.id,part.id));const detail=el('pre');
   select.onchange=()=>{const part=parts.find(p=>p.id===select.value);detail.textContent=JSON.stringify(part,null,2);};root.append(select,detail);select.onchange();
 }
-document.querySelector('#definitionReview').onsubmit=async event=>{event.preventDefault();try{const file=document.querySelector('#revisedDefinition').files[0];if(!file||file.size>4*1024*1024)throw Error('Choose a bounded revised physical definition JSON file.');const proposed=JSON.parse(await file.text());const result=await api('definition-diff',{job:currentJob,candidate:inspectedCandidate.id,proposed});document.querySelector('#definitionDiff').textContent=JSON.stringify({...result,candidate_draft:undefined},null,2);status.textContent='Definition diff prepared; dependent evidence is invalidated and the adopted baseline remains separate.';}catch(error){status.textContent=error.message;}};
+document.querySelector('#definitionReview').onsubmit=async event=>{event.preventDefault();try{const file=document.querySelector('#revisedDefinition').files[0];if(!file||file.size>4*1024*1024)throw Error('Choose a bounded revised physical definition JSON file.');const proposed_json=await file.text();JSON.parse(proposed_json);const result=await api('definition-diff',{job:currentJob,candidate:inspectedCandidate.id,proposed_json});document.querySelector('#definitionDiff').textContent=JSON.stringify({...result,candidate_draft:undefined},null,2);status.textContent='Definition diff prepared; dependent evidence is invalidated and the adopted baseline remains separate.';}catch(error){status.textContent=error.message;}};
 async function loadParts(){
   try{const payload=await api('parts');const root=document.querySelector('#parts');root.replaceChildren();
     for(const part of payload.parts){const source=payload.sources[part.source_id];const details=el('details');details.append(el('summary',part.name+' · '+part.category));

@@ -14,6 +14,24 @@ from .review import ReviewStore, REQUIRED
 LOCK = threading.Lock()
 
 
+def decode_definition(text):
+    if not isinstance(text, str) or len(text.encode()) > 4 * 1024**2:
+        raise ValueError("bounded manufactured definition JSON text required")
+
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError("duplicate definition field: " + key)
+            result[key] = value
+        return result
+
+    def invalid(value):
+        raise ValueError("nonfinite definition value: " + value)
+
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=invalid)
+
+
 def manager(handler):
     with LOCK:
         if not hasattr(handler.server, "design_manager"):
@@ -140,6 +158,17 @@ def get(handler):
                     and job["request"]["toolchain"] == toolchain(adapter)
                     else "stale"
                 )
+            elif path.endswith("/definition"):
+                report = comparison(store, identifier)
+                candidate_id = query.get("candidate", [""])[0]
+                candidate = next(
+                    (r for r in report["candidates"] if r["id"] == candidate_id), None
+                )
+                if candidate is None or "contract" not in candidate.get(
+                    "definition", {}
+                ):
+                    raise ValueError("candidate has no manufactured definition")
+                payload = candidate["definition"]["contract"]
             elif path.endswith("/artifacts"):
                 from .publication import digest
 
@@ -302,7 +331,10 @@ def post(handler):
         elif path == "definition-diff":
             from .exchange import definition_diff
 
-            if set(data) != {"identity", "job", "candidate", "proposed"}:
+            if set(data) not in (
+                {"identity", "job", "candidate", "proposed"},
+                {"identity", "job", "candidate", "proposed_json"},
+            ):
                 raise ValueError(
                     "exact source candidate and proposed physical definition required"
                 )
@@ -322,9 +354,12 @@ def post(handler):
                 raise ValueError(
                     "candidate has no editable manufactured representation"
                 )
-            payload = definition_diff(
-                candidate["definition"]["contract"], data["proposed"]
+            proposed = (
+                decode_definition(data["proposed_json"])
+                if "proposed_json" in data
+                else data["proposed"]
             )
+            payload = definition_diff(candidate["definition"]["contract"], proposed)
             store.event(
                 job["id"],
                 dict(

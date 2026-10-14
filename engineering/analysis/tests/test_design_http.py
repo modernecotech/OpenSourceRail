@@ -46,3 +46,12 @@ def test_mutation_requires_original_configuration_revision_and_account_review(tm
     call=handler(tmp_path,dict(identity=identity(),record='record-unavailable',revision='unavailable'),actor=actor);call.path='/api/design/records/verify'
     http.post(call);assert call.response[0]==403
     assert 'named authenticated accounts' in call.response[1]['error']
+
+
+def test_desktop_json_preserves_float_hashes_and_rejects_ambiguous_values():
+    import pytest
+    from engineering.design_engine.contracts import fingerprint
+    original=dict(coordinates=[0.0,1.0,1.25])
+    assert fingerprint(http.decode_definition(json.dumps(original)))==fingerprint(original)
+    for invalid in ['{"x":1,"x":2}', '{"x":NaN}', '{"x":Infinity}']:
+        with pytest.raises(ValueError):http.decode_definition(invalid)

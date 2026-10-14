@@ -23,9 +23,13 @@ test('six task areas retain deep links and show scoped design jobs',async({page}
   await view.getByRole('button',{name:'Inspect physical parts',exact:true}).first().click();
   await expect(view.locator('#inspector')).toContainText('Physical definition');
   await expect(view.getByRole('combobox',{name:'Physical part'})).toBeVisible();
-  const full=await page.request.get('http://127.0.0.1:4177/api/design/jobs/'+job.id+'/comparison?city=samawah&environment=simulation');
-  const proposed=(await full.json()).candidates[0].definition.contract;proposed.revision='desktop-fixture';
-  const bytes=Buffer.from(JSON.stringify(proposed));expect(bytes.length).toBeGreaterThan(256*1024);
+  const downloadLink=view.getByRole('link',{name:'Download manufactured definition JSON',exact:true});
+  const full=await page.request.get('http://127.0.0.1:4177'+await downloadLink.getAttribute('href'));
+  expect(full.ok()).toBe(true);
+  const originalText=await full.text();
+  const proposedText=originalText.replace(/^  "revision": "[^"]+"/m,'  "revision": "desktop-fixture"');
+  expect(proposedText).not.toBe(originalText);
+  const bytes=Buffer.from(proposedText);expect(bytes.length).toBeGreaterThan(256*1024);
   await view.locator('#revisedDefinition').setInputFiles({name:'revised-definition.json',mimeType:'application/json',buffer:bytes});
   await view.getByRole('button',{name:'Prepare definition diff and invalidation',exact:true}).click();
   await expect(view.locator('#definitionDiff')).toContainText('"changed_definition": true');
