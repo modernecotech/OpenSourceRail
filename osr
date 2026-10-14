@@ -22,6 +22,10 @@ Usage: ./osr [COMMAND] [arguments]
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
   test               Run Rust, Python, browser, and repository checks
   validate ...       Run/plan/verify local checks with source-bound receipts
+  doctor ...         Inspect a named local toolchain profile without installing
+  capabilities ...   Generate/check the retained capability and source directory
+  catalogue ...      Index retained payloads or plan/run only selected cities
+  check --scope ...  Run selected local verification tiers or plan source impact
   engineering ...    Run an engineering-toolchain command
   example-city ...   Run/manage the isolated complete-city acceptance scenario
   readiness [...]    Audit all city ERP, component and supervision inputs
@@ -61,6 +65,11 @@ case "$command_name" in
         exec cargo run --release --bin osr-sim -- "$@"
         ;;
     design)
+        case "${1:-}" in
+            problems|run|search|compare|refine|verify|export|jobs|show|cancel|resume)
+                exec tools/automation/osr-python tools/automation/design-engine.py "$@"
+                ;;
+        esac
         exec cargo run --release --bin osr-design -- "$@"
         ;;
     city)
@@ -76,6 +85,18 @@ case "$command_name" in
         ;;
     validate)
         exec tools/automation/osr-python tools/automation/local-validation.py "$@"
+        ;;
+    doctor)
+        exec tools/automation/osr-python tools/automation/doctor.py "$@"
+        ;;
+    capabilities)
+        exec tools/automation/osr-python tools/automation/capabilities.py "$@"
+        ;;
+    catalogue)
+        exec tools/automation/osr-python tools/automation/catalogue.py "$@"
+        ;;
+    check)
+        exec tools/automation/osr-python tools/automation/check.py "$@"
         ;;
     test)
         cargo fmt --all -- --check

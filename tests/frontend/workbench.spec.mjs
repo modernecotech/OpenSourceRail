@@ -149,6 +149,7 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   ).toBe("Playwright Operator");
   await expect(page.locator("#contextRun")).toHaveText(runId);
 
+  await page.getByRole('button',{name:'Maintain task area',exact:true}).click();
   await page.locator('[data-module="operations"]').click();
   await expect(page.locator("#moduleFrame")).toHaveAttribute("src", /\/operations\//);
   await expect(module.locator("#cityName")).toHaveText("Samawah");
@@ -183,9 +184,13 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
 
   await page.locator("#role").selectOption("dispatcher");
   await page.locator("#mode").selectOption("live");
-  await expect(page.locator("#safetyBanner")).toContainText("LIVE CONTROL");
+  // Moving from simulation into the physical environment invalidates its
+  // approval/run context. A simulation approval cannot enable live mode.
+  await expect(page.locator("#safetyBanner")).toContainText("TRAINING");
+  await expect(page.locator("#contextBaseline")).toHaveText("not approved");
+  await expect(page.locator("#contextRun")).toHaveText("not run");
   await expect(page.locator('[data-module="studio"]')).toBeDisabled();
-  await expect(page.locator('[data-module="simulator"]')).toBeDisabled();
+  await expect(page.locator('[data-module="simulator"]')).toBeEnabled();
   expect(browserFailures).toEqual([]);
 });
 

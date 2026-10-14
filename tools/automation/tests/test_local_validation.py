@@ -59,6 +59,17 @@ def test_success_is_verifiable_and_logs_stay_ignored(checkout):
     assert not LOCAL.git(root, "status", "--porcelain")
 
 
+def test_independent_source_checks_still_run_after_a_coherence_failure(checkout,monkeypatch):
+    root,output=checkout
+    monkeypatch.setattr(LOCAL,'plan',lambda *args:[
+        LOCAL.command('failed artifact',sys.executable,'-c','raise SystemExit(7)'),
+        LOCAL.command('independent source suite',sys.executable,'-c','print("independent suite executed")')])
+    row=LOCAL.run('ci',output,root)
+    assert row['passed']is False
+    assert [r['exit_code']for r in row['results']]==[7,0]
+    assert 'independent suite executed'in(output/'001.log').read_text()
+
+
 @pytest.mark.parametrize("mutation", ["tracked", "untracked", "new-commit"])
 def test_receipts_cannot_cover_later_source_changes(checkout, mutation):
     root, output = checkout

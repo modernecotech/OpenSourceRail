@@ -59,7 +59,7 @@ def closure_decision(p, signals):
 
 def thermal_study(p, modules_available, module_cooling_w):
     """One-node saloon with exact integration of constant command over each step."""
-    if type(modules_available) is not int or not 0 <= modules_available <= 4:
+    if type(modules_available) is not int or not 0 <= modules_available <= 6:
         raise ValueError('available HVAC modules outside studied configuration')
     for key in p: finite(p[key], 'thermal '+key)
     UA=p['conductance_w_k'];C=p['heat_capacity_j_k'];dt=p['step_s'];duration=p['duration_s']

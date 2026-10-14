@@ -22,7 +22,7 @@ Reproduce:
 
 ```sh
 .venv/bin/python tools/automation/panel-response-study.py
-flatpak run --filesystem=/home/hayder/Documents/OpenSourceRail --command=FreeCADCmd org.freecad.FreeCAD tools/automation/verify-panel-response-cad.py
+flatpak run --filesystem="$PWD" --command=FreeCADCmd org.freecad.FreeCAD tools/automation/verify-panel-response-cad.py
 .venv/bin/python tools/automation/panel-response-study.py --check
 .venv/bin/python -m pytest -q engineering/analysis/tests/test_panel_response.py
 ```

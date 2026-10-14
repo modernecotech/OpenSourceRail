@@ -1,6 +1,6 @@
 {
   "schema": "osr-coverage-plan/1",
-  "scope": "Audited scope: OSR registered ERP adapters and their input schemas, whitelisted OSR ERP entry points, declared gateway/Workbench/OSR HTTP route prefixes, shared city/supervision settings, simulator controls and named lifecycle workflows. This is not an inventory of every upstream ERPNext/FUXA API, every city override, desktop-tool parameter or internal Rust function.",
+  "scope": "Audited scope: OSR registered ERP adapters and their input schemas, whitelisted OSR ERP entry points, declared gateway/Workbench/OSR HTTP route prefixes, shared city/supervision settings, simulator controls and named lifecycle workflows. This is not an inventory of every upstream ERPNext/FUXA API, every city override, desktop-tool parameter or internal Rust function. Common design HTTP prefixes and the named-account setting are inventoried for software contract review; deployed design-job/evidence lifecycle acceptance remains an explicit coverage gap.",
   "reviewed_ids": [
     "components.profile.defaults.assignment.strategy",
     "components.profile.defaults.budget.action",
@@ -488,6 +488,7 @@
     "supervision.templates.vehicle-hvac.measurements.reduced.unit",
     "supervision.templates.vehicle-hvac.source_crates",
     "workbench.GET./api/assurance/readiness",
+    "workbench.GET./api/design/",
     "workbench.GET./api/lifecycle/",
     "workbench.GET./api/operating/twins",
     "workbench.GET./api/operations/",
@@ -497,6 +498,7 @@
     "workbench.GET./api/workbench",
     "workbench.GET./api/workbench/city",
     "workbench.GET./api/workbench/services",
+    "workbench.POST./api/design/",
     "workbench.POST./api/lifecycle/",
     "workbench.POST./api/operations/",
     "workbench.POST./api/ops-auth/",
@@ -509,6 +511,7 @@
     "workbench.setting.--port",
     "workbench.setting.--project",
     "workbench.setting.--reset-db",
+    "workbench.setting.--users",
     "workbench.setting.OSR_ERP_SNAPSHOT",
     "workbench.setting.OSR_ERP_URL",
     "workbench.setting.OSR_FUXA_URL",
@@ -1065,7 +1068,10 @@
     "gateway.GET./operations/": "6492c0de95b7d82dd5e53807c65b1359f41b77d3ec13c702dbb9b3b4f926f967",
     "gateway.POST./operations/": "542e1cce848996ef00892a8c31f2a4d96d192c46dbcea395783a482c3eeb400c",
     "workbench.GET./api/operations/": "e64873867fd973ca4ed22c97d11fcb4521f9421a8786eca8155beb1a0ab4c446",
-    "workbench.POST./api/operations/": "96a577c14007ca0c6a3a2513832123fba89c57fb0cca124cfc5b70630e3521dc"
+    "workbench.POST./api/operations/": "96a577c14007ca0c6a3a2513832123fba89c57fb0cca124cfc5b70630e3521dc",
+    "workbench.GET./api/design/": "90b4d52516a39ea7811b476a29ed18b2da3c2c41e101b5ddc30c4baa4db5b743",
+    "workbench.POST./api/design/": "2edc49e58925361677a908a1335e14d8bf0f5cd0c1398bc04fc32ab30d133a6b",
+    "workbench.setting.--users": "10649e5c989d64bca04b1857eb8625d8cf3cea55621b02d549c6c8d929ca68bf"
   },
   "rules": [
     {
@@ -3898,6 +3904,24 @@
       "pattern": "workbench.POST./api/operations/",
       "status": "partial",
       "remaining": "Operations management has isolated Python/gateway/browser acceptance; native complete-city ERP execution and deployment permutations remain unexercised.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.GET./api/design/",
+      "status": "gap",
+      "remaining": "Dedicated local design browser/contract tests do not substitute for the exact native example-city profile integration.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.POST./api/design/",
+      "status": "gap",
+      "remaining": "Dedicated local design browser/contract tests do not substitute for the exact native example-city profile integration.",
+      "evidence": []
+    },
+    {
+      "pattern": "workbench.setting.--users",
+      "status": "gap",
+      "remaining": "Dedicated local design browser/contract tests do not substitute for the exact native example-city profile integration.",
       "evidence": []
     }
   ]

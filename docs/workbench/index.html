@@ -7,13 +7,15 @@
   <link rel="stylesheet" href="/workbench/app.css">
 </head>
 <body>
+  <a class="skip-link" href="#moduleToolbar">Skip to current tool</a>
   <header class="shell-header">
     <div>
       <p class="eyebrow">OpenSourceRail</p>
       <h1>Workbench</h1>
     </div>
     <div class="selectors">
-      <label>City<select id="citySelector" aria-label="Workbench city"></select></label>
+      <label><span data-i18n="city">City</span><select id="citySelector" aria-label="Workbench city"></select></label>
+      <label><span data-i18n="language">Language</span><select id="language" aria-label="Interface language"><option value="en">English</option><option value="ar">العربية</option></select></label>
       <label>Actor
         <input id="actor" maxlength="120" value="local-user">
       </label>
@@ -47,6 +49,7 @@
   </section>
 
   <nav id="moduleNav" class="module-nav" aria-label="Workbench modules">
+    <div id="taskAreas" class="task-areas" aria-label="Primary task areas"></div>
     <div id="moduleButtons"></div>
     <button id="occHandoff" class="handoff" hidden>Open run in OCC training</button>
   </nav>
@@ -96,7 +99,7 @@
   </section>
 
   <main>
-    <section class="module-toolbar"><strong id="moduleTitle"></strong><span id="moduleScope" role="status"></span><button id="reloadModule">Reload tool</button><a id="openNative" target="_blank" rel="noopener">Open separately ↗</a></section>
+    <section class="module-toolbar" id="moduleToolbar" tabindex="-1"><strong id="moduleTitle"></strong><span id="moduleScope" role="status"></span><button id="reloadModule">Reload tool</button><a id="openNative" target="_blank" rel="noopener">Open separately ↗</a></section>
     <iframe referrerpolicy="origin" id="moduleFrame" title="OSR Workbench module"></iframe>
   </main>
   <script type="module" src="/workbench/app.js"></script>

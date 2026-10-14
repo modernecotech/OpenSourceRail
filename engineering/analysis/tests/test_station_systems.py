@@ -65,34 +65,46 @@ def test_energy_and_fire_baselines_fail_while_proposed_layout_screens_pass() -> 
 
     energy = report["optional_solver_inputs"]["energyplus"]
     fire = report["optional_solver_inputs"]["fds"]
-    assert energy["solver_completed"] is True
-    assert energy["screening_passed"] is True
-    energy_baseline = energy["cases"]["baseline_ventilation_only"]
-    energy_proposed = energy["cases"]["proposed_separated_cooled_controls"]
-    assert energy_baseline["passed"] is False
-    assert energy_baseline["max_zone_air_temperature_c"] > energy["screening_limit_max_zone_air_temperature_c"]
-    assert energy_proposed["passed"] is True
-    assert energy_proposed["max_zone_air_temperature_c"] <= energy["screening_limit_max_zone_air_temperature_c"] + 1e-9
-    assert 0 < energy_proposed["max_ideal_cooling_load_kw"] <= 30.0
-    assert fire["solver_completed"] is True
-    assert fire["screening_passed"] is True
-    fire_baseline = fire["cases"]["baseline_enclosed_room"]
-    fire_proposed = fire["cases"]["proposed_separated_open_compound"]
-    assert fire_baseline["passed"] is False
-    assert fire_baseline["max_room_device_temperature_c"] > fire["screening_limits"]["room_temperature_max_c"]
-    assert fire_baseline["min_door_visibility_m"] < fire["screening_limits"]["door_visibility_min_m"]
-    assert fire_proposed["passed"] is True
-    assert fire_proposed["max_room_device_temperature_c"] <= fire["screening_limits"]["room_temperature_max_c"]
-    assert fire_proposed["min_door_visibility_m"] >= fire["screening_limits"]["door_visibility_min_m"]
-    for case in (energy_baseline, energy_proposed):
-        trace = REPO_ROOT / case["result_trace_path"]
-        assert trace.is_file()
-        assert case["result_trace_sha256"] == station_systems.sha256(trace)
-    for case in (fire_baseline, fire_proposed):
-        for path_text in case["result_trace_paths"]:
-            path = REPO_ROOT / path_text
-            assert path.is_file()
-            assert case["result_trace_sha256"][path.name] == station_systems.sha256(path)
+    if not energy["solver_available"]:
+        assert energy["status"] == "input-prepared"
+        assert energy["solver_completed"] is False
+        assert energy["screening_passed"] is False
+        assert energy["passed"] is False
+    else:
+        assert energy["solver_completed"] is True
+        assert energy["screening_passed"] is True
+        energy_baseline = energy["cases"]["baseline_ventilation_only"]
+        energy_proposed = energy["cases"]["proposed_separated_cooled_controls"]
+        assert energy_baseline["passed"] is False
+        assert energy_baseline["max_zone_air_temperature_c"] > energy["screening_limit_max_zone_air_temperature_c"]
+        assert energy_proposed["passed"] is True
+        assert energy_proposed["max_zone_air_temperature_c"] <= energy["screening_limit_max_zone_air_temperature_c"] + 1e-9
+        assert 0 < energy_proposed["max_ideal_cooling_load_kw"] <= 30.0
+        for case in (energy_baseline, energy_proposed):
+            trace = REPO_ROOT / case["result_trace_path"]
+            assert trace.is_file()
+            assert case["result_trace_sha256"] == station_systems.sha256(trace)
+    if not fire["solver_available"]:
+        assert fire["status"] == "input-prepared"
+        assert fire["solver_completed"] is False
+        assert fire["screening_passed"] is False
+        assert fire["passed"] is False
+    else:
+        assert fire["solver_completed"] is True
+        assert fire["screening_passed"] is True
+        fire_baseline = fire["cases"]["baseline_enclosed_room"]
+        fire_proposed = fire["cases"]["proposed_separated_open_compound"]
+        assert fire_baseline["passed"] is False
+        assert fire_baseline["max_room_device_temperature_c"] > fire["screening_limits"]["room_temperature_max_c"]
+        assert fire_baseline["min_door_visibility_m"] < fire["screening_limits"]["door_visibility_min_m"]
+        assert fire_proposed["passed"] is True
+        assert fire_proposed["max_room_device_temperature_c"] <= fire["screening_limits"]["room_temperature_max_c"]
+        assert fire_proposed["min_door_visibility_m"] >= fire["screening_limits"]["door_visibility_min_m"]
+        for case in (fire_baseline, fire_proposed):
+            for path_text in case["result_trace_paths"]:
+                path = REPO_ROOT / path_text
+                assert path.is_file()
+                assert case["result_trace_sha256"][path.name] == station_systems.sha256(path)
 
 
 def test_station_drainage_input_uses_one_repeatable_branch() -> None:

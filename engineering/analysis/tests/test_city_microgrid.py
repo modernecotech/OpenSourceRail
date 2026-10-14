@@ -55,8 +55,37 @@ def test_solver_failure_cannot_be_reported_as_convergence(tmp_path, monkeypatch)
     assert "test convergence failure" in result["error"]
 
 
-def test_grid_only_contingency_does_not_fail_buffered_snapshot(tmp_path, monkeypatch):
-    design = REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah/design.toml"
+@pytest.fixture
+def constrained_snapshot(tmp_path, monkeypatch):
+    # A controlled 500 kW charge / 500 kW connection fixture exercises loss
+    # exceedance regardless of subsequent changes to the Samawah network.
+    root = tmp_path / "fixture-repository"
+    root.mkdir()
+    design = root / "design.toml"
+    design.write_bytes((REPO_ROOT / "cities/catalogue/west-asia/Iraq/Samawah/design.toml").read_bytes())
+    import tomllib
+    first = tomllib.loads(design.read_text())["stations"][0]["id"]
+    (root / "samawah.toml").write_text(f'''[[stations]]
+id = "{first}"
+charging_power_kw = 500.0
+[[sites]]
+station = "{first}"
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 1000.0
+storage_max_discharge_kw = 2000.0
+charger_efficiency = 0.98
+''')
+    climate = root / "climate-presets.toml"
+    climate.write_bytes(microgrid.CLIMATE_PRESETS.read_bytes())
+    monkeypatch.setattr(microgrid, "REPO_ROOT", root)
+    monkeypatch.setattr(microgrid, "CLIMATE_PRESETS", climate)
+    return design
+
+
+def test_grid_only_contingency_does_not_fail_buffered_snapshot(tmp_path, monkeypatch, constrained_snapshot):
+    design = constrained_snapshot
     monkeypatch.setattr(microgrid, "clear_sky_specific_yield", lambda *args: 2000.0)
     report = microgrid.generate(design, tmp_path)
 
@@ -114,11 +143,11 @@ def test_catalogue_gis_and_plots_reference_current_inputs():
             assert record["sha256"] == microgrid.source_hash(engineering / "screenshots" / record["path"]), path
 
 
-def test_failed_coordinated_snapshot_still_blocks_its_screen(tmp_path, monkeypatch):
+def test_failed_coordinated_snapshot_still_blocks_its_screen(tmp_path, monkeypatch, constrained_snapshot):
     monkeypatch.setattr(microgrid, 'clear_sky_specific_yield', lambda *args: 2000.0)
     monkeypatch.setattr(microgrid, 'DAYLIGHT_PV_FACTOR', 0.0)
     monkeypatch.setattr(microgrid, 'COORDINATED_STORAGE_FACTOR', 0.0)
-    report = microgrid.generate(REPO_ROOT / 'cities/catalogue/west-asia/Iraq/Samawah/design.toml', tmp_path)
+    report = microgrid.generate(constrained_snapshot, tmp_path)
     assert report['solver_passed']
     assert not report['passed']
     expected={row['station'] for row in report['cases']['coordinated_daylight']['site_connections']

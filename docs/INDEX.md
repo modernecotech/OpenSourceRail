@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6212**.
+Indexed Markdown files: **6221**.
 
 ## Sections
 
@@ -21,14 +21,14 @@ Indexed Markdown files: **6212**.
 |---|---:|
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
-| [Repository Root](#repository-root) | 5 |
+| [Repository Root](#repository-root) | 6 |
 | [cities](#cities) | 5438 |
 | [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 225 |
-| [engineering](#engineering) | 66 |
+| [docs](#docs) | 231 |
+| [engineering](#engineering) | 68 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -52,6 +52,7 @@ Indexed Markdown files: **6212**.
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
 | [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |
 | [`LICENSE.md`](../LICENSE.md) | OpenSourceRail Licensing |
+| [`OpenSourceRail_Consolidation_AutoDesign_Plan_2026-10-13.md`](../OpenSourceRail_Consolidation_AutoDesign_Plan_2026-10-13.md) | OpenSourceRail: repository consolidation, auto-design and verification plan |
 | [`README.md`](../README.md) | OpenSourceRail |
 
 ## cities
@@ -6005,6 +6006,8 @@ Indexed Markdown files: **6212**.
 | [`docs/best-practice/engineering-integration-review.md`](../docs/best-practice/engineering-integration-review.md) | Engineering integration review — 11 October 2026 |
 | [`docs/best-practice/handbook.md`](../docs/best-practice/handbook.md) | OpenSourceRail best-practice handbook |
 | [`docs/best-practice/research-plan.md`](../docs/best-practice/research-plan.md) | Best-practice research and implementation plan |
+| [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
+| [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Capability and source directory |
 | [`docs/catalogue-current-design-review.md`](../docs/catalogue-current-design-review.md) | Current design across the city catalogue |
 | [`docs/certification/README.md`](../docs/certification/README.md) | Assurance, conformity and authorization |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
@@ -6075,6 +6078,10 @@ Indexed Markdown files: **6212**.
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
+| [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |
+| [`docs/design-engine/record-ownership.md`](../docs/design-engine/record-ownership.md) | Record Ownership And Reviewed Handoffs |
+| [`docs/design-engine/verification.md`](../docs/design-engine/verification.md) | Local Verification Record |
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/ethos-audit-2026-09-09.md`](../docs/ethos-audit-2026-09-09.md) | Audit of today's corrections against the OpenSourceRail design |
 | [`docs/finance/civil-allowance-boundary.md`](../docs/finance/civil-allowance-boundary.md) | Civil allowances and routing scores |
@@ -6255,6 +6262,8 @@ Indexed Markdown files: **6212**.
 | [`engineering/design_consistency/examples/solver/README.md`](../engineering/design_consistency/examples/solver/README.md) | Executed hollow-section benchmarks |
 | [`engineering/design_consistency/examples/solver/coarse/README.md`](../engineering/design_consistency/examples/solver/coarse/README.md) | Hollow cantilever bending execution |
 | [`engineering/design_consistency/examples/solver/refined/README.md`](../engineering/design_consistency/examples/solver/refined/README.md) | Hollow cantilever bending execution |
+| [`engineering/design_engine/LICENSE.md`](../engineering/design_engine/LICENSE.md) | Design Engine Licensing |
+| [`engineering/design_engine/README.md`](../engineering/design_engine/README.md) | Shared Design Engine |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
 | [`engineering/integration_programme/data/contact/LICENSE.md`](../engineering/integration_programme/data/contact/LICENSE.md) | License |
 | [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |

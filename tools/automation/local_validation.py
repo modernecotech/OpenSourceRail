@@ -67,13 +67,16 @@ def python(name, *argv, timeout=3600):
     return command(name, "tools/automation/osr-python", *argv, timeout=timeout)
 
 
-def workflow_commands(name, output, selected_jobs=None):
+def workflow_commands(name, output, selected_jobs=None, *, omit_unit_tests=False):
     import yaml
 
     path = ROOT / ".github/workflows" / (name + ".yml")
     data = yaml.safe_load(path.read_text())
     jobs = data["jobs"]
-    if selected_jobs is not None and set(jobs) != selected_jobs | {"tacs-formal"}:
+    if selected_jobs is not None and (
+        set(jobs) != {"rust", "python-and-generated", "frontend", "tacs-formal"}
+        or not selected_jobs <= set(jobs)
+    ):
         raise ValueError("CI job coverage changed; update the explicit local adapter")
     # Native setup is an explicit prerequisite, never silently installed by checks.
     rows = []
@@ -114,6 +117,9 @@ def workflow_commands(name, output, selected_jobs=None):
                 line
                 for line in script.splitlines()
                 if not line.strip().startswith("cargo install ")
+                and not (
+                    omit_unit_tests and line.strip().startswith("python -m pytest ")
+                )
             )
             if "${{" in script:
                 raise ValueError(
@@ -346,8 +352,18 @@ def plan(profile, output):
         return browser
     if profile == "ci":
         return (
-            workflow_commands(
-                "ci", output, {"rust", "python-and-generated", "frontend"}
+            # Broad independent source suites run before publication coherence;
+            # later failures cannot suppress their recorded results.
+            rust
+            + [
+                py(
+                    "Restore ignored Baghdad test input",
+                    "tools/automation/bootstrap_baghdad_tests.py",
+                )
+            ]
+            + python_checks
+            + workflow_commands(
+                "ci", output, {"python-and-generated", "frontend"}, omit_unit_tests=True
             )
             + formal
         )
@@ -632,7 +648,7 @@ def run(profile, output, root=ROOT):
         )
         path.write_text(encode(receipt))
         print(item["name"], rows[-1]["status"], flush=True)
-        if code:
+        if code and profile not in {"ci", "python", "evidence", "rust", "browser"}:
             break
     after = snapshot(root)
     receipt["source_unchanged"] = before == after

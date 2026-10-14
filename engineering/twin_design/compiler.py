@@ -133,7 +133,7 @@ def infrastructure(p):
         structural_design_released=False,physical_validation=False)
 
 
-def compile_design(inputs=None, *, variant_choices=None):
+def compile_design(inputs=None, *, variant_choices=None, experimental_hvac_topology=False):
     inputs=deepcopy(inputs if inputs is not None else load_definition(DATA/'design-inputs.json'))
     if inputs.get('schema')!='osr-twin-design-inputs/1' or any(v is not False for v in inputs['gates'].values()):
         raise ValueError('study inputs cannot establish release or physical validation')
@@ -142,7 +142,9 @@ def compile_design(inputs=None, *, variant_choices=None):
     known_sources={s['id'] for s in sources['sources']}
     for category in ('hvac','doors','electrical','infrastructure'):
         if not set(inputs[category]['source_ids']) <= known_sources:raise ValueError('unknown design source')
-    if inputs['hvac']['module_count_per_car'] != 4 or inputs['hvac']['baseline_allowance_modules_per_car']!=3:
+    count=inputs['hvac']['module_count_per_car']
+    if type(count)is not int or not 2<=count<=6:raise ValueError('bounded 2–6 module research layout required')
+    if (not experimental_hvac_topology and count != 4) or inputs['hvac']['baseline_allowance_modules_per_car']!=3:
         raise ValueError('four-module proposal with a three-module baseline allowance is the studied topology')
     base=compile_variant(variant_choices);model=deepcopy(base['model']);baseline_hash=fingerprint(model)
     rail_study=rail_support(inputs['infrastructure'])
@@ -320,8 +322,8 @@ def compile_design(inputs=None, *, variant_choices=None):
     studies=dict(precharge=precharge(p,base['battery']['nominal_voltage_v']),
         nominal_closure=closure_decision(p,nominal),critical_faults=faults,
         hvac_three_module_baseline_one_out=thermal_study(hvac['thermal_assumptions'],2,hvac['module_cooling_w']),
-        hvac_nominal=thermal_study(hvac['thermal_assumptions'],4,hvac['module_cooling_w']),
-        hvac_one_module_out=thermal_study(hvac['thermal_assumptions'],3,hvac['module_cooling_w']))
+        hvac_nominal=thermal_study(hvac['thermal_assumptions'],count,hvac['module_cooling_w']),
+        hvac_one_module_out=thermal_study(hvac['thermal_assumptions'],count-1,hvac['module_cooling_w']))
     infra=infrastructure(inputs['infrastructure'])
     paths={**base['review']['sources_sha256']}
     for path in [*sorted((ROOT/'engineering/twin_design').rglob('*.py')),*sorted(DATA.glob('*.json')),
@@ -349,7 +351,7 @@ def compile_design(inputs=None, *, variant_choices=None):
         contact_domain_issue_resolved=False,one_module_out_comfort_screen_passed=studies['hvac_one_module_out']['within_declared_study_limit'],
         three_module_baseline_one_out_comfort_screen_passed=studies['hvac_three_module_baseline_one_out']['within_declared_study_limit'],
         design_deviations=[dict(part_id='LM3-EXT-P040',catalogue_basis='one 24 kW HVAC assembly per car',
-            proposal='four public nominal 8 kW module envelopes, 32 kW total, one-module-out study capacity 24 kW',
+            proposal='four public nominal 8 kW module envelopes, 32 kW total, one-module-out study capacity 24 kW'if count==4 else f'{count} public nominal 8 kW module envelopes; installation/control/supplier compatibility open',
             change_approval=None,supplier_voltage_and_capacity_compatibility=None,status='proposed-alternative-not-promoted-to-catalogue')],
         production_released=False,physical_validation=False,
         remaining_gates=['released profiles and complete six-car coupled passage','actual structural/joint/anchor/fixture capacities',

@@ -11,6 +11,8 @@ import tomllib
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'design/component-catalogue/src'))
+sys.path.insert(0,str(ROOT))
+from engineering.design_engine.publication import publish, hashes
 from osr_mech.industrialisation import (vehicle_support_graph,moving_axle_screen,production_balance,
     support_packet_check,installed_cost_comparison,disruption_metrics,service_finance_gate,elevation_reference)
 from osr_mech.rolling_stock.bogie.assembly import WHEELBASE_MM
@@ -25,6 +27,18 @@ CITY=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def read(path):return json.loads(path.read_text())
 def encoded(value):return (json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode()
+
+
+def input_paths(config=None):
+    config=config or read(SOURCE)
+    sources=[SOURCE,VENDORS,Path(__file__),ROOT/'design/component-catalogue/src/osr_mech/industrialisation.py',
+        ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/bogie/assembly.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/trainset.py',
+        ROOT/'lib/templates/rolling-stock.toml',*(ROOT/path for path in config['links'].values()),
+        CITY/'engineering/connected-build/span-layout.json',CITY/'engineering/connected-build/civil.json',
+        CITY/'design.toml',CITY/'engineering/connected-build/energy-control.json',
+        CITY/'engineering/programme-recalculation/local_positive.json',ROOT/'lib/templates/civil-cost-model.toml',
+        ROOT/'engineering/design_engine/publication.py',ROOT/'engineering/industrialisation/rendering.py']
+    return sorted({p.relative_to(ROOT).as_posix() for p in sources})
 
 
 def build():
@@ -159,58 +173,10 @@ def build():
     for v in vendors['vendors']:writer.writerow([v['id'],v['display_name'],v['corporate_group'],v['category'],v['product_family'],v['official_source_url'],v['status'],'','false','false'])
     outputs['vendor-candidates.csv']=stream.getvalue().encode()
     supplier_lines='\n'.join(f"| {v['display_name']} | {v['category']} | [{v['product_family']}]({v['official_source_url']}) |" for v in vendors['vendors'])
-    outputs['README.md']=f'''# Coordinated industrialisation programme
-
-**Status: proposed programme; products, rights, commercial terms and physical acceptance remain open.** Vehicle platform, bogie localisation and the viaduct system share one configuration and evidence chain. HÜBNER and CRRC are proposed discussion partners; no exact product or manufacturing-transfer agreement is selected. [Controlled programme](../../design/industrialisation/programme.json).
-
-## Vehicle configuration and civil demand
-
-[Vehicle-to-civil trace](vehicle-civil-load-trace.json) preserves the current three-car, six-bogie/twelve-axle reference. Its 78,750 kg tare is an unclosed planning control. Equal car loading, midpoint CG and equal bogie axle sharing are explicitly assumed. Bogie locations follow the existing CAD rule. The shared-bogie alternative has an explicit four-support graph with unknown redesign masses. Buying an articulation creates no bogie-count, mass, energy or cost reduction. Exact joint/bogie selection, low-floor clearances, yaw/pitch/roll, stiffness/damping, fatigue/crash and maintenance/recovery require a joint interface freeze.
-
-The same axle pattern feeds sampled static Pi20/Pi25 live-load demand. Dynamic augmentation, permanent capacity, prestress, bearings and launcher loads need independent design. [Identified Baghdad spans](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/connected-build/span-layout.json) remain the quantity authority. No vehicle/civil loading baseline is overwritten.
-
-## Bogie localisation and first articles
-
-First article → repeat assembly with qualified bought-in subcomponents → released frame cutting/forming/welding/machining/NDT/coating → further component localisation where economics justify qualification. Initially buy precision articulation assemblies and make approved surrounding adapters locally. Assess existing Iraqi fabrication and machining processes. Prioritise fixtures, metrology, weld quality, inspection and test equipment. Transfer rights, fees, tooling, qualification, imported components, labour, rejects, warranty and repeat prices have separate scopes.
-
-## Civil catalogue and urban delivery
-
-Two single-track full-span beams share a pier: 25 m primary, 20 m secondary, and separately engineered exceptional crossings. Standardise column/cap connections, bearing/jacking/lifting seats, direct-fixation datums, removable walkway/service cassettes and island-station transitions. Ground zones, depth, capacity, utility clearances and working platforms remain site-specific.
-
-[Support packets and urban controls](support-release-and-urban-access.json) keep foundation mobilisation and launcher support acceptance distinct. Compare precast columns/caps with reusable-form in-situ columns/precast caps by measured accepted supports/week and complete installed cost. Require inspectable connections, temporary stability, grout and verified release strength. Maintain shop/pedestrian/emergency access, appointment-based deliveries/spoil, booked lifting exclusions and prompt reinstatement. Lane-hours, access interruptions and occupation days are unioned by resource and bound to accepted completed bays; absent observations stay unknown.
-
-## Production chain and 18-launcher scenario
-
-[Production balance](production-balance.json) treats one accepted double-track bay as the planning unit. Eighteen active independent fronts at 1/1.5/2 bays per working day give 18/27/36 bays, 36/54/72 beams and 450/675/900 m under the illustrative all-25 m assumption. Actual 20/25 m mixes and special spans retain identified quantities. At 54 beams/day, 48-hour occupation needs 108 casting positions before availability/reject allowances; a long-line bed can hold several positions. A five-working-day buffer needs 270 beams. None is a production commitment.
-
-Released foundations → accepted piers → accepted serialized beams → transport → erection → completed-bay acceptance limit output together. Casting alone cannot release a bay. Mobilise only against a sufficiently long released run, qualified supply, access, authorised crew and compatible inspected machinery. Coordinate existing Iraqi precast facilities and expertise; allocate qualified products/slots and add only demonstrated necessary tooling/capacity.
-
-## Work, training, programme gates and finance
-
-[Linked work packages and ERP handoffs](work-packages-and-erp-handoffs.json) connect the existing supplier, civil and execution structures. The first 30 and 30–90 day windows are proposed planning targets, followed by accepted pilot trials, controlled ramp-up and up-to-18-machine deployment. Responsible roles are named; appointments, funded recruitment and dated rosters remain open. Training attendance is separate from assessed equipment-specific work authority. Future reviewed reservations must undergo the same live machinery/worker exclusivity checks.
-
-[Installed costs and delivered-service finance](installed-cost-and-service-finance.json) separates priced scopes and missing amounts. The [Baghdad delivery/finance bridge](baghdad-delivery-finance-bridge.json) joins each line's conditional running-span date, retained finance opening month/fleet deadline, controlled required fleet and energy/service diagnostics. A common financial-close anchor, supplier vehicle deliveries and accepted station/special/system handovers are still missing. Dispatch completion does not automatically scale paid journeys. Running-bay completion is not railway revenue opening. Unique paid journeys/collection and operating acceptance are required before revised receipts can be considered. Transfers do not multiply paid journeys. [Further elevation comparisons](further-elevation-comparison.json) expose marginal civil reference allowances for explicit scope sensitivities, with complete installed costs, disruption values, financing and net benefit unknown. No additional alignment, beam order, price or accelerated saving is adopted.
-
-## Possible component and equipment vendors
-
-{vendors['method']} Related group brands are not independent offers. Product-family listings establish neither OSR fit nor regional availability, rights, prices, capacity or acceptance. Gangways are not automatically structural joints; segmental gantries are not whole-beam launchers. [Machine-readable candidates](vendor-candidates.json) · [RFQ comparison CSV](vendor-candidates.csv).
-
-| Possible vendor | Scope | Official product/reference source |
-|---|---|---|
-{supplier_lines}
-
-## Regeneration
-
-Run `.venv/bin/python tools/automation/industrialisation-study.py`; add `--check` for source/output drift. [Manifest](manifest.json) records exact inputs and output bytes. Missing supplier or engineering evidence never becomes acceptance.
-'''.encode()
-    sources=[SOURCE,VENDORS,Path(__file__),ROOT/'design/component-catalogue/src/osr_mech/industrialisation.py',
-        ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/bogie/assembly.py',ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/trainset.py',
-        ROOT/'lib/templates/rolling-stock.toml',*(ROOT/path for path in config['links'].values()),
-        CITY/'engineering/connected-build/span-layout.json',CITY/'engineering/connected-build/civil.json']
-    sources += [CITY/'design.toml',CITY/'engineering/connected-build/energy-control.json',
-        CITY/'engineering/programme-recalculation/local_positive.json',ROOT/'lib/templates/civil-cost-model.toml']
+    from engineering.industrialisation.rendering import readme
+    outputs['README.md']=readme(vendors,supplier_lines)
     outputs['manifest.json']=encoded(dict(schema=1,status='source-bound-industrialisation-study-not-acceptance',
-        sources_sha256={p.relative_to(ROOT).as_posix():sha(p) for p in sources},
+        sources_sha256=hashes(ROOT,input_paths(config)),
         outputs_sha256={name:hashlib.sha256(data).hexdigest() for name,data in outputs.items()},
         vendor_count=len(vendors['vendors']),independent_corporate_groups=len({v['corporate_group'] for v in vendors['vendors']}),
         engineering_release=False,commercial_commitments=False))
@@ -219,11 +185,12 @@ Run `.venv/bin/python tools/automation/industrialisation-study.py`; add `--check
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--check',action='store_true');a=p.parse_args()
-    outputs=build();OUT.mkdir(parents=True,exist_ok=True)
+    before=hashes(ROOT,input_paths());outputs=build()
+    if before!=hashes(ROOT,input_paths()):raise ValueError('industrialisation inputs changed during generation')
     for name,data in outputs.items():
         path=OUT/name
         if a.check:
             if not path.is_file() or path.read_bytes()!=data:raise ValueError('stale industrialisation output: '+name)
-        else:path.write_bytes(data)
+    if not a.check:publish(OUT,outputs,repository=ROOT,sources=before,history=ROOT/'build/publication-history')
     print('Industrialisation programme current: vehicle/bogie/viaduct trace, '+str(len(read(VENDORS)['vendors']))+' possible vendors; acceptance open')
 if __name__=='__main__':main()

@@ -12,6 +12,7 @@ test('city navigation filters ERP and targets the city FUXA display',async({page
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/task?project=P1');
   await page.locator('#citySelector').selectOption('mosul');
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/task?project=P2');
+  await page.getByRole('button',{name:'Operate task area',exact:true}).click();
   await page.locator('[data-module=fuxa]').click();
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/viewName=mosul/);
   expect(new URL(await page.locator('#moduleFrame').getAttribute('src')).searchParams.get('viewName')).toBe('mosul · MOS-ST-001 · simulation');

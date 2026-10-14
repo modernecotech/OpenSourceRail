@@ -21,6 +21,7 @@ from urllib.parse import unquote, urlsplit
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path[:0] = [str(REPO_ROOT), str(REPO_ROOT / 'design/component-catalogue/src')]
 SUPERVISION_ROOT = Path(os.environ.get('OSR_SUPERVISION_ROOT', REPO_ROOT / 'build/supervision'))
 SUPERVISION_CONFIG = Path(os.environ.get('OSR_SUPERVISION_CONFIG', REPO_ROOT / 'var/supervision/integration.json'))
 ERP_SNAPSHOT = Path(os.environ.get('OSR_ERP_SNAPSHOT', REPO_ROOT / 'var/erpnext/operating-twins.json'))
@@ -54,6 +55,7 @@ def main() -> int:
     parser.add_argument("--isolated-project", type=Path)
     parser.add_argument("--db", type=Path, default=REPO_ROOT / "var" / "ops-core.sqlite3")
     parser.add_argument("--reset-db", action="store_true")
+    parser.add_argument("--users", type=Path, help="Named Ops Core accounts; required for independent design-record verification")
     args = parser.parse_args()
     if args.host not in {"127.0.0.1", "localhost"}:
         parser.error("Workbench is loopback-only until all mutable routes support authenticated access")
@@ -118,10 +120,10 @@ def main() -> int:
     class Handler(WorkbenchHandler):
         database_path = db_path
         evidence_root = evidence_path
-        user_store = None
+        user_store = OPS.load_users(args.users) if args.users else None
         attestation_key = OPS.load_or_create_signing_key(signing_key_path)
         sessions = {}
-        private_paths = (db_path, evidence_path, signing_key_path)
+        private_paths = (db_path, evidence_path, signing_key_path, db_path.parent / 'design-engine', *( (args.users.resolve(),) if args.users else () ))
         city_port = args.city_port
         bootstrap = {"city": city_slug, "operations_data": operations_url}
         project_twins = twin_manager
@@ -155,6 +157,10 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith('/api/design/'):
+            from engineering.design_engine.http import get
+            get(self)
+            return
         if path.startswith("/api/operations/"):
             self._operations_proxy("GET")
             return
@@ -307,6 +313,10 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith('/api/design/'):
+            from engineering.design_engine.http import post
+            post(self)
+            return
         if path.startswith("/api/operations/"):
             self._operations_proxy("POST")
             return
@@ -491,125 +501,7 @@ def stop_server(_signum, _frame) -> None:
     raise KeyboardInterrupt
 
 
-class ProjectTwinManager:
-    """Allowlisted, asynchronous generation for tracked catalogue cities."""
-
-    def __init__(self, repository_root: Path):
-        self.repository_root = repository_root
-        self.output_root = repository_root / "build" / "workbench" / "project-twins"
-        self.output_root.mkdir(parents=True, exist_ok=True)
-        self._cities = self._discover()
-        self._jobs: dict[str, dict] = {}
-        self._lock = threading.Lock()
-
-    def _discover(self) -> dict[str, dict]:
-        cities: dict[str, dict] = {}
-        for design_path in sorted((self.repository_root / "cities" / "catalogue").glob("*/*/*/design.toml")):
-            design = tomllib.loads(design_path.read_text(encoding="utf-8"))
-            city = design.get("city", {})
-            slug = str(city.get("slug", design_path.parent.name.lower()))
-            families = sorted({
-                str(line.get("rolling_stock"))
-                for line in design.get("lines", [])
-                if line.get("rolling_stock")
-            })
-            finance_path = design_path.parent / "engineering" / "finance" / "summary.json"
-            capex = 0.0
-            if finance_path.is_file():
-                finance = json.loads(finance_path.read_text(encoding="utf-8"))
-                capex = float(finance.get("capex_usd", {}).get("reconciled_project_total", 0.0))
-            cities[slug] = {
-                "slug": slug,
-                "name": str(city.get("name") or design_path.parent.name.replace("-", " ")),
-                "country": str(city.get("country", design_path.parent.parent.name)),
-                "rolling_stock_family": families[0] if len(families) == 1 else "review-required",
-                "lines": len(design.get("lines", [])),
-                "stations": len(design.get("stations", [])),
-                "trainsets": sum(int(row.get("trainset_count", 0)) for row in design.get("fleets", [])),
-                "planned_capex_usd": capex,
-                "design_path": str(design_path),
-                "operations_data": "/" + (design_path.parent / "operations" / f"{slug}-operations.json.gz").relative_to(self.repository_root).as_posix(),
-            }
-        return cities
-
-    def catalogue(self) -> list[dict]:
-        return [
-            {key: value for key, value in row.items() if key != "design_path"}
-            for row in sorted(self._cities.values(), key=lambda item: (item["country"], item["name"]))
-        ]
-
-    def start(self, slug: str) -> dict:
-        if slug not in self._cities:
-            raise ValueError("select a tracked catalogue city")
-        with self._lock:
-            active = next(
-                (job for job in self._jobs.values() if job["city"] == slug and job["status"] in {"queued", "running"}),
-                None,
-            )
-            if active:
-                return dict(active)
-            job_id = f"twin-{slug}-{uuid.uuid4().hex[:10]}"
-            job = {
-                "id": job_id,
-                "city": slug,
-                "status": "queued",
-                "phase": "Queued deterministic city package generation",
-                "progress_percent": 0,
-                "error": None,
-            }
-            self._jobs[job_id] = job
-        threading.Thread(target=self._run, args=(job_id,), daemon=True).start()
-        return dict(job)
-
-    def job(self, job_id: str) -> dict | None:
-        with self._lock:
-            job = self._jobs.get(job_id)
-            return dict(job) if job else None
-
-    def _update(self, job_id: str, **values) -> None:
-        with self._lock:
-            self._jobs[job_id].update(values)
-
-    def _run(self, job_id: str) -> None:
-        job = self.job(job_id)
-        if not job:
-            return
-        slug = job["city"]
-        city = self._cities[slug]
-        output_dir = self.output_root / slug
-        self._update(job_id, status="running", phase="Generating assets, assembly plan, CPM, orders, costs and cashflow", progress_percent=15)
-        command = [
-            sys.executable,
-            str(self.repository_root / "tools" / "automation" / "generate-qa-maintenance-data.py"),
-            "--design", city["design_path"],
-            "--out-dir", str(output_dir),
-        ]
-        try:
-            result = subprocess.run(
-                command,
-                cwd=self.repository_root,
-                capture_output=True,
-                text=True,
-                timeout=300,
-                check=False,
-            )
-            if result.returncode:
-                raise RuntimeError((result.stderr or result.stdout or "generation failed")[-4000:])
-            summary_path = output_dir / "project-twin-summary.json"
-            summary = json.loads(summary_path.read_text(encoding="utf-8"))
-            self._update(
-                job_id,
-                status="completed",
-                phase="Generated and reconciled",
-                progress_percent=100,
-                revision_id=summary["revision_id"],
-                summary=summary,
-                operations_data=f"/generated/project-twins/{slug}/{slug}-operations.json.gz",
-                artifact_root=f"/generated/project-twins/{slug}/",
-                log_tail=result.stdout[-4000:],
-            )
-        except Exception as error:
-            self._update(job_id, status="failed", phase="Generation failed", progress_percent=100, error=str(error))
+from workbench_jobs import ProjectTwinManager
 
 
 if __name__ == "__main__":

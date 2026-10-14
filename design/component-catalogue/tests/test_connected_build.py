@@ -246,7 +246,12 @@ def test_generated_connected_package_has_revision_assumptions_and_hashes():
     assert all(s['quantity'] is None and not s['component_ids'] for s in spans['spans'] if not s['beam_variant'])
     transfers=json.loads((folder/'erp-drafts.json').read_text())['conditional_baghdad_reassignments']
     assert len(transfers)>=2*len(civil['lines'])-18
-    assert len({t['asset'] for t in transfers})==18
+    deployed={row['launcher'] for row in civil['conditional_scenarios']['full-doubling']['deployments']}
+    assert len(deployed)==18
+    # Reassignment drafts cover moving assets; launchers retained on their
+    # initial front need no transfer. Every draft must name a deployed asset.
+    assert {t['asset'] for t in transfers}<=deployed
+    assert all(t['from_front']!=t['to_front'] for t in transfers)
     assert all(not t['allocation_approved'] for t in transfers)
     from datetime import date
     assert all((date.fromisoformat(t['destination_start'])-date.fromisoformat(t['source_finish'])).days>=t['transfer_days'] for t in transfers)

@@ -360,7 +360,10 @@ def test_book_renderer_preserves_titles_callouts_images_and_html() -> None:
     )
     rendered = list(descendants(root_flows))
     texts = [flow.getPlainText() for flow in rendered if hasattr(flow, "getPlainText")]
-    assert "OpenSourceRail" not in texts
+    # The comparison table legitimately names OpenSourceRail; only the
+    # repeated document heading should be removed by the book renderer.
+    assert not any(flow.getPlainText() == "OpenSourceRail" and flow.style.name.startswith("h")
+                   for flow in rendered if hasattr(flow, "getPlainText"))
     assert any("Repository outputs are planning" in text for text in texts)
     assert sum(type(flow).__name__ == "Image" for flow in rendered) >= 7
 

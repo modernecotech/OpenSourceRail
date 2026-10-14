@@ -1,19 +1,32 @@
+import { AREAS, areaFor, validateNavigation } from './task-navigation.js';
+import { language, translate as t, applyLanguage } from './i18n.js';
+applyLanguage();
 const MODES = new Set(["design", "simulation", "training", "live"]);
 const ROLES = new Set(["designer", "dispatcher", "maintainer", "reviewer"]);
 const registry = await fetch("/workbench/modules.json").then(r => r.json());
+validateNavigation(registry);
 const MODULES = new Set(registry.modules.map(m => m.id));
 const services = await fetch("/api/workbench/services").then(r => r.json());
 const buttons = document.getElementById("moduleButtons");
-for (const group of [...new Set(registry.modules.map(m => m.group))]) {
+let activeArea = areaFor(registry.modules, new URLSearchParams(location.search).get('module') || 'overview');
+const areaButtons = document.getElementById('taskAreas');
+for (const group of AREAS) {
+  const area = document.createElement('button'); area.type = 'button'; area.dataset.area = group;
+  area.textContent = t(group); area.setAttribute('aria-label', t(group) + ' ' + t('task area'));
+  area.onclick = () => { activeArea = group; renderAreas(); }; areaButtons.append(area);
   const section = document.createElement("div"); section.className = "module-group";
+  section.dataset.areaGroup = group; section.setAttribute('role','group'); section.setAttribute('aria-label',group + ' tools');
   const label = document.createElement("small"); label.textContent = group; section.append(label);
   for (const module of registry.modules.filter(m => m.group === group)) {
     const button = document.createElement("button"); button.dataset.module = module.id;
-    button.textContent = module.label; section.append(button);
+    button.textContent = t(module.id,module.label); section.append(button);
   }
   buttons.append(section);
 }
 const params = new URLSearchParams(location.search);
+document.querySelector('#language').value=language();
+document.querySelector('#language').onchange=event=>{localStorage.setItem('osr:ui:language',event.target.value);const url=new URL(location.href);url.searchParams.set('lang',event.target.value);location.href=url;};
+document.querySelectorAll('[data-i18n]').forEach(node=>node.textContent=t(node.dataset.i18n,node.textContent));
 const bootstrap = await fetch("/api/workbench").then((response) => response.json());
 
 const context = {
@@ -28,6 +41,7 @@ setOptional("revision", params.get("revision"), /^osr-[a-f0-9]{16}$/);
 setOptional("baseline_sha256", params.get("baseline_sha256"), /^[a-f0-9]{64}$/);
 setOptional("run_id", params.get("run_id"), /^run-[a-f0-9]{16}$/);
 setOptional("selected_asset", params.get("selected_asset"), /^.{1,160}$/);
+setOptional("selected_part", params.get("selected_part"), /^.{1,160}$/);
 if (context.mode === "live" && !context.baseline_sha256) context.mode = "training";
 
 let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "overview";
@@ -133,6 +147,7 @@ async function navigate(module, path = "") {
     }
   }
   activeModule = module;
+  activeArea = spec.group;
   detailPath = path;
   const query = contextQuery();
   const routes = {
@@ -148,6 +163,9 @@ async function navigate(module, path = "") {
   routes['engineering-change'] = `/engineering/changes/?${query}`;
   routes['decision-readiness'] = `/engineering/assurance/readiness/?${query}`;
   routes.overview = `/workbench/hub/?${query}`;
+  for (const [id, view] of [['auto-design','design'],['design-jobs','jobs'],['part-inspector','parts'],['evidence-intake','evidence']]) {
+    routes[id] = `/docs/design-engine/?view=${view}&${query}`;
+  }
   const base = spec.service === "local" ? location.origin : services[spec.service];
   frame.src = routes[module] || new URL(path || spec.path, base).href;
   document.getElementById("openNative").href = frame.src;
@@ -164,7 +182,7 @@ function updateContext(patch) {
   if (valid(patch.city, /^[a-z0-9][a-z0-9-]{0,63}$/) && patch.city !== context.city) {
     navigationId++;
     context.city = patch.city;
-    for (const key of ["revision", "baseline_sha256", "run_id", "selected_asset"]) delete context[key];
+    for (const key of ["revision", "baseline_sha256", "run_id", "selected_asset", "selected_part"]) delete context[key];
     if (context.mode === "live") context.mode = "training";
     operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
   }
@@ -172,11 +190,16 @@ function updateContext(patch) {
   if (valid(patch.revision, /^osr-[a-f0-9]{16}$/) && patch.revision !== context.revision) {
     delete context.baseline_sha256;
     delete context.run_id;
+    delete context.selected_asset;
+    delete context.selected_part;
   }
   if (valid(patch.baseline_sha256, /^[a-f0-9]{64}$/) && patch.baseline_sha256 !== context.baseline_sha256) {
     delete context.run_id;
   }
-  if (["simulation", "physical"].includes(patch.environment)) context.environment = patch.environment;
+  if (["simulation", "physical"].includes(patch.environment) && patch.environment !== context.environment) {
+    for (const key of ['baseline_sha256','run_id','selected_asset','selected_part']) delete context[key];
+    context.environment = patch.environment;
+  }
   if (MODES.has(patch.mode)) context.mode = patch.mode;
   if (ROLES.has(patch.role)) context.role = patch.role;
   if (valid(patch.actor, /^[A-Za-z0-9][A-Za-z0-9 ._@-]{1,119}$/)) context.actor = patch.actor;
@@ -184,6 +207,7 @@ function updateContext(patch) {
   assignOptional("baseline_sha256", patch.baseline_sha256, /^[a-f0-9]{64}$/);
   assignOptional("run_id", patch.run_id, /^run-[a-f0-9]{16}$/);
   assignOptional("selected_asset", patch.selected_asset, /^.{1,160}$/);
+  assignOptional("selected_part", patch.selected_part, /^.{1,160}$/);
   if (context.mode === "live" && !context.baseline_sha256) context.mode = "training";
   document.getElementById("role").value = context.role;
   document.getElementById("mode").value = context.mode;
@@ -214,6 +238,7 @@ function isAllowed(module) {
 }
 
 function render() {
+  renderAreas();
   document.getElementById("citySelector").value = context.city;
   document.getElementById("contextCity").textContent = context.city;
   document.getElementById("contextEnvironment").textContent = context.environment;
@@ -237,6 +262,14 @@ function render() {
   document.getElementById("occHandoff").hidden = !context.run_id || !isAllowedWith("occ", "training", context.role === "designer" ? "reviewer" : context.role);
 }
 
+function renderAreas() {
+  document.querySelectorAll('[data-area]').forEach(button => {
+    button.classList.toggle('active', button.dataset.area === activeArea);
+    button.setAttribute('aria-pressed', String(button.dataset.area === activeArea));
+  });
+  document.querySelectorAll('[data-area-group]').forEach(group => { group.hidden = group.dataset.areaGroup !== activeArea; });
+}
+
 function isAllowedWith(module, mode, role) {
   const before = { mode: context.mode, role: context.role };
   context.mode = mode;
@@ -248,6 +281,7 @@ function isAllowedWith(module, mode, role) {
 
 function contextQuery() {
   const output = new URLSearchParams();
+  output.set('lang',language());
   Object.entries(context).forEach(([key, value]) => output.set(key, String(value)));
   return output.toString();
 }

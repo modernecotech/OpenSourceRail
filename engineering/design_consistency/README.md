@@ -25,7 +25,7 @@ Regenerate the Python/IFC/search/solver package:
 
 ```sh
 .venv/bin/python tools/automation/design-consistency-study.py --ifc --search --solvers
-flatpak run --filesystem=/home/hayder/Documents/OpenSourceRail --command=FreeCADCmd org.freecad.FreeCAD tools/automation/verify-design-consistency-cad.py
+flatpak run --filesystem="$PWD" --command=FreeCADCmd org.freecad.FreeCAD tools/automation/verify-design-consistency-cad.py
 .venv/bin/python tools/automation/design-consistency-study.py --check
 .venv/bin/python -m pytest -q engineering/analysis/tests/test_design_consistency.py
 ```

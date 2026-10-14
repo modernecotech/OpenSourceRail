@@ -10,6 +10,7 @@ test('city switch clears railway authority and uses the selected city bundle',as
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/mosul-operations/);
   await expect(page.locator('[data-module=occ]')).toBeDisabled();
   await expect(page.locator('[data-module=studio]')).toBeDisabled();
+  await page.getByRole('button',{name:'Maintain task area',exact:true}).click();
   await page.locator('[data-module=lifecycle]').click();
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src',/city=mosul/);
 });
@@ -26,6 +27,7 @@ test('business and supervision navigation stays inside the shell and rejects for
   await frame.locator('#workspace').click();
   await expect(page.locator('#moduleFrame')).toHaveAttribute('src','http://127.0.0.1:8080/app/opensourcerail');
   await expect(frame.locator('h1')).toHaveText('Native ERP authentication');
+  await page.getByRole('button',{name:'Operate task area',exact:true}).click();
   await page.locator('[data-module=fuxa]').click();
   await expect(frame.locator('h1')).toHaveText('Native supervision');
   await page.evaluate(()=>window.postMessage({type:'osr:navigate',module:'occ',context:{city:'samawah',mode:'live',baseline_sha256:'a'.repeat(64)}},location.origin));
@@ -44,6 +46,7 @@ test('an unconfigured city refuses FUXA navigation without retaining another cit
   const moduleFrame=page.locator('#moduleFrame');
   await expect(moduleFrame).toHaveAttribute('src',/\/docs\/operating\/.*city=basra/);
   const previous=await moduleFrame.getAttribute('src');
+  await page.getByRole('button',{name:'Operate task area',exact:true}).click();
   await page.locator('[data-module=fuxa]').click();
   await expect(page.locator('#moduleScope')).toHaveText('No supervision package for basra / simulation.');
   await expect(moduleFrame).toHaveAttribute('src',previous);

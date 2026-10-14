@@ -2,7 +2,7 @@
 
 The Workbench presents City Studio, simulation, OCC replay, ERPNext/Frappe HR,
 FUXA supervision and OSR railway assurance under one origin while preserving
-their authority boundaries. Shared URL context
+their authority boundaries. Six task areas—Plan, Design, Deliver, Operate, Maintain and Assure—retain all 25 existing routes and add the [common design/job/part/evidence workflow](../design-engine/README.md). Shared URL context
 links the city, immutable revision, approved baseline, simulation run and
 selected asset.
 
@@ -18,7 +18,7 @@ plan, finite-resource critical path, budget work packages, supplier/order-by
 plan, monthly local/imported cash requirements, QA and maintenance records,
 then opens the result in Operations. Generation is an allowlisted background
 job: the browser cannot supply a command or filesystem path. Output under
-`build/workbench/project-twins/` is disposable; reviewed compact baselines stay
+`build/workbench/project-twins/` retains separate run directories and durable job records across server reload; reviewed compact baselines stay
 with each city under `engineering/project-twin/summary.json`.
 
 ![Workbench any-city digital-twin generator](../screenshots/workbench/city-twin-generator.png)
@@ -125,7 +125,7 @@ through native ERP/FUXA forms, follows an ERP project back to its asset, and
 checks a simulation lighting request through controller completion. It requires
 the local pilot services and private credentials and intentionally changes simulated
 station lighting to 60% and restores it to 75%; it performs no physical command.
-The `integrated-stack` CI workflow now creates those services from a clean
+The local `integrated-stack` validation profile creates those services from a clean
 checkout, runs this check with the ERP transaction, embedded-condition and FUXA
 checks, verifies outage recovery, and destroys the disposable data volumes.
 

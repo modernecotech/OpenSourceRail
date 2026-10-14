@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("Workbench embeds city execution and exposes native ERP module links", async ({ page }) => {
   await page.goto("http://127.0.0.1:4177/");
+  await page.getByRole('button',{name:'Deliver task area',exact:true}).click();
   await page.locator('[data-module="operating"]').click();
   await expect(page.locator("#moduleFrame")).toHaveAttribute("src", /docs\/operating/);
   await page.goto("http://127.0.0.1:4177/docs/operating/");

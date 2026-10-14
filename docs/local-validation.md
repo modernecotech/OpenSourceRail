@@ -40,7 +40,7 @@ are refused. Inspect a profile before running it or check a receipt afterward:
 | `python` | All six Python test directories; requires generated test inputs |
 | `evidence` | Repository health, source provenance, engineering baseline, panel/twin, assurance and operating-readiness drift checks |
 | `browser` | WASM libraries, frontend acceptance and offline operations browser acceptance |
-| `ci` | Complete original CI validation/generation steps, browser checks, TACS replay and bounded TLC verification |
+| `ci` | Independent Rust/Python suites followed by original generation/coherence steps, browser checks, TACS replay and bounded TLC verification |
 | `kani` | Every declared safety-case Kani harness, plus three explicit release properties; failures/timeouts block success |
 | `integrated-stack` | Disposable native ERPNext/FUXA/gateway/controller/Workbench, city load and outage/recovery checks |
 | `example-city` | Complete city lifecycle, restart, variation, business, disposition, native engineering change and recovery |
@@ -53,7 +53,7 @@ receipt even when its individual commands finish successfully.
 
 Install optional prerequisites for the checks you select: pinned Kani 0.67.0,
 cargo-audit 0.22.2, Java/TLC, Docker Compose and native CAD/engineering tools are
-needed by their respective profiles. The runner does not install them. The
+needed by their respective profiles. The runner does not install them. `./osr doctor --profile minimal` (or `panel`, `civil`, `browser`, `cad-bim`, `formal`, `stack`) reports prerequisites and can retain an environment receipt. `./osr check --scope impact --changed <files> --plan` selects local tiers; `./osr check --scope all` retains the full periodic profile. Independent CI/Python/evidence/browser checks continue after a failure, and the aggregate receipt still fails. The
 `ci` profile retains the original generated-product prerequisites and exact
 Baghdad test-input bootstrap. Missing tools and inputs are failures, not skips.
 
