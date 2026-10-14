@@ -12,6 +12,8 @@ import subprocess
 
 ROOT=Path(__file__).resolve().parents[2]
 OWNERS={
+ 'engineering/operations/pilot-review.json':
+  ['tools/automation/osr-python','tools/automation/operations-pilot.py','--review'],
  'cities/catalogue/west-asia/Iraq/Baghdad/publication-manifest.json':
   ['tools/automation/osr-python','tools/automation/publish-city-summary.py'],
  'engineering/assurance/baghdad-test-inputs/manifest.json':
@@ -39,7 +41,7 @@ OWNERS={
  'docs/certification/digital-assurance-report.json':['python3','tools/automation/digital-assurance.py'],
 }
 HISTORICAL={'engineering/civil_exploration/examples/automated-parts-review.json'}
-KEYS={'source_sha256','sources_sha256','source_hashes','sources'}
+KEYS={'source_sha256','source_sha256s','sources_sha256','source_hashes','sources'}
 
 
 def dependency_maps(value, *, publication_outputs=False):
