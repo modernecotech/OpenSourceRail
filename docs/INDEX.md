@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6223**.
+Indexed Markdown files: **6224**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6223**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 233 |
+| [docs](#docs) | 234 |
 | [engineering](#engineering) | 68 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6067,6 +6067,7 @@ Indexed Markdown files: **6223**.
 | [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
 | [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
 | [`docs/codebase-and-iraq-review-2026-10-03.md`](../docs/codebase-and-iraq-review-2026-10-03.md) | Codebase review and regenerated Iraqi examples — 3 October 2026 |
+| [`docs/commercial/baghdad-uk-factory-suppliers-2026-10-15.md`](../docs/commercial/baghdad-uk-factory-suppliers-2026-10-15.md) | British supplier options for Baghdad factory equipment |
 | [`docs/commercial/joint-development-framework.md`](../docs/commercial/joint-development-framework.md) | Joint Development And Delivery Framework |
 | [`docs/commercial/partnership-readiness.md`](../docs/commercial/partnership-readiness.md) | Commercial Partnership Readiness |
 | [`docs/commercial/supplier-technical-support-package.md`](../docs/commercial/supplier-technical-support-package.md) | Supplier Technical-Support Package |
@@ -6082,7 +6083,7 @@ Indexed Markdown files: **6223**.
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
 | [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |
 | [`docs/design-engine/record-ownership.md`](../docs/design-engine/record-ownership.md) | Record Ownership And Reviewed Handoffs |
-| [`docs/design-engine/review-follow-up.md`](../docs/design-engine/review-follow-up.md) | Follow-up To The 63cfe3347 Review |
+| [`docs/design-engine/review-follow-up.md`](../docs/design-engine/review-follow-up.md) | Design Engine Review Follow-ups |
 | [`docs/design-engine/verification.md`](../docs/design-engine/verification.md) | Local Verification Record |
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/ethos-audit-2026-09-09.md`](../docs/ethos-audit-2026-09-09.md) | Audit of today's corrections against the OpenSourceRail design |
