@@ -8,16 +8,26 @@ from .provenance import stable_sum
 
 
 def inertia_tensor(value, label='component inertia'):
-    """Validate a physical tensor about its own CG, in kg m²."""
+    """Validate a physical tensor about its own CG, in kg m².
+
+    Normalisation makes the roundoff allowance relative to the supplied tensor,
+    including small parts. Singular point/line/lamina limits remain valid.
+    """
     import numpy as np
+    if any(isinstance(v, (bool, np.bool_)) for v in np.asarray(value, dtype=object).flat):
+        raise ValueError(label + ' must contain numbers, not booleans')
     a = np.asarray(value)
     if a.shape != (3, 3) or a.dtype.kind not in 'if' or not np.isfinite(a).all():
         raise ValueError(label + ' must be a finite 3x3 tensor')
     a = a.astype(float)
-    if not np.allclose(a, a.T, atol=1e-10, rtol=1e-10):
+    scale = float(np.max(np.abs(a)))
+    normal = a / scale if scale else a
+    tolerance = 64 * np.finfo(float).eps
+    if not np.allclose(normal, normal.T, atol=tolerance, rtol=0):
         raise ValueError(label + ' must be symmetric')
-    principal = np.linalg.eigvalsh(a)
-    if principal[0] < -1e-10 or principal[-1] > principal[:2].sum() + 1e-8:
+    principal = np.linalg.eigvalsh((normal + normal.T) / 2)
+    tolerance *= max(1., float(np.max(np.abs(principal))))
+    if principal[0] < -tolerance or principal[-1] > principal[:2].sum() + tolerance:
         raise ValueError(label + ' must satisfy physical principal inertia inequalities')
     return a
 

@@ -9,8 +9,13 @@ from collections import Counter
 from copy import deepcopy
 import math
 
+from osr_mech.engineering_definition import _transform
+from osr_mech.vehicle_mass_properties import inertia_tensor
+
 from .contracts import fingerprint
 
+PROPERTY_UNITS = dict(mass="kg", cg="m", inertia="kg m2")
+INERTIA_REFERENCE = "own centre of gravity"
 NONPHYSICAL_ADAPTERS = {
     "civil": "study",
     "city-options": "catalogue_entries",
@@ -56,15 +61,48 @@ def _properties(properties):
             or any(not isinstance(row, list) or len(row) != 3 for row in tensor)
         ):
             raise ValueError("BOM inertia must be a three by three tensor")
-        for row in tensor:
-            for value in row:
-                _number(value, "inertia component")
-        if any(tensor[i][i] < 0 for i in range(3)) or any(
-            not math.isclose(tensor[i][j], tensor[j][i], abs_tol=1e-9)
-            for i in range(3)
-            for j in range(3)
-        ):
-            raise ValueError("BOM inertia must be symmetric with nonnegative diagonal")
+        inertia_tensor(tensor, "BOM inertia")
+
+
+def _frame(model, physical_key, part, row, properties):
+    """SI properties follow the controlled schema, about each part's own CG.
+
+    Representation parts already use assembly axes; shared-model instances use
+    local axes. Placement is validated but never applied a second time here.
+    """
+    expected_schema = (
+        {"osr-engineering-representations/1", "osr-generated-solid-definition/1"}
+        if physical_key == "parts" else {"osr-shared-engineering/1"}
+    )
+    if model.get("schema") not in expected_schema:
+        raise ValueError("BOM requires a controlled SI property/frame schema")
+    frame = "assembly" if physical_key == "parts" else "instance-local; placement maps to assembly"
+    placement = part.get("placement" if physical_key == "parts" else "transform")
+    if placement is not None:
+        try:
+            _transform(placement)
+            import numpy as np
+
+            rotation = np.asarray(placement["rotation"])
+            if not np.allclose(rotation.T @ rotation, np.eye(3), atol=1e-10, rtol=0):
+                raise ValueError("placement cannot scale or shear the property axes")
+        except (ValueError, TypeError, KeyError) as error:
+            raise ValueError("BOM requires a proper SI placement transform") from error
+    elif properties["cg_m"] is not None or properties["inertia_tensor_kg_m2"] is not None:
+        raise ValueError("BOM known CG/inertia requires an explicit coordinate transform")
+    else:
+        frame = "instance-local; assembly placement unknown" if physical_key == "instances" else frame
+    geometry = part.get("manufacturing", part.get("geometry"))
+    if isinstance(geometry, dict) and geometry.get("units", "m") != "m":
+        raise ValueError("BOM geometry must use metres")
+    for key, expected in (("property_units", PROPERTY_UNITS),
+                          ("property_frame", frame), ("inertia_reference", INERTIA_REFERENCE)):
+        for declared in (row, properties):
+            if key in declared and declared[key] != expected:
+                raise ValueError("BOM property units/frame correspondence differs: " + key)
+    if "placement" in row and row["placement"] != placement:
+        raise ValueError("BOM property units/frame correspondence differs: placement")
+    return frame, placement
 
 
 def review_bill(candidate, *, adapter):
@@ -187,6 +225,7 @@ def candidate_bill(candidate, *, adapter):
         if not isinstance(properties, dict):
             raise ValueError("BOM physical instance has no defined design properties")
         _properties(properties)
+        frame, placement = _frame(model, physical_keys[0], part, row, properties)
         for installed_key, physical_key in (
             ("defined_mass_kg", "mass_kg"),
             ("cg_m", "cg_m"),
@@ -205,12 +244,10 @@ def candidate_bill(candidate, *, adapter):
             dict(
                 deepcopy(row),
                 revision=revision,
-                placement=deepcopy(part.get("placement", part.get("transform"))),
-                property_frame=(
-                    "assembly"
-                    if physical_keys[0] == "parts"
-                    else "instance-local; placement maps to assembly"
-                ),
+                placement=deepcopy(placement),
+                property_frame=frame,
+                property_units=deepcopy(PROPERTY_UNITS),
+                inertia_reference=INERTIA_REFERENCE,
             )
         )
     counts = dict(sorted(Counter(row["part_id"] for row in output).items()))

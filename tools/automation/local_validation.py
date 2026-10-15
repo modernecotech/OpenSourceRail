@@ -462,6 +462,10 @@ def plan(profile, output):
     ]
     evidence = [
         py(
+            "Restore ignored Baghdad evidence prerequisite",
+            "tools/automation/bootstrap_baghdad_tests.py",
+        ),
+        py(
             "Repository health",
             "tools/automation/repo-health.py",
             "--quiet",

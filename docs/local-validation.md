@@ -83,6 +83,12 @@ further native cases without changing the existing four-profile software-release
 requirement. A numerical feature pass grants no physical qualification, accepted
 material properties or construction authority.
 
+The standalone `evidence` profile first runs `bootstrap_baghdad_tests.py` to
+restore exact hash-bound ignored operations and solver/GIS inputs from the
+bundled archive, before repository health checks. It verifies existing inputs
+and refuses differing local data or archive corruption. This setup restores
+recorded inputs; it does not regenerate or refresh engineering evidence.
+
 Install optional prerequisites for the checks you select: pinned Kani 0.67.0,
 cargo-audit 0.22.2, Java/TLC, Docker Compose and native CAD/engineering tools are
 needed by their respective profiles. The runner does not install them. `./osr doctor --profile minimal` (or `panel`, `civil`, `browser`, `cad-bim`, `formal`, `stack`) reports prerequisites and can retain an environment receipt. `./osr check --scope impact --changed <files> --plan` selects local tiers; `./osr check --scope all` retains the full periodic profile. Independent CI/Python/evidence/browser/Kani checks continue after a failure, and the aggregate receipt still fails. The

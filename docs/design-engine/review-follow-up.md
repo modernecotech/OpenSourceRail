@@ -1,5 +1,20 @@
 # Design Engine Review Follow-ups
 
+The physical-property review found that BOM correspondence accepted symmetric
+inertia tensors with impossible principal moments. BOM validation now uses the
+shared physical inertia validator, checking positive semidefiniteness and the
+principal-moment triangle inequalities. Its tolerance scales with the tensor,
+so small parts do not receive an absolute allowance that conceals invalid data.
+Point, line and lamina limits remain valid. Export tests seal matching invalid
+records and verify rejection before a review package is written.
+
+BOM JSON and CSV now state SI property units, coordinate frame and the own-CG
+inertia reference. Known CG/inertia requires an explicit proper rigid placement;
+contradictory unit/frame declarations, scaled axes and reflections are rejected.
+Unknown physical properties remain unknown. Standalone `evidence` validation
+also restores exact bundled Baghdad prerequisites before repository health;
+different existing input bytes are preserved and fail setup explicitly.
+
 The review of `f72181b` identified two further recursive-policy defects. Known
 mandatory failures now veto screening and verified recommendations regardless
 of check category. This includes the actual roof hot/wet failure; passing

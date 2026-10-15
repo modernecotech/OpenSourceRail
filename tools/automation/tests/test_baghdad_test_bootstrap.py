@@ -1,7 +1,11 @@
 """An explicit bootstrap restores only the exact hash-bound ignored input."""
 import hashlib
+import importlib.util
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import sys
 import zipfile
 import pytest
@@ -78,6 +82,52 @@ def test_missing_ignored_solver_input_restores_exact_bytes_only(solver_checkout)
     assert restore_proposal_inputs(root)=='restored-hash-bound-inputs'
     assert energy.read_bytes()==raw and restore_proposal_inputs(root,check=True)=='verified-existing'
     assert not (root.parent/'unexpected.txt').exists()
+
+
+@pytest.mark.parametrize('fault', [None, 'local-drift', 'archive-drift'])
+def test_standalone_evidence_runs_exact_bootstrap_before_health(solver_checkout, fault):
+    """Execute the real profile prerequisite in a fresh, labelled archive fixture."""
+    root, city, energy, archive, raw = solver_checkout
+    spec = importlib.util.spec_from_file_location(
+        'evidence_prerequisite_local_validation', ROOT/'tools/automation/local_validation.py'
+    )
+    local = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(local)
+    scripts = root/'tools/automation'
+    scripts.mkdir(parents=True)
+    for name in ('osr-python', 'bootstrap_baghdad_tests.py', 'proposal_archives.py'):
+        shutil.copy2(ROOT/'tools/automation'/name, scripts/name)
+    commands = local.plan('evidence', root/'build/validation/fixture')
+    assert commands[0]['argv'] == [
+        'tools/automation/osr-python', 'tools/automation/bootstrap_baghdad_tests.py'
+    ]
+    assert commands[1]['name'] == 'Repository health'
+    target = city/'operations/baghdad-operations.json.gz'
+    assert not target.exists() and not energy.exists()
+    if fault == 'local-drift':
+        target.write_bytes(b'operator-owned differing input')
+    elif fault == 'archive-drift':
+        archive.write_bytes(b'corrupt fixture archive')
+    receipts = {p: p.read_bytes() for p in city.rglob('*.json')}
+    def run():
+        return subprocess.run(commands[0]['argv'], cwd=root,
+            env={**os.environ, 'PYTHONPATH': str(scripts)},
+            capture_output=True, text=True, timeout=20)
+    result = run()
+    if fault:
+        assert result.returncode != 0
+        assert ('Existing operations input differs' if fault == 'local-drift'
+                else 'archive differs') in result.stderr
+        assert not energy.exists()
+        if fault == 'local-drift':
+            assert target.read_bytes() == b'operator-owned differing input'
+        else:
+            assert not target.exists()
+    else:
+        assert result.returncode == 0, result.stderr
+        assert energy.read_bytes() == raw and target.exists()
+        assert run().returncode == 0  # Existing exact inputs are idempotent.
+    assert all(p.read_bytes() == value for p, value in receipts.items())
 
 def test_solver_drift_is_preserved_and_archive_hash_is_verified(solver_checkout):
     root,city,energy,archive,raw=solver_checkout;energy.parent.mkdir(parents=True);energy.write_bytes(b'local')
