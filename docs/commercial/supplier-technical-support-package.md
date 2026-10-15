@@ -30,8 +30,9 @@ manufacturing rights.
 The [British supplier investigation for Baghdad factory equipment](baghdad-uk-factory-suppliers-2026-10-15.md)
 and its [37-case matrix](baghdad-uk-factory-suppliers-2026-10-15.csv) assess factory
 construction, production machinery, testing and imported equipment. They use the
-Baghdad six-car planning scope and distinguish UK manufacture from UK supply of
-foreign equipment. Candidate returns still require this controlled engagement
+Baghdad six-car planning scope and prioritise equipment manufactured in Britain,
+with Northern Ireland manufacture separately identified and UK supply of foreign
+equipment retained as a fallback. Candidate returns still require this controlled engagement
 process before entering a production, procurement or financing baseline.
 
 ## What The Public Information Establishes
