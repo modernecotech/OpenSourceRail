@@ -23,6 +23,7 @@ export const assemblyLabels = {
   revision: ["Revision", "المراجعة"],
   quantity: ["Represented quantity", "الكمية الممثلة"],
   material: ["Material", "المادة"],
+  materialDetails: ["Declared material properties", "خصائص المادة المعلنة"],
   mass: ["Defined mass [kg]", "الكتلة المعرفة [kg]"],
   missing: ["Unresolved installed allocations", "تخصيصات التركيب غير المحسومة"],
   joints: [
@@ -60,7 +61,9 @@ export const assemblyText = (key) =>
 
 export function physicalParts(candidate) {
   const data = candidate.definition || {};
-  return data.contract?.parts || data.model?.instances || [];
+  return (
+    data.contract?.parts || data.model?.instances || data.model?.parts || []
+  );
 }
 function locations(candidate) {
   const data = candidate.definition || {};
@@ -275,9 +278,15 @@ export function assemblyInspector(root, candidate, { onPart = () => {} } = {}) {
           [assemblyText("revision"), part.revision ?? quantityText(null)],
           [
             assemblyText("quantity"),
-            quantityText(installed?.quantity, installed?.unit || ""),
+            quantityText(
+              installed?.quantity ?? part.quantity,
+              installed?.unit || "",
+            ),
           ],
-          [assemblyText("material"), installed?.material ?? quantityText(null)],
+          [
+            assemblyText("material"),
+            installed?.material ?? part.material ?? quantityText(null),
+          ],
           [
             assemblyText("mass"),
             quantityText(installed?.defined_mass_kg ?? prop.mass_kg, "kg"),
@@ -286,6 +295,17 @@ export function assemblyInspector(root, candidate, { onPart = () => {} } = {}) {
       ),
       el("h4", assemblyText("joints")),
     );
+    const material = (data.contract?.materials || data.model?.materials || {})[
+      part.material
+    ];
+    if (material) {
+      const properties = el("details");
+      properties.append(
+        el("summary", assemblyText("materialDetails")),
+        el("pre", JSON.stringify(material, null, 2)),
+      );
+      detail.append(properties);
+    }
     const connected = joints.filter((joint) =>
       partReferences(joint, ids).includes(part.id),
     );
@@ -341,7 +361,16 @@ export function assemblyInspector(root, candidate, { onPart = () => {} } = {}) {
   const missing = el("details");
   missing.append(
     el("summary", assemblyText("missing")),
-    el("pre", JSON.stringify(register.unresolved_allocations ?? null, null, 2)),
+    el(
+      "pre",
+      JSON.stringify(
+        register.unresolved_allocations ??
+          data.model?.unresolved_part_allocations ??
+          null,
+        null,
+        2,
+      ),
+    ),
   );
   root.append(missing);
   return select;

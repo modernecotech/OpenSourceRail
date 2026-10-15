@@ -1,5 +1,26 @@
 # Local Verification Record
 
+The **15 October native recursive-part validation** executed four complete jobs:
+six real mechanical designs and six real civil designs, each tested twice through
+CAD, two native meshes and an independent solver/analytical control. All 72 actual
+CalculiX cases completed; repeated decision traces match within each family.
+Failed displacement checks remain excluded from the verified frontier. The
+[source-bound execution record](generated-parts-verification.json) and
+[selected CAD and reproduction commands](../../engineering/design_engine/README.md)
+retain the numerical scope. Physical correlation and independent acceptance
+remain unknown. A separate public-launcher smoke stopped at its declared policy
+budget and correctly made no finite-domain-best claim.
+
+The shared-engine regression suite passed **385 tests**, the generated-part
+suite passed **14 tests including six installed-native cases**, and all eight
+CLI/HTTP transport checks passed after the public launcher update. The 28
+frontend unit tests and nine Chromium design/review journeys passed without
+skips or retries. Browser fixtures are not physical tests. Previous common
+execution envelopes retain their original source hashes and are historical
+where this new common code changes their dependency closure; no old result was
+retagged as current. The four-profile software release gate was not rerun for
+this feature and its prior unestablished formal obligations remain open.
+
 The checks below include the retained verification of commit `63cfe3347`; newer review changes are described in [the follow-up](review-follow-up.md). All checks run locally. GitHub Actions remains disabled. They verify the stated software or numerical scope; they do not supply absent measured tests, supplier commitments, project site inputs or engineering acceptance. See the [package acceptance status](plan-status.md).
 
 The 14 October follow-up has passed 346 focused Python checks, the separate

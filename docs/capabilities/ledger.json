@@ -5713,6 +5713,24 @@
       "appointed_person": null,
       "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
       "contract": {
+        "description": "Run actual local part families twice and verify bounded native search replay.",
+        "public_symbols": [
+          "validate"
+        ]
+      },
+      "entry": "tools/automation/osr-python tools/automation/validate-generated-parts.py --help",
+      "example": "tools/automation/validate-generated-parts.py",
+      "id": "tool:validate-generated-parts.py",
+      "kind": "local-cli",
+      "owner_role": "automation/domain maintainer",
+      "source": "tools/automation/validate-generated-parts.py",
+      "status": "implemented; focused test mapping pending",
+      "tests": []
+    },
+    {
+      "appointed_person": null,
+      "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
+      "contract": {
         "description": "Validate deployable host compositions against the Cargo workspace.",
         "public_symbols": [
           "load_toml",
@@ -6120,6 +6138,202 @@
       "status": "implemented",
       "tests": [
         "tools/automation/tests/test_workbench_jobs.py"
+      ]
+    },
+    {
+      "appointed_person": null,
+      "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
+      "contract": {
+        "adapter": "mechanical-cleat",
+        "applicability": {
+          "environment": [
+            "simulation",
+            "training",
+            "physical"
+          ],
+          "function": "Fixed 0.20 m span, 0.05 m wide drilled steel cantilever cleat; two fixed mounting holes; 500 N end load; 1 mm research displacement limit",
+          "interfaces": [
+            "existing physical part and datum identities; unresolved supplier connections remain explicit"
+          ],
+          "loads": [
+            {
+              "id": "fixed-end-face-load",
+              "quantity": {
+                "basis": "declared research fixture; ideal root clamp, not a bolt/contact qualification",
+                "state": "synthetic",
+                "unit": "N",
+                "value": 500
+              }
+            }
+          ],
+          "mandatory_checks": [
+            "geometry",
+            "mass_inertia",
+            "manufacturing",
+            "linear_service",
+            "load_equilibrium",
+            "mesh_refinement",
+            "independent_benchmark",
+            "physical_correlation",
+            "independent_acceptance"
+          ],
+          "manufacturing": [
+            "existing controlled geometry, joints, process and inspection definitions"
+          ],
+          "model_domain": [
+            "Native boolean solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 1 mm loaded-face mean vertical displacement limit declared before search; nominal unqualified steel; bolt/contact, fatigue, buckling and physical acceptance remain open"
+          ],
+          "service_life": {
+            "cycles": null,
+            "state": "unknown",
+            "years": null
+          }
+        },
+        "budget": {
+          "artifact_mib": 512,
+          "evaluations": 256,
+          "memory_mib": 6144,
+          "wall_seconds": 3600
+        },
+        "id": "mechanical-cleat",
+        "objectives": [
+          "defined_mass_kg",
+          "installed_cost",
+          "lifecycle_cost",
+          "production_time",
+          "disruption",
+          "imported_content"
+        ],
+        "revision": "1",
+        "schema": "osr-design-problem/1",
+        "scope": "Research candidate comparison; no adopted financial, manufacturing or railway release",
+        "variables": {
+          "thickness_m": {
+            "choices": [
+              0.01,
+              0.012,
+              0.016
+            ],
+            "kind": "choice",
+            "unit": "m"
+          },
+          "topology": {
+            "choices": [
+              "solid-web",
+              "lightened-web"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          }
+        }
+      },
+      "entry": "./osr design run --problem mechanical-cleat --city samawah",
+      "example": "engineering/design_engine/README.md",
+      "id": "design:mechanical-cleat",
+      "kind": "design-adapter",
+      "owner_role": "design and discipline maintainer",
+      "source": "engineering/design_engine/registry.py",
+      "status": "implemented",
+      "tests": [
+        "engineering/analysis/tests/test_design_engine.py"
+      ]
+    },
+    {
+      "appointed_person": null,
+      "authority_boundary": "owner scope retained; numerical and physical acceptance remain separate",
+      "contract": {
+        "adapter": "civil-steel-beam",
+        "applicability": {
+          "environment": [
+            "simulation",
+            "training",
+            "physical"
+          ],
+          "function": "Fixed 1.50 m span, 0.10 m \u00d7 0.14 m steel cantilever envelope; RHS/I-section alternatives; 10 kN end load; 8 mm research displacement limit",
+          "interfaces": [
+            "existing physical part and datum identities; unresolved supplier connections remain explicit"
+          ],
+          "loads": [
+            {
+              "id": "fixed-end-face-load",
+              "quantity": {
+                "basis": "declared research fixture; ideal root clamp, not a bridge or site qualification",
+                "state": "synthetic",
+                "unit": "N",
+                "value": 10000
+              }
+            }
+          ],
+          "mandatory_checks": [
+            "geometry",
+            "mass_inertia",
+            "manufacturing",
+            "linear_service",
+            "load_equilibrium",
+            "mesh_refinement",
+            "independent_benchmark",
+            "physical_correlation",
+            "independent_acceptance"
+          ],
+          "manufacturing": [
+            "existing controlled geometry, joints, process and inspection definitions"
+          ],
+          "model_domain": [
+            "Native prismatic steel solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 8 mm loaded-face mean vertical displacement limit declared before search; no local buckling, plasticity, joint, foundation or physical qualification"
+          ],
+          "service_life": {
+            "cycles": null,
+            "state": "unknown",
+            "years": null
+          }
+        },
+        "budget": {
+          "artifact_mib": 512,
+          "evaluations": 256,
+          "memory_mib": 6144,
+          "wall_seconds": 3600
+        },
+        "id": "civil-steel-beam",
+        "objectives": [
+          "defined_mass_kg",
+          "installed_cost",
+          "lifecycle_cost",
+          "production_time",
+          "disruption",
+          "imported_content"
+        ],
+        "revision": "1",
+        "schema": "osr-design-problem/1",
+        "scope": "Research candidate comparison; no adopted financial, manufacturing or railway release",
+        "variables": {
+          "topology": {
+            "choices": [
+              "rhs",
+              "i-section"
+            ],
+            "kind": "choice",
+            "unit": "1"
+          },
+          "wall_m": {
+            "choices": [
+              0.004,
+              0.006,
+              0.008
+            ],
+            "kind": "choice",
+            "unit": "m"
+          }
+        }
+      },
+      "entry": "./osr design run --problem civil-steel-beam --city samawah",
+      "example": "engineering/design_engine/README.md",
+      "id": "design:civil-steel-beam",
+      "kind": "design-adapter",
+      "owner_role": "design and discipline maintainer",
+      "source": "engineering/design_engine/registry.py",
+      "status": "implemented",
+      "tests": [
+        "engineering/analysis/tests/test_design_engine.py"
       ]
     },
     {
@@ -7587,7 +7801,7 @@
     }
   ],
   "inventory": {
-    "automation_entries": 216,
+    "automation_entries": 217,
     "retained_prior_routes": 25,
     "rust_crates": 60,
     "task_areas": [
@@ -8339,12 +8553,12 @@
     "design/component-catalogue/tests/test_viaduct_families.py": "4870a1c975a3c6d4d4ba9cd669785047fcf0f5c60a5f782e4614dede1edc1eac",
     "docs/civil/viaduct-load-model.toml": "964d0c6711c8e3ee5d179303307a0ae1bf5192ab844f155638a910bfefdac4a3",
     "docs/civil/viaduct-quantity-cost-model.toml": "046fd296a97df8670542b0a6ce4e6277539a6a02c92a699d61ac412fe5f79896",
-    "docs/design-engine/app.js": "6eb13857e8b2e30b4c64f21f236279312aa85069db2380bf3e0a73ec913c2d54",
-    "docs/design-engine/assembly-inspector.js": "434bc48ec96537a6dbbc29a62bd738c7801cb505d8961e1d3f5431a25eff2739",
+    "docs/design-engine/app.js": "c4bbc51afa872201c7fe26a87075dcd10391bd6429e9760fe6df2b4cec11d9aa",
+    "docs/design-engine/assembly-inspector.js": "80e16d78c16ee532d4a6c9dcac71c6269d6dbd97bef21b4c030de6e11e978690",
     "docs/design-engine/components.js": "2f483526bec2c942652d2d736250bc7ed48176640d67e9b566d32e28e61d6ed4",
     "docs/design-engine/engineering-inputs.js": "fda594e13d4bb99a819f6b046bfb260bdbe8202da58edef901f40333d0617b8e",
     "docs/design-engine/input-revisions.js": "429cb23c1c135912b49027a7a22604f95beaf5cb3e467126f328c632d745ae56",
-    "docs/design-engine/operation-preflight.js": "ef99f674b5d924282b6d735475c75542c02a66b310bcd56a27e1d94258de432e",
+    "docs/design-engine/operation-preflight.js": "58b878e51c1a4e98bbe5dba2b018fed18dc90c11f9a0781bdfc1cac451e05984",
     "docs/design-engine/scope-controls.js": "18b9219b9b2e4ee8881e1443ebf6c6939ad67a0b9361df2f0ed3a53a9c599518",
     "docs/lifecycle/app.js": "ee307cf1adb3c27e9757e6080cc3f3a181f71d19e90ac2821a6248781d4f5f8f",
     "docs/lifecycle/evidence.js": "a2644b0e8f5aed1a9a145d472cdb7e5040f30445f38da297061ab49b109f87dc",
@@ -8441,6 +8655,7 @@
     "engineering/analysis/tests/test_design_qualification_http.py": "9129ba9c98cef9a3638f2a0ca5bc840668e5818e7ba398beee45881b9c07ee0c",
     "engineering/analysis/tests/test_design_record_scope.py": "a0fff192a43d47f6f15531237453f7aa363b8d4f16d98f785be08ba772a96e76",
     "engineering/analysis/tests/test_design_recovery.py": "faca626be6093203e974df0801a67d1b5f4dc4e74660772068759fd5250e86c7",
+    "engineering/analysis/tests/test_design_recursive_workflow.py": "2abd16eab199682605a381e40b82459fdd8d20c6a9e7ddb1f13fa2f552929677",
     "engineering/analysis/tests/test_design_reviews.py": "55a2fe90336aebcd7d1e8dc6401f57fb8c66baa0d923e188e2c269941d7db001",
     "engineering/analysis/tests/test_design_twin.py": "4a00b5c31cd6efd4eb0e96613bab2163571c0db9861198ed062afd3e258e7395",
     "engineering/analysis/tests/test_design_uncertainty.py": "792ab4c8614dce1d4eff79335652e7be52869c35572ed11cef240f8e364e56fb",
@@ -8450,6 +8665,8 @@
     "engineering/analysis/tests/test_factory_modernisation.py": "068d4390ff5147c8ee92b5129826e517f2a3f84db75d602c7c28f996ce5b276d",
     "engineering/analysis/tests/test_flexible_sparse_assembly.py": "0ec8a14313b0d20e09898b76287471dc08978fc493e726dfc33c74ebb144af1b",
     "engineering/analysis/tests/test_foundation_response.py": "a717dbbb9e9f09fd327667168185c6e3af32a822d2911418e33010b2cb11e9fa",
+    "engineering/analysis/tests/test_generated_parts.py": "7930e77e6c54cf59992c71ae399778fee745404021c354bb4dee5a78a4081312",
+    "engineering/analysis/tests/test_generated_parts_native.py": "fc5a085087e04533e118313bb1a74634fa4c8a98a7a839d5f726b26a810518bd",
     "engineering/analysis/tests/test_ground_model.py": "b113e2478d4a9c78e792feea1ce84519107b5530624ae368184a3ad34a4e1e96",
     "engineering/analysis/tests/test_ifc_mesh.py": "645f95f51c994fa894d6fcc27dc63b7da2a4176e3716776742536c31a93128b2",
     "engineering/analysis/tests/test_integration_programme.py": "e8b95dc1f6ce6cfbe12d3cc70ce73951490fef4fc59a3258ccc2ba1abf3f184c",
@@ -8555,9 +8772,9 @@
     "engineering/design_consistency/solver.py": "aaf53327f1e933aac778fedb85b6982b39609b44088f07c9f70203530a80d66e",
     "engineering/design_detail_register.py": "b3e959bd0db68136dc95be2e9c42ac1464f82de54c24e085020a220292cd8617",
     "engineering/design_engine/__init__.py": "7c9a11314732a664900b0d2ef53d1206932a7d32dd584c12516900e5a8b8f7f8",
-    "engineering/design_engine/adapters.py": "55f1ad9ea4a38870f3c63ef082a8f0c2b58e03693e3ee8bccf28a29ad0aabb7b",
+    "engineering/design_engine/adapters.py": "7ea77873005a7c40563f1fb5748ab7909bf943eb5df7fb757f51ff946bc72f93",
     "engineering/design_engine/benchmarks.py": "a924ae949a0248d882104c8f642de465cd966d0855f02df9b8abdb2a1f34d328",
-    "engineering/design_engine/bom.py": "dca40990a0f854d65ca61255a8eaa524258dd55e3f870fc4684fdf9ffce32390",
+    "engineering/design_engine/bom.py": "2abe20840f27fe20dffb4bfc7a95c1fb73d53d6a1263ed5c42433f07ad856e6c",
     "engineering/design_engine/capabilities.py": "3111828908dd53357555756927671f51ad36b02253d36e16b026950a334a2d7c",
     "engineering/design_engine/catalogue.py": "134c452c2df895c161b9451ce55b56d20f4e1e3b4920776880f006ce2be24241",
     "engineering/design_engine/civil_confirmation.py": "3ceffa614e9774860982df1443c4e914f582f973778f762a119e84c69cbc057d",
@@ -8570,10 +8787,12 @@
     "engineering/design_engine/electrical_installation.py": "146d7ed6f78b16d1ca2a05df7c1a1c061d67af016a5fcb8be1fb4d7727de5f71",
     "engineering/design_engine/engineering_inputs.py": "5529d1b43769c7fde006ca2e3486729d971a7b74f7e2a6cc02e52f4d6a8ce4f9",
     "engineering/design_engine/exchange.py": "49cf654948f5a678f12bc3f68346557b4840c636a8fea07d8cd6ddbf6ff4f956",
-    "engineering/design_engine/export.py": "5742b103d17be5b99ef5ccda44555310a74b5695a131b0e2b8cb85acfd06fd83",
+    "engineering/design_engine/export.py": "ef355c26cec8f15f72e9cb4626a4bc8ee92057fb0aa44b53456b7602a7b5ce21",
     "engineering/design_engine/foundation_response.py": "999b7df596ded2c01fab6c6fe8216a2a94bd074713809c39ba438273a770f136",
+    "engineering/design_engine/generated_parts.py": "8ef26019f35f576acff86110d4e2fb81d383c83a395afac5d9413bdac30c96b8",
+    "engineering/design_engine/generated_parts_native.py": "a0b26c3d1632ec7e5d86a0e02ef9079b4ee78b636d35e485871e2cfd6d6aaed6",
     "engineering/design_engine/graph.py": "2f168aef66e461aa7ea058f3cf99d6d3bc33f40dbc0b7b9f6fe06c0f02db4150",
-    "engineering/design_engine/http.py": "e3f7441046adc9b059c5437893e9499edfd1ba02badeb07a6b26ca69d9d41da0",
+    "engineering/design_engine/http.py": "7ad8867f5c640d77a26d580f363fddddfd5f10620984482a37bd1430dbb46187",
     "engineering/design_engine/input_revisions.py": "dac0bb0fcd75e9d61c73122b0eca4ebdbbe0f96bd7b4dff526ed5ff8193669c7",
     "engineering/design_engine/interaction_study.py": "1cfd52a97f6e9aae8470d3897654efe78874595d0e543e9c6110c31739c12875",
     "engineering/design_engine/manufacturing.py": "302aa6b1ead024332dd066956efa2d38282a433ad7dcf389af625c521f043ecb",
@@ -8585,10 +8804,12 @@
     "engineering/design_engine/publication.py": "9d0ff1e75eca26d59c47b8902e07bf665f43f09bced93b1bdc401f758dd53b16",
     "engineering/design_engine/qualification.py": "10c994a2b9f431eea4f2312d3817604508412fd80597e1dd009acd136d04d94c",
     "engineering/design_engine/recovery.py": "6db6031c282a7fbf7f8408505a24f1a1196450e0a9ec5e09fb9e28625ca7a340",
-    "engineering/design_engine/registry.py": "7a1415af42e8266a92e9093b7157aaafc7264d263d1140bd5c7ce6361f240c7d",
+    "engineering/design_engine/recursive_search.py": "172629f1593cf305e96f0ef7bfa5ba8a57438586b6beb47c44bcdf546c728dbb",
+    "engineering/design_engine/recursive_workflow.py": "009ac3b68b7fbc7b5e4bb4611a4ffa1992bfb30af415b9fd619a1b30d949f8e4",
+    "engineering/design_engine/registry.py": "26f9cdb96e4abd5356536ba2493bbe6bfe449a48fe0cc140c64056bf5a0045b6",
     "engineering/design_engine/review.py": "010893c61a1cc5c53b8c0170400ee4b5833434334199d645d85b6a96632bd656",
     "engineering/design_engine/roof_shell.py": "6be147a5e69b622c58086f0445f0e398bd0580bae79503a38cd70d6604624e8c",
-    "engineering/design_engine/runtime.py": "a547b0de403257aef7a9746142260548e000f1f608321e09304fc50a4c67c87a",
+    "engineering/design_engine/runtime.py": "aa2c9853d226b1e061db6c069bb1bdfd33da62e8fecc267192324a8ab009ec69",
     "engineering/design_engine/store.py": "e1e24bf745c42b8b90b18b41fc73c84779b40ffbbc6364ecdcbff49e69a66048",
     "engineering/design_engine/subsystems.py": "2ffe00b371222fba465153137b017acc034a1cf9b8b903874c0cace388d52f9e",
     "engineering/design_engine/uncertainty.py": "1de0f0f133066aab894b289ad1346c91fc3b7d9038d07e142d20f93079d0bdfb",
@@ -8745,7 +8966,7 @@
     "services/integration/osr_integration/store.py": "19870a14bc26bd9923e6490ab085293582c9b9ccde0e0467fb7f29ba658ce72e",
     "tests/acceptance/design-accounts.spec.mjs": "1a2267934b6a9be692538d128164b58e0fe246c4417af7d209f2356142aed5a6",
     "tests/frontend-unit/design-evidence.test.mjs": "d2f90f8c5726351facf5f9992911555e80f64a299ed78e8b396ef94139d1faf3",
-    "tests/frontend-unit/design-guided-inputs.test.mjs": "cb90c6a1cfbdb0a2305892a1d66c9d96107f66006ae0a6492e5b4e0c3b31ab6f",
+    "tests/frontend-unit/design-guided-inputs.test.mjs": "824b02bcaa5dba22fc3fc69649a67b057aad651680716ec012a1c1e24f642289",
     "tests/frontend-unit/execution-impact.test.mjs": "02e68e66279ee78005ef003333bd02396040132bc7826962aba62db036da3112",
     "tests/frontend-unit/ops-integrity.test.mjs": "333c4bfce5e7f6568e06fc9e73855b3801c2e707f773815601012352234cd55c",
     "tests/frontend-unit/station-layout.test.mjs": "ac01bf88ea693a60a00aeb1fdbe9e1e5392085ab1b1670009c9b3930472765ed",
@@ -8757,6 +8978,7 @@
     "tests/frontend/design-guided-inputs.spec.mjs": "6716d731748b7db3a173a2f4137b45cb62c8132caab37bfb098e334e962341c9",
     "tests/frontend/design-options.spec.mjs": "217bc58eef344773a7b24f7002c2eb7b2276a29e935c508f4f0779c2d8fd4ec0",
     "tests/frontend/design-qualification-draft.spec.mjs": "1a300c748ee4b3107e49668f2797f74cbcc569c0435e4c74fceead10eda600a9",
+    "tests/frontend/design-recursive-iteration.spec.mjs": "604d15bfac92ea4ef7b265b3c1ca245f61d871cbef35ac80fc92ccc77b079d06",
     "tests/frontend/design-responsive.spec.mjs": "a01cbc71816aca16e02285712daf88cc15b279d90edd57810493683594b2b3b8",
     "tests/frontend/engineering-change.spec.mjs": "1891e4fadeca89fe3e1595c3726d0255bc51cdb506f896508199c11491e378cf",
     "tests/frontend/lifecycle.spec.mjs": "68b0b8e071401cdc3f45f3739e5dc0092a3d6b8e24bb6d2ebe3a3d317a9694dc",
@@ -8828,11 +9050,11 @@
     "tools/automation/connected_delivery_register.py": "a37b8050444917bfd1a6c97265ee909f9ecee27ae6ee4e8e717b38742f0a8209",
     "tools/automation/coupled-programme-study.py": "8ae8efda15dcd6e0cd774bb90d3ec5459bacd0d50903b05ec35597724abf57a9",
     "tools/automation/delivery_rephasing.py": "8881ac220d90e08e2ef2ce72367e895d4f3359406ce17f930fd8374f514c7357",
-    "tools/automation/dependency-impact.py": "6287db02f89f16543e34ba7743afcf8d7aa01abf6c1c158b86e54ff34caec406",
+    "tools/automation/dependency-impact.py": "66b00c6ef29f5132ea0e64e610441b6548ca38ea4ce2066f5704697e052e49bc",
     "tools/automation/design-benchmark.py": "daf879fc30d441adbd1f7fb38a1cb5ff8835b717384ce26bc2df4f1fcd4fb198",
     "tools/automation/design-best-practice-twin.py": "97d961c0a36355712e5793c54d954c8c1d511316d18ea95897f7250a8009ca2f",
     "tools/automation/design-consistency-study.py": "f257fddff38e3fab9e5b0b8a056baeb92b3f448e037df88c4e239eb76ed2bc9d",
-    "tools/automation/design-engine.py": "8ec544252080223c40bcab3bb1fdd4bd84779f67a7db3a4e3ca540e437a62086",
+    "tools/automation/design-engine.py": "4bfd5abbee70c90426059aae15f2ddb52af990dbc17a4e900f296dd60ca422f1",
     "tools/automation/design-iterate.sh": "4b1f5ce38d4d33bc0f5a65601d377b2acf1c3a3d54736e4fe5ff1a430b8311e3",
     "tools/automation/design-option.py": "6c3d4b90d705744c13bbe7dc05d0c7dcfa762c87c02560e0d0d82df7494593ea",
     "tools/automation/design-twin-freecad.py": "fdf7337a5ae8a78d1d117fc7e8173099a7e27da416d861172d3318ab12b6cdc2",
@@ -9003,7 +9225,7 @@
     "tools/automation/tests/test_connected_source_manifest.py": "a0f22c69ce1eee1614580a0f304ab0ce7fb9b451006747df2e5cd3d03d43a434",
     "tools/automation/tests/test_construction_execution.py": "2624a0180a1cce3c8d13740a41d6df1edd38e9e883ddcb811c1b4f3e60460c9c",
     "tools/automation/tests/test_delivery_admin.py": "307a7d2fcc776742e23f4ab55f5c8f27e94a5caaa951f12be2d0c11bba992ac6",
-    "tools/automation/tests/test_dependency_impact.py": "7b1e4ba6ee7caead4256cd633c0c5b784e1df4b263aebf92c8709077008e3bf3",
+    "tools/automation/tests/test_dependency_impact.py": "b71f16c2f8a6543f30bdc19abccd410ada8bc60cab6cc65aecf568f93a552d0e",
     "tools/automation/tests/test_depot_scope.py": "df5fb1ddb468d37b893b234ab78fb7c710b45e55ada6a7f6848644b784c56ef5",
     "tools/automation/tests/test_design_options.py": "6b32378be63ce6fbe15af28aa3338f3b0e4e3b22e5e7e9578c12e3b6b6c86d89",
     "tools/automation/tests/test_digital_assurance.py": "27b24a769f638f0a29712907e7df13b7f075813dfab1295b8248f6d91e1c16bb",
@@ -9047,6 +9269,8 @@
     "tools/automation/tests/test_platform_recovery.py": "f142a5207b14f3355a9d204303b63a8b3b7e728e6d5fcb281680163f9870c1b6",
     "tools/automation/tests/test_proposal_archive_parts.py": "10f772e5c4de154b843aecbfe4beb195b454f425cdb2f67dac487040ef5a613d",
     "tools/automation/tests/test_publish_integration_review.py": "1737226fd97c9fece655e9196a54104824afd5088190be05d4cfdda09900e22c",
+    "tools/automation/tests/test_recursive_search.py": "89ac9a2d3a2293b982814365e432c01193c0813ba279428a47e44d298fd234db",
+    "tools/automation/tests/test_recursive_transport.py": "74113c026eedeb52ee968f6a56cf9cea3d4dbbb6cd3df2c98ccdd83933b95b19",
     "tools/automation/tests/test_redundancy_policy.py": "0b0e1594307b78572fc81dfc97147ad06ac990eb830fbd53a5babe61c3e96919",
     "tools/automation/tests/test_release_evidence.py": "f4c9812f07486561c3659ddacc307c3573304226ffd9292c5a916835a7128237",
     "tools/automation/tests/test_residential_route_expansion.py": "474aa88a5859809cb54205d65811e846eab9464217b6dc32fbce7fcc4211f8a9",
@@ -9076,6 +9300,7 @@
     "tools/automation/validate-city-service.py": "6bea01915e754cf3ebb9ab1de44b7ded94735f4866b93b7405a57ad0a11a2d6d",
     "tools/automation/validate-city-simulation.py": "de6428ff6633f7ce9f163c92b2928d63085040329f0de9e23e9afe4520435b1e",
     "tools/automation/validate-commercial-partnership.py": "d9d986ef735b85aa4714221b4f5a6c6e7f80013015bf8acc621a0e7c6cd0b9bb",
+    "tools/automation/validate-generated-parts.py": "311f8712e8d821fa97dc3060ff2ee71da5d7056530a1cbd34fd8776496510455",
     "tools/automation/validate-host-manifests.py": "29de4d3d1ecc38926d6a0cc88bc5dd42da1d7693ee1979cf44c468ba4864fc5f",
     "tools/automation/validate-lm3-first-article-evidence.py": "8c2082b9cfa2b30d2e1fd510e7fe459dda87d17c24f8ec010897134fb5769f6c",
     "tools/automation/validate-owner-builder-operator-mobilisation.py": "4f089261f8c177904ad7312316ced94591899313f6bf9817e1fe84bef2076d15",
@@ -9118,5 +9343,5 @@
     "tools/reference-ma/src/reference_ma/types.py": "7d3467d6145266c29177dad4b3fa32f959b5b461470837da29ace9d462aeb0c4",
     "tools/reference-ma/tests/test_basic.py": "68651d3533a8984e65c0dd04860ed57bd4ed1244edf4beffda1678223f27ba47"
   },
-  "source_index_sha256": "5a490ebaa49dad77196a0817d8943ffb6ceefe0bf080b158b7ad2ed0628c382f"
+  "source_index_sha256": "47607d7165e70da08c6a324760ce9a67404444ed63cdc06b9e18fdee0befb231"
 }

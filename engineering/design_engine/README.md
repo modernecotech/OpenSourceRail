@@ -16,6 +16,89 @@ GitHub Actions remains disabled.
 ./osr design export run-0123456789abcdef --output build/review/my-fresh-package
 ```
 
+Generate real parts and iterate with native feedback:
+
+```mermaid
+flowchart LR
+    A[Fixed function, loads and variable domain] --> B[Generate controlled solid]
+    B --> C[FreeCAD solid and STEP correspondence]
+    C --> D[Gmsh coarse and fine meshes]
+    D --> E[CalculiX responses and independent control]
+    E --> F[Retain every check and select verified incumbent]
+    F --> G{Domain complete or budget reached?}
+    G -- No: native feedback --> B
+    G -- Yes --> H[Source-bound review package; physical checks stay open]
+```
+
+```bash
+./osr design iterate --problem mechanical-cleat --city samawah --finite-exhaustive --proposals 12 --confirmations 6 --evaluations 64 --wall-seconds 1800
+./osr design iterate --problem civil-steel-beam --city samawah --finite-exhaustive --proposals 12 --confirmations 6 --evaluations 64 --wall-seconds 1800
+./osr design export <job-id> --output build/review/generated-part --native
+```
+
+The mechanical family varies plate thickness and a lightening hole in a drilled
+steel cleat. The civil family varies wall thickness and RHS/I-section topology
+on a fixed beam envelope. Each has six declared combinations, fixed material
+assumptions, loads, supports and provisional displacement limits. These are
+actual subtractive solids, not a complete bolted connection or railway structure.
+
+The installed FreeCAD command-line tool produces a native document, BRep, STEP
+and inspection SVG. Gmsh meshes that BRep with quadratic tetrahedra. CalculiX
+solves two mesh sizes; separate checks compare CAD mass/CG/inertia with signed
+primitive integrals, integrate end-face loading, balance support forces/moments,
+compare displacement and mesh volume, and solve an independent simple-beam
+control. Raw decks, meshes, reactions, stresses, logs and failures remain in the
+attempt. Export retains these original files; it does not rerun the search.
+
+The recursive controller uses native outcomes to choose subsequent neighbours.
+It fixes variable ordering, tie breaking and real-variable quantisation, records
+the complete request, source hashes and actual tool versions/binaries, and keeps
+immutable progress frames before long evaluations. Identical completed inputs
+and tools produce the same decision trace; this is not a claim that every CAD
+archive or timing byte is reproducible. A source/tool change invalidates current
+applicability. Resume appends a fresh attempt; it does not silently reuse partial
+solver output or promise continuation from an interrupted native solve.
+
+`--proposals` bounds policy proposals **and confirmations**; `--confirmations`
+bounds native confirmations. `--rounds` bounds controller iterations. The common
+`--evaluations` budget separately charges compilations and actual solver cases,
+including benchmarks. Wall, memory and artifact limits also apply. Invalid
+geometry, failed constraints, unavailable tools, cancellation and exhausted
+budgets stay visible. Finite exhaustive mode visits every declared combination
+within its budget. Otherwise the report states the tested coverage and stop
+reason; a local stall is not evidence of a global optimum.
+
+“Best verified in the tested domain” requires complete native numerical checks
+and known requested objectives across the finite domain. The general global
+optimum flag remains false. Unknown prices cannot become zero-cost winners.
+Material strength, fatigue, nonlinear buckling/contact, actual joint behaviour,
+site conditions, physical correlation and independent acceptance remain open;
+numerical serviceability checks grant no production or physical release.
+
+The same controlled feedback policy can call the existing panel, roof, viaduct
+and foundation confirmation adapters. Other adapters report their unsupported
+native-iteration preset instead of inventing a solver pass. The guided UI
+provides recursive controls, lineage and native artifacts. See the
+[review of twelve design systems and primary sources](../../docs/design-engine/generative-systems-review.md)
+for the ideas used here and optional frameworks that are not integrated.
+
+The [15 October native execution record](../../docs/design-engine/generated-parts-verification.json)
+retains source/tool identities, all candidate check states and repeated decision
+hashes. Four complete jobs made 72 actual CalculiX calls (candidate meshes and
+independent controls). Each six-choice domain was tested twice with identical
+decision traces; failing serviceability cases remain in the record.
+
+| Bounded research selection | Starting mass | Selected mass | Native displacement | Retained design |
+| --- | ---: | ---: | ---: | --- |
+| 12 mm lightened drilled cleat | 0.936673 kg | 0.917733 kg | 0.92145 mm / provisional 1 mm limit | [STEP](../../docs/design-engine/generated-parts/mechanical-cleat/part.step), [FreeCAD](../../docs/design-engine/generated-parts/mechanical-cleat/part.FCStd), [inspection](../../docs/design-engine/generated-parts/mechanical-cleat/inspection.svg) |
+| 8 mm I-section civil beam | 32.2164 kg | 30.5208 kg | 6.66285 mm / provisional 8 mm limit | [STEP](../../docs/design-engine/generated-parts/civil-steel-beam/part.step), [FreeCAD](../../docs/design-engine/generated-parts/civil-steel-beam/part.FCStd), [inspection](../../docs/design-engine/generated-parts/civil-steel-beam/inspection.svg) |
+
+These files are unissued research outputs. Reproduce the actual four-job native
+validation with `tools/automation/osr-python tools/automation/validate-generated-parts.py --output build/generative-design/a-fresh-native-replay`.
+All raw attempts and two verified offline review exports remain local. This
+record does not replace historical physical studies or the full software
+release gate.
+
 Candidate JSON is a list of complete variable maps supplied with `--candidates`.
 Function, units, variable domains, load cases, model limits and mandatory checks
 are declared before execution. Side and roof bays are separate problems; a

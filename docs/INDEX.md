@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6222**.
+Indexed Markdown files: **6223**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6222**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 232 |
+| [docs](#docs) | 233 |
 | [engineering](#engineering) | 68 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6079,6 +6079,7 @@ Indexed Markdown files: **6222**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
 | [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |
 | [`docs/design-engine/record-ownership.md`](../docs/design-engine/record-ownership.md) | Record Ownership And Reviewed Handoffs |
 | [`docs/design-engine/review-follow-up.md`](../docs/design-engine/review-follow-up.md) | Follow-up To The 63cfe3347 Review |

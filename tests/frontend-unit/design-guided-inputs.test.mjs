@@ -9,6 +9,7 @@ import {
   partReferences,
   failedObservables,
   assemblyLabels,
+  physicalParts,
 } from "../../docs/design-engine/assembly-inspector.js";
 import {
   scopeLabels,
@@ -22,6 +23,8 @@ import {
 import {
   operationReadiness,
   operationLabels,
+  requestedOperations,
+  recursiveTuning,
 } from "../../docs/design-engine/operation-preflight.js";
 
 const parts = ["panel", "rail", "bolt"];
@@ -29,6 +32,53 @@ const reference = {
   physical_id: "panel",
   basis_reference: "Fixture workshop envelope, not qualified",
 };
+
+test("physical inventory includes generated model parts without inventing installed mass", () => {
+  const generated = {
+    id: "cleat",
+    quantity: 1,
+    material: "research-steel",
+    properties: { mass_kg: 0.928, cg_m: [0.1, 0, 0] },
+    placement: {
+      translation_m: [0, 0, 0],
+      rotation: [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+      ],
+    },
+  };
+  const candidate = {
+    definition: {
+      model: {
+        parts: [generated],
+        materials: { "research-steel": { yield_strength_pa: null } },
+      },
+    },
+    complete_installed_mass_kg: null,
+  };
+  assert.deepEqual(physicalParts(candidate), [generated]);
+  assert.equal(candidate.complete_installed_mass_kg, null);
+  assert.equal(
+    candidate.definition.model.materials[generated.material].yield_strength_pa,
+    null,
+  );
+  assert.deepEqual(
+    physicalParts({
+      definition: { model: { instances: [{ id: "existing-instance" }] } },
+    }),
+    [{ id: "existing-instance" }],
+  );
+  assert.deepEqual(
+    physicalParts({
+      definition: {
+        contract: { parts: [{ id: "existing-contract" }] },
+        model: { parts: [generated] },
+      },
+    }),
+    [{ id: "existing-contract" }],
+  );
+});
 
 test("guided manufacturing forms preserve SI values and explicit source while rejecting missing facts", () => {
   const stock = manufacturingRule(
@@ -326,4 +376,49 @@ test("every new guided form, scope and assembly string has English and Arabic te
       assert.ok(pair[0].trim());
       assert.match(pair[1], /[\u0600-\u06ff]/);
     }
+});
+
+test("recursive iteration requires its own native preflight and fixed check-preserving tuning", () => {
+  const operations = {
+    screen: { available: true, missing: [] },
+    optimise: { available: false, missing: ["pymoo"] },
+    confirm: { available: true, missing: [] },
+    iterate: { available: false, missing: ["Gmsh"] },
+  };
+  assert.deepEqual(
+    requestedOperations({ iterate: true, search: true, refine: true }),
+    ["screen", "iterate"],
+  );
+  assert.equal(
+    operationReadiness(operations, null, { iterate: true }).available,
+    false,
+  );
+  assert.equal(
+    operationReadiness(
+      { ...operations, iterate: { available: true, missing: [] } },
+      null,
+      { iterate: true },
+    ).available,
+    true,
+  );
+  assert.equal(
+    operationReadiness(null, { available: true }, { iterate: true }).available,
+    false,
+  );
+  for (const adapter of ["mechanical-cleat", "civil-steel-beam"])
+    assert.deepEqual(recursiveTuning({ adapter }), {
+      evaluations: 32,
+      iterations: 32,
+      confirmations: 12,
+      finite_exhaustive: true,
+    });
+  assert.equal(recursiveTuning({ adapter: "panel" }).finite_exhaustive, false);
+  assert.equal(
+    "screening_checks" in recursiveTuning({ adapter: "panel" }),
+    false,
+  );
+  assert.equal(
+    "physical_checks" in recursiveTuning({ adapter: "panel" }),
+    false,
+  );
 });

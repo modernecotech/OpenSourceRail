@@ -62,12 +62,16 @@ def toolchain(adapter):
             result[name] = None
     ccx = shutil.which("ccx")
     result["calculix_sha256"] = digest(Path(ccx)) if ccx else None
+    if adapter in {"mechanical-cleat", "civil-steel-beam"}:
+        from .generated_parts import toolchain as part_toolchain
+
+        result["generated_parts"] = part_toolchain()
     result["adapter"] = adapter
     return result
 
 
 def preflight(charter, *, search=False, operation="screen"):
-    if operation not in {"screen", "optimise", "confirm", "cad-export"}:
+    if operation not in {"screen", "optimise", "confirm", "cad-export", "iterate"}:
         raise ValueError("controlled engineering operation required")
     adapter = charter["adapter"]
     tools = toolchain(adapter)
@@ -76,13 +80,24 @@ def preflight(charter, *, search=False, operation="screen"):
         if not tools[name]:
             missing.append(name)
     if (
-        operation == "confirm"
+        operation in {"confirm", "iterate"}
         and adapter in {"panel", "roof", "viaduct", "foundation"}
         and not tools["calculix_sha256"]
     ):
         missing.append("CalculiX")
     if (search or operation == "optimise") and not tools["pymoo"]:
         missing.append("pymoo")
+    if operation == "iterate":
+        from .recursive_workflow import supported
+
+        if not supported(charter):
+            missing.append("controlled recursive native-confirmation preset")
+    if operation in {"confirm", "iterate"} and adapter in {
+        "mechanical-cleat", "civil-steel-beam"
+    }:
+        native = tools.get("generated_parts", {})
+        if not native.get("available"):
+            missing.extend(native.get("missing", ["native part CAD/mesher/solver toolchain"]))
     if (
         operation == "confirm"
         and adapter in {"civil", "civil-alternatives"}
@@ -129,6 +144,7 @@ def request(
     search=None,
     reviewed_inputs=None,
     interactions=None,
+    recursive=None,
 ):
     charter = get(problem_id)
     identity(scope)
@@ -155,12 +171,17 @@ def request(
     if type(shortlist) is not int or not 1 <= shortlist <= 16:
         raise ValueError("bounded diverse shortlist required")
     if candidates is None:
-        candidates = [
-            {
-                k: (v["choices"][0] if v["kind"] == "choice" else v["bounds"][0])
-                for k, v in charter["variables"].items()
-            }
-        ]
+        if charter["adapter"] in {"mechanical-cleat", "civil-steel-beam"}:
+            from .generated_parts import defaults
+
+            candidates = [defaults(charter["adapter"])]
+        else:
+            candidates = [
+                {
+                    k: (v["choices"][0] if v["kind"] == "choice" else v["bounds"][0])
+                    for k, v in charter["variables"].items()
+                }
+            ]
     if not isinstance(candidates, list) or not 1 <= len(candidates) <= 128:
         raise ValueError("bounded candidate list required")
     values = [variables(charter, c) for c in candidates]
@@ -208,23 +229,32 @@ def request(
             raise ValueError("distinct bounded search seeds required")
         if type(count) is not int or not 4 <= count <= 128:
             raise ValueError("bounded search proposal budget required")
+    recursive_policy = None
+    if recursive is not None:
+        if search is not None or interactions is not None:
+            raise ValueError("recursive feedback and paired/interaction studies are separate experiments")
+        from .recursive_workflow import policy
+
+        recursive_policy = policy(charter, recursive)
     return dict(
         schema="osr-design-request/1",
         problem=charter,
         identity=scope,
         candidates=values,
-        refine=bool(refine),
+        refine=bool(refine or recursive is not None),
         shortlist=shortlist,
         seed=seed,
         search=search,
         reviewed_inputs=deepcopy(reviewed_inputs),
         interactions=deepcopy(interactions),
+        recursive=recursive_policy,
         dependencies=dependencies(charter["adapter"]),
         toolchain=toolchain(charter["adapter"]),
     )
 
 
 class Budget:
+    control_exceptions = (BudgetExceeded, Cancelled)
     def __init__(self, store, identifier, limits):
         self.store = store
         self.id = identifier
@@ -330,7 +360,9 @@ def worker(store_root, identifier):
             charter,
             search=req.get("search") is not None,
             operation=(
-                "confirm"
+                "iterate"
+                if req.get("recursive")
+                else "confirm"
                 if req.get("refine")
                 else "optimise" if req.get("search") else "screen"
             ),
@@ -386,7 +418,31 @@ def worker(store_root, identifier):
 
         search_result = None
         sensitivity_result = None
-        if req.get("search"):
+        recursive_result = None
+        if req.get("recursive"):
+            from .recursive_workflow import execute
+
+            def native_confirmation(row):
+                budget.charge(0, "recursive-native-confirmation")
+                adapters.refine(
+                    charter, row, budget.charge,
+                    folder / "recursive-native" / row["id"],
+                    remaining_seconds=budget.remaining_seconds,
+                )
+                row["refinement_requested"] = True
+                return row
+
+            recursive_result = execute(req, evaluate, budget, folder, confirm=native_confirmation)
+            rows = recursive_result["candidates"]
+            if recursive_result["termination_reason"] == "cancelled":
+                raise Cancelled("recursive experiment cancelled; partial lineage retained")
+            if recursive_result["termination_reason"] == "budget":
+                # The comparison is still useful when the policy exhausts its
+                # declared search budget. Only common execution limits fail a job.
+                stop = recursive_result.get("stop") or {}
+                if stop.get("type") in {"BudgetExceeded", "Cancelled"}:
+                    raise BudgetExceeded("common execution budget exhausted; recursive progress retained")
+        elif req.get("search"):
             from .optimization import paired
 
             def oracle(value, seed, arm, cached):
@@ -484,10 +540,10 @@ def worker(store_root, identifier):
                 ),
                 output=folder / "interaction-study",
             )
-        shortlist = diverse_shortlist(rows, req["shortlist"]) if req["refine"] else []
+        shortlist = diverse_shortlist(rows, req["shortlist"]) if req["refine"] and not req.get("recursive") else []
         # An explicitly selected single candidate may be refined diagnostically
         # even when a screening constraint fails. It stays ineligible for ranking.
-        if req["refine"] and len(rows) == 1 and rows[0].get("definition"):
+        if req["refine"] and not req.get("recursive") and len(rows) == 1 and rows[0].get("definition"):
             shortlist = rows
         for row in shortlist:
             try:
@@ -505,14 +561,14 @@ def worker(store_root, identifier):
                     if name in row["checks"]:
                         adapters.set_check(row, name, "outside-domain", str(failure))
             row["refinement_requested"] = True
-        if dependencies(charter["adapter"]) != req["dependencies"]:
+        if dependencies(charter["adapter"]) != req["dependencies"] or toolchain(charter["adapter"]) != req["toolchain"]:
             raise ValueError("source changed during execution; evidence is stale")
         screening = sorted(
-            (r for r in rows if "defined_mass_kg" in r["metrics"]),
+            (r for r in rows if isinstance(r["metrics"].get("defined_mass_kg"), (int, float))),
             key=lambda r: r["metrics"]["defined_mass_kg"],
         )
         detailed = sorted(
-            (r for r in rows if "detailed_deflection_m" in r["metrics"]),
+            (r for r in rows if isinstance(r["metrics"].get("detailed_deflection_m"), (int, float))),
             key=lambda r: r["metrics"]["detailed_deflection_m"],
         )
         summary = dict(
@@ -530,8 +586,9 @@ def worker(store_root, identifier):
             ],
             detailed_deflection_ranking=[r["id"] for r in detailed],
             ranking_axes_differ=True,
-            conditional_shortlist=[r["id"] for r in shortlist],
-            verified_frontier=[],
+            conditional_shortlist=(recursive_result["verified_frontier"] if recursive_result else [r["id"] for r in shortlist]),
+            verified_frontier=recursive_result["verified_frontier"] if recursive_result else [],
+            recursive_search=recursive_result,
             unknown_objectives=[
                 "complete installed/lifecycle cost",
                 "production/disruption/imported scope",
@@ -607,7 +664,7 @@ def worker(store_root, identifier):
 
 
 def review_package(req, summary):
-    from .bom import candidate_bill
+    from .bom import review_bill
 
     candidates = summary["candidates"]
     return dict(
@@ -617,7 +674,7 @@ def review_package(req, summary):
         candidate_ids=[r["id"] for r in candidates],
         source_dependencies=req["dependencies"],
         drawings_status="unissued; native CAD/BIM exports and authored drawings retain separate evidence",
-        bill=[candidate_bill(r, adapter=req["problem"]["adapter"]) for r in candidates],
+        bill=[review_bill(r, adapter=req["problem"]["adapter"]) for r in candidates],
         rfq_required=[
             "supplier grade/batch",
             "complete joint/retention/seal quantities",

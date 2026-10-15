@@ -66,7 +66,7 @@ case "$command_name" in
         ;;
     design)
         case "${1:-}" in
-            problems|run|search|compare|refine|verify|export|jobs|show|cancel|resume)
+            problems|run|search|iterate|compare|refine|verify|export|jobs|show|cancel|resume)
                 exec tools/automation/osr-python tools/automation/design-engine.py "$@"
                 ;;
         esac

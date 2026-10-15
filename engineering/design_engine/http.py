@@ -243,7 +243,7 @@ def get(handler):
                 operations={
                     p["id"]: {
                         operation: preflight(p, operation=operation)
-                        for operation in ("screen", "optimise", "confirm")
+                        for operation in ("screen", "optimise", "confirm", "iterate")
                     }
                     for p in registered
                 },
@@ -486,12 +486,20 @@ def post(handler):
                     raise PermissionError(
                         "authenticated planner required to run revised inputs"
                     )
-                if set(data) != {"identity", "search", "refine", "budget"}:
+                required = {"identity", "search", "refine", "budget"}
+                if not required <= set(data) or set(data) - required - {"recursive"}:
                     raise ValueError(
                         "explicit revised run search, confirmation and budget required"
                     )
                 snapshot = revisions.snapshot(fields[1])
                 parent = store.verify_request(snapshot["parent_job"])
+                from .recursive_workflow import TUNING
+
+                inherited = parent["request"].get("recursive")
+                recursive = data["recursive"] if "recursive" in data else (
+                    {key: value for key, value in inherited.items() if key in TUNING}
+                    if inherited is not None else None
+                )
                 req = request(
                     snapshot["problem_id"],
                     snapshot["target_identity"],
@@ -500,6 +508,7 @@ def post(handler):
                     refine=data["refine"],
                     budget=data["budget"],
                     reviewed_inputs=snapshot,
+                    recursive=recursive,
                 )
                 revisions.validate_job(req)
                 from .contracts import fingerprint
@@ -524,6 +533,7 @@ def post(handler):
                 "seed",
                 "search",
                 "interactions",
+                "recursive",
             }:
                 raise ValueError("unknown job fields")
             payload = service.start(
@@ -537,6 +547,7 @@ def post(handler):
                     seed=data.get("seed", 11),
                     search=data.get("search"),
                     interactions=data.get("interactions"),
+                    recursive=data.get("recursive"),
                 )
             )
         elif path.startswith("jobs/"):

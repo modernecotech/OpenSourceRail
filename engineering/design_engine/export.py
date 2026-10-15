@@ -9,7 +9,7 @@ import shutil
 import subprocess
 
 from .contracts import canonical
-from .bom import candidate_bill
+from .bom import review_bill
 from .publication import digest
 from .registry import ROOT, dependencies
 from .runtime import comparison, toolchain
@@ -28,7 +28,7 @@ def export(store, identifier, destination, *, native=False):
         raise ValueError("stale candidate cannot be exported as current")
     report = comparison(store, identifier)
     bills = [
-        candidate_bill(candidate, adapter=adapter) for candidate in report["candidates"]
+        review_bill(candidate, adapter=adapter) for candidate in report["candidates"]
     ]
     attempt = store.root / "runs" / identifier / f'attempt-{job["active_attempt"]:04d}'
     destination.mkdir(parents=True)
@@ -217,6 +217,14 @@ def export(store, identifier, destination, *, native=False):
                 )
                 continue
             contract = candidate.get("definition", {}).get("contract")
+            generated = candidate.get("definition", {}).get("native_confirmation")
+            if adapter in {"mechanical-cleat", "civil-steel-beam"} and generated:
+                native_results.append(dict(
+                    candidate=candidate["id"], state="retained-native-execution",
+                    basis="Original CAD, meshes and solver results retained in executed-attempt; no export-time solve",
+                    native_correspondence=generated,
+                    drawing_issued=False, physical_release=False))
+                continue
             if not contract:
                 native_results.append(
                     dict(

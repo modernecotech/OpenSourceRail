@@ -30,7 +30,7 @@ def main():
     sub = parser.add_subparsers(dest="action", required=True)
     p = sub.add_parser("problems")
     p.add_argument("id", nargs="?")
-    for action in ("run", "refine", "search"):
+    for action in ("run", "refine", "search", "iterate"):
         p = sub.add_parser(action)
         p.add_argument("--problem", required=True)
         p.add_argument("--city", required=True)
@@ -55,8 +55,15 @@ def main():
         p.add_argument("--refine", action="store_true")
         p.add_argument("--evaluations", type=int)
         p.add_argument("--wall-seconds", type=int)
-        p.add_argument("--proposals", type=int, default=32)
+        p.add_argument("--proposals", type=int)
         p.add_argument("--seeds", type=int, nargs="+", default=[11, 29, 47])
+        if action == "iterate":
+            p.add_argument("--rounds", type=int, help="Maximum deterministic recursive rounds")
+            p.add_argument("--confirmations", type=int, help="Maximum actual native confirmation attempts")
+            p.add_argument("--finite-exhaustive", action="store_true", default=None,
+                           help="Enumerate the bounded all-choice domain; physical acceptance stays open")
+            p.add_argument("--recursive-policy", type=Path,
+                           help="JSON bounded recursive tuning; verification checks remain controlled")
     p = sub.add_parser("jobs")
     p.add_argument("--city", required=True)
     p.add_argument("--environment", default="simulation")
@@ -96,7 +103,7 @@ def main():
             json.dumps(get(args.id) if args.id else list(problems().values()), indent=2)
         )
         return 0
-    if args.action in ("run", "refine", "search"):
+    if args.action in ("run", "refine", "search", "iterate"):
         scope = identity(
             dict(
                 schema="osr-design-identity/1",
@@ -115,6 +122,22 @@ def main():
             budget["evaluations"] = args.evaluations
         if args.wall_seconds is not None:
             budget["wall_seconds"] = args.wall_seconds
+        recursive = None
+        if args.action == "iterate":
+            recursive = load(args.recursive_policy) if args.recursive_policy else {}
+            if not isinstance(recursive, dict):
+                raise ValueError("recursive policy must be a structured tuning object")
+            recursive = dict(recursive)
+            if args.proposals is not None:
+                recursive["evaluations"] = args.proposals
+            elif "evaluations" not in recursive:
+                recursive["evaluations"] = 32
+            if args.rounds is not None:
+                recursive["iterations"] = args.rounds
+            if args.confirmations is not None:
+                recursive["confirmations"] = args.confirmations
+            if args.finite_exhaustive is not None:
+                recursive["finite_exhaustive"] = args.finite_exhaustive
         req = request(
             args.problem,
             scope,
@@ -123,11 +146,12 @@ def main():
             shortlist=args.shortlist,
             budget=budget,
             search=(
-                dict(seeds=args.seeds, evaluations=args.proposals)
+                dict(seeds=args.seeds, evaluations=args.proposals if args.proposals is not None else 32)
                 if args.action == "search"
                 else None
             ),
             interactions=load(args.interactions) if args.interactions else None,
+            recursive=recursive,
         )
         manager = Manager(args.store)
         job = manager.start(req)
@@ -137,15 +161,25 @@ def main():
             if current["status"] in TERMINAL:
                 break
             time.sleep(0.2)
-        print(
-            json.dumps(
-                {
-                    k: current[k]
-                    for k in ("id", "status", "phase", "error", "physical_release")
-                },
-                indent=2,
+        result = {
+            k: current[k]
+            for k in ("id", "status", "phase", "error", "physical_release")
+        }
+        if args.action == "iterate" and current["status"] == "completed":
+            recursive_result = comparison(manager.store, job["id"])["recursive_search"]
+            result["recursive_search"] = {
+                key: recursive_result[key]
+                for key in (
+                    "incumbent_id", "termination_reason", "finite_domain_complete",
+                    "native_domain_complete", "best_verified_in_tested_domain_claimed",
+                    "best_verified_claim_scope", "decision_trace_sha256",
+                )
+            }
+            result["recursive_search"]["report_path"] = str(
+                manager.store.root / "runs" / job["id"]
+                / f"attempt-{current['active_attempt']:04d}" / "recursive-search.json"
             )
-        )
+        print(json.dumps(result, indent=2))
         return 0 if current["status"] == "completed" else 1
     store = Store(args.store)
     if args.action == "jobs":

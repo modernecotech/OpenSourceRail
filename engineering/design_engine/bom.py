@@ -67,6 +67,20 @@ def _properties(properties):
             raise ValueError("BOM inertia must be symmetric with nonnegative diagonal")
 
 
+def review_bill(candidate, *, adapter):
+    """Retain explicitly failed compilations without inventing an empty inventory."""
+    if (not candidate.get("definition") and candidate.get("error")
+            and candidate.get("definition_sha256") is None
+            and candidate.get("evidence_state") in {"failed", "outside-domain"}):
+        return dict(candidate=_identifier(candidate.get("id"), "candidate ID"),
+                    state="not-compiled", basis=candidate["error"], parts=[],
+                    physical_instance_count=None, defined_mass_kg=None,
+                    complete_installed_mass_kg=None, incomplete_installed_inventory=True,
+                    complete_installed_kit=False, unresolved_allocations=None,
+                    production_released=False)
+    return candidate_bill(candidate, adapter=adapter)
+
+
 def candidate_bill(candidate, *, adapter):
     """Return checked per-instance inventory, or an explicit nonphysical scope.
 

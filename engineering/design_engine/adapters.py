@@ -48,7 +48,13 @@ def compile_candidate(charter, scope, values, *, reviewed_inputs=None):
     from engineering.design_consistency import demonstrators as d
     from engineering.design_consistency.contracts import summary
 
-    if kind in {"panel", "roof"}:
+    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+        from .generated_parts import compile_definition, screen_definition
+
+        model = compile_definition(kind, values)
+        data = dict(model=model)
+        metrics = screen_definition(model)["metrics"]
+    elif kind in {"panel", "roof"}:
         config = json.loads(
             (ROOT / "engineering/composite_panels/config/development.json").read_text()
         )
@@ -212,7 +218,13 @@ def screen(charter, result, charge, folder):
     kind = charter["adapter"]
     charge(1, "screen")
     data = result["definition"]
-    if kind in {"panel", "roof"}:
+    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+        from .generated_parts import screen_definition
+
+        report = screen_definition(data["model"])
+        result["checks"].update(report["checks"])
+        result["metrics"].update(report["metrics"])
+    elif kind in {"panel", "roof"}:
         contract = data["contract"]
         response = contract["response"]
         deflection = response["total_deflection_m"]
@@ -504,8 +516,19 @@ def refine(charter, result, charge, folder, *, remaining_seconds=None):
     kind = charter["adapter"]
     data = result["definition"]
     folder = Path(folder)
-    folder.mkdir(parents=True, exist_ok=True)
-    if kind == "panel":
+    if kind not in {"mechanical-cleat", "civil-steel-beam"}:
+        folder.mkdir(parents=True, exist_ok=True)
+    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+        from .generated_parts_native import native_screen
+
+        report = native_screen(data["model"], folder, ROOT,
+                               remaining_seconds=remaining_seconds, charge=charge)
+        result["checks"].update(report["checks"])
+        result["metrics"].update(report["metrics"])
+        result["metrics"]["defined_mass_kg"] = data["model"]["parts"][0]["properties"]["mass_kg"]
+        result["metrics"]["detailed_deflection_m"] = report["metrics"].get("loaded_face_deflection_m")
+        data["native_confirmation"] = report
+    elif kind == "panel":
         from engineering.panel_response.plate import solve, single_clip_envelope
 
         model = data["contract"]

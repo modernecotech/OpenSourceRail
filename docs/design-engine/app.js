@@ -10,6 +10,7 @@ import {
   assemblyInspector,
   comparisonReasons,
   checkComparison,
+  physicalParts,
 } from "./assembly-inspector.js";
 import {
   researchScope,
@@ -21,6 +22,7 @@ import {
   operationReadiness,
   operationMessage,
   operationText,
+  recursiveTuning,
 } from "./operation-preflight.js";
 applyLanguage();
 document
@@ -149,6 +151,9 @@ function saveDraft() {
       JSON.stringify({
         problem: document.querySelector("#problem").value,
         values: values(),
+        search: document.querySelector("#search").checked,
+        refine: document.querySelector("#refine").checked,
+        iterate: document.querySelector("#iterate").checked,
         recordKind: document.querySelector("#kind").value,
         recordPayload: document.querySelector("#recordPayload").value,
         productionInput: document.querySelector("#productionInput").value,
@@ -191,7 +196,10 @@ function renderProblem(saved) {
     null,
     2,
   );
-  document.querySelector("#budget").value = p.budget.evaluations;
+  document.querySelector("#budget").value = document.querySelector("#iterate")
+    .checked
+    ? 32
+    : p.budget.evaluations;
   const fields = document.querySelector("#variables");
   fields.replaceChildren();
   for (const [key, spec] of Object.entries(p.variables)) {
@@ -229,6 +237,7 @@ function renderPreflight() {
     {
       search: document.querySelector("#search").checked,
       refine: document.querySelector("#refine").checked,
+      iterate: document.querySelector("#iterate").checked,
     },
   );
   document.querySelector("#preflight").textContent =
@@ -237,8 +246,27 @@ function renderPreflight() {
     operationText("domain");
   document.querySelector("#run").disabled = !readiness.available;
 }
-document.querySelector("#refine").onchange = renderPreflight;
-document.querySelector("#search").onchange = renderPreflight;
+function updateExperiment(changed) {
+  const iterate = document.querySelector("#iterate");
+  const search = document.querySelector("#search");
+  const refine = document.querySelector("#refine");
+  if (changed === "iterate" && iterate.checked) {
+    search.checked = false;
+    refine.checked = false;
+    document.querySelector("#budget").value = 32;
+  }
+  if (changed === "search" && search.checked) iterate.checked = false;
+  refine.disabled = iterate.checked;
+  document.querySelector("#budget").min = iterate.checked ? 32 : 1;
+  renderPreflight();
+  saveDraft();
+}
+document.querySelector("#iterateLabel").textContent =
+  operationText("iterateLabel");
+document.querySelector("#iterateHelp").textContent =
+  operationText("iterateHelp");
+for (const name of ["refine", "search", "iterate"])
+  document.querySelector("#" + name).onchange = () => updateExperiment(name);
 document.querySelector("#cadPreflight").textContent =
   operationText("cadButton");
 document.querySelector("#cadPreflight").onclick = async () => {
@@ -268,13 +296,16 @@ document.querySelector("#designForm").onsubmit = async (event) => {
   const button = document.querySelector("#run");
   button.disabled = true;
   try {
+    const iterate = document.querySelector("#iterate").checked;
     const result = await api("jobs", {
       problem: selectedProblem().id,
       candidates: [values()],
-      refine: document.querySelector("#refine").checked,
-      search: document.querySelector("#search").checked
-        ? { seeds: [11, 29, 47], evaluations: 16 }
-        : null,
+      refine: iterate || document.querySelector("#refine").checked,
+      search:
+        !iterate && document.querySelector("#search").checked
+          ? { seeds: [11, 29, 47], evaluations: 16 }
+          : null,
+      recursive: iterate ? recursiveTuning(selectedProblem()) : null,
       budget: { evaluations: Number(document.querySelector("#budget").value) },
     });
     status.textContent = "Local job queued: " + result.id;
@@ -442,6 +473,7 @@ function renderComparison(report) {
   comparisonSource = report.source_state || "unknown";
   document.querySelector("#qualificationDraft").hidden = true;
   document.querySelector("#qualificationOutput").textContent = "";
+  if (report.recursive_search) renderRecursive(root, report.recursive_search);
   root.append(checkComparison(report.candidates));
   for (const candidate of report.candidates) {
     const section = el("section");
@@ -493,6 +525,71 @@ function renderComparison(report) {
     root.append(section);
   }
 }
+function renderRecursive(root, report) {
+  const section = el("section", "", { "data-recursive-results": "" });
+  section.append(
+    el("h3", operationText("recursiveResults")),
+    table(
+      [operationText("outcome"), operationText("verificationScope")],
+      [
+        [
+          operationText("incumbent"),
+          report.incumbent_id || operationText("noIncumbent"),
+        ],
+        [
+          operationText("termination"),
+          report.termination_reason || operationText("unknown"),
+        ],
+        [
+          operationText("conditionalBest"),
+          report.best_verified_in_tested_domain_claimed === true
+            ? operationText("established")
+            : operationText("unestablished"),
+        ],
+        [
+          operationText("verificationScope"),
+          report.best_verified_claim_scope || operationText("noDomainClaim"),
+        ],
+      ],
+    ),
+    el("p", operationText("researchOnly")),
+  );
+  const details = el("details");
+  details.append(el("summary", operationText("lineage")));
+  const scroll = el("div", "", {
+    class: "comparison-scroll",
+    tabindex: "0",
+    role: "region",
+    "aria-label": operationText("lineage"),
+  });
+  scroll.append(
+    table(
+      [
+        "#",
+        operationText("phase"),
+        operationText("parent"),
+        operationText("candidate"),
+        operationText("variables"),
+        operationText("outcome"),
+      ],
+      (report.lineage || []).map((row) => [
+        row.index,
+        row.phase,
+        row.parent_id || "—",
+        row.candidate_id || "—",
+        JSON.stringify(row.variables || {}),
+        row.error
+          ? `${row.error.type}: ${row.error.message}`
+          : row.outcome?.numerically_verified === true
+            ? "numerically-verified"
+            : JSON.stringify(row.outcome || { state: "unknown" }),
+      ]),
+    ),
+  );
+  details.append(scroll);
+  section.append(details);
+  root.append(section);
+}
 function inspectCandidate(candidate) {
   inspectedCandidate = candidate;
   document.querySelector("#definitionReview").hidden =
@@ -510,7 +607,7 @@ function inspectCandidate(candidate) {
     );
   }
   const data = candidate.definition || {};
-  const parts = data.contract?.parts || data.model?.instances || [];
+  const parts = physicalParts(candidate);
   renderQualification(candidate);
   if (!parts.length) {
     root.append(
@@ -1175,7 +1272,15 @@ async function initialize() {
       chooser.value = saved.problem;
       kind.value = saved.recordKind || "appointment";
     }
+    document.querySelector("#iterate").checked = saved?.iterate === true;
+    document.querySelector("#search").checked =
+      saved?.search === true && !saved?.iterate;
+    document.querySelector("#refine").checked =
+      saved?.refine === true && !saved?.iterate;
+    document.querySelector("#refine").disabled = saved?.iterate === true;
+    document.querySelector("#budget").min = saved?.iterate === true ? 32 : 1;
     renderProblem(saved?.values);
+    if (saved?.iterate) document.querySelector("#budget").value = 32;
     renderRecordFields();
     document.querySelector("#productionInput").value =
       saved?.productionInput || '{"tasks":[],"resources":[]}';

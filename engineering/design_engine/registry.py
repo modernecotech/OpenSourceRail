@@ -32,6 +32,17 @@ ASSEMBLY_CHECKS = [
     "physical_correlation",
     "independent_acceptance",
 ]
+GENERATED_PART_CHECKS = [
+    "geometry",
+    "mass_inertia",
+    "manufacturing",
+    "linear_service",
+    "load_equilibrium",
+    "mesh_refinement",
+    "independent_benchmark",
+    "physical_correlation",
+    "independent_acceptance",
+]
 
 
 def charter(
@@ -126,6 +137,30 @@ def problems():
         ),
     ]
     rows = [
+        charter(
+            "mechanical-cleat",
+            "mechanical-cleat",
+            "Fixed 0.20 m span, 0.05 m wide drilled steel cantilever cleat; two fixed mounting holes; 500 N end load; 1 mm research displacement limit",
+            dict(
+                thickness_m=choice("m", 0.010, 0.012, 0.016),
+                topology=choice("1", "solid-web", "lightened-web"),
+            ),
+            loads=[dict(id="fixed-end-face-load", quantity=dict(value=500, unit="N", state="synthetic", basis="declared research fixture; ideal root clamp, not a bolt/contact qualification"))],
+            checks=GENERATED_PART_CHECKS,
+            domain=["Native boolean solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 1 mm loaded-face mean vertical displacement limit declared before search; nominal unqualified steel; bolt/contact, fatigue, buckling and physical acceptance remain open"],
+        ),
+        charter(
+            "civil-steel-beam",
+            "civil-steel-beam",
+            "Fixed 1.50 m span, 0.10 m × 0.14 m steel cantilever envelope; RHS/I-section alternatives; 10 kN end load; 8 mm research displacement limit",
+            dict(
+                wall_m=choice("m", 0.004, 0.006, 0.008),
+                topology=choice("1", "rhs", "i-section"),
+            ),
+            loads=[dict(id="fixed-end-face-load", quantity=dict(value=10000, unit="N", state="synthetic", basis="declared research fixture; ideal root clamp, not a bridge or site qualification"))],
+            checks=GENERATED_PART_CHECKS,
+            domain=["Native prismatic steel solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 8 mm loaded-face mean vertical displacement limit declared before search; no local buckling, plasticity, joint, foundation or physical qualification"],
+        ),
         charter(
             "clipped-side-bay",
             "panel",
@@ -258,6 +293,8 @@ def dependencies(adapter):
         "manufacturing_rules",
         "optimization",
         "interaction_study",
+        "recursive_search",
+        "recursive_workflow",
         "uncertainty",
         "runtime",
         "store",
@@ -272,6 +309,8 @@ def dependencies(adapter):
     }
     if adapter in domain:
         shared.add(domain[adapter])
+    if adapter in {"mechanical-cleat", "civil-steel-beam"}:
+        shared.update({"generated_parts", "generated_parts_native"})
     if adapter in {"battery", "twin"}:
         shared.add("electrical_installation")
     if adapter in {"viaduct", "foundation"}:

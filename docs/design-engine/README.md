@@ -66,7 +66,11 @@ setup requirements. The assembly inspector links installed parts, joints, mass
 and unresolved allocations to failed/unknown checks. Both English and Arabic
 guided journeys are tested; human accessibility acceptance remains open.
 
-The common engine now has thirteen fixed-function problems. Use
+The common engine has fifteen fixed-function problems, including native
+`mechanical-cleat` and `civil-steel-beam` generation. Select **Recursive native
+iteration** to generate, solve and compare subsequent designs using native
+feedback. [Commands, determinism and bounded optimum scope](../../engineering/design_engine/README.md).
+Use
 `civil-system-alternatives` for the existing deck/pier/foundation/material families
 on a fixed 100 m, two-track reference function, and `vehicle-assembly` for actual
 equipment arrangements and declared connection hypotheses within the six-car
