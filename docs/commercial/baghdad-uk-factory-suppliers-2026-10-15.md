@@ -178,6 +178,36 @@ Obtain a written export classification and licensing assessment for every offere
 
 The Iraqi importer and customs broker should confirm the current HS classification, duties/taxes, conformity requirements, origin/invoice authentication and route for each package. Do not apply a generic duty rate or US-export documentation procedure to a British shipment. Survey port/road handling, containerisation or out-of-gauge transport, site unloading and machine foundations before accepting a delivered price.
 
+## New UK company and early project services
+
+A newly formed UK OpenSourceRail company is a possible contracting route, subject to UKEF and lender acceptance. UKEF's [SME guidance](https://www.ukexportfinance.gov.uk/who-we-can-help/small-and-medium-sized-businesses/) states that it sets no minimum business size; participating lenders decide their own requirements. The published [EPSG](https://www.gov.uk/guidance/early-project-services-guarantee) and [Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) eligibility lists state no minimum company age or fixed minimum company capital. That absence is not a waiver of financial or delivery assessment. Both require the supplier/exporter to carry on business in the UK.
+
+Qualifying UK services can contribute to content, including design and engineering. Incorporation alone does not establish that content: identify where the work occurs, who performs it and its contractual value. General management fees need their own scope and content assessment. UKEF's [content policy](https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content) examines genuine UK economic activity and addresses companies merely routing foreign goods through the UK. Keep this services route separate from the owner's preference for machinery physically manufactured in Britain.
+
+### Separate early services from equipment and construction
+
+For feasibility, design and surveys, [EPSG](https://www.gov.uk/guidance/early-project-services-guarantee) backs a bank loan to the overseas buyer. It excludes physical project work, anticipates contracts up to GBP 30 million with larger cases possible, and requires repayment within two years after services are delivered. Financing is capped at 85%; the buyer must pay at least 15% directly to the exporter **before first use of the facility**. Premium is assessed individually. Later project finance requires separate approval.
+
+Prepare a distinct Baghdad early-services scope: manufacturing routes and make/buy review, factory concept and utility requirements, civil production studies, supplier trials and specifications, and a qualification plan. Ask UKEF which activities qualify; separate any physical trials, machinery purchases, installation or construction from the proposed EPSG scope.
+
+The equipment/project package can be considered separately under Buyer Credit, including its GBP 5 million contract threshold. Its published 15% payment deadline is before loan repayment starts, unlike EPSG's first-use deadline. In either structure the overseas buyer/borrower owes the bank. The UK exporter's contract is paid through agreed drawdowns; exporter performance liabilities, working capital, bonds and any recourse still need allocation. Do not assume the UK company must fund the entire railway, or that it has no financial exposure.
+
+### Compare delivery structures
+
+The following are commercial options to discuss, rather than UKEF staffing or organisational requirements:
+
+| Arrangement | Practical role for the new company | Evidence to establish |
+| --- | --- | --- |
+| OpenSourceRail as prime with specialist subcontractors | Holds the defined Iraqi services contract and coordinates delivery | Named technical leadership, signed partner scopes, cashflow, insurance, liability allocation and capacity to manage the work |
+| Established consultancy as prime | OpenSourceRail provides a defined development, software or coordination scope as subcontractor | Consultancy willingness, UK work allocation, fees, deliverables, IP rights and customer access |
+| Consortium or joint delivery | Allocates civil, vehicle, factory and assurance work to named participants | Lead entity, contractual responsibilities, interfaces, payment route and the bank's acceptance of the structure |
+
+A small core team with contracted rail/civil/vehicle/energy specialists and outsourced finance/legal administration is a practical starting option. Select independent assessment arrangements appropriate to the acceptance plan. Name people and firms only after commitments; association membership can support introductions but does not establish delivery capacity.
+
+For an initial discussion, prepare the founder's experience and project record; the proposed Iraqi buyer and services scope; partner references and written commitments; a UK work/content schedule; deliverables and payment milestones; monthly cashflow through acceptance; and responsibility, insurance and IP arrangements. Record company status honestly as proposed or incorporated.
+
+An exploratory enquiry can describe the proposed company before incorporation and ask UKEF to assess the route; it is not a formal eligibility decision. UKEF invites eligibility discussions through its [customer-services route](https://www.ukexportfinance.gov.uk/contact-us/). Ask about a new exporter, acceptable prime/subcontract structures, Iraqi borrower/security requirements, eligible services, the buyer's 15% funding and required financial evidence. UKEF and the participating bank determine the actual application requirements. No enquiry or application has been sent.
+
 ## Comparable supplier returns
 
 Use the existing [supplier technical-support package](supplier-technical-support-package.md), especially manufacturing, localisation, first-article and lifecycle support work packages. A research row is not an accepted supplier record. Transfer an eventual controlled return into the existing intake and configuration process.
