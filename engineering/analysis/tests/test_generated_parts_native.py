@@ -27,12 +27,21 @@ ROOT = Path(__file__).resolve().parents[3]
 class NativeGeneratedPartsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        native = toolchain()
+        if not native["available"]:
+            raise RuntimeError(
+                "Explicit native part acceptance requires installed FreeCAD, Gmsh and CalculiX: "
+                + ", ".join(native["missing"])
+            )
+        configured = os.environ.get("OSR_NATIVE_PARTS_OUTPUT")
         cls.output = (
-            ROOT / "build/generated-parts" / ("native-tests-" + str(time.time_ns()))
+            Path(configured).resolve()
+            if configured
+            else (
+                ROOT / "build/generated-parts" / ("native-tests-" + str(time.time_ns()))
+            )
         )
-        cls.output.mkdir(parents=True)
-        if not toolchain()["available"]:
-            raise unittest.SkipTest("native CAD/mesh/solver prerequisites unavailable")
+        cls.output.mkdir(parents=True, exist_ok=False)
 
     def test_actual_boolean_cad_two_meshes_and_independent_cantilever(self):
         charges = []
@@ -107,10 +116,11 @@ class NativeGeneratedPartsTests(unittest.TestCase):
         self.assertEqual(report["checks"]["linear_service"]["limit_m"], 0.008)
         self.assertEqual(report["checks"]["physical_correlation"]["state"], "unknown")
 
-    @unittest.skipUnless(
-        hasattr(os, "pidfd_open"), "Linux owned-descendant PIDfd cleanup"
-    )
     def test_timeout_inherits_worker_group_and_kills_only_owned_descendants(self):
+        self.assertTrue(
+            hasattr(os, "pidfd_open"),
+            "Explicit native acceptance requires Linux owned-descendant PIDfd cleanup",
+        )
         folder = self.output / "owned-timeout"
         folder.mkdir()
         sibling = subprocess.Popen(

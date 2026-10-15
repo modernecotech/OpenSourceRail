@@ -2,6 +2,7 @@
 
 import json
 import gzip
+import hashlib
 from pathlib import Path
 import subprocess
 import sys
@@ -9,6 +10,33 @@ import time
 
 from .contracts import canonical, load
 from .registry import ROOT
+
+
+def physics_snapshot():
+    """Conservative native source closure, independent of common UI/registry edits."""
+    paths = set()
+    for directory in (
+        "engineering/civil_exploration",
+        "engineering/integration_programme",
+        "design/component-catalogue/src/osr_mech",
+    ):
+        paths.update((ROOT / directory).rglob("*.py"))
+    paths.update(
+        ROOT / name
+        for name in (
+            "engineering/design_engine/passage.py",
+            "engineering/design_engine/vehicle_confirmation.py",
+            "engineering/design_engine/contracts.py",
+            "engineering/design_engine/publication.py",
+            "engineering/industrialisation/common.py",
+            "design/component-catalogue/schemas/shared-engineering-model.json",
+        )
+    )
+    return {
+        p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in sorted(paths)
+        if p.is_file()
+    }
 
 
 def retained_history(folder):
@@ -93,10 +121,11 @@ def main():
         SpatialDomainError,
         SpatialConvergenceError,
     )
-    from .vehicle_confirmation import joint_cycles
+    from .vehicle_confirmation import joint_cycles, incremental_demands
     from .publication import digest
 
     data = load(sys.argv[1])
+    source_before = physics_snapshot()
     folder = Path(sys.argv[2]).parent
     started = time.monotonic()
     samples = 0
@@ -135,6 +164,7 @@ def main():
         )
         history = result.pop("history")
         result["joint_resultant_cycles"] = joint_cycles(history, complete=True)
+        result.update(incremental_demands(history))
         # Preserve the full native history once, compressed. Parent result
         # manifests reference this artifact rather than duplicating its bytes.
         artifact = folder / "native-history.json.gz"
@@ -173,6 +203,17 @@ def main():
             physical_release=False,
         )
     result["requested_parameters"] = data["parameters"]
+    source_after = physics_snapshot()
+    result["source_sha256"] = source_before
+    result["source_unchanged"] = source_before == source_after
+    result["input_sha256"] = hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest()
+    if source_before != source_after:
+        result["solver_state"] = result["state"]
+        result["state"] = "stale"
+        result["basis"] = (
+            "native physical source changed during execution; result cannot qualify refinement"
+        )
+        result["source_after_sha256"] = source_after
     if (folder / "progress.json").is_file():
         result["numerical_progress"] = load(folder / "progress.json")
         if result["state"] != "completed":

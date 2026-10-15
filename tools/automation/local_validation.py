@@ -20,6 +20,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RELEASE_PROFILES = {"ci", "kani", "integrated-stack", "example-city"}
+NATIVE_DESIGN_REQUIRED_TESTS = (
+    "test_actual_boolean_cad_two_meshes_and_independent_cantilever",
+    "test_actual_gmsh_rejects_invalid_brep_without_fallback",
+    "test_actual_civil_rhs_uses_same_solid_and_fixed_service_screen",
+    "test_timeout_inherits_worker_group_and_kills_only_owned_descendants",
+    "test_actual_calculix_rejects_invalid_deck_without_fallback",
+    "test_exhausted_budget_never_launches_native_subprocess",
+)
 
 
 def digest(path):
@@ -114,6 +122,136 @@ def installed_setup(line, title):
         original=text,
         replacement=replacement,
         mode="installed-prerequisite-check; no installation",
+    )
+
+
+def native_design_prerequisites(folder):
+    """Record installed native providers; an explicit acceptance never skips."""
+    from engineering.design_engine.generated_parts_native import toolchain
+
+    folder = Path(folder)
+    folder.mkdir(parents=True, exist_ok=False)
+    native = toolchain()
+    missing = list(native["missing"])
+    if not (
+        hasattr(os, "pidfd_open")
+        and hasattr(signal, "pidfd_send_signal")
+        and Path("/proc/self/stat").is_file()
+    ):
+        missing.append("Linux /proc and PIDfd owned-descendant cleanup")
+    result = dict(
+        schema="osr-native-design-prerequisites/1",
+        toolchain=native,
+        available=not missing,
+        missing=missing,
+        physical_release=False,
+    )
+    (folder / "prerequisites.json").write_text(encode(result))
+    print(encode(result), flush=True)
+    if missing:
+        raise RuntimeError(
+            "Required native-design prerequisites unavailable: " + ", ".join(missing)
+        )
+    return result
+
+
+def native_design_acceptance(folder):
+    """Read mandatory executed reports; no generic zero-test/skip success."""
+    from xml.etree import ElementTree
+
+    folder = Path(folder).resolve()
+
+    def retained(relative):
+        path = folder / relative
+        if (
+            path.is_symlink()
+            or not path.resolve().is_relative_to(folder)
+            or not path.is_file()
+        ):
+            raise ValueError("missing or unsafe native-design artifact: " + relative)
+        return path
+
+    prerequisite = json.loads(retained("prerequisites.json").read_text())
+    if prerequisite.get("available") is not True or prerequisite.get("missing") != []:
+        raise ValueError("native-design prerequisites did not pass")
+    junit = ElementTree.parse(retained("tests.xml"))
+    cases = junit.findall(".//testcase")
+    names = [case.get("name") for case in cases]
+    if (
+        len(names) != len(set(names))
+        or not set(NATIVE_DESIGN_REQUIRED_TESTS) <= set(names)
+        or any(
+            case.find(tag) is not None
+            for case in cases
+            for tag in ("skipped", "failure", "error")
+        )
+    ):
+        raise ValueError("mandatory native-design tests missing, skipped or failed")
+    numerical = (
+        "geometry",
+        "mass_inertia",
+        "linear_service",
+        "load_equilibrium",
+        "mesh_refinement",
+        "independent_benchmark",
+    )
+    summaries = {}
+    for name in ("cleat", "civil"):
+        report = json.loads(retained(f"tests/{name}/native-result.json").read_text())
+        if (
+            report.get("failure")
+            or report.get("physical_release") is not False
+            or report.get("independently_accepted") is not False
+            or any(
+                report.get("checks", {}).get(key, {}).get("state") != "passed"
+                for key in numerical
+            )
+            or any(
+                report.get("checks", {}).get(key, {}).get("state") != "unknown"
+                for key in ("physical_correlation", "independent_acceptance")
+            )
+            or len(report.get("meshes", [])) < 2
+            or report.get("benchmark", {}).get("passed") is not True
+        ):
+            raise ValueError(
+                "native-design case incomplete or outside numerical acceptance: " + name
+            )
+        expected = report.get("artifacts_sha256", {})
+        base = folder / "tests" / name
+        actual = {
+            p.relative_to(base).as_posix()
+            for p in base.rglob("*")
+            if p.is_file() and p != base / "native-result.json"
+        }
+        if not expected or actual != set(expected):
+            raise ValueError("native-design artifact membership changed: " + name)
+        for relative, sha in expected.items():
+            if digest(retained(f"tests/{name}/" + relative)) != sha:
+                raise ValueError(
+                    "native-design artifact changed: " + name + "/" + relative
+                )
+        summaries[name] = dict(
+            definition_sha256=report["definition_sha256"],
+            meshes=len(report["meshes"]),
+            numerical_checks_passed=True,
+            physical_correlation="unknown",
+            independent_acceptance="unknown",
+        )
+    for relative in (
+        "tests/bad-mesh/gmsh.log",
+        "tests/bad-solver/calculix.log",
+        "tests/owned-timeout/timeout.log",
+        "tests/owned-timeout/owned.json",
+    ):
+        retained(relative)
+    return dict(
+        schema="osr-native-design-acceptance/1",
+        passed=True,
+        executed_tests=sorted(names),
+        cases=summaries,
+        numerical_only=True,
+        physical_release=False,
+        independent_acceptance=False,
     )
 
 
@@ -411,6 +549,37 @@ def plan(profile, output):
         return evidence
     if profile == "browser":
         return browser
+    if profile == "native-design":
+        native = output / "native-design"
+        return [
+            py(
+                "Required native design prerequisites",
+                "-c",
+                "from pathlib import Path; import sys; from local_validation import native_design_prerequisites; native_design_prerequisites(Path(sys.argv[1]))",
+                str(native),
+                timeout=90,
+            ),
+            command(
+                "Installed native design acceptance",
+                "env",
+                "OSR_RUN_NATIVE_PARTS=1",
+                "OSR_NATIVE_PARTS_OUTPUT=" + str(native / "tests"),
+                "tools/automation/osr-python",
+                "-m",
+                "pytest",
+                "-q",
+                "engineering/analysis/tests/test_generated_parts_native.py",
+                "--junitxml=" + str(native / "tests.xml"),
+                timeout=900,
+            ),
+            py(
+                "Validate mandatory native design evidence",
+                "-c",
+                "from pathlib import Path; import sys; from local_validation import native_design_acceptance, encode; p=Path(sys.argv[1]); (p/'acceptance.json').write_text(encode(native_design_acceptance(p)))",
+                str(native),
+                timeout=90,
+            ),
+        ]
     if profile == "ci":
         return (
             # Broad independent source suites run before publication coherence;
@@ -504,6 +673,7 @@ PROFILES = (
     "python",
     "evidence",
     "browser",
+    "native-design",
     "ci",
     "kani",
     "integrated-stack",
@@ -631,10 +801,25 @@ def capture_city(destination):
 
 
 def artifact_hashes(profile, folder):
+    if profile == "native-design":
+        native = folder / "native-design"
+        if native.is_symlink() or not native.is_dir():
+            raise ValueError("missing or unsafe native-design artifact folder")
+        accepted = native / "acceptance.json"
+        if (
+            accepted.is_symlink()
+            or not accepted.is_file()
+            or json.loads(accepted.read_text()) != native_design_acceptance(native)
+        ):
+            raise ValueError("missing or changed native-design acceptance report")
     subfolders = (
         list(folder.glob("safety-execution-*"))
         if profile == "kani"
-        else [folder / "city"] if profile == "example-city" else []
+        else (
+            [folder / "city"]
+            if profile == "example-city"
+            else [folder / "native-design"] if profile == "native-design" else []
+        )
     )
     files = {}
     for subfolder in subfolders:

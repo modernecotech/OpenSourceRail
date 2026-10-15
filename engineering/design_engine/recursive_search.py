@@ -161,13 +161,19 @@ def _outcome(candidate, settings, confirmed):
     selected = numerical if confirmed else settings["screening_checks"]
     states = [checks.get(key, {}).get("state", "unknown") for key in selected]
     objective = _objective(candidate, settings["objective_axes"])
-    screen = objective is not None and all(checks.get(key, {}).get("state") in PASSED for key in settings["screening_checks"])
-    verified = confirmed and objective is not None and all(state in PASSED for state in states)
+    # Open physical evidence permits a conditional numerical comparison. An
+    # observed mandatory failure never does, regardless of its policy category.
+    mandatory_failures = sorted(key for key, row in checks.items()
+                                if row.get("state") in {"failed", "outside-domain"})
+    screen = not mandatory_failures and objective is not None and all(checks.get(key, {}).get("state") in PASSED for key in settings["screening_checks"])
+    verified = not mandatory_failures and confirmed and objective is not None and all(state in PASSED for state in states)
     # An already failed native check is never a feasible screen recommendation.
     native_failed = any(checks.get(key, {}).get("state") in {"failed", "outside-domain", "unavailable", "stale", "cancelled", "budget-exceeded"} for key in settings["native_checks"])
     return dict(objectives=objective, feasible_screen=screen and not native_failed and (not confirmed or all(checks.get(key, {}).get("state") in PASSED for key in settings["native_checks"])),
                 numerically_verified=verified,
-                failed_checks=sum(state in {"failed", "outside-domain"} for state in states),
+                failed_checks=len(mandatory_failures),
+                mandatory_failure_veto=bool(mandatory_failures),
+                mandatory_failed_checks=mandatory_failures,
                 unresolved_checks=sum(state not in KNOWN_OUTCOME for state in states),
                 native_complete=confirmed and objective is not None and all(checks.get(key, {}).get("state") in KNOWN_OUTCOME for key in numerical))
 

@@ -82,6 +82,20 @@ provides recursive controls, lineage and native artifacts. See the
 [review of twelve design systems and primary sources](../../docs/design-engine/generative-systems-review.md)
 for the ideas used here and optional frameworks that are not integrated.
 
+Every mandatory check participates in the recommendation veto. A `failed` or
+`outside-domain` result excludes the candidate from both screening and verified
+frontiers, including failures in material, thermal or physical qualification.
+Unknown physical qualification permits only a conditional numerical comparison.
+Civil iteration requires geometry, mass/inertia and service screening before
+native refinement; unresolved interfaces and degraded-service qualification stay
+visible. The current fixed deck fails its service limit and remains excluded.
+
+Run required installed-tool acceptance with
+`./osr validate run --profile native-design`. Missing prerequisites, skipped
+mandatory tests or incomplete native artifacts fail this profile. See the
+[local validation instructions](../../docs/local-validation.md) for receipt
+verification and the separate software release requirements.
+
 The [15 October native execution record](../../docs/design-engine/generated-parts-verification.json)
 retains source/tool identities, all candidate check states and repeated decision
 hashes. Four complete jobs made 72 actual CalculiX calls (candidate meshes and

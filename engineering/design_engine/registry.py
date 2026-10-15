@@ -309,6 +309,8 @@ def dependencies(adapter):
     }
     if adapter in domain:
         shared.add(domain[adapter])
+    if adapter == "panel":
+        shared.add("panel_confirmation")
     if adapter in {"mechanical-cleat", "civil-steel-beam"}:
         shared.update({"generated_parts", "generated_parts_native"})
     if adapter in {"battery", "twin"}:

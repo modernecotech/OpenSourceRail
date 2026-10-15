@@ -34,6 +34,7 @@ Use the [one-command setup](../README.md#one-command-linux-setup), then:
 ./osr validate run --profile python
 ./osr validate run --profile evidence
 ./osr validate run --profile browser
+./osr validate run --profile native-design
 ```
 
 Each run prints its receipt location under ignored `build/validation/`. Supply
@@ -52,6 +53,7 @@ are refused. Inspect a profile before running it or check a receipt afterward:
 | `python` | All six Python test directories; requires generated test inputs |
 | `evidence` | Repository health, source provenance, engineering baseline, panel/twin, assurance and operating-readiness drift checks |
 | `browser` | WASM libraries, frontend acceptance and offline operations browser acceptance |
+| `native-design` | Required installed FreeCAD → Gmsh → CalculiX acceptance for both generated part families, two meshes, independent benchmarks, invalid inputs and owned timeout cleanup; zero skips permitted |
 | `ci` | Independent Rust/Python suites followed by original generation/coherence steps, browser checks, TACS replay and bounded TLC verification |
 | `kani` | Every declared safety-case Kani harness, plus three explicit release properties; failures/timeouts block success |
 | `integrated-stack` | Disposable native ERPNext/FUXA/gateway/controller/Workbench, city load and outage/recovery checks |
@@ -62,6 +64,24 @@ City generation and engineering computation remain local through `./osr city`,
 `./osr build` and the existing study commands. Commit reviewed generated changes
 before validating a release candidate. A check that changes source fails its
 receipt even when its individual commands finish successfully.
+
+`native-design` is the required feature-acceptance profile when changing the
+generated mechanical/civil part pipeline. It checks the actual installed CAD,
+mesher and solver providers and Linux PIDfd cleanup support before testing;
+missing prerequisites fail clearly without installation or analytical fallback.
+The profile explicitly sets `OSR_RUN_NATIVE_PARTS=1`. Ordinary broad Python runs
+may leave these expensive integration tests opt-in, but explicitly requested
+native tests fail when their tools are missing instead of reporting a skip.
+
+Use a fresh directory, for example
+`./osr validate run --profile native-design --output build/validation/native-design-my-change`.
+The local receipt seals `native-design/prerequisites.json`, the JUnit report,
+both actual native result trees, negative-input/timeout logs and the checked
+`acceptance.json`. Missing mandatory tests, skipped tests, incomplete native
+reports or changed artifact bytes invalidate acceptance. This profile can gain
+further native cases without changing the existing four-profile software-release
+requirement. A numerical feature pass grants no physical qualification, accepted
+material properties or construction authority.
 
 Install optional prerequisites for the checks you select: pinned Kani 0.67.0,
 cargo-audit 0.22.2, Java/TLC, Docker Compose and native CAD/engineering tools are

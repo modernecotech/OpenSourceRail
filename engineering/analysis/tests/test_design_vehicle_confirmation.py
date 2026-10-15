@@ -187,3 +187,103 @@ def test_native_short_history_retains_every_sample_and_explicit_incomplete_scope
     # The subprocess only knows its requested duration. Full-passage planning
     # is a separate adapter check; this tiny native kernel test claims no trip.
     assert not result["physical_validation"]
+
+
+def test_independent_refinement_changes_one_axis_and_preserves_whole_passage():
+    from engineering.design_engine.vehicle_confirmation import (
+        independent_refinement_plan,
+    )
+
+    model, configuration = simple_model(), motion()
+    plan = independent_refinement_plan(model, configuration)
+    assert plan["baseline_parameters"] == dict(
+        dt=0.002, duration_s=4.2, deck_mesh=4, rail_step=1.0
+    )
+    assert [c["id"] for c in plan["cases"]] == ["time", "deck", "rail"]
+    assert [c["expected_steps"] for c in plan["cases"]] == [4200, 2100, 2100]
+    for case in plan["cases"]:
+        changed = [
+            k
+            for k, v in case["parameters"].items()
+            if v != plan["baseline_parameters"][k]
+        ]
+        assert changed == [case["varied_field"]]
+        assert case["parameters"]["duration_s"] == 4.2
+    assert configuration == motion()
+    with pytest.raises(ValueError, match="bounded independent"):
+        independent_refinement_plan(model, configuration, deck_mesh=24)
+
+
+def test_incremental_demands_subtract_corresponding_actual_resultants():
+    from engineering.design_engine.vehicle_confirmation import incremental_demands
+
+    def sample(t, force, moment, acceleration):
+        return dict(
+            time_s=t,
+            foundation_reactions_si=[[0, 0, force, 0, 0, 0]],
+            structural_member_demands=[
+                dict(kind="deck", station_start=0.0, track=0, moment_y_nm=moment)
+            ],
+            peak_structure_acceleration_m_s2=acceleration,
+        )
+
+    history = [sample(0.002, 100.0, 10.0, 0.0), sample(0.004, 130.0, 6.0, 2.0)]
+    report = incremental_demands(history)
+    assert report["peak_initial_sample_relative_foundation_force_n"] == 30.0
+    assert report["peak_initial_sample_relative_deck_moment_nm"] == 4.0
+    assert report["peak_structure_acceleration_m_s2"] == 2.0
+    assert "displacement" not in {k for k in report if k.startswith("peak_")}
+    history[-1]["structural_member_demands"][0]["track"] = 1
+    with pytest.raises(ValueError, match="correspondence"):
+        incremental_demands(history)
+
+
+def test_refinement_comparison_requires_complete_independent_native_cases():
+    from engineering.design_engine.vehicle_confirmation import (
+        independent_refinement_plan,
+        compare_independent_refinements,
+        REFINEMENT_METRICS,
+    )
+    from osr_mech.engineering_definition import fingerprint
+
+    model = simple_model()
+    plan = independent_refinement_plan(model, motion())
+
+    def completed(parameters):
+        steps = round(parameters["duration_s"] / parameters["dt"])
+        return dict(
+            state="completed",
+            within_adapter_domain=True,
+            configuration_sha256=fingerprint(plan["configuration"]),
+            hardware_definition_sha256=fingerprint(model),
+            steps=steps,
+            time_step_s=parameters["dt"],
+            duration_s=parameters["duration_s"],
+            numerical_progress=dict(
+                converged_steps=steps, last_converged_time_s=parameters["duration_s"]
+            ),
+            requested_parameters=deepcopy(parameters),
+            source_unchanged=True,
+            **{key: 1.0 for key in REFINEMENT_METRICS}
+        )
+
+    baseline = completed(plan["baseline_parameters"])
+    results = {case["id"]: completed(case["parameters"]) for case in plan["cases"]}
+    assert (
+        compare_independent_refinements(model, plan, baseline, results)["state"]
+        == "passed"
+    )
+    results["time"]["state"] = "budget-exceeded"
+    report = compare_independent_refinements(model, plan, baseline, results)
+    assert (
+        report["state"] == "unknown" and not report["cases"][0]["full_passage_coverage"]
+    )
+    results["time"] = completed(plan["cases"][0]["parameters"])
+    results["deck"]["maximum_wheel_contact_n"] = 1.2
+    assert (
+        compare_independent_refinements(model, plan, baseline, results)["state"]
+        == "failed"
+    )
+    plan["cases"][0]["parameters"]["deck_mesh"] = 8
+    with pytest.raises(ValueError, match="plan/limits"):
+        compare_independent_refinements(model, plan, baseline, results)

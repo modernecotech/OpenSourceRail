@@ -36,7 +36,10 @@ def policy(charter, supplied):
         native = ["nominal_deflection", "mesh_refinement", "single_attachment_loss",
                   "combined_pressure_fault"]
     elif kind in {"viaduct", "foundation"}:
-        screening = ["geometry", "mass_inertia", "interfaces", "service", "degraded_service"]
+        # Actual civil screening supplies these checks. Interfaces and degraded
+        # service need qualification beyond the native demand/refinement study;
+        # retaining their open states must not prevent that study being run.
+        screening = ["geometry", "mass_inertia", "service"]
         native = ["refinement"]
     else:
         raise ValueError("this adapter has no controlled recursive native-confirmation preset")

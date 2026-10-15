@@ -151,7 +151,27 @@ fn kani_o1_determinism() {
 
     let a = odom_step(&prev, &cal, &sensors, &net);
     let b = odom_step(&prev, &cal, &sensors, &net);
-    assert!(a == b);
+    // The conjunction is exactly OdomState equality, but separate assertions
+    // allow property slicing to isolate each field's dependency cone. Do not
+    // use `..`: adding an output field must also extend this proof obligation.
+    let OdomState {
+        train_id,
+        head,
+        speed_mmps,
+        position_uncertainty_mm,
+        speed_uncertainty_mmps,
+        contributing_source,
+        last_balise_id,
+        last_timestamp_ns,
+    } = a;
+    assert!(train_id == b.train_id);
+    assert!(head == b.head);
+    assert!(speed_mmps == b.speed_mmps);
+    assert!(position_uncertainty_mm == b.position_uncertainty_mm);
+    assert!(speed_uncertainty_mmps == b.speed_uncertainty_mmps);
+    assert!(contributing_source == b.contributing_source);
+    assert!(last_balise_id == b.last_balise_id);
+    assert!(last_timestamp_ns == b.last_timestamp_ns);
 }
 
 // ---------------------------------------------------------------------------

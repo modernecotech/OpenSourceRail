@@ -107,6 +107,52 @@ def test_compile_callback_failure_retains_explicit_common_scope_without_inventor
     assert result["incumbent_id"] is None
 
 
+@pytest.mark.parametrize("check", ["geometry", "solver", "thermal", "material", "fire", "joint_strength", "physical_correlation", "independent_acceptance"])
+@pytest.mark.parametrize("phase", ["screen", "confirm"])
+@pytest.mark.parametrize("state", ["failed", "outside-domain"])
+def test_every_mandatory_failure_vetoes_all_recommendations_even_outside_numerical_groups(check, phase, state):
+    p, ctx, settings = fixture({"x": choice("1", 1)}, evaluations=2)
+    if check not in p["applicability"]["mandatory_checks"]:
+        p["applicability"]["mandatory_checks"].append(check)
+        settings["physical_checks"].append(check)
+    evaluate, confirm, calls = oracle(p, ctx)
+    def reject(row):
+        row["checks"][check] = dict(state=state, basis="Labelled policy rejection fixture; not physical evidence")
+        return row
+    def screen(values, stage, parent):
+        row = evaluate(values, stage, parent)
+        return reject(row) if phase == "screen" else row
+    def native(row):
+        return reject(confirm(row))
+    result = recursive_search(p, screen, native, context=ctx, policy=settings)
+    assert result["incumbent_id"] is None
+    assert result["conditional_screen_frontier"] == result["verified_frontier"] == []
+    assert not result["best_verified_in_tested_domain_claimed"]
+    row = result["candidates"][0]
+    assert row["checks"][check]["state"] == state
+    assert result["outcomes"][row["id"]]["mandatory_failed_checks"] == [check]
+    assert result["outcomes"][row["id"]]["mandatory_failure_veto"]
+    assert result["confirmations"] == (0 if phase == "screen" else 1)
+
+
+def test_unknown_physical_checks_stay_conditional_and_unconfirmed_rejection_blocks_domain_best_claim():
+    p, ctx, settings = fixture({"x": choice("1", 1, 2)}, evaluations=4)
+    settings["finite_exhaustive"] = True
+    evaluate, confirm, _ = oracle(p, ctx)
+    def screen(values, phase, parent):
+        row = evaluate(values, phase, parent)
+        if values["x"] == 2:
+            row["checks"]["physical_correlation"] = dict(state="failed", basis="Policy fixture rejection")
+        return row
+    result = recursive_search(p, screen, confirm, context=ctx, policy=settings)
+    assert result["incumbent_id"] is not None and len(result["verified_frontier"]) == 1
+    assert result["finite_domain_complete"] and not result["native_domain_complete"]
+    assert not result["best_verified_in_tested_domain_claimed"]
+    winner = next(row for row in result["candidates"] if row["id"] == result["incumbent_id"])
+    assert winner["checks"]["physical_correlation"]["state"] == "unknown"
+    assert not result["physical_release"] and not winner["physical_release"]
+
+
 def test_failed_initial_geometry_does_not_trap_search_and_confirmation_is_fair():
     p, ctx, settings = fixture({"x": dict(kind="integer", unit="1", bounds=[0, 6])}, evaluations=12)
     evaluate, confirm, calls = oracle(p, ctx, screen=lambda v: v["x"]>=3)

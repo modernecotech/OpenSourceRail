@@ -78,6 +78,7 @@ def export(store, identifier, destination, *, native=False):
         Path(__file__).with_name("bom.py"),
         Path(__file__).with_name("native_cad.py"),
         Path(__file__).with_name("delivery.py"),
+        Path(__file__).with_name("panel_assembly.py"),
     ]:
         name = source.relative_to(ROOT).as_posix()
         package_sources[name] = digest(source)
@@ -200,6 +201,12 @@ def export(store, identifier, destination, *, native=False):
         "Original attempt and source bytes are retained for offline review. Native solver histories keep their original domain schema.\n"
     )
     native_results = []
+    if adapter == "panel":
+        from .panel_assembly import write_packet
+
+        for candidate in report["candidates"]:
+            if candidate.get("definition", {}).get("contract"):
+                write_packet(candidate, destination / "panel-assemblies" / candidate["id"])
     if native:
         from .native_cad import generate
 

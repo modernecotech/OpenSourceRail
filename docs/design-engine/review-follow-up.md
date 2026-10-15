@@ -1,6 +1,28 @@
-# Follow-up To The 63cfe3347 Review
+# Design Engine Review Follow-ups
 
-The review identified three defects in the shared software. They are repaired:
+The review of `f72181b` identified two further recursive-policy defects. Known
+mandatory failures now veto screening and verified recommendations regardless
+of check category. This includes the actual roof hot/wet failure; passing
+numerical checks cannot override it. Regression cases cover both `failed` and
+`outside-domain` states during screening and confirmation, across numerical and
+physical check groups.
+
+The civil preset now requires executable geometry, mass/inertia and service
+screening, followed by native refinement. Interfaces and degraded-service
+qualification remain explicit unresolved checks. The fixed deck still fails
+its actual service screen and cannot enter confirmation. Callback-transport
+tests deliberately substitute a labelled service pass to exercise the eligible
+route; they do not establish a feasible civil design or execute native solvers.
+
+The required `native-design` acceptance profile executes the installed FreeCAD,
+Gmsh and CalculiX tests. Missing tools, omitted or skipped mandatory cases,
+incomplete native reports and changed artifact bytes fail acceptance. The
+[local validation instructions](../local-validation.md) give reproduction and
+receipt-verification commands. This feature profile does not close the separate
+four-profile software release gate.
+
+The earlier review of `63cfe3347` identified three defects in the shared
+software. They are repaired:
 
 | Finding | Implemented behaviour | Verification |
 |---|---|---|
@@ -8,7 +30,7 @@ The review identified three defects in the shared software. They are repaired:
 | Evidence lost project/revision/baseline | Full canonical identity and explicit candidate/part/batch/physical-definition applicability are persisted and included in record revisions, idempotency and independent verification. Null scope is unknown, not a wildcard. Legacy records are retained, unscoped and ineligible. | Cross-project/revision/baseline/candidate/part/batch/definition rejection; independently verified actual quotation fixtures; missing installed inventory still prevents complete cost |
 | Checked drafts could not drive optimisation | A source-backed proposal retains checked inputs and document bytes. An independent authenticated reviewer permits research use. A new configuration revision creates an immutable child request, recompiles the assembly and reruns checks/search. No parent or adopted baseline is edited. | Actual HTTP → reviewed sources → child worker → paired-seed optimisation; changed constraints reject child candidates; independent review, lost replies, source corruption, two-generation export and recovery |
 
-The common engine exposes thirteen controlled problems. New civil alternatives
+The common engine exposes fifteen controlled problems. New civil alternatives
 keep a 100 m, five-span, two-track reference function while varying existing deck,
 pier, material and foundation families. New vehicle alternatives retain the
 six-car reference function and compile actual battery/HVAC/equipment arrangements
