@@ -1,5 +1,12 @@
 # Mechanical, civil and factory development examples
 
+The [development handover](../../docs/design-engine/factory-buildout/index.html)
+records delivered stages 1–5 and remaining engineering/qualification work.
+The common adapter now includes a
+[376-object complete nominal bed](../../docs/design-engine/factory-whole-bed/index.html)
+and an independently checked gross spatial frame. These original nine model
+files and reports remain unchanged.
+
 Develop representative Baghdad production tooling, pi-beam manufacturing and
 factory coordination from versioned inputs and dated UK supplier information.
 Start with the [visual review](examples/index.html), [generated design notes](examples/README.md)

@@ -632,6 +632,16 @@ function renderComparison(report) {
         );
       }
       const campaign = candidate.definition.production_schedule;
+      const spatial = candidate.definition.spatial_frame;
+      if (spatial) {
+        section.append(
+          el("h4", "Connected whole-bed spatial model"),
+          el(
+            "p",
+            `${spatial.model.nodes_m.length} nodes; ${spatial.model.members.length} gross members; ${spatial.model.springs.length} finite six-axis bases. Ground case: ${spatial.model.ground.id}. The native assembly contains both strongbacks, full rails and all nominal support details. This first-order model has no ideal end pins; the earlier second-order rail checks remain separate. Actual ground, joint behaviour, biaxial/torsional connections and resistance remain unqualified.`,
+          ),
+        );
+      }
       const staged = candidate.definition.staged_loads;
       if (staged) {
         section.append(

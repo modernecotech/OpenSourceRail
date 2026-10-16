@@ -1,5 +1,11 @@
 # Shared Design Engine
 
+The [factory development handover](../../docs/design-engine/factory-buildout/index.html)
+includes a 376-object complete nominal bed and 112-member spatial frame with
+finite six-axis bases. Native confirmation charges two actual OpenSees cases
+alongside FreeCAD; first-order equilibrium does not clear the separate
+second-order, local resistance, ground or physical qualification checks.
+
 The common engine connects existing physical definitions and solvers through
 one scoped problem, candidate, job, verification matrix and review package.
 Legacy studies retain their formats and record ownership. Computation is local;

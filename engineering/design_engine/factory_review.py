@@ -169,6 +169,9 @@ def write_packet(candidate, folder):
     }
     if "staged_loads" in data:
         study["staged_loads"] = data["staged_loads"]
+    if "spatial_frame" in data:
+        study["spatial_frame"] = data["spatial_frame"]
+        study["spatial_confirmation"] = data.get("spatial_confirmation")
     study.update(
         schema="osr-common-factory-studies/1",
         candidate=candidate["id"],
@@ -204,6 +207,34 @@ def write_packet(candidate, folder):
             )
         )
     csv_file(folder / "support-demands.csv", rows)
+    if "spatial_frame" in data:
+        spatial = data["spatial_frame"]
+        csv_file(
+            folder / "spatial-base-demands.csv",
+            [
+                dict(
+                    stage=row["index"],
+                    phase=row["phase"],
+                    node=base["node"],
+                    **dict(
+                        zip(
+                            ["x_m", "y_m", "z_m"],
+                            spatial["model"]["nodes_m"][base["node"]],
+                        )
+                    ),
+                    **dict(
+                        zip(
+                            ["fx_n", "fy_n", "fz_n", "mx_nm", "my_nm", "mz_nm"],
+                            [-v for v in base["wrench_on_structure"]],
+                        )
+                    ),
+                    physical_release=False,
+                )
+                for row in spatial["stages"]
+                for base in row["reactions"]
+            ],
+        )
+        (folder / "spatial-frame.svg").write_text(frame_figure(spatial))
     if "staged_loads" in data:
         staged = data["staged_loads"]
         csv_file(
@@ -376,6 +407,10 @@ def write_packet(candidate, folder):
         staged = data["staged_loads"]
         addition = f'<h2>Static stressing and unloading hypotheses</h2><p>{staged["stage_count"]} force states and {staged["contact_cases_solved"]} support-contact cases. Order: {escaped(staged["stressing_order"])}; unloading: {escaped(staged["release_order"])}. Rail gravity is included. Load allocation, mirrored end operation, ideal grounding and static unloading remain hypotheses; concrete transfer, dynamics, local resistance and an approved release procedure remain unresolved.</p><img src="static-stages.svg" alt="Staged rail force and eccentric couple, anchor and ideal end-pin demand histories"><p><a href="static-stages.csv">Static states</a> · <a href="end-pin-demands.csv">Signed end-pin demands</a></p>'
         page = page.replace("<h2>Review data</h2>", addition + "<h2>Review data</h2>")
+    if "spatial_frame" in data:
+        spatial = data["spatial_frame"]
+        addition = f'<h2>Connected whole-bed spatial model</h2><p>376 native objects; two strongbacks, full return rails and all sixteen nominal support details. {len(spatial["model"]["nodes_m"])} frame nodes and {len(spatial["model"]["members"])} gross members. Six-axis base springs replace ideal end pins in this separate first-order model. Actual stiffness, biaxial/torsional connection resistance, local effects and interaction with second-order response remain unqualified. The earlier ideal-pin studies above retain their original assumptions.</p><img src="spatial-frame.svg" alt="Whole-bed spatial frame and finite-base force history"><p><a href="spatial-base-demands.csv">Signed six-axis forces and moments on base foundations</a></p>'
+        page = page.replace("<h2>Review data</h2>", addition + "<h2>Review data</h2>")
     (folder / "index.html").write_text(page)
 
 
@@ -450,6 +485,54 @@ def stage_figure(study):
     return "\n".join(line.rstrip() for line in out.getvalue().splitlines()) + "\n"
 
 
+def frame_figure(study):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    plt.rcParams["svg.hashsalt"] = "osr-spatial-frame-v1"
+    fig = plt.figure(figsize=(12, 8), layout="constrained")
+    ax = fig.add_subplot(211, projection="3d")
+    model = study["model"]
+    for m in model["members"]:
+        points = np.array(
+            [
+                np.array(model["nodes_m"][m[k]]) + m[o]
+                for k, o in (("i", "offset_i_m"), ("j", "offset_j_m"))
+            ]
+        )
+        ax.plot(*points.T, color="#176477", linewidth=1.5)
+    bases = np.array([model["nodes_m"][s["node"]] for s in model["springs"]])
+    ax.scatter(*bases.T, color="#bc7836", s=16)
+    ax.set_box_aspect([26, 4, 3])
+    ax.set(xlabel="x [m]", ylabel="y [m]", zlabel="z [m]")
+    ax.set_title(
+        "Connected gross spatial bed; six-axis finite base springs; no ideal end pins"
+    )
+    ax = fig.add_subplot(212)
+    ax.plot(
+        [r["index"] for r in study["stages"]],
+        [r["maximum_base_force_resultant_n"] / 1000 for r in study["stages"]],
+        color="#176477",
+    )
+    ax.set(
+        xlabel="Static force state",
+        ylabel="Largest base force resultant [kN]",
+        title="First-order reaction demand; no resistance or physical acceptance",
+    )
+    ax.grid(alpha=0.2)
+    out = io.StringIO()
+    fig.savefig(
+        out,
+        format="svg",
+        metadata={"Date": None, "Creator": "OpenSourceRail common factory review"},
+    )
+    plt.close(fig)
+    return "\n".join(line.rstrip() for line in out.getvalue().splitlines()) + "\n"
+
+
 def publish_snapshot(source, destination):
     """Retain a compact documentation projection of one verified common export."""
     import shutil
@@ -478,7 +561,16 @@ def publish_snapshot(source, destination):
     parent_files = {}
     for path in [
         *studies[0].parent.iterdir(),
-        *(native / name for name in ("model.json", "model.FCStd", "native-cad.json")),
+        *(
+            native / name
+            for name in (
+                "model.json",
+                "model.FCStd",
+                "native-cad.json",
+                "spatial-input.json",
+                "spatial-native.json",
+            )
+        ),
         source / "request.json",
     ]:
         if not path.is_file():
@@ -538,6 +630,15 @@ def verify_snapshot(folder, *, current=False):
     ):
         raise ValueError("factory snapshot native correspondence differs")
     request = json.loads((folder / "request.json").read_text())
+    if (folder / "spatial-native.json").exists():
+        proof = json.loads((folder / "spatial-native.json").read_text())
+        if (
+            proof["input_sha256"] != digest(folder / "spatial-input.json")
+            or proof["numerical_comparison_passed"] is not True
+            or proof["case_count"] != 2
+            or proof["physical_release"] is not False
+        ):
+            raise ValueError("factory snapshot spatial correspondence differs")
     if current and request["dependencies"] != dependencies("factory-precast"):
         raise ValueError("factory snapshot belongs to an earlier source revision")
     return dict(

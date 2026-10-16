@@ -13,6 +13,7 @@ import math
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
 from .registry import ROOT
 
@@ -42,6 +43,7 @@ COMMON_CHECKS = [
 
 
 def toolchain():
+    import importlib.util
     from engineering.factory_examples.native import digest
 
     binary = shutil.which("FreeCADCmd") or shutil.which("freecadcmd")
@@ -79,6 +81,12 @@ def toolchain():
                 )
         except (OSError, subprocess.SubprocessError):
             pass
+    result["opensees_module_available"] = (
+        importlib.util.find_spec("openseespy") is not None
+    )
+    if not result["opensees_module_available"]:
+        result["missing"].append("OpenSeesPy")
+        result["available"] = False
     return result
 
 
@@ -114,6 +122,7 @@ def charters():
                 crane_crew_count=choice("ea", 1, 2),
                 stressing_order=choice("1", "balanced_pairs", "lower_first"),
                 release_order=choice("1", "reverse_stress", "same_stress"),
+                frame_ground_case=choice("1", "medium", "soft", "stiff"),
             ),
             checks=COMMON_CHECKS
             + [
@@ -126,6 +135,8 @@ def charters():
                 "restraint_load_path",
                 "production_schedule",
                 "staged_load_path",
+                "spatial_frame",
+                "spatial_native",
             ],
             domain=[
                 "Dead-load prismatic elastic beam and ideal pinned return rails with hypothetical independent ground springs in each plane; handling lower bound and resource upper bounds only. Railway live loads, compression/transmission/shear/fatigue, local connections, ground, complete process scheduling and installed costs remain unknown. Position count is a capacity scenario, not a factory layout."
@@ -288,7 +299,7 @@ def compile_definition(kind, values):
             minimum_contact_reaction_n=response["minimum_contact_reaction_n"],
         )
     else:
-        from . import factory_restraint, factory_schedule, factory_stages
+        from . import factory_restraint, factory_schedule, factory_stages, factory_frame
 
         civil = models.civil(a)
         prestress = development.prestress_alternatives(
@@ -380,6 +391,22 @@ def compile_definition(kind, values):
                 ).read_text()
             ),
         )
+        frame_basis = json.loads(
+            (ROOT / "engineering/design_engine/data/factory-frame.json").read_text()
+        )
+        ground = next(
+            r for r in frame_basis["cases"] if r["id"] == values["frame_ground_case"]
+        )
+        native = factory_frame.whole_bed(
+            cfg["strongback"], sb, restraint_cfg, dev["bed"]
+        )
+        spatial = factory_frame.assess(
+            factory_frame.definition(
+                a, dev["bed"], cfg["strongback"], sb, native, ground
+            ),
+            sb,
+            values,
+        )
         restraint["baseplate_machining_cases"] = factory_restraint.machining_cases(
             restraint_cfg,
             equipment["mazak-cv5-500"]["published"],
@@ -411,6 +438,7 @@ def compile_definition(kind, values):
             production=flow,
             restraint=restraint,
             staged_loads=staged,
+            spatial_frame=spatial,
             production_schedule=planned_schedule,
             interface_supplier_enquiries=interface_suppliers,
             model=physical_model(
@@ -418,7 +446,7 @@ def compile_definition(kind, values):
                 a["steel_density_kg_m3"],
                 [
                     dict(
-                        id="remaining_bed_end_pin_foundations_fourteen_restraint_pads_beam_reinforcement_crane_factory",
+                        id="bed_splices_mould_product_reinforcement_crane_factory_and_ground_qualification",
                         state="unknown",
                     )
                 ],
@@ -441,6 +469,8 @@ def compile_definition(kind, values):
             maximum_restraint_anchor_tension_n=restraint["maximum_anchor_tension_n"],
             staged_maximum_anchor_tension_n=staged["maximum_anchor_tension_n"],
             staged_maximum_vertical_pin_force_n=staged["maximum_vertical_pin_force_n"],
+            spatial_maximum_base_force_n=spatial["maximum_base_force_resultant_n"],
+            spatial_maximum_translation_m=spatial["maximum_translation_m"],
             scheduled_dispatches_in_horizon=planned_schedule[
                 "dispatched_within_horizon"
             ],
@@ -560,6 +590,13 @@ def screen(kind, result, set_check):
         )
         plan = data["production_schedule"]
         staged = data["staged_loads"]
+        spatial = data["spatial_frame"]
+        set_check(
+            result,
+            "spatial_frame",
+            "unknown" if spatial["equilibrium_verified"] else "failed",
+            "Connected first-order gross frame has finite six-axis base springs and no ideal end pins; joint/local, second-order interaction, ground and structural resistance qualification remain open",
+        )
         set_check(
             result,
             "staged_load_path",
@@ -647,3 +684,37 @@ def confirm(result, charge, folder, remaining_seconds):
         state="passed",
         basis="Fresh FreeCAD solids, volumes/bounds and FCStd/STEP reopen; steel subset collision screen where declared; no resistance qualification",
     )
+    if "spatial_frame" in result["definition"]:
+        study = result["definition"]["spatial_frame"]
+        charge(len(study["native_cases"]), "factory-spatial-opensees-cases")
+        source = folder / "spatial-input.json"
+        source.write_text(json.dumps(study) + "\n")
+        script = folder / "spatial-native.py"
+        script.write_text(
+            "import sys\nfrom pathlib import Path\nsys.path[:0]="
+            + repr([str(ROOT), str(ROOT / "design/component-catalogue/src")])
+            + "\nfrom engineering.design_engine.factory_frame import native\nnative("
+            + repr(str(source.resolve()))
+            + ","
+            + repr(str((folder / "spatial-native.json").resolve()))
+            + ")\n"
+        )
+        _run(
+            [sys.executable, str(script.resolve())],
+            ROOT,
+            folder / "spatial-native.log",
+            _Time(remaining_seconds or seconds),
+            maximum=600,
+        )
+        proof = json.loads((folder / "spatial-native.json").read_text())
+        if (
+            proof["input_sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
+            or not proof["numerical_comparison_passed"]
+            or proof["case_count"] != len(study["native_cases"])
+        ):
+            raise ValueError("incomplete independent spatial confirmation")
+        result["definition"]["spatial_confirmation"] = proof
+        result["checks"]["spatial_native"] = dict(
+            state="passed",
+            basis="Actual OpenSees 3-D elasticBeamColumn/rigid-link and six-axis ground spring displacement/reaction comparisons; no physical or resistance acceptance",
+        )

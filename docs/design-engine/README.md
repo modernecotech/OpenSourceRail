@@ -1,5 +1,11 @@
 # Design, Jobs And Evidence Workflows
 
+The [factory development handover](factory-buildout/index.html) maps completed
+plan stages 1–5 to both factory examples, British supplier cases and the
+[376-object whole-bed review](factory-whole-bed/index.html). The
+[delivery record](factory-completion-2026-10-16.md) distinguishes review-package
+completion from remaining engineering design and stage 6 qualification.
+
 The [mechanical/civil factory buildout plan](mechanical-civil-factory-plan-2026-10-16.md)
 now has [Baghdad example models and supplier equipment](../../engineering/factory_examples/README.md):
 fixture tooling, Pi20/Pi25 manufacturing screens, vehicle hall and pilot precast yard,

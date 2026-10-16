@@ -1,0 +1,103 @@
+{
+  "schema": "osr-factory-development-delivery/1",
+  "scope": "Complete the planned stages 1\u20135 representative mechanical/civil/factory development and offline review package; stage 6 and issued engineering design remain open.",
+  "stages": [
+    {
+      "id": 1,
+      "title": "Design basis and British-priority supplier cases",
+      "files": [
+        "docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md",
+        "engineering/factory_examples/data/equipment.json",
+        "docs/commercial/baghdad-uk-factory-suppliers-2026-10-15.csv"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mechanical tooling and fabrication example",
+      "files": [
+        "engineering/factory_examples/examples/fixture/model.FCStd",
+        "engineering/factory_examples/examples/fixture-bom.csv",
+        "engineering/factory_examples/examples/fixture-cutting-plan.json",
+        "engineering/factory_examples/examples/fixture-workholding/model.FCStd",
+        "engineering/factory_examples/examples/locator-cartridge/model.FCStd",
+        "engineering/factory_examples/examples/connections.md"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Civil product and complete bed example",
+      "files": [
+        "engineering/factory_examples/examples/pi25-mould-bed/model.FCStd",
+        "engineering/factory_examples/examples/pi25-revised-bed/model.FCStd",
+        "engineering/factory_examples/examples/runway-bay/model.FCStd",
+        "engineering/factory_examples/examples/development.md",
+        "docs/design-engine/factory-whole-bed/model.FCStd",
+        "docs/design-engine/factory-whole-bed/spatial-native.json"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Both equipped factory layouts and utilities",
+      "files": [
+        "engineering/factory_examples/examples/vehicle-factory/model.FCStd",
+        "engineering/factory_examples/examples/vehicle-factory/plan.svg",
+        "engineering/factory_examples/examples/precast-yard/model.FCStd",
+        "engineering/factory_examples/examples/precast-yard/plan.svg",
+        "engineering/factory_examples/examples/utilities.json",
+        "engineering/factory_examples/examples/process-routes.csv"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Common jobs, comparisons and review artifacts",
+      "files": [
+        "docs/design-engine/factory-whole-bed/snapshot.json",
+        "docs/design-engine/factory-whole-bed/request.json",
+        "docs/design-engine/factory-whole-bed/spatial-base-demands.csv",
+        "docs/design-engine/factory-stages-comparison.json",
+        "docs/design-engine/factory-resource-comparison.json",
+        "engineering/factory_examples/examples/equipment-rfq.csv",
+        "engineering/factory_examples/examples/fabrication-rfq.csv",
+        "docs/design-engine/factory-whole-bed/interface-rfq.csv"
+      ]
+    }
+  ],
+  "open_work": [
+    {
+      "id": "engineering-basis",
+      "kind": "owner-input-and-engineering",
+      "required": "Accepted site, survey, ground profile, Iraqi design basis and wind/seismic/flood/thermal actions."
+    },
+    {
+      "id": "structural-design",
+      "kind": "engineering-design",
+      "required": "Railway beam loading, compression, transmission/end zones, reinforcement, shear/torsion/fatigue/deflection; local strongback/plate/anchor/weld and soil resistance; three-dimensional second-order/nonlinear interaction."
+    },
+    {
+      "id": "handling-and-erection",
+      "kind": "engineering-design-and-supplier",
+      "required": "Qualified lifting inserts, rigging, crane/runway and haulage/erection designs for the complete product and exact site."
+    },
+    {
+      "id": "supplier-configuration",
+      "kind": "supplier-return",
+      "required": "Exact machine/system GAs, origin, compatibility, utilities, foundations, Baghdad service, commissioning and spares; subcontract workholding/payload/access acceptance."
+    },
+    {
+      "id": "physical-first-articles",
+      "kind": "laboratory-and-production",
+      "required": "Material certificates, WPS/NDE, calibration, measured fixtures, concrete mix/maturity, matched stressing/release procedures and independent first-article acceptance."
+    },
+    {
+      "id": "factory-qualification",
+      "kind": "production-and-site",
+      "required": "Accepted site/building/MEP/fire/extraction designs, measured cycles/workforce/maintenance/yield, lifting coverage and dispatch trials."
+    },
+    {
+      "id": "commercial-and-independent-acceptance",
+      "kind": "owner-supplier-and-review",
+      "required": "Comparable Baghdad installed quotations, delivered/imported content and financing transaction evidence, named independent reviewers and accepted exact revisions."
+    }
+  ],
+  "physical_release": false
+}

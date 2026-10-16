@@ -191,6 +191,11 @@ def acceptance(folder):
             raise ValueError("factory common problem/source membership differs")
         checks = result["candidates"][0]["checks"]
         if (
+            adapter == "factory-precast"
+            and checks["spatial_native"]["state"] != "passed"
+        ):
+            raise ValueError("independent spatial confirmation did not pass")
+        if (
             checks["native_geometry"]["state"] != "passed"
             or checks["physical_correlation"]["state"] != "unknown"
             or checks["independent_acceptance"]["state"] != "unknown"
@@ -202,6 +207,7 @@ def acceptance(folder):
 
     snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-support")
     stage_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-stages")
+    whole_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-whole-bed")
     return dict(
         schema="osr-factory-native-acceptance/1",
         passed=True,
@@ -212,6 +218,7 @@ def acceptance(folder):
         independent_acceptance=False,
         retained_snapshot_integrity_verified=snapshot["integrity_verified"],
         retained_stage_snapshot_integrity_verified=stage_snapshot["integrity_verified"],
+        retained_whole_snapshot_integrity_verified=whole_snapshot["integrity_verified"],
     )
 
 

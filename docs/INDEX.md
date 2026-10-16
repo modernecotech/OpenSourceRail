@@ -6081,6 +6081,7 @@ Indexed Markdown files: **6229**.
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
 | [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
+| [`docs/design-engine/factory-completion-2026-10-16.md`](../docs/design-engine/factory-completion-2026-10-16.md) | Mechanical and civil factory development delivery record |
 | [`docs/design-engine/factory-support-notes-2026-10-16.md`](../docs/design-engine/factory-support-notes-2026-10-16.md) | Baghdad factory support and finite resource development |
 | [`docs/design-engine/factory-stages-notes-2026-10-16.md`](../docs/design-engine/factory-stages-notes-2026-10-16.md) | Baghdad factory staged stressing and unloading studies |
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |

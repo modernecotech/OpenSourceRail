@@ -50,7 +50,7 @@ directory with `--output <directory> --native`, retaining the previous evidence.
 | Problem | Variables | Represented native inventory |
 | --- | --- | --- |
 | `factory-fixture` | Payload 250/500/750 kg; requested preload 250/500/1000 N | Fixed 1.6 × 1.0 m fixture and clamp envelopes, 32 objects |
-| `factory-precast` | Pi20/Pi25; three prestress layouts; independent lateral/vertical restraint cases; 4/16/134 casting positions; 1/2 cranes and crane crews; 100/125 t handling scenario | Initially 63 objects; current support assembly has 93 |
+| `factory-precast` | Pi20/Pi25; three prestress layouts; independent lateral/vertical restraint cases; 4/16/134 casting positions; 1/2 cranes and crane crews; 100/125 t handling scenario; stressing/unloading and frame-ground hypotheses | Historical end assemblies have 63/93 objects; current nominal whole bed has 376 |
 
 All candidates retain the common city/project/environment/revision identity,
 declared domains, evaluation/wall/memory/artifact budgets, source and toolchain

@@ -10,6 +10,11 @@ construction or manufacturing designs.
 
 ## Delivery sequence
 
+The [completion record](factory-completion-2026-10-16.md) and
+[handover index](factory-buildout/index.html) map delivered development artifacts
+for stages 1–5. Stage 6 and issued engineering design remain open, including
+further analysis and external evidence listed in that record.
+
 | Stage | Work and outputs | Completion test |
 | --- | --- | --- |
 | 1 Establish design basis | Read the canonical six-car factory assumptions, beam sections and industrialisation interfaces; retain a dated official-source equipment register | Each numeric supplier claim has a model, unit, source location and observation date; assumptions and unresolved values remain separate |
