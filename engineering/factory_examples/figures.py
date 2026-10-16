@@ -28,7 +28,7 @@ def connections_svg(report):
                 ax.add_patch(
                     Circle(
                         (sign * point["y_m"], point["z_m"]),
-                        0.025,
+                        s["grip_outer_diameter_m"] / 2,
                         facecolor="#dcebe5",
                         edgecolor="#14715e",
                         linewidth=1,

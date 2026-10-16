@@ -182,6 +182,8 @@ def strongback(a, cfg, candidate, grip):
     )
     return dict(
         axis_z_m=axis,
+        grip_outer_diameter_m=grip["published"]["diameter_m"],
+        grip_body_length_m=grip["published"]["length_m"],
         points=pts,
         force_per_strand_n=f,
         baseline_grip_fit=grip_fit(
@@ -310,11 +312,13 @@ def strongback_parts(cfg, report):
         for sign in (-1, 1):
             # External grip bodies are operating/fit envelopes, with no internal wedge model.
             y = sign * p["y_m"]
+            diameter = report["grip_outer_diameter_m"]
+            length = report["grip_body_length_m"]
             parts.append(
                 part(
                     p["id"] + f"-grip-{sign}",
-                    [0.05, 0.05, 0.103],
-                    [-0.5 - d - 0.103, y - 0.025, p["z_m"] - 0.025],
+                    [diameter, diameter, length],
+                    [-0.5 - d - length, y - diameter / 2, p["z_m"] - diameter / 2],
                     kind="cylinder",
                     cylinder_axis="x",
                     role="grip-envelope",

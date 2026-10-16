@@ -108,6 +108,24 @@ def test_native_front_and_back_holes_match_all_48_grip_axes(context, result):
     plates = [p for p in parts if p["id"] in ("strongback-inner", "strongback-outer")]
     grips = [p for p in parts if p["role"] == "grip-envelope"]
     assert len(grips) == 48
+    changed = deepcopy(result["strongback"])
+    changed.update(grip_outer_diameter_m=0.052, grip_body_length_m=0.110)
+    changed_grips = [
+        p
+        for p in c.strongback_parts(context[1]["strongback"], changed)
+        if p["role"] == "grip-envelope"
+    ]
+    assert all(
+        g["size_m"] == pytest.approx([0.052, 0.052, 0.110]) for g in changed_grips
+    )
+    assert all(
+        g["size_m"]
+        == pytest.approx(
+            [result["strongback"]["grip_outer_diameter_m"]] * 2
+            + [result["strongback"]["grip_body_length_m"]]
+        )
+        for g in grips
+    )
     assert len(plates) == 2
     for p in plates:
         assert len(p["holes"]) == 48
