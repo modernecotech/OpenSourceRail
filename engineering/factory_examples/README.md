@@ -28,7 +28,7 @@ Edit [design assumptions](data/basis.json) and the [supplier register](data/equi
 then regenerate locally:
 
 ```sh
-.venv/bin/python -m engineering.factory_examples.build --native
+.venv/bin/python -m engineering.factory_examples.build --output build/factory-examples-new --native
 .venv/bin/python -m engineering.factory_examples.build --check
 .venv/bin/python -m pytest engineering/analysis/tests/test_factory_examples.py engineering/analysis/tests/test_factory_development.py engineering/analysis/tests/test_factory_connections.py -q
 ```
@@ -50,6 +50,21 @@ stressing sequences, nominal strongback demands and the locator's fit/retention
 concept. Native export checks actual drilled/stepped solids and positive-volume
 interference for the declared steel subsets. Grip, screw and thread envelopes
 remain distinct from the solids checked for fabrication correspondence.
+
+The [common-engine integration](../../docs/design-engine/factory-integration-2026-10-16.md)
+registers `factory-fixture` and `factory-precast` problems for shared jobs, budgets,
+comparison views, per-instance inventories and source-bound native exports.
+Run `./osr validate run --profile factory-native` for mandatory fresh execution
+of all nine original models and both common adapters. Impact selection includes
+this profile for factory inputs, code and retained evidence.
+
+`--check` now checks retained byte integrity separately from numerical
+recomputation using declared SI tolerances. Original reports and CAD remain
+unchanged; [reproduction.json](examples/reproduction.json) distinguishes their
+producer identity from the current verifier. Matplotlib paths are views of the
+checked JSON, not portable numerical evidence. Explicit `--seal-retained`
+re-verifies unchanged originals after verifier changes; it refuses altered
+original files. Generate changed engineering examples into a fresh directory.
 
 No supplier quote, contact, physical qualification, adopted city CAPEX or railway
 release is created. British manufacture, Northern Ireland manufacture and a

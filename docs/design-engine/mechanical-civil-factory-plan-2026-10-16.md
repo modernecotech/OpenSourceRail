@@ -104,6 +104,16 @@ separate quantities; no revised financing saving is adopted automatically.
 
 ## Validation and ownership
 
+The [common-engine integration](factory-integration-2026-10-16.md) addresses the
+review's portable-reproduction and workflow gaps. Controlled fixture and precast
+problems share job budgets, exact source/input provenance, comparisons and exports.
+Precast comparisons include independent lateral/vertical spring hypotheses,
+beam/handling/crane demands and explicit production-resource bounds. Retained
+examples remain original evidence; their new reproduction seal separates exact
+integrity from numerical tolerances. The mandatory `factory-native` profile
+executes all nine native models and both common adapters; it does not establish
+structural resistance or production qualification.
+
 Production engineering owns process routes and capability trials; mechanical
 engineering owns fixture/vehicle interfaces; civil engineering owns structures,
 ground and construction stages; electrical/MEP engineering owns utilities;

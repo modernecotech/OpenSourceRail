@@ -516,6 +516,82 @@ function renderComparison(report) {
         ]),
       ),
     );
+    if (candidate.definition?.native_model) {
+      const metrics = candidate.metrics;
+      const rounded = (value, unit = "") =>
+        quantityText(
+          Number.isFinite(value)
+            ? value.toLocaleString("en-GB", { maximumSignificantDigits: 6 })
+            : value,
+          unit,
+        );
+      section.append(
+        el("h4", "Factory scenarios · preliminary demands and resource bounds"),
+        table(
+          ["Quantity", "Value"],
+          [
+            [
+              "Represented nominal steel only",
+              "represented_steel_mass_kg",
+              "kg",
+            ],
+            [
+              "Minimum vertical fixture contact",
+              "minimum_contact_reaction_n",
+              "N",
+            ],
+            [
+              "Beam concrete/strand mass lower bound",
+              "beam_mass_lower_bound_kg",
+              "kg",
+            ],
+            [
+              "Handling equivalent lower bound",
+              "handling_equivalent_lower_bound_kg",
+              "kg",
+            ],
+            ["Initial bed force", "initial_bed_force_n", "N"],
+            ["Lateral elastic load factor", "lateral_elastic_load_factor", ""],
+            [
+              "Vertical elastic load factor",
+              "vertical_elastic_load_factor",
+              "",
+            ],
+            [
+              "Maximum temporary end couple",
+              "maximum_stage_end_couple_nm",
+              "N m",
+            ],
+            [
+              "Known resource upper bound",
+              "known_resource_upper_bound_per_day",
+              "accepted beams/working day",
+            ],
+          ]
+            .filter(([, key]) => key in metrics)
+            .map(([label, key, unit]) => [label, rounded(metrics[key], unit)]),
+        ),
+      );
+      const flow = candidate.definition.production;
+      if (flow) {
+        section.append(
+          table(
+            ["Production resource", "Accepted output upper bound/day"],
+            flow.resources.map((row) => [
+              row.id,
+              rounded(row.accepted_upper_bound_per_day),
+            ]),
+          ),
+          el(
+            "p",
+            "Unresolved resources: " +
+              flow.unresolved_resources.join(", ") +
+              ". " +
+              flow.scope,
+          ),
+        );
+      }
+    }
     section.append(comparisonReasons(candidate));
     refinementCampaigns(section, candidate);
     const inspect = el("button", "Inspect physical parts", { type: "button" });

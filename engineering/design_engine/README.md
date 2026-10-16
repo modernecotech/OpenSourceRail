@@ -5,6 +5,12 @@ one scoped problem, candidate, job, verification matrix and review package.
 Legacy studies retain their formats and record ownership. Computation is local;
 GitHub Actions remains disabled.
 
+The [factory integration](../../docs/design-engine/factory-integration-2026-10-16.md)
+adds controlled fixture and precast problems, coupled handling/restraint/resource
+comparisons, partial per-instance inventories and native CAD confirmation through
+the same jobs and exports. `factory-native` requires fresh FreeCAD execution of
+nine retained models and both adapters; structural and production gates stay open.
+
 ```bash
 ./osr design problems
 ./osr design run --problem clipped-side-bay --city samawah

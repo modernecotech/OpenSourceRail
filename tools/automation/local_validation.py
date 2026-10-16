@@ -584,6 +584,37 @@ def plan(profile, output):
                 timeout=90,
             ),
         ]
+    if profile == "factory-native":
+        native = output / "factory-native"
+        return [
+            py(
+                "Required factory native prerequisites",
+                "-m",
+                "engineering.design_engine.factory_acceptance",
+                "prerequisites",
+                "--output",
+                str(native),
+                timeout=90,
+            ),
+            py(
+                "Installed factory CAD and common jobs",
+                "-m",
+                "engineering.design_engine.factory_acceptance",
+                "run",
+                "--output",
+                str(native),
+                timeout=900,
+            ),
+            py(
+                "Verify factory native acceptance",
+                "-m",
+                "engineering.design_engine.factory_acceptance",
+                "verify",
+                "--output",
+                str(native),
+                timeout=90,
+            ),
+        ]
     if profile == "ci":
         return (
             # Broad independent source suites run before publication coherence;
@@ -678,6 +709,7 @@ PROFILES = (
     "evidence",
     "browser",
     "native-design",
+    "factory-native",
     "ci",
     "kani",
     "integrated-stack",
@@ -805,6 +837,17 @@ def capture_city(destination):
 
 
 def artifact_hashes(profile, folder):
+    if profile == "factory-native":
+        from engineering.design_engine.factory_acceptance import acceptance
+
+        native = folder / "factory-native"
+        if (
+            native.is_symlink()
+            or not native.is_dir()
+            or json.loads((native / "acceptance.json").read_text())
+            != acceptance(native)
+        ):
+            raise ValueError("missing or changed factory native acceptance report")
     if profile == "native-design":
         native = folder / "native-design"
         if native.is_symlink() or not native.is_dir():
@@ -822,7 +865,11 @@ def artifact_hashes(profile, folder):
         else (
             [folder / "city"]
             if profile == "example-city"
-            else [folder / "native-design"] if profile == "native-design" else []
+            else (
+                [folder / "native-design"]
+                if profile == "native-design"
+                else [folder / "factory-native"] if profile == "factory-native" else []
+            )
         )
     )
     files = {}

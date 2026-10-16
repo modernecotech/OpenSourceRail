@@ -66,6 +66,10 @@ def toolchain(adapter):
         from .generated_parts import toolchain as part_toolchain
 
         result["generated_parts"] = part_toolchain()
+    if adapter in {"factory-fixture", "factory-precast"}:
+        from .factory import toolchain as factory_toolchain
+
+        result["factory_native"] = factory_toolchain()
     result["adapter"] = adapter
     return result
 
@@ -93,11 +97,19 @@ def preflight(charter, *, search=False, operation="screen"):
         if not supported(charter):
             missing.append("controlled recursive native-confirmation preset")
     if operation in {"confirm", "iterate"} and adapter in {
-        "mechanical-cleat", "civil-steel-beam"
+        "mechanical-cleat",
+        "civil-steel-beam",
     }:
         native = tools.get("generated_parts", {})
         if not native.get("available"):
-            missing.extend(native.get("missing", ["native part CAD/mesher/solver toolchain"]))
+            missing.extend(
+                native.get("missing", ["native part CAD/mesher/solver toolchain"])
+            )
+    if operation in {"confirm", "cad-export"} and adapter in {
+        "factory-fixture",
+        "factory-precast",
+    }:
+        missing.extend(tools["factory_native"]["missing"])
     if (
         operation == "confirm"
         and adapter in {"civil", "civil-alternatives"}
@@ -232,7 +244,9 @@ def request(
     recursive_policy = None
     if recursive is not None:
         if search is not None or interactions is not None:
-            raise ValueError("recursive feedback and paired/interaction studies are separate experiments")
+            raise ValueError(
+                "recursive feedback and paired/interaction studies are separate experiments"
+            )
         from .recursive_workflow import policy
 
         recursive_policy = policy(charter, recursive)
@@ -255,6 +269,7 @@ def request(
 
 class Budget:
     control_exceptions = (BudgetExceeded, Cancelled)
+
     def __init__(self, store, identifier, limits):
         self.store = store
         self.id = identifier
@@ -301,7 +316,14 @@ def diverse_shortlist(rows, limit):
     ]
     ordered = sorted(
         eligible,
-        key=lambda r: (r["metrics"].get("defined_mass_kg", float("inf")), r["id"]),
+        key=lambda r: (
+            (
+                r["metrics"].get("defined_mass_kg")
+                if r["metrics"].get("defined_mass_kg") is not None
+                else float("inf")
+            ),
+            r["id"],
+        ),
     )
     chosen = []
     seen = set()
@@ -362,9 +384,11 @@ def worker(store_root, identifier):
             operation=(
                 "iterate"
                 if req.get("recursive")
-                else "confirm"
-                if req.get("refine")
-                else "optimise" if req.get("search") else "screen"
+                else (
+                    "confirm"
+                    if req.get("refine")
+                    else "optimise" if req.get("search") else "screen"
+                )
             ),
         )
         write_new(folder / "preflight.json", check)
@@ -425,23 +449,31 @@ def worker(store_root, identifier):
             def native_confirmation(row):
                 budget.charge(0, "recursive-native-confirmation")
                 adapters.refine(
-                    charter, row, budget.charge,
+                    charter,
+                    row,
+                    budget.charge,
                     folder / "recursive-native" / row["id"],
                     remaining_seconds=budget.remaining_seconds,
                 )
                 row["refinement_requested"] = True
                 return row
 
-            recursive_result = execute(req, evaluate, budget, folder, confirm=native_confirmation)
+            recursive_result = execute(
+                req, evaluate, budget, folder, confirm=native_confirmation
+            )
             rows = recursive_result["candidates"]
             if recursive_result["termination_reason"] == "cancelled":
-                raise Cancelled("recursive experiment cancelled; partial lineage retained")
+                raise Cancelled(
+                    "recursive experiment cancelled; partial lineage retained"
+                )
             if recursive_result["termination_reason"] == "budget":
                 # The comparison is still useful when the policy exhausts its
                 # declared search budget. Only common execution limits fail a job.
                 stop = recursive_result.get("stop") or {}
                 if stop.get("type") in {"BudgetExceeded", "Cancelled"}:
-                    raise BudgetExceeded("common execution budget exhausted; recursive progress retained")
+                    raise BudgetExceeded(
+                        "common execution budget exhausted; recursive progress retained"
+                    )
         elif req.get("search"):
             from .optimization import paired
 
@@ -540,10 +572,19 @@ def worker(store_root, identifier):
                 ),
                 output=folder / "interaction-study",
             )
-        shortlist = diverse_shortlist(rows, req["shortlist"]) if req["refine"] and not req.get("recursive") else []
+        shortlist = (
+            diverse_shortlist(rows, req["shortlist"])
+            if req["refine"] and not req.get("recursive")
+            else []
+        )
         # An explicitly selected single candidate may be refined diagnostically
         # even when a screening constraint fails. It stays ineligible for ranking.
-        if req["refine"] and not req.get("recursive") and len(rows) == 1 and rows[0].get("definition"):
+        if (
+            req["refine"]
+            and not req.get("recursive")
+            and len(rows) == 1
+            and rows[0].get("definition")
+        ):
             shortlist = rows
         for row in shortlist:
             try:
@@ -561,14 +602,25 @@ def worker(store_root, identifier):
                     if name in row["checks"]:
                         adapters.set_check(row, name, "outside-domain", str(failure))
             row["refinement_requested"] = True
-        if dependencies(charter["adapter"]) != req["dependencies"] or toolchain(charter["adapter"]) != req["toolchain"]:
+        if (
+            dependencies(charter["adapter"]) != req["dependencies"]
+            or toolchain(charter["adapter"]) != req["toolchain"]
+        ):
             raise ValueError("source changed during execution; evidence is stale")
         screening = sorted(
-            (r for r in rows if isinstance(r["metrics"].get("defined_mass_kg"), (int, float))),
+            (
+                r
+                for r in rows
+                if isinstance(r["metrics"].get("defined_mass_kg"), (int, float))
+            ),
             key=lambda r: r["metrics"]["defined_mass_kg"],
         )
         detailed = sorted(
-            (r for r in rows if isinstance(r["metrics"].get("detailed_deflection_m"), (int, float))),
+            (
+                r
+                for r in rows
+                if isinstance(r["metrics"].get("detailed_deflection_m"), (int, float))
+            ),
             key=lambda r: r["metrics"]["detailed_deflection_m"],
         )
         summary = dict(
@@ -586,8 +638,14 @@ def worker(store_root, identifier):
             ],
             detailed_deflection_ranking=[r["id"] for r in detailed],
             ranking_axes_differ=True,
-            conditional_shortlist=(recursive_result["verified_frontier"] if recursive_result else [r["id"] for r in shortlist]),
-            verified_frontier=recursive_result["verified_frontier"] if recursive_result else [],
+            conditional_shortlist=(
+                recursive_result["verified_frontier"]
+                if recursive_result
+                else [r["id"] for r in shortlist]
+            ),
+            verified_frontier=(
+                recursive_result["verified_frontier"] if recursive_result else []
+            ),
             recursive_search=recursive_result,
             unknown_objectives=[
                 "complete installed/lifecycle cost",

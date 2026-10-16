@@ -54,6 +54,7 @@ are refused. Inspect a profile before running it or check a receipt afterward:
 | `evidence` | Repository health, source provenance, engineering baseline, panel/twin, assurance and operating-readiness drift checks |
 | `browser` | WASM libraries, frontend acceptance and offline operations browser acceptance |
 | `native-design` | Required installed FreeCAD → Gmsh → CalculiX acceptance for both generated part families, two meshes, independent benchmarks, invalid inputs and owned timeout cleanup; zero skips permitted |
+| `factory-native` | Required fresh FreeCAD/STEP exports for all nine factory examples plus two common factory jobs and verified offline exports; missing tools or changed artifacts fail |
 | `ci` | Independent Rust/Python suites followed by original generation/coherence steps, browser checks, TACS replay and bounded TLC verification |
 | `kani` | Every declared safety-case Kani harness, plus three explicit release properties; failures/timeouts block success |
 | `integrated-stack` | Disposable native ERPNext/FUXA/gateway/controller/Workbench, city load and outage/recovery checks |
@@ -87,6 +88,13 @@ reports or changed artifact bytes invalidate acceptance. This profile can gain
 further native cases without changing the existing four-profile software-release
 requirement. A numerical feature pass grants no physical qualification, accepted
 material properties or construction authority.
+
+Factory input/code and retained-artifact changes select `factory-native`.
+Its [integration notes](design-engine/factory-integration-2026-10-16.md) describe
+portable numerical recomputation, exact retained-file integrity, controlled
+variable domains and the shared job/export path. Run it in a fresh output
+directory and verify its receipt as above. Its geometry acceptance does not
+qualify structural resistance, supplier compatibility, ground or production.
 
 The standalone `evidence` profile first runs `bootstrap_baghdad_tests.py` to
 restore exact hash-bound ignored operations and solver/GIS inputs from the

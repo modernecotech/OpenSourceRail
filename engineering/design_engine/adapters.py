@@ -48,7 +48,11 @@ def compile_candidate(charter, scope, values, *, reviewed_inputs=None):
     from engineering.design_consistency import demonstrators as d
     from engineering.design_consistency.contracts import summary
 
-    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+    if kind in {"factory-fixture", "factory-precast"}:
+        from .factory import compile_definition
+
+        data, metrics = compile_definition(kind, values)
+    elif kind in {"mechanical-cleat", "civil-steel-beam"}:
         from .generated_parts import compile_definition, screen_definition
 
         model = compile_definition(kind, values)
@@ -218,7 +222,11 @@ def screen(charter, result, charge, folder):
     kind = charter["adapter"]
     charge(1, "screen")
     data = result["definition"]
-    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+    if kind in {"factory-fixture", "factory-precast"}:
+        from .factory import screen as factory_screen
+
+        factory_screen(kind, result, set_check)
+    elif kind in {"mechanical-cleat", "civil-steel-beam"}:
         from .generated_parts import screen_definition
 
         report = screen_definition(data["model"])
@@ -518,15 +526,28 @@ def refine(charter, result, charge, folder, *, remaining_seconds=None):
     folder = Path(folder)
     if kind not in {"mechanical-cleat", "civil-steel-beam"}:
         folder.mkdir(parents=True, exist_ok=True)
-    if kind in {"mechanical-cleat", "civil-steel-beam"}:
+    if kind in {"factory-fixture", "factory-precast"}:
+        from .factory import confirm
+
+        confirm(result, charge, folder, remaining_seconds)
+    elif kind in {"mechanical-cleat", "civil-steel-beam"}:
         from .generated_parts_native import native_screen
 
-        report = native_screen(data["model"], folder, ROOT,
-                               remaining_seconds=remaining_seconds, charge=charge)
+        report = native_screen(
+            data["model"],
+            folder,
+            ROOT,
+            remaining_seconds=remaining_seconds,
+            charge=charge,
+        )
         result["checks"].update(report["checks"])
         result["metrics"].update(report["metrics"])
-        result["metrics"]["defined_mass_kg"] = data["model"]["parts"][0]["properties"]["mass_kg"]
-        result["metrics"]["detailed_deflection_m"] = report["metrics"].get("loaded_face_deflection_m")
+        result["metrics"]["defined_mass_kg"] = data["model"]["parts"][0]["properties"][
+            "mass_kg"
+        ]
+        result["metrics"]["detailed_deflection_m"] = report["metrics"].get(
+            "loaded_face_deflection_m"
+        )
         data["native_confirmation"] = report
     elif kind == "panel":
         from .panel_confirmation import confirm
@@ -746,34 +767,52 @@ def refine(charter, result, charge, folder, *, remaining_seconds=None):
         set_check(
             result,
             "mass_inertia",
-            "passed" if all(
-                d["mass_relative_error"] < 1e-12
-                and d["reaction_relative_error"] < 1e-12
-                and d["modal_preload_residual_n"] < 1e-6
-                and d["minimum_static_contact_n"] > 0
-                for d in diagnostics
-            ) else "failed",
+            (
+                "passed"
+                if all(
+                    d["mass_relative_error"] < 1e-12
+                    and d["reaction_relative_error"] < 1e-12
+                    and d["modal_preload_residual_n"] < 1e-6
+                    and d["minimum_static_contact_n"] > 0
+                    for d in diagnostics
+                )
+                else "failed"
+            ),
             "actual separate battery mounts and mass-normalized research body modes conserve mass and static reactions; shell correlation open",
         )
         failed = any(
-            campaign["state"] == "outside-domain" or any(
-                row.get("state") in {"outside-domain", "failed", "budget-exceeded", "stale"}
+            campaign["state"] == "outside-domain"
+            or any(
+                row.get("state")
+                in {"outside-domain", "failed", "budget-exceeded", "stale"}
                 or row.get("full_passage_coverage") is not True
                 for row in campaign["cases"].values()
-            ) for campaign in campaigns.values()
+            )
+            for campaign in campaigns.values()
         )
         set_check(
-            result, "service", "failed" if failed else "unknown",
+            result,
+            "service",
+            "failed" if failed else "unknown",
             "whole-assembly passages under prescribed motion; synthetic joint/modal laws and physical service qualification remain open",
         )
         comparisons = [campaign["comparison"] for campaign in campaigns.values()]
         state = (
-            "passed" if comparisons and all(c and c["state"] == "passed" for c in comparisons)
-            else "failed" if any(campaign["state"] in {"outside-domain", "failed"} for campaign in campaigns.values())
-            else "unknown"
+            "passed"
+            if comparisons and all(c and c["state"] == "passed" for c in comparisons)
+            else (
+                "failed"
+                if any(
+                    campaign["state"] in {"outside-domain", "failed"}
+                    for campaign in campaigns.values()
+                )
+                else "unknown"
+            )
         )
         set_check(
-            result, "refinement", state,
+            result,
+            "refinement",
+            state,
             "independent time/deck/rail/modal full-passage comparisons require retained manifests, unchanged and identical physics sources/toolchains, complete coverage and all declared metrics; provisional numerical screen only",
             planned=sum(c["planned"] for c in campaigns.values()),
             executed=sum(c["executed"] for c in campaigns.values()),

@@ -6,7 +6,7 @@ import shutil
 
 import pytest
 
-from engineering.factory_examples import build, models
+from engineering.factory_examples import build, models, reproduction
 
 
 @pytest.fixture
@@ -202,8 +202,8 @@ def test_text_artifacts_reproduce():
     second, models_b = build.make_outputs()
     assert first == second
     assert models_a == models_b
-    for name, content in first.items():
-        assert (build.DEFAULT / name).read_text() == content, name
+    errors, _ = reproduction.compare_outputs(build.DEFAULT, first)
+    assert errors == []
 
 
 def test_stock_conservation_and_short_stock_rejection(basis):

@@ -71,12 +71,21 @@ def _frame(model, physical_key, part, row, properties):
     local axes. Placement is validated but never applied a second time here.
     """
     expected_schema = (
-        {"osr-engineering-representations/1", "osr-generated-solid-definition/1"}
-        if physical_key == "parts" else {"osr-shared-engineering/1"}
+        {
+            "osr-engineering-representations/1",
+            "osr-generated-solid-definition/1",
+            "osr-factory-definition/1",
+        }
+        if physical_key == "parts"
+        else {"osr-shared-engineering/1"}
     )
     if model.get("schema") not in expected_schema:
         raise ValueError("BOM requires a controlled SI property/frame schema")
-    frame = "assembly" if physical_key == "parts" else "instance-local; placement maps to assembly"
+    frame = (
+        "assembly"
+        if physical_key == "parts"
+        else "instance-local; placement maps to assembly"
+    )
     placement = part.get("placement" if physical_key == "parts" else "transform")
     if placement is not None:
         try:
@@ -88,18 +97,31 @@ def _frame(model, physical_key, part, row, properties):
                 raise ValueError("placement cannot scale or shear the property axes")
         except (ValueError, TypeError, KeyError) as error:
             raise ValueError("BOM requires a proper SI placement transform") from error
-    elif properties["cg_m"] is not None or properties["inertia_tensor_kg_m2"] is not None:
-        raise ValueError("BOM known CG/inertia requires an explicit coordinate transform")
+    elif (
+        properties["cg_m"] is not None or properties["inertia_tensor_kg_m2"] is not None
+    ):
+        raise ValueError(
+            "BOM known CG/inertia requires an explicit coordinate transform"
+        )
     else:
-        frame = "instance-local; assembly placement unknown" if physical_key == "instances" else frame
+        frame = (
+            "instance-local; assembly placement unknown"
+            if physical_key == "instances"
+            else frame
+        )
     geometry = part.get("manufacturing", part.get("geometry"))
     if isinstance(geometry, dict) and geometry.get("units", "m") != "m":
         raise ValueError("BOM geometry must use metres")
-    for key, expected in (("property_units", PROPERTY_UNITS),
-                          ("property_frame", frame), ("inertia_reference", INERTIA_REFERENCE)):
+    for key, expected in (
+        ("property_units", PROPERTY_UNITS),
+        ("property_frame", frame),
+        ("inertia_reference", INERTIA_REFERENCE),
+    ):
         for declared in (row, properties):
             if key in declared and declared[key] != expected:
-                raise ValueError("BOM property units/frame correspondence differs: " + key)
+                raise ValueError(
+                    "BOM property units/frame correspondence differs: " + key
+                )
     if "placement" in row and row["placement"] != placement:
         raise ValueError("BOM property units/frame correspondence differs: placement")
     return frame, placement
@@ -107,15 +129,25 @@ def _frame(model, physical_key, part, row, properties):
 
 def review_bill(candidate, *, adapter):
     """Retain explicitly failed compilations without inventing an empty inventory."""
-    if (not candidate.get("definition") and candidate.get("error")
-            and candidate.get("definition_sha256") is None
-            and candidate.get("evidence_state") in {"failed", "outside-domain"}):
-        return dict(candidate=_identifier(candidate.get("id"), "candidate ID"),
-                    state="not-compiled", basis=candidate["error"], parts=[],
-                    physical_instance_count=None, defined_mass_kg=None,
-                    complete_installed_mass_kg=None, incomplete_installed_inventory=True,
-                    complete_installed_kit=False, unresolved_allocations=None,
-                    production_released=False)
+    if (
+        not candidate.get("definition")
+        and candidate.get("error")
+        and candidate.get("definition_sha256") is None
+        and candidate.get("evidence_state") in {"failed", "outside-domain"}
+    ):
+        return dict(
+            candidate=_identifier(candidate.get("id"), "candidate ID"),
+            state="not-compiled",
+            basis=candidate["error"],
+            parts=[],
+            physical_instance_count=None,
+            defined_mass_kg=None,
+            complete_installed_mass_kg=None,
+            incomplete_installed_inventory=True,
+            complete_installed_kit=False,
+            unresolved_allocations=None,
+            production_released=False,
+        )
     return candidate_bill(candidate, adapter=adapter)
 
 

@@ -6080,6 +6080,7 @@ Indexed Markdown files: **6229**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
 | [`docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md`](../docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md) | Mechanical and civil design and factory buildout plan |
 | [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |

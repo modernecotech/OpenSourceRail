@@ -145,9 +145,21 @@ def problems():
                 thickness_m=choice("m", 0.010, 0.012, 0.016),
                 topology=choice("1", "solid-web", "lightened-web"),
             ),
-            loads=[dict(id="fixed-end-face-load", quantity=dict(value=500, unit="N", state="synthetic", basis="declared research fixture; ideal root clamp, not a bolt/contact qualification"))],
+            loads=[
+                dict(
+                    id="fixed-end-face-load",
+                    quantity=dict(
+                        value=500,
+                        unit="N",
+                        state="synthetic",
+                        basis="declared research fixture; ideal root clamp, not a bolt/contact qualification",
+                    ),
+                )
+            ],
             checks=GENERATED_PART_CHECKS,
-            domain=["Native boolean solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 1 mm loaded-face mean vertical displacement limit declared before search; nominal unqualified steel; bolt/contact, fatigue, buckling and physical acceptance remain open"],
+            domain=[
+                "Native boolean solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 1 mm loaded-face mean vertical displacement limit declared before search; nominal unqualified steel; bolt/contact, fatigue, buckling and physical acceptance remain open"
+            ],
         ),
         charter(
             "civil-steel-beam",
@@ -157,9 +169,21 @@ def problems():
                 wall_m=choice("m", 0.004, 0.006, 0.008),
                 topology=choice("1", "rhs", "i-section"),
             ),
-            loads=[dict(id="fixed-end-face-load", quantity=dict(value=10000, unit="N", state="synthetic", basis="declared research fixture; ideal root clamp, not a bridge or site qualification"))],
+            loads=[
+                dict(
+                    id="fixed-end-face-load",
+                    quantity=dict(
+                        value=10000,
+                        unit="N",
+                        state="synthetic",
+                        basis="declared research fixture; ideal root clamp, not a bridge or site qualification",
+                    ),
+                )
+            ],
             checks=GENERATED_PART_CHECKS,
-            domain=["Native prismatic steel solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 8 mm loaded-face mean vertical displacement limit declared before search; no local buckling, plasticity, joint, foundation or physical qualification"],
+            domain=[
+                "Native prismatic steel solid, two Gmsh quadratic tetrahedral meshes and CalculiX small-strain elasticity; 8 mm loaded-face mean vertical displacement limit declared before search; no local buckling, plasticity, joint, foundation or physical qualification"
+            ],
         ),
         charter(
             "clipped-side-bay",
@@ -264,6 +288,9 @@ def problems():
             dict(city=choice("1", "samawah", "mosul")),
         ),
     ]
+    from .factory import charters
+
+    rows.extend(charters())
     return {r["id"]: r for r in rows}
 
 
@@ -309,6 +336,8 @@ def dependencies(adapter):
     }
     if adapter in domain:
         shared.add(domain[adapter])
+    if adapter in {"factory-fixture", "factory-precast"}:
+        shared.update({"factory", "factory_acceptance", "generated_parts_native"})
     if adapter == "panel":
         shared.add("panel_confirmation")
     if adapter in {"mechanical-cleat", "civil-steel-beam"}:
@@ -331,6 +360,10 @@ def dependencies(adapter):
     paths.update((ROOT / "design/component-catalogue/src/osr_mech").rglob("*.py"))
     paths.update((ROOT / "design/component-catalogue/schemas").glob("*.json"))
     paths.update((ROOT / "lib/templates").glob("rolling-stock*.toml"))
+    if adapter in {"factory-fixture", "factory-precast"}:
+        from engineering.factory_examples.provenance import source_hashes
+
+        paths.update(ROOT / name for name in source_hashes())
     if adapter in {
         "panel",
         "roof",

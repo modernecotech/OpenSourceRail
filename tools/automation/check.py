@@ -29,6 +29,15 @@ NATIVE_ACCEPTANCE_SOURCES = {
     "tools/automation/osr-python",
     "tools/automation/check.py",
 }
+FACTORY_ACCEPTANCE_SOURCES = {
+    "engineering/analysis/tests/test_design_factory.py",
+    "engineering/analysis/tests/test_factory_examples.py",
+    "engineering/analysis/tests/test_factory_development.py",
+    "engineering/analysis/tests/test_factory_connections.py",
+    "engineering/analysis/tests/test_factory_reproduction.py",
+    "tools/automation/tests/test_factory_native_validation.py",
+    *NATIVE_ACCEPTANCE_SOURCES,
+}
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument("--scope", choices=[*SCOPES, "impact"], default="source")
 p.add_argument("--changed", nargs="*", default=[])
@@ -48,6 +57,12 @@ if a.scope == "impact":
         selected
     ) or NATIVE_ACCEPTANCE_SOURCES.intersection(a.changed):
         profiles.append("native-design")
+    if (
+        {"problem:factory-fixture", "problem:factory-precast"}.intersection(selected)
+        or FACTORY_ACCEPTANCE_SOURCES.intersection(a.changed)
+        or any(name.startswith("engineering/factory_examples/") for name in a.changed)
+    ):
+        profiles.append("factory-native")
     if any(
         name.endswith((".js", ".mjs", ".css", ".html"))
         or name.startswith(("docs/workbench/", "docs/design-engine/"))

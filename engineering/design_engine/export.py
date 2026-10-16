@@ -210,7 +210,9 @@ def export(store, identifier, destination, *, native=False):
 
         for candidate in report["candidates"]:
             if candidate.get("definition", {}).get("contract"):
-                write_packet(candidate, destination / "panel-assemblies" / candidate["id"])
+                write_packet(
+                    candidate, destination / "panel-assemblies" / candidate["id"]
+                )
     if native:
         from .native_cad import generate
 
@@ -229,12 +231,58 @@ def export(store, identifier, destination, *, native=False):
                 continue
             contract = candidate.get("definition", {}).get("contract")
             generated = candidate.get("definition", {}).get("native_confirmation")
-            if adapter in {"mechanical-cleat", "civil-steel-beam"} and generated:
-                native_results.append(dict(
-                    candidate=candidate["id"], state="retained-native-execution",
-                    basis="Original CAD, meshes and solver results retained in executed-attempt; no export-time solve",
-                    native_correspondence=generated,
-                    drawing_issued=False, physical_release=False))
+            if (
+                adapter in {"factory-fixture", "factory-precast"}
+                and not generated
+                and candidate.get("definition", {}).get("native_model")
+            ):
+                from copy import deepcopy
+                from .factory import confirm
+
+                export_candidate = deepcopy(candidate)
+                confirm(
+                    export_candidate,
+                    lambda count, phase: None,
+                    destination / "cad" / candidate["id"],
+                    lambda: 600,
+                )
+                native_results.append(
+                    dict(
+                        candidate=candidate["id"],
+                        state="numerically-verified",
+                        basis="Export-time geometry only; original job checks are retained unchanged",
+                        native_correspondence=export_candidate["definition"][
+                            "native_confirmation"
+                        ],
+                        drawing_issued=False,
+                        physical_release=False,
+                    )
+                )
+                continue
+            if (
+                adapter
+                in {
+                    "mechanical-cleat",
+                    "civil-steel-beam",
+                    "factory-fixture",
+                    "factory-precast",
+                }
+                and generated
+            ):
+                native_results.append(
+                    dict(
+                        candidate=candidate["id"],
+                        state="retained-native-execution",
+                        basis=(
+                            "Original factory CAD and round-trip receipts retained in executed-attempt; no export-time solve"
+                            if adapter in {"factory-fixture", "factory-precast"}
+                            else "Original CAD, meshes and solver results retained in executed-attempt; no export-time solve"
+                        ),
+                        native_correspondence=generated,
+                        drawing_issued=False,
+                        physical_release=False,
+                    )
+                )
                 continue
             if not contract:
                 native_results.append(

@@ -20,6 +20,8 @@ from . import development
 from . import connections
 from .figures import development_svg, connections_svg
 from .native import digest, generate
+from . import reproduction
+from .provenance import source_hashes
 
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = Path(__file__).resolve().parent
@@ -36,21 +38,6 @@ def csv_text(rows):
     writer.writeheader()
     writer.writerows(rows)
     return out.getvalue()
-
-
-def source_hashes():
-    paths = [
-        *PACKAGE.glob("*.py"),
-        *PACKAGE.glob("data/*.json"),
-        ROOT / "lib/templates/baghdad-factory.toml",
-        ROOT / "design/component-catalogue/src/osr_mech/civil/decked_pi.py",
-        ROOT / "engineering/industrialisation/assembly.py",
-        ROOT / "engineering/industrialisation/common.py",
-        ROOT / "engineering/design_engine/civil_qualification.py",
-        ROOT / "engineering/design_engine/contracts.py",
-        ROOT / "design/component-catalogue/src/osr_mech/freecad_assembly_review.py",
-    ]
-    return {str(p.relative_to(ROOT)): digest(p) for p in sorted(paths)}
 
 
 def plan_svg(layout, scene):
@@ -920,17 +907,25 @@ def main():
     p.add_argument("--output", type=Path, default=DEFAULT)
     p.add_argument("--native", action="store_true")
     p.add_argument("--check", action="store_true")
+    p.add_argument(
+        "--seal-retained",
+        action="store_true",
+        help="re-verify original evidence without rewriting it",
+    )
+    p.add_argument("--verification-report", type=Path)
     args = p.parse_args()
-    if args.check and args.native:
-        p.error("--native and --check are separate operations")
+    if sum((args.check, args.native, args.seal_retained)) > 1:
+        p.error("--native, --check and --seal-retained are separate operations")
+    if (
+        not (args.check or args.seal_retained)
+        and (args.output / "reproduction.json").exists()
+    ):
+        p.error(
+            "retained evidence is sealed; generate changed examples with --output <fresh-directory>"
+        )
     out, native_models = make_outputs()
-    if args.check:
-        errors = [
-            name
-            for name, text in out.items()
-            if not (args.output / name).is_file()
-            or (args.output / name).read_text() != text
-        ]
+    if args.check or args.seal_retained:
+        errors = []
         for key in native_models:
             folder = args.output / key
             receipt = folder / "native-cad.json"
@@ -954,8 +949,22 @@ def main():
                     errors.append(key + ": native file mismatch " + name)
         if errors:
             raise SystemExit("Factory example drift: " + ", ".join(errors))
+        try:
+            if args.seal_retained:
+                record = reproduction.seal(
+                    args.output, out, native_models, source_hashes()
+                )
+                (args.output / "reproduction.json").write_text(json_text(record))
+            result = reproduction.verify(
+                args.output, out, native_models, source_hashes()
+            )
+        except (ValueError, OSError) as error:
+            raise SystemExit(str(error)) from error
+        if args.verification_report:
+            args.verification_report.parent.mkdir(parents=True, exist_ok=True)
+            args.verification_report.write_text(json_text(result))
         print(
-            f"Factory text/source/native CAD correspondence verified ({len(native_models)} models)."
+            f"Factory retained integrity, numerical reproduction and native correspondence verified ({len(native_models)} models)."
         )
         return
     for name, text in out.items():
@@ -971,6 +980,8 @@ def main():
                 f"Native {key}: {receipt['part_count']} parts, FCStd and STEP reopened",
                 flush=True,
             )
+        record = reproduction.seal(args.output, out, native_models, source_hashes())
+        (args.output / "reproduction.json").write_text(json_text(record))
     print(f"Generated {len(out)} text artifacts in {args.output}")
 
 
