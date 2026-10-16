@@ -3,6 +3,8 @@
 import importlib.util
 from copy import deepcopy
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -60,3 +62,26 @@ def test_acceptance_budget_does_not_change_the_fixed_function(adapter):
     changed["budget"]["evaluations"] = 1
     with pytest.raises(ValueError, match="function or acceptance budget"):
         fa.validate_problem(adapter, changed)
+
+
+def test_artifact_collector_imports_from_the_isolated_cli_path(tmp_path):
+    (tmp_path / "factory-native").mkdir()
+    script = (
+        "import sys\nfrom pathlib import Path\n"
+        + "sys.path.insert(0,"
+        + repr(str(ROOT / "tools/automation"))
+        + ")\n"
+        + "from local_validation import artifact_hashes\n"
+        + "try:\n artifact_hashes('factory-native',Path("
+        + repr(str(tmp_path))
+        + "))\n"
+        + "except FileNotFoundError:\n print('acceptance collector import succeeded; evidence correctly missing')\n"
+    )
+    result = subprocess.run(
+        [sys.executable, "-I", "-c", script],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "collector import succeeded" in result.stdout

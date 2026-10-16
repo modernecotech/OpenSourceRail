@@ -15,10 +15,14 @@ import subprocess
 import time
 import shlex
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+# The CLI starts with tools/automation on sys.path; acceptance collectors also
+# need the controlled repository packages, including catalogue source modules.
+sys.path[:0] = [str(ROOT), str(ROOT / "design/component-catalogue/src")]
 RELEASE_PROFILES = {"ci", "kani", "integrated-stack", "example-city"}
 NATIVE_DESIGN_REQUIRED_TESTS = (
     "test_actual_boolean_cad_two_meshes_and_independent_cantilever",
