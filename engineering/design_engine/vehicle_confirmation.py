@@ -266,6 +266,24 @@ def independent_refinement_plan(
                 expected_steps=math.ceil(whole["duration_s"] / refined["dt"]),
             )
         )
+    flexible = whole["configuration"].get("flexible_vehicle")
+    if flexible:
+        count = flexible.get("mode_count")
+        if type(count) is not int or count not in (2, 4):
+            raise ValueError(
+                "baseline modal count must permit bounded independent enrichment"
+            )
+        enriched = deepcopy(whole["configuration"])
+        enriched["flexible_vehicle"]["mode_count"] = count + 2
+        cases.append(
+            dict(
+                id="modal",
+                varied_field="flexible_vehicle.mode_count",
+                parameters=deepcopy(parameters),
+                configuration=enriched,
+                expected_steps=whole["steps"],
+            )
+        )
     return dict(
         schema="osr-independent-passage-refinement/1",
         passage=whole,
@@ -344,8 +362,13 @@ def incremental_demands(history):
     )
 
 
-def compare_independent_refinements(model, plan, baseline, results):
-    """Require exact one-axis inputs and full coverage before comparing metrics."""
+def compare_independent_refinements(
+    model, plan, baseline, results, *, artifact_root=None
+):
+    """Require retained provenance, exact one-axis inputs and full coverage."""
+    from pathlib import Path
+    from .passage import verify_case
+
     if (
         fingerprint(model) != plan["model_sha256"]
         or fingerprint(plan["configuration"]) != plan["configuration_sha256"]
@@ -371,6 +394,27 @@ def compare_independent_refinements(model, plan, baseline, results):
                 "independent refinement plan/limits changed after declaration"
             )
     whole = fresh["passage"]
+
+    def verified(name, result, config, parameters):
+        try:
+            if artifact_root is None:
+                raise ValueError("retained campaign artifact root required")
+            return (
+                verify_case(
+                    Path(artifact_root) / name,
+                    result,
+                    model=model,
+                    configuration=config,
+                    parameters=parameters,
+                ),
+                [],
+            )
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            return {}, [str(error)]
+
+    retained_baseline, baseline_issues = verified(
+        "baseline", baseline, configuration, baseline_parameters
+    )
     baseline_complete = (
         complete_coverage(model, configuration, whole, baseline)
         and baseline.get("requested_parameters") == baseline_parameters
@@ -383,24 +427,42 @@ def compare_independent_refinements(model, plan, baseline, results):
         changed = [
             k for k in baseline_parameters if expected[k] != baseline_parameters[k]
         ]
+        case_configuration = case.get("configuration", configuration)
+        if case["id"] == "modal":
+            if (
+                changed
+                or case_configuration["flexible_vehicle"]["mode_count"]
+                != configuration["flexible_vehicle"]["mode_count"] + 2
+            ):
+                raise ValueError(
+                    "independent modal refinement must retain other inputs"
+                )
+            changed = ["flexible_vehicle.mode_count"]
         if changed != [case["varied_field"]]:
             raise ValueError(
                 "independent refinement may change exactly one discretisation axis"
             )
         result = results.get(case["id"], {})
+        retained, issues = verified(case["id"], result, case_configuration, expected)
+        issues = [*baseline_issues, *issues]
+        if not issues:
+            if retained["source_sha256"] != retained_baseline["source_sha256"]:
+                issues.append("physics-source identity differs from baseline")
+            if retained["solver_toolchain"] != retained_baseline["solver_toolchain"]:
+                issues.append("solver toolchain identity differs from baseline")
+        provenance = not issues
         coverage = {**whole, "steps": case["expected_steps"]}
         complete = (
             baseline_complete
-            and complete_coverage(model, configuration, coverage, result)
+            and complete_coverage(model, case_configuration, coverage, result)
             and result.get("requested_parameters") == expected
             and result.get("time_step_s") == expected["dt"]
             and result.get("duration_s") == expected["duration_s"]
-            and result.get("source_unchanged") is True
         )
         differences, missing = {}, []
-        if complete:
+        if complete and provenance:
             for metric in plan["monitored_metrics"]:
-                a, b = baseline.get(metric), result.get(metric)
+                a, b = retained_baseline.get(metric), retained.get(metric)
                 if a is None or b is None:
                     missing.append(metric)
                     continue
@@ -410,6 +472,7 @@ def compare_independent_refinements(model, plan, baseline, results):
                 )
         passed = (
             complete
+            and provenance
             and not missing
             and all(
                 v is not None and v <= plan["provisional_relative_limit"]
@@ -422,12 +485,18 @@ def compare_independent_refinements(model, plan, baseline, results):
                 varied_field=case["varied_field"],
                 parameters=expected,
                 full_passage_coverage=bool(complete),
+                provenance_verified=provenance,
+                provenance_issues=issues,
                 relative_differences=differences,
                 missing_metrics=missing,
                 state=(
                     "passed"
                     if passed
-                    else ("failed" if complete and not missing else "unknown")
+                    else (
+                        "failed"
+                        if complete and provenance and not missing
+                        else "unknown"
+                    )
                 ),
             )
         )
@@ -440,6 +509,8 @@ def compare_independent_refinements(model, plan, baseline, results):
             else ("failed" if any(r["state"] == "failed" for r in rows) else "unknown")
         ),
         provisional_relative_limit=plan["provisional_relative_limit"],
+        baseline_provenance_verified=not baseline_issues,
+        baseline_provenance_issues=baseline_issues,
         basis=plan["limit_basis"],
         complete_operating_envelope_converged=False,
         physical_validation=False,

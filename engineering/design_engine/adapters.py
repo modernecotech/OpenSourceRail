@@ -739,148 +739,45 @@ def refine(charter, result, charge, folder, *, remaining_seconds=None):
             "original complete native campaign and independent benchmark, mesh/time and ground cases retained",
         )
     elif kind in {"vehicle", "vehicle-assembly"}:
-        from engineering.civil_exploration.spatial_demo import scenarios
-        from .passage import case
-        from .vehicle_confirmation import (
-            assembly_diagnostics,
-            passage_plan,
-            complete_coverage,
-        )
+        from .vehicle_campaign import run
 
-        model = data["model"]
-        results = {}
-        charge(2, "actual-modal-and-equipment-mass-reconciliation")
-        diagnostics = [assembly_diagnostics(data, mode_count=count) for count in (2, 4)]
-        data["assembly_diagnostics"] = diagnostics
+        campaigns = run(data, folder, charge, remaining_seconds=remaining_seconds)
+        diagnostics = data["assembly_diagnostics"]
         set_check(
             result,
             "mass_inertia",
-            (
-                "passed"
-                if all(
-                    d["mass_relative_error"] < 1e-12
-                    and d["reaction_relative_error"] < 1e-12
-                    and d["modal_preload_residual_n"] < 1e-6
-                    and d["minimum_static_contact_n"] > 0
-                    for d in diagnostics
-                )
-                else "failed"
-            ),
-            "actual separate battery mounts and mass-normalized research body modes conserve physical mass and static reactions; shell correlation open",
+            "passed" if all(
+                d["mass_relative_error"] < 1e-12
+                and d["reaction_relative_error"] < 1e-12
+                and d["modal_preload_residual_n"] < 1e-6
+                and d["minimum_static_contact_n"] > 0
+                for d in diagnostics
+            ) else "failed",
+            "actual separate battery mounts and mass-normalized research body modes conserve mass and static reactions; shell correlation open",
         )
-        configurations = scenarios(model)
-        pending_cases = len(configurations) * 2
-        for name, config in configurations.items():
-            for index, (level, dt, deck_mesh, rail_step) in enumerate(
-                [
-                    ("coarse", 0.002, 4, 1.0),
-                    ("refined", 0.001, 8, 0.5),
-                ]
-            ):
-                charge(1, "vehicle-" + name + "-" + level)
-                plan = passage_plan(model, config, dt=dt)
-                planned = plan["configuration"]
-                planned["equipment_mounts"] = diagnostics[index]["equipment_mount_laws"]
-                planned["flexible_vehicle"] = diagnostics[index][
-                    "flexible_vehicle_parameters"
-                ]
-                parameters = dict(
-                    dt=dt,
-                    duration_s=plan["duration_s"],
-                    deck_mesh=deck_mesh,
-                    rail_step=rail_step,
-                )
-                if not plan["within_adapter_domain"]:
-                    results[name + "/" + level] = dict(
-                        state="outside-domain",
-                        basis="the complete assembly cannot clear the approach within the native motion/time/step domain",
-                        requested_parameters=parameters,
-                    )
-                else:
-                    # Divide the remaining common campaign budget fairly among
-                    # outstanding cases. Short diagnostic budgets stay short;
-                    # a longer explicit job budget can complete native passages.
-                    timeout = (
-                        45
-                        if remaining_seconds is None
-                        else max(0.001, (remaining_seconds() - 2.0) / pending_cases)
-                    )
-                    results[name + "/" + level] = case(
-                        model,
-                        planned,
-                        parameters,
-                        folder / (name + "-" + level),
-                        timeout=timeout,
-                    )
-                    results[name + "/" + level]["allocated_wall_seconds"] = timeout
-                pending_cases -= 1
-                results[name + "/" + level]["passage_plan"] = plan
-                native = results[name + "/" + level]
-                covered = complete_coverage(model, planned, plan, native)
-                native["full_passage_coverage"] = covered
-                if "joint_resultant_cycles" in native:
-                    native["joint_resultant_cycles"]["full_passage_history"] = covered
-                (folder / "passage-progress.json").write_text(
-                    json.dumps(
-                        dict(cases=results, physical_release=False), allow_nan=False
-                    )
-                )
-        data["coupled_cases"] = results
-        data["paired_refinement"] = {}
-        for name in scenarios(model):
-            coarse, refined = results[name + "/coarse"], results[name + "/refined"]
-            if all(
-                r.get("state") == "completed" and r.get("within_adapter_domain") is True
-                for r in (coarse, refined)
-            ):
-                differences = {
-                    metric: abs(coarse[metric] - refined[metric])
-                    / max(abs(refined[metric]), 1e-12)
-                    for metric in (
-                        "peak_structure_displacement_m",
-                        "peak_total_carbody_acceleration_m_s2",
-                        "maximum_wheel_contact_n",
-                    )
-                }
-                data["paired_refinement"][name] = dict(
-                    state=(
-                        "passed"
-                        if all(d <= 0.05 for d in differences.values())
-                        else "failed"
-                    ),
-                    relative_differences=differences,
-                    provisional_relative_limit=0.05,
-                    basis="jointly refined time/deck/rail/modal levels; separate sensitivity remains required",
-                )
-            else:
-                data["paired_refinement"][name] = dict(
-                    state="not-run",
-                    basis="both complete, within-domain native histories required",
-                )
         failed = any(
-            r.get("state") in {"outside-domain", "failed", "budget-exceeded"}
-            or r.get("within_adapter_domain") is not True
-            or r.get("full_passage_coverage") is not True
-            for r in results.values()
+            campaign["state"] == "outside-domain" or any(
+                row.get("state") in {"outside-domain", "failed", "budget-exceeded", "stale"}
+                or row.get("full_passage_coverage") is not True
+                for row in campaign["cases"].values()
+            ) for campaign in campaigns.values()
         )
         set_check(
-            result,
-            "service",
-            "failed" if failed else "unknown",
-            "whole assembly enters before the approach and clears the exit under its prescribed motion; actual battery mount/modal mass retained; synthetic laws and physical passage unqualified",
+            result, "service", "failed" if failed else "unknown",
+            "whole-assembly passages under prescribed motion; synthetic joint/modal laws and physical service qualification remain open",
+        )
+        comparisons = [campaign["comparison"] for campaign in campaigns.values()]
+        state = (
+            "passed" if comparisons and all(c and c["state"] == "passed" for c in comparisons)
+            else "failed" if any(campaign["state"] in {"outside-domain", "failed"} for campaign in campaigns.values())
+            else "unknown"
         )
         set_check(
-            result,
-            "refinement",
-            (
-                "failed"
-                if failed
-                or any(
-                    r["state"] == "failed" for r in data["paired_refinement"].values()
-                )
-                else "passed"
-            ),
-            "paired time/deck/rail/modal refinement only; complete within-domain histories required; no shell or physical correlation claim",
+            result, "refinement", state,
+            "independent time/deck/rail/modal full-passage comparisons require retained manifests, unchanged and identical physics sources/toolchains, complete coverage and all declared metrics; provisional numerical screen only",
+            planned=sum(c["planned"] for c in campaigns.values()),
+            executed=sum(c["executed"] for c in campaigns.values()),
+            validated=sum(c["validated"] for c in campaigns.values()),
         )
     elif kind == "battery":
         from engineering.civil_exploration.automated_battery import duty_cycle

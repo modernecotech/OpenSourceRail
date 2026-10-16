@@ -187,6 +187,19 @@ def test_native_short_history_retains_every_sample_and_explicit_incomplete_scope
     # The subprocess only knows its requested duration. Full-passage planning
     # is a separate adapter check; this tiny native kernel test claims no trip.
     assert not result["physical_validation"]
+    from engineering.design_engine.passage import verify_case
+
+    assert result["source_unchanged"] and result["toolchain_unchanged"]
+    assert (
+        verify_case(
+            tmp_path / "short",
+            result,
+            model=assembly["model"],
+            configuration=assembly["spatial_configuration"],
+            parameters=dict(dt=0.005, duration_s=0.01, deck_mesh=2, rail_step=2.0),
+        )["state"]
+        == "completed"
+    )
 
 
 def test_independent_refinement_changes_one_axis_and_preserves_whole_passage():
@@ -238,52 +251,228 @@ def test_incremental_demands_subtract_corresponding_actual_resultants():
         incremental_demands(history)
 
 
-def test_refinement_comparison_requires_complete_independent_native_cases():
-    from engineering.design_engine.vehicle_confirmation import (
-        independent_refinement_plan,
-        compare_independent_refinements,
-        REFINEMENT_METRICS,
-    )
+def retained_fixture_case(folder, model, configuration, parameters, **overrides):
+    """Labelled protocol fixture; no native physics is executed or claimed."""
+    from engineering.design_engine.contracts import canonical
+    from engineering.design_engine.passage import seal_case
+    from engineering.design_engine.publication import digest
+    from engineering.design_engine.vehicle_confirmation import REFINEMENT_METRICS
     from osr_mech.engineering_definition import fingerprint
 
-    model = simple_model()
-    plan = independent_refinement_plan(model, motion())
-
-    def completed(parameters):
-        steps = round(parameters["duration_s"] / parameters["dt"])
-        return dict(
-            state="completed",
-            within_adapter_domain=True,
-            configuration_sha256=fingerprint(plan["configuration"]),
-            hardware_definition_sha256=fingerprint(model),
-            steps=steps,
-            time_step_s=parameters["dt"],
-            duration_s=parameters["duration_s"],
-            numerical_progress=dict(
-                converged_steps=steps, last_converged_time_s=parameters["duration_s"]
-            ),
-            requested_parameters=deepcopy(parameters),
-            source_unchanged=True,
-            **{key: 1.0 for key in REFINEMENT_METRICS}
-        )
-
-    baseline = completed(plan["baseline_parameters"])
-    results = {case["id"]: completed(case["parameters"]) for case in plan["cases"]}
-    assert (
-        compare_independent_refinements(model, plan, baseline, results)["state"]
-        == "passed"
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / "input.json").write_bytes(
+        canonical(dict(model=model, configuration=configuration, parameters=parameters))
+        + b"\n"
     )
-    results["time"]["state"] = "budget-exceeded"
-    report = compare_independent_refinements(model, plan, baseline, results)
+    (folder / "solver.log").write_text(
+        "Labelled comparison fixture; not a solver execution\n"
+    )
+    history = folder / "native-history.json.gz"
+    with gzip.open(history, "wt") as stream:
+        json.dump([dict(fixture=True)], stream)
+    steps = round(parameters["duration_s"] / parameters["dt"])
+    result = dict(
+        state="completed",
+        within_adapter_domain=True,
+        configuration_sha256=fingerprint(configuration),
+        hardware_definition_sha256=fingerprint(model),
+        steps=steps,
+        time_step_s=parameters["dt"],
+        duration_s=parameters["duration_s"],
+        numerical_progress=dict(
+            converged_steps=steps, last_converged_time_s=parameters["duration_s"]
+        ),
+        requested_parameters=deepcopy(parameters),
+        source_unchanged=True,
+        source_sha256={"labelled-fixture-not-native.py": "f" * 64},
+        solver_toolchain=dict(
+            python="fixture",
+            numpy="fixture",
+            scipy="fixture",
+            executable_sha256="e" * 64,
+        ),
+        toolchain_unchanged=True,
+        input_sha256=digest(folder / "input.json"),
+        history_artifact=dict(path=history.name, sha256=digest(history), samples=1),
+        physical_validation=False,
+        **{key: 1.0 for key in REFINEMENT_METRICS},
+    )
+    result.update(overrides)
+    (folder / "result.json").write_bytes(canonical(result) + b"\n")
+    (folder / "case-manifest.json").unlink(missing_ok=True)
+    return seal_case(folder)
+
+
+@pytest.fixture
+def retained_refinement(tmp_path):
+    from engineering.design_engine.vehicle_confirmation import (
+        independent_refinement_plan,
+    )
+
+    model = simple_model()
+    config = motion()
+    config["flexible_vehicle"] = dict(mode_count=2, ei_nm2=3e8, damping_ratio=0.02)
+    plan = independent_refinement_plan(model, config)
+    baseline = retained_fixture_case(
+        tmp_path / "baseline", model, plan["configuration"], plan["baseline_parameters"]
+    )
+    results = {
+        case["id"]: retained_fixture_case(
+            tmp_path / case["id"],
+            model,
+            case.get("configuration", plan["configuration"]),
+            case["parameters"],
+        )
+        for case in plan["cases"]
+    }
+    return model, plan, baseline, results, tmp_path
+
+
+def compare_fixture(fixture):
+    from engineering.design_engine.vehicle_confirmation import (
+        compare_independent_refinements,
+    )
+
+    model, plan, baseline, results, root = fixture
+    return compare_independent_refinements(
+        model, plan, baseline, results, artifact_root=root
+    )
+
+
+def test_refinement_comparison_requires_complete_independent_retained_cases(
+    retained_refinement,
+):
+    fixture = retained_refinement
+    model, plan, baseline, results, root = fixture
+    assert [row["id"] for row in plan["cases"]] == ["time", "deck", "rail", "modal"]
+    modal = plan["cases"][-1]
+    assert modal["parameters"] == plan["baseline_parameters"]
+    expected = deepcopy(plan["configuration"])
+    expected["flexible_vehicle"]["mode_count"] = 4
+    assert modal["configuration"] == expected
+    assert compare_fixture(fixture)["state"] == "passed"
+    assert all(row["provenance_verified"] for row in compare_fixture(fixture)["cases"])
+    # A retained timeout cannot pass even when all reported scalars match.
+    results["time"] = retained_fixture_case(
+        root / "time",
+        model,
+        plan["configuration"],
+        plan["cases"][0]["parameters"],
+        state="budget-exceeded",
+    )
+    report = compare_fixture(fixture)
     assert (
         report["state"] == "unknown" and not report["cases"][0]["full_passage_coverage"]
     )
-    results["time"] = completed(plan["cases"][0]["parameters"])
-    results["deck"]["maximum_wheel_contact_n"] = 1.2
-    assert (
-        compare_independent_refinements(model, plan, baseline, results)["state"]
-        == "failed"
+    results["time"] = retained_fixture_case(
+        root / "time", model, plan["configuration"], plan["cases"][0]["parameters"]
     )
+    results["deck"] = retained_fixture_case(
+        root / "deck",
+        model,
+        plan["configuration"],
+        plan["cases"][1]["parameters"],
+        maximum_wheel_contact_n=1.2,
+    )
+    assert compare_fixture(fixture)["state"] == "failed"
     plan["cases"][0]["parameters"]["deck_mesh"] = 8
     with pytest.raises(ValueError, match="plan/limits"):
-        compare_independent_refinements(model, plan, baseline, results)
+        compare_fixture(fixture)
+
+
+@pytest.mark.parametrize("name", ["baseline", "time", "modal"])
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "changed-source",
+        "changed-toolchain",
+        "different-source",
+        "different-toolchain",
+        "no-source",
+        "no-toolchain",
+    ],
+)
+def test_every_case_requires_unchanged_identical_provenance(
+    retained_refinement, name, mutation
+):
+    fixture = retained_refinement
+    model, plan, baseline, results, root = fixture
+    case = next((row for row in plan["cases"] if row["id"] == name), None)
+    parameters = case["parameters"] if case else plan["baseline_parameters"]
+    configuration = (
+        case.get("configuration", plan["configuration"])
+        if case
+        else plan["configuration"]
+    )
+    overrides = {
+        "changed-source": dict(source_unchanged=False),
+        "changed-toolchain": dict(toolchain_unchanged=False),
+        "different-source": dict(
+            source_sha256={"labelled-fixture-not-native.py": "a" * 64}
+        ),
+        "different-toolchain": dict(
+            solver_toolchain=dict(baseline["solver_toolchain"], scipy="another-fixture")
+        ),
+        "no-source": dict(source_sha256={}),
+        "no-toolchain": dict(solver_toolchain={}),
+    }[mutation]
+    altered = retained_fixture_case(
+        root / name, model, configuration, parameters, **overrides
+    )
+    if name == "baseline":
+        baseline.clear()
+        baseline.update(altered)
+    else:
+        results[name] = altered
+    report = compare_fixture(fixture)
+    assert report["state"] == "unknown"
+    assert any(row["provenance_issues"] for row in report["cases"])
+    if name == "baseline":
+        assert not any(row["state"] == "passed" for row in report["cases"])
+
+
+@pytest.mark.parametrize(
+    "artifact",
+    [
+        "input.json",
+        "result.json",
+        "case-manifest.json",
+        "native-history.json.gz",
+        "solver.log",
+    ],
+)
+@pytest.mark.parametrize("case_name", ["baseline", "rail"])
+def test_comparison_rejects_changed_retained_artifacts(
+    retained_refinement, artifact, case_name
+):
+    root = retained_refinement[-1]
+    path = root / case_name / artifact
+    path.write_bytes(path.read_bytes() + b"changed")
+    report = compare_fixture(retained_refinement)
+    assert report["state"] == "unknown"
+    assert any(row["provenance_issues"] for row in report["cases"])
+
+
+def test_in_memory_metrics_and_unretained_results_cannot_qualify(retained_refinement):
+    from engineering.design_engine.vehicle_confirmation import (
+        compare_independent_refinements,
+    )
+
+    model, plan, baseline, results, root = retained_refinement
+    results["deck"]["maximum_wheel_contact_n"] = 1.001
+    report = compare_fixture(retained_refinement)
+    assert report["state"] == "unknown"
+    assert "differs from retained" in " ".join(report["cases"][1]["provenance_issues"])
+    assert (
+        compare_independent_refinements(model, plan, baseline, results)["state"]
+        == "unknown"
+    )
+
+
+def test_missing_and_extra_artifacts_invalidate_the_case_closure(retained_refinement):
+    root = retained_refinement[-1]
+    (root / "baseline/extra.txt").write_text("unsealed")
+    assert compare_fixture(retained_refinement)["state"] == "unknown"
+    (root / "baseline/extra.txt").unlink()
+    (root / "rail/solver.log").unlink()
+    assert compare_fixture(retained_refinement)["state"] == "unknown"

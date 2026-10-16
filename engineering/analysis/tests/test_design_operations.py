@@ -125,11 +125,14 @@ def test_native_passage_uses_the_remaining_campaign_budget_and_retains_failures(
         remaining_seconds=lambda: 0.1,
     )
     cases = candidate["definition"]["coupled_cases"]
-    assert len(cases) == 8
+    assert len(cases) == 20
     executed = [row for row in cases.values() if "allocated_wall_seconds" in row]
-    assert executed
-    assert all(row["allocated_wall_seconds"] == 0.001 for row in executed)
-    assert all(row["state"] == "budget-exceeded" for row in executed)
-    assert all(row["full_passage_coverage"] is False for row in executed)
+    assert not executed
+    assert all(row["state"] == "not-run" for row in cases.values())
     assert candidate["checks"]["service"]["state"] == "failed"
-    assert len(list(tmp_path.glob("*/input.json"))) == len(executed)
+    assert len(list(tmp_path.glob("*/*/input.json"))) == len(executed)
+    assert len(list(tmp_path.glob("*/refinement-plan.json"))) == 4
+    assert len(list(tmp_path.glob("*/*/case-manifest.json"))) == len(executed)
+    assert candidate["checks"]["refinement"]["state"] == "unknown"
+    assert candidate["checks"]["refinement"]["executed"] == 0
+    assert candidate["checks"]["refinement"]["validated"] == 0

@@ -21,12 +21,21 @@ SCOPES = {
     "formal": "kani",
     "all": "ci",
 }
+NATIVE_ACCEPTANCE_SOURCES = {
+    "engineering/analysis/tests/test_generated_parts_native.py",
+    "tools/automation/tests/test_native_design_validation.py",
+    "tools/automation/tests/test_impact_selection.py",
+    "tools/automation/local_validation.py",
+    "tools/automation/osr-python",
+    "tools/automation/check.py",
+}
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument("--scope", choices=[*SCOPES, "impact"], default="source")
 p.add_argument("--changed", nargs="*", default=[])
 p.add_argument("--output", type=Path)
 p.add_argument("--plan", action="store_true")
 a = p.parse_args()
+a.changed = [Path(name).resolve().relative_to(ROOT).as_posix() for name in a.changed]
 if a.scope == "impact":
     graph = build()
     selected = affected(graph, a.changed)
@@ -35,6 +44,10 @@ if a.scope == "impact":
         profiles.append("python")
     if any(x.startswith("problem:") for x in selected):
         profiles += ["python", "evidence"]
+    if {"problem:mechanical-cleat", "problem:civil-steel-beam"}.intersection(
+        selected
+    ) or NATIVE_ACCEPTANCE_SOURCES.intersection(a.changed):
+        profiles.append("native-design")
     if any(
         name.endswith((".js", ".mjs", ".css", ".html"))
         or name.startswith(("docs/workbench/", "docs/design-engine/"))
@@ -60,6 +73,7 @@ if a.scope == "impact":
 else:
     profiles = [SCOPES[a.scope]]
     selected = []
+profiles = list(dict.fromkeys(profiles))
 if a.plan:
     print(
         json.dumps(

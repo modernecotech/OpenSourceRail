@@ -6,6 +6,7 @@ import {
 } from "./components.js";
 import { translate as t, applyLanguage, language } from "../workbench/i18n.js";
 import { guidedManufacturing } from "./engineering-inputs.js";
+import { refinementCampaigns } from "./refinement-campaign.js";
 import {
   assemblyInspector,
   comparisonReasons,
@@ -516,6 +517,7 @@ function renderComparison(report) {
       ),
     );
     section.append(comparisonReasons(candidate));
+    refinementCampaigns(section, candidate);
     const inspect = el("button", "Inspect physical parts", { type: "button" });
     inspect.onclick = () => {
       inspectCandidate(candidate);
@@ -608,6 +610,7 @@ function inspectCandidate(candidate) {
   }
   const data = candidate.definition || {};
   const parts = physicalParts(candidate);
+  refinementCampaigns(root, candidate);
   renderQualification(candidate);
   if (!parts.length) {
     root.append(

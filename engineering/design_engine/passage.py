@@ -3,6 +3,8 @@
 import json
 import gzip
 import hashlib
+import importlib.metadata
+import platform
 from pathlib import Path
 import subprocess
 import sys
@@ -10,6 +12,128 @@ import time
 
 from .contracts import canonical, load
 from .registry import ROOT
+from .publication import digest, safe
+
+
+def solver_toolchain():
+    """Identity of the interpreter and numerical packages actually executing."""
+    return dict(
+        python=sys.version,
+        implementation=platform.python_implementation(),
+        platform=platform.platform(),
+        executable_sha256=digest(Path(sys.executable).resolve()),
+        **{name: importlib.metadata.version(name) for name in ("numpy", "scipy")},
+    )
+
+
+def seal_case(folder):
+    """Bind the retained input, native result and all original case artifacts."""
+    folder = Path(folder)
+    result = load(folder / "result.json")
+    manifest = dict(
+        schema="osr-native-passage-manifest/1",
+        files={
+            p.relative_to(folder).as_posix(): digest(p)
+            for p in sorted(folder.rglob("*"))
+            if p.is_file() and p != folder / "case-manifest.json"
+        },
+        source_sha256=result.get("source_sha256"),
+        solver_toolchain=result.get("solver_toolchain"),
+        physical_validation=False,
+    )
+    target = folder / "case-manifest.json"
+    with target.open("xb") as stream:
+        stream.write(canonical(manifest) + b"\n")
+    return {
+        **result,
+        "retained_manifest": dict(path=target.name, sha256=digest(target)),
+    }
+
+
+def verify_case(folder, result, *, model, configuration, parameters):
+    """Verify retained bytes and exact inputs before using any native metrics.
+
+    These are local integrity records, not independent solver attestations.
+    In-memory annotations cannot replace a retained result or missing history.
+    """
+    from osr_mech.engineering_definition import fingerprint as native_hash
+
+    folder = Path(folder)
+    reference = result.get("retained_manifest", {})
+    manifest_path = folder / "case-manifest.json"
+    if reference.get("path") != manifest_path.name or not manifest_path.is_file():
+        raise ValueError("retained passage manifest required")
+    if digest(manifest_path) != reference.get("sha256"):
+        raise ValueError("retained passage manifest changed")
+    manifest = load(manifest_path)
+    if manifest.get("schema") != "osr-native-passage-manifest/1":
+        raise ValueError("unsupported passage manifest")
+    files = manifest.get("files", {})
+    if not {"input.json", "result.json", "solver.log"} <= files.keys():
+        raise ValueError("passage manifest omits required artifacts")
+    actual = set()
+    for path in folder.rglob("*"):
+        if path.is_symlink():
+            raise ValueError("symlinked passage artifact")
+        if path.is_file() and path != manifest_path:
+            actual.add(path.relative_to(folder).as_posix())
+    if actual != set(files):
+        raise ValueError("passage artifact closure changed")
+    for name, expected in files.items():
+        target = safe(folder, name)
+        if not target.is_file() or digest(target) != expected:
+            raise ValueError("retained passage artifact changed: " + name)
+    inputs = load(folder / "input.json")
+    if inputs != dict(model=model, configuration=configuration, parameters=parameters):
+        raise ValueError("retained passage inputs do not match comparison")
+    retained = load(folder / "result.json")
+    annotations = {
+        "retained_manifest",
+        "allocated_wall_seconds",
+        "passage_plan",
+        "full_passage_coverage",
+    }
+    if {k: v for k, v in result.items() if k not in annotations} != retained:
+        raise ValueError("comparison result differs from retained passage result")
+    if retained.get("input_sha256") != files["input.json"]:
+        raise ValueError("native passage input hash differs")
+    sources = retained.get("source_sha256")
+    tools = retained.get("solver_toolchain")
+    if (
+        not isinstance(sources, dict)
+        or not sources
+        or any(
+            not isinstance(v, str)
+            or len(v) != 64
+            or any(c not in "0123456789abcdef" for c in v)
+            for v in sources.values()
+        )
+        or not isinstance(tools, dict)
+        or not all(
+            tools.get(k) for k in ("python", "numpy", "scipy", "executable_sha256")
+        )
+        or manifest.get("source_sha256") != sources
+        or manifest.get("solver_toolchain") != tools
+    ):
+        raise ValueError("complete passage source and toolchain identities required")
+    if (
+        retained.get("source_unchanged") is not True
+        or retained.get("toolchain_unchanged") is not True
+    ):
+        raise ValueError("passage source/toolchain changed during execution")
+    if retained.get("state") == "completed":
+        if (
+            retained.get("configuration_sha256") != native_hash(configuration)
+            or retained.get("hardware_definition_sha256") != native_hash(model)
+            or retained.get("requested_parameters") != parameters
+        ):
+            raise ValueError("native passage scope differs from retained inputs")
+        history = retained.get("history_artifact", {})
+        if history.get("path") not in files or history.get("sha256") != files.get(
+            history.get("path")
+        ):
+            raise ValueError("retained native history required")
+    return retained
 
 
 def physics_snapshot():
@@ -26,6 +150,7 @@ def physics_snapshot():
         for name in (
             "engineering/design_engine/passage.py",
             "engineering/design_engine/vehicle_confirmation.py",
+            "engineering/design_engine/vehicle_campaign.py",
             "engineering/design_engine/contracts.py",
             "engineering/design_engine/publication.py",
             "engineering/industrialisation/common.py",
@@ -71,6 +196,8 @@ def case(model, configuration, parameters, folder, *, timeout=45):
         + b"\n"
     )
     output = folder / "result.json"
+    source_before = physics_snapshot()
+    tools_before = solver_toolchain()
     with (folder / "solver.log").open("wb") as log:
         try:
             proc = subprocess.run(
@@ -93,7 +220,7 @@ def case(model, configuration, parameters, folder, *, timeout=45):
                     exit_code=proc.returncode,
                 )
             else:
-                return load(output)
+                result = load(output)
         except subprocess.TimeoutExpired:
             result = dict(
                 state="budget-exceeded",
@@ -101,18 +228,39 @@ def case(model, configuration, parameters, folder, *, timeout=45):
                 wall_seconds=timeout,
             )
     result.update(requested_parameters=parameters, physical_release=False)
+    source_after = physics_snapshot()
+    tools_after = solver_toolchain()
+    unchanged = (
+        source_before == source_after
+        and result.get("source_sha256", source_before) == source_before
+        and result.get("source_unchanged", True) is True
+    )
+    tools_unchanged = (
+        tools_before == tools_after
+        and result.get("solver_toolchain", tools_before) == tools_before
+        and result.get("toolchain_unchanged", True) is True
+    )
+    result.update(
+        source_sha256=source_before,
+        source_unchanged=unchanged,
+        solver_toolchain=tools_before,
+        toolchain_unchanged=tools_unchanged,
+        input_sha256=digest(inputs),
+    )
+    if not unchanged or not tools_unchanged:
+        result.update(solver_state=result["state"], state="stale")
     progress = folder / "progress.json"
     if progress.is_file():
         result["numerical_progress"] = load(progress)
     journal = folder / "converged-joints.jsonl"
-    if journal.is_file():
+    if journal.is_file() and result.get("state") != "completed":
         from .vehicle_confirmation import joint_cycles
 
         history, warnings = retained_history(folder)
         result["joint_resultant_cycles"] = joint_cycles(history, complete=False)
         result["journal_warnings"] = warnings
     output.write_bytes(canonical(result) + b"\n")
-    return result
+    return seal_case(folder)
 
 
 def main():
@@ -126,6 +274,7 @@ def main():
 
     data = load(sys.argv[1])
     source_before = physics_snapshot()
+    tools_before = solver_toolchain()
     folder = Path(sys.argv[2]).parent
     started = time.monotonic()
     samples = 0
@@ -160,7 +309,7 @@ def main():
             data["model"],
             data["configuration"],
             sample_callback=checkpoint,
-            **data["parameters"]
+            **data["parameters"],
         )
         history = result.pop("history")
         result["joint_resultant_cycles"] = joint_cycles(history, complete=True)
@@ -206,8 +355,10 @@ def main():
     source_after = physics_snapshot()
     result["source_sha256"] = source_before
     result["source_unchanged"] = source_before == source_after
+    result["solver_toolchain"] = tools_before
+    result["toolchain_unchanged"] = tools_before == solver_toolchain()
     result["input_sha256"] = hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest()
-    if source_before != source_after:
+    if source_before != source_after or not result["toolchain_unchanged"]:
         result["solver_state"] = result["state"]
         result["state"] = "stale"
         result["basis"] = (

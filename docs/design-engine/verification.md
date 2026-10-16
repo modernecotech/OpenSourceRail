@@ -1,5 +1,28 @@
 # Local Verification Record
 
+The **16 October review follow-up** passed 490 Python regressions, all 30
+frontend unit tests and eight Chromium journeys, including the English/Arabic
+independent-refinement view. The required installed-native profile also passed
+all six mandatory acceptance cases. The Python checks include changed baseline
+and refined source/toolchain identities, corrupted manifests/input/result/history,
+in-memory metric changes, missing/extra artifacts and native impact selection.
+Labelled protocol fixtures verify software contracts without claiming physics.
+
+A fresh common-worker vehicle diagnostic declared and executed all **20 cases**
+within its 300-second campaign allowance, retained a sealed attempt and verified
+every native case manifest. All 20 native cases exhausted their allocated
+per-case budgets; **zero axis comparisons passed**. Refinement remains unknown
+and service failed. The worker now reserves finalization time instead of using
+the complete budget on native execution. [Source, case states, retained hashes
+and reproduction command](refinement-verification.json).
+
+Canonical generators regenerated the existing stale reference-parts, factory,
+RFC-readiness and Baghdad coupled-programme records, followed by the city
+publisher. Non-provenance reference/factory values, RFC readiness and all coupled
+outputs except its manifest remained unchanged. Prior bytes remain in Git history
+and the local diagnostic archive. These repairs grant no physical release, and
+the four-profile software release gate and formal obligations remain open.
+
 The **15 October native recursive-part validation** executed four complete jobs:
 six real mechanical designs and six real civil designs, each tested twice through
 CAD, two native meshes and an independent solver/analytical control. All 72 actual

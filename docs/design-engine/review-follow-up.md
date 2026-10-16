@@ -1,5 +1,36 @@
 # Design Engine Review Follow-ups
 
+The review of `7b0ba0a` found two acceptance gaps and an incomplete campaign
+connection. Independent vehicle comparisons now verify each retained case
+manifest, input, result, log and history before consuming metrics. Every case,
+including the baseline, must declare unchanged physics sources and toolchain;
+both identities must match across the campaign. Missing, changed, mixed or
+unretained evidence keeps comparison unknown. These local integrity records do
+not establish independent attestation or physical validation.
+
+Vehicle confirmation now executes a baseline and separate time, deck, rail and
+body-mode refinements for each of the four reference scenarios. The other
+inputs remain fixed for each comparison. Plans precede execution, every case
+uses the common evaluation and remaining wall budget, and progress retains
+planned, executed and validated counts through cancellation or budget failure.
+Dispatch reserves ten seconds for progress and attempt sealing, and stops
+starting cases when that reserve is reached.
+The comparison and physical-part views show these counts, passage coverage,
+provenance issues and each axis's numerical state in English and Arabic.
+Execution completion alone cannot pass refinement. The 5% relative screen is
+provisional; contact validity, additional refinement levels, real body stiffness
+and measured correlation remain open.
+
+Impact selection now follows both native-part problems' dependency closures and
+the native acceptance implementation/tests. Changes to generated geometry,
+shared physical properties/schema or the acceptance runner select
+`native-design`; unrelated commercial prose does not. The four-profile software
+release requirement remains separate.
+
+The [fresh verification record](refinement-verification.json) retains the
+source-qualified 20-case diagnostic. Its native passages all exceeded their
+allocated budgets, so no independent numerical convergence pass is claimed.
+
 The physical-property review found that BOM correspondence accepted symmetric
 inertia tensors with impossible principal moments. BOM validation now uses the
 shared physical inertia validator, checking positive semidefiniteness and the
@@ -99,7 +130,7 @@ Further engineering development remains required:
 | Area | Remaining implementation or evidence |
 |---|---|
 | Side and roof panels | Complete seal/secondary-retention/locking/contact-land inventories; insert pull-out, bearing, bond failure, fatigue and complete thermal/fire stack; applicable measured correlation. Existing failed pressure/attachment-loss cases remain failures. |
-| Vehicle dynamics | Independent time/deck/rail/modal convergence, valid contact for every scenario, reduced models derived from actual body/underframe geometry, measured joints and fatigue correlation. A completed passage alone closes none of these. |
+| Vehicle dynamics | Execute and pass the worker-connected independent time/deck/rail/modal campaign with valid contact for every scenario and further levels as required; derive reduced models from actual body/underframe geometry and obtain measured joints/fatigue correlation. A completed passage alone closes none of these. |
 | Civil structures | Cracking/nonlinear resistance, shear/torsion, reinforcement/anchorage, bearing laws and buildable erection/replacement details. The retained gross-elastic 23.97 mm service deflection still exceeds the provisional 20 mm limit. |
 | Foundations/sites | Calibrated ground inputs, nonlinear/group/cyclic resistance and independent project validation; no site release from source syntax or input completeness. |
 | Electrical/thermal installation | Installed converters, protection, harnesses, cooling circuits, mounts and complete mass; route-duty/usable-energy/thermal correlation. Public potential parts supply no free installed credit. |

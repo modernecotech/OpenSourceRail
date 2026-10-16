@@ -73,6 +73,11 @@ The profile explicitly sets `OSR_RUN_NATIVE_PARTS=1`. Ordinary broad Python runs
 may leave these expensive integration tests opt-in, but explicitly requested
 native tests fail when their tools are missing instead of reporting a skip.
 
+`./osr check --scope impact --changed <files> --plan` selects `native-design`
+when either native-part problem is affected through its source/schema/property
+dependencies, or when its native acceptance runner/tests change. The plan lists
+each profile once. Unrelated prose does not trigger native CAD/solver execution.
+
 Use a fresh directory, for example
 `./osr validate run --profile native-design --output build/validation/native-design-my-change`.
 The local receipt seals `native-design/prerequisites.json`, the JUnit report,

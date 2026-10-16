@@ -9,8 +9,8 @@
     "test:frontend": "npm run test:frontend:unit && npm run frontend:build && playwright test",
     "test:frontend:unit": "node --test tests/frontend-unit/*.test.mjs",
     "test:frontend:quick": "playwright test tests/frontend/browser-surfaces.spec.mjs",
-    "format:design": "prettier --write \"docs/design-engine/{app.js,app.css,index.html,assembly-inspector.js,engineering-inputs.js,input-revisions.js,scope-controls.js,operation-preflight.js}\" \"tests/frontend-unit/design-guided-inputs.test.mjs\" \"tests/frontend/design-guided-inputs.spec.mjs\"",
-    "format:design:check": "prettier --check \"docs/design-engine/{app.js,app.css,index.html,assembly-inspector.js,engineering-inputs.js,input-revisions.js,scope-controls.js,operation-preflight.js}\" \"tests/frontend-unit/design-guided-inputs.test.mjs\" \"tests/frontend/design-guided-inputs.spec.mjs\"",
+    "format:design": "prettier --write \"docs/design-engine/{app.js,app.css,index.html,assembly-inspector.js,engineering-inputs.js,input-revisions.js,scope-controls.js,operation-preflight.js,refinement-campaign.js}\" \"tests/frontend-unit/{design-guided-inputs,design-refinement}.test.mjs\" \"tests/frontend/{design-guided-inputs,design-refinement}.spec.mjs\"",
+    "format:design:check": "prettier --check \"docs/design-engine/{app.js,app.css,index.html,assembly-inspector.js,engineering-inputs.js,input-revisions.js,scope-controls.js,operation-preflight.js,refinement-campaign.js}\" \"tests/frontend-unit/{design-guided-inputs,design-refinement}.test.mjs\" \"tests/frontend/{design-guided-inputs,design-refinement}.spec.mjs\"",
     "test:frontend:matrix": "playwright test --config playwright.matrix.config.mjs"
   },
   "devDependencies": {

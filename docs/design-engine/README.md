@@ -45,6 +45,28 @@ Manufacturing sweeps use conservative bounding boxes; declared clearances do not
 
 Seeded searches also retain `sensitivity.json`: bounded one-variable re-execution using the same charter, scope and common budget. Unknown costs/carbon stay unknown. Full-train cases start the entire assembly before the approach and calculate exit time under the prescribed motion. Solver timeouts retain converged checkpoints and incomplete joint-resultant cycles, without inventing fatigue life or a full passage.
 
+Run the worker-connected independent passage campaign with:
+
+```bash
+./osr design refine --problem full-train --city samawah --evaluations 64 --wall-seconds 3600
+```
+
+`vehicle-assembly` uses the same campaign. Each of four scenarios declares a
+baseline plus independent time-step, deck-mesh, rail-spacing and body-mode cases
+before execution. This is 20 native cases plus charged compilation, screening
+and two assembly diagnostics. A one-hour budget is an execution allowance, not
+a completion guarantee. Per-case timeouts share the remaining job budget.
+
+Jobs retain `passage-progress.json`, each scenario's `refinement-plan.json` and
+`comparison.json`, and each native case's input/result/history/log manifest.
+The comparison and inspector distinguish cases planned, cases executed and axis
+comparisons passed. An unchanged, identical source/toolchain epoch, verified
+retained artifacts, complete passage and all seven monitored metrics are required
+before the provisional 5% numerical screen can pass. Missing cases remain
+unknown; failed contact and numerical screens remain adverse. Neither paired
+historical runs nor a completed solver job establish independent convergence or
+physical acceptance.
+
 Review and use a revised input without altering its parent:
 
 1. Start a job with the exact project, configuration revision and known baseline.

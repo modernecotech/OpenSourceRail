@@ -320,6 +320,7 @@ def dependencies(adapter):
         shared.add("foundation_response")
     if adapter in {"vehicle", "vehicle-assembly"}:
         shared.add("vehicle_confirmation")
+        shared.add("vehicle_campaign")
         shared.add("passage")
     if adapter in {"vehicle-assembly", "civil-alternatives"}:
         shared.add("design_alternatives")
