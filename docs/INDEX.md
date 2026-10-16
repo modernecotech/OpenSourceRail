@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6227**.
+Indexed Markdown files: **6228**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6227**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 235 |
-| [engineering](#engineering) | 70 |
+| [engineering](#engineering) | 71 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6270,6 +6270,7 @@ Indexed Markdown files: **6227**.
 | [`engineering/design_engine/README.md`](../engineering/design_engine/README.md) | Shared Design Engine |
 | [`engineering/factory_examples/README.md`](../engineering/factory_examples/README.md) | Mechanical, civil and factory development examples |
 | [`engineering/factory_examples/examples/README.md`](../engineering/factory_examples/examples/README.md) | Baghdad mechanical, civil and factory development examples |
+| [`engineering/factory_examples/examples/development.md`](../engineering/factory_examples/examples/development.md) | Joint mechanical and civil development — iteration 2 |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
 | [`engineering/integration_programme/data/contact/LICENSE.md`](../engineering/integration_programme/data/contact/LICENSE.md) | License |
 | [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |

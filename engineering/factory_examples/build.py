@@ -7,6 +7,7 @@ Add --native for actual FreeCAD/STEP export, or --check for drift verification.
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import csv
 import hashlib
 import html
@@ -15,6 +16,8 @@ import json
 from pathlib import Path
 
 from . import models
+from . import development
+from .figures import development_svg
 from .native import digest, generate
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -208,7 +211,7 @@ def process_routes():
             "fixture-70",
             "fixture",
             "Fit clamps/retention/anchors; first-article load and repeatability trials",
-            "unselected",
+            "brauer-h350-2blc (candidate); retention/anchors unselected",
             "Approve clamp/joint/anchor details before loading; define proof protocol, exclusion and acceptance criteria; not performed",
         ),
         (
@@ -279,6 +282,11 @@ def rfq_rows(equipment):
     common = "Confirm exact model/options; UK factory and origin; Baghdad delivery/install/training/spares/service; itemised price and Incoterms; GA/foundations; connected utilities and ambient derating; FAT/SAT criteria"
     for e in equipment:
         quantity, quantity_unit, quantity_scope = {
+            "brauer-h350-2blc": (
+                3,
+                "hold-down clamp candidates",
+                "one development fixture; requested preload 500 N each, actual spindle force and mount details unqualified",
+            ),
             "matravers-pi25": (
                 4,
                 "casting mould positions",
@@ -290,9 +298,9 @@ def rfq_rows(equipment):
                 "one 30 m-span runway bay per paired casting column; coverage/support design open",
             ),
             "ccl-sla15": (
-                160,
+                192,
                 "nonstressing-end grip candidates",
-                "four beds x 40 strands, conditional on exact strand compatibility; live-end grips/jacks separate and unselected",
+                "four development beds x 48 strands, conditional on exact strand compatibility; baseline was 40/bed; live-end grips/jacks separate and unselected",
             ),
             "tata-celsius": (
                 2,
@@ -353,6 +361,13 @@ def make_outputs():
         raise ValueError("unique equipment identities required")
     fix = models.fixture(a)
     civil = models.civil(a)
+    development_basis = json.loads((PACKAGE / "data/development.json").read_text())
+    iteration = development.build(a, development_basis, fix, civil, equipment)
+    candidate = next(
+        r
+        for r in iteration["prestress"]["alternatives"]
+        if r["id"] == iteration["prestress"]["candidate_id"]
+    )
     layout = models.layouts(ROOT)
     canonical = layout["canonical_factory"]["factory"]
     if (
@@ -375,6 +390,20 @@ def make_outputs():
         "pi25-mould-bed": dict(id="OSR-Pi25-MOULD-BED", parts=models.mould_bed()),
         "vehicle-factory": scenes["vehicle"],
         "precast-yard": scenes["precast"],
+        "fixture-workholding": dict(
+            id="OSR-FIX-500-WORKHOLDING",
+            parts=development.workholding_parts(fix, development_basis["fixture"]),
+        ),
+        "pi25-revised-bed": dict(
+            id="OSR-Pi25-REVISED-BED",
+            parts=development.revised_bed_parts(
+                models.mould_bed(), candidate, development_basis["bed"]
+            ),
+        ),
+        "runway-bay": dict(
+            id="OSR-RUNWAY-BAY",
+            parts=development.runway_parts(development_basis["runway"]),
+        ),
     }
     utilities = []
     for e in register["equipment"]:
@@ -433,6 +462,7 @@ def make_outputs():
         ),
         physical_release=False,
         supplier_contacted=False,
+        development=development_summary(iteration),
     )
     bom = []
     for p in fix["parts"]:
@@ -455,6 +485,9 @@ def make_outputs():
         "fixture-cutting-plan.json": json_text(models.cutting_plan(fix)),
         "utilities.json": json_text(utilities),
         "process-routes.csv": csv_text(process_routes()),
+        "development.json": json_text(iteration),
+        "development.md": development_notes(iteration),
+        "development.svg": development_svg(iteration),
     }
     for key, model in native_models.items():
         out[f"{key}/model.json"] = json_text(model)
@@ -467,6 +500,104 @@ def make_outputs():
     return out, native_models
 
 
+def development_summary(iteration):
+    summary = deepcopy(iteration)
+    for alt in summary["prestress"]["alternatives"]:
+        for scenario in alt["scenarios"]:
+            scenario["station_count"] = len(scenario.pop("stations"))
+            scenario["station_results_reference"] = (
+                "development.json (same layout id and span)"
+            )
+    return summary
+
+
+def development_notes(r):
+    w, p, b, c = r["workholding"], r["prestress"], r["bed"], r["runway"]
+    lines = [
+        "# Joint mechanical and civil development — iteration 2",
+        "",
+        "The baseline four-model package remains available. These three additional CAD models develop workholding, prestress/bed restraint and crane-runway interfaces. Every physical release remains open. [Engineering comparison figure](development.svg).",
+        "",
+        "## Fixture workholding",
+        "",
+        f"Three British-made [Brauer H350/2BLC](https://www.brauer.co.uk/product/horizontal-positive-locking-clamps/) positive-locking clamp candidates each have a published nominal holding force of 350 daN (3,500 N). The requested 500 N clamping preload is a separate unverified input. Mounting plates are OSR concepts; equipment boxes reserve operation clearance rather than reproduce the supplier's geometry.",
+        "",
+        f"The declared payload/CG/tool cases leave a minimum vertical locator reaction of {w['minimum_contact_reaction_n']:.1f} N. That checks contact compression in those scenarios only. The conservative shear-only crossrail weld demand is {w['crossrail_connection_shear_screen']['nominal_shear_demand_pa']/1e6:.2f} MPa; weld resistance, local wall/plate bending and connection eccentricity remain unknown.",
+        "",
+        "[Workholding CAD](fixture-workholding/model.FCStd) · [detailed numerical inputs/results](development.json)",
+        "",
+        "## Prestress alternatives along both spans",
+        "",
+        "The first iteration showed a Pi20 midspan tension warning. The full-force prismatic extension to the beam ends exposes a larger baseline warning. Actual pretension force develops over a transmission length that remains unknown, so the endpoint extension is diagnostic. This model includes end-diaphragm gravity patches and known strand displacement mass, while retaining gross prismatic stiffness. Conventional reinforcement and railway/track loads remain unquantified.",
+        "",
+        "| Layout | Strands | Span | Minimum transfer compression | Minimum after-loss dead-load compression | Zero-tension research screen |",
+        "| --- | ---: | ---: | ---: | ---: | --- |",
+    ]
+    for alt in p["alternatives"]:
+        for s in alt["scenarios"]:
+            m = s["minimum_compression_pa_by_stage"]
+            lines.append(
+                f"| {alt['id']} | {alt['strands']} | {s['span_m']:g} m | {m['transfer']/1e6:.3f} MPa | {m['service_dead_only']/1e6:.3f} MPa | {'within' if s['no_tension_research_screen'] else 'outside'} |"
+            )
+    candidate = next(v for v in p["alternatives"] if v["id"] == p["candidate_id"])
+    span25 = next(s for s in candidate["scenarios"] if s["span_m"] == 25)
+    lines += [
+        "",
+        f"The {candidate['id']} candidate increases initial bed force to {candidate['initial_force_n']/1e6:.3f} MN. Its known concrete-plus-strand Pi25 handling equivalent is at least {span25['handling_equivalent_kg_lower_bound']/1000:.2f} t including the stated rigging and multiplier; unquantified reinforcement and attachments can increase it. A zero-tension screen does not establish compression strength, transfer/bond/end-zone performance, deflection, shear, fatigue or railway capacity.",
+        "",
+        "[Revised beam/bed CAD](pi25-revised-bed/model.FCStd)",
+        "",
+        "## Stressing-bed restraint",
+        "",
+        "Pinned beam-column finite elements check the nominal side boxes over the 26 m return path between assumed inner strongback faces x=-0.5 and +25.5 m, with ground restraints at the CAD's x=3,6,...,24 m stations. Pin-connected cross ties alone do not establish a 3 m effective length: a common sway mode remains. End rotational restraint and a real restraint path in both buckling planes must be designed, including foundations and anchorages.",
+        "",
+        "| Spring per restraint | Critical force per side | Elastic load factor at candidate force | Second-order brace force maximum |",
+        "| ---: | ---: | ---: | ---: |",
+    ]
+    for row in b["cases"]:
+        force = row["imperfect_response"].get("maximum_abs_brace_force_n")
+        lines.append(
+            f"| {row['spring_n_m']/1e6:g} MN/m | {row['critical_force_per_side_n']/1e6:.3f} MN | {row['elastic_load_factor']:.3f} | {f'{force/1000:.2f} kN' if force is not None else 'unstable elastic tangent'} |"
+        )
+    lines += [
+        "",
+        "The proposed 1 MN/m spring is a requirement scenario, not measured ground stiffness. Second-order reactions use an assumed sinusoidal 10 mm stress-free bow and springs initially unstressed in that crooked shape. The revised CAD adds interface stools/pad reservations, with no demonstrated foundation stiffness or capacity. Strongback load distribution, vertical eccentricity, local plates/welds, staged release and anchorage design remain open.",
+        "",
+        f"The candidate adds {b['strongback_in_plane_moment_demand_nm']/1e6:.3f} MNm in-plane strongback moment and a {b['end_vertical_eccentric_couple_nm']/1e6:.3f} MNm end couple from the tendon/return-box height offset. These are unresolved load-path demands; the large strongback solids remain reservations, not designed steel sections or concrete abutments.",
+        "",
+        "## Dedicated crane-runway bay",
+        "",
+        f"A separate 6 m runway bay develops a proposed 30 m-span, 125 t rated crane interface. Assumed crab/bridge masses, lift factor, two wheels per rail and approach yield near/far wheel actions {c['near_wheel_n']/1000:.1f}/{c['far_wheel_n']/1000:.1f} kN. These are OSR scenarios requiring Street's actual configuration/reaction return. [Street describes wheel loads and duty as configuration-dependent](https://streetcrane.com/blog/2026/07/29/understanding-crane-duty-ratings/).",
+        "",
+        f"The fabricated 1.2 m-deep runway girder has gross elastic bending demand {c['nominal_bending_demand_pa']/1e6:.1f} MPa and sampled deflection envelope {c['sampled_elastic_deflection_envelope_m']*1000:.2f} mm for the stated loads. Local wheel/web bearing, stability, fatigue, torsion, clips, connections and column resistance remain open. The conservative two-adjacent-bay column scenario is {c['two_adjacent_bays_column_gravity_envelope_n']/1e6:.3f} MN. A 2.5 × 2.5 m pad reservation gives {c['pad_average_gravity_pressure_scenario_pa']/1000:.1f} kPa average gravity pressure; ground capacity, eccentric bearing and uplift are unknown, so no footing acceptance is given.",
+        "",
+        "[Runway bay CAD](runway-bay/model.FCStd). Runway supports remain separate from the vehicle hall's roof-only frame. Runway rail/clip/stiffener dead weights and final project load combinations remain unknown.",
+        "",
+        "The 900 × 900 × 50 mm runway baseplate blank is about 318 kg. It exceeds both the CV5-500's published part diameter and mass limits, while the 6 m girders also need a separate fabrication route. Outsourced plate machining/long-girder fabrication or additional machinery must be selected before this pilot factory can manufacture those structures. Sheet-plan fit alone does not establish 50 mm laser-cut capacity.",
+        "",
+        "## Next evidence and ownership",
+        "",
+        "Mechanical engineering: clamp GA/preload trials, pin retention and mount/weld/bolt details. Prestress/civil engineering: project concrete/strand limits, transmission/end-zone and railway loading, strongbacks, both-plane restraint and geotechnical design. Crane supplier/structural engineering: exact duty/configuration, wheel actions, rails/stops, runway/column/foundation design. Procurement: technical returns, certificates, Baghdad support and itemised installed prices. No contacts have been sent and no appointments invented.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def development_html(r):
+    p = r["prestress"]
+    rows = []
+    for alt in p["alternatives"]:
+        for s in alt["scenarios"]:
+            m = s["minimum_compression_pa_by_stage"]
+            rows.append(
+                f"<tr><td>{alt['id']}</td><td>{s['span_m']:g} m</td><td>{m['transfer']/1e6:.3f}</td><td>{m['service_dead_only']/1e6:.3f}</td></tr>"
+            )
+    return (
+        '<h2>Joint mechanical and civil development</h2><p>Three additional CAD models develop the open load paths. Compression-positive MPa below; negative values predict tension in this research idealisation.</p><img src="development.svg" style="width:100%;height:auto" alt="Prestress stress distributions, bed restraint sensitivity and crane wheel actions"><div style="overflow-x:auto"><table style="border-spacing:12px 6px"><thead><tr><th>Layout</th><th>Span</th><th>Minimum transfer</th><th>Minimum after-loss, dead only</th></tr></thead><tbody>'
+        + "".join(rows)
+        + '</tbody></table></div><p>Balanced 48 is a further-design candidate. Transmission, concrete limits, railway loading and physical qualification remain open.</p><p><a href="fixture-workholding/model.FCStd">Workholding CAD</a> · <a href="pi25-revised-bed/model.FCStd">Revised beam/bed CAD</a> · <a href="runway-bay/model.FCStd">Runway bay CAD</a></p><p><a href="development.md">Calculations, assumptions and next gates</a> · <a href="development.json">Station-by-station results, buckling and wheel actions</a></p>'
+    )
+
+
 def readme(r, register):
     f, c = r["fixture"], r["civil"]
     lines = [
@@ -477,6 +608,8 @@ def readme(r, register):
         "Open [the offline visual review](index.html), [the engineering report](report.json), [the equipment/RFQ register](equipment-rfq.csv), [utility gaps](utilities.json) or [process/inspection routes](process-routes.csv).",
         "",
         "## What is built",
+        "",
+        "The [second development iteration](development.md) adds three native models and full-span prestress alternatives, explicit bed-restraint stiffness/imperfection cases, fixture workholding and crane-runway interface demands. The original four models below remain baseline examples.",
         "",
         f"The fixture has a nominal model mass of {f['mass_kg']:.2f} kg, a 500 kg payload hypothesis and a 1.5 load multiplier. Its six locators have independent kinematic rank. The payload-only elastic deflection bound is {f['payload_only_combined_deflection_bound_m']*1000:.3f} mm against a provisional 1 mm review limit. This does not establish weld, pin, clamp, wall or anchor resistance.",
         "",
@@ -563,6 +696,7 @@ def viewer(r, register, out):
                     ("mechanical", "Fixture"),
                     ("civil", "Mould & bed"),
                     ("equipment", "Equipment & sources"),
+                    ("development", "Joint development"),
                 ]
             )
         )
@@ -596,6 +730,7 @@ def viewer(r, register, out):
                         + '<p>Concrete and strand/mould interfaces are different manufacturing states. 40-strand research hypothesis; no railway live-load acceptance. Unsupported 25 m stressing boxes fail ideal Euler screening.</p><a href="pi25-mould-bed/model.FCStd">Native CAD</a>',
                     ),
                     ("equipment", "<h2>Equipment candidates</h2>" + "".join(cards)),
+                    ("development", development_html(r["development"])),
                 ]
             )
         )
@@ -640,7 +775,9 @@ def main():
                     errors.append(key + ": native file mismatch " + name)
         if errors:
             raise SystemExit("Factory example drift: " + ", ".join(errors))
-        print("Factory text/source/native CAD correspondence verified (4 models).")
+        print(
+            f"Factory text/source/native CAD correspondence verified ({len(native_models)} models)."
+        )
         return
     for name, text in out.items():
         path = args.output / name

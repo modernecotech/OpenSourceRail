@@ -49,6 +49,16 @@ under the same bed assumptions before other production bottlenecks.
 
 ## Design scope
 
+The [second iteration](../../engineering/factory_examples/examples/development.md)
+develops both factories together: Brauer workholding candidates and connection
+demands, three prestress layouts along Pi20/Pi25, ground-spring buckling
+and imperfection sensitivity for the 26 m bed return path, and a dedicated
+125 t crane-runway bay. The balanced 48-strand candidate stays within a declared
+dead-load zero-tension research screen, while increasing initial bed force to
+7.392 MN and known Pi25 lifting equivalent to at least 104.69 t. These are new
+design alternatives; original failed cases remain retained, and no structural
+or supplier acceptance follows from these numerical screens.
+
 The mechanical package covers production tooling and its interfaces with
 vehicle parts. It does not release a bogie frame, articulation, lifting appliance
 or complete train. Use the existing vehicle geometry and installed inventory;

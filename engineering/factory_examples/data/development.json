@@ -1,0 +1,60 @@
+{
+  "schema": "osr-factory-development-basis/1",
+  "revision": "2026-10-16-iteration-2",
+  "basis": "Research design alternatives and load-path requirements. None of these values is a supplier-certified configuration or adopted design allowable.",
+  "fixture": {
+    "requested_clamp_preload_n_each": 500,
+    "tool_upward_n": 750,
+    "tool_horizontal_n": 500,
+    "tool_height_above_datum_m": 0.11,
+    "payload_cg_cases_xy_m": [[0, 0], [0.1, 0.05], [-0.1, -0.05]],
+    "tool_cases_xy_m": [[0, 0], [0.35, 0.15]],
+    "nominal_crossrail_fillet_leg_m": 0.004,
+    "clamp_model": "brauer-h350-2blc",
+    "clamp_envelope_allowance_m": [0.12, 0.5, 0.3]
+  },
+  "prestress": {
+    "alternatives": [
+      {"id": "low-40", "rows": [[0.1, 10], [0.16, 10], [0.22, 10], [0.28, 10]]},
+      {"id": "balanced-40", "rows": [[0.1, 6], [0.16, 6], [0.22, 6], [0.28, 6], [0.99, 8], [1.05, 8]]},
+      {"id": "balanced-48", "rows": [[0.1, 8], [0.16, 8], [0.22, 8], [0.28, 8], [0.99, 8], [1.05, 8]]}
+    ],
+    "candidate_id": "balanced-48",
+    "stations_per_span": 41,
+    "zero_tension_research_limit_pa": 0,
+    "transmission_length_m": null,
+    "concrete_transfer_compression_limit_pa": null,
+    "concrete_service_compression_limit_pa": null,
+    "railway_live_load": null
+  },
+  "bed": {
+    "active_length_m": 26,
+    "origin_x_m": -0.5,
+    "brace_stations_m": [3, 6, 9, 12, 15, 18, 21, 24],
+    "spring_stiffness_cases_n_m": [0, 100000, 1000000, 10000000],
+    "proposed_spring_n_m": 1000000,
+    "initial_sway_m": 0.01,
+    "elements": 52,
+    "foundation_stiffness_measured_n_m": null
+  },
+  "runway": {
+    "rated_lift_kg": 125000,
+    "bridge_span_m": 30,
+    "crab_approach_m": 2,
+    "crab_mass_kg": 15000,
+    "bridge_mass_kg": 30000,
+    "vertical_lift_factor": 1.1,
+    "wheels_per_runway": 2,
+    "wheelbase_m": 4,
+    "bay_span_m": 6,
+    "girder_depth_m": 1.2,
+    "flange_width_m": 0.45,
+    "flange_thickness_m": 0.04,
+    "web_thickness_m": 0.02,
+    "horizontal_transverse_fraction": 0.1,
+    "research_deflection_span_divisor": 600,
+    "pad_reservation_m": [2.5, 2.5, 1.2],
+    "allowable_ground_bearing_pa": null,
+    "supplier_wheel_reactions_n": null
+  }
+}

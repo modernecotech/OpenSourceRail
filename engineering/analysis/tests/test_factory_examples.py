@@ -189,7 +189,7 @@ def test_unknown_costs_utilities_ground_and_release_remain_unknown():
 
 
 def test_all_published_equipment_facts_keep_source_and_assumptions(equipment):
-    assert len(equipment) == 13
+    assert len(equipment) == 14
     for e in equipment.values():
         assert e["sources"] and e["source_locator"] and e["origin"] and e["unknown"]
         assert all(s.startswith("https://") for s in e["sources"])

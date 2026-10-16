@@ -285,6 +285,1118 @@
     "schema": "osr-factory-example-basis/1",
     "scope": "Baghdad six-car component/assembly factory and pilot Pi20/Pi25 yard"
   },
+  "development": {
+    "basis": {
+      "basis": "Research design alternatives and load-path requirements. None of these values is a supplier-certified configuration or adopted design allowable.",
+      "bed": {
+        "active_length_m": 26,
+        "brace_stations_m": [
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "elements": 52,
+        "foundation_stiffness_measured_n_m": null,
+        "initial_sway_m": 0.01,
+        "origin_x_m": -0.5,
+        "proposed_spring_n_m": 1000000,
+        "spring_stiffness_cases_n_m": [
+          0,
+          100000,
+          1000000,
+          10000000
+        ]
+      },
+      "fixture": {
+        "clamp_envelope_allowance_m": [
+          0.12,
+          0.5,
+          0.3
+        ],
+        "clamp_model": "brauer-h350-2blc",
+        "nominal_crossrail_fillet_leg_m": 0.004,
+        "payload_cg_cases_xy_m": [
+          [
+            0,
+            0
+          ],
+          [
+            0.1,
+            0.05
+          ],
+          [
+            -0.1,
+            -0.05
+          ]
+        ],
+        "requested_clamp_preload_n_each": 500,
+        "tool_cases_xy_m": [
+          [
+            0,
+            0
+          ],
+          [
+            0.35,
+            0.15
+          ]
+        ],
+        "tool_height_above_datum_m": 0.11,
+        "tool_horizontal_n": 500,
+        "tool_upward_n": 750
+      },
+      "prestress": {
+        "alternatives": [
+          {
+            "id": "low-40",
+            "rows": [
+              [
+                0.1,
+                10
+              ],
+              [
+                0.16,
+                10
+              ],
+              [
+                0.22,
+                10
+              ],
+              [
+                0.28,
+                10
+              ]
+            ]
+          },
+          {
+            "id": "balanced-40",
+            "rows": [
+              [
+                0.1,
+                6
+              ],
+              [
+                0.16,
+                6
+              ],
+              [
+                0.22,
+                6
+              ],
+              [
+                0.28,
+                6
+              ],
+              [
+                0.99,
+                8
+              ],
+              [
+                1.05,
+                8
+              ]
+            ]
+          },
+          {
+            "id": "balanced-48",
+            "rows": [
+              [
+                0.1,
+                8
+              ],
+              [
+                0.16,
+                8
+              ],
+              [
+                0.22,
+                8
+              ],
+              [
+                0.28,
+                8
+              ],
+              [
+                0.99,
+                8
+              ],
+              [
+                1.05,
+                8
+              ]
+            ]
+          }
+        ],
+        "candidate_id": "balanced-48",
+        "concrete_service_compression_limit_pa": null,
+        "concrete_transfer_compression_limit_pa": null,
+        "railway_live_load": null,
+        "stations_per_span": 41,
+        "transmission_length_m": null,
+        "zero_tension_research_limit_pa": 0
+      },
+      "revision": "2026-10-16-iteration-2",
+      "runway": {
+        "allowable_ground_bearing_pa": null,
+        "bay_span_m": 6,
+        "bridge_mass_kg": 30000,
+        "bridge_span_m": 30,
+        "crab_approach_m": 2,
+        "crab_mass_kg": 15000,
+        "flange_thickness_m": 0.04,
+        "flange_width_m": 0.45,
+        "girder_depth_m": 1.2,
+        "horizontal_transverse_fraction": 0.1,
+        "pad_reservation_m": [
+          2.5,
+          2.5,
+          1.2
+        ],
+        "rated_lift_kg": 125000,
+        "research_deflection_span_divisor": 600,
+        "supplier_wheel_reactions_n": null,
+        "vertical_lift_factor": 1.1,
+        "web_thickness_m": 0.02,
+        "wheelbase_m": 4,
+        "wheels_per_runway": 2
+      },
+      "schema": "osr-factory-development-basis/1"
+    },
+    "bed": {
+      "active_length_m": 26,
+      "assumed_pinned_end_planes_x_m": [
+        -0.5,
+        25.5
+      ],
+      "brace_response_basis": "Linearised second-order response about a stress-free sinusoidal bow with initially unstressed springs; this is not a qualified brace force or capacity",
+      "cases": [
+        {
+          "critical_force_per_side_n": 1147590.6954816184,
+          "elastic_load_factor": 0.31049531804156344,
+          "imperfect_response": {
+            "additional_sway_m": null,
+            "brace_reactions": null,
+            "stable_elastic_tangent": false
+          },
+          "resistance_qualified": false,
+          "spring_n_m": 0,
+          "stiffness_measured": false
+        },
+        {
+          "critical_force_per_side_n": 3427569.794981,
+          "elastic_load_factor": 0.9273727800273269,
+          "imperfect_response": {
+            "additional_sway_m": null,
+            "brace_reactions": null,
+            "stable_elastic_tangent": false
+          },
+          "resistance_qualified": false,
+          "spring_n_m": 100000,
+          "stiffness_measured": false
+        },
+        {
+          "critical_force_per_side_n": 10263803.48799413,
+          "elastic_load_factor": 2.7770031082235205,
+          "imperfect_response": {
+            "additional_sway_m": 0.0018239131533217521,
+            "brace_reactions": [
+              {
+                "force_n": 755.4347629878886,
+                "global_x_m": 3.0,
+                "spring_n_m": 1000000,
+                "x_m": 3.5
+              },
+              {
+                "force_n": 1295.6593093029328,
+                "global_x_m": 6.0,
+                "spring_n_m": 1000000,
+                "x_m": 6.5
+              },
+              {
+                "force_n": 1666.0202411756638,
+                "global_x_m": 9.0,
+                "spring_n_m": 1000000,
+                "x_m": 9.5
+              },
+              {
+                "force_n": 1820.4413927639437,
+                "global_x_m": 12.0,
+                "spring_n_m": 1000000,
+                "x_m": 12.5
+              },
+              {
+                "force_n": 1739.5025331289478,
+                "global_x_m": 15.0,
+                "spring_n_m": 1000000,
+                "x_m": 15.5
+              },
+              {
+                "force_n": 1433.553964790216,
+                "global_x_m": 18.0,
+                "spring_n_m": 1000000,
+                "x_m": 18.5
+              },
+              {
+                "force_n": 941.9316493557814,
+                "global_x_m": 21.0,
+                "spring_n_m": 1000000,
+                "x_m": 21.5
+              },
+              {
+                "force_n": 328.17065166988004,
+                "global_x_m": 24.0,
+                "spring_n_m": 1000000,
+                "x_m": 24.5
+              }
+            ],
+            "free_force_residual_n": 4.903682793155895e-09,
+            "free_moment_residual_nm": 1.273889438380138e-09,
+            "maximum_abs_brace_force_n": 1820.4413927639437,
+            "stable_elastic_tangent": true
+          },
+          "resistance_qualified": false,
+          "spring_n_m": 1000000,
+          "stiffness_measured": false
+        },
+        {
+          "critical_force_per_side_n": 32079627.18166132,
+          "elastic_load_factor": 8.679552808891051,
+          "imperfect_response": {
+            "additional_sway_m": 0.0001645293422983948,
+            "brace_reactions": [
+              {
+                "force_n": 689.0071717429954,
+                "global_x_m": 3.0,
+                "spring_n_m": 10000000,
+                "x_m": 3.5
+              },
+              {
+                "force_n": 1163.5480290685914,
+                "global_x_m": 6.0,
+                "spring_n_m": 10000000,
+                "x_m": 6.5
+              },
+              {
+                "force_n": 1492.679349530393,
+                "global_x_m": 9.0,
+                "spring_n_m": 10000000,
+                "x_m": 9.5
+              },
+              {
+                "force_n": 1633.1398649172013,
+                "global_x_m": 12.0,
+                "spring_n_m": 10000000,
+                "x_m": 12.5
+              },
+              {
+                "force_n": 1562.6672461806525,
+                "global_x_m": 15.0,
+                "spring_n_m": 10000000,
+                "x_m": 15.5
+              },
+              {
+                "force_n": 1288.7907792310575,
+                "global_x_m": 18.0,
+                "spring_n_m": 10000000,
+                "x_m": 18.5
+              },
+              {
+                "force_n": 847.0654734700978,
+                "global_x_m": 21.0,
+                "spring_n_m": 10000000,
+                "x_m": 21.5
+              },
+              {
+                "force_n": 295.1439730196708,
+                "global_x_m": 24.0,
+                "spring_n_m": 10000000,
+                "x_m": 24.5
+              }
+            ],
+            "free_force_residual_n": 6.094751370255835e-10,
+            "free_moment_residual_nm": 1.0325607036065776e-10,
+            "maximum_abs_brace_force_n": 1633.1398649172013,
+            "stable_elastic_tangent": true
+          },
+          "resistance_qualified": false,
+          "spring_n_m": 10000000,
+          "stiffness_measured": false
+        }
+      ],
+      "common_sway_with_cross_ties_only_critical_n": 1147590.6954816184,
+      "end_vertical_eccentric_couple_nm": 5667200.000000001,
+      "force_each_side_n": 3695999.9999999995,
+      "foundation_stiffness_measured_n_m": null,
+      "initial_bow_basis": "Sinusoidal 10 mm research bow; springs unstressed in that initial shape. No fabrication tolerance or brace design criterion adopted.",
+      "initial_stressing_force_n": 7391999.999999999,
+      "nominal_side_box_axial_demand_pa": 150390625.00000006,
+      "physical_release": false,
+      "proposed_spring_n_m": 1000000,
+      "requirement": "Provide an absolute lateral restraint load path in BOTH buckling planes; transverse ties alone leave the common-sway mode unrestrained",
+      "return_box_centroid_z_m": 0.5,
+      "strongback_in_plane_moment_demand_nm": 4185719.9999999995,
+      "strongback_resistance": null,
+      "tendon_centroid_z_m": 1.2666666666666668
+    },
+    "numerical_toolchain": {
+      "matplotlib": "3.11.1",
+      "numpy": "2.3.5",
+      "python": "3.13.15",
+      "scipy": "1.16.3"
+    },
+    "physical_release": false,
+    "prestress": {
+      "alternatives": [
+        {
+          "id": "low-40",
+          "initial_force_n": 6159999.999999999,
+          "rows": [
+            [
+              0.1,
+              10
+            ],
+            [
+              0.16,
+              10
+            ],
+            [
+              0.22,
+              10
+            ],
+            [
+              0.28,
+              10
+            ]
+          ],
+          "scenarios": [
+            {
+              "handling_equivalent_kg_lower_bound": 85578.84375000001,
+              "known_concrete_plus_strand_mass_kg": 66463.07500000001,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 17637553.145015053,
+                "transfer": 22046941.431268815
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": -3171390.7085656086,
+                "transfer": -3964238.3857070114
+              },
+              "no_tension_research_screen": false,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 20.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            },
+            {
+              "handling_equivalent_kg_lower_bound": 104500.46875,
+              "known_concrete_plus_strand_mass_kg": 81600.375,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 17637553.145015053,
+                "transfer": 22046941.431268815
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": -3171390.7085656086,
+                "transfer": -3964238.3857070114
+              },
+              "no_tension_research_screen": false,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 25.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            }
+          ],
+          "strands": 40
+        },
+        {
+          "id": "balanced-40",
+          "initial_force_n": 6159999.999999999,
+          "rows": [
+            [
+              0.1,
+              6
+            ],
+            [
+              0.16,
+              6
+            ],
+            [
+              0.22,
+              6
+            ],
+            [
+              0.28,
+              6
+            ],
+            [
+              0.99,
+              8
+            ],
+            [
+              1.05,
+              8
+            ]
+          ],
+          "scenarios": [
+            {
+              "handling_equivalent_kg_lower_bound": 85578.84375000001,
+              "known_concrete_plus_strand_mass_kg": 66463.07500000001,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 10117452.239381444,
+                "transfer": 12646815.299226806
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": 892957.255166858,
+                "transfer": 1116196.568958573
+              },
+              "no_tension_research_screen": true,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 20.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            },
+            {
+              "handling_equivalent_kg_lower_bound": 104500.46875,
+              "known_concrete_plus_strand_mass_kg": 81600.375,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 10117452.239381444,
+                "transfer": 12646815.299226806
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": -1842484.1614378858,
+                "transfer": 849511.6728485934
+              },
+              "no_tension_research_screen": false,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 25.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            }
+          ],
+          "strands": 40
+        },
+        {
+          "id": "balanced-48",
+          "initial_force_n": 7391999.999999999,
+          "rows": [
+            [
+              0.1,
+              8
+            ],
+            [
+              0.16,
+              8
+            ],
+            [
+              0.22,
+              8
+            ],
+            [
+              0.28,
+              8
+            ],
+            [
+              0.99,
+              8
+            ],
+            [
+              1.05,
+              8
+            ]
+          ],
+          "scenarios": [
+            {
+              "handling_equivalent_kg_lower_bound": 85728.64375000002,
+              "known_concrete_plus_strand_mass_kg": 66582.91500000001,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 13489816.951453783,
+                "transfer": 16862271.189317226
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": 289719.60469637066,
+                "transfer": 362149.5058704633
+              },
+              "no_tension_research_screen": true,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 20.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            },
+            {
+              "handling_equivalent_kg_lower_bound": 104687.71875,
+              "known_concrete_plus_strand_mass_kg": 81750.175,
+              "maximum_compression_pa_by_stage": {
+                "service_dead_only": 13489816.951453783,
+                "transfer": 16862271.189317226
+              },
+              "minimum_compression_pa_by_stage": {
+                "service_dead_only": 289719.60469637066,
+                "transfer": 362149.5058704633
+              },
+              "no_tension_research_screen": true,
+              "other_reinforcement_mass_kg": null,
+              "release": false,
+              "span_m": 25.0,
+              "station_count": 41,
+              "station_results_reference": "development.json (same layout id and span)"
+            }
+          ],
+          "strands": 48
+        }
+      ],
+      "candidate_id": "balanced-48",
+      "compression_positive": true,
+      "material_stress_limits_qualified": false,
+      "open": [
+        "Zero tension is a research screen, not an adopted design criterion; concrete compression limits unknown",
+        "Transfer length, bond, local end stresses, bursting, bearing/insert zones and actual end-section stiffness need separate design",
+        "Gross prismatic elastic shortening with local gravity moment is an idealisation; no measured total loss or nonlinear cracking model",
+        "Additional reinforcement, equipment/track/railway loads, fatigue, shear, deflection and concrete transfer strength remain open"
+      ],
+      "physical_release": false,
+      "railway_live_load_qualified": false,
+      "scope": "Gross prismatic section at full-force stations, including end-fill gravity patches and known strand displacement. Full force extrapolated to ends is a diagnostic; actual transmission/end-zone behaviour is unresolved.",
+      "transfer_length_qualified": false
+    },
+    "revision": "2026-10-16-iteration-2",
+    "runway": {
+      "assumed_configuration": {
+        "allowable_ground_bearing_pa": null,
+        "bay_span_m": 6,
+        "bridge_mass_kg": 30000,
+        "bridge_span_m": 30,
+        "crab_approach_m": 2,
+        "crab_mass_kg": 15000,
+        "flange_thickness_m": 0.04,
+        "flange_width_m": 0.45,
+        "girder_depth_m": 1.2,
+        "horizontal_transverse_fraction": 0.1,
+        "pad_reservation_m": [
+          2.5,
+          2.5,
+          1.2
+        ],
+        "rated_lift_kg": 125000,
+        "research_deflection_span_divisor": 600,
+        "supplier_wheel_reactions_n": null,
+        "vertical_lift_factor": 1.1,
+        "web_thickness_m": 0.02,
+        "wheelbase_m": 4,
+        "wheels_per_runway": 2
+      },
+      "far_rail_vertical_n": 246800.69166666665,
+      "far_wheel_n": 123400.34583333333,
+      "gravity_moment_envelope_nm": 1177415.622817,
+      "gross_girder_area_m2": 0.05840000000000001,
+      "gross_girder_inertia_m4": 0.014456746666666678,
+      "horizontal_column_base_moment_scenario_nm": 1345962.7125000001,
+      "horizontal_transverse_interface_n": 149551.4125,
+      "manufacturing_interfaces": {
+        "baseplate_blank_m": [
+          0.9,
+          0.9,
+          0.05
+        ],
+        "baseplate_cv5_diameter_screen": false,
+        "baseplate_cv5_height_screen": true,
+        "baseplate_cv5_mass_screen": false,
+        "baseplate_nominal_mass_kg": 317.92500000000007,
+        "fabrication_supplier_selected": false,
+        "route": "Baseplate drilling/machining and long-girder fabrication require an additional qualified route; the pilot CV5 cell does not cover them"
+      },
+      "near_rail_vertical_n": 1542912.9333333333,
+      "near_wheel_n": 771456.4666666667,
+      "nominal_bending_demand_pa": 48866414.41390682,
+      "open": [
+        "Masses, dynamic factor, wheel count/spacing and approach are OSR scenarios, not Street configuration data",
+        "Runway stress/deflection are gross elastic demands: wheel contact/web patch/local buckling, lateral stability, torsion, weld fatigue, rail clips and end stops remain open",
+        "Nominal 2.5 m pads are CAD reservations; pressure excludes eccentricity, uplift, seismic, adjacent foundations and actual ground capacity",
+        "Horizontal action is a separate assumed interface scenario; no project load combination or base stiffness adopted",
+        "Rail, clips, stiffeners and connections are not included in the stated girder/column dead-load takeoff; final dead loads unknown",
+        "Adjacent-bay gravity envelope sums incompatible independent maxima conservatively; not a final column reaction"
+      ],
+      "pad_average_gravity_pressure_scenario_pa": 369728.1985381211,
+      "pad_resistance_established": false,
+      "physical_release": false,
+      "rated_lift_basis": true,
+      "research_deflection_limit_m": 0.01,
+      "sampled_elastic_deflection_envelope_m": 0.001168483952051567,
+      "supplier_reactions_confirmed": false,
+      "two_adjacent_bays_column_gravity_envelope_n": 2126926.553363257,
+      "vertical_sum_n": 1789713.625,
+      "wheel_travel_moment_max_positions_m": [
+        -1.0,
+        3.0
+      ]
+    },
+    "schema": "osr-factory-development-iteration/2",
+    "workholding": {
+      "all_cases_vertical_contact_screen": true,
+      "cases": [
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            2206.246875,
+            2096.246875,
+            3802.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            2206.246875,
+            2206.246875,
+            3692.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            2096.246875,
+            2206.246875,
+            3802.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            2096.246875,
+            2096.246875,
+            3912.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            2581.246875,
+            1946.2468749999998,
+            3577.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            2581.246875,
+            2056.246875,
+            3467.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            2471.246875,
+            2056.246875,
+            3577.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0,
+            0
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            2471.246875,
+            1946.2468749999998,
+            3687.4937499999996
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            1102.9987500000002,
+            2463.9962499999997,
+            4537.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            1102.9987500000002,
+            2573.9962499999997,
+            4427.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            992.9987500000002,
+            2573.9962499999997,
+            4537.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            992.9987500000002,
+            2463.9962499999997,
+            4647.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            1477.9987500000002,
+            2313.9962499999997,
+            4312.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            1477.9987500000002,
+            2423.9962499999997,
+            4202.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            1367.9987500000002,
+            2423.9962499999997,
+            4312.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            0.1,
+            0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            1367.9987500000002,
+            2313.9962499999997,
+            4422.992499999999
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            3309.4949999999994,
+            1728.4975,
+            3066.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            3309.4949999999994,
+            1838.4975,
+            2956.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            3199.4949999999994,
+            1838.4975,
+            3066.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0,
+            0
+          ],
+          "vertical_reactions_n": [
+            3199.4949999999994,
+            1728.4975,
+            3176.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            3684.4949999999994,
+            1578.4975,
+            2841.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": -500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            3684.4949999999994,
+            1688.4975,
+            2731.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 0,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            3574.4949999999994,
+            1688.4975,
+            2841.995
+          ]
+        },
+        {
+          "all_vertical_contacts_compressive": true,
+          "horizontal_action_n": 500.0,
+          "lateral_axis": 1,
+          "payload_cg_xy_m": [
+            -0.1,
+            -0.05
+          ],
+          "tool_xy_m": [
+            0.35,
+            0.15
+          ],
+          "vertical_reactions_n": [
+            3574.4949999999994,
+            1578.4975,
+            2951.995
+          ]
+        }
+      ],
+      "clamp_force_compatibility": null,
+      "crossrail_connection_shear_screen": {
+        "all_round_access_unconfirmed": true,
+        "conservative_force_n": 4647.992499999999,
+        "nominal_fillet_leg_m": 0.004,
+        "nominal_shear_demand_pa": 5477711.692757023,
+        "resistance_pa": null,
+        "throat_area_per_end_m2": 0.0008485281374238571,
+        "weld_length_per_end_m": 0.30000000000000004
+      },
+      "minimum_contact_reaction_n": 992.9987500000002,
+      "open": [
+        "Holding force is not applied clamping preload; exact spindle position and actual force require supplier/trial evidence",
+        "Lateral locator contact, pin bending, friction, mount bolts, weld eccentricity, wall/local plate deformation and anchors remain unqualified",
+        "Load cases are declared tool/CG research scenarios, not a qualified operating envelope",
+        "Weld demand uses the full largest support reaction at one crossrail end; shear-only nominal throat screen omits joint bending and resistance"
+      ],
+      "preload_demonstrated": false,
+      "published_nominal_holding_force_n": 3500,
+      "purchased_clamp_mass_kg": 2.4000000000000004,
+      "released": false,
+      "requested_preload_n_each": 500.0
+    }
+  },
   "fixture": {
     "crossrail_screens": [
       {
@@ -789,9 +1901,12 @@
     "engineering/design_engine/civil_qualification.py": "74f37c111faa455cdf7c8fb01bf0325a987980c4f11caee706a570dad39c1f4b",
     "engineering/design_engine/contracts.py": "a4f87dd613fe0c685465acd9961e0ab23744c8392af74a77d687e9fb74bfdae1",
     "engineering/factory_examples/__init__.py": "511b7285b5e0e24c2d99ec5537a6ca08787e795c25d51b43cb52d3f1b9388f69",
-    "engineering/factory_examples/build.py": "fabe038fc6aa93a4dbf2f0a6dbbb0d95dfe9017e3605f323827040d571e4a277",
+    "engineering/factory_examples/build.py": "4e449d1afd1182f60fdc04e546212be24840f16a91150beba7a7eac7e6518766",
     "engineering/factory_examples/data/basis.json": "f3549a07de406f5b770b2df65a8c1a231da8021ab83796efd9517ea9b2099462",
-    "engineering/factory_examples/data/equipment.json": "ef6da0e72cca75c362adaddd533f95db52911a353b91adb2de997347686c540c",
+    "engineering/factory_examples/data/development.json": "7a86f9a61ce6ba79377a634f1403802e3c0c7901b0e445d25c136ae23d7c7c23",
+    "engineering/factory_examples/data/equipment.json": "0125303550d7d051cb06e8d431993c9e414865011eb660cb6f3e3b70d9b73f13",
+    "engineering/factory_examples/development.py": "849a22bcdbdca99bb0d0c5c2d2fb4e9297ddff1a929423e3a67b08931c7d5a47",
+    "engineering/factory_examples/figures.py": "2cae0ce598c700313f3878d6c39ccaf0053a5edb477cf9866d2916cab59e14fc",
     "engineering/factory_examples/models.py": "82254513d9738e6f0febecfc6fd9d2b6607dae42580031d3d554eae7b7b8e6b9",
     "engineering/factory_examples/native.py": "8fb206597e378ec4726fa0fb3dfb6d51a9e286de1d21af48a2f0ee942ab3174a",
     "engineering/industrialisation/assembly.py": "4b9e91bee6c08766770f47cfa145e0ac59c62b39934ecc8a9227660b8d7b844f",
@@ -806,6 +1921,19 @@
     "track_count": 2
   },
   "utilities": [
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "brauer-h350-2blc",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "Actual clamping preload versus spindle/arm position; holding force is not preload",
+        "Current GA, opening sweep, mounting-hole pattern and screw-height setting",
+        "Mount plate/bolts, pin retention, operating trial and installed price"
+      ]
+    },
     {
       "air_bar": null,
       "air_l_min": null,

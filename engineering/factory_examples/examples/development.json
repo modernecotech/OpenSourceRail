@@ -1,0 +1,5048 @@
+{
+  "basis": {
+    "basis": "Research design alternatives and load-path requirements. None of these values is a supplier-certified configuration or adopted design allowable.",
+    "bed": {
+      "active_length_m": 26,
+      "brace_stations_m": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "elements": 52,
+      "foundation_stiffness_measured_n_m": null,
+      "initial_sway_m": 0.01,
+      "origin_x_m": -0.5,
+      "proposed_spring_n_m": 1000000,
+      "spring_stiffness_cases_n_m": [
+        0,
+        100000,
+        1000000,
+        10000000
+      ]
+    },
+    "fixture": {
+      "clamp_envelope_allowance_m": [
+        0.12,
+        0.5,
+        0.3
+      ],
+      "clamp_model": "brauer-h350-2blc",
+      "nominal_crossrail_fillet_leg_m": 0.004,
+      "payload_cg_cases_xy_m": [
+        [
+          0,
+          0
+        ],
+        [
+          0.1,
+          0.05
+        ],
+        [
+          -0.1,
+          -0.05
+        ]
+      ],
+      "requested_clamp_preload_n_each": 500,
+      "tool_cases_xy_m": [
+        [
+          0,
+          0
+        ],
+        [
+          0.35,
+          0.15
+        ]
+      ],
+      "tool_height_above_datum_m": 0.11,
+      "tool_horizontal_n": 500,
+      "tool_upward_n": 750
+    },
+    "prestress": {
+      "alternatives": [
+        {
+          "id": "low-40",
+          "rows": [
+            [
+              0.1,
+              10
+            ],
+            [
+              0.16,
+              10
+            ],
+            [
+              0.22,
+              10
+            ],
+            [
+              0.28,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "balanced-40",
+          "rows": [
+            [
+              0.1,
+              6
+            ],
+            [
+              0.16,
+              6
+            ],
+            [
+              0.22,
+              6
+            ],
+            [
+              0.28,
+              6
+            ],
+            [
+              0.99,
+              8
+            ],
+            [
+              1.05,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "balanced-48",
+          "rows": [
+            [
+              0.1,
+              8
+            ],
+            [
+              0.16,
+              8
+            ],
+            [
+              0.22,
+              8
+            ],
+            [
+              0.28,
+              8
+            ],
+            [
+              0.99,
+              8
+            ],
+            [
+              1.05,
+              8
+            ]
+          ]
+        }
+      ],
+      "candidate_id": "balanced-48",
+      "concrete_service_compression_limit_pa": null,
+      "concrete_transfer_compression_limit_pa": null,
+      "railway_live_load": null,
+      "stations_per_span": 41,
+      "transmission_length_m": null,
+      "zero_tension_research_limit_pa": 0
+    },
+    "revision": "2026-10-16-iteration-2",
+    "runway": {
+      "allowable_ground_bearing_pa": null,
+      "bay_span_m": 6,
+      "bridge_mass_kg": 30000,
+      "bridge_span_m": 30,
+      "crab_approach_m": 2,
+      "crab_mass_kg": 15000,
+      "flange_thickness_m": 0.04,
+      "flange_width_m": 0.45,
+      "girder_depth_m": 1.2,
+      "horizontal_transverse_fraction": 0.1,
+      "pad_reservation_m": [
+        2.5,
+        2.5,
+        1.2
+      ],
+      "rated_lift_kg": 125000,
+      "research_deflection_span_divisor": 600,
+      "supplier_wheel_reactions_n": null,
+      "vertical_lift_factor": 1.1,
+      "web_thickness_m": 0.02,
+      "wheelbase_m": 4,
+      "wheels_per_runway": 2
+    },
+    "schema": "osr-factory-development-basis/1"
+  },
+  "bed": {
+    "active_length_m": 26,
+    "assumed_pinned_end_planes_x_m": [
+      -0.5,
+      25.5
+    ],
+    "brace_response_basis": "Linearised second-order response about a stress-free sinusoidal bow with initially unstressed springs; this is not a qualified brace force or capacity",
+    "cases": [
+      {
+        "critical_force_per_side_n": 1147590.6954816184,
+        "elastic_load_factor": 0.31049531804156344,
+        "imperfect_response": {
+          "additional_sway_m": null,
+          "brace_reactions": null,
+          "stable_elastic_tangent": false
+        },
+        "resistance_qualified": false,
+        "spring_n_m": 0,
+        "stiffness_measured": false
+      },
+      {
+        "critical_force_per_side_n": 3427569.794981,
+        "elastic_load_factor": 0.9273727800273269,
+        "imperfect_response": {
+          "additional_sway_m": null,
+          "brace_reactions": null,
+          "stable_elastic_tangent": false
+        },
+        "resistance_qualified": false,
+        "spring_n_m": 100000,
+        "stiffness_measured": false
+      },
+      {
+        "critical_force_per_side_n": 10263803.48799413,
+        "elastic_load_factor": 2.7770031082235205,
+        "imperfect_response": {
+          "additional_sway_m": 0.0018239131533217521,
+          "brace_reactions": [
+            {
+              "force_n": 755.4347629878886,
+              "global_x_m": 3.0,
+              "spring_n_m": 1000000,
+              "x_m": 3.5
+            },
+            {
+              "force_n": 1295.6593093029328,
+              "global_x_m": 6.0,
+              "spring_n_m": 1000000,
+              "x_m": 6.5
+            },
+            {
+              "force_n": 1666.0202411756638,
+              "global_x_m": 9.0,
+              "spring_n_m": 1000000,
+              "x_m": 9.5
+            },
+            {
+              "force_n": 1820.4413927639437,
+              "global_x_m": 12.0,
+              "spring_n_m": 1000000,
+              "x_m": 12.5
+            },
+            {
+              "force_n": 1739.5025331289478,
+              "global_x_m": 15.0,
+              "spring_n_m": 1000000,
+              "x_m": 15.5
+            },
+            {
+              "force_n": 1433.553964790216,
+              "global_x_m": 18.0,
+              "spring_n_m": 1000000,
+              "x_m": 18.5
+            },
+            {
+              "force_n": 941.9316493557814,
+              "global_x_m": 21.0,
+              "spring_n_m": 1000000,
+              "x_m": 21.5
+            },
+            {
+              "force_n": 328.17065166988004,
+              "global_x_m": 24.0,
+              "spring_n_m": 1000000,
+              "x_m": 24.5
+            }
+          ],
+          "free_force_residual_n": 4.903682793155895e-09,
+          "free_moment_residual_nm": 1.273889438380138e-09,
+          "maximum_abs_brace_force_n": 1820.4413927639437,
+          "stable_elastic_tangent": true
+        },
+        "resistance_qualified": false,
+        "spring_n_m": 1000000,
+        "stiffness_measured": false
+      },
+      {
+        "critical_force_per_side_n": 32079627.18166132,
+        "elastic_load_factor": 8.679552808891051,
+        "imperfect_response": {
+          "additional_sway_m": 0.0001645293422983948,
+          "brace_reactions": [
+            {
+              "force_n": 689.0071717429954,
+              "global_x_m": 3.0,
+              "spring_n_m": 10000000,
+              "x_m": 3.5
+            },
+            {
+              "force_n": 1163.5480290685914,
+              "global_x_m": 6.0,
+              "spring_n_m": 10000000,
+              "x_m": 6.5
+            },
+            {
+              "force_n": 1492.679349530393,
+              "global_x_m": 9.0,
+              "spring_n_m": 10000000,
+              "x_m": 9.5
+            },
+            {
+              "force_n": 1633.1398649172013,
+              "global_x_m": 12.0,
+              "spring_n_m": 10000000,
+              "x_m": 12.5
+            },
+            {
+              "force_n": 1562.6672461806525,
+              "global_x_m": 15.0,
+              "spring_n_m": 10000000,
+              "x_m": 15.5
+            },
+            {
+              "force_n": 1288.7907792310575,
+              "global_x_m": 18.0,
+              "spring_n_m": 10000000,
+              "x_m": 18.5
+            },
+            {
+              "force_n": 847.0654734700978,
+              "global_x_m": 21.0,
+              "spring_n_m": 10000000,
+              "x_m": 21.5
+            },
+            {
+              "force_n": 295.1439730196708,
+              "global_x_m": 24.0,
+              "spring_n_m": 10000000,
+              "x_m": 24.5
+            }
+          ],
+          "free_force_residual_n": 6.094751370255835e-10,
+          "free_moment_residual_nm": 1.0325607036065776e-10,
+          "maximum_abs_brace_force_n": 1633.1398649172013,
+          "stable_elastic_tangent": true
+        },
+        "resistance_qualified": false,
+        "spring_n_m": 10000000,
+        "stiffness_measured": false
+      }
+    ],
+    "common_sway_with_cross_ties_only_critical_n": 1147590.6954816184,
+    "end_vertical_eccentric_couple_nm": 5667200.000000001,
+    "force_each_side_n": 3695999.9999999995,
+    "foundation_stiffness_measured_n_m": null,
+    "initial_bow_basis": "Sinusoidal 10 mm research bow; springs unstressed in that initial shape. No fabrication tolerance or brace design criterion adopted.",
+    "initial_stressing_force_n": 7391999.999999999,
+    "nominal_side_box_axial_demand_pa": 150390625.00000006,
+    "physical_release": false,
+    "proposed_spring_n_m": 1000000,
+    "requirement": "Provide an absolute lateral restraint load path in BOTH buckling planes; transverse ties alone leave the common-sway mode unrestrained",
+    "return_box_centroid_z_m": 0.5,
+    "strongback_in_plane_moment_demand_nm": 4185719.9999999995,
+    "strongback_resistance": null,
+    "tendon_centroid_z_m": 1.2666666666666668
+  },
+  "numerical_toolchain": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.3.5",
+    "python": "3.13.15",
+    "scipy": "1.16.3"
+  },
+  "physical_release": false,
+  "prestress": {
+    "alternatives": [
+      {
+        "id": "low-40",
+        "initial_force_n": 6159999.999999999,
+        "rows": [
+          [
+            0.1,
+            10
+          ],
+          [
+            0.16,
+            10
+          ],
+          [
+            0.22,
+            10
+          ],
+          [
+            0.28,
+            10
+          ]
+        ],
+        "scenarios": [
+          {
+            "handling_equivalent_kg_lower_bound": 85578.84375000001,
+            "known_concrete_plus_strand_mass_kg": 66463.07500000001,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 17637553.145015053,
+              "transfer": 22046941.431268815
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": -3171390.7085656086,
+              "transfer": -3964238.3857070114
+            },
+            "no_tension_research_screen": false,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 20.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 4410594.4990204675,
+                  "prestress_moment_nm": 2576336.2515254975,
+                  "soffit_pa": 17637553.145015053,
+                  "top_pa": -3171390.7085656086
+                },
+                "transfer": {
+                  "force_n": 5513243.123775585,
+                  "prestress_moment_nm": 3220420.314406872,
+                  "soffit_pa": 22046941.431268815,
+                  "top_pa": -3964238.3857070114
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 152643.49827825002,
+                "service_dead_only": {
+                  "force_n": 4426845.010554793,
+                  "prestress_moment_nm": 2585968.2906568274,
+                  "soffit_pa": 16876248.106887937,
+                  "top_pa": -2777599.0771315205
+                },
+                "transfer": {
+                  "force_n": 5533556.263193492,
+                  "prestress_moment_nm": 3232460.363321034,
+                  "soffit_pa": 21302071.713160403,
+                  "top_pa": -3573460.813325043
+                },
+                "x_m": 0.5
+              },
+              {
+                "gravity_moment_nm": 290022.13984745316,
+                "service_dead_only": {
+                  "force_n": 4441470.41697283,
+                  "prestress_moment_nm": 2594637.0938900406,
+                  "soffit_pa": 16191076.10062898,
+                  "top_pa": -2423187.916499442
+                },
+                "transfer": {
+                  "force_n": 5551838.021216037,
+                  "prestress_moment_nm": 3243296.3673625505,
+                  "soffit_pa": 20631691.440341733,
+                  "top_pa": -3221762.295831126
+                },
+                "x_m": 1.0
+              },
+              {
+                "gravity_moment_nm": 419912.56751182815,
+                "service_dead_only": {
+                  "force_n": 4455298.623983067,
+                  "prestress_moment_nm": 2602833.3793274183,
+                  "soffit_pa": 15543251.344902286,
+                  "top_pa": -2088094.9450032944
+                },
+                "transfer": {
+                  "force_n": 5569123.279978834,
+                  "prestress_moment_nm": 3253541.7241592724,
+                  "soffit_pa": 19997852.152519736,
+                  "top_pa": -2889234.1071374007
+                },
+                "x_m": 1.5
+              },
+              {
+                "gravity_moment_nm": 542380.6850239531,
+                "service_dead_only": {
+                  "force_n": 4468336.647735576,
+                  "prestress_moment_nm": 2610561.305596946,
+                  "soffit_pa": 14932445.146645691,
+                  "top_pa": -1772150.1433069292
+                },
+                "transfer": {
+                  "force_n": 5585420.80966947,
+                  "prestress_moment_nm": 3263201.631996182,
+                  "soffit_pa": 19400232.25257328,
+                  "top_pa": -2575707.5292261764
+                },
+                "x_m": 2.0
+              },
+              {
+                "gravity_moment_nm": 657426.4923838282,
+                "service_dead_only": {
+                  "force_n": 4480584.488230358,
+                  "prestress_moment_nm": 2617820.8726986228,
+                  "soffit_pa": 14358657.505859192,
+                  "top_pa": -1475353.5114103407
+                },
+                "transfer": {
+                  "force_n": 5600730.610287947,
+                  "prestress_moment_nm": 3272276.090873278,
+                  "soffit_pa": 18838831.740502372,
+                  "top_pa": -2281182.56209745
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 765049.9895914532,
+                "service_dead_only": {
+                  "force_n": 4492042.145467411,
+                  "prestress_moment_nm": 2624612.08063245,
+                  "soffit_pa": 13821888.42254279,
+                  "top_pa": -1197705.049313535
+                },
+                "transfer": {
+                  "force_n": 5615052.681834264,
+                  "prestress_moment_nm": 3280765.100790562,
+                  "soffit_pa": 18313650.616306998,
+                  "top_pa": -2005659.2057512198
+                },
+                "x_m": 3.0
+              },
+              {
+                "gravity_moment_nm": 865251.1766468281,
+                "service_dead_only": {
+                  "force_n": 4502709.619446737,
+                  "prestress_moment_nm": 2630934.929398427,
+                  "soffit_pa": 13322137.896696482,
+                  "top_pa": -939204.757016506
+                },
+                "transfer": {
+                  "force_n": 5628387.024308421,
+                  "prestress_moment_nm": 3288668.6617480335,
+                  "soffit_pa": 17824688.879987173,
+                  "top_pa": -1749137.46018749
+                },
+                "x_m": 3.5
+              },
+              {
+                "gravity_moment_nm": 958030.0535499533,
+                "service_dead_only": {
+                  "force_n": 4512586.910168335,
+                  "prestress_moment_nm": 2636789.418996554,
+                  "soffit_pa": 12859405.928320277,
+                  "top_pa": -699852.6345192594
+                },
+                "transfer": {
+                  "force_n": 5640733.637710419,
+                  "prestress_moment_nm": 3295986.7737456923,
+                  "soffit_pa": 17371946.531542886,
+                  "top_pa": -1511617.325406258
+                },
+                "x_m": 4.0
+              },
+              {
+                "gravity_moment_nm": 1043386.6203008282,
+                "service_dead_only": {
+                  "force_n": 4521674.017632204,
+                  "prestress_moment_nm": 2642175.549426831,
+                  "soffit_pa": 12433692.517414166,
+                  "top_pa": -479648.68182179285
+                },
+                "transfer": {
+                  "force_n": 5652092.522040255,
+                  "prestress_moment_nm": 3302719.436783538,
+                  "soffit_pa": 16955423.570974145,
+                  "top_pa": -1293098.8014075244
+                },
+                "x_m": 4.5
+              },
+              {
+                "gravity_moment_nm": 1121320.8768994533,
+                "service_dead_only": {
+                  "force_n": 4529970.941838346,
+                  "prestress_moment_nm": 2647093.3206892572,
+                  "soffit_pa": 12044997.66397815,
+                  "top_pa": -278592.8989241044
+                },
+                "transfer": {
+                  "force_n": 5662463.677297933,
+                  "prestress_moment_nm": 3308866.650861571,
+                  "soffit_pa": 16575119.998280946,
+                  "top_pa": -1093581.8881912902
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1191832.8233458283,
+                "service_dead_only": {
+                  "force_n": 4537477.682786762,
+                  "prestress_moment_nm": 2651542.7327838335,
+                  "soffit_pa": 11693321.36801223,
+                  "top_pa": -96685.2858261955
+                },
+                "transfer": {
+                  "force_n": 5671847.1034834515,
+                  "prestress_moment_nm": 3314428.4159797914,
+                  "soffit_pa": 16231035.81346329,
+                  "top_pa": -913066.5857575526
+                },
+                "x_m": 5.5
+              },
+              {
+                "gravity_moment_nm": 1254922.4596399534,
+                "service_dead_only": {
+                  "force_n": 4544194.240477448,
+                  "prestress_moment_nm": 2655523.78571056,
+                  "soffit_pa": 11378663.629516412,
+                  "top_pa": 66074.15747193247
+                },
+                "transfer": {
+                  "force_n": 5680242.80059681,
+                  "prestress_moment_nm": 3319404.7321381997,
+                  "soffit_pa": 15923171.016521174,
+                  "top_pa": -751552.8941063164
+                },
+                "x_m": 6.0
+              },
+              {
+                "gravity_moment_nm": 1310589.7857818285,
+                "service_dead_only": {
+                  "force_n": 4550120.614910408,
+                  "prestress_moment_nm": 2659036.479469436,
+                  "soffit_pa": 11101024.448490685,
+                  "top_pa": 209685.43097028183
+                },
+                "transfer": {
+                  "force_n": 5687650.768638009,
+                  "prestress_moment_nm": 3323795.599336795,
+                  "soffit_pa": 15651525.60745461,
+                  "top_pa": -609040.8132375767
+                },
+                "x_m": 6.5
+              },
+              {
+                "gravity_moment_nm": 1358834.801771453,
+                "service_dead_only": {
+                  "force_n": 4555256.806085638,
+                  "prestress_moment_nm": 2662080.8140604617,
+                  "soffit_pa": 10860403.824935056,
+                  "top_pa": 334148.5346688493
+                },
+                "transfer": {
+                  "force_n": 5694071.0076070465,
+                  "prestress_moment_nm": 3327601.017575577,
+                  "soffit_pa": 15416099.586263577,
+                  "top_pa": -485530.34315133654
+                },
+                "x_m": 7.0
+              },
+              {
+                "gravity_moment_nm": 1399657.5076088281,
+                "service_dead_only": {
+                  "force_n": 4559602.814003141,
+                  "prestress_moment_nm": 2664656.7894836375,
+                  "soffit_pa": 10656801.758849524,
+                  "top_pa": 439463.4685676382
+                },
+                "transfer": {
+                  "force_n": 5699503.517503926,
+                  "prestress_moment_nm": 3330820.9868545467,
+                  "soffit_pa": 15216892.952948093,
+                  "top_pa": -381021.4838475948
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 1433057.9032939533,
+                "service_dead_only": {
+                  "force_n": 4563158.638662916,
+                  "prestress_moment_nm": 2666764.4057389633,
+                  "soffit_pa": 10490218.250234086,
+                  "top_pa": 525630.2326666475
+                },
+                "transfer": {
+                  "force_n": 5703948.298328645,
+                  "prestress_moment_nm": 3333455.507173704,
+                  "soffit_pa": 15053905.70750815,
+                  "top_pa": -295514.23532635253
+                },
+                "x_m": 8.0
+              },
+              {
+                "gravity_moment_nm": 1459035.9888268283,
+                "service_dead_only": {
+                  "force_n": 4565924.280064963,
+                  "prestress_moment_nm": 2668403.6628264394,
+                  "soffit_pa": 10360653.299088752,
+                  "top_pa": 592648.826965875
+                },
+                "transfer": {
+                  "force_n": 5707405.3500812035,
+                  "prestress_moment_nm": 3335504.5785330487,
+                  "soffit_pa": 14927137.849943753,
+                  "top_pa": -229008.5975876078
+                },
+                "x_m": 8.5
+              },
+              {
+                "gravity_moment_nm": 1477591.7642074535,
+                "service_dead_only": {
+                  "force_n": 4567899.738209283,
+                  "prestress_moment_nm": 2669574.5607460644,
+                  "soffit_pa": 10268106.905413508,
+                  "top_pa": 640519.2514653266
+                },
+                "transfer": {
+                  "force_n": 5709874.672761603,
+                  "prestress_moment_nm": 3336968.20093258,
+                  "soffit_pa": 14836589.38025489,
+                  "top_pa": -181504.5706313597
+                },
+                "x_m": 9.0
+              },
+              {
+                "gravity_moment_nm": 1488725.229435828,
+                "service_dead_only": {
+                  "force_n": 4569085.013095874,
+                  "prestress_moment_nm": 2670277.09949784,
+                  "soffit_pa": 10212579.069208367,
+                  "top_pa": 669241.5061649941
+                },
+                "transfer": {
+                  "force_n": 5711356.266369843,
+                  "prestress_moment_nm": 3337846.3743722993,
+                  "soffit_pa": 14782260.298441581,
+                  "top_pa": -153002.15445761383
+                },
+                "x_m": 9.5
+              },
+              {
+                "gravity_moment_nm": 1492436.3845119532,
+                "service_dead_only": {
+                  "force_n": 4569480.104724739,
+                  "prestress_moment_nm": 2670511.279081765,
+                  "soffit_pa": 10194069.79047332,
+                  "top_pa": 678815.5910648848
+                },
+                "transfer": {
+                  "force_n": 5711850.130905923,
+                  "prestress_moment_nm": 3338139.098852206,
+                  "soffit_pa": 14764150.604503812,
+                  "top_pa": -143501.34906636458
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 1488725.2294358283,
+                "service_dead_only": {
+                  "force_n": 4569085.013095874,
+                  "prestress_moment_nm": 2670277.09949784,
+                  "soffit_pa": 10212579.069208365,
+                  "top_pa": 669241.506164995
+                },
+                "transfer": {
+                  "force_n": 5711356.266369843,
+                  "prestress_moment_nm": 3337846.3743722993,
+                  "soffit_pa": 14782260.298441581,
+                  "top_pa": -153002.1544576129
+                },
+                "x_m": 10.5
+              },
+              {
+                "gravity_moment_nm": 1477591.7642074532,
+                "service_dead_only": {
+                  "force_n": 4567899.738209283,
+                  "prestress_moment_nm": 2669574.5607460644,
+                  "soffit_pa": 10268106.905413508,
+                  "top_pa": 640519.2514653257
+                },
+                "transfer": {
+                  "force_n": 5709874.672761603,
+                  "prestress_moment_nm": 3336968.20093258,
+                  "soffit_pa": 14836589.380254894,
+                  "top_pa": -181504.5706313597
+                },
+                "x_m": 11.0
+              },
+              {
+                "gravity_moment_nm": 1459035.9888268283,
+                "service_dead_only": {
+                  "force_n": 4565924.280064963,
+                  "prestress_moment_nm": 2668403.6628264394,
+                  "soffit_pa": 10360653.299088752,
+                  "top_pa": 592648.826965875
+                },
+                "transfer": {
+                  "force_n": 5707405.3500812035,
+                  "prestress_moment_nm": 3335504.5785330487,
+                  "soffit_pa": 14927137.849943753,
+                  "top_pa": -229008.5975876078
+                },
+                "x_m": 11.5
+              },
+              {
+                "gravity_moment_nm": 1433057.9032939537,
+                "service_dead_only": {
+                  "force_n": 4563158.638662916,
+                  "prestress_moment_nm": 2666764.4057389633,
+                  "soffit_pa": 10490218.250234086,
+                  "top_pa": 525630.2326666485
+                },
+                "transfer": {
+                  "force_n": 5703948.298328645,
+                  "prestress_moment_nm": 3333455.507173704,
+                  "soffit_pa": 15053905.707508149,
+                  "top_pa": -295514.23532635067
+                },
+                "x_m": 12.0
+              },
+              {
+                "gravity_moment_nm": 1399657.5076088286,
+                "service_dead_only": {
+                  "force_n": 4559602.814003141,
+                  "prestress_moment_nm": 2664656.7894836375,
+                  "soffit_pa": 10656801.75884952,
+                  "top_pa": 439463.4685676396
+                },
+                "transfer": {
+                  "force_n": 5699503.517503926,
+                  "prestress_moment_nm": 3330820.9868545467,
+                  "soffit_pa": 15216892.95294809,
+                  "top_pa": -381021.48384759296
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 1358834.801771454,
+                "service_dead_only": {
+                  "force_n": 4555256.806085638,
+                  "prestress_moment_nm": 2662080.814060462,
+                  "soffit_pa": 10860403.824935053,
+                  "top_pa": 334148.5346688507
+                },
+                "transfer": {
+                  "force_n": 5694071.0076070465,
+                  "prestress_moment_nm": 3327601.0175755774,
+                  "soffit_pa": 15416099.586263575,
+                  "top_pa": -485530.34315133654
+                },
+                "x_m": 13.0
+              },
+              {
+                "gravity_moment_nm": 1310589.7857818282,
+                "service_dead_only": {
+                  "force_n": 4550120.614910408,
+                  "prestress_moment_nm": 2659036.479469436,
+                  "soffit_pa": 11101024.448490687,
+                  "top_pa": 209685.4309702809
+                },
+                "transfer": {
+                  "force_n": 5687650.768638009,
+                  "prestress_moment_nm": 3323795.599336795,
+                  "soffit_pa": 15651525.60745461,
+                  "top_pa": -609040.8132375777
+                },
+                "x_m": 13.5
+              },
+              {
+                "gravity_moment_nm": 1254922.459639953,
+                "service_dead_only": {
+                  "force_n": 4544194.240477448,
+                  "prestress_moment_nm": 2655523.78571056,
+                  "soffit_pa": 11378663.629516412,
+                  "top_pa": 66074.15747193107
+                },
+                "transfer": {
+                  "force_n": 5680242.80059681,
+                  "prestress_moment_nm": 3319404.7321381997,
+                  "soffit_pa": 15923171.016521178,
+                  "top_pa": -751552.8941063173
+                },
+                "x_m": 14.0
+              },
+              {
+                "gravity_moment_nm": 1191832.8233458288,
+                "service_dead_only": {
+                  "force_n": 4537477.682786762,
+                  "prestress_moment_nm": 2651542.7327838335,
+                  "soffit_pa": 11693321.368012227,
+                  "top_pa": -96685.2858261941
+                },
+                "transfer": {
+                  "force_n": 5671847.1034834515,
+                  "prestress_moment_nm": 3314428.4159797914,
+                  "soffit_pa": 16231035.813463286,
+                  "top_pa": -913066.5857575526
+                },
+                "x_m": 14.5
+              },
+              {
+                "gravity_moment_nm": 1121320.876899453,
+                "service_dead_only": {
+                  "force_n": 4529970.941838346,
+                  "prestress_moment_nm": 2647093.3206892572,
+                  "soffit_pa": 12044997.66397815,
+                  "top_pa": -278592.89892410534
+                },
+                "transfer": {
+                  "force_n": 5662463.677297933,
+                  "prestress_moment_nm": 3308866.650861571,
+                  "soffit_pa": 16575119.998280946,
+                  "top_pa": -1093581.8881912902
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 1043386.620300829,
+                "service_dead_only": {
+                  "force_n": 4521674.017632204,
+                  "prestress_moment_nm": 2642175.549426831,
+                  "soffit_pa": 12433692.517414162,
+                  "top_pa": -479648.6818217919
+                },
+                "transfer": {
+                  "force_n": 5652092.522040255,
+                  "prestress_moment_nm": 3302719.436783538,
+                  "soffit_pa": 16955423.57097414,
+                  "top_pa": -1293098.8014075235
+                },
+                "x_m": 15.5
+              },
+              {
+                "gravity_moment_nm": 958030.0535499535,
+                "service_dead_only": {
+                  "force_n": 4512586.910168335,
+                  "prestress_moment_nm": 2636789.418996554,
+                  "soffit_pa": 12859405.928320274,
+                  "top_pa": -699852.6345192585
+                },
+                "transfer": {
+                  "force_n": 5640733.637710419,
+                  "prestress_moment_nm": 3295986.7737456923,
+                  "soffit_pa": 17371946.531542886,
+                  "top_pa": -1511617.325406257
+                },
+                "x_m": 16.0
+              },
+              {
+                "gravity_moment_nm": 865251.1766468281,
+                "service_dead_only": {
+                  "force_n": 4502709.619446737,
+                  "prestress_moment_nm": 2630934.929398427,
+                  "soffit_pa": 13322137.896696482,
+                  "top_pa": -939204.757016506
+                },
+                "transfer": {
+                  "force_n": 5628387.024308421,
+                  "prestress_moment_nm": 3288668.6617480335,
+                  "soffit_pa": 17824688.879987173,
+                  "top_pa": -1749137.46018749
+                },
+                "x_m": 16.5
+              },
+              {
+                "gravity_moment_nm": 765049.9895914533,
+                "service_dead_only": {
+                  "force_n": 4492042.145467411,
+                  "prestress_moment_nm": 2624612.08063245,
+                  "soffit_pa": 13821888.42254279,
+                  "top_pa": -1197705.049313535
+                },
+                "transfer": {
+                  "force_n": 5615052.681834264,
+                  "prestress_moment_nm": 3280765.100790562,
+                  "soffit_pa": 18313650.616306998,
+                  "top_pa": -2005659.2057512198
+                },
+                "x_m": 17.0
+              },
+              {
+                "gravity_moment_nm": 657426.4923838278,
+                "service_dead_only": {
+                  "force_n": 4480584.488230358,
+                  "prestress_moment_nm": 2617820.8726986228,
+                  "soffit_pa": 14358657.505859192,
+                  "top_pa": -1475353.5114103416
+                },
+                "transfer": {
+                  "force_n": 5600730.610287947,
+                  "prestress_moment_nm": 3272276.090873278,
+                  "soffit_pa": 18838831.740502372,
+                  "top_pa": -2281182.56209745
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 542380.6850239539,
+                "service_dead_only": {
+                  "force_n": 4468336.647735576,
+                  "prestress_moment_nm": 2610561.305596946,
+                  "soffit_pa": 14932445.146645688,
+                  "top_pa": -1772150.1433069273
+                },
+                "transfer": {
+                  "force_n": 5585420.80966947,
+                  "prestress_moment_nm": 3263201.631996182,
+                  "soffit_pa": 19400232.252573278,
+                  "top_pa": -2575707.5292261736
+                },
+                "x_m": 18.0
+              },
+              {
+                "gravity_moment_nm": 419912.56751182757,
+                "service_dead_only": {
+                  "force_n": 4455298.623983067,
+                  "prestress_moment_nm": 2602833.3793274183,
+                  "soffit_pa": 15543251.34490229,
+                  "top_pa": -2088094.9450032962
+                },
+                "transfer": {
+                  "force_n": 5569123.279978834,
+                  "prestress_moment_nm": 3253541.7241592724,
+                  "soffit_pa": 19997852.15251974,
+                  "top_pa": -2889234.1071374025
+                },
+                "x_m": 18.5
+              },
+              {
+                "gravity_moment_nm": 290022.13984745287,
+                "service_dead_only": {
+                  "force_n": 4441470.41697283,
+                  "prestress_moment_nm": 2594637.09389004,
+                  "soffit_pa": 16191076.10062898,
+                  "top_pa": -2423187.916499442
+                },
+                "transfer": {
+                  "force_n": 5551838.021216037,
+                  "prestress_moment_nm": 3243296.36736255,
+                  "soffit_pa": 20631691.440341733,
+                  "top_pa": -3221762.295831126
+                },
+                "x_m": 19.0
+              },
+              {
+                "gravity_moment_nm": 152643.49827825074,
+                "service_dead_only": {
+                  "force_n": 4426845.010554793,
+                  "prestress_moment_nm": 2585968.2906568274,
+                  "soffit_pa": 16876248.106887933,
+                  "top_pa": -2777599.0771315186
+                },
+                "transfer": {
+                  "force_n": 5533556.263193492,
+                  "prestress_moment_nm": 3232460.363321034,
+                  "soffit_pa": 21302071.7131604,
+                  "top_pa": -3573460.813325039
+                },
+                "x_m": 19.5
+              },
+              {
+                "gravity_moment_nm": 3.4560798667371273e-10,
+                "service_dead_only": {
+                  "force_n": 4410594.4990204675,
+                  "prestress_moment_nm": 2576336.2515254975,
+                  "soffit_pa": 17637553.14501505,
+                  "top_pa": -3171390.7085656077
+                },
+                "transfer": {
+                  "force_n": 5513243.123775585,
+                  "prestress_moment_nm": 3220420.314406872,
+                  "soffit_pa": 22046941.431268815,
+                  "top_pa": -3964238.3857070096
+                },
+                "x_m": 20.0
+              }
+            ]
+          },
+          {
+            "handling_equivalent_kg_lower_bound": 104500.46875,
+            "known_concrete_plus_strand_mass_kg": 81600.375,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 17637553.145015053,
+              "transfer": 22046941.431268815
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": -3171390.7085656086,
+              "transfer": -3964238.3857070114
+            },
+            "no_tension_research_screen": false,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 25.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 4410594.4990204675,
+                  "prestress_moment_nm": 2576336.2515254975,
+                  "soffit_pa": 17637553.145015053,
+                  "top_pa": -3171390.7085656086
+                },
+                "transfer": {
+                  "force_n": 5513243.123775585,
+                  "prestress_moment_nm": 3220420.314406872,
+                  "soffit_pa": 22046941.431268815,
+                  "top_pa": -3964238.3857070114
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 234122.8665133203,
+                "service_dead_only": {
+                  "force_n": 4435519.349313067,
+                  "prestress_moment_nm": 2591109.763907169,
+                  "soffit_pa": 16469872.111575643,
+                  "top_pa": -2567397.5703040333
+                },
+                "transfer": {
+                  "force_n": 5544399.186641334,
+                  "prestress_moment_nm": 3238887.204883961,
+                  "soffit_pa": 20904468.705279417,
+                  "top_pa": -3364868.177036818
+                },
+                "x_m": 0.625
+              },
+              {
+                "gravity_moment_nm": 448674.01935179683,
+                "service_dead_only": {
+                  "force_n": 4458360.584106763,
+                  "prestress_moment_nm": 2604648.2711028378,
+                  "soffit_pa": 15399804.434705663,
+                  "top_pa": -2013895.787029149
+                },
+                "transfer": {
+                  "force_n": 5572950.730133453,
+                  "prestress_moment_nm": 3255810.338878547,
+                  "soffit_pa": 19857502.024502013,
+                  "top_pa": -2815602.8653552216
+                },
+                "x_m": 1.25
+              },
+              {
+                "gravity_moment_nm": 651627.8125773829,
+                "service_dead_only": {
+                  "force_n": 4479967.157560258,
+                  "prestress_moment_nm": 2617454.96709874,
+                  "soffit_pa": 14387578.253882704,
+                  "top_pa": -1490313.019066419
+                },
+                "transfer": {
+                  "force_n": 5599958.946950322,
+                  "prestress_moment_nm": 3271818.7088734247,
+                  "soffit_pa": 18867128.137280136,
+                  "top_pa": -2296027.5705212764
+                },
+                "x_m": 1.875
+              },
+              {
+                "gravity_moment_nm": 842984.2461900781,
+                "service_dead_only": {
+                  "force_n": 4500339.069673553,
+                  "prestress_moment_nm": 2629529.8518948765,
+                  "soffit_pa": 13433193.569106774,
+                  "top_pa": -996649.2664158461
+                },
+                "transfer": {
+                  "force_n": 5625423.837091941,
+                  "prestress_moment_nm": 3286912.3148685955,
+                  "soffit_pa": 17933347.0436138,
+                  "top_pa": -1806142.2925349856
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 1022743.3201898828,
+                "service_dead_only": {
+                  "force_n": 4519476.32044665,
+                  "prestress_moment_nm": 2640872.9254912473,
+                  "soffit_pa": 12536650.38037787,
+                  "top_pa": -532904.5290774293
+                },
+                "transfer": {
+                  "force_n": 5649345.4005583115,
+                  "prestress_moment_nm": 3301091.156864059,
+                  "soffit_pa": 17056158.743502997,
+                  "top_pa": -1345947.031396349
+                },
+                "x_m": 3.125
+              },
+              {
+                "gravity_moment_nm": 1190905.034576797,
+                "service_dead_only": {
+                  "force_n": 4537378.909879546,
+                  "prestress_moment_nm": 2651484.1878878525,
+                  "soffit_pa": 11697948.687695995,
+                  "top_pa": -99078.80705116922
+                },
+                "transfer": {
+                  "force_n": 5671723.637349431,
+                  "prestress_moment_nm": 3314355.2348598153,
+                  "soffit_pa": 16235563.236947734,
+                  "top_pa": -915441.7871053666
+                },
+                "x_m": 3.75
+              },
+              {
+                "gravity_moment_nm": 1347469.3893508206,
+                "service_dead_only": {
+                  "force_n": 4554046.837972241,
+                  "prestress_moment_nm": 2661363.639084691,
+                  "soffit_pa": 10917088.49106114,
+                  "top_pa": 304827.89966293704
+                },
+                "transfer": {
+                  "force_n": 5692558.547465302,
+                  "prestress_moment_nm": 3326704.548855864,
+                  "soffit_pa": 15471560.523948003,
+                  "top_pa": -514626.55966203846
+                },
+                "x_m": 4.375
+              },
+              {
+                "gravity_moment_nm": 1492436.3845119532,
+                "service_dead_only": {
+                  "force_n": 4569480.104724739,
+                  "prestress_moment_nm": 2670511.279081765,
+                  "soffit_pa": 10194069.79047332,
+                  "top_pa": 678815.5910648848
+                },
+                "transfer": {
+                  "force_n": 5711850.130905923,
+                  "prestress_moment_nm": 3338139.098852206,
+                  "soffit_pa": 14764150.604503812,
+                  "top_pa": -143501.34906636458
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1625806.0200601954,
+                "service_dead_only": {
+                  "force_n": 4583678.710137035,
+                  "prestress_moment_nm": 2678927.107879072,
+                  "soffit_pa": 9528892.585932516,
+                  "top_pa": 1022884.2671546782
+                },
+                "transfer": {
+                  "force_n": 5729598.387671294,
+                  "prestress_moment_nm": 3348658.8848488396,
+                  "soffit_pa": 14113333.47861515,
+                  "top_pa": 197933.84468165692
+                },
+                "x_m": 5.625
+              },
+              {
+                "gravity_moment_nm": 1747578.295995547,
+                "service_dead_only": {
+                  "force_n": 4596642.654209132,
+                  "prestress_moment_nm": 2686611.1254766136,
+                  "soffit_pa": 8921556.877438743,
+                  "top_pa": 1337033.9279323155
+                },
+                "transfer": {
+                  "force_n": 5745803.317761416,
+                  "prestress_moment_nm": 3358263.9068457666,
+                  "soffit_pa": 13519109.146282028,
+                  "top_pa": 509679.0215820242
+                },
+                "x_m": 6.25
+              },
+              {
+                "gravity_moment_nm": 1857753.2123180078,
+                "service_dead_only": {
+                  "force_n": 4608371.93694103,
+                  "prestress_moment_nm": 2693563.331874389,
+                  "soffit_pa": 8372062.664991995,
+                  "top_pa": 1621264.573397797
+                },
+                "transfer": {
+                  "force_n": 5760464.921176287,
+                  "prestress_moment_nm": 3366954.1648429865,
+                  "soffit_pa": 12981477.607504442,
+                  "top_pa": 791734.1816347349
+                },
+                "x_m": 6.875
+              },
+              {
+                "gravity_moment_nm": 1956330.769027578,
+                "service_dead_only": {
+                  "force_n": 4618866.558332728,
+                  "prestress_moment_nm": 2699783.727072399,
+                  "soffit_pa": 7880409.948592276,
+                  "top_pa": 1875576.2035511213
+                },
+                "transfer": {
+                  "force_n": 5773583.19791591,
+                  "prestress_moment_nm": 3374729.6588404984,
+                  "soffit_pa": 12500438.862282388,
+                  "top_pa": 1044099.3248397941
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 2043310.966124258,
+                "service_dead_only": {
+                  "force_n": 4628126.518384226,
+                  "prestress_moment_nm": 2705272.3110706434,
+                  "soffit_pa": 7446598.72823958,
+                  "top_pa": 2099968.8183922907
+                },
+                "transfer": {
+                  "force_n": 5785158.147980282,
+                  "prestress_moment_nm": 3381590.3888383037,
+                  "soffit_pa": 12075992.910615873,
+                  "top_pa": 1266774.4511971981
+                },
+                "x_m": 8.125
+              },
+              {
+                "gravity_moment_nm": 2118693.803608047,
+                "service_dead_only": {
+                  "force_n": 4636151.817095525,
+                  "prestress_moment_nm": 2710029.083869121,
+                  "soffit_pa": 7070629.00393391,
+                  "top_pa": 2294442.4179213056
+                },
+                "transfer": {
+                  "force_n": 5795189.771369405,
+                  "prestress_moment_nm": 3387536.354836401,
+                  "soffit_pa": 11708139.75250489,
+                  "top_pa": 1459759.5607069493
+                },
+                "x_m": 8.75
+              },
+              {
+                "gravity_moment_nm": 2182479.281478945,
+                "service_dead_only": {
+                  "force_n": 4642942.454466622,
+                  "prestress_moment_nm": 2714054.045467833,
+                  "soffit_pa": 6752500.775675266,
+                  "top_pa": 2458997.0021381625
+                },
+                "transfer": {
+                  "force_n": 5803678.068083278,
+                  "prestress_moment_nm": 3392567.5568347913,
+                  "soffit_pa": 11396879.387949446,
+                  "top_pa": 1623054.6533690458
+                },
+                "x_m": 9.375
+              },
+              {
+                "gravity_moment_nm": 2234667.399736953,
+                "service_dead_only": {
+                  "force_n": 4648498.430497522,
+                  "prestress_moment_nm": 2717347.1958667794,
+                  "soffit_pa": 6492214.043463649,
+                  "top_pa": 2593632.571042864
+                },
+                "transfer": {
+                  "force_n": 5810623.038121901,
+                  "prestress_moment_nm": 3396683.994833474,
+                  "soffit_pa": 11142211.816949535,
+                  "top_pa": 1756659.729183489
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 2275258.1583820707,
+                "service_dead_only": {
+                  "force_n": 4652819.74518822,
+                  "prestress_moment_nm": 2719908.53506596,
+                  "soffit_pa": 6289768.807299055,
+                  "top_pa": 2698349.1246354105
+                },
+                "transfer": {
+                  "force_n": 5816024.681485276,
+                  "prestress_moment_nm": 3399885.6688324497,
+                  "soffit_pa": 10944137.039505158,
+                  "top_pa": 1860574.7881502793
+                },
+                "x_m": 10.625
+              },
+              {
+                "gravity_moment_nm": 2304251.5574142965,
+                "service_dead_only": {
+                  "force_n": 4655906.398538719,
+                  "prestress_moment_nm": 2721738.0630653743,
+                  "soffit_pa": 6145165.067181491,
+                  "top_pa": 2773146.6629157993
+                },
+                "transfer": {
+                  "force_n": 5819882.998173399,
+                  "prestress_moment_nm": 3402172.578831718,
+                  "soffit_pa": 10802655.055616321,
+                  "top_pa": 1934799.8302694121
+                },
+                "x_m": 11.25
+              },
+              {
+                "gravity_moment_nm": 2321647.5968336333,
+                "service_dead_only": {
+                  "force_n": 4657758.390549019,
+                  "prestress_moment_nm": 2722835.779865023,
+                  "soffit_pa": 6058402.823110949,
+                  "top_pa": 2818025.185884035
+                },
+                "transfer": {
+                  "force_n": 5822197.988186274,
+                  "prestress_moment_nm": 3403544.724831279,
+                  "soffit_pa": 10717765.865283016,
+                  "top_pa": 1979334.8555408954
+                },
+                "x_m": 11.875
+              },
+              {
+                "gravity_moment_nm": 2327446.2766400785,
+                "service_dead_only": {
+                  "force_n": 4658375.72121912,
+                  "prestress_moment_nm": 2723201.6854649065,
+                  "soffit_pa": 6029482.075087439,
+                  "top_pa": 2832984.693540113
+                },
+                "transfer": {
+                  "force_n": 5822969.651523899,
+                  "prestress_moment_nm": 3404002.106831133,
+                  "soffit_pa": 10689469.468505248,
+                  "top_pa": 1994179.8639647216
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 2321647.596833633,
+                "service_dead_only": {
+                  "force_n": 4657758.390549019,
+                  "prestress_moment_nm": 2722835.779865023,
+                  "soffit_pa": 6058402.823110952,
+                  "top_pa": 2818025.1858840343
+                },
+                "transfer": {
+                  "force_n": 5822197.988186274,
+                  "prestress_moment_nm": 3403544.724831279,
+                  "soffit_pa": 10717765.865283016,
+                  "top_pa": 1979334.855540894
+                },
+                "x_m": 13.125
+              },
+              {
+                "gravity_moment_nm": 2304251.557414297,
+                "service_dead_only": {
+                  "force_n": 4655906.398538719,
+                  "prestress_moment_nm": 2721738.0630653743,
+                  "soffit_pa": 6145165.0671814885,
+                  "top_pa": 2773146.6629158007
+                },
+                "transfer": {
+                  "force_n": 5819882.998173399,
+                  "prestress_moment_nm": 3402172.578831718,
+                  "soffit_pa": 10802655.05561632,
+                  "top_pa": 1934799.830269413
+                },
+                "x_m": 13.75
+              },
+              {
+                "gravity_moment_nm": 2275258.1583820703,
+                "service_dead_only": {
+                  "force_n": 4652819.74518822,
+                  "prestress_moment_nm": 2719908.53506596,
+                  "soffit_pa": 6289768.807299059,
+                  "top_pa": 2698349.1246354096
+                },
+                "transfer": {
+                  "force_n": 5816024.681485276,
+                  "prestress_moment_nm": 3399885.6688324497,
+                  "soffit_pa": 10944137.039505161,
+                  "top_pa": 1860574.7881502784
+                },
+                "x_m": 14.375
+              },
+              {
+                "gravity_moment_nm": 2234667.399736953,
+                "service_dead_only": {
+                  "force_n": 4648498.430497522,
+                  "prestress_moment_nm": 2717347.1958667794,
+                  "soffit_pa": 6492214.043463649,
+                  "top_pa": 2593632.571042864
+                },
+                "transfer": {
+                  "force_n": 5810623.038121901,
+                  "prestress_moment_nm": 3396683.994833474,
+                  "soffit_pa": 11142211.816949535,
+                  "top_pa": 1756659.729183489
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 2182479.281478945,
+                "service_dead_only": {
+                  "force_n": 4642942.454466622,
+                  "prestress_moment_nm": 2714054.045467833,
+                  "soffit_pa": 6752500.775675266,
+                  "top_pa": 2458997.0021381625
+                },
+                "transfer": {
+                  "force_n": 5803678.068083278,
+                  "prestress_moment_nm": 3392567.5568347913,
+                  "soffit_pa": 11396879.387949446,
+                  "top_pa": 1623054.6533690458
+                },
+                "x_m": 15.625
+              },
+              {
+                "gravity_moment_nm": 2118693.8036080473,
+                "service_dead_only": {
+                  "force_n": 4636151.817095525,
+                  "prestress_moment_nm": 2710029.083869121,
+                  "soffit_pa": 7070629.003933908,
+                  "top_pa": 2294442.4179213066
+                },
+                "transfer": {
+                  "force_n": 5795189.771369405,
+                  "prestress_moment_nm": 3387536.354836401,
+                  "soffit_pa": 11708139.752504889,
+                  "top_pa": 1459759.5607069507
+                },
+                "x_m": 16.25
+              },
+              {
+                "gravity_moment_nm": 2043310.9661242575,
+                "service_dead_only": {
+                  "force_n": 4628126.518384226,
+                  "prestress_moment_nm": 2705272.311070643,
+                  "soffit_pa": 7446598.72823958,
+                  "top_pa": 2099968.8183922907
+                },
+                "transfer": {
+                  "force_n": 5785158.147980282,
+                  "prestress_moment_nm": 3381590.3888383033,
+                  "soffit_pa": 12075992.910615873,
+                  "top_pa": 1266774.4511971981
+                },
+                "x_m": 16.875
+              },
+              {
+                "gravity_moment_nm": 1956330.7690275782,
+                "service_dead_only": {
+                  "force_n": 4618866.558332728,
+                  "prestress_moment_nm": 2699783.727072399,
+                  "soffit_pa": 7880409.948592275,
+                  "top_pa": 1875576.203551122
+                },
+                "transfer": {
+                  "force_n": 5773583.19791591,
+                  "prestress_moment_nm": 3374729.6588404984,
+                  "soffit_pa": 12500438.862282388,
+                  "top_pa": 1044099.3248397945
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 1857753.212318008,
+                "service_dead_only": {
+                  "force_n": 4608371.93694103,
+                  "prestress_moment_nm": 2693563.331874389,
+                  "soffit_pa": 8372062.664991995,
+                  "top_pa": 1621264.5733977975
+                },
+                "transfer": {
+                  "force_n": 5760464.921176287,
+                  "prestress_moment_nm": 3366954.1648429865,
+                  "soffit_pa": 12981477.607504439,
+                  "top_pa": 791734.1816347358
+                },
+                "x_m": 18.125
+              },
+              {
+                "gravity_moment_nm": 1747578.2959955465,
+                "service_dead_only": {
+                  "force_n": 4596642.654209132,
+                  "prestress_moment_nm": 2686611.1254766136,
+                  "soffit_pa": 8921556.877438746,
+                  "top_pa": 1337033.927932314
+                },
+                "transfer": {
+                  "force_n": 5745803.317761416,
+                  "prestress_moment_nm": 3358263.9068457666,
+                  "soffit_pa": 13519109.146282028,
+                  "top_pa": 509679.0215820223
+                },
+                "x_m": 18.75
+              },
+              {
+                "gravity_moment_nm": 1625806.0200601956,
+                "service_dead_only": {
+                  "force_n": 4583678.710137035,
+                  "prestress_moment_nm": 2678927.107879072,
+                  "soffit_pa": 9528892.585932514,
+                  "top_pa": 1022884.2671546787
+                },
+                "transfer": {
+                  "force_n": 5729598.387671294,
+                  "prestress_moment_nm": 3348658.8848488396,
+                  "soffit_pa": 14113333.478615148,
+                  "top_pa": 197933.84468165692
+                },
+                "x_m": 19.375
+              },
+              {
+                "gravity_moment_nm": 1492436.384511953,
+                "service_dead_only": {
+                  "force_n": 4569480.104724739,
+                  "prestress_moment_nm": 2670511.279081765,
+                  "soffit_pa": 10194069.79047332,
+                  "top_pa": 678815.5910648839
+                },
+                "transfer": {
+                  "force_n": 5711850.130905923,
+                  "prestress_moment_nm": 3338139.098852206,
+                  "soffit_pa": 14764150.604503814,
+                  "top_pa": -143501.3490663655
+                },
+                "x_m": 20.0
+              },
+              {
+                "gravity_moment_nm": 1347469.3893508199,
+                "service_dead_only": {
+                  "force_n": 4554046.837972241,
+                  "prestress_moment_nm": 2661363.639084691,
+                  "soffit_pa": 10917088.491061144,
+                  "top_pa": 304827.8996629352
+                },
+                "transfer": {
+                  "force_n": 5692558.547465302,
+                  "prestress_moment_nm": 3326704.548855864,
+                  "soffit_pa": 15471560.523948006,
+                  "top_pa": -514626.5596620394
+                },
+                "x_m": 20.625
+              },
+              {
+                "gravity_moment_nm": 1190905.0345767983,
+                "service_dead_only": {
+                  "force_n": 4537378.909879546,
+                  "prestress_moment_nm": 2651484.1878878525,
+                  "soffit_pa": 11697948.687695988,
+                  "top_pa": -99078.80705116596
+                },
+                "transfer": {
+                  "force_n": 5671723.637349431,
+                  "prestress_moment_nm": 3314355.2348598153,
+                  "soffit_pa": 16235563.236947726,
+                  "top_pa": -915441.7871053638
+                },
+                "x_m": 21.25
+              },
+              {
+                "gravity_moment_nm": 1022743.3201898831,
+                "service_dead_only": {
+                  "force_n": 4519476.32044665,
+                  "prestress_moment_nm": 2640872.9254912473,
+                  "soffit_pa": 12536650.38037787,
+                  "top_pa": -532904.5290774284
+                },
+                "transfer": {
+                  "force_n": 5649345.4005583115,
+                  "prestress_moment_nm": 3301091.156864059,
+                  "soffit_pa": 17056158.743502997,
+                  "top_pa": -1345947.031396349
+                },
+                "x_m": 21.875
+              },
+              {
+                "gravity_moment_nm": 842984.2461900776,
+                "service_dead_only": {
+                  "force_n": 4500339.069673553,
+                  "prestress_moment_nm": 2629529.8518948765,
+                  "soffit_pa": 13433193.569106776,
+                  "top_pa": -996649.2664158479
+                },
+                "transfer": {
+                  "force_n": 5625423.837091941,
+                  "prestress_moment_nm": 3286912.3148685955,
+                  "soffit_pa": 17933347.043613803,
+                  "top_pa": -1806142.2925349874
+                },
+                "x_m": 22.5
+              },
+              {
+                "gravity_moment_nm": 651627.8125773825,
+                "service_dead_only": {
+                  "force_n": 4479967.157560258,
+                  "prestress_moment_nm": 2617454.96709874,
+                  "soffit_pa": 14387578.253882706,
+                  "top_pa": -1490313.01906642
+                },
+                "transfer": {
+                  "force_n": 5599958.946950322,
+                  "prestress_moment_nm": 3271818.7088734247,
+                  "soffit_pa": 18867128.137280136,
+                  "top_pa": -2296027.5705212764
+                },
+                "x_m": 23.125
+              },
+              {
+                "gravity_moment_nm": 448674.01935179776,
+                "service_dead_only": {
+                  "force_n": 4458360.584106763,
+                  "prestress_moment_nm": 2604648.2711028378,
+                  "soffit_pa": 15399804.434705658,
+                  "top_pa": -2013895.7870291462
+                },
+                "transfer": {
+                  "force_n": 5572950.730133453,
+                  "prestress_moment_nm": 3255810.338878547,
+                  "soffit_pa": 19857502.024502005,
+                  "top_pa": -2815602.8653552188
+                },
+                "x_m": 23.75
+              },
+              {
+                "gravity_moment_nm": 234122.86651331978,
+                "service_dead_only": {
+                  "force_n": 4435519.349313067,
+                  "prestress_moment_nm": 2591109.763907169,
+                  "soffit_pa": 16469872.111575646,
+                  "top_pa": -2567397.5703040343
+                },
+                "transfer": {
+                  "force_n": 5544399.186641334,
+                  "prestress_moment_nm": 3238887.204883961,
+                  "soffit_pa": 20904468.705279417,
+                  "top_pa": -3364868.17703682
+                },
+                "x_m": 24.375
+              },
+              {
+                "gravity_moment_nm": 8.11269273981452e-10,
+                "service_dead_only": {
+                  "force_n": 4410594.4990204675,
+                  "prestress_moment_nm": 2576336.2515254975,
+                  "soffit_pa": 17637553.14501505,
+                  "top_pa": -3171390.7085656067
+                },
+                "transfer": {
+                  "force_n": 5513243.123775585,
+                  "prestress_moment_nm": 3220420.314406872,
+                  "soffit_pa": 22046941.431268815,
+                  "top_pa": -3964238.3857070077
+                },
+                "x_m": 25.0
+              }
+            ]
+          }
+        ],
+        "strands": 40
+      },
+      {
+        "id": "balanced-40",
+        "initial_force_n": 6159999.999999999,
+        "rows": [
+          [
+            0.1,
+            6
+          ],
+          [
+            0.16,
+            6
+          ],
+          [
+            0.22,
+            6
+          ],
+          [
+            0.28,
+            6
+          ],
+          [
+            0.99,
+            8
+          ],
+          [
+            1.05,
+            8
+          ]
+        ],
+        "scenarios": [
+          {
+            "handling_equivalent_kg_lower_bound": 85578.84375000001,
+            "known_concrete_plus_strand_mass_kg": 66463.07500000001,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 10117452.239381444,
+              "transfer": 12646815.299226806
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": 892957.255166858,
+              "transfer": 1116196.568958573
+            },
+            "no_tension_research_screen": true,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 20.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 4711476.066881376,
+                  "prestress_moment_nm": 1142076.2628353082,
+                  "soffit_pa": 10117452.239381444,
+                  "top_pa": 892957.255166858
+                },
+                "transfer": {
+                  "force_n": 5889345.083601721,
+                  "prestress_moment_nm": 1427595.3285441352,
+                  "soffit_pa": 12646815.299226806,
+                  "top_pa": 1116196.568958573
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 152643.49827825002,
+                "service_dead_only": {
+                  "force_n": 4718679.832877098,
+                  "prestress_moment_nm": 1148841.7302954332,
+                  "soffit_pa": 9333070.42583346,
+                  "top_pa": 1286825.272543644
+                },
+                "transfer": {
+                  "force_n": 5898349.791096372,
+                  "prestress_moment_nm": 1436052.1628692914,
+                  "soffit_pa": 11873099.611842312,
+                  "top_pa": 1507069.6237689126
+                },
+                "x_m": 0.5
+              },
+              {
+                "gravity_moment_nm": 290022.13984745316,
+                "service_dead_only": {
+                  "force_n": 4725163.198351799,
+                  "prestress_moment_nm": 1154930.6285435488,
+                  "soffit_pa": 8627129.398326468,
+                  "top_pa": 1641305.1802704982
+                },
+                "transfer": {
+                  "force_n": 5906453.997939748,
+                  "prestress_moment_nm": 1443663.2856794358,
+                  "soffit_pa": 11176758.062463598,
+                  "top_pa": 1858854.0751312976
+                },
+                "x_m": 1.0
+              },
+              {
+                "gravity_moment_nm": 419912.56751182815,
+                "service_dead_only": {
+                  "force_n": 4731293.169536504,
+                  "prestress_moment_nm": 1160687.6340606993,
+                  "soffit_pa": 7959667.695973549,
+                  "top_pa": 1976463.1516053304
+                },
+                "transfer": {
+                  "force_n": 5914116.46192063,
+                  "prestress_moment_nm": 1450859.542575874,
+                  "soffit_pa": 10518372.591358816,
+                  "top_pa": 2191463.5136233796
+                },
+                "x_m": 1.5
+              },
+              {
+                "gravity_moment_nm": 542380.6850239531,
+                "service_dead_only": {
+                  "force_n": 4737072.856653512,
+                  "prestress_moment_nm": 1166115.6678340125,
+                  "soffit_pa": 7330346.662326511,
+                  "top_pa": 2292469.2388638873
+                },
+                "transfer": {
+                  "force_n": 5921341.07081689,
+                  "prestress_moment_nm": 1457644.5847925157,
+                  "soffit_pa": 9897609.147174308,
+                  "top_pa": 2505066.6984873423
+                },
+                "x_m": 2.0
+              },
+              {
+                "gravity_moment_nm": 657426.4923838282,
+                "service_dead_only": {
+                  "force_n": 4742502.259702823,
+                  "prestress_moment_nm": 1171214.729863489,
+                  "soffit_pa": 6739166.2973853545,
+                  "top_pa": 2589323.4420461664
+                },
+                "transfer": {
+                  "force_n": 5928127.824628529,
+                  "prestress_moment_nm": 1464018.4123293613,
+                  "soffit_pa": 9314467.729910074,
+                  "top_pa": 2799663.629723186
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 765049.9895914532,
+                "service_dead_only": {
+                  "force_n": 4747581.378684437,
+                  "prestress_moment_nm": 1175984.820149128,
+                  "soffit_pa": 6186126.601150079,
+                  "top_pa": 2867025.761152171
+                },
+                "transfer": {
+                  "force_n": 5934476.723355546,
+                  "prestress_moment_nm": 1469981.0251864102,
+                  "soffit_pa": 8768948.339566112,
+                  "top_pa": 3075254.307330911
+                },
+                "x_m": 3.0
+              },
+              {
+                "gravity_moment_nm": 865251.1766468281,
+                "service_dead_only": {
+                  "force_n": 4752310.213598353,
+                  "prestress_moment_nm": 1180425.93869093,
+                  "soffit_pa": 5671227.573620684,
+                  "top_pa": 3125576.196181899
+                },
+                "transfer": {
+                  "force_n": 5940387.766997941,
+                  "prestress_moment_nm": 1475532.4233636623,
+                  "soffit_pa": 8261050.976142421,
+                  "top_pa": 3331838.731310517
+                },
+                "x_m": 3.5
+              },
+              {
+                "gravity_moment_nm": 958030.0535499533,
+                "service_dead_only": {
+                  "force_n": 4756688.764444571,
+                  "prestress_moment_nm": 1184538.0854888947,
+                  "soffit_pa": 5194469.214797171,
+                  "top_pa": 3364974.7471353505
+                },
+                "transfer": {
+                  "force_n": 5945860.955555714,
+                  "prestress_moment_nm": 1480672.6068611185,
+                  "soffit_pa": 7790775.639639007,
+                  "top_pa": 3569416.901662004
+                },
+                "x_m": 4.0
+              },
+              {
+                "gravity_moment_nm": 1043386.6203008282,
+                "service_dead_only": {
+                  "force_n": 4760717.031223092,
+                  "prestress_moment_nm": 1188321.2605430223,
+                  "soffit_pa": 4755851.524679539,
+                  "top_pa": 3585221.4140125266
+                },
+                "transfer": {
+                  "force_n": 5950896.289028865,
+                  "prestress_moment_nm": 1485401.5756787779,
+                  "soffit_pa": 7358122.3300558645,
+                  "top_pa": 3787988.818385373
+                },
+                "x_m": 4.5
+              },
+              {
+                "gravity_moment_nm": 1121320.8768994533,
+                "service_dead_only": {
+                  "force_n": 4764395.013933916,
+                  "prestress_moment_nm": 1191775.4638533127,
+                  "soffit_pa": 4355374.503267786,
+                  "top_pa": 3786316.196813426
+                },
+                "transfer": {
+                  "force_n": 5955493.767417395,
+                  "prestress_moment_nm": 1489719.3298166408,
+                  "soffit_pa": 6963091.047392994,
+                  "top_pa": 3987554.481480622
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1191832.8233458283,
+                "service_dead_only": {
+                  "force_n": 4767722.712577042,
+                  "prestress_moment_nm": 1194900.6954197658,
+                  "soffit_pa": 3993038.150561916,
+                  "top_pa": 3968259.09553805
+                },
+                "transfer": {
+                  "force_n": 5959653.3907213025,
+                  "prestress_moment_nm": 1493625.8692747073,
+                  "soffit_pa": 6605681.7916504,
+                  "top_pa": 4168113.8909477526
+                },
+                "x_m": 5.5
+              },
+              {
+                "gravity_moment_nm": 1254922.4596399534,
+                "service_dead_only": {
+                  "force_n": 4770700.127152471,
+                  "prestress_moment_nm": 1197696.955242382,
+                  "soffit_pa": 3668842.4665619275,
+                  "top_pa": 4131050.1101863976
+                },
+                "transfer": {
+                  "force_n": 5963375.158940588,
+                  "prestress_moment_nm": 1497121.1940529773,
+                  "soffit_pa": 6285894.562828075,
+                  "top_pa": 4329667.046786764
+                },
+                "x_m": 6.0
+              },
+              {
+                "gravity_moment_nm": 1310589.7857818285,
+                "service_dead_only": {
+                  "force_n": 4773327.257660202,
+                  "prestress_moment_nm": 1200164.2433211608,
+                  "soffit_pa": 3382787.45126782,
+                  "top_pa": 4274689.240758468
+                },
+                "transfer": {
+                  "force_n": 5966659.072075252,
+                  "prestress_moment_nm": 1500205.304151451,
+                  "soffit_pa": 6003729.360926027,
+                  "top_pa": 4472213.948997656
+                },
+                "x_m": 6.5
+              },
+              {
+                "gravity_moment_nm": 1358834.801771453,
+                "service_dead_only": {
+                  "force_n": 4775604.104100235,
+                  "prestress_moment_nm": 1202302.5596561024,
+                  "soffit_pa": 3134873.104679594,
+                  "top_pa": 4399176.487254262
+                },
+                "transfer": {
+                  "force_n": 5969505.1301252935,
+                  "prestress_moment_nm": 1502878.199570128,
+                  "soffit_pa": 5759186.185944252,
+                  "top_pa": 4595754.597580428
+                },
+                "x_m": 7.0
+              },
+              {
+                "gravity_moment_nm": 1399657.5076088281,
+                "service_dead_only": {
+                  "force_n": 4777530.666472572,
+                  "prestress_moment_nm": 1204111.9042472069,
+                  "soffit_pa": 2925099.4267972484,
+                  "top_pa": 4504511.849673782
+                },
+                "transfer": {
+                  "force_n": 5971913.333090714,
+                  "prestress_moment_nm": 1505139.8803090085,
+                  "soffit_pa": 5552265.037882749,
+                  "top_pa": 4700288.992535084
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 1433057.9032939533,
+                "service_dead_only": {
+                  "force_n": 4779106.94477721,
+                  "prestress_moment_nm": 1205592.277094474,
+                  "soffit_pa": 2753466.417620782,
+                  "top_pa": 4590695.328017024
+                },
+                "transfer": {
+                  "force_n": 5973883.680971513,
+                  "prestress_moment_nm": 1506990.3463680926,
+                  "soffit_pa": 5382965.916741518,
+                  "top_pa": 4785817.133861619
+                },
+                "x_m": 8.0
+              },
+              {
+                "gravity_moment_nm": 1459035.9888268283,
+                "service_dead_only": {
+                  "force_n": 4780332.939014151,
+                  "prestress_moment_nm": 1206743.6781979043,
+                  "soffit_pa": 2619974.077150198,
+                  "top_pa": 4657726.92228399
+                },
+                "transfer": {
+                  "force_n": 5975416.173767689,
+                  "prestress_moment_nm": 1508429.5977473804,
+                  "soffit_pa": 5251288.822520562,
+                  "top_pa": 4852339.021560035
+                },
+                "x_m": 8.5
+              },
+              {
+                "gravity_moment_nm": 1477591.7642074535,
+                "service_dead_only": {
+                  "force_n": 4781208.649183395,
+                  "prestress_moment_nm": 1207566.1075574972,
+                  "soffit_pa": 2524622.405385495,
+                  "top_pa": 4705606.632474681
+                },
+                "transfer": {
+                  "force_n": 5976510.811479243,
+                  "prestress_moment_nm": 1509457.6344468715,
+                  "soffit_pa": 5157233.755219878,
+                  "top_pa": 4899854.655630333
+                },
+                "x_m": 9.0
+              },
+              {
+                "gravity_moment_nm": 1488725.229435828,
+                "service_dead_only": {
+                  "force_n": 4781734.075284942,
+                  "prestress_moment_nm": 1208059.5651732532,
+                  "soffit_pa": 2467411.402326678,
+                  "top_pa": 4734334.458589095
+                },
+                "transfer": {
+                  "force_n": 5977167.594106177,
+                  "prestress_moment_nm": 1510074.4564665663,
+                  "soffit_pa": 5100800.714839472,
+                  "top_pa": 4928364.036072511
+                },
+                "x_m": 9.5
+              },
+              {
+                "gravity_moment_nm": 1492436.3845119532,
+                "service_dead_only": {
+                  "force_n": 4781909.21731879,
+                  "prestress_moment_nm": 1208224.0510451717,
+                  "soffit_pa": 2448341.067973735,
+                  "top_pa": 4743910.400627233
+                },
+                "transfer": {
+                  "force_n": 5977386.521648487,
+                  "prestress_moment_nm": 1510280.0638064647,
+                  "soffit_pa": 5081989.701379335,
+                  "top_pa": 4937867.162886569
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 1488725.2294358283,
+                "service_dead_only": {
+                  "force_n": 4781734.075284942,
+                  "prestress_moment_nm": 1208059.5651732532,
+                  "soffit_pa": 2467411.402326676,
+                  "top_pa": 4734334.458589096
+                },
+                "transfer": {
+                  "force_n": 5977167.594106177,
+                  "prestress_moment_nm": 1510074.4564665663,
+                  "soffit_pa": 5100800.714839471,
+                  "top_pa": 4928364.036072511
+                },
+                "x_m": 10.5
+              },
+              {
+                "gravity_moment_nm": 1477591.7642074532,
+                "service_dead_only": {
+                  "force_n": 4781208.649183395,
+                  "prestress_moment_nm": 1207566.1075574972,
+                  "soffit_pa": 2524622.405385496,
+                  "top_pa": 4705606.632474681
+                },
+                "transfer": {
+                  "force_n": 5976510.811479243,
+                  "prestress_moment_nm": 1509457.6344468715,
+                  "soffit_pa": 5157233.75521988,
+                  "top_pa": 4899854.655630332
+                },
+                "x_m": 11.0
+              },
+              {
+                "gravity_moment_nm": 1459035.9888268283,
+                "service_dead_only": {
+                  "force_n": 4780332.939014151,
+                  "prestress_moment_nm": 1206743.6781979043,
+                  "soffit_pa": 2619974.077150198,
+                  "top_pa": 4657726.92228399
+                },
+                "transfer": {
+                  "force_n": 5975416.173767689,
+                  "prestress_moment_nm": 1508429.5977473804,
+                  "soffit_pa": 5251288.822520562,
+                  "top_pa": 4852339.021560035
+                },
+                "x_m": 11.5
+              },
+              {
+                "gravity_moment_nm": 1433057.9032939537,
+                "service_dead_only": {
+                  "force_n": 4779106.94477721,
+                  "prestress_moment_nm": 1205592.277094474,
+                  "soffit_pa": 2753466.4176207795,
+                  "top_pa": 4590695.328017026
+                },
+                "transfer": {
+                  "force_n": 5973883.680971513,
+                  "prestress_moment_nm": 1506990.3463680926,
+                  "soffit_pa": 5382965.916741516,
+                  "top_pa": 4785817.133861621
+                },
+                "x_m": 12.0
+              },
+              {
+                "gravity_moment_nm": 1399657.5076088286,
+                "service_dead_only": {
+                  "force_n": 4777530.666472572,
+                  "prestress_moment_nm": 1204111.904247207,
+                  "soffit_pa": 2925099.426797247,
+                  "top_pa": 4504511.8496737825
+                },
+                "transfer": {
+                  "force_n": 5971913.333090714,
+                  "prestress_moment_nm": 1505139.8803090088,
+                  "soffit_pa": 5552265.037882748,
+                  "top_pa": 4700288.992535084
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 1358834.801771454,
+                "service_dead_only": {
+                  "force_n": 4775604.104100235,
+                  "prestress_moment_nm": 1202302.5596561024,
+                  "soffit_pa": 3134873.104679589,
+                  "top_pa": 4399176.487254264
+                },
+                "transfer": {
+                  "force_n": 5969505.1301252935,
+                  "prestress_moment_nm": 1502878.199570128,
+                  "soffit_pa": 5759186.185944247,
+                  "top_pa": 4595754.597580431
+                },
+                "x_m": 13.0
+              },
+              {
+                "gravity_moment_nm": 1310589.7857818282,
+                "service_dead_only": {
+                  "force_n": 4773327.257660202,
+                  "prestress_moment_nm": 1200164.2433211608,
+                  "soffit_pa": 3382787.451267821,
+                  "top_pa": 4274689.240758467
+                },
+                "transfer": {
+                  "force_n": 5966659.072075252,
+                  "prestress_moment_nm": 1500205.304151451,
+                  "soffit_pa": 6003729.360926028,
+                  "top_pa": 4472213.948997656
+                },
+                "x_m": 13.5
+              },
+              {
+                "gravity_moment_nm": 1254922.459639953,
+                "service_dead_only": {
+                  "force_n": 4770700.127152471,
+                  "prestress_moment_nm": 1197696.955242382,
+                  "soffit_pa": 3668842.4665619303,
+                  "top_pa": 4131050.110186396
+                },
+                "transfer": {
+                  "force_n": 5963375.158940588,
+                  "prestress_moment_nm": 1497121.1940529773,
+                  "soffit_pa": 6285894.562828078,
+                  "top_pa": 4329667.046786763
+                },
+                "x_m": 14.0
+              },
+              {
+                "gravity_moment_nm": 1191832.8233458288,
+                "service_dead_only": {
+                  "force_n": 4767722.712577042,
+                  "prestress_moment_nm": 1194900.6954197658,
+                  "soffit_pa": 3993038.150561914,
+                  "top_pa": 3968259.0955380513
+                },
+                "transfer": {
+                  "force_n": 5959653.3907213025,
+                  "prestress_moment_nm": 1493625.8692747073,
+                  "soffit_pa": 6605681.791650397,
+                  "top_pa": 4168113.890947754
+                },
+                "x_m": 14.5
+              },
+              {
+                "gravity_moment_nm": 1121320.876899453,
+                "service_dead_only": {
+                  "force_n": 4764395.013933916,
+                  "prestress_moment_nm": 1191775.4638533127,
+                  "soffit_pa": 4355374.503267787,
+                  "top_pa": 3786316.1968134255
+                },
+                "transfer": {
+                  "force_n": 5955493.767417395,
+                  "prestress_moment_nm": 1489719.3298166408,
+                  "soffit_pa": 6963091.047392996,
+                  "top_pa": 3987554.4814806217
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 1043386.620300829,
+                "service_dead_only": {
+                  "force_n": 4760717.031223092,
+                  "prestress_moment_nm": 1188321.2605430223,
+                  "soffit_pa": 4755851.524679535,
+                  "top_pa": 3585221.4140125285
+                },
+                "transfer": {
+                  "force_n": 5950896.289028865,
+                  "prestress_moment_nm": 1485401.5756787779,
+                  "soffit_pa": 7358122.330055861,
+                  "top_pa": 3787988.8183853747
+                },
+                "x_m": 15.5
+              },
+              {
+                "gravity_moment_nm": 958030.0535499535,
+                "service_dead_only": {
+                  "force_n": 4756688.764444571,
+                  "prestress_moment_nm": 1184538.0854888947,
+                  "soffit_pa": 5194469.214797169,
+                  "top_pa": 3364974.7471353514
+                },
+                "transfer": {
+                  "force_n": 5945860.955555714,
+                  "prestress_moment_nm": 1480672.6068611185,
+                  "soffit_pa": 7790775.639639005,
+                  "top_pa": 3569416.9016620046
+                },
+                "x_m": 16.0
+              },
+              {
+                "gravity_moment_nm": 865251.1766468281,
+                "service_dead_only": {
+                  "force_n": 4752310.213598353,
+                  "prestress_moment_nm": 1180425.93869093,
+                  "soffit_pa": 5671227.573620684,
+                  "top_pa": 3125576.196181899
+                },
+                "transfer": {
+                  "force_n": 5940387.766997941,
+                  "prestress_moment_nm": 1475532.4233636623,
+                  "soffit_pa": 8261050.976142421,
+                  "top_pa": 3331838.731310517
+                },
+                "x_m": 16.5
+              },
+              {
+                "gravity_moment_nm": 765049.9895914533,
+                "service_dead_only": {
+                  "force_n": 4747581.378684437,
+                  "prestress_moment_nm": 1175984.820149128,
+                  "soffit_pa": 6186126.601150078,
+                  "top_pa": 2867025.7611521715
+                },
+                "transfer": {
+                  "force_n": 5934476.723355546,
+                  "prestress_moment_nm": 1469981.0251864102,
+                  "soffit_pa": 8768948.339566112,
+                  "top_pa": 3075254.3073309115
+                },
+                "x_m": 17.0
+              },
+              {
+                "gravity_moment_nm": 657426.4923838278,
+                "service_dead_only": {
+                  "force_n": 4742502.259702823,
+                  "prestress_moment_nm": 1171214.729863489,
+                  "soffit_pa": 6739166.297385357,
+                  "top_pa": 2589323.4420461655
+                },
+                "transfer": {
+                  "force_n": 5928127.824628529,
+                  "prestress_moment_nm": 1464018.4123293613,
+                  "soffit_pa": 9314467.729910076,
+                  "top_pa": 2799663.629723185
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 542380.6850239539,
+                "service_dead_only": {
+                  "force_n": 4737072.856653512,
+                  "prestress_moment_nm": 1166115.6678340125,
+                  "soffit_pa": 7330346.662326505,
+                  "top_pa": 2292469.238863889
+                },
+                "transfer": {
+                  "force_n": 5921341.07081689,
+                  "prestress_moment_nm": 1457644.5847925157,
+                  "soffit_pa": 9897609.147174302,
+                  "top_pa": 2505066.6984873447
+                },
+                "x_m": 18.0
+              },
+              {
+                "gravity_moment_nm": 419912.56751182757,
+                "service_dead_only": {
+                  "force_n": 4731293.169536504,
+                  "prestress_moment_nm": 1160687.6340606993,
+                  "soffit_pa": 7959667.695973552,
+                  "top_pa": 1976463.1516053288
+                },
+                "transfer": {
+                  "force_n": 5914116.46192063,
+                  "prestress_moment_nm": 1450859.542575874,
+                  "soffit_pa": 10518372.591358818,
+                  "top_pa": 2191463.5136233782
+                },
+                "x_m": 18.5
+              },
+              {
+                "gravity_moment_nm": 290022.13984745287,
+                "service_dead_only": {
+                  "force_n": 4725163.198351799,
+                  "prestress_moment_nm": 1154930.6285435488,
+                  "soffit_pa": 8627129.39832647,
+                  "top_pa": 1641305.1802704972
+                },
+                "transfer": {
+                  "force_n": 5906453.997939748,
+                  "prestress_moment_nm": 1443663.2856794358,
+                  "soffit_pa": 11176758.0624636,
+                  "top_pa": 1858854.0751312962
+                },
+                "x_m": 19.0
+              },
+              {
+                "gravity_moment_nm": 152643.49827825074,
+                "service_dead_only": {
+                  "force_n": 4718679.832877099,
+                  "prestress_moment_nm": 1148841.7302954334,
+                  "soffit_pa": 9333070.42583346,
+                  "top_pa": 1286825.2725436464
+                },
+                "transfer": {
+                  "force_n": 5898349.7910963725,
+                  "prestress_moment_nm": 1436052.1628692916,
+                  "soffit_pa": 11873099.61184231,
+                  "top_pa": 1507069.623768915
+                },
+                "x_m": 19.5
+              },
+              {
+                "gravity_moment_nm": 3.4560798667371273e-10,
+                "service_dead_only": {
+                  "force_n": 4711476.066881376,
+                  "prestress_moment_nm": 1142076.2628353082,
+                  "soffit_pa": 10117452.239381444,
+                  "top_pa": 892957.2551668584
+                },
+                "transfer": {
+                  "force_n": 5889345.083601721,
+                  "prestress_moment_nm": 1427595.3285441352,
+                  "soffit_pa": 12646815.299226804,
+                  "top_pa": 1116196.568958574
+                },
+                "x_m": 20.0
+              }
+            ]
+          },
+          {
+            "handling_equivalent_kg_lower_bound": 104500.46875,
+            "known_concrete_plus_strand_mass_kg": 81600.375,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 10117452.239381444,
+              "transfer": 12646815.299226806
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": -1842484.1614378858,
+              "transfer": 849511.6728485934
+            },
+            "no_tension_research_screen": false,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 25.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 4711476.066881376,
+                  "prestress_moment_nm": 1142076.2628353082,
+                  "soffit_pa": 10117452.239381444,
+                  "top_pa": 892957.255166858
+                },
+                "transfer": {
+                  "force_n": 5889345.083601721,
+                  "prestress_moment_nm": 1427595.3285441352,
+                  "soffit_pa": 12646815.299226806,
+                  "top_pa": 1116196.568958573
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 234122.8665133203,
+                "service_dead_only": {
+                  "force_n": 4722525.121466951,
+                  "prestress_moment_nm": 1152453.0600977747,
+                  "soffit_pa": 8914376.309517633,
+                  "top_pa": 1497067.5533210435
+                },
+                "transfer": {
+                  "force_n": 5903156.401833689,
+                  "prestress_moment_nm": 1440566.3251222183,
+                  "soffit_pa": 11460098.952706903,
+                  "top_pa": 1715713.2274945257
+                },
+                "x_m": 0.625
+              },
+              {
+                "gravity_moment_nm": 448674.01935179683,
+                "service_dead_only": {
+                  "force_n": 4732650.520298832,
+                  "prestress_moment_nm": 1161962.3995680683,
+                  "soffit_pa": 7811872.604738261,
+                  "top_pa": 2050676.7024009007
+                },
+                "transfer": {
+                  "force_n": 5915813.15037354,
+                  "prestress_moment_nm": 1452452.9994600853,
+                  "soffit_pa": 10372587.237042759,
+                  "top_pa": 2265112.7464323402
+                },
+                "x_m": 1.25
+              },
+              {
+                "gravity_moment_nm": 651627.8125773829,
+                "service_dead_only": {
+                  "force_n": 4742228.600274934,
+                  "prestress_moment_nm": 1170957.7206886162,
+                  "soffit_pa": 6768963.694811824,
+                  "top_pa": 2574361.0326115764
+                },
+                "transfer": {
+                  "force_n": 5927785.750343668,
+                  "prestress_moment_nm": 1463697.1508607701,
+                  "soffit_pa": 9343859.938441537,
+                  "top_pa": 2784814.994076219
+                },
+                "x_m": 1.875
+              },
+              {
+                "gravity_moment_nm": 842984.2461900781,
+                "service_dead_only": {
+                  "force_n": 4751259.36139526,
+                  "prestress_moment_nm": 1179439.0234594184,
+                  "soffit_pa": 5785649.579738328,
+                  "top_pa": 3068120.5439530704
+                },
+                "transfer": {
+                  "force_n": 5939074.201744075,
+                  "prestress_moment_nm": 1474298.779324273,
+                  "soffit_pa": 8373917.056903242,
+                  "top_pa": 3274819.97042616
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 1022743.3201898828,
+                "service_dead_only": {
+                  "force_n": 4759742.803659809,
+                  "prestress_moment_nm": 1187406.3078804752,
+                  "soffit_pa": 4861930.259517772,
+                  "top_pa": 3531955.236425383
+                },
+                "transfer": {
+                  "force_n": 5949678.504574761,
+                  "prestress_moment_nm": 1484257.884850594,
+                  "soffit_pa": 7462758.592427876,
+                  "top_pa": 3735127.6754821665
+                },
+                "x_m": 3.125
+              },
+              {
+                "gravity_moment_nm": 1190905.034576797,
+                "service_dead_only": {
+                  "force_n": 4767678.927068579,
+                  "prestress_moment_nm": 1194859.5739517862,
+                  "soffit_pa": 3997805.734150152,
+                  "top_pa": 3965865.1100285146
+                },
+                "transfer": {
+                  "force_n": 5959598.658835724,
+                  "prestress_moment_nm": 1493574.4674397327,
+                  "soffit_pa": 6610384.545015434,
+                  "top_pa": 4165738.1092442363
+                },
+                "x_m": 3.75
+              },
+              {
+                "gravity_moment_nm": 1347469.3893508206,
+                "service_dead_only": {
+                  "force_n": 4775067.731621574,
+                  "prestress_moment_nm": 1201798.8216733518,
+                  "soffit_pa": 3193276.0036354735,
+                  "top_pa": 4369850.164762465
+                },
+                "transfer": {
+                  "force_n": 5968834.664526967,
+                  "prestress_moment_nm": 1502248.5270916896,
+                  "soffit_pa": 5816794.91466592,
+                  "top_pa": 4566651.271712372
+                },
+                "x_m": 4.375
+              },
+              {
+                "gravity_moment_nm": 1492436.3845119532,
+                "service_dead_only": {
+                  "force_n": 4781909.21731879,
+                  "prestress_moment_nm": 1208224.0510451717,
+                  "soffit_pa": 2448341.067973735,
+                  "top_pa": 4743910.400627233
+                },
+                "transfer": {
+                  "force_n": 5977386.521648487,
+                  "prestress_moment_nm": 1510280.0638064647,
+                  "soffit_pa": 5081989.701379335,
+                  "top_pa": 4937867.162886569
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1625806.0200601954,
+                "service_dead_only": {
+                  "force_n": 4788203.384160229,
+                  "prestress_moment_nm": 1214135.262067246,
+                  "soffit_pa": 1763000.9271649346,
+                  "top_pa": 5088045.81762282
+                },
+                "transfer": {
+                  "force_n": 5985254.230200286,
+                  "prestress_moment_nm": 1517669.0775840576,
+                  "soffit_pa": 4405968.9051556755,
+                  "top_pa": 5279385.782766833
+                },
+                "x_m": 5.625
+              },
+              {
+                "gravity_moment_nm": 1747578.295995547,
+                "service_dead_only": {
+                  "force_n": 4793950.232145891,
+                  "prestress_moment_nm": 1219532.454739575,
+                  "soffit_pa": 1137255.5812090752,
+                  "top_pa": 5402256.415749224
+                },
+                "transfer": {
+                  "force_n": 5992437.790182363,
+                  "prestress_moment_nm": 1524415.5684244686,
+                  "soffit_pa": 3788732.5259949435,
+                  "top_pa": 5591207.131353159
+                },
+                "x_m": 6.25
+              },
+              {
+                "gravity_moment_nm": 1857753.2123180078,
+                "service_dead_only": {
+                  "force_n": 4799149.761275775,
+                  "prestress_moment_nm": 1224415.6290621578,
+                  "soffit_pa": 571105.030106151,
+                  "top_pa": 5686542.195006449
+                },
+                "transfer": {
+                  "force_n": 5998937.201594719,
+                  "prestress_moment_nm": 1530519.5363276973,
+                  "soffit_pa": 3230280.5638971366,
+                  "top_pa": 5873331.2086455505
+                },
+                "x_m": 6.875
+              },
+              {
+                "gravity_moment_nm": 1956330.769027578,
+                "service_dead_only": {
+                  "force_n": 4803801.971549883,
+                  "prestress_moment_nm": 1228784.7850349953,
+                  "soffit_pa": 64549.273856169544,
+                  "top_pa": 5940903.155394491
+                },
+                "transfer": {
+                  "force_n": 6004752.4644373525,
+                  "prestress_moment_nm": 1535980.981293744,
+                  "soffit_pa": 2730613.0188622563,
+                  "top_pa": 6125758.014644004
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 2043310.966124258,
+                "service_dead_only": {
+                  "force_n": 4807906.862968213,
+                  "prestress_moment_nm": 1232639.9226580872,
+                  "soffit_pa": -382411.6875408767,
+                  "top_pa": 6165339.296913354
+                },
+                "transfer": {
+                  "force_n": 6009883.578710265,
+                  "prestress_moment_nm": 1540799.903322609,
+                  "soffit_pa": 2289729.8908903035,
+                  "top_pa": 6348487.549348526
+                },
+                "x_m": 8.125
+              },
+              {
+                "gravity_moment_nm": 2118693.803608047,
+                "service_dead_only": {
+                  "force_n": 4811464.435530765,
+                  "prestress_moment_nm": 1235981.0419314336,
+                  "soffit_pa": -769777.8540849797,
+                  "top_pa": 6359850.619563032
+                },
+                "transfer": {
+                  "force_n": 6014330.544413456,
+                  "prestress_moment_nm": 1544976.302414292,
+                  "soffit_pa": 1907631.1799812806,
+                  "top_pa": 6541519.812759109
+                },
+                "x_m": 8.75
+              },
+              {
+                "gravity_moment_nm": 2182479.281478945,
+                "service_dead_only": {
+                  "force_n": 4814474.68923754,
+                  "prestress_moment_nm": 1238808.1428550347,
+                  "soffit_pa": -1097549.2257761434,
+                  "top_pa": 6524437.123343529
+                },
+                "transfer": {
+                  "force_n": 6018093.361546924,
+                  "prestress_moment_nm": 1548510.1785687932,
+                  "soffit_pa": 1584316.8861351842,
+                  "top_pa": 6704854.804875754
+                },
+                "x_m": 9.375
+              },
+              {
+                "gravity_moment_nm": 2234667.399736953,
+                "service_dead_only": {
+                  "force_n": 4816937.624088538,
+                  "prestress_moment_nm": 1241121.2254288897,
+                  "soffit_pa": -1365725.8026143694,
+                  "top_pa": 6659098.808254846
+                },
+                "transfer": {
+                  "force_n": 6021172.030110672,
+                  "prestress_moment_nm": 1551401.531786112,
+                  "soffit_pa": 1319787.009352012,
+                  "top_pa": 6838492.525698465
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 2275258.1583820707,
+                "service_dead_only": {
+                  "force_n": 4818853.240083759,
+                  "prestress_moment_nm": 1242920.2896529993,
+                  "soffit_pa": -1574307.5845996598,
+                  "top_pa": 6763835.674296983
+                },
+                "transfer": {
+                  "force_n": 6023566.550104698,
+                  "prestress_moment_nm": 1553650.3620662491,
+                  "soffit_pa": 1114041.5496317665,
+                  "top_pa": 6942432.975227244
+                },
+                "x_m": 10.625
+              },
+              {
+                "gravity_moment_nm": 2304251.5574142965,
+                "service_dead_only": {
+                  "force_n": 4820221.537223202,
+                  "prestress_moment_nm": 1244205.335527363,
+                  "soffit_pa": -1723294.571732005,
+                  "top_pa": 6838647.721469936
+                },
+                "transfer": {
+                  "force_n": 6025276.9215290025,
+                  "prestress_moment_nm": 1555256.6694092038,
+                  "soffit_pa": 967080.5069744517,
+                  "top_pa": 7016676.153462082
+                },
+                "x_m": 11.25
+              },
+              {
+                "gravity_moment_nm": 2321647.5968336333,
+                "service_dead_only": {
+                  "force_n": 4821042.515506867,
+                  "prestress_moment_nm": 1244976.3630519814,
+                  "soffit_pa": -1812686.7640114184,
+                  "top_pa": 6883534.949773708
+                },
+                "transfer": {
+                  "force_n": 6026303.144383584,
+                  "prestress_moment_nm": 1556220.4538149768,
+                  "soffit_pa": 878903.8813800556,
+                  "top_pa": 7061222.060402987
+                },
+                "x_m": 11.875
+              },
+              {
+                "gravity_moment_nm": 2327446.2766400785,
+                "service_dead_only": {
+                  "force_n": 4821316.174934756,
+                  "prestress_moment_nm": 1245233.3722268546,
+                  "soffit_pa": -1842484.1614378858,
+                  "top_pa": 6898497.359208299
+                },
+                "transfer": {
+                  "force_n": 6026645.218668445,
+                  "prestress_moment_nm": 1556541.715283568,
+                  "soffit_pa": 849511.6728485934,
+                  "top_pa": 7076070.696049954
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 2321647.596833633,
+                "service_dead_only": {
+                  "force_n": 4821042.515506867,
+                  "prestress_moment_nm": 1244976.3630519814,
+                  "soffit_pa": -1812686.7640114157,
+                  "top_pa": 6883534.949773707
+                },
+                "transfer": {
+                  "force_n": 6026303.144383584,
+                  "prestress_moment_nm": 1556220.4538149768,
+                  "soffit_pa": 878903.8813800584,
+                  "top_pa": 7061222.060402986
+                },
+                "x_m": 13.125
+              },
+              {
+                "gravity_moment_nm": 2304251.557414297,
+                "service_dead_only": {
+                  "force_n": 4820221.537223202,
+                  "prestress_moment_nm": 1244205.335527363,
+                  "soffit_pa": -1723294.571732007,
+                  "top_pa": 6838647.721469937
+                },
+                "transfer": {
+                  "force_n": 6025276.9215290025,
+                  "prestress_moment_nm": 1555256.6694092038,
+                  "soffit_pa": 967080.5069744494,
+                  "top_pa": 7016676.153462084
+                },
+                "x_m": 13.75
+              },
+              {
+                "gravity_moment_nm": 2275258.1583820703,
+                "service_dead_only": {
+                  "force_n": 4818853.240083759,
+                  "prestress_moment_nm": 1242920.2896529993,
+                  "soffit_pa": -1574307.584599658,
+                  "top_pa": 6763835.674296982
+                },
+                "transfer": {
+                  "force_n": 6023566.550104698,
+                  "prestress_moment_nm": 1553650.3620662491,
+                  "soffit_pa": 1114041.5496317688,
+                  "top_pa": 6942432.975227242
+                },
+                "x_m": 14.375
+              },
+              {
+                "gravity_moment_nm": 2234667.399736953,
+                "service_dead_only": {
+                  "force_n": 4816937.624088538,
+                  "prestress_moment_nm": 1241121.2254288897,
+                  "soffit_pa": -1365725.8026143694,
+                  "top_pa": 6659098.808254846
+                },
+                "transfer": {
+                  "force_n": 6021172.030110672,
+                  "prestress_moment_nm": 1551401.531786112,
+                  "soffit_pa": 1319787.009352012,
+                  "top_pa": 6838492.525698465
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 2182479.281478945,
+                "service_dead_only": {
+                  "force_n": 4814474.68923754,
+                  "prestress_moment_nm": 1238808.1428550347,
+                  "soffit_pa": -1097549.2257761434,
+                  "top_pa": 6524437.123343529
+                },
+                "transfer": {
+                  "force_n": 6018093.361546924,
+                  "prestress_moment_nm": 1548510.1785687932,
+                  "soffit_pa": 1584316.8861351842,
+                  "top_pa": 6704854.804875754
+                },
+                "x_m": 15.625
+              },
+              {
+                "gravity_moment_nm": 2118693.8036080473,
+                "service_dead_only": {
+                  "force_n": 4811464.435530765,
+                  "prestress_moment_nm": 1235981.0419314336,
+                  "soffit_pa": -769777.8540849816,
+                  "top_pa": 6359850.619563034
+                },
+                "transfer": {
+                  "force_n": 6014330.544413456,
+                  "prestress_moment_nm": 1544976.302414292,
+                  "soffit_pa": 1907631.1799812783,
+                  "top_pa": 6541519.81275911
+                },
+                "x_m": 16.25
+              },
+              {
+                "gravity_moment_nm": 2043310.9661242575,
+                "service_dead_only": {
+                  "force_n": 4807906.862968212,
+                  "prestress_moment_nm": 1232639.9226580872,
+                  "soffit_pa": -382411.6875408739,
+                  "top_pa": 6165339.296913352
+                },
+                "transfer": {
+                  "force_n": 6009883.5787102645,
+                  "prestress_moment_nm": 1540799.903322609,
+                  "soffit_pa": 2289729.890890305,
+                  "top_pa": 6348487.549348524
+                },
+                "x_m": 16.875
+              },
+              {
+                "gravity_moment_nm": 1956330.7690275782,
+                "service_dead_only": {
+                  "force_n": 4803801.971549883,
+                  "prestress_moment_nm": 1228784.7850349953,
+                  "soffit_pa": 64549.27385616861,
+                  "top_pa": 5940903.155394493
+                },
+                "transfer": {
+                  "force_n": 6004752.4644373525,
+                  "prestress_moment_nm": 1535980.981293744,
+                  "soffit_pa": 2730613.018862255,
+                  "top_pa": 6125758.014644005
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 1857753.212318008,
+                "service_dead_only": {
+                  "force_n": 4799149.761275775,
+                  "prestress_moment_nm": 1224415.6290621578,
+                  "soffit_pa": 571105.0301061496,
+                  "top_pa": 5686542.195006449
+                },
+                "transfer": {
+                  "force_n": 5998937.201594719,
+                  "prestress_moment_nm": 1530519.5363276973,
+                  "soffit_pa": 3230280.563897135,
+                  "top_pa": 5873331.2086455505
+                },
+                "x_m": 18.125
+              },
+              {
+                "gravity_moment_nm": 1747578.2959955465,
+                "service_dead_only": {
+                  "force_n": 4793950.232145891,
+                  "prestress_moment_nm": 1219532.454739575,
+                  "soffit_pa": 1137255.5812090775,
+                  "top_pa": 5402256.415749223
+                },
+                "transfer": {
+                  "force_n": 5992437.790182363,
+                  "prestress_moment_nm": 1524415.5684244686,
+                  "soffit_pa": 3788732.525994946,
+                  "top_pa": 5591207.1313531585
+                },
+                "x_m": 18.75
+              },
+              {
+                "gravity_moment_nm": 1625806.0200601956,
+                "service_dead_only": {
+                  "force_n": 4788203.384160229,
+                  "prestress_moment_nm": 1214135.262067246,
+                  "soffit_pa": 1763000.9271649336,
+                  "top_pa": 5088045.81762282
+                },
+                "transfer": {
+                  "force_n": 5985254.230200286,
+                  "prestress_moment_nm": 1517669.0775840576,
+                  "soffit_pa": 4405968.905155675,
+                  "top_pa": 5279385.782766834
+                },
+                "x_m": 19.375
+              },
+              {
+                "gravity_moment_nm": 1492436.384511953,
+                "service_dead_only": {
+                  "force_n": 4781909.21731879,
+                  "prestress_moment_nm": 1208224.0510451717,
+                  "soffit_pa": 2448341.0679737357,
+                  "top_pa": 4743910.400627232
+                },
+                "transfer": {
+                  "force_n": 5977386.521648487,
+                  "prestress_moment_nm": 1510280.0638064647,
+                  "soffit_pa": 5081989.7013793355,
+                  "top_pa": 4937867.162886569
+                },
+                "x_m": 20.0
+              },
+              {
+                "gravity_moment_nm": 1347469.3893508199,
+                "service_dead_only": {
+                  "force_n": 4775067.731621574,
+                  "prestress_moment_nm": 1201798.8216733518,
+                  "soffit_pa": 3193276.0036354777,
+                  "top_pa": 4369850.164762463
+                },
+                "transfer": {
+                  "force_n": 5968834.664526967,
+                  "prestress_moment_nm": 1502248.5270916896,
+                  "soffit_pa": 5816794.914665923,
+                  "top_pa": 4566651.27171237
+                },
+                "x_m": 20.625
+              },
+              {
+                "gravity_moment_nm": 1190905.0345767983,
+                "service_dead_only": {
+                  "force_n": 4767678.92706858,
+                  "prestress_moment_nm": 1194859.5739517864,
+                  "soffit_pa": 3997805.734150146,
+                  "top_pa": 3965865.110028518
+                },
+                "transfer": {
+                  "force_n": 5959598.658835725,
+                  "prestress_moment_nm": 1493574.467439733,
+                  "soffit_pa": 6610384.545015428,
+                  "top_pa": 4165738.1092442404
+                },
+                "x_m": 21.25
+              },
+              {
+                "gravity_moment_nm": 1022743.3201898831,
+                "service_dead_only": {
+                  "force_n": 4759742.803659809,
+                  "prestress_moment_nm": 1187406.3078804752,
+                  "soffit_pa": 4861930.25951777,
+                  "top_pa": 3531955.236425384
+                },
+                "transfer": {
+                  "force_n": 5949678.504574761,
+                  "prestress_moment_nm": 1484257.884850594,
+                  "soffit_pa": 7462758.592427874,
+                  "top_pa": 3735127.6754821674
+                },
+                "x_m": 21.875
+              },
+              {
+                "gravity_moment_nm": 842984.2461900776,
+                "service_dead_only": {
+                  "force_n": 4751259.361395261,
+                  "prestress_moment_nm": 1179439.0234594184,
+                  "soffit_pa": 5785649.579738332,
+                  "top_pa": 3068120.54395307
+                },
+                "transfer": {
+                  "force_n": 5939074.201744076,
+                  "prestress_moment_nm": 1474298.779324273,
+                  "soffit_pa": 8373917.056903246,
+                  "top_pa": 3274819.9704261594
+                },
+                "x_m": 22.5
+              },
+              {
+                "gravity_moment_nm": 651627.8125773825,
+                "service_dead_only": {
+                  "force_n": 4742228.600274934,
+                  "prestress_moment_nm": 1170957.7206886162,
+                  "soffit_pa": 6768963.694811826,
+                  "top_pa": 2574361.032611575
+                },
+                "transfer": {
+                  "force_n": 5927785.750343668,
+                  "prestress_moment_nm": 1463697.1508607701,
+                  "soffit_pa": 9343859.938441537,
+                  "top_pa": 2784814.994076218
+                },
+                "x_m": 23.125
+              },
+              {
+                "gravity_moment_nm": 448674.01935179776,
+                "service_dead_only": {
+                  "force_n": 4732650.520298832,
+                  "prestress_moment_nm": 1161962.3995680683,
+                  "soffit_pa": 7811872.604738256,
+                  "top_pa": 2050676.7024009032
+                },
+                "transfer": {
+                  "force_n": 5915813.15037354,
+                  "prestress_moment_nm": 1452452.9994600853,
+                  "soffit_pa": 10372587.237042753,
+                  "top_pa": 2265112.746432343
+                },
+                "x_m": 23.75
+              },
+              {
+                "gravity_moment_nm": 234122.86651331978,
+                "service_dead_only": {
+                  "force_n": 4722525.121466951,
+                  "prestress_moment_nm": 1152453.0600977747,
+                  "soffit_pa": 8914376.309517637,
+                  "top_pa": 1497067.5533210426
+                },
+                "transfer": {
+                  "force_n": 5903156.401833689,
+                  "prestress_moment_nm": 1440566.3251222183,
+                  "soffit_pa": 11460098.952706907,
+                  "top_pa": 1715713.2274945248
+                },
+                "x_m": 24.375
+              },
+              {
+                "gravity_moment_nm": 8.11269273981452e-10,
+                "service_dead_only": {
+                  "force_n": 4711476.066881376,
+                  "prestress_moment_nm": 1142076.2628353082,
+                  "soffit_pa": 10117452.23938144,
+                  "top_pa": 892957.2551668598
+                },
+                "transfer": {
+                  "force_n": 5889345.083601721,
+                  "prestress_moment_nm": 1427595.3285441352,
+                  "soffit_pa": 12646815.299226802,
+                  "top_pa": 1116196.568958575
+                },
+                "x_m": 25.0
+              }
+            ]
+          }
+        ],
+        "strands": 40
+      },
+      {
+        "id": "balanced-48",
+        "initial_force_n": 7391999.999999999,
+        "rows": [
+          [
+            0.1,
+            8
+          ],
+          [
+            0.16,
+            8
+          ],
+          [
+            0.22,
+            8
+          ],
+          [
+            0.28,
+            8
+          ],
+          [
+            0.99,
+            8
+          ],
+          [
+            1.05,
+            8
+          ]
+        ],
+        "scenarios": [
+          {
+            "handling_equivalent_kg_lower_bound": 85728.64375000002,
+            "known_concrete_plus_strand_mass_kg": 66582.91500000001,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 13489816.951453783,
+              "transfer": 16862271.189317226
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": 289719.60469637066,
+              "transfer": 362149.5058704633
+            },
+            "no_tension_research_screen": true,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 20.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 5557326.513583272,
+                  "prestress_moment_nm": 1634291.9447237977,
+                  "soffit_pa": 13489816.951453783,
+                  "top_pa": 289719.60469637066
+                },
+                "transfer": {
+                  "force_n": 6946658.141979089,
+                  "prestress_moment_nm": 2042864.930904747,
+                  "soffit_pa": 16862271.189317226,
+                  "top_pa": 362149.5058704633
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 152929.9603314,
+                "service_dead_only": {
+                  "force_n": 5567654.327328621,
+                  "prestress_moment_nm": 1642907.035444622,
+                  "soffit_pa": 12716510.133922331,
+                  "top_pa": 682037.0402821605
+                },
+                "transfer": {
+                  "force_n": 6959567.909160776,
+                  "prestress_moment_nm": 2053633.7943057774,
+                  "soffit_pa": 16102787.270991493,
+                  "top_pa": 750893.9224275984
+                },
+                "x_m": 0.5
+              },
+              {
+                "gravity_moment_nm": 290580.37359205313,
+                "service_dead_only": {
+                  "force_n": 5576950.26794775,
+                  "prestress_moment_nm": 1650661.3747214365,
+                  "soffit_pa": 12020465.992017005,
+                  "top_pa": 1035157.2334785727
+                },
+                "transfer": {
+                  "force_n": 6971187.834934687,
+                  "prestress_moment_nm": 2063326.7184017955,
+                  "soffit_pa": 15419184.953984335,
+                  "top_pa": 1100798.084279879
+                },
+                "x_m": 1.0
+              },
+              {
+                "gravity_moment_nm": 420727.88258617814,
+                "service_dead_only": {
+                  "force_n": 5585739.515191388,
+                  "prestress_moment_nm": 1657993.048610869,
+                  "soffit_pa": 11362361.093723712,
+                  "top_pa": 1369029.9217720125
+                },
+                "transfer": {
+                  "force_n": 6982174.393989235,
+                  "prestress_moment_nm": 2072491.3107635863,
+                  "soffit_pa": 14772843.71465494,
+                  "top_pa": 1431630.037290576
+                },
+                "x_m": 1.5
+              },
+              {
+                "gravity_moment_nm": 543438.3910663532,
+                "service_dead_only": {
+                  "force_n": 5594026.519735391,
+                  "prestress_moment_nm": 1664905.76970662,
+                  "soffit_pa": 10741862.18961861,
+                  "top_pa": 1683824.170734399
+                },
+                "transfer": {
+                  "force_n": 6992533.149669238,
+                  "prestress_moment_nm": 2081132.2121332746,
+                  "soffit_pa": 14163436.260430085,
+                  "top_pa": 1743557.3072720924
+                },
+                "x_m": 2.0
+              },
+              {
+                "gravity_moment_nm": 658711.8990325782,
+                "service_dead_only": {
+                  "force_n": 5601811.281579756,
+                  "prestress_moment_nm": 1671399.5380086885,
+                  "soffit_pa": 10158969.279701695,
+                  "top_pa": 1979539.9803657322
+                },
+                "transfer": {
+                  "force_n": 7002264.101974695,
+                  "prestress_moment_nm": 2089249.4225108605,
+                  "soffit_pa": 13590962.59130976,
+                  "top_pa": 2036579.8942244258
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 766548.4064848531,
+                "service_dead_only": {
+                  "force_n": 5609093.800724485,
+                  "prestress_moment_nm": 1677474.3535170755,
+                  "soffit_pa": 9613682.36397297,
+                  "top_pa": 2256177.3506660094
+                },
+                "transfer": {
+                  "force_n": 7011367.250905606,
+                  "prestress_moment_nm": 2096842.9418963443,
+                  "soffit_pa": 13055422.70729398,
+                  "top_pa": 2310697.7981475745
+                },
+                "x_m": 3.0
+              },
+              {
+                "gravity_moment_nm": 866947.9134231781,
+                "service_dead_only": {
+                  "force_n": 5615874.0771695785,
+                  "prestress_moment_nm": 1683130.2162317806,
+                  "soffit_pa": 9106001.442432432,
+                  "top_pa": 2513736.281635235
+                },
+                "transfer": {
+                  "force_n": 7019842.596461972,
+                  "prestress_moment_nm": 2103912.7702897256,
+                  "soffit_pa": 12556816.608382732,
+                  "top_pa": 2565911.0190415415
+                },
+                "x_m": 3.5
+              },
+              {
+                "gravity_moment_nm": 959910.4198475534,
+                "service_dead_only": {
+                  "force_n": 5622152.110915034,
+                  "prestress_moment_nm": 1688367.126152804,
+                  "soffit_pa": 8635926.515080081,
+                  "top_pa": 2752216.773273407
+                },
+                "transfer": {
+                  "force_n": 7027690.138643792,
+                  "prestress_moment_nm": 2110458.9076910047,
+                  "soffit_pa": 12095144.29457602,
+                  "top_pa": 2802219.556906325
+                },
+                "x_m": 4.0
+              },
+              {
+                "gravity_moment_nm": 1045435.9257579783,
+                "service_dead_only": {
+                  "force_n": 5627927.9019608535,
+                  "prestress_moment_nm": 1693185.0832801454,
+                  "soffit_pa": 8203457.581915919,
+                  "top_pa": 2971618.8255805233
+                },
+                "transfer": {
+                  "force_n": 7034909.877451067,
+                  "prestress_moment_nm": 2116481.3541001817,
+                  "soffit_pa": 11670405.76587385,
+                  "top_pa": 3019623.411741927
+                },
+                "x_m": 4.5
+              },
+              {
+                "gravity_moment_nm": 1123524.4311544534,
+                "service_dead_only": {
+                  "force_n": 5633201.450307038,
+                  "prestress_moment_nm": 1697584.0876138047,
+                  "soffit_pa": 7808594.642939944,
+                  "top_pa": 3171942.4385565897
+                },
+                "transfer": {
+                  "force_n": 7041501.812883796,
+                  "prestress_moment_nm": 2121980.109517256,
+                  "soffit_pa": 11282601.022276212,
+                  "top_pa": 3218122.5835483465
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1194175.9360369784,
+                "service_dead_only": {
+                  "force_n": 5637972.755953584,
+                  "prestress_moment_nm": 1701564.1391537823,
+                  "soffit_pa": 7451337.698152157,
+                  "top_pa": 3353187.6122016
+                },
+                "transfer": {
+                  "force_n": 7047465.944941979,
+                  "prestress_moment_nm": 2126955.173942228,
+                  "soffit_pa": 10931730.063783113,
+                  "top_pa": 3397717.072325582
+                },
+                "x_m": 5.5
+              },
+              {
+                "gravity_moment_nm": 1257390.4404055532,
+                "service_dead_only": {
+                  "force_n": 5642241.818900494,
+                  "prestress_moment_nm": 1705125.2379000783,
+                  "soffit_pa": 7131686.74755256,
+                  "top_pa": 3515354.3465155545
+                },
+                "transfer": {
+                  "force_n": 7052802.273625617,
+                  "prestress_moment_nm": 2131406.547375098,
+                  "soffit_pa": 10617792.890394554,
+                  "top_pa": 3558406.8780736336
+                },
+                "x_m": 6.0
+              },
+              {
+                "gravity_moment_nm": 1313167.9442601784,
+                "service_dead_only": {
+                  "force_n": 5646008.639147768,
+                  "prestress_moment_nm": 1708267.383852692,
+                  "soffit_pa": 6849641.791141149,
+                  "top_pa": 3658442.6414984586
+                },
+                "transfer": {
+                  "force_n": 7057510.798934709,
+                  "prestress_moment_nm": 2135334.229815865,
+                  "soffit_pa": 10340789.502110524,
+                  "top_pa": 3700192.0007925057
+                },
+                "x_m": 6.5
+              },
+              {
+                "gravity_moment_nm": 1361508.4476008532,
+                "service_dead_only": {
+                  "force_n": 5649273.216695406,
+                  "prestress_moment_nm": 1710990.5770116244,
+                  "soffit_pa": 6605202.828917929,
+                  "top_pa": 3782452.497150307
+                },
+                "transfer": {
+                  "force_n": 7061591.520869256,
+                  "prestress_moment_nm": 2138738.2212645304,
+                  "soffit_pa": 10100719.898931038,
+                  "top_pa": 3823072.4404821917
+                },
+                "x_m": 7.0
+              },
+              {
+                "gravity_moment_nm": 1402411.9504275785,
+                "service_dead_only": {
+                  "force_n": 5652035.551543406,
+                  "prestress_moment_nm": 1713294.8173768744,
+                  "soffit_pa": 6398369.860882891,
+                  "top_pa": 3887383.9134711036
+                },
+                "transfer": {
+                  "force_n": 7065044.439429257,
+                  "prestress_moment_nm": 2141618.521721093,
+                  "soffit_pa": 9897584.080856083,
+                  "top_pa": 3927048.1971426997
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 1435878.4527403535,
+                "service_dead_only": {
+                  "force_n": 5654295.64369177,
+                  "prestress_moment_nm": 1715180.104948443,
+                  "soffit_pa": 6229142.887036045,
+                  "top_pa": 3973236.8904608446
+                },
+                "transfer": {
+                  "force_n": 7067869.554614712,
+                  "prestress_moment_nm": 2143975.1311855535,
+                  "soffit_pa": 9731382.047885668,
+                  "top_pa": 4012119.270774021
+                },
+                "x_m": 8.0
+              },
+              {
+                "gravity_moment_nm": 1461907.9545391784,
+                "service_dead_only": {
+                  "force_n": 5656053.493140497,
+                  "prestress_moment_nm": 1716646.4397263294,
+                  "soffit_pa": 6097521.907377388,
+                  "top_pa": 4040011.4281195328
+                },
+                "transfer": {
+                  "force_n": 7070066.866425621,
+                  "prestress_moment_nm": 2145808.0496579115,
+                  "soffit_pa": 9602113.80001979,
+                  "top_pa": 4078285.6613761606
+                },
+                "x_m": 8.5
+              },
+              {
+                "gravity_moment_nm": 1480500.4558240534,
+                "service_dead_only": {
+                  "force_n": 5657309.099889589,
+                  "prestress_moment_nm": 1717693.8217105342,
+                  "soffit_pa": 6003506.921906918,
+                  "top_pa": 4087707.526447166
+                },
+                "transfer": {
+                  "force_n": 7071636.374861985,
+                  "prestress_moment_nm": 2147117.2771381675,
+                  "soffit_pa": 9509779.337258447,
+                  "top_pa": 4125547.3689491167
+                },
+                "x_m": 9.0
+              },
+              {
+                "gravity_moment_nm": 1491655.9565949785,
+                "service_dead_only": {
+                  "force_n": 5658062.463939044,
+                  "prestress_moment_nm": 1718322.250901057,
+                  "soffit_pa": 5947097.930624636,
+                  "top_pa": 4116325.185443747
+                },
+                "transfer": {
+                  "force_n": 7072578.079923804,
+                  "prestress_moment_nm": 2147902.813626321,
+                  "soffit_pa": 9454378.659601642,
+                  "top_pa": 4153904.3934928905
+                },
+                "x_m": 9.5
+              },
+              {
+                "gravity_moment_nm": 1495374.4568519534,
+                "service_dead_only": {
+                  "force_n": 5658313.585288862,
+                  "prestress_moment_nm": 1718531.7272978977,
+                  "soffit_pa": 5928294.933530542,
+                  "top_pa": 4125864.4051092747
+                },
+                "transfer": {
+                  "force_n": 7072891.981611077,
+                  "prestress_moment_nm": 2148164.659122372,
+                  "soffit_pa": 9435911.767049374,
+                  "top_pa": 4163356.7350074826
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 1491655.9565949787,
+                "service_dead_only": {
+                  "force_n": 5658062.463939044,
+                  "prestress_moment_nm": 1718322.250901057,
+                  "soffit_pa": 5947097.930624635,
+                  "top_pa": 4116325.185443748
+                },
+                "transfer": {
+                  "force_n": 7072578.079923804,
+                  "prestress_moment_nm": 2147902.813626321,
+                  "soffit_pa": 9454378.65960164,
+                  "top_pa": 4153904.393492891
+                },
+                "x_m": 10.5
+              },
+              {
+                "gravity_moment_nm": 1480500.4558240536,
+                "service_dead_only": {
+                  "force_n": 5657309.099889589,
+                  "prestress_moment_nm": 1717693.8217105342,
+                  "soffit_pa": 6003506.921906917,
+                  "top_pa": 4087707.5264471667
+                },
+                "transfer": {
+                  "force_n": 7071636.374861985,
+                  "prestress_moment_nm": 2147117.2771381675,
+                  "soffit_pa": 9509779.337258447,
+                  "top_pa": 4125547.368949117
+                },
+                "x_m": 11.0
+              },
+              {
+                "gravity_moment_nm": 1461907.9545391789,
+                "service_dead_only": {
+                  "force_n": 5656053.493140497,
+                  "prestress_moment_nm": 1716646.4397263296,
+                  "soffit_pa": 6097521.907377387,
+                  "top_pa": 4040011.428119533
+                },
+                "transfer": {
+                  "force_n": 7070066.866425621,
+                  "prestress_moment_nm": 2145808.049657912,
+                  "soffit_pa": 9602113.80001979,
+                  "top_pa": 4078285.6613761606
+                },
+                "x_m": 11.5
+              },
+              {
+                "gravity_moment_nm": 1435878.452740353,
+                "service_dead_only": {
+                  "force_n": 5654295.64369177,
+                  "prestress_moment_nm": 1715180.104948443,
+                  "soffit_pa": 6229142.887036048,
+                  "top_pa": 3973236.890460843
+                },
+                "transfer": {
+                  "force_n": 7067869.554614712,
+                  "prestress_moment_nm": 2143975.1311855535,
+                  "soffit_pa": 9731382.047885671,
+                  "top_pa": 4012119.2707740194
+                },
+                "x_m": 12.0
+              },
+              {
+                "gravity_moment_nm": 1402411.9504275788,
+                "service_dead_only": {
+                  "force_n": 5652035.551543406,
+                  "prestress_moment_nm": 1713294.8173768744,
+                  "soffit_pa": 6398369.86088289,
+                  "top_pa": 3887383.9134711046
+                },
+                "transfer": {
+                  "force_n": 7065044.439429257,
+                  "prestress_moment_nm": 2141618.521721093,
+                  "soffit_pa": 9897584.080856083,
+                  "top_pa": 3927048.1971427
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 1361508.4476008532,
+                "service_dead_only": {
+                  "force_n": 5649273.216695406,
+                  "prestress_moment_nm": 1710990.5770116244,
+                  "soffit_pa": 6605202.828917929,
+                  "top_pa": 3782452.497150307
+                },
+                "transfer": {
+                  "force_n": 7061591.520869256,
+                  "prestress_moment_nm": 2138738.2212645304,
+                  "soffit_pa": 10100719.898931038,
+                  "top_pa": 3823072.4404821917
+                },
+                "x_m": 13.0
+              },
+              {
+                "gravity_moment_nm": 1313167.9442601786,
+                "service_dead_only": {
+                  "force_n": 5646008.639147768,
+                  "prestress_moment_nm": 1708267.383852692,
+                  "soffit_pa": 6849641.791141147,
+                  "top_pa": 3658442.641498459
+                },
+                "transfer": {
+                  "force_n": 7057510.798934709,
+                  "prestress_moment_nm": 2135334.229815865,
+                  "soffit_pa": 10340789.502110522,
+                  "top_pa": 3700192.0007925066
+                },
+                "x_m": 13.5
+              },
+              {
+                "gravity_moment_nm": 1257390.4404055532,
+                "service_dead_only": {
+                  "force_n": 5642241.818900494,
+                  "prestress_moment_nm": 1705125.2379000783,
+                  "soffit_pa": 7131686.74755256,
+                  "top_pa": 3515354.3465155545
+                },
+                "transfer": {
+                  "force_n": 7052802.273625617,
+                  "prestress_moment_nm": 2131406.547375098,
+                  "soffit_pa": 10617792.890394554,
+                  "top_pa": 3558406.8780736336
+                },
+                "x_m": 14.0
+              },
+              {
+                "gravity_moment_nm": 1194175.9360369788,
+                "service_dead_only": {
+                  "force_n": 5637972.755953584,
+                  "prestress_moment_nm": 1701564.1391537823,
+                  "soffit_pa": 7451337.698152155,
+                  "top_pa": 3353187.6122016013
+                },
+                "transfer": {
+                  "force_n": 7047465.944941979,
+                  "prestress_moment_nm": 2126955.173942228,
+                  "soffit_pa": 10931730.06378311,
+                  "top_pa": 3397717.072325583
+                },
+                "x_m": 14.5
+              },
+              {
+                "gravity_moment_nm": 1123524.431154454,
+                "service_dead_only": {
+                  "force_n": 5633201.450307038,
+                  "prestress_moment_nm": 1697584.0876138047,
+                  "soffit_pa": 7808594.642939941,
+                  "top_pa": 3171942.438556591
+                },
+                "transfer": {
+                  "force_n": 7041501.812883796,
+                  "prestress_moment_nm": 2121980.109517256,
+                  "soffit_pa": 11282601.022276212,
+                  "top_pa": 3218122.583548348
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 1045435.925757979,
+                "service_dead_only": {
+                  "force_n": 5627927.9019608535,
+                  "prestress_moment_nm": 1693185.0832801454,
+                  "soffit_pa": 8203457.581915914,
+                  "top_pa": 2971618.825580525
+                },
+                "transfer": {
+                  "force_n": 7034909.877451067,
+                  "prestress_moment_nm": 2116481.3541001817,
+                  "soffit_pa": 11670405.765873848,
+                  "top_pa": 3019623.411741928
+                },
+                "x_m": 15.5
+              },
+              {
+                "gravity_moment_nm": 959910.4198475538,
+                "service_dead_only": {
+                  "force_n": 5622152.110915034,
+                  "prestress_moment_nm": 1688367.126152804,
+                  "soffit_pa": 8635926.515080078,
+                  "top_pa": 2752216.7732734084
+                },
+                "transfer": {
+                  "force_n": 7027690.138643792,
+                  "prestress_moment_nm": 2110458.9076910047,
+                  "soffit_pa": 12095144.294576019,
+                  "top_pa": 2802219.5569063257
+                },
+                "x_m": 16.0
+              },
+              {
+                "gravity_moment_nm": 866947.9134231786,
+                "service_dead_only": {
+                  "force_n": 5615874.0771695785,
+                  "prestress_moment_nm": 1683130.2162317806,
+                  "soffit_pa": 9106001.44243243,
+                  "top_pa": 2513736.2816352365
+                },
+                "transfer": {
+                  "force_n": 7019842.596461972,
+                  "prestress_moment_nm": 2103912.7702897256,
+                  "soffit_pa": 12556816.60838273,
+                  "top_pa": 2565911.0190415424
+                },
+                "x_m": 16.5
+              },
+              {
+                "gravity_moment_nm": 766548.4064848536,
+                "service_dead_only": {
+                  "force_n": 5609093.800724485,
+                  "prestress_moment_nm": 1677474.3535170755,
+                  "soffit_pa": 9613682.363972967,
+                  "top_pa": 2256177.350666011
+                },
+                "transfer": {
+                  "force_n": 7011367.250905606,
+                  "prestress_moment_nm": 2096842.9418963443,
+                  "soffit_pa": 13055422.707293976,
+                  "top_pa": 2310697.7981475755
+                },
+                "x_m": 17.0
+              },
+              {
+                "gravity_moment_nm": 658711.8990325782,
+                "service_dead_only": {
+                  "force_n": 5601811.281579756,
+                  "prestress_moment_nm": 1671399.5380086885,
+                  "soffit_pa": 10158969.279701695,
+                  "top_pa": 1979539.9803657322
+                },
+                "transfer": {
+                  "force_n": 7002264.101974695,
+                  "prestress_moment_nm": 2089249.4225108605,
+                  "soffit_pa": 13590962.59130976,
+                  "top_pa": 2036579.8942244258
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 543438.3910663535,
+                "service_dead_only": {
+                  "force_n": 5594026.519735391,
+                  "prestress_moment_nm": 1664905.76970662,
+                  "soffit_pa": 10741862.18961861,
+                  "top_pa": 1683824.1707343995
+                },
+                "transfer": {
+                  "force_n": 6992533.149669238,
+                  "prestress_moment_nm": 2081132.2121332746,
+                  "soffit_pa": 14163436.260430083,
+                  "top_pa": 1743557.307272093
+                },
+                "x_m": 18.0
+              },
+              {
+                "gravity_moment_nm": 420727.8825861792,
+                "service_dead_only": {
+                  "force_n": 5585739.515191388,
+                  "prestress_moment_nm": 1657993.048610869,
+                  "soffit_pa": 11362361.093723707,
+                  "top_pa": 1369029.9217720148
+                },
+                "transfer": {
+                  "force_n": 6982174.393989235,
+                  "prestress_moment_nm": 2072491.3107635863,
+                  "soffit_pa": 14772843.714654934,
+                  "top_pa": 1431630.0372905796
+                },
+                "x_m": 18.5
+              },
+              {
+                "gravity_moment_nm": 290580.37359205366,
+                "service_dead_only": {
+                  "force_n": 5576950.26794775,
+                  "prestress_moment_nm": 1650661.3747214365,
+                  "soffit_pa": 12020465.992017,
+                  "top_pa": 1035157.2334785745
+                },
+                "transfer": {
+                  "force_n": 6971187.834934687,
+                  "prestress_moment_nm": 2063326.7184017955,
+                  "soffit_pa": 15419184.953984331,
+                  "top_pa": 1100798.0842798809
+                },
+                "x_m": 19.0
+              },
+              {
+                "gravity_moment_nm": 152929.96033140068,
+                "service_dead_only": {
+                  "force_n": 5567654.327328621,
+                  "prestress_moment_nm": 1642907.035444622,
+                  "soffit_pa": 12716510.133922327,
+                  "top_pa": 682037.0402821619
+                },
+                "transfer": {
+                  "force_n": 6959567.909160776,
+                  "prestress_moment_nm": 2053633.7943057774,
+                  "soffit_pa": 16102787.27099149,
+                  "top_pa": 750893.9224275993
+                },
+                "x_m": 19.5
+              },
+              {
+                "gravity_moment_nm": 3.4560798667371273e-10,
+                "service_dead_only": {
+                  "force_n": 5557326.513583272,
+                  "prestress_moment_nm": 1634291.9447237977,
+                  "soffit_pa": 13489816.951453783,
+                  "top_pa": 289719.60469637066
+                },
+                "transfer": {
+                  "force_n": 6946658.141979089,
+                  "prestress_moment_nm": 2042864.930904747,
+                  "soffit_pa": 16862271.189317226,
+                  "top_pa": 362149.5058704633
+                },
+                "x_m": 20.0
+              }
+            ]
+          },
+          {
+            "handling_equivalent_kg_lower_bound": 104687.71875,
+            "known_concrete_plus_strand_mass_kg": 81750.175,
+            "maximum_compression_pa_by_stage": {
+              "service_dead_only": 13489816.951453783,
+              "transfer": 16862271.189317226
+            },
+            "minimum_compression_pa_by_stage": {
+              "service_dead_only": 289719.60469637066,
+              "transfer": 362149.5058704633
+            },
+            "no_tension_research_screen": true,
+            "other_reinforcement_mass_kg": null,
+            "release": false,
+            "span_m": 25.0,
+            "stations": [
+              {
+                "gravity_moment_nm": 0.0,
+                "service_dead_only": {
+                  "force_n": 5557326.513583272,
+                  "prestress_moment_nm": 1634291.9447237977,
+                  "soffit_pa": 13489816.951453783,
+                  "top_pa": 289719.60469637066
+                },
+                "transfer": {
+                  "force_n": 6946658.141979089,
+                  "prestress_moment_nm": 2042864.930904747,
+                  "soffit_pa": 16862271.189317226,
+                  "top_pa": 362149.5058704633
+                },
+                "x_m": 0.0
+              },
+              {
+                "gravity_moment_nm": 234570.4634713672,
+                "service_dead_only": {
+                  "force_n": 5573167.752616112,
+                  "prestress_moment_nm": 1647506.13649402,
+                  "soffit_pa": 12303686.135746796,
+                  "top_pa": 891472.7372665745
+                },
+                "transfer": {
+                  "force_n": 6966459.69077014,
+                  "prestress_moment_nm": 2059382.670617525,
+                  "soffit_pa": 15697342.523052875,
+                  "top_pa": 958422.1902163466
+                },
+                "x_m": 0.625
+              },
+              {
+                "gravity_moment_nm": 449546.25957773434,
+                "service_dead_only": {
+                  "force_n": 5587685.70565248,
+                  "prestress_moment_nm": 1659616.4906863864,
+                  "soffit_pa": 11216637.866244486,
+                  "top_pa": 1442958.8741798461
+                },
+                "transfer": {
+                  "force_n": 6984607.1320656,
+                  "prestress_moment_nm": 2074520.6133579828,
+                  "soffit_pa": 14629725.29737486,
+                  "top_pa": 1504885.6840286609
+                },
+                "x_m": 1.25
+              },
+              {
+                "gravity_moment_nm": 652901.7423810547,
+                "service_dead_only": {
+                  "force_n": 5601418.904470666,
+                  "prestress_moment_nm": 1671072.2311386247,
+                  "soffit_pa": 10188348.96266122,
+                  "top_pa": 1964634.9496383462
+                },
+                "transfer": {
+                  "force_n": 7001773.630588332,
+                  "prestress_moment_nm": 2088840.2889232808,
+                  "soffit_pa": 13619817.110922685,
+                  "top_pa": 2021810.610607876
+                },
+                "x_m": 1.875
+              },
+              {
+                "gravity_moment_nm": 844636.9118813281,
+                "service_dead_only": {
+                  "force_n": 5614367.349070668,
+                  "prestress_moment_nm": 1681873.357850735,
+                  "soffit_pa": 9218819.424996996,
+                  "top_pa": 2456500.963642074
+                },
+                "transfer": {
+                  "force_n": 7017959.186338335,
+                  "prestress_moment_nm": 2102341.6973134186,
+                  "soffit_pa": 12667617.963696344,
+                  "top_pa": 2509196.9699539933
+                },
+                "x_m": 2.5
+              },
+              {
+                "gravity_moment_nm": 1024751.7680785547,
+                "service_dead_only": {
+                  "force_n": 5626531.039452489,
+                  "prestress_moment_nm": 1692019.8708227177,
+                  "soffit_pa": 8308049.253251817,
+                  "top_pa": 2918556.9161910303
+                },
+                "transfer": {
+                  "force_n": 7033163.799315612,
+                  "prestress_moment_nm": 2115024.838528397,
+                  "soffit_pa": 11773127.855695844,
+                  "top_pa": 2967044.762067011
+                },
+                "x_m": 3.125
+              },
+              {
+                "gravity_moment_nm": 1193246.3109727344,
+                "service_dead_only": {
+                  "force_n": 5637909.975616129,
+                  "prestress_moment_nm": 1701511.7700545723,
+                  "soffit_pa": 7456038.447425682,
+                  "top_pa": 3350802.8072852157
+                },
+                "transfer": {
+                  "force_n": 7047387.469520161,
+                  "prestress_moment_nm": 2126889.712568215,
+                  "soffit_pa": 10936346.78692118,
+                  "top_pa": 3395353.9869469334
+                },
+                "x_m": 3.75
+              },
+              {
+                "gravity_moment_nm": 1350120.5405638672,
+                "service_dead_only": {
+                  "force_n": 5648504.157561587,
+                  "prestress_moment_nm": 1710349.055546299,
+                  "soffit_pa": 6662787.007518592,
+                  "top_pa": 3753238.636924631
+                },
+                "transfer": {
+                  "force_n": 7060630.1969519835,
+                  "prestress_moment_nm": 2137936.3194328737,
+                  "soffit_pa": 10157274.75737236,
+                  "top_pa": 3794124.6445937566
+                },
+                "x_m": 4.375
+              },
+              {
+                "gravity_moment_nm": 1495374.4568519532,
+                "service_dead_only": {
+                  "force_n": 5658313.585288862,
+                  "prestress_moment_nm": 1718531.7272978977,
+                  "soffit_pa": 5928294.933530543,
+                  "top_pa": 4125864.405109274
+                },
+                "transfer": {
+                  "force_n": 7072891.981611077,
+                  "prestress_moment_nm": 2148164.659122372,
+                  "soffit_pa": 9435911.767049374,
+                  "top_pa": 4163356.7350074816
+                },
+                "x_m": 5.0
+              },
+              {
+                "gravity_moment_nm": 1629008.0598369923,
+                "service_dead_only": {
+                  "force_n": 5667338.258797955,
+                  "prestress_moment_nm": 1726059.7853093685,
+                  "soffit_pa": 5252562.225461538,
+                  "top_pa": 4468680.1118391445
+                },
+                "transfer": {
+                  "force_n": 7084172.8234974425,
+                  "prestress_moment_nm": 2157574.7316367105,
+                  "soffit_pa": 8772257.815952227,
+                  "top_pa": 4503050.258188109
+                },
+                "x_m": 5.625
+              },
+              {
+                "gravity_moment_nm": 1751021.3495189846,
+                "service_dead_only": {
+                  "force_n": 5675578.178088866,
+                  "prestress_moment_nm": 1732933.229580712,
+                  "soffit_pa": 4635588.883311581,
+                  "top_pa": 4781685.757114244
+                },
+                "transfer": {
+                  "force_n": 7094472.722611083,
+                  "prestress_moment_nm": 2166166.53697589,
+                  "soffit_pa": 8166312.9040809255,
+                  "top_pa": 4813205.2141356375
+                },
+                "x_m": 6.25
+              },
+              {
+                "gravity_moment_nm": 1861414.3258979297,
+                "service_dead_only": {
+                  "force_n": 5683033.343161595,
+                  "prestress_moment_nm": 1739152.0601119266,
+                  "soffit_pa": 4077374.907080663,
+                  "top_pa": 5064881.340934573
+                },
+                "transfer": {
+                  "force_n": 7103791.678951994,
+                  "prestress_moment_nm": 2173940.075139908,
+                  "soffit_pa": 7618077.031435454,
+                  "top_pa": 5093821.602850069
+                },
+                "x_m": 6.875
+              },
+              {
+                "gravity_moment_nm": 1960186.9889738283,
+                "service_dead_only": {
+                  "force_n": 5689703.754016142,
+                  "prestress_moment_nm": 1744716.276903014,
+                  "soffit_pa": 3577920.296768791,
+                  "top_pa": 5318266.863300131
+                },
+                "transfer": {
+                  "force_n": 7112129.692520178,
+                  "prestress_moment_nm": 2180895.3461287674,
+                  "soffit_pa": 7127550.198015827,
+                  "top_pa": 5344899.424331403
+                },
+                "x_m": 7.5
+              },
+              {
+                "gravity_moment_nm": 2047339.3387466795,
+                "service_dead_only": {
+                  "force_n": 5695589.410652507,
+                  "prestress_moment_nm": 1749625.879953973,
+                  "soffit_pa": 3137225.052375963,
+                  "top_pa": 5541842.324210916
+                },
+                "transfer": {
+                  "force_n": 7119486.763315634,
+                  "prestress_moment_nm": 2187032.3499424662,
+                  "soffit_pa": 6694732.403822036,
+                  "top_pa": 5566438.678579637
+                },
+                "x_m": 8.125
+              },
+              {
+                "gravity_moment_nm": 2122871.375216484,
+                "service_dead_only": {
+                  "force_n": 5700690.313070691,
+                  "prestress_moment_nm": 1753880.8692648048,
+                  "soffit_pa": 2755289.173902182,
+                  "top_pa": 5735607.723666929
+                },
+                "transfer": {
+                  "force_n": 7125862.891338363,
+                  "prestress_moment_nm": 2192351.0865810057,
+                  "soffit_pa": 6319623.648854086,
+                  "top_pa": 5758439.365594774
+                },
+                "x_m": 8.75
+              },
+              {
+                "gravity_moment_nm": 2186783.0983832423,
+                "service_dead_only": {
+                  "force_n": 5705006.461270692,
+                  "prestress_moment_nm": 1757481.244835508,
+                  "soffit_pa": 2432112.6613474376,
+                  "top_pa": 5899563.0616681725
+                },
+                "transfer": {
+                  "force_n": 7131258.076588364,
+                  "prestress_moment_nm": 2196851.556044385,
+                  "soffit_pa": 6002223.93311197,
+                  "top_pa": 5920901.485376814
+                },
+                "x_m": 9.375
+              },
+              {
+                "gravity_moment_nm": 2239074.508246953,
+                "service_dead_only": {
+                  "force_n": 5708537.855252511,
+                  "prestress_moment_nm": 1760427.0066660838,
+                  "soffit_pa": 2167695.514711742,
+                  "top_pa": 6033708.338214643
+                },
+                "transfer": {
+                  "force_n": 7135672.319065638,
+                  "prestress_moment_nm": 2200533.7583326045,
+                  "soffit_pa": 5742533.256595697,
+                  "top_pa": 6053825.037925755
+                },
+                "x_m": 10.0
+              },
+              {
+                "gravity_moment_nm": 2279745.6048076167,
+                "service_dead_only": {
+                  "force_n": 5711284.495016147,
+                  "prestress_moment_nm": 1762718.1547565316,
+                  "soffit_pa": 1962037.7339950916,
+                  "top_pa": 6138043.553306342
+                },
+                "transfer": {
+                  "force_n": 7139105.618770184,
+                  "prestress_moment_nm": 2203397.6934456644,
+                  "soffit_pa": 5540551.619305265,
+                  "top_pa": 6157210.023241594
+                },
+                "x_m": 10.625
+              },
+              {
+                "gravity_moment_nm": 2308796.3880652343,
+                "service_dead_only": {
+                  "force_n": 5713246.380561602,
+                  "prestress_moment_nm": 1764354.689106851,
+                  "soffit_pa": 1815139.3191974768,
+                  "top_pa": 6212568.706943272
+                },
+                "transfer": {
+                  "force_n": 7141557.975702003,
+                  "prestress_moment_nm": 2205443.3613835634,
+                  "soffit_pa": 5396279.021240663,
+                  "top_pa": 6231056.441324343
+                },
+                "x_m": 11.25
+              },
+              {
+                "gravity_moment_nm": 2326226.858019805,
+                "service_dead_only": {
+                  "force_n": 5714423.511888877,
+                  "prestress_moment_nm": 1765336.609717043,
+                  "soffit_pa": 1727000.2703189105,
+                  "top_pa": 6257283.799125431
+                },
+                "transfer": {
+                  "force_n": 7143029.389861095,
+                  "prestress_moment_nm": 2206670.7621463034,
+                  "soffit_pa": 5309715.462401904,
+                  "top_pa": 6275364.292173991
+                },
+                "x_m": 11.875
+              },
+              {
+                "gravity_moment_nm": 2332037.0146713285,
+                "service_dead_only": {
+                  "force_n": 5714815.888997966,
+                  "prestress_moment_nm": 1765663.9165871069,
+                  "soffit_pa": 1697620.5873593884,
+                  "top_pa": 6272188.829852816
+                },
+                "transfer": {
+                  "force_n": 7143519.861247458,
+                  "prestress_moment_nm": 2207079.8957338836,
+                  "soffit_pa": 5280860.942788985,
+                  "top_pa": 6290133.575790538
+                },
+                "x_m": 12.5
+              },
+              {
+                "gravity_moment_nm": 2326226.858019804,
+                "service_dead_only": {
+                  "force_n": 5714423.511888877,
+                  "prestress_moment_nm": 1765336.609717043,
+                  "soffit_pa": 1727000.2703189156,
+                  "top_pa": 6257283.799125428
+                },
+                "transfer": {
+                  "force_n": 7143029.389861095,
+                  "prestress_moment_nm": 2206670.7621463034,
+                  "soffit_pa": 5309715.46240191,
+                  "top_pa": 6275364.292173989
+                },
+                "x_m": 13.125
+              },
+              {
+                "gravity_moment_nm": 2308796.3880652343,
+                "service_dead_only": {
+                  "force_n": 5713246.380561602,
+                  "prestress_moment_nm": 1764354.689106851,
+                  "soffit_pa": 1815139.3191974768,
+                  "top_pa": 6212568.706943272
+                },
+                "transfer": {
+                  "force_n": 7141557.975702003,
+                  "prestress_moment_nm": 2205443.3613835634,
+                  "soffit_pa": 5396279.021240663,
+                  "top_pa": 6231056.441324343
+                },
+                "x_m": 13.75
+              },
+              {
+                "gravity_moment_nm": 2279745.6048076176,
+                "service_dead_only": {
+                  "force_n": 5711284.495016147,
+                  "prestress_moment_nm": 1762718.1547565316,
+                  "soffit_pa": 1962037.7339950865,
+                  "top_pa": 6138043.553306344
+                },
+                "transfer": {
+                  "force_n": 7139105.618770184,
+                  "prestress_moment_nm": 2203397.6934456644,
+                  "soffit_pa": 5540551.6193052605,
+                  "top_pa": 6157210.023241597
+                },
+                "x_m": 14.375
+              },
+              {
+                "gravity_moment_nm": 2239074.508246953,
+                "service_dead_only": {
+                  "force_n": 5708537.855252511,
+                  "prestress_moment_nm": 1760427.0066660838,
+                  "soffit_pa": 2167695.514711742,
+                  "top_pa": 6033708.338214643
+                },
+                "transfer": {
+                  "force_n": 7135672.319065638,
+                  "prestress_moment_nm": 2200533.7583326045,
+                  "soffit_pa": 5742533.256595697,
+                  "top_pa": 6053825.037925755
+                },
+                "x_m": 15.0
+              },
+              {
+                "gravity_moment_nm": 2186783.098383242,
+                "service_dead_only": {
+                  "force_n": 5705006.461270692,
+                  "prestress_moment_nm": 1757481.244835508,
+                  "soffit_pa": 2432112.66134744,
+                  "top_pa": 5899563.061668172
+                },
+                "transfer": {
+                  "force_n": 7131258.076588364,
+                  "prestress_moment_nm": 2196851.556044385,
+                  "soffit_pa": 6002223.933111973,
+                  "top_pa": 5920901.4853768125
+                },
+                "x_m": 15.625
+              },
+              {
+                "gravity_moment_nm": 2122871.3752164845,
+                "service_dead_only": {
+                  "force_n": 5700690.313070691,
+                  "prestress_moment_nm": 1753880.8692648048,
+                  "soffit_pa": 2755289.173902179,
+                  "top_pa": 5735607.723666931
+                },
+                "transfer": {
+                  "force_n": 7125862.891338363,
+                  "prestress_moment_nm": 2192351.0865810057,
+                  "soffit_pa": 6319623.648854084,
+                  "top_pa": 5758439.365594775
+                },
+                "x_m": 16.25
+              },
+              {
+                "gravity_moment_nm": 2047339.3387466804,
+                "service_dead_only": {
+                  "force_n": 5695589.410652507,
+                  "prestress_moment_nm": 1749625.879953973,
+                  "soffit_pa": 3137225.052375958,
+                  "top_pa": 5541842.324210918
+                },
+                "transfer": {
+                  "force_n": 7119486.763315634,
+                  "prestress_moment_nm": 2187032.3499424662,
+                  "soffit_pa": 6694732.403822031,
+                  "top_pa": 5566438.67857964
+                },
+                "x_m": 16.875
+              },
+              {
+                "gravity_moment_nm": 1960186.9889738276,
+                "service_dead_only": {
+                  "force_n": 5689703.754016142,
+                  "prestress_moment_nm": 1744716.276903014,
+                  "soffit_pa": 3577920.296768795,
+                  "top_pa": 5318266.863300129
+                },
+                "transfer": {
+                  "force_n": 7112129.692520177,
+                  "prestress_moment_nm": 2180895.3461287674,
+                  "soffit_pa": 7127550.19801583,
+                  "top_pa": 5344899.424331401
+                },
+                "x_m": 17.5
+              },
+              {
+                "gravity_moment_nm": 1861414.3258979295,
+                "service_dead_only": {
+                  "force_n": 5683033.343161595,
+                  "prestress_moment_nm": 1739152.0601119266,
+                  "soffit_pa": 4077374.9070806643,
+                  "top_pa": 5064881.340934573
+                },
+                "transfer": {
+                  "force_n": 7103791.678951994,
+                  "prestress_moment_nm": 2173940.075139908,
+                  "soffit_pa": 7618077.031435455,
+                  "top_pa": 5093821.602850068
+                },
+                "x_m": 18.125
+              },
+              {
+                "gravity_moment_nm": 1751021.3495189846,
+                "service_dead_only": {
+                  "force_n": 5675578.178088866,
+                  "prestress_moment_nm": 1732933.229580712,
+                  "soffit_pa": 4635588.883311581,
+                  "top_pa": 4781685.757114244
+                },
+                "transfer": {
+                  "force_n": 7094472.722611083,
+                  "prestress_moment_nm": 2166166.53697589,
+                  "soffit_pa": 8166312.9040809255,
+                  "top_pa": 4813205.2141356375
+                },
+                "x_m": 18.75
+              },
+              {
+                "gravity_moment_nm": 1629008.059836993,
+                "service_dead_only": {
+                  "force_n": 5667338.258797955,
+                  "prestress_moment_nm": 1726059.7853093685,
+                  "soffit_pa": 5252562.225461534,
+                  "top_pa": 4468680.111839146
+                },
+                "transfer": {
+                  "force_n": 7084172.8234974425,
+                  "prestress_moment_nm": 2157574.7316367105,
+                  "soffit_pa": 8772257.815952223,
+                  "top_pa": 4503050.258188111
+                },
+                "x_m": 19.375
+              },
+              {
+                "gravity_moment_nm": 1495374.4568519525,
+                "service_dead_only": {
+                  "force_n": 5658313.585288862,
+                  "prestress_moment_nm": 1718531.7272978977,
+                  "soffit_pa": 5928294.933530547,
+                  "top_pa": 4125864.4051092723
+                },
+                "transfer": {
+                  "force_n": 7072891.981611077,
+                  "prestress_moment_nm": 2148164.659122372,
+                  "soffit_pa": 9435911.76704938,
+                  "top_pa": 4163356.73500748
+                },
+                "x_m": 20.0
+              },
+              {
+                "gravity_moment_nm": 1350120.540563866,
+                "service_dead_only": {
+                  "force_n": 5648504.157561586,
+                  "prestress_moment_nm": 1710349.0555462986,
+                  "soffit_pa": 6662787.007518595,
+                  "top_pa": 3753238.636924628
+                },
+                "transfer": {
+                  "force_n": 7060630.196951983,
+                  "prestress_moment_nm": 2137936.3194328733,
+                  "soffit_pa": 10157274.757372364,
+                  "top_pa": 3794124.644593754
+                },
+                "x_m": 20.625
+              },
+              {
+                "gravity_moment_nm": 1193246.310972734,
+                "service_dead_only": {
+                  "force_n": 5637909.975616129,
+                  "prestress_moment_nm": 1701511.7700545723,
+                  "soffit_pa": 7456038.447425684,
+                  "top_pa": 3350802.807285215
+                },
+                "transfer": {
+                  "force_n": 7047387.469520161,
+                  "prestress_moment_nm": 2126889.712568215,
+                  "soffit_pa": 10936346.786921185,
+                  "top_pa": 3395353.986946932
+                },
+                "x_m": 21.25
+              },
+              {
+                "gravity_moment_nm": 1024751.7680785555,
+                "service_dead_only": {
+                  "force_n": 5626531.039452489,
+                  "prestress_moment_nm": 1692019.8708227177,
+                  "soffit_pa": 8308049.253251813,
+                  "top_pa": 2918556.916191032
+                },
+                "transfer": {
+                  "force_n": 7033163.799315612,
+                  "prestress_moment_nm": 2115024.838528397,
+                  "soffit_pa": 11773127.85569584,
+                  "top_pa": 2967044.762067013
+                },
+                "x_m": 21.875
+              },
+              {
+                "gravity_moment_nm": 844636.9118813286,
+                "service_dead_only": {
+                  "force_n": 5614367.349070668,
+                  "prestress_moment_nm": 1681873.357850735,
+                  "soffit_pa": 9218819.424996994,
+                  "top_pa": 2456500.963642075
+                },
+                "transfer": {
+                  "force_n": 7017959.186338335,
+                  "prestress_moment_nm": 2102341.6973134186,
+                  "soffit_pa": 12667617.963696342,
+                  "top_pa": 2509196.9699539943
+                },
+                "x_m": 22.5
+              },
+              {
+                "gravity_moment_nm": 652901.7423810539,
+                "service_dead_only": {
+                  "force_n": 5601418.904470665,
+                  "prestress_moment_nm": 1671072.2311386245,
+                  "soffit_pa": 10188348.962661222,
+                  "top_pa": 1964634.9496383439
+                },
+                "transfer": {
+                  "force_n": 7001773.630588331,
+                  "prestress_moment_nm": 2088840.2889232805,
+                  "soffit_pa": 13619817.110922687,
+                  "top_pa": 2021810.6106078732
+                },
+                "x_m": 23.125
+              },
+              {
+                "gravity_moment_nm": 449546.259577735,
+                "service_dead_only": {
+                  "force_n": 5587685.70565248,
+                  "prestress_moment_nm": 1659616.4906863866,
+                  "soffit_pa": 11216637.866244482,
+                  "top_pa": 1442958.874179847
+                },
+                "transfer": {
+                  "force_n": 6984607.1320656,
+                  "prestress_moment_nm": 2074520.613357983,
+                  "soffit_pa": 14629725.29737486,
+                  "top_pa": 1504885.6840286609
+                },
+                "x_m": 23.75
+              },
+              {
+                "gravity_moment_nm": 234570.46347136842,
+                "service_dead_only": {
+                  "force_n": 5573167.752616113,
+                  "prestress_moment_nm": 1647506.13649402,
+                  "soffit_pa": 12303686.135746788,
+                  "top_pa": 891472.7372665778
+                },
+                "transfer": {
+                  "force_n": 6966459.690770141,
+                  "prestress_moment_nm": 2059382.670617525,
+                  "soffit_pa": 15697342.523052871,
+                  "top_pa": 958422.1902163504
+                },
+                "x_m": 24.375
+              },
+              {
+                "gravity_moment_nm": 8.11269273981452e-10,
+                "service_dead_only": {
+                  "force_n": 5557326.513583272,
+                  "prestress_moment_nm": 1634291.9447237977,
+                  "soffit_pa": 13489816.951453779,
+                  "top_pa": 289719.6046963716
+                },
+                "transfer": {
+                  "force_n": 6946658.141979089,
+                  "prestress_moment_nm": 2042864.930904747,
+                  "soffit_pa": 16862271.189317223,
+                  "top_pa": 362149.50587046426
+                },
+                "x_m": 25.0
+              }
+            ]
+          }
+        ],
+        "strands": 48
+      }
+    ],
+    "candidate_id": "balanced-48",
+    "compression_positive": true,
+    "material_stress_limits_qualified": false,
+    "open": [
+      "Zero tension is a research screen, not an adopted design criterion; concrete compression limits unknown",
+      "Transfer length, bond, local end stresses, bursting, bearing/insert zones and actual end-section stiffness need separate design",
+      "Gross prismatic elastic shortening with local gravity moment is an idealisation; no measured total loss or nonlinear cracking model",
+      "Additional reinforcement, equipment/track/railway loads, fatigue, shear, deflection and concrete transfer strength remain open"
+    ],
+    "physical_release": false,
+    "railway_live_load_qualified": false,
+    "scope": "Gross prismatic section at full-force stations, including end-fill gravity patches and known strand displacement. Full force extrapolated to ends is a diagnostic; actual transmission/end-zone behaviour is unresolved.",
+    "transfer_length_qualified": false
+  },
+  "revision": "2026-10-16-iteration-2",
+  "runway": {
+    "assumed_configuration": {
+      "allowable_ground_bearing_pa": null,
+      "bay_span_m": 6,
+      "bridge_mass_kg": 30000,
+      "bridge_span_m": 30,
+      "crab_approach_m": 2,
+      "crab_mass_kg": 15000,
+      "flange_thickness_m": 0.04,
+      "flange_width_m": 0.45,
+      "girder_depth_m": 1.2,
+      "horizontal_transverse_fraction": 0.1,
+      "pad_reservation_m": [
+        2.5,
+        2.5,
+        1.2
+      ],
+      "rated_lift_kg": 125000,
+      "research_deflection_span_divisor": 600,
+      "supplier_wheel_reactions_n": null,
+      "vertical_lift_factor": 1.1,
+      "web_thickness_m": 0.02,
+      "wheelbase_m": 4,
+      "wheels_per_runway": 2
+    },
+    "far_rail_vertical_n": 246800.69166666665,
+    "far_wheel_n": 123400.34583333333,
+    "gravity_moment_envelope_nm": 1177415.622817,
+    "gross_girder_area_m2": 0.05840000000000001,
+    "gross_girder_inertia_m4": 0.014456746666666678,
+    "horizontal_column_base_moment_scenario_nm": 1345962.7125000001,
+    "horizontal_transverse_interface_n": 149551.4125,
+    "manufacturing_interfaces": {
+      "baseplate_blank_m": [
+        0.9,
+        0.9,
+        0.05
+      ],
+      "baseplate_cv5_diameter_screen": false,
+      "baseplate_cv5_height_screen": true,
+      "baseplate_cv5_mass_screen": false,
+      "baseplate_nominal_mass_kg": 317.92500000000007,
+      "fabrication_supplier_selected": false,
+      "route": "Baseplate drilling/machining and long-girder fabrication require an additional qualified route; the pilot CV5 cell does not cover them"
+    },
+    "near_rail_vertical_n": 1542912.9333333333,
+    "near_wheel_n": 771456.4666666667,
+    "nominal_bending_demand_pa": 48866414.41390682,
+    "open": [
+      "Masses, dynamic factor, wheel count/spacing and approach are OSR scenarios, not Street configuration data",
+      "Runway stress/deflection are gross elastic demands: wheel contact/web patch/local buckling, lateral stability, torsion, weld fatigue, rail clips and end stops remain open",
+      "Nominal 2.5 m pads are CAD reservations; pressure excludes eccentricity, uplift, seismic, adjacent foundations and actual ground capacity",
+      "Horizontal action is a separate assumed interface scenario; no project load combination or base stiffness adopted",
+      "Rail, clips, stiffeners and connections are not included in the stated girder/column dead-load takeoff; final dead loads unknown",
+      "Adjacent-bay gravity envelope sums incompatible independent maxima conservatively; not a final column reaction"
+    ],
+    "pad_average_gravity_pressure_scenario_pa": 369728.1985381211,
+    "pad_resistance_established": false,
+    "physical_release": false,
+    "rated_lift_basis": true,
+    "research_deflection_limit_m": 0.01,
+    "sampled_elastic_deflection_envelope_m": 0.001168483952051567,
+    "supplier_reactions_confirmed": false,
+    "two_adjacent_bays_column_gravity_envelope_n": 2126926.553363257,
+    "vertical_sum_n": 1789713.625,
+    "wheel_travel_moment_max_positions_m": [
+      -1.0,
+      3.0
+    ]
+  },
+  "schema": "osr-factory-development-iteration/2",
+  "workholding": {
+    "all_cases_vertical_contact_screen": true,
+    "cases": [
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          2206.246875,
+          2096.246875,
+          3802.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          2206.246875,
+          2206.246875,
+          3692.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          2096.246875,
+          2206.246875,
+          3802.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          2096.246875,
+          2096.246875,
+          3912.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          2581.246875,
+          1946.2468749999998,
+          3577.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          2581.246875,
+          2056.246875,
+          3467.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          2471.246875,
+          2056.246875,
+          3577.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0,
+          0
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          2471.246875,
+          1946.2468749999998,
+          3687.4937499999996
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          1102.9987500000002,
+          2463.9962499999997,
+          4537.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          1102.9987500000002,
+          2573.9962499999997,
+          4427.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          992.9987500000002,
+          2573.9962499999997,
+          4537.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          992.9987500000002,
+          2463.9962499999997,
+          4647.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          1477.9987500000002,
+          2313.9962499999997,
+          4312.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          1477.9987500000002,
+          2423.9962499999997,
+          4202.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          1367.9987500000002,
+          2423.9962499999997,
+          4312.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          0.1,
+          0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          1367.9987500000002,
+          2313.9962499999997,
+          4422.992499999999
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          3309.4949999999994,
+          1728.4975,
+          3066.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          3309.4949999999994,
+          1838.4975,
+          2956.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          3199.4949999999994,
+          1838.4975,
+          3066.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0,
+          0
+        ],
+        "vertical_reactions_n": [
+          3199.4949999999994,
+          1728.4975,
+          3176.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          3684.4949999999994,
+          1578.4975,
+          2841.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": -500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          3684.4949999999994,
+          1688.4975,
+          2731.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 0,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          3574.4949999999994,
+          1688.4975,
+          2841.995
+        ]
+      },
+      {
+        "all_vertical_contacts_compressive": true,
+        "horizontal_action_n": 500.0,
+        "lateral_axis": 1,
+        "payload_cg_xy_m": [
+          -0.1,
+          -0.05
+        ],
+        "tool_xy_m": [
+          0.35,
+          0.15
+        ],
+        "vertical_reactions_n": [
+          3574.4949999999994,
+          1578.4975,
+          2951.995
+        ]
+      }
+    ],
+    "clamp_force_compatibility": null,
+    "crossrail_connection_shear_screen": {
+      "all_round_access_unconfirmed": true,
+      "conservative_force_n": 4647.992499999999,
+      "nominal_fillet_leg_m": 0.004,
+      "nominal_shear_demand_pa": 5477711.692757023,
+      "resistance_pa": null,
+      "throat_area_per_end_m2": 0.0008485281374238571,
+      "weld_length_per_end_m": 0.30000000000000004
+    },
+    "minimum_contact_reaction_n": 992.9987500000002,
+    "open": [
+      "Holding force is not applied clamping preload; exact spindle position and actual force require supplier/trial evidence",
+      "Lateral locator contact, pin bending, friction, mount bolts, weld eccentricity, wall/local plate deformation and anchors remain unqualified",
+      "Load cases are declared tool/CG research scenarios, not a qualified operating envelope",
+      "Weld demand uses the full largest support reaction at one crossrail end; shear-only nominal throat screen omits joint bending and resistance"
+    ],
+    "preload_demonstrated": false,
+    "published_nominal_holding_force_n": 3500,
+    "purchased_clamp_mass_kg": 2.4000000000000004,
+    "released": false,
+    "requested_preload_n_each": 500.0
+  }
+}

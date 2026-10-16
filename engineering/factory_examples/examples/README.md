@@ -6,6 +6,8 @@ Open [the offline visual review](index.html), [the engineering report](report.js
 
 ## What is built
 
+The [second development iteration](development.md) adds three native models and full-span prestress alternatives, explicit bed-restraint stiffness/imperfection cases, fixture workholding and crane-runway interface demands. The original four models below remain baseline examples.
+
 The fixture has a nominal model mass of 149.01 kg, a 500 kg payload hypothesis and a 1.5 load multiplier. Its six locators have independent kinematic rank. The payload-only elastic deflection bound is 0.742 mm against a provisional 1 mm review limit. This does not establish weld, pin, clamp, wall or anchor resistance.
 
 [Fixture drawing](fixture/drawing.svg), [native FreeCAD](fixture/model.FCStd), [cut list/BOM](fixture-bom.csv), [stock cutting plan](fixture-cutting-plan.json). Datum plates are welded mounts with bored locator interfaces; locator retention, shims and clamps need detailed design. Inspect the assembled fixture by a separate survey: it does not fit the Axiom CMM.
@@ -35,6 +37,7 @@ At 2 working days per full bed cycle, 85% availability and 95% accepted yield, f
 
 | Supplier/model | Origin basis | Specification source |
 | --- | --- | --- |
+| Brauer — H350/2BLC flanged-base positive-locking clamp | Designed/manufactured at Milton Keynes, England, supplier statement; offered unit confirmation pending | [Official source](https://www.brauer.co.uk/product/horizontal-positive-locking-clamps/) |
 | Prosaw (UK supplier), BOMAR (Czech OEM) — Workline 510.350 DG manual bandsaw | Imported alternative via UK supplier; Czech OEM, no British-manufacture credit; offered unit origin certificate pending | [Official source](https://www.prosaw.co.uk/machine/bomar-workline-510350dg/) |
 | Esprit Automation — Photon 5G, 3 x 1.5 m, 4 kW option | Britain manufacture published; offered configuration certificate pending | [Official source](https://espritautomation.com/photon-5g/) |
 | Yamazaki Mazak — CV5-500 | Built in Worcester, Britain, explicitly published for CV5 family | [Official source](https://www.mazak.com/uk-en/products/cv5/) |
