@@ -14,12 +14,25 @@ import time
 import uuid
 
 from . import factory
-from .contracts import SCHEMA, identity
+from .contracts import SCHEMA, identity, problem_fingerprint, problem
 from .export import export, verify_export
 from .registry import ROOT, get, dependencies
 from .runtime import Manager, request, comparison, TERMINAL
 from engineering.factory_examples import build, reproduction
 from engineering.factory_examples.native import generate, digest
+
+ACCEPTANCE_BUDGET = dict(
+    evaluations=4, wall_seconds=180, memory_mib=6144, artifact_mib=512
+)
+
+
+def validate_problem(adapter, charter):
+    problem(charter)
+    if (
+        problem_fingerprint(charter) != problem_fingerprint(get(adapter))
+        or charter["budget"] != ACCEPTANCE_BUDGET
+    ):
+        raise ValueError("factory common function or acceptance budget differs")
 
 
 def write(path, data):
@@ -81,9 +94,7 @@ def execute(folder):
                 adapter,
                 context,
                 refine=True,
-                budget=dict(
-                    evaluations=4, wall_seconds=180, memory_mib=6144, artifact_mib=512
-                ),
+                budget=ACCEPTANCE_BUDGET,
             )
         )
         deadline = time.monotonic() + 200
@@ -172,9 +183,9 @@ def acceptance(folder):
             raise ValueError("factory common export identity differs")
         req = json.loads((output / "request.json").read_text())
         result = json.loads((output / "executed-attempt/comparison.json").read_text())
+        validate_problem(adapter, req["problem"])
         if (
-            req["problem"] != get(adapter)
-            or req["dependencies"] != dependencies(adapter)
+            req["dependencies"] != dependencies(adapter)
             or len(result["candidates"]) != 1
         ):
             raise ValueError("factory common problem/source membership differs")
