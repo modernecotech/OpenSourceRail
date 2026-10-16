@@ -6080,6 +6080,8 @@ Indexed Markdown files: **6229**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/multi-agent-design-scenario-2026-10-16.md`](../docs/design-engine/multi-agent-design-scenario-2026-10-16.md) | Multi-agent civil, mechanical and manufacturing design scenario |
+| [`docs/design-engine/multi-agent-design-results-2026-10-16.md`](../docs/design-engine/multi-agent-design-results-2026-10-16.md) | Multi-agent design campaign: executed variations and manufacturing gaps |
 | [`docs/design-engine/factory-beam-demands-2026-10-16.md`](../docs/design-engine/factory-beam-demands-2026-10-16.md) | Baghdad Pi-beam railway and handling demand development |
 | [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
 | [`docs/design-engine/factory-completion-2026-10-16.md`](../docs/design-engine/factory-completion-2026-10-16.md) | Mechanical and civil factory development delivery record |
@@ -6274,6 +6276,7 @@ Indexed Markdown files: **6229**.
 | [`engineering/design_engine/LICENSE.md`](../engineering/design_engine/LICENSE.md) | Design Engine Licensing |
 | [`engineering/design_engine/README.md`](../engineering/design_engine/README.md) | Shared Design Engine |
 | [`engineering/factory_examples/README.md`](../engineering/factory_examples/README.md) | Mechanical, civil and factory development examples |
+| [`engineering/generative_design/README.md`](../engineering/generative_design/README.md) | Multi-agent generative engineering campaign |
 | [`engineering/factory_examples/examples/README.md`](../engineering/factory_examples/examples/README.md) | Baghdad mechanical, civil and factory development examples |
 | [`engineering/factory_examples/examples/connections.md`](../engineering/factory_examples/examples/connections.md) | Factory fabrication interfaces — iteration 3 |
 | [`engineering/factory_examples/examples/development.md`](../engineering/factory_examples/examples/development.md) | Joint mechanical and civil development — iteration 2 |

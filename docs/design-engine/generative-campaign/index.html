@@ -1,0 +1,1220 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Baghdad multi-agent generative design campaign</title><style>
+body{font:16px/1.5 system-ui,sans-serif;margin:0;background:#f4f3ed;color:#192b36}main{max-width:1250px;margin:auto;padding:24px}h1,h2{line-height:1.2}a{color:#126077}.notice{padding:16px;border-left:5px solid #a24b35;background:#fff}.scroll{overflow-x:auto;background:white}table{border-collapse:collapse;width:100%}td,th{border:1px solid #c7cdc9;padding:10px;text-align:left;vertical-align:top}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin:0}td{overflow-wrap:anywhere}@media(max-width:600px){main{padding:12px}table{min-width:660px}} </style><main>
+<h1>Baghdad multi-agent generative design campaign</h1><p class="notice">Unissued research. 63 work packages tracked; 0 complete engineering/manufacturing releases. Architecture reconciliation, accepted loading/materials, detailed manufacturing and physical qualification remain open. An agent search pass is a local research result.</p>
+<p>Roles: civil variations, mechanical variations, system scope and integration/critique. The deterministic runner executes controlled evaluators; it does not simulate an approval authority or invent additional AI agents.</p>
+<p><a href="scope.json">Scope and agent tasks</a> · <a href="inventory-audit.json">Exact source-ID coverage</a> · <a href="closure-ledger.json">All closure gates</a> · <a href="work-queue.json">Remaining agent tasks</a> · <a href="summary.json">Campaign summary</a></p>
+<p>Keep LM3 three-car catalogue identities and metro-six-car research examples distinct. No railway load, component suitability or release is transferred between them.</p>
+<h2>Civil agent lane</h2><p>864 evaluations; 2 selected local research alternatives. Stop: bounded_space_exhausted. These selections do not establish complete manufacturable designs.</p><p><a href="civil/search.json">All candidates, failed checks, ancestry and unknowns</a></p><div class="scroll"><table><thead><tr><th>Candidate</th><th>Variables [SI]</th><th>Metrics [SI; see field units]</th></tr></thead><tbody><tr><td>civil-6bfe8bc1a468<br><a href="civil/models/civil-6bfe8bc1a468/model.FCStd">civil-6bfe8bc1a468 CAD</a></td><td><pre>{
+  &quot;depth_m&quot;: 1.155,
+  &quot;stem_width_m&quot;: 0.3,
+  &quot;strand_count&quot;: 96,
+  &quot;lower_strand_fraction&quot;: 0.6666666666666666,
+  &quot;lift_fraction&quot;: 0.2
+}</pre></td><td><pre>{
+  &quot;minimum_transfer_compression_pa&quot;: 2870212.565289718,
+  &quot;minimum_service_compression_pa&quot;: 899243.7577986037,
+  &quot;minimum_handling_compression_pa&quot;: 957165.5938230492,
+  &quot;minimum_geometric_cover_m&quot;: 0.05240000000000002,
+  &quot;minimum_grip_surface_gap_m&quot;: 0.00999999999999994,
+  &quot;maximum_hook_equivalent_kg&quot;: 105811.21875000001,
+  &quot;maximum_compression_demand_pa&quot;: 32343099.768176205,
+  &quot;initial_bed_force_n&quot;: 14783999.999999998,
+  &quot;original_48_strand_bed_force_n&quot;: 7391999.999999999,
+  &quot;initial_force_per_strand_n&quot;: 154000.0,
+  &quot;tendon_centroid_above_soffit_m&quot;: 0.5266666666666667,
+  &quot;tendon_eccentricity_below_concrete_centroid_m&quot;: 0.24812691131498477,
+  &quot;initial_prestress_moment_about_concrete_centroid_nm&quot;: 3668308.256880735,
+  &quot;accepted_concrete_compression_limit_pa&quot;: null,
+  &quot;accepted_crane_capacity_kg&quot;: null,
+  &quot;accepted_bed_capacity_n&quot;: null
+}</pre></td></tr><tr><td>civil-9a5e1151e1a2<br><a href="civil/models/civil-9a5e1151e1a2/model.FCStd">civil-9a5e1151e1a2 CAD</a></td><td><pre>{
+  &quot;depth_m&quot;: 1.155,
+  &quot;stem_width_m&quot;: 0.36,
+  &quot;strand_count&quot;: 96,
+  &quot;lower_strand_fraction&quot;: 0.75,
+  &quot;lift_fraction&quot;: 0.2
+}</pre></td><td><pre>{
+  &quot;minimum_transfer_compression_pa&quot;: 2321284.6663523586,
+  &quot;minimum_service_compression_pa&quot;: 442244.46346572693,
+  &quot;minimum_handling_compression_pa&quot;: 436466.2301853411,
+  &quot;minimum_geometric_cover_m&quot;: 0.08240000000000003,
+  &quot;minimum_grip_surface_gap_m&quot;: 0.00999999999999994,
+  &quot;maximum_hook_equivalent_kg&quot;: 114191.15624999999,
+  &quot;maximum_compression_demand_pa&quot;: 28790942.899158236,
+  &quot;initial_bed_force_n&quot;: 14783999.999999998,
+  &quot;original_48_strand_bed_force_n&quot;: 7391999.999999999,
+  &quot;initial_force_per_strand_n&quot;: 154000.0,
+  &quot;tendon_centroid_above_soffit_m&quot;: 0.5025000000000001,
+  &quot;tendon_eccentricity_below_concrete_centroid_m&quot;: 0.24599832214765116,
+  &quot;initial_prestress_moment_about_concrete_centroid_nm&quot;: 3636839.1946308753,
+  &quot;accepted_concrete_compression_limit_pa&quot;: null,
+  &quot;accepted_crane_capacity_kg&quot;: null,
+  &quot;accepted_bed_capacity_n&quot;: null
+}</pre></td></tr></tbody></table></div><h2>Mechanical agent lane</h2><p>376 evaluations; 2 selected local research alternatives. Stop: {&#x27;reason&#x27;: &#x27;feedback_frontier_exhausted&#x27;, &#x27;evaluation_budget&#x27;: 4096, &#x27;evaluations&#x27;: 376, &#x27;pending_proposals&#x27;: 0, &#x27;conditional_feasible_count&#x27;: 64, &#x27;complete_solution_found&#x27;: False}. These selections do not establish complete manufacturable designs.</p><p><a href="mechanical/search.json">All candidates, failed checks, ancestry and unknowns</a></p><div class="scroll"><table><thead><tr><th>Candidate</th><th>Variables [SI]</th><th>Metrics [SI; see field units]</th></tr></thead><tbody><tr><td>mechanical-14246ef91d01<br><a href="mechanical/models/mechanical-14246ef91d01/model.FCStd">mechanical-14246ef91d01 CAD</a></td><td><pre>{
+  &quot;width_m&quot;: 0.18,
+  &quot;length_m&quot;: 0.12,
+  &quot;plate_m&quot;: 0.03,
+  &quot;pitch_x_m&quot;: 0.14,
+  &quot;pitch_y_m&quot;: 0.06,
+  &quot;stem_diameter_m&quot;: 0.01999
+}</pre></td><td><pre>{
+  &quot;minimum_plate_hole_edge_m&quot;: 0.01549999999999999,
+  &quot;minimum_hole_to_bore_gap_m&quot;: 0.06165773105863909,
+  &quot;fastener_head_gap_m&quot;: 0.052157731058639085,
+  &quot;minimum_diametral_clearance_m&quot;: 6.000000000001062e-06,
+  &quot;maximum_diametral_clearance_m&quot;: 1.3999999999998123e-05,
+  &quot;underside_gap_m&quot;: 0.1,
+  &quot;strip_span_m&quot;: 0.18000000000000002,
+  &quot;nominal_strip_stress_pa&quot;: 3750000.0000000014,
+  &quot;nominal_strip_deflection_m&quot;: 3.3750000000000016e-06,
+  &quot;gross_blank_and_component_mass_kg&quot;: 9.419657629832702,
+  &quot;machining_setup_diameter_m&quot;: 0.3056010471186249,
+  &quot;machining_setup_height_m&quot;: 0.114,
+  &quot;machining_setup_mass_kg&quot;: 44.4196576298327
+}</pre></td></tr><tr><td>mechanical-508b6a0beb69<br><a href="mechanical/models/mechanical-508b6a0beb69/model.FCStd">mechanical-508b6a0beb69 CAD</a></td><td><pre>{
+  &quot;width_m&quot;: 0.18,
+  &quot;length_m&quot;: 0.1,
+  &quot;plate_m&quot;: 0.025,
+  &quot;pitch_x_m&quot;: 0.14,
+  &quot;pitch_y_m&quot;: 0.06,
+  &quot;stem_diameter_m&quot;: 0.01999
+}</pre></td><td><pre>{
+  &quot;minimum_plate_hole_edge_m&quot;: 0.01549999999999999,
+  &quot;minimum_hole_to_bore_gap_m&quot;: 0.06165773105863909,
+  &quot;fastener_head_gap_m&quot;: 0.052157731058639085,
+  &quot;minimum_diametral_clearance_m&quot;: 6.000000000001062e-06,
+  &quot;maximum_diametral_clearance_m&quot;: 1.3999999999998123e-05,
+  &quot;underside_gap_m&quot;: 0.1,
+  &quot;strip_span_m&quot;: 0.18000000000000002,
+  &quot;nominal_strip_stress_pa&quot;: 6480000.0,
+  &quot;nominal_strip_deflection_m&quot;: 6.998400000000001e-06,
+  &quot;gross_blank_and_component_mass_kg&quot;: 7.1524109068494335,
+  &quot;machining_setup_diameter_m&quot;: 0.29399319720020733,
+  &quot;machining_setup_height_m&quot;: 0.109,
+  &quot;machining_setup_mass_kg&quot;: 42.15241090684943
+}</pre></td></tr></tbody></table></div>
+<h2>Coupled stressing-bed feedback</h2><p>18 axial rail sensitivities propagate new beam prestressing forces into 16/20/25 mm wall and three hypothetical spring-stiffness cases. Existing strongbacks, moulds, foundations and crane systems acquire no capacity credit. Gross elastic stability does not qualify local resistance, staged eccentric loading or measured support stiffness.</p><p><a href="bed-coupling.json">All coupled demand results</a></p>
+<h2>Existing common design jobs</h2><p>Finite native domains refer only to the two small generated-part charters. Other rows are bounded screening variations or a single fixed reference, with failed and unknown checks retained. Full native meshes, decks and logs remain in sealed local parent jobs; this page is a compact review projection.</p><div class="scroll"><table><thead><tr><th>Problem</th><th>Job</th><th>Candidates</th><th>Termination</th><th>Native finite domain complete</th><th>Evidence</th></tr></thead><tbody><tr><td>battery-installation</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/battery-installation/comparison.json">All results</a></td></tr><tr><td>bogie-interface</td><td>completed</td><td>3</td><td>one-coordinate screening</td><td>False</td><td><a href="common/bogie-interface/comparison.json">All results</a></td></tr><tr><td>civil-campaign</td><td>completed</td><td>1</td><td>one-coordinate screening</td><td>False</td><td><a href="common/civil-campaign/comparison.json">All results</a></td></tr><tr><td>civil-steel-beam</td><td>completed</td><td>6</td><td>finite-space-exhausted</td><td>True</td><td><a href="common/civil-steel-beam/comparison.json">All results</a></td></tr><tr><td>civil-system-alternatives</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/civil-system-alternatives/comparison.json">All results</a></td></tr><tr><td>clipped-roof-bay</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/clipped-roof-bay/comparison.json">All results</a></td></tr><tr><td>clipped-side-bay</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/clipped-side-bay/comparison.json">All results</a></td></tr><tr><td>factory-fixture</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/factory-fixture/comparison.json">All results</a></td></tr><tr><td>factory-precast</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/factory-precast/comparison.json">All results</a></td></tr><tr><td>foundation-site</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/foundation-site/comparison.json">All results</a></td></tr><tr><td>full-train</td><td>completed</td><td>1</td><td>one-coordinate screening</td><td>False</td><td><a href="common/full-train/comparison.json">All results</a></td></tr><tr><td>mechanical-cleat</td><td>completed</td><td>6</td><td>finite-space-exhausted</td><td>True</td><td><a href="common/mechanical-cleat/comparison.json">All results</a></td></tr><tr><td>roof-hvac</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/roof-hvac/comparison.json">All results</a></td></tr><tr><td>vehicle-assembly</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/vehicle-assembly/comparison.json">All results</a></td></tr><tr><td>viaduct-bay</td><td>completed</td><td>4</td><td>one-coordinate screening</td><td>False</td><td><a href="common/viaduct-bay/comparison.json">All results</a></td></tr></tbody></table></div>
+<h2>Whole-scope manufacturing closure</h2><p>Every inventory item is assigned. A representative part search does not establish coverage of every component in its parent package. Missing adapters and mandatory evidence remain visible in the ledger and work queue.</p><div class="scroll"><table><thead><tr><th>Work package</th><th>Agent role</th><th>Exploration coverage</th><th>Design/manufacturing gates</th><th>Release</th></tr></thead><tbody><tr><td>BASIS-CONFIGURATION<br>Accepted Baghdad system basis and architecture reconciliation</td><td>system-integrator</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Owner accepts six-car Baghdad consist, axle/CG map, exceptional/degraded/dynamic and construction actions.&quot;,
+    &quot;Legacy LM3 three-car load trace is not the six-car design load; preserve its 9.81 m/s2 convention and reconcile explicitly.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Project design standards and material acceptance criteria agreed by appointed design authority.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Decide make/buy and production quantities, resources, skills and achievable tolerances.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Accepted site survey, geotechnical investigation, utility data, duty profile and configuration-controlled load/interface baseline.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-010<br>primary chassis, transverse structure and stepped-floor drawing pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released structural load cases and material grades&quot;,
+    &quot;door, window, bogie, battery, coupler and roof interface reactions&quot;,
+    &quot;weld-class, distortion and corrosion-process requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;member and plate drawings with datums, tolerances and material callouts&quot;,
+    &quot;cut, bend, machining and weld maps with heat/part trace fields&quot;,
+    &quot;fixture loading sequence and dimensional inspection characteristic list&quot;,
+    &quot;mass-properties contribution and controlled centre-of-gravity ledger rows&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent calculation review&quot;,
+    &quot;fixture and tack survey&quot;,
+    &quot;post-weld datum/straightness survey&quot;,
+    &quot;weld/NDT and corrosion hold-point records&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-020<br>one-metre exterior module variant and retention drawing pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;accepted laminate, core, gelcoat, insert, seal and fire-material system&quot;,
+    &quot;frozen car bay map and door/window/roof service-clearance model&quot;,
+    &quot;released clip, anti-lift, pressure and debris load cases&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;A/B tool-face, split, draft, trim and insert drawings&quot;,
+    &quot;solid/window/door/roof variant CNC trim and drill definitions&quot;,
+    &quot;clip, seal, anti-lift and drain interface drawing&quot;,
+    &quot;serialized module/bay configuration and repair map&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;mould survey and witness coupon&quot;,
+    &quot;trim/drill first article&quot;,
+    &quot;master-frame interchange and anti-lift proof&quot;,
+    &quot;water, vibration and timed module replacement trial&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-030<br>panoramic front-glass carrier, seal and drainage interface pack</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;supplier glass construction, edge, mass, heater and retention loads&quot;,
+    &quot;accepted glazing adhesive/gasket and EPDM compatibility data&quot;,
+    &quot;released steel backing-ring and cowl flange datums&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;carrier segments, corner joints, setting blocks and secondary-retention drawing&quot;,
+    &quot;glass-edge clearance and seal-compression characteristic map&quot;,
+    &quot;drain rail, washer sleeve, earth and heater-service route&quot;,
+    &quot;protected removal path and lifting-tool access drawing&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;carrier and backing-ring datum survey&quot;,
+    &quot;retention calculation and representative proof&quot;,
+    &quot;compression/drain map and controlled spray test&quot;,
+    &quot;heated-pane service isolation and timed removal/refit trial&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-040<br>reversible front-lamp cassette and fascia-service pack</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;selected lamp photometric, thermal, EMC, IP and connector data&quot;,
+    &quot;A/B end configuration and cowl service-hatch envelope&quot;,
+    &quot;released lamp reaction, aiming and retention requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;common reversible tray, adjuster and retained service-bracket drawing&quot;,
+    &quot;lamp optical-axis datum and adjustment-limit schedule&quot;,
+    &quot;harness, earth, drip-loop and connector-access route&quot;,
+    &quot;A/B interchange and lamp-cassette configuration record&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;tray and optical-axis datum gauge&quot;,
+    &quot;aim range, lock and vibration-retention test&quot;,
+    &quot;thermal/IP/functional evidence review&quot;,
+    &quot;service-hatch and cassette removal demonstration&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-050<br>roof curb, HVAC, PV, antenna, fairing and access-zone pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;supplier HVAC, PV, resistor and antenna mass/reaction/service envelopes&quot;,
+    &quot;released roof-rail capacity, vehicle gauge and lifting/fall-access constraints&quot;,
+    &quot;accepted sealing, bonding, fire and electrical-isolation systems&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;roof equipment coordinate and penetration schedule&quot;,
+    &quot;curb, duct, drain, rail/pad, gland, bond and fairing drawings&quot;,
+    &quot;HVAC/PV/antenna removal paths and tool/worker access zones&quot;,
+    &quot;finish, anti-slip, heat and electrical keep-out mask map&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;rail/curb datum and equipment fit survey&quot;,
+    &quot;attachment proof, bond continuity and isolation checks&quot;,
+    &quot;roof/condensate water tests and airflow clearance review&quot;,
+    &quot;service-removal demonstration with adjacent equipment retained&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-060<br>interior moulding, floor, service-access and fitout pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;accepted fire/smoke material and supplier equipment evidence&quot;,
+    &quot;frozen door/window/HVAC/lighting/seat/PRM equipment envelopes&quot;,
+    &quot;released passenger load, egress, accessibility and cleaning requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;individual panel, mould, trim, edge-radius and insert drawings&quot;,
+    &quot;floor board/covering seam, hatch, ramp and threshold definitions&quot;,
+    &quot;service-access and sequential removal map for every concealed system&quot;,
+    &quot;serialized panel, fastener, equipment and label configuration schedule&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;mould/trim first article and fire-material trace review&quot;,
+    &quot;dry fit, gap, rattle, sharp-edge and captive-fastener inspections&quot;,
+    &quot;door/window/equipment removal sweeps and accessibility survey&quot;,
+    &quot;floor load, slip, seam, cleaning and water-path evidence&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-070<br>common service rail, fastener and fixture-adapter pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;fixture-specific service/ultimate loads and attachment envelopes&quot;,
+    &quot;selected rail alloy/temper, fastener, isolator and finish data&quot;,
+    &quot;carbody attachment capacity and electrical/galvanic constraints&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;rail extrusion, cut/drill, end-stop and foot drawing&quot;,
+    &quot;seat, handrail, PIS/CCTV and cable-support adapter variants&quot;,
+    &quot;fastener grip, locking, torque-authority and captive-part schedule&quot;,
+    &quot;installed coordinate, orientation and accessible-removal map&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;rail/foot and fixture-specific calculation review&quot;,
+    &quot;adapter and installed-grip gauges&quot;,
+    &quot;representative pull/slip/rotation proof&quot;,
+    &quot;egress, snag, isolation and timed replacement inspection&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-080<br>pre-cut exterior film artwork, application and repair pack</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;approved artwork, colours, logos and operator/legal markings&quot;,
+    &quot;selected rail-use film/ink/overlaminate/edge system&quot;,
+    &quot;accepted cured steel/GFRP base finishes and cleaning process&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;bay-numbered cut files with controlled seams, overlaps and datum marks&quot;,
+    &quot;substrate acceptance, environment and installer record forms&quot;,
+    &quot;edge/keep-out inspection map and patch/one-metre module repair instruction&quot;,
+    &quot;film material, print batch and retained-coupon trace schedule&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;actual-substrate adhesion/removal coupon&quot;,
+    &quot;first-car edge, seam and appearance inspection&quot;,
+    &quot;wash/water and cleaning-chemical compatibility test&quot;,
+    &quot;local patch and complete module removal demonstration&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-090<br>radiative roof-coating coupon and one-car trial pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;controlled formulation and application process&quot;,
+    &quot;accepted rail fire/chemical and GFRP compatibility evidence&quot;,
+    &quot;frozen roof equipment, service, drainage and keep-out map&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;coupon dimensions, substrate, coating thickness and exposure matrix&quot;,
+    &quot;new/aged/soiled/cleaned optical measurement procedure&quot;,
+    &quot;one-car paired roof-zone sensor and HVAC-energy trial plan&quot;,
+    &quot;inspection, cleaning, local repair and trial-removal instructions&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;adhesion, flexibility, thermal-cycle, UV, abrasion and wash ageing&quot;,
+    &quot;new and aged solar reflectance/emittance measurement&quot;,
+    &quot;glare, runoff, soiling and service-access review&quot;,
+    &quot;representative hot-service one-car trial and independent disposition&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-100<br>vehicle jacking, lifting, towing and field-rerailing interface pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;individual-car mass and centre-of-gravity envelopes&quot;,
+    &quot;released underframe, articulation, bogie-retention and coupler load cases&quot;,
+    &quot;selected depot and portable recovery equipment interfaces&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;J1--J4 pad, lifting eye, tow/rerailing lug and keyed-adapter drawings&quot;,
+    &quot;permitted support combinations, reactions, stop conditions and labels&quot;,
+    &quot;vehicle isolation, brake release, bogie retention and recovery diagrams&quot;,
+    &quot;proof-load, inspection, NDT, maintenance and damage-rejection schedule&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;structural and weld/NDT calculation review&quot;,
+    &quot;four-point datum/interchange gauge&quot;,
+    &quot;representative proof and asymmetric/loss-of-pressure trials&quot;,
+    &quot;timed depot lift and field rerailing demonstration by trained crews&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-110<br>primary end, battery, door and window structural-interface pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released crash, battery-restraint, door and glazing interface reactions&quot;,
+    &quot;supplier-frozen coupler, battery, door and window installation envelopes&quot;,
+    &quot;released structural, seal/drain, corrosion and service-removal requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;coupler-pocket, battery-rail, door-portal and window-carrier detail drawings&quot;,
+    &quot;machined datum, shim/adjustment, seal compression and drain schedules&quot;,
+    &quot;supplier keep-out, installation and complete service-removal maps&quot;,
+    &quot;weld/fastener/bond authority, tolerance and inspection characteristic lists&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent structural and retention calculation review&quot;,
+    &quot;post-weld datum plus door/window aperture survey&quot;,
+    &quot;carrier proof, dry fit and timed supplier-cassette replacement trials&quot;,
+    &quot;battery drain/vent and door/window water-ingress tests&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-120<br>configurable train-end and articulation structural-interface pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released crash, articulation, anti-lift, gangway and end-equipment load cases&quot;,
+    &quot;frozen panoramic-end and open-mid supplier interface envelopes&quot;,
+    &quot;selected-end configuration, seal, drain, threshold and service-access requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;common end ring, option bolt grid and articulation-adapter production drawings&quot;,
+    &quot;panoramic and open-mid shim/closeout configuration drawings&quot;,
+    &quot;anti-lift, service-hatch, sensor-backing, drain and threshold details&quot;,
+    &quot;serialized end-position option and interchangeability record&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent structural, fatigue and full-motion calculation review&quot;,
+    &quot;end-ring/bolt-grid datum survey and A/B interchange gauge&quot;,
+    &quot;articulation sweep plus keeper/pin-retention inspection&quot;,
+    &quot;configured-end water, drain, threshold and service-removal trials&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-130<br>powered-bogie local frame, bracket and harness drawing pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released bogie-frame, motor, brake, suspension and fatigue load cases&quot;,
+    &quot;supplier-frozen wheelset, motor, gearbox, brake, spring and damper envelopes&quot;,
+    &quot;released weld class, machining datum, cable protection and motion keep-outs&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;powered H-frame cut, bend, machining and weld drawings&quot;,
+    &quot;motor cradle, torque-link, guard, brake and sensor bracket drawings&quot;,
+    &quot;brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule&quot;,
+    &quot;weld/NDT, corrosion, serial trace and bogie configuration maps&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent EN 13749 structural/fatigue calculation review&quot;,
+    &quot;fixture/tack, post-weld and machined-datum surveys&quot;,
+    &quot;classed weld NDT and torque-link/guard proof inspections&quot;,
+    &quot;supplier dry fit, harness motion sweep, continuity and insulation tests&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-140<br>trailer-bogie local frame, bracket and harness drawing pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released bogie-frame, brake, suspension and fatigue load cases&quot;,
+    &quot;supplier-frozen wheelset, brake, spring and damper envelopes&quot;,
+    &quot;released weld class, machining datum, cable protection and motion keep-outs&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;trailer H-frame cut, bend, machining and weld drawings&quot;,
+    &quot;guard, brake, WSP and speed-sensor bracket drawings&quot;,
+    &quot;brake/WSP/speed-sensor harness board, clamp-coordinate and junction schedule&quot;,
+    &quot;weld/NDT, corrosion, serial trace and bogie configuration maps&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent EN 13749 structural/fatigue calculation review&quot;,
+    &quot;fixture/tack, post-weld and machined-datum surveys&quot;,
+    &quot;classed weld NDT and guard/bracket proof inspections&quot;,
+    &quot;supplier dry fit, harness motion sweep, continuity and insulation tests&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-150<br>battery tray, high-voltage and coolant local-hardware pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;supplier-frozen pack mass, retention, vent, HV and coolant interfaces&quot;,
+    &quot;released crash/restraint, insulation, creepage, clearance and fire-barrier requirements&quot;,
+    &quot;released cable/pipe ratings, segregation, bend radius, drain and service rules&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;sliding-tray, retention, interlock, drain-pan and lifting detail drawings&quot;,
+    &quot;segregated HV tray, orange cover, bonding-stud and penetration schedule&quot;,
+    &quot;coolant manifold, insulated clamp, bleed/drain and service-removal drawings&quot;,
+    &quot;clamp-coordinate, label, continuity, pressure-test and configuration records&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;battery restraint and tray structural calculation review&quot;,
+    &quot;tray fit/removal, interlock and exterior-only vent-path inspection&quot;,
+    &quot;HV segregation, bond continuity, insulation and HVIL tests&quot;,
+    &quot;coolant pressure, bleed, drain and hot/cold movement checks&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>LM3-FRP-160<br>low-voltage trainline harness and terminal-distribution pack</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;frozen control, safety, PIS/CCTV, door, brake and inter-car I/O schedule&quot;,
+    &quot;selected rail cable, connector, cabinet and terminal component data&quot;,
+    &quot;released EMC, fire, segregation, service-loop and network requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;wire/connector/terminal schedule and harness-board drawing&quot;,
+    &quot;per-car route, branch, penetration, clamp-coordinate and service-loop drawings&quot;,
+    &quot;cabinet/terminal allocation, ferrule, label and keying schedule&quot;,
+    &quot;continuity, insulation, network-enumeration and as-built configuration forms&quot;,
+    &quot;Close production-data artifacts for linked locally made products and tooling capacity/access/fixture checks.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;independent schematic, pinout and segregation review&quot;,
+    &quot;first harness-board dimensional and connector-keying inspection&quot;,
+    &quot;100 percent continuity/insulation test plus shield/bond audit&quot;,
+    &quot;installed bend-radius, chafe, service access and network-enumeration inspection&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-010<br>precast platform, guideway edge, drainage and closure pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;accepted survey control, track alignment and platform stepping/gap envelope&quot;,
+    &quot;site geotechnical, drainage/outfall and foundation design&quot;,
+    &quot;released concrete, reinforcement, tactile and joint/seal systems&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;repeatable precast mould, reinforcement, insert and lifting drawings&quot;,
+    &quot;site set-out, levelling, drainage and closure-pour schedule&quot;,
+    &quot;platform-edge datum, tolerance and interface-control plan&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;mould and first-article dimensional survey&quot;,
+    &quot;concrete, reinforcement and lifting-insert records&quot;,
+    &quot;installed track/platform gap-step and drainage survey&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-020<br>platform canopy steel, footing and solar-roof pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;site wind, snow, seismic, thermal and maintenance load cases&quot;,
+    &quot;accepted steel, coating, roof-panel, PV and connector systems&quot;,
+    &quot;surveyed foundation, platform, electrical and drainage interfaces&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;portal cut/weld, baseplate, anchor-template and erection drawings&quot;,
+    &quot;roof-panel layout, joints, gutters, penetrations and edge details&quot;,
+    &quot;PV string, isolation, bonding and cable-route schedule&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;steel certificates, weld/NDT and frame survey&quot;,
+    &quot;anchor-template and erected-frame survey&quot;,
+    &quot;roof watertightness, PV insulation/polarity and bond-continuity tests&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-030<br>auxiliary solar-canopy module, truss and site-interface pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released site layout, egress, fire, drainage and maintenance-access plan&quot;,
+    &quot;site-specific structural calculation and foundation reactions&quot;,
+    &quot;selected roof/PV/lightning/edge-protection supplier configurations&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;repeatable truss fabrication and roof-bay module drawings&quot;,
+    &quot;site footing, anchor, erection, gutter/downpipe and access drawings&quot;,
+    &quot;PV string, protection, bonding and commissioning schedule&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;truss weld/NDT and dimensional survey&quot;,
+    &quot;foundation pre-pour, anchor and erected-geometry surveys&quot;,
+    &quot;water, electrical, lightning and edge-protection acceptance tests&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-040<br>station services, passenger equipment and plinth integration pack</td><td>civil-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;frozen operator equipment, communications, fare and cyber interfaces&quot;,
+    &quot;utility, UPS, cooling, earthing, fire and evacuation requirements&quot;,
+    &quot;released accessibility, sightline, coverage and maintainability zones&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;cabinet/plinth fabrication and coordinated equipment-layout drawings&quot;,
+    &quot;power, data, containment, earth and fire-interface schedules&quot;,
+    &quot;equipment anchorage, accessible reach and replacement-clearance map&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;plinth and anchorage dimensional/proof checks&quot;,
+    &quot;supplier FAT and station integrated functional tests&quot;,
+    &quot;accessibility, CCTV/PA coverage and power-loss survey&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-050<br>pedestrian approach, lift/stair core and overbridge interface pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;topographical survey, land boundary, pedestrian demand and road interfaces&quot;,
+    &quot;site structural, geotechnical, fire/egress and accessibility approvals&quot;,
+    &quot;selected lift, enclosure and emergency-power configuration&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;approach, ramp, kerb, boundary and accessible-route drawings&quot;,
+    &quot;lift/stair/overbridge structure, enclosure and service-interface drawings&quot;,
+    &quot;evacuation, rescue, drainage and inspection-access plan&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;route gradient, crossfall, width, surface and obstacle survey&quot;,
+    &quot;structural, clearance and weatherproofing acceptance&quot;,
+    &quot;lift certification, fire recall, backup power and egress test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-060<br>wayside charging and traction substation interface pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;utility fault level, capacity, metering and protection requirements&quot;,
+    &quot;selected charger and transformer/rectifier supplier data&quot;,
+    &quot;released vehicle docking envelope and operational charging duty&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;equipment arrangement, foundation reaction and maintainability drawings&quot;,
+    &quot;single-line, protection, earthing, isolation and cable schedules&quot;,
+    &quot;vehicle/wayside datum, alignment, interlock and abort interface control&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;supplier FAT and protection-coordination review&quot;,
+    &quot;earthing, insulation, isolation and utility witness tests&quot;,
+    &quot;vehicle alignment, charge, abort and emergency-isolation SAT&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-070<br>1:9 turnout, actuation, detection, heating and track-end pack</td><td>civil-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;released wheel/rail interface, axle loads, route speed and climate envelope&quot;,
+    &quot;selected rail, frog, sleeper, actuator, detector and heater configurations&quot;,
+    &quot;site track alignment, signalling, drainage and track-end geometry&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;rail machining, switch/closure, gauge and weld drawings&quot;,
+    &quot;complete turnout assembly, harness, detection, heating and bench-test schedule&quot;,
+    &quot;site set-out, installation, stop-block and commissioning drawings&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;material, machining, weld/NDT and dimensional records&quot;,
+    &quot;bench throw, lock, detection, hand-wind and heating proof&quot;,
+    &quot;installed geometry, route/detection and stop-block acceptance&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-080<br>depot site, drainage, track and throat-turnout pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;boundary/topographical/utility/geotechnical surveys and environmental approvals&quot;,
+    &quot;released fleet plan, movements, swept paths and maintenance concept&quot;,
+    &quot;controlled depot layout, gradients, drainage/outfall and track standards&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;earthworks, pavement, drainage, boundary and service-road drawings&quot;,
+    &quot;stabling, inspection, wash and workshop track-layout drawings&quot;,
+    &quot;turnout, stop-block, walkways, crossings and clearance-control schedule&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;formation, compaction, drainage and pavement records&quot;,
+    &quot;track geometry, clearance and stop-block proof&quot;,
+    &quot;route, detection and vehicle swept-path demonstration&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>STN-FRP-090<br>depot charging, energy, workshop and services integration pack</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;selected equipment loads, heat rejection, utilities and maintenance envelopes&quot;,
+    &quot;site building, fire, structural, energy and environmental approvals&quot;,
+    &quot;released LM3 lift points, bogie extraction path and service requirements&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;equipment layouts, foundations, clearances and replacement paths&quot;,
+    &quot;power/microgrid/battery isolation, fire, cooling and controls drawings&quot;,
+    &quot;workshop lift, crane, pit, wash, stores and maintenance-data schedules&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;supplier FAT, certification and equipment foundation survey&quot;,
+    &quot;charging, energy, fire, cooling and emergency-isolation SAT&quot;,
+    &quot;synchronised lift, mechanical lock, bogie extraction and crane proof&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-FRP-100<br>precast superstructure and guideway edge</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;project action set accepted&quot;,
+    &quot;independent check closed&quot;,
+    &quot;first mould and girder accepted&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;checked product drawings&quot;,
+    &quot;mould and insert schedules&quot;,
+    &quot;inspection/test plan&quot;,
+    &quot;first-article dossier&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close project action set accepted&quot;,
+    &quot;Close independent check closed&quot;,
+    &quot;Close first mould and girder accepted&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-FRP-110<br>pier column and precast cap</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;survey/geotechnics accepted&quot;,
+    &quot;foundation and pier calculations signed&quot;,
+    &quot;first cap accepted&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;pier/foundation schedule&quot;,
+    &quot;column and cap drawings&quot;,
+    &quot;reinforcement and lifting schedules&quot;,
+    &quot;survey/test dossier&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close survey/geotechnics accepted&quot;,
+    &quot;Close foundation and pier calculations signed&quot;,
+    &quot;Close first cap accepted&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-FRP-120<br>bearing, restraint and replacement interfaces</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;movement/CWR model accepted&quot;,
+    &quot;supplier capacities approved&quot;,
+    &quot;trial jack/replacement method accepted&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;bearing and movement schedule&quot;,
+    &quot;supplier data/certificates&quot;,
+    &quot;seat and jacking details&quot;,
+    &quot;installed survey&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close movement/CWR model accepted&quot;,
+    &quot;Close supplier capacities approved&quot;,
+    &quot;Close trial jack/replacement method accepted&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-FRP-130<br>at-grade slab and transition</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;survey/ground/drainage inputs accepted&quot;,
+    &quot;formation and slab checks signed&quot;,
+    &quot;trial panel accepted&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;formation and slab drawings&quot;,
+    &quot;ground-treatment schedule&quot;,
+    &quot;drainage/utility details&quot;,
+    &quot;track survey and test record&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close survey/ground/drainage inputs accepted&quot;,
+    &quot;Close formation and slab checks signed&quot;,
+    &quot;Close trial panel accepted&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-INT-200<br>track and station-deck interfaces</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;rail/turnout data frozen&quot;,
+    &quot;station deck data frozen&quot;,
+    &quot;interdisciplinary review signed&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;supplier interface control document&quot;,
+    &quot;IFC/IDS issue&quot;,
+    &quot;clash and disposition report&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close rail/turnout data frozen&quot;,
+    &quot;Close station deck data frozen&quot;,
+    &quot;Close interdisciplinary review signed&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>CIV-INT-210<br>station and vehicle envelope interfaces</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;vehicle envelope accepted&quot;,
+    &quot;station interface data frozen&quot;,
+    &quot;interdisciplinary review signed&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;platform/canopy/vehicle ICD&quot;,
+    &quot;IFC/IDS issue&quot;,
+    &quot;kinematic and access report&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close vehicle envelope accepted&quot;,
+    &quot;Close station interface data frozen&quot;,
+    &quot;Close interdisciplinary review signed&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-CWL-SA710<br>front/back fiberglass cowl cast kit supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-CWL-P010: end-cowl fiberglass laminate, insert, adhesive, and coupon material kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-CWL-P010 acceptance: material batch trace; fire/smoke certificate; coupon layup record; adhesive shelf-life check&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-DOOR-SA310<br>door cassette and threshold assembly supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-EXT-P010: electric plug/sliding door cassette.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-EXT-P010 acceptance: EN 14752 evidence; obstruction test; closed-and-locked loop test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-WIN-SA320<br>side glazing cassette installation supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-EXT-P020: side laminated glazing cassette.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-EXT-P020 acceptance: glazing certificate; water ingress test; replacement method&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-LGT-SA350<br>modular main, emergency, and doorway lighting installation supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-LGT-P010: 1.2 m plug-in main LED lighting cassette and captive mounting kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-LGT-P020: emergency and doorway lighting modules with independent keyed feeder kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-LGT-P010 acceptance: rail fire certificate; shock/vibration evidence; photometric/lux test; plug polarity and retention test&quot;,
+    &quot;Close LM3-LGT-P020 acceptance: emergency duration/effectiveness evidence; evacuation visibility test; feed isolation test; doorway illumination test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-SHELL-A200<br>painted carbody frame with one-metre clip-on fiberglass exterior supplier/system configuration</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-EXT-P080: fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-EXT-P090: fire-rated GFRP roof-module, dry-seal, and removable skirt material kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-EXT-P080 acceptance: EN 45545 evidence; laminate coupon; resin/fibre batch trace; mould release record&quot;,
+    &quot;Close LM3-EXT-P090 acceptance: EN 45545 evidence; roof laminate coupon; seal certificate; service-removal trial; water and debris-ingress check&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-TRC-SA615<br>bogie-mounted motor, gearbox, flexible coupling and torque-reaction drive unit supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P010: motor-350kw-hm47-class axle traction motor.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P020: single-stage reduction gearbox and flexible coupling.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-TRC-P010 acceptance: motor datasheet; thermal curve; mounting-foot load proof; EMC evidence&quot;,
+    &quot;Close LM3-TRC-P020 acceptance: gear ratio certificate; oil access check; coupling alignment&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-HV-SA510<br>per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly supplier/system configuration</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P030: two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P040: battery-225kwh-lfp-800v saloon-isolated side traction battery pack.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P060: station side-pin charging connector, actuator, shutter, and alignment target.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-TRC-P070: HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-SAF-P010: battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-TRC-P030 acceptance: HVIL test; coolant pressure test; EMC/bonding check&quot;,
+    &quot;Close LM3-TRC-P040 acceptance: cell/module certificate; isolation test; no-saloon-opening inspection; outward vent/fire containment data&quot;,
+    &quot;Close LM3-TRC-P060 acceptance: dock alignment test; HVIL test; shutter cycle test; emergency release&quot;,
+    &quot;Close LM3-TRC-P070 acceptance: isolation test; pre-charge timing; fuse rating evidence; service-disconnect lockout&quot;,
+    &quot;Close LM3-SAF-P010 acceptance: detector certificate; loop continuity; mist proof-flow; reservoir/pump/pressure diagnostic; event-recorder input&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-BOG-SA611<br>powered-bogie running unit: wheelsets, axleboxes, primary suspension and brakes supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P040: powered-bogie wheelset with axle-mounted brake discs.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P042: powered-wheelset axlebox, sealed bearing unit, speed and temperature sensor set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P044: powered-bogie primary suspension spring, guide and bump-stop set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P048: powered-bogie brake calipers, parking actuators, pads and wheel-slide hardware.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-BOG-P040 acceptance: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record&quot;,
+    &quot;Close LM3-BOG-P042 acceptance: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test&quot;,
+    &quot;Close LM3-BOG-P044 acceptance: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey&quot;,
+    &quot;Close LM3-BOG-P048 acceptance: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-BOG-SA621<br>trailer-bogie running unit: wheelsets, axleboxes, primary suspension and brakes supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P041: trailer-bogie wheelset with axle-mounted brake discs.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P043: trailer-wheelset axlebox, sealed bearing unit, speed and temperature sensor set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P045: trailer-bogie primary suspension spring, guide and bump-stop set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P049: trailer-bogie brake calipers, parking actuators, pads and wheel-slide hardware.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-BOG-P041 acceptance: wheel/axle heat certificates; press-force chart; back-to-back and runout report; ultrasonic inspection; balance record&quot;,
+    &quot;Close LM3-BOG-P043 acceptance: bearing serial/clearance record; grease and seal certificate; axle journal fit; speed/temperature sensor calibration; rotation test&quot;,
+    &quot;Close LM3-BOG-P045 acceptance: load-deflection curves; matched-height report; compound/batch certificates; installed preload and clearance survey&quot;,
+    &quot;Close LM3-BOG-P049 acceptance: brake-force calculation; friction-pair certificate; thermal capacity; parking holding test; WSP functional test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-BOG-SA610<br>complete powered bogie with running unit, bogie-mounted drive and body connection supplier/system configuration</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P046: powered-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-BOG-P046 acceptance: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-BOG-SA620<br>complete trailer bogie with running unit and body connection supplier/system configuration</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-BOG-P047: trailer-bogie to carbody connection: air springs, emergency spring, centre pivot, yaw links and dampers.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-BOG-P047 acceptance: vertical/lateral load curves; pivot proof and articulation limit; damper curves hot/cold; ride-height and anti-lift survey&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-CAR-A900<br>complete repeated car module supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-AUX-P010: secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-AUX-P010 acceptance: pressure certificate; leak test; dryer function; relief-valve test; service-access check&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-END-SA700<br>train-end cowl, coupler, crash, and sensor assembly supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-END-P010: automatic end coupler and crash-energy absorber.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-END-P020: T-OBS nose sensor pack, heated window services, and washer kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-END-P040: e-coupler LV jumper, recovery trainline, and end harness breakaway kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-END-P010 acceptance: EN 15227 absorber evidence; recovery procedure; bolt torque record&quot;,
+    &quot;Close LM3-END-P020 acceptance: sensor calibration; washer/heater test; 2oo2 verdict interface test&quot;,
+    &quot;Close LM3-END-P040 acceptance: pinout test; breakaway force check; ingress protection; rescue compatibility&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-ART-SA810<br>structural articulation joint and anti-lift load path supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P020: articulation lower spherical pivot, bearing housing and pin set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P021: articulation upper lateral/yaw links, spherical joints and retained pins.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-ART-P020 acceptance: bearing static/dynamic capacity; pin material/NDT; proof load; lubrication/sealing plan; motion-envelope proof&quot;,
+    &quot;Close LM3-ART-P021 acceptance: link buckling/fatigue proof; joint angular capacity; pin retention inspection; full-motion sweep&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-ART-SA820<br>passenger gangway bellows, bridge and turntable subassembly supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P022: inter-car double-wall corrugated bellows and clamp-frame set.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P023: inter-car passenger bridge, turntable and flexible interior-panel set.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-ART-P022 acceptance: fire/smoke evidence; pressure/water ingress test; fatigue-cycle evidence; replaceable-clamp demonstration&quot;,
+    &quot;Close LM3-ART-P023 acceptance: passenger load proof; anti-slip evidence; gap/step gauge; pinch/shear hazard review; full-motion sweep&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-ART-SA830<br>articulation service-transfer and segregated trainline subassembly supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P024: articulation trainline carrier, support arms, abrasion liners and drain path.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P030: inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-ART-P024 acceptance: rated bend radius; dynamic sweep; abrasion/fire evidence; drain test; service replacement trial&quot;,
+    &quot;Close LM3-ART-P030 acceptance: bend-radius sweep; trainline continuity; coolant pressure test; water-drain test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-SYS-SA900<br>train control, communication, and safety electronics assembly supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-CTRL-P010: T-ECU/S and T-ECU/A compute and safety-control cabinet kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-CTRL-P020: navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-CTRL-P030: maintenance HMI, depot pendant, emergency controls, and safety-relay kit.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-CTRL-P050: operational and crashworthy event-recorder storage kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-CTRL-P010 acceptance: hardware BOM check; self-test; network enumeration; firmware record; safety-output test&quot;,
+    &quot;Close LM3-CTRL-P020 acceptance: SKU/firmware record; antenna VSWR; GNSS/IMU test; balise read; radio link test&quot;,
+    &quot;Close LM3-CTRL-P030 acceptance: key/guarded-control test; emergency input test; 2oo2 relay test; stowage and access check&quot;,
+    &quot;Close LM3-CTRL-P050 acceptance: write/read test; retention configuration; crashworthy certificate; download/recovery test&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>BUY-LM3-TTART-SA850<br>optional train-to-train open mid-connection articulation supplier/system configuration</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P040: train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette.&quot;,
+    &quot;Freeze exact duty, loads, failure states and interfaces for LM3-ART-P041: train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Supplier-certified material/fire/environmental/lifecycle evidence; qualify any substitution.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Compare British manufacture first, then UK supply/integration, then overseas manufacture, case by case.&quot;,
+    &quot;Obtain exact GA, mass/CG, reactions, utilities, maintenance/removal spaces, process and service/spares acceptance; no external contact is authorized by this scenario.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Close LM3-ART-P040 acceptance: train-to-train motion-envelope proof; walk-through gangway fire evidence; trainline continuity; water ingress/drain test&quot;,
+    &quot;Close LM3-ART-P041 acceptance: pinout test; blanking cover ingress check; isolation label inspection; bend-radius sweep&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-TOOLING<br>Datum fixtures, clamps, locators, workholding, gauges and mould tools</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Actual payload/CG, clamp force scatter, machining/joining forces, lifting and fatigue actions.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Tool steel/plate certificates, friction/wear data, fastener/joint properties.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Access, stock availability, cutter/reamer capability, fits, replacement, weld distortion and machining allowance.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Native geometry and mesh/benchmark evidence; measured fixture/calibration/repeatability and first-article acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-PRECAST<br>Pi20/Pi25 mould, stressing bed, strongbacks and restraint plant</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted strand/jack/grip forces and transient releases, beam construction/handling and frame/soil actions.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Concrete transfer/service/creep/shrinkage, strand losses/bond, reinforcement, steel/weld/anchor and soil resistance.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Mould seals/thermal distortion, strand/grip clearances, stressing stroke, curing control, load path and maintainable restraint installation.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Checked local plate/anchor/weld, instability and whole-bed model; qualified matched stressing/release; physical trial and independent acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-EQUIPMENT<br>British-priority machinery models and configured plant schedule</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Exact payload, wheel/anchor loads, process forces, duty, Baghdad heat/dust and supply-quality requirements.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Priority: confirmed British manufacture; record Northern Ireland separately where applicable, UK supply of overseas manufacture and unknown origin distinctly.&quot;,
+    &quot;Supplier GA/configuration, tooling/workpiece compatibility, electrical/extraction/utilities, Baghdad servicing and origin evidence.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Timestamped primary manufacturer evidence and exact offered configuration; no quoted price, origin or capacity invented; enquiries remain unsent.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-SITE<br>Factory/yard site, grading, ground and drainage</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-BUILDINGS<br>Factory frames, slabs, runway and crane foundations</td><td>civil-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-MEP<br>Factory power, water, air, thermal, extraction and fire systems</td><td>mechanical-designer</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-HANDLING<br>Crane, spreader, inserts, storage, haulage and erection</td><td>mechanical-designer</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>FACTORY-FLOW<br>Coupled manufacturing routes, resources, throughput and maintainability</td><td>manufacturing-integrator</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>SYSTEM-ROUTE<br>Baghdad survey/alignment and route/station/civil compatibility</td><td>system-integrator</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>SYSTEM-ENERGY<br>Train duty, traction/braking, charging, utility and degraded operations</td><td>system-integrator</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>SYSTEM-SAFETY<br>Crash, braking, controls, fire, evacuation and maintainability closure</td><td>independent-critic</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>SYSTEM-INTEGRATION<br>Full assembly, interface/datum/tolerance and configuration freeze</td><td>system-integrator</td><td>representative-partial</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr><tr><td>SYSTEM-ASSURANCE<br>Independent critique, measured first articles and exact-revision acceptance</td><td>independent-critic</td><td>requires-discipline-model</td><td><details><summary>Required closure</summary><pre>{
+  &quot;loads&quot;: [
+    &quot;Accepted deployment and lifecycle actions for exact configuration; research loads remain synthetic.&quot;
+  ],
+  &quot;materials&quot;: [
+    &quot;Certified grade/allowables, environmental derating, joint/process and durability evidence.&quot;
+  ],
+  &quot;manufacturing&quot;: [
+    &quot;Released dimensions, datums/tolerances, manufacturing route, tool capacities, inspections and first article.&quot;
+  ],
+  &quot;evidence&quot;: [
+    &quot;Source-bound model/solver evidence, independent benchmark, physical test and signed exact-revision acceptance.&quot;
+  ]
+}</pre></details></td><td>Open</td></tr></tbody></table></div>
+<p>British manufacture has priority; UK integration and imported machine origins remain separately identified. Supplier enquiries remain unsent.</p></main></html>

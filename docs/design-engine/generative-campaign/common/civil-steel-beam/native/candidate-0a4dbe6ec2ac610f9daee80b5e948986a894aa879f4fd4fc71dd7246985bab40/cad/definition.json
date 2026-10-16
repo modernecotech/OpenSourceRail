@@ -1,0 +1,193 @@
+{
+  "displacement_limit_m": 0.008,
+  "family": "civil-steel-beam",
+  "limit_basis": "Provisional research assumption, fixed before native runs; no accepted serviceability criterion",
+  "loads": [
+    {
+      "coordinate_m": 1.5,
+      "force_n": [
+        0.0,
+        0.0,
+        -10000.0
+      ],
+      "id": "service",
+      "kind": "uniform-end-face-traction",
+      "plane_axis": "x"
+    }
+  ],
+  "mandatory_checks": [
+    "geometry",
+    "mass_inertia",
+    "manufacturing",
+    "linear_service",
+    "load_equilibrium",
+    "mesh_refinement",
+    "independent_benchmark",
+    "physical_correlation",
+    "independent_acceptance"
+  ],
+  "manufacturing_rules": {
+    "minimum_ligament_m": 0.004,
+    "minimum_wall_m": 0.004,
+    "tool_radius_m": 0.003,
+    "welding_and_bolt_contact": "unknown"
+  },
+  "materials": {
+    "research-steel": {
+      "basis": "Nominal isotropic research steel; no batch or supplier qualification",
+      "density_kg_m3": 7850.0,
+      "fatigue_resistance": null,
+      "poisson_ratio": 0.3,
+      "yield_strength_pa": null,
+      "young_pa": 210000000000.0
+    }
+  },
+  "parts": [
+    {
+      "geometry": {
+        "components": [
+          {
+            "centre_m": [
+              0.75,
+              0,
+              0
+            ],
+            "dimensions_m": [
+              1.5,
+              0.1,
+              0.14
+            ],
+            "operation": "add",
+            "shape": "box"
+          },
+          {
+            "centre_m": [
+              0.75,
+              0,
+              0
+            ],
+            "dimensions_m": [
+              1.5,
+              0.08800000000000001,
+              0.128
+            ],
+            "operation": "subtract",
+            "shape": "box"
+          }
+        ],
+        "envelope_m": [
+          1.5,
+          0.1,
+          0.14
+        ],
+        "units": "m"
+      },
+      "geometry_sha256": "7a5459f4b7bc79170d6df9f298c660b52275747e781675d3c91b02238847b82d",
+      "id": "civil-beam",
+      "inspection_characteristics": [
+        "envelope",
+        "wall or plate thickness",
+        "cut positions and diameters"
+      ],
+      "manufacturing_limits": {
+        "minimum_cut_radius_m": 0.003,
+        "minimum_ligament_m": 0.004,
+        "minimum_wall_m": 0.004,
+        "tolerance_m": null
+      },
+      "material": "research-steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.75,
+          0.0,
+          0.0
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            0.13994804160000016,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            6.128740924800005,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            6.092357116800006
+          ]
+        ],
+        "mass_kg": 32.21640000000003,
+        "volume_m3": 0.0041040000000000035
+      },
+      "quantity": 1,
+      "revision": "RESEARCH-1"
+    }
+  ],
+  "physical_definition_sha256": "02db016aa1587d93a9cf21995693c63a01abfcec590771bdc7d11e8998a58bc9",
+  "physical_validation": false,
+  "production_released": false,
+  "schema": "osr-generated-solid-definition/1",
+  "section": {
+    "area_m2": 0.0027360000000000006,
+    "basis": "Exact prismatic geometric section; shear coefficient remains a research approximation",
+    "iy_m4": 7.4875520000000056e-06
+  },
+  "supports": [
+    {
+      "constrained_dofs": [
+        1,
+        2,
+        3
+      ],
+      "coordinate_m": 0.0,
+      "id": "root",
+      "kind": "ideal-full-face-clamp",
+      "plane_axis": "x"
+    }
+  ],
+  "unresolved": [
+    "yield and nonlinear response",
+    "fatigue",
+    "bolt/contact or bearing connection",
+    "corrosion and tolerances",
+    "material batch",
+    "physical correlation",
+    "independent acceptance"
+  ],
+  "unresolved_part_allocations": [
+    "fixture/support hardware",
+    "bolts and contact interfaces"
+  ],
+  "variables": {
+    "topology": "rhs",
+    "wall_m": 0.006
+  }
+}

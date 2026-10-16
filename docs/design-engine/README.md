@@ -1,5 +1,14 @@
 # Design, Jobs And Evidence Workflows
 
+The [multi-agent design scenario](multi-agent-design-scenario-2026-10-16.md)
+allocates all current vehicle/station/civil inventories to 63 work packages.
+The [campaign runner](../../engineering/generative_design/README.md) generates
+beam and tooling alternatives, propagates bed demands and executes existing
+native part searches while retaining every manufacturing closure gap.
+The [executed results and variations](multi-agent-design-results-2026-10-16.md)
+include a [native review](generative-campaign/index.html) and the remaining agent
+work queue.
+
 The [Pi-beam railway and handling continuation](factory-beam-demands-2026-10-16.md)
 adds a [native review and load diagrams](factory-beam-demands/index.html), six
 Pi20/Pi25 diagnostic comparisons and a British-manufactured spreader enquiry.

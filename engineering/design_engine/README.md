@@ -1,5 +1,10 @@
 # Shared Design Engine
 
+`./osr design campaign` adds a [multi-agent manufacturing scenario](../generative_design/README.md)
+over the existing common jobs: whole-inventory allocation, civil/mechanical
+feedback variations, bed-force coupling, native finite part domains and an
+explicit open work queue. It preserves these charters and their acceptance limits.
+
 The [Pi-beam demand extension](../../docs/design-engine/factory-beam-demands-2026-10-16.md)
 adds exact moving-moment events, a continuous sagging peak, sampled service
 fibres and handling overhang/rigging demands to `factory-precast`. Three-car

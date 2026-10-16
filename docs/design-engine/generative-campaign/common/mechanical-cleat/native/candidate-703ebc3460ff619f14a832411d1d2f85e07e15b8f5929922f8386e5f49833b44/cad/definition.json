@@ -1,0 +1,212 @@
+{
+  "displacement_limit_m": 0.001,
+  "family": "mechanical-cleat",
+  "limit_basis": "Provisional research assumption, fixed before native runs; no accepted serviceability criterion",
+  "loads": [
+    {
+      "coordinate_m": 0.2,
+      "force_n": [
+        0.0,
+        0.0,
+        -500.0
+      ],
+      "id": "service",
+      "kind": "uniform-end-face-traction",
+      "plane_axis": "x"
+    }
+  ],
+  "mandatory_checks": [
+    "geometry",
+    "mass_inertia",
+    "manufacturing",
+    "linear_service",
+    "load_equilibrium",
+    "mesh_refinement",
+    "independent_benchmark",
+    "physical_correlation",
+    "independent_acceptance"
+  ],
+  "manufacturing_rules": {
+    "minimum_ligament_m": 0.004,
+    "minimum_wall_m": 0.004,
+    "tool_radius_m": 0.003,
+    "welding_and_bolt_contact": "unknown"
+  },
+  "materials": {
+    "research-steel": {
+      "basis": "Nominal isotropic research steel; no batch or supplier qualification",
+      "density_kg_m3": 7850.0,
+      "fatigue_resistance": null,
+      "poisson_ratio": 0.3,
+      "yield_strength_pa": null,
+      "young_pa": 210000000000.0
+    }
+  },
+  "parts": [
+    {
+      "geometry": {
+        "components": [
+          {
+            "centre_m": [
+              0.1,
+              0,
+              0
+            ],
+            "dimensions_m": [
+              0.2,
+              0.05,
+              0.01
+            ],
+            "operation": "add",
+            "shape": "box"
+          },
+          {
+            "centre_m": [
+              0.025,
+              -0.012,
+              0
+            ],
+            "length_m": 0.01,
+            "operation": "subtract",
+            "radius_m": 0.003,
+            "shape": "cylinder-z"
+          },
+          {
+            "centre_m": [
+              0.025,
+              0.012,
+              0
+            ],
+            "length_m": 0.01,
+            "operation": "subtract",
+            "radius_m": 0.003,
+            "shape": "cylinder-z"
+          },
+          {
+            "centre_m": [
+              0.11,
+              0,
+              0
+            ],
+            "length_m": 0.01,
+            "operation": "subtract",
+            "radius_m": 0.008,
+            "shape": "cylinder-z"
+          }
+        ],
+        "envelope_m": [
+          0.2,
+          0.05,
+          0.01
+        ],
+        "units": "m"
+      },
+      "geometry_sha256": "875252e67bea988ef3764abb78b9578fc3396911352f51f6876f4770e5b146fa",
+      "id": "cleat",
+      "inspection_characteristics": [
+        "envelope",
+        "wall or plate thickness",
+        "cut positions and diameters"
+      ],
+      "manufacturing_limits": {
+        "minimum_cut_radius_m": 0.003,
+        "minimum_ligament_m": 0.004,
+        "minimum_wall_m": 0.004,
+        "tolerance_m": null
+      },
+      "material": "research-steel",
+      "placement": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "production_released": false,
+      "properties": {
+        "cg_m": [
+          0.10022895110141032,
+          0.0,
+          0.0
+        ],
+        "inertia_tensor_kg_m2": [
+          [
+            0.0001690130652346858,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.002596189095541462,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0027524558679746665
+          ]
+        ],
+        "mass_kg": 0.7647775680888426,
+        "volume_m3": 9.742389402405638e-05
+      },
+      "quantity": 1,
+      "revision": "RESEARCH-1"
+    }
+  ],
+  "physical_definition_sha256": "fcd82d2f549b0b819544c6fa6b03999faee8e644bdbf7583ad26be6c25cccce3",
+  "physical_validation": false,
+  "production_released": false,
+  "schema": "osr-generated-solid-definition/1",
+  "section": {
+    "area_m2": 0.0005,
+    "basis": "Unperforated reference only; holes require the actual 3D solid solve",
+    "iy_m4": 4.1666666666666676e-09
+  },
+  "supports": [
+    {
+      "constrained_dofs": [
+        1,
+        2,
+        3
+      ],
+      "coordinate_m": 0.0,
+      "id": "root",
+      "kind": "ideal-full-face-clamp",
+      "plane_axis": "x"
+    }
+  ],
+  "unresolved": [
+    "yield and nonlinear response",
+    "fatigue",
+    "bolt/contact or bearing connection",
+    "corrosion and tolerances",
+    "material batch",
+    "physical correlation",
+    "independent acceptance"
+  ],
+  "unresolved_part_allocations": [
+    "fixture/support hardware",
+    "bolts and contact interfaces"
+  ],
+  "variables": {
+    "thickness_m": 0.01,
+    "topology": "lightened-web"
+  }
+}

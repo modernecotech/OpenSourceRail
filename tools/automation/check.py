@@ -22,6 +22,10 @@ SCOPES = {
     "all": "ci",
 }
 NATIVE_ACCEPTANCE_SOURCES = {
+    "tools/automation/generative-design-campaign.py",
+    "engineering/analysis/tests/test_generative_civil.py",
+    "engineering/analysis/tests/test_generative_mechanical.py",
+    "engineering/analysis/tests/test_generative_campaign.py",
     "engineering/analysis/tests/test_generated_parts_native.py",
     "tools/automation/tests/test_native_design_validation.py",
     "tools/automation/tests/test_impact_selection.py",
@@ -62,14 +66,14 @@ if a.scope == "impact":
         profiles += ["python", "evidence"]
     if {"problem:mechanical-cleat", "problem:civil-steel-beam"}.intersection(
         selected
-    ) or NATIVE_ACCEPTANCE_SOURCES.intersection(a.changed):
+    ) or NATIVE_ACCEPTANCE_SOURCES.intersection(a.changed) or any(name.startswith(("engineering/generative_design/", "docs/design-engine/generative-campaign/")) for name in a.changed):
         profiles.append("native-design")
     if (
         {"problem:factory-fixture", "problem:factory-precast"}.intersection(selected)
         or FACTORY_ACCEPTANCE_SOURCES.intersection(a.changed)
         or any(
             name.startswith(
-                ("engineering/factory_examples/", "docs/design-engine/factory-support/", "docs/design-engine/factory-stages/", "docs/design-engine/factory-whole-bed/", "docs/design-engine/factory-buildout/", "docs/design-engine/factory-beam-demands/")
+                ("engineering/factory_examples/", "engineering/generative_design/", "docs/design-engine/generative-campaign/", "docs/design-engine/factory-support/", "docs/design-engine/factory-stages/", "docs/design-engine/factory-whole-bed/", "docs/design-engine/factory-buildout/", "docs/design-engine/factory-beam-demands/")
             )
             for name in a.changed
         )

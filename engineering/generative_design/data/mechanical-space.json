@@ -1,0 +1,106 @@
+{
+  "schema": "osr-generative-mechanical-space/1",
+  "observed_on": "2026-10-16",
+  "scope": "Replaceable 20 mm fixture locator cassette: plate, two support rails, retained locator and four mounting fastener envelopes. Not a vehicle or prestressing load-bearing assembly.",
+  "seed": {
+    "width_m": 0.5,
+    "length_m": 0.36,
+    "plate_m": 0.008,
+    "pitch_x_m": 0.04,
+    "pitch_y_m": 0.03,
+    "stem_diameter_m": 0.02
+  },
+  "choices": {
+    "width_m": [
+      0.18,
+      0.2,
+      0.22,
+      0.24,
+      0.5
+    ],
+    "length_m": [
+      0.1,
+      0.12,
+      0.14,
+      0.36
+    ],
+    "plate_m": [
+      0.008,
+      0.012,
+      0.016,
+      0.02,
+      0.025,
+      0.03
+    ],
+    "pitch_x_m": [
+      0.04,
+      0.14,
+      0.16,
+      0.18
+    ],
+    "pitch_y_m": [
+      0.03,
+      0.06,
+      0.08
+    ],
+    "stem_diameter_m": [
+      0.02,
+      0.01999
+    ]
+  },
+  "planning": {
+    "steel_density_kg_m3": 7850,
+    "elastic_modulus_pa": 200000000000,
+    "central_load_n": 1500,
+    "deflection_target_m": 1e-05,
+    "minimum_underplate_access_m": 0.1,
+    "socket_outer_diameter_m": 0.024,
+    "socket_side_clearance_m": 0.005,
+    "minimum_hole_edge_ligament_m": 0.012,
+    "minimum_hole_to_bore_ligament_m": 0.006,
+    "support_rail_width_m": 0.04,
+    "support_rail_height_m": 0.04,
+    "minimum_support_hole_edge_ligament_m": 0.008,
+    "blank_each_side_m": 0.002,
+    "workholding_each_side_m": 0.03,
+    "workholding_height_m": 0.08,
+    "workholding_mass_kg": 35,
+    "bore_diameter_m": 0.02,
+    "bore_tolerance_half_m": 2e-06,
+    "stem_tolerance_half_m": 2e-06,
+    "maximum_diametral_clearance_m": 2e-05,
+    "bolt_clearance_diameter_m": 0.009,
+    "bolt_nominal_diameter_m": 0.008,
+    "bolt_head_diameter_m": 0.016,
+    "locator_head_diameter_m": 0.032
+  },
+  "equipment": {
+    "id": "mazak-cv5-500",
+    "origin_priority": "British manufacture",
+    "origin": "Manufacturer states CV5 is manufactured in Worcester, UK; offered machine certificate pending",
+    "workpiece_diameter_m": 0.5,
+    "workpiece_height_m": 0.32,
+    "workpiece_mass_kg": 200,
+    "travel_m": [
+      0.73,
+      0.45,
+      0.55
+    ],
+    "sources": [
+      "https://www.mazak.com/uk-en/products/cv5/"
+    ],
+    "source_locator": "CV5-500 specification table and Worcester manufacture statement; verified 2026-10-16",
+    "qualification": "Envelope only. Fixtures, tooling, rotational swept envelope, cutting trial and application engineering remain unaccepted."
+  },
+  "required_evidence": [
+    "Accepted fixture operating loads and stiffness tolerance",
+    "Certified steel and pin grade, heat treatment and corrosion specification",
+    "Joint preload, torque, fatigue, pin shear/bearing and thread/retention resistance",
+    "Current machine configuration, workholding GA and collision-checked NC programs for two setups",
+    "Supplier reaming/grinding capability and measured bore/pin fits at Baghdad service temperature",
+    "First article and repeatability study; calibrated dimensional inspection",
+    "Pin shoulder chamfer/relief, drill-point allowance, washer and screw stack detailed drawing",
+    "Guarding, swarf/coolant controls, lifting and operator trial",
+    "Offered UK origin certificate, Iraq support and installed quotation"
+  ]
+}

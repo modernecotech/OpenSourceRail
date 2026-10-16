@@ -66,6 +66,10 @@ case "$command_name" in
         ;;
     design)
         case "${1:-}" in
+            campaign)
+                shift
+                exec tools/automation/osr-python tools/automation/generative-design-campaign.py "$@"
+                ;;
             problems|run|search|iterate|compare|refine|verify|export|jobs|show|cancel|resume)
                 exec tools/automation/osr-python tools/automation/design-engine.py "$@"
                 ;;
