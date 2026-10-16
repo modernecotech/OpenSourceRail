@@ -15,6 +15,10 @@ adds tension-only anchors, compression-only grout and a finite resource calendar
 Common native exports include a static review packet; the
 [published snapshot](../../docs/design-engine/factory-support/index.html) is
 verified against its retained files and can also be checked for current sources.
+The [staged-load extension](../../docs/design-engine/factory-stages-notes-2026-10-16.md)
+adds controlled stressing/unloading orders, rail gravity, signed ideal end-pin
+demands and 145 static states per 48-strand case. Previous snapshots retain
+historical integrity; new results require their own source-bound common jobs.
 
 ```bash
 ./osr design problems

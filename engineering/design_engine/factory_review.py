@@ -167,6 +167,8 @@ def write_packet(candidate, folder):
         key: data[key]
         for key in ("restraint", "production_schedule", "interface_supplier_enquiries")
     }
+    if "staged_loads" in data:
+        study["staged_loads"] = data["staged_loads"]
     study.update(
         schema="osr-common-factory-studies/1",
         candidate=candidate["id"],
@@ -202,6 +204,39 @@ def write_packet(candidate, folder):
             )
         )
     csv_file(folder / "support-demands.csv", rows)
+    if "staged_loads" in data:
+        staged = data["staged_loads"]
+        csv_file(
+            folder / "static-stages.csv",
+            [
+                {
+                    k: (json.dumps(v) if isinstance(v, (list, dict)) else v)
+                    for k, v in row.items()
+                    if k != "pin_cases"
+                }
+                for row in staged["stages"]
+            ],
+        )
+        csv_file(
+            folder / "end-pin-demands.csv",
+            [
+                dict(
+                    stage=row["index"],
+                    phase=row["phase"],
+                    side=pin["side"],
+                    vertical_sign=pin["vertical_sign"],
+                    x_m=x,
+                    force_on_foundation_n=force,
+                    physical_release=False,
+                )
+                for row in staged["stages"]
+                for pin in row["pin_cases"]
+                for x, force in zip(
+                    pin["x_m"], pin["force_on_foundation_n"], strict=True
+                )
+            ],
+        )
+        (folder / "static-stages.svg").write_text(stage_figure(staged))
     csv_file(
         folder / "resource-reservations.csv",
         data["production_schedule"]["reservations"],
@@ -337,7 +372,82 @@ def write_packet(candidate, folder):
         + suppliers
     )
     page += '<h2>Review data</h2><p><a href="study.json">Full study</a> · <a href="support-demands.csv">Support demands</a> · <a href="resource-reservations.csv">Resource reservations</a> · <a href="process-tasks.csv">Tasks</a> · <a href="interface-rfq.csv">Unsent RFQs</a></p></html>\n'
+    if "staged_loads" in data:
+        staged = data["staged_loads"]
+        addition = f'<h2>Static stressing and unloading hypotheses</h2><p>{staged["stage_count"]} force states and {staged["contact_cases_solved"]} support-contact cases. Order: {escaped(staged["stressing_order"])}; unloading: {escaped(staged["release_order"])}. Rail gravity is included. Load allocation, mirrored end operation, ideal grounding and static unloading remain hypotheses; concrete transfer, dynamics, local resistance and an approved release procedure remain unresolved.</p><img src="static-stages.svg" alt="Staged rail force and eccentric couple, anchor and ideal end-pin demand histories"><p><a href="static-stages.csv">Static states</a> · <a href="end-pin-demands.csv">Signed end-pin demands</a></p>'
+        page = page.replace("<h2>Review data</h2>", addition + "<h2>Review data</h2>")
     (folder / "index.html").write_text(page)
+
+
+def stage_figure(study):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    plt.rcParams["svg.hashsalt"] = "osr-static-stages-v1"
+    rows = study["stages"]
+    x = [r["index"] for r in rows]
+    fig, axes = plt.subplots(3, 1, figsize=(11, 8), sharex=True, layout="constrained")
+    for side in (0, 1):
+        axes[0].plot(
+            x, [r["axial_n"][side] / 1e6 for r in rows], label=f"Rail {side+1}"
+        )
+        axes[1].plot(
+            x, [r["end_couple_nm"][side] / 1000 for r in rows], label=f"Rail {side+1}"
+        )
+    axes[2].plot(
+        x,
+        [
+            (
+                None
+                if r["maximum_anchor_tension_n"] is None
+                else r["maximum_anchor_tension_n"] / 1000
+            )
+            for r in rows
+        ],
+        label="Largest anchor tension",
+    )
+    axes[2].plot(
+        x,
+        [
+            (
+                None
+                if r["maximum_vertical_pin_force_n"] is None
+                else r["maximum_vertical_pin_force_n"] / 1000
+            )
+            for r in rows
+        ],
+        label="Largest ideal end-pin force",
+    )
+    boundary = next(r["index"] for r in rows if r["phase"] == "unloading")
+    for ax, label in zip(
+        axes,
+        [
+            "Rail compression [MN]",
+            "Allocated end couple [kNm]",
+            "Demand magnitude [kN]",
+        ],
+        strict=True,
+    ):
+        ax.axvline(boundary, linestyle="--", color="#9d5252", linewidth=1)
+        ax.set_ylabel(label)
+        ax.grid(alpha=0.2)
+        ax.legend(fontsize=9)
+    axes[-1].set_xlabel(
+        "Static state index; dashed line = start of hypothetical unloading"
+    )
+    axes[0].set_title(
+        "Staged bed hypotheses · rail gravity included · no physical release"
+    )
+    out = io.StringIO()
+    fig.savefig(
+        out,
+        format="svg",
+        metadata={"Date": None, "Creator": "OpenSourceRail common factory review"},
+    )
+    plt.close(fig)
+    return "\n".join(line.rstrip() for line in out.getvalue().splitlines()) + "\n"
 
 
 def publish_snapshot(source, destination):

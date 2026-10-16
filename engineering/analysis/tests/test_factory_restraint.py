@@ -137,7 +137,7 @@ def test_retained_native_snapshot_exact_bytes_reject_tampering(tmp_path):
     from engineering.design_engine.factory_review import verify_snapshot
 
     source = ROOT / "docs/design-engine/factory-support"
-    verify_snapshot(source, current=True)
+    assert verify_snapshot(source)["integrity_verified"]
     shutil.copytree(source, tmp_path / "snapshot")
     file = tmp_path / "snapshot/model.FCStd"
     file.write_bytes(file.read_bytes() + b"changed")

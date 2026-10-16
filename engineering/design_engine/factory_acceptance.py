@@ -201,6 +201,7 @@ def acceptance(folder):
     from .factory_review import verify_snapshot
 
     snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-support")
+    stage_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-stages")
     return dict(
         schema="osr-factory-native-acceptance/1",
         passed=True,
@@ -210,6 +211,7 @@ def acceptance(folder):
         physical_release=False,
         independent_acceptance=False,
         retained_snapshot_integrity_verified=snapshot["integrity_verified"],
+        retained_stage_snapshot_integrity_verified=stage_snapshot["integrity_verified"],
     )
 
 

@@ -8,6 +8,9 @@ with actual native CAD exports and explicit qualification gaps.
 The [support and finite-resource continuation](factory-support-notes-2026-10-16.md)
 adds a [93-object native review](factory-support/index.html), anchor/grout/pad
 demands and five shared crane/crew/bed scenarios through common factory jobs.
+The [staged-load continuation](factory-stages-notes-2026-10-16.md) adds
+[individual-strand histories and ideal end-pin demands](factory-stages/index.html),
+with British test/calibration equipment enquiries and four sequence comparisons.
 
 Open the Workbench **Design → Auto-design** flow or use the
 [common CLI](../../engineering/design_engine/README.md). All existing native

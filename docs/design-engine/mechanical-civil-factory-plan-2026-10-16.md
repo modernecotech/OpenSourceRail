@@ -122,6 +122,13 @@ campaign backlog. British anchor and machining cases and a Northern Ireland
 mixer enquiry retain exact origin/configuration and delivery gaps. Ground,
 staged release, local resistance and measured production remain open.
 
+The [staged-load iteration](factory-stages-notes-2026-10-16.md) connects
+individual-strand force states to ideal return rails, support contact and signed
+end-pin demands. Four stressing/unloading comparisons retain gravity and
+temporary eccentric loads. The load allocation, mirrored ends, concrete transfer,
+actual release dynamics and structural resistance remain unqualified; British
+test/calibration equipment cases are prepared as unsent enquiries.
+
 Production engineering owns process routes and capability trials; mechanical
 engineering owns fixture/vehicle interfaces; civil engineering owns structures,
 ground and construction stages; electrical/MEP engineering owns utilities;

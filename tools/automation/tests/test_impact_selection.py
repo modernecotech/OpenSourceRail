@@ -74,6 +74,8 @@ def test_unrelated_prose_does_not_require_native_execution():
         "engineering/design_engine/factory_acceptance.py",
         "engineering/design_engine/factory_restraint.py",
         "engineering/design_engine/factory_schedule.py",
+        "engineering/design_engine/factory_stages.py",
+        "docs/design-engine/factory-stages/model.FCStd",
         "engineering/design_engine/data/factory-restraint.json",
         "tools/automation/publish-factory-review.py",
         "docs/design-engine/factory-support/model.FCStd",

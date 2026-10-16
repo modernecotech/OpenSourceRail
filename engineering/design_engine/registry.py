@@ -344,6 +344,7 @@ def dependencies(adapter):
                 "factory_restraint",
                 "factory_schedule",
                 "factory_review",
+                "factory_stages",
                 "generated_parts_native",
             }
         )

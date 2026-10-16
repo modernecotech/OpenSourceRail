@@ -112,6 +112,8 @@ def charters():
                 rated_lift_kg=choice("kg", 125000, 100000),
                 crane_count=choice("ea", 1, 2),
                 crane_crew_count=choice("ea", 1, 2),
+                stressing_order=choice("1", "balanced_pairs", "lower_first"),
+                release_order=choice("1", "reverse_stress", "same_stress"),
             ),
             checks=COMMON_CHECKS
             + [
@@ -123,6 +125,7 @@ def charters():
                 "production_flow",
                 "restraint_load_path",
                 "production_schedule",
+                "staged_load_path",
             ],
             domain=[
                 "Dead-load prismatic elastic beam and ideal pinned return rails with hypothetical independent ground springs in each plane; handling lower bound and resource upper bounds only. Railway live loads, compression/transmission/shear/fatigue, local connections, ground, complete process scheduling and installed costs remain unknown. Position count is a capacity scenario, not a factory layout."
@@ -285,7 +288,7 @@ def compile_definition(kind, values):
             minimum_contact_reaction_n=response["minimum_contact_reaction_n"],
         )
     else:
-        from . import factory_restraint, factory_schedule
+        from . import factory_restraint, factory_schedule, factory_stages
 
         civil = models.civil(a)
         prestress = development.prestress_alternatives(
@@ -363,6 +366,20 @@ def compile_definition(kind, values):
         restraint = factory_restraint.assess(
             a, dev["bed"], civil["bed_screen"], sb, values, restraint_cfg
         )
+        staged = factory_stages.assess(
+            a,
+            dev["bed"],
+            civil["bed_screen"],
+            sb,
+            values,
+            restraint_cfg,
+            restraint,
+            json.loads(
+                (
+                    ROOT / "engineering/design_engine/data/factory-stages.json"
+                ).read_text()
+            ),
+        )
         restraint["baseplate_machining_cases"] = factory_restraint.machining_cases(
             restraint_cfg,
             equipment["mazak-cv5-500"]["published"],
@@ -393,6 +410,7 @@ def compile_definition(kind, values):
             runway=development.runway(a, runway_inputs),
             production=flow,
             restraint=restraint,
+            staged_loads=staged,
             production_schedule=planned_schedule,
             interface_supplier_enquiries=interface_suppliers,
             model=physical_model(
@@ -421,6 +439,8 @@ def compile_definition(kind, values):
                 "maximum_abs_end_couple_nm"
             ],
             maximum_restraint_anchor_tension_n=restraint["maximum_anchor_tension_n"],
+            staged_maximum_anchor_tension_n=staged["maximum_anchor_tension_n"],
+            staged_maximum_vertical_pin_force_n=staged["maximum_vertical_pin_force_n"],
             scheduled_dispatches_in_horizon=planned_schedule[
                 "dispatched_within_horizon"
             ],
@@ -539,6 +559,19 @@ def screen(kind, result, set_check):
             "Post/base contact and anchor/pad demands cover final-force imperfection cases only; actual interface stiffness, ideal end-pin grounding, staged torsion/release and local resistance remain unresolved",
         )
         plan = data["production_schedule"]
+        staged = data["staged_loads"]
+        set_check(
+            result,
+            "staged_load_path",
+            (
+                "unknown"
+                if staged["all_stages_stable"]
+                and staged["all_pad_cases_equilibrate"]
+                and staged["numerical_equilibrium_verified"]
+                else "failed"
+            ),
+            "Static staged rail, support contact and pin demands use hypothetical load allocation; strongback torsion/warping, release dynamics, concrete transmission and connection/foundation resistance remain unresolved",
+        )
         set_check(
             result,
             "production_schedule",

@@ -583,6 +583,16 @@ function renderComparison(report) {
               "ea",
             ],
             ["Crane hours booked in campaign", "scheduled_crane_hours", "h"],
+            [
+              "Staged anchor tension demand",
+              "staged_maximum_anchor_tension_n",
+              "N",
+            ],
+            [
+              "Staged ideal end-pin vertical demand",
+              "staged_maximum_vertical_pin_force_n",
+              "N",
+            ],
           ]
             .filter(([, key]) => key in metrics)
             .map(([label, key, unit]) => [label, rounded(metrics[key], unit)]),
@@ -622,6 +632,16 @@ function renderComparison(report) {
         );
       }
       const campaign = candidate.definition.production_schedule;
+      const staged = candidate.definition.staged_loads;
+      if (staged) {
+        section.append(
+          el("h4", "Static stressing and unloading hypotheses"),
+          el(
+            "p",
+            `${staged.stage_count} states; ${staged.contact_cases_solved} support-contact cases. Rail gravity is included. Stressing: ${staged.stressing_order}; unloading: ${staged.release_order}. The transverse load allocation and mirrored ends remain hypotheses. End-pin grounding, strongback torsion, concrete transfer, release dynamics and connection resistance remain unresolved. Export retains the stage histories and signed end-pin demands.`,
+          ),
+        );
+      }
       if (campaign) {
         section.append(
           el(
