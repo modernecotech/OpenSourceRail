@@ -35,6 +35,9 @@ FACTORY_ACCEPTANCE_SOURCES = {
     "engineering/analysis/tests/test_factory_development.py",
     "engineering/analysis/tests/test_factory_connections.py",
     "engineering/analysis/tests/test_factory_reproduction.py",
+    "engineering/analysis/tests/test_factory_restraint.py",
+    "engineering/analysis/tests/test_factory_schedule.py",
+    "tools/automation/publish-factory-review.py",
     "tools/automation/tests/test_factory_native_validation.py",
     *NATIVE_ACCEPTANCE_SOURCES,
 }
@@ -60,7 +63,12 @@ if a.scope == "impact":
     if (
         {"problem:factory-fixture", "problem:factory-precast"}.intersection(selected)
         or FACTORY_ACCEPTANCE_SOURCES.intersection(a.changed)
-        or any(name.startswith("engineering/factory_examples/") for name in a.changed)
+        or any(
+            name.startswith(
+                ("engineering/factory_examples/", "docs/design-engine/factory-support/")
+            )
+            for name in a.changed
+        )
     ):
         profiles.append("factory-native")
     if any(

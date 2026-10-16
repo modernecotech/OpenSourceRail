@@ -1,0 +1,15 @@
+{
+  "schema": "osr-factory-schedule-basis/1",
+  "revision": "2026-10-16-schedule-1",
+  "state": "synthetic",
+  "basis": "OSR finite planning campaign, not measured production or supplier cycle data. Consecutive operating days with a 16 h window assuming two 8 h team shifts; handover/breaks are unmodelled. Curing and storage dwell use elapsed clock hours. Casting dedicates mixer/crane/crew for the entire continuous pour block, without overlapping mixing and pouring.",
+  "beam_count": 16,
+  "horizon_days": 10,
+  "shift_hours": 16,
+  "batch_output_assumption_m3": 1,
+  "mixer_model_enquiry": "Rapid RP1000 planetary; useful batch output and mix cycle unconfirmed",
+  "resources": {"reinforcement_bench": 2, "reinforcement_crew": 2, "crane": 1, "crane_crew": 1, "stressing_crew": 1, "casting_crew": 1, "mixer": 1, "rigging_crew": 1, "haulage": 1, "storage_slot": 8},
+  "hours": {"reinforcement": 4, "cage_lift": 0.25, "bed_setup_stress": 1.5, "casting_setup_finish": 0.25, "mix_per_batch": 0.05, "pour_per_batch": 0.1, "curing_elapsed": 24, "release_demould": 1, "storage_elapsed": 24, "dispatch": 0.5},
+  "maintenance": [{"resource": "crane", "unit": 0, "start_h": 52, "end_h": 56}, {"resource": "mixer", "unit": 0, "start_h": 100, "end_h": 104}],
+  "unknown": ["supplier-accepted batch output and continuous pour window", "mix design, strength/maturity release and measured process durations", "reinforcement inventory and first-article acceptance", "haulage payload, permitted route and delivery windows", "full workforce/shift/calendar and maintenance strategy", "plant commissioning and all Baghdad installed costs"]
+}

@@ -50,7 +50,7 @@ directory with `--output <directory> --native`, retaining the previous evidence.
 | Problem | Variables | Represented native inventory |
 | --- | --- | --- |
 | `factory-fixture` | Payload 250/500/750 kg; requested preload 250/500/1000 N | Fixed 1.6 × 1.0 m fixture and clamp envelopes, 32 objects |
-| `factory-precast` | Pi20/Pi25; three prestress layouts; independent lateral/vertical restraint cases; 4/16/134 casting positions; 100/125 t handling scenario | One aligned strongback end, 63 objects |
+| `factory-precast` | Pi20/Pi25; three prestress layouts; independent lateral/vertical restraint cases; 4/16/134 casting positions; 1/2 cranes and crane crews; 100/125 t handling scenario | Initially 63 objects; current support assembly has 93 |
 
 All candidates retain the common city/project/environment/revision identity,
 declared domains, evaluation/wall/memory/artifact budgets, source and toolchain
@@ -98,7 +98,7 @@ its ground springs are removed. Passing a hypothetical spring case does not
 establish the foundation, anchor, base rotation or connection load path. Local
 strongback plate/opening/weld resistance and controlled release remain open.
 
-The production input register names reinforcement, stressing/release, batching,
+The initial production input register names reinforcement, stressing/release, batching,
 crane handling, storage/dispatch, haulage, labour and maintenance. Missing resource
 counts, cycle times or availability remain unknown. Known stage capacities give
 necessary upper bounds and required resource counts, not an executable schedule.
@@ -106,6 +106,13 @@ Four beds retain the 1.615/day planning bound and fail the 54/day case. At 134
 positions, the bed bound alone clears that target, while end-to-end output stays
 unknown. Shared resources, queues, curing maturity, storage dwell, maintenance,
 transport and actual shifts still require a validated production model.
+
+The [support and finite-calendar continuation](factory-support-notes-2026-10-16.md)
+adds compression-only grout/tension-only anchors, pad and weld demand screens,
+series interface sensitivity and an executable shared-resource planning calendar.
+Its [native review](factory-support/index.html) retains failed soft support and
+production backlog cases. These synthetic scenarios do not close the physical
+foundation, local resistance, crane coverage or measured-output gates above.
 
 Remaining engineering priorities are railway loading/compression/transmission,
 reinforcement/shear/fatigue/deflection, local and foundation resistance, measured

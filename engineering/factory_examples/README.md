@@ -58,6 +58,11 @@ Run `./osr validate run --profile factory-native` for mandatory fresh execution
 of all nine original models and both common adapters. Impact selection includes
 this profile for factory inputs, code and retained evidence.
 
+The [common support/scheduling continuation](../../docs/design-engine/factory-support-notes-2026-10-16.md)
+extends that adapter to 93 native objects and resource-calendar comparisons.
+Its inputs and review belong to the common engine; these nine original model
+files and reports remain retained unchanged.
+
 `--check` now checks retained byte integrity separately from numerical
 recomputation using declared SI tolerances. Original reports and CAD remain
 unchanged; [reproduction.json](examples/reproduction.json) distinguishes their

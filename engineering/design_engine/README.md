@@ -10,6 +10,11 @@ adds controlled fixture and precast problems, coupled handling/restraint/resourc
 comparisons, partial per-instance inventories and native CAD confirmation through
 the same jobs and exports. `factory-native` requires fresh FreeCAD execution of
 nine retained models and both adapters; structural and production gates stay open.
+The [support and scheduling extension](../../docs/design-engine/factory-support-notes-2026-10-16.md)
+adds tension-only anchors, compression-only grout and a finite resource calendar.
+Common native exports include a static review packet; the
+[published snapshot](../../docs/design-engine/factory-support/index.html) is
+verified against its retained files and can also be checked for current sources.
 
 ```bash
 ./osr design problems

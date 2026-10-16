@@ -567,12 +567,69 @@ function renderComparison(report) {
               "known_resource_upper_bound_per_day",
               "accepted beams/working day",
             ],
+            [
+              "Largest restraint-anchor demand",
+              "maximum_restraint_anchor_tension_n",
+              "N",
+            ],
+            [
+              "Finite campaign dispatches",
+              "scheduled_dispatches_in_horizon",
+              "ea",
+            ],
+            [
+              "Planning accepted equivalent",
+              "planning_accepted_equivalent",
+              "ea",
+            ],
+            ["Crane hours booked in campaign", "scheduled_crane_hours", "h"],
           ]
             .filter(([, key]) => key in metrics)
             .map(([label, key, unit]) => [label, rounded(metrics[key], unit)]),
         ),
       );
       const flow = candidate.definition.production;
+      const support = candidate.definition.restraint;
+      if (support) {
+        section.append(
+          el("h4", "Post, base and ground interface hypotheses"),
+          table(
+            [
+              "Case",
+              "Lateral effective MN/m",
+              "Vertical effective MN/m",
+              "Lateral elastic factor",
+            ],
+            support.interface_cases.map((row) => [
+              row.id,
+              rounded(
+                row.effective_lateral_n_m === null
+                  ? null
+                  : row.effective_lateral_n_m / 1e6,
+              ),
+              rounded(
+                row.effective_vertical_n_m === null
+                  ? null
+                  : row.effective_vertical_n_m / 1e6,
+              ),
+              rounded(row.lateral_elastic_load_factor),
+            ]),
+          ),
+          el(
+            "p",
+            "Actual interface stiffness remains unknown. These are final-force imperfection sensitivities; end-pin grounding, stressing/release torsion, local resistance and site qualification remain open.",
+          ),
+        );
+      }
+      const campaign = candidate.definition.production_schedule;
+      if (campaign) {
+        section.append(
+          el(
+            "p",
+            `Finite planning campaign: ${campaign.dispatched_within_horizon}/${campaign.beam_count} dispatched within ${campaign.horizon_h / 24} calendar days; ${campaign.backlog_at_horizon} remain at the deadline. Verified resource intervals use assumed durations and yield; they do not establish measured or steady-state production. Export the review package for the timeline, native base detail, contact cases and unsent supplier enquiries.`,
+          ),
+        );
+      }
       if (flow) {
         section.append(
           table(

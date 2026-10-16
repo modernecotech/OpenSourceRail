@@ -38,7 +38,7 @@ def candidate(kind="factory-precast", **changes):
 def test_factory_problem_provenance_and_common_bom(kind):
     row = candidate(kind)
     bill = review_bill(row, adapter=kind)
-    assert bill["physical_instance_count"] in (32, 63)
+    assert bill["physical_instance_count"] in (32, 93)
     assert bill["defined_mass_kg"] is None  # purchased/envelope masses remain unknown
     assert row["metrics"]["represented_steel_mass_kg"] > 0
     assert any(p["defined_mass_kg"] is None for p in bill["parts"])

@@ -114,6 +114,14 @@ integrity from numerical tolerances. The mandatory `factory-native` profile
 executes all nine native models and both common adapters; it does not establish
 structural resistance or production qualification.
 
+The [support and resource continuation](factory-support-notes-2026-10-16.md)
+adds a 93-object native assembly, baseplate/grout/anchor/pad and nominal weld
+demands, series stiffness sensitivity, and shared crane/crew/bed scheduling.
+Five finite scenarios show that extra beds alone do not resolve the default
+campaign backlog. British anchor and machining cases and a Northern Ireland
+mixer enquiry retain exact origin/configuration and delivery gaps. Ground,
+staged release, local resistance and measured production remain open.
+
 Production engineering owns process routes and capability trials; mechanical
 engineering owns fixture/vehicle interfaces; civil engineering owns structures,
 ground and construction stages; electrical/MEP engineering owns utilities;

@@ -337,7 +337,16 @@ def dependencies(adapter):
     if adapter in domain:
         shared.add(domain[adapter])
     if adapter in {"factory-fixture", "factory-precast"}:
-        shared.update({"factory", "factory_acceptance", "generated_parts_native"})
+        shared.update(
+            {
+                "factory",
+                "factory_acceptance",
+                "factory_restraint",
+                "factory_schedule",
+                "factory_review",
+                "generated_parts_native",
+            }
+        )
     if adapter == "panel":
         shared.add("panel_confirmation")
     if adapter in {"mechanical-cleat", "civil-steel-beam"}:
@@ -364,6 +373,7 @@ def dependencies(adapter):
         from engineering.factory_examples.provenance import source_hashes
 
         paths.update(ROOT / name for name in source_hashes())
+        paths.update((ROOT / "engineering/design_engine/data").glob("factory-*.json"))
     if adapter in {
         "panel",
         "roof",

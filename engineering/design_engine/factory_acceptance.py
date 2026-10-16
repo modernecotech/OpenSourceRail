@@ -198,6 +198,9 @@ def acceptance(folder):
             raise ValueError(
                 "factory common native/physical acceptance boundary differs"
             )
+    from .factory_review import verify_snapshot
+
+    snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-support")
     return dict(
         schema="osr-factory-native-acceptance/1",
         passed=True,
@@ -206,6 +209,7 @@ def acceptance(folder):
         geometry_only=True,
         physical_release=False,
         independent_acceptance=False,
+        retained_snapshot_integrity_verified=snapshot["integrity_verified"],
     )
 
 

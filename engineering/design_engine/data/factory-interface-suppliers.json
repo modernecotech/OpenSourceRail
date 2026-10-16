@@ -1,0 +1,35 @@
+{
+  "schema": "osr-factory-interface-supplier-cases/1",
+  "checked_on": "2026-10-16",
+  "supplier_contacted": false,
+  "cases": [
+    {
+      "id": "macalloy-1030-foundation-enquiry",
+      "supplier": "Macalloy",
+      "model": "1030 carbon post-tensioning bar system, 26.5 mm minimum published bar size",
+      "origin": "UK manufacturer; Dinnington/Sheffield factory documented. Exact offered bar, fittings and raw-stock origin require supplier certification.",
+      "sources": ["https://macalloy.com/products-services/post-tensioning/", "https://macalloy.com/about/history/"],
+      "source_locator": "Post Tensioning: carbon diameter/length paragraph, accessories and foundation anchor application; History: current Dinnington factory paragraph",
+      "published": {"minimum_carbon_bar_diameter_m": 0.0265, "maximum_carbon_bar_diameter_m": 0.075, "maximum_standard_carbon_length_m": 11.8},
+      "planning": {"bar_proxy_diameter_m": 0.0265, "candidate_clearance_hole_m": 0.032, "rejected_earlier_nominal_hole_m": 0.026},
+      "unknown": ["thread major/root diameters and nut/washer drawings", "appropriate system for this base detail", "embedment, anchor plate and concrete reinforcement", "preload, stiffness, fatigue and corrosion specification", "certified origin of offered assembly", "Baghdad price, service and lead time"],
+      "enquiry": "Return a complete configuration-specific holding-down assembly and stiffness/load path proposal. A 26 mm hole is smaller than the minimum published carbon bar diameter; the 32 mm concept hole remains unqualified for the actual thread.",
+      "offered_price_gbp": null,
+      "contract_accepted": false
+    },
+    {
+      "id": "rapid-rp1000-process-enquiry",
+      "supplier": "Rapid International",
+      "model": "RP1000 planetary mixer, identified in Lagan Tile case study",
+      "origin": "Northern Ireland manufacture described by Rapid; UK manufacture, distinguished from Great Britain. Imported components and offered assembly origin require certification.",
+      "sources": ["https://rapidinternational.com/category/case-studies/page/2/", "https://rapidinternational.com/planetary-concrete-mixer/", "https://rapidinternational.com/wp-content/uploads/2024/09/Metric-Version-Corporate-Brochure.pdf"],
+      "source_locator": "Lagan Tile RP1000 case study; planetary family range; corporate brochure pp. 2-5, in-house production and NI origin",
+      "published": {"planetary_family_output_range_m3": [0.375, 3]},
+      "planning": {"useful_batch_output_assumption_m3": 1, "mix_load_discharge_assumption_h": 0.05, "pour_per_batch_assumption_h": 0.1},
+      "unknown": ["RP1000 useful output for the actual beam mix", "mix/batch cycle, discharge and continuous pour window", "complete plant, chiller, silos, weighing and washwater", "motor and full connected utilities", "mix/maturity validation and Baghdad installation", "price, lead time and service"],
+      "enquiry": "Confirm useful output and cycle for the specified beam mix and 32.34055 m3 Pi25 pour hypothesis. The 1 m3 and task durations are OSR assumptions, not published RP1000 performance.",
+      "offered_price_gbp": null,
+      "contract_accepted": false
+    }
+  ]
+}

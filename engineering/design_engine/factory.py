@@ -110,6 +110,8 @@ def charters():
                 vertical_spring_n_m=choice("N/m", 1000000, 0, 100000, 10000000),
                 casting_positions=choice("ea", 4, 16, 134),
                 rated_lift_kg=choice("kg", 125000, 100000),
+                crane_count=choice("ea", 1, 2),
+                crane_crew_count=choice("ea", 1, 2),
             ),
             checks=COMMON_CHECKS
             + [
@@ -119,6 +121,8 @@ def charters():
                 "grip_fit",
                 "handling_lower_bound",
                 "production_flow",
+                "restraint_load_path",
+                "production_schedule",
             ],
             domain=[
                 "Dead-load prismatic elastic beam and ideal pinned return rails with hypothetical independent ground springs in each plane; handling lower bound and resource upper bounds only. Railway live loads, compression/transmission/shear/fatigue, local connections, ground, complete process scheduling and installed costs remain unknown. Position count is a capacity scenario, not a factory layout."
@@ -281,6 +285,8 @@ def compile_definition(kind, values):
             minimum_contact_reaction_n=response["minimum_contact_reaction_n"],
         )
     else:
+        from . import factory_restraint, factory_schedule
+
         civil = models.civil(a)
         prestress = development.prestress_alternatives(
             a, dev["prestress"], civil["section"]
@@ -294,10 +300,30 @@ def compile_definition(kind, values):
         sb = connections.strongback(
             a, cfg["strongback"], candidate, equipment["ccl-sla15"]
         )
+        sb["compliance_reference_spring_n_m"] = cfg["strongback"][
+            "proposed_ground_spring_n_m"
+        ]
+        sb["compliance_matches_selected_lateral_case"] = (
+            sb["compliance_reference_spring_n_m"] == values["lateral_spring_n_m"]
+        )
+        restraint_cfg = json.loads(
+            (ROOT / "engineering/design_engine/data/factory-restraint.json").read_text()
+        )
+        restraint_cfg.update(
+            post_outer_m=cfg["strongback"]["post_outer_m"],
+            post_wall_m=cfg["strongback"]["post_wall_m"],
+        )
         native = dict(
-            id="OSR-ALIGNED-STRONGBACK-END",
-            parts=connections.strongback_parts(cfg["strongback"], sb),
-            interference_roles=["strongback-steel", "return-rail-steel", "post-steel"],
+            id="OSR-STRONGBACK-RESTRAINT-END",
+            parts=connections.strongback_parts(cfg["strongback"], sb)
+            + factory_restraint.support_parts(restraint_cfg, cfg["strongback"]),
+            interference_roles=[
+                "strongback-steel",
+                "return-rail-steel",
+                "post-steel",
+                "support-baseplate-steel",
+                "support-washer-steel",
+            ],
         )
         bed = dev["bed"]
         stations = [x - bed["origin_x_m"] for x in bed["brace_stations_m"]]
@@ -334,6 +360,31 @@ def compile_definition(kind, values):
             )
         runway_inputs = {**dev["runway"], "rated_lift_kg": values["rated_lift_kg"]}
         flow = production(a, values["casting_positions"], prod)
+        restraint = factory_restraint.assess(
+            a, dev["bed"], civil["bed_screen"], sb, values, restraint_cfg
+        )
+        restraint["baseplate_machining_cases"] = factory_restraint.machining_cases(
+            restraint_cfg,
+            equipment["mazak-cv5-500"]["published"],
+            a["steel_density_kg_m3"],
+        )
+        schedule_cfg = json.loads(
+            (ROOT / "engineering/design_engine/data/factory-schedule.json").read_text()
+        )
+        schedule_cfg["resources"]["crane"] = values["crane_count"]
+        schedule_cfg["resources"]["crane_crew"] = values["crane_crew_count"]
+        beam_volume = sum(models.volume(p) for p in models.pi_parts(values["span_m"]))
+        planned_schedule = factory_schedule.schedule(
+            schedule_cfg,
+            beam_volume,
+            values["casting_positions"],
+            a["accepted_beam_yield"],
+        )
+        interface_suppliers = json.loads(
+            (
+                ROOT / "engineering/design_engine/data/factory-interface-suppliers.json"
+            ).read_text()
+        )
         data = dict(
             native_model=native,
             beam=beam,
@@ -341,12 +392,15 @@ def compile_definition(kind, values):
             stability=stability,
             runway=development.runway(a, runway_inputs),
             production=flow,
+            restraint=restraint,
+            production_schedule=planned_schedule,
+            interface_supplier_enquiries=interface_suppliers,
             model=physical_model(
                 native,
                 a["steel_density_kg_m3"],
                 [
                     dict(
-                        id="remaining_bed_beam_reinforcement_crane_foundations_factory",
+                        id="remaining_bed_end_pin_foundations_fourteen_restraint_pads_beam_reinforcement_crane_factory",
                         state="unknown",
                     )
                 ],
@@ -366,6 +420,14 @@ def compile_definition(kind, values):
             maximum_stage_end_couple_nm=sb["sequences"]["balanced_pairs"][
                 "maximum_abs_end_couple_nm"
             ],
+            maximum_restraint_anchor_tension_n=restraint["maximum_anchor_tension_n"],
+            scheduled_dispatches_in_horizon=planned_schedule[
+                "dispatched_within_horizon"
+            ],
+            planning_accepted_equivalent=planned_schedule[
+                "planning_accepted_equivalent"
+            ],
+            scheduled_crane_hours=planned_schedule["crane_booked_hours"],
         )
     masses = [p["properties"]["mass_kg"] for p in data["model"]["parts"]]
     metrics.update(
@@ -468,6 +530,23 @@ def screen(kind, result, set_check):
             value=flow["known_resource_upper_bound_per_day"],
             limit=flow["programme_target_per_day"],
             unit="accepted beams/working day",
+        )
+        support = data["restraint"]
+        set_check(
+            result,
+            "restraint_load_path",
+            "unknown" if support["ideal_both_planes_stable"] else "not-run",
+            "Post/base contact and anchor/pad demands cover final-force imperfection cases only; actual interface stiffness, ideal end-pin grounding, staged torsion/release and local resistance remain unresolved",
+        )
+        plan = data["production_schedule"]
+        set_check(
+            result,
+            "production_schedule",
+            "failed" if plan["backlog_at_horizon"] else "unknown",
+            "Verified finite resource calendar under unmeasured planning durations; backlog fails the declared campaign deadline, while a clear deadline does not establish production qualification",
+            value=plan["dispatched_within_horizon"],
+            limit=plan["beam_count"],
+            unit="ea",
         )
 
 

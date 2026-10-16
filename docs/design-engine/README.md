@@ -5,6 +5,10 @@ now has [Baghdad example models and supplier equipment](../../engineering/factor
 fixture tooling, Pi20/Pi25 manufacturing screens, vehicle hall and pilot precast yard,
 with actual native CAD exports and explicit qualification gaps.
 
+The [support and finite-resource continuation](factory-support-notes-2026-10-16.md)
+adds a [93-object native review](factory-support/index.html), anchor/grout/pad
+demands and five shared crane/crew/bed scenarios through common factory jobs.
+
 Open the Workbench **Design → Auto-design** flow or use the
 [common CLI](../../engineering/design_engine/README.md). All existing native
 ERP/FUXA functions remain available through their task-area secondary routes.
