@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6229**.
+Indexed Markdown files: **6238**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **6229**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 235 |
-| [engineering](#engineering) | 72 |
+| [docs](#docs) | 243 |
+| [engineering](#engineering) | 73 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6080,16 +6080,17 @@ Indexed Markdown files: **6229**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
-| [`docs/design-engine/multi-agent-design-scenario-2026-10-16.md`](../docs/design-engine/multi-agent-design-scenario-2026-10-16.md) | Multi-agent civil, mechanical and manufacturing design scenario |
-| [`docs/design-engine/multi-agent-design-results-2026-10-16.md`](../docs/design-engine/multi-agent-design-results-2026-10-16.md) | Multi-agent design campaign: executed variations and manufacturing gaps |
 | [`docs/design-engine/factory-beam-demands-2026-10-16.md`](../docs/design-engine/factory-beam-demands-2026-10-16.md) | Baghdad Pi-beam railway and handling demand development |
-| [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
 | [`docs/design-engine/factory-completion-2026-10-16.md`](../docs/design-engine/factory-completion-2026-10-16.md) | Mechanical and civil factory development delivery record |
-| [`docs/design-engine/factory-support-notes-2026-10-16.md`](../docs/design-engine/factory-support-notes-2026-10-16.md) | Baghdad factory support and finite resource development |
+| [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
 | [`docs/design-engine/factory-stages-notes-2026-10-16.md`](../docs/design-engine/factory-stages-notes-2026-10-16.md) | Baghdad factory staged stressing and unloading studies |
+| [`docs/design-engine/factory-support-notes-2026-10-16.md`](../docs/design-engine/factory-support-notes-2026-10-16.md) | Baghdad factory support and finite resource development |
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
 | [`docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md`](../docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md) | Mechanical and civil design and factory buildout plan |
+| [`docs/design-engine/multi-agent-design-results-2026-10-16.md`](../docs/design-engine/multi-agent-design-results-2026-10-16.md) | Multi-agent design campaign: executed variations and manufacturing gaps |
+| [`docs/design-engine/multi-agent-design-scenario-2026-10-16.md`](../docs/design-engine/multi-agent-design-scenario-2026-10-16.md) | Multi-agent civil, mechanical and manufacturing design scenario |
 | [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |
+| [`docs/design-engine/queued-systems-results-2026-10-16.md`](../docs/design-engine/queued-systems-results-2026-10-16.md) | Queued civil, mechanical and factory design work — 16 October 2026 |
 | [`docs/design-engine/record-ownership.md`](../docs/design-engine/record-ownership.md) | Record Ownership And Reviewed Handoffs |
 | [`docs/design-engine/review-follow-up.md`](../docs/design-engine/review-follow-up.md) | Design Engine Review Follow-ups |
 | [`docs/design-engine/verification.md`](../docs/design-engine/verification.md) | Local Verification Record |
@@ -6276,10 +6277,10 @@ Indexed Markdown files: **6229**.
 | [`engineering/design_engine/LICENSE.md`](../engineering/design_engine/LICENSE.md) | Design Engine Licensing |
 | [`engineering/design_engine/README.md`](../engineering/design_engine/README.md) | Shared Design Engine |
 | [`engineering/factory_examples/README.md`](../engineering/factory_examples/README.md) | Mechanical, civil and factory development examples |
-| [`engineering/generative_design/README.md`](../engineering/generative_design/README.md) | Multi-agent generative engineering campaign |
 | [`engineering/factory_examples/examples/README.md`](../engineering/factory_examples/examples/README.md) | Baghdad mechanical, civil and factory development examples |
 | [`engineering/factory_examples/examples/connections.md`](../engineering/factory_examples/examples/connections.md) | Factory fabrication interfaces — iteration 3 |
 | [`engineering/factory_examples/examples/development.md`](../engineering/factory_examples/examples/development.md) | Joint mechanical and civil development — iteration 2 |
+| [`engineering/generative_design/README.md`](../engineering/generative_design/README.md) | Multi-agent generative engineering campaign |
 | [`engineering/industrialisation/README.md`](../engineering/industrialisation/README.md) | Coordinated industrialisation programme |
 | [`engineering/integration_programme/data/contact/LICENSE.md`](../engineering/integration_programme/data/contact/LICENSE.md) | License |
 | [`engineering/models/bim/design-detail-register.md`](../engineering/models/bim/design-detail-register.md) | Topography redesign, BIM and mechanical detail register |

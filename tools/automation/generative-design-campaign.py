@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "design/component-catalogue/src")]
-from engineering.generative_design import campaign, review
+from engineering.generative_design import campaign, review, queue_campaign
 
 
 def main():
@@ -26,6 +26,18 @@ def main():
     p.add_argument("--revision", default="multi-agent-manufacturing-1")
     p = sub.add_parser("verify")
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--historical", action="store_true")
+    p = sub.add_parser("queue")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--native", action="store_true")
+    p = sub.add_parser("verify-queue")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--historical", action="store_true")
+    p = sub.add_parser("publish-queue")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--destination", type=Path, required=True)
+    p = sub.add_parser("verify-queue-snapshot")
+    p.add_argument("--destination", type=Path, required=True)
     p.add_argument("--historical", action="store_true")
     p = sub.add_parser("publish")
     p.add_argument("--output", type=Path, required=True)
@@ -49,6 +61,16 @@ def main():
         )
     elif args.action == "verify":
         result = campaign.verify(args.output, current=not args.historical)
+    elif args.action == "queue":
+        result = queue_campaign.run(args.output, native=args.native)
+    elif args.action == "verify-queue":
+        result = queue_campaign.verify(args.output, current=not args.historical)
+    elif args.action == "publish-queue":
+        result = queue_campaign.publish(args.output, args.destination)
+    elif args.action == "verify-queue-snapshot":
+        result = queue_campaign.verify(
+            args.destination, current=not args.historical, snapshot=True
+        )
     elif args.action == "publish":
         result = review.publish(args.output, args.destination)
     else:

@@ -1,5 +1,11 @@
 # Design, Jobs And Evidence Workflows
 
+The [queued-systems results](queued-systems-results-2026-10-16.md) add
+[63 executed preliminary package studies](queued-systems/index.html), provisional
+six-car load and platform alternatives, mechanical interface repairs, factory
+utilities and itemised production/inspection evidence registers. Six native CAD
+checks passed; full engineering qualification and manufacturing release remain open.
+
 The [multi-agent design scenario](multi-agent-design-scenario-2026-10-16.md)
 allocates all current vehicle/station/civil inventories to 63 work packages.
 The [campaign runner](../../engineering/generative_design/README.md) generates

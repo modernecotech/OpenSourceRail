@@ -1,5 +1,28 @@
 # Multi-agent generative engineering campaign
 
+The [queued-systems continuation](../../docs/design-engine/queued-systems-results-2026-10-16.md)
+executes 63 package-specific preliminary studies, records actual production/inspection
+requirements and propagates provisional six-car feedback into civil/factory demands.
+It retains source-changing mechanical proposals separately from source-compatible
+choices. Full discipline qualification and manufacturing release remain open.
+
+```sh
+./osr design campaign queue --output build/queued-design/my-run --native
+./osr design campaign verify-queue --output build/queued-design/my-run
+./osr design campaign publish-queue --output build/queued-design/my-run \
+  --destination docs/design-engine/my-queued-review
+./osr design campaign verify-queue-snapshot \
+  --destination docs/design-engine/my-queued-review
+```
+
+Queue commands require fresh execution/publication directories. Verification binds
+actual drawing JSON, referenced artifact bytes, CAD inputs, evaluator sources,
+toolchain and the inherited snapshot. `--historical` checks integrity without
+current source applicability. Publication retains CSV/SVG/JSON/HTML/FCStd;
+native STEP and execution logs remain in the sealed local run. Inherited civil
+evaluations require unchanged numerical dependencies; the new six-car response
+study is calculated during each queue run. A failed attempt remains on disk.
+
 This campaign allocates every inventoried civil, vehicle and factory item to an
 agent work package, executes bounded variations, and retains the open
 manufacturing/design gates. Read the

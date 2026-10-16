@@ -49,7 +49,7 @@ The city catalogue uses **elevated land sections in its controlled central study
 
 ## Complete viaduct design exploration
 
-The [civil workbench](engineering/civil_exploration/README.md) compares complete **beam–pier–foundation packages**, with Baghdad as the qualification target. It searches for separate low-cost, low-mass and short-construction-time choices and retains the Pareto tradeoffs, failures, changed parameters and evidence gaps. The retained LM3 verification studies and Baghdad research results have distinct load bases; Baghdad supplier axle positions are still missing.
+The [civil workbench](engineering/civil_exploration/README.md) compares complete **beam–pier–foundation packages**, with Baghdad as the qualification target. It searches for separate low-cost, low-mass and short-construction-time choices and retains the Pareto tradeoffs, failures, changed parameters and evidence gaps. The retained LM3 verification studies and Baghdad research results have distinct load bases; Baghdad supplier axle positions are still missing. The [queued-systems results](docs/design-engine/queued-systems-results-2026-10-16.md) add [63 preliminary package studies](docs/design-engine/queued-systems/index.html), mechanical fit repairs, six-car load feedback, factory equipment/utility alternatives and production/inspection registers. Six native CAD checks passed; engineering qualification and manufacturing release remain open.
 
 | Part of the system | Choices investigated |
 |---|---|
