@@ -175,7 +175,9 @@ def main():
     )
     plt.close(fig)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(out.getvalue())
+    args.output.write_text(
+        "\n".join(line.rstrip() for line in out.getvalue().splitlines()) + "\n"
+    )
     write(
         args.output.with_suffix(".json"),
         dict(
