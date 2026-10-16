@@ -34,6 +34,8 @@ def part(identifier, size, at, *, kind="box", role="design-solid", **kw):
 
 
 def volume(p):
+    if p["kind"] not in {"box", "tube", "cylinder", "stepped-cylinder"}:
+        raise ValueError("unsupported factory solid primitive")
     x, y, z = p["size_m"]
     result = x * y * z
     if p["kind"] == "tube":
@@ -47,8 +49,19 @@ def volume(p):
         result -= math.prod(inner)
     elif p["kind"] == "cylinder":
         result = math.pi * x * y * z / 4
+    elif p["kind"] == "stepped-cylinder":
+        if abs(sum(s["length_m"] for s in p["steps"]) - z) > 1e-10:
+            raise ValueError("step lengths must cover declared cylinder height")
+        result = sum(
+            math.pi * s["diameter_m"] ** 2 / 4 * s["length_m"] for s in p["steps"]
+        )
     for h in p.get("holes", []):
-        result -= math.pi * h["diameter_m"] ** 2 / 4 * z
+        result -= (
+            math.pi
+            * h["diameter_m"] ** 2
+            / 4
+            * h.get("length_m", p["size_m"]["xyz".index(h.get("axis", "z"))])
+        )
     return result
 
 

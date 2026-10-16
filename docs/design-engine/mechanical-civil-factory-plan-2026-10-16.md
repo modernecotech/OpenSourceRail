@@ -49,6 +49,14 @@ under the same bed assumptions before other production bottlenecks.
 
 ## Design scope
 
+The [fabrication iteration](../../engineering/factory_examples/examples/connections.md)
+adds strongback plates, grip-clearance and individual-strand sequencing checks,
+an aligned return-load path with support-compliance budgets, and a retained
+mechanical locator coupon. British subcontract manufacture is investigated for
+parts that exceed the pilot workshop's capability. Suppliers remain unsent
+enquiry candidates; no published travel range becomes accepted workholding or
+machine payload, and legacy-machine support is distinguished from a new offer.
+
 The [second iteration](../../engineering/factory_examples/examples/development.md)
 develops both factories together: Brauer workholding candidates and connection
 demands, three prestress layouts along Pi20/Pi25, ground-spring buckling

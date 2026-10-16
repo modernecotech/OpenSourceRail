@@ -33,7 +33,18 @@ def export_native(model_path, output):
     for i, p in enumerate(model["parts"]):
         size = [v * 1000 for v in p["size_m"]]
         at = [v * 1000 for v in p["at_m"]]
-        if p["kind"] == "cylinder":
+        if p["kind"] == "stepped-cylinder":
+            shape = None
+            level = at[2]
+            for step in p["steps"]:
+                solid = Part.makeCylinder(
+                    step["diameter_m"] * 500,
+                    step["length_m"] * 1000,
+                    App.Vector(at[0] + size[0] / 2, at[1] + size[1] / 2, level),
+                )
+                shape = solid if shape is None else shape.fuse(solid)
+                level += step["length_m"] * 1000
+        elif p["kind"] == "cylinder":
             axis = p.get("cylinder_axis", "z")
             # size is local diameter, diameter, length; at is lower global bound.
             idx = "xyz".index(axis)
@@ -57,15 +68,24 @@ def export_native(model_path, output):
                         inside[j] -= 2 * wall
                         start[j] += wall
                 shape = shape.cut(Part.makeBox(*inside, App.Vector(*start)))
-            for hole in p.get("holes", []):
-                cut = Part.makeCylinder(
-                    hole["diameter_m"] * 500,
-                    size[2],
-                    App.Vector(
-                        at[0] + hole["x_m"] * 1000, at[1] + hole["y_m"] * 1000, at[2]
-                    ),
+        for hole in p.get("holes", []):
+            axis = "xyz".index(hole.get("axis", "z"))
+            start = at.copy()
+            for j in range(3):
+                start[j] += (
+                    hole.get("start_m", 0) * 1000
+                    if j == axis
+                    else hole["xyz"[j] + "_m"] * 1000
                 )
-                shape = shape.cut(cut)
+            direction = [0, 0, 0]
+            direction[axis] = 1
+            cut = Part.makeCylinder(
+                hole["diameter_m"] * 500,
+                hole.get("length_m", p["size_m"][axis]) * 1000,
+                App.Vector(*start),
+                App.Vector(*direction),
+            )
+            shape = shape.cut(cut)
         expected = volume(p) * 1e9
         expected_bounds = p["at_m"] + [
             p["at_m"][j] + global_size(p)[j] for j in range(3)
@@ -110,9 +130,15 @@ def export_native(model_path, output):
         )
     # Tooling fixture contains separate materials: check actual positive common volume.
     collisions = []
-    if model["id"] == "OSR-FIX-500":
-        for i, obj in enumerate(objects):
-            for other in objects[i + 1 :]:
+    interference_roles = model.get("interference_roles", [])
+    check_objects = (
+        objects
+        if model["id"] == "OSR-FIX-500"
+        else [o for o in objects if o.Role in interference_roles]
+    )
+    if check_objects:
+        for i, obj in enumerate(check_objects):
+            for other in check_objects[i + 1 :]:
                 if obj.Shape.BoundBox.intersect(other.Shape.BoundBox):
                     overlap = obj.Shape.common(other.Shape).Volume
                     if overlap > 1e-3:
@@ -121,6 +147,7 @@ def export_native(model_path, output):
                         )
         if collisions:
             raise ValueError("fixture solid interference: " + str(collisions))
+    interference_ids = [o.DesignId for o in check_objects]
     doc.recompute()
     fcstd, step = output / "model.FCStd", output / "model.step"
     Part.export(objects, str(step))
@@ -162,6 +189,7 @@ def export_native(model_path, output):
         schema="osr-factory-native-cad/1",
         input_sha256=digest(model_path),
         exporter_sha256=digest(__file__),
+        geometry_helpers_sha256=digest(Path(__file__).with_name("models.py")),
         freecad_version=list(App.Version()),
         opencascade_version=Part.OCC_VERSION,
         part_count=len(checks),
@@ -170,6 +198,7 @@ def export_native(model_path, output):
         step_reopened=True,
         volume_sum_m3=expected_volume,
         fixture_interferences_checked=model["id"] == "OSR-FIX-500",
+        interference_checked_ids=interference_ids,
         note="Other scenes intentionally overlay strand, concrete and manufacturing-state envelopes; no interference acceptance implied",
         physical_release=False,
         files_sha256={p.name: digest(p) for p in (fcstd, step)},

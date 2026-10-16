@@ -17,7 +17,8 @@ from pathlib import Path
 
 from . import models
 from . import development
-from .figures import development_svg
+from . import connections
+from .figures import development_svg, connections_svg
 from .native import digest, generate
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -368,6 +369,13 @@ def make_outputs():
         for r in iteration["prestress"]["alternatives"]
         if r["id"] == iteration["prestress"]["candidate_id"]
     )
+    connection_basis = json.loads((PACKAGE / "data/connections.json").read_text())
+    fabrication_suppliers = json.loads(
+        (PACKAGE / "data/fabrication-suppliers.json").read_text()
+    )
+    fabrication = connections.build(
+        a, connection_basis, candidate, iteration, equipment, fabrication_suppliers
+    )
     layout = models.layouts(ROOT)
     canonical = layout["canonical_factory"]["factory"]
     if (
@@ -403,6 +411,18 @@ def make_outputs():
         "runway-bay": dict(
             id="OSR-RUNWAY-BAY",
             parts=development.runway_parts(development_basis["runway"]),
+        ),
+        "strongback-end": dict(
+            id="OSR-ALIGNED-STRONGBACK-END",
+            parts=connections.strongback_parts(
+                connection_basis["strongback"], fabrication["strongback"]
+            ),
+            interference_roles=["strongback-steel", "return-rail-steel", "post-steel"],
+        ),
+        "locator-cartridge": dict(
+            id="OSR-LOCATOR-RETENTION-COUPON",
+            parts=connections.locator_parts(connection_basis["locator"]),
+            interference_roles=["locator-support-steel", "locator-machined-steel"],
         ),
     }
     utilities = []
@@ -463,6 +483,11 @@ def make_outputs():
         physical_release=False,
         supplier_contacted=False,
         development=development_summary(iteration),
+        fabrication_summary=dict(
+            revision=fabrication["revision"],
+            results_reference="connections.json",
+            physical_release=False,
+        ),
     )
     bom = []
     for p in fix["parts"]:
@@ -488,6 +513,24 @@ def make_outputs():
         "development.json": json_text(iteration),
         "development.md": development_notes(iteration),
         "development.svg": development_svg(iteration),
+        "connections.json": json_text(fabrication),
+        "connections.md": connection_notes(fabrication),
+        "connections.svg": connections_svg(fabrication),
+        "fabrication-bom.csv": csv_text(fabrication_bom(native_models, a)),
+        "stressing-sequence.csv": csv_text(
+            [
+                dict(
+                    revision=fabrication["revision"],
+                    sequence_id="balanced_pairs",
+                    issued=False,
+                    **stage,
+                )
+                for stage in fabrication["strongback"]["sequences"]["balanced_pairs"][
+                    "stages"
+                ]
+            ]
+        ),
+        "fabrication-rfq.csv": csv_text(fabrication_rfq(fabrication_suppliers)),
     }
     for key, model in native_models.items():
         out[f"{key}/model.json"] = json_text(model)
@@ -496,8 +539,140 @@ def make_outputs():
     for key in ("fixture", "pi25-mould-bed"):
         out[f"{key}/drawing.svg"] = projection_svg(native_models[key])
     out["README.md"] = readme(report, register)
-    out["index.html"] = viewer(report, register, out)
+    out["index.html"] = viewer(report, register, out, fabrication)
     return out, native_models
+
+
+def fabrication_bom(models_by_id, a):
+    rows = []
+    for model_id in ("strongback-end", "locator-cartridge"):
+        for p in models_by_id[model_id]["parts"]:
+            steel = p["role"].endswith("-steel")
+            rows.append(
+                dict(
+                    assembly=model_id,
+                    id=p["id"],
+                    quantity=1,
+                    role=p["role"],
+                    dimensions_m=json.dumps(p["size_m"]),
+                    kind=p["kind"],
+                    holes=json.dumps(p.get("holes", [])),
+                    nominal_steel_volume_m3=models.volume(p) if steel else "",
+                    nominal_steel_mass_kg=(
+                        models.volume(p) * a["steel_density_kg_m3"] if steel else ""
+                    ),
+                    basis=(
+                        "OSR idealised steel; grade/origin/welds not released"
+                        if steel
+                        else "Envelope only; no density or purchased mass inferred"
+                    ),
+                )
+            )
+    return rows
+
+
+def fabrication_rfq(suppliers):
+    scope = {
+        "boneham-custom-pin": "Three headed locator buttons to OSR coupon drawing; bore/shaft fits, finish/hardness and retention trial",
+        "promil-starcut260": "Eight strongback assemblies for four pilot beds and four baseplates for one runway-bay example; confirm setup/payload and machining",
+        "responsive-horizontal": "Fabrication/machining alternative for strongbacks and 6 m runway girders; material/weld/NDE and setup/payload return required",
+        "asquith-service": "Legacy-machine service/retrofit availability and support enquiry; no new machine purchase specification assumed",
+    }
+    return [
+        dict(
+            id=r["id"],
+            supplier=r["supplier"],
+            model_or_service=r["model_or_service"],
+            origin=r["origin"],
+            scope=scope[r["id"]],
+            published=json.dumps(r["published"]),
+            source=" | ".join(r["sources"]),
+            observed_on=suppliers["observed_on"],
+            technical_questions="; ".join(r["unknown"]),
+            commercial_questions="Itemise UK work/stock origin, price, freight/export/duties, Iraq installation/interfaces, inspection, documentation and warranty",
+            price_gbp="",
+            supplier_contacted="no",
+            contract_accepted="no",
+        )
+        for r in suppliers["cases"]
+    ]
+
+
+def connection_notes(r):
+    s, l, m = r["strongback"], r["locator"], r["manufacturing"]
+    lines = [
+        "# Factory fabrication interfaces — iteration 3",
+        "",
+        "This extends the mechanical and civil examples together. Original models and failed cases remain available. Two additional native models develop a perforated/diaphragm-stiffened strongback end and a retained locator-button coupon. These are preliminary fabrication concepts, with no physical release.",
+        "",
+        "## Grip spacing and strongback layout",
+        "",
+        f"The baseline 45 mm strand pitch clashes with the candidate 50 mm grip bodies by {-s['baseline_grip_fit']['minimum_surface_gap_m']*1000:.1f} mm. The 60 mm-pitch candidate gives {s['revised_grip_fit']['minimum_surface_gap_m']*1000:.1f} mm body clearance against a 5 mm research allowance. Side cover to the 15.2 mm clearance envelope is {s['nominal_stem_side_cover_m']*1000:.1f} mm. This does not qualify concrete cover, the exact strand/grip combination or jack-nose access.",
+        "",
+        "The new end box is 4 m across, 900 mm deep in the stressing direction and 1.3 m high, with 40 mm outer plates, 20 mm internal diaphragms and 48 aligned 22 mm clearance holes in each stressing face. Return-rail stubs are raised to the initial tendon centroid. Strongback plate holes are actual native boolean cuts; the grip cylinders remain external envelopes.",
+        "",
+        f"The initial 1.2 m-height aligned box also leaves an upper grip body overhanging the plate by {-s['baseline_plate_grip_edge_clearance_m']*1000:.1f} mm. The 1.3 m-height candidate provides {s['revised_plate_grip_edge_clearance_m']*1000:.1f} mm minimum body-to-plate-edge clearance. This is a geometric seat screen, not local plate resistance or a qualified bearing seat.",
+        "",
+        f"The aligned return axis is z={s['axis_z_m']:.4f} m. Its final initial-force vertical couple is zero in the stated symmetric model; temporary stressing stages still matter. The lower-first sequence reaches {s['sequences']['lower_first']['maximum_abs_end_couple_nm']/1e6:.3f} MNm, while the proposed balanced-pair ordering reaches {s['sequences']['balanced_pairs']['maximum_abs_end_couple_nm']/1e6:.3f} MNm. Both individual-strand half-steps are retained, so simultaneous stressing is not assumed. Release needs its own accepted sequence.",
+        "",
+        f"Gross in-plane bending demand is {s['nominal_in_plane_bending_demand_pa']/1e6:.1f} MPa. The nominal combined bending/average shear/closed-box torsion demand over the balanced stages is {s['maximum_stage_nominal_von_mises_demand_pa']/1e6:.1f} MPa. Nominal grip annular bearing is {s['grip_annular_bearing_demand_pa']/1e6:.1f} MPa. These omit local plate bending, openings/seat effects, weld resistance, buckling, distortional behaviour and fatigue; no stress allowable is adopted.",
+        "",
+        "[Strongback end CAD](strongback-end/model.FCStd) · [48-step proposed stressing sequence](stressing-sequence.csv)",
+        "",
+        "## Ground-restraint load path",
+        "",
+        f"The raised return-rail support uses a nominal 250 × 250 × 12.5 mm post concept of {s['post_length_m']:.4f} m height. Its ideal fixed-base lateral stiffness is {s['post_cantilever_stiffness_n_m']/1e6:.1f} MN/m. Steel-post, base rotation, connection and ground translation compliance act in series. Actual effective restraint remains unknown.",
+        "",
+        f"If every other interface were rigid, the ground-translation stiffness alone would need at least {s['foundation_translation_required_if_other_interfaces_rigid_n_m']/1e6:.3f} MN/m to retain the proposed 1 MN/m spring. Alternatively, with all other interfaces rigid, the base rotational stiffness alone needs {s['base_rotation_required_if_other_interfaces_rigid_nm_rad']/1e6:.3f} MNm/rad. These individual limiting budgets cannot be combined as if they jointly met the requirement. Both-plane restraint, column/base/anchor resistance and geotechnical design remain open.",
+        "",
+        "## Retained mechanical locator",
+        "",
+        f"The cartridge preserves the z={l['contact_plane_z_m']:.3f} m datum with a 32 mm contact head and a 19.990 mm nominal stem in a 20.000 mm bore. Declared ±2 micrometre size hypotheses give a {l['worst_case_diametral_clearance_m'][0]*1e6:.0f}–{l['worst_case_diametral_clearance_m'][1]*1e6:.0f} micrometre diametral clearance range; heat treatment, temperature, finish and actual machining capability are not qualified.",
+        "",
+        "A proposed M8 × 20 retaining screw passes through the RHS top-wall clearance hole; a 22 mm underside access opening permits assembly. A stepped pin solid contains a blind tap-drill, while the screw is a nominal thread envelope. Helical threads and their intended engagement interference are not modelled. Mount retention is not a rated lifting connection.",
+        "",
+        f"The button's nominal mass is {l['button_nominal_mass_kg']:.3f} kg, top contact demand is {l['nominal_top_contact_pressure_pa']/1e6:.2f} MPa and nominal screw engagement is {l['screw_nominal_engagement_m']*1000:.1f} mm. Thread stripping, screw grade/preload/locking, local tube-wall/access-hole effects, pin heat treatment and repeatability remain open.",
+        "",
+        "[Locator cartridge CAD](locator-cartridge/model.FCStd) · [concept fabrication BOM](fabrication-bom.csv)",
+        "",
+        "## British manufacture and subcontract machining cases",
+        "",
+        "These are published capabilities and unsent enquiries, not supplier offers. Pro-Mil's listed Starcut 260 travel is 6 × 4.35 × 2.15 m; its 50 t shop crane does not establish machine payload. Responsive lists a 10 × 3 × 1.5 m horizontal CNC capability. Boneham publishes UK custom cylindrical-component manufacture. Asquith Butler's current site focuses on service, spares and retrofit, so no new-build machine offer is inferred.",
+        "",
+        "| Part with OSR setup allowance | Pro-Mil Starcut travel screen | Responsive advertised-range screen |",
+        "| --- | --- | --- |",
+    ]
+    for name in (
+        "runway-baseplate",
+        "strongback-box",
+        "strongback-end-steel",
+        "runway-girder",
+    ):
+        cases = [c for c in m["cases"] if c["part"] == name]
+        lines.append(
+            f"| {name}, {[round(v,3) for v in cases[0]['setup_reservation_m']]} m | {'within' if cases[0]['geometric_range_screen'] else 'outside'} | {'within' if cases[1]['geometric_range_screen'] else 'outside'} |"
+        )
+    lines += [
+        "",
+        "The 6 m girder plus 300 mm setup length exceeds the 6 m Starcut X travel. Axis orientation, usable simultaneous envelope, workholding, table payload, tool/head clearance and fabrication inspection need actual supplier returns for every case. UK work, raw-stock origin and installed Iraqi costs remain separate unknowns.",
+        "",
+        "[Unsent fabrication RFQs](fabrication-rfq.csv) · [Full staged calculations](connections.json)",
+        "",
+    ]
+    for supplier in m["suppliers"]["cases"]:
+        lines.append(
+            f"- {supplier['supplier']}: "
+            + "; ".join(
+                f"[official source {j+1}]({url})"
+                for j, url in enumerate(supplier["sources"])
+            )
+        )
+    return "\n".join(lines) + "\n"
+
+
+def connection_html(r):
+    s = r["strongback"]
+    return f'<h2>Fabrication and assembly interfaces</h2><img src="connections.svg" style="width:100%;height:auto" alt="Grip layout, stressing sequence, locator section and machining-range screens"><p>Baseline 45 mm pitch clashes with 50 mm grip bodies. The proposed 60 mm pitch has {s["revised_grip_fit"]["minimum_surface_gap_m"]*1000:.0f} mm body clearance; actual grips, strands and jack access remain unqualified.</p><p>The aligned return axis removes the final symmetric end couple. Individual-strand sequencing still produces temporary couples: lower-first {s["sequences"]["lower_first"]["maximum_abs_end_couple_nm"]/1e6:.3f} MNm; balanced ordering {s["sequences"]["balanced_pairs"]["maximum_abs_end_couple_nm"]/1e6:.3f} MNm.</p><p><a href="strongback-end/model.FCStd">Perforated strongback CAD</a> · <a href="locator-cartridge/model.FCStd">Retained locator CAD</a> · <a href="connections.md">Calculations and supplier route findings</a></p><p><a href="fabrication-bom.csv">Concept fabrication BOM</a> · <a href="stressing-sequence.csv">Individual-strand sequence</a> · <a href="fabrication-rfq.csv">Unsent UK fabrication RFQs</a></p><p>Material/local resistance, heat treatment, screw preload/locking, ground restraint, supplier setup/payload and Iraqi installed cost remain open.</p>'
 
 
 def development_summary(iteration):
@@ -674,7 +849,7 @@ def readme(r, register):
     return "\n".join(lines) + "\n"
 
 
-def viewer(r, register, out):
+def viewer(r, register, out, fabrication):
     cards = []
     for e in register["equipment"]:
         cards.append(
@@ -697,6 +872,7 @@ def viewer(r, register, out):
                     ("civil", "Mould & bed"),
                     ("equipment", "Equipment & sources"),
                     ("development", "Joint development"),
+                    ("fabrication", "Fabrication interfaces"),
                 ]
             )
         )
@@ -731,6 +907,7 @@ def viewer(r, register, out):
                     ),
                     ("equipment", "<h2>Equipment candidates</h2>" + "".join(cards)),
                     ("development", development_html(r["development"])),
+                    ("fabrication", connection_html(fabrication)),
                 ]
             )
         )
@@ -764,6 +941,8 @@ def main():
             if (
                 record["input_sha256"] != digest(folder / "model.json")
                 or record["exporter_sha256"] != digest(PACKAGE / "native.py")
+                or record.get("geometry_helpers_sha256")
+                != digest(PACKAGE / "models.py")
                 or record["part_count"] != len(native_models[key]["parts"])
             ):
                 errors.append(key + ": native source mismatch")
