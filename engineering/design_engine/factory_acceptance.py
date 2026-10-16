@@ -208,6 +208,7 @@ def acceptance(folder):
     snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-support")
     stage_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-stages")
     whole_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-whole-bed")
+    beam_snapshot = verify_snapshot(ROOT / "docs/design-engine/factory-beam-demands")
     return dict(
         schema="osr-factory-native-acceptance/1",
         passed=True,
@@ -219,6 +220,7 @@ def acceptance(folder):
         retained_snapshot_integrity_verified=snapshot["integrity_verified"],
         retained_stage_snapshot_integrity_verified=stage_snapshot["integrity_verified"],
         retained_whole_snapshot_integrity_verified=whole_snapshot["integrity_verified"],
+        retained_beam_snapshot_integrity_verified=beam_snapshot["integrity_verified"],
     )
 
 

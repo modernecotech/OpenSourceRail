@@ -123,6 +123,9 @@ def charters():
                 stressing_order=choice("1", "balanced_pairs", "lower_first"),
                 release_order=choice("1", "reverse_stress", "same_stress"),
                 frame_ground_case=choice("1", "medium", "soft", "stiff"),
+                diagnostic_axle_multiplier=choice("1", 1.0, 1.25, 1.5),
+                lifting_station_fraction=choice("1", 0.2, 0.25),
+                lower_sling_angle_rad=choice("rad", 0, math.pi / 6, math.pi / 4),
             ),
             checks=COMMON_CHECKS
             + [
@@ -137,6 +140,8 @@ def charters():
                 "staged_load_path",
                 "spatial_frame",
                 "spatial_native",
+                "railway_demand_diagnostic",
+                "handling_route",
             ],
             domain=[
                 "Dead-load prismatic elastic beam and ideal pinned return rails with hypothetical independent ground springs in each plane; handling lower bound and resource upper bounds only. Railway live loads, compression/transmission/shear/fatigue, local connections, ground, complete process scheduling and installed costs remain unknown. Position count is a capacity scenario, not a factory layout."
@@ -299,7 +304,13 @@ def compile_definition(kind, values):
             minimum_contact_reaction_n=response["minimum_contact_reaction_n"],
         )
     else:
-        from . import factory_restraint, factory_schedule, factory_stages, factory_frame
+        from . import (
+            factory_restraint,
+            factory_schedule,
+            factory_stages,
+            factory_frame,
+            factory_beam,
+        )
 
         civil = models.civil(a)
         prestress = development.prestress_alternatives(
@@ -310,6 +321,21 @@ def compile_definition(kind, values):
         )
         beam = next(
             r for r in candidate["scenarios"] if r["span_m"] == values["span_m"]
+        )
+        beam_demands = factory_beam.assess(
+            a,
+            civil["section"],
+            candidate,
+            beam,
+            json.loads(
+                (
+                    ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json"
+                ).read_text()
+            ),
+            values,
+            json.loads(
+                (ROOT / "engineering/design_engine/data/factory-beam.json").read_text()
+            ),
         )
         sb = connections.strongback(
             a, cfg["strongback"], candidate, equipment["ccl-sla15"]
@@ -432,6 +458,7 @@ def compile_definition(kind, values):
         data = dict(
             native_model=native,
             beam=beam,
+            beam_demands=beam_demands,
             strongback=sb,
             stability=stability,
             runway=development.runway(a, runway_inputs),
@@ -454,6 +481,18 @@ def compile_definition(kind, values):
         )
         metrics = dict(
             beam_mass_lower_bound_kg=beam["known_concrete_plus_strand_mass_kg"],
+            diagnostic_peak_total_moment_nm=beam_demands["railway"]["continuous_peak"][
+                "moment_nm"
+            ],
+            diagnostic_service_minimum_compression_pa=beam_demands[
+                "minimum_sampled_service_compression_pa"
+            ],
+            handling_peak_negative_moment_nm=beam_demands["handling"][
+                "minimum_bending_moment_nm"
+            ],
+            handling_nominal_lower_leg_tension_n=beam_demands["handling"][
+                "nominal_equalized_leg_tension_n"
+            ],
             handling_equivalent_lower_bound_kg=beam[
                 "handling_equivalent_kg_lower_bound"
             ],
@@ -589,6 +628,19 @@ def screen(kind, result, set_check):
             "Post/base contact and anchor/pad demands cover final-force imperfection cases only; actual interface stiffness, ideal end-pin grounding, staged torsion/release and local resistance remain unresolved",
         )
         plan = data["production_schedule"]
+        demands = data["beam_demands"]
+        set_check(
+            result,
+            "railway_demand_diagnostic",
+            "unknown" if demands["zero_tension_diagnostic_screen"] else "failed",
+            "Sampled gross fibre stresses under a labelled legacy three-car diagnostic; failure is the declared zero-tension research screen. Six-car loading, material stress limits, transmission and full resistance remain unqualified",
+        )
+        set_check(
+            result,
+            "handling_route",
+            "unknown",
+            "Overhang bending, station reactions and rigging angles are demand hypotheses only; inserts, equalization, full rig mass, span-dependent supplier capacity and crane/site lift plan remain unresolved",
+        )
         staged = data["staged_loads"]
         spatial = data["spatial_frame"]
         set_check(

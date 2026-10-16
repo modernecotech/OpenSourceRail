@@ -39,6 +39,7 @@ FACTORY_ACCEPTANCE_SOURCES = {
     "engineering/analysis/tests/test_factory_schedule.py",
     "engineering/analysis/tests/test_factory_stages.py",
     "engineering/analysis/tests/test_factory_frame.py",
+    "engineering/analysis/tests/test_factory_beam.py",
     "tools/automation/publish-factory-review.py",
     "tools/automation/factory-buildout.py",
     "tools/automation/tests/test_factory_native_validation.py",
@@ -68,7 +69,7 @@ if a.scope == "impact":
         or FACTORY_ACCEPTANCE_SOURCES.intersection(a.changed)
         or any(
             name.startswith(
-                ("engineering/factory_examples/", "docs/design-engine/factory-support/", "docs/design-engine/factory-stages/", "docs/design-engine/factory-whole-bed/", "docs/design-engine/factory-buildout/")
+                ("engineering/factory_examples/", "docs/design-engine/factory-support/", "docs/design-engine/factory-stages/", "docs/design-engine/factory-whole-bed/", "docs/design-engine/factory-buildout/", "docs/design-engine/factory-beam-demands/")
             )
             for name in a.changed
         )

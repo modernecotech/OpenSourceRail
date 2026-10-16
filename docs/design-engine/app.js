@@ -632,6 +632,16 @@ function renderComparison(report) {
         );
       }
       const campaign = candidate.definition.production_schedule;
+      const beamDemands = candidate.definition.beam_demands;
+      if (beamDemands) {
+        section.append(
+          el("h4", "Pi-beam railway and handling demands"),
+          el(
+            "p",
+            `Railway diagnostic: retained three-car, twelve-axle planning reference × ${beamDemands.diagnostic_load_case.axle_multiplier}. Six-car Baghdad axle loading remains unknown. Minimum sampled service compression: ${(beamDemands.minimum_sampled_service_compression_pa / 1e6).toFixed(3)} MPa; negative is tension. Handling stations: ${beamDemands.handling.support_x_m.join(" / ")} m; longitudinal spreader span ${beamDemands.handling.longitudinal_rig_span_m} m. Concrete limits, inserts, rig mass, equalization and supplier span/angle capacity remain unqualified.`,
+          ),
+        );
+      }
       const spatial = candidate.definition.spatial_frame;
       if (spatial) {
         section.append(

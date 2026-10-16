@@ -172,6 +172,8 @@ def write_packet(candidate, folder):
     if "spatial_frame" in data:
         study["spatial_frame"] = data["spatial_frame"]
         study["spatial_confirmation"] = data.get("spatial_confirmation")
+    if "beam_demands" in data:
+        study["beam_demands"] = data["beam_demands"]
     study.update(
         schema="osr-common-factory-studies/1",
         candidate=candidate["id"],
@@ -207,6 +209,11 @@ def write_packet(candidate, folder):
             )
         )
     csv_file(folder / "support-demands.csv", rows)
+    if "beam_demands" in data:
+        beam = data["beam_demands"]
+        csv_file(folder / "beam-service-demands.csv", beam["railway"]["stations"])
+        csv_file(folder / "beam-handling-moments.csv", beam["handling"]["diagram"])
+        (folder / "beam-demands.svg").write_text(beam_figure(beam))
     if "spatial_frame" in data:
         spatial = data["spatial_frame"]
         csv_file(
@@ -407,6 +414,11 @@ def write_packet(candidate, folder):
         staged = data["staged_loads"]
         addition = f'<h2>Static stressing and unloading hypotheses</h2><p>{staged["stage_count"]} force states and {staged["contact_cases_solved"]} support-contact cases. Order: {escaped(staged["stressing_order"])}; unloading: {escaped(staged["release_order"])}. Rail gravity is included. Load allocation, mirrored end operation, ideal grounding and static unloading remain hypotheses; concrete transfer, dynamics, local resistance and an approved release procedure remain unresolved.</p><img src="static-stages.svg" alt="Staged rail force and eccentric couple, anchor and ideal end-pin demand histories"><p><a href="static-stages.csv">Static states</a> · <a href="end-pin-demands.csv">Signed end-pin demands</a></p>'
         page = page.replace("<h2>Review data</h2>", addition + "<h2>Review data</h2>")
+    if "beam_demands" in data:
+        beam = data["beam_demands"]
+        lift = beam["handling"]
+        addition = f'<h2>Pi-beam railway and handling demands</h2><p>The railway diagnostic uses the retained three-car, twelve-axle planning reference. Six-car Baghdad axle loading remains unknown. Peak total moment {beam["railway"]["continuous_peak"]["moment_nm"]/1e6:.3f} MNm; minimum sampled service compression {beam["minimum_sampled_service_compression_pa"]/1e6:.3f} MPa (negative is tension). No concrete stress limits or railway resistance are accepted.</p><img src="beam-demands.svg" alt="Diagnostic moving-load moment and sampled service stresses, handling overhang moment and lower-leg tensions"><p>Lift stations at {lift["support_x_m"][0]:g} and {lift["support_x_m"][1]:g} m give {lift["longitudinal_rig_span_m"]:g} m longitudinal spreader span. The {lift["upper_sling_angle_from_vertical_deg"]:g} degree upper-sling hypothesis needs {lift["geometric_headroom_above_longitudinal_end_units_m"]:.2f} m above its end units. Complete rig mass, inserts, equalization, transverse distributors, supplier span/angle capacity and the site lift plan remain unresolved.</p><p><a href="beam-service-demands.csv">Section diagnostic demands</a> · <a href="beam-handling-moments.csv">Handling moments</a></p>'
+        page = page.replace("<h2>Review data</h2>", addition + "<h2>Review data</h2>")
     if "spatial_frame" in data:
         spatial = data["spatial_frame"]
         addition = f'<h2>Connected whole-bed spatial model</h2><p>376 native objects; two strongbacks, full return rails and all sixteen nominal support details. {len(spatial["model"]["nodes_m"])} frame nodes and {len(spatial["model"]["members"])} gross members. Six-axis base springs replace ideal end pins in this separate first-order model. Actual stiffness, biaxial/torsional connection resistance, local effects and interaction with second-order response remain unqualified. The earlier ideal-pin studies above retain their original assumptions.</p><img src="spatial-frame.svg" alt="Whole-bed spatial frame and finite-base force history"><p><a href="spatial-base-demands.csv">Signed six-axis forces and moments on base foundations</a></p>'
@@ -474,6 +486,87 @@ def stage_figure(study):
     )
     axes[0].set_title(
         "Staged bed hypotheses · rail gravity included · no physical release"
+    )
+    out = io.StringIO()
+    fig.savefig(
+        out,
+        format="svg",
+        metadata={"Date": None, "Creator": "OpenSourceRail common factory review"},
+    )
+    plt.close(fig)
+    return "\n".join(line.rstrip() for line in out.getvalue().splitlines()) + "\n"
+
+
+def beam_figure(study):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    plt.rcParams["svg.hashsalt"] = "osr-beam-demands-v1"
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8), layout="constrained")
+    rows = study["railway"]["stations"]
+    xs = [r["x_m"] for r in rows]
+    axes[0, 0].plot(xs, [r["dead_moment_nm"] / 1e6 for r in rows], label="Dead load")
+    axes[0, 0].plot(
+        xs,
+        [r["maximum_total_moment_nm"] / 1e6 for r in rows],
+        label="Dead + diagnostic train",
+    )
+    peak = study["railway"]["continuous_peak"]
+    axes[0, 0].scatter(
+        [peak["x_m"]],
+        [peak["moment_nm"] / 1e6],
+        color="#ad493f",
+        label="Continuous moment peak",
+    )
+    axes[0, 0].set(
+        title="Legacy three-car diagnostic; six-car loading unknown",
+        ylabel="Moment [MNm]",
+    )
+    axes[0, 0].legend(fontsize=8)
+    for key, label in [
+        ("top_compression_pa", "Top minimum (train off span)"),
+        ("top_maximum_compression_pa", "Top maximum"),
+        ("soffit_compression_pa", "Soffit minimum"),
+    ]:
+        axes[0, 1].plot(xs, [r[key] / 1e6 for r in rows], label=label)
+    axes[0, 1].axhline(0, color="#ad493f", linestyle="--")
+    axes[0, 1].set(
+        title="Sampled gross service fibres; no accepted limits",
+        ylabel="Compression [MPa]; tension negative",
+    )
+    axes[0, 1].legend(fontsize=8)
+    lift = study["handling"]
+    axes[1, 0].plot(
+        [r["x_m"] for r in lift["diagram"]],
+        [r["moment_nm"] / 1e6 for r in lift["diagram"]],
+        color="#276f76",
+    )
+    for x in lift["support_x_m"]:
+        axes[1, 0].axvline(x, color="#b97b3b", linestyle="--")
+    axes[1, 0].set(
+        title="Factored beam-only handling; dashed = lift stations",
+        ylabel="Moment [MNm]",
+    )
+    axes[1, 1].bar(
+        ["4 equalized legs", "2 effective legs"],
+        [
+            lift["nominal_equalized_leg_tension_n"] / 1000,
+            lift["two_effective_leg_tension_n"] / 1000,
+        ],
+        color=["#276f76", "#b97b3b"],
+    )
+    axes[1, 1].set(
+        title=f'Lower-leg hypotheses at {lift["lower_sling_angle_from_vertical_deg"]:g}° from vertical',
+        ylabel="Tension per effective leg [kN]",
+    )
+    for ax in axes.flat:
+        ax.grid(alpha=0.2)
+    for ax in [axes[0, 0], axes[0, 1], axes[1, 0]]:
+        ax.set_xlabel("Beam station [m]")
+    fig.suptitle(
+        f'Pi{study["span_m"]:g} · {study["prestress_id"]} · diagnostic/handling demands only'
     )
     out = io.StringIO()
     fig.savefig(

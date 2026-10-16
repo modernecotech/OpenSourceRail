@@ -1,5 +1,11 @@
 # Design, Jobs And Evidence Workflows
 
+The [Pi-beam railway and handling continuation](factory-beam-demands-2026-10-16.md)
+adds a [native review and load diagrams](factory-beam-demands/index.html), six
+Pi20/Pi25 diagnostic comparisons and a British-manufactured spreader enquiry.
+The retained three-car reference produces adverse tension screens; current
+six-car loading, material limits and lifting capacity remain unknown.
+
 The [factory development handover](factory-buildout/index.html) maps completed
 plan stages 1–5 to both factory examples, British supplier cases and the
 [376-object whole-bed review](factory-whole-bed/index.html). The

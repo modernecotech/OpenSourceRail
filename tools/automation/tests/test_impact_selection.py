@@ -76,6 +76,8 @@ def test_unrelated_prose_does_not_require_native_execution():
         "engineering/design_engine/factory_schedule.py",
         "engineering/design_engine/factory_stages.py",
         "engineering/design_engine/factory_frame.py",
+        "engineering/design_engine/factory_beam.py",
+        "docs/design-engine/factory-beam-demands/model.FCStd",
         "docs/design-engine/factory-whole-bed/model.FCStd",
         "docs/design-engine/factory-buildout/handover.json",
         "docs/design-engine/factory-stages/model.FCStd",

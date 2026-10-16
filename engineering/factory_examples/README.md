@@ -1,5 +1,10 @@
 # Mechanical, civil and factory development examples
 
+The common engine's [railway and handling continuation](../../docs/design-engine/factory-beam-demands-2026-10-16.md)
+compares Pi20/Pi25 diagnostic demands and lift geometry, with a
+British-manufactured spreader enquiry. Three-car diagnostic failures remain
+visible and six-car loading and physical qualification remain open.
+
 The [development handover](../../docs/design-engine/factory-buildout/index.html)
 records delivered stages 1–5 and remaining engineering/qualification work.
 The common adapter now includes a

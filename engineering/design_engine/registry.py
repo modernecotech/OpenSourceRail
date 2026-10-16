@@ -346,6 +346,7 @@ def dependencies(adapter):
                 "factory_review",
                 "factory_stages",
                 "factory_frame",
+                "factory_beam",
                 "generated_parts_native",
             }
         )
@@ -378,6 +379,7 @@ def dependencies(adapter):
         paths.update((ROOT / "engineering/design_engine/data").glob("factory-*.json"))
         paths.add(ROOT / "engineering/design_consistency/analysis.py")
         paths.add(ROOT / "engineering/design_consistency/contracts.py")
+        paths.add(ROOT / "engineering/industrialisation/vehicle-civil-load-trace.json")
     if adapter in {
         "panel",
         "roof",

@@ -1,5 +1,11 @@
 # Shared Design Engine
 
+The [Pi-beam demand extension](../../docs/design-engine/factory-beam-demands-2026-10-16.md)
+adds exact moving-moment events, a continuous sagging peak, sampled service
+fibres and handling overhang/rigging demands to `factory-precast`. Three-car
+diagnostic loading remains distinct from unknown six-car loading; adverse
+checks and configuration-specific British equipment enquiries stay visible.
+
 The [factory development handover](../../docs/design-engine/factory-buildout/index.html)
 includes a 376-object complete nominal bed and 112-member spatial frame with
 finite six-axis bases. Native confirmation charges two actual OpenSees cases

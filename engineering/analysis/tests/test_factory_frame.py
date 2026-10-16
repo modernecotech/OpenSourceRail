@@ -123,7 +123,7 @@ def test_handover_cannot_promote_development_to_physical_design_acceptance(tmp_p
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     folder = root / "docs/design-engine/factory-buildout"
-    assert module.verify(folder, current=True)["engineering_design_complete"] is False
+    assert module.verify(folder)["engineering_design_complete"] is False
     shutil.copytree(folder, tmp_path / "handover")
     record = json.loads((tmp_path / "handover/handover.json").read_text())
     record["engineering_design_complete"] = True
