@@ -1,5 +1,10 @@
 # Design, Jobs And Evidence Workflows
 
+The [mechanical/civil factory buildout plan](mechanical-civil-factory-plan-2026-10-16.md)
+now has [Baghdad example models and supplier equipment](../../engineering/factory_examples/README.md):
+fixture tooling, Pi20/Pi25 manufacturing screens, vehicle hall and pilot precast yard,
+with actual native CAD exports and explicit qualification gaps.
+
 Open the Workbench **Design → Auto-design** flow or use the
 [common CLI](../../engineering/design_engine/README.md). All existing native
 ERP/FUXA functions remain available through their task-area secondary routes.

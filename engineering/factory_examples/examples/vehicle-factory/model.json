@@ -1,0 +1,1423 @@
+{
+  "building_screen": {
+    "allowable_ground_bearing_pa": null,
+    "crane_runway_design": null,
+    "frame_resistance": null,
+    "grid_m": [
+      12,
+      30
+    ],
+    "required_pad_area_m2": null,
+    "roof_dead_load_only_column_n": 216000,
+    "roof_dead_load_pa": 600,
+    "slab_volume_m3": 2160.0,
+    "typical_interior_column_tributary_m2": 360
+  },
+  "equipment_placements": [
+    {
+      "cell": "laser",
+      "dimensions_m": [
+        9.999,
+        4.439,
+        3.505
+      ],
+      "envelope_basis": "published external envelope",
+      "id": "esprit-photon-3015",
+      "margin_xy_m": [
+        6.0009999999999994,
+        5.561
+      ]
+    },
+    {
+      "cell": "cnc",
+      "dimensions_m": [
+        2.335,
+        2.581,
+        3
+      ],
+      "envelope_basis": "published floor footprint; assumed height",
+      "id": "mazak-cv5-500",
+      "margin_xy_m": [
+        5.665,
+        5.4190000000000005
+      ]
+    },
+    {
+      "cell": "weld",
+      "dimensions_m": [
+        0.84,
+        0.46,
+        0.65
+      ],
+      "envelope_basis": "published external envelope",
+      "id": "oxford-multimig-333",
+      "margin_xy_m": [
+        7.16,
+        7.54
+      ]
+    },
+    {
+      "cell": "metrology",
+      "dimensions_m": [
+        1.04,
+        1.2,
+        2.32
+      ],
+      "envelope_basis": "published external envelope",
+      "id": "aberlink-axiom-900",
+      "margin_xy_m": [
+        6.96,
+        6.8
+      ]
+    },
+    {
+      "cell": "incoming",
+      "dimensions_m": [
+        2.5,
+        1.07,
+        1.45
+      ],
+      "envelope_basis": "published external envelope",
+      "id": "prosaw-bomar-510",
+      "margin_xy_m": [
+        21.5,
+        10.93
+      ]
+    },
+    {
+      "cell": "resin",
+      "dimensions_m": [
+        1.5,
+        0.65,
+        0.85
+      ],
+      "envelope_basis": "published external envelope",
+      "id": "ciject-1",
+      "margin_xy_m": [
+        6.5,
+        7.35
+      ]
+    },
+    {
+      "cell": "oven",
+      "dimensions_m": [
+        8,
+        5,
+        4
+      ],
+      "envelope_basis": "OSR space reservation; supplier GA unknown",
+      "id": "airflow-oven",
+      "margin_xy_m": [
+        6,
+        5
+      ]
+    }
+  ],
+  "id": "vehicle-factory",
+  "native_geometry_scope": "Roof frame/slab concepts and equipment outer envelopes; no manufacturer internal CAD or site release",
+  "parts": [
+    {
+      "at_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "id": "slab-reservation",
+      "kind": "box",
+      "role": "slab-concept",
+      "size_m": [
+        144,
+        60,
+        0.25
+      ]
+    },
+    {
+      "at_m": [
+        -0.15,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-0-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        -0.15,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-0-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        -0.15,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-0-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        -0.125,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-0-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        -0.125,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-0-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        11.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-12-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        11.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-12-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        11.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-12-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        11.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-12-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        11.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-12-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        23.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-24-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        23.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-24-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        23.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-24-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        23.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-24-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        23.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-24-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        35.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-36-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        35.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-36-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        35.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-36-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        35.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-36-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        35.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-36-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        47.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-48-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        47.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-48-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        47.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-48-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        47.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-48-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        47.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-48-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        59.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-60-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        59.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-60-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        59.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-60-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        59.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-60-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        59.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-60-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        71.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-72-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        71.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-72-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        71.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-72-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        71.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-72-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        71.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-72-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        83.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-84-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        83.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-84-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        83.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-84-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        83.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-84-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        83.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-84-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        95.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-96-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        95.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-96-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        95.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-96-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        95.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-96-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        95.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-96-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        107.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-108-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        107.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-108-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        107.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-108-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        107.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-108-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        107.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-108-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        119.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-120-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        119.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-120-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        119.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-120-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        119.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-120-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        119.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-120-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        131.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-132-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        131.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-132-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        131.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-132-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        131.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-132-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        131.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-132-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        143.85,
+        -0.15,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-144-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        143.85,
+        29.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-144-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        143.85,
+        59.85,
+        0
+      ],
+      "axis": 2,
+      "id": "roof-column-144-60",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.3,
+        0.3,
+        10
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        143.875,
+        0,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-144-0",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        143.875,
+        30,
+        10
+      ],
+      "axis": 1,
+      "id": "roof-beam-144-30",
+      "kind": "tube",
+      "role": "roof-frame-concept",
+      "size_m": [
+        0.25,
+        30,
+        0.7
+      ],
+      "wall_m": 0.016
+    },
+    {
+      "at_m": [
+        5,
+        21,
+        0
+      ],
+      "basis": "published external envelope",
+      "equipment_id": "esprit-photon-3015",
+      "id": "esprit-photon-3015",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        9.999,
+        4.439,
+        3.505
+      ]
+    },
+    {
+      "at_m": [
+        15.5,
+        21,
+        0
+      ],
+      "id": "laser-filter-reservation",
+      "kind": "box",
+      "role": "auxiliary-reservation",
+      "size_m": [
+        3,
+        2,
+        3
+      ]
+    },
+    {
+      "at_m": [
+        24,
+        21,
+        0
+      ],
+      "basis": "published floor footprint; assumed height",
+      "equipment_id": "mazak-cv5-500",
+      "id": "mazak-cv5-500",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        2.335,
+        2.581,
+        3
+      ]
+    },
+    {
+      "at_m": [
+        35,
+        21,
+        0
+      ],
+      "basis": "published external envelope",
+      "equipment_id": "oxford-multimig-333",
+      "id": "oxford-multimig-333",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        0.84,
+        0.46,
+        0.65
+      ]
+    },
+    {
+      "at_m": [
+        47,
+        21,
+        0
+      ],
+      "basis": "published external envelope",
+      "equipment_id": "aberlink-axiom-900",
+      "id": "aberlink-axiom-900",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        1.04,
+        1.2,
+        2.32
+      ]
+    },
+    {
+      "at_m": [
+        68,
+        21,
+        0
+      ],
+      "basis": "published external envelope",
+      "equipment_id": "prosaw-bomar-510",
+      "id": "prosaw-bomar-510",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        2.5,
+        1.07,
+        1.45
+      ]
+    },
+    {
+      "at_m": [
+        61,
+        21.2,
+        0
+      ],
+      "basis": "OSR stock-flow reservation; actual saw feed axis/roller GA to confirm",
+      "id": "saw-infeed",
+      "kind": "box",
+      "role": "auxiliary-reservation",
+      "size_m": [
+        7,
+        0.6,
+        0.761
+      ]
+    },
+    {
+      "at_m": [
+        70.5,
+        21.2,
+        0
+      ],
+      "basis": "OSR stock-flow reservation; actual saw feed axis/roller GA to confirm",
+      "id": "saw-outfeed",
+      "kind": "box",
+      "role": "auxiliary-reservation",
+      "size_m": [
+        7,
+        0.6,
+        0.761
+      ]
+    },
+    {
+      "at_m": [
+        5,
+        41,
+        0
+      ],
+      "basis": "published external envelope",
+      "equipment_id": "ciject-1",
+      "id": "ciject-1",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        1.5,
+        0.65,
+        0.85
+      ]
+    },
+    {
+      "at_m": [
+        17,
+        41,
+        0
+      ],
+      "basis": "OSR space reservation; supplier GA unknown",
+      "equipment_id": "airflow-oven",
+      "id": "airflow-oven",
+      "kind": "box",
+      "role": "supplier-envelope",
+      "size_m": [
+        8,
+        5,
+        4
+      ]
+    },
+    {
+      "at_m": [
+        12,
+        0,
+        8
+      ],
+      "basis": "OSR 18 m bridge requirement; ZX8 trolley dimensions are not bridge dimensions; runway supports unselected",
+      "equipment_id": "street-zx8",
+      "id": "street-zx8-bridge-reservation",
+      "kind": "box",
+      "role": "overhead-equipment-reservation",
+      "size_m": [
+        2,
+        18,
+        2
+      ]
+    }
+  ]
+}

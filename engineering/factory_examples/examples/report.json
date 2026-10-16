@@ -1,0 +1,998 @@
+{
+  "building_screen": {
+    "allowable_ground_bearing_pa": null,
+    "crane_runway_design": null,
+    "frame_resistance": null,
+    "grid_m": [
+      12,
+      30
+    ],
+    "required_pad_area_m2": null,
+    "roof_dead_load_only_column_n": 216000,
+    "roof_dead_load_pa": 600,
+    "slab_volume_m3": 2160.0,
+    "typical_interior_column_tributary_m2": 360
+  },
+  "canonical_vehicle_scope": {
+    "capacity_search_step_trainsets_per_day": 0.01,
+    "city": "baghdad",
+    "exclusive_track_hours_per_trainset": 16.0,
+    "family": "metro-6car",
+    "first_article_additional_working_days": 60,
+    "maximum_test_tracks": 8,
+    "productive_availability": 0.85,
+    "ready_months_from_ntp": 18,
+    "rephase_civil_buffer_working_days": 90,
+    "shift_hours": 8,
+    "shifts_per_day": 1,
+    "site_floor_multiplier": 2.5,
+    "support_floor_fraction": 0.35,
+    "test_track_land_width_m": 25.0,
+    "test_track_length_m": 2000.0,
+    "test_tracks": 2,
+    "trainset_bay_length_m": 135.0,
+    "trainset_bay_width_m": 6.5,
+    "working_days_per_year": 260
+  },
+  "capability": {
+    "blank_mass_kg": 3.3912,
+    "full_fixture_cmm_envelope_screen": false,
+    "full_fixture_cmm_reason": "Fixture X extent >=1.6 m exceeds Axiom X 0.64 m and Y 0.9 m; separate assembled survey required",
+    "full_fixture_dimensions_m": [
+      1.7000000000000002,
+      1.1099999999999999,
+      1.05
+    ],
+    "laser_thickness_cut_quality": null,
+    "limits": [
+      "Envelope screens omit workholding/probe/stylus access and machining force; cutting/machining/metrology trials remain required"
+    ],
+    "locator_plate_m": [
+      0.18,
+      0.12,
+      0.02
+    ],
+    "plate_cmm_envelope_screen": true,
+    "plate_laser_sheet_screen": true,
+    "plate_mazak_envelope_screen": true,
+    "welding_procedure_qualified": false
+  },
+  "capacity": {
+    "casting_positions": 4,
+    "limiting_evidence": "Bed-only estimate, not a factory throughput guarantee. Mixing, reinforcing, stressing, concrete release strength, cranage, storage, transport and labour cycles unmeasured.",
+    "measured_production": false,
+    "occupation_definition": "Two working days for full bed occupation including preparation, cure, stripping and turnaround. Not inferred from 48 h cure alone.",
+    "occupation_working_days": 2.0,
+    "planning_accepted_beams_per_working_day": 1.615,
+    "positions_required_at_same_assumptions": 134,
+    "programme_target_beams_per_working_day": 54,
+    "theoretical_beams_per_working_day": 2.0
+  },
+  "civil": {
+    "bed_screen": {
+      "assumed_3m_braced_euler_ratio": 0.03573218054375542,
+      "axial_demand_pa": 125325520.83333339,
+      "brace_capacity_established": false,
+      "euler_pinned_force_n_by_unbraced_length_m": {
+        "25": 1241234.0731819957,
+        "3": 86196810.63763858
+      },
+      "force_per_side_n": 3079999.9999999995,
+      "foundation_resistance": null,
+      "full_25m_euler_ratio": 2.4814014266496818,
+      "side_box_mm": [
+        500,
+        300,
+        16
+      ],
+      "weak_inertia_m4": 0.0003742955519999997
+    },
+    "open": [
+      "Solid end diaphragms are a new geometry hypothesis; canonical zones do not establish this concrete design",
+      "Prestress screen uses bare prismatic section and self-weight only; it omits local diaphragm stiffness/weight effects",
+      "No railway live-load model adopted here; this is not a railway beam acceptance calculation",
+      "Hypothetical 40-strand layout needs cover, spacing, release strength, stress, cracking, shear and fatigue checks",
+      "Additional 20% loss is a research scenario after elastic shortening, not a measured total loss",
+      "Euler is ideal elastic pinned screening; brace forces, restraints, imperfections and bed abutments unqualified",
+      "Crane scalar capacity screen excludes lifting insert, rigging geometry, eccentricity, stability and runway resistance"
+    ],
+    "prestress_hypothesis": {
+      "ccl_246kn_scalar_demand_screen": true,
+      "exact_strand_grip_compatibility": null,
+      "group_inputs": [
+        {
+          "eccentricity_m": 0.6747935779816515,
+          "metallic_area_m2": 0.0013999999999999998,
+          "pretransfer_stress_pa": 1100000000,
+          "steel_modulus_pa": 195000000000
+        },
+        {
+          "eccentricity_m": 0.6147935779816515,
+          "metallic_area_m2": 0.0013999999999999998,
+          "pretransfer_stress_pa": 1100000000,
+          "steel_modulus_pa": 195000000000
+        },
+        {
+          "eccentricity_m": 0.5547935779816515,
+          "metallic_area_m2": 0.0013999999999999998,
+          "pretransfer_stress_pa": 1100000000,
+          "steel_modulus_pa": 195000000000
+        },
+        {
+          "eccentricity_m": 0.49479357798165147,
+          "metallic_area_m2": 0.0013999999999999998,
+          "pretransfer_stress_pa": 1100000000,
+          "steel_modulus_pa": 195000000000
+        }
+      ],
+      "initial_force_n": 6159999.999999999,
+      "initial_force_per_strand_n": 153999.99999999997,
+      "levels_z_m": [
+        0.1,
+        0.16,
+        0.22,
+        0.28
+      ],
+      "strands": 40,
+      "strands_per_stem_per_level": 5
+    },
+    "released": false,
+    "scenarios": [
+      {
+        "assumed_additional_loss_fraction": 0.2,
+        "bare_dead_elastic_deflection_m": 0.012235904967357287,
+        "bare_dead_load_n_m": 29395.433374999997,
+        "bare_dead_moment_nm": 1469771.66875,
+        "bare_mass_kg": 59950.0,
+        "bare_volume_m3": 23.98,
+        "developed_mass_kg": 65863.875,
+        "eighty_tonne_screen": false,
+        "elastic_shortening_loss_pa": [
+          88201390.78580132,
+          83110700.7221692,
+          78020010.65853716,
+          72929320.5949051
+        ],
+        "handling_equivalent_kg": 84829.84375,
+        "hypothetical_dead_minus_camber_m": -0.0144283368815462,
+        "hypothetical_service_camber_m": 0.026664241848903487,
+        "hypothetical_service_fiber_stress": {
+          "allowable_stress_pa": null,
+          "compression_positive": true,
+          "soffit_pa": 10307109.40560216,
+          "top_pa": 620344.8700937256
+        },
+        "one_m3_batches_lower_bound": 27,
+        "optional_solid_end_diaphragms_extra_m3": 2.3655500000000003,
+        "railway_live_load_result": null,
+        "requested_125_tonne_screen": true,
+        "span_m": 20.0,
+        "transfer_fiber_stress": {
+          "allowable_stress_pa": null,
+          "compression_positive": true,
+          "soffit_pa": 14874749.880798168,
+          "top_pa": -201524.5384198893
+        },
+        "transfer_force_n": 5708834.008134021,
+        "transfer_prestress_moment_nm": 3336351.3758933013
+      },
+      {
+        "assumed_additional_loss_fraction": 0.2,
+        "bare_dead_elastic_deflection_m": 0.029872814861712126,
+        "bare_dead_load_n_m": 29395.433374999997,
+        "bare_dead_moment_nm": 2296518.232421875,
+        "bare_mass_kg": 74937.5,
+        "bare_volume_m3": 29.975,
+        "developed_mass_kg": 80851.375,
+        "eighty_tonne_screen": false,
+        "elastic_shortening_loss_pa": [
+          65439602.040696174,
+          62425833.94384598,
+          59412065.84699587,
+          56398297.75014572
+        ],
+        "handling_equivalent_kg": 103564.21875,
+        "hypothetical_dead_minus_camber_m": -0.012604391878288625,
+        "hypothetical_service_camber_m": 0.04247720674000075,
+        "hypothetical_service_fiber_stress": {
+          "allowable_stress_pa": null,
+          "compression_positive": true,
+          "soffit_pa": 6183734.802182409,
+          "top_pa": 2753196.1330895997
+        },
+        "one_m3_batches_lower_bound": 33,
+        "optional_solid_end_diaphragms_extra_m3": 2.3655500000000003,
+        "railway_live_load_result": null,
+        "requested_125_tonne_screen": true,
+        "span_m": 25.0,
+        "transfer_fiber_stress": {
+          "allowable_stress_pa": null,
+          "compression_positive": true,
+          "soffit_pa": 10840392.133658428,
+          "top_pa": 1915002.0006791167
+        },
+        "transfer_force_n": 5818853.880585642,
+        "transfer_prestress_moment_nm": 3401562.597979418
+      }
+    ],
+    "section": {
+      "area_m2": 1.199,
+      "centroid_z_m": 0.7747935779816515,
+      "depth_m": 1.155,
+      "inertia_x_m4": 0.1429994905772172,
+      "width_m": 2.9
+    }
+  },
+  "costs": {
+    "complete": false,
+    "dated_uk_retail_reference_only": {
+      "gbp_ex_vat": 2640,
+      "id": "oxford-multimig-333",
+      "observed_on": "2026-10-16"
+    },
+    "installed_capex_gbp": null,
+    "unknown_categories": [
+      "most machine prices",
+      "tooling and software",
+      "extraction and guarding",
+      "MEP and foundations",
+      "handling",
+      "freight/duties",
+      "installation and training",
+      "qualification",
+      "spares",
+      "working capital"
+    ]
+  },
+  "design_basis": {
+    "assumptions": {
+      "accepted_beam_yield": 0.95,
+      "additional_prestress_loss_fraction": 0.2,
+      "bed_availability": 0.85,
+      "bed_occupation_working_days": 2,
+      "bed_positions": 4,
+      "concrete_service_modulus_pa": 35000000000,
+      "concrete_transfer_modulus_pa": 30000000000,
+      "factory_slab_thickness_m": 0.25,
+      "fixture_deflection_review_limit_m": 0.001,
+      "fixture_load_factor": 1.5,
+      "fixture_payload_cg_xy_m": [
+        0,
+        0
+      ],
+      "fixture_payload_kg": 500,
+      "lifting_dynamic_factor": 1.25,
+      "programme_beams_per_working_day": 54,
+      "rigging_mass_kg": 2000,
+      "roof_dead_load_pa": 600,
+      "steel_density_kg_m3": 7850,
+      "steel_elastic_modulus_pa": 210000000000,
+      "strand_area_m2": 0.00014,
+      "strand_initial_stress_pa": 1100000000,
+      "strand_modulus_pa": 195000000000
+    },
+    "open_inputs": [
+      "Iraqi site, survey, geotechnical parameters and seismic/wind/flood design actions",
+      "Project design standards and load combinations, railway loads and dynamic interaction",
+      "Weld procedures, fixture clamps, material certificates, anchors and measured repeatability",
+      "Concrete/strand properties, reinforcement, transfer strength, losses, anchorages and lifting inserts",
+      "Supplier general arrangements, foundation/wheel reactions, connected utilities and origin certificates",
+      "Resin, cure/fire qualification, explosion/fire zoning, extraction and Baghdad ambient derating",
+      "Installed prices, delivery, Iraqi duties, spares, commissioning and local service",
+      "Measured process cycle times, staffing, maintenance and qualification yield"
+    ],
+    "revision": "2026-10-16",
+    "schema": "osr-factory-example-basis/1",
+    "scope": "Baghdad six-car component/assembly factory and pilot Pi20/Pi25 yard"
+  },
+  "fixture": {
+    "crossrail_screens": [
+      {
+        "extremum_sampling_points": 302,
+        "left_reaction_n": 1403.2541940789474,
+        "maximum_abs_deflection_m": 6.022877151193612e-05,
+        "maximum_abs_moment_nm": 315.7321936677631,
+        "right_reaction_n": 435.49268092105257
+      },
+      {
+        "extremum_sampling_points": 302,
+        "left_reaction_n": 1403.2541940789474,
+        "maximum_abs_deflection_m": 6.022877151193612e-05,
+        "maximum_abs_moment_nm": 315.7321936677631,
+        "right_reaction_n": 435.49268092105257
+      },
+      {
+        "extremum_sampling_points": 302,
+        "left_reaction_n": 870.9853618421051,
+        "maximum_abs_deflection_m": 0.00012045754302387224,
+        "maximum_abs_moment_nm": 631.4643873355262,
+        "right_reaction_n": 2806.508388157895
+      }
+    ],
+    "geometry_basis": "Nominal sharp-corner RHS; rounded mill sections, welds and fasteners not represented",
+    "id": "OSR-FIX-500",
+    "longitudinal_screens": [
+      {
+        "extremum_sampling_points": 301,
+        "left_reaction_n": 1838.7468749999998,
+        "maximum_abs_deflection_m": 0.0004284429969251941,
+        "maximum_abs_moment_nm": 677.4330592105262,
+        "right_reaction_n": 1838.7468749999998
+      },
+      {
+        "extremum_sampling_points": 301,
+        "left_reaction_n": 1838.7468750000003,
+        "maximum_abs_deflection_m": 0.0006219333826333463,
+        "maximum_abs_moment_nm": 1161.313815789474,
+        "right_reaction_n": 1838.7468750000003
+      }
+    ],
+    "mass_kg": 149.01404216902114,
+    "nominal_rhs_inertia_m4": 1.7366666666666681e-06,
+    "open": [
+      "No clamps selected; unilateral locator separation under reversed loads remains open",
+      "Payload-only beam bending omits frame self-weight, torsion, weld flexibility, local walls and lateral loads",
+      "Nominal geometry mass is a stock estimate, not certified purchased mass",
+      "Pin fits, hardness, shims, weld size/procedure, residual distortion and anchor design unqualified",
+      "Vertical locator through-holes need retention; side/end pins need removable mount detail",
+      "Survey complete assembly separately; part CMM cannot contain full fixture"
+    ],
+    "payload_cg_within_support_triangle": true,
+    "payload_demand_n": 7354.987499999999,
+    "payload_only_below_review_limit": true,
+    "payload_only_combined_deflection_bound_m": 0.0007423909256572185,
+    "provisional_deflection_review_limit_m": 0.001,
+    "released": false,
+    "restraint": {
+      "constraint_rank": 6,
+      "fixture_released": false,
+      "independent_rigid_body_restraints": true,
+      "limits": [
+        "kinematic rank only; clamp forces, contact stiffness, wear and load capacity require separate evidence"
+      ],
+      "matrix": [
+        [
+          0.0,
+          0.0,
+          1.0,
+          -0.25,
+          0.5,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -0.25,
+          -0.5,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.25,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0,
+          0.95,
+          0.0,
+          0.45
+        ],
+        [
+          0.0,
+          -1.0,
+          0.0,
+          0.95,
+          0.0,
+          -0.45
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.95,
+          0.0
+        ]
+      ]
+    },
+    "vertical_reactions_n": [
+      1838.7468749999998,
+      1838.7468749999998,
+      3677.4937499999996
+    ]
+  },
+  "layouts": {
+    "precast": {
+      "check": {
+        "errors": [],
+        "qualification": "2D reservations only; door sweeps, evacuation, services, fire separation, swept-paths and crane hook coverage need design",
+        "reserved_area_m2": 10140,
+        "valid": true
+      },
+      "id": "precast-yard",
+      "size_m": [
+        160,
+        100
+      ],
+      "zones": [
+        {
+          "equipment": "matravers-pi25",
+          "id": "casting",
+          "label": "Four 29 x 8 m casting reservations",
+          "rect_m": [
+            4,
+            4,
+            60,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "exclusion",
+          "label": "Stressing abutment exclusion reservation",
+          "rect_m": [
+            66,
+            4,
+            10,
+            18
+          ]
+        },
+        {
+          "equipment": "rapid-planetary",
+          "id": "batch",
+          "label": "Rapid mixer + batching plant enquiry",
+          "rect_m": [
+            80,
+            4,
+            16,
+            14
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "aggregate",
+          "label": "Aggregate bins / silo / loading enquiry",
+          "rect_m": [
+            100,
+            4,
+            32,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "water",
+          "label": "Water conditioning / washout/reclaim",
+          "rect_m": [
+            136,
+            4,
+            20,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "haul",
+          "label": "8 m heavy transport corridor",
+          "rect_m": [
+            0,
+            26,
+            160,
+            8
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "rebar",
+          "label": "Rebar/strand cut/prepare enquiry",
+          "rect_m": [
+            4,
+            38,
+            40,
+            18
+          ]
+        },
+        {
+          "equipment": "ccl-sla15",
+          "id": "stressing",
+          "label": "CCL stressing/calibration station",
+          "rect_m": [
+            48,
+            38,
+            8,
+            8
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "mould-care",
+          "label": "Mould maintenance / release-agent bay",
+          "rect_m": [
+            60,
+            38,
+            20,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "lab",
+          "label": "Concrete sampling / curing lab enquiry",
+          "rect_m": [
+            84,
+            38,
+            16,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "stores",
+          "label": "Cement/admixture stores reservation",
+          "rect_m": [
+            104,
+            38,
+            24,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "mep",
+          "label": "Yard utilities and maintenance",
+          "rect_m": [
+            132,
+            38,
+            24,
+            18
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "transport",
+          "label": "8 m heavy transport corridor",
+          "rect_m": [
+            0,
+            60,
+            160,
+            8
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "beam-storage",
+          "label": "Four isolated beam storage positions",
+          "rect_m": [
+            4,
+            72,
+            112,
+            20
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "dispatch",
+          "label": "Heavy trailer loading enquiry",
+          "rect_m": [
+            120,
+            72,
+            36,
+            20
+          ]
+        }
+      ]
+    },
+    "vehicle": {
+      "check": {
+        "errors": [],
+        "qualification": "2D reservations only; door sweeps, evacuation, services, fire separation, swept-paths and crane hook coverage need design",
+        "reserved_area_m2": 4697.5,
+        "valid": true
+      },
+      "id": "vehicle-factory",
+      "size_m": [
+        144,
+        60
+      ],
+      "zones": [
+        {
+          "equipment": null,
+          "id": "assembly",
+          "label": "Six-car assembly lane 135 x 6.5 m",
+          "rect_m": [
+            4,
+            4,
+            135,
+            6.5
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "transfer",
+          "label": "6 m transport aisle",
+          "rect_m": [
+            0,
+            12,
+            144,
+            6
+          ]
+        },
+        {
+          "equipment": "esprit-photon-3015",
+          "id": "laser",
+          "label": "Photon cutting + laser/filter space",
+          "rect_m": [
+            4,
+            20,
+            16,
+            10
+          ]
+        },
+        {
+          "equipment": "mazak-cv5-500",
+          "id": "cnc",
+          "label": "CV5-500 machining",
+          "rect_m": [
+            23,
+            20,
+            8,
+            8
+          ]
+        },
+        {
+          "equipment": "oxford-multimig-333",
+          "id": "weld",
+          "label": "MULTIMIG fabrication/extraction",
+          "rect_m": [
+            34,
+            20,
+            8,
+            8
+          ]
+        },
+        {
+          "equipment": "aberlink-axiom-900",
+          "id": "metrology",
+          "label": "Conditioned Axiom 900 room",
+          "rect_m": [
+            46,
+            20,
+            8,
+            8
+          ]
+        },
+        {
+          "equipment": "prosaw-bomar-510",
+          "id": "incoming",
+          "label": "Incoming / stock / Prosaw-BOMAR saw",
+          "rect_m": [
+            58,
+            20,
+            24,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "battery",
+          "label": "Imported cells/BMS: pack integration area",
+          "rect_m": [
+            86,
+            20,
+            20,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "qa",
+          "label": "Electrical/pressure/component tests",
+          "rect_m": [
+            110,
+            20,
+            28,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "pedestrian",
+          "label": "3 m protected circulation reservation",
+          "rect_m": [
+            0,
+            34,
+            144,
+            3
+          ]
+        },
+        {
+          "equipment": "ciject-1",
+          "id": "resin",
+          "label": "CIJECT pilot resin room",
+          "rect_m": [
+            4,
+            40,
+            8,
+            8
+          ]
+        },
+        {
+          "equipment": "airflow-oven",
+          "id": "oven",
+          "label": "Bespoke Airflow oven + loading",
+          "rect_m": [
+            16,
+            40,
+            14,
+            10
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "mould",
+          "label": "Panel mould / layup / trim",
+          "rect_m": [
+            34,
+            40,
+            20,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "finishing",
+          "label": "Finishing / extraction enquiry",
+          "rect_m": [
+            58,
+            40,
+            20,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "mep",
+          "label": "Utility / maintenance / services",
+          "rect_m": [
+            82,
+            40,
+            20,
+            12
+          ]
+        },
+        {
+          "equipment": null,
+          "id": "staff",
+          "label": "Welfare, engineering and stores",
+          "rect_m": [
+            106,
+            40,
+            32,
+            12
+          ]
+        }
+      ]
+    }
+  },
+  "physical_release": false,
+  "revision": "2026-10-16",
+  "schema": "osr-factory-development-examples/1",
+  "source_sha256": {
+    "design/component-catalogue/src/osr_mech/civil/decked_pi.py": "006f59ad74e25a80c4e72b7ccb029fda1711d80c1bd04d5e96c3a48325e1d172",
+    "design/component-catalogue/src/osr_mech/freecad_assembly_review.py": "4978cfd60a3c6856c848a95cbd9af450713ab9e1c5652f3aa59810f70e1de422",
+    "engineering/design_engine/civil_qualification.py": "74f37c111faa455cdf7c8fb01bf0325a987980c4f11caee706a570dad39c1f4b",
+    "engineering/design_engine/contracts.py": "a4f87dd613fe0c685465acd9961e0ab23744c8392af74a77d687e9fb74bfdae1",
+    "engineering/factory_examples/__init__.py": "511b7285b5e0e24c2d99ec5537a6ca08787e795c25d51b43cb52d3f1b9388f69",
+    "engineering/factory_examples/build.py": "fabe038fc6aa93a4dbf2f0a6dbbb0d95dfe9017e3605f323827040d571e4a277",
+    "engineering/factory_examples/data/basis.json": "f3549a07de406f5b770b2df65a8c1a231da8021ab83796efd9517ea9b2099462",
+    "engineering/factory_examples/data/equipment.json": "ef6da0e72cca75c362adaddd533f95db52911a353b91adb2de997347686c540c",
+    "engineering/factory_examples/models.py": "82254513d9738e6f0febecfc6fd9d2b6607dae42580031d3d554eae7b7b8e6b9",
+    "engineering/factory_examples/native.py": "8fb206597e378ec4726fa0fb3dfb6d51a9e286de1d21af48a2f0ee942ab3174a",
+    "engineering/industrialisation/assembly.py": "4b9e91bee6c08766770f47cfa145e0ac59c62b39934ecc8a9227660b8d7b844f",
+    "engineering/industrialisation/common.py": "e488344f903fd10e8fda67e35c1bf461263f85dcb654f865ca64ab797fae27c9",
+    "lib/templates/baghdad-factory.toml": "d5fd5735be4f0ec3e3cd0e5c405364abea9c6e351bf23af96f4ac3c07b98c9ab"
+  },
+  "supplier_contacted": false,
+  "test_infrastructure": {
+    "each_track_length_m": 2000.0,
+    "included_in_hall_layout": false,
+    "land_and_alignment_unknown": true,
+    "track_count": 2
+  },
+  "utilities": [
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "prosaw-bomar-510",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "Confirm blade specification conflict between OEM and distributor",
+        "stock supports, saw orientation, clamping and cutting trial",
+        "total connected power, coolant and mist-air demand",
+        "Baghdad support, origin certificate and installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "esprit-photon-3015",
+      "input_kva_max": 58.9,
+      "temperature_c": null,
+      "utility_gaps": [
+        "current GA including laser/filter/chiller",
+        "cut capacity by alloy/thickness",
+        "extraction and assist gas",
+        "installed price and connected load for exact configuration"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "mazak-cv5-500",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "overall height/door/toolchanger GA",
+        "connected electrical load, air and coolant",
+        "workholding allowance and tool access",
+        "installed price"
+      ]
+    },
+    {
+      "air_bar": 7,
+      "air_l_min": 100,
+      "connected_load_complete": false,
+      "id": "aberlink-axiom-900",
+      "input_kva_max": null,
+      "temperature_c": [
+        18,
+        22
+      ],
+      "utility_gaps": [
+        "electrical demand",
+        "mass/foundation/vibration criteria",
+        "measurement uncertainty for actual parts",
+        "climate-control load",
+        "installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "oxford-multimig-333",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "qualified weld procedure and welder",
+        "Baghdad ambient derating",
+        "extraction/gas/connected demand",
+        "Iraq package price incl feeder, consumables and training"
+      ]
+    },
+    {
+      "air_bar": 8,
+      "air_l_min": 600,
+      "connected_load_complete": false,
+      "id": "ciject-1",
+      "input_kva_max": null,
+      "temperature_c": [
+        0,
+        45
+      ],
+      "utility_gaps": [
+        "resin variant, cure and railway fire performance",
+        "ventilation/flammable area classification",
+        "Iraq origin/service/installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "airflow-oven",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "supplier GA, power/fuel/exhaust",
+        "actual cure cycle, uniformity and load",
+        "current applicable furnace specification",
+        "Iraq installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "street-zx8",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "duty/speed/hook coverage",
+        "wheel/runway reactions and building interface",
+        "bridge origin and supplier GA",
+        "power and installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "rapid-planetary",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "offered model, cycle time, useful batch volume and GA",
+        "batch plant bins/silos/conveyors/water/chiller",
+        "motor and total connected power",
+        "washwater/reclaim capacity",
+        "Iraq installed price and support"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "matravers-pi25",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "panel stiffness/tolerances, stripping/release method and changes for Pi20",
+        "prestress/anchor interface and cure system",
+        "mould mass and handling points",
+        "UK origin and Iraq installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "ccl-sla15",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "compatibility with exact 15.2/15.7 mm strand",
+        "matched pretensioning jack/pump/model and live-end grip",
+        "bed abutment/foundation design",
+        "calibration, inspection intervals and installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "street-open-winch",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "actual configured rating, duty and hook approach",
+        "outdoor temperature/wind limitations",
+        "runway/wheel reactions, span and civil support",
+        "origin and Iraq installed price"
+      ]
+    },
+    {
+      "air_bar": null,
+      "air_l_min": null,
+      "connected_load_complete": false,
+      "id": "tata-celsius",
+      "input_kva_max": null,
+      "temperature_c": null,
+      "utility_gaps": [
+        "exact available size/corner radii/section properties",
+        "mill origin, material certificate and weldability",
+        "stock length and price"
+      ]
+    }
+  ]
+}
