@@ -1,0 +1,163 @@
+"""Fixed evaluation tools. Generated software is a restricted Boolean AST only."""
+from copy import deepcopy
+import ast
+import itertools
+import math
+from pathlib import Path
+
+from engineering.twin_workflow import core
+from . import tasks
+
+
+def software(source):
+    code = tasks.expression(source)
+    def decide(facts):
+        return eval(code, {"__builtins__": {}}, facts)
+    mismatches = []
+    for values in itertools.product((False, True), repeat=len(tasks.FACTS)):
+        facts = dict(zip(tasks.FACTS, values))
+        actual = decide(facts)
+        if type(actual) is not bool or actual is not all(values):
+            if len(mismatches) < 20:
+                mismatches.append(dict(facts=facts, expected=all(values), actual=actual))
+    from engineering.generative_design.twin_software_factory import fault_suite, GUARDS
+    rows = []
+    cases = fault_suite()
+    healthy = deepcopy(cases[0]["frames"][0])
+    ramp = deepcopy(healthy)
+    ramp.update(sequence=0, observed_s=.2, received_s=.21)
+    ramp["signals"].update(elapsed_s=.2, link_voltage_ratio=.5)
+    cases.append(dict(id="normal-voltage-ramp-can-complete", frames=[ramp, healthy], expected_request=True))
+    for case in cases:
+        locked, previous_seq, previous_time, previous_receipt = False, -1, -1., -1.
+        actuals = []
+        for frame in case["frames"]:
+            facts = {name: False for name in tasks.FACTS}
+            try:
+                signals = frame["signals"]
+                seq, observed, received = frame["sequence"], frame["observed_s"], frame["received_s"]
+                numeric = [observed, received, signals["elapsed_s"], signals["link_voltage_ratio"]]
+                valid = all(type(x) in (int, float) and math.isfinite(x) and x >= 0 for x in numeric)
+                valid = valid and type(seq) is int and seq >= 0 and signals["link_voltage_ratio"] <= 1.05
+                valid = valid and all(type(signals[k]) is bool for k in GUARDS)
+                if valid:
+                    facts.update({k: signals[k] for k in GUARDS})
+                    facts.update(data_valid=True, voltage_ready=signals["link_voltage_ratio"] >= .95,
+                        timeout_ok=signals["elapsed_s"] <= 5., age_valid=0 <= received - observed <= .1,
+                        sequence_valid=seq > previous_seq and observed >= previous_time,
+                        clocks_valid=received >= previous_receipt and abs(signals["elapsed_s"] - observed) <= 1e-6)
+                    previous_seq, previous_time, previous_receipt = seq, observed, received
+            except (KeyError, TypeError, ValueError):
+                pass
+            request = decide(facts) and not locked
+            # Low voltage during an otherwise healthy precharge is not a fault.
+            # A premature close must fail; the subsequent valid ramp may finish.
+            if not all(v for k, v in facts.items() if k != "voltage_ready"):
+                locked = True
+            actuals.append(bool(request))
+        rows.append(dict(id=case["id"], expected=case["expected_request"], actual=actuals[-1],
+                         passed=actuals[-1] is case["expected_request"], requests=actuals))
+    return dict(study_pass=not mismatches and all(r["passed"] for r in rows),
+        metrics=dict(truth_table_cases=2**len(tasks.FACTS), temporal_cases=len(rows),
+                     failed_temporal_cases=sum(not r["passed"] for r in rows)),
+        checks=dict(exhaustive_guard_logic=not mismatches, temporal_fault_suite=all(r["passed"] for r in rows)),
+        counterexamples=mismatches, replay=rows,
+        open_evidence=["target executable and platform", "full train software", "SIL/HIL and real-time timing", "physical switching and independent acceptance"],
+        scope="Generated Boolean control policy in a fixed offline latch/replay wrapper; no live command", **core.FLAGS)
+
+
+def child_records(envelope):
+    rows = []
+    for child in envelope["dependencies"]:
+        folder = Path(child["folder"])
+        if core.sha(folder / "receipt.json") != child["receipt_sha256"]:
+            raise ValueError("child receipt changed")
+        receipt = core.read(folder / "receipt.json", maximum=10_000_000)
+        if receipt["baseline_sha256"] != envelope["baseline_sha256"] or receipt["key"] != child["key"]:
+            raise ValueError("child belongs to another exact baseline")
+        for relative, expected in receipt["files_sha256"].items():
+            path = (folder / relative).resolve()
+            if not path.is_relative_to(folder.resolve()) or core.sha(path) != expected:
+                raise ValueError("child artifact changed")
+        rows.append(dict(key=child["key"], task=child["task"], result=core.read(folder / "result.json", maximum=10_000_000)))
+    return rows
+
+
+def integration(envelope):
+    rows = child_records(envelope)
+    by_kind = {r["task"]["kind"]: r for r in rows}
+    if len(rows) != 3 or set(by_kind) != {"mechanical-detail", "civil-detail", "software-logic"}:
+        raise ValueError("integration requires exact mechanical/civil/software children")
+    from engineering.generative_design import civil_detail
+    mechanical = by_kind["mechanical-detail"]["result"]["assessment"]
+    civil = by_kind["civil-detail"]["result"]["assessment"]
+    context = next(c for c in civil_detail.contexts() if c["id"] == civil["context_id"])
+    if context["architecture_id"] != mechanical["configuration_id"]:
+        raise ValueError("mechanical and civil configurations differ")
+    mass = mechanical["objectives"]["mass_kg"]
+    cars = 3 if mechanical["configuration_id"] == "LM3" else 6
+    coupled = civil_detail.coupled_context(context, mass * cars)
+    reassessed = civil_detail.assess(civil["variables"], coupled)
+    baseline_force = sum(a["force_n"] for a in context["source_case"]["axles"])
+    coupled_force = sum(a["force_n"] for a in coupled["source_case"]["axles"])
+    checks = dict(exact_child_revisions=True, same_configuration=True,
+        positive_gross_mass_increases_axle_force=coupled_force > baseline_force,
+        civil_response_recomputed=not reassessed["failed_checks"],
+        mechanical_child_study=by_kind["mechanical-detail"]["result"]["study_pass"],
+        software_child_study=by_kind["software-logic"]["result"]["study_pass"])
+    return dict(study_pass=all(checks.values()), checks=checks,
+        metrics=dict(gross_added_mass_kg=mass*cars, baseline_axle_force_n=baseline_force,
+                     coupled_axle_force_n=coupled_force, failed_civil_checks=reassessed["failed_checks"]),
+        assessment=reassessed, children=[dict(key=r["key"], kind=r["task"]["kind"], study_pass=r["result"]["study_pass"]) for r in rows],
+        adopted=False, scope="One-way gross-mass sensitivity on exact child revisions; no removal credit, dynamic coupling or hardware integration",
+        open_evidence=["net installed vehicle mass/CG", "coupled vehicle-track-structure dynamics", "hardware/software interfaces", "physical correlation"], **core.FLAGS)
+
+
+def evaluate(envelope, output):
+    value = envelope["task"]
+    tasks.validate(value)
+    kind, params = value["kind"], value["parameters"]
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    if kind in ("mechanical-detail", "civil-detail"):
+        module, mapping = tasks.contexts(kind)
+        assessed = module.assess(params["variables"], mapping[params["context_id"]])
+        proposals = module.propose(assessed, mapping[params["context_id"]])
+        failed = assessed["failed_check_ids"] if kind == "mechanical-detail" else assessed["failed_checks"]
+        result = dict(study_pass=not failed, assessment=assessed, metrics=assessed["objectives"],
+            failed_checks=failed, checks={r["id"]: r["state"] for r in assessed["checks"]},
+            repairs=[tasks.task(kind, dict(context_id=params["context_id"], variables=p),
+                rationale="Repair proposed from actual failed checks: " + ", ".join(failed), parent=envelope["key"]) for p in proposals[:4]],
+            scope="Configuration-specific analytical detail screens; unknown acceptance remains open", **core.FLAGS)
+        core.write(output / "model-definition.json", module.model_definition(assessed), exclusive=True)
+    elif kind == "software-logic":
+        result = software(params["expression"])
+        (output / "generated-controller.py").write_text(
+            "# Research policy only; fixed wrapper validates facts and latches faults.\n"
+            "def closure_request(*, " + ", ".join(tasks.FACTS) + "):\n    return " +
+            ast.unparse(ast.parse(params["expression"], mode="eval").body) + "\n")
+    elif kind == "integration-reference":
+        from engineering.generative_design import digital_thread
+        checked = digital_thread.verify(core.PACKET)
+        result = dict(study_pass=checked["integrity_verified"], checks=dict(current_reference_integrity=checked["integrity_verified"]),
+            metrics=checked["summary"], scope="Current federated configuration/source audit; open interfaces retained", **core.FLAGS)
+    elif kind == "integration-coupling":
+        result = integration(envelope)
+    else:
+        from engineering.twin_workflow.adapters import evaluate as native_evaluate
+        native_kind = "controlled-assembly" if kind == "mechanical-interface" else kind
+        native_params = dict(contract=tasks.interface(params)) if kind == "mechanical-interface" else params
+        proposal = dict(schema="osr-twin-proposal/1", id=envelope["key"], baseline_sha256=envelope["baseline_sha256"],
+            kind=native_kind, parameters=native_params, rationale=value["rationale"], sources=[], expected_tests=["fixed native checks"])
+        try:
+            result = native_evaluate(proposal, output / "native")
+        except RuntimeError:
+            logs = list((output / "native").rglob("freecad.log"))
+            collision = any("defined materials collide" in p.read_text(errors="replace") for p in logs)
+            if not collision:
+                raise
+            result = dict(study_pass=False, checks=dict(native_material_collision=False),
+                failed_checks=["native_material_collision"],
+                scope="Deterministic geometry rejection; retained CAD/logs require a revised assembly, not an identical retry", **core.FLAGS)
+    core.write(output / "result.json", result, exclusive=True)
+    return result

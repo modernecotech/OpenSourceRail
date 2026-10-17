@@ -1,5 +1,10 @@
 # Design, Jobs And Evidence Workflows
 
+The [continuous four-lane runner](continuous-runner-2026-10-17.md) runs mechanical,
+civil, generated software-policy and exact-revision integration experiments under
+a durable queue and persistent user service. It retains feedback repairs, native
+failures and missing evidence while preserving all engineering acceptance gates.
+
 The [AI CAD and BIM review and completion workflow](ai-cad-bim-workflow-2026-10-17.md)
 compares current authoring agents and adds a bounded, resumable proposal controller,
 native part/assembly checks, civil IFC schema feedback and software fault tests.
