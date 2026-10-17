@@ -84,7 +84,6 @@ def test_old_factory_models_cannot_replace_required_architecture_evidence(
 def test_old_five_step_evidence_cannot_replace_required_detail_native_evidence(
     tmp_path, monkeypatch
 ):
-    from engineering.generative_design import design_iteration
     from engineering.generative_design import native_acceptance as architecture
 
     native = tmp_path / "factory-native"
@@ -94,12 +93,11 @@ def test_old_five_step_evidence_cannot_replace_required_detail_native_evidence(
     monkeypatch.setattr(fa, "acceptance", lambda folder: expected)
     monkeypatch.setattr(architecture, "verify", lambda folder: expected)
 
-    def missing(folder, *, require_native):
+    def missing(folder):
         assert folder == native / "detailed-design"
-        assert require_native is True
         raise ValueError("required detailed-design native evidence missing")
 
-    monkeypatch.setattr(design_iteration, "verify", missing, raising=False)
+    monkeypatch.setattr(local, "_verify_detailed_native", missing)
     with pytest.raises(
         ValueError, match="required detailed-design native evidence missing"
     ):
@@ -109,7 +107,6 @@ def test_old_five_step_evidence_cannot_replace_required_detail_native_evidence(
 def test_detail_native_evidence_is_reverified_and_all_bytes_bound(
     tmp_path, monkeypatch
 ):
-    from engineering.generative_design import design_iteration
     from engineering.generative_design import native_acceptance as architecture
 
     native = tmp_path / "factory-native"
@@ -123,19 +120,19 @@ def test_detail_native_evidence_is_reverified_and_all_bytes_bound(
     monkeypatch.setattr(architecture, "verify", lambda folder: expected)
     calls = []
 
-    def verify(folder, *, require_native):
-        calls.append((folder, require_native))
+    def verify(folder):
+        calls.append(folder)
         return expected
 
-    monkeypatch.setattr(design_iteration, "verify", verify, raising=False)
+    monkeypatch.setattr(local, "_verify_detailed_native", verify)
     first = local.artifact_hashes("factory-native", tmp_path)
-    assert calls == [(detailed, True)]
+    assert calls == [detailed]
     key = "factory-native/detailed-design/selected.step"
     assert first[key] == local.digest(cad)
     cad.write_bytes(b"changed mock selected model bytes")
     second = local.artifact_hashes("factory-native", tmp_path)
     assert first[key] != second[key]
-    assert calls == [(detailed, True), (detailed, True)]
+    assert calls == [detailed, detailed]
 
 
 @pytest.mark.parametrize("adapter", sorted(fa.factory.ADAPTERS))
@@ -174,3 +171,46 @@ def test_artifact_collector_imports_from_the_isolated_cli_path(tmp_path):
         check=True,
     )
     assert "collector import succeeded" in result.stdout
+
+
+def test_detail_verifier_sets_threads_in_a_fresh_interpreter(tmp_path, monkeypatch):
+    import json
+    import os
+
+    root = tmp_path / "isolated-root"
+    cli = root / "tools/automation/design-iteration.py"
+    cli.parent.mkdir(parents=True)
+    cli.write_text("""import json, os, sys
+from pathlib import Path
+assert sys.argv[1] == 'verify'
+assert sys.argv[-1] == '--require-native'
+folder = Path(sys.argv[sys.argv.index('--output') + 1])
+folder.mkdir(parents=True)
+(folder / 'startup.json').write_text(json.dumps({
+    'threads': {k: os.environ.get(k) for k in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS')},
+    'pythonpath': os.environ.get('PYTHONPATH'),
+    'numpy_already_imported': 'numpy' in sys.modules,
+}))
+""")
+    monkeypatch.setattr(local, "ROOT", root)
+    keys = ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")
+    for name in keys:
+        monkeypatch.delenv(name, raising=False)
+    folder = tmp_path / "detail"
+    local._verify_detailed_native(folder)
+    startup = json.loads((folder / "startup.json").read_text())
+    assert startup["threads"] == dict.fromkeys(keys, "1")
+    assert startup["numpy_already_imported"] is False
+    assert startup["pythonpath"] == os.pathsep.join(
+        [str(root), str(root / "design/component-catalogue/src")]
+    )
+    assert all(name not in os.environ for name in keys)
+
+
+def test_actual_detail_verifier_failure_propagates_without_missing_native_evidence(
+    tmp_path,
+):
+    with pytest.raises(
+        ValueError, match="required detailed-design native verification failed"
+    ):
+        local._verify_detailed_native(tmp_path / "missing-detail-packet")

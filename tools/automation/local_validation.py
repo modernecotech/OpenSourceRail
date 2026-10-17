@@ -901,6 +901,43 @@ def capture_city(destination):
         target.write_bytes(raw)
 
 
+def _verify_detailed_native(folder):
+    """Start the actual verifier with the profile's numerical policy at startup.
+
+    A parent process may already have imported NumPy with ambient thread settings.
+    A fresh interpreter establishes the controlled environment before any such
+    import; receipt/environment validation remains entirely in the real CLI.
+    """
+    env = dict(os.environ)
+    env.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1")
+    env["PYTHONPATH"] = os.pathsep.join(
+        [str(ROOT), str(ROOT / "design/component-catalogue/src")]
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "tools/automation/design-iteration.py"),
+            "verify",
+            "--output",
+            str(Path(folder).resolve()),
+            "--require-native",
+        ],
+        cwd=ROOT,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        timeout=240,
+        check=False,
+    )
+    if result.returncode:
+        raise ValueError(
+            "required detailed-design native verification failed "
+            + f"(exit {result.returncode}): "
+            + result.stdout[-4000:]
+        )
+
+
 def artifact_hashes(profile, folder):
     if profile == "hierarchical-design":
         from engineering.generative_design.hierarchical_controller import verify
@@ -917,7 +954,6 @@ def artifact_hashes(profile, folder):
         from engineering.generative_design.native_acceptance import (
             verify as verify_architecture_native,
         )
-        from engineering.generative_design import design_iteration
 
         native = folder / "factory-native"
         if (
@@ -928,7 +964,7 @@ def artifact_hashes(profile, folder):
         ):
             raise ValueError("missing or changed factory native acceptance report")
         verify_architecture_native(native / "architecture")
-        design_iteration.verify(native / "detailed-design", require_native=True)
+        _verify_detailed_native(native / "detailed-design")
     if profile == "native-design":
         native = folder / "native-design"
         if native.is_symlink() or not native.is_dir():

@@ -147,6 +147,8 @@ linked artifacts. Verification binds source membership, policy semantics,
 interpreter identity, candidate/evidence identities, tool outcomes and every
 sealed artifact. Archived verification preserves historical identities without
 requiring the original absolute workspace paths to exist.
+Native receipt collection starts a separate verifier with the same fixed
+numerical thread settings as the evaluated jobs.
 
 These demonstrations complete the seven initial implementation work packages
 from the review. Expansion remains controlled by capability and qualification
