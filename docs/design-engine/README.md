@@ -1,5 +1,11 @@
 # Design, Jobs And Evidence Workflows
 
+The [AI CAD and BIM review and completion workflow](ai-cad-bim-workflow-2026-10-17.md)
+compares current authoring agents and adds a bounded, resumable proposal controller,
+native part/assembly checks, civil IFC schema feedback and software fault tests.
+It preserves all 63 packages and 1,219 baseline requests; complete railway
+specification and physical acceptance remain open. See the [executed pilot](ai-cad-bim-pilot-2026-10-17.md).
+
 The [hierarchical development pilot](hierarchical-development-2026-10-17.md) repairs publication and interrupted recovery, continues optimisation beyond feasibility, and adds [isolated experiments and parent-level decisions](hierarchical-pilot-2026-10-17/index.html). All engineering and manufacturing gates remain open.
 
 The [detailed multi-agent design scenario](multi-agent-detail-scenario-2026-10-17.md)
