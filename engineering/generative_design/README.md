@@ -1,5 +1,42 @@
 # Multi-agent generative engineering campaign
 
+## Federated engineering twins
+
+`./osr design twin` joins the controlled 63-package inventory, source-qualified
+component specifications, existing physical-study model, and executable
+mechanical, civil, software and factory alternatives. Specialist AI agents
+developed the lanes and then rotated into independent criticism. The retained
+runner executes deterministic engineering adapters; it does not invoke an LLM
+or browse for new ideas at runtime.
+
+```sh
+./osr design twin plan
+./osr design twin run --output build/design-twin/new-campaign --concurrency 3
+./osr design twin verify --output build/design-twin/new-campaign --replay
+```
+
+The [Baghdad development record](../../docs/design-engine/baghdad-engineering-twin-2026-10-17.md)
+links the component/variant browser, complete retained model packets and open
+detail/evidence requests. Parts and variants have distinct revision-bound
+identities. Mechanical changes trigger explicit gross-added-mass civil
+sensitivities with bounded failure-directed repair; removed structure and omitted
+accessories receive no invented mass credit. The original reference model stays
+configuration-distinct.
+
+Numerical caches are reset at campaign start. Input and executable-source bytes
+are captured before execution and checked afterwards; code changes require a new
+Python process. Output hashes and the exact member set are verified. `--replay`
+recomputes the same packet in the recorded Python/NumPy environment;
+`--historical` checks retained byte integrity without current applicability.
+
+Observation replay is read-only and binds asset, configuration, units, scenario,
+model endpoint time and observation provenance. It rejects incompatible or
+out-of-order records and retains residuals. Matching synthetic or unverified
+field records never confer physical validation. Use `./osr design twin observe
+--help` for the intake command. Actual supplier internal BOMs, unresolved part
+dimensions/tolerances, site data, material/process qualification, physical
+calibration and issued manufacturing information remain explicit open work.
+
 The [architecture feedback](../../docs/design-engine/architecture-feedback-2026-10-17.md)
 propagates actual LM3 source axle identities plus proposed gap/member changes,
 keeps the six-car mass sensitivities separate, and investigates whole-module

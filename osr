@@ -17,6 +17,7 @@ Usage: ./osr [COMMAND] [arguments]
   workbench          Same as no command
   sim [arguments]    Run the deterministic railway simulator
   design [arguments] Run the deterministic city-design compiler
+  design twin ...    Generate and verify federated engineering design twins
   city <slug>        Regenerate one complete city and its project digital twin
   build              Build applications, shared data, BIM, BOMs, and the PDF book
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
@@ -66,6 +67,10 @@ case "$command_name" in
         ;;
     design)
         case "${1:-}" in
+            twin)
+                shift
+                exec tools/automation/osr-python tools/automation/design-digital-thread.py "$@"
+                ;;
             campaign)
                 shift
                 exec tools/automation/osr-python tools/automation/generative-design-campaign.py "$@"
