@@ -1,5 +1,23 @@
 # Multi-agent generative engineering campaign
 
+The [architecture feedback](../../docs/design-engine/architecture-feedback-2026-10-17.md)
+propagates actual LM3 source axle identities plus proposed gap/member changes,
+keeps the six-car mass sensitivities separate, and investigates whole-module
+platforms and British equipment limits. All acceptance gates remain open.
+
+```sh
+./osr design campaign architecture --output build/architecture-feedback/my-run --native
+./osr design campaign verify-architecture --output build/architecture-feedback/my-run
+./osr design campaign publish-architecture --output build/architecture-feedback/my-run \
+  --destination docs/design-engine/my-architecture-review
+./osr design campaign verify-architecture-snapshot \
+  --destination docs/design-engine/my-architecture-review
+```
+
+Use fresh output directories. `verify-architecture --historical` and
+`verify-architecture-snapshot --historical` check retained integrity using frozen
+case records, without asserting applicability to current source inputs.
+
 The [queued-systems continuation](../../docs/design-engine/queued-systems-results-2026-10-16.md)
 executes 63 package-specific preliminary studies, records actual production/inspection
 requirements and propagates provisional six-car feedback into civil/factory demands.

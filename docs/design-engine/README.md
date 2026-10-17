@@ -1,5 +1,10 @@
 # Design, Jobs And Evidence Workflows
 
+The [17 October architecture feedback](architecture-feedback-2026-10-17.md) adds
+[12 coupled provisional cases](architecture-feedback/index.html), a lighter-frame
+branch, full-module platforms and published British stressing/lifting equipment
+checks. Its 2,316 beam response records retain the open acceptance gates.
+
 The [queued-systems results](queued-systems-results-2026-10-16.md) add
 [63 executed preliminary package studies](queued-systems/index.html), provisional
 six-car load and platform alternatives, mechanical interface repairs, factory

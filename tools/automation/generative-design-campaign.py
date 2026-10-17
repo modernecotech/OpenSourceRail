@@ -8,7 +8,12 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "design/component-catalogue/src")]
-from engineering.generative_design import campaign, review, queue_campaign
+from engineering.generative_design import (
+    campaign,
+    review,
+    queue_campaign,
+    architecture_campaign,
+)
 
 
 def main():
@@ -26,6 +31,18 @@ def main():
     p.add_argument("--revision", default="multi-agent-manufacturing-1")
     p = sub.add_parser("verify")
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--historical", action="store_true")
+    p = sub.add_parser("architecture")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--native", action="store_true")
+    p = sub.add_parser("verify-architecture")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--historical", action="store_true")
+    p = sub.add_parser("publish-architecture")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--destination", type=Path, required=True)
+    p = sub.add_parser("verify-architecture-snapshot")
+    p.add_argument("--destination", type=Path, required=True)
     p.add_argument("--historical", action="store_true")
     p = sub.add_parser("queue")
     p.add_argument("--output", type=Path, required=True)
@@ -61,6 +78,16 @@ def main():
         )
     elif args.action == "verify":
         result = campaign.verify(args.output, current=not args.historical)
+    elif args.action == "architecture":
+        result = architecture_campaign.run(args.output, native=args.native)
+    elif args.action == "verify-architecture":
+        result = architecture_campaign.verify(args.output, current=not args.historical)
+    elif args.action == "publish-architecture":
+        result = architecture_campaign.publish(args.output, args.destination)
+    elif args.action == "verify-architecture-snapshot":
+        result = architecture_campaign.verify(
+            args.destination, current=not args.historical, snapshot=True
+        )
     elif args.action == "queue":
         result = queue_campaign.run(args.output, native=args.native)
     elif args.action == "verify-queue":

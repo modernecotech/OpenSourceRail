@@ -82,6 +82,8 @@ def test_unrelated_prose_does_not_require_native_execution():
         "tools/automation/generative-design-campaign.py",
         "docs/design-engine/generative-campaign/snapshot.json",
         "docs/design-engine/queued-systems/snapshot.json",
+        "docs/design-engine/architecture-feedback/snapshot.json",
+        "engineering/analysis/tests/test_generative_architecture.py",
         "engineering/analysis/tests/test_generative_queue.py",
         "docs/design-engine/factory-whole-bed/model.FCStd",
         "docs/design-engine/factory-buildout/handover.json",

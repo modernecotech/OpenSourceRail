@@ -32,6 +32,10 @@ NATIVE_ACCEPTANCE_SOURCES = {
     "engineering/analysis/tests/test_generative_integration.py",
     "engineering/analysis/tests/test_generative_manufacturing.py",
     "engineering/analysis/tests/test_generative_queue.py",
+    "engineering/analysis/tests/test_generative_architecture.py",
+    "engineering/analysis/tests/test_generative_architecture_civil.py",
+    "engineering/analysis/tests/test_generative_architecture_equipment.py",
+    "engineering/analysis/tests/test_architecture_mechanical.py",
     "engineering/analysis/tests/test_generated_parts_native.py",
     "tools/automation/tests/test_native_design_validation.py",
     "tools/automation/tests/test_impact_selection.py",
@@ -79,6 +83,7 @@ if a.scope == "impact":
                     "engineering/generative_design/",
                     "docs/design-engine/generative-campaign/",
                     "docs/design-engine/queued-systems/",
+                    "docs/design-engine/architecture-feedback/",
                 )
             )
             for name in a.changed
@@ -95,6 +100,7 @@ if a.scope == "impact":
                     "engineering/generative_design/",
                     "docs/design-engine/generative-campaign/",
                     "docs/design-engine/queued-systems/",
+                    "docs/design-engine/architecture-feedback/",
                     "docs/design-engine/factory-support/",
                     "docs/design-engine/factory-stages/",
                     "docs/design-engine/factory-whole-bed/",

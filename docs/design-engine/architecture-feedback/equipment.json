@@ -1,0 +1,346 @@
+{
+  "accepted_equipment_configurations": 0,
+  "engineering_design_complete": false,
+  "manufacturing_release": false,
+  "physical_release": false,
+  "procurement_authorized": false,
+  "retrieved_on": "2026-10-17",
+  "schema": "osr-provisional-architecture-equipment/1",
+  "source_sha256": {
+    "docs/design-engine/queued-systems/civil/report.json": "6dd3348713735c21aa22dd4b9a67ae15abf3b6158743bd08c24d48e963e1a41d",
+    "docs/design-engine/queued-systems/mechanical/report.json": "bb90a39afe4fce6bdb095061190209688c3e9622c5f2cf6e26389dab07a3508c",
+    "engineering/factory_examples/data/basis.json": "f3549a07de406f5b770b2df65a8c1a231da8021ab83796efd9517ea9b2099462",
+    "engineering/factory_examples/data/connections.json": "7f6bd0683a5538c1646ecfe96e7e0618216b1d0a398139d599da0ce803f7099e",
+    "engineering/factory_examples/data/equipment.json": "0125303550d7d051cb06e8d431993c9e414865011eb660cb6f3e3b70d9b73f13",
+    "engineering/generative_design/architecture_equipment.py": "d2ac0f5ab26598864446f15be5824103640404fc3832f2670a4ea5cd847b1363",
+    "engineering/generative_design/data/mechanical-systems.json": "74eeac7d52207bd99dfe8b3e00614c6f3c01f1cdb3b1b85c2493628beb230c44"
+  },
+  "supplier_cases": [
+    {
+      "accepted_design_load_n": null,
+      "criteria": [
+        {
+          "basis": "15.2mm retained strand clearance envelope exceeds numeric published15.0mm maximum. Manufacturer may use a nominal size designation, but no15.2/15.7mm compatibility is inferred; exact strand/wedge/nose qualification unknown.",
+          "id": "published_numerical_strand_range",
+          "status": "failed-declared-screen"
+        },
+        {
+          "basis": "154kN demand versus247kN published maximum is arithmetic only, not accepted operating pressure, calibration, strand/grip/system or tooling resistance.",
+          "id": "force_scalar",
+          "status": "passed-arithmetic-only"
+        },
+        {
+          "basis": "Assume main cylinder axis shares an axial plane with neighboring straight15.2mm tails at60mm spacing. Negative gap rejects this envelope hypothesis; actual nose/body axial locations and sequence are absent, so this is not a demonstrated physical shape collision.",
+          "id": "same_plane_body_to_straight_tail_clearance",
+          "status": "failed-declared-screen"
+        },
+        {
+          "basis": "833mm fully retracted short jack exceeds250mm axial tier reservation. Overlapping aligned bounding reservations are not an actual simultaneous shape collision or a proof every possible sequential procedure fails.",
+          "id": "short_body_within_250mm_axial_tier_reservation",
+          "status": "failed-declared-screen"
+        },
+        {
+          "basis": "160mm maximum width at120mm same-tier axis spacing: conservative bounding reservations overlap; exact handle/nose/hose surfaces and orientations are unknown.",
+          "id": "same_tier_bounding_width_reservation",
+          "status": "failed-declared-screen"
+        },
+        {
+          "basis": "234mm overall height at120mm same-tier vertical spacing: bounding reservations overlap; actual geometry and staggering remain unqualified.",
+          "id": "same_tier_bounding_height_reservation",
+          "status": "failed-declared-screen"
+        },
+        {
+          "basis": "194mm short extension exceeds retained25m-beam+1.25m-tail elastic estimate only. Seating, full bed free length, regrips, tolerances and hydraulic working stroke must be reviewed.",
+          "id": "short_stroke_reference_elastic_extension",
+          "status": "passed-arithmetic-only"
+        },
+        {
+          "basis": "The retained1.25m free-tail assumption exceeds265mm published minimum. It is not a complete axial clearance, seating or cut/restress sequence design.",
+          "id": "minimum_strand_length_scalar",
+          "status": "passed-arithmetic-only"
+        }
+      ],
+      "exact_offered_origin_accepted": false,
+      "existing_four_tier_configuration_qualified": false,
+      "hypothetical_90x200_tool_qualified_by_this_model": false,
+      "id": "ccl-stressomatic-mkii-250kn",
+      "mandatory_unknown_gates": [
+        "Exact strand metallic size/grade, barrel/wedge/nose match and manufacturer confirmation outside numeric published range",
+        "Exact GA locating cylinder, nose, handles, hoses, connector/rotation and operator swept envelopes relative to every live tail and grip",
+        "Written stressing, lock-off, regrip, tail cutting and detensioning procedure; no neighboring tail may be removed or force rerouted by an unqualified geometry assumption",
+        "Matched jack/pump pressure-force calibration, stroke/end-stop/seating losses and full free-strand length",
+        "154kN seat/standoff local and global load path, increased whole-bed force, stiffness, staged/eccentric resistance and ground/foundation acceptance",
+        "Independent safe method, inspection intervals, guarding/exclusion zone, Baghdad ambient/service, exact offered origin and witnessed first article"
+      ],
+      "model": "Stressomatic MKII 250 kN, short/long variants",
+      "offered_configuration": null,
+      "origin_state": "manufacturer-stated-UK-design-and-manufacture",
+      "physical_release": false,
+      "published": {
+        "bottom_to_axis_m": 0.07,
+        "fully_retracted_long_length_m": 1.433,
+        "fully_retracted_short_length_m": 0.833,
+        "long_extension_m": 0.494,
+        "long_mass_kg": 45,
+        "main_cylinder_diameter_m": 0.11,
+        "maximum_design_load_n": 247000,
+        "maximum_width_m": 0.16,
+        "minimum_strand_length_m": 0.265,
+        "overall_height_m": 0.234,
+        "short_extension_m": 0.194,
+        "short_mass_kg": 28,
+        "strand_diameter_range_m": [
+          0.0096,
+          0.015
+        ]
+      },
+      "reference_metrics": {
+        "actual_hose_and_operator_clearance_m": null,
+        "actual_nose_and_cylinder_axial_position_m": null,
+        "actual_tool_shape_collision_established": false,
+        "declared_initial_force_each_n": 154000.0,
+        "elastic_strand_extension_reference_m": 0.1480769230769231,
+        "force_to_published_maximum_ratio": 0.6234817813765182,
+        "long_retracted_axial_reservation_gap_m": -1.183,
+        "reference_axial_tier_pitch_m": 0.25,
+        "reference_free_tail_m": 1.25,
+        "reference_proposal_id": "straight-tails-four-axial-tiers",
+        "reference_tool_diameter_m": 0.09,
+        "reference_tool_length_m": 0.2,
+        "same_plane_adjacent_height_reservation_gap_m": -0.17400000000000002,
+        "same_plane_adjacent_maximum_width_reservation_gap_m": -0.1,
+        "same_plane_cylinder_to_adjacent_straight_strand_gap_m": -0.0026000000000000025,
+        "same_tier_axis_pitch_m": 0.12,
+        "same_tier_height_reservation_gap_m": -0.11400000000000002,
+        "same_tier_width_reservation_gap_m": -0.04000000000000001,
+        "short_retracted_axial_reservation_gap_m": -0.583,
+        "strand_envelope_diameter_m": 0.0152
+      },
+      "sources": [
+        {
+          "locator": "PDF p2, product specifications and UK manufacture statement",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.cclint.com/wp-content/uploads/2024/02/CCL-Stressomatic-MKII-250-kN_Flyer.pdf"
+        },
+        {
+          "locator": "Current manufacturer downloads links this 250 kN flyer; publication/download path is not an offered specification date",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.cclint.com/downloads/"
+        },
+        {
+          "locator": "UK operation and in-house manufacturing; exact offered unit and matched system remain unconfirmed",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.cclint.com/contact-us/locations/united-kingdom/"
+        }
+      ],
+      "supplier": "CCL Stressing Systems",
+      "supplier_contacted": false
+    },
+    {
+      "accepted_design_tension_n": null,
+      "accepted_thread_or_coupler_resistance_n": null,
+      "exact_offered_origin_accepted": false,
+      "id": "macalloy-1030-post-tensioning-carbon-bar-lead",
+      "mandatory_unknown_gates": [
+        "1030MPa ultimate strength is not design stress, proof stress, allowable stress or fatigue resistance; no capacity/count inferred from gross area times ultimate strength",
+        "Exact diameter/grade, thread stress area, certified material, coupler/end-anchor geometry, engagement, proof/fatigue and load transfer",
+        "Full initial force plus eccentricity, all stressing/release stages, stiffness/elongation, thermal movement and balanced return path to the ground",
+        "Layout/coupler/anchor clashes and maintainable access, complete strongback/bed/foundation redesign and independent check",
+        "Exact UK manufacturing and raw-mill/component origin, Baghdad supply/support, commissioned trials and accepted offered configuration"
+      ],
+      "model": "1030 carbon-steel post-tensioning bar and coupler family",
+      "offered_configuration": null,
+      "origin_state": "manufacturer-stated-UK-factory-offered-origin-unconfirmed",
+      "physical_release": false,
+      "published": {
+        "carbon_bar_diameter_range_m": [
+          0.0265,
+          0.075
+        ],
+        "family_minimum_ultimate_strength_pa": 1030000000.0,
+        "longer_assemblies_by_couplers": true,
+        "maximum_public_piece_length_m": 11.8
+      },
+      "route_sensitivity": {
+        "boundary": "Piece-count lower bound only. Actual diameter-specific lengths, engagement, coupler/anchor length and end clearance alter the layout. A bar-return concept is a new force path, not a drop-in qualified replacement for the existing return rails.",
+        "optimistic_minimum_inline_coupler_count": 2,
+        "optimistic_minimum_piece_count": 3,
+        "reference_return_path_length_m": 26
+      },
+      "selected_bar_count": null,
+      "sources": [
+        {
+          "locator": "Public product page:1030N/mm2 minimum ultimate strength;26.5\u201375mm carbon bar and up-to11.8m pieces; couplers permit longer assemblies",
+          "retrieved_on": "2026-10-17",
+          "url": "https://macalloy.com/products-services/post-tensioning/"
+        },
+        {
+          "locator": "Manufacturer describes current purpose-built Dinnington, Sheffield facility; exact offered bar/mill/accessory origin remains unverified",
+          "retrieved_on": "2026-10-17",
+          "url": "https://macalloy.com/about/history/"
+        },
+        {
+          "locator": "Brochure access requires login; no login-only technical data accessed or adopted",
+          "retrieved_on": "2026-10-17",
+          "url": "https://macalloy.com/downloads/brochures/"
+        }
+      ],
+      "supplier": "Macalloy",
+      "supplier_contacted": false
+    },
+    {
+      "accepted_capacity_per_jack_kg": null,
+      "exact_offered_origin_accepted": false,
+      "existing_vehicle_crane_comparison": {
+        "accepted_whole_car_lift": false,
+        "actual_empty_car_mass_kg": null,
+        "boundary": "The10t model is a retained component-handling candidate; no whole-car lifting role or tandem capacity is inferred. Loaded car is a conservative research load, not accepted factory tare.",
+        "complete_rigging_mass_kg": null,
+        "id": "street-zx8",
+        "published_nominal_capacity_kg": 10000,
+        "status": "failed-whole-loaded-car-scalar",
+        "whole_loaded_car_mass_hypothesis_kg": 49713.625
+      },
+      "id": "mechan-30t-historical-rail-lifting-jack-lead",
+      "jack_sensitivities": [
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 16571.208333333332,
+          "dynamic_hypothesis": 1,
+          "effective_jacks": 3,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 19885.45,
+          "dynamic_hypothesis": 1,
+          "effective_jacks": 3,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1.2,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 20714.010416666668,
+          "dynamic_hypothesis": 1.25,
+          "effective_jacks": 3,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 24856.8125,
+          "dynamic_hypothesis": 1.25,
+          "effective_jacks": 3,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1.2,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 12428.40625,
+          "dynamic_hypothesis": 1,
+          "effective_jacks": 4,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 14914.0875,
+          "dynamic_hypothesis": 1,
+          "effective_jacks": 4,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1.2,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 15535.5078125,
+          "dynamic_hypothesis": 1.25,
+          "effective_jacks": 4,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1,
+          "reaction_distribution_accepted": false
+        },
+        {
+          "accepted_capacity_kg_each": null,
+          "demand_mass_equivalent_kg_each": 18642.609375,
+          "dynamic_hypothesis": 1.25,
+          "effective_jacks": 4,
+          "historical_capacity_arithmetic": "passed-arithmetic-only",
+          "historical_case_capacity_kg_each": 30000,
+          "imbalance_hypothesis": 1.2,
+          "reaction_distribution_accepted": false
+        }
+      ],
+      "loaded_car_mass_kg_hypothesis": 49713.625,
+      "mandatory_unknown_gates": [
+        "Exact current offered jack configuration, individual rating at anvil extension/height/duty and UK manufacturing origin; historical30t supply is no offer",
+        "Configuration-specific actual lifted mass/tare, component removal state and3D CG, four/three-point load redistribution and anti-tip stability",
+        "Lift pad/underframe strength and interface, minimum anvil height versus actual750mm-sill/floor/bogie geometry and removal sweeps",
+        "Synchronized lift, mechanical locks, emergency/power-loss behavior, unequal load/height control, allowable lateral forces and platform/foundation reactions",
+        "Iraqi site electrical supply, guarding/access/foundation, inspection/maintenance, proof/witness and Baghdad spares/service acceptance"
+      ],
+      "mass_basis": {
+        "candidate_id": null,
+        "description": "Caller must bind source candidate/configuration and mass convention. This is no accepted tare, CG or whole-car lifting load.",
+        "mode": "caller-supplied-provisional-loaded-mass"
+      },
+      "model": "Configured railway lifting jack; historical 30 tonne supply, no current orderable model identified",
+      "offered_configuration": null,
+      "origin_state": "manufacturer-stated-Sheffield-manufacturing-facility",
+      "physical_release": false,
+      "published": {
+        "family_capacity_range_kg": [
+          5000,
+          40000
+        ],
+        "historical_capacity_per_jack_kg": 30000,
+        "nominal_frequency_hz": 50,
+        "nominal_phases": 3,
+        "nominal_voltage_range_v": [
+          380,
+          415
+        ],
+        "typical_maximum_anvil_height_m": 2.5,
+        "typical_minimum_anvil_height_m": 0.4
+      },
+      "sources": [
+        {
+          "locator": "Manufacturer lifting-jack range and configuration; not an offered 30/35t model GA",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.mechan.co.uk/rail/lifting-jacks/"
+        },
+        {
+          "locator": "Manufacturer historical project: four 30 tonne jacks supplied to KiwiRail; historical example is not a current stock offer",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.mechan.co.uk/kiwirail-bears-fruit-for-mechan/"
+        },
+        {
+          "locator": "Manufacturing facility in Sheffield, England; also supplies European partner products, so source offered origin case by case",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.mechan.co.uk/about-mechan/"
+        },
+        {
+          "locator": "Lifting-jack section:5\u201340t/jack, typical anvil400\u20132500mm, supply380\u2013415V3phase50Hz; actual offered configuration open",
+          "retrieved_on": "2026-10-17",
+          "url": "https://www.mechan.co.uk/wp-content/uploads/2023/06/All-Mechan-Products-and-services-.pdf"
+        }
+      ],
+      "supplier": "Mechan",
+      "supplier_contacted": false
+    }
+  ],
+  "supplier_contacted": false
+}

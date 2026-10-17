@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6238**.
+Indexed Markdown files: **6239**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6238**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 243 |
+| [docs](#docs) | 244 |
 | [engineering](#engineering) | 73 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6080,6 +6080,7 @@ Indexed Markdown files: **6238**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/architecture-feedback-2026-10-17.md`](../docs/design-engine/architecture-feedback-2026-10-17.md) | Provisional architecture feedback — 17 October 2026 |
 | [`docs/design-engine/factory-beam-demands-2026-10-16.md`](../docs/design-engine/factory-beam-demands-2026-10-16.md) | Baghdad Pi-beam railway and handling demand development |
 | [`docs/design-engine/factory-completion-2026-10-16.md`](../docs/design-engine/factory-completion-2026-10-16.md) | Mechanical and civil factory development delivery record |
 | [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
