@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6242**.
+Indexed Markdown files: **6243**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6242**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 247 |
+| [docs](#docs) | 248 |
 | [engineering](#engineering) | 73 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6067,6 +6067,7 @@ Indexed Markdown files: **6242**.
 | [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
 | [`docs/civil/wayside-rerailing-access-interface.md`](../docs/civil/wayside-rerailing-access-interface.md) | LM3 Wayside Rerailing Access Interface |
 | [`docs/codebase-and-iraq-review-2026-10-03.md`](../docs/codebase-and-iraq-review-2026-10-03.md) | Codebase review and regenerated Iraqi examples — 3 October 2026 |
+| [`docs/commercial/baghdad-rail-options-2026-10-17.md`](../docs/commercial/baghdad-rail-options-2026-10-17.md) | Baghdad rail options and the case for Iraqi production |
 | [`docs/commercial/baghdad-uk-factory-suppliers-2026-10-15.md`](../docs/commercial/baghdad-uk-factory-suppliers-2026-10-15.md) | British supplier options for Baghdad factory equipment |
 | [`docs/commercial/joint-development-framework.md`](../docs/commercial/joint-development-framework.md) | Joint Development And Delivery Framework |
 | [`docs/commercial/partnership-readiness.md`](../docs/commercial/partnership-readiness.md) | Commercial Partnership Readiness |

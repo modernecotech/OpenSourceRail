@@ -1,5 +1,7 @@
 # British supplier options for Baghdad factory equipment
 
+[Baghdad rail options and the case for Iraqi production](baghdad-rail-options-2026-10-17.md) compares earlier metro proposals with OpenSourceRail's planned reach, industrial benefits and conditional funding model. [PDF brief](baghdad-rail-options-2026-10-17.pdf).
+
 Prioritise equipment manufactured in Britain for the Baghdad facilities, particularly in specialist machining, composite processes, prestressing, lifting and inspection. UK distributors of overseas-made machinery remain fallback options. The practical starting point is Iraqi construction and fabrication combined with selected imported process equipment, subject to a local capability survey. A British turnkey offer should be compared against that route, rather than assumed to be the cheapest or most supportable option.
 
 Assessment date: **15 October 2026**. The [37-case matrix](baghdad-uk-factory-suppliers-2026-10-15.csv) distinguishes published UK manufacture, UK businesses supplying foreign equipment, international manufacturers with UK factories, and unresolved sourcing cases. These are public capability leads: prices, delivery commitments, Baghdad service arrangements and OSR compatibility require supplier returns. No supplier has been contacted.
