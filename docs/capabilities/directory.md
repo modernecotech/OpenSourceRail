@@ -168,6 +168,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:design-consistency-study.py | automation/domain maintainer | `tools/automation/design-consistency-study.py` | `tools/automation/osr-python tools/automation/design-consistency-study.py --help` | implemented; focused test mapping pending |
 | tool:design-engine.py | automation/domain maintainer | `tools/automation/design-engine.py` | `tools/automation/osr-python tools/automation/design-engine.py --help` | implemented |
 | tool:design-iterate.sh | automation/domain maintainer | `tools/automation/design-iterate.sh` | `tools/automation/design-iterate.sh` | implemented; focused test mapping pending |
+| tool:design-iteration.py | automation/domain maintainer | `tools/automation/design-iteration.py` | `tools/automation/osr-python tools/automation/design-iteration.py --help` | implemented |
 | tool:design-option.py | automation/domain maintainer | `tools/automation/design-option.py` | `tools/automation/osr-python tools/automation/design-option.py --help` | implemented |
 | tool:design-twin-freecad.py | automation/domain maintainer | `tools/automation/design-twin-freecad.py` | `tools/automation/osr-python tools/automation/design-twin-freecad.py --help` | implemented; focused test mapping pending |
 | tool:design-twin-smoke.py | automation/domain maintainer | `tools/automation/design-twin-smoke.py` | `tools/automation/osr-python tools/automation/design-twin-smoke.py --help` | implemented; focused test mapping pending |

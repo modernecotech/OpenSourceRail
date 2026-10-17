@@ -1,5 +1,10 @@
 # Design, Jobs And Evidence Workflows
 
+The [detailed multi-agent design scenario](multi-agent-detail-scenario-2026-10-17.md)
+adds [executed feedback-directed civil/mechanical variations](generative-detail-2026-10-17/index.html),
+connected assemblies, cage and joint checks, gross-mass propagation and exact
+manufacturing evidence tasks across all 63 packages.
+
 Start with the [unified campaign review](campaign-review/index.html) for configuration
 filters, failed checks, missing inputs and side-by-side comparison across all 63
 work packages. The [consolidation record](review-consolidation-2026-10-17.md) explains

@@ -637,6 +637,27 @@ def plan(profile, output):
                 str(native / "architecture"),
                 timeout=180,
             ),
+            py(
+                "Fresh civil and mechanical detail variants with native models",
+                "tools/automation/design-iteration.py",
+                "run",
+                "--output",
+                str(native / "detailed-design"),
+                "--native",
+                "--no-baseline",
+                "--budget",
+                "256",
+                timeout=1800,
+            ),
+            py(
+                "Verify required detail native membership and reopen evidence",
+                "tools/automation/design-iteration.py",
+                "verify",
+                "--output",
+                str(native / "detailed-design"),
+                "--require-native",
+                timeout=240,
+            ),
         ]
     if profile == "ci":
         return (
@@ -865,6 +886,7 @@ def artifact_hashes(profile, folder):
         from engineering.generative_design.native_acceptance import (
             verify as verify_architecture_native,
         )
+        from engineering.generative_design import design_iteration
 
         native = folder / "factory-native"
         if (
@@ -875,6 +897,7 @@ def artifact_hashes(profile, folder):
         ):
             raise ValueError("missing or changed factory native acceptance report")
         verify_architecture_native(native / "architecture")
+        design_iteration.verify(native / "detailed-design", require_native=True)
     if profile == "native-design":
         native = folder / "native-design"
         if native.is_symlink() or not native.is_dir():

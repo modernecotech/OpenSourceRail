@@ -13,6 +13,8 @@ from engineering.generative_design import (
     review,
     queue_campaign,
     architecture_campaign,
+    design_iteration,
+    design_scenario,
 )
 
 
@@ -20,10 +22,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
     sub.add_parser("plan")
+    sub.add_parser("scenario-plan")
+    p = sub.add_parser("iterate")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--budget", type=int, default=256)
+    p.add_argument("--native", action="store_true")
+    p.add_argument("--no-baseline", action="store_true")
+    p.add_argument("--resume", type=Path)
+    p = sub.add_parser("verify-iteration")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--historical", action="store_true")
+    p.add_argument("--require-native", action="store_true")
+    p = sub.add_parser("publish-iteration")
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--destination", type=Path, required=True)
     p = sub.add_parser("run")
     p.add_argument("--output", type=Path, required=True)
-    p.add_argument("--civil-budget", type=int, default=128)
-    p.add_argument("--mechanical-budget", type=int, default=128)
+    p.add_argument("--civil-budget", type=int, default=256)
+    p.add_argument("--mechanical-budget", type=int, default=256)
     p.add_argument("--native", action="store_true")
     p.add_argument("--common", choices=["none", "screen", "native"], default="native")
     p.add_argument("--common-store", type=Path)
@@ -65,6 +81,22 @@ def main():
     args = parser.parse_args()
     if args.action == "plan":
         result = campaign.plan()
+    elif args.action == "scenario-plan":
+        result = design_scenario.plan()
+    elif args.action == "iterate":
+        result = design_iteration.run(
+            args.output,
+            budget=args.budget,
+            native=args.native,
+            baseline=not args.no_baseline,
+            resume=args.resume,
+        )
+    elif args.action == "verify-iteration":
+        result = design_iteration.verify(
+            args.output, current=not args.historical, require_native=args.require_native
+        )
+    elif args.action == "publish-iteration":
+        result = design_iteration.publish(args.output, args.destination)
     elif args.action == "run":
         result = campaign.run(
             args.output,

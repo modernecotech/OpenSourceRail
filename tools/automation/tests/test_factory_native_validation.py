@@ -21,16 +21,24 @@ spec.loader.exec_module(local)
 
 def test_factory_profile_runs_actual_native_and_common_jobs(tmp_path):
     rows = local.plan("factory-native", tmp_path)
-    assert len(rows) == 5
+    assert len(rows) == 7
     for row, action in zip(rows[:3], ("prerequisites", "run", "verify")):
         assert "engineering.design_engine.factory_acceptance" in row["argv"]
         assert action in row["argv"]
         assert "--output" in row["argv"]
     assert rows[1]["timeout_seconds"] == 900
-    for row, action in zip(rows[3:], ("run", "verify")):
+    for row, action in zip(rows[3:5], ("run", "verify")):
         assert "engineering.generative_design.native_acceptance" in row["argv"]
         assert action in row["argv"]
         assert str(tmp_path / "factory-native/architecture") in row["argv"]
+    for row, action in zip(rows[5:], ("run", "verify")):
+        assert "tools/automation/design-iteration.py" in row["argv"]
+        assert action in row["argv"]
+        assert str(tmp_path / "factory-native/detailed-design") in row["argv"]
+    assert "--native" in rows[5]["argv"]
+    assert "--no-baseline" in rows[5]["argv"]
+    assert rows[5]["argv"][-2:] == ["--budget", "256"]
+    assert "--require-native" in rows[6]["argv"]
     assert local.RELEASE_PROFILES == {"ci", "kani", "integrated-stack", "example-city"}
 
 
@@ -71,6 +79,63 @@ def test_old_factory_models_cannot_replace_required_architecture_evidence(
     monkeypatch.setattr(architecture, "verify", missing)
     with pytest.raises(ValueError, match="required architecture evidence missing"):
         local.artifact_hashes("factory-native", tmp_path)
+
+
+def test_old_five_step_evidence_cannot_replace_required_detail_native_evidence(
+    tmp_path, monkeypatch
+):
+    from engineering.generative_design import design_iteration
+    from engineering.generative_design import native_acceptance as architecture
+
+    native = tmp_path / "factory-native"
+    native.mkdir()
+    expected = dict(passed=True, physical_release=False)
+    (native / "acceptance.json").write_text(local.encode(expected))
+    monkeypatch.setattr(fa, "acceptance", lambda folder: expected)
+    monkeypatch.setattr(architecture, "verify", lambda folder: expected)
+
+    def missing(folder, *, require_native):
+        assert folder == native / "detailed-design"
+        assert require_native is True
+        raise ValueError("required detailed-design native evidence missing")
+
+    monkeypatch.setattr(design_iteration, "verify", missing, raising=False)
+    with pytest.raises(
+        ValueError, match="required detailed-design native evidence missing"
+    ):
+        local.artifact_hashes("factory-native", tmp_path)
+
+
+def test_detail_native_evidence_is_reverified_and_all_bytes_bound(
+    tmp_path, monkeypatch
+):
+    from engineering.generative_design import design_iteration
+    from engineering.generative_design import native_acceptance as architecture
+
+    native = tmp_path / "factory-native"
+    detailed = native / "detailed-design"
+    detailed.mkdir(parents=True)
+    expected = dict(passed=True, physical_release=False)
+    (native / "acceptance.json").write_text(local.encode(expected))
+    cad = detailed / "selected.step"
+    cad.write_bytes(b"mock selected model bytes")
+    monkeypatch.setattr(fa, "acceptance", lambda folder: expected)
+    monkeypatch.setattr(architecture, "verify", lambda folder: expected)
+    calls = []
+
+    def verify(folder, *, require_native):
+        calls.append((folder, require_native))
+        return expected
+
+    monkeypatch.setattr(design_iteration, "verify", verify, raising=False)
+    first = local.artifact_hashes("factory-native", tmp_path)
+    assert calls == [(detailed, True)]
+    key = "factory-native/detailed-design/selected.step"
+    assert first[key] == local.digest(cad)
+    cad.write_bytes(b"changed mock selected model bytes")
+    second = local.artifact_hashes("factory-native", tmp_path)
+    assert first[key] != second[key]
+    assert calls == [(detailed, True), (detailed, True)]
 
 
 @pytest.mark.parametrize("adapter", sorted(fa.factory.ADAPTERS))

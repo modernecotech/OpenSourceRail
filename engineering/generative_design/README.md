@@ -161,3 +161,27 @@ models; `verify --output <dir>` rechecks its receipt. Failures remain in the
 output directory and fail the profile. This establishes numerical/native
 correspondence for the declared geometry, with engineering and manufacturing
 release explicitly false.
+
+## Feedback-directed detailed design team
+
+The [detailed scenario](../../docs/design-engine/multi-agent-detail-scenario-2026-10-17.md)
+adds `design_scenario.plan()` with exact component/artifact/inspection allocation,
+`mechanical_detail` and `civil_detail` adapters, and `design_iteration` orchestration.
+Run `./osr design campaign iterate --output <fresh-dir> --native --budget 256`.
+The default executes existing preliminary studies for every package;
+`--no-baseline` limits execution to the new detailed adapters. The standalone
+`tools/automation/design-iteration.py` CLI exposes the same functions.
+
+Every attempt is checkpointed and retains parent/repair reasons. Failed checks
+generate bounded changes, with full geometry/self-weight/demand recomputation.
+Mechanical gross mass feeds separately identified civil sensitivity contexts;
+net replacement mass remains unknown. `--resume <prior-dir>` continues retained
+frontiers only for unchanged sources and contexts. Budget is a total per context,
+not an additional evaluation count. Changes require new controlled campaigns.
+
+`verify-iteration --require-native` replays the numerical feedback sequence,
+checks exact source/component/evidence joins and independently derives required
+native context membership. `factory-native` now also executes this detailed
+campaign and verifies all required assembly exports; old receipts are incomplete.
+Historical integrity cannot satisfy fresh native acceptance. Local survivors
+remain research proposals until all package and integrated acceptance gates close.

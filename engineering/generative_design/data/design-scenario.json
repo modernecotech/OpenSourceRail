@@ -1,0 +1,68 @@
+{
+  "schema": "osr-design-scenario-contract/1",
+  "revision": "2026-10-17",
+  "purpose": "Bounded multi-agent civil and mechanical design development with exact inventory and manufacturing evidence coverage.",
+  "maximum_future_orchestration_review_passes": 4,
+  "feedback_evaluation_budget_per_context": {"default": 256, "minimum": 1, "maximum": 512},
+  "execution_bounds": {
+    "current_execution": "One orchestration pass at one controlled source/input revision. The runner does not automatically conduct four review passes or invent changed accepted inputs.",
+    "future_pass": "A further orchestration/review pass requires a changed controlled input or model revision, explicit dependency invalidation and renewed critique. Four is a planning allocation for future review passes, not a cap on feedback generations within this execution.",
+    "feedback_generation": "Every generation requires an actual changed candidate and recorded failed-check feedback. Its depth is finite under the per-context candidate budget; at most budget minus one parent edges can precede a newly evaluated candidate.",
+    "resume": "The evaluation budget is the total retained evaluations per context, including prior attempts; it is not an extra allowance on every resume.",
+    "standalone_adapters": "Discipline modules may expose separate standalone run policies. Their round, frontier and candidate policies do not govern the root design_iteration runner, which uses the explicit per-context evaluation budget."
+  },
+  "roles": {
+    "configuration-integrator": {"produces": ["configuration and interface exchange", "dependency and change-impact register"], "may_approve_own_work": false},
+    "civil-designer": {"produces": ["civil geometry variations", "structural and temporary-stage checks", "civil detail and construction proposals"], "may_approve_own_work": false},
+    "mechanical-designer": {"produces": ["mechanical geometry variations", "load-path and joint checks", "part and assembly proposals"], "may_approve_own_work": false},
+    "manufacturing-integrator": {"produces": ["process and equipment feasibility", "datum and inspection proposals", "supplier and first-article requests"], "may_approve_own_work": false},
+    "independent-critic": {"produces": ["independent challenge checks", "counterexample and deficiency register"], "may_approve_own_work": false}
+  },
+  "schedule": {
+    "maximum_concurrent_agents": 4,
+    "initial_wave": ["configuration-integrator", "civil-designer", "mechanical-designer", "manufacturing-integrator"],
+    "critique_wave": "Rotate a finished role into independent-critic; never assign the producer or a prior contributing agent to critique that candidate. Preserve candidate authors across resumed runs.",
+    "handoff": ["Configuration integrator freezes a provisional input revision and dependency set.", "Civil and mechanical designers enumerate bounded alternatives and retain rejected checks.", "Manufacturing integrator challenges route, equipment envelope, datums, assembly access and inspection for each shortlisted alternative.", "Independent critic reruns an independently formulated check and issues counterexamples against the exact candidate revision.", "Configuration integrator exchanges mass, reactions, clearances and interfaces, invalidates affected downstream results, and starts a bounded corrective iteration."]
+  },
+  "exchange_fields": ["configuration_id", "configuration_revision", "source_hashes", "package_id", "component_ids", "interface_revisions", "mass_and_centre_of_gravity", "load_cases_and_reactions", "datums_and_tolerance_stack", "geometry_and_removal_envelopes", "materials_and_process_allowables", "manufacturing_route_and_capacity", "unknowns", "evidence_refs"],
+  "stopping": {
+    "computationally_rejected": "Retain every failed mandatory predicate and the exact input and candidate revision; vary only authorized bounded variables.",
+    "held_external_input": "Stop automated retries when a controlling load, ground model, allowable, supplier configuration, physical test or authority acceptance is absent. Generate a named owner/request and resume only when its revision and evidence change.",
+    "bounded_search_exhausted": "After the iteration or candidate bound, retain the best provisional alternatives and unresolved constraints; request an explicit domain/model or architecture change rather than enlarging bounds silently.",
+    "stagnated": "Stop when candidate identities and controlling deficiencies do not change between iterations. A different iteration number is not progress.",
+    "resume": "Re-audit inventory, hash all changed inputs, invalidate affected dependency descendants, retain prior alternatives as history, and repeat independent critique for changed candidates.",
+    "physical_release": "No automated state grants manufacturing or construction release. Existing authorized engineering controls require issued exact-revision artifacts, qualified processes, actual inspection and physical-test results, closed independent checks and authenticated acceptance."
+  },
+  "domain_workflows": {
+    "civil": {
+      "generate": ["Vary member section, reinforcement/prestress layout, support and restraint arrangement within recorded bounds.", "Create bearing/end-zone, insert, diaphragm and lifting/transport detail alternatives for every mapped type."],
+      "evaluate": ["Check exact moving/static load arrangements, combinations, service/cracked behaviour, shear/torsion, end zones, fatigue and durability.", "Check prestress transfer/losses, construction stages, temporary stability, lifting/transport and replacement access."],
+      "completion_artifacts": ["checked reinforcement/prestress and anchorage drawings", "bearing/restraint and end-zone interface sheets", "mould/insert/cover and tolerance schedules", "temporary works and erection method", "material/batch and stressing records", "measured first article and proof/load results"],
+      "external_actions": ["Civil engineer accepts project actions and adopted limits.", "Geotechnical lead supplies site investigation and calibrated support parameters.", "Precast supplier returns actual tendon, anchorage, mould and stressing-bed configurations.", "Independent checker and site authority accept exact-revision calculations and physical evidence."]
+    },
+    "mechanical": {
+      "generate": ["Vary section, plate, rib, joint, fastener and bracket arrangement within recorded bounds for each mapped product.", "Develop functional datum, weld/access, tolerance and removal-envelope alternatives without changing unaccepted supplier dimensions."],
+      "evaluate": ["Check configuration-specific load path, stress/deflection, buckling, fatigue, joints and local interfaces.", "Check material/process allowables, tolerance stack, distortion, forming/machining and equipment reach; model assembly and removal."],
+      "completion_artifacts": ["dimensioned part and assembly drawing pack", "configuration-compatible BOM and material/finish schedule", "cut/nest/flat-pattern and machining data", "joint/WPS/fastener and distortion-control map", "fixture/datum/gauge and inspection plan", "actual first-article measurements and closed NCR records"],
+      "external_actions": ["Rolling-stock lead accepts actual mass, load and supplier interface revisions.", "Materials/process lead qualifies material, weld, adhesive and fastener allowables.", "Manufacturer conducts forming/joining trials and first-article inspection.", "Independent checker and design authority accept exact-revision calculations and physical evidence."]
+    },
+    "station": {
+      "generate": ["Vary modular platform, canopy, support, access and service arrangements for each applicable station archetype.", "Keep track/platform datums, accessible routes, passenger flow and evacuation interfaces explicit."],
+      "evaluate": ["Check site loads, ground/supports, serviceability, dynamic/swept clearance, drainage and construction stages.", "Check survey/tolerance stack, lifting, connections, pedestrian access, supplier equipment interfaces and maintenance paths."],
+      "completion_artifacts": ["archetype-specific assembly and set-out drawings", "site foundation/drainage and connection details", "tooling and module inspection pack", "gap/step/clearance and drainage survey", "supplier installation/commissioning evidence", "accessibility and evacuation acceptance"],
+      "external_actions": ["Survey/geotechnical leads accept station-specific control, ground and drainage/outfalls.", "Station, fire and accessibility authorities accept passenger/evacuation provisions.", "Suppliers return controlled charging, turnout, lift and passenger equipment interfaces.", "Installer records actual survey, function tests and independent acceptance."]
+    },
+    "factory": {
+      "generate": ["Vary plant arrangement, tooling, handling, support, utilities and resource schedules within actual equipment and process constraints.", "Prioritize manufacture in Britain, recording UK manufacture separately from UK supply/integration and unconfirmed origin."],
+      "evaluate": ["Check actual workpiece/tool envelope, payload/reach, process accuracy, duty, utility demand, rigging and maintenance access.", "Check site/ground, foundations, runway/slab actions, stressing restraints, extraction/fire provisions and coupled throughput."],
+      "completion_artifacts": ["configured equipment and origin/capacity schedule", "factory/yard set-out and utilities drawings", "tooling/fixture and foundation/runway details", "process route and resource/throughput schedule", "supplier-approved interfaces and quotations", "installation, proof, commissioning and measured capability records"],
+      "external_actions": ["Suppliers confirm actual configured machine dimensions, loads, origin, performance and delivery terms.", "Baghdad survey/geotechnical/utility leads accept site-specific infrastructure inputs.", "Manufacturer trials representative parts and verifies required accuracy/throughput.", "Competent authorities accept buildings, lifting, pressure/electrical/fire systems and commissioning evidence."]
+    },
+    "integration": {
+      "generate": ["Create explicit architecture/configuration, interface allocation and system trade alternatives; preserve LM3 and six-car boundaries.", "Propagate changed mass, centre of gravity, axle/reaction loads, geometry, energy and service interfaces to dependency descendants."],
+      "evaluate": ["Reconcile exact source/product/interface identity, revision and applicability before comparisons.", "Check complete mandatory configuration, load-case, hazard, duty, tolerance, maintainability and verification coverage; unsupported models remain open."],
+      "completion_artifacts": ["accepted configuration and requirements baseline", "revision-controlled interface/load/datum register", "integrated model and change-impact record", "system verification and hazard closure matrix", "physical correlation and independent review dossier", "authenticated exact-revision acceptance record"],
+      "external_actions": ["Project owner and engineers of record accept architecture, operating requirements, adopted limits and design responsibilities.", "Specialists supply validated models and actual input evidence for unavailable capabilities.", "Test authority conducts instrumented system verification and independent correlation.", "Authorized design authority authenticates final acceptance; agent critique supplies no physical release."]
+    }
+  }
+}

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6240**.
+Indexed Markdown files: **6241**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6240**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 245 |
+| [docs](#docs) | 246 |
 | [engineering](#engineering) | 73 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6090,6 +6090,7 @@ Indexed Markdown files: **6240**.
 | [`docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md`](../docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md) | Mechanical and civil design and factory buildout plan |
 | [`docs/design-engine/multi-agent-design-results-2026-10-16.md`](../docs/design-engine/multi-agent-design-results-2026-10-16.md) | Multi-agent design campaign: executed variations and manufacturing gaps |
 | [`docs/design-engine/multi-agent-design-scenario-2026-10-16.md`](../docs/design-engine/multi-agent-design-scenario-2026-10-16.md) | Multi-agent civil, mechanical and manufacturing design scenario |
+| [`docs/design-engine/multi-agent-detail-scenario-2026-10-17.md`](../docs/design-engine/multi-agent-detail-scenario-2026-10-17.md) | Generative civil and mechanical design team — detailed development |
 | [`docs/design-engine/plan-status.md`](../docs/design-engine/plan-status.md) | Consolidation And Auto-Design Acceptance Status |
 | [`docs/design-engine/queued-systems-results-2026-10-16.md`](../docs/design-engine/queued-systems-results-2026-10-16.md) | Queued civil, mechanical and factory design work — 16 October 2026 |
 | [`docs/design-engine/record-ownership.md`](../docs/design-engine/record-ownership.md) | Record Ownership And Reviewed Handoffs |
