@@ -21,12 +21,16 @@ spec.loader.exec_module(local)
 
 def test_factory_profile_runs_actual_native_and_common_jobs(tmp_path):
     rows = local.plan("factory-native", tmp_path)
-    assert len(rows) == 3
-    for row, action in zip(rows, ("prerequisites", "run", "verify")):
+    assert len(rows) == 5
+    for row, action in zip(rows[:3], ("prerequisites", "run", "verify")):
         assert "engineering.design_engine.factory_acceptance" in row["argv"]
         assert action in row["argv"]
         assert "--output" in row["argv"]
     assert rows[1]["timeout_seconds"] == 900
+    for row, action in zip(rows[3:], ("run", "verify")):
+        assert "engineering.generative_design.native_acceptance" in row["argv"]
+        assert action in row["argv"]
+        assert str(tmp_path / "factory-native/architecture") in row["argv"]
     assert local.RELEASE_PROFILES == {"ci", "kani", "integrated-stack", "example-city"}
 
 
@@ -46,6 +50,26 @@ def test_missing_factory_tool_fails_and_retains_prerequisite_record(
 def test_missing_factory_acceptance_cannot_produce_successful_artifact_set(tmp_path):
     (tmp_path / "factory-native").mkdir()
     with pytest.raises((ValueError, OSError)):
+        local.artifact_hashes("factory-native", tmp_path)
+
+
+def test_old_factory_models_cannot_replace_required_architecture_evidence(
+    tmp_path, monkeypatch
+):
+    from engineering.generative_design import native_acceptance as architecture
+
+    native = tmp_path / "factory-native"
+    native.mkdir()
+    expected = dict(passed=True, physical_release=False)
+    (native / "acceptance.json").write_text(local.encode(expected))
+    monkeypatch.setattr(fa, "acceptance", lambda folder: expected)
+
+    def missing(folder):
+        assert folder == native / "architecture"
+        raise ValueError("required architecture evidence missing")
+
+    monkeypatch.setattr(architecture, "verify", missing)
+    with pytest.raises(ValueError, match="required architecture evidence missing"):
         local.artifact_hashes("factory-native", tmp_path)
 
 

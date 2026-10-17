@@ -5,7 +5,6 @@ from __future__ import annotations
 from html import escape
 import json
 from pathlib import Path
-import shutil
 
 from .coverage import sha, local, ROOT, audit, validate_ledger
 
@@ -62,7 +61,8 @@ body{{font:16px/1.5 system-ui,sans-serif;margin:0;background:#f4f3ed;color:#192b
 
 
 def publish(output, destination):
-    from .campaign import verify, write
+    from .campaign import verify
+    from . import evidence_store
 
     output, destination = Path(output).resolve(), Path(destination).resolve()
     verified = verify(output)
@@ -72,41 +72,36 @@ def publish(output, destination):
         raise ValueError(
             "review projection requires a fresh docs/design-engine directory"
         )
-    destination.mkdir(parents=True)
     record = json.loads((output / "receipt.json").read_text())
-    for name in record["files_sha256"]:
-        source = output / name
-        # Keep raw search/definition/check evidence and compact native receipts.
-        # STEP, full mesher/solver outputs and private parent store stay local.
-        if source.suffix not in {".json", ".html", ".FCStd"}:
-            continue
-        target = destination / name
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(source, target)
-    write(
-        destination / "snapshot.json",
-        dict(
-            schema="osr-generative-campaign-snapshot/1",
-            parent_receipt_sha256=sha(output / "receipt.json"),
-            parent_verified_at_publication=verified,
-            source_sha256=record["source_sha256"],
-            files_sha256={
-                p.relative_to(destination).as_posix(): sha(p)
-                for p in sorted(destination.rglob("*"))
-                if p.is_file()
-            },
-            all_systems_design_complete=False,
-            physical_release=False,
-            scope="Compact source-bound projection. CAD/STEP was reopened at execution; only FCStd is retained here. Full common native meshes/decks/logs remain in local sealed parent jobs. No new numerical recomputation by snapshot verification.",
-        ),
+    files = {
+        name: output / name
+        for name in record["files_sha256"]
+        if Path(name).suffix in {".json", ".html", ".FCStd"}
+    }
+    seal = dict(
+        schema="osr-generative-campaign-snapshot/1",
+        parent_receipt_sha256=sha(output / "receipt.json"),
+        parent_verified_at_publication=verified,
+        source_sha256=record["source_sha256"],
+        files_sha256={name: sha(path) for name, path in files.items()},
+        all_systems_design_complete=False,
+        physical_release=False,
+        scope="Source-bound research projection; original evidence is losslessly archived in the shared content-addressed store. FCStd retained locally; STEP and full common native logs remain in sealed parent jobs. No numerical recomputation by snapshot verification.",
     )
+    files["snapshot.json"] = evidence_store.pretty(seal)
+    evidence_store.publish_files(files, destination)
     return verify_snapshot(destination)
 
 
 def verify_snapshot(destination, *, current=True):
     from .campaign import sources
 
+    from . import evidence_store
+
     destination = Path(destination).resolve()
+    if evidence_store.is_projection(destination):
+        with evidence_store.materialized(destination) as original:
+            return verify_snapshot(original, current=current)
     record = json.loads((destination / "snapshot.json").read_text())
     if (
         record.get("schema") != "osr-generative-campaign-snapshot/1"

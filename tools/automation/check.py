@@ -22,6 +22,10 @@ SCOPES = {
     "all": "ci",
 }
 NATIVE_ACCEPTANCE_SOURCES = {
+    "tools/automation/migrate-design-evidence.py",
+    "engineering/analysis/tests/test_generative_evidence_store.py",
+    "engineering/analysis/tests/test_generative_native_acceptance.py",
+    "engineering/analysis/tests/test_campaign_review.py",
     "tools/automation/generative-design-campaign.py",
     "engineering/analysis/tests/test_generative_civil.py",
     "engineering/analysis/tests/test_generative_mechanical.py",
@@ -84,6 +88,8 @@ if a.scope == "impact":
                     "docs/design-engine/generative-campaign/",
                     "docs/design-engine/queued-systems/",
                     "docs/design-engine/architecture-feedback/",
+                    "docs/design-engine/review-architecture-",
+                    "docs/design-engine/evidence-store/",
                 )
             )
             for name in a.changed
@@ -101,6 +107,8 @@ if a.scope == "impact":
                     "docs/design-engine/generative-campaign/",
                     "docs/design-engine/queued-systems/",
                     "docs/design-engine/architecture-feedback/",
+                    "docs/design-engine/review-architecture-",
+                    "docs/design-engine/evidence-store/",
                     "docs/design-engine/factory-support/",
                     "docs/design-engine/factory-stages/",
                     "docs/design-engine/factory-whole-bed/",

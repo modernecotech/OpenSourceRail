@@ -22,8 +22,112 @@ def test_platform_roundoff_and_environment_are_separate_from_physics(outputs):
         k: "independent-platform" for k in report["numerical_toolchain"]
     }
     fresh["development.json"] = build.json_text(report)
+    nested = json.loads(fresh["report.json"])
+    nested["development"]["numerical_toolchain"] = report["numerical_toolchain"]
+    fresh["report.json"] = build.json_text(nested)
     errors, _ = r.compare_outputs(build.DEFAULT, fresh)
     assert errors == []
+
+
+@pytest.fixture
+def minimal_retained_evidence(tmp_path):
+    producer = {
+        "python": "original-python",
+        "numpy": "original-numpy",
+        "scipy": "original-scipy",
+        "matplotlib": "original-matplotlib",
+    }
+    development = {
+        "numerical_toolchain": producer,
+        "force_n": 1000.0,
+        "state": "unknown",
+    }
+    outputs = {
+        "development.json": build.json_text(development),
+        "report.json": build.json_text(
+            {
+                "source_sha256": {"producer.py": "original-source"},
+                "development": development,
+            }
+        ),
+    }
+    for name, text in outputs.items():
+        (tmp_path / name).write_text(text)
+    sources = {"verifier.py": "current-verifier"}
+    record = r.seal(tmp_path, outputs, {}, sources)
+    (tmp_path / "reproduction.json").write_text(build.json_text(record))
+    return tmp_path, outputs, sources
+
+
+def test_both_recomputed_toolchain_copies_can_change_without_identity_loss(
+    minimal_retained_evidence,
+):
+    folder, outputs, sources = minimal_retained_evidence
+    fresh = dict(outputs)
+    development = json.loads(fresh["development.json"])
+    original = deepcopy(development["numerical_toolchain"])
+    development["numerical_toolchain"] = {k: "independent-runtime" for k in original}
+    report = json.loads(fresh["report.json"])
+    report["development"]["numerical_toolchain"] = development["numerical_toolchain"]
+    fresh["development.json"] = build.json_text(development)
+    fresh["report.json"] = build.json_text(report)
+    result = r.verify(folder, fresh, {}, sources)
+    assert result["passed"] and result["exact_retained_integrity"]
+    assert result["verifier_toolchain"] == development["numerical_toolchain"]
+    assert result["original_producer_toolchain"] == original
+    assert not result["original_artifacts_rewritten"]
+
+
+def test_nested_metadata_exclusion_never_ignores_recomputed_physics_or_state(
+    minimal_retained_evidence,
+):
+    folder, outputs, sources = minimal_retained_evidence
+    for field, value in [("force_n", 1001.0), ("state", "passed")]:
+        fresh = dict(outputs)
+        report = json.loads(fresh["report.json"])
+        report["development"][field] = value
+        fresh["report.json"] = build.json_text(report)
+        with pytest.raises(ValueError, match="numerical reproduction mismatch"):
+            r.verify(folder, fresh, {}, sources)
+
+
+def test_retained_nested_metadata_still_requires_exact_bytes(minimal_retained_evidence):
+    folder, outputs, sources = minimal_retained_evidence
+    path = folder / "report.json"
+    report = json.loads(path.read_text())
+    report["development"]["numerical_toolchain"]["python"] = "tampered-producer"
+    path.write_text(build.json_text(report))
+    with pytest.raises(ValueError, match="artifact integrity mismatch"):
+        r.verify(folder, outputs, {}, sources)
+    with pytest.raises(ValueError, match="cannot reseal changed original"):
+        r.seal(folder, outputs, {}, sources)
+
+
+@pytest.mark.parametrize(
+    "target", ["nested", "standalone", "both", "producer-source", "seal-producer"]
+)
+def test_producer_identity_tamper_rejects_even_with_updated_file_hash(
+    minimal_retained_evidence, target
+):
+    folder, outputs, sources = minimal_retained_evidence
+    record = json.loads((folder / "reproduction.json").read_text())
+    for name in ["report.json", "development.json"]:
+        data = json.loads((folder / name).read_text())
+        if name == "report.json" and target in {"nested", "both"}:
+            data["development"]["numerical_toolchain"]["python"] = "tampered-producer"
+        if name == "development.json" and target in {"standalone", "both"}:
+            data["numerical_toolchain"]["python"] = "tampered-producer"
+        if name == "report.json" and target == "producer-source":
+            data["source_sha256"]["producer.py"] = "tampered-source"
+        (folder / name).write_text(build.json_text(data))
+        record["retained_files_sha256"][name] = r.digest(folder / name)
+    if target == "seal-producer":
+        record["original_producer_toolchain"]["python"] = "tampered-seal-producer"
+    (folder / "reproduction.json").write_text(build.json_text(record))
+    with pytest.raises(ValueError, match="original factory producer identity differs"):
+        r.verify(folder, outputs, {}, sources)
+    with pytest.raises(ValueError, match="original factory producer identity differs"):
+        r.seal(folder, outputs, {}, sources)
 
 
 @pytest.mark.parametrize("bad", [None, True, float("inf"), float("nan"), 1001.0])

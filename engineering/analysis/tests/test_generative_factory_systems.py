@@ -9,12 +9,15 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from engineering.generative_design import factory_systems as f
+from engineering.generative_design.evidence_store import read_json
 from engineering.design_engine.factory_schedule import validate
 
 
 @pytest.fixture(scope="module")
 def report():
-    civil = f.read(f.ROOT / "docs/design-engine/generative-campaign/civil/search.json")
+    civil = read_json(
+        f.ROOT / "docs/design-engine/generative-campaign/civil/search.json"
+    )
     return f.run(civil_report=civil)
 
 
@@ -156,7 +159,9 @@ def test_current_civil_transfer_and_rigging_equilibrium(report):
 
 
 def test_bad_current_civil_hook_cannot_silently_transfer():
-    civil = f.read(f.ROOT / "docs/design-engine/generative-campaign/civil/search.json")
+    civil = read_json(
+        f.ROOT / "docs/design-engine/generative-campaign/civil/search.json"
+    )
     selected = set(civil["selected_candidate_ids"])
     row = next(r for r in civil["candidates"] if r["id"] in selected)
     row["scenarios"][0]["hook_equivalent_kg"] += 1000

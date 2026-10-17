@@ -1,5 +1,10 @@
 # Design, Jobs And Evidence Workflows
 
+Start with the [unified campaign review](campaign-review/index.html) for configuration
+filters, failed checks, missing inputs and side-by-side comparison across all 63
+work packages. The [consolidation record](review-consolidation-2026-10-17.md) explains
+immutable evidence, historical applicability and mandatory native acceptance.
+
 The [17 October architecture feedback](architecture-feedback-2026-10-17.md) adds
 [12 coupled provisional cases](architecture-feedback/index.html), a lighter-frame
 branch, full-module platforms and published British stressing/lifting equipment

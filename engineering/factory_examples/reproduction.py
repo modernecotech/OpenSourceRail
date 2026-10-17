@@ -30,7 +30,7 @@ ABSOLUTE = {
 }
 FIGURES = {"development.svg", "connections.svg"}
 METADATA = {
-    "report.json": {("source_sha256",)},
+    "report.json": {("source_sha256",), ("development", "numerical_toolchain")},
     "development.json": {("numerical_toolchain",)},
 }
 
@@ -172,6 +172,7 @@ def seal(folder, outputs, models, sources):
     """Explicit re-verification of retained evidence, never a regeneration."""
     folder = Path(folder)
     existing = folder / "reproduction.json"
+    previous = None
     if existing.is_file():
         previous = load(existing.read_text())
         if previous["retained_files_sha256"] != retained_hashes(
@@ -185,6 +186,14 @@ def seal(folder, outputs, models, sources):
         raise ValueError("Cannot seal failed reproduction: " + "; ".join(errors[:12]))
     report = load((folder / "report.json").read_text())
     producer = load((folder / "development.json").read_text())["numerical_toolchain"]
+    if report["development"]["numerical_toolchain"] != producer or (
+        previous is not None
+        and (
+            previous["original_producer_sources_sha256"] != report["source_sha256"]
+            or previous["original_producer_toolchain"] != producer
+        )
+    ):
+        raise ValueError("original factory producer identity differs")
     return dict(
         schema=SCHEMA,
         retained_files_sha256=retained_hashes(folder, outputs, models),
@@ -227,6 +236,8 @@ def verify(folder, outputs, models, sources):
     if (
         report["source_sha256"] != record["original_producer_sources_sha256"]
         or development["numerical_toolchain"] != record["original_producer_toolchain"]
+        or report["development"]["numerical_toolchain"]
+        != record["original_producer_toolchain"]
     ):
         raise ValueError("original factory producer identity differs")
     errors, changed_figures = compare_outputs(folder, outputs)

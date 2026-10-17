@@ -135,6 +135,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:buildable-civil.sh | automation/domain maintainer | `tools/automation/buildable-civil.sh` | `tools/automation/buildable-civil.sh` | implemented |
 | tool:buildable-stations.sh | automation/domain maintainer | `tools/automation/buildable-stations.sh` | `tools/automation/buildable-stations.sh` | implemented |
 | tool:buildable-trainset.sh | automation/domain maintainer | `tools/automation/buildable-trainset.sh` | `tools/automation/buildable-trainset.sh` | implemented |
+| tool:campaign-review.py | automation/domain maintainer | `tools/automation/campaign-review.py` | `tools/automation/osr-python tools/automation/campaign-review.py --help` | implemented |
 | tool:capabilities.py | automation/domain maintainer | `tools/automation/capabilities.py` | `tools/automation/osr-python tools/automation/capabilities.py --help` | implemented; focused test mapping pending |
 | tool:capture-city-offer.mjs | automation/domain maintainer | `tools/automation/capture-city-offer.mjs` | `tools/automation/capture-city-offer.mjs` | implemented; focused test mapping pending |
 | tool:catalogue.py | automation/domain maintainer | `tools/automation/catalogue.py` | `tools/automation/osr-python tools/automation/catalogue.py --help` | implemented |
@@ -192,6 +193,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:export-shared-campaign-review.py | automation/domain maintainer | `tools/automation/export-shared-campaign-review.py` | `tools/automation/osr-python tools/automation/export-shared-campaign-review.py --help` | implemented; focused test mapping pending |
 | tool:export-shared-engineering-review.py | automation/domain maintainer | `tools/automation/export-shared-engineering-review.py` | `tools/automation/osr-python tools/automation/export-shared-engineering-review.py --help` | implemented; focused test mapping pending |
 | tool:export-shared-service-review.py | automation/domain maintainer | `tools/automation/export-shared-service-review.py` | `tools/automation/osr-python tools/automation/export-shared-service-review.py --help` | implemented; focused test mapping pending |
+| tool:factory-buildout.py | automation/domain maintainer | `tools/automation/factory-buildout.py` | `tools/automation/osr-python tools/automation/factory-buildout.py --help` | implemented; focused test mapping pending |
 | tool:factory-fixture-freecad.py | automation/domain maintainer | `tools/automation/factory-fixture-freecad.py` | `tools/automation/osr-python tools/automation/factory-fixture-freecad.py --help` | implemented; focused test mapping pending |
 | tool:factory-modernisation.py | automation/domain maintainer | `tools/automation/factory-modernisation.py` | `tools/automation/osr-python tools/automation/factory-modernisation.py --help` | implemented |
 | tool:factory_sizing.py | automation/domain maintainer | `tools/automation/factory_sizing.py` | `tools/automation/factory_sizing.py` | implemented |
@@ -223,6 +225,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:generate-residential-network-catalogue.py | automation/domain maintainer | `tools/automation/generate-residential-network-catalogue.py` | `tools/automation/osr-python tools/automation/generate-residential-network-catalogue.py --help` | implemented; focused test mapping pending |
 | tool:generate-stabling-plan.py | automation/domain maintainer | `tools/automation/generate-stabling-plan.py` | `tools/automation/osr-python tools/automation/generate-stabling-plan.py --help` | implemented; focused test mapping pending |
 | tool:generate-station-water-screen.py | automation/domain maintainer | `tools/automation/generate-station-water-screen.py` | `tools/automation/osr-python tools/automation/generate-station-water-screen.py --help` | implemented; focused test mapping pending |
+| tool:generative-design-campaign.py | automation/domain maintainer | `tools/automation/generative-design-campaign.py` | `tools/automation/osr-python tools/automation/generative-design-campaign.py --help` | implemented; focused test mapping pending |
 | tool:industrialisation-study.py | automation/domain maintainer | `tools/automation/industrialisation-study.py` | `tools/automation/osr-python tools/automation/industrialisation-study.py --help` | implemented; focused test mapping pending |
 | tool:integrated-network-plan.py | automation/domain maintainer | `tools/automation/integrated-network-plan.py` | `tools/automation/osr-python tools/automation/integrated-network-plan.py --help` | implemented; focused test mapping pending |
 | tool:integration-programme.py | automation/domain maintainer | `tools/automation/integration-programme.py` | `tools/automation/osr-python tools/automation/integration-programme.py --help` | implemented |
@@ -231,6 +234,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:local-validation.py | automation/domain maintainer | `tools/automation/local-validation.py` | `tools/automation/osr-python tools/automation/local-validation.py --help` | implemented |
 | tool:local_validation.py | automation/domain maintainer | `tools/automation/local_validation.py` | `tools/automation/local_validation.py` | implemented |
 | tool:mapping_evidence.py | automation/domain maintainer | `tools/automation/mapping_evidence.py` | `tools/automation/mapping_evidence.py` | implemented |
+| tool:migrate-design-evidence.py | automation/domain maintainer | `tools/automation/migrate-design-evidence.py` | `tools/automation/osr-python tools/automation/migrate-design-evidence.py --help` | implemented; focused test mapping pending |
 | tool:native-spatial-pilot.py | automation/domain maintainer | `tools/automation/native-spatial-pilot.py` | `tools/automation/osr-python tools/automation/native-spatial-pilot.py --help` | implemented; focused test mapping pending |
 | tool:network_integration.py | automation/domain maintainer | `tools/automation/network_integration.py` | `tools/automation/network_integration.py` | implemented |
 | tool:network_plan_viewer.py | automation/domain maintainer | `tools/automation/network_plan_viewer.py` | `tools/automation/network_plan_viewer.py` | implemented; focused test mapping pending |
@@ -244,10 +248,12 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:planning_ci_evidence.py | automation/domain maintainer | `tools/automation/planning_ci_evidence.py` | `tools/automation/planning_ci_evidence.py` | implemented |
 | tool:platform-recovery.py | automation/domain maintainer | `tools/automation/platform-recovery.py` | `tools/automation/osr-python tools/automation/platform-recovery.py --help` | implemented |
 | tool:platform-status.py | automation/domain maintainer | `tools/automation/platform-status.py` | `tools/automation/osr-python tools/automation/platform-status.py --help` | implemented; focused test mapping pending |
+| tool:plot-generative-campaign.py | automation/domain maintainer | `tools/automation/plot-generative-campaign.py` | `tools/automation/osr-python tools/automation/plot-generative-campaign.py --help` | implemented; focused test mapping pending |
 | tool:project_twin.py | automation/domain maintainer | `tools/automation/project_twin.py` | `tools/automation/project_twin.py` | implemented |
 | tool:proposal_archives.py | automation/domain maintainer | `tools/automation/proposal_archives.py` | `tools/automation/proposal_archives.py` | implemented; focused test mapping pending |
 | tool:publish-city-summary.py | automation/domain maintainer | `tools/automation/publish-city-summary.py` | `tools/automation/osr-python tools/automation/publish-city-summary.py --help` | implemented; focused test mapping pending |
 | tool:publish-design-twin-evidence.py | automation/domain maintainer | `tools/automation/publish-design-twin-evidence.py` | `tools/automation/osr-python tools/automation/publish-design-twin-evidence.py --help` | implemented; focused test mapping pending |
+| tool:publish-factory-review.py | automation/domain maintainer | `tools/automation/publish-factory-review.py` | `tools/automation/osr-python tools/automation/publish-factory-review.py --help` | implemented; focused test mapping pending |
 | tool:publish-integration-review.py | automation/domain maintainer | `tools/automation/publish-integration-review.py` | `tools/automation/osr-python tools/automation/publish-integration-review.py --help` | implemented |
 | tool:publish-lm3-work-packages.py | automation/domain maintainer | `tools/automation/publish-lm3-work-packages.py` | `tools/automation/osr-python tools/automation/publish-lm3-work-packages.py --help` | implemented; focused test mapping pending |
 | tool:recalculate-city-capex.py | automation/domain maintainer | `tools/automation/recalculate-city-capex.py` | `tools/automation/osr-python tools/automation/recalculate-city-capex.py --help` | implemented; focused test mapping pending |
@@ -297,6 +303,7 @@ A source inventory proves retained entry points, not coverage or physical accept
 | tool:validate-host-manifests.py | automation/domain maintainer | `tools/automation/validate-host-manifests.py` | `tools/automation/validate-host-manifests.py` | implemented; focused test mapping pending |
 | tool:validate-lm3-first-article-evidence.py | automation/domain maintainer | `tools/automation/validate-lm3-first-article-evidence.py` | `tools/automation/osr-python tools/automation/validate-lm3-first-article-evidence.py --help` | implemented; focused test mapping pending |
 | tool:validate-owner-builder-operator-mobilisation.py | automation/domain maintainer | `tools/automation/validate-owner-builder-operator-mobilisation.py` | `tools/automation/osr-python tools/automation/validate-owner-builder-operator-mobilisation.py --help` | implemented; focused test mapping pending |
+| tool:validate-panel-assembly.py | automation/domain maintainer | `tools/automation/validate-panel-assembly.py` | `tools/automation/osr-python tools/automation/validate-panel-assembly.py --help` | implemented; focused test mapping pending |
 | tool:validate-ring-interchanges.py | automation/domain maintainer | `tools/automation/validate-ring-interchanges.py` | `tools/automation/osr-python tools/automation/validate-ring-interchanges.py --help` | implemented; focused test mapping pending |
 | tool:validate-simulation-components.py | automation/domain maintainer | `tools/automation/validate-simulation-components.py` | `tools/automation/osr-python tools/automation/validate-simulation-components.py --help` | implemented; focused test mapping pending |
 | tool:validate-station-clusters.py | automation/domain maintainer | `tools/automation/validate-station-clusters.py` | `tools/automation/osr-python tools/automation/validate-station-clusters.py --help` | implemented; focused test mapping pending |
@@ -329,6 +336,8 @@ A source inventory proves retained entry points, not coverage or physical accept
 | design:civil-system-alternatives | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem civil-system-alternatives --city samawah` | implemented |
 | design:city-options | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem city-options --city samawah` | implemented |
 | design:engineering-change | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem engineering-change --city samawah` | implemented |
+| design:factory-fixture | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem factory-fixture --city samawah` | implemented |
+| design:factory-precast | design and discipline maintainer | `engineering/design_engine/registry.py` | `./osr design run --problem factory-precast --city samawah` | implemented |
 | service:erpnext | erpnext maintainer | `deployment/erpnext/README.md` | `./osr erp` | implemented |
 | service:supervision | supervision maintainer | `deployment/supervision/README.md` | `./osr supervision` | implemented |
 | service:example-city | example-city maintainer | `deployment/example-city/README.md` | `./osr example-city` | implemented |

@@ -9,7 +9,6 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
-import shutil
 
 from . import campaign, coverage, review
 from .coverage import ROOT, local, sha
@@ -24,7 +23,9 @@ RELEASE_FLAGS = (
 
 
 def read(path):
-    return json.loads(Path(path).read_text())
+    from .evidence_store import read_json
+
+    return read_json(path)
 
 
 def source_state(value):
@@ -47,7 +48,12 @@ def source_state(value):
         )
     )
     names.update(str(p.relative_to(ROOT)) for p in PARENT.rglob("*") if p.is_file())
-    return {name: sha(local(name)) for name in sorted(names)}
+    from .evidence_store import source_closure
+
+    result = {name: sha(local(name)) for name in sorted(names)}
+    for name in sorted(names):
+        result.update(source_closure(local(name)))
+    return dict(sorted(result.items()))
 
 
 def inherited_civil():
@@ -389,7 +395,12 @@ def validate_report(value, report):
 
 
 def verify(folder, *, current=True, snapshot=False):
+    from . import evidence_store
+
     folder = Path(folder).resolve()
+    if evidence_store.is_projection(folder):
+        with evidence_store.materialized(folder) as original:
+            return verify(original, current=current, snapshot=snapshot)
     seal = "snapshot.json" if snapshot else "receipt.json"
     record = read(folder / seal)
     if record.get("schema") != (
@@ -458,31 +469,30 @@ def verify(folder, *, current=True, snapshot=False):
 
 
 def publish(output, destination):
+    from . import evidence_store
+
     output, destination = Path(output).resolve(), Path(destination).resolve()
     verified = verify(output)
     if destination.exists() or not destination.is_relative_to(
         ROOT / "docs/design-engine"
     ):
-        raise ValueError("queued review needs a fresh docs/design-engine directory")
-    destination.mkdir(parents=True)
+        raise ValueError(
+            "queued publication requires a fresh docs/design-engine directory"
+        )
     receipt = read(output / "receipt.json")
-    for name in receipt["files_sha256"]:
-        source = output / name
-        if source.suffix not in {".json", ".csv", ".svg", ".html", ".FCStd"}:
-            continue
-        target = destination / name
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(source, target)
-    campaign.write(
-        destination / "snapshot.json",
-        dict(
-            schema="osr-queued-studies-snapshot/1",
-            parent_receipt_sha256=sha(output / "receipt.json"),
-            parent_verified_at_publication=verified,
-            source_sha256=receipt["source_sha256"],
-            files_sha256=file_hashes(destination),
-            physical_release=False,
-            scope="Compact preliminary studies; STEP and native execution logs retained in sealed local parent. Integrity verification is not numerical recomputation or engineering acceptance.",
-        ),
+    files = {
+        name: output / name
+        for name in receipt["files_sha256"]
+        if Path(name).suffix in {".json", ".html", ".csv", ".svg", ".FCStd"}
+    }
+    seal = dict(
+        schema="osr-queued-studies-snapshot/1",
+        source_sha256=receipt["source_sha256"],
+        parent_receipt_sha256=sha(output / "receipt.json"),
+        parent_verified_at_publication=verified,
+        files_sha256={name: sha(path) for name, path in files.items()},
+        physical_release=False,
     )
+    files["snapshot.json"] = evidence_store.pretty(seal)
+    evidence_store.publish_files(files, destination)
     return verify(destination, snapshot=True)

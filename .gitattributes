@@ -3,6 +3,9 @@
 *.blend binary
 *.csv whitespace=cr-at-eol
 
+# Immutable evidence objects preserve exact archived bytes, including CSV CRLF.
+docs/design-engine/evidence-store/sha256/** binary
+
 # Generated STEP geometry is reviewed through its inputs and native solid audit.
 engineering/models/digital-twins/best-practice/reference-twin.step binary
 engineering/design_consistency/examples/cad/*.step binary

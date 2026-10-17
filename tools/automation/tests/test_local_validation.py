@@ -20,6 +20,12 @@ LOCAL = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(LOCAL)
 
 
+def test_quick_requires_current_capability_directory(tmp_path):
+    rows = LOCAL.plan("quick", tmp_path)
+    checks = [r for r in rows if "tools/automation/capabilities.py" in r["argv"]]
+    assert len(checks) == 1 and "--check" in checks[0]["argv"]
+
+
 @pytest.fixture
 def checkout(tmp_path, monkeypatch):
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)

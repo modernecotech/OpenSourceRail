@@ -111,7 +111,9 @@ MECHAN = dict(
 
 
 def _read(path):
-    return json.loads(Path(path).read_text())
+    from .evidence_store import read_json
+
+    return read_json(path)
 
 
 def _positive(value, name):

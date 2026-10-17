@@ -407,6 +407,7 @@ def plan(profile, output):
             "tools/automation/tests/test_release_evidence.py",
         ),
         py("README limits", "tools/automation/check-readmes.py"),
+        py("Capability directory", "tools/automation/capabilities.py", "--check"),
         py("Markdown links", "tools/automation/check-markdown-links.py"),
         py("Artifact sizes", "tools/automation/check-tracked-file-sizes.py"),
         py(
@@ -617,6 +618,24 @@ def plan(profile, output):
                 "--output",
                 str(native),
                 timeout=90,
+            ),
+            py(
+                "Fresh selected architecture CAD and reopen acceptance",
+                "-m",
+                "engineering.generative_design.native_acceptance",
+                "run",
+                "--output",
+                str(native / "architecture"),
+                timeout=1500,
+            ),
+            py(
+                "Verify required architecture native membership",
+                "-m",
+                "engineering.generative_design.native_acceptance",
+                "verify",
+                "--output",
+                str(native / "architecture"),
+                timeout=180,
             ),
         ]
     if profile == "ci":
@@ -843,6 +862,9 @@ def capture_city(destination):
 def artifact_hashes(profile, folder):
     if profile == "factory-native":
         from engineering.design_engine.factory_acceptance import acceptance
+        from engineering.generative_design.native_acceptance import (
+            verify as verify_architecture_native,
+        )
 
         native = folder / "factory-native"
         if (
@@ -852,6 +874,7 @@ def artifact_hashes(profile, folder):
             != acceptance(native)
         ):
             raise ValueError("missing or changed factory native acceptance report")
+        verify_architecture_native(native / "architecture")
     if profile == "native-design":
         native = folder / "native-design"
         if native.is_symlink() or not native.is_dir():

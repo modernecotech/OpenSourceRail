@@ -30,7 +30,9 @@ G = 9.80665
 
 
 def read(name):
-    return json.loads((ROOT / name).read_text())
+    from .evidence_store import read_json
+
+    return read_json(ROOT / name)
 
 
 def planning_axles(total_mass_kg, cg_offset_m, *, multiplier=1):

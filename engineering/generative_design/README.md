@@ -125,3 +125,39 @@ manufacturing drawings, prove process capability or close an entire system.
 New accepted input/model revisions require new campaigns and review of affected
 descendants. The current partial evaluators deliberately produce no manufacturing
 or physical release.
+
+## Unified review and immutable evidence
+
+The [campaign review](../../docs/design-engine/campaign-review/index.html)
+filters configuration-specific screening results, detailed unknowns and next
+actions, and compares two records without inventing unknown mass or cost.
+Generate it with `tools/automation/campaign-review.py --architecture <packet>`.
+The [consolidation record](../../docs/design-engine/review-consolidation-2026-10-17.md)
+explains historical applicability and acceptance limits.
+
+Published JSON may now be an immutable-store reference. Use
+`engineering.generative_design.evidence_store.read_json(path)` or
+`read_bytes(path)` to read it, rather than decoding the reference file directly.
+`verify_projection(folder)` verifies the exact original member set and hashes.
+`materialized(folder)` is a context manager yielding a temporary reconstruction
+of the original packet; legacy snapshot verifiers use it automatically. The
+original seals are preserved byte for byte. `source_closure(path)` includes only
+reachable objects, so adding unrelated evidence does not stale an older source
+binding. Publication deduplicates repeated JSON subtrees in the shared store;
+CAD and review assets remain available at their ordinary paths.
+
+Run `tools/automation/migrate-design-evidence.py verify` to check the three
+migrated historical packets. `prune` reports unreferenced objects without
+deleting them; the explicit `prune --delete-unreferenced` maintenance command
+removes only objects outside every projection and pinned original source map.
+Run integrity checks before and after maintenance. Never edit stored objects or
+replace historical seals to make current-source checks pass.
+
+`./osr validate run --profile factory-native` now requires a fresh architecture
+campaign in addition to the original factory examples and common adapters.
+`python -m engineering.generative_design.native_acceptance run --output <newdir>`
+executes and independently checks the two mandatory current architecture
+models; `verify --output <dir>` rechecks its receipt. Failures remain in the
+output directory and fail the profile. This establishes numerical/native
+correspondence for the declared geometry, with engineering and manufacturing
+release explicitly false.
