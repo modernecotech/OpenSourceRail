@@ -15,6 +15,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
+import subprocess
 import tempfile
 
 from .coverage import ROOT
@@ -300,6 +301,11 @@ def _manifest(folder):
     if path.is_symlink():
         raise ValueError("symlink projection manifest rejected")
     value = json.loads(path.read_bytes())
+    _validate_manifest(value)
+    return value, _store_at(path, value["store"])
+
+
+def _validate_manifest(value):
     if (
         value.get("schema") != PROJECTION_SCHEMA
         or value.get("physical_release") is not False
@@ -309,7 +315,6 @@ def _manifest(folder):
         raise ValueError("original evidence seal required")
     if value["original_seal"] not in value["files"]:
         raise ValueError("original seal missing from evidence projection")
-    return value, _store_at(path, value["store"])
 
 
 def verify_projection(folder):
@@ -321,26 +326,31 @@ def verify_projection(folder):
     actual = {
         p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()
     }
+    return _verify_members(folder, manifest, store, actual, Path.read_bytes)
+
+
+def _verify_members(folder, manifest, store, actual, read):
     if actual != set(manifest["files"]) | {MANIFEST}:
         raise ValueError("evidence projection member set differs")
     original_size = 0
     for name, descriptor in manifest["files"].items():
         _safe_name(name)
         path = _under(folder / name, folder)
-        if path.is_symlink():
-            raise ValueError("symlink evidence member rejected")
         data = store.restore(descriptor)
         original_size += len(data)
         if path.suffix == ".json":
-            reference = _reference(path)
+            try:
+                reference = json.loads(read(path))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                reference = None
             if (
-                reference is None
+                not isinstance(reference, dict)
                 or set(reference) != {"schema", "store", "original"}
                 or reference.get("original") != descriptor
                 or _store_at(path, reference["store"]).folder != store.folder
             ):
                 raise ValueError("projection reference differs from manifest: " + name)
-        elif path.read_bytes() != data:
+        elif read(path) != data:
             raise ValueError("local evidence asset differs: " + name)
     if (
         manifest["original_seal_sha256"]
@@ -355,6 +365,113 @@ def verify_projection(folder):
         physical_release=False,
         numerical_recomputation_performed=False,
     )
+
+
+class _GitStore(ObjectStore):
+    """Read CAS bytes from Git objects, never from the mutable working tree."""
+
+    def __init__(self, folder, read, members):
+        super().__init__(folder)
+        self.read = read
+        self.members = members
+
+    def path(self, key, kind):
+        path = super().path(key, kind)
+        if kind == "json":
+            legacy = path.with_name(key + ".json")
+            return legacy if legacy in self.members else legacy.with_suffix(".json.gz")
+        return path
+
+    def get(self, key, kind):
+        path = self.path(key, kind)
+        data = self.read(path)
+        if digest(data) != key:
+            raise ValueError("evidence object hash differs: " + key)
+        self.reachable.add((key, kind))
+        if path.suffix == ".gz":
+            try:
+                return gzip.decompress(data)
+            except (OSError, EOFError) as error:
+                raise ValueError("invalid compressed evidence object") from error
+        return data
+
+
+def verify_git_projection(folder, *, repository=ROOT, revision=None):
+    """Verify a publication using only the Git index or a committed tree.
+
+    Working copies, ignored files and untracked CAS objects cannot satisfy this
+    check. Reading Git blobs directly gives clean-checkout semantics without a
+    duplicate checkout of the (potentially large) evidence store. With no
+    ``revision`` the staged index is checked, allowing this gate before commit.
+    """
+    repository = Path(repository).resolve()
+    folder = Path(folder).absolute()
+    relative = folder.relative_to(repository).as_posix()
+    _safe_name(relative)
+    command = ["git", "-C", str(repository)]
+    if revision is None:
+        records = subprocess.check_output(
+            command + ["ls-files", "--stage", "-z"]
+        ).split(b"\0")
+    else:
+        records = subprocess.check_output(
+            command + ["ls-tree", "-r", "-z", revision]
+        ).split(b"\0")
+    members = {}
+    for record in records:
+        if not record:
+            continue
+        metadata, name = record.split(b"\t", 1)
+        mode, middle, final = metadata.decode("ascii").split()
+        if revision is None:
+            if final != "0":
+                raise ValueError("unmerged Git index cannot verify publication")
+            object_id = middle
+        else:
+            if middle != "blob":
+                continue
+            object_id = final
+        members[repository / os.fsdecode(name)] = (mode, object_id)
+    with subprocess.Popen(
+        command + ["cat-file", "--batch"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+    ) as process:
+
+        def read(path):
+            path = Path(path)
+            if path not in members:
+                raise ValueError("publication member absent from Git: " + str(path))
+            mode, object_id = members[path]
+            if mode not in {"100644", "100755"}:
+                raise ValueError("non-file Git publication member rejected")
+            process.stdin.write((object_id + "\n").encode("ascii"))
+            process.stdin.flush()
+            header = process.stdout.readline().split()
+            if len(header) != 3 or header[1] != b"blob":
+                raise ValueError("invalid Git publication blob")
+            data = process.stdout.read(int(header[2]))
+            if process.stdout.read(1) != b"\n":
+                raise ValueError("truncated Git publication blob")
+            return data
+
+        try:
+            manifest = json.loads(read(folder / MANIFEST))
+            _validate_manifest(manifest)
+            actual = {
+                path.relative_to(folder).as_posix()
+                for path in members
+                if path.is_relative_to(folder)
+            }
+            store_path = _store_at(folder / MANIFEST, manifest["store"]).folder
+            store = _GitStore(store_path, read, members)
+            result = _verify_members(folder, manifest, store, actual, read)
+            return dict(
+                result, git_publication_verified=True, git_revision=revision or "index"
+            )
+        finally:
+            process.stdin.close()
+            process.wait()
 
 
 @contextmanager

@@ -185,3 +185,10 @@ native context membership. `factory-native` now also executes this detailed
 campaign and verifies all required assembly exports; old receipts are incomplete.
 Historical integrity cannot satisfy fresh native acceptance. Local survivors
 remain research proposals until all package and integrated acceptance gates close.
+
+
+## Hierarchical experiments and recovery
+
+The [hierarchical pilot](../../docs/design-engine/hierarchical-development-2026-10-17.md) uses common-store jobs, bounded isolated worktrees and independent fixtures to evaluate proposals and reject adverse parent effects. `tools/automation/hierarchical-design.py` plans, runs, verifies and publishes these experiments. `hierarchical-design` is a required local validation profile for affected sources.
+
+Detailed runs default to `--mode repair`; `--mode optimization` continues past the first known-check pass and retains sourced conditional Pareto alternatives. Resume accepts an interrupted `execution-state.json` without a final receipt, preserving completed attempts and the frontier in a fresh output directory. Original mode/source/context/environment bindings remain mandatory. Historical evidence is checked against Git-index/tree publication membership as well as its immutable seals.

@@ -1,5 +1,7 @@
 # Design, Jobs And Evidence Workflows
 
+The [hierarchical development pilot](hierarchical-development-2026-10-17.md) repairs publication and interrupted recovery, continues optimisation beyond feasibility, and adds [isolated experiments and parent-level decisions](hierarchical-pilot-2026-10-17/index.html). All engineering and manufacturing gates remain open.
+
 The [detailed multi-agent design scenario](multi-agent-detail-scenario-2026-10-17.md)
 adds [executed feedback-directed civil/mechanical variations](generative-detail-2026-10-17/index.html),
 connected assemblies, cage and joint checks, gross-mass propagation and exact

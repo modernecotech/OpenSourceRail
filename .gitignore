@@ -62,10 +62,11 @@ target_kani/
 # OSR pipeline cache: OSM pulls, rasters, WorldPop tiles. Re-derivable.
 .cache/
 
-# Neutral CAD interchange exports are local-only. Track FreeCAD FCStd
-# review documents and generated screenshots, not bulky STEP artifacts.
+# Neutral CAD interchange exports are local-only except sealed review packets.
+# A published manifest requires its STEP assets in a clean Git checkout.
 *.step
 *.stp
+!docs/design-engine/generative-detail-*/models/**/model.step
 *.FCBak
 *.blend1
 design/component-catalogue/catalog/render-meshes/

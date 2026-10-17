@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6241**.
+Indexed Markdown files: **6242**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6241**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 246 |
+| [docs](#docs) | 247 |
 | [engineering](#engineering) | 73 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -6087,6 +6087,7 @@ Indexed Markdown files: **6241**.
 | [`docs/design-engine/factory-stages-notes-2026-10-16.md`](../docs/design-engine/factory-stages-notes-2026-10-16.md) | Baghdad factory staged stressing and unloading studies |
 | [`docs/design-engine/factory-support-notes-2026-10-16.md`](../docs/design-engine/factory-support-notes-2026-10-16.md) | Baghdad factory support and finite resource development |
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
+| [`docs/design-engine/hierarchical-development-2026-10-17.md`](../docs/design-engine/hierarchical-development-2026-10-17.md) | Hierarchical engineering experiments and review repairs |
 | [`docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md`](../docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md) | Mechanical and civil design and factory buildout plan |
 | [`docs/design-engine/multi-agent-design-results-2026-10-16.md`](../docs/design-engine/multi-agent-design-results-2026-10-16.md) | Multi-agent design campaign: executed variations and manufacturing gaps |
 | [`docs/design-engine/multi-agent-design-scenario-2026-10-16.md`](../docs/design-engine/multi-agent-design-scenario-2026-10-16.md) | Multi-agent civil, mechanical and manufacturing design scenario |

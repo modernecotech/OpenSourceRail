@@ -11,6 +11,9 @@ from hashlib import sha256
 from html import escape
 import json
 import math
+import os
+import shutil
+import tempfile
 from pathlib import Path
 
 from . import campaign, coverage, evidence_store
@@ -103,6 +106,132 @@ def critique(candidate, *, producer, reviewer="independent-critic"):
     )
 
 
+def _atomic_write(path, value):
+    """Flush a same-directory replacement before committing mutable execution state."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    handle, temporary = tempfile.mkstemp(prefix=".state-", dir=path.parent)
+    try:
+        with os.fdopen(handle, "w") as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+        directory = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def optimization_policy(adapter, context):
+    """Only sourced, reproducible quantity proxies; never invented cost/time."""
+    if hasattr(adapter, "optimization_policy"):
+        policy = adapter.optimization_policy(context)
+    else:
+        path = Path(getattr(adapter, "DATA", getattr(adapter, "SPACE", "")))
+        data = _read(path)
+        mechanical = "bounds" in data
+        policy = dict(
+            domains=data["bounds" if mechanical else "domains"],
+            objective_axes=[
+                dict(
+                    id="modelled_mass",
+                    path=["objectives", "mass_kg"],
+                    units="kg",
+                    sense="minimize",
+                    basis="Adapter calculated partial mass; omissions and unaccepted material properties remain in the candidate",
+                ),
+                dict(
+                    id="plate_piece_count" if mechanical else "links_each_stem",
+                    path=(
+                        ["metrics", "plate_piece_count"]
+                        if mechanical
+                        else ["geometry", "links_each_stem"]
+                    ),
+                    units="count",
+                    sense="minimize",
+                    basis="Calculated plate piece count / links per stem only; quantity proxy, not labour, assembly time or sourced price",
+                ),
+            ],
+            source_sha256={
+                path.relative_to(coverage.ROOT).as_posix(): coverage.sha(path),
+                Path(adapter.__file__)
+                .relative_to(coverage.ROOT)
+                .as_posix(): coverage.sha(Path(adapter.__file__)),
+            },
+            comparison_scope="same context, interfaces and known checks; provisional numerical quantities only",
+        )
+    if (
+        not policy.get("source_sha256")
+        or not policy.get("objective_axes")
+        or not policy.get("domains")
+    ):
+        raise ValueError("sourced objective axes and bounded domains required")
+    for name, digest in policy["source_sha256"].items():
+        path = coverage.ROOT / name
+        if (
+            not path.resolve().is_relative_to(coverage.ROOT)
+            or not path.is_file()
+            or coverage.sha(path) != digest
+        ):
+            raise ValueError("optimization objective sources differ")
+    for axis in policy["objective_axes"]:
+        if (
+            axis.get("sense") != "minimize"
+            or not axis.get("path")
+            or not axis.get("basis")
+            or not axis.get("units")
+        ):
+            raise ValueError("defined sourced minimization objectives required")
+    return policy
+
+
+def _objective_values(candidate, policy):
+    values = []
+    for axis in policy["objective_axes"]:
+        value = candidate
+        for key in axis["path"]:
+            value = value.get(key) if isinstance(value, dict) else None
+        if type(value) not in (int, float) or not math.isfinite(value):
+            return None
+        values.append(value)
+    return values
+
+
+def _pareto(candidates, policy):
+    from engineering.design_engine.optimization import frontier
+
+    return frontier(
+        [
+            dict(
+                id=c["id"],
+                objectives=_objective_values(c, policy),
+                feasible_screen=numerical_status(c)
+                == "known-checks-pass-with-open-gates"
+                and _objective_values(c, policy) is not None,
+            )
+            for c in sorted(candidates, key=lambda c: c["id"])
+        ]
+    )
+
+
+def _optimization_proposals(candidate, policy):
+    """Deterministic adjacent-domain moves keep the search finite and reproducible."""
+    for name, choices in policy["domains"].items():
+        current = candidate["variables"][name]
+        if current not in choices:
+            raise ValueError("candidate outside declared optimization domain")
+        index = choices.index(current)
+        for next_index in (index - 1, index + 1):
+            if 0 <= next_index < len(choices):
+                yield dict(candidate["variables"], **{name: choices[next_index]})
+
+
 def iterate(
     adapter,
     context,
@@ -111,10 +240,20 @@ def iterate(
     previous=None,
     producer="discipline-designer",
     checkpoint=None,
+    mode="repair",
+    state_checkpoint=None,
+    recovered_attempts=None,
 ):
     """Evaluate fresh proposals, retaining parents, failures and resume frontier."""
     if type(budget) is not int or not 1 <= budget <= 512:
         raise ValueError("finite evaluation budget in 1..512 required")
+    if mode not in {"repair", "optimization"}:
+        raise ValueError("search mode must be repair or optimization")
+    if previous and previous.get("search_mode", "repair") != mode:
+        raise ValueError("resume search mode differs")
+    policy = optimization_policy(adapter, context) if mode == "optimization" else None
+    if previous and previous.get("optimization_policy") != policy:
+        raise ValueError("resume sourced objective policy differs")
     context_hash = fingerprint(context)
     if previous is not None and previous["context_sha256"] != context_hash:
         raise ValueError("changed context requires a fresh trace and descendant review")
@@ -152,7 +291,27 @@ def iterate(
         None,
     )
     evaluations = 0
-    while frontier and len(candidates) < budget and selected is None:
+
+    def save(active=None):
+        if state_checkpoint:
+            state_checkpoint(
+                dict(
+                    context=deepcopy(context),
+                    context_sha256=context_hash,
+                    search_mode=mode,
+                    optimization_policy=policy,
+                    candidates=deepcopy(candidates),
+                    frontier=deepcopy(frontier),
+                    active_proposal=deepcopy(active),
+                    evaluation_budget=budget,
+                )
+            )
+
+    while (
+        frontier
+        and len(candidates) < budget
+        and (selected is None or mode == "optimization")
+    ):
         # Explore repairs of the least-adverse evaluated parent first. Unknown
         # cost/material/qualification never improves this numerical priority.
         frontier.sort(
@@ -165,8 +324,14 @@ def iterate(
             continue
         if proposal["parent"] is not None and proposal["parent"] not in known_ids:
             raise ValueError("proposal parent must be retained in the same trace")
+        save(proposal)
         try:
-            candidate = deepcopy(adapter.assess(proposal["variables"], context))
+            retained = (recovered_attempts or {}).get(genotype)
+            candidate = deepcopy(
+                retained
+                if retained is not None
+                else adapter.assess(proposal["variables"], context)
+            )
         except Exception as error:
             if checkpoint:
                 checkpoint(
@@ -200,16 +365,24 @@ def iterate(
         adverse_counts[candidate["id"]] = sum(
             c["state"] == "fail" for c in candidate["checks"]
         )
-        evaluations += 1
+        evaluations += int(retained is None)
         if numerical_status(candidate) == "known-checks-pass-with-open-gates":
-            selected = candidate
-            break
+            if selected is None:
+                selected = candidate
+            if mode == "repair":
+                save()
+                break
         reasons = [c["id"] for c in candidate["checks"] if c["state"] == "fail"]
-        for variables in adapter.propose(candidate, context):
+        proposals = list(adapter.propose(candidate, context)) if reasons else []
+        if mode == "optimization" and selected is not None:
+            proposals.extend(_optimization_proposals(candidate, policy))
+        for variables in proposals:
             key = fingerprint(variables)
             if key in visited or key in queued:
                 continue
-            if not reasons or variables == candidate["variables"]:
+            if (not reasons and mode == "repair") or variables == candidate[
+                "variables"
+            ]:
                 raise ValueError(
                     "new variant requires actual adverse feedback and a change"
                 )
@@ -218,15 +391,28 @@ def iterate(
                     variables=deepcopy(variables),
                     parent=candidate["id"],
                     generation=proposal["generation"] + 1,
-                    reasons=reasons,
+                    reasons=reasons or ["sourced-objective-neighbour-exploration"],
                 )
             )
             queued.add(key)
+        save()
     status = (
         "provisional-solution-held-for-qualification"
         if selected
         else "budget-exhausted" if frontier else "no-solution-in-declared-repair-domain"
     )
+    if mode == "optimization":
+        status = (
+            "optimization-budget-exhausted"
+            if frontier
+            else "optimization-domain-exhausted"
+        )
+    pareto = _pareto(candidates, policy) if policy else []
+    if pareto:
+        selected = min(
+            (c for c in candidates if c["id"] in pareto),
+            key=lambda c: (_objective_values(c, policy), c["id"]),
+        )
     best = selected or min(
         candidates,
         key=lambda c: (sum(x["state"] == "fail" for x in c["checks"]), c["id"]),
@@ -234,6 +420,9 @@ def iterate(
     )
     return dict(
         schema="osr-design-feedback-trace/1",
+        search_mode=mode,
+        optimization_policy=policy,
+        pareto_candidate_ids=pareto,
         proposal_policy="fewest-known-adverse-parent-checks-then-generation",
         context=deepcopy(context),
         context_sha256=context_hash,
@@ -260,10 +449,17 @@ def _checkpoint(output, lane, context):
 
     def capture(candidate):
         path = folder / (fingerprint(candidate["id"])[:20] + ".json")
+        if "error" in candidate:
+            attempt = 1
+            while path.exists():
+                path = folder / (
+                    fingerprint(candidate["id"])[:20] + f"-retry-{attempt}.json"
+                )
+                attempt += 1
         if path.exists() and _read(path) != candidate:
             raise ValueError("retained attempt bytes cannot be replaced")
         if not path.exists():
-            campaign.write(path, candidate)
+            _atomic_write(path, candidate)
 
     return capture
 
@@ -396,7 +592,121 @@ def _native(output, lane, trace, adapter):
     return record
 
 
-def run(output, *, budget=256, native=False, baseline=True, resume=None):
+def _state_write(output, state):
+    value = deepcopy(state)
+    value["state_sha256"] = fingerprint(state)
+    _atomic_write(output / "execution-state.json", value)
+
+
+def _load_interrupted(folder, source_hashes, *, native, baseline, mode):
+    folder = Path(folder).resolve()
+    state = _read(folder / "execution-state.json")
+    recorded = state.pop("state_sha256", None)
+    if recorded != fingerprint(state):
+        raise ValueError("interrupted execution state checksum differs")
+    request = _read(folder / "request.json")
+    if (
+        state.get("schema") != "osr-design-execution-state/1"
+        or state.get("source_sha256") != source_hashes
+        or request.get("source_sha256") != source_hashes
+        or state.get("request_sha256") != fingerprint(request)
+        or state.get("numerical_environment") != campaign.environment(False)
+        or request.get("numerical_environment") != state.get("numerical_environment")
+    ):
+        raise ValueError("interrupted execution sources/request/environment changed")
+    if any(
+        request.get(key, default) != value
+        for key, value, default in (
+            ("native_requested", bool(native), False),
+            ("baseline_requested", bool(baseline), False),
+            ("search_mode", mode, "repair"),
+        )
+    ):
+        raise ValueError("interrupted execution options differ")
+    if any(state.get(flag, False) is not False for flag in FLAGS):
+        raise ValueError("interrupted execution cannot claim release")
+    records = list(state["completed_traces"])
+    if state.get("active_trace"):
+        active = deepcopy(state["active_trace"])
+        if active.get("active_proposal"):
+            active["frontier"].insert(0, active.pop("active_proposal"))
+        else:
+            active.pop("active_proposal", None)
+        records.append(active)
+    for trace in records:
+        if fingerprint(trace["context"]) != trace["context_sha256"]:
+            raise ValueError("interrupted execution context differs")
+        for candidate in trace["candidates"]:
+            validate_candidate(candidate)
+            attempt = (
+                folder
+                / "attempts"
+                / trace["lane"]
+                / trace["context_sha256"][:16]
+                / (fingerprint(candidate["id"])[:20] + ".json")
+            )
+            if _read(attempt) != candidate:
+                raise ValueError("interrupted completed evaluation/attempt differs")
+    return state, records
+
+
+def _resume_records(records, adapters, *, replay=False):
+    """Validate retained contexts against their own source-bound parent revision."""
+    keys = [(t["lane"], t["context_sha256"]) for t in records]
+    if len(keys) != len(set(keys)):
+        raise ValueError("duplicate resume contexts")
+    expected = {"mechanical": adapters["mechanical"].contexts(), "civil": []}
+    mechanical = [t for t in records if t["lane"] == "mechanical"]
+    if any(t["lane"] == "civil" for t in records):
+        expected["civil"], _ = _civil_contexts(adapters["civil"], mechanical)
+    for trace in records:
+        lane, context = trace["lane"], trace["context"]
+        if (
+            lane not in expected
+            or fingerprint(context) != trace["context_sha256"]
+            or context not in expected[lane]
+        ):
+            raise ValueError("resume source/context binding differs")
+        if replay and trace["candidates"]:
+            actual = iterate(
+                adapters[lane],
+                context,
+                budget=len(trace["candidates"]),
+                mode=trace.get("search_mode", "repair"),
+                producer=lane + "-designer",
+            )
+            if actual["candidates"] != trace["candidates"]:
+                raise ValueError(
+                    "retained parent trace differs from source-bound evaluations"
+                )
+    return dict(zip(keys, records))
+
+
+def _superseded_contexts(previous, current_contexts):
+    """A new parent mass invalidates civil descendants, never their old evidence."""
+    current = {(_architecture(c), c["span_m"]): c for c in current_contexts}
+    result = []
+    for (lane, digest), trace in sorted(previous.items()):
+        if lane != "civil":
+            continue
+        replacement = current[
+            (_architecture(trace["context"]), trace["context"]["span_m"])
+        ]
+        if digest != fingerprint(replacement):
+            result.append(
+                dict(
+                    lane=lane,
+                    prior_context_sha256=digest,
+                    prior_trace_sha256=fingerprint(trace),
+                    replacement_context_sha256=fingerprint(replacement),
+                    reason="Changed mechanical representative mass requires fresh civil descendant evaluation; prior trace retained without adoption",
+                    physical_release=False,
+                )
+            )
+    return result
+
+
+def run(output, *, budget=256, native=False, baseline=True, resume=None, mode="repair"):
     from . import design_scenario, queue_campaign
 
     output = Path(output).resolve()
@@ -404,70 +714,117 @@ def run(output, *, budget=256, native=False, baseline=True, resume=None):
         raise ValueError("a fresh output directory preserves prior design attempts")
     if type(budget) is not int or not 1 <= budget <= 512:
         raise ValueError("finite budget in 1..512 required")
-    prior = None
-    if resume is not None:
-        verify(resume, current=True)
-        prior = _read(Path(resume) / "report.json")
+    if mode not in {"repair", "optimization"}:
+        raise ValueError("search mode must be repair or optimization")
     plan = design_scenario.plan()
     source_hashes = sources()
+    prior, interrupted = None, None
+    if resume is not None:
+        resume = Path(resume).resolve()
+        if (resume / "receipt.json").is_file():
+            verify(resume, current=True)
+            prior = _read(resume / "report.json")
+        else:
+            interrupted, records = _load_interrupted(
+                resume, source_hashes, native=native, baseline=baseline, mode=mode
+            )
+            prior = dict(traces=records)
     output.mkdir(parents=True)
-    campaign.write(
-        output / "request.json",
-        dict(
-            schema=SCHEMA,
-            source_sha256=source_hashes,
-            evaluation_budget_per_context=budget,
-            native_requested=bool(native),
-            baseline_requested=bool(baseline),
-            numerical_environment=campaign.environment(False),
-            parent_receipt_sha256=(
-                sha256(
-                    evidence_store.read_bytes(Path(resume) / "receipt.json")
-                ).hexdigest()
-                if resume
-                else None
-            ),
-            engineering_design_complete=False,
-            manufacturing_release=False,
-            physical_release=False,
+    if interrupted and (resume / "attempts").is_dir():
+        shutil.copytree(resume / "attempts", output / "attempts")
+    request = dict(
+        schema=SCHEMA,
+        source_sha256=source_hashes,
+        evaluation_budget_per_context=budget,
+        search_mode=mode,
+        native_requested=bool(native),
+        baseline_requested=bool(baseline),
+        numerical_environment=campaign.environment(False),
+        parent_receipt_sha256=(
+            sha256(evidence_store.read_bytes(resume / "receipt.json")).hexdigest()
+            if resume and not interrupted
+            else None
         ),
+        parent_interrupted_state_sha256=(
+            coverage.sha(resume / "execution-state.json") if interrupted else None
+        ),
+        engineering_design_complete=False,
+        manufacturing_release=False,
+        physical_release=False,
     )
+    _atomic_write(output / "request.json", request)
+    state = dict(
+        schema="osr-design-execution-state/1",
+        source_sha256=source_hashes,
+        request_sha256=fingerprint(request),
+        numerical_environment=campaign.environment(False),
+        phase="detail-evaluation",
+        completed_traces=[],
+        active_trace=None,
+        active_task=None,
+        engineering_design_complete=False,
+        manufacturing_release=False,
+        physical_release=False,
+    )
+    _state_write(output, state)
     adapters = _adapters()
-    previous = (
-        {(t["lane"], t["context_sha256"]): t for t in prior["traces"]} if prior else {}
-    )
+    parent_traces = deepcopy(prior["traces"]) if prior else []
+    previous = _resume_records(parent_traces, adapters)
     traces = []
+
+    def evaluate(lane, context):
+        prior_trace = previous.get((lane, fingerprint(context)))
+        if prior_trace and prior_trace["context"] != context:
+            raise ValueError("resume context binding differs")
+        recovered = {}
+        if interrupted:
+            for path in (output / "attempts" / lane / fingerprint(context)[:16]).glob(
+                "*.json"
+            ):
+                candidate = _read(path)
+                if "checks" in candidate:
+                    recovered[fingerprint(candidate["variables"])] = candidate
+
+        def capture(trace_state):
+            trace_state["lane"] = lane
+            state["active_trace"] = trace_state
+            state["active_task"] = dict(
+                lane=lane,
+                context_sha256=fingerprint(context),
+                proposal=trace_state.get("active_proposal"),
+            )
+            _state_write(output, state)
+
+        trace = iterate(
+            adapters[lane],
+            context,
+            budget=budget,
+            previous=prior_trace,
+            producer=lane + "-designer",
+            checkpoint=_checkpoint(output, lane, context),
+            mode=mode,
+            state_checkpoint=capture,
+            recovered_attempts=recovered,
+        )
+        trace["lane"] = lane
+        traces.append(trace)
+        state["completed_traces"] = deepcopy(traces)
+        state["active_trace"] = None
+        state["active_task"] = None
+        _state_write(output, state)
+        print(
+            f"{lane} {context['id']}: {len(trace['candidates'])} evaluations; {trace['termination']}",
+            flush=True,
+        )
+
     for context in adapters["mechanical"].contexts():
-        trace = iterate(
-            adapters["mechanical"],
-            context,
-            budget=budget,
-            previous=previous.get(("mechanical", fingerprint(context))),
-            producer="mechanical-designer",
-            checkpoint=_checkpoint(output, "mechanical", context),
-        )
-        trace["lane"] = "mechanical"
-        traces.append(trace)
-        print(
-            f"mechanical {context['id']}: {len(trace['candidates'])} evaluations; {trace['termination']}",
-            flush=True,
-        )
+        evaluate("mechanical", context)
     contexts, transfers = _civil_contexts(adapters["civil"], traces)
+    superseded = _superseded_contexts(previous, contexts)
     for context in contexts:
-        trace = iterate(
-            adapters["civil"],
-            context,
-            budget=budget,
-            previous=previous.get(("civil", fingerprint(context))),
-            producer="civil-designer",
-            checkpoint=_checkpoint(output, "civil", context),
-        )
-        trace["lane"] = "civil"
-        traces.append(trace)
-        print(
-            f"civil {context['id']}: {len(trace['candidates'])} evaluations; {trace['termination']}",
-            flush=True,
-        )
+        evaluate("civil", context)
+    state["phase"] = "exchange-and-artifact-generation"
+    _state_write(output, state)
     package_ids = {p["id"] for p in plan["work_packages"]}
     exchanges = []
     for trace in traces:
@@ -532,6 +889,8 @@ def run(output, *, budget=256, native=False, baseline=True, resume=None):
     report = dict(
         schema=SCHEMA,
         scenario=plan,
+        resume_parent_traces=parent_traces,
+        superseded_parent_contexts=superseded,
         traces=traces,
         exchanges=exchanges,
         mechanical_to_civil_transfers=transfers,
@@ -556,14 +915,17 @@ def run(output, *, budget=256, native=False, baseline=True, resume=None):
         manufacturing_release=False,
         physical_release=False,
     )
-    campaign.write(output / "report.json", report)
+    _atomic_write(output / "report.json", report)
+    state["phase"] = "completed-awaiting-seal"
+    _state_write(output, state)
     (output / "index.html").write_text(render(report))
-    campaign.write(
+    _atomic_write(
         output / "receipt.json",
         dict(
             schema=SCHEMA,
             source_sha256=source_hashes,
             files_sha256=_files(output),
+            search_mode=mode,
             native_requested=bool(native),
             baseline_requested=bool(baseline),
             engineering_design_complete=False,
@@ -599,7 +961,7 @@ def verify(output, *, current=True, require_native=False):
         raise ValueError("request sources differ")
     if any(
         receipt.get(k) != request.get(k)
-        for k in ("native_requested", "baseline_requested")
+        for k in ("native_requested", "baseline_requested", "search_mode")
     ):
         raise ValueError("execution request membership differs")
     plan = design_scenario.plan() if current else report["scenario"]
@@ -644,6 +1006,23 @@ def verify(output, *, current=True, require_native=False):
             manufacturing_release=False,
             physical_release=False,
         )
+    if request.get("numerical_environment") != campaign.environment(False):
+        raise ValueError("design iteration numerical environment differs")
+    if (output / "execution-state.json").is_file():
+        state, records = _load_interrupted(
+            output,
+            receipt["source_sha256"],
+            native=request["native_requested"],
+            baseline=request["baseline_requested"],
+            mode=request.get("search_mode", "repair"),
+        )
+        if (
+            state["phase"] != "completed-awaiting-seal"
+            or state["active_trace"] is not None
+            or state["active_task"] is not None
+            or records != report["traces"]
+        ):
+            raise ValueError("completed execution state differs from sealed report")
     adapters = _adapters()
     mechanical = [t for t in report["traces"] if t["lane"] == "mechanical"]
     expected_contexts = {"mechanical": adapters["mechanical"].contexts()}
@@ -652,6 +1031,18 @@ def verify(output, *, current=True, require_native=False):
     )
     if report["mechanical_to_civil_transfers"] != transfers:
         raise ValueError("mechanical mass to civil load transfer differs")
+    parents = _resume_records(
+        report.get("resume_parent_traces", []), adapters, replay=True
+    )
+    if report.get("superseded_parent_contexts", []) != _superseded_contexts(
+        parents, expected_contexts["civil"]
+    ):
+        raise ValueError("superseded civil context/provenance membership differs")
+    if bool(parents) != bool(
+        request.get("parent_receipt_sha256")
+        or request.get("parent_interrupted_state_sha256")
+    ):
+        raise ValueError("resume parent provenance differs from execution request")
     expected = {
         (lane, fingerprint(c))
         for lane, contexts in expected_contexts.items()
@@ -663,6 +1054,8 @@ def verify(output, *, current=True, require_native=False):
     expected_exchanges = []
     package_ids = {p["id"] for p in plan["work_packages"]}
     for trace in report["traces"]:
+        if trace.get("search_mode", "repair") != request.get("search_mode", "repair"):
+            raise ValueError("search mode differs from execution request")
         context = trace["context"]
         if (
             fingerprint(context) != trace["context_sha256"]
@@ -674,6 +1067,7 @@ def verify(output, *, current=True, require_native=False):
             context,
             budget=trace["evaluation_budget"],
             producer=trace["lane"] + "-designer",
+            mode=trace.get("search_mode", "repair"),
         )
         retained_trace = {
             k: v for k, v in trace.items() if k not in {"lane", "new_evaluations"}
@@ -846,7 +1240,7 @@ def render(report):
             )
         }
         trace_blocks.append(
-            f'<article><h3>{e(trace["lane"])} · {e(trace["context"]["id"])}</h3><p>{e(trace["termination"])}. {len(trace["candidates"])} retained evaluations; {trace["new_evaluations"]} newly computed. Diagnostic/shortlist: {e(best["id"])}.</p>{links}<p>Critic disposition: {e(critique_record["disposition"])}. This is an automated contract challenge; qualified independent engineering review remains required.</p><details><summary>Best retained calculation and unresolved checks</summary><ul>{checks}</ul><pre>{e(json.dumps(definitions,indent=2))}</pre></details><details><summary>All variations and failed attempts</summary><div class="scroll"><table><thead><tr><th>Attempt/parent generation</th><th>Varied dimensions (SI units)</th><th>Known adverse results</th><th>Mass objective (kg; scope in definition)</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></details></article>'
+            f'<article><h3>{e(trace["lane"])} · {e(trace["context"]["id"])}</h3><p>{e(trace["termination"])}. {len(trace["candidates"])} retained evaluations; {trace["new_evaluations"]} newly computed. Diagnostic/shortlist: {e(best["id"])}.</p><p>Search mode: {e(trace.get("search_mode", "repair"))}. Conditional Pareto alternatives: {e(", ".join(trace.get("pareto_candidate_ids", [])) or "none (repair mode or objectives unresolved)")}.</p>{links}<p>Critic disposition: {e(critique_record["disposition"])}. This is an automated contract challenge; qualified independent engineering review remains required.</p><details><summary>Best retained calculation and unresolved checks</summary><ul>{checks}</ul><pre>{e(json.dumps(definitions,indent=2))}</pre></details><details><summary>All variations and failed attempts</summary><div class="scroll"><table><thead><tr><th>Attempt/parent generation</th><th>Varied dimensions (SI units)</th><th>Known adverse results</th><th>Mass objective (kg; scope in definition)</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></details></article>'
         )
     package_rows = []
     for p in report["packages"]:
@@ -870,7 +1264,7 @@ def render(report):
 <h1>Generative civil and mechanical design team</h1>
 <p class="notice">Executed provisional design development. {counts['evaluated_variations']} detailed variations across {counts['detail_contexts']} contexts; {counts['provisional_local_solutions']} contexts have passing known checks. All {counts['packages']} packages remain open for integrated engineering and manufacturing acceptance. An unsolved design is retained as unsolved.</p>
 <nav><a href="#team">Team and iteration</a><a href="#coupling">Civil/mechanical propagation</a><a href="#results">Design variations</a><a href="#packages">All components and packages</a><a href="../campaign-review/index.html">Earlier campaign review</a></nav>
-<h2 id="team">Team and iteration</h2><p>Configuration coordinator → civil and mechanical designers → manufacturing integrator → separate critic → changed-variable proposal. The reproducible runner executes engineering adapters built by the collaborating agents. It does not simulate new LLM conversations or appoint a design authority.</p><p>Each attempt retains variables, units, materials, connection assumptions, load context, manufacturing route, check results and parent/repair reasons. A failed check proposes bounded changes. A local solution stops for qualification; an exhausted domain records that no solution was found. Identical inputs are not repeated to manufacture evidence. A fresh source-bound run is required after a changed model or accepted basis.</p>
+<h2 id="team">Team and iteration</h2><p>Configuration coordinator → civil and mechanical designers → manufacturing integrator → separate critic → changed-variable proposal. The reproducible runner executes engineering adapters built by the collaborating agents. It does not simulate new LLM conversations or appoint a design authority.</p><p>Each attempt retains variables, units, materials, connection assumptions, load context, manufacturing route, check results and parent/repair reasons. A failed check proposes bounded changes. Repair mode stops at the first local numerical pass. Explicit optimization mode continues over sourced mass and quantity objectives, retaining a conditional Pareto set; every qualification gate remains open. Identical inputs are not repeated to manufacture evidence. A fresh source-bound run is required after a changed model or accepted basis.</p>
 <h2 id="coupling">Civil/mechanical propagation</h2><ul>{transfers}</ul><p>Repeated transfer entries distinguish 20 m and 25 m spans. Proportional axle scaling is an explicit sensitivity, not an approved axle/CG allocation. LM3 and six-car planning inputs remain separate. Civil width changes recalculate section properties, self-weight and prestress responses before cage, pad and footing screening.</p>
 <h2 id="results">Detailed variations and retained failures</h2>{''.join(trace_blocks)}
 <h2 id="packages">All component and system work</h2><p>The audited scenario covers {report['scenario']['counts']['component_ids']} distinct controlled IDs in {counts['packages']} work packages. There are {counts['detailed_packages']} packages with a new partial detail response. Other systems have explicit discipline, input, manufacturing and qualification work; coverage is not completion. Existing preliminary models {'were freshly executed for all packages' if report['baseline_execution'] else 'were not rerun in this detail-only acceptance run'}.</p><p>Manufacturing audit: {audits["missing_or_unissued_production_artifacts"]} missing/unissued production artifacts; {audits["actual_inspection_result_records"]} measured result records for {audits["inspection_characteristics"]} planned characteristics; {audits["issued_drawing_references"]} issued drawing references among {audits["drawing_definitions"]} definitions. Planned drawings, inspections and supplier requests cannot replace issued documents or measured first articles. British manufacture remains the equipment priority; exact offered configurations and capacities require supplier evidence. Enquiries remain unsent.</p><div class="scroll"><table><thead><tr><th>Package</th><th>Owner / allocation</th><th>Actual detail coverage</th><th>Next action / open evidence</th></tr></thead><tbody>{''.join(package_rows)}</tbody></table></div>

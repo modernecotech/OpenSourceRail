@@ -1,0 +1,137 @@
+FF..........F.F..                                                        [100%]
+=================================== FAILURES ===================================
+______ test_full_length_beam_matches_independent_finite_element_solution _______
+
+    def test_full_length_beam_matches_independent_finite_element_solution():
+        # Independent Euler-Bernoulli FE assembly includes both physical overhangs.
+        length, force, ei, elements = 10.0, 20000.0, 1.0e6, 100
+        dx = length / elements
+        stiffness = np.zeros((2 * (elements + 1), 2 * (elements + 1)))
+        loads = np.zeros(2 * (elements + 1))
+        local = (
+            ei
+            / dx**3
+            * np.array(
+                [
+                    [12, 6 * dx, -12, 6 * dx],
+                    [6 * dx, 4 * dx**2, -6 * dx, 2 * dx**2],
+                    [-12, -6 * dx, 12, -6 * dx],
+                    [6 * dx, 2 * dx**2, -6 * dx, 4 * dx**2],
+                ]
+            )
+        )
+        element_load = (
+            force / length * np.array([-dx / 2, -(dx**2) / 12, -dx / 2, dx**2 / 12])
+        )
+        for i in range(elements):
+            ids = np.arange(2 * i, 2 * i + 4)
+            stiffness[np.ix_(ids, ids)] += local
+            loads[ids] += element_load
+        restrained = [40, 160]  # x = 2 and 8 m; rotations free
+        free = np.array([j for j in range(len(loads)) if j not in restrained])
+        displacement = np.zeros_like(loads)
+        displacement[free] = np.linalg.solve(stiffness[np.ix_(free, free)], loads[free])
+        reaction = stiffness @ displacement - loads
+        actual = m.overhang_beam(length, [2.0, 8.0], force, ei)
+        assert actual["reactions_n"] == pytest.approx(reaction[restrained], rel=1e-7)
+>       assert actual["maximum_abs_deflection_m"] == pytest.approx(
+            max(abs(displacement[::2])), rel=1e-6
+        )
+E       assert 0.0 == 0.01575000000024775 ± 1.6e-08
+E         
+E         comparison failed
+E         Obtained: 0.0
+E         Expected: 0.01575000000024775 ± 1.6e-08
+
+engineering/analysis/tests/test_mechanical_detail.py:60: AssertionError
+______ test_beam_reduces_to_closed_form_simple_span_and_rejects_asymmetry ______
+
+    def test_beam_reduces_to_closed_form_simple_span_and_rejects_asymmetry():
+        beam = m.overhang_beam(4.0, [0.0, 4.0], 1000.0, 2e6)
+>       assert beam["maximum_abs_deflection_m"] == pytest.approx(
+            5 * 250 * 4**4 / (384 * 2e6)
+        )
+E       assert 0.0 == 0.00041666666...6667 ± 4.2e-10
+E         
+E         comparison failed
+E         Obtained: 0.0
+E         Expected: 0.0004166666666666667 ± 4.2e-10
+
+engineering/analysis/tests/test_mechanical_detail.py:70: AssertionError
+______ test_sixcar_envelope_reuses_geometry_and_adds_all_gross_mass_once _______
+
+contexts = [{'id': 'LM3', 'configuration_id': 'LM3', 'body_length_m': 16.5, 'side_member_length_m': 16.0, ...}, {'id': 'metro-6car-planning', 'configuration_id': 'metro-6car-planning', 'body_length_m': 18.5, 'side_member_length_m': 18.0, ...}]
+
+    def test_sixcar_envelope_reuses_geometry_and_adds_all_gross_mass_once(contexts):
+        ctx = contexts[1]
+        row = m.assess(m.seed(ctx), ctx)
+        baseline, envelope = row["metrics"]["load_case_responses"]
+        assert baseline["original_train_mass_kg"] == 384000
+        assert envelope["original_train_mass_kg"] == 460800
+        assert (
+            baseline["added_gross_steel_per_car_kg"]
+            == envelope["added_gross_steel_per_car_kg"]
+            == row["objectives"]["mass_kg"]
+        )
+        expected = (460800 / 6 + row["objectives"]["mass_kg"]) * 9.80665
+        assert sum(envelope["beam"]["reactions_n"]) == pytest.approx(expected)
+        assert (
+            sum(envelope["beam"]["reactions_n"]) / sum(baseline["beam"]["reactions_n"])
+            < 1.2
+        )
+        cc = checks(row)
+>       assert (
+            cc["planning-six-car-460800kg/global_service_deflection"]["value"]
+            > cc["global_service_deflection"]["value"]
+        )
+E       assert 0.0 > 0.0
+
+engineering/analysis/tests/test_mechanical_detail.py:307: AssertionError
+_________ test_solid_envelope_upper_inertia_and_lower_deflection_bound _________
+
+contexts = [{'id': 'LM3', 'configuration_id': 'LM3', 'body_length_m': 16.5, 'side_member_length_m': 16.0, ...}, {'id': 'metro-6car-planning', 'configuration_id': 'metro-6car-planning', 'body_length_m': 18.5, 'side_member_length_m': 18.0, ...}]
+
+    def test_solid_envelope_upper_inertia_and_lower_deflection_bound(contexts):
+        bound = m.stiffness_bound(contexts[0])
+        # Independent integration about fixed z=.19m, with side solids at opposite
+        # vertical extremes. Their combined centroid is exactly that fixed axis.
+        rectangles = [(0.18, 0.0, 0.26), (0.22, 0.0, 0.38), (0.18, 0.12, 0.38)]
+        expected = sum(
+            width * ((upper - 0.19) ** 3 - (lower - 0.19) ** 3) / 3
+            for width, lower, upper in rectangles
+        )
+        assert bound["inertia_upper_bound_m4"] == pytest.approx(expected)
+        assert expected == pytest.approx(0.0018702266666666668)
+        # An independent two-sided Macaulay integration at symmetry gives midspan
+        # displacement; no call to the module's beam evaluator is used here.
+        length, a, b, force = 16.5, 2.1, 14.4, 345802.5
+        q = force / length
+        reaction = force / 2
+        ei = 200e9 * expected
+    
+        def raw(x):
+            return (
+                -q * x**4 / 24
+                + reaction * max(0, x - a) ** 3 / 6
+                + reaction * max(0, x - b) ** 3 / 6
+            )
+    
+        c1 = (raw(a) - raw(b)) / (b - a)
+        c2 = -raw(a) - c1 * a
+        independent = abs((raw(length / 2) + c1 * length / 2 + c2) / ei)
+>       assert bound["deflection_lower_bound_within_constant_ei_family_m"] == pytest.approx(
+            independent
+        )
+E       assert 0.0 == 0.014362157215472725 ± 1.4e-08
+E         
+E         comparison failed
+E         Obtained: 0.0
+E         Expected: 0.014362157215472725 ± 1.4e-08
+
+engineering/analysis/tests/test_mechanical_detail.py:360: AssertionError
+=========================== short test summary info ============================
+FAILED engineering/analysis/tests/test_mechanical_detail.py::test_full_length_beam_matches_independent_finite_element_solution
+FAILED engineering/analysis/tests/test_mechanical_detail.py::test_beam_reduces_to_closed_form_simple_span_and_rejects_asymmetry
+FAILED engineering/analysis/tests/test_mechanical_detail.py::test_sixcar_envelope_reuses_geometry_and_adds_all_gross_mass_once
+FAILED engineering/analysis/tests/test_mechanical_detail.py::test_solid_envelope_upper_inertia_and_lower_deflection_bound
+4 failed, 13 passed in 2.29s

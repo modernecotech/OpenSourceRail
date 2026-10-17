@@ -4,6 +4,7 @@ from copy import deepcopy
 import json
 from pathlib import Path
 import gzip
+import subprocess
 from unittest.mock import patch
 import tempfile
 import unittest
@@ -263,6 +264,108 @@ class EvidenceStoreTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "immutable evidence object differs"):
             es.publish_files(self.files(), self.root / "another", store=self.store)
         self.assertEqual(path.read_bytes(), b"corruption")
+
+
+class GitPublicationTests(unittest.TestCase):
+    """Clean-index and actual clean-checkout publication acceptance."""
+
+    files = EvidenceStoreTests.files
+    publish = EvidenceStoreTests.publish
+    tearDown = EvidenceStoreTests.tearDown
+
+    def setUp(self):
+        EvidenceStoreTests.setUp(self)
+        self.git("init", "-q")
+        self.git("config", "user.name", "Publication test")
+        self.git("config", "user.email", "publication@example.invalid")
+        (self.root / ".gitignore").write_text("*.step\n")
+        files = self.files()
+        files["native/model.step"] = b"ISO-10303-21;\nEND-ISO-10303-21;\n"
+        self.publish(files)
+        self.git("add", ".")
+
+    def git(self, *args):
+        return subprocess.check_output(
+            ["git", "-C", str(self.root), *args], stderr=subprocess.STDOUT
+        )
+
+    def verify_git(self, **kwargs):
+        return es.verify_git_projection(self.folder, repository=self.root, **kwargs)
+
+    def stage_complete(self):
+        self.git("add", "-f", "published/native/model.step")
+
+    def test_ignored_local_step_cannot_mask_missing_index_member(self):
+        self.assertTrue(es.verify_projection(self.folder)["integrity_verified"])
+        with self.assertRaisesRegex(ValueError, "member set differs"):
+            self.verify_git()
+        self.stage_complete()
+        self.assertTrue(self.verify_git()["git_publication_verified"])
+        # The acceptance input is the index, even when working files differ.
+        (self.folder / "native/model.step").write_bytes(b"local corruption")
+        next(self.store.rglob("*.blob")).unlink()
+        self.assertTrue(self.verify_git()["git_publication_verified"])
+
+    def test_clean_checkout_reconstructs_seal_and_all_native_assets(self):
+        self.stage_complete()
+        self.git("commit", "-qm", "Complete sealed publication")
+        self.assertTrue(self.verify_git(revision="HEAD")["git_publication_verified"])
+        checkout = self.root / "clean-checkout"
+        subprocess.check_output(
+            [
+                "git",
+                "clone",
+                "-q",
+                "--local",
+                "--no-hardlinks",
+                str(self.root),
+                str(checkout),
+            ],
+            stderr=subprocess.STDOUT,
+        )
+        packet = checkout / "published"
+        self.assertEqual(
+            es.verify_projection(packet), es.verify_projection(self.folder)
+        )
+        self.assertEqual(
+            (packet / "native/model.step").read_bytes(),
+            b"ISO-10303-21;\nEND-ISO-10303-21;\n",
+        )
+        self.assertEqual(
+            es.read_bytes(packet / "snapshot.json"), self.files()["snapshot.json"]
+        )
+        self.assertTrue(
+            es.verify_git_projection(packet, repository=checkout, revision="HEAD")[
+                "git_publication_verified"
+            ]
+        )
+
+    def test_working_cas_object_cannot_mask_missing_or_corrupt_index_object(self):
+        self.stage_complete()
+        path = next(self.store.rglob("*.blob"))
+        original = path.read_bytes()
+        self.git("rm", "--cached", str(path.relative_to(self.root)))
+        self.assertTrue(es.verify_projection(self.folder)["integrity_verified"])
+        with self.assertRaisesRegex(ValueError, "absent from Git"):
+            self.verify_git()
+        path.write_bytes(b"corrupt indexed object")
+        self.git("add", str(path.relative_to(self.root)))
+        path.write_bytes(original)
+        with self.assertRaisesRegex(ValueError, "object hash differs"):
+            self.verify_git()
+
+    def test_index_symlink_rejected_even_when_working_copy_is_regular(self):
+        self.stage_complete()
+        path = self.folder / "native/model.step"
+        original = path.read_bytes()
+        path.unlink()
+        path.symlink_to("model.FCStd")
+        self.git("add", "-f", "published/native/model.step")
+        path.unlink()
+        path.write_bytes(original)
+        self.assertTrue(es.verify_projection(self.folder)["integrity_verified"])
+        with self.assertRaisesRegex(ValueError, "non-file Git publication"):
+            self.verify_git()
 
 
 if __name__ == "__main__":

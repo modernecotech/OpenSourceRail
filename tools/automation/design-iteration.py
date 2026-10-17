@@ -22,6 +22,7 @@ def main():
     p.add_argument("--native", action="store_true")
     p.add_argument("--no-baseline", action="store_true")
     p.add_argument("--resume", type=Path)
+    p.add_argument("--mode", choices=("repair", "optimization"), default="repair")
     p = sub.add_parser("verify")
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--historical", action="store_true")
@@ -43,6 +44,7 @@ def main():
             native=args.native,
             baseline=not args.no_baseline,
             resume=args.resume,
+            mode=args.mode,
         )
     elif args.action == "verify":
         result = design_iteration.verify(

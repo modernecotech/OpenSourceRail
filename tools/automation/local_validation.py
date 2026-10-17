@@ -558,6 +558,26 @@ def plan(profile, output):
         return evidence
     if profile == "browser":
         return browser
+    if profile == "hierarchical-design":
+        pilot = output / "hierarchical-design"
+        return [
+            py(
+                "Fresh hierarchical engineering and isolated software pilot",
+                "tools/automation/hierarchical-design.py",
+                "run",
+                "--output",
+                str(pilot),
+                timeout=600,
+            ),
+            py(
+                "Verify hierarchical evidence and experimental adoption",
+                "tools/automation/hierarchical-design.py",
+                "verify",
+                "--output",
+                str(pilot),
+                timeout=180,
+            ),
+        ]
     if profile == "native-design":
         native = output / "native-design"
         return [
@@ -754,6 +774,7 @@ PROFILES = (
     "browser",
     "native-design",
     "factory-native",
+    "hierarchical-design",
     "ci",
     "kani",
     "integrated-stack",
@@ -881,6 +902,16 @@ def capture_city(destination):
 
 
 def artifact_hashes(profile, folder):
+    if profile == "hierarchical-design":
+        from engineering.generative_design.hierarchical_controller import verify
+
+        native = folder / "hierarchical-design"
+        verify(native)
+        return {
+            p.relative_to(folder).as_posix(): digest(p)
+            for p in sorted(native.rglob("*"))
+            if p.is_file()
+        }
     if profile == "factory-native":
         from engineering.design_engine.factory_acceptance import acceptance
         from engineering.generative_design.native_acceptance import (

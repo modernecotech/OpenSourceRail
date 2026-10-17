@@ -25,6 +25,12 @@ NATIVE_ACCEPTANCE_SOURCES = {
     "tools/automation/design-iteration.py",
     "engineering/analysis/tests/test_design_iteration.py",
     "engineering/analysis/tests/test_design_scenario.py",
+    "tools/automation/hierarchical-design.py",
+    "tools/automation/fixtures/section-independent-acceptance.py",
+    "engineering/analysis/tests/test_agent_execution.py",
+    "engineering/analysis/tests/test_hierarchical_controller.py",
+    "engineering/analysis/tests/test_hierarchical_experiments.py",
+    "engineering/analysis/tests/test_hierarchical_review.py",
     "engineering/analysis/tests/test_civil_detail.py",
     "engineering/analysis/tests/test_mechanical_detail.py",
     "tools/automation/migrate-design-evidence.py",
@@ -81,6 +87,21 @@ if a.scope == "impact":
     profiles = ["quick"]
     if any(name.endswith(".py") for name in a.changed):
         profiles.append("python")
+    if any(
+        name.startswith(
+            ("engineering/generative_design/", "docs/design-engine/hierarchical-pilot-")
+        )
+        or name
+        in {
+            "tools/automation/hierarchical-design.py",
+            "tools/automation/fixtures/section-independent-acceptance.py",
+            "tools/automation/local_validation.py",
+        }
+        or "test_hierarchical" in name
+        or name.endswith("test_agent_execution.py")
+        for name in a.changed
+    ):
+        profiles.append("hierarchical-design")
     if any(x.startswith("problem:") for x in selected):
         profiles += ["python", "evidence"]
     if (
