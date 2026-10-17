@@ -131,7 +131,7 @@ tools/automation/osr-python tools/automation/design-iteration.py run \
 tools/automation/osr-python tools/automation/design-iteration.py run \
   --output /tmp/osr-recovered --resume /tmp/osr-interrupted --budget 64 --no-baseline
 tools/automation/osr-python tools/automation/local-validation.py run \
-  --profile hierarchical-design --output /tmp/osr-hierarchy-validation
+  --profile hierarchical-design --output build/validation/hierarchy-example
 ```
 
 Resume must retain the original mode and options, including `--mode optimization`
