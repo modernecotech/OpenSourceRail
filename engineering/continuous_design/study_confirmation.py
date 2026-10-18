@@ -13,6 +13,24 @@ def native(contract,output):
     script.write_text('import sys,runpy\nsys.path[:0]='+repr([str(core.ROOT),str(core.ROOT/'design/component-catalogue/src')])+
         '\nmodule=runpy.run_path('+repr(str(core.ROOT/'engineering/design_engine/native_cad.py'))+')\nmodule["native"]('+
         repr(str(contract.resolve()))+','+repr(str(output.resolve()))+')\n')
+    script.write_text(script.read_text()+
+        'import json,hashlib\nfrom pathlib import Path\nimport FreeCAD as App\n'+
+        'definition=json.loads(Path('+repr(str(contract.resolve()))+').read_text())\n'+
+        'unit_map={p["id"]:p["manufacturing_unit_id"] for p in definition["parts"] if p.get("manufacturing_unit_id")}\n'+
+        'if unit_map:\n'+
+        '    path=Path('+repr(str(output.resolve()))+')\n'+
+        '    doc=App.openDocument(str(path/"candidate.FCStd"))\n'+
+        '    for obj in doc.Objects:\n'+
+        '        if hasattr(obj,"PhysicalPartId") and obj.PhysicalPartId in unit_map:\n'+
+        '            if not hasattr(obj,"ManufacturingUnitId"): obj.addProperty("App::PropertyString","ManufacturingUnitId")\n'+
+        '            obj.ManufacturingUnitId=unit_map[obj.PhysicalPartId]\n'+
+        '    doc.save();App.closeDocument(doc.Name)\n'+
+        '    doc=App.openDocument(str(path/"candidate.FCStd"))\n'+
+        '    actual={obj.PhysicalPartId:obj.ManufacturingUnitId for obj in doc.Objects if hasattr(obj,"PhysicalPartId") and hasattr(obj,"ManufacturingUnitId")}\n'+
+        '    App.closeDocument(doc.Name)\n'+
+        '    proof=json.loads((path/"native-cad.json").read_text());proof["manufacturing_unit_ids_preserved"]=(actual==unit_map)\n'+
+        '    proof["files_sha256"]={name:hashlib.sha256((path/name).read_bytes()).hexdigest() for name in proof["files_sha256"]}\n'+
+        '    (path/"native-cad.json").write_text(json.dumps(proof,sort_keys=True,indent=2)+"\\n")\n')
     try:
         binary=shutil.which('FreeCADCmd') or shutil.which('freecadcmd')
         command=[binary] if binary else ['flatpak','run','--filesystem='+str(core.ROOT),
@@ -20,7 +38,7 @@ def native(contract,output):
         with (output/'freecad.log').open('w') as log:
             subprocess.run([*command,str(script)],stdout=log,stderr=subprocess.STDOUT,timeout=600,check=True)
         proof=core.read(output/'native-cad.json',maximum=10_000_000)
-        if proof['input_sha256']!=core.sha(contract) or not all(proof[k] for k in ('physical_ids_preserved','native_reopened','step_volume_reconciled')):
+        if proof['input_sha256']!=core.sha(contract) or not all(proof[k] for k in ('physical_ids_preserved','native_reopened','step_volume_reconciled')) or proof.get('manufacturing_unit_ids_preserved') is False:
             return None,'failed','native child identity/correspondence failed'
         return proof,'passed',None
     except (ValueError,RuntimeError,OSError,subprocess.SubprocessError) as exc:
@@ -68,6 +86,18 @@ def numerical(kind,physics,values,output):
             first=physics['response']['envelope'][key];second=refined['envelope'][key]
             checks['static-mesh/'+key]=abs(first-second)/max(abs(second),1e-12)<study['analysis']['convergence_relative_limit']
         record=dict(refined_static=refined,scope='Existing 2D elastic bridge/pier/foundation springs and moving load statics; material, perfect bond, ground and dynamics unqualified')
+        if kind=='civil-kit-study':
+            from .construction_stage import handling
+            from . import civil_kit
+            checks['manufactured-unit-contract']=all(civil_kit.validate_kit(physics['kit']).values())
+            controls=[]
+            for unit in physics['handling']['units']:
+                for stage in unit['stages']:
+                    length=stage['length_m'];q=stage['uniform_n_m']
+                    solved=beam_confirmation.solve(length,stage['picks_m'],stage['ei_nm2'],uniform=q,divisions=32)
+                    checks[unit['unit_id']+'/'+stage['stage']+'/independent-reactions']=all(abs(r['value']-q*length/2)/max(q*length,1)<1e-7 for r in solved['reactions'])
+                    checks[unit['unit_id']+'/'+stage['stage']+'/mesh-refinement']=abs(solved['maximum_nodal_deflection_m']-stage['maximum_deflection_m'])/max(solved['maximum_nodal_deflection_m'],1e-12)<.03
+            record['scope']+='; unit/revision mass mapping, gross handling beam controls and refinement only. Actual temporary works, connections, QA and strength development remain open.'
     checks['independent-beam-controls']=all(row['passed'] for row in beam_confirmation.benchmarks())
     report=dict(checks=checks,record=record,physical_release=False)
     core.write(output/'study-numerical-confirmation.json',report,exclusive=True)

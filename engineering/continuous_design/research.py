@@ -8,7 +8,7 @@ import math
 import time
 
 from engineering.twin_workflow import core
-from . import evidence, tasks, eligibility
+from . import evidence, tasks, eligibility, objectives as objective_policy
 
 
 def initialise(store):
@@ -33,16 +33,7 @@ def initialise(store):
 
 
 def dominates(a, b):
-    # Only compare available objectives with the same documented meaning.
-    names = [k for k in ("mass", "effort") if a[k] is not None and b[k] is not None]
-    pairs=[(a[k],b[k]) for k in names]
-    if 'objectives' in a.keys() and 'objectives' in b.keys():
-        first=json.loads(a['objectives']).get('manufacturing_metrics',{})
-        second=json.loads(b['objectives']).get('manufacturing_metrics',{})
-        for key in ('rectangular_scrap_m2','setup_count','fixture_count','inspection_count','operation_count','destructive_joint_count','blocked_replacement_count'):
-            if type(first.get(key)) in (int,float) and type(second.get(key)) in (int,float):
-                pairs.append((first[key],second[key]))
-    return bool(pairs) and all(x<=y for x,y in pairs) and any(x<y for x,y in pairs)
+    return objective_policy.dominates(a,b)
 
 
 def observe(store, key):
@@ -56,6 +47,7 @@ def observe(store, key):
     mass=result.get("metrics",{}).get("mass_kg")
     if type(mass) not in (int,float) or not math.isfinite(mass): mass=None
     effort=len(parts) if parts else (assessment.get("metrics",{}).get("links_each_stem"))
+    if 'manufactured_units' in assessment:effort=len(assessment['manufactured_units'])
     concept=assessment.get("candidate_family",kind)+":"+str(parameters.get("variables",{}).get("maximum_stock_piece_length_m","declared-route"))
     margins=evidence.margins(result.get("check_details",[])); margin=margins[0]["signed_normalised_distance"] if margins else None
     level=result.get("verification",{}).get("evaluated_level","legacy_unlabelled")
@@ -100,12 +92,12 @@ def observe(store, key):
             for peer in peers:
                 if peer["concept"]==concept and dominates(current,peer):
                     store.db.execute("UPDATE observations SET pareto=0 WHERE key=?",(peer["key"],))
-        prior=store.db.execute("SELECT c.*,o.mass,o.effort FROM champions c JOIN observations o ON c.key=o.key WHERE c.baseline=? AND c.kind=? AND c.context=? ORDER BY c.id DESC LIMIT 1",
+        prior=store.db.execute("SELECT c.*,o.mass,o.effort,o.objectives FROM champions c JOIN observations o ON c.key=o.key WHERE c.baseline=? AND c.kind=? AND c.context=? ORDER BY c.id DESC LIMIT 1",
             (row["baseline"],kind,context)).fetchone()
         if prior and not eligibility.Resolver(store,row['baseline']).state(prior['key'])['eligible']:
             prior=None
-        if prior is None or mass < prior["mass"]-1e-9 or (mass==prior["mass"] and effort is not None and prior["effort"] is not None and effort<prior["effort"]):
-            reason="Initial passing research candidate" if prior is None else "Lower modeled mass with unchanged implemented checks; cost/time remain unknown"
+        if prior is None or objective_policy.primary_rank(current)<objective_policy.primary_rank(prior):
+            reason="Initial passing research candidate" if prior is None else "Lower declared delivery-policy objective with unchanged implemented checks; conditional inputs and release gaps remain explicit" if kind=='civil-kit-study' else "Lower modeled mass with unchanged implemented checks; cost/time remain unknown"
             store.db.execute("INSERT INTO champions(baseline,kind,context,key,predecessor,reason,parent_checks,created) VALUES(?,?,?,?,?,?,?,?)",
                 (row["baseline"],kind,context,key,prior["key"] if prior else None,reason,
                     json.dumps(dict(checks=result.get("checks",{}),children=result.get("children",[]),level=level)),time.time()))
@@ -117,7 +109,7 @@ def observe(store, key):
 
 def promote_candidate(store,row,task,result,*,final=False):
     context=task["parameters"]["context_id"]
-    if result.get("search_blocked"):
+    if result.get("search_blocked") or result.get('held_checks'):
         return
     if task['kind'] in tasks.STUDY_KINDS and not result.get('physical_contract_sha256'):
         # A rejected installation has no exact physical model to confirm.
@@ -127,10 +119,10 @@ def promote_candidate(store,row,task,result,*,final=False):
     pending=store.db.execute("SELECT COUNT(*) FROM promotions p JOIN jobs j ON p.task_key=j.key WHERE p.baseline=? AND p.context=? AND j.status IN ('queued','running','deferred')",(row["baseline"],context)).fetchone()[0]
     if pending>=4:return
     if len(existing)>=4 and not final:
-        previous=store.db.execute("SELECT MIN(o.mass) FROM promotions p JOIN observations o ON p.child=o.key WHERE p.baseline=? AND p.context=? AND o.study_pass=1",(row["baseline"],context)).fetchone()[0]
-        mass=result.get("metrics",{}).get("mass_kg")
-        if not result["study_pass"] or previous is None or mass is None or mass>=.95*previous:
-            return
+        previous=list(store.db.execute("SELECT o.* FROM promotions p JOIN observations o ON p.child=o.key WHERE p.baseline=? AND p.context=? AND o.study_pass=1",(row['baseline'],context)))
+        resolver=eligibility.Resolver(store,row['baseline']);previous=[p for p in previous if resolver.state(p['key'])['state']!='failed']
+        current=store.db.execute('SELECT * FROM observations WHERE key=?',(row['key'],)).fetchone()
+        if not result['study_pass'] or (previous and not objective_policy.useful_improvement(current,previous)):return
     if not result["study_pass"] and any(p["reason"]=="representative adverse candidate" for p in existing):
         return
     if result["study_pass"]:
@@ -149,7 +141,9 @@ def confirm_final_candidates(store,baseline,*,now=None,stagnation_seconds=900):
     """Confirm the exact best revision after idle/stagnation, regardless of 5%."""
     now=time.time() if now is None else now
     added=0
-    for champion in eligibility.champions(store,baseline):
+    choices={c['key']:c for c in eligibility.champions(store,baseline)}
+    for alternative in delivery_shortlist(store,baseline):choices.setdefault(alternative['key'],alternative)
+    for champion in choices.values():
         if champion['kind'] not in tasks.CONFIRMABLE:
             continue
         context=champion['context']
@@ -163,6 +157,19 @@ def confirm_final_candidates(store,baseline,*,now=None,stagnation_seconds=900):
         promote_candidate(store,row,json.loads(row['task']),store.result(row),final=True)
         added+=bool(store.db.execute('SELECT 1 FROM promotions WHERE child=?',(champion['key'],)).fetchone())
     return added
+
+
+def delivery_shortlist(store,baseline):
+    resolver=eligibility.Resolver(store,baseline);groups={}
+    for row in resolver.observations.values():
+        if row['kind'] in tasks.CONFIRMABLE and row['study_pass'] and row['mass'] is not None:
+            groups.setdefault((row['kind'],row['context']),[]).append(row)
+    result=[]
+    for (kind,context),rows in sorted(groups.items()):
+        for choice in objective_policy.roles(rows,eligible=lambda row:resolver.state(row['key'])['eligible']):
+            row=choice['row'];result.append(dict(key=row['key'],kind=kind,context=context,created=row['finished'],
+                roles=choice['roles'],objectives=json.loads(row['objectives']),verification_level=row['level'],eligibility=resolver.state(row['key'])))
+    return result
 
 
 def summary(store,baseline):
@@ -182,7 +189,7 @@ def summary(store,baseline):
     confirmed=store.db.execute("SELECT MAX(finished) FROM observations WHERE baseline=? AND kind LIKE '%-confirmation' AND study_pass=1",(baseline,)).fetchone()[0]
     useful=max([t for t in (latest,confirmed) if t is not None],default=None)
     dispositions=dict(store.db.execute('SELECT state,COUNT(*) FROM integration_dispositions WHERE baseline=? GROUP BY state',(baseline,)))
-    return dict(counts=counts,counts_overlap=True,champions=champions,integration_dispositions=dispositions,last_useful_improvement_unix=useful,
+    return dict(counts=counts,counts_overlap=True,champions=champions,delivery_shortlist=delivery_shortlist(store,baseline),integration_dispositions=dispositions,last_useful_improvement_unix=useful,
         last_champion_change_unix=latest,last_higher_fidelity_confirmation_unix=confirmed,
         adoption_scope="Versioned research shortlist for the declared checks; all release gates remain open",
         pareto_count=store.db.execute("SELECT COUNT(*) FROM observations WHERE baseline=? AND pareto=1",(baseline,)).fetchone()[0])

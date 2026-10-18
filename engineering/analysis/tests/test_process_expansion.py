@@ -198,7 +198,7 @@ def test_civil_family_and_reusable_mould_choices_regenerate_same_function(tmp_pa
 
 
 def test_all_civil_family_seeds_compile_with_appropriate_material_processes(tmp_path):
-    for index,task in enumerate(expansion.seeds()[6:]):
+    for index,task in enumerate(t for t in expansion.seeds() if t['kind']=='civil-architecture-study'):
         output=tmp_path/str(index);output.mkdir()
         result=expansion.evaluate(task['kind'],task['parameters'],output)
         model=core.read(output/'physical-contract.json',maximum=20_000_000)

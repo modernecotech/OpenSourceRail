@@ -22,6 +22,9 @@ def dashboard(status):
         "Research champions:"])
     for champion in status["research"]["champions"]:
         lines.append("  "+champion["context"]+" "+champion["key"][:16]+" — "+champion["reason"])
+    lines.append('Complementary delivery alternatives (declared scenarios, not accepted cost or schedule):')
+    for candidate in status['research'].get('delivery_shortlist',[]):
+        lines.append('  '+candidate['context']+' '+candidate['key'][:16]+': '+', '.join(candidate['roles']))
     lines.append("Blocked capabilities:")
     for need in status["blocked_capabilities"]:
         lines.append("  "+need["lane"]+": "+need["item_id"][:160])

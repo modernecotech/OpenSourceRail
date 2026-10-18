@@ -16,7 +16,7 @@ KINDS = {"mechanical-cleat": "mechanical", "mechanical-interface": "mechanical",
 KINDS.update({"mechanical-confirmation":"mechanical", "civil-confirmation":"civil"})
 KINDS["software-receiver"]="software"
 KINDS['integration-protocol']='integration'
-STUDY_KINDS={'mechanical-roof-study':'mechanical','mechanical-equipment-study':'mechanical','civil-architecture-study':'civil'}
+STUDY_KINDS={'mechanical-roof-study':'mechanical','mechanical-equipment-study':'mechanical','civil-architecture-study':'civil','civil-kit-study':'civil'}
 KINDS.update(STUDY_KINDS)
 KINDS.update({'mechanical-study-confirmation':'mechanical','civil-study-confirmation':'civil'})
 CONFIRMABLE={'mechanical-detail','civil-detail',*STUDY_KINDS}

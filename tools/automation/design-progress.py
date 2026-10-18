@@ -236,6 +236,7 @@ def plot(mesh, path, lane, child, baseline):
     ax.axis('off')
     context=child['context']
     title=('Equipment mounting and duct research assembly' if context.startswith('six-car-equipment') else
+        '20m manufactured civil kit'+(' with station package' if context.endswith('-station-package') else '') if context.startswith('kit-20m') else
         'Roof cassette' if context.startswith('roof-cassette') else
         '100m civil reference: five two-track bays' if context.startswith('fixed-100m') else
         "Vehicle underframe" if lane == "mechanical" else "Precast beam and support envelopes")
@@ -283,6 +284,12 @@ def html_report(report, base=""):
             h(Path(picture['confirmation_result']).as_uri())+'">Confirmation record</a></p></article>'])
     for lane, error in report['render_errors'].items():
         lines.append('<p>Geometry unavailable for '+h(lane)+': '+h(error)+'</p>')
+    alternatives=report['research'].get('delivery_shortlist',[])
+    if alternatives:
+        lines.append('<h2>Alternatives for delivery and manufacture</h2><p>Different objectives retain different candidates. Delivery times and costs depend on declared inputs; acceptance remains open.</p><ul>')
+        for candidate in alternatives:
+            lines.append('<li>'+h(candidate['context'])+' | '+h(candidate['key'][:12])+' | '+h(', '.join(candidate['roles']))+'</li>')
+        lines.append('</ul>')
     lines.append('<h2>Open capability and evidence requests</h2><ul>')
     for need in report['open_needs']:
         lines.append('<li>'+h(need['lane'])+': '+h(need['item_id'])+'</li>')

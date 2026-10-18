@@ -10,7 +10,7 @@ import sqlite3
 import time
 
 from engineering.twin_workflow import core
-from . import tasks
+from . import tasks,objectives
 
 MANDATORY = ("native_geometry", "numerical_confirmation", "numerical_robustness")
 
@@ -54,12 +54,13 @@ class Resolver:
             return result
         task = json.loads(row['task'])
         try:
-            passed = self.store.result(row)['study_pass']
+            original=self.store.result(row);passed = original['study_pass']
         except (ValueError, OSError, KeyError, TypeError) as exc:
             result['reasons'].append('candidate evidence unreadable: '+str(exc))
             return result
         if not passed:
-            result.update(state='failed', reasons=['original study checks failed'])
+            held=bool(original.get('held_checks')) and not original.get('failed_checks')
+            result.update(state='hold' if held else 'failed',reasons=['original study awaiting applicability evidence' if held else 'original study checks failed'])
             return result
         states = []
         for confirmation in self.confirmations.get(key, []):
@@ -101,8 +102,7 @@ def champions(store, baseline, resolver=None):
     """Choose the best eligible alternative, including formerly dominated ones."""
     resolver = resolver or Resolver(store, baseline)
     groups = {}
-    for row in sorted(resolver.observations.values(), key=lambda r: (r['mass'] if r['mass'] is not None else float('inf'),
-            r['effort'] if r['effort'] is not None else float('inf'), r['key'])):
+    for row in sorted(resolver.observations.values(), key=lambda r:(r['kind'],r['context'],objectives.primary_rank(r),r['key'])):
         if row['kind'] not in (tasks.CONFIRMABLE|{'integration-coupling','integration-protocol'}):
             continue
         group = row['kind'], row['context']
@@ -120,6 +120,7 @@ def champions(store, baseline, resolver=None):
             checked=store.result(resolver.rows[observation['key']])
             item['parent_checks']=dict(checks=checked.get('checks',{}),children=checked.get('children',[]),level=observation['level'])
         item['eligibility'] = resolver.state(observation['key'])
+        item['selection_policy']='least scenario onsite work, then delivery time/lift/mass; complementary leaders retained separately' if kind=='civil-kit-study' else 'minimum modeled mass research representative; complementary leaders retained separately'
         selected.append(item)
     return selected
 

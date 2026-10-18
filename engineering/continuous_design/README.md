@@ -43,6 +43,62 @@ explicitly unresolved and prevent any claim of engineering feasibility.
 Synthetic materials, perfect-bond assumptions, final reinforcement, manufacturing
 unit grouping, temporary works and actual Baghdad ground remain unqualified.
 
+The `civil-kit-study` family compares a complete 20m two-track reference cell
+with two full supports, retaining that boundary for every alternative. Its
+large-span Pi, segmental-box and lighter ribbed examples include piles and
+prefabricated cages, foundation caps, piers, pier caps, bearings, track-support
+modules, walkways/parapets and separate power/data/drainage provisions. Registered
+choices include bored versus conditionally driven foundation bundles, split
+foundation/pier caps, six pier forms, segmented columns and service-module length.
+Station platform, independent footing/frame, canopy and stair packages use a
+separate comparison context so omitting a station can never appear as a saving.
+Stair supporting detail, complete services and actual station/railway acceptance
+remain open. The reference train is the retained source axle pattern, not an
+adopted Baghdad six-car load case.
+
+Manufactured-unit IDs group exact CAD regions and explicit mass allowances.
+Those IDs survive native FCStd reopening and are reused in the RFQ CSV, joints,
+construction stages and QA templates. A cap-seat geometry revision is accounted
+in the material ledger; original reinforcement/prestress and track allowances
+are retained, with new kit additions accounted separately. Unknown cable,
+connection and reinforcement detail is never represented as qualified hardware.
+
+Construction checks include demoulding, transport and lifting gross-beam demands,
+capacity at the declared crane radius, mat pressure, tolerance/engagement and
+stage precedence. Bores precede cages; segment assembly precedes post-tensioning;
+temporary support cannot be removed before connection and test completion.
+Early-age strength, stability, connections and ground still require their own
+qualified evidence. The event scheduler holds moulds through cure without charging
+passive curing as labour, holds loaded trailers until crane placement, reserves
+site waiting spaces, and accounts for bulk mixers, excavation, crews and QA.
+Capacity perturbations identify bottlenecks under the declared scheduling policy;
+this is a conditional heuristic schedule, not a proven minimum delivery time.
+
+Required joint retention and inspection coverage are constraints. Inspection
+count is diagnostic; inspection effort can only be compared with matching
+required coverage. QA records require exact unit revision, serial identity and
+interface context; changed definitions request retests. Template hold points are
+unexecuted, and record consistency never authenticates a supplier or grants release.
+The civil-kit primary policy minimises scenario onsite work, then delivery time,
+lift and mass. Complementary leaders remain visible and can earn confirmation
+through non-mass improvements, including heavier alternatives. Small final
+improvements are still confirmed when a context becomes idle or stagnates.
+
+Reproduce the three complete-scope planning examples in a new output folder:
+
+```bash
+tools/automation/osr-python tools/automation/design-civil-kit.py --output /tmp/osr-civil-kit-comparison
+```
+
+Outputs include manufactured-unit RFQ tables, material/allowance ledgers,
+handling demands, factory/delivery/erection schedules, capacity sensitivities,
+QA travellers and identical train/ground/durability/criteria fingerprints.
+Default productivity and crane/transport values are declared uncalibrated
+hypotheses, not supplier ratings or an erection instruction. Costs stay null
+until every unit revision and installation/temporary-work/disruption scope has
+input quotations. Factory work included in unit supply is not charged twice.
+The comparison does not establish a cheapest accepted railway design.
+
 Every physical family has an applicable process profile. The new pilots assign
 every represented part/material region to one, execute operation prerequisites,
 fixture hypotheses, inspection hold points and conservative removal envelopes,

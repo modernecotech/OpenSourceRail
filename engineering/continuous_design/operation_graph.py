@@ -24,11 +24,24 @@ def swept(bounds,translation):
 
 
 def evaluate(plan):
-    if plan.get('schema')!='osr-operation-graph/1':
+    if plan.get('schema') not in {'osr-operation-graph/1','osr-operation-graph/2'}:
         raise ValueError('versioned operation graph required')
     parts={p['id']:p for p in plan['parts']}
     fixtures={f['id']:f for f in plan['fixtures']}
     operations={o['id']:o for o in plan['operations']}
+    joints={j['id']:j for j in plan.get('joints',[])}
+    if len(joints)!=len(plan.get('joints',[])):
+        raise ValueError('unique declared joints required')
+    required_joints={p['id']:set(p.get('required_joints',[])) for p in parts.values()}
+    required_tests={p['id']:set(p.get('required_inspections',[])) for p in parts.values()}
+    for joint in joints.values():
+        endpoints=joint['endpoints']
+        if len(endpoints)!=2 or len(set(endpoints))!=2 or not set(endpoints)<=parts.keys()|{'world'}:
+            raise ValueError('joint requires two distinct declared endpoints')
+        if joint['process'] not in {'fasten','weld','bond','form'}:
+            raise ValueError('registered retention process required')
+    if any(not refs<=joints.keys() for refs in required_joints.values()):
+        raise ValueError('required joint definition absent')
     if len(parts)!=len(plan['parts']) or len(fixtures)!=len(plan['fixtures']) or len(operations)!=len(plan['operations']) or len(operations)>4096:
         raise ValueError('bounded unique physical parts and operations required')
     for part in parts.values():
@@ -43,7 +56,20 @@ def evaluate(plan):
     for op in operations.values():
         if not set(op['parts'])<=parts.keys() or not op['parts'] or not set(op['after'])<=operations.keys() or op['id'] in op['after']:
             raise ValueError('operation references absent parts/dependencies')
-    installed=set();done=set();trace=[];checks={};unknown=[];held=set()
+    installed=set();done=set();trace=[];checks={};unknown=[];held=set();retained=set();tested=set()
+    def secured(targets):
+        return all(required_joints[p] and required_joints[p]<=retained for p in targets)
+    def inspected(targets):
+        return all(required_tests[p] and all((p,test) in tested for test in required_tests[p]) for p in targets)
+    def connected(targets):
+        reached=set(plan.get('reference_roots',['world']))
+        for _ in range(len(parts)+1):
+            prior=set(reached)
+            for identity in retained:
+                endpoints=set(joints[identity]['endpoints'])
+                if endpoints&reached:reached|=endpoints
+            if reached==prior:break
+        return set(targets)<=reached
     while len(done)<len(operations):
         ready=sorted(o for o in operations if o not in done and set(operations[o]['after'])<=done)
         if not ready:
@@ -67,9 +93,13 @@ def evaluate(plan):
                 if kind=='cure' and not any(operations[d]['kind']=='bond' for d in done if set(operations[d]['parts'])&targets):
                     passed=False;reason.append('cure before bond')
                 if kind=='inspect':
-                    held|=targets  # simulated inspection point, never a measured acceptance
-                if kind=='release' and not targets<=held:
-                    passed=False;reason.append('release before inspection hold point')
+                    if not secured(targets) or not connected(targets):
+                        passed=False;reason.append('inspection before required retention is complete')
+                    elif op.get('inspection_id'):
+                        held|=targets
+                        tested.update((p,op['inspection_id']) for p in targets)
+                if kind=='release' and (not secured(targets) or not inspected(targets) or not connected(targets)):
+                    passed=False;reason.append('release before declared retention and required inspection coverage')
                 if kind=='form':unknown.append(identifier+'/forming-tool-and-springback')
             else:
                 raise ValueError('unsupported manufacturing operation')
@@ -81,11 +111,24 @@ def evaluate(plan):
                     passed=False;reason.append('tool envelope blocked by '+','.join(sorted(blocked)))
             elif kind in {'fasten','weld','bond'}:
                 unknown.append(identifier+'/actual-tool-access')
+            linked=op.get('joints',[op['joint']] if op.get('joint') else [])
+            if not set(linked)<=joints.keys():raise ValueError('operation references absent joint')
+            for joint_id in linked:
+                joint=joints[joint_id]
+                endpoints=set(joint['endpoints'])-{'world'}
+                if kind!=joint['process'] or not endpoints<=installed or joint['operation']!=identifier:
+                    passed=False;reason.append('joint endpoints/process/retention operation mismatch')
+                if passed:
+                    retained.add(joint['id'])
+                    unknown.append(joint['id']+'/engineered-capacity-and-physical-lock-verification')
             checks[identifier]=passed
             trace.append(dict(operation=identifier,kind=kind,passed=passed,reasons=reason,installed_parts=sorted(installed),
                 inspection_status='simulated hold point only' if kind=='inspect' else None))
             done.add(identifier)
     checks['all_parts_installed']=installed==set(parts)
+    checks['all_required_joints_retained']=secured(set(parts))
+    checks['declared_connection_graph']=connected(set(parts))
+    checks['required_inspection_coverage']=inspected(set(parts))
     removals=[]
     for request in plan.get('maintenance',[]):
         target=request['part'];detached=request.get('remove_first',[])
@@ -108,23 +151,30 @@ def evaluate(plan):
         unknown=unknown,metrics=dict(operation_count=len(operations),setup_count=len({o.get('setup','unspecified') for o in operations.values()}),
             fixture_count=len(fixtures),inspection_count=sum(o['kind']=='inspect' for o in operations.values()),
             destructive_joint_count=sum(o['kind'] in {'weld','bond'} for o in operations.values()),
-            blocked_replacement_count=sum(not r['passed'] for r in removals)),
+            blocked_replacement_count=sum(not r['passed'] for r in removals),
+            required_joint_count=len(joints),retained_joint_count=len(retained),
+            required_inspection_count=sum(len(v) for v in required_tests.values()),
+            covered_inspection_count=sum((p,t) in tested for p,tests in required_tests.items() for t in tests)),
         scope='AABB envelopes and prerequisite replay, not weld distortion, cure/flow, clamping strength, human inspection or physical process simulation',
         measured_assembly_time_s=None,manufacturing_release=False)
 
 
 def simple(parts,*,process='fasten',capacity_kg=25000.,maintenance=None):
     """Explicit lower-bound graph; missing swept access stays unknown."""
-    parts=deepcopy(parts);operations=[]
+    parts=deepcopy(parts);operations=[];joints=[]
     previous=[]
     for index,part in enumerate(parts):
         install=dict(id=f'install-{index}',kind='install',parts=[part['id']],after=list(previous),fixture='assembly-fixture',setup='assembly')
         joining=part.get('joining_process',process)
         if joining in {'weld','bond'}:part['reversible']=False
-        joint=dict(id=f'join-{index}',kind=joining,parts=[part['id']],after=[install['id']],setup=joining)
+        joint_id='retention/'+part['id']
+        part['required_joints']=[joint_id];part['required_inspections']=['assembly-inspection']
+        joint=dict(id=f'join-{index}',kind=joining,parts=[part['id']],after=[install['id']],setup=joining,joint=joint_id)
+        joints.append(dict(id=joint_id,endpoints=[part['id'],'world' if index==0 else parts[0]['id']],
+            process=joining,operation=joint['id'],capacity_evidence=None))
         operations.extend([install,joint]);previous=[joint['id']]
     all_parts=[p['id'] for p in parts]
-    operations.extend([dict(id='inspect',kind='inspect',parts=all_parts,after=previous,setup='inspection'),
+    operations.extend([dict(id='inspect',kind='inspect',parts=all_parts,after=previous,setup='inspection',inspection_id='assembly-inspection'),
         dict(id='release',kind='release',parts=all_parts,after=['inspect'],setup='inspection')])
-    return dict(schema='osr-operation-graph/1',parts=deepcopy(parts),fixtures=[dict(id='assembly-fixture',capacity_kg=capacity_kg,capacity_accepted=False)],
-        operations=operations,maintenance=maintenance or [])
+    return dict(schema='osr-operation-graph/2',parts=parts,joints=joints,fixtures=[dict(id='assembly-fixture',capacity_kg=capacity_kg,capacity_accepted=False)],
+        operations=operations,maintenance=maintenance or [],retention_scope='Declared simulation only; world anchorage, actual manufactured-unit grouping and physical connection capacity remain open')

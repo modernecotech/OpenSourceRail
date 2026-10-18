@@ -41,11 +41,17 @@ def check(store,need_key):
     tree=Path(order["worktree"])
     if not order["modules"] or not order["benchmarks"] or not order["limitations"]:
         raise ValueError("define adapter modules, independent benchmarks and limitations first")
-    paths=order["modules"]+order["benchmarks"]
+    source_paths=order['modules']+order['benchmarks']
+    inputs=order.get('inputs',[])
+    paths=source_paths+inputs
     for path in paths:
         target=(tree/path).resolve()
-        if not target.is_relative_to(tree.resolve()) or not target.is_file() or not path.endswith(".py"):
-            raise ValueError("capability files must be Python sources inside its worktree")
+        if not target.is_relative_to(tree.resolve()) or not target.is_file():
+            raise ValueError('capability sources and data must be files inside its worktree')
+        if path in source_paths and not path.endswith('.py'):
+            raise ValueError('adapter and benchmark modules must be Python sources')
+        if path in inputs and target.suffix not in {'.json','.toml','.csv'}:
+            raise ValueError('capability inputs must be bounded-format engineering data')
     if any(not p.startswith("engineering/analysis/tests/test_") for p in order["benchmarks"]):
         raise ValueError("benchmark tests must be separate test modules")
     command=[sys.executable,"-m","pytest",*order["benchmarks"],"-q"]

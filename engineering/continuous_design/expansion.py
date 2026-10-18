@@ -23,6 +23,7 @@ CONTEXTS={
     'mechanical-roof-study':'roof-cassette-0.994x2.35m-85C',
     'mechanical-equipment-study':'six-car-equipment-and-reference-mount',
     'civil-architecture-study':'fixed-100m-five20m-twotrack',
+    'civil-kit-study':['kit-20m-two-track-two-supports-fixed-reference','kit-20m-two-track-two-supports-fixed-reference-station-package'],
 }
 LAYUPS={
     'quasi-isotropic':[0,45,-45,90,90,-45,45,0],
@@ -32,6 +33,9 @@ LAYUPS={
 
 
 def domains(kind):
+    if kind=='civil-kit-study':
+        from .civil_kit import DOMAINS
+        return deepcopy(DOMAINS)
     if kind=='mechanical-roof-study':
         return dict(layup=list(LAYUPS),skin_m=[.0015,.002],core_m=[.02,.0246,.03],core_density=[60,80,100],
             crown_m=[.05,.1],support_span_m=[.5,.33],material_system=['development-gfrp'],process_profile=['vacuum-laminate'])
@@ -54,10 +58,14 @@ def sources():
     for folder in ('engineering/composite_panels/config','engineering/twin_design/data','engineering/civil_exploration/config','lib/templates'):
         paths.extend(p for p in (core.ROOT/folder).rglob('*') if p.is_file() and p.suffix in {'.json','.toml','.csv'})
     paths.extend(p for p in (core.ROOT/'design/component-catalogue/src/osr_mech').rglob('*') if p.is_file() and p.suffix in {'.json','.toml','.csv'})
+    paths.append(core.ROOT/'engineering/continuous_design/data/civil-kit-basis.json')
     return {str(path.relative_to(core.ROOT)):core.sha(path) for path in paths}
 
 
 def validate(kind,parameters):
+    if kind=='civil-kit-study':
+        from .civil_kit import validate as validate_kit
+        return validate_kit(parameters)
     domain=domains(kind)
     if set(parameters)!={'context_id','variables'} or parameters['context_id']!=CONTEXTS[kind]:
         raise ValueError('fixed functional context required')
@@ -88,7 +96,14 @@ def seeds():
         material='normal' if 'normal' in deck['materials'] else deck['materials'][0]
         values.append(('civil-architecture-study',dict(civil_defaults(),deck_family=family,material=material,
             geometry_fraction=.5,mould_route='split-reusable')))
-    return [task(kind,dict(context_id=CONTEXTS[kind],variables=v),'Compare a fixed-function physical/material/process alternative; all release gates open') for kind,v in values]
+    result=[task(kind,dict(context_id=CONTEXTS[kind],variables=v),'Compare a fixed-function physical/material/process alternative; all release gates open') for kind,v in values]
+    from . import civil_kit
+    for architecture in civil_kit.ARCHITECTURES:
+        result.append(task('civil-kit-study',dict(context_id=civil_kit.CONTEXT,variables=civil_kit.defaults(architecture)),
+            'Compare complete equal-function manufacturing units, staged handling, factory/transport/erection resources and mandatory QA plans'))
+    station=dict(civil_kit.defaults(),station_package=True)
+    result.append(task('civil-kit-study',dict(context_id=civil_kit.STATION_CONTEXT,variables=station),'Separate station-inclusive scope; never compare missing station work as a saving'))
+    return result
 
 
 def roof(values):
@@ -259,7 +274,7 @@ def civil(values):
     design=compile_civil_shape(values)
     response=System(design['civil_candidate'],design['study'],design['study']['ground_scenarios'][0],4).static_envelope()
     model=design['contract'];inventory=processes.physical_parts(model)
-    graph=operation_graph.simple(inventory,process='inspect',capacity_kg=125000.)
+    graph=operation_graph.simple(inventory,process='fasten',capacity_kg=125000.)
     graph['fixtures'][0]['load_scope']='current_operation'
     withdrawal=4. if values['mould_route']=='split-reusable' else 20.
     checks=dict(finite_reference_response=all(math.isfinite(v) for v in response['envelope'].values() if type(v) in (int,float)),
@@ -282,6 +297,9 @@ def civil(values):
 
 
 def evaluate(kind,parameters,output):
+    if kind=='civil-kit-study':
+        from .civil_kit_evaluation import evaluate as evaluate_kit
+        return evaluate_kit(parameters,output)
     validate(kind,parameters);values=parameters['variables']
     try:
         data={'mechanical-roof-study':roof,'mechanical-equipment-study':equipment,'civil-architecture-study':civil}[kind](values)
