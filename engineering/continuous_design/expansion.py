@@ -145,7 +145,14 @@ def equipment(values):
     model=d.contract('Reference mounting cassette with existing six-car equipment allocation',parts,mats)
     model['unresolved_part_allocations']=['full bolt/locking and weld geometry','bend radii and allowances','actual equipment mounting interfaces','harness/duct connections and sealing']
     inventory=processes.physical_parts(model)
-    next(p for p in inventory if p['id']=='cover')['reversible']=values['cover_joint']=='bolted'
+    for p in inventory:
+        identifier=p['id']
+        if identifier=='cover':joining='weld' if values['cover_joint']=='welded' else 'fasten'
+        elif identifier=='equipment-payload' or identifier.startswith('duct-'):joining='fasten'
+        elif values['topology']=='rhs-ladder':joining='weld'
+        elif identifier in {'floor','web-0','web-1'}:joining='form'
+        else:joining='fasten'
+        p['joining_process']=joining
     graph=operation_graph.simple(inventory,process='weld' if values['topology']=='rhs-ladder' else 'fasten',
         maintenance=[dict(part='equipment-payload',remove_first=['cover'],translation_m=[0.,0.,1.])])
     # Derive gross prismatic section from the very same generated solids.

@@ -40,6 +40,13 @@ def test_distinct_shape_and_joining_architectures_regenerate_inventory_mass_and_
     assert core.read(Path(rhs['folder'])/'output/physics.json')['beam']['ei_nm2']!=core.read(Path(folded['folder'])/'output/physics.json')['beam']['ei_nm2']
     nested=core.read(Path(folded['folder'])/'output/blank-nesting.json')
     assert any(p['part']=='developed-pan-blank' for p in nested['placements'])
+    assert rhs['result']['manufacturing_process']['metrics']['destructive_joint_count']>folded['result']['manufacturing_process']['metrics']['destructive_joint_count']
+    graph=core.read(Path(rhs['folder'])/'output/operation-graph.json')
+    payload=next(op for op in graph['operations'] if op['parts']==['equipment-payload'] and op['id'].startswith('join-'))
+    assert payload['kind']=='fasten'
+    physics=core.read(Path(folded['folder'])/'output/physics.json',maximum=20_000_000)
+    assert physics['unrepresented_bend_allowance_kg']>0.
+    assert folded['result']['metrics']['mass_kg']==pytest.approx(physics['represented_material_mass_kg']+physics['unrepresented_bend_allowance_kg'])
 
 
 def test_thermal_improvement_cannot_hide_electrical_capacity_penalty(examples):

@@ -49,6 +49,10 @@ geometry uses sharp-corner regions and conservative blank allowance; bend
 material is carried as an unresolved mass allowance without stiffness credit.
 Springback and finished corner geometry still need qualification.
 
+Weld/bond operation counts include declared destructive joins; equipment and
+removable covers use their selected fastening route. These graphs still describe
+represented regions, with final manufacturing-unit grouping unresolved.
+
 Pareto comparison retains mass alongside available scrap, operation, setup,
 fixture, inspection and repair counts. These are scoped geometric/count proxies,
 not measured labour time, supplier quotations or complete installed mass.

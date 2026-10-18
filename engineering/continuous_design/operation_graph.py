@@ -61,7 +61,7 @@ def evaluate(plan):
                 if fixture and fixture.get('load_scope')=='current_operation':
                     unknown.append(identifier+'/installed-assembly-temporary-stability')
                 installed|=targets
-            elif kind in {'fasten','weld','bond','cure','inspect','release'}:
+            elif kind in {'fasten','weld','bond','cure','form','inspect','release'}:
                 if not targets<=installed:
                     passed=False;reason.append('parts unavailable at operation')
                 if kind=='cure' and not any(operations[d]['kind']=='bond' for d in done if set(operations[d]['parts'])&targets):
@@ -70,6 +70,7 @@ def evaluate(plan):
                     held|=targets  # simulated inspection point, never a measured acceptance
                 if kind=='release' and not targets<=held:
                     passed=False;reason.append('release before inspection hold point')
+                if kind=='form':unknown.append(identifier+'/forming-tool-and-springback')
             else:
                 raise ValueError('unsupported manufacturing operation')
             tool=op.get('tool_bounds_m')
@@ -106,7 +107,7 @@ def evaluate(plan):
     return dict(schema='osr-operation-replay/1',checks=checks,trace=trace,removal_sequences=removals,
         unknown=unknown,metrics=dict(operation_count=len(operations),setup_count=len({o.get('setup','unspecified') for o in operations.values()}),
             fixture_count=len(fixtures),inspection_count=sum(o['kind']=='inspect' for o in operations.values()),
-            destructive_joint_count=sum(not p.get('reversible',True) for p in parts.values()),
+            destructive_joint_count=sum(o['kind'] in {'weld','bond'} for o in operations.values()),
             blocked_replacement_count=sum(not r['passed'] for r in removals)),
         scope='AABB envelopes and prerequisite replay, not weld distortion, cure/flow, clamping strength, human inspection or physical process simulation',
         measured_assembly_time_s=None,manufacturing_release=False)
@@ -114,11 +115,13 @@ def evaluate(plan):
 
 def simple(parts,*,process='fasten',capacity_kg=25000.,maintenance=None):
     """Explicit lower-bound graph; missing swept access stays unknown."""
-    operations=[]
+    parts=deepcopy(parts);operations=[]
     previous=[]
     for index,part in enumerate(parts):
         install=dict(id=f'install-{index}',kind='install',parts=[part['id']],after=list(previous),fixture='assembly-fixture',setup='assembly')
-        joint=dict(id=f'join-{index}',kind=process,parts=[part['id']],after=[install['id']],setup=process)
+        joining=part.get('joining_process',process)
+        if joining in {'weld','bond'}:part['reversible']=False
+        joint=dict(id=f'join-{index}',kind=joining,parts=[part['id']],after=[install['id']],setup=joining)
         operations.extend([install,joint]);previous=[joint['id']]
     all_parts=[p['id'] for p in parts]
     operations.extend([dict(id='inspect',kind='inspect',parts=all_parts,after=previous,setup='inspection'),
