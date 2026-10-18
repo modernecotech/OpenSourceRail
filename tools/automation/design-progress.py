@@ -24,7 +24,7 @@ from engineering.continuous_design import research
 DEFAULT = Path.home() / ".local/state/opensourcerail/continuous-design"
 UNIT = "osr-design-progress"
 SCHEMA = "osr-design-progress/1"
-SCOPE = ("Provisional research geometry. Native solids and equivalent 1D elastic beam checks "
+SCOPE = ("Provisional research geometry. Native solids, equivalent 1D elastic beams and other explicitly scoped research checks "
          "do not qualify joints, fatigue, soil, dynamics or a complete train. "
          "Manufacturing and physical release remain open.")
 
@@ -118,22 +118,25 @@ def collect(workspace):
 
 def render(workspace, child, confirmation, output, lane, baseline):
     child_folder, _ = verified(child, workspace, ("result.json",))
+    common='study-confirmation' in json.loads(confirmation['task'])['kind']
+    model_name='output/physical-contract.json' if common else 'output/model-definition.json'
+    cad_name='output/cad/candidate.FCStd' if common else 'output/cad/model.FCStd'
     folder, receipt = verified(confirmation, workspace, (
-        "result.json", "output/model-definition.json", "output/cad/model.FCStd", "output/cad/native-cad.json"))
+        "result.json",model_name,cad_name,"output/cad/native-cad.json"))
     result = read(folder / "result.json")
     if (receipt["task"]["parameters"]["child"] != child["key"] or not result["study_pass"]
         or result["verification"]["levels"]["native_geometry"]["state"] != "passed"):
         raise ValueError("confirmation is not passing native evidence for selected child")
-    model = read(folder / "output/model-definition.json")
+    model = read(folder / model_name)
     native = read(folder / "output/cad/native-cad.json")
-    if native["input_sha256"] != sha(folder / "output/model-definition.json"):
+    if native["input_sha256"] != sha(folder / model_name):
         raise ValueError("native geometry input mismatch")
-    source = folder / "output/cad/model.FCStd"
+    source = folder / cad_name
     with tempfile.TemporaryDirectory(prefix=".cad-", dir=output) as directory:
         temp = Path(directory)
         copied = temp / "model.FCStd"
         shutil.copyfile(source, copied)
-        if sha(copied) != receipt["files_sha256"]["output/cad/model.FCStd"]:
+        if sha(copied) != receipt["files_sha256"][cad_name]:
             raise ValueError("native copy changed")
         mesh = temp / "mesh.json"
         script = temp / "render.py"
@@ -154,7 +157,8 @@ def render(workspace, child, confirmation, output, lane, baseline):
         context=child["context"], mass_kg=child["mass"], part_count=len(data["parts"]),
         image=lane + ".png", image_sha256=sha(output / (lane + ".png")),
         source_fcstd=str(source), source_sha256=sha(source),
-        receipt_sha256=confirmation["receipt_sha"], model_sha256=sha(folder / "output/model-definition.json"),
+        receipt_sha256=confirmation["receipt_sha"], model_sha256=sha(folder / model_name),
+        numerical_scope=result['verification']['scope'],
         evidence=result["verification"]["evaluated_level"],
         selection="Confirmed passing research example; other contexts may have newer analytical champions",
         analytical_result=str(child_folder / "result.json"), confirmation_result=str(folder / "result.json"))
@@ -230,7 +234,11 @@ def plot(mesh, path, lane, child, baseline):
         depths.extend(faces @ camera)
     ax.imshow(rasterize(polygons,depths,colors), interpolation='lanczos')
     ax.axis('off')
-    title = "Vehicle underframe" if lane == "mechanical" else "Precast beam and support envelopes"
+    context=child['context']
+    title=('Equipment mounting and duct research assembly' if context.startswith('six-car-equipment') else
+        'Roof cassette' if context.startswith('roof-cassette') else
+        '100m civil reference: five two-track bays' if context.startswith('fixed-100m') else
+        "Vehicle underframe" if lane == "mechanical" else "Precast beam and support envelopes")
     fig.suptitle(title + " | retained native CAD", fontsize=18, color="#18384c", y=.94)
     fig.text(.06, .84, child["context"] + f"  |  {len(mesh['parts'])} modeled solids  |  {child['mass']:,.0f} kg modeled mass", fontsize=11)
     fig.text(.06, .12, "Provisional research geometry | joints, full reinforcement and complete systems remain open", fontsize=10)
@@ -271,7 +279,7 @@ def html_report(report, base=""):
     for lane, picture in report['pictures'].items():
         lines.extend(['<article><h2>'+h(lane.title())+'</h2><img alt="'+h(lane+' native CAD geometry')+'" src="'+h(picture['image'])+'">',
             '<p>'+h(picture['selection'])+'</p><p>Evidence: '+h(picture['evidence'])+
-            '. Numerical scope is equivalent 1D elastic bending.</p><p><a href="'+h(Path(picture['source_fcstd']).as_uri())+'">FreeCAD model</a> | <a href="'+
+            '. '+h(picture.get('numerical_scope','Numerical scope is equivalent 1D elastic bending.'))+'</p><p><a href="'+h(Path(picture['source_fcstd']).as_uri())+'">FreeCAD model</a> | <a href="'+
             h(Path(picture['confirmation_result']).as_uri())+'">Confirmation record</a></p></article>'])
     for lane, error in report['render_errors'].items():
         lines.append('<p>Geometry unavailable for '+h(lane)+': '+h(error)+'</p>')

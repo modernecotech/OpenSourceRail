@@ -35,7 +35,14 @@ def initialise(store):
 def dominates(a, b):
     # Only compare available objectives with the same documented meaning.
     names = [k for k in ("mass", "effort") if a[k] is not None and b[k] is not None]
-    return bool(names) and all(a[k] <= b[k] for k in names) and any(a[k] < b[k] for k in names)
+    pairs=[(a[k],b[k]) for k in names]
+    if 'objectives' in a.keys() and 'objectives' in b.keys():
+        first=json.loads(a['objectives']).get('manufacturing_metrics',{})
+        second=json.loads(b['objectives']).get('manufacturing_metrics',{})
+        for key in ('rectangular_scrap_m2','setup_count','fixture_count','inspection_count','operation_count','destructive_joint_count','blocked_replacement_count'):
+            if type(first.get(key)) in (int,float) and type(second.get(key)) in (int,float):
+                pairs.append((first[key],second[key]))
+    return bool(pairs) and all(x<=y for x,y in pairs) and any(x<y for x,y in pairs)
 
 
 def observe(store, key):
@@ -62,6 +69,7 @@ def observe(store, key):
         coupled_civil_mass_kg=effort if kind in {'integration-coupling','integration-protocol'} else None,
         quoted_cost=None,assembly_time_seconds=None,cost_evidence=None,minimum_constraint_margin=margin,
         nearest_constraints=margins[:5],missing_objectives=["sourced cost","measured assembly time"])
+    objectives['manufacturing_metrics']=result.get('manufacturing_process',{}).get('metrics',{})
     store.db.execute("INSERT INTO observations(key,baseline,lane,kind,context,concept,study_pass,level,mass,effort,margin,objectives,failures,finished) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (key,row["baseline"],row["lane"],kind,context,concept,int(result["study_pass"]),level,mass,effort,margin,
             json.dumps(objectives),json.dumps(result.get("failed_checks",[])),row["finished"] or time.time()))
@@ -72,11 +80,13 @@ def observe(store, key):
         eligibility.refresh(store,row['baseline'])
         parent=store.db.execute("SELECT context FROM observations WHERE key=?",(child,)).fetchone()
         if parent:
-            champion=store.db.execute("SELECT j.* FROM champions c JOIN jobs j ON c.key=j.key WHERE c.baseline=? AND c.context=? AND c.kind=? ORDER BY c.id DESC LIMIT 1",(row["baseline"],parent["context"],kind.replace("-confirmation","-detail"))).fetchone()
+            source=store.db.execute('SELECT task FROM jobs WHERE key=?',(child,)).fetchone()
+            child_kind=json.loads(source['task'])['kind']
+            champion=store.db.execute("SELECT j.* FROM champions c JOIN jobs j ON c.key=j.key WHERE c.baseline=? AND c.context=? AND c.kind=? ORDER BY c.id DESC LIMIT 1",(row["baseline"],parent["context"],child_kind)).fetchone()
             if champion and not store.db.execute("SELECT 1 FROM promotions WHERE child=?",(champion["key"],)).fetchone():
                 promote_candidate(store,champion,json.loads(champion["task"]),store.result(champion))
         return
-    eligible=kind in {"mechanical-detail","civil-detail","integration-coupling",'integration-protocol'} and result["study_pass"] and mass is not None and eligibility.Resolver(store,row['baseline']).state(key)['eligible']
+    eligible=kind in (tasks.CONFIRMABLE|{'integration-coupling','integration-protocol'}) and result["study_pass"] and mass is not None and eligibility.Resolver(store,row['baseline']).state(key)['eligible']
     if eligible:
         peers=list(store.db.execute("SELECT * FROM observations WHERE baseline=? AND kind=? AND context=? AND study_pass=1 AND mass IS NOT NULL",
             (row["baseline"],kind,context)))
@@ -101,7 +111,7 @@ def observe(store, key):
                     json.dumps(dict(checks=result.get("checks",{}),children=result.get("children",[]),level=level)),time.time()))
     active_path=store.workspace/"active.json"
     active=core.read(active_path)["baseline_sha256"] if active_path.exists() else row["baseline"]
-    if kind in {"mechanical-detail","civil-detail"} and row["baseline"]==active:
+    if kind in tasks.CONFIRMABLE and row["baseline"]==active:
         promote_candidate(store,row,task,result)
 
 
@@ -125,7 +135,7 @@ def promote_candidate(store,row,task,result,*,final=False):
         if not final and not obs["pareto"]:
             return
     reason="Final best candidate after context idle/stagnation" if final else "Pareto candidate for higher-fidelity confirmation" if result["study_pass"] else "representative adverse candidate"
-    kind=task["kind"].replace("-detail","-confirmation")
+    kind=(tasks.KINDS[task['kind']]+'-study-confirmation') if task['kind'] in tasks.STUDY_KINDS else task["kind"].replace("-detail","-confirmation")
     value=tasks.task(kind,dict(child=row["key"]),reason,parent=row["key"])
     store.enqueue(value,row["baseline"],priority=-10)
     store.db.execute("INSERT OR IGNORE INTO promotions(child,baseline,context,task_key,reason,created) VALUES(?,?,?,?,?,?)",
@@ -137,7 +147,7 @@ def confirm_final_candidates(store,baseline,*,now=None,stagnation_seconds=900):
     now=time.time() if now is None else now
     added=0
     for champion in eligibility.champions(store,baseline):
-        if champion['kind'] not in {'mechanical-detail','civil-detail'}:
+        if champion['kind'] not in tasks.CONFIRMABLE:
             continue
         context=champion['context']
         pending=store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND json_extract(task,'$.kind')=? AND json_extract(task,'$.parameters.context_id')=? AND status IN ('queued','running','deferred')",

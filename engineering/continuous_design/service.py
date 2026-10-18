@@ -31,6 +31,8 @@ def source_snapshot():
         sources[name]=core.sha(ROOT/name)
     name="engineering/analysis/tests/test_protocol_receiver.py"
     sources[name]=core.sha(ROOT/name)
+    from . import expansion
+    sources.update(expansion.sources())
     return sources
 
 
@@ -79,6 +81,8 @@ class Store:
 
     def enqueue(self, value, baseline, *, priority=10):
         lane = tasks.validate(value)
+        if value['kind'] in tasks.STUDY_KINDS and not capabilities.registered(self,'process-aware-multidiscipline-search'):
+            raise ValueError('multidiscipline adapter requires exact benchmark/review registration')
         if value["kind"]=="software-receiver" and not capabilities.registered(self,"software-frame-receiver"):
             raise ValueError("receiver capability requires exact benchmark/review registration")
         key = tasks.identity(value, baseline)
@@ -109,7 +113,9 @@ class Store:
     def validate_children(self, value, baseline):
         if value["kind"].endswith("-confirmation"):
             row=self.db.execute("SELECT * FROM jobs WHERE key=? AND baseline=? AND status='completed'",(value["parameters"]["child"],baseline)).fetchone()
-            if row is None or json.loads(row["task"])["kind"]!=value["kind"].replace("-confirmation","-detail"):
+            child_kind=json.loads(row['task'])['kind'] if row else None
+            allowed=(child_kind in tasks.STUDY_KINDS and tasks.KINDS[child_kind]==tasks.KINDS[value['kind']]) if value['kind'] in {'mechanical-study-confirmation','civil-study-confirmation'} else child_kind==value['kind'].replace('-confirmation','-detail')
+            if row is None or not allowed:
                 raise ValueError("confirmation needs a completed exact detailed child")
             return
         if value["kind"] not in {"integration-coupling",'integration-protocol'}:
@@ -217,6 +223,9 @@ def prepare(workspace, *, provider=False):
         from . import protocol_receiver
         for value in protocol_receiver.seeds():
             store.enqueue(value,baseline,priority=-15)
+    if capabilities.registered(store,'process-aware-multidiscipline-search'):
+        from . import expansion
+        for value in expansion.seeds():store.enqueue(value,baseline,priority=-15)
     core.write(workspace / "active.json", dict(baseline_sha256=baseline, epoch=str(epoch), **core.FLAGS))
     store.db.close()
     return baseline, sources
@@ -292,6 +301,8 @@ def registered_domains(store,lane):
         domains.pop("software-receiver",None)
     if lane=='integration' and not capabilities.registered(store,'software-frame-receiver'):
         domains.pop('integration-protocol',None)
+    if not capabilities.registered(store,'process-aware-multidiscipline-search'):
+        for kind in tasks.STUDY_KINDS:domains.pop(kind,None)
     return domains
 
 

@@ -10,6 +10,7 @@ import sqlite3
 import time
 
 from engineering.twin_workflow import core
+from . import tasks
 
 MANDATORY = ("native_geometry", "numerical_confirmation", "numerical_robustness")
 
@@ -92,7 +93,7 @@ class Resolver:
                 states.append('hold')
                 result['reasons'].append('integration evidence revision superseded; re-evaluate against current receipts')
         state = 'failed' if 'failed' in states else 'hold' if 'hold' in states else 'eligible'
-        result.update(state=state, eligible=state=='eligible', analytical_only=task.get('kind') in {'mechanical-detail','civil-detail'} and 'passed' not in states)
+        result.update(state=state, eligible=state=='eligible', analytical_only=task.get('kind') in tasks.CONFIRMABLE and 'passed' not in states)
         return result
 
 
@@ -102,7 +103,7 @@ def champions(store, baseline, resolver=None):
     groups = {}
     for row in sorted(resolver.observations.values(), key=lambda r: (r['mass'] if r['mass'] is not None else float('inf'),
             r['effort'] if r['effort'] is not None else float('inf'), r['key'])):
-        if row['kind'] not in {'mechanical-detail', 'civil-detail', 'integration-coupling', 'integration-protocol'}:
+        if row['kind'] not in (tasks.CONFIRMABLE|{'integration-coupling','integration-protocol'}):
             continue
         group = row['kind'], row['context']
         if row['study_pass'] and row['mass'] is not None and group not in groups and resolver.state(row['key'])['eligible']:

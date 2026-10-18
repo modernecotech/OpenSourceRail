@@ -143,7 +143,14 @@ def evaluate(envelope, output):
     kind, params = value["kind"], value["parameters"]
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
-    if kind in ("mechanical-detail", "civil-detail"):
+    if kind in tasks.STUDY_KINDS:
+        from . import expansion
+        result=expansion.evaluate(kind,params,output)
+        result['repairs']=expansion.repair_tasks(kind,params,result,envelope)
+    elif kind in ('mechanical-study-confirmation','civil-study-confirmation'):
+        from . import study_confirmation
+        result=study_confirmation.evaluate(envelope,output,child_records(envelope))
+    elif kind in ("mechanical-detail", "civil-detail"):
         module, mapping = tasks.contexts(kind)
         assessed = module.assess(params["variables"], mapping[params["context_id"]])
         failed = assessed["failed_check_ids"] if kind == "mechanical-detail" else assessed["failed_checks"]
@@ -195,6 +202,8 @@ def evaluate(envelope, output):
             result = dict(study_pass=False, checks=dict(native_material_collision=False),
                 failed_checks=["native_material_collision"],
                 scope="Deterministic geometry rejection; retained CAD/logs require a revised assembly, not an identical retry", **core.FLAGS)
+    from . import processes
+    processes.attach(value,result,output)
     evidence.label(kind,result)
     result["runtime_sha256"]=envelope.get("runtime_sha256")
     core.write(output / "result.json", result, exclusive=True)

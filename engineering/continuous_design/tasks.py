@@ -16,6 +16,10 @@ KINDS = {"mechanical-cleat": "mechanical", "mechanical-interface": "mechanical",
 KINDS.update({"mechanical-confirmation":"mechanical", "civil-confirmation":"civil"})
 KINDS["software-receiver"]="software"
 KINDS['integration-protocol']='integration'
+STUDY_KINDS={'mechanical-roof-study':'mechanical','mechanical-equipment-study':'mechanical','civil-architecture-study':'civil'}
+KINDS.update(STUDY_KINDS)
+KINDS.update({'mechanical-study-confirmation':'mechanical','civil-study-confirmation':'civil'})
+CONFIRMABLE={'mechanical-detail','civil-detail',*STUDY_KINDS}
 FACTS = ("train_stopped", "hvil_closed", "insulation_ok", "main_feedback_open",
          "return_feedback_closed", "precharge_feedback_closed", "voltage_ready", "timeout_ok",
          "data_valid", "age_valid", "sequence_valid", "clocks_valid")
@@ -57,7 +61,10 @@ def validate(value):
         raise ValueError("parent must be a design digest")
     if len(core.encoded(value)) > 600_000:
         raise ValueError("candidate exceeds 600 kB")
-    if kind.endswith("-confirmation"):
+    if kind in STUDY_KINDS:
+        from . import expansion
+        expansion.validate(kind,params)
+    elif kind.endswith("-confirmation"):
         if set(params)!={"child"} or not isinstance(params["child"],str) or len(params["child"])!=64 or any(c not in "0123456789abcdef" for c in params["child"]):
             raise ValueError("confirmation requires one exact child digest")
     elif kind in ("mechanical-cleat", "civil-steel-beam", "civil-bay"):
@@ -189,6 +196,8 @@ def domain_description(lane):
         from engineering.design_engine.generated_parts import variables
         family = "mechanical-cleat" if lane == "mechanical" else "civil-steel-beam"
         result[family] = variables(family)
+        from . import expansion
+        result.update({kind:dict(context_id=expansion.CONTEXTS[kind],variables=expansion.domains(kind)) for kind,selected_lane in STUDY_KINDS.items() if lane==selected_lane})
         return result
     if lane == "software":
         from . import protocol_receiver

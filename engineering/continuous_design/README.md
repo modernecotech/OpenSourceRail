@@ -5,6 +5,57 @@ under a durable SQLite queue. A user service keeps it independent of the chat,
 resumes interrupted work and restarts after process failure. Read the
 [operating guide](../../docs/design-engine/continuous-runner-2026-10-17.md).
 
+The [development plan](data/expansion-plan.json) maps the next six work packages
+to implemented research pilots and remaining engineering evidence. The
+`process-aware-multidiscipline-search` capability adds three source-bound task
+families only after its independent/adverse benchmark receipt and exact-source
+review are registered. Unsupported topology optimisers, material systems,
+circuits and CFD models remain missing capabilities, not executable AI proposals.
+
+The roof cassette varies explicit ply schedules, skin/core thickness, complete
+core-grade records and crown. It calculates laminate A/B/D and strip/hot-wet
+screens from those same plies. The current core cards fail the fixed 85°C roof
+context; the runner records the required compatible high-temperature material
+system and stops repeating that blocked family. Full curved-shell, contact,
+resin/cure and complete-stack fire qualification remain open.
+
+The equipment demonstration compiles existing battery/HVAC alternatives and
+compares a real RHS ladder with a folded-pan material-region model, an optional
+rib and welded/bolted cover. Duct dimensions change both modeled sheet mass
+and pressure/fan demand. A two-zone heat/moisture model includes declared
+ventilation, door, solar and internal-load hypotheses, failed-module cases and
+time refinement. Auxiliary capacity and cooling-loss battery duty can reject
+thermal improvements. These are reference planning hypotheses, not measured
+Baghdad climate, passenger ventilation requirements or supplier performance maps.
+The minimum usable-energy hypothesis stays at the fixed reference pack; a
+smaller battery cannot win by silently reducing required function.
+
+The civil study connects the existing ten deck families and six pier families
+with their compatible material/foundation records and bounded dimensions.
+Comparison scope remains the existing 100m reference: five 20m two-track bays.
+Native material solids and a 2D elastic moving-load static model are evaluated;
+defined source research limits are enforced, while unset response limits stay
+explicitly unresolved and prevent any claim of engineering feasibility.
+Synthetic materials, perfect-bond assumptions, final reinforcement, manufacturing
+unit grouping, temporary works and actual Baghdad ground remain unqualified.
+
+Every physical family has an applicable process profile. The new pilots assign
+every represented part/material region to one, execute operation prerequisites,
+fixture hypotheses, inspection hold points and conservative removal envelopes,
+and pack rectangular blanks with gauge separation and kerf. Missing tool sweeps,
+clamping, weld distortion, cure, actual inspection and supplier procedures remain
+unknown. A simulated inspection point is never human acceptance. Folded-pan
+geometry uses sharp-corner regions and conservative blank allowance; bend
+material is carried as an unresolved mass allowance without stiffness credit.
+Springback and finished corner geometry still need qualification.
+
+Pareto comparison retains mass alongside available scrap, operation, setup,
+fixture, inspection and repair counts. These are scoped geometric/count proxies,
+not measured labour time, supplier quotations or complete installed mass.
+Selected exact revisions receive native FCStd/STEP checks and the explicitly
+named discipline numerical confirmations; later failures use the same
+eligibility veto and holds as the original frame/Pi-beam pipeline.
+
 ```bash
 tools/automation/osr-python tools/automation/design-continuous.py init --with-ai
 tools/automation/osr-python tools/automation/design-continuous.py install

@@ -1,0 +1,60 @@
+{
+  "schema": "osr-engineering-development-plan/1",
+  "scope": "Research pilots, followed by benchmarked capability development; no general shape inventor or manufacturing release",
+  "work_packages": [
+    {
+      "priority": 1,
+      "title": "Mandatory process profiles",
+      "implemented": "Profiles for all physical task families; represented-part process allocation, rectangular nesting and assembly/removal replay for the new demonstrations",
+      "remaining": ["Actual tooling and clamping", "Weld distortion and fatigue", "Cure/flow and concrete placement", "Supplier/process qualification"],
+      "exit_evidence": "Geometry-bound process records, negative controls and actual workshop/inspection evidence"
+    },
+    {
+      "priority": 2,
+      "title": "Broader live adapters",
+      "implemented": ["GFRP roof cassette", "Battery/HVAC reference mount and ducting", "Ten civil deck families with pier/material/foundation choices"],
+      "registration": "Exact-source independent/adverse benchmark receipt and review required before queue admission",
+      "remaining": ["Typed full-vehicle roof/mount interfaces", "Site-specific civil load/ground applicability", "Complete installed inventory"]
+    },
+    {
+      "priority": 3,
+      "title": "Shape and assembly architecture",
+      "implemented": ["RHS ladder versus folded pan", "Optional longitudinal rib", "Welded versus removable cover", "Variable crown and bounded civil section dimensions"],
+      "remaining": ["General member/shell topology grammar", "BESO reconstruction and re-meshing adapter"],
+      "exit_evidence": "Reconstruct manufactured CAD, apply process constraints and independently verify that exact geometry"
+    },
+    {
+      "priority": 4,
+      "title": "Material and laminate architecture",
+      "implemented": "Three explicit face layups, thickness and inseparable public core-grade bundles; independent laminate A/B/D comparison",
+      "remaining": ["Qualified high-temperature resin/fibre/core/bond system", "Local reinforcement, ply drops and inserts", "Measured ageing, fire, fatigue and damage data"],
+      "blocked_finding": "Current registered foam grades fail the fixed 85C roof context; no threshold relaxation or synthetic supplier substitution"
+    },
+    {
+      "priority": 5,
+      "title": "Multiphysics",
+      "implemented": ["Carrier gross beam", "Two-zone heat/moisture with door and ventilation hypotheses", "Duct pressure loss and fan power", "Battery cooling-loss duty and auxiliary capacity", "Civil elastic moving-load statics/refinement"],
+      "remaining": ["Roof shell and detailed joints", "ngspice circuit/electrothermal adapter", "OpenFOAM or qualified Modelica ventilation/refrigeration adapter", "Vehicle-track-structure and physical correlation"],
+      "exit_evidence": "Independent/adverse benchmarks, supplier maps, conservation and mesh/time refinement, then SIL/HIL or physical tests"
+    },
+    {
+      "priority": 6,
+      "title": "Manufacturing objectives",
+      "implemented": ["Rectangular blank scrap", "Operation/setup/fixture counts", "Inspection points", "Destructive joints and blocked replacement"],
+      "remaining": ["Contour nesting and actual production-unit grouping", "Measured cycle/replacement times", "Quoted costs and calibrated labour/inspection effort"],
+      "rule": "Unknown time and cost remain null; part count or operation count is not a labour quote"
+    }
+  ],
+  "workflow": ["Select fixed function and material/process bundle", "Regenerate physical inventory, mass and physics", "Execute manufacturing and fault screens", "Retain Pareto alternatives", "Confirm selected exact revisions in native CAD and scoped independent numerics", "Veto failures and hold unavailable evidence", "Nominate a new bounded capability only after separate benchmarks and exact-source review"],
+  "primary_workflow_references": [
+    {"url": "https://help.autodesk.com/cloudhelp/ENU/Fusion-GenerativeDesign/files/GD-MFG-METHODS.htm", "use": "Process-dependent search constraints; no proprietary implementation dependency"},
+    {"url": "https://github.com/calculix/beso", "use": "Future topology adapter; not installed or registered by this change"},
+    {"url": "https://ntrs.nasa.gov/citations/20240010252", "use": "Coupled structural and manufacturing-process iteration"},
+    {"url": "https://ngspice.sourceforge.io/ngspice-electrothermal-tutorial.html", "use": "Future circuit-level electrothermal confirmation"},
+    {"url": "https://simulationresearch.lbl.gov/modelica/", "use": "Future system/control and multizone reference integration"},
+    {"url": "https://openfoam.org/", "use": "Future fluid/solid thermal confirmation"}
+  ],
+  "physical_validation": false,
+  "manufacturing_release": false,
+  "design_complete": false
+}

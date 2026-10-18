@@ -24,7 +24,7 @@ def contract(name,parts,mats,*,joints=None,stages=None):
     validate(value);return value
 
 
-def panel_bay(config,*,span=1,grade_density=80,crown=0,aperture=True,skin=.0015,core=.0246):
+def panel_bay(config,*,span=1,grade_density=80,crown=0,aperture=True,skin=.0015,core=.0246,ply_angles=None):
     c=deepcopy(config);c['core'].update(panel.coupled_core(c,grade_density))
     width=c['panel']['width_m'];height=c['panel']['roof_chord_m'] if crown else c['panel']['side_height_m']
     arc=panel.roof_arc(height,crown);length=arc['arc_length_m'];land=c['panel']['edge_land_m']
@@ -38,6 +38,10 @@ def panel_bay(config,*,span=1,grade_density=80,crown=0,aperture=True,skin=.0015,
     mats['adhesive']['density_kg_m3']=c['bond']['density_kg_m3'];mats['finish']['density_kg_m3']=c['finish']['density_kg_m3']
     panel.positive(skin,'skin');panel.positive(core,'core')
     bond=c['bond']['thickness_m_each'];depth=2*skin+core+2*bond;parts=[]
+    if ply_angles is not None and (not isinstance(ply_angles,(list,tuple)) or not 1<=len(ply_angles)<=32 or
+            any(type(angle) not in (int,float) or angle not in (-90,-45,0,45,90) for angle in ply_angles)):
+        raise ValueError('bounded explicit ply orientation schedule required')
+    plies=panel.balanced_skin(skin) if ply_angles is None else tuple(panel.Ply(skin/len(ply_angles),angle) for angle in ply_angles)
     skin_rects=panel.remaining_rectangles(width,length,holes)
     edges=[(0,0,width,land),(0,length-land,width,length),(0,land,land,length-land),(width-land,land,width,length-land)]
     foam_rects=panel.remaining_rectangles(width,length,edges+[(a-land,b-land,z+land,d+land)for a,b,z,d in holes])
@@ -60,7 +64,7 @@ def panel_bay(config,*,span=1,grade_density=80,crown=0,aperture=True,skin=.0015,
         parts.append(part(identity,material,dict(role=identity,primitives=[primitive]),mats,
             limits={'minimum_wall_m':.00015,'tolerance_m':None},inspections=['ply angle/thickness','trim and edge land','bond continuity']))
     for side,z0 in [('inner',-depth/2),('outer',core/2+bond)]:
-        for i,ply in enumerate(panel.balanced_skin(skin)):
+        for i,ply in enumerate(plies if side=='inner' else tuple(reversed(plies))):
             for j,rect in enumerate(skin_rects):
                 layer(f'{side}-ply-{i}-{j}','gfrp',rect,z0,z0+ply.thickness_m)
                 parts[-1]['laminate_ply']=dict(angle_deg=ply.angle_deg,thickness_m=ply.thickness_m,frame='module x and developed surface tangent')
@@ -127,7 +131,8 @@ def panel_bay(config,*,span=1,grade_density=80,crown=0,aperture=True,skin=.0015,
     result.update(panel_parameters=dict(width_m=width,height_m=height,skin_m=skin,core_m=core,crown_m=crown,holes=holes),
         core_grade=c['core'],support_network=network,attachment_definition_status='insert/clip local contact and pull-out qualification open',
         thermal_status='failed'if crown and c['screen']['hot_roof_temperature_c']>c['core']['continuous_max_temperature_c']else'unknown',
-        response=panel.strip_response(panel.laminate_abd(panel.balanced_skin(skin),core,bond,c['glass']),c['screen']['pressure_pa'],span,core,c['core']['shear_pa']))
+        ply_schedule=[dict(thickness_m=p.thickness_m,angle_deg=p.angle_deg) for p in plies],
+        response=panel.strip_response(panel.laminate_abd(plies,core,bond,c['glass']),c['screen']['pressure_pa'],span,core,c['core']['shear_pa']))
     return result
 
 

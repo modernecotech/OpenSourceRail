@@ -9,7 +9,7 @@ def measure(fcstd, specification, destination):
     spec=json.loads(open(specification).read())
     doc=App.openDocument(str(fcstd))
     try:
-        objects={o.DesignId:o for o in doc.Objects if 'DesignId' in o.PropertiesList}
+        objects={getattr(o,'DesignId') if 'DesignId' in o.PropertiesList else getattr(o,'PhysicalPartId'):o for o in doc.Objects if 'DesignId' in o.PropertiesList or 'PhysicalPartId' in o.PropertiesList}
         volumes={name:o.Shape.Volume*1e-9 for name,o in objects.items()}
         samples=[]
         thickness=2.0  # mm; prismatic intervals only, no end blocks or joints

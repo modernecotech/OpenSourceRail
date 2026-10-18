@@ -5,6 +5,7 @@ adapters require repository review and explicit controller registration; AI
 proposal responses never import or execute arbitrary new adapter code.
 """
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -48,10 +49,13 @@ def check(store,need_key):
     if any(not p.startswith("engineering/analysis/tests/test_") for p in order["benchmarks"]):
         raise ValueError("benchmark tests must be separate test modules")
     command=[sys.executable,"-m","pytest",*order["benchmarks"],"-q"]
-    result=subprocess.run(command,cwd=tree,capture_output=True,text=True,timeout=300)
+    before={p:core.sha(tree/p) for p in paths}
+    result=subprocess.run(command,cwd=tree,capture_output=True,text=True,timeout=300,
+        env={**os.environ,'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1'})
     (folder/"benchmark.log").write_text(result.stdout+result.stderr)
-    record=dict(command=command,passed=result.returncode==0,returncode=result.returncode,
-        source_sha256={p:core.sha(tree/p) for p in paths},tested_unix=time.time(),
+    after={p:core.sha(tree/p) for p in paths}
+    record=dict(command=command,passed=result.returncode==0 and before==after,returncode=result.returncode,
+        source_sha256=before,source_unchanged=before==after,tested_unix=time.time(),
         benchmark_log_sha256=core.sha(folder/"benchmark.log"),limitations=order["limitations"],**core.FLAGS)
     core.write(folder/"benchmark-receipt.json",record)
     order["stages"].update(implementation="proposed",independent_benchmarks="passed" if record["passed"] else "failed",adverse_tests="benchmarked",review="open",registration="open")

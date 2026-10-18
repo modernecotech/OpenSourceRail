@@ -48,7 +48,7 @@ def actual_tools():
 
 def capture():
     packages = {}
-    for name in ("numpy", "scipy", "gmsh", "ifcopenshell"):
+    for name in ("numpy", "scipy", "gmsh", "ifcopenshell","openseespy","openseespylinux"):
         try:
             dist = importlib.metadata.distribution(name)
         except importlib.metadata.PackageNotFoundError:
@@ -63,6 +63,8 @@ def capture():
         packages[name] = dict(version=dist.version, files_sha256=files)
     tools=actual_tools();libraries={}
     binaries=[str(Path(sys.executable).resolve())]
+    for name in ('openseespy','openseespylinux'):
+        binaries.extend(path for path in packages.get(name,{}).get('files_sha256',{}) if '.so' in Path(path).name)
     for name in ("calculix","gmsh"):
         value=tools.get(name,{})
         binaries.extend(value[k] for k in ("resolved_path","library_path") if k in value)

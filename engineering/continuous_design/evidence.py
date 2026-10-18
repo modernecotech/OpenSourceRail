@@ -10,7 +10,7 @@ def label(kind, result):
         return result
     levels = {level: dict(state="not_run", checks=[]) for level in LEVELS}
     keys = list(result.get("checks", {}))
-    if kind in ("mechanical-detail", "civil-detail", "integration-coupling",'integration-protocol'):
+    if kind in ("mechanical-detail", "civil-detail", "integration-coupling",'integration-protocol') or kind.endswith('-study'):
         level = "analytical_screening"
     elif kind in ("mechanical-interface", "civil-bay"):
         level = "native_geometry"
