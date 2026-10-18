@@ -95,6 +95,38 @@ systemctl --user start osr-continuous-design.service
 current source applicability. Neither verification mode provides engineering
 acceptance or physical release.
 
+Hourly progress pictures are available through a separate, read-only reporter:
+
+```bash
+tools/automation/osr-python tools/automation/design-progress.py snapshot --notify
+tools/automation/osr-python tools/automation/design-progress.py install
+systemctl --user list-timers osr-design-progress.timer
+```
+
+Open `~/.local/state/opensourcerail/continuous-design/progress/latest.html` for
+the latest report; it refreshes every minute while the hourly timer generates
+new snapshots. Reports show all four lanes, research rejections separately from
+execution errors, evidence counts, changes since the previous snapshot in the
+same epoch, and changes to research candidates within the same context. Counts
+are experiments, not completed railway components. Epoch changes reset comparisons.
+
+Pictures tessellate retained, receipt-checked FreeCAD solids, with candidate IDs,
+contexts and exact proportions. Confirmed passing examples are selected ahead of
+unconfirmed analytical candidates; geometry gaps and rendering failures remain
+visible. No CAD is regenerated or saved, and no acceptance is inferred from a
+picture. Native input hashes and image hashes are retained in each snapshot.
+The numerical evidence remains scoped to equivalent 1D elastic bending.
+
+The timer runs independently of the engineering service, catches up after missed
+hours and uses bounded CPU, memory and execution time. It retains at most 48
+presentation snapshots within a 256 MiB budget (always preserving the newest);
+original experiments and native evidence are untouched. `--notify` requests a
+local desktop notification with a geometry icon and report link through the
+session notification service. When logged out or notifications are unavailable,
+the report still updates and `progress/notification.json` records delivery state.
+This local timer does not post messages into the chat. Disable it with
+`systemctl --user disable --now osr-design-progress.timer`.
+
 Tests:
 
 ```bash
