@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 
 from engineering.twin_workflow import core
-from . import tasks, planning
+from . import tasks, planning, evidence
 
 
 def software(source):
@@ -150,6 +150,9 @@ def evaluate(envelope, output):
             "# Research policy only; fixed wrapper validates facts and latches faults.\n"
             "def closure_request(*, " + ", ".join(tasks.FACTS) + "):\n    return " +
             ast.unparse(ast.parse(params["expression"], mode="eval").body) + "\n")
+    elif kind == "software-receiver":
+        from . import protocol_receiver
+        result=protocol_receiver.evaluate(params,output)
     elif kind == "integration-reference":
         from engineering.generative_design import digital_thread
         checked = digital_thread.verify(core.PACKET)
@@ -157,6 +160,9 @@ def evaluate(envelope, output):
             metrics=checked["summary"], scope="Current federated configuration/source audit; open interfaces retained", **core.FLAGS)
     elif kind == "integration-coupling":
         result = integration(envelope)
+    elif kind.endswith("-confirmation"):
+        from . import confirmation
+        result=confirmation.evaluate(envelope,output,child_records(envelope))
     else:
         from engineering.twin_workflow.adapters import evaluate as native_evaluate
         native_kind = "controlled-assembly" if kind == "mechanical-interface" else kind
@@ -173,5 +179,7 @@ def evaluate(envelope, output):
             result = dict(study_pass=False, checks=dict(native_material_collision=False),
                 failed_checks=["native_material_collision"],
                 scope="Deterministic geometry rejection; retained CAD/logs require a revised assembly, not an identical retry", **core.FLAGS)
+    evidence.label(kind,result)
+    result["runtime_sha256"]=envelope.get("runtime_sha256")
     core.write(output / "result.json", result, exclusive=True)
     return result

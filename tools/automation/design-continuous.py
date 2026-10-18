@@ -43,7 +43,7 @@ def install(workspace):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     actions = parser.add_subparsers(dest="action", required=True)
-    for name in ("init", "run", "status", "submit", "install", "verify"):
+    for name in ("init", "run", "status", "submit", "install", "verify", "history", "dashboard", "capability-prepare", "capability-check", "capability-register", "replay"):
         p = actions.add_parser(name)
         p.add_argument("--workspace", type=Path, default=service.DEFAULT)
         if name == "init":
@@ -52,6 +52,17 @@ def main():
             p.add_argument("--tasks", type=Path, required=True)
         if name == "verify":
             p.add_argument("--historical", action="store_true")
+        if name == "history":
+            p.add_argument("--baseline")
+            p.add_argument("--lane",choices=service.tasks.LANES,required=True)
+            p.add_argument("--after",type=int,default=0)
+            p.add_argument("--limit",type=int,default=20)
+        if name.startswith("capability-"):
+            p.add_argument("--need",required=True)
+        if name=="dashboard":
+            p.add_argument("--output",type=Path)
+        if name=="replay":
+            p.add_argument("--include-blocked",action="store_true")
     p = actions.add_parser("worker", help=argparse.SUPPRESS)
     p.add_argument("--task", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
@@ -71,6 +82,35 @@ def main():
         return
     elif args.action == "status":
         result = service.status(args.workspace)
+    elif args.action == "dashboard":
+        from engineering.continuous_design import reporting
+        report=reporting.dashboard(service.status(args.workspace))
+        if args.output:
+            args.output.write_text(report+"\n")
+        print(report)
+        return
+    elif args.action == "history":
+        from engineering.continuous_design import proposals
+        store=service.Store(args.workspace)
+        baseline=args.baseline or core.read(args.workspace/"active.json")["baseline_sha256"]
+        result=proposals.history(store,baseline,args.lane,after=args.after,limit=args.limit)
+        store.db.close()
+    elif args.action.startswith("capability-"):
+        from engineering.continuous_design import capabilities
+        store=service.Store(args.workspace)
+        result=getattr(capabilities,args.action.split("-")[1])(store,args.need)
+        store.db.close()
+    elif args.action=="replay":
+        import fcntl
+        from engineering.continuous_design import ledger
+        with (args.workspace/".service.lock").open("a") as lock:
+            fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            store=service.Store(args.workspace)
+            if args.include_blocked:
+                with store.db:store.db.execute("UPDATE outbox SET state='pending',error=NULL WHERE state='blocked'")
+            ledger.backfill(store)
+            result=dict(delivered=ledger.dispatch(store))
+            store.db.close()
     elif args.action == "submit":
         store = service.Store(args.workspace)
         baseline = core.read(args.workspace / "active.json")["baseline_sha256"]

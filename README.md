@@ -15,7 +15,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 **AI CAD and BIM workflow:** [October 2026 tool review and completion programme](docs/design-engine/ai-cad-bim-workflow-2026-10-17.md) compares editable CAD agents and BIM tools, and provides a resumable proposal → native geometry → solver/IFC checks → feedback loop. Research examples retain the full work-order backlog; complete railway specification and physical acceptance remain open.
 
-**Continuous engineering runner:** [run mechanical, civil, software and integration lanes](docs/design-engine/continuous-runner-2026-10-17.md) with persistent queues, failure-directed revisions, a read-only AI proposer and a restartable user service. Actual research results and exact child revisions remain separate from manufacturing and physical acceptance.
+**Continuous engineering runner:** [run mechanical, civil, software and integration lanes](docs/design-engine/continuous-runner-2026-10-17.md) with crash-safe follow-ups, fair bounded AI proposals, native/beam-FEM promotion, a research-champion dashboard and benchmarked capability worktrees. Verification levels and exact revisions remain separate from manufacturing and physical acceptance.
 
 ## Functional comparison
 

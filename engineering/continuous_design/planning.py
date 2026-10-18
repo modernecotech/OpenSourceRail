@@ -50,7 +50,18 @@ def mass(result):
 
 def children(store, baseline):
     groups = {k: [] for k in CHILD_KINDS}
-    for row in store.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed' ORDER BY created", (baseline,)):
+    count=store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed' AND json_extract(task,'$.kind') IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)).fetchone()[0]
+    projected=store.db.execute("SELECT COUNT(*) FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)).fetchone()[0]
+    if count and projected==count:
+        selected=set()
+        for group in store.db.execute("SELECT DISTINCT kind,context FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)):
+            args=(baseline,group["kind"],group["context"])
+            for order,limit in (("study_pass DESC,mass,key",4),("study_pass DESC,mass DESC,key",1),("finished DESC",2)):
+                selected.update(r[0] for r in store.db.execute("SELECT key FROM observations WHERE baseline=? AND kind=? AND context=? ORDER BY "+order+" LIMIT ?",(*args,limit)))
+        rows=[store.db.execute("SELECT * FROM jobs WHERE key=?",(key,)).fetchone() for key in sorted(selected)]
+    else:
+        rows=store.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed' ORDER BY created", (baseline,))
+    for row in rows:
         value = json.loads(row["task"])
         if value["kind"] in groups:
             result = store.result(row)
@@ -66,11 +77,21 @@ def integration_frontier(store, baseline, *, admission_budget=8):
         return 0
     software.sort(key=lambda e: e[0]["key"])
     frames = sorted(eligible["mechanical-detail"], key=lambda e: (mass(e[2]), e[0]["key"]))
+    # Spend integration work on useful diverse representatives, rather than
+    # materialising the complete Cartesian product of similar local designs.
+    shortlisted=[];frame_buckets=defaultdict(list)
+    for entry in frames:
+        frame_buckets[entry[2]["assessment"]["configuration_id"]].append(entry)
+    for bucket in frame_buckets.values():
+        shortlisted.extend(bucket[:3])
+    frames=shortlisted
     civil_by_context = defaultdict(list)
     for entry in eligible["civil-detail"]:
         civil_by_context[entry[2]["assessment"]["context_id"]].append(entry)
     for entries in civil_by_context.values():
         entries.sort(key=lambda e: (mass(e[2]), e[0]["key"]))
+        # Include the lightest and a heavier robust geometry representative.
+        entries[:]=entries[:3]+([entries[-1]] if len(entries)>3 else [])
     added = 0
     # Round-robin across spans/configurations before deepening a single context.
     maximum = max((len(v) for v in civil_by_context.values()), default=0)
@@ -140,7 +161,7 @@ def historical_inputs(store, previous, baseline):
     passing_architectures = set()
     for row in rows:
         value = json.loads(row["task"])
-        if value["kind"].startswith("integration-"):
+        if value["kind"].startswith("integration-") or value["kind"].endswith("-confirmation"):
             continue
         result = store.result(row)
         if result["study_pass"]:
@@ -154,6 +175,19 @@ def historical_inputs(store, previous, baseline):
             if group not in closest or score < closest[group][0]:
                 closest[group] = score, (row, value, result)
     selected.extend(v[1] for v in closest.values())
+    # Retain useful historical input diversity without forcing thousands of
+    # nearly identical old passes ahead of new native/numerical confirmations.
+    buckets=defaultdict(list);retained=[]
+    for entry in selected:
+        row,value,result=entry
+        if value["kind"] in {"mechanical-detail","civil-detail"} and result["study_pass"]:
+            buckets[(value["kind"],value["parameters"]["context_id"])].append(entry)
+        else:retained.append(entry)
+    for bucket in buckets.values():
+        ordered=sorted(bucket,key=lambda e:(mass(e[2]),e[0]["key"]))
+        indices=sorted(set([0,len(ordered)//3,2*len(ordered)//3,len(ordered)-1]))
+        retained.extend(ordered[i] for i in indices)
+    selected=retained
     selected.sort(key=lambda e: (
         not e[2]["study_pass"],
         e[1]["kind"] != "software-logic",

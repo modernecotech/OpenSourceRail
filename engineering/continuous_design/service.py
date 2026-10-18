@@ -16,7 +16,7 @@ import sys
 import time
 
 from engineering.twin_workflow import core
-from . import tasks, planning
+from . import tasks, planning, ledger, proposals, research, runtime, capabilities
 
 ROOT = core.ROOT
 ENTRY = ROOT / "tools/automation/design-continuous.py"
@@ -27,6 +27,10 @@ def source_snapshot():
     sources = core.sources()
     for path in [*Path(__file__).parent.glob("*.py"), ENTRY]:
         sources[path.relative_to(ROOT).as_posix()] = core.sha(path)
+    for name in ("engineering/factory_examples/native.py","engineering/factory_examples/models.py"):
+        sources[name]=core.sha(ROOT/name)
+    name="engineering/analysis/tests/test_protocol_receiver.py"
+    sources[name]=core.sha(ROOT/name)
     return sources
 
 
@@ -65,20 +69,24 @@ class Store:
             self.db.execute("ALTER TABLE jobs ADD COLUMN priority INTEGER NOT NULL DEFAULT 10")
         self.db.execute("CREATE INDEX IF NOT EXISTS jobs_dispatch ON jobs(baseline,lane,status,priority,created)")
         self.db.commit()
+        ledger.initialise(self)
+        research.initialise(self)
 
     def event(self, kind, payload):
-        self.db.execute("INSERT INTO events(at,kind,payload) VALUES(?,?,?)", (time.time(), kind, json.dumps(payload)))
-        self.db.commit()
+        with ledger.transaction(self.db):
+            self.db.execute("INSERT INTO events(at,kind,payload) VALUES(?,?,?)", (time.time(), kind, json.dumps(payload)))
 
     def enqueue(self, value, baseline, *, priority=10):
         lane = tasks.validate(value)
-        self.validate_children(value, baseline)
+        if value["kind"]=="software-receiver" and not capabilities.registered(self,"software-frame-receiver"):
+            raise ValueError("receiver capability requires exact benchmark/review registration")
         key = tasks.identity(value, baseline)
         if self.db.execute("SELECT 1 FROM jobs WHERE key=?", (key,)).fetchone():
             return False
+        self.validate_children(value, baseline)
         pending = self.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=? AND status IN ('queued','running')", (baseline, lane)).fetchone()[0]
         state = "deferred" if pending >= self.MAX_PENDING_PER_LANE else "queued"
-        with self.db:
+        with ledger.transaction(self.db):
             cursor = self.db.execute("INSERT OR IGNORE INTO jobs(key,baseline,lane,task,status,priority,created) VALUES(?,?,?,?,?,?,?)",
                 (key, baseline, lane, json.dumps(value, sort_keys=True), state, priority, time.time()))
         return bool(cursor.rowcount)
@@ -91,13 +99,18 @@ class Store:
                     (baseline, lane, max(0, self.MAX_PENDING_PER_LANE - pending)))
 
     def record_needs(self, baseline, lane, rows):
-        with self.db:
+        with ledger.transaction(self.db):
             for row in rows:
                 key = core.digest(dict(baseline=baseline, lane=lane, **row))
                 self.db.execute("INSERT OR IGNORE INTO needs(key,baseline,lane,item_id,required) VALUES(?,?,?,?,?)",
                     (key, baseline, lane, row["item_id"], row["required"]))
 
     def validate_children(self, value, baseline):
+        if value["kind"].endswith("-confirmation"):
+            row=self.db.execute("SELECT * FROM jobs WHERE key=? AND baseline=? AND status='completed'",(value["parameters"]["child"],baseline)).fetchone()
+            if row is None or json.loads(row["task"])["kind"]!=value["kind"].replace("-confirmation","-detail"):
+                raise ValueError("confirmation needs a completed exact detailed child")
+            return
         if value["kind"] != "integration-coupling":
             return
         children = [self.db.execute("SELECT * FROM jobs WHERE key=? AND baseline=? AND status='completed'", (k, baseline)).fetchone()
@@ -123,10 +136,13 @@ class Store:
         return core.read(folder / "result.json", maximum=10_000_000)
 
     def recover(self):
+        ledger.recover_outputs(self)
         with self.db:
             self.db.execute("UPDATE jobs SET status=CASE WHEN attempts<2 THEN 'queued' ELSE 'error' END, "
                 "error='interrupted; partial attempt retained',ready=? WHERE status='running'", (time.time(),))
             self.db.execute("UPDATE provider SET status='interrupted',finished=? WHERE status='running'", (time.time(),))
+        ledger.backfill(self)
+        ledger.dispatch(self)
 
     def integration_jobs(self, baseline):
         return planning.integration_frontier(self, baseline)
@@ -169,7 +185,8 @@ def prepare(workspace, *, provider=False):
         core.write(path, config, exclusive=True)
     validate_config(core.read(path))
     sources = source_snapshot()
-    baseline = core.digest(sources)
+    identity=runtime.capture()
+    baseline = core.digest(dict(sources=sources,runtime=identity))
     epoch = workspace / "epochs" / baseline
     previous = core.read(workspace / "active.json")["baseline_sha256"] if (workspace / "active.json").is_file() else None
     if epoch.exists() and not (epoch / "baseline.json").is_file():
@@ -178,7 +195,7 @@ def prepare(workspace, *, provider=False):
         from engineering.generative_design import digital_thread
         digital_thread.verify(core.PACKET)
         core.initialise(epoch / "work-orders")
-        core.write(epoch / "baseline.json", dict(baseline_sha256=baseline, source_sha256=sources, **core.FLAGS), exclusive=True)
+        core.write(epoch / "baseline.json", dict(baseline_sha256=baseline, source_sha256=sources,runtime_identity=identity, **core.FLAGS), exclusive=True)
         store.event("new-baseline", dict(baseline=baseline))
     if not (epoch / "historical-inputs.json").exists():
         nominations = planning.historical_inputs(store, previous, baseline) if previous and previous != baseline else []
@@ -186,6 +203,10 @@ def prepare(workspace, *, provider=False):
             nominations=nominations, acceptance_reused=False, **core.FLAGS), exclusive=True)
     for value in tasks.seeds():
         store.enqueue(value, baseline)
+    if capabilities.registered(store,"software-frame-receiver"):
+        from . import protocol_receiver
+        for value in protocol_receiver.seeds():
+            store.enqueue(value,baseline,priority=-15)
     core.write(workspace / "active.json", dict(baseline_sha256=baseline, epoch=str(epoch), **core.FLAGS))
     store.db.close()
     return baseline, sources
@@ -202,6 +223,10 @@ def status(workspace):
         lanes[lane] = {k: counts[k] for k in ("queued", "deferred", "running", "completed", "error")}
     runtime = core.read(workspace / "status.json") if (workspace / "status.json").exists() else {}
     result = dict(workspace=str(workspace), baseline_sha256=baseline, lanes=lanes,
+        research=research.summary(store,baseline),
+        outbox_states=dict(Counter(r[0] for r in store.db.execute("SELECT state FROM outbox WHERE baseline=?",(baseline,)))),
+        oldest_waiting_unix=store.db.execute("SELECT MIN(created) FROM jobs WHERE baseline=? AND status IN ('queued','deferred')",(baseline,)).fetchone()[0],
+        blocked_capabilities=[dict(r) for r in store.db.execute("SELECT lane,item_id,required,state FROM needs WHERE baseline=? AND state='open' LIMIT 30",(baseline,))],
         max_pending_per_lane=Store.MAX_PENDING_PER_LANE, lifetime_experiment_cap=None,
         heartbeat_age_seconds=max(0, time.time() - runtime.get("heartbeat_unix", 0)),
         runtime=runtime, provider_calls=store.db.execute("SELECT COUNT(*) FROM provider WHERE baseline=?", (baseline,)).fetchone()[0],
@@ -216,8 +241,8 @@ def provider_request(store, baseline, lane):
     rows += list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status NOT IN ('completed','error') ORDER BY priority,created LIMIT 4", (baseline, lane)))
     feedback = []
     for row in rows:
-        feedback.append(planning.feedback(row, json.loads(row["task"]), store.result(row) if row["status"] == "completed" else None))
-    available = planning.child_catalogue(store, baseline) if lane == "integration" else []
+        feedback.append(proposals.compact_feedback(planning.feedback(row, json.loads(row["task"]), store.result(row) if row["status"] == "completed" else None)))
+    available = planning.child_catalogue(store, baseline, limit=24) if lane == "integration" else []
     orders_path = store.workspace / "epochs" / baseline / "work-orders/work-orders.json"
     package_scope = []
     if orders_path.is_file():
@@ -225,11 +250,16 @@ def provider_request(store, baseline, lane):
         for package in orders["packages"]:
             if lane in str(package.get("domain", "")):
                 package_scope.append({k: package[k] for k in ("id", "title", "domain", "completion_artifacts") if k in package})
-    return dict(schema="osr-continuous-proposal-request/1", lane=lane, baseline_sha256=baseline,
-        domains=tasks.domain_description(lane), feedback=feedback,
+    return proposals.bounded(dict(schema="osr-continuous-proposal-request/2", lane=lane, baseline_sha256=baseline,
+        domains=registered_domains(store,lane), feedback=feedback,
         available_children=available, package_scope=package_scope,
-        existing_designs=[dict(key=r["key"], kind=json.loads(r["task"])["kind"], parameters=json.loads(r["task"])["parameters"])
-                          for r in store.db.execute("SELECT key,task FROM jobs WHERE baseline=? AND lane=?", (baseline, lane))],
+        progress_signature=research.progress_signature(store,baseline,lane),
+        tradeoffs=research.tradeoffs(store,baseline,lane),
+        coverage=research.coverage(store,baseline,lane),
+        existing_designs=proposals.representatives(store, baseline, lane),
+        history_lookup=dict(workspace=str(store.workspace), lane=lane,
+            command="tools/automation/osr-python tools/automation/design-continuous.py history",
+            arguments=dict(baseline=baseline, after=0, limit=20), complete_history_included=False),
         instructions="Propose up to three DISTINCT useful designs using supported domains and actual failures. "
         "Return parameters as JSON text in parameters_json. Do not change loads, limits, fixtures or source. "
         "Read-only proposal work only: no edits, commits, uploads, messages, deployment or additional agents. "
@@ -237,10 +267,20 @@ def provider_request(store, baseline, lane):
         "For integration use exact mechanical-detail/civil-detail/software-logic keys from the existing service data. "
         "Prioritize children with study_pass=true and matching architecture_id; civil context_id identifies each span. "
         "study_pass means only implemented offline checks pass: false release flags do not prevent a research study pass. "
-        "You may inspect engineering source locally. No production release is available.", **core.FLAGS)
+        "Use declared provisional inputs; accepted physical evidence is not required to propose a research trial. "
+        "A null family bound means no such bound is provided, not that context data is missing. "
+        "Needs: item_id is a short capability identifier; required is the concrete missing work/evidence description, never a boolean. "
+        "You may inspect engineering source and paginated history locally. No production release is available.", **core.FLAGS))
 
 
-def import_proposals(store, baseline, lane, response):
+def registered_domains(store,lane):
+    domains=tasks.domain_description(lane)
+    if lane=="software" and not capabilities.registered(store,"software-frame-receiver"):
+        domains.pop("software-receiver",None)
+    return domains
+
+
+def validated_proposals(store, baseline, lane, response):
     if not isinstance(response, dict) or set(response) != {"proposals", "needs"}:
         raise ValueError("exact provider response required")
     if not isinstance(response["proposals"], list) or len(response["proposals"]) > 3 or not isinstance(response["needs"], list) or len(response["needs"]) > 10:
@@ -260,8 +300,16 @@ def import_proposals(store, baseline, lane, response):
         if not isinstance(row, dict) or set(row) != {"item_id", "required"} or any(
             not isinstance(row[k], str) or not 1 <= len(row[k]) <= 8000 for k in row):
             raise ValueError("typed missing-evidence need required")
-    added = sum(store.enqueue(v, baseline) for v in values)
-    store.record_needs(baseline, lane, response["needs"])
+        if len(row["item_id"])>200 or len(row["required"].strip())<12 or row["required"].strip().lower() in {"true","false","yes","no","required"}:
+            raise ValueError("need requires a short identifier and concrete missing-work description")
+    return values, response["needs"]
+
+
+def import_proposals(store, baseline, lane, response):
+    values, needs = validated_proposals(store, baseline, lane, response)
+    with ledger.transaction(store.db):
+        added = sum(store.enqueue(v, baseline) for v in values)
+        store.record_needs(baseline, lane, needs)
     return added
 
 
@@ -277,14 +325,15 @@ def next_provider(store, baseline, config, now):
     calls = store.db.execute("SELECT COUNT(*) FROM provider WHERE created>?", (now - 3600,)).fetchone()[0]
     if calls >= config["max_provider_calls_per_hour"]:
         return None
-    for lane in tasks.LANES:
+    served = {lane: store.db.execute("SELECT MAX(created) FROM provider WHERE lane=?", (lane,)).fetchone()[0] for lane in tasks.LANES}
+    for lane in sorted(tasks.LANES, key=lambda lane: (served[lane] if served[lane] is not None else -1, tasks.LANES.index(lane))):
         if store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=? AND status IN ('queued','running','deferred')", (baseline, lane)).fetchone()[0] >= Store.MAX_PENDING_PER_LANE:
             continue
-        last = store.db.execute("SELECT MAX(created) FROM provider WHERE lane=?", (lane,)).fetchone()[0]
+        last = store.db.execute("SELECT MAX(COALESCE(finished,created)) FROM provider WHERE lane=?", (lane,)).fetchone()[0]
         if last is not None and now - last < config["provider_interval_seconds"]:
             continue
         request = provider_request(store, baseline, lane)
-        request_hash = core.digest(request)
+        request_hash = core.digest(request.get("progress_signature",request))
         previous = list(store.db.execute("SELECT * FROM provider WHERE baseline=? AND lane=? AND context_hash=? ORDER BY created", (baseline, lane, request_hash)))
         if previous:
             last_call = previous[-1]
@@ -301,6 +350,9 @@ def run(workspace, *, once=False):
     baseline, sources = prepare(workspace)
     store = Store(workspace)
     store.recover()
+    binding=core.read(workspace/"epochs"/baseline/"baseline.json")
+    runtime_sha=runtime.digest(binding["runtime_identity"])
+    runtime_ok,last_runtime_check=True,0.
     active, stopping, cursor, last_integrated_count = {}, False, 0, -1
     def stop_signal(_number, _frame):
         nonlocal stopping
@@ -314,20 +366,25 @@ def run(workspace, *, once=False):
             config = core.read(workspace / "config.json")
             validate_config(config)
             now = time.time()
+            if now-last_runtime_check>=60:
+                runtime_ok=runtime.digest(runtime.capture())==runtime_sha
+                last_runtime_check=now
             if now - last_size_check >= 15:
                 used = core._size(workspace)
                 last_size_check = now
             free = shutil.disk_usage(workspace).free
-            source_ok = unchanged(sources)
+            source_ok = unchanged(sources) and runtime_ok
             capacity = used < config["max_output_gib"] * 1024**3 and free >= config["reserve_gib"] * 1024**3
-            mode = "running" if source_ok and capacity else ("waiting_for_source_restart" if not source_ok else "waiting_for_disk")
+            mode = "running" if source_ok and capacity else ("waiting_for_runtime_restart" if not runtime_ok else "waiting_for_source_restart" if not source_ok else "waiting_for_disk")
             for key, job in list(active.items()):
                 process, folder = job["process"], job["folder"]
                 reason = None
                 limit = config["provider_timeout_seconds"] if job["provider"] else config["worker_timeout_seconds"]
                 if now - job["started"] > limit:
                     reason = "worker timeout"
-                if core._size(folder) > (4 if job["provider"] else config["max_attempt_mib"]) * 1024**2:
+                if job["provider"]:
+                    reason = proposals.budget_error(folder) or reason
+                elif core._size(folder) > config["max_attempt_mib"] * 1024**2:
                     reason = "attempt output budget"
                 if not capacity:
                     reason = "workspace disk budget"
@@ -338,13 +395,12 @@ def run(workspace, *, once=False):
                 for stream in job["streams"]:
                     stream.close()
                 try:
-                    if reason or process.returncode != 0 or not unchanged(sources):
+                    if reason or process.returncode != 0 or not unchanged(sources) or runtime.digest(runtime.capture())!=runtime_sha:
                         raise ValueError(reason or "process failed or input sources changed; inspect retained logs")
                     if job["provider"]:
-                        response = core.read(folder / "response.json")
-                        added = import_proposals(store, baseline, job["lane"], response)
-                        with store.db:
-                            store.db.execute("UPDATE provider SET status=?,finished=? WHERE id=?", ("added" if added else "no-progress", now, job["id"]))
+                        response = core.read(folder / "response.json",maximum=proposals.MAX_RESPONSE_BYTES)
+                        values, needs = validated_proposals(store, baseline, job["lane"], response)
+                        ledger.complete_provider(store, job["id"], values, needs, core.sha(folder / "response.json"))
                     else:
                         result = core.read(folder / "result.json", maximum=10_000_000)
                         if type(result.get("study_pass")) is not bool or any(result.get(k) is not False for k in core.FLAGS):
@@ -352,12 +408,7 @@ def run(workspace, *, once=False):
                         receipt = dict(key=key, baseline_sha256=baseline, task=job["task"],
                             files_sha256={p.relative_to(folder).as_posix(): core.sha(p) for p in sorted(folder.rglob("*")) if p.is_file()}, **core.FLAGS)
                         core.write(folder / "receipt.json", receipt, exclusive=True)
-                        with store.db:
-                            store.db.execute("UPDATE jobs SET status='completed',receipt_sha=?,finished=?,error=NULL WHERE key=?",
-                                (core.sha(folder / "receipt.json"), now, key))
-                        for value in result.get("repairs", []):
-                            store.enqueue(value, baseline)
-                        store.record_needs(baseline, job["lane"], result.get("needs", []))
+                        ledger.complete_job(store, key, core.sha(folder / "receipt.json"), result, now=now)
                         store.event("completed", dict(key=key, lane=job["lane"], study_pass=result["study_pass"]))
                 except (ValueError, OSError, TypeError, KeyError) as exc:
                     if job["provider"]:
@@ -369,6 +420,7 @@ def run(workspace, *, once=False):
                                 (str(exc), now + 30, key))
                     store.event("attempt-error", dict(key=key, reason=str(exc)))
                 del active[key]
+            ledger.dispatch(store)
             if mode == "running":
                 store.promote(baseline)
                 completed_count = store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed'", (baseline,)).fetchone()[0]
@@ -396,13 +448,17 @@ def run(workspace, *, once=False):
                         store.db.execute("UPDATE jobs SET status='running',attempts=attempts+1,folder=? WHERE key=?", (str(folder), row["key"]))
                     folder.mkdir(parents=True, exist_ok=False)
                     dependencies = []
-                    for child in value["parameters"].get("children", []):
+                    child_keys=value["parameters"].get("children", [])
+                    if value["kind"].endswith("-confirmation"):
+                        child_keys=[value["parameters"]["child"]]
+                    for child in child_keys:
                         dep = store.db.execute("SELECT * FROM jobs WHERE key=? AND baseline=? AND status='completed'", (child, baseline)).fetchone()
                         if dep is None:
                             raise ValueError("integration child unavailable")
                         store.result(dep)
                         dependencies.append(dict(key=child, task=json.loads(dep["task"]), folder=dep["folder"], receipt_sha256=dep["receipt_sha"]))
-                    envelope = dict(task=value, key=row["key"], baseline_sha256=baseline, dependencies=dependencies)
+                    envelope = dict(task=value, key=row["key"], baseline_sha256=baseline, dependencies=dependencies,
+                        runtime_sha256=runtime_sha)
                     core.write(folder / "task.json", envelope, exclusive=True)
                     stdout, stderr = (folder / "worker.log").open("wb"), (folder / "worker.stderr.log").open("wb")
                     argv = [sys.executable, str(ENTRY), "worker", "--task", str(folder / "task.json"), "--output", str(folder / "output")]
@@ -418,15 +474,15 @@ def run(workspace, *, once=False):
                     argv = [sys.executable, str(ENTRY), "propose", "--request", str(folder / "request.json"), "--output", str(folder), "--executable", config["provider_executable"]]
                     if config["provider_model"]:
                         argv += ["--model", config["provider_model"]]
-                    process = subprocess.Popen(argv, cwd=ROOT, stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr, start_new_session=True)
                     with store.db:
                         cur = store.db.execute("INSERT INTO provider(baseline,lane,request_hash,context_hash,folder,status,created) VALUES(?,?,?,?,?,?,?)",
                             (baseline, lane, core.digest([request_hash, previous_count]), request_hash, str(folder), "running", now))
+                    process = subprocess.Popen(argv, cwd=ROOT, stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr, start_new_session=True)
                     key = "provider-" + str(cur.lastrowid)
                     active[key] = dict(process=process, folder=folder, streams=(stdout, stderr), lane=lane, started=now, provider=True, id=cur.lastrowid)
             if mode == "running" and not active:
                 mode = "watching_for_new_work"
-            if mode == "waiting_for_source_restart" and not active:
+            if mode in {"waiting_for_source_restart","waiting_for_runtime_restart"} and not active:
                 # A fresh interpreter binds new committed code; never attach new
                 # hashes to old imported implementation. Dirty edits wait safely.
                 clean = subprocess.run(["git", "diff", "--quiet", "HEAD"], cwd=ROOT).returncode == 0
@@ -454,16 +510,22 @@ def verify(workspace, *, historical=False):
     store = Store(workspace)
     active = core.read(workspace / "active.json")
     binding = core.read(Path(active["epoch"]) / "baseline.json")
-    if core.digest(binding["source_sha256"]) != active["baseline_sha256"] or (
+    expected=core.digest(dict(sources=binding["source_sha256"],runtime=binding["runtime_identity"])) if "runtime_identity" in binding else core.digest(binding["source_sha256"])
+    if expected != active["baseline_sha256"] or (
         not historical and not unchanged(binding["source_sha256"])):
         raise ValueError("baseline/source applicability failed")
+    if not historical and "runtime_identity" in binding and runtime.digest(runtime.capture())!=runtime.digest(binding["runtime_identity"]):
+        raise ValueError("numerical runtime identity changed")
     count = 0
     for row in store.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed'", (active["baseline_sha256"],)):
         result = store.result(row)
         if tasks.identity(json.loads(row["task"]), row["baseline"]) != row["key"] or any(result.get(k) is not False for k in core.FLAGS):
             raise ValueError("task identity or acceptance flags changed")
+        if "runtime_identity" in binding and result.get("runtime_sha256")!=runtime.digest(binding["runtime_identity"]):
+            raise ValueError("completed worker is not bound to the epoch runtime")
         count += 1
     result = dict(verified_completed_experiments=count, current_sources_required=not historical,
-                  source_and_artifact_integrity=True, **core.FLAGS)
+                  source_and_artifact_integrity=True, physics_rerun=False,
+                  runtime_identity_checked=not historical and "runtime_identity" in binding, **core.FLAGS)
     store.db.close()
     return result

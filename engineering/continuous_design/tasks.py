@@ -13,6 +13,8 @@ KINDS = {"mechanical-cleat": "mechanical", "mechanical-interface": "mechanical",
          "mechanical-detail": "mechanical", "civil-steel-beam": "civil", "civil-bay": "civil",
          "civil-detail": "civil", "software-logic": "software",
          "integration-reference": "integration", "integration-coupling": "integration"}
+KINDS.update({"mechanical-confirmation":"mechanical", "civil-confirmation":"civil"})
+KINDS["software-receiver"]="software"
 FACTS = ("train_stopped", "hvil_closed", "insulation_ok", "main_feedback_open",
          "return_feedback_closed", "precharge_feedback_closed", "voltage_ready", "timeout_ok",
          "data_valid", "age_valid", "sequence_valid", "clocks_valid")
@@ -54,7 +56,10 @@ def validate(value):
         raise ValueError("parent must be a design digest")
     if len(core.encoded(value)) > 600_000:
         raise ValueError("candidate exceeds 600 kB")
-    if kind in ("mechanical-cleat", "civil-steel-beam", "civil-bay"):
+    if kind.endswith("-confirmation"):
+        if set(params)!={"child"} or not isinstance(params["child"],str) or len(params["child"])!=64 or any(c not in "0123456789abcdef" for c in params["child"]):
+            raise ValueError("confirmation requires one exact child digest")
+    elif kind in ("mechanical-cleat", "civil-steel-beam", "civil-bay"):
         core.validate(dict(schema="osr-twin-proposal/1", id="worker", baseline_sha256="0" * 64,
             kind=kind, parameters=params, rationale=value["rationale"], sources=[], expected_tests=["fixed worker checks"]), "0" * 64)
     elif kind == "mechanical-interface":
@@ -71,6 +76,9 @@ def validate(value):
         if not isinstance(variables, dict) or set(variables) != set(domain) or any(
             type(v) not in (int, float) or v not in domain[k] for k, v in variables.items()):
             raise ValueError("detail variables outside controlled domains")
+    elif kind == "software-receiver":
+        from . import protocol_receiver
+        protocol_receiver.validate(params)
     elif kind == "software-logic":
         if set(params) != {"expression"}:
             raise ValueError("software requires one Boolean policy expression")
@@ -157,6 +165,9 @@ def domain_description(lane):
         module, mapping = contexts(kind)
         spec = core.read(module.DATA if lane == "mechanical" else ROOT / "engineering/generative_design/data/civil-detail-space.json")
         result = {kind: dict(context_ids=list(mapping), variables=spec["bounds" if lane == "mechanical" else "domains"])}
+        fields=("id","configuration_id","architecture_id","body_length_m","support_x_m","source_car_force_n",
+            "source_car_mass_kg","side_depth_envelope_m","span_m","force_sensitivity_multiplier","source_case_sha256","load_basis","accepted_loading")
+        result[kind]["controlled_contexts"]={key:{name:value[name] for name in fields if name in value} for key,value in mapping.items()}
         if lane == "mechanical":
             result["mechanical-interface"] = dict(carrier_wall_m=[.003, .004, .005], sill_wall_m=[.006, .008, .010])
             result[kind]["family_bounds"] = {k: module.stiffness_bound(v) for k, v in mapping.items()}
@@ -168,6 +179,7 @@ def domain_description(lane):
         result[family] = variables(family)
         return result
     if lane == "software":
-        return {"software-logic": dict(expression="Boolean and/or/not expression over " + ", ".join(FACTS),
+        from . import protocol_receiver
+        return {"software-receiver":protocol_receiver.DOMAINS,"software-logic": dict(expression="Boolean and/or/not expression over " + ", ".join(FACTS),
                 acceptance="Fixed exhaustive truth table plus independently specified temporal replay; no calls/imports")}
     return {"integration-coupling": dict(children="Exactly three completed mechanical-detail, matching civil-detail and software-logic design keys")}
