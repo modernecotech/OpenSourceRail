@@ -16,7 +16,7 @@ import sys
 import time
 
 from engineering.twin_workflow import core
-from . import tasks, planning, ledger, proposals, research, runtime, capabilities
+from . import tasks, planning, ledger, proposals, research, runtime, capabilities, eligibility
 
 ROOT = core.ROOT
 ENTRY = ROOT / "tools/automation/design-continuous.py"
@@ -71,6 +71,7 @@ class Store:
         self.db.commit()
         ledger.initialise(self)
         research.initialise(self)
+        eligibility.initialise(self)
 
     def event(self, kind, payload):
         with ledger.transaction(self.db):
@@ -111,18 +112,24 @@ class Store:
             if row is None or json.loads(row["task"])["kind"]!=value["kind"].replace("-confirmation","-detail"):
                 raise ValueError("confirmation needs a completed exact detailed child")
             return
-        if value["kind"] != "integration-coupling":
+        if value["kind"] not in {"integration-coupling",'integration-protocol'}:
             return
+        protocol=value['kind']=='integration-protocol'
         children = [self.db.execute("SELECT * FROM jobs WHERE key=? AND baseline=? AND status='completed'", (k, baseline)).fetchone()
                     for k in value["parameters"]["children"]]
-        if any(r is None for r in children) or {json.loads(r["task"])["kind"] for r in children} != {
-            "mechanical-detail", "civil-detail", "software-logic"}:
+        if any(r is None for r in children) or {json.loads(r["task"])["kind"] for r in children} != ({
+            "mechanical-detail", "civil-detail", "software-logic"}|({'software-receiver'} if protocol else set())):
             raise ValueError("integration needs completed exact mechanical/civil/software children")
         parsed = {json.loads(r["task"])["kind"]: json.loads(r["task"])["parameters"] for r in children}
         _, mapping = tasks.contexts("civil-detail")
         civil = mapping[parsed["civil-detail"]["context_id"]]
         if civil["architecture_id"] != parsed["mechanical-detail"]["context_id"]:
             raise ValueError("integration children have different train configurations")
+        state=eligibility.Resolver(self,baseline).dependencies(value['parameters']['children'])
+        if not state['eligible']:
+            raise ValueError('integration child evidence is ineligible: '+json.dumps(state))
+        if value['parameters'].get('evidence_revision',core.digest(state))!=core.digest(state):
+            raise ValueError('integration evidence changed; submit a fresh evidence revision')
 
     def result(self, row):
         folder = Path(row["folder"])
@@ -143,6 +150,9 @@ class Store:
             self.db.execute("UPDATE provider SET status='interrupted',finished=? WHERE status='running'", (time.time(),))
         ledger.backfill(self)
         ledger.dispatch(self)
+        for row in self.db.execute('SELECT DISTINCT baseline FROM jobs'):
+            with self.db:
+                eligibility.refresh(self,row[0])
 
     def integration_jobs(self, baseline):
         return planning.integration_frontier(self, baseline)
@@ -240,8 +250,11 @@ def provider_request(store, baseline, lane):
     rows = list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status IN ('completed','error') ORDER BY finished DESC,created DESC LIMIT 8", (baseline, lane)))
     rows += list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status NOT IN ('completed','error') ORDER BY priority,created LIMIT 4", (baseline, lane)))
     feedback = []
+    resolver=eligibility.Resolver(store,baseline)
     for row in rows:
-        feedback.append(proposals.compact_feedback(planning.feedback(row, json.loads(row["task"]), store.result(row) if row["status"] == "completed" else None)))
+        item=proposals.compact_feedback(planning.feedback(row, json.loads(row["task"]), store.result(row) if row["status"] == "completed" else None))
+        item['eligibility']=resolver.state(row['key'])
+        feedback.append(item)
     available = planning.child_catalogue(store, baseline, limit=24) if lane == "integration" else []
     orders_path = store.workspace / "epochs" / baseline / "work-orders/work-orders.json"
     package_scope = []
@@ -277,6 +290,8 @@ def registered_domains(store,lane):
     domains=tasks.domain_description(lane)
     if lane=="software" and not capabilities.registered(store,"software-frame-receiver"):
         domains.pop("software-receiver",None)
+    if lane=='integration' and not capabilities.registered(store,'software-frame-receiver'):
+        domains.pop('integration-protocol',None)
     return domains
 
 
@@ -418,11 +433,15 @@ def run(workspace, *, once=False):
                         with store.db:
                             store.db.execute("UPDATE jobs SET status=CASE WHEN attempts<2 THEN 'queued' ELSE 'error' END,error=?,ready=? WHERE key=?",
                                 (str(exc), now + 30, key))
+                            if job['task']['kind'].endswith('-confirmation'):
+                                eligibility.refresh(store,baseline)
                     store.event("attempt-error", dict(key=key, reason=str(exc)))
                 del active[key]
             ledger.dispatch(store)
             if mode == "running":
                 store.promote(baseline)
+                with store.db:
+                    research.confirm_final_candidates(store,baseline,now=now)
                 completed_count = store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed'", (baseline,)).fetchone()[0]
                 if completed_count != last_integrated_count:
                     store.integration_jobs(baseline)
@@ -438,11 +457,16 @@ def run(workspace, *, once=False):
                     cursor += 1
                     if any(j["lane"] == lane and not j["provider"] for j in active.values()):
                         continue
-                    row = store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status='queued' AND ready<=? ORDER BY priority,created LIMIT 1",
+                    row = store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status='queued' AND ready<=? AND NOT EXISTS (SELECT 1 FROM integration_dispositions d WHERE d.key=jobs.key AND d.state!='eligible') ORDER BY priority,created LIMIT 1",
                         (baseline, lane, now)).fetchone()
                     if row is None:
                         continue
                     value = json.loads(row["task"])
+                    if value['kind'] in {'integration-coupling','integration-protocol'}:
+                        with store.db:
+                            eligibility.refresh(store,baseline)
+                        if not eligibility.Resolver(store,baseline).dependencies(value['parameters']['children'])['eligible']:
+                            continue
                     folder = workspace / "epochs" / baseline / "attempts" / row["key"] / f"{row['attempts'] + 1:03d}"
                     with store.db:
                         store.db.execute("UPDATE jobs SET status='running',attempts=attempts+1,folder=? WHERE key=?", (str(folder), row["key"]))
@@ -458,7 +482,7 @@ def run(workspace, *, once=False):
                         store.result(dep)
                         dependencies.append(dict(key=child, task=json.loads(dep["task"]), folder=dep["folder"], receipt_sha256=dep["receipt_sha"]))
                     envelope = dict(task=value, key=row["key"], baseline_sha256=baseline, dependencies=dependencies,
-                        runtime_sha256=runtime_sha)
+                        runtime_sha256=runtime_sha,evidence_workspace=str(workspace))
                     core.write(folder / "task.json", envelope, exclusive=True)
                     stdout, stderr = (folder / "worker.log").open("wb"), (folder / "worker.stderr.log").open("wb")
                     argv = [sys.executable, str(ENTRY), "worker", "--task", str(folder / "task.json"), "--output", str(folder / "output")]

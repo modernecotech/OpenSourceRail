@@ -53,7 +53,7 @@ def benchmarks():
     return rows
 
 
-def confirm(kind, assessment, output):
+def confirm(kind, assessment, output, *, native_ei=None):
     from . import tasks
     module, mapping = tasks.contexts(kind)
     if kind == "mechanical-detail":
@@ -74,6 +74,9 @@ def confirm(kind, assessment, output):
             expected=response["deflection_m"],measurement="midspan_deflection_m")]
     checks={}; records=[]
     for case in cases:
+        case=dict(case,analytical_ei_nm2=case['ei'],stiffness_source='native B-rep section measurements' if native_ei is not None else 'analytical assessment; native properties unavailable')
+        if native_ei is not None:
+            case['ei']=native_ei
         results=[]
         for divisions in (16,32):
             row=solve(length,supports,case["ei"],uniform=case["uniform"],points=case["points"],divisions=divisions)

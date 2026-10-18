@@ -82,8 +82,8 @@ def test_failed_parent_integration_cannot_replace_passing_research_champion(tmp_
     bad=tasks.task("integration-coupling",dict(children=[d["key"] for d in bad_deps]))
     rejected=worker.integration(dict(baseline_sha256=baseline,dependencies=bad_deps))
     assert not rejected["study_pass"]
-    bad_child=complete(store,bad,baseline,evidence.label("integration-coupling",rejected))
-    with ledger.transaction(store.db):research.observe(store,bad_child["key"])
+    with pytest.raises(ValueError,match='ineligible'):
+        store.enqueue(bad,baseline)
     champions=list(store.db.execute("SELECT key FROM champions WHERE kind='integration-coupling'"))
     assert [r["key"] for r in champions]==[sealed["key"]]
 
@@ -144,6 +144,11 @@ def test_automatic_shortlist_confirmation_runs_actual_native_geometry_and_indepe
     assert levels["physical_correlation"]["state"]=="not_run"
     assert (tmp_path/"higher-fidelity/cad/model.FCStd").is_file()
     assert (tmp_path/"higher-fidelity/cad/model.step").is_file()
+    properties=core.read(tmp_path/'higher-fidelity/native-properties-comparison.json',maximum=10_000_000)
+    assert properties['native_ei_nm2']>0 and all(properties['checks'].values())
+    assert properties['measured']['controls']['box_inertia_yy_m5']==pytest.approx(50.)
+    numerical=core.read(tmp_path/'higher-fidelity/numerical-confirmation.json',maximum=10_000_000)
+    assert all(case['case']['stiffness_source']=='native B-rep section measurements' for case in numerical['cases'])
     assert len(list((tmp_path/"higher-fidelity").glob("*-mesh-*.json")))>=2
     assert all(result[k] is False for k in core.FLAGS)
     # An integrated champion shares the civil context: it must not be mistaken
@@ -158,3 +163,15 @@ def test_automatic_shortlist_confirmation_runs_actual_native_geometry_and_indepe
         store.db.execute("UPDATE jobs SET status='completed',folder=?,receipt_sha=?,finished=2 WHERE key=?",(str(folder),core.sha(folder/"receipt.json"),row["key"]))
     with ledger.transaction(store.db):research.observe(store,row["key"])
     assert store.db.execute("SELECT native_confirmed FROM observations WHERE key=?",(child["key"],)).fetchone()[0]==1
+
+
+def test_actual_native_collision_is_a_design_failure_not_a_tool_hold(tmp_path):
+    from engineering.continuous_design import confirmation
+    if not shutil.which('FreeCADCmd') and not shutil.which('freecadcmd'):
+        if not shutil.which('flatpak') or subprocess.run(['flatpak','info','org.freecad.FreeCAD'],capture_output=True).returncode:
+            pytest.skip('actual native FreeCAD runtime unavailable')
+    model=tmp_path/'overlap.json'
+    core.write(model,dict(id='OSR-FIX-500',parts=[dict(id=name,kind='box',role='collision-control',size_m=[1.,1.,1.],at_m=[0.,0.,0.]) for name in ['one','two']]))
+    with pytest.raises(confirmation.NativeFailure,match='interference'):
+        confirmation.native(model,tmp_path/'native-rejection')
+    assert core.read(tmp_path/'native-rejection/native-outcome.json')['state']=='failed'

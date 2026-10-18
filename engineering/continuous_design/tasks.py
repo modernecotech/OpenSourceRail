@@ -15,6 +15,7 @@ KINDS = {"mechanical-cleat": "mechanical", "mechanical-interface": "mechanical",
          "integration-reference": "integration", "integration-coupling": "integration"}
 KINDS.update({"mechanical-confirmation":"mechanical", "civil-confirmation":"civil"})
 KINDS["software-receiver"]="software"
+KINDS['integration-protocol']='integration'
 FACTS = ("train_stopped", "hvil_closed", "insulation_ok", "main_feedback_open",
          "return_feedback_closed", "precharge_feedback_closed", "voltage_ready", "timeout_ok",
          "data_valid", "age_valid", "sequence_valid", "clocks_valid")
@@ -86,10 +87,21 @@ def validate(value):
     elif kind == "integration-reference":
         if params:
             raise ValueError("reference integration audit is fixed")
-    elif kind == "integration-coupling":
-        if set(params) != {"children"} or len(params["children"]) != 3 or any(
+    elif kind in {"integration-coupling",'integration-protocol'}:
+        protocol=kind=='integration-protocol'
+        expected={'children','interface_id'} if protocol else {'children'}
+        if 'evidence_revision' in params:
+            expected.add('evidence_revision')
+            revision=params['evidence_revision']
+            if not isinstance(revision,str) or len(revision)!=64 or any(c not in '0123456789abcdef' for c in revision):
+                raise ValueError('integration evidence revision must be a digest')
+        if protocol and params.get('interface_id')!='osr-precharge-link/1':
+            raise ValueError('declared protocol interface required')
+        if set(params) != expected or not isinstance(params.get('children'),list) or len(params["children"]) != (4 if protocol else 3) or any(
             not isinstance(k, str) or len(k) != 64 or any(c not in "0123456789abcdef" for c in k) for k in params["children"]):
-            raise ValueError("three exact mechanical/civil/software child digests required")
+            raise ValueError("exact distinct mechanical/civil/software child digests required")
+        if len(set(params['children']))!=len(params['children']):
+            raise ValueError('distinct child revisions required')
     return KINDS[kind]
 
 
@@ -182,4 +194,5 @@ def domain_description(lane):
         from . import protocol_receiver
         return {"software-receiver":protocol_receiver.DOMAINS,"software-logic": dict(expression="Boolean and/or/not expression over " + ", ".join(FACTS),
                 acceptance="Fixed exhaustive truth table plus independently specified temporal replay; no calls/imports")}
-    return {"integration-coupling": dict(children="Exactly three completed mechanical-detail, matching civil-detail and software-logic design keys")}
+    return {"integration-coupling": dict(children="Exactly three completed mechanical-detail, matching civil-detail and software-logic design keys"),
+        'integration-protocol':dict(children='Four exact eligible revisions: mechanical-detail, matching civil-detail, software-logic and software-receiver',interface_id='osr-precharge-link/1')}

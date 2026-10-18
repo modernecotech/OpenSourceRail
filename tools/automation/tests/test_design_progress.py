@@ -30,6 +30,13 @@ def candidate(store,key,baseline,*,passed=True,native=True,mass=100):
     store.db.execute('INSERT INTO jobs(key,baseline,lane,task,status,created) VALUES(?,?,?,?,?,?)',
         (confirmation,baseline,'mechanical','{}','completed',1))
     store.db.execute('INSERT INTO promotions VALUES(?,?,?,?,?,?)',(key,baseline,'metro',confirmation,'test',1))
+    for name,result in [(key,dict(study_pass=passed)),(confirmation,dict(study_pass=True,verification=dict(levels={
+        level:dict(state='passed') for level in ('native_geometry','numerical_confirmation','numerical_robustness')})))]:
+        folder=store.workspace/'epochs'/baseline/'attempts'/name/'001';folder.mkdir(parents=True)
+        (folder/'result.json').write_text(json.dumps(result))
+        (folder/'receipt.json').write_text(json.dumps(dict(key=name,baseline_sha256=baseline,files_sha256={'result.json':reporter.sha(folder/'result.json')})))
+        store.db.execute('UPDATE jobs SET folder=?,receipt_sha=? WHERE key=?',(str(folder),reporter.sha(folder/'receipt.json'),name))
+    store.db.execute('UPDATE jobs SET task=? WHERE key=?',(json.dumps(dict(kind='mechanical-confirmation',parameters=dict(child=key))),confirmation))
     store.db.commit()
 
 

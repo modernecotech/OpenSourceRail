@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 
 from engineering.twin_workflow import core
-from . import tasks, planning, evidence
+from . import tasks, planning, evidence, eligibility
 
 
 def software(source):
@@ -79,14 +79,16 @@ def child_records(envelope):
             path = (folder / relative).resolve()
             if not path.is_relative_to(folder.resolve()) or core.sha(path) != expected:
                 raise ValueError("child artifact changed")
-        rows.append(dict(key=child["key"], task=child["task"], result=core.read(folder / "result.json", maximum=10_000_000)))
+        rows.append(dict(key=child["key"], task=child["task"], folder=str(folder),result=core.read(folder / "result.json", maximum=10_000_000)))
     return rows
 
 
 def integration(envelope):
     rows = child_records(envelope)
     by_kind = {r["task"]["kind"]: r for r in rows}
-    if len(rows) != 3 or set(by_kind) != {"mechanical-detail", "civil-detail", "software-logic"}:
+    protocol='software-receiver' in by_kind
+    kinds={"mechanical-detail", "civil-detail", "software-logic"}|({'software-receiver'} if protocol else set())
+    if len(rows) != len(kinds) or set(by_kind) != kinds:
         raise ValueError("integration requires exact mechanical/civil/software children")
     from engineering.generative_design import civil_detail
     mechanical = by_kind["mechanical-detail"]["result"]["assessment"]
@@ -100,13 +102,24 @@ def integration(envelope):
     reassessed = civil_detail.assess(civil["variables"], coupled)
     baseline_force = sum(a["force_n"] for a in context["source_case"]["axles"])
     coupled_force = sum(a["force_n"] for a in coupled["source_case"]["axles"])
+    live=eligibility.live_dependencies(envelope)
+    expected_revision=envelope.get('task',{}).get('parameters',{}).get('evidence_revision')
     checks = dict(exact_child_revisions=True, same_configuration=True,
+        applicable_child_evidence=live['eligible'] and (expected_revision is None or expected_revision==core.digest(live)),
         positive_gross_mass_increases_axle_force=coupled_force > baseline_force,
         civil_response_recomputed=not reassessed["failed_checks"],
         civil_child_study=by_kind["civil-detail"]["result"]["study_pass"],
         mechanical_child_study=by_kind["mechanical-detail"]["result"]["study_pass"],
         software_child_study=by_kind["software-logic"]["result"]["study_pass"])
-    parent = envelope.get("key") or tasks.identity(tasks.task("integration-coupling", dict(children=[r["key"] for r in rows])), envelope["baseline_sha256"])
+    protocol_result=None
+    if protocol:
+        from . import protocol_system
+        protocol_result=protocol_system.evaluate(by_kind)
+        checks.update(protocol_child_study=by_kind['software-receiver']['result']['study_pass'],
+            protocol_fault_propagation=protocol_result['study_pass'])
+    parameters=dict(children=[r['key'] for r in rows])
+    if protocol:parameters['interface_id']='osr-precharge-link/1'
+    parent = envelope.get("key") or tasks.identity(tasks.task('integration-protocol' if protocol else "integration-coupling", parameters), envelope["baseline_sha256"])
     repairs = [tasks.task("civil-detail", dict(context_id=context["id"], variables=p),
         "Repair actual coupled-load failures: " + ", ".join(reassessed["failed_checks"]) +
         "; re-evaluate base context first, then recompute exact coupling", parent=parent)
@@ -117,7 +130,10 @@ def integration(envelope):
         metrics=dict(gross_added_mass_kg=mass*cars, baseline_axle_force_n=baseline_force,
                      coupled_axle_force_n=coupled_force, failed_civil_checks=reassessed["failed_checks"]),
         assessment=reassessed, children=[dict(key=r["key"], kind=r["task"]["kind"], study_pass=r["result"]["study_pass"]) for r in rows],
-        adopted=False, scope="One-way gross-mass sensitivity on exact child revisions; no removal credit, dynamic coupling or hardware integration",
+        protocol_link=protocol_result,
+        input_evidence=live,
+        evaluation_disposition='superseded' if expected_revision is not None and expected_revision!=core.digest(live) else 'current',
+        adopted=False, scope="One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration",
         open_evidence=["net installed vehicle mass/CG", "coupled vehicle-track-structure dynamics", "hardware/software interfaces", "physical correlation"], **core.FLAGS)
 
 
@@ -158,7 +174,7 @@ def evaluate(envelope, output):
         checked = digital_thread.verify(core.PACKET)
         result = dict(study_pass=checked["integrity_verified"], checks=dict(current_reference_integrity=checked["integrity_verified"]),
             metrics=checked["summary"], scope="Current federated configuration/source audit; open interfaces retained", **core.FLAGS)
-    elif kind == "integration-coupling":
+    elif kind in {"integration-coupling",'integration-protocol'}:
         result = integration(envelope)
     elif kind.endswith("-confirmation"):
         from . import confirmation

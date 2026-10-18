@@ -15,6 +15,7 @@ def dashboard(status):
         lines.append(f"{name.replace('_',' ')}: {value}")
     latest=status["research"]["last_useful_improvement_unix"]
     lines.extend(["", "Last useful improvement: "+(datetime.fromtimestamp(latest,timezone.utc).isoformat() if latest else "none recorded"),
+        'Dependent integration dispositions: '+str(status['research'].get('integration_dispositions',{})),
         "Oldest waiting task age: "+(f"{time.time()-status['oldest_waiting_unix']:.0f}s" if status["oldest_waiting_unix"] else "none"),
         "AI call states: "+str(status["provider_states"]), "Follow-up outbox: "+str(status["outbox_states"]),
         "Workspace output: "+str(status["runtime"].get("used_bytes",0))+" bytes", "",

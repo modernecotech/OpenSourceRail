@@ -71,7 +71,11 @@ def collect(workspace):
     db.row_factory = sqlite3.Row
     try:
         db.execute("BEGIN")  # one consistent read snapshot, no writer locks/migrations
-        summary = research.summary(SimpleNamespace(db=db), baseline)
+        from engineering.continuous_design.service import Store
+        from engineering.continuous_design import eligibility
+        store=SimpleNamespace(db=db, result=lambda row: Store.result(None,row))
+        summary = research.summary(store, baseline)
+        resolver=eligibility.Resolver(store,baseline)
         for champion in summary['champions']:
             champion['modeled_mass_kg'] = db.execute('SELECT mass FROM observations WHERE key=?', (champion['key'],)).fetchone()[0]
         lanes = {lane: dict(Counter({r[0]: r[1] for r in db.execute(
@@ -83,17 +87,20 @@ def collect(workspace):
         # Prefer confirmed champions, then the lightest confirmed passing example.
         selected = {}
         for lane in ("mechanical", "civil"):
-            row = db.execute("""SELECT j.*,o.context,o.mass FROM observations o
+            rows = db.execute("""SELECT j.*,o.context,o.mass FROM observations o
                 JOIN jobs j ON j.key=o.key WHERE o.baseline=? AND o.lane=?
                 AND o.study_pass=1 AND o.native_confirmed=1
                 ORDER BY (o.key IN (SELECT key FROM champions WHERE id IN
                     (SELECT MAX(id) FROM champions WHERE baseline=? GROUP BY kind,context))) DESC,
-                    o.mass,o.key LIMIT 1""", (baseline, lane, baseline)).fetchone()
-            if row:
+                    o.mass,o.key""", (baseline, lane, baseline))
+            for row in rows:
+                if not resolver.state(row['key'])['eligible']:
+                    continue
                 confirmation = db.execute("""SELECT j.* FROM promotions p JOIN jobs j ON p.task_key=j.key
                     WHERE p.child=? AND j.baseline=? AND j.status='completed'""", (row["key"], baseline)).fetchone()
                 if confirmation:
                     selected[lane] = (dict(row), dict(confirmation))
+                    break
         heartbeat_age = max(0, time.time() - heartbeat["heartbeat_unix"])
         state = heartbeat.get("state") if heartbeat.get("baseline_sha256")==baseline else "epoch transition"
         if heartbeat_age > 60:
@@ -253,6 +260,7 @@ def html_report(report, base=""):
         lines.append('<tr>'+''.join('<td>'+h(v)+'</td>' for v in (lane,c.get('completed',0),
             c.get('queued',0)+c.get('deferred',0),c.get('running',0),c.get('error',0)))+'</tr>')
     lines.extend(['</table><p>AI call states: '+h(report['provider_states'])+'</p>'])
+    lines.append('<p>Dependent integration dispositions: '+h(report['research'].get('integration_dispositions',{}))+'</p>')
     latest=report['research']['last_useful_improvement_unix']
     lines.append('<p>Last recorded useful improvement: '+h(datetime.fromtimestamp(latest,timezone.utc).isoformat() if latest else 'none')+'</p>')
     lines.append('<h2>Changes to the research shortlist</h2>')

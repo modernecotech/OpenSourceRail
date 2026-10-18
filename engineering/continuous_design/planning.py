@@ -6,11 +6,12 @@ values are nominated, then rebuilt/re-evaluated in the new source epoch.
 from collections import defaultdict
 import json
 import math
+import itertools
 
 from engineering.twin_workflow import core
-from . import tasks
+from . import tasks, eligibility
 
-CHILD_KINDS = ("mechanical-detail", "civil-detail", "software-logic")
+CHILD_KINDS = ("mechanical-detail", "civil-detail", "software-logic",'software-receiver')
 
 
 def lighter_neighbors(kind, parameters):
@@ -50,14 +51,16 @@ def mass(result):
 
 def children(store, baseline):
     groups = {k: [] for k in CHILD_KINDS}
-    count=store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed' AND json_extract(task,'$.kind') IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)).fetchone()[0]
-    projected=store.db.execute("SELECT COUNT(*) FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)).fetchone()[0]
+    resolver=eligibility.Resolver(store,baseline)
+    count=store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed' AND json_extract(task,'$.kind') IN ('mechanical-detail','civil-detail','software-logic','software-receiver')",(baseline,)).fetchone()[0]
+    projected=store.db.execute("SELECT COUNT(*) FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic','software-receiver')",(baseline,)).fetchone()[0]
     if count and projected==count:
         selected=set()
-        for group in store.db.execute("SELECT DISTINCT kind,context FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic')",(baseline,)):
+        for group in store.db.execute("SELECT DISTINCT kind,context FROM observations WHERE baseline=? AND kind IN ('mechanical-detail','civil-detail','software-logic','software-receiver')",(baseline,)):
             args=(baseline,group["kind"],group["context"])
             for order,limit in (("study_pass DESC,mass,key",4),("study_pass DESC,mass DESC,key",1),("finished DESC",2)):
-                selected.update(r[0] for r in store.db.execute("SELECT key FROM observations WHERE baseline=? AND kind=? AND context=? ORDER BY "+order+" LIMIT ?",(*args,limit)))
+                eligible_keys=(r[0] for r in store.db.execute("SELECT key FROM observations WHERE baseline=? AND kind=? AND context=? ORDER BY "+order,args) if resolver.state(r[0])['eligible'])
+                selected.update(itertools.islice(eligible_keys,limit))
         rows=[store.db.execute("SELECT * FROM jobs WHERE key=?",(key,)).fetchone() for key in sorted(selected)]
     else:
         rows=store.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed' ORDER BY created", (baseline,))
@@ -65,17 +68,20 @@ def children(store, baseline):
         value = json.loads(row["task"])
         if value["kind"] in groups:
             result = store.result(row)
+            result=dict(result,eligibility=resolver.state(row['key']))
             groups[value["kind"]].append((row, value, result))
     return groups
 
 
 def integration_frontier(store, baseline, *, admission_budget=8):
     groups = children(store, baseline)
-    eligible = {k: [entry for entry in rows if entry[2]["study_pass"]] for k, rows in groups.items()}
+    eligible = {k: [entry for entry in rows if entry[2]["study_pass"] and entry[2].get('eligibility',{}).get('eligible',True)] for k, rows in groups.items()}
     software = eligible["software-logic"]
     if not software:
         return 0
     software.sort(key=lambda e: e[0]["key"])
+    receivers=sorted(eligible['software-receiver'],key=lambda e:e[0]['key'])[:2]
+    resolver=eligibility.Resolver(store,baseline) if hasattr(store,'db') else None
     frames = sorted(eligible["mechanical-detail"], key=lambda e: (mass(e[2]), e[0]["key"]))
     # Spend integration work on useful diverse representatives, rather than
     # materialising the complete Cartesian product of similar local designs.
@@ -106,10 +112,18 @@ def integration_frontier(store, baseline, *, admission_budget=8):
                     continue
                 value = tasks.task("integration-coupling", dict(children=[frame["key"], civil["key"], software[0][0]["key"]]),
                     "Recompute a configuration-matched triple whose children pass all implemented study checks")
+                if resolver:
+                    value['parameters']['evidence_revision']=core.digest(resolver.dependencies(value['parameters']['children']))
                 if store.enqueue(value, baseline, priority=0):
                     added += 1
                 if added >= admission_budget:
                     return added
+                for receiver,_,_ in receivers:
+                    linked=tasks.task('integration-protocol',dict(children=value['parameters']['children']+[receiver['key']],interface_id='osr-precharge-link/1'),
+                        'Compose exact receiver and control executables, propagate protocol faults, and recompute matched gross-mass coupling')
+                    linked['parameters']['evidence_revision']=core.digest(resolver.dependencies(linked['parameters']['children']))
+                    if store.enqueue(linked,baseline,priority=0):added+=1
+                    if added>=admission_budget:return added
     return added
 
 
@@ -147,6 +161,7 @@ def child_catalogue(store, baseline, *, limit=100):
                 context_id=value["parameters"].get("context_id"),
                 architecture_id=assessment.get("architecture_id", assessment.get("configuration_id")),
                 study_pass=result["study_pass"], failed_checks=failed_checks(result),
+                eligibility=result.get('eligibility'),
                 parameters=value["parameters"], metrics=result.get("metrics"),
                 release_state=dict(core.FLAGS)))
             if len(selected) >= limit:

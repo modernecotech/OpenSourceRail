@@ -51,6 +51,9 @@ def complete_job(store, key, receipt_sha, result, *, now=None):
         store.db.execute("UPDATE jobs SET status='completed',receipt_sha=?,finished=?,error=NULL,outboxed=1 WHERE key=?",
             (receipt_sha, time.time() if now is None else now, key))
         add(store, "job:" + key, row["baseline"], row["lane"], actions)
+        if json.loads(row['task'])['kind'].endswith('-confirmation'):
+            from . import eligibility
+            eligibility.refresh(store,row['baseline'])
 
 
 def complete_provider(store, provider_id, values, needs, response_sha):

@@ -41,6 +41,22 @@ train configuration. Automatic couplings use passing children; actual coupled
 civil failures generate repair trials. Unknown physical/manufacturing acceptance
 stays open.
 
+Research eligibility also incorporates every applicable confirmation for the
+exact candidate revision. A mandatory native/numerical failure excludes the
+candidate from current champions, Pareto selection and integration admission.
+Unavailable tools, incomplete measurements and interrupted execution hold it;
+these are distinct from a deterministic design failure. A first confirmation
+still pending permits explicitly provisional analytical exploration. Physical
+acceptance remains separate in every case.
+
+`integration_dispositions` marks dependent queued, running and completed studies
+as held or superseded. Original analytical results, integration results and
+champion history stay immutable. Current summaries exclude ineligible studies
+and select the next eligible alternative, including a previously dominated one.
+Admission, dispatch and worker execution recheck live evidence. Automatically
+generated integrations bind an evidence revision, so subsequent receipt changes
+can produce a fresh re-evaluation of the same physical candidate combination.
+
 Work is deduplicated by engineering inputs. Software is also deduplicated by its
 complete Boolean truth table. A rejected design remains an evaluated experiment;
 execution failures get at most two attempts. AI errors have backoff and at most
@@ -67,6 +83,26 @@ confirmation of their equivalent one-dimensional elastic beam model. Full
 connection, shell/solid strength, soil, dynamic and physical qualification stay
 open. `verify` checks source/runtime/artifact applicability and integrity;
 it explicitly reports that it does not rerun physics.
+
+Confirmation independently measures section area, centroid, inertia and volumes
+from reopened B-rep solids, using two prismatic stations and an independent box
+control. The equivalent beam solver uses this recovered stiffness, while keeping
+the existing material, loading, support and compatibility hypotheses explicit.
+Mechanical mass covers the modeled solids. Civil represented mass recovers gross
+concrete and strand length; metallic strand area remains a declared material
+input, and analytically estimated links remain an unrepresented mass allowance.
+Neither full reinforcement geometry nor complete assembled mass is inferred.
+After a context becomes idle or its best candidate stagnates for 15 minutes,
+the exact best unconfirmed revision is nominated even below the usual five-percent
+improvement threshold, subject to the existing pending-confirmation resource cap.
+
+`integration-protocol` adds a fourth exact child, the registered receiver, through
+the experimental `osr-precharge-link/1` interface. It executes the retained
+generated receiver and controller together: corrupt/stale/duplicate packets,
+sequence wrap, independent local vetoes, a normal voltage ramp and stopped/moving
+reset paths propagate to modeled closure permission. Independent event-sequence
+controls and a deliberately broken bridge test the composition. This remains an
+offline interface model, with physical network, target timing and SIL/HIL open.
 
 SQLite observations retain Pareto alternatives, constraint margins and versioned
 research champions. Cost and assembly time stay unknown without evidence.
@@ -135,5 +171,8 @@ tools/automation/osr-python -m pytest \
   engineering/analysis/tests/test_continuous_planning.py \
   engineering/analysis/tests/test_continuous_reliability.py \
   engineering/analysis/tests/test_continuous_verification.py \
-  engineering/analysis/tests/test_protocol_receiver.py -q
+  engineering/analysis/tests/test_continuous_eligibility.py \
+  engineering/analysis/tests/test_protocol_receiver.py \
+  engineering/analysis/tests/test_protocol_system.py \
+  tools/automation/tests/test_design_progress.py -q
 ```

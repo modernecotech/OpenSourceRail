@@ -8,7 +8,7 @@ import math
 import time
 
 from engineering.twin_workflow import core
-from . import evidence, tasks
+from . import evidence, tasks, eligibility
 
 
 def initialise(store):
@@ -52,14 +52,14 @@ def observe(store, key):
     concept=assessment.get("candidate_family",kind)+":"+str(parameters.get("variables",{}).get("maximum_stock_piece_length_m","declared-route"))
     margins=evidence.margins(result.get("check_details",[])); margin=margins[0]["signed_normalised_distance"] if margins else None
     level=result.get("verification",{}).get("evaluated_level","legacy_unlabelled")
-    if kind=="integration-coupling":
+    if kind in {'integration-coupling','integration-protocol'}:
         root,span=context.split("/")
         context=root.split("-gross-addition-")[0]+"/"+span
         mass=result["metrics"]["gross_added_mass_kg"]
         effort=result["assessment"]["objectives"]["mass_kg"]
         concept="gross-mass-static-coupling"
-    objectives=dict(mass_kg=mass,manufacturing_part_count_proxy=effort if kind!="integration-coupling" else None,
-        coupled_civil_mass_kg=effort if kind=="integration-coupling" else None,
+    objectives=dict(mass_kg=mass,manufacturing_part_count_proxy=effort if kind not in {'integration-coupling','integration-protocol'} else None,
+        coupled_civil_mass_kg=effort if kind in {'integration-coupling','integration-protocol'} else None,
         quoted_cost=None,assembly_time_seconds=None,cost_evidence=None,minimum_constraint_margin=margin,
         nearest_constraints=margins[:5],missing_objectives=["sourced cost","measured assembly time"])
     store.db.execute("INSERT INTO observations(key,baseline,lane,kind,context,concept,study_pass,level,mass,effort,margin,objectives,failures,finished) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -69,16 +69,19 @@ def observe(store, key):
         child=parameters["child"]
         if result.get("verification",{}).get("levels",{}).get("native_geometry",{}).get("state")=="passed":
             store.db.execute("UPDATE observations SET native_confirmed=1 WHERE key=?",(child,))
+        eligibility.refresh(store,row['baseline'])
         parent=store.db.execute("SELECT context FROM observations WHERE key=?",(child,)).fetchone()
         if parent:
             champion=store.db.execute("SELECT j.* FROM champions c JOIN jobs j ON c.key=j.key WHERE c.baseline=? AND c.context=? AND c.kind=? ORDER BY c.id DESC LIMIT 1",(row["baseline"],parent["context"],kind.replace("-confirmation","-detail"))).fetchone()
             if champion and not store.db.execute("SELECT 1 FROM promotions WHERE child=?",(champion["key"],)).fetchone():
                 promote_candidate(store,champion,json.loads(champion["task"]),store.result(champion))
         return
-    eligible=kind in {"mechanical-detail","civil-detail","integration-coupling"} and result["study_pass"] and mass is not None
+    eligible=kind in {"mechanical-detail","civil-detail","integration-coupling",'integration-protocol'} and result["study_pass"] and mass is not None and eligibility.Resolver(store,row['baseline']).state(key)['eligible']
     if eligible:
         peers=list(store.db.execute("SELECT * FROM observations WHERE baseline=? AND kind=? AND context=? AND study_pass=1 AND mass IS NOT NULL",
             (row["baseline"],kind,context)))
+        resolver=eligibility.Resolver(store,row['baseline'])
+        peers=[p for p in peers if resolver.state(p['key'])['eligible']]
         current=next(p for p in peers if p["key"]==key)
         # Different structural/manufacturing concepts keep their own frontier.
         frontier=not any(p["concept"]==concept and dominates(p,current) for p in peers)
@@ -89,6 +92,8 @@ def observe(store, key):
                     store.db.execute("UPDATE observations SET pareto=0 WHERE key=?",(peer["key"],))
         prior=store.db.execute("SELECT c.*,o.mass,o.effort FROM champions c JOIN observations o ON c.key=o.key WHERE c.baseline=? AND c.kind=? AND c.context=? ORDER BY c.id DESC LIMIT 1",
             (row["baseline"],kind,context)).fetchone()
+        if prior and not eligibility.Resolver(store,row['baseline']).state(prior['key'])['eligible']:
+            prior=None
         if prior is None or mass < prior["mass"]-1e-9 or (mass==prior["mass"] and effort is not None and prior["effort"] is not None and effort<prior["effort"]):
             reason="Initial passing research candidate" if prior is None else "Lower modeled mass with unchanged implemented checks; cost/time remain unknown"
             store.db.execute("INSERT INTO champions(baseline,kind,context,key,predecessor,reason,parent_checks,created) VALUES(?,?,?,?,?,?,?,?)",
@@ -100,7 +105,7 @@ def observe(store, key):
         promote_candidate(store,row,task,result)
 
 
-def promote_candidate(store,row,task,result):
+def promote_candidate(store,row,task,result,*,final=False):
     context=task["parameters"]["context_id"]
     if result.get("search_blocked"):
         return
@@ -108,7 +113,7 @@ def promote_candidate(store,row,task,result):
     if any(p["child"]==row["key"] for p in existing):return
     pending=store.db.execute("SELECT COUNT(*) FROM promotions p JOIN jobs j ON p.task_key=j.key WHERE p.baseline=? AND p.context=? AND j.status IN ('queued','running','deferred')",(row["baseline"],context)).fetchone()[0]
     if pending>=4:return
-    if len(existing)>=4:
+    if len(existing)>=4 and not final:
         previous=store.db.execute("SELECT MIN(o.mass) FROM promotions p JOIN observations o ON p.child=o.key WHERE p.baseline=? AND p.context=? AND o.study_pass=1",(row["baseline"],context)).fetchone()[0]
         mass=result.get("metrics",{}).get("mass_kg")
         if not result["study_pass"] or previous is None or mass is None or mass>=.95*previous:
@@ -117,9 +122,9 @@ def promote_candidate(store,row,task,result):
         return
     if result["study_pass"]:
         obs=store.db.execute("SELECT pareto FROM observations WHERE key=?",(row["key"],)).fetchone()
-        if not obs["pareto"]:
+        if not final and not obs["pareto"]:
             return
-    reason="Pareto candidate for higher-fidelity confirmation" if result["study_pass"] else "representative adverse candidate"
+    reason="Final best candidate after context idle/stagnation" if final else "Pareto candidate for higher-fidelity confirmation" if result["study_pass"] else "representative adverse candidate"
     kind=task["kind"].replace("-detail","-confirmation")
     value=tasks.task(kind,dict(child=row["key"]),reason,parent=row["key"])
     store.enqueue(value,row["baseline"],priority=-10)
@@ -127,7 +132,28 @@ def promote_candidate(store,row,task,result):
         (row["key"],row["baseline"],context,tasks.identity(value,row["baseline"]),reason,time.time()))
 
 
+def confirm_final_candidates(store,baseline,*,now=None,stagnation_seconds=900):
+    """Confirm the exact best revision after idle/stagnation, regardless of 5%."""
+    now=time.time() if now is None else now
+    added=0
+    for champion in eligibility.champions(store,baseline):
+        if champion['kind'] not in {'mechanical-detail','civil-detail'}:
+            continue
+        context=champion['context']
+        pending=store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND json_extract(task,'$.kind')=? AND json_extract(task,'$.parameters.context_id')=? AND status IN ('queued','running','deferred')",
+            (baseline,champion['kind'],context)).fetchone()[0]
+        if pending and now-champion['created']<stagnation_seconds:
+            continue
+        if store.db.execute('SELECT 1 FROM promotions WHERE child=?',(champion['key'],)).fetchone():
+            continue
+        row=store.db.execute('SELECT * FROM jobs WHERE key=?',(champion['key'],)).fetchone()
+        promote_candidate(store,row,json.loads(row['task']),store.result(row),final=True)
+        added+=bool(store.db.execute('SELECT 1 FROM promotions WHERE child=?',(champion['key'],)).fetchone())
+    return added
+
+
 def summary(store,baseline):
+    resolver=eligibility.Resolver(store,baseline)
     counts=dict(evaluated=0,rejected=0,analytically_passing=0,native_confirmed=0,
         numerically_confirmed=0,executable_verified=0,integrated=0,adopted_for_research=0)
     for row in store.db.execute("SELECT * FROM observations WHERE baseline=?",(baseline,)):
@@ -136,24 +162,24 @@ def summary(store,baseline):
         counts["native_confirmed"]+=bool(row["native_confirmed"] or (row["study_pass"] and row["level"]=="native_geometry"))
         counts["numerically_confirmed"]+=bool(row["study_pass"] and row["level"] in {"numerical_confirmation","numerical_robustness"})
         counts["executable_verified"]+=bool(row["study_pass"] and row["level"]=="executable_verification")
-        counts["integrated"]+=bool(row["study_pass"] and row["kind"]=="integration-coupling")
-    champions=[dict(r) for r in store.db.execute("SELECT * FROM champions WHERE id IN (SELECT MAX(id) FROM champions WHERE baseline=? GROUP BY kind,context) ORDER BY id",(baseline,))]
-    for item in champions:
-        item["parent_checks"]=json.loads(item["parent_checks"])
-    counts["adopted_for_research"]=sum(c["kind"]=="integration-coupling" for c in champions)
+        counts["integrated"]+=bool(row["study_pass"] and row["kind"] in {'integration-coupling','integration-protocol'} and resolver.state(row['key'])['eligible'])
+    champions=eligibility.champions(store,baseline,resolver)
+    counts["adopted_for_research"]=sum(c["kind"] in {'integration-coupling','integration-protocol'} for c in champions)
     latest=store.db.execute("SELECT MAX(created) FROM champions WHERE baseline=?",(baseline,)).fetchone()[0]
     confirmed=store.db.execute("SELECT MAX(finished) FROM observations WHERE baseline=? AND kind LIKE '%-confirmation' AND study_pass=1",(baseline,)).fetchone()[0]
     useful=max([t for t in (latest,confirmed) if t is not None],default=None)
-    return dict(counts=counts,counts_overlap=True,champions=champions,last_useful_improvement_unix=useful,
+    dispositions=dict(store.db.execute('SELECT state,COUNT(*) FROM integration_dispositions WHERE baseline=? GROUP BY state',(baseline,)))
+    return dict(counts=counts,counts_overlap=True,champions=champions,integration_dispositions=dispositions,last_useful_improvement_unix=useful,
         last_champion_change_unix=latest,last_higher_fidelity_confirmation_unix=confirmed,
         adoption_scope="Versioned research shortlist for the declared checks; all release gates remain open",
         pareto_count=store.db.execute("SELECT COUNT(*) FROM observations WHERE baseline=? AND pareto=1",(baseline,)).fetchone()[0])
 
 
 def tradeoffs(store,baseline,lane):
+    resolver=eligibility.Resolver(store,baseline)
     return [dict(key=r["key"],context=r["context"],concept=r["concept"],verification_level=r["level"],
         native_confirmed=bool(r["native_confirmed"]),objectives=json.loads(r["objectives"])) for r in store.db.execute(
-        "SELECT * FROM observations WHERE baseline=? AND lane=? AND pareto=1 ORDER BY mass,key LIMIT 8",(baseline,lane))]
+        "SELECT * FROM observations WHERE baseline=? AND lane=? AND pareto=1 ORDER BY mass,key",(baseline,lane)) if resolver.state(r['key'])['eligible']][:8]
 
 
 def coverage(store,baseline,lane):
