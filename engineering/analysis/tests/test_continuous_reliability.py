@@ -163,3 +163,17 @@ def test_input_preflight_rejects_oversized_context_before_starting_cli(tmp_path,
     request=dict(available_children=[],feedback=[],existing_designs=[],package_scope=[],padding="x"*(proposals.MAX_REQUEST_BYTES+1))
     with pytest.raises(ValueError,match="input budget"):proposer.run(request,tmp_path,"codex")
     assert not launched
+
+
+def test_historical_replay_yields_between_atomic_actions_without_losing_work(tmp_path,monkeypatch):
+    store=service.Store(tmp_path)
+    values=[v for v in tasks.seeds() if v["kind"]=="software-logic"][:2]
+    with ledger.transaction(store.db):
+        for i,value in enumerate(values):
+            ledger.add(store,f"replay-{i}","baseline","software",dict(tasks=[value],needs=[]))
+    ticks=itertools.count(step=2)
+    monkeypatch.setattr(ledger.time,"monotonic",lambda:next(ticks))
+    assert ledger.dispatch(store,budget_seconds=1.)==1
+    assert store.db.execute("SELECT COUNT(*) FROM outbox WHERE state='pending'").fetchone()[0]==1
+    assert ledger.dispatch(store,budget_seconds=1.)==1
+    assert store.db.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]==2

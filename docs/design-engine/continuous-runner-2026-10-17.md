@@ -93,6 +93,10 @@ duplicates. AI response imports follow the same pattern. Startup also recovers
 sealed worker receipts and valid final AI responses, and backfills old completed
 results whose follow-ups may have been lost by the previous controller.
 Blocked actions remain visible in `outbox_states`; they are not silently discarded.
+Replay checks a one-second scheduling budget between atomic actions. Historical
+backlogs remain durable while fresh workers receive regular turns. An epoch
+that ends before its warm-start queue finishes carries verified nomination
+provenance into the next epoch as fresh input recipes.
 
 The proposer selects the least recently served eligible lane using persisted
 call history. Each eligible lane receives a turn within four dispatch opportunities;

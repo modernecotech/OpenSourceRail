@@ -100,7 +100,8 @@ def recover_outputs(store):
             continue
 
 
-def dispatch(store, *, limit=64):
+def dispatch(store, *, limit=64, budget_seconds=1.):
+    started=time.monotonic()
     delivered = 0
     active=core.read(store.workspace/"active.json")["baseline_sha256"] if (store.workspace/"active.json").exists() else ""
     for row in list(store.db.execute("SELECT * FROM outbox WHERE state='pending' ORDER BY (baseline=?) DESC,created LIMIT ?", (active,limit))):
@@ -122,4 +123,6 @@ def dispatch(store, *, limit=64):
             # The actions and parent remain durable and visible for repair.
             with transaction(store.db):
                 store.db.execute("UPDATE outbox SET state='blocked',error=? WHERE origin=?", (str(error), row["origin"]))
+        if budget_seconds is not None and time.monotonic()-started>=budget_seconds:
+            break
     return delivered

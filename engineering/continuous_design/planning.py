@@ -157,6 +157,18 @@ def child_catalogue(store, baseline, *, limit=100):
 def historical_inputs(store, previous, baseline):
     """Nominate verified old recipes, never old result or integration receipts."""
     rows = list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed'", (previous,)))
+    # A source update can arrive before the previous warm-start queue finishes.
+    # Recover its verified nomination provenance as input values as well, so
+    # an unfinished epoch cannot erase useful contexts from the next search.
+    manifest=store.workspace/"epochs"/previous/"historical-inputs.json"
+    if manifest.is_file():
+        known={row["key"] for row in rows}
+        for record in core.read(manifest,maximum=10_000_000).get("nominations",[]):
+            key=record.get("previous_key")
+            if key in known:continue
+            row=store.db.execute("SELECT * FROM jobs WHERE key=? AND status='completed'",(key,)).fetchone()
+            if row is not None and row["receipt_sha"]==record.get("previous_receipt_sha256"):
+                rows.append(row);known.add(key)
     selected, closest = [], {}
     passing_architectures = set()
     for row in rows:
@@ -200,11 +212,13 @@ def historical_inputs(store, previous, baseline):
         value = tasks.task(old["kind"], old["parameters"],
             "Fresh evaluation of historical input " + row["key"] + "; no acceptance/result is reused", parent=row["key"])
         try:
-            added = store.enqueue(value, baseline, priority=-20 if result["study_pass"] else 15)
+            useful_detail=(old["kind"]=="mechanical-detail" or old["kind"].startswith("software-") or
+                result.get("assessment",{}).get("architecture_id") in passing_architectures)
+            added = store.enqueue(value, baseline, priority=(-20 if useful_detail else 5) if result["study_pass"] else 15)
         except ValueError as error:
             records.append(dict(previous_key=row["key"], rejected_input=str(error)))
             continue
         records.append(dict(key=tasks.identity(value, baseline), previous_key=row["key"],
-            previous_baseline=previous, previous_receipt_sha256=row["receipt_sha"],
+            previous_baseline=row["baseline"], previous_receipt_sha256=row["receipt_sha"],
             input_values_only=True, acceptance_reused=False, newly_enqueued=added))
     return records

@@ -56,6 +56,20 @@ def test_duplicate_observation_cannot_fabricate_repeated_improvement(tmp_path):
     assert store.db.execute("SELECT COUNT(*) FROM champions").fetchone()[0]==1
 
 
+def test_source_update_preserves_verified_nominations_from_unfinished_epoch(tmp_path):
+    from engineering.continuous_design import planning
+    store=service.Store(tmp_path);real_children(store,"a"*64)
+    records=planning.historical_inputs(store,"a"*64,"b"*64)
+    folder=tmp_path/"epochs"/("b"*64);folder.mkdir(parents=True)
+    core.write(folder/"historical-inputs.json",dict(nominations=records,previous_baseline="a"*64))
+    carried=planning.historical_inputs(store,"b"*64,"c"*64)
+    assert len(carried)==3
+    for record in carried:
+        assert record["previous_baseline"]=="a"*64 and not record["acceptance_reused"]
+        row=store.db.execute("SELECT * FROM jobs WHERE key=?",(record["key"],)).fetchone()
+        assert row["status"]=="queued" and row["receipt_sha"] is None
+
+
 def test_failed_parent_integration_cannot_replace_passing_research_champion(tmp_path):
     store=service.Store(tmp_path);baseline="a"*64;deps=real_children(store,baseline)
     good=tasks.task("integration-coupling",dict(children=[d["key"] for d in deps]))
