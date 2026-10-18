@@ -29,7 +29,7 @@ def quoted_cost(kit,scheduled,quotes=None):
     """
     if quotes is None:return dict(total_usd=None,missing=['revision-specific supply quotes','site labour, cranes, transport, mobilisation, temporary works, road disruption and maintenance'],accepted=False)
     if not scheduled.get('passed'):return dict(total_usd=None,missing=['feasible delivery scenario'],accepted=False)
-    plant_names=('crane','truck','mixer','concrete_pump','excavator')
+    plant_names=('crane','truck','mixer','concrete_pump','excavator','pile_rig','falsework')
     lump_sums=('mobilisation_usd','temporary_works_usd','road_disruption_usd','maintenance_present_value_usd')
     rates=('site_person_hour_usd',*[name+'_hour_usd' for name in plant_names],*lump_sums)
     if quotes.get('currency')!='USD' or not quotes.get('basis_reference'):raise ValueError('USD comparison cost basis required')
@@ -98,14 +98,14 @@ def evaluate(parameters,output,basis=None):
         scenario_factory_person_hours=scheduled.get('factory_person_hours'),scenario_work_at_height_hours=scheduled.get('working_at_height_person_hours'),
         scenario_delivery_hours=scheduled.get('makespan_h'),factory_finished_goods_peak_units=peak,
         scenario_transport_vehicle_hours=scheduled.get('resources',{}).get('truck',{}).get('busy_resource_hours'),
-        site_bulk_concrete_deliveries=sum('/mixer-' in j['id'] for j in jobs),
+        site_bulk_concrete_deliveries=sum('/mixer-' in j['id'] and j['id'].endswith('/batch') for j in jobs),
         scenario_cost_usd=cost['total_usd'],required_planned_tests=sum(len(tests) for t in kit['travellers'] for tests in t['required'].values()),
         covered_planned_tests=sum(len(tests) for t in kit['travellers'] for tests in t['required'].values()) if checks['qa_plan_coverage'] else 0)
     process['metrics'].update(metrics);process['metrics']['inspection_effort_person_hours']=sum(t['person_hours'] for t in scheduled.get('tasks',[]) if t['id'].endswith(('/factory-test','/site-accept')))
     process['metrics']['comparison_basis_sha256']=kit['basis_sha256']
     process['metrics']['required_test_scope_sha256']=core.digest(dict(procedures=qa_traveller.REQUIRED,components=kit['basis']['mandatory_coverage'],station=parameters['variables']['station_package']))
     process['metrics']['planned_test_coverage_complete']=checks['qa_plan_coverage']
-    held=['driven-pile ground applicability'] if parameters['variables']['foundation_route']=='precast-driven' and kit['basis'].get('driven_pile_ground_verified') is not True else []
+    held=(['driven-pile ground applicability'] if parameters['variables']['foundation_route']=='precast-driven' and kit['basis'].get('driven_pile_ground_verified') is not True else [])+stages.get('scenario_holds',[])
     failures=[key for key,passed in checks.items() if not passed]
     for name,value in [('physical-contract',physical),('civil-kit',kit),('handling-stages',handling),('delivery-tasks',jobs),('delivery-schedule',scheduled),
         ('construction-verification',stages),('qa-travellers',kit['travellers']),('cost-input-review',cost),('reference-service',response),('reference-limits',limits)]:

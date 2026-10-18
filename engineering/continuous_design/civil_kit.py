@@ -194,6 +194,10 @@ def build(variables,basis=None):
         unit['lifting_provisions']=dict(proposed_anchor_points_m=points,anchor_geometry=None,qualified_capacity_n=None,
             scope='Proposed surface anchor datums only; inserts/padeyes, sling angles and stability require design and proof')
         category=unit['category']
+        if category=='pile' and unit['offsite']:
+            unit['pile_installation']=dict(method='driven',segments_m=[size[2]],
+                installation_resistance=None,acceptance_criteria=None,
+                scope='Full-length precast pile pitching/driving scenario; joints and acceptance require qualified details')
         wet=category in {'foundation-cap','pier','pier-cap','station-foundation','station-stair'} or (category=='pile' and not unit['offsite']) or (category=='deck' and variables['architecture']=='segmental')
         unit['connection_bundle']=dict(mechanism='reinforced cast pile and ground transfer' if category=='pile' and not unit['offsite'] else
             'grouted shear key and post-tensioned mechanical restraint' if wet else 'guided seat and captive mechanical fastening',
@@ -218,7 +222,8 @@ def build(variables,basis=None):
         component_coverage=dict(piles=pile_units,foundation_caps=foundation_units,piers=pier_units,pier_caps=cap_units,
             decks=deck,bearings=bearings,track_support=track_units,walkways=[u['id'] for u in units.values() if u['category']=='walkway-parapet'],
             pile_cages=[u['id'] for u in units.values() if u['category']=='pile-cage'],services=service_units,station=station_units),
-        temporary_units=[dict(id='falsework-tower-'+str(i),mass_kg=2000.,basis='Unqualified reusable-plant mass hypothesis; individual members, footings and rigging not detailed') for i in range(6)] if variables['architecture']=='segmental' else [],
+        temporary_units=[dict(id='falsework-tower-'+str(i),category='temporary-falsework',offsite=True,mass_kg=2000.,
+            transport_dimensions_m=[4.,3.,2.],basis='Unqualified reusable-plant mass and transport-envelope hypotheses; individual members, footings and rigging not detailed') for i in range(6)] if variables['architecture']=='segmental' else [],
         unknown=basis['open_evidence']+contract['unresolved_part_allocations'],**core.FLAGS)
     kit['operation_graph']=assembly_graph(kit)
     kit['travellers']=[qa_traveller.template(u) for u in kit['units']]

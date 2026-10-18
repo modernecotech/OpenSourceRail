@@ -129,6 +129,22 @@ def test_report_escapes_provider_text_and_keeps_scope_visible(tmp_path):
     store.db.close()
 
 
+def test_alternative_table_distinguishes_scenarios_and_unknowns(tmp_path):
+    store=workspace(tmp_path);report,_=reporter.collect(tmp_path)
+    report.update(pictures={},render_errors={},delta_description='test',champion_changes=[])
+    report['research']['delivery_shortlist']=[dict(context='kit-reference',key='c'*64,roles=['smallest-lift'],
+        objectives=dict(manufacturing_metrics=dict(mass_kg=762374.,maximum_lift_mass_kg=64216.,scenario_onsite_person_hours=500.,scenario_delivery_hours=260.)),
+        delivery_details=dict(outstanding_evidence=['<unqualified connection>'],outstanding_count=1,
+            bottleneck=dict(resource='mixer',scenario_hours_saved=2.)))]
+    html=reporter.html_report(report)
+    assert 'Largest lift kg' in html and '64216.0' in html and '500.0' in html
+    assert 'conditional scenario estimates, not measurements' in html
+    assert 'mixer +1: 2.0 h saved' in html and '&lt;unqualified connection&gt;' in html
+    report['research']['delivery_shortlist'][0]['objectives']={}
+    assert '>unknown</td>' in reporter.html_report(report)
+    store.db.close()
+
+
 def test_hourly_unit_is_bounded_and_quotes_percent_paths(tmp_path):
     units=reporter.unit_text(tmp_path/'100% workspace')
     assert 'OnCalendar=hourly' in units[reporter.UNIT+'.timer']

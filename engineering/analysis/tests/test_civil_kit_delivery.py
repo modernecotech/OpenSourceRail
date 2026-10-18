@@ -183,8 +183,8 @@ def test_serial_revision_and_interface_changes_request_the_affected_retests(exam
     assert qa.assess(u,t,interface_revision='old')['state']=='hold'
     t['serial']='test-fixture-only-001'
     for stage,tests in qa.requirements(u).items():
-        for name in tests:t['records'].append(dict(stage=stage,test=name,state='passed',serial=t['serial'],unit_revision=u['revision'],
-            interface_revision='old',qualified_reviewer='synthetic test fixture',evidence_sha256='a'*64))
+        for name in tests:t['records'].append(qa.event(dict(event_type='test',sequence=len(t['records'])+1,stage=stage,test=name,state='passed',serial=t['serial'],unit_revision=u['revision'],
+            interface_revision='old',qualified_reviewer='synthetic test fixture',evidence_sha256='a'*64)))
     assert qa.assess(u,t,interface_revision='old')['state']=='passed-records'
     assert not qa.assess(u,t,interface_revision='old')['accepted']
     revised=deepcopy(u);revised['revision']='b'*64
@@ -196,7 +196,7 @@ def test_serial_revision_and_interface_changes_request_the_affected_retests(exam
 def test_cost_needs_every_revision_and_installation_scope_without_factory_double_charge(examples):
     e=examples['large-span'];k=e['kit'];s=e['schedule']
     q=dict(currency='USD',basis_reference='synthetic cost control; not a quotation',unit_supply_only={u['revision']:dict(unit_revision=u['revision'],usd=10.,basis_reference='test-only') for u in k['units']},
-        site_person_hour_usd=1.,crane_hour_usd=0.,truck_hour_usd=0.,mixer_hour_usd=0.,concrete_pump_hour_usd=0.,excavator_hour_usd=0.,mobilisation_usd=0.,temporary_works_usd=0.,road_disruption_usd=0.,maintenance_present_value_usd=0.)
+        site_person_hour_usd=1.,crane_hour_usd=0.,truck_hour_usd=0.,mixer_hour_usd=0.,concrete_pump_hour_usd=0.,excavator_hour_usd=0.,pile_rig_hour_usd=0.,falsework_hour_usd=0.,mobilisation_usd=0.,temporary_works_usd=0.,road_disruption_usd=0.,maintenance_present_value_usd=0.)
     assert evaluation.quoted_cost(k,s)['total_usd'] is None
     assert evaluation.quoted_cost(k,s,q)['total_usd']==pytest.approx(10*len(k['units'])+s['onsite_person_hours'])
     q.pop('maintenance_present_value_usd');assert evaluation.quoted_cost(k,s,q)['total_usd'] is None

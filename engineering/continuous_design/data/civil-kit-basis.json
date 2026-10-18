@@ -2,25 +2,167 @@
   "schema": "osr-civil-kit-comparison-basis/1",
   "scope": "Provisional equal-scope 20m two-track viaduct cell with two complete supports; no amortisation/shared-support credit",
   "objective": "Maximise practical offsite manufacture and testing, minimise installed mass and onsite work, and enable rapid assembly through repeatable inspectable connections",
-  "durability": {"design_life_years": null, "exposure_class": null, "railway_acceptance": null},
+  "durability": {
+    "design_life_years": null,
+    "exposure_class": null,
+    "railway_acceptance": null
+  },
   "geotechnical_acceptance": null,
   "scenario_status": "All following productivity, transport, crane and temporary works values are explicit uncalibrated planning hypotheses, not supplier ratings or Baghdad approvals",
   "calendar": "Continuous 24-hour scenario availability; shift coverage, weather, holidays, delivery windows and railway/road possessions are uncalibrated",
-  "transport": {"maximum_dimensions_m": [20.5, 4.2, 4.5], "payload_kg": 90000, "hours_per_trip": 1.5, "route_and_permits_verified": false},
-  "lifting": {"radius_m": 14, "chart": [[8, 125000], [14, 80000], [20, 40000]], "rigging_kg": 1000, "dynamic_factor": 1.3, "crane_self_mass_kg": 100000, "mat_area_m2": 16, "ground_pressure_limit_pa": 200000, "chart_and_ground_verified": false},
-  "handling": {"pick_fraction": 0.2, "early_modulus_factor": 0.6, "nominal_early_tensile_limit_pa": null, "nominal_service_stress_limit_pa": null},
-  "connections": {"guide_clearance_m": 0.03, "tolerance_stack_m": 0.015, "lock_engagement_m": 0.08, "required_engagement_m": 0.05, "cure_hours": 24, "strength_curve": null, "resistance_evidence": null},
-  "factory": {"setup_hours": 0.5, "concrete_m3_per_hour": 3, "steel_kg_per_hour": 1000, "in_mould_hours": 12, "yard_cure_hours": 24, "inspection_hours": 0.25, "maximum_finished_stock_units": 128},
-  "site": {"pile_hours": 4, "excavation_m3_per_hour": 6, "wet_m3_per_hour": 3, "mixer_capacity_m3": 6, "maximum_mixer_arrival_spread_h": 2, "lift_and_temporary_lock_hours": 0.4, "joint_hours": 0.25, "survey_hours": 0.25, "falsework_install_hours": 8, "falsework_remove_hours": 4, "people_per_operation": 3},
-  "capacities": {"deck_mould": 2, "support_mould": 2, "factory_crew": 2, "steel_bench": 2, "curing_yard": 12, "qa": 2, "truck": 2, "storage": 4, "mixer": 2, "concrete_pump": 1, "excavator": 1, "crane": 1, "site_crew": 2, "pile_rig": 1, "falsework": 1},
-  "cost_rates": {"basis": "No quotations supplied", "material_usd_per_kg": null, "factory_person_hour_usd": null, "site_person_hour_usd": null, "crane_hour_usd": null, "truck_hour_usd": null, "mould_hour_usd": null, "temporary_works_usd": null, "road_disruption_usd": null, "maintenance_present_value_usd": null},
-  "mandatory_coverage": ["piles-and-prefab-cages", "foundation-caps", "piers", "pier-caps", "deck", "bearings-and-positive-connections", "track-support", "walkways-and-parapets", "separate-power-data-drainage", "installation-survey-and-tests"],
-  "station_extension": ["platform-modules", "independent-supports-and-foundations", "stair-flight-modules", "canopy-and-services"],
-  "primary_references": [
-    {"url": "https://www.fhwa.dot.gov/bridge/abc/prefab_def.cfm", "use": "Prefabricated substructure and superstructure scope; highway reference, not railway acceptance"},
-    {"url": "https://www.fhwa.dot.gov/bridge/prefab/if09010/01a.cfm", "use": "Connection tolerance, material, grout curing and QA considerations; does not calibrate this scenario"}
+  "transport": {
+    "maximum_dimensions_m": [
+      20.5,
+      4.2,
+      4.5
+    ],
+    "payload_kg": 90000,
+    "hours_per_trip": 1.5,
+    "route_and_permits_verified": false
+  },
+  "lifting": {
+    "radius_m": 14,
+    "chart": [
+      [
+        8,
+        125000
+      ],
+      [
+        14,
+        80000
+      ],
+      [
+        20,
+        40000
+      ]
+    ],
+    "rigging_kg": 1000,
+    "dynamic_factor": 1.3,
+    "crane_self_mass_kg": 100000,
+    "mat_area_m2": 16,
+    "ground_pressure_limit_pa": 200000,
+    "chart_and_ground_verified": false
+  },
+  "handling": {
+    "pick_fraction": 0.2,
+    "early_modulus_factor": 0.6,
+    "nominal_early_tensile_limit_pa": null,
+    "nominal_service_stress_limit_pa": null
+  },
+  "connections": {
+    "guide_clearance_m": 0.03,
+    "tolerance_stack_m": 0.015,
+    "lock_engagement_m": 0.08,
+    "required_engagement_m": 0.05,
+    "cure_hours": 24,
+    "strength_curve": null,
+    "resistance_evidence": null
+  },
+  "factory": {
+    "setup_hours": 0.5,
+    "concrete_m3_per_hour": 3,
+    "steel_kg_per_hour": 1000,
+    "in_mould_hours": 12,
+    "yard_cure_hours": 24,
+    "inspection_hours": 0.25,
+    "maximum_finished_stock_units": 128
+  },
+  "site": {
+    "pile_hours": 4,
+    "excavation_m3_per_hour": 6,
+    "wet_m3_per_hour": 3,
+    "mixer_capacity_m3": 6,
+    "lift_and_temporary_lock_hours": 0.4,
+    "joint_hours": 0.25,
+    "survey_hours": 0.25,
+    "falsework_install_hours": 8,
+    "falsework_remove_hours": 4,
+    "people_per_operation": 3,
+    "driven_pile_hours_per_m": 0.3,
+    "pile_splice_hours": 1.0,
+    "pile_record_hours": 0.25,
+    "pile_test_hours": 1.0,
+    "concrete_mix": {
+      "id": "unqualified-reference-scenario",
+      "batch_hours": 0.1,
+      "maximum_batch_to_discharge_end_h": 4.0,
+      "maximum_discharge_gap_h": 0.25,
+      "approved": false,
+      "scope": "Explicit uncalibrated mix/temperature planning bounds; not a universal time limit or an approved Baghdad concrete mix"
+    }
+  },
+  "capacities": {
+    "deck_mould": 2,
+    "support_mould": 2,
+    "factory_crew": 2,
+    "steel_bench": 2,
+    "curing_yard": 12,
+    "qa": 2,
+    "truck": 2,
+    "storage": 4,
+    "mixer": 2,
+    "concrete_pump": 1,
+    "excavator": 1,
+    "crane": 1,
+    "site_crew": 2,
+    "pile_rig": 1,
+    "falsework": 1
+  },
+  "cost_rates": {
+    "basis": "No quotations supplied",
+    "material_usd_per_kg": null,
+    "factory_person_hour_usd": null,
+    "site_person_hour_usd": null,
+    "crane_hour_usd": null,
+    "truck_hour_usd": null,
+    "mould_hour_usd": null,
+    "temporary_works_usd": null,
+    "road_disruption_usd": null,
+    "maintenance_present_value_usd": null
+  },
+  "mandatory_coverage": [
+    "piles-and-prefab-cages",
+    "foundation-caps",
+    "piers",
+    "pier-caps",
+    "deck",
+    "bearings-and-positive-connections",
+    "track-support",
+    "walkways-and-parapets",
+    "separate-power-data-drainage",
+    "installation-survey-and-tests"
   ],
-  "open_evidence": ["Approved six-car rail loads and dynamics", "Baghdad ground and buried services", "Durability and railway acceptance criteria", "Detailed reinforcement, tendons and embedded connections", "Measured early-age strengths and continuous-pour delivery/discharge windows", "Actual crane charts, lift accessories, transport permits and ground support", "Factory time studies, staffing calendars, possessions and supplier quotations", "Station layout, access, evacuation and structural interfaces", "Authenticated factory and installed acceptance records"],
+  "station_extension": [
+    "platform-modules",
+    "independent-supports-and-foundations",
+    "stair-flight-modules",
+    "canopy-and-services"
+  ],
+  "primary_references": [
+    {
+      "url": "https://www.fhwa.dot.gov/bridge/abc/prefab_def.cfm",
+      "use": "Prefabricated substructure and superstructure scope; highway reference, not railway acceptance"
+    },
+    {
+      "url": "https://www.fhwa.dot.gov/bridge/prefab/if09010/01a.cfm",
+      "use": "Connection tolerance, material, grout curing and QA considerations; does not calibrate this scenario"
+    },
+    {
+      "url": "https://www.fhwa.dot.gov/construction/reviews/revdeck2.cfm",
+      "use": "Checklist for batch tickets, delivery/placement continuity and curing; historical highway provisions do not set the scenario time limits"
+    }
+  ],
+  "open_evidence": [
+    "Approved six-car rail loads and dynamics",
+    "Baghdad ground and buried services",
+    "Durability and railway acceptance criteria",
+    "Detailed reinforcement, tendons and embedded connections",
+    "Measured early-age strengths and continuous-pour delivery/discharge windows",
+    "Actual crane charts, lift accessories, transport permits and ground support",
+    "Factory time studies, staffing calendars, possessions and supplier quotations",
+    "Station layout, access, evacuation and structural interfaces",
+    "Authenticated factory and installed acceptance records"
+  ],
   "physical_release": false,
   "manufacturing_release": false,
   "design_complete": false

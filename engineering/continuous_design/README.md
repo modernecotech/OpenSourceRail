@@ -99,6 +99,46 @@ until every unit revision and installation/temporary-work/disruption scope has
 input quotations. Factory work included in unit supply is not charged twice.
 The comparison does not establish a cheapest accepted railway design.
 
+Fresh site concrete has explicit batching, travel, waiting, discharge and mixer
+return events. The pump and crew are reserved before batching; mixer occupancy
+continues through unloading and return. Dispatch offsets aim for continuous
+placement, but actual batch-to-discharge-end age and gaps between discharges are
+independently checked. The reference four-hour age and quarter-hour gap bounds
+are **unqualified mix/temperature scenario inputs**, not universal limits,
+supplier claims or Baghdad placement acceptance. Tightening them or reducing the
+mixer fleet can reject the delivery scenario. Reserved crew waiting time counts
+as labour. Batch tickets, weather, admixtures, tests and real continuity/strength
+criteria still need qualified records.
+
+Driven piles include pitching, rig occupancy, driving per declared segment,
+splicing when declared, installation records and acceptance operations before
+the foundation can progress. Registered examples are full-length precast piles;
+splice scenarios do not create qualified splice geometry or resistance. The
+ground-applicability hold remains mandatory. Falsework tokens are held from
+mobilisation through final removal, including partial erection and connection
+completion. Temporary units have the same transport, crane-radius, rigging and
+ground-pressure screens as permanent units. Their envelope/mass assumptions are
+not a detailed temporary-works design.
+
+QA events use content-derived immutable identities and explicit sequence and
+interface bindings. Exact replay is idempotent and record ordering cannot clear
+a failure. Each failure requires an applicable later passing retest and a
+documented later disposition referencing both event identities. Superseding a
+test record alone cannot clear a failure; legacy/unidentified records cannot
+establish passed-record coverage. These are consistency checks on submitted
+history, not an authenticated append-only evidence store or physical acceptance.
+
+The progress table presents modelled mass, largest lift, conditional onsite
+labour/delivery, resource-capacity sensitivity and outstanding evidence, linked
+to receipt-verified study results. Further development remains necessary for a
+single component/connection definition spanning every evaluator; changing-support
+and early-age structural analysis beyond the gross beam screens; receipt-bound
+train-to-kit integration; shared-support/multi-front corridor optimisation;
+qualified lightweight/hybrid kit bundles; and complete train harness/duct
+cassettes with mating, locking and bench-to-installed test continuity. The
+synthetic two-bay falsework regression checks resource ownership, not a corridor
+design or throughput prediction.
+
 Every physical family has an applicable process profile. The new pilots assign
 every represented part/material region to one, execute operation prerequisites,
 fixture hypotheses, inspection hold points and conservative removal envelopes,

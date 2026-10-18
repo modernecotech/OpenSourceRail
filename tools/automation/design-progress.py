@@ -75,6 +75,15 @@ def collect(workspace):
         from engineering.continuous_design import eligibility
         store=SimpleNamespace(db=db, result=lambda row: Store.result(None,row))
         summary = research.summary(store, baseline)
+        for candidate in summary.get('delivery_shortlist',[]):
+            if candidate['kind']!='civil-kit-study':continue
+            row=db.execute('SELECT * FROM jobs WHERE key=?',(candidate['key'],)).fetchone()
+            result=store.result(row)  # receipt-verified presentation inputs
+            outstanding=result.get('open_evidence',[])
+            bottlenecks=result.get('bottlenecks',[])
+            best=next((r for r in bottlenecks if (r.get('scenario_hours_saved') or 0)>0),None)
+            candidate['delivery_details']=dict(outstanding_evidence=outstanding[:8],outstanding_count=len(outstanding),
+                bottleneck=best,result_path=str(Path(row['folder'])/'result.json'),receipt_sha256=row['receipt_sha'])
         resolver=eligibility.Resolver(store,baseline)
         for champion in summary['champions']:
             champion['modeled_mass_kg'] = db.execute('SELECT mass FROM observations WHERE key=?', (champion['key'],)).fetchone()[0]
@@ -286,10 +295,17 @@ def html_report(report, base=""):
         lines.append('<p>Geometry unavailable for '+h(lane)+': '+h(error)+'</p>')
     alternatives=report['research'].get('delivery_shortlist',[])
     if alternatives:
-        lines.append('<h2>Alternatives for delivery and manufacture</h2><p>Different objectives retain different candidates. Delivery times and costs depend on declared inputs; acceptance remains open.</p><ul>')
+        lines.append('<h2>Alternatives for delivery and manufacture</h2><p>All labour, delivery and bottleneck values below are conditional scenario estimates, not measurements. Costs and acceptance remain open.</p><div style="overflow-x:auto"><table><tr><th>Candidate / role</th><th>Modelled mass kg</th><th>Largest lift kg</th><th>Scenario onsite person-hours</th><th>Scenario delivery hours</th><th>Capacity sensitivity</th><th>Outstanding evidence</th></tr>')
         for candidate in alternatives:
-            lines.append('<li>'+h(candidate['context'])+' | '+h(candidate['key'][:12])+' | '+h(', '.join(candidate['roles']))+'</li>')
-        lines.append('</ul>')
+            metrics=candidate.get('objectives',{}).get('manufacturing_metrics',{});details=candidate.get('delivery_details',{})
+            value=lambda key: h(round(metrics[key],1)) if type(metrics.get(key)) in (int,float) else 'unknown'
+            bottleneck=details.get('bottleneck')
+            sensitivity=(h(bottleneck['resource'])+' +1: '+h(round(bottleneck['scenario_hours_saved'],1))+' h saved under scheduling policy') if bottleneck else 'No positive tested capacity change / unavailable'
+            evidence='; '.join(details.get('outstanding_evidence',[])) or 'See exact study record; acceptance remains open'
+            if details.get('outstanding_count',0)>8:evidence+='; additional items in study record'
+            link=('<a href="'+h(Path(details['result_path']).as_uri())+'">'+h(candidate['key'][:12])+'</a>') if details.get('result_path') else h(candidate['key'][:12])
+            lines.append('<tr><td>'+h(candidate['context'])+' '+link+'<br>'+h(', '.join(candidate['roles']))+'</td><td>'+value('mass_kg')+'</td><td>'+value('maximum_lift_mass_kg')+'</td><td>'+value('scenario_onsite_person_hours')+'</td><td>'+value('scenario_delivery_hours')+'</td><td>'+sensitivity+'</td><td>'+h(evidence)+'</td></tr>')
+        lines.append('</table></div>')
     lines.append('<h2>Open capability and evidence requests</h2><ul>')
     for need in report['open_needs']:
         lines.append('<li>'+h(need['lane'])+': '+h(need['item_id'])+'</li>')
