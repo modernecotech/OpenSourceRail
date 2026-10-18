@@ -29,6 +29,10 @@ thermal improvements. These are reference planning hypotheses, not measured
 Baghdad climate, passenger ventilation requirements or supplier performance maps.
 The minimum usable-energy hypothesis stays at the fixed reference pack; a
 smaller battery cannot win by silently reducing required function.
+Known battery installation-bay failures complete as rejected studies with the
+compiler constraint retained. They generate smaller-layout trials and never
+request native confirmation of an absent physical model. Unrelated compiler
+errors remain execution failures; earlier failed attempts stay in history.
 
 The civil study connects the existing ten deck families and six pier families
 with their compatible material/foundation records and bounded dimensions.

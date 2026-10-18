@@ -12,6 +12,13 @@ from engineering.twin_workflow import core
 from . import processes,operation_graph,zone_thermal
 
 ITEM='process-aware-multidiscipline-search'
+BATTERY_BAY_REJECTION='battery overlaps reference bogie/wheel envelope or exceeds its installation bay'
+
+
+class InstallationRejected(ValueError):
+    """A known compiler design constraint, distinct from an execution error."""
+
+
 CONTEXTS={
     'mechanical-roof-study':'roof-cassette-0.994x2.35m-85C',
     'mechanical-equipment-study':'six-car-equipment-and-reference-mount',
@@ -115,8 +122,13 @@ def equipment(values):
     from engineering.design_engine.electrical_installation import auxiliary_power_screen,cooling_loss_duty
     from engineering.design_consistency import demonstrators as d
     from engineering.design_consistency.contracts import box,part,member,summary
-    design=compile_vehicle(dict(series_modules=values['series_modules'],parallel_strings=values['parallel_strings'],
-        hvac_modules=values['hvac_modules']))
+    try:
+        design=compile_vehicle(dict(series_modules=values['series_modules'],parallel_strings=values['parallel_strings'],
+            hvac_modules=values['hvac_modules']))
+    except ValueError as error:
+        if str(error)!=BATTERY_BAY_REJECTION:
+            raise
+        raise InstallationRejected(str(error)) from error
     payload=design['battery']['properties']['mass_kg']+values['hvac_modules']*125.
     mats=d.materials();mats['payload-envelope']=dict(density_kg_m3=payload/(.9*.6*.35),young_pa=1e9,poisson=.3,
         basis='Homogeneous mass envelope of existing battery/HVAC allocation; no stiffness or internal geometry credit')
@@ -271,7 +283,21 @@ def civil(values):
 
 def evaluate(kind,parameters,output):
     validate(kind,parameters);values=parameters['variables']
-    data={'mechanical-roof-study':roof,'mechanical-equipment-study':equipment,'civil-architecture-study':civil}[kind](values)
+    try:
+        data={'mechanical-roof-study':roof,'mechanical-equipment-study':equipment,'civil-architecture-study':civil}[kind](values)
+    except InstallationRejected as error:
+        source='engineering/civil_exploration/variant_compiler.py'
+        diagnostic=dict(kind=kind,parameters=parameters,constraint='battery_installation_bay',reason=str(error),
+            compiler_source=source,compiler_source_sha256=core.sha(core.ROOT/source),
+            scope='Reference installation compiler rejected the battery layout before a complete physical model existed',**core.FLAGS)
+        core.write(output/'candidate-rejection.json',diagnostic,exclusive=True)
+        return dict(study_pass=False,checks=dict(battery_installation_bay=False),failed_checks=['battery_installation_bay'],
+            metrics=dict(mass_kg=None),assessment=dict(context_id=CONTEXTS[kind],candidate_family=CONTEXTS[kind],
+                variables=values,geometry=dict(parts=[])),
+            manufacturing_process=processes.evaluate('purchased-equipment',output=output),
+            candidate_rejection_sha256=core.sha(output/'candidate-rejection.json'),
+            needs=[],search_blocked=None,open_evidence=['complete installed physical inventory and every subsequent evaluation remain unexecuted'],
+            scope=diagnostic['scope'],**core.FLAGS)
     core.write(output/'physical-contract.json',data['contract'],exclusive=True)
     core.write(output/'physics.json',data['physics'],exclusive=True)
     assignments={}
@@ -306,6 +332,12 @@ def evaluate(kind,parameters,output):
 def neighbors(kind,parameters,result):
     if result.get('search_blocked'):return []
     domain=domains(kind);values=parameters['variables'];proposals=[]
+    if kind=='mechanical-equipment-study' and 'battery_installation_bay' in result.get('failed_checks',[]):
+        # Correct the failed installation variable before unrelated geometry.
+        index=domain['series_modules'].index(values['series_modules'])
+        if index:
+            proposals.append(dict(context_id=parameters['context_id'],variables=dict(values,series_modules=domain['series_modules'][index-1])))
+        return proposals
     # Architecture switches come first; every proposal is recompiled and screened.
     for key,choices in domain.items():
         index=choices.index(values[key])

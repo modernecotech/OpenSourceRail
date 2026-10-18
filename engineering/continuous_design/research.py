@@ -119,6 +119,9 @@ def promote_candidate(store,row,task,result,*,final=False):
     context=task["parameters"]["context_id"]
     if result.get("search_blocked"):
         return
+    if task['kind'] in tasks.STUDY_KINDS and not result.get('physical_contract_sha256'):
+        # A rejected installation has no exact physical model to confirm.
+        return
     existing=list(store.db.execute("SELECT * FROM promotions WHERE baseline=? AND context=?",(row["baseline"],context)))
     if any(p["child"]==row["key"] for p in existing):return
     pending=store.db.execute("SELECT COUNT(*) FROM promotions p JOIN jobs j ON p.task_key=j.key WHERE p.baseline=? AND p.context=? AND j.status IN ('queued','running','deferred')",(row["baseline"],context)).fetchone()[0]

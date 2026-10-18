@@ -58,6 +58,46 @@ def test_thermal_improvement_cannot_hide_electrical_capacity_penalty(examples):
     assert physics['replacement_mass_credit_kg']==0.
 
 
+@pytest.mark.parametrize('parallel',[2,3,4])
+def test_real_battery_bay_rejection_completes_without_retry_or_native_promotion(tmp_path,monkeypatch,parallel):
+    monkeypatch.setattr(capabilities,'registered',lambda *_:True)
+    task=deepcopy(expansion.seeds()[2]);task['parameters']['variables'].update(series_modules=32,parallel_strings=parallel)
+    baseline='a'*64;key=tasks.identity(task,baseline);folder=tmp_path/'attempt'
+    result=worker.evaluate(dict(task=task,key=key,baseline_sha256=baseline),folder/'output')
+    assert result['study_pass'] is False and result['failed_checks']==['battery_installation_bay']
+    assert result['metrics']['mass_kg'] is None
+    assert not (folder/'output/physical-contract.json').exists()
+    proof=core.read(folder/'output/candidate-rejection.json')
+    assert proof['reason']==expansion.BATTERY_BAY_REJECTION
+    assert proof['compiler_source_sha256']==core.sha(core.ROOT/proof['compiler_source'])
+    assert len(result['repairs'])==1
+    assert result['repairs'][0]['parameters']['variables']['series_modules']==28
+    assert result['repairs'][0]['parameters']['variables']['parallel_strings']==parallel
+    assert all(result[name] is False for name in core.FLAGS)
+    store=service.Store(tmp_path/'ledger');assert store.enqueue(task,baseline)
+    core.write(folder/'result.json',result)
+    files={str(p.relative_to(folder)):core.sha(p) for p in folder.rglob('*') if p.is_file()}
+    core.write(folder/'receipt.json',dict(key=key,baseline_sha256=baseline,task=task,files_sha256=files,**core.FLAGS))
+    with store.db:store.db.execute('UPDATE jobs SET folder=? WHERE key=?',(str(folder),key))
+    ledger.complete_job(store,key,core.sha(folder/'receipt.json'),result)
+    ledger.dispatch(store,budget_seconds=None)
+    assert store.db.execute('SELECT status FROM jobs WHERE key=?',(key,)).fetchone()[0]=='completed'
+    assert store.db.execute('SELECT state FROM outbox').fetchone()[0]=='delivered'
+    assert not store.db.execute('SELECT 1 FROM promotions WHERE child=?',(key,)).fetchone()
+    assert not eligibility.Resolver(store,baseline).state(key)['eligible']
+    assert store.db.execute('SELECT count(*) FROM jobs').fetchone()[0]==2
+    store.db.close()
+
+
+def test_unrelated_compiler_value_error_stays_an_execution_error(tmp_path,monkeypatch):
+    from engineering.design_engine import design_alternatives
+    def fail(*args,**kwargs):raise ValueError('internal compiler/configuration failure')
+    monkeypatch.setattr(design_alternatives,'compile_vehicle',fail)
+    task=expansion.seeds()[2]
+    with pytest.raises(ValueError,match='internal compiler/configuration failure'):
+        worker.evaluate(dict(task=task,key=tasks.identity(task,'a'*64),baseline_sha256='a'*64),tmp_path/'output')
+
+
 def test_all_registered_roof_core_cards_are_rejected_without_lowering_temperature(examples):
     for index in (0,1):
         result=examples[index]['result']
