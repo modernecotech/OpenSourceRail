@@ -11,6 +11,11 @@ repairs and useful AI proposals extend that queue. This is a computational
 research programme: missing manufacturing, site, supplier, target-software and
 physical acceptance evidence remains open.
 
+Updated 18 October: the scheduler now explores compatible passing children,
+repairs actual coupled civil failures and tests material-saving neighbors of
+passing detail designs. Lifetime task caps have been replaced with a rolling
+queue. Historical recipes nominate fresh evaluations after source changes.
+
 ## What each lane executes
 
 | Lane | Work and actual checks | Retained boundary |
@@ -47,6 +52,7 @@ The workspace is `/home/hayder/.local/state/opensourcerail/continuous-design`:
 | `queue.sqlite` | Durable tasks, states, events, proposer attempts and open needs |
 | `active.json` | Exact active source baseline and epoch |
 | `epochs/<baseline>/baseline.json` | Engineering/controller source digests |
+| `epochs/<baseline>/historical-inputs.json` | Verified prior input nominations; no old result/acceptance transfer |
 | `epochs/<baseline>/work-orders/` | Inherited 63 work packages, 345 source allocations and 1,219 open baseline requests |
 | `epochs/<baseline>/attempts/<design>/<attempt>/` | Task, generated model/code, solver/check records, logs, result and sealed receipt |
 | `epochs/<baseline>/provider/` | AI requests, command/schema, raw events and responses |
@@ -89,10 +95,28 @@ three times with a 30-minute backoff. The numerical programme continues when
 the AI provider is unavailable. A disk limit leaves the service waiting for
 capacity, preserving evidence instead of deleting it.
 
-Each epoch is limited to 256 candidate tasks per lane. Reaching a finite candidate
-or resource boundary does not stop the supervisor or mark engineering complete.
-It watches for new tasks, changed feedback, restored capacity and accepted new
-source revisions. Raising a budget alone does not supply a missing model or test.
+There is no lifetime candidate-count cap. Each lane has up to **64 queued or
+running tasks**. Additional distinct recipes remain durable `deferred` records;
+they enter the live queue as capacity becomes available. Status reports both
+states. The workspace output limit still bounds retained data, and a saturated
+lane does not consume new AI proposal calls. Reaching a resource or finite-domain
+boundary leaves the supervisor watching for new evidence and restored capacity;
+it does not mark engineering complete.
+
+Automatic integration dispatch admits up to eight new triples per frontier
+update, using mechanical, civil and software children that pass their implemented
+checks and match the train configuration. It covers civil span contexts before
+deepening an individual context. Manual diagnostic rejected-child combinations
+remain permitted and retain their failed predicates. Coupled civil failures
+produce geometry repairs against the original context, followed by new exact
+child coupling checks. Fixed loads and screening limits remain unchanged.
+
+Passing mechanical/civil detail candidates also produce one-coordinate
+material-saving trials within the registered domains. These trials can fail;
+their full checks are re-evaluated and retained. The existing LM3 analytical
+stiffness bound proves incompatibility only for its declared constant-EI family
+and unaccepted research target. That family records a need for a different load
+path/envelope adapter instead of endlessly sampling unchanged hypotheses.
 
 Edit `config.json` with valid JSON and replace it atomically; settings reload on
 the next polling cycle. Stop/start controls are:
@@ -107,6 +131,10 @@ On restart, interrupted attempts remain available. Eligible tasks return to the
 queue and receive a new attempt directory. Completed attempts retain their results
 and are not repeated. A source edit suspends dispatch; after the change is
 committed, the supervisor restarts into a fresh baseline and Python process.
+Verified historical passing recipes and the closest failed detail recipes can
+nominate inputs in the new epoch. Those jobs start without result receipts and
+must rebuild/re-evaluate. Historical integration jobs are excluded because their
+child keys belong to the old baseline.
 
 ## AI proposal interface
 
@@ -131,8 +159,13 @@ test thresholds is accepted. Software permits only Boolean names/operators from
 the fixed fact interface. Equivalent software truth tables deduplicate even if
 their expression text differs.
 
-The proposer receives actual test feedback, existing designs, relevant work-package
-requirements and available child identities. Integration proposals must use
+The proposer receives actual failed predicates and check details, existing designs,
+relevant work-package requirements and available child identities. The child
+catalogue balances kinds/contexts and prioritizes passing children, so a useful
+older frame is not hidden by a stream of recent failures. Its entries identify
+configuration, study state and exact receipt. A study pass concerns implemented
+offline checks; the false physical/manufacturing release flags remain independent.
+Integration proposals must use
 completed mechanical/civil/software children from the same baseline and train
 configuration. Missing capabilities are recorded as open needs. This interface
 does not automatically develop or merge new solver families into the controller.

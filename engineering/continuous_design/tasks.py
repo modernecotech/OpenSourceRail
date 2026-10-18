@@ -159,6 +159,8 @@ def domain_description(lane):
         result = {kind: dict(context_ids=list(mapping), variables=spec["bounds" if lane == "mechanical" else "domains"])}
         if lane == "mechanical":
             result["mechanical-interface"] = dict(carrier_wall_m=[.003, .004, .005], sill_wall_m=[.006, .008, .010])
+            result[kind]["family_bounds"] = {k: module.stiffness_bound(v) for k, v in mapping.items()}
+            result[kind]["search_instruction"] = "Do not resample an incompatible constant-EI LM3 family. Record an alternative-load-path adapter need; six-car hypotheses remain independent."
         else:
             result["civil-bay"] = dict(length=[20., 25.], pier_height=[6., 8.], pile_length=[12., 15.], pile_spacing=[2., 2.5])
         from engineering.design_engine.generated_parts import variables

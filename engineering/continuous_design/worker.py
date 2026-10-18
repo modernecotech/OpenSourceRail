@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 
 from engineering.twin_workflow import core
-from . import tasks
+from . import tasks, planning
 
 
 def software(source):
@@ -103,9 +103,17 @@ def integration(envelope):
     checks = dict(exact_child_revisions=True, same_configuration=True,
         positive_gross_mass_increases_axle_force=coupled_force > baseline_force,
         civil_response_recomputed=not reassessed["failed_checks"],
+        civil_child_study=by_kind["civil-detail"]["result"]["study_pass"],
         mechanical_child_study=by_kind["mechanical-detail"]["result"]["study_pass"],
         software_child_study=by_kind["software-logic"]["result"]["study_pass"])
+    parent = envelope.get("key") or tasks.identity(tasks.task("integration-coupling", dict(children=[r["key"] for r in rows])), envelope["baseline_sha256"])
+    repairs = [tasks.task("civil-detail", dict(context_id=context["id"], variables=p),
+        "Repair actual coupled-load failures: " + ", ".join(reassessed["failed_checks"]) +
+        "; re-evaluate base context first, then recompute exact coupling", parent=parent)
+        for p in civil_detail.propose(reassessed, coupled)[:4]]
     return dict(study_pass=all(checks.values()), checks=checks,
+        failed_checks=[name for name, passed in checks.items() if not passed],
+        check_details=reassessed["checks"], repairs=repairs,
         metrics=dict(gross_added_mass_kg=mass*cars, baseline_axle_force_n=baseline_force,
                      coupled_axle_force_n=coupled_force, failed_civil_checks=reassessed["failed_checks"]),
         assessment=reassessed, children=[dict(key=r["key"], kind=r["task"]["kind"], study_pass=r["result"]["study_pass"]) for r in rows],
@@ -122,12 +130,18 @@ def evaluate(envelope, output):
     if kind in ("mechanical-detail", "civil-detail"):
         module, mapping = tasks.contexts(kind)
         assessed = module.assess(params["variables"], mapping[params["context_id"]])
-        proposals = module.propose(assessed, mapping[params["context_id"]])
         failed = assessed["failed_check_ids"] if kind == "mechanical-detail" else assessed["failed_checks"]
+        bound = assessed.get("basis", {}).get("constant_ei_family_stiffness_bound")
+        blocked = bound if bound and bound["research_family_screen_incompatible"] else None
+        proposals = [] if blocked else (module.propose(assessed, mapping[params["context_id"]])[:4]
+            if failed else planning.lighter_neighbors(kind, params))
         result = dict(study_pass=not failed, assessment=assessed, metrics=assessed["objectives"],
             failed_checks=failed, checks={r["id"]: r["state"] for r in assessed["checks"]},
+            check_details=assessed["checks"], search_blocked=blocked,
+            needs=[dict(item_id="LM3-alternative-load-path-adapter", required=blocked["required_decision"])] if blocked else [],
             repairs=[tasks.task(kind, dict(context_id=params["context_id"], variables=p),
-                rationale="Repair proposed from actual failed checks: " + ", ".join(failed), parent=envelope["key"]) for p in proposals[:4]],
+                rationale=("Repair proposed from actual failed checks: " + ", ".join(failed) if failed else
+                    "Explore a nearby material-saving geometry; re-evaluate all fixed checks"), parent=envelope["key"]) for p in proposals],
             scope="Configuration-specific analytical detail screens; unknown acceptance remains open", **core.FLAGS)
         core.write(output / "model-definition.json", module.model_definition(assessed), exclusive=True)
     elif kind == "software-logic":

@@ -16,7 +16,7 @@ import sys
 import time
 
 from engineering.twin_workflow import core
-from . import tasks
+from . import tasks, planning
 
 ROOT = core.ROOT
 ENTRY = ROOT / "tools/automation/design-continuous.py"
@@ -35,6 +35,8 @@ def unchanged(sources):
 
 
 class Store:
+    MAX_PENDING_PER_LANE = 64
+
     def __init__(self, workspace):
         self.workspace = Path(workspace).resolve()
         self.workspace.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -59,23 +61,41 @@ class Store:
                 key TEXT PRIMARY KEY, baseline TEXT NOT NULL, lane TEXT NOT NULL,
                 item_id TEXT NOT NULL, required TEXT NOT NULL, state TEXT NOT NULL DEFAULT 'open');
         """)
+        if "priority" not in {r[1] for r in self.db.execute("PRAGMA table_info(jobs)")}:
+            self.db.execute("ALTER TABLE jobs ADD COLUMN priority INTEGER NOT NULL DEFAULT 10")
+        self.db.execute("CREATE INDEX IF NOT EXISTS jobs_dispatch ON jobs(baseline,lane,status,priority,created)")
         self.db.commit()
 
     def event(self, kind, payload):
         self.db.execute("INSERT INTO events(at,kind,payload) VALUES(?,?,?)", (time.time(), kind, json.dumps(payload)))
         self.db.commit()
 
-    def enqueue(self, value, baseline):
+    def enqueue(self, value, baseline, *, priority=10):
         lane = tasks.validate(value)
         self.validate_children(value, baseline)
         key = tasks.identity(value, baseline)
-        # Limits bound storage/cost, never redefine an engineering acceptance gate.
-        if self.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=?", (baseline, lane)).fetchone()[0] >= 256:
+        if self.db.execute("SELECT 1 FROM jobs WHERE key=?", (key,)).fetchone():
             return False
+        pending = self.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=? AND status IN ('queued','running')", (baseline, lane)).fetchone()[0]
+        state = "deferred" if pending >= self.MAX_PENDING_PER_LANE else "queued"
         with self.db:
-            cursor = self.db.execute("INSERT OR IGNORE INTO jobs(key,baseline,lane,task,created) VALUES(?,?,?,?,?)",
-                (key, baseline, lane, json.dumps(value, sort_keys=True), time.time()))
+            cursor = self.db.execute("INSERT OR IGNORE INTO jobs(key,baseline,lane,task,status,priority,created) VALUES(?,?,?,?,?,?,?)",
+                (key, baseline, lane, json.dumps(value, sort_keys=True), state, priority, time.time()))
         return bool(cursor.rowcount)
+
+    def promote(self, baseline):
+        for lane in tasks.LANES:
+            pending = self.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=? AND status IN ('queued','running')", (baseline, lane)).fetchone()[0]
+            with self.db:
+                self.db.execute("UPDATE jobs SET status='queued' WHERE key IN (SELECT key FROM jobs WHERE baseline=? AND lane=? AND status='deferred' ORDER BY priority,created LIMIT ?)",
+                    (baseline, lane, max(0, self.MAX_PENDING_PER_LANE - pending)))
+
+    def record_needs(self, baseline, lane, rows):
+        with self.db:
+            for row in rows:
+                key = core.digest(dict(baseline=baseline, lane=lane, **row))
+                self.db.execute("INSERT OR IGNORE INTO needs(key,baseline,lane,item_id,required) VALUES(?,?,?,?,?)",
+                    (key, baseline, lane, row["item_id"], row["required"]))
 
     def validate_children(self, value, baseline):
         if value["kind"] != "integration-coupling":
@@ -109,28 +129,7 @@ class Store:
             self.db.execute("UPDATE provider SET status='interrupted',finished=? WHERE status='running'", (time.time(),))
 
     def integration_jobs(self, baseline):
-        rows = list(self.db.execute("SELECT * FROM jobs WHERE baseline=? AND status='completed' ORDER BY created", (baseline,)))
-        groups = {k: [] for k in ("mechanical-detail", "civil-detail", "software-logic")}
-        for row in rows:
-            value = json.loads(row["task"])
-            if value["kind"] in groups:
-                groups[value["kind"]].append((row, self.result(row)))
-        # Include rejected mechanical designs diagnostically; never call them adopted.
-        software = next((r for r, result in reversed(groups["software-logic"]) if result["study_pass"]), None)
-        if software is None:
-            return
-        for mechanical, mr in groups["mechanical-detail"]:
-            matching = [(r, v) for r, v in groups["civil-detail"]
-                        if v["assessment"]["architecture_id"] == mr["assessment"]["configuration_id"]]
-            # Separate spans/configurations; prefer each context's fewest known failures.
-            best = {}
-            for row, result in matching:
-                context = result["assessment"]["context_id"]
-                if context not in best or len(result["failed_checks"]) < len(best[context][1]["failed_checks"]):
-                    best[context] = (row, result)
-            for civil, _ in best.values():
-                self.enqueue(tasks.task("integration-coupling", dict(children=[mechanical["key"], civil["key"], software["key"]]),
-                    "Recompute civil demand from exact mechanical gross mass and retain software acceptance results"), baseline)
+        return planning.integration_frontier(self, baseline)
 
 
 def config_default():
@@ -172,6 +171,7 @@ def prepare(workspace, *, provider=False):
     sources = source_snapshot()
     baseline = core.digest(sources)
     epoch = workspace / "epochs" / baseline
+    previous = core.read(workspace / "active.json")["baseline_sha256"] if (workspace / "active.json").is_file() else None
     if epoch.exists() and not (epoch / "baseline.json").is_file():
         epoch.rename(epoch.with_name(epoch.name + ".interrupted-" + str(time.time_ns())))
     if not epoch.exists():
@@ -180,6 +180,10 @@ def prepare(workspace, *, provider=False):
         core.initialise(epoch / "work-orders")
         core.write(epoch / "baseline.json", dict(baseline_sha256=baseline, source_sha256=sources, **core.FLAGS), exclusive=True)
         store.event("new-baseline", dict(baseline=baseline))
+    if not (epoch / "historical-inputs.json").exists():
+        nominations = planning.historical_inputs(store, previous, baseline) if previous and previous != baseline else []
+        core.write(epoch / "historical-inputs.json", dict(previous_baseline=previous,
+            nominations=nominations, acceptance_reused=False, **core.FLAGS), exclusive=True)
     for value in tasks.seeds():
         store.enqueue(value, baseline)
     core.write(workspace / "active.json", dict(baseline_sha256=baseline, epoch=str(epoch), **core.FLAGS))
@@ -195,9 +199,10 @@ def status(workspace):
     lanes = {}
     for lane in tasks.LANES:
         counts = Counter(r["status"] for r in store.db.execute("SELECT status FROM jobs WHERE baseline=? AND lane=?", (baseline, lane)))
-        lanes[lane] = {k: counts[k] for k in ("queued", "running", "completed", "error")}
+        lanes[lane] = {k: counts[k] for k in ("queued", "deferred", "running", "completed", "error")}
     runtime = core.read(workspace / "status.json") if (workspace / "status.json").exists() else {}
     result = dict(workspace=str(workspace), baseline_sha256=baseline, lanes=lanes,
+        max_pending_per_lane=Store.MAX_PENDING_PER_LANE, lifetime_experiment_cap=None,
         heartbeat_age_seconds=max(0, time.time() - runtime.get("heartbeat_unix", 0)),
         runtime=runtime, provider_calls=store.db.execute("SELECT COUNT(*) FROM provider WHERE baseline=?", (baseline,)).fetchone()[0],
         provider_states=dict(Counter(r[0] for r in store.db.execute("SELECT status FROM provider WHERE baseline=?", (baseline,)))),
@@ -207,21 +212,12 @@ def status(workspace):
 
 
 def provider_request(store, baseline, lane):
-    rows = list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? ORDER BY created DESC LIMIT 12", (baseline, lane)))
+    rows = list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status IN ('completed','error') ORDER BY finished DESC,created DESC LIMIT 8", (baseline, lane)))
+    rows += list(store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status NOT IN ('completed','error') ORDER BY priority,created LIMIT 4", (baseline, lane)))
     feedback = []
     for row in rows:
-        summary = dict(key=row["key"], task=json.loads(row["task"]), status=row["status"], error=row["error"])
-        if row["status"] == "completed":
-            result = store.result(row)
-            summary.update(study_pass=result["study_pass"], metrics=result.get("metrics"),
-                failed_checks=result.get("failed_checks"), counterexamples=result.get("counterexamples", [])[:3])
-        feedback.append(summary)
-    available = []
-    if lane == "integration":
-        for row in store.db.execute("SELECT key,task FROM jobs WHERE baseline=? AND status='completed' ORDER BY created DESC LIMIT 100", (baseline,)):
-            task = json.loads(row["task"])
-            if task["kind"] in {"mechanical-detail", "civil-detail", "software-logic"}:
-                available.append(dict(key=row["key"], kind=task["kind"], parameters=task["parameters"]))
+        feedback.append(planning.feedback(row, json.loads(row["task"]), store.result(row) if row["status"] == "completed" else None))
+    available = planning.child_catalogue(store, baseline) if lane == "integration" else []
     orders_path = store.workspace / "epochs" / baseline / "work-orders/work-orders.json"
     package_scope = []
     if orders_path.is_file():
@@ -239,6 +235,8 @@ def provider_request(store, baseline, lane):
         "Read-only proposal work only: no edits, commits, uploads, messages, deployment or additional agents. "
         "If adapters/evidence are missing, return precise needs instead of a fabricated pass. "
         "For integration use exact mechanical-detail/civil-detail/software-logic keys from the existing service data. "
+        "Prioritize children with study_pass=true and matching architecture_id; civil context_id identifies each span. "
+        "study_pass means only implemented offline checks pass: false release flags do not prevent a research study pass. "
         "You may inspect engineering source locally. No production release is available.", **core.FLAGS)
 
 
@@ -263,11 +261,7 @@ def import_proposals(store, baseline, lane, response):
             not isinstance(row[k], str) or not 1 <= len(row[k]) <= 8000 for k in row):
             raise ValueError("typed missing-evidence need required")
     added = sum(store.enqueue(v, baseline) for v in values)
-    with store.db:
-        for row in response["needs"]:
-            key = core.digest(dict(baseline=baseline, lane=lane, **row))
-            store.db.execute("INSERT OR IGNORE INTO needs(key,baseline,lane,item_id,required) VALUES(?,?,?,?,?)",
-                (key, baseline, lane, row["item_id"], row["required"]))
+    store.record_needs(baseline, lane, response["needs"])
     return added
 
 
@@ -284,6 +278,8 @@ def next_provider(store, baseline, config, now):
     if calls >= config["max_provider_calls_per_hour"]:
         return None
     for lane in tasks.LANES:
+        if store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND lane=? AND status IN ('queued','running','deferred')", (baseline, lane)).fetchone()[0] >= Store.MAX_PENDING_PER_LANE:
+            continue
         last = store.db.execute("SELECT MAX(created) FROM provider WHERE lane=?", (lane,)).fetchone()[0]
         if last is not None and now - last < config["provider_interval_seconds"]:
             continue
@@ -361,6 +357,7 @@ def run(workspace, *, once=False):
                                 (core.sha(folder / "receipt.json"), now, key))
                         for value in result.get("repairs", []):
                             store.enqueue(value, baseline)
+                        store.record_needs(baseline, job["lane"], result.get("needs", []))
                         store.event("completed", dict(key=key, lane=job["lane"], study_pass=result["study_pass"]))
                 except (ValueError, OSError, TypeError, KeyError) as exc:
                     if job["provider"]:
@@ -373,6 +370,7 @@ def run(workspace, *, once=False):
                     store.event("attempt-error", dict(key=key, reason=str(exc)))
                 del active[key]
             if mode == "running":
+                store.promote(baseline)
                 completed_count = store.db.execute("SELECT COUNT(*) FROM jobs WHERE baseline=? AND status='completed'", (baseline,)).fetchone()[0]
                 if completed_count != last_integrated_count:
                     store.integration_jobs(baseline)
@@ -388,7 +386,7 @@ def run(workspace, *, once=False):
                     cursor += 1
                     if any(j["lane"] == lane and not j["provider"] for j in active.values()):
                         continue
-                    row = store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status='queued' AND ready<=? ORDER BY created LIMIT 1",
+                    row = store.db.execute("SELECT * FROM jobs WHERE baseline=? AND lane=? AND status='queued' AND ready<=? ORDER BY priority,created LIMIT 1",
                         (baseline, lane, now)).fetchone()
                     if row is None:
                         continue
