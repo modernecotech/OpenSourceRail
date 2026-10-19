@@ -261,7 +261,14 @@ if [[ -f "$REPO/design/network-planning/$SLUG-mapping-sources.json" ]]; then
     "$PYTHON" "$REPO/tools/automation/refresh-city-mapping.py" --city "$SLUG"
     "$PYTHON" "$REPO/tools/automation/render-city-population-map.py" --design "$DESIGN_DIR/design.toml"
 fi
-"$PYTHON" "$REPO/tools/automation/audit-viaduct-clearance.py" --city "$SLUG" --retain-inputs --fetch-terrain
+CLEARANCE_ARGS=()
+for retained in building-footprints.json.gz building-source.json terrain-elevation.f32.gz terrain-source.json; do
+    if [[ ! -f "$DESIGN_DIR/engineering/clearance/$retained" ]]; then
+        CLEARANCE_ARGS=(--retain-inputs --fetch-terrain)
+        break
+    fi
+done
+"$PYTHON" "$REPO/tools/automation/audit-viaduct-clearance.py" --city "$SLUG" "${CLEARANCE_ARGS[@]}"
 "$PYTHON" "$REPO/tools/automation/publish-city-summary.py" \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \

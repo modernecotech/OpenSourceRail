@@ -126,3 +126,19 @@ def test_baghdad_proposal_is_rebuilt_after_final_package_manifest(tmp_path, monk
     commands.clear()
     assert module.finish_city("baghdad", design, 1, publish_proposal=False)["passed"]
     assert not any("build-baghdad-proposal.py" in " ".join(command) for command in commands)
+
+
+def test_full_refresh_rechecks_retained_clearance_without_deleted_osm_cache(tmp_path, monkeypatch):
+    design, commands = _prepared_city(tmp_path, monkeypatch, 'retained')
+    folder = design.parent/'engineering/clearance'
+    folder.mkdir(parents=True)
+    for name in ('building-footprints.json.gz','building-source.json','terrain-elevation.f32.gz','terrain-source.json'):
+        (folder/name).write_bytes(b'retained')
+    assert module.finish_city('retained', design, 1)['passed']
+    command = next(c for c in commands if 'audit-viaduct-clearance.py' in ' '.join(c))
+    assert '--retain-inputs' not in command and '--fetch-terrain' not in command
+    commands.clear()
+    (folder/'terrain-source.json').unlink()
+    assert module.finish_city('retained', design, 1)['passed']
+    command = next(c for c in commands if 'audit-viaduct-clearance.py' in ' '.join(c))
+    assert '--retain-inputs' in command and '--fetch-terrain' in command

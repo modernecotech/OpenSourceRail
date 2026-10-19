@@ -382,6 +382,11 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
     scenario_path = city_dir / f"{slug}.toml"
     operations_dir = city_dir / "operations"
     log_path = LOG_ROOT / f"package-{slug}.log"
+    clearance = [sys.executable, str(REPO_ROOT / "tools/automation/audit-viaduct-clearance.py"), "--city", slug]
+    if not all((city_dir/'engineering/clearance'/name).is_file() for name in (
+            'building-footprints.json.gz', 'building-source.json',
+            'terrain-elevation.f32.gz', 'terrain-source.json')):
+        clearance += ['--retain-inputs', '--fetch-terrain']
     if (ci_directory is None)!=(ci_commit is None):
         raise ValueError('CI evidence requires its artifact directory and exact commit')
     if ci_directory is not None:
@@ -427,7 +432,7 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         [sys.executable, str(REPO_ROOT / "engineering/analysis/city_deployment.py"), "--design", str(design_path)],
         [sys.executable, str(REPO_ROOT / "tools/automation/audit-city-access.py"), "--city", slug, "--fetch-population"],
         [sys.executable, str(REPO_ROOT / "tools/automation/evaluate-residential-expansion.py"), "--design", str(design_path)],
-        [sys.executable, str(REPO_ROOT / "tools/automation/audit-viaduct-clearance.py"), "--city", slug, "--retain-inputs", "--fetch-terrain"],
+        clearance,
         [
             sys.executable,
             str(REPO_ROOT / "tools/automation/publish-city-summary.py"),
