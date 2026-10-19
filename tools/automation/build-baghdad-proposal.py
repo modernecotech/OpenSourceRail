@@ -863,6 +863,14 @@ def source_inputs():
     # with the proposal rather than leaving them outside its supporting evidence.
     for folder in ('engineering/design-system', 'engineering/federation'):
         paths.update(p for p in (CITY/folder).rglob('*') if p.is_file())
+    paths.update(ROOT/'tools/automation'/name for name in (
+        'generate-city-design-status.py', 'generate-city-federation.py',
+        'generate-city-package-manifest.py', 'generate-city-packages-fast.py'))
+    coverage = CITY/'engineering/design-system/summary.json'
+    if coverage.is_file() and (read_json(coverage).get('external_research') or {}).get('state') == 'source-current-provisional-research':
+        # Preserve the linked native/raw research evidence as its sealed portable
+        # package. It remains an unaccepted, architecture-specific research input.
+        paths.update(p for p in (ROOT/'docs/design-engine/assembly-design').rglob('*') if p.is_file())
     # Exact full task payload is deliberately excluded from Git outside this archive.
     ops=read_json(CITY/'operations/baghdad-operations-manifest.json');paths.add(CITY/'operations'/ops['file'])
     # Retained solver/geospatial outputs complete the evidence where materialised.
