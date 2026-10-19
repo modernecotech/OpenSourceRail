@@ -13,6 +13,7 @@ component geometry.
 | [`models/digital-twins/`](models/digital-twins/) | Source-linked fabrication and construction review scenes |
 | [`assurance/`](assurance/) | Formal specifications and simulation-component coverage evidence |
 | [`baghdad_detail.py`](baghdad_detail.py) | Source-bound six-car Baghdad parts, software/ERP allocation and electronics sizing register; [design and Iraqi slab manufacture](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md) |
+| [`assembly_design/`](assembly_design/README.md) | Source-linked Baghdad requirements, generated assembly alternatives, native correspondence and isolated capability development with independent research review; [first retained campaign](../docs/design-engine/assembly-design/index.html) |
 | [`toolchain/`](toolchain/README.md) | Pinned external engineering applications and validation commands |
 
 Structural release calculations, surveys, ground data, supplier drawings and

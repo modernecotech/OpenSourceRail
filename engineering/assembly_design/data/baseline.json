@@ -1,0 +1,428 @@
+{
+  "architecture": "baghdad-six-car",
+  "design_complete": false,
+  "ethos": [
+    "Open reproducible definitions and source-linked evidence",
+    "Prioritise British manufacture for imported specialist equipment; develop Iraqi fabrication/assembly",
+    "Repeatable offsite modules with inspectable replaceable connections",
+    "Optimise complete installed function, mass, lifting, site effort and lifecycle access",
+    "Never transfer LM3 loads or supplier family maxima into accepted Baghdad ratings"
+  ],
+  "external_holds": [
+    "Adopted Baghdad route/site/ground/seismic/wind/flood baseline",
+    "Approved train geometry, duty, axle/CG map and railway load combinations",
+    "Licensed normative criteria, Iraqi project adoption and independent engineering authority",
+    "Exact supplier configurations, calibrated measurements, quotations and authenticated acceptance"
+  ],
+  "facts": [
+    {
+      "applicability": "LV cassette reference; no traction HV use",
+      "approved": false,
+      "id": "connector.part",
+      "locator": "Product identity",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "part-number",
+      "value": "M80-4000000F1-10-326-00-000"
+    },
+    {
+      "applicability": "Published exact-part origin; delivered lot certification remains required",
+      "approved": false,
+      "id": "connector.origin",
+      "locator": "Country of Origin",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "country-code",
+      "value": "GB"
+    },
+    {
+      "applicability": "Exact female connector",
+      "approved": false,
+      "id": "connector.contacts",
+      "locator": "Number of Power/Coax Contacts",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "count",
+      "value": 10
+    },
+    {
+      "applicability": "Coordination envelope; purchased internals not modelled",
+      "approved": false,
+      "id": "connector.dimensions",
+      "locator": "Dimensions: millimetres converted to metres",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "m",
+      "value": [
+        0.05,
+        0.0055,
+        0.013
+      ]
+    },
+    {
+      "applicability": "Published component mass; excludes cable and mating connector",
+      "approved": false,
+      "id": "connector.mass",
+      "locator": "Weight: grams converted to kilograms",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "kg",
+      "value": 0.005722
+    },
+    {
+      "applicability": "Headline maximum; simultaneous loading/temperature derating unresolved",
+      "approved": false,
+      "id": "connector.current_max",
+      "locator": "Current Rating",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "A/contact",
+      "value": 15.0
+    },
+    {
+      "applicability": "Connector only; not a rating for the complete cassette",
+      "approved": false,
+      "id": "connector.temperature",
+      "locator": "Operating Temperature",
+      "source": "harwin-power",
+      "status": "published-reference",
+      "unit": "degC",
+      "value": [
+        -55.0,
+        125.0
+      ]
+    },
+    {
+      "applicability": "Family reference only; +70C is peak, not continuous",
+      "approved": false,
+      "id": "bearing.reference_temperature",
+      "locator": "Chloroprene minimum and continuous maximum",
+      "source": "freyssinet",
+      "status": "published-reference",
+      "unit": "degC",
+      "value": [
+        -25.0,
+        50.0
+      ]
+    },
+    {
+      "applicability": "Duration and combined performance require supplier confirmation",
+      "approved": false,
+      "id": "bearing.reference_peak_temperature",
+      "locator": "Maximum peak temperature",
+      "source": "freyssinet",
+      "status": "published-reference",
+      "unit": "degC",
+      "value": 70.0
+    },
+    {
+      "applicability": "Candidate supplier; exact bearing/temperature/rating to be offered",
+      "approved": false,
+      "id": "bearing.uk_manufacture",
+      "locator": "Designed and manufactured in the UK",
+      "source": "ekspan",
+      "status": "published-reference",
+      "unit": "boolean",
+      "value": true
+    },
+    {
+      "applicability": "S355ML reference grade; no automatic plate/mill or hot-temperature qualification",
+      "approved": false,
+      "id": "steel.yield_by_thickness",
+      "locator": "Minimum yield strength for nominal thickness bands",
+      "source": "british-steel",
+      "status": "published-reference",
+      "unit": "m,Pa",
+      "value": [
+        [
+          0.016,
+          355000000.0
+        ],
+        [
+          0.04,
+          345000000.0
+        ]
+      ]
+    },
+    {
+      "applicability": "Method check for stated assumptions, not an assembly rating",
+      "approved": false,
+      "id": "bolts.m20_benchmark",
+      "locator": "Worked shear example",
+      "source": "sci-bolts",
+      "status": "published-reference",
+      "unit": "N",
+      "value": 94100.0
+    },
+    {
+      "applicability": "Climatological context, not an extreme design value",
+      "approved": false,
+      "id": "climate.baghdad_mean_july_max",
+      "locator": "Monthly mean maximum for July in Baghdad",
+      "source": "iraq-climate",
+      "status": "published-reference",
+      "unit": "degC",
+      "value": 43.0
+    },
+    {
+      "applicability": "Country-level context; location/return period not established",
+      "approved": false,
+      "id": "climate.iraq_summer_max_context",
+      "locator": "June-August maxima context",
+      "source": "iraq-climate",
+      "status": "published-reference",
+      "unit": "degC",
+      "value": [
+        43.0,
+        50.0
+      ]
+    },
+    {
+      "applicability": "Baghdad six-car planning and +20% sensitivity; never transfer to LM3",
+      "approved": false,
+      "id": "train.mass_cases",
+      "locator": "/six_car_mass_cases_kg",
+      "source": "engineering/generative_design/data/architecture-feedback.json",
+      "status": "repository-provisional",
+      "unit": "kg",
+      "value": [
+        384000.0,
+        460800.0
+      ]
+    },
+    {
+      "applicability": "Nominal module allocation, not adopted swept gauge",
+      "approved": false,
+      "id": "train.car_length",
+      "locator": "/parts/id=ME-01/interface",
+      "source": "engineering/data/baghdad-reference-parts.json",
+      "status": "repository-provisional",
+      "unit": "m",
+      "value": 18.5
+    },
+    {
+      "applicability": "Existing Baghdad HVAC reference",
+      "approved": false,
+      "id": "climate.ambient",
+      "locator": "/parts/id=ME-11/interface",
+      "source": "engineering/data/baghdad-reference-parts.json",
+      "status": "repository-provisional",
+      "unit": "degC",
+      "value": 50.0
+    },
+    {
+      "applicability": "Separate roof context; not air temperature",
+      "approved": false,
+      "id": "roof.surface_temperature",
+      "locator": "CONTEXTS/mechanical-roof-study",
+      "source": "engineering/continuous_design/expansion.py",
+      "status": "repository-provisional",
+      "unit": "degC",
+      "value": 85.0
+    },
+    {
+      "applicability": "Room-temperature elastic research assumption",
+      "approved": false,
+      "id": "steel.elastic_modulus",
+      "locator": "/assumptions/steel_elastic_modulus_pa",
+      "source": "engineering/factory_examples/data/basis.json",
+      "status": "repository-provisional",
+      "unit": "Pa",
+      "value": 210000000000.0
+    },
+    {
+      "applicability": "Nominal steel mass assumption",
+      "approved": false,
+      "id": "steel.density",
+      "locator": "/assumptions/steel_density_kg_m3",
+      "source": "engineering/factory_examples/data/basis.json",
+      "status": "repository-provisional",
+      "unit": "kg/m3",
+      "value": 7850.0
+    },
+    {
+      "applicability": "Nominal coarse-thread reference; delivered grade/origin open",
+      "approved": false,
+      "id": "bolts.stress_areas",
+      "locator": "/bolt_request/tensile_stress_area_m2",
+      "source": "engineering/generative_design/data/mechanical-detail-space.json",
+      "status": "repository-provisional",
+      "unit": "m2",
+      "value": {
+        "0.016": 0.000157,
+        "0.020": 0.000245,
+        "0.024": 0.000353,
+        "0.027": 0.000459
+      }
+    }
+  ],
+  "manufacturing_release": false,
+  "physical_release": false,
+  "physical_validation": false,
+  "pilots": {
+    "bearing-seat": {
+      "assumptions": {
+        "bearing_depth_m": 0.08,
+        "bearing_plan_m": [
+          0.4,
+          0.3
+        ],
+        "bearings_per_cell": 8,
+        "bolt_equivalent_stress_limit_pa": 400000000.0,
+        "concrete_pressure_limit_pa": 12000000.0,
+        "dimensional_tolerance_m": 0.0005,
+        "gravity_m_s2": 9.81,
+        "grout_depth_m": 0.025,
+        "horizontal_fraction": 0.1,
+        "movement_allowance_m": 0.025,
+        "plate_plan_m": [
+          0.65,
+          0.55
+        ],
+        "restraint_height_m": 0.1,
+        "span_m": 20.0,
+        "steel_stress_fraction": 0.6,
+        "temperature_range_k": 70.0,
+        "thermal_coefficient_per_k": 1.2e-05,
+        "tracks": 2,
+        "train_cars": 6,
+        "uplift_fraction": 0.02,
+        "vertical_factor": 1.25
+      },
+      "domains": {
+        "bearing_family": [
+          "elastomeric-reference",
+          "uk-spherical-candidate"
+        ],
+        "bolt_diameter_m": [
+          0.02,
+          0.024,
+          0.027
+        ],
+        "plate_thickness_m": [
+          0.02,
+          0.03,
+          0.04
+        ]
+      },
+      "holds": [
+        "Offered bearing load/movement/rotation/temperature combinations and certified origin",
+        "Concrete local bearing, reinforcement, anchor development, fatigue and earthquake actions",
+        "Actual train axle distribution, dynamic interaction, fixed/guided/free bearing arrangement",
+        "Site ground, buried services, uplift, durability, grout/installation and physical acceptance"
+      ],
+      "requirement_ids": [
+        "baghdad:CI-01"
+      ],
+      "scope": "Replaceable steel bearing-seat and bolted restraint; purchased bearing internals, cap reinforcement/anchors and foundations remain separate"
+    },
+    "service-cassette": {
+      "assumptions": {
+        "bolt_equivalent_stress_limit_pa": 400000000.0,
+        "branch_current_a": 5.0,
+        "clearance_m": 0.003,
+        "deflection_limit_m": 0.002,
+        "dimensional_tolerance_m": 0.0005,
+        "duct_flow_m3_s": 0.08,
+        "duct_velocity_limit_m_s": 8.0,
+        "gravity_m_s2": 9.81,
+        "height_m": 0.15,
+        "lateral_factor": 3.0,
+        "length_m": 1.2,
+        "longitudinal_factor": 5.0,
+        "lv_voltage_v": 24.0,
+        "mount_span_m": 1.0,
+        "payload_kg": [
+          50.0,
+          100.0
+        ],
+        "steel_stress_fraction": 0.6,
+        "temperature_sensitivity_c": [
+          50.0,
+          60.0
+        ],
+        "vertical_factor": 3.0,
+        "width_m": 0.35
+      },
+      "domains": {
+        "bolt_diameter_m": [
+          0.016,
+          0.02
+        ],
+        "duct_area_m2": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "rail_wall_m": [
+          0.002,
+          0.003,
+          0.004
+        ]
+      },
+      "holds": [
+        "Approved vehicle equipment shock/vibration/fatigue load cases and mounting interface",
+        "Connector mating counterpart, current derating, harness insulation/ampacity and fire performance",
+        "HVAC supplier map, whole-car air quality/heat/moisture duty and refrigeration design",
+        "Detailed locking/preload/prying/thread engagement, coating and physical tests"
+      ],
+      "requirement_ids": [
+        "baghdad:ME-10",
+        "baghdad:ME-11"
+      ],
+      "scope": "LV distribution/data and ventilation service cassette; complete refrigeration and whole-car HVAC remain separate"
+    }
+  },
+  "revision": "2026-10-19",
+  "schema": "osr-baghdad-assembly-baseline/1",
+  "sources": {
+    "british-steel": {
+      "locator": "S355ML Declaration of Performance, 1 May 2025: thickness-dependent yield",
+      "retrieved": "2026-10-19",
+      "scope": "Section grade reference; plate sourcing, heat certificate, toughness and welding qualification remain open",
+      "url": "https://britishsteel.co.uk/media/m2mnwujw/s355ml.pdf"
+    },
+    "ekspan": {
+      "locator": "Designed & manufactured in the UK; product families",
+      "retrieved": "2026-10-19",
+      "scope": "Manufacturer capability/origin statement; no offered configuration or project rating",
+      "url": "https://www.ekspan.com/bridge-bearings/"
+    },
+    "freyssinet": {
+      "locator": "Advantages: operating temperatures, forces, movements and rotation",
+      "retrieved": "2026-10-19",
+      "scope": "Published family envelope; not an offered configuration, UK origin or combined-load qualification",
+      "url": "https://www.freyssinet.com/solution/build/bearings/elastomeric-bearings/"
+    },
+    "harwin-power": {
+      "locator": "Technical details; Dimensions; Country of Origin",
+      "retrieved": "2026-10-19",
+      "scope": "Exact female connector; mating counterpart, derating and railway qualification not established",
+      "url": "https://www.harwin.com/products/M80-4000000F1-10-326-00-000"
+    },
+    "iraq-climate": {
+      "locator": "Iraq Country Profile: Climate and Development, Climate and weather table",
+      "retrieved": "2026-10-19",
+      "scope": "Country context supports hot-climate sensitivities; not a site-specific design return-period temperature",
+      "url": "https://unfccc.int/sites/default/files/2026-01/NDC%20Report%20EN%20-%202025.pdf"
+    },
+    "sci-bolts": {
+      "locator": "Worked M20 class 8.8 bolt shear example: 0.6*800*245/1.25=94.1 kN",
+      "retrieved": "2026-10-19",
+      "scope": "Independent benchmark only; complete joint resistance and railway adoption not established",
+      "url": "https://www.steelconstruction.info/images/5/50/Sci_p364.pdf"
+    },
+    "software-standard": {
+      "locator": "BS EN 50716:2023 project record",
+      "retrieved": "2026-10-19",
+      "scope": "Candidate software lifecycle reference; no SIL allocation or conformity claim",
+      "url": "https://standardsdevelopment.bsigroup.com/projects/2022-00241"
+    },
+    "vehicle-standard": {
+      "locator": "BS EN 12663-1:2010+A2:2023 catalogue metadata",
+      "retrieved": "2026-10-19",
+      "scope": "Candidate reference framework only; normative text/category/combinations and Iraqi project adoption remain open",
+      "url": "https://knowledge.bsigroup.com/products/railway-applications-structural-requirements-of-railway-vehicle-bodies-locomotives-and-passenger-rolling-stock-and-alternative-method-for-freight-wagons-1"
+    }
+  }
+}
