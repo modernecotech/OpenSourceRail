@@ -226,6 +226,26 @@ def verify(package,*,media=False):
             folder=package/'models'/safe(candidate['id']);visual=candidate['visualisation']
             if core.sha(folder/'model.FCStd')!=visual['cad_sha256'] or core.sha(folder/'sequence.json')!=visual['sequence_sha256']:
                 raise ValueError('visualisation native/sequence inputs differ')
+            common=candidate['kind']!='mechanical-detail';raw_prefix=confirmation+'/output/'
+            definition='physical-contract.json' if common else 'model-definition.json'
+            cad_name='candidate.FCStd' if common else 'model.FCStd'
+            if sha256(members[raw_prefix+'cad/'+cad_name]).hexdigest()!=visual['cad_sha256'] or sha256(members[raw_prefix+definition]).hexdigest()!=visual['native_definition_sha256']:
+                raise ValueError('published geometry differs from archived native evidence')
+            step_names=sorted(n for n in members if n.startswith(raw_prefix+'cad/') and n.endswith('.step'))
+            if not step_names or gzip.decompress((folder/'model.step.gz').read_bytes())!=members[step_names[0]]:
+                raise ValueError('published STEP differs from archived interchange')
+            # Rebuild only the event description from the archived planning
+            # inputs. No geometry regeneration or physics solver is invoked.
+            import tempfile
+            from . import visuals
+            with tempfile.TemporaryDirectory(prefix='osr-sequence-verify-') as temporary:
+                temporary=Path(temporary);(temporary/'output').mkdir()
+                for name in ('civil-kit.json','delivery-schedule.json','delivery-tasks.json','operation-graph.json'):
+                    original=key+'/output/'+name
+                    if original in members:(temporary/'output'/name).write_bytes(members[original])
+                expected_plan=visuals.sequence(dict(kind=candidate['kind'],row={'folder':str(temporary)}),json.loads(members[raw_prefix+definition]))
+            if core.digest(expected_plan)!=core.digest(core.read(folder/'sequence.json',maximum=20_000_000)):
+                raise ValueError('published sequence differs from archived evaluated events')
             if visual['motion_path_verified'] is not False or visual['physical_release'] is not False:raise ValueError('unsupported animation acceptance')
             if media:
                 import subprocess
