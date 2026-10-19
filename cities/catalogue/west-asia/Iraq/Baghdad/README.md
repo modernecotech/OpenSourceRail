@@ -1,5 +1,7 @@
 # Baghdad — Urban Rail Network
 
+[Current design coverage, geometry and open gates](engineering/design-system/index.html) · [Placed station IFC and map](engineering/federation/index.html).
+
 **Country:** IQ · **Population:** 9,780,429 · [Current Iraq planning basis](../NATIONAL-BRIEF.md)
 
 **Current planning basis: 2026-10-04 [programme recalculation](engineering/programme-recalculation/README.md), `local_positive` conditional local-production case.** The main route is the reworked city-centre elevated planning alignment; service remains a capacity-led assumption. Revised scope is unquoted and uncommitted; this is not a construction design or an operating release.
