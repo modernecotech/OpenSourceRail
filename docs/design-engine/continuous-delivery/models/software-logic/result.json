@@ -1,0 +1,247 @@
+{
+  "checks": {
+    "exhaustive_guard_logic": true,
+    "temporal_fault_suite": true
+  },
+  "counterexamples": [],
+  "design_complete": false,
+  "manufacturing_release": false,
+  "metrics": {
+    "failed_temporal_cases": 0,
+    "temporal_cases": 20,
+    "truth_table_cases": 4096
+  },
+  "open_evidence": [
+    "target executable and platform",
+    "full train software",
+    "SIL/HIL and real-time timing",
+    "physical switching and independent acceptance"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "replay": [
+    {
+      "actual": true,
+      "expected": true,
+      "id": "healthy",
+      "passed": true,
+      "requests": [
+        true
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "train_stopped",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "hvil_closed",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "insulation_ok",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "main_feedback_open",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "return_feedback_closed",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "precharge_feedback_closed",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "timeout",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "undervoltage",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "untyped-guard",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "nonfinite-voltage",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "stale",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "future",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "invalid-sequence",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "missing-observation",
+      "passed": true,
+      "requests": [
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "latched-fault",
+      "passed": true,
+      "requests": [
+        false,
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "duplicate",
+      "passed": true,
+      "requests": [
+        true,
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "fresh-envelope-frozen-elapsed",
+      "passed": true,
+      "requests": [
+        true,
+        false
+      ]
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "id": "receipt-clock-backwards",
+      "passed": true,
+      "requests": [
+        true,
+        false
+      ]
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "id": "normal-voltage-ramp-can-complete",
+      "passed": true,
+      "requests": [
+        false,
+        true
+      ]
+    }
+  ],
+  "runtime_sha256": "69cb595955bf6556a296fa471d2b667dc95a8d8487d7db2da64e5b8eb37fb820",
+  "scope": "Generated Boolean control policy in a fixed offline latch/replay wrapper; no live command",
+  "study_pass": true,
+  "verification": {
+    "evaluated_level": "executable_verification",
+    "independent_physics_rerun": false,
+    "levels": {
+      "analytical_screening": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "executable_verification": {
+        "checks": [
+          "exhaustive_guard_logic",
+          "temporal_fault_suite"
+        ],
+        "scope": "Generated Boolean control policy in a fixed offline latch/replay wrapper; no live command",
+        "state": "passed"
+      },
+      "native_geometry": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_confirmation": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_robustness": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "physical_correlation": {
+        "checks": [],
+        "state": "not_run"
+      }
+    },
+    "scope": "Generated Boolean control policy in a fixed offline latch/replay wrapper; no live command"
+  }
+}

@@ -1,0 +1,5140 @@
+{
+  "assessment": {
+    "accepted_loading": false,
+    "basis": {
+      "configuration": "Independent six-car planning-only hypothesis: 240 mm side width and 300x500 mm centre spine, not LM3 geometry or a supplier vehicle; no accepted depth/gauge/floor envelope exists.",
+      "constant_ei_family_stiffness_bound": null,
+      "loading": "384t infrastructure allowance distributed equally across six cars as an explicit stress-test hypothesis, not a measured AW2/AW3 vehicle mass. All proposed assembly gross steel is additionally added without a replacement deduction. Symmetric UDL across each complete body including overhangs; no accepted rail load combinations or axle distribution.",
+      "no_original_structure_mass_subtracted": true,
+      "proposed_added_mass_gravity_m_s2": 9.80665,
+      "rigid_transverse_compatibility_accepted": false,
+      "source_force_gravity_m_s2": 9.80665
+    },
+    "candidate_family": "connected-underframe-bolster",
+    "checks": [
+      {
+        "basis": "Full body UDL and overhang equilibrium; three EI-proportional members under rigid-tie hypothesis. L/1000 is an unaccepted research target.",
+        "id": "global_service_deflection",
+        "limit": 0.0115,
+        "state": "pass",
+        "units": "m",
+        "value": 0.009301583364947491
+      },
+      {
+        "basis": "Elastic stress under explicit 1.25 vertical multiplier, not rail-standard load combinations or accepted design resistance.",
+        "id": "gross_member_normal_stress",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 71745745.64888647
+      },
+      {
+        "basis": "Average web shear; stress concentration, openings and shear buckling interaction not represented.",
+        "id": "gross_web_shear",
+        "limit": 135677313.25956208,
+        "state": "pass",
+        "units": "Pa",
+        "value": 18919958.410782374
+      },
+      {
+        "basis": "Ideal isolated outstand k=0.43, elastic plate formula; diagnostic only, no railway member buckling qualification.",
+        "id": "side_flange_elastic_plate_buckling",
+        "limit": 831806044.4398528,
+        "state": "pass",
+        "units": "Pa",
+        "value": 71745745.64888647
+      },
+      {
+        "basis": "Ideal internal plate under uniform compression k=4 used conservatively versus maximum bending stress; actual stress-gradient/shear interaction unknown.",
+        "id": "side_web_elastic_plate_buckling",
+        "limit": 87795817.40430576,
+        "state": "pass",
+        "units": "Pa",
+        "value": 71745745.64888647
+      },
+      {
+        "basis": "Ideal simply-supported internal plate k=4; no postbuckling, imperfections or fabricated corner resistance adopted.",
+        "id": "centre_plate_elastic_buckling",
+        "limit": 197540589.15968797,
+        "state": "pass",
+        "units": "Pa",
+        "value": 47830497.09925765
+      },
+      {
+        "basis": "Transverse half-bolster cantilever carrying EI-proportional side-member reaction into central support pad.",
+        "id": "bolster_bending",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 67303214.89393735
+      },
+      {
+        "basis": "Local cantilever displacement diagnostic; finite transverse stiffness still requires shell/beam model of actual joint compatibility.",
+        "id": "bolster_tip_deflection",
+        "limit": 0.001,
+        "state": "pass",
+        "units": "m",
+        "value": 0.00038052202266956886
+      },
+      {
+        "basis": "Two stiffener planes per intersection, full-width plate area excluding centre web; local crippling and diaphragm weld qualification remain unknown.",
+        "id": "support_diaphragm_nominal_compression",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 47622556.48710983
+      },
+      {
+        "basis": "Two effective weld runs across each longitudinal-member width carry vertical reaction; no fatigue or eccentricity resistance assumed.",
+        "id": "intersection_weld_nominal_shear",
+        "limit": 120000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 92070275.875079
+      },
+      {
+        "basis": "VQ/I divided between two longitudinal flange-web fillet throats, with same vertical multiplier.",
+        "id": "longitudinal_flange_weld_shear_flow",
+        "limit": 120000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 14043240.78292409
+      },
+      {
+        "basis": "Research fabrication throat/thinner-plate limit; increasing weld without plate thickness can introduce a new failed check.",
+        "id": "weld_size_thinner_plate",
+        "limit": 0.0056,
+        "state": "pass",
+        "units": "m",
+        "value": 0.004
+      },
+      {
+        "basis": "Two-row bolt group, explicit 0.3g horizontal hypothesis and 1m moment arm. sqrt(sigma^2+3*tau^2), not a connection-code interaction or crash assessment; pad bears vertical load.",
+        "id": "support_bolt_combined_nominal_stress",
+        "limit": 400000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 284440535.11755407
+      },
+      {
+        "basis": "Vertical reaction divided by net pad footprint; bogie mating body, contact pressure distribution and prying not qualified.",
+        "id": "support_pad_bearing",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 4425700.068549073
+      },
+      {
+        "basis": "Research edge >= 1.5 hole diameters; actual bolt standard and fatigue layout require acceptance.",
+        "id": "bolt_hole_edge_distance",
+        "limit": 0.06,
+        "state": "pass",
+        "units": "m",
+        "value": 0.04455
+      },
+      {
+        "basis": "1.7d+12mm assumed socket outside diameter plus 5mm gap; actual wrench sweep and service access not proven.",
+        "id": "socket_neighbour_access",
+        "limit": 0.06666666666666667,
+        "state": "pass",
+        "units": "m",
+        "value": 0.0629
+      },
+      {
+        "basis": "Full body load treated as uniform floor demand on largest actual bearer spacing; each side half-span simply supported.",
+        "id": "crossbearer_floor_tributary_stress",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 93700395.96503837
+      },
+      {
+        "basis": "Local floor bearer deflection under largest actual tributary pitch; shell participation not claimed.",
+        "id": "crossbearer_floor_tributary_deflection",
+        "limit": 0.001,
+        "state": "pass",
+        "units": "m",
+        "value": 0.0007173936566073249
+      },
+      {
+        "basis": "Independent six-car planning-only hypothesis: 240 mm side width and 300x500 mm centre spine, not LM3 geometry or a supplier vehicle; no accepted depth/gauge/floor envelope exists.",
+        "id": "source_side_depth_envelope",
+        "limit": null,
+        "state": "unknown",
+        "units": "m",
+        "value": 0.75
+      },
+      {
+        "basis": "Every proposed plate must fit published XP4000 cutting envelope; long stock cannot be processed as if a 4m machine were a 16m machine.",
+        "id": "xp4000_plate_length",
+        "limit": 4.0,
+        "state": "pass",
+        "units": "m",
+        "value": 3.6
+      },
+      {
+        "basis": "Rotation allowed on the flat cutting bed, not an assumed larger cutting table.",
+        "id": "xp4000_plate_width",
+        "limit": 2.0,
+        "state": "pass",
+        "units": "m",
+        "value": 0.726
+      },
+      {
+        "basis": "Specific XP brochure states 32mm maximum; power source, grade, piercing and finish capability still need vendor confirmation.",
+        "id": "xp4000_plate_thickness",
+        "limit": 0.032,
+        "state": "pass",
+        "units": "m",
+        "value": 0.025
+      },
+      {
+        "basis": "Largest individual plate, not a whole loaded nesting sheet. A complete nest load and extraction trial remain unaccepted.",
+        "id": "xp4000_individual_plate_load",
+        "limit": 2010,
+        "state": "pass",
+        "units": "kg",
+        "value": 164.13408
+      },
+      {
+        "basis": "20m assembly fixture reservation only; origin, capacity, stiffness and anchorage unknown.",
+        "id": "proposed_fixture_length",
+        "limit": 20,
+        "state": "pass",
+        "units": "m",
+        "value": 18.5
+      },
+      {
+        "basis": "25t placeholder assembly fixture payload is not offered rated equipment; total suspended load/lifting plan unaccepted.",
+        "id": "proposed_fixture_payload",
+        "limit": 25000,
+        "state": "pass",
+        "units": "kg",
+        "value": 5938.333673640552
+      },
+      {
+        "basis": "Constant EI extends over the full 16.5/18.5m body, whereas native side and centre members terminate 0.25m and 0.35m before each body end. End framing, load introduction and piecewise stiffness are absent. The beam is a declared analytical abstraction, not verified exact native geometry performance.",
+        "id": "end_load_transfer_and_stiffness_geometry",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Proposed bolster is below the longitudinal members. Its vertical placement, suspension travel, floor height and swept gauge are not reconciled with the complete source assembly; source side-depth alone does not demonstrate source compatibility.",
+        "id": "bolster_underfloor_gauge_and_source_compatibility",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Certified grade/subgrade/through-thickness, minimum properties by thickness and temperature, AW3/crash/track-twist/braking/fatigue load combinations and authority acceptance missing.",
+        "id": "accepted_materials_and_rail_loads",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Lateral-torsional buckling, local crippling, connection eccentricity/prying, floor discontinuities, elastic load sharing and full 3D nonlinear model unverified.",
+        "id": "lateral_torsional_and_connection_stability",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "All long-plate segment boundaries require detailed groove, stagger/avoidance of stress hotspots, fatigue class, WPS/PQR, distortion and NDT acceptance; no butt weld is treated as qualified by geometry.",
+        "id": "qualified_plate_splices_and_welds",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Bogie mating pad/bolt supplier drawing, bolt grade/pretension/slip/fatigue/bearing/net section, pad bending, prying and rotation remain unknown.",
+        "id": "bogie_mating_interface_and_bolt_qualification",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Dalzell lead does not establish live plate supply or UK melt origin. Offered XP4000 power source, full nest load, plate flatness, supplier samples and tolerance capability absent.",
+        "id": "machine_and_stock_order_configuration",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Net plate/RHS geometry mass includes finished holes, but bolt/nut/washer, deposited weld metal, coating and remaining vehicle masses are not modeled. Full as-built mass/CG, certified property class, M27 availability where proposed, offered fastener geometry and British manufacturing origin remain unconfirmed.",
+        "id": "complete_assembled_mass_and_fastener_origin",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "All gross proposed steel was added to the original car load. Replacement delta, certified axle ratings, CG, crashworthiness, route gauge, doors, floor, traction, brakes, electrical/fire systems and first article remain open.",
+        "id": "vehicle_system_and_mass_closure",
+        "limit": null,
+        "state": "unknown",
+        "units": "not evaluated",
+        "value": null
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Full body UDL and overhang equilibrium; three EI-proportional members under rigid-tie hypothesis. L/1000 is an unaccepted research target.",
+        "id": "planning-six-car-460800kg/global_service_deflection",
+        "limit": 0.0115,
+        "state": "pass",
+        "units": "m",
+        "value": 0.011003944013499824
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Elastic stress under explicit 1.25 vertical multiplier, not rail-standard load combinations or accepted design resistance.",
+        "id": "planning-six-car-460800kg/gross_member_normal_stress",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 84876535.24692154
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Average web shear; stress concentration, openings and shear buckling interaction not represented.",
+        "id": "planning-six-car-460800kg/gross_web_shear",
+        "limit": 135677313.25956208,
+        "state": "pass",
+        "units": "Pa",
+        "value": 22382658.40572505
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal isolated outstand k=0.43, elastic plate formula; diagnostic only, no railway member buckling qualification.",
+        "id": "planning-six-car-460800kg/side_flange_elastic_plate_buckling",
+        "limit": 831806044.4398528,
+        "state": "pass",
+        "units": "Pa",
+        "value": 84876535.24692154
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal internal plate under uniform compression k=4 used conservatively versus maximum bending stress; actual stress-gradient/shear interaction unknown.",
+        "id": "planning-six-car-460800kg/side_web_elastic_plate_buckling",
+        "limit": 87795817.40430576,
+        "state": "pass",
+        "units": "Pa",
+        "value": 84876535.24692154
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal simply-supported internal plate k=4; no postbuckling, imperfections or fabricated corner resistance adopted.",
+        "id": "planning-six-car-460800kg/centre_plate_elastic_buckling",
+        "limit": 197540589.15968797,
+        "state": "pass",
+        "units": "Pa",
+        "value": 56584356.83128102
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Transverse half-bolster cantilever carrying EI-proportional side-member reaction into central support pad.",
+        "id": "planning-six-car-460800kg/bolster_bending",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 79620939.74369434
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Local cantilever displacement diagnostic; finite transverse stiffness still requires shell/beam model of actual joint compatibility.",
+        "id": "planning-six-car-460800kg/bolster_tip_deflection",
+        "limit": 0.001,
+        "state": "pass",
+        "units": "m",
+        "value": 0.00045016454393550256
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two stiffener planes per intersection, full-width plate area excluding centre web; local crippling and diaphragm weld qualification remain unknown.",
+        "id": "planning-six-car-460800kg/support_diaphragm_nominal_compression",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 56338359.26673409
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two effective weld runs across each longitudinal-member width carry vertical reaction; no fatigue or eccentricity resistance assumed.",
+        "id": "planning-six-car-460800kg/intersection_weld_nominal_shear",
+        "limit": 120000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 108920827.9156859
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. VQ/I divided between two longitudinal flange-web fillet throats, with same vertical multiplier.",
+        "id": "planning-six-car-460800kg/longitudinal_flange_weld_shear_flow",
+        "limit": 120000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 16613411.854774727
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two-row bolt group, explicit 0.3g horizontal hypothesis and 1m moment arm. sqrt(sigma^2+3*tau^2), not a connection-code interaction or crash assessment; pad bears vertical load.",
+        "id": "planning-six-car-460800kg/support_bolt_combined_nominal_stress",
+        "limit": 400000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 336498378.9102624
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Vertical reaction divided by net pad footprint; bogie mating body, contact pressure distribution and prying not qualified.",
+        "id": "planning-six-car-460800kg/support_pad_bearing",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 5235684.491995222
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Full body load treated as uniform floor demand on largest actual bearer spacing; each side half-span simply supported.",
+        "id": "planning-six-car-460800kg/crossbearer_floor_tributary_stress",
+        "limit": 235000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 110849289.9313887
+      },
+      {
+        "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Local floor bearer deflection under largest actual tributary pitch; shell participation not claimed.",
+        "id": "planning-six-car-460800kg/crossbearer_floor_tributary_deflection",
+        "limit": 0.001,
+        "state": "pass",
+        "units": "m",
+        "value": 0.0008486898760371944
+      }
+    ],
+    "component_ids": [
+      "sixcar-proposed-underframe",
+      "sixcar-proposed-bolster"
+    ],
+    "configuration_id": "metro-6car-planning",
+    "connections": {
+      "bolt_coarse_pitch_m": 0.003,
+      "bolt_nominal_diameter_m": 0.027,
+      "bolt_order_grade_origin_and_clearance_accepted": false,
+      "bolt_shear_per_bolt_n": 12864.282250095259,
+      "bolt_tensile_area_m2": 0.000459,
+      "bolt_tension_per_bolt_n": 128642.82250095258,
+      "bolts_per_support": 8,
+      "load_path": [
+        "Body UDL and full proposed steel -> three longitudinal members",
+        "Rigid transverse compatibility hypothesis -> EI shares at two bogie stations",
+        "Side reactions -> transverse I bolsters; centre reaction -> central pad",
+        "Stiffeners/flange-web welds -> pads in bearing -> unverified bogie mating body",
+        "Horizontal inertia and overturning -> two-row hold-down bolt groups"
+      ],
+      "longitudinal_reaction_shares": [
+        0.41238674672244446,
+        0.175226506555111,
+        0.41238674672244446
+      ],
+      "qualified": false,
+      "requested_bolt_property_class": "8.8 proposed-unaccepted",
+      "vertical_reactions_n": [
+        342930.37996030354,
+        342930.37996030354
+      ],
+      "weld_throat_m": 0.004
+    },
+    "engineering_design_complete": false,
+    "failed_check_ids": [],
+    "geometry": {
+      "bolster_span_m": 2.34,
+      "crossbearer_x_m": [
+        2.25,
+        4.0,
+        5.75,
+        7.5,
+        9.25,
+        11.0,
+        12.75,
+        14.5,
+        16.25
+      ],
+      "parts": [
+        {
+          "at_m": [
+            0.25,
+            -1.17,
+            0.0
+          ],
+          "id": "side-left-lower-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            0.25,
+            -1.17,
+            0.738
+          ],
+          "id": "side-left-upper-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            0.25,
+            -1.054,
+            0.012
+          ],
+          "id": "side-left-web-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            -1.17,
+            0.0
+          ],
+          "id": "side-left-lower-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            -1.17,
+            0.738
+          ],
+          "id": "side-left-upper-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            -1.054,
+            0.012
+          ],
+          "id": "side-left-web-2-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            -1.17,
+            0.0
+          ],
+          "id": "side-left-lower-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            -1.17,
+            0.738
+          ],
+          "id": "side-left-upper-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            -1.054,
+            0.012
+          ],
+          "id": "side-left-web-3-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            -1.17,
+            0.0
+          ],
+          "id": "side-left-lower-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            -1.17,
+            0.738
+          ],
+          "id": "side-left-upper-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            -1.054,
+            0.012
+          ],
+          "id": "side-left-web-4-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            -1.17,
+            0.0
+          ],
+          "id": "side-left-lower-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            -1.17,
+            0.738
+          ],
+          "id": "side-left-upper-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            -1.054,
+            0.012
+          ],
+          "id": "side-left-web-5-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            0.34999999999999964,
+            -0.15,
+            0.0
+          ],
+          "id": "spine-lower-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            0.34999999999999964,
+            -0.15,
+            0.492
+          ],
+          "id": "spine-upper-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            0.34999999999999964,
+            -0.15,
+            0.008
+          ],
+          "id": "spine-web-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            0.34999999999999964,
+            0.142,
+            0.008
+          ],
+          "id": "spine-web-1-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            3.9099999999999997,
+            -0.15,
+            0.0
+          ],
+          "id": "spine-lower-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            3.9099999999999997,
+            -0.15,
+            0.492
+          ],
+          "id": "spine-upper-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            3.9099999999999997,
+            -0.15,
+            0.008
+          ],
+          "id": "spine-web-2-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            3.9099999999999997,
+            0.142,
+            0.008
+          ],
+          "id": "spine-web-2-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            7.47,
+            -0.15,
+            0.0
+          ],
+          "id": "spine-lower-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            7.47,
+            -0.15,
+            0.492
+          ],
+          "id": "spine-upper-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            7.47,
+            -0.15,
+            0.008
+          ],
+          "id": "spine-web-3-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            7.47,
+            0.142,
+            0.008
+          ],
+          "id": "spine-web-3-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            11.03,
+            -0.15,
+            0.0
+          ],
+          "id": "spine-lower-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            11.03,
+            -0.15,
+            0.492
+          ],
+          "id": "spine-upper-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            11.03,
+            -0.15,
+            0.008
+          ],
+          "id": "spine-web-4-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            11.03,
+            0.142,
+            0.008
+          ],
+          "id": "spine-web-4-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            14.59,
+            -0.15,
+            0.0
+          ],
+          "id": "spine-lower-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            14.59,
+            -0.15,
+            0.492
+          ],
+          "id": "spine-upper-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ]
+        },
+        {
+          "at_m": [
+            14.59,
+            -0.15,
+            0.008
+          ],
+          "id": "spine-web-5-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            14.59,
+            0.142,
+            0.008
+          ],
+          "id": "spine-web-5-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            0.34999999999999964,
+            -0.142,
+            0.008
+          ],
+          "id": "spine-end-closure-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            18.142,
+            -0.142,
+            0.008
+          ],
+          "id": "spine-end-closure-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            0.25,
+            0.93,
+            0.0
+          ],
+          "id": "side-right-lower-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            0.25,
+            0.93,
+            0.738
+          ],
+          "id": "side-right-upper-1",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            0.25,
+            1.046,
+            0.012
+          ],
+          "id": "side-right-web-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            0.93,
+            0.0
+          ],
+          "id": "side-right-lower-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            0.93,
+            0.738
+          ],
+          "id": "side-right-upper-2",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.85,
+            1.046,
+            0.012
+          ],
+          "id": "side-right-web-2-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            0.93,
+            0.0
+          ],
+          "id": "side-right-lower-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            0.93,
+            0.738
+          ],
+          "id": "side-right-upper-3",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            7.45,
+            1.046,
+            0.012
+          ],
+          "id": "side-right-web-3-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            0.93,
+            0.0
+          ],
+          "id": "side-right-lower-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            0.93,
+            0.738
+          ],
+          "id": "side-right-upper-4",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            11.05,
+            1.046,
+            0.012
+          ],
+          "id": "side-right-web-4-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            0.93,
+            0.0
+          ],
+          "id": "side-right-lower-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            0.93,
+            0.738
+          ],
+          "id": "side-right-upper-5",
+          "joint_route": "full-penetration transverse butt weld at each segment boundary; qualification unknown",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.65,
+            1.046,
+            0.012
+          ],
+          "id": "side-right-web-5-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.35,
+            -1.17,
+            -0.65
+          ],
+          "holes": [
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.07
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.1366666666666667
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.2033333333333334
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.27
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.07
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.1366666666666667
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.2033333333333334
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.27
+            }
+          ],
+          "id": "bolster-1-lower",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.35,
+            -1.17,
+            -0.012
+          ],
+          "id": "bolster-1-upper",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            3.496,
+            -1.17,
+            -0.638
+          ],
+          "id": "bolster-1-web",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            2.34,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            3.346,
+            -1.17,
+            0.012
+          ],
+          "id": "diaphragm-1-left-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.346,
+            -1.046,
+            0.012
+          ],
+          "id": "diaphragm-1-left-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.646,
+            -1.17,
+            0.012
+          ],
+          "id": "diaphragm-1-left-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.646,
+            -1.046,
+            0.012
+          ],
+          "id": "diaphragm-1-left-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.346,
+            -0.142,
+            0.008
+          ],
+          "id": "diaphragm-1-centre-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            3.646,
+            -0.142,
+            0.008
+          ],
+          "id": "diaphragm-1-centre-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            3.346,
+            0.93,
+            0.012
+          ],
+          "id": "diaphragm-1-right-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.346,
+            1.054,
+            0.012
+          ],
+          "id": "diaphragm-1-right-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.646,
+            0.93,
+            0.012
+          ],
+          "id": "diaphragm-1-right-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.646,
+            1.054,
+            0.012
+          ],
+          "id": "diaphragm-1-right-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            3.34,
+            -0.16,
+            -0.675
+          ],
+          "holes": [
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.06
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.12666666666666665
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.19333333333333333
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.26
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.06
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.12666666666666665
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.19333333333333333
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.26
+            }
+          ],
+          "id": "bogie-interface-pad-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.32,
+            0.32,
+            0.025
+          ]
+        },
+        {
+          "at_m": [
+            3.35,
+            -0.16,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-1-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            3.504,
+            -0.16,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-1-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            3.35,
+            0.152,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-1-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            3.504,
+            0.152,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-1-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            14.85,
+            -1.17,
+            -0.65
+          ],
+          "holes": [
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.07
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.1366666666666667
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.2033333333333334
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.04999999999999999,
+              "y_m": 1.27
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.07
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.1366666666666667
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.2033333333333334
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.25,
+              "y_m": 1.27
+            }
+          ],
+          "id": "bolster-2-lower",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.85,
+            -1.17,
+            -0.012
+          ],
+          "id": "bolster-2-upper",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ]
+        },
+        {
+          "at_m": [
+            14.996,
+            -1.17,
+            -0.638
+          ],
+          "id": "bolster-2-web",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            2.34,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            14.846,
+            -1.17,
+            0.012
+          ],
+          "id": "diaphragm-2-left-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.846,
+            -1.046,
+            0.012
+          ],
+          "id": "diaphragm-2-left-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            15.146,
+            -1.17,
+            0.012
+          ],
+          "id": "diaphragm-2-left-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            15.146,
+            -1.046,
+            0.012
+          ],
+          "id": "diaphragm-2-left-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.846,
+            -0.142,
+            0.008
+          ],
+          "id": "diaphragm-2-centre-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            15.146,
+            -0.142,
+            0.008
+          ],
+          "id": "diaphragm-2-centre-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ]
+        },
+        {
+          "at_m": [
+            14.846,
+            0.93,
+            0.012
+          ],
+          "id": "diaphragm-2-right-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.846,
+            1.054,
+            0.012
+          ],
+          "id": "diaphragm-2-right-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            15.146,
+            0.93,
+            0.012
+          ],
+          "id": "diaphragm-2-right-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            15.146,
+            1.054,
+            0.012
+          ],
+          "id": "diaphragm-2-right-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ]
+        },
+        {
+          "at_m": [
+            14.84,
+            -0.16,
+            -0.675
+          ],
+          "holes": [
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.06
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.12666666666666665
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.19333333333333333
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.06,
+              "y_m": 0.26
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.06
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.12666666666666665
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.19333333333333333
+            },
+            {
+              "axis": "z",
+              "diameter_m": 0.0297,
+              "x_m": 0.26,
+              "y_m": 0.26
+            }
+          ],
+          "id": "bogie-interface-pad-2",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.32,
+            0.32,
+            0.025
+          ]
+        },
+        {
+          "at_m": [
+            14.85,
+            -0.16,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-2-0-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            15.004,
+            -0.16,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-2-0-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            14.85,
+            0.152,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-2-1-0",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            15.004,
+            0.152,
+            -0.638
+          ],
+          "id": "bolster-pad-stiffener-2-1-1",
+          "kind": "box",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-fabricated-plate",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ]
+        },
+        {
+          "at_m": [
+            2.21,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-1-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            2.21,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-1-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            3.96,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-2-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            3.96,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-2-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            5.71,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-3-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            5.71,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-3-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            7.46,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-4-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            7.46,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-4-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            9.21,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-5-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            9.21,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-5-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            10.96,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-6-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            10.96,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-6-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            12.71,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-7-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            12.71,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-7-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            14.46,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-8-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            14.46,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-8-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            16.21,
+            -0.93,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-9-1",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        },
+        {
+          "at_m": [
+            16.21,
+            0.15,
+            0.0
+          ],
+          "axis": 1,
+          "id": "crossbearer-9-2",
+          "kind": "tube",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "role": "provisional-crossbearer",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "wall_m": 0.006
+        }
+      ]
+    },
+    "id": "mechanical-detail-a2c4131631a05b",
+    "interfaces": [
+      {
+        "id": "frame-to-bogie-pad",
+        "revision": "proposed-unaccepted",
+        "state": "unknown"
+      },
+      {
+        "id": "frame-to-floor-gauge",
+        "revision": "proposed-unaccepted",
+        "state": "unknown"
+      },
+      {
+        "id": "plate-to-weld-process",
+        "revision": "proposed-unaccepted",
+        "state": "unknown"
+      }
+    ],
+    "local_calculated_checks_passed": true,
+    "manufacturing": {
+      "bom": [
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-lower-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-upper-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-left-web-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-lower-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-upper-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-left-web-2-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-lower-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-upper-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-left-web-3-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-lower-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-upper-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-left-web-4-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-lower-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-left-upper-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-left-web-5-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-lower-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-upper-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-1-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-lower-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-upper-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-2-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-2-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-lower-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-upper-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-3-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-3-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-lower-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-upper-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-4-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-4-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-lower-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 67.0704,
+          "part_id": "spine-upper-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.3,
+            0.008
+          ],
+          "stock_blank_mass_kg": 67.0704
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-5-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 108.206912,
+          "part_id": "spine-web-5-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.56,
+            0.008,
+            0.484
+          ],
+          "stock_blank_mass_kg": 108.206912
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "spine-end-closure-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "spine-end-closure-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-lower-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-upper-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-right-web-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-lower-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-upper-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-right-web-2-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-lower-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-upper-3",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-right-web-3-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-lower-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-upper-4",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-right-web-4-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-lower-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 81.3888,
+          "part_id": "side-right-upper-5",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.24,
+            0.012
+          ],
+          "stock_blank_mass_kg": 81.3888
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 164.13408,
+          "part_id": "side-right-web-5-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            3.6,
+            0.008,
+            0.726
+          ],
+          "stock_blank_mass_kg": 164.13408
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 65.60631204981918,
+          "part_id": "bolster-1-lower",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ],
+          "stock_blank_mass_kg": 66.1284
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 66.1284,
+          "part_id": "bolster-1-upper",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ],
+          "stock_blank_mass_kg": 66.1284
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 91.991952,
+          "part_id": "bolster-1-web",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            2.34,
+            0.626
+          ],
+          "stock_blank_mass_kg": 91.991952
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-left-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-left-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-left-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-left-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "diaphragm-1-centre-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "diaphragm-1-centre-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-right-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-right-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-right-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-1-right-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 19.00831677045654,
+          "part_id": "bogie-interface-pad-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.32,
+            0.32,
+            0.025
+          ],
+          "stock_blank_mass_kg": 20.096
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-1-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-1-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-1-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-1-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 65.60631204981918,
+          "part_id": "bolster-2-lower",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ],
+          "stock_blank_mass_kg": 66.1284
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 66.1284,
+          "part_id": "bolster-2-upper",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.3,
+            2.34,
+            0.012
+          ],
+          "stock_blank_mass_kg": 66.1284
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 91.991952,
+          "part_id": "bolster-2-web",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            2.34,
+            0.626
+          ],
+          "stock_blank_mass_kg": 91.991952
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-left-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-left-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-left-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-left-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "diaphragm-2-centre-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 8.632236799999998,
+          "part_id": "diaphragm-2-centre-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.284,
+            0.484
+          ],
+          "stock_blank_mass_kg": 8.632236799999998
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-right-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-right-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-right-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.2887648,
+          "part_id": "diaphragm-2-right-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.008,
+            0.11599999999999999,
+            0.726
+          ],
+          "stock_blank_mass_kg": 5.2887648
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 19.00831677045654,
+          "part_id": "bogie-interface-pad-2",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.32,
+            0.32,
+            0.025
+          ],
+          "stock_blank_mass_kg": 20.096
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-2-0-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-2-0-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-2-1-0",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "flat plate profile and finish holes",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 5.7396688000000005,
+          "part_id": "bolster-pad-stiffener-2-1-1",
+          "quantity": 1,
+          "shape": "box",
+          "size_m": [
+            0.146,
+            0.008,
+            0.626
+          ],
+          "stock_blank_mass_kg": 5.7396688000000005
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-1-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-1-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-2-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-2-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-3-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-3-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-4-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-4-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-5-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-5-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-6-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-6-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-7-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-7-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-8-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-8-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-9-1",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        },
+        {
+          "cutting_route": "cut purchased or fabricated sharp-corner RHS; exact mill geometry unknown",
+          "material_request": "S355 weldable plate, exact subgrade/condition pending",
+          "material_request_accepted": false,
+          "net_part_mass_kg": 13.813487999999996,
+          "part_id": "crossbearer-9-2",
+          "quantity": 1,
+          "shape": "tube",
+          "size_m": [
+            0.08,
+            0.78,
+            0.12
+          ],
+          "stock_blank_mass_kg": 58.7808
+        }
+      ],
+      "datums": [
+        {
+          "definition": "Two machined bogie support pad lower faces; common plane, not raw welded flange",
+          "id": "A"
+        },
+        {
+          "definition": "Longitudinal vehicle centre plane through support pad centre marks",
+          "id": "B"
+        },
+        {
+          "definition": "Forward bogie support station transverse plane",
+          "id": "C"
+        }
+      ],
+      "fixture": {
+        "payload_reservation_kg": 25000,
+        "rated_capacity_accepted": false,
+        "size_m": [
+          20,
+          3.2
+        ]
+      },
+      "machine_leads": [
+        {
+          "adopted_or_ordered": false,
+          "id": "swift-cut-xp4000",
+          "manufacturer": "Swift-Cut",
+          "model": "XP 4000",
+          "observed_on": "2026-10-17",
+          "origin_basis": "Manufacturer states machines are manufactured in the UK; Hypertherm plasma equipment is made in the USA and Hammelmann waterjet pumps in Germany. The offered machine and configuration still need confirmation.",
+          "origin_class": "British-manufactured-machine-with-imported-subsystems",
+          "published_cutting_area_m": [
+            4.0,
+            2.0
+          ],
+          "published_limits_basis": "Use the specific XP brochure's 32 mm thickness, not inconsistent 40 mm headline marketing. Published values are screening evidence, not offered capacity or precision acceptance.",
+          "published_linear_accuracy_m_per_m": 0.0005,
+          "published_maximum_supported_load_kg": 2010,
+          "published_maximum_thickness_m": 0.032,
+          "urls": [
+            "https://swift-cut.com/",
+            "https://swift-cut.com/wp-content/uploads/2023/07/ENXP030423.pdf"
+          ]
+        },
+        {
+          "adopted_or_ordered": false,
+          "available_plate_length_m": null,
+          "available_plate_width_m": null,
+          "certified_grade": null,
+          "id": "liberty-dalzell-plate",
+          "manufacturer": "Liberty Steel Dalzell",
+          "observed_on": "2026-10-17",
+          "origin_basis": "Manufacturer plate datasheet identifies Dalzell plate production and S355 grades. Historical catalogue establishes a UK plate route lead only, not current availability, UK melt origin, required dimensions or a certified order.",
+          "origin_class": "British-rolling-location-documented-current-availability-unconfirmed",
+          "urls": [
+            "https://libertysteelgroup.com/uk/wp-content/uploads/sites/2/2020/12/Liberty-Steel-Dalzell-Datasheet.pdf"
+          ]
+        },
+        {
+          "adopted_or_ordered": false,
+          "id": "kingsland-sheringham",
+          "manufacturer": "Kingsland",
+          "observed_on": "2026-10-17",
+          "origin_basis": "Manufacturer identifies in-house tooling and accessories at Sheringham, Norfolk and UK-made steelworkers. Exact offered machine origin must be confirmed; CNC controls are stated to come from sister company Robosoft in Belgium.",
+          "origin_class": "British-manufactured-tooling-and-steelworker-lead",
+          "urls": [
+            "https://www.kingsland.com/en",
+            "https://www.kingsland.com/en/news"
+          ],
+          "use": "Secondary plate/fixture tooling lead; no punching substitution for finished fatigue-critical bolt holes is approved."
+        },
+        {
+          "adopted_or_ordered": false,
+          "id": "smith-bullough-fasteners",
+          "manufacturer": "Smith Bullough",
+          "observed_on": "2026-10-17",
+          "offered_m27_configuration": null,
+          "origin_basis": "Manufacturer describes Greater Manchester production by hot forging, cold forming, machining and threading, with metric coarse/fine M6-M64 capability. This supports a UK manufacturing route lead, not M27 stock, rail qualification or a confirmed offered grade/geometry/origin.",
+          "origin_class": "British-manufactured-special-fastener-lead-exact-order-unconfirmed",
+          "urls": [
+            "https://smithbullough.com/"
+          ]
+        }
+      ],
+      "released": false,
+      "sequence": [
+        "Obtain certified stock/heat trace and accepted drawings; dry nest to verify sheet footprint and total bed load.",
+        "Profile segmented plates on UK-manufactured XP4000 lead only where dimensions pass; leave 3mm finish allowance at datum/bolt interfaces.",
+        "Prepare and qualify transverse butt joints; join long strips with controlled sequence before I/box assembly. Inspect every research splice before closing box.",
+        "Assemble on proposed 20m datum fixture; fit centre-box internal diaphragms before closing top. Weld opposite seams in a balanced sequence and record distortion.",
+        "Fit side stiffener halves and transverse bolsters; keep pad interfaces as machining allowance until weld inspection and dimensional survey.",
+        "Machine pads to common datum A with portable milling/boring process whose machine, reach and capacity are still unspecified; drill/ream bolt holes from datums B/C. Plasma holes are not accepted finished fatigue holes.",
+        "Inspect welds by an approved VT/MT/UT plan, measure complete frame datums, trial fit bogie mating parts, conduct approved proof/fatigue/first-article programme before release."
+      ],
+      "tolerances": {
+        "bolt_hole_position_relative_to_A_B_C_m": 0.00025,
+        "cut_profile_allowance_m": 0.003,
+        "exact_machine_capability_demonstrated": false,
+        "state": "proposed-unaccepted",
+        "support_face_coplanarity_m": 0.0005,
+        "support_station_distance_m": 0.001
+      }
+    },
+    "manufacturing_release": false,
+    "materials": {
+      "accepted": false,
+      "assumed_properties": {
+        "accepted_properties": false,
+        "basis": "Illustrative conservative screening values, not certified plate, bolt or weld design resistance. Thickness, temperature, fracture, fatigue and code factors remain unaccepted.",
+        "density_kg_m3": 7850,
+        "designation_requested": "S355 weldable plate, exact subgrade/condition pending",
+        "poisson_ratio": 0.3,
+        "research_bolt_equivalent_stress_limit_pa": 400000000,
+        "research_normal_stress_limit_pa": 235000000,
+        "research_weld_shear_limit_pa": 120000000,
+        "young_modulus_pa": 200000000000
+      },
+      "fastener_request": {
+        "area_basis": "Nominal metric coarse stress areas, rounded down; M27 pitch3mm and459mm2. Not certified delivered fastener properties or connection resistance. The400MPa illustrative equivalent stress limit is unchanged.",
+        "clearance_holes": "Research diameter1.1d in bothpad andbolsterflange; accepted clearanceclass, tolerance, head/nut/threadengagement and coating remainunknown.",
+        "coarse_pitch_m": {
+          "0.016": 0.002,
+          "0.020": 0.0025,
+          "0.024": 0.003,
+          "0.027": 0.003
+        },
+        "grade_and_origin_confirmed": false,
+        "property_class_requested": "8.8 proposed-unaccepted",
+        "tensile_stress_area_m2": {
+          "0.016": 0.000157,
+          "0.020": 0.000245,
+          "0.024": 0.000353,
+          "0.027": 0.000459
+        }
+      },
+      "request": "S355 weldable plate, exact subgrade/condition pending"
+    },
+    "metrics": {
+      "beam": {
+        "deflection_at_supports_m": [
+          0.0,
+          4.618559392209928e-18
+        ],
+        "deflection_extrema_x_m": [
+          0.0,
+          3.5,
+          4.687928102276335,
+          9.25,
+          13.812071897723664,
+          15.0,
+          18.5
+        ],
+        "ei_n_m2": 504119626.66666675,
+        "first_moment_balance_error_nm": 9.313225746154785e-10,
+        "force_balance_error_n": 0.0,
+        "maximum_abs_deflection_m": 0.009301583364947491,
+        "maximum_abs_moment_nm": 385796.6774553417,
+        "maximum_abs_shear_n": 213172.93889424275,
+        "reactions_n": [
+          342930.37996030354,
+          342930.37996030354
+        ],
+        "uniform_load_n_m": 37073.55459030309
+      },
+      "bolster_stress_pa": 67303214.89393735,
+      "bolster_tip_deflection_m": 0.00038052202266956886,
+      "butt_interfaces_per_longitudinal_plate": 4,
+      "load_case_responses": [
+        {
+          "added_gross_steel_per_car_kg": 5938.333673640552,
+          "beam": {
+            "deflection_at_supports_m": [
+              0.0,
+              4.618559392209928e-18
+            ],
+            "deflection_extrema_x_m": [
+              0.0,
+              3.5,
+              4.687928102276335,
+              9.25,
+              13.812071897723664,
+              15.0,
+              18.5
+            ],
+            "ei_n_m2": 504119626.66666675,
+            "first_moment_balance_error_nm": 9.313225746154785e-10,
+            "force_balance_error_n": 0.0,
+            "maximum_abs_deflection_m": 0.009301583364947491,
+            "maximum_abs_moment_nm": 385796.6774553417,
+            "maximum_abs_shear_n": 213172.93889424275,
+            "reactions_n": [
+              342930.37996030354,
+              342930.37996030354
+            ],
+            "uniform_load_n_m": 37073.55459030309
+          },
+          "connections": {
+            "bolt_coarse_pitch_m": 0.003,
+            "bolt_nominal_diameter_m": 0.027,
+            "bolt_order_grade_origin_and_clearance_accepted": false,
+            "bolt_shear_per_bolt_n": 12864.282250095259,
+            "bolt_tensile_area_m2": 0.000459,
+            "bolt_tension_per_bolt_n": 128642.82250095258,
+            "bolts_per_support": 8,
+            "load_path": [
+              "Body UDL and full proposed steel -> three longitudinal members",
+              "Rigid transverse compatibility hypothesis -> EI shares at two bogie stations",
+              "Side reactions -> transverse I bolsters; centre reaction -> central pad",
+              "Stiffeners/flange-web welds -> pads in bearing -> unverified bogie mating body",
+              "Horizontal inertia and overturning -> two-row hold-down bolt groups"
+            ],
+            "longitudinal_reaction_shares": [
+              0.41238674672244446,
+              0.175226506555111,
+              0.41238674672244446
+            ],
+            "qualified": false,
+            "requested_bolt_property_class": "8.8 proposed-unaccepted",
+            "vertical_reactions_n": [
+              342930.37996030354,
+              342930.37996030354
+            ],
+            "weld_throat_m": 0.004
+          },
+          "id": "planning-six-car-384000kg",
+          "member_stresses_pa": [
+            71745745.64888647,
+            47830497.09925765,
+            71745745.64888647
+          ],
+          "original_train_mass_kg": 384000.0
+        },
+        {
+          "accepted_loading": false,
+          "added_gross_steel_per_car_kg": 5938.333673640552,
+          "beam": {
+            "deflection_at_supports_m": [
+              0.0,
+              -3.694847513767943e-18
+            ],
+            "deflection_extrema_x_m": [
+              0.0,
+              3.5,
+              4.687928102276334,
+              9.25,
+              13.812071897723666,
+              15.0,
+              18.49999974808774,
+              18.5
+            ],
+            "ei_n_m2": 504119626.66666675,
+            "first_moment_balance_error_nm": 0.0,
+            "force_balance_error_n": 0.0,
+            "maximum_abs_deflection_m": 0.011003944013499824,
+            "maximum_abs_moment_nm": 456404.55745534156,
+            "maximum_abs_shear_n": 252187.5032185671,
+            "reactions_n": [
+              405692.93996030354,
+              405692.93996030354
+            ],
+            "uniform_load_n_m": 43858.696211924704
+          },
+          "connections": {
+            "bolt_coarse_pitch_m": 0.003,
+            "bolt_nominal_diameter_m": 0.027,
+            "bolt_order_grade_origin_and_clearance_accepted": false,
+            "bolt_shear_per_bolt_n": 15218.682250095258,
+            "bolt_tensile_area_m2": 0.000459,
+            "bolt_tension_per_bolt_n": 152186.82250095258,
+            "bolts_per_support": 8,
+            "load_path": [
+              "Body UDL and full proposed steel -> three longitudinal members",
+              "Rigid transverse compatibility hypothesis -> EI shares at two bogie stations",
+              "Side reactions -> transverse I bolsters; centre reaction -> central pad",
+              "Stiffeners/flange-web welds -> pads in bearing -> unverified bogie mating body",
+              "Horizontal inertia and overturning -> two-row hold-down bolt groups"
+            ],
+            "longitudinal_reaction_shares": [
+              0.41238674672244446,
+              0.175226506555111,
+              0.41238674672244446
+            ],
+            "qualified": false,
+            "requested_bolt_property_class": "8.8 proposed-unaccepted",
+            "vertical_reactions_n": [
+              405692.93996030354,
+              405692.93996030354
+            ],
+            "weld_throat_m": 0.004
+          },
+          "id": "planning-six-car-460800kg",
+          "member_stresses_pa": [
+            84876535.24692154,
+            56584356.83128102,
+            84876535.24692154
+          ],
+          "original_train_mass_kg": 460800
+        }
+      ],
+      "maximum_actual_crossbearer_pitch_m": 2.25,
+      "member_stresses_pa": [
+        71745745.64888647,
+        47830497.09925765,
+        71745745.64888647
+      ],
+      "modeled_car_force_n": 685860.7599206071,
+      "modeled_car_mass_kg": 69938.33367364055,
+      "plate_piece_count": 88,
+      "proposed_gross_addition_per_car_kg": 5938.333673640552
+    },
+    "next_actions": [
+      "Resolve qualification gate: source_side_depth_envelope",
+      "Resolve qualification gate: end_load_transfer_and_stiffness_geometry",
+      "Resolve qualification gate: bolster_underfloor_gauge_and_source_compatibility",
+      "Resolve qualification gate: accepted_materials_and_rail_loads",
+      "Resolve qualification gate: lateral_torsional_and_connection_stability",
+      "Resolve qualification gate: qualified_plate_splices_and_welds",
+      "Resolve qualification gate: bogie_mating_interface_and_bolt_qualification",
+      "Resolve qualification gate: machine_and_stock_order_configuration",
+      "Resolve qualification gate: complete_assembled_mass_and_fastener_origin",
+      "Resolve qualification gate: vehicle_system_and_mass_closure"
+    ],
+    "objectives": {
+      "cost": null,
+      "mass_kg": 5938.333673640552
+    },
+    "physical_release": false,
+    "source_sha256": {
+      "engineering/civil_exploration/examples/baghdad-qualification/qualification.json": "1e1aaf39827a49af9d0c28bb52e3bdc141ecdeec67ba976f58a00c05baadfe79",
+      "engineering/generative_design/architecture_mechanical.py": "85f93b212667f03f44994fe16ad355b1e0f1e3043dbbf98e46ba371ff33705c6",
+      "engineering/generative_design/data/integration-systems.json": "bbbb8dc220f76071b59667b5f9973fac762d2b5d6a0b3deeadeb1a90c8647bae",
+      "engineering/generative_design/data/mechanical-detail-space.json": "9e3b71394a6217cedff9fea0cb7e3541fe9827f1f1d73796dd4b98e23c907f13",
+      "engineering/generative_design/mechanical_detail.py": "774e4945a679163eb8cadf8b38f74bf18e6f94a48f4e434b8fdecbc8eff1dc28"
+    },
+    "unknown_check_ids": [
+      "source_side_depth_envelope",
+      "end_load_transfer_and_stiffness_geometry",
+      "bolster_underfloor_gauge_and_source_compatibility",
+      "accepted_materials_and_rail_loads",
+      "lateral_torsional_and_connection_stability",
+      "qualified_plate_splices_and_welds",
+      "bogie_mating_interface_and_bolt_qualification",
+      "machine_and_stock_order_configuration",
+      "complete_assembled_mass_and_fastener_origin",
+      "vehicle_system_and_mass_closure"
+    ],
+    "variable_units": "SI metres, kilograms, newtons, pascals; bolt nominal diameter in metres",
+    "variables": {
+      "bolster_depth_m": 0.65,
+      "bolt_diameter_m": 0.027,
+      "bolts_per_support": 8,
+      "crossbearer_pitch_m": 1.8,
+      "diaphragm_thickness_m": 0.008,
+      "maximum_stock_piece_length_m": 3.8,
+      "plate_thickness_m": 0.012,
+      "side_depth_m": 0.75,
+      "spine_wall_m": 0.008,
+      "web_thickness_m": 0.008,
+      "weld_throat_m": 0.004
+    },
+    "work_package_ids": [
+      "BASIS-CONFIGURATION"
+    ]
+  },
+  "check_details": [
+    {
+      "basis": "Full body UDL and overhang equilibrium; three EI-proportional members under rigid-tie hypothesis. L/1000 is an unaccepted research target.",
+      "id": "global_service_deflection",
+      "limit": 0.0115,
+      "state": "pass",
+      "units": "m",
+      "value": 0.009301583364947491
+    },
+    {
+      "basis": "Elastic stress under explicit 1.25 vertical multiplier, not rail-standard load combinations or accepted design resistance.",
+      "id": "gross_member_normal_stress",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 71745745.64888647
+    },
+    {
+      "basis": "Average web shear; stress concentration, openings and shear buckling interaction not represented.",
+      "id": "gross_web_shear",
+      "limit": 135677313.25956208,
+      "state": "pass",
+      "units": "Pa",
+      "value": 18919958.410782374
+    },
+    {
+      "basis": "Ideal isolated outstand k=0.43, elastic plate formula; diagnostic only, no railway member buckling qualification.",
+      "id": "side_flange_elastic_plate_buckling",
+      "limit": 831806044.4398528,
+      "state": "pass",
+      "units": "Pa",
+      "value": 71745745.64888647
+    },
+    {
+      "basis": "Ideal internal plate under uniform compression k=4 used conservatively versus maximum bending stress; actual stress-gradient/shear interaction unknown.",
+      "id": "side_web_elastic_plate_buckling",
+      "limit": 87795817.40430576,
+      "state": "pass",
+      "units": "Pa",
+      "value": 71745745.64888647
+    },
+    {
+      "basis": "Ideal simply-supported internal plate k=4; no postbuckling, imperfections or fabricated corner resistance adopted.",
+      "id": "centre_plate_elastic_buckling",
+      "limit": 197540589.15968797,
+      "state": "pass",
+      "units": "Pa",
+      "value": 47830497.09925765
+    },
+    {
+      "basis": "Transverse half-bolster cantilever carrying EI-proportional side-member reaction into central support pad.",
+      "id": "bolster_bending",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 67303214.89393735
+    },
+    {
+      "basis": "Local cantilever displacement diagnostic; finite transverse stiffness still requires shell/beam model of actual joint compatibility.",
+      "id": "bolster_tip_deflection",
+      "limit": 0.001,
+      "state": "pass",
+      "units": "m",
+      "value": 0.00038052202266956886
+    },
+    {
+      "basis": "Two stiffener planes per intersection, full-width plate area excluding centre web; local crippling and diaphragm weld qualification remain unknown.",
+      "id": "support_diaphragm_nominal_compression",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 47622556.48710983
+    },
+    {
+      "basis": "Two effective weld runs across each longitudinal-member width carry vertical reaction; no fatigue or eccentricity resistance assumed.",
+      "id": "intersection_weld_nominal_shear",
+      "limit": 120000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 92070275.875079
+    },
+    {
+      "basis": "VQ/I divided between two longitudinal flange-web fillet throats, with same vertical multiplier.",
+      "id": "longitudinal_flange_weld_shear_flow",
+      "limit": 120000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 14043240.78292409
+    },
+    {
+      "basis": "Research fabrication throat/thinner-plate limit; increasing weld without plate thickness can introduce a new failed check.",
+      "id": "weld_size_thinner_plate",
+      "limit": 0.0056,
+      "state": "pass",
+      "units": "m",
+      "value": 0.004
+    },
+    {
+      "basis": "Two-row bolt group, explicit 0.3g horizontal hypothesis and 1m moment arm. sqrt(sigma^2+3*tau^2), not a connection-code interaction or crash assessment; pad bears vertical load.",
+      "id": "support_bolt_combined_nominal_stress",
+      "limit": 400000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 284440535.11755407
+    },
+    {
+      "basis": "Vertical reaction divided by net pad footprint; bogie mating body, contact pressure distribution and prying not qualified.",
+      "id": "support_pad_bearing",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 4425700.068549073
+    },
+    {
+      "basis": "Research edge >= 1.5 hole diameters; actual bolt standard and fatigue layout require acceptance.",
+      "id": "bolt_hole_edge_distance",
+      "limit": 0.06,
+      "state": "pass",
+      "units": "m",
+      "value": 0.04455
+    },
+    {
+      "basis": "1.7d+12mm assumed socket outside diameter plus 5mm gap; actual wrench sweep and service access not proven.",
+      "id": "socket_neighbour_access",
+      "limit": 0.06666666666666667,
+      "state": "pass",
+      "units": "m",
+      "value": 0.0629
+    },
+    {
+      "basis": "Full body load treated as uniform floor demand on largest actual bearer spacing; each side half-span simply supported.",
+      "id": "crossbearer_floor_tributary_stress",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 93700395.96503837
+    },
+    {
+      "basis": "Local floor bearer deflection under largest actual tributary pitch; shell participation not claimed.",
+      "id": "crossbearer_floor_tributary_deflection",
+      "limit": 0.001,
+      "state": "pass",
+      "units": "m",
+      "value": 0.0007173936566073249
+    },
+    {
+      "basis": "Independent six-car planning-only hypothesis: 240 mm side width and 300x500 mm centre spine, not LM3 geometry or a supplier vehicle; no accepted depth/gauge/floor envelope exists.",
+      "id": "source_side_depth_envelope",
+      "limit": null,
+      "state": "unknown",
+      "units": "m",
+      "value": 0.75
+    },
+    {
+      "basis": "Every proposed plate must fit published XP4000 cutting envelope; long stock cannot be processed as if a 4m machine were a 16m machine.",
+      "id": "xp4000_plate_length",
+      "limit": 4.0,
+      "state": "pass",
+      "units": "m",
+      "value": 3.6
+    },
+    {
+      "basis": "Rotation allowed on the flat cutting bed, not an assumed larger cutting table.",
+      "id": "xp4000_plate_width",
+      "limit": 2.0,
+      "state": "pass",
+      "units": "m",
+      "value": 0.726
+    },
+    {
+      "basis": "Specific XP brochure states 32mm maximum; power source, grade, piercing and finish capability still need vendor confirmation.",
+      "id": "xp4000_plate_thickness",
+      "limit": 0.032,
+      "state": "pass",
+      "units": "m",
+      "value": 0.025
+    },
+    {
+      "basis": "Largest individual plate, not a whole loaded nesting sheet. A complete nest load and extraction trial remain unaccepted.",
+      "id": "xp4000_individual_plate_load",
+      "limit": 2010,
+      "state": "pass",
+      "units": "kg",
+      "value": 164.13408
+    },
+    {
+      "basis": "20m assembly fixture reservation only; origin, capacity, stiffness and anchorage unknown.",
+      "id": "proposed_fixture_length",
+      "limit": 20,
+      "state": "pass",
+      "units": "m",
+      "value": 18.5
+    },
+    {
+      "basis": "25t placeholder assembly fixture payload is not offered rated equipment; total suspended load/lifting plan unaccepted.",
+      "id": "proposed_fixture_payload",
+      "limit": 25000,
+      "state": "pass",
+      "units": "kg",
+      "value": 5938.333673640552
+    },
+    {
+      "basis": "Constant EI extends over the full 16.5/18.5m body, whereas native side and centre members terminate 0.25m and 0.35m before each body end. End framing, load introduction and piecewise stiffness are absent. The beam is a declared analytical abstraction, not verified exact native geometry performance.",
+      "id": "end_load_transfer_and_stiffness_geometry",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Proposed bolster is below the longitudinal members. Its vertical placement, suspension travel, floor height and swept gauge are not reconciled with the complete source assembly; source side-depth alone does not demonstrate source compatibility.",
+      "id": "bolster_underfloor_gauge_and_source_compatibility",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Certified grade/subgrade/through-thickness, minimum properties by thickness and temperature, AW3/crash/track-twist/braking/fatigue load combinations and authority acceptance missing.",
+      "id": "accepted_materials_and_rail_loads",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Lateral-torsional buckling, local crippling, connection eccentricity/prying, floor discontinuities, elastic load sharing and full 3D nonlinear model unverified.",
+      "id": "lateral_torsional_and_connection_stability",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "All long-plate segment boundaries require detailed groove, stagger/avoidance of stress hotspots, fatigue class, WPS/PQR, distortion and NDT acceptance; no butt weld is treated as qualified by geometry.",
+      "id": "qualified_plate_splices_and_welds",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Bogie mating pad/bolt supplier drawing, bolt grade/pretension/slip/fatigue/bearing/net section, pad bending, prying and rotation remain unknown.",
+      "id": "bogie_mating_interface_and_bolt_qualification",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Dalzell lead does not establish live plate supply or UK melt origin. Offered XP4000 power source, full nest load, plate flatness, supplier samples and tolerance capability absent.",
+      "id": "machine_and_stock_order_configuration",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Net plate/RHS geometry mass includes finished holes, but bolt/nut/washer, deposited weld metal, coating and remaining vehicle masses are not modeled. Full as-built mass/CG, certified property class, M27 availability where proposed, offered fastener geometry and British manufacturing origin remain unconfirmed.",
+      "id": "complete_assembled_mass_and_fastener_origin",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "All gross proposed steel was added to the original car load. Replacement delta, certified axle ratings, CG, crashworthiness, route gauge, doors, floor, traction, brakes, electrical/fire systems and first article remain open.",
+      "id": "vehicle_system_and_mass_closure",
+      "limit": null,
+      "state": "unknown",
+      "units": "not evaluated",
+      "value": null
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Full body UDL and overhang equilibrium; three EI-proportional members under rigid-tie hypothesis. L/1000 is an unaccepted research target.",
+      "id": "planning-six-car-460800kg/global_service_deflection",
+      "limit": 0.0115,
+      "state": "pass",
+      "units": "m",
+      "value": 0.011003944013499824
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Elastic stress under explicit 1.25 vertical multiplier, not rail-standard load combinations or accepted design resistance.",
+      "id": "planning-six-car-460800kg/gross_member_normal_stress",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 84876535.24692154
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Average web shear; stress concentration, openings and shear buckling interaction not represented.",
+      "id": "planning-six-car-460800kg/gross_web_shear",
+      "limit": 135677313.25956208,
+      "state": "pass",
+      "units": "Pa",
+      "value": 22382658.40572505
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal isolated outstand k=0.43, elastic plate formula; diagnostic only, no railway member buckling qualification.",
+      "id": "planning-six-car-460800kg/side_flange_elastic_plate_buckling",
+      "limit": 831806044.4398528,
+      "state": "pass",
+      "units": "Pa",
+      "value": 84876535.24692154
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal internal plate under uniform compression k=4 used conservatively versus maximum bending stress; actual stress-gradient/shear interaction unknown.",
+      "id": "planning-six-car-460800kg/side_web_elastic_plate_buckling",
+      "limit": 87795817.40430576,
+      "state": "pass",
+      "units": "Pa",
+      "value": 84876535.24692154
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Ideal simply-supported internal plate k=4; no postbuckling, imperfections or fabricated corner resistance adopted.",
+      "id": "planning-six-car-460800kg/centre_plate_elastic_buckling",
+      "limit": 197540589.15968797,
+      "state": "pass",
+      "units": "Pa",
+      "value": 56584356.83128102
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Transverse half-bolster cantilever carrying EI-proportional side-member reaction into central support pad.",
+      "id": "planning-six-car-460800kg/bolster_bending",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 79620939.74369434
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Local cantilever displacement diagnostic; finite transverse stiffness still requires shell/beam model of actual joint compatibility.",
+      "id": "planning-six-car-460800kg/bolster_tip_deflection",
+      "limit": 0.001,
+      "state": "pass",
+      "units": "m",
+      "value": 0.00045016454393550256
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two stiffener planes per intersection, full-width plate area excluding centre web; local crippling and diaphragm weld qualification remain unknown.",
+      "id": "planning-six-car-460800kg/support_diaphragm_nominal_compression",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 56338359.26673409
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two effective weld runs across each longitudinal-member width carry vertical reaction; no fatigue or eccentricity resistance assumed.",
+      "id": "planning-six-car-460800kg/intersection_weld_nominal_shear",
+      "limit": 120000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 108920827.9156859
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. VQ/I divided between two longitudinal flange-web fillet throats, with same vertical multiplier.",
+      "id": "planning-six-car-460800kg/longitudinal_flange_weld_shear_flow",
+      "limit": 120000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 16613411.854774727
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Two-row bolt group, explicit 0.3g horizontal hypothesis and 1m moment arm. sqrt(sigma^2+3*tau^2), not a connection-code interaction or crash assessment; pad bears vertical load.",
+      "id": "planning-six-car-460800kg/support_bolt_combined_nominal_stress",
+      "limit": 400000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 336498378.9102624
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Vertical reaction divided by net pad footprint; bogie mating body, contact pressure distribution and prying not qualified.",
+      "id": "planning-six-car-460800kg/support_pad_bearing",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 5235684.491995222
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Full body load treated as uniform floor demand on largest actual bearer spacing; each side half-span simply supported.",
+      "id": "planning-six-car-460800kg/crossbearer_floor_tributary_stress",
+      "limit": 235000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 110849289.9313887
+    },
+    {
+      "basis": "Separate 460.8t six-car planning sensitivity (1.2 times 384t infrastructure allowance), same exact proposed assembly geometry and same added gross steel per car, not an accepted AW2/AW3 supplier load. Service uses this static envelope; strength retains the separately declared unaccepted 1.25 vertical research multiplier. Local floor bearer deflection under largest actual tributary pitch; shell participation not claimed.",
+      "id": "planning-six-car-460800kg/crossbearer_floor_tributary_deflection",
+      "limit": 0.001,
+      "state": "pass",
+      "units": "m",
+      "value": 0.0008486898760371944
+    }
+  ],
+  "checks": {
+    "accepted_materials_and_rail_loads": "unknown",
+    "bogie_mating_interface_and_bolt_qualification": "unknown",
+    "bolster_bending": "pass",
+    "bolster_tip_deflection": "pass",
+    "bolster_underfloor_gauge_and_source_compatibility": "unknown",
+    "bolt_hole_edge_distance": "pass",
+    "centre_plate_elastic_buckling": "pass",
+    "complete_assembled_mass_and_fastener_origin": "unknown",
+    "crossbearer_floor_tributary_deflection": "pass",
+    "crossbearer_floor_tributary_stress": "pass",
+    "end_load_transfer_and_stiffness_geometry": "unknown",
+    "global_service_deflection": "pass",
+    "gross_member_normal_stress": "pass",
+    "gross_web_shear": "pass",
+    "intersection_weld_nominal_shear": "pass",
+    "lateral_torsional_and_connection_stability": "unknown",
+    "longitudinal_flange_weld_shear_flow": "pass",
+    "machine_and_stock_order_configuration": "unknown",
+    "manufacturing/all_blanks_nested": true,
+    "manufacturing/minimum_plate_gauge": true,
+    "manufacturing/plate_thickness": true,
+    "planning-six-car-460800kg/bolster_bending": "pass",
+    "planning-six-car-460800kg/bolster_tip_deflection": "pass",
+    "planning-six-car-460800kg/centre_plate_elastic_buckling": "pass",
+    "planning-six-car-460800kg/crossbearer_floor_tributary_deflection": "pass",
+    "planning-six-car-460800kg/crossbearer_floor_tributary_stress": "pass",
+    "planning-six-car-460800kg/global_service_deflection": "pass",
+    "planning-six-car-460800kg/gross_member_normal_stress": "pass",
+    "planning-six-car-460800kg/gross_web_shear": "pass",
+    "planning-six-car-460800kg/intersection_weld_nominal_shear": "pass",
+    "planning-six-car-460800kg/longitudinal_flange_weld_shear_flow": "pass",
+    "planning-six-car-460800kg/side_flange_elastic_plate_buckling": "pass",
+    "planning-six-car-460800kg/side_web_elastic_plate_buckling": "pass",
+    "planning-six-car-460800kg/support_bolt_combined_nominal_stress": "pass",
+    "planning-six-car-460800kg/support_diaphragm_nominal_compression": "pass",
+    "planning-six-car-460800kg/support_pad_bearing": "pass",
+    "proposed_fixture_length": "pass",
+    "proposed_fixture_payload": "pass",
+    "qualified_plate_splices_and_welds": "unknown",
+    "side_flange_elastic_plate_buckling": "pass",
+    "side_web_elastic_plate_buckling": "pass",
+    "socket_neighbour_access": "pass",
+    "source_side_depth_envelope": "unknown",
+    "support_bolt_combined_nominal_stress": "pass",
+    "support_diaphragm_nominal_compression": "pass",
+    "support_pad_bearing": "pass",
+    "vehicle_system_and_mass_closure": "unknown",
+    "weld_size_thinner_plate": "pass",
+    "xp4000_individual_plate_load": "pass",
+    "xp4000_plate_length": "pass",
+    "xp4000_plate_thickness": "pass",
+    "xp4000_plate_width": "pass"
+  },
+  "design_complete": false,
+  "failed_checks": [],
+  "manufacturing_process": {
+    "checks": {
+      "all_blanks_nested": true,
+      "minimum_plate_gauge": true,
+      "plate_thickness": true
+    },
+    "manufacturing_release": false,
+    "measured_cycle_time_s": null,
+    "metrics": {
+      "profile_cut_length_m": 482.25600000000003,
+      "rectangular_scrap_m2": 39.827759999999984,
+      "sheet_count": 15
+    },
+    "part_coverage": "family profile; complete physical part allocation unavailable",
+    "part_profiles": {},
+    "profile_id": "profile-cut-weld",
+    "profile_sha256": "cc216a77992e03d650999a1ebc7cb69d25535a04842235b9f02523c16afb8182",
+    "quoted_cost": null,
+    "schema": "osr-process-profile-evaluation/1",
+    "scope": "Declared dimensional/process screens and conservative operation replay; no qualified manufacturing process",
+    "source": "engineering/generative_design/data/mechanical-detail-space.json#swift-cut-xp4000",
+    "unknown": [
+      "weld access and distortion",
+      "splice fatigue",
+      "finished datums and NDT",
+      "actual shop capability",
+      "complete executable assembly/removal sequence"
+    ]
+  },
+  "manufacturing_release": false,
+  "metrics": {
+    "cost": null,
+    "mass_kg": 5938.333673640552
+  },
+  "needs": [],
+  "physical_release": false,
+  "physical_validation": false,
+  "repairs": [
+    {
+      "kind": "mechanical-detail",
+      "parameters": {
+        "context_id": "metro-6car-planning",
+        "variables": {
+          "bolster_depth_m": 0.65,
+          "bolt_diameter_m": 0.027,
+          "bolts_per_support": 8,
+          "crossbearer_pitch_m": 1.8,
+          "diaphragm_thickness_m": 0.008,
+          "maximum_stock_piece_length_m": 3.8,
+          "plate_thickness_m": 0.012,
+          "side_depth_m": 0.6,
+          "spine_wall_m": 0.008,
+          "web_thickness_m": 0.008,
+          "weld_throat_m": 0.004
+        }
+      },
+      "parent": "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72",
+      "rationale": "Explore a nearby material-saving geometry; re-evaluate all fixed checks"
+    },
+    {
+      "kind": "mechanical-detail",
+      "parameters": {
+        "context_id": "metro-6car-planning",
+        "variables": {
+          "bolster_depth_m": 0.65,
+          "bolt_diameter_m": 0.027,
+          "bolts_per_support": 8,
+          "crossbearer_pitch_m": 1.8,
+          "diaphragm_thickness_m": 0.008,
+          "maximum_stock_piece_length_m": 3.8,
+          "plate_thickness_m": 0.008,
+          "side_depth_m": 0.75,
+          "spine_wall_m": 0.008,
+          "web_thickness_m": 0.008,
+          "weld_throat_m": 0.004
+        }
+      },
+      "parent": "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72",
+      "rationale": "Explore a nearby material-saving geometry; re-evaluate all fixed checks"
+    },
+    {
+      "kind": "mechanical-detail",
+      "parameters": {
+        "context_id": "metro-6car-planning",
+        "variables": {
+          "bolster_depth_m": 0.45,
+          "bolt_diameter_m": 0.027,
+          "bolts_per_support": 8,
+          "crossbearer_pitch_m": 1.8,
+          "diaphragm_thickness_m": 0.008,
+          "maximum_stock_piece_length_m": 3.8,
+          "plate_thickness_m": 0.012,
+          "side_depth_m": 0.75,
+          "spine_wall_m": 0.008,
+          "web_thickness_m": 0.008,
+          "weld_throat_m": 0.004
+        }
+      },
+      "parent": "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72",
+      "rationale": "Explore a nearby material-saving geometry; re-evaluate all fixed checks"
+    }
+  ],
+  "runtime_sha256": "69cb595955bf6556a296fa471d2b667dc95a8d8487d7db2da64e5b8eb37fb820",
+  "scope": "Configuration-specific analytical detail screens; unknown acceptance remains open",
+  "search_blocked": null,
+  "study_pass": true,
+  "verification": {
+    "evaluated_level": "analytical_screening",
+    "independent_physics_rerun": false,
+    "levels": {
+      "analytical_screening": {
+        "checks": [
+          "global_service_deflection",
+          "gross_member_normal_stress",
+          "gross_web_shear",
+          "side_flange_elastic_plate_buckling",
+          "side_web_elastic_plate_buckling",
+          "centre_plate_elastic_buckling",
+          "bolster_bending",
+          "bolster_tip_deflection",
+          "support_diaphragm_nominal_compression",
+          "intersection_weld_nominal_shear",
+          "longitudinal_flange_weld_shear_flow",
+          "weld_size_thinner_plate",
+          "support_bolt_combined_nominal_stress",
+          "support_pad_bearing",
+          "bolt_hole_edge_distance",
+          "socket_neighbour_access",
+          "crossbearer_floor_tributary_stress",
+          "crossbearer_floor_tributary_deflection",
+          "source_side_depth_envelope",
+          "xp4000_plate_length",
+          "xp4000_plate_width",
+          "xp4000_plate_thickness",
+          "xp4000_individual_plate_load",
+          "proposed_fixture_length",
+          "proposed_fixture_payload",
+          "end_load_transfer_and_stiffness_geometry",
+          "bolster_underfloor_gauge_and_source_compatibility",
+          "accepted_materials_and_rail_loads",
+          "lateral_torsional_and_connection_stability",
+          "qualified_plate_splices_and_welds",
+          "bogie_mating_interface_and_bolt_qualification",
+          "machine_and_stock_order_configuration",
+          "complete_assembled_mass_and_fastener_origin",
+          "vehicle_system_and_mass_closure",
+          "planning-six-car-460800kg/global_service_deflection",
+          "planning-six-car-460800kg/gross_member_normal_stress",
+          "planning-six-car-460800kg/gross_web_shear",
+          "planning-six-car-460800kg/side_flange_elastic_plate_buckling",
+          "planning-six-car-460800kg/side_web_elastic_plate_buckling",
+          "planning-six-car-460800kg/centre_plate_elastic_buckling",
+          "planning-six-car-460800kg/bolster_bending",
+          "planning-six-car-460800kg/bolster_tip_deflection",
+          "planning-six-car-460800kg/support_diaphragm_nominal_compression",
+          "planning-six-car-460800kg/intersection_weld_nominal_shear",
+          "planning-six-car-460800kg/longitudinal_flange_weld_shear_flow",
+          "planning-six-car-460800kg/support_bolt_combined_nominal_stress",
+          "planning-six-car-460800kg/support_pad_bearing",
+          "planning-six-car-460800kg/crossbearer_floor_tributary_stress",
+          "planning-six-car-460800kg/crossbearer_floor_tributary_deflection",
+          "manufacturing/all_blanks_nested",
+          "manufacturing/plate_thickness",
+          "manufacturing/minimum_plate_gauge"
+        ],
+        "scope": "Configuration-specific analytical detail screens; unknown acceptance remains open",
+        "state": "passed"
+      },
+      "native_geometry": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_confirmation": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_robustness": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "physical_correlation": {
+        "checks": [],
+        "state": "not_run"
+      }
+    },
+    "scope": "Configuration-specific analytical detail screens; unknown acceptance remains open"
+  }
+}

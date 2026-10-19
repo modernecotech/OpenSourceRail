@@ -1,0 +1,75 @@
+{
+  "confirmation_key": null,
+  "group": "integration",
+  "id": "integration",
+  "key": "b7e42f877466fcde622f07e105640bac32238d22f8037755f9514d9e1eb8941e",
+  "kind": "integration-protocol",
+  "metrics": {
+    "baseline_axle_force_n": 4518904.32,
+    "coupled_axle_force_n": 4868315.279523643,
+    "failed_civil_checks": [],
+    "gross_added_mass_kg": 35630.00204184331
+  },
+  "outstanding": [
+    "net installed vehicle mass/CG",
+    "coupled vehicle-track-structure dynamics",
+    "hardware/software interfaces",
+    "physical correlation"
+  ],
+  "receipt_sha256": "bf94092f62bf4c1e34116425a8e2b804f3cc5d9640f355ebc43674261beff875",
+  "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration",
+  "task": {
+    "kind": "integration-protocol",
+    "parameters": {
+      "children": [
+        "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72",
+        "6bbe29657906bbc69a0ec116d0e1fddbc8eb2dd53eb9b419ca0a064ef1247f5e",
+        "cd0615106d308f789b12506be73e7a9a7cdb6722cade22547506cca0896660d4",
+        "02a8836665206d948d06aacb9c3942de994dad9707c55870ab7de55b2418d0e3"
+      ],
+      "evidence_revision": "88a00e48079e29172f49b7c21cb1563d755c66cde98eb94146128d473967cc2e",
+      "interface_id": "osr-precharge-link/1"
+    },
+    "parent": null,
+    "rationale": "Compose exact receiver and control executables, propagate protocol faults, and recompute matched gross-mass coupling"
+  },
+  "verification": {
+    "evaluated_level": "analytical_screening",
+    "independent_physics_rerun": false,
+    "levels": {
+      "analytical_screening": {
+        "checks": [
+          "exact_child_revisions",
+          "same_configuration",
+          "applicable_child_evidence",
+          "positive_gross_mass_increases_axle_force",
+          "civil_response_recomputed",
+          "civil_child_study",
+          "mechanical_child_study",
+          "software_child_study",
+          "protocol_child_study",
+          "protocol_fault_propagation"
+        ],
+        "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration",
+        "state": "passed"
+      },
+      "native_geometry": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_confirmation": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_robustness": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "physical_correlation": {
+        "checks": [],
+        "state": "not_run"
+      }
+    },
+    "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration"
+  }
+}

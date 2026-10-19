@@ -1,0 +1,2528 @@
+{
+  "adopted": false,
+  "assessment": {
+    "architecture_id": "metro-6car-planning",
+    "checks": [
+      {
+        "accepted_basis": false,
+        "basis": "Provisional vertical-link truss V=Asw/s*z*fyd*cot(theta), d to declared lower-region equal-area tendon centroid, z=0.9d; no prestress, concrete-tension or reduced-support-shear credit; ultimate chord force/anchorage unqualified",
+        "id": "web_link_steel",
+        "limit": 2013624.2999661183,
+        "state": "pass",
+        "units": "N",
+        "value": 1790597.1077765066
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Separate provisional strut crushing V=alpha_cw*bw*z*nu*fcd/(cot(theta)+tan(theta)); d to lower-region tendon centroid, z=0.9d, alpha_cw=1; ultimate chord/strut geometry unqualified",
+        "id": "web_concrete_strut",
+        "limit": 2765395.862068965,
+        "state": "pass",
+        "units": "N",
+        "value": 1790597.1077765066
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Minimum actual strand-surface distance to link inner straight surfaces; hook regions unresolved",
+        "id": "tendon_link_clearance",
+        "limit": 0.02,
+        "state": "pass",
+        "units": "m",
+        "value": 0.02040000000000004
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Research four-diameter former plus two bar thicknesses must fit stem link interior",
+        "id": "link_bend_envelope",
+        "limit": 0.07200000000000001,
+        "state": "pass",
+        "units": "m",
+        "value": 0.236
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Research straight-hook plus bend reservation; congestion and code anchorage still unqualified",
+        "id": "link_hook_reservation",
+        "limit": 0.18,
+        "state": "pass",
+        "units": "m",
+        "value": 0.236
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Longitudinal access between links; full three-dimensional cage and vibrator path not established",
+        "id": "concrete_placement_access",
+        "limit": 0.03,
+        "state": "pass",
+        "units": "m",
+        "value": 0.18699999999999997
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Two equal-load pad reservations under provisional shear combination; supplier rating, bulging, rotation and anchorage unknown",
+        "id": "bearing_pressure",
+        "limit": 10000000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 9135699.529471971
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Bearing length plus two25mm research edge reservations must fit existing550mm end block",
+        "id": "bearing_end_block_fit",
+        "limit": 0.55,
+        "state": "pass",
+        "units": "m",
+        "value": 0.39999999999999997
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Uniaxial service N,M rigid square base; e<=B/6 required before full-contact linear pressure can be used",
+        "id": "footing_full_contact",
+        "limit": 0.75,
+        "state": "pass",
+        "units": "m",
+        "value": 0.29989658064625396
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Gross service pressure against purely hypothetical150kPa screen; not Baghdad ground bearing capacity or settlement acceptance",
+        "id": "footing_pressure",
+        "limit": 150000,
+        "state": "pass",
+        "units": "Pa",
+        "value": 126023.99853454152
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Exact maximum moving-origin midspan instantaneous gross-EI live response versus unacceptedL/800 screen; not full-span deflection/camber/dynamics acceptance",
+        "id": "midspan_live_deflection",
+        "limit": 0.025,
+        "state": "pass",
+        "units": "m",
+        "value": 0.01392275734154941
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Sampled full-force straight-tendon transfer research screen; recomputed for this 20m context after detail geometry change",
+        "id": "beam_transfer_no_tension",
+        "limit": -1e-06,
+        "state": "pass",
+        "units": "Pa",
+        "value": 5147352.224402372
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Both train-off and exact eventwise live sagging at41 stations; zero tension research criterion only; recomputed for this 20m context after detail geometry change",
+        "id": "beam_service_no_tension",
+        "limit": -1e-06,
+        "state": "pass",
+        "units": "Pa",
+        "value": 4117881.7795218965
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Retained transfer-shortening hypothesis under factored handling bending; sampled fibre screen; recomputed for this 20m context after detail geometry change",
+        "id": "beam_handling_no_tension",
+        "limit": -1e-06,
+        "state": "pass",
+        "units": "Pa",
+        "value": 4067747.42300424
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Exact Pi outer-boundary distance less strand radius against50mm research reservation; actual rebar/durability/fire cover unknown; recomputed for this 20m context after detail geometry change",
+        "id": "beam_concrete_geometric_cover",
+        "limit": 0.05,
+        "state": "pass",
+        "units": "m",
+        "value": 0.08239999999999997
+      },
+      {
+        "accepted_basis": false,
+        "basis": "50mm candidate grip envelope plus5mm research gap; certified grip/jack access unknown; recomputed for this 20m context after detail geometry change",
+        "id": "beam_grip_spacing",
+        "limit": 0.005,
+        "state": "pass",
+        "units": "m",
+        "value": 0.009999999999999828
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Distinct nonoverlapping15.2mm clearance envelopes; recomputed for this 20m context after detail geometry change",
+        "id": "beam_strand_geometry",
+        "limit": 0,
+        "state": "pass",
+        "units": "m",
+        "value": 0.04479999999999983
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Positive numerical retained strand tension; stress/strain resistance not accepted; recomputed for this 20m context after detail geometry change",
+        "id": "beam_retained_strand_tension",
+        "limit": 0,
+        "state": "pass",
+        "units": "Pa",
+        "value": 930003040.2651802
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Approved axle allocation, permanent loads, railway combinations, braking, transverse distribution, torsion, derailment and earthquake actions absent; one span end only, not an interior pier carrying adjacent spans",
+        "id": "adopted_loading",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Concrete/steel/strand properties, cover, exposure/fire and fatigue/endurance not approved; all numerical resistances use stated provisional values",
+        "id": "adopted_materials",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Prestressed ultimate flexure, longitudinal truss tie/shift rule, cracking, development and bond not solved by these web link checks",
+        "id": "beam_flexural_resistance",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Transmission-length force buildup, splitting/bursting, end diaphragm strut-and-tie, cut-off sequence and actual release strength require design and tests",
+        "id": "end_zone_and_transfer",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Actual bend/hook/longitudinal bar intersections, bar schedule, laps/couplers, lifting inserts, tolerances, cage assembly and mould access require dimensioned details and fabricator review",
+        "id": "reinforcement_detail",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "No selected bearing model, pressure rating, movements/rotation, shear keys, restraint, jacking/replacement clearance, pads/seats/grout anchors or supplier GA accepted",
+        "id": "bearing_configuration",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Pier cap flexure/shear, column second-order and biaxial response, cap-column and column-footing connections, footing flexure/punching/shear/rebar unresolved",
+        "id": "support_resistance",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Baghdad survey, boreholes, groundwater, chemical exposure, bearing resistance, settlement, liquefaction and piled/shallow choice absent;150kPa is hypothetical only. Up to5m footing footprint, excavation, utilities, adjacent foundations and route/site permission unconfirmed",
+        "id": "site_ground",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Full-span deflection, cracking, timed losses, creep/shrinkage, camber, track interaction and coupled vehicle dynamics remain open",
+        "id": "full_service_response",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Gross beam fibre screens include changed concrete/strand geometry; estimated added links are included in support demand but their distributed gravity/transfer/handling fibre effects and other conventional reinforcement/attachments require a revised staged full beam calculation",
+        "id": "revised_permanent_loads",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      },
+      {
+        "accepted_basis": false,
+        "basis": "Concrete/rebar trials, stressing equipment qualification, inspection evidence, issued production drawings and independent acceptance absent",
+        "id": "manufacturing_acceptance",
+        "limit": null,
+        "state": "unknown",
+        "units": null,
+        "value": null
+      }
+    ],
+    "component_identity_scope": "Proposed detail identifiers only; controlled_target_mappings identify related source targets without fit, adoption or full coverage",
+    "component_ids": [
+      "PI20",
+      "PIER-CAP-RESEARCH",
+      "PIER-COLUMN-RESEARCH",
+      "OUTER-END-FOOTING-RESEARCH",
+      "BEARING-RESERVATION-RESEARCH"
+    ],
+    "configuration_id": "planning-six-car-460800kg-cg0.5-gross-addition-75c6c87d62",
+    "connections": {
+      "bearing_load_path": "beam -> two provisional pads -> cap -> column -> isolated footing -> hypothetical soil",
+      "detailing_qualified": false,
+      "scope": "single outer span-end support only; no adjacent-span reaction included"
+    },
+    "context_id": "planning-six-car-460800kg-cg0.5-gross-addition-75c6c87d62/pi20",
+    "context_record": {
+      "accepted_loading": false,
+      "applied_axles": [
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-1/bogie-1/axle-1",
+          "x_m": 0.0
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-1/bogie-1/axle-2",
+          "x_m": 2.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-1/bogie-2/axle-1",
+          "x_m": 11.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-1/bogie-2/axle-2",
+          "x_m": 13.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-2/bogie-1/axle-1",
+          "x_m": 18.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-2/bogie-1/axle-2",
+          "x_m": 20.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-2/bogie-2/axle-1",
+          "x_m": 30.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-2/bogie-2/axle-2",
+          "x_m": 32.0
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-3/bogie-1/axle-1",
+          "x_m": 37.0
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-3/bogie-1/axle-2",
+          "x_m": 39.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-3/bogie-2/axle-1",
+          "x_m": 48.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-3/bogie-2/axle-2",
+          "x_m": 50.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-4/bogie-1/axle-1",
+          "x_m": 55.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-4/bogie-1/axle-2",
+          "x_m": 57.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-4/bogie-2/axle-1",
+          "x_m": 67.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-4/bogie-2/axle-2",
+          "x_m": 69.0
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-5/bogie-1/axle-1",
+          "x_m": 74.0
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-5/bogie-1/axle-2",
+          "x_m": 76.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-5/bogie-2/axle-1",
+          "x_m": 85.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-5/bogie-2/axle-2",
+          "x_m": 87.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-6/bogie-1/axle-1",
+          "x_m": 92.5
+        },
+        {
+          "force_n": 231509.55812952106,
+          "id": "car-6/bogie-1/axle-2",
+          "x_m": 94.5
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-6/bogie-2/axle-1",
+          "x_m": 104.0
+        },
+        {
+          "force_n": 275606.6168208584,
+          "id": "car-6/bogie-2/axle-2",
+          "x_m": 106.0
+        }
+      ],
+      "architecture_id": "metro-6car-planning",
+      "configuration_id": "planning-six-car-460800kg-cg0.5-gross-addition-75c6c87d62",
+      "coupled_peak_live_moment_nm": 3467616.546909931,
+      "coupling_basis": "Gross added proposed train-member mass without removal credit, distributed proportionally over source axle forces. Replacement net mass and real axle/CG redistribution unknown.",
+      "dead_end_reaction_n": 377166.7990615,
+      "existing_configuration_compatible": false,
+      "force_sensitivity_multiplier": 1.25,
+      "gross_added_train_mass_kg": 35630.00204184331,
+      "id": "planning-six-car-460800kg-cg0.5-gross-addition-75c6c87d62/pi20",
+      "known_beam_mass_kg": 76920.62000000001,
+      "live_end_reaction_n": 822134.5379766206,
+      "parent_context_id": "planning-six-car-460800kg-cg0.5/pi20",
+      "parent_source_case": {
+        "accepted_loading": false,
+        "architecture_id": "metro-6car-planning",
+        "axles": [
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-1/bogie-1/axle-1",
+            "x_m": 2.5
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-1/bogie-1/axle-2",
+            "x_m": 4.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-1/bogie-2/axle-1",
+            "x_m": 14.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-1/bogie-2/axle-2",
+            "x_m": 16.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-2/bogie-1/axle-1",
+            "x_m": 21.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-2/bogie-1/axle-2",
+            "x_m": 23.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-2/bogie-2/axle-1",
+            "x_m": 32.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-2/bogie-2/axle-2",
+            "x_m": 34.5
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-3/bogie-1/axle-1",
+            "x_m": 39.5
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-3/bogie-1/axle-2",
+            "x_m": 41.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-3/bogie-2/axle-1",
+            "x_m": 51.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-3/bogie-2/axle-2",
+            "x_m": 53.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-4/bogie-1/axle-1",
+            "x_m": 58.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-4/bogie-1/axle-2",
+            "x_m": 60.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-4/bogie-2/axle-1",
+            "x_m": 69.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-4/bogie-2/axle-2",
+            "x_m": 71.5
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-5/bogie-1/axle-1",
+            "x_m": 76.5
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-5/bogie-1/axle-2",
+            "x_m": 78.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-5/bogie-2/axle-1",
+            "x_m": 88.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-5/bogie-2/axle-2",
+            "x_m": 90.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-6/bogie-1/axle-1",
+            "x_m": 95.0
+          },
+          {
+            "force_n": 171914.83826086955,
+            "id": "car-6/bogie-1/axle-2",
+            "x_m": 97.0
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-6/bogie-2/axle-1",
+            "x_m": 106.5
+          },
+          {
+            "force_n": 204660.52173913043,
+            "id": "car-6/bogie-2/axle-2",
+            "x_m": 108.5
+          }
+        ],
+        "cars": 6,
+        "existing_configuration_compatible": false,
+        "id": "planning-six-car-460800kg-cg0.5",
+        "pattern": {
+          "accepted_supplier_pattern": false,
+          "architecture": "metro-6car-provisional-planning",
+          "axle_count": 24,
+          "axles": [
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-1/bogie-1/axle-1",
+              "x_m": 2.5
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-1/bogie-1/axle-2",
+              "x_m": 4.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-1/bogie-2/axle-1",
+              "x_m": 14.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-1/bogie-2/axle-2",
+              "x_m": 16.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-2/bogie-1/axle-1",
+              "x_m": 21.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-2/bogie-1/axle-2",
+              "x_m": 23.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-2/bogie-2/axle-1",
+              "x_m": 32.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-2/bogie-2/axle-2",
+              "x_m": 34.5
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-3/bogie-1/axle-1",
+              "x_m": 39.5
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-3/bogie-1/axle-2",
+              "x_m": 41.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-3/bogie-2/axle-1",
+              "x_m": 51.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-3/bogie-2/axle-2",
+              "x_m": 53.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-4/bogie-1/axle-1",
+              "x_m": 58.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-4/bogie-1/axle-2",
+              "x_m": 60.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-4/bogie-2/axle-1",
+              "x_m": 69.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-4/bogie-2/axle-2",
+              "x_m": 71.5
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-5/bogie-1/axle-1",
+              "x_m": 76.5
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-5/bogie-1/axle-2",
+              "x_m": 78.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-5/bogie-2/axle-1",
+              "x_m": 88.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-5/bogie-2/axle-2",
+              "x_m": 90.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-6/bogie-1/axle-1",
+              "x_m": 95.0
+            },
+            {
+              "force_n": 171914.83826086955,
+              "id": "car-6/bogie-1/axle-2",
+              "x_m": 97.0
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-6/bogie-2/axle-1",
+              "x_m": 106.5
+            },
+            {
+              "force_n": 204660.52173913043,
+              "id": "car-6/bogie-2/axle-2",
+              "x_m": 108.5
+            }
+          ],
+          "cars": 6,
+          "force_g_m_s2": 9.80665,
+          "geometry_basis": "Equal-length cars, equal per-car mass, two symmetric bogies/car and two equally loaded axles/bogie; explicit assumed geometry, no supplier adoption",
+          "longitudinal_cg_offset_m": 0.5,
+          "sensitivity_multiplier": 1,
+          "supplier_pattern": null,
+          "total_mass_kg": 460800
+        },
+        "physical_release": false,
+        "source_basis": "Separate planning architecture; 460800kg is independent +20% mass sensitivity. No LM3 member delta or intercar geometry transferred.",
+        "source_frozen_baseline": false,
+        "total_mass_kg": 460800,
+        "train_length_m": 111
+      },
+      "section": {
+        "area_m2": 1.346,
+        "centroid_z_m": 0.9217979197622587,
+        "depth_m": 1.4,
+        "inertia_x_m4": 0.249163915700842
+      },
+      "source_beam_id": "arch-civil-ebbcc7d34af7",
+      "source_beam_variables": {
+        "depth_m": 1.4,
+        "lift_fraction": 0.2,
+        "lower_strand_fraction": 0.75,
+        "stem_width_m": 0.3,
+        "strand_count": 144
+      },
+      "source_case": {
+        "accepted_loading": false,
+        "actual_cg_allocation_known": false,
+        "architecture_id": "metro-6car-planning",
+        "axles": [
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-1/bogie-1/axle-1",
+            "x_m": 2.5
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-1/bogie-1/axle-2",
+            "x_m": 4.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-1/bogie-2/axle-1",
+            "x_m": 14.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-1/bogie-2/axle-2",
+            "x_m": 16.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-2/bogie-1/axle-1",
+            "x_m": 21.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-2/bogie-1/axle-2",
+            "x_m": 23.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-2/bogie-2/axle-1",
+            "x_m": 32.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-2/bogie-2/axle-2",
+            "x_m": 34.5
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-3/bogie-1/axle-1",
+            "x_m": 39.5
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-3/bogie-1/axle-2",
+            "x_m": 41.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-3/bogie-2/axle-1",
+            "x_m": 51.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-3/bogie-2/axle-2",
+            "x_m": 53.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-4/bogie-1/axle-1",
+            "x_m": 58.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-4/bogie-1/axle-2",
+            "x_m": 60.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-4/bogie-2/axle-1",
+            "x_m": 69.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-4/bogie-2/axle-2",
+            "x_m": 71.5
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-5/bogie-1/axle-1",
+            "x_m": 76.5
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-5/bogie-1/axle-2",
+            "x_m": 78.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-5/bogie-2/axle-1",
+            "x_m": 88.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-5/bogie-2/axle-2",
+            "x_m": 90.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-6/bogie-1/axle-1",
+            "x_m": 95.0
+          },
+          {
+            "force_n": 185207.64650361685,
+            "id": "car-6/bogie-1/axle-2",
+            "x_m": 97.0
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-6/bogie-2/axle-1",
+            "x_m": 106.5
+          },
+          {
+            "force_n": 220485.29345668672,
+            "id": "car-6/bogie-2/axle-2",
+            "x_m": 108.5
+          }
+        ],
+        "cars": 6,
+        "force_multiplier": 1.0773220530421947,
+        "gross_added_train_mass_kg": 35630.00204184331,
+        "id": "planning-six-car-460800kg-cg0.5-gross-addition-75c6c87d62",
+        "physical_release": false,
+        "proportional_axle_force_sensitivity": true,
+        "total_mass_kg": 496430.0020418433,
+        "train_length_m": 111
+      },
+      "source_case_sha256": "f1a4e7bdc3ab5255fdfb526b95999aa65fcf60a1f7f367e46beb3be80de0a739",
+      "source_changing_proposal": true,
+      "span_m": 20.0,
+      "strand_points": [
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": -0.8075,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": -0.7475,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6875,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": -0.6275000000000001,
+          "z_m": 0.88
+        },
+        {
+          "region": "upper",
+          "y_m": -0.8075,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": -0.7475,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6875,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6275000000000001,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": -0.8075,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": -0.7475,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6875,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6275000000000001,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": -0.8075,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": -0.7475,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6875,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6275000000000001,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": -0.8075,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": -0.7475,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6875,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": -0.6275000000000001,
+          "z_m": 1.115
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.1
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.16
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.22
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.28
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.33999999999999997
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.4
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.45999999999999996
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.52
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.58
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.64
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.7
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.7599999999999999
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.82
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6275000000000001,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": 0.6875,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": 0.7475,
+          "z_m": 0.88
+        },
+        {
+          "region": "lower",
+          "y_m": 0.8075,
+          "z_m": 0.88
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6275000000000001,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6875,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": 0.7475,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": 0.8075,
+          "z_m": 1.295
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6275000000000001,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6875,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": 0.7475,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": 0.8075,
+          "z_m": 1.2349999999999999
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6275000000000001,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6875,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": 0.7475,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": 0.8075,
+          "z_m": 1.1749999999999998
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6275000000000001,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": 0.6875,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": 0.7475,
+          "z_m": 1.115
+        },
+        {
+          "region": "upper",
+          "y_m": 0.8075,
+          "z_m": 1.115
+        }
+      ],
+      "work_package_ids": [
+        "CIV-FRP-100",
+        "CIV-FRP-110",
+        "CIV-FRP-120"
+      ]
+    },
+    "controlled_target_mappings": [
+      {
+        "configuration_compatible": false,
+        "exact_fit_or_adoption": false,
+        "full_component_coverage": false,
+        "package_id": "CIV-FRP-110",
+        "proposed_detail_component_id": "PIER-CAP-RESEARCH",
+        "relation": "related cap target; proposed solid cap differs from source hollow/precast-shell8m pier cap",
+        "source_geometry": "civil.viaduct_pier(height_m=8, foundation='interface-only')#pier-cap",
+        "source_path": "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+        "source_revision_sha256": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
+        "source_status": "definition-seed-not-issued",
+        "type_id": "OSR-TYPE-3FD9673EF391"
+      },
+      {
+        "configuration_compatible": false,
+        "exact_fit_or_adoption": false,
+        "full_component_coverage": false,
+        "package_id": "CIV-FRP-110",
+        "proposed_detail_component_id": "PIER-COLUMN-RESEARCH",
+        "relation": "related column target; proposed5m square column differs from source8m column",
+        "source_geometry": "civil.viaduct_pier(height_m=8, foundation='interface-only')#column",
+        "source_path": "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+        "source_revision_sha256": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
+        "source_status": "definition-seed-not-issued",
+        "type_id": "OSR-TYPE-99A11C1DC30D"
+      },
+      {
+        "configuration_compatible": false,
+        "exact_fit_or_adoption": false,
+        "full_component_coverage": false,
+        "package_id": "CIV-FRP-120",
+        "proposed_detail_component_id": "BEARING-RESERVATION-RESEARCH",
+        "relation": "related bearing/jacking target; pad reservation is not an offered or adopted bearing",
+        "source_geometry": "civil.viaduct_pier(height_m=8, foundation='interface-only')#bearing",
+        "source_path": "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json",
+        "source_revision_sha256": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
+        "source_status": "definition-seed-not-issued",
+        "type_id": "OSR-TYPE-C966BC7372EC"
+      }
+    ],
+    "engineering_design_complete": false,
+    "exact_fit_or_adoption": false,
+    "existing_configuration_compatible": false,
+    "failed_checks": [],
+    "full_component_coverage": false,
+    "geometry": {
+      "actual_link_spacing_m": 0.19899999999999998,
+      "beam_section": {
+        "area_m2": 1.4876,
+        "centroid_z_m": 0.8902151115891369,
+        "depth_m": 1.4,
+        "inertia_x_m4": 0.27969911783095813
+      },
+      "beam_variables": {
+        "depth_m": 1.4,
+        "lift_fraction": 0.2,
+        "lower_strand_fraction": 0.75,
+        "stem_width_m": 0.36,
+        "strand_count": 144
+      },
+      "bearing_support_x_m": 0.275,
+      "bearing_support_y_m": [
+        -0.7175,
+        0.7175
+      ],
+      "cap_dimensions_m": [
+        1.2,
+        2.9,
+        0.8
+      ],
+      "column_dimensions_m": [
+        1,
+        1,
+        5
+      ],
+      "footing_dimensions_m": [
+        4.5,
+        4.5,
+        0.8
+      ],
+      "full_detail_complete": false,
+      "link_diameter_m": 0.012,
+      "link_outer_height_m": 1.2999999999999998,
+      "link_outer_width_m": 0.26,
+      "links_each_stem": 101,
+      "provisional_effective_depth_m": 0.9099999999999999,
+      "provisional_shear_lever_arm_m": 0.819,
+      "provisional_tension_chord_basis": "Equal-area strands explicitly labelled lower region; upper region excluded; force-resultant/ultimate chord and anchorage not qualified",
+      "provisional_tension_chord_centroid_z_m": 0.48999999999999994,
+      "provisional_tension_chord_strand_count": 112,
+      "research_bend_former_diameter_m": 0.048,
+      "site_footprint_accepted": false,
+      "span_m": 20.0,
+      "two_pad_dimensions_m": [
+        0.35,
+        0.28,
+        0.05
+      ]
+    },
+    "id": "civil-detail-99424bd4ee0cf923",
+    "local_screen_feasible": true,
+    "manufacturing": {
+      "accepted": false,
+      "estimated_link_length_each_m": 3.3119999999999994,
+      "issued_bar_schedule": false,
+      "links_mass_estimate_kg": 593.9689296701076,
+      "route": [
+        "fabricator-reviewed dimensioned cage and hooks",
+        "assemble cage around prestressing strands with verified insertion path",
+        "fit split mould/end diaphragm and accepted inserts",
+        "trial cast/cure/transfer/demould",
+        "inspect qualified bearing seat and erect with accepted rig",
+        "inspect independent pier/footing reinforcement and pour/erect"
+      ]
+    },
+    "manufacturing_release": false,
+    "materials": {
+      "accepted": false,
+      "concrete_modulus_pa": 36000000000,
+      "concrete_strength_pa": 50000000,
+      "steel_yield_pa": 500000000
+    },
+    "metrics": {
+      "added_links_mass_kg": 593.9689296701076,
+      "bearing_pressure_pa": 9135699.529471971,
+      "design_shear_n": 1790597.1077765066,
+      "foundation": {
+        "compression_contact_length_m": 4.5,
+        "compression_maximum_pressure_pa": 126023.99853454152,
+        "eccentricity_m": 0.29989658064625396,
+        "equilibrium_possible": true,
+        "full_contact": true,
+        "linear_maximum_pressure_pa": 126023.99853454152,
+        "linear_minimum_pressure_pa": 54028.01924177408,
+        "moment_equilibrium_nm": 546719.4677544527,
+        "vertical_equilibrium_n": 1823026.6799851954
+      },
+      "foundation_horizontal_n": 82213.45379766206,
+      "foundation_moment_nm": 546719.4677544527,
+      "foundation_vertical_n": 1823026.6799851954,
+      "gross_beam_stress_response": {
+        "actual_lower_fraction": 0.7777777777777778,
+        "actual_lower_strand_count": 112,
+        "candidate_jack_to_adjacent_grip_gap_m": -0.010000000000000175,
+        "initial_bed_force_n": 22175999.999999996,
+        "initial_force_per_strand_n": 154000.0,
+        "jack_dimensions_basis": "90mm assumed nose vs50mm candidate grip; actual supplier GA absent",
+        "maximum_compression_demand_pa": 30895458.67391497,
+        "maximum_hook_equivalent_kg": 130931.87499999997,
+        "maximum_live_reaction_n": 965284.6147533744,
+        "maximum_total_reaction_n": 1469079.1935408744,
+        "minimum_clear_concrete_cover_m": 0.08239999999999997,
+        "minimum_grip_surface_gap_m": 0.009999999999999828,
+        "minimum_handling_compression_pa": 3547476.1633462887,
+        "minimum_retained_strand_stress_pa": 930003040.2651802,
+        "minimum_service_compression_pa": -1633700.007209342,
+        "minimum_strand_surface_gap_m": 0.04479999999999983,
+        "minimum_transfer_compression_pa": 5147352.224402372,
+        "tendon_centroid_z_m": 0.6488888888888888,
+        "tendon_eccentricity_m": 0.24132622270024806
+      },
+      "link_shear_resistance_n": 2013624.2999661183,
+      "live_midspan_deflection": {
+        "deflection_m": 0.01392275734154941,
+        "examined_origin_count": 91,
+        "full_span_maximum": false,
+        "governing_origin_m": -42.62136032111323,
+        "method": "exact piecewise-cubic midspan Green function and derivative roots"
+      },
+      "peak_live_moment_nm": 3467616.546909931,
+      "provisional_effective_depth_m": 0.9099999999999999,
+      "provisional_shear_lever_arm_m": 0.819,
+      "provisional_tension_chord_centroid_z_m": 0.48999999999999994,
+      "strut_shear_resistance_n": 2765395.862068965,
+      "support_concrete_mass_kg": 59960.00000000001,
+      "support_service_reaction_n": 1235019.9459851955,
+      "tendon_link_clearance_m": 0.02040000000000004
+    },
+    "next_actions": [
+      "Retain as local-screen proposal; obtain adopted loading/material/site data and independently design all open load paths before manufacturing selection"
+    ],
+    "objectives": {
+      "cost": null,
+      "mass_kg": 144165.1889296701,
+      "mass_scope": "one beam gross concrete+strands plus estimated links and one outer-end cap/column/footing gross concrete; excludes pads, anchors, support rebar, other beam reinforcement and second support"
+    },
+    "physical_release": false,
+    "proposed_beam_id": "arch-civil-a4d0e67ccd30",
+    "proposed_detail_component_ids": [
+      "PI20",
+      "PIER-CAP-RESEARCH",
+      "PIER-COLUMN-RESEARCH",
+      "OUTER-END-FOOTING-RESEARCH",
+      "BEARING-RESERVATION-RESEARCH"
+    ],
+    "rejected_known_checks": false,
+    "remaining_gates": [
+      "adopted_loading",
+      "adopted_materials",
+      "beam_flexural_resistance",
+      "end_zone_and_transfer",
+      "reinforcement_detail",
+      "bearing_configuration",
+      "support_resistance",
+      "site_ground",
+      "full_service_response",
+      "revised_permanent_loads",
+      "manufacturing_acceptance"
+    ],
+    "source_beam_id": "arch-civil-ebbcc7d34af7",
+    "source_case_sha256": "f1a4e7bdc3ab5255fdfb526b95999aa65fcf60a1f7f367e46beb3be80de0a739",
+    "source_changing_proposal": true,
+    "unmapped_proposed_detail_component_ids": [
+      "OUTER-END-FOOTING-RESEARCH",
+      "PI20"
+    ],
+    "variable_units": {
+      "beam_depth_m": "m",
+      "beam_stem_width_m": "m",
+      "footing_width_m": "m",
+      "pad_length_m": "m",
+      "stirrup_diameter_m": "m",
+      "stirrup_spacing_m": "m"
+    },
+    "variables": {
+      "beam_depth_m": 1.4,
+      "beam_stem_width_m": 0.36,
+      "footing_width_m": 4.5,
+      "pad_length_m": 0.35,
+      "stirrup_diameter_m": 0.012,
+      "stirrup_spacing_m": 0.2
+    },
+    "work_package_ids": [
+      "CIV-FRP-100",
+      "CIV-FRP-110",
+      "CIV-FRP-120"
+    ]
+  },
+  "check_details": [
+    {
+      "accepted_basis": false,
+      "basis": "Provisional vertical-link truss V=Asw/s*z*fyd*cot(theta), d to declared lower-region equal-area tendon centroid, z=0.9d; no prestress, concrete-tension or reduced-support-shear credit; ultimate chord force/anchorage unqualified",
+      "id": "web_link_steel",
+      "limit": 2013624.2999661183,
+      "state": "pass",
+      "units": "N",
+      "value": 1790597.1077765066
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Separate provisional strut crushing V=alpha_cw*bw*z*nu*fcd/(cot(theta)+tan(theta)); d to lower-region tendon centroid, z=0.9d, alpha_cw=1; ultimate chord/strut geometry unqualified",
+      "id": "web_concrete_strut",
+      "limit": 2765395.862068965,
+      "state": "pass",
+      "units": "N",
+      "value": 1790597.1077765066
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Minimum actual strand-surface distance to link inner straight surfaces; hook regions unresolved",
+      "id": "tendon_link_clearance",
+      "limit": 0.02,
+      "state": "pass",
+      "units": "m",
+      "value": 0.02040000000000004
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Research four-diameter former plus two bar thicknesses must fit stem link interior",
+      "id": "link_bend_envelope",
+      "limit": 0.07200000000000001,
+      "state": "pass",
+      "units": "m",
+      "value": 0.236
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Research straight-hook plus bend reservation; congestion and code anchorage still unqualified",
+      "id": "link_hook_reservation",
+      "limit": 0.18,
+      "state": "pass",
+      "units": "m",
+      "value": 0.236
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Longitudinal access between links; full three-dimensional cage and vibrator path not established",
+      "id": "concrete_placement_access",
+      "limit": 0.03,
+      "state": "pass",
+      "units": "m",
+      "value": 0.18699999999999997
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Two equal-load pad reservations under provisional shear combination; supplier rating, bulging, rotation and anchorage unknown",
+      "id": "bearing_pressure",
+      "limit": 10000000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 9135699.529471971
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Bearing length plus two25mm research edge reservations must fit existing550mm end block",
+      "id": "bearing_end_block_fit",
+      "limit": 0.55,
+      "state": "pass",
+      "units": "m",
+      "value": 0.39999999999999997
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Uniaxial service N,M rigid square base; e<=B/6 required before full-contact linear pressure can be used",
+      "id": "footing_full_contact",
+      "limit": 0.75,
+      "state": "pass",
+      "units": "m",
+      "value": 0.29989658064625396
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Gross service pressure against purely hypothetical150kPa screen; not Baghdad ground bearing capacity or settlement acceptance",
+      "id": "footing_pressure",
+      "limit": 150000,
+      "state": "pass",
+      "units": "Pa",
+      "value": 126023.99853454152
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Exact maximum moving-origin midspan instantaneous gross-EI live response versus unacceptedL/800 screen; not full-span deflection/camber/dynamics acceptance",
+      "id": "midspan_live_deflection",
+      "limit": 0.025,
+      "state": "pass",
+      "units": "m",
+      "value": 0.01392275734154941
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Sampled full-force straight-tendon transfer research screen; recomputed for this 20m context after detail geometry change",
+      "id": "beam_transfer_no_tension",
+      "limit": -1e-06,
+      "state": "pass",
+      "units": "Pa",
+      "value": 5147352.224402372
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Both train-off and exact eventwise live sagging at41 stations; zero tension research criterion only; recomputed for this 20m context after detail geometry change",
+      "id": "beam_service_no_tension",
+      "limit": -1e-06,
+      "state": "pass",
+      "units": "Pa",
+      "value": 4117881.7795218965
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Retained transfer-shortening hypothesis under factored handling bending; sampled fibre screen; recomputed for this 20m context after detail geometry change",
+      "id": "beam_handling_no_tension",
+      "limit": -1e-06,
+      "state": "pass",
+      "units": "Pa",
+      "value": 4067747.42300424
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Exact Pi outer-boundary distance less strand radius against50mm research reservation; actual rebar/durability/fire cover unknown; recomputed for this 20m context after detail geometry change",
+      "id": "beam_concrete_geometric_cover",
+      "limit": 0.05,
+      "state": "pass",
+      "units": "m",
+      "value": 0.08239999999999997
+    },
+    {
+      "accepted_basis": false,
+      "basis": "50mm candidate grip envelope plus5mm research gap; certified grip/jack access unknown; recomputed for this 20m context after detail geometry change",
+      "id": "beam_grip_spacing",
+      "limit": 0.005,
+      "state": "pass",
+      "units": "m",
+      "value": 0.009999999999999828
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Distinct nonoverlapping15.2mm clearance envelopes; recomputed for this 20m context after detail geometry change",
+      "id": "beam_strand_geometry",
+      "limit": 0,
+      "state": "pass",
+      "units": "m",
+      "value": 0.04479999999999983
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Positive numerical retained strand tension; stress/strain resistance not accepted; recomputed for this 20m context after detail geometry change",
+      "id": "beam_retained_strand_tension",
+      "limit": 0,
+      "state": "pass",
+      "units": "Pa",
+      "value": 930003040.2651802
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Approved axle allocation, permanent loads, railway combinations, braking, transverse distribution, torsion, derailment and earthquake actions absent; one span end only, not an interior pier carrying adjacent spans",
+      "id": "adopted_loading",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Concrete/steel/strand properties, cover, exposure/fire and fatigue/endurance not approved; all numerical resistances use stated provisional values",
+      "id": "adopted_materials",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Prestressed ultimate flexure, longitudinal truss tie/shift rule, cracking, development and bond not solved by these web link checks",
+      "id": "beam_flexural_resistance",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Transmission-length force buildup, splitting/bursting, end diaphragm strut-and-tie, cut-off sequence and actual release strength require design and tests",
+      "id": "end_zone_and_transfer",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Actual bend/hook/longitudinal bar intersections, bar schedule, laps/couplers, lifting inserts, tolerances, cage assembly and mould access require dimensioned details and fabricator review",
+      "id": "reinforcement_detail",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "No selected bearing model, pressure rating, movements/rotation, shear keys, restraint, jacking/replacement clearance, pads/seats/grout anchors or supplier GA accepted",
+      "id": "bearing_configuration",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Pier cap flexure/shear, column second-order and biaxial response, cap-column and column-footing connections, footing flexure/punching/shear/rebar unresolved",
+      "id": "support_resistance",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Baghdad survey, boreholes, groundwater, chemical exposure, bearing resistance, settlement, liquefaction and piled/shallow choice absent;150kPa is hypothetical only. Up to5m footing footprint, excavation, utilities, adjacent foundations and route/site permission unconfirmed",
+      "id": "site_ground",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Full-span deflection, cracking, timed losses, creep/shrinkage, camber, track interaction and coupled vehicle dynamics remain open",
+      "id": "full_service_response",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Gross beam fibre screens include changed concrete/strand geometry; estimated added links are included in support demand but their distributed gravity/transfer/handling fibre effects and other conventional reinforcement/attachments require a revised staged full beam calculation",
+      "id": "revised_permanent_loads",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    },
+    {
+      "accepted_basis": false,
+      "basis": "Concrete/rebar trials, stressing equipment qualification, inspection evidence, issued production drawings and independent acceptance absent",
+      "id": "manufacturing_acceptance",
+      "limit": null,
+      "state": "unknown",
+      "units": null,
+      "value": null
+    }
+  ],
+  "checks": {
+    "applicable_child_evidence": true,
+    "civil_child_study": true,
+    "civil_response_recomputed": true,
+    "exact_child_revisions": true,
+    "mechanical_child_study": true,
+    "positive_gross_mass_increases_axle_force": true,
+    "protocol_child_study": true,
+    "protocol_fault_propagation": true,
+    "same_configuration": true,
+    "software_child_study": true
+  },
+  "children": [
+    {
+      "key": "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72",
+      "kind": "mechanical-detail",
+      "study_pass": true
+    },
+    {
+      "key": "6bbe29657906bbc69a0ec116d0e1fddbc8eb2dd53eb9b419ca0a064ef1247f5e",
+      "kind": "civil-detail",
+      "study_pass": true
+    },
+    {
+      "key": "cd0615106d308f789b12506be73e7a9a7cdb6722cade22547506cca0896660d4",
+      "kind": "software-logic",
+      "study_pass": true
+    },
+    {
+      "key": "02a8836665206d948d06aacb9c3942de994dad9707c55870ab7de55b2418d0e3",
+      "kind": "software-receiver",
+      "study_pass": true
+    }
+  ],
+  "design_complete": false,
+  "evaluation_disposition": "current",
+  "failed_checks": [],
+  "input_evidence": {
+    "children": {
+      "02a8836665206d948d06aacb9c3942de994dad9707c55870ab7de55b2418d0e3": {
+        "analytical_only": false,
+        "confirmations": [],
+        "eligible": true,
+        "reasons": [],
+        "state": "eligible"
+      },
+      "6bbe29657906bbc69a0ec116d0e1fddbc8eb2dd53eb9b419ca0a064ef1247f5e": {
+        "analytical_only": false,
+        "confirmations": [
+          {
+            "key": "6544802a92c5930be568991a94f0d9eee94043e7d5ded5f98d656badfe53e096",
+            "levels": {
+              "native_geometry": "passed",
+              "numerical_confirmation": "passed",
+              "numerical_robustness": "passed"
+            },
+            "reason": "mandatory exact-child confirmation passed",
+            "receipt_sha256": "2f2d2b915dfe78ddfd19713b98793ba4ca960739d3b3a219493a500e6f267f7c",
+            "state": "passed"
+          }
+        ],
+        "eligible": true,
+        "reasons": [],
+        "state": "eligible"
+      },
+      "cd0615106d308f789b12506be73e7a9a7cdb6722cade22547506cca0896660d4": {
+        "analytical_only": false,
+        "confirmations": [],
+        "eligible": true,
+        "reasons": [],
+        "state": "eligible"
+      },
+      "cfe127cbc6f44035e07c17ffb98adda72ee5c124a8f9ba8ab11de9b5eb41ec72": {
+        "analytical_only": false,
+        "confirmations": [
+          {
+            "key": "4f46795e81e439e80b76873d1e21f643cfd6b8c355a68786a5df25eba36ddea4",
+            "levels": {
+              "native_geometry": "passed",
+              "numerical_confirmation": "passed",
+              "numerical_robustness": "passed"
+            },
+            "reason": "mandatory exact-child confirmation passed",
+            "receipt_sha256": "3e65659d386619546b380963003e328a80dc404d6c3a7c7a034dece90229f0d6",
+            "state": "passed"
+          }
+        ],
+        "eligible": true,
+        "reasons": [],
+        "state": "eligible"
+      }
+    },
+    "eligible": true,
+    "state": "eligible"
+  },
+  "manufacturing_release": false,
+  "metrics": {
+    "baseline_axle_force_n": 4518904.32,
+    "coupled_axle_force_n": 4868315.279523643,
+    "failed_civil_checks": [],
+    "gross_added_mass_kg": 35630.00204184331
+  },
+  "open_evidence": [
+    "net installed vehicle mass/CG",
+    "coupled vehicle-track-structure dynamics",
+    "hardware/software interfaces",
+    "physical correlation"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "protocol_link": {
+    "cases": 1653,
+    "checks": {
+      "explicit_local_and_remote_interface": true,
+      "receiver_faults_inhibit_modeled_closure": true
+    },
+    "counterexamples": [],
+    "executable_children": [
+      {
+        "key": "cd0615106d308f789b12506be73e7a9a7cdb6722cade22547506cca0896660d4",
+        "kind": "software-logic"
+      },
+      {
+        "key": "02a8836665206d948d06aacb9c3942de994dad9707c55870ab7de55b2418d0e3",
+        "kind": "software-receiver"
+      }
+    ],
+    "explicit_scenarios": [
+      {
+        "actual_permissions": [
+          true
+        ],
+        "expected_permissions": [
+          true
+        ],
+        "id": "healthy",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false,
+          true
+        ],
+        "expected_permissions": [
+          false,
+          true
+        ],
+        "id": "voltage-ramp",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false,
+          false
+        ],
+        "expected_permissions": [
+          false,
+          false
+        ],
+        "id": "crc-fault-persists",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false,
+          false,
+          false
+        ],
+        "expected_permissions": [
+          false,
+          false,
+          false
+        ],
+        "id": "reset-moving-denied",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false,
+          false,
+          true
+        ],
+        "expected_permissions": [
+          false,
+          false,
+          true
+        ],
+        "id": "reset-stopped-recovers",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          true,
+          true
+        ],
+        "expected_permissions": [
+          true,
+          true
+        ],
+        "id": "sequence-wrap-valid",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          true,
+          false
+        ],
+        "expected_permissions": [
+          true,
+          false
+        ],
+        "id": "duplicate-packet",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "age-expired",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "future-timestamp",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "remote-train_stopped-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "remote-hvil_closed-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "remote-insulation_ok-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "remote-main_feedback_open-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-train_stopped-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-hvil_closed-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-insulation_ok-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-main_feedback_open-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-return_feedback_closed-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-precharge_feedback_closed-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-voltage_ready-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-timeout_ok-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-data_valid-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-age_valid-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-sequence_valid-veto",
+        "passed": true
+      },
+      {
+        "actual_permissions": [
+          false
+        ],
+        "expected_permissions": [
+          false
+        ],
+        "id": "local-clocks_valid-veto",
+        "passed": true
+      }
+    ],
+    "interface": {
+      "failure_action": "Invalid receiver state or guard failure inhibits modeled closure and latches until explicit standstill reset",
+      "id": "osr-precharge-link/1",
+      "local_guards": "All twelve named facts remain independent local vetoes; remote flags cannot override them",
+      "maximum_age_ms": 100,
+      "remote_guard_bits": {
+        "hvil_closed": 1,
+        "insulation_ok": 2,
+        "main_feedback_open": 3,
+        "train_stopped": 0
+      },
+      "sequence": "modulo 65536; forward distance 1..32767",
+      "status": "proposed offline research interface; no safety integrity, timing or physical qualification",
+      "valid_flags": 15,
+      "voltage_ramp": "Low voltage alone inhibits closure without latching a fault",
+      "wire": "11 bytes: little-endian u16 sequence, u32 observed ms, u8 flags, CRC32"
+    },
+    "physical_release": false,
+    "scope": "Offline receiver-to-precharge interface and end-to-end fault propagation.\n\nThis is an explicit experimental interface, not an adopted train protocol.\nIt links actual receipt-bound generated executables; no hardware I/O occurs.",
+    "study_pass": true
+  },
+  "repairs": [],
+  "runtime_sha256": "69cb595955bf6556a296fa471d2b667dc95a8d8487d7db2da64e5b8eb37fb820",
+  "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration",
+  "study_pass": true,
+  "verification": {
+    "evaluated_level": "analytical_screening",
+    "independent_physics_rerun": false,
+    "levels": {
+      "analytical_screening": {
+        "checks": [
+          "exact_child_revisions",
+          "same_configuration",
+          "applicable_child_evidence",
+          "positive_gross_mass_increases_axle_force",
+          "civil_response_recomputed",
+          "civil_child_study",
+          "mechanical_child_study",
+          "software_child_study",
+          "protocol_child_study",
+          "protocol_fault_propagation"
+        ],
+        "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration",
+        "state": "passed"
+      },
+      "native_geometry": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_confirmation": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "numerical_robustness": {
+        "checks": [],
+        "state": "not_run"
+      },
+      "physical_correlation": {
+        "checks": [],
+        "state": "not_run"
+      }
+    },
+    "scope": "One-way gross-mass sensitivity on exact child revisions; additional protocol tasks compose receiver/control executables through a declared offline interface. No removal credit, dynamic coupling or hardware integration"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "bounded_history": true,
+    "bounded_packet_length": true,
+    "executable_generated": true,
+    "independent_temporal_reference": true
+  },
+  "counterexamples": [],
+  "design_complete": false,
+  "failed_checks": [],
+  "manufacturing_release": false,
+  "metrics": {
+    "history_capacity": 4,
+    "maximum_packet_bytes": 11,
+    "maximum_retained_history": 4,
+    "median_receive_ns": 2013.0,
+    "observed_state_bytes": 474,
+    "p99_receive_ns": 2955,
+    "reference_sequences": 1628
+  },
+  "open_evidence": [
+    "full train protocol specification",
+    "target hardware timing",
+    "threaded concurrency beyond enumerated event interleavings",
+    "SIL/HIL",
+    "physical fault recovery"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "runtime_sha256": "69cb595955bf6556a296fa471d2b667dc95a8d8487d7db2da64e5b8eb37fb820",
+  "scope": "Generated offline receiver state machine against an independent transition oracle; wall-clock samples are host observations, not real-time guarantees",
+  "study_pass": true,
+  "verification": {
+    "evaluated_level": "executable_verification",
+    "independent_physics_rerun": false,
+    "levels": {
+      "executable_verification": {
+        "checks": [
+          "independent_temporal_reference",
+          "bounded_history",
+          "bounded_packet_length",
+          "executable_generated"
+        ],
+        "state": "passed"
+      }
+    },
+    "scope": "Generated bounded packet receiver; offline communications research only.\n\nWire contract: u16 sequence, u32 observed milliseconds, u8 guard flags, CRC32\nover the first seven little-endian bytes. Receipt age must be 0..100 ms.\nSequence advances modulo 65536 by 1..32767. Invalid input latches FAULT.\nOnly an explicit reset while stopped returns to BOOT. No live hardware I/O."
+  }
+}

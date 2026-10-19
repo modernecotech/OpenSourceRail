@@ -1,0 +1,52 @@
+{
+  "confirmation_key": null,
+  "group": "software-receiver",
+  "id": "software-receiver",
+  "key": "02a8836665206d948d06aacb9c3942de994dad9707c55870ab7de55b2418d0e3",
+  "kind": "software-receiver",
+  "metrics": {
+    "history_capacity": 4,
+    "maximum_packet_bytes": 11,
+    "maximum_retained_history": 4,
+    "median_receive_ns": 2013.0,
+    "observed_state_bytes": 474,
+    "p99_receive_ns": 2955,
+    "reference_sequences": 1628
+  },
+  "outstanding": [
+    "full train protocol specification",
+    "target hardware timing",
+    "threaded concurrency beyond enumerated event interleavings",
+    "SIL/HIL",
+    "physical fault recovery"
+  ],
+  "receipt_sha256": "e2d52dded4eb1c3f8a34874d50e195966007ee4113a019b6d3927ed74833adee",
+  "scope": "Generated offline receiver state machine against an independent transition oracle; wall-clock samples are host observations, not real-time guarantees",
+  "task": {
+    "kind": "software-receiver",
+    "parameters": {
+      "decoder": "bytes",
+      "history_capacity": 4,
+      "reset_policy": "standstill",
+      "sequence_policy": "modular"
+    },
+    "parent": "192ae33e48ec7f850e75edc00c1e7c6ad7e367439c7a1c1ef200b1160a7c7077",
+    "rationale": "Fresh evaluation of historical input 192ae33e48ec7f850e75edc00c1e7c6ad7e367439c7a1c1ef200b1160a7c7077; no acceptance/result is reused"
+  },
+  "verification": {
+    "evaluated_level": "executable_verification",
+    "independent_physics_rerun": false,
+    "levels": {
+      "executable_verification": {
+        "checks": [
+          "independent_temporal_reference",
+          "bounded_history",
+          "bounded_packet_length",
+          "executable_generated"
+        ],
+        "state": "passed"
+      }
+    },
+    "scope": "Generated bounded packet receiver; offline communications research only.\n\nWire contract: u16 sequence, u32 observed milliseconds, u8 guard flags, CRC32\nover the first seven little-endian bytes. Receipt age must be 0..100 ms.\nSequence advances modulo 65536 by 1..32767. Invalid input latches FAULT.\nOnly an explicit reset while stopped returns to BOOT. No live hardware I/O."
+  }
+}
