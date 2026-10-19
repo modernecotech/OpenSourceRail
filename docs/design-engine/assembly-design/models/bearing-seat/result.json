@@ -1,0 +1,133 @@
+{
+  "candidate_revision": "d544b1761f10d5cfb0866e840c08ca099f89834b2e02fa21519fb0291f9ddf9d",
+  "checks": {
+    "bearing-continuous-temperature-applicability": null,
+    "bolt-elastic-demand-hypothesis": true,
+    "concrete-pressure-hypothesis-384000.0": true,
+    "concrete-pressure-hypothesis-460800.0": true,
+    "longitudinal-thermal-movement-hypothesis": true,
+    "mount_clearance_tolerance": true,
+    "plate-strip-stress-384000.0": true,
+    "plate-strip-stress-460800.0": true,
+    "positive_mass_and_unique_parts": true,
+    "qa_revision_coverage": true
+  },
+  "connection_resistance_qualified": false,
+  "design_complete": false,
+  "digital_specification_complete": false,
+  "failed_checks": [],
+  "held_checks": [
+    "bearing-continuous-temperature-applicability"
+  ],
+  "implemented_checks_pass": true,
+  "kind": "bearing-seat",
+  "manufacturing_release": false,
+  "measurements": {
+    "bolt_stress_area_m2": 0.000245,
+    "combined_bearing_ratings_verified": false,
+    "compiler_kit_sha256": "2115f426efbe5da9a4cf9e43dca4f60bb063f2b43f261c584da5867fe9888cdf",
+    "joint": {
+      "bolt_forces_n": [
+        [
+          11745.084408761746,
+          0.0,
+          6699.0481442567
+        ],
+        [
+          11745.084408761746,
+          0.0,
+          6699.0481442567
+        ],
+        [
+          11745.084408761746,
+          0.0,
+          -2001.0143807520017
+        ],
+        [
+          11745.084408761746,
+          0.0,
+          -2001.0143807520017
+        ]
+      ],
+      "capacity_qualified": false,
+      "group_sha256": "22ade482007876dce83221adf35c3038b82d1a38942ac7efed7c9ef5dfc218db",
+      "load_si": [
+        46980.337635046984,
+        0.0,
+        9396.067527009396,
+        0.0,
+        4698.033763504699,
+        0.0
+      ],
+      "open_domains": [
+        "thread stress area",
+        "member/prying compliance",
+        "approved preload/locking",
+        "fatigue and corrosion",
+        "physical joint correlation"
+      ],
+      "peak_shear_n": 11745.084408761746,
+      "peak_tension_n": 6699.0481442567,
+      "physical_validation": false,
+      "production_released": false,
+      "ready_for_independent_review": false,
+      "relative_pose_si": [
+        0.00010183170225451257,
+        0.0,
+        7.833207865731736e-06,
+        0.0,
+        5.372570552628077e-05,
+        0.0
+      ],
+      "resultant_relative_error": 0.0,
+      "schema": "osr-joint-demand-screen/1",
+      "separation_screen_failed": null,
+      "slip_screen_failed": null,
+      "within_declared_strength": null
+    },
+    "mass_kg": 170.7624227946156,
+    "mass_scope": "Represented parts and explicit purchased allowances only; unrepresented services/coatings remain open",
+    "owned_part_count": 16,
+    "peak_bolt_equivalent_stress_pa": 87419221.41221537,
+    "seat_load_cases": [
+      {
+        "deck_mass_kg": 139350.68199999994,
+        "id": "train-mass-384000.0",
+        "normal_force_n": 427381.7547288482,
+        "pressure_pa": 1195473.4398009737,
+        "scope": "Uniform plate-overhang strips and uniform concrete bedding; contact, prying, local concrete and reinforcement remain unverified",
+        "stress_pa": 140094543.72667667,
+        "train_mass_kg": 384000.0,
+        "yield_reference_pa": 345000000.0
+      },
+      {
+        "deck_mass_kg": 139350.68199999994,
+        "id": "train-mass-460800.0",
+        "normal_force_n": 469803.3763504698,
+        "pressure_pa": 1314135.3184628526,
+        "scope": "Uniform plate-overhang strips and uniform concrete bedding; contact, prying, local concrete and reinforcement remain unverified",
+        "stress_pa": 154000232.6323656,
+        "train_mass_kg": 460800.0,
+        "yield_reference_pa": 345000000.0
+      }
+    ],
+    "thermal_movement_m": 0.0168,
+    "unresolved_physical_geometry": [
+      "offered bearing internals",
+      "pier-cap reinforcement and anchor development",
+      "qualified lifting provisions"
+    ]
+  },
+  "open_requirements": [
+    "Offered bearing load/movement/rotation/temperature combinations and certified origin",
+    "Concrete local bearing, reinforcement, anchor development, fatigue and earthquake actions",
+    "Actual train axle distribution, dynamic interaction, fixed/guided/free bearing arrangement",
+    "Site ground, buried services, uplift, durability, grout/installation and physical acceptance"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "schema": "osr-assembly-screening/1",
+  "scope": "Only listed geometry, elastic, thermal-expansion and offline interface screens; no full component/system acceptance",
+  "screen_pass": false,
+  "state": "hold"
+}
