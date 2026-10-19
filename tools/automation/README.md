@@ -17,7 +17,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`verify-civil-native-cad.py`](verify-civil-native-cad.py) | Run with FreeCADCmd to verify native solids and independent net volumes for all registered civil families; retains a source-bound kernel receipt |
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
 | [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `cities/catalogue/`; use `--from-scratch` to force source-data rebuilding |
-| [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |
+| [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Refresh current-source city designs, scenarios, maps, engineering, resilience simulation, screenshots, operations, design-status reports and manifests; existing layout replacement is explicit |
 | [`generate-design-index.py`](generate-design-index.py) | Rebuild the complete city catalogue index in `cities/catalogue/README.md`; `--check` rejects stale metrics and rows |
 | [`digital-assurance.py`](digital-assurance.py) | Compile the Digital Standards Thread: publisher review deadlines, profiles, control coverage, FMEA/inventory screening, evidence hashes, change-impact index and generated Markdown/JSON/baseline; `--impact-from` compares a prior report |
 | [`component_assurance.py`](component_assurance.py) | Generate one fail-closed G0–G4 passport for every current engineering inventory item and configured owner/operator platform service |
@@ -83,14 +83,33 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI with Playwright Chromium, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |
 
 For a single city, nominal runs and resilience cases are assigned to distinct
-physical cores. The default all-city run resynthesises `design.toml` using
-current raster/corridor caches where available, then regenerates every
-remaining artifact required by the Samawah package manifest. It also fails if
+physical cores. The default all-city run preserves each existing controlled
+route and station inventory, refreshes its current-source quantities, then
+regenerates engineering and dependent planning artifacts. It executes the
+engineering generators again rather than accepting an old successful batch
+summary. New cities adopt the current city-specific planner automatically;
+Baghdad retains its separately controlled alignment policy. It also fails if
 the compact engineering or operations review package for any generated city is
-excluded by Git ignore rules. Missing source caches are created automatically;
+excluded by Git ignore rules. Missing source caches are created when rerouting;
 `--from-scratch` forces them to be rebuilt.
-Compact
-simulator output retains acceptance counters while
+
+Use `--resynthesise-design` to permit replacement of an existing layout;
+`--current-design-logic` remains a compatibility flag because current-source
+generation is now the default. A frozen, already reviewed design can be
+refreshed without local raster preparation using:
+
+```bash
+tools/automation/osr-python tools/automation/generate-city-packages-fast.py --only baghdad --jobs 1 --finish-only
+```
+
+The same workflow applies to other catalogue slugs. Their own route, population,
+terrain, water, operating and finance inputs remain authoritative; Baghdad's
+site assumptions and six-car configuration are not copied into another city.
+Every complete refresh writes `engineering/design-system/` with source-bound
+design status and outstanding gates. A successful package is a reproducible
+planning and simulation delivery; manufacturing and physical acceptance still
+require their specified evidence.
+Compact simulator output retains acceptance counters while
 omitting the detailed event trace; validation's explicit `--ma-check-every 0`
 uses the same movement-authority gates with bounded derived state instead of
 retaining three full Raft histories. `regenerate-all.sh --jobs N`

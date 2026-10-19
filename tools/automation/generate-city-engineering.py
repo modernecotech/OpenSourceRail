@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+from datetime import date
 import hashlib
 import json
 import os
@@ -27,7 +28,6 @@ STATION_CLUSTER_RUNNER = REPO_ROOT / "tools/automation/validate-station-clusters
 CLIMATE_PRESETS = REPO_ROOT / "lib/templates/climate.toml"
 FINANCE_RUNNER = REPO_ROOT / "tools/automation/generate-city-finance.py"
 ALIGNMENT_SOURCE = REPO_ROOT / "tools/osr-aln-convert/src"
-ALIGNMENT_DESIGN_DATE = "2026-08-12"
 STATION_IFC_RUNNER = REPO_ROOT / "engineering/interchange/station_ifc.py"
 PEDESTRIAN_RUNNER = REPO_ROOT / "engineering/analysis/benchmarks/jupedsim/station-corridor.py"
 STATION_SYSTEMS_RUNNER = REPO_ROOT / "engineering/analysis/stations/station_systems.py"
@@ -128,6 +128,8 @@ def main() -> int:
     parser.add_argument("--skip-energy", action="store_true")
     parser.add_argument("--retries", type=int, default=2)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--design-date", type=date.fromisoformat, default=date.today(),
+                        help="alignment issue date (ISO date; defaults to this regeneration date)")
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
@@ -241,7 +243,7 @@ def main() -> int:
                         "--output-dir",
                         str(output_root / "alignment"),
                         "--design-date",
-                        ALIGNMENT_DESIGN_DATE,
+                        args.design_date.isoformat(),
                     ],
                 ),
                 (

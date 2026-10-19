@@ -310,6 +310,26 @@ def test_financial_narrative_matches_sensitivity_results_and_manifest():
     assert (CITY/'engineering/delivery-risk/summary.json').relative_to(ROOT).as_posix() in data('manifest.json')['inputs']
 
 
+def test_current_energy_and_repayment_text_tracks_generated_scenario():
+    import tomllib
+    from osr_scenario.network_readme import _energy_plan, compute_stats
+    design = tomllib.loads((CITY/'design.toml').read_text())
+    scenario = tomllib.loads((CITY/'baghdad.toml').read_text())
+    energy = _energy_plan(design, scenario, compute_stats(design, scenario, design['city']['population']))
+    text = (CITY/'BAGHDAD-PROPOSAL.md').read_text()
+    assert f'{energy.scheduled_daily_train_journeys:,.0f} one way journeys' in text
+    assert f'{energy.scheduled_daily_train_km:,.0f} train km per day' in text
+    assert f'{energy.annual_energy_kwh/1e6:,.1f} GWh annual traction demand' in text
+    metrics = json.loads((CITY/'engineering/programme-recalculation/summary.json').read_text())['finance_cases']['local_positive']
+    if metrics['terminal_all_debt_iqd'] < 1 and metrics['unfunded_support_iqd'] < 1:
+        assert 'repay debt within this scenario' in text
+        assert 'Current indexed fares and additional-income assumptions do not repay this scope' not in text
+    else:
+        assert 'retains unsourced support or unpaid debt' in text
+    assert '(engineering/design-system/index.html)' in text
+    assert '(engineering/federation/index.html)' in text
+
+
 def test_financing_redesign_is_published_with_exact_integrated_results():
     root=CITY/'engineering/financing-redesign'
     report=json.loads((root/'summary.json').read_text())

@@ -3,7 +3,8 @@
 #
 # Usage:
 #   tools/automation/regenerate-city.sh <slug>
-#   tools/automation/regenerate-city.sh samawah
+#   tools/automation/regenerate-city.sh samawah --reuse-retained-inputs
+#   tools/automation/regenerate-city.sh samawah --resynthesise-design
 #
 # The slug must appear in `lib/city-batches/world-sample.toml`. Every
 # parameter (population, country, bbox, climate) is read from the
@@ -14,8 +15,9 @@
 #      query text — no network round-trip if unchanged since last run).
 #   2. Rasterise OSM + WorldPop population layer onto the demand /
 #      cost / buildability grid via `osr_geo`.
-#   3. Synthesise the design via `osr-design` (rust): topology, station
-#      placement, civil classification, fleet sizing, CAPEX.
+#   3. Refresh current-source quantities while preserving controlled geometry.
+#      New cities use the current city-specific planner automatically;
+#      --resynthesise-design explicitly permits layout replacement.
 #   4. Emit the simulator scenario via `osr_scenario`.
 #   5. Render the network map PNG via `osr_scenario.render_map`.
 #   6. Generate and run the city-local SUMO, QGIS and energy screening.
@@ -29,22 +31,26 @@
 
 set -euo pipefail
 
-if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "usage: $(basename "$0") <slug> [--reuse-retained-inputs]" >&2
+if [[ $# -lt 1 ]]; then
+    echo "usage: $(basename "$0") <slug> [--reuse-retained-inputs] [--resynthesise-design]" >&2
     echo "       (slug must exist in lib/city-batches/world-sample.toml)" >&2
     exit 2
 fi
 
 SLUG="$1"
 REUSE_RETAINED_INPUTS=0
-if [[ ${2:-} == "--reuse-retained-inputs" ]]; then
-    REUSE_RETAINED_INPUTS=1
-elif [[ ${2:-} == "--publish-reference" ]]; then
-    echo "note: --publish-reference is now the default; writing to cities/catalogue/" >&2
-elif [[ $# -eq 2 ]]; then
-    echo "error: unknown option: $2" >&2
-    exit 2
-fi
+RESYNTHESISE_DESIGN=0
+shift
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --reuse-retained-inputs) REUSE_RETAINED_INPUTS=1 ;;
+        --resynthesise-design) RESYNTHESISE_DESIGN=1 ;;
+        --current-design-logic) : ;; # Compatibility: this is now the default.
+        --publish-reference) echo "note: --publish-reference is now the default; writing to cities/catalogue/" >&2 ;;
+        *) echo "error: unknown option: $1" >&2; exit 2 ;;
+    esac
+    shift
+done
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CATALOG="$REPO/lib/city-batches/world-sample.toml"
 DESIGN_PY="$REPO/design/city-generation"
@@ -148,7 +154,9 @@ else
 fi
 
 echo "3) design synthesis → $DESIGN_DIR/design.toml"
-if [[ "$SLUG" == "baghdad" ]]; then
+if [[ -f "$DESIGN_DIR/design.toml" && "$RESYNTHESISE_DESIGN" == "0" ]]; then
+    "$PYTHON" "$REPO/tools/automation/refresh-city-design-costs.py" --design "$DESIGN_DIR/design.toml"
+elif [[ "$SLUG" == "baghdad" ]]; then
     if [[ "$REUSE_RETAINED_INPUTS" == "0" ]]; then
         "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
     fi
@@ -157,21 +165,20 @@ if [[ "$SLUG" == "baghdad" ]]; then
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
         --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
         --out-dir "$DESIGN_DIR" --design-only
-elif [[ -f "$DESIGN_DIR/alignment-policy.toml" ]]; then
+else
+    if [[ ! -f "$DESIGN_DIR/design.toml" ]]; then
+        "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
+            --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" --out-dir "$DESIGN_DIR"
+    fi
     "$PYTHON" "$REPO/tools/automation/rework-city-alignment.py" --design "$DESIGN_DIR/design.toml" --prepare-inputs
-    "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
+    if [[ "$REUSE_RETAINED_INPUTS" == "0" || ! -f "$DESIGN_DIR/engineering/alignment/water-source-receipt.json" ]]; then
+        "$PYTHON" "$REPO/tools/automation/refresh-city-water-evidence.py" --design "$DESIGN_DIR/design.toml"
+    fi
     "$PYTHON" "$REPO/tools/automation/rework-city-alignment.py" --design "$DESIGN_DIR/design.toml"
     "$PYTHON" "$REPO/tools/automation/generate-station-water-screen.py" --design "$DESIGN_DIR/design.toml" --prepare-grid
     "$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
         --slug "$SLUG" --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
         --out-dir "$DESIGN_DIR" --design-only
-elif [[ -f "$DESIGN_DIR/design.toml" ]]; then
-    "$PYTHON" "$REPO/tools/automation/refresh-city-design-costs.py" --design "$DESIGN_DIR/design.toml"
-else
-"$CARGO_BIN" run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
-    --slug "$SLUG" \
-    --sidecar "$RASTER_CACHE/$SLUG.grid.json" \
-    --out-dir "$DESIGN_DIR"
 fi
 
 echo "4) scenario file → $DESIGN_DIR/$SLUG.toml"
@@ -267,8 +274,15 @@ echo "10) design-quality drift tests (mandatory)"
 "$PYTHON" -m pytest tests/test_osr_scenario.py tests/test_population_drift.py -q
 
 echo "11) complete package manifest"
+"$PYTHON" "$REPO/tools/automation/generate-city-federation.py" \
+    --design "$DESIGN_DIR/design.toml"
+"$PYTHON" "$REPO/tools/automation/generate-city-design-status.py" \
+    --design "$DESIGN_DIR/design.toml"
 "$PYTHON" "$REPO/tools/automation/generate-city-package-manifest.py" \
     --city-dir "$DESIGN_DIR" --planning-example
+if [[ "$SLUG" == "baghdad" ]]; then
+    "$PYTHON" "$REPO/tools/automation/build-baghdad-proposal.py"
+fi
 
 echo "12) refresh city catalogue index"
 "$PYTHON" "$REPO/tools/automation/generate-design-index.py"

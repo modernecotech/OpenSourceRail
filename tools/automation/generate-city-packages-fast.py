@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Resynthesise designs and refresh complete canonical city packages."""
+"""Refresh current-source city packages; replace controlled layouts explicitly."""
 
 from __future__ import annotations
 
@@ -120,6 +120,14 @@ def repository_review_artifacts(slug: str, design_path: Path) -> list[Path]:
         engineering / "station-cluster-summary.json",
         engineering / "station-product-map.json",
         engineering / "sumo/summary.json",
+        engineering / "design-system/summary.json",
+        engineering / "design-system/index.html",
+        engineering / "federation/summary.json",
+        engineering / "federation/index.html",
+        engineering / "federation/model.ifc",
+        engineering / "federation/layout.geojson",
+        engineering / "federation/instances.json",
+        engineering / "federation/layout.png",
         operations / "acceptance-evidence-report.md",
         operations / f"{slug}-assets.csv",
         operations / f"{slug}-operations-manifest.json",
@@ -166,7 +174,7 @@ def prepare_city(
     from_scratch: bool,
     resynthesise_corridors: bool,
     resynthesise_design: bool = False,
-    current_design_logic: bool = False,
+    current_design_logic: bool = True,
     reuse_planned_corridors: bool = False,
 ) -> dict[str, object]:
     started = time.monotonic()
@@ -179,7 +187,9 @@ def prepare_city(
     raster_path = RASTER_CACHE / f"{slug}.grid.json"
     corridor_cache = city_dir / "corridors.json"
     commands: list[list[str]] = []
-    if from_scratch or not raster_path.is_file():
+    existing_design = design_path.is_file()
+    replace_layout = not existing_design or from_scratch or resynthesise_corridors or resynthesise_design
+    if (replace_layout or reuse_planned_corridors) and (from_scratch or not raster_path.is_file()):
         bbox = catalog_city.get("bbox", {})
         bbox_text = ",".join(
             str(bbox[key]) for key in ("south", "west", "north", "east")
@@ -248,7 +258,20 @@ def prepare_city(
             raise ValueError('Corridor cache differs from the controlled line inventory: '+slug)
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
+    elif not replace_layout:
+        # Current-source refresh is the default, including cities with an
+        # adopted alignment policy. Layout changes require a separate explicit
+        # request; a stale local corridor cache cannot overwrite tracked intent.
+        commands.append([sys.executable, str(REPO_ROOT / "tools/automation/refresh-city-design-costs.py"), "--design", str(design_path)])
     elif slug != 'baghdad' and (current_design_logic or (city_dir/'alignment-policy.toml').is_file()):
+        if not existing_design:
+            # The city-specific planner needs the initial native geometry and
+            # design inventory. Never substitute Baghdad's controlled seed.
+            initial_command = [value for value in design_command if value != '--design-only']
+            if '--corridor-cache' in initial_command:
+                index = initial_command.index('--corridor-cache')
+                del initial_command[index:index + 2]
+            commands.append(initial_command)
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path),'--prepare-inputs'])
         if not (city_dir/'engineering/alignment/water-source-receipt.json').is_file():
             commands.append([sys.executable,str(REPO_ROOT/'tools/automation/refresh-city-water-evidence.py'),'--design',str(design_path)])
@@ -261,10 +284,6 @@ def prepare_city(
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path),'--prepare-grid'])
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
-    elif design_path.is_file() and not (from_scratch or resynthesise_corridors or resynthesise_design):
-        # Existing catalogue intent is the controlled input. An unchecked
-        # local corridor cache must not remove rings or replace station IDs.
-        commands.append([sys.executable, str(REPO_ROOT / "tools/automation/refresh-city-design-costs.py"), "--design", str(design_path)])
     else:
         commands.append(design_command)
     for command in commands:
@@ -350,11 +369,14 @@ def prepare_city(
         "duration_seconds": round(time.monotonic() - started, 3),
         "passed": True,
         "phase": "prepare",
+        "design_approach": "current-source-controlled-layout-v1",
+        "layout_action": "verified-planned-corridor-reuse" if reuse_planned_corridors else "resynthesised" if replace_layout else "retained-controlled-layout",
     }
 
 
 def finish_city(slug: str, design_path: Path, resilience_jobs: int,
-                ci_directory: Path | None = None, ci_commit: str | None = None) -> dict[str, object]:
+                ci_directory: Path | None = None, ci_commit: str | None = None,
+                *, publish_proposal: bool = True) -> dict[str, object]:
     started = time.monotonic()
     city_dir = design_path.parent
     scenario_path = city_dir / f"{slug}.toml"
@@ -418,6 +440,18 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         ],
         [
             sys.executable,
+            str(REPO_ROOT / "tools/automation/generate-city-federation.py"),
+            "--design",
+            str(design_path),
+        ],
+        [
+            sys.executable,
+            str(REPO_ROOT / "tools/automation/generate-city-design-status.py"),
+            "--design",
+            str(design_path),
+        ],
+        [
+            sys.executable,
             str(REPO_ROOT / "tools/automation/generate-city-package-manifest.py"),
             "--city-dir",
             str(city_dir),
@@ -425,6 +459,10 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
         ],
     ]
     if slug=='baghdad':
+        # The proposal and archives consume the final package manifest. Build
+        # them after it so the prominent downloadable views share this run.
+        if publish_proposal:
+            commands.append([sys.executable,str(REPO_ROOT/'tools/automation/build-baghdad-proposal.py')])
         position=next(i for i,cmd in enumerate(commands) if any('publish-city-summary.py' in part for part in cmd))
         commands[position:position]=[
             [sys.executable,str(REPO_ROOT/'tools/automation/render-baghdad-alignment-review.py')],
@@ -528,7 +566,7 @@ def main() -> int:
         help="reroute corridors from cached rasters instead of reusing corridors.json",
     )
     parser.add_argument("--resynthesise-design", action="store_true", help="explicitly replace existing controlled layout from corridor inputs; default refreshes the current design")
-    parser.add_argument('--current-design-logic',action='store_true',help='adopt controlled elevated-core geometry and line-local full-fleet depots')
+    parser.add_argument('--current-design-logic',action='store_true',default=True,help='compatibility flag: current-source generation is the default; replacing an existing layout requires an explicit resynthesis flag')
     parser.add_argument('--prepare-only',action='store_true',help='regenerate layouts/scenarios/maps; retain an explicit incomplete batch receipt until engineering is refreshed')
     parser.add_argument('--finish-only',action='store_true',help='preserve frozen layouts/scenarios and refresh engineering and dependent packages')
     parser.add_argument('--reuse-planned-corridors',action='store_true',help='verify retained plan source hashes and regenerate stations without rerouting')
@@ -630,7 +668,6 @@ def main() -> int:
             ",".join(sorted(ready)),
             "--jobs",
             str(args.jobs),
-            "--resume",
             "--skip-shared-models",
         ]
         engineering_return_code = run_logged(
@@ -644,7 +681,8 @@ def main() -> int:
         {slug: ready[slug] for slug in sorted(engineering_ok)},
         args.jobs,
         lambda slug, path: finish_city(slug, path, resilience_jobs,
-            args.native_ci_root/slug if args.native_ci_root is not None else None,args.native_ci_commit),
+            args.native_ci_root/slug if args.native_ci_root is not None else None,args.native_ci_commit,
+            publish_proposal=False),
     )
 
     drift_return_code = run_logged(
@@ -679,6 +717,14 @@ def main() -> int:
             [sys.executable, str(REPO_ROOT / "tools/automation/generate-design-index.py")],
             LOG_ROOT / "package-design-index.log",
         )
+    publication_return_codes = {}
+    if 'baghdad' in complete and not failures and not any(portfolio_return_codes.values()) and index_return_code == 0:
+        # The proposal also archives country briefs and other Iraqi city
+        # READMEs, so a batch must finish those dependencies before publication.
+        publication_return_codes['baghdad_proposal'] = run_logged(
+            [sys.executable, str(REPO_ROOT / 'tools/automation/build-baghdad-proposal.py')],
+            LOG_ROOT / 'package-baghdad-proposal.log',
+        )
     summary = {
         "schema_version": "1.0",
         "city_count": len(selected),
@@ -689,6 +735,7 @@ def main() -> int:
         "duration_seconds": round(time.monotonic() - started, 3),
         "engineering_return_code": engineering_return_code,
         "portfolio_return_codes": portfolio_return_codes,
+        "publication_return_codes": publication_return_codes,
         "failed_cities": failures,
         "ignored_repository_artifacts": ignored_artifacts,
         "passed": (
@@ -697,6 +744,7 @@ def main() -> int:
             and not any(catalog_validation_return_codes.values())
             and index_return_code == 0
             and not any(portfolio_return_codes.values())
+            and not any(publication_return_codes.values())
         ),
         "prepare_results": prepared,
         "package_results": finished,

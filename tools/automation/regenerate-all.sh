@@ -8,7 +8,7 @@
 #   tools/automation/regenerate-all.sh --only tunis,lyon  # subset (comma-separated)
 #   tools/automation/regenerate-all.sh --from-scratch   # refetch OSM and resynthesise designs
 #   tools/automation/regenerate-all.sh --resynthesise-corridors  # reroute from cached rasters
-#   tools/automation/regenerate-all.sh --current-design-logic  # adopt elevated cores and fleet-sized depots
+#   tools/automation/regenerate-all.sh --current-design-logic  # compatibility flag; current-source refresh is the default
 #   tools/automation/regenerate-all.sh --resynthesise-design  # explicitly replace controlled layouts
 #
 # Reads slugs from lib/city-batches/world-sample.toml so new entries

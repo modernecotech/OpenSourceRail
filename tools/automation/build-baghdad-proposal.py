@@ -302,6 +302,10 @@ def build_narrative(d, s, p, f, n, ops, deployment):
     eq=equity['primary_1000m'];eqbase=equity['government_equity_reference']
     redesigned=redesign['integrated']; redweak=redesign['integrated_joint_downside']
     energy = national._energy_plan(d, s, national.compute_stats(d, s, d['city']['population']))
+    site_pv_mw = sum(site.get('pv_nameplate_kw', 0) for site in s.get('sites', []))/1000
+    repayment_scope = ('The assumed facilities cover the modelled cash requirements and repay debt within this scenario; demand, funding and unpriced scope remain unaccepted.'
+                       if local['terminal_all_debt_iqd'] < 1 and local['unfunded_support_iqd'] < 1 else
+                       'This scenario retains unsourced support or unpaid debt; it does not establish a financeable project.')
     profile = tomllib.loads((ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
     terms = tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())
     fareopts = tomllib.loads((ROOT/'lib/templates/baghdad-finance-options.toml').read_text())
@@ -343,7 +347,7 @@ def build_narrative(d, s, p, f, n, ops, deployment):
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
-The latest [programme recalculation](engineering/programme-recalculation/README.md) sizes **{revised['operating_fte']:,} permanent operating FTE** and **{revised['depot_count']} line-local depots** for all {revised['depot_storage_slots']} six-car trainsets. With completed components bought, the base planning allowance is **USD {scope_buy['total_capital_usd']/1e9:.3f}bn**. The unquoted positive-margin local-production option gives a base planning allowance of **USD {local['total_capital_usd']/1e9:.3f}bn**, imported invoice exposure of **USD {local['imported_invoices_usd']/1e9:.3f}bn** and **{local['usd_capital_intensity']:.2%} USD capital intensity**. It records **IQD {local['unfunded_support_iqd']/1e12:.3f}tn residual unsourced support** after assumed facilities and retains **IQD {local['terminal_all_debt_iqd']/1e12:.3f}tn total debt** at the horizon. Current indexed fares and additional-income assumptions do not repay this scope. Mezzanine defers cash pressure but leaves unpaid balloons; it is a sensitivity, not a recommended solution.
+The latest [programme recalculation](engineering/programme-recalculation/README.md) sizes **{revised['operating_fte']:,} permanent operating FTE** and **{revised['depot_count']} line-local depots** for all {revised['depot_storage_slots']} six-car trainsets. With completed components bought, the base planning allowance is **USD {scope_buy['total_capital_usd']/1e9:.3f}bn**. The unquoted positive-margin local-production option gives a base planning allowance of **USD {local['total_capital_usd']/1e9:.3f}bn**, imported invoice exposure of **USD {local['imported_invoices_usd']/1e9:.3f}bn** and **{local['usd_capital_intensity']:.2%} USD capital intensity**. It records **IQD {local['unfunded_support_iqd']/1e12:.3f}tn residual unsourced support** after assumed facilities and retains **IQD {local['terminal_all_debt_iqd']/1e12:.3f}tn total debt** at the horizon. {repayment_scope} Financing alternatives remain sensitivities, with no lender commitment.
 
 The earlier [delivery-cost continuation](engineering/delivery-closure/README.md) remains a comparator: **USD {closure_metrics['total_capital_usd']/1e9:.3f}bn capital**, before still-unpriced scope, and **IQD {closure_metrics['terminal_supplemental_balance_iqd']/1e12:.3f}tn unpaid gap debt**. The original financial schedules below likewise remain controlled reference cases. Debt clearance in an older reference is not the current feasibility conclusion; higher fares and conditional additional funding are tested separately, with no adopted tariff or lender commitment.
 
@@ -352,6 +356,8 @@ The current planning network is **{comp['osr_lines']} lines, {comp['osr_route_km
 The immediate decision proposed is to establish a sponsor, commission survey and demand work, develop the first operable line and plant packages, qualify suppliers and obtain executable financing terms. Construction and operating release require the recorded physical and approval gates. The current resource constrained plan reaches first line revenue in month {prices['first_opening']['month']} and full operation in month {prices['full_opening']['month']} after financial close. That long schedule is a material design and delivery problem to resolve; this proposal does not substitute a five year promise.
 
 ## How to read the proposal
+
+The [current all-system design index](engineering/design-system/index.html) lists actual geometry, component records, software allocations and open design gates. The [city station federation](engineering/federation/index.html) places retained station geometry at the proposed city locations; elevations, orientations, interfaces and site acceptance remain provisional. These source-bound outputs replace stale generated views without turning planning evidence into manufacturing approval.
 
 The first part states the integrated proposal and the decisions it needs. The next part prints the detailed network registers and six month financing schedules. The technical appendices reproduce every current Baghdad Markdown report, the national brief and selected shared standards. The supporting ZIP preserves the full controlled Baghdad files, every Baghdad financing spreadsheet, the operations payload, national city design inputs and the cited shared references. The source inventory and manifest identify exact file bytes.
 
@@ -439,7 +445,7 @@ Finite supports, unknown foundation lengths, complete member/hook mass gates, co
 
 ## Energy and desert operation
 
-The current duty model schedules 3,952 one way journeys and about 217,090 train km per day, with 2,053.8 GWh annual traction demand. It assigns 52.1 MW station/depot PV, 354.0 MWh site storage, 316.0 MW connected charging and {energy.solar_plant_kw/1000:.1f} MW dedicated solar. The design's zero annual residual grid/PPA import is an energy accounting result; it does not establish uninterrupted operation or installed grid independence.
+The current duty model schedules {energy.scheduled_daily_train_journeys:,.0f} one way journeys and about {energy.scheduled_daily_train_km:,.0f} train km per day, with {energy.annual_energy_kwh/1e6:,.1f} GWh annual traction demand. It assigns {site_pv_mw:,.1f} MW station/depot PV, {sum(site.get('storage_capacity_kwh',0) for site in s.get('sites',[]))/1000:,.1f} MWh site storage, {sum(station.get('charging_power_kw',0) for station in s.get('stations',[]))/1000:,.1f} MW connected charging and {energy.solar_plant_kw/1000:,.1f} MW dedicated solar. The modelled {energy.residual_grid_import_kwh/1e6:,.1f} GWh annual residual grid/PPA import is an energy accounting result; it does not establish uninterrupted operation or installed grid independence.
 
 Storage endurance, adverse weather, PV land, heat/dust derating, losses, supplier fire separation, actual charging duty, protection and backup import need a time resolved operating appraisal. Snapshot solver passes and grid only diagnostics do not close these gates. Battery protection and cabin/battery thermal separation must be qualified at the declared ambient and duty. No claimed unlimited battery autonomy or accepted solar islanding is used to close financing.
 
@@ -853,6 +859,10 @@ def source_inputs():
     factory=read_json(CITY/'engineering/factory/summary.json')
     paths.update(ROOT/relative for relative in factory['sources_sha256'])
     paths.update(p for p in (CITY/'engineering/factory').glob('*') if p.is_file())
+    # Retain the current city-specific geometry and explicit all-system gaps
+    # with the proposal rather than leaving them outside its supporting evidence.
+    for folder in ('engineering/design-system', 'engineering/federation'):
+        paths.update(p for p in (CITY/folder).rglob('*') if p.is_file())
     # Exact full task payload is deliberately excluded from Git outside this archive.
     ops=read_json(CITY/'operations/baghdad-operations-manifest.json');paths.add(CITY/'operations'/ops['file'])
     # Retained solver/geospatial outputs complete the evidence where materialised.

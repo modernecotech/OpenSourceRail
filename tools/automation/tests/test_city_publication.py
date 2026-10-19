@@ -25,6 +25,10 @@ def test_baghdad_landing_page_matches_current_scope_and_cashflows():
     assert '| Depots | $8.0 M |' not in text
     assert '50% government USD cash / 50% proposed Chinese USD credit' in text
     assert 'straight core radial tangents' in text and 'current reworked geometry' in text
+    receipt = json.loads((CITY/'publication-manifest.json').read_text())
+    assert not any('/engineering/design-system/' in name or '/engineering/federation/' in name
+                   for name in receipt['outputs_sha256'])
+    assert '(engineering/design-system/index.html)' in text
 
 
 def test_receipt_refresh_preserves_model_and_approval_values(tmp_path):
@@ -63,10 +67,10 @@ def test_stale_study_stops_publication_without_overwriting_readme(tmp_path,monke
 def test_other_city_keeps_its_own_catalogue_basis(tmp_path):
     city=CITY.parent/'Samawah';output=tmp_path/'README.md'
     publication.publish(city/'design.toml',city/'samawah.toml',output)
-    assert output.read_text()==publication.current_catalogue_context(city/'design.toml',publication.residential_context(city/'design.toml',publication.access_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml'))))
+    assert output.read_text()==publication.compact_local_summary(publication.design_system_context(publication.current_catalogue_context(city/'design.toml',publication.residential_context(city/'design.toml',publication.access_context(city/'design.toml',publication.render_readme(city/'design.toml',city/'samawah.toml'))))))
     assert '| Estimated station catchment |' not in output.read_text()
-    assert '| Direct transfers / reachable line pairs |' in output.read_text()
-    assert '| Residents within 800 m radial station catchments |' in output.read_text()
+    assert 'Direct transfers / reachable line pairs' in output.read_text()
+    assert 'Residents within 800 m radial station catchments' in output.read_text()
     assert 'line-local depots' in output.read_text()
     assert 'retained country income proxy' in output.read_text()
     assert 'local_positive' not in output.read_text()

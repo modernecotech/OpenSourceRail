@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -38,6 +39,21 @@ def is_stabling_diagnostic(relative: str, diagnostics: set[str] | None = None) -
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def current_design_inventory(city_dir: Path) -> bool:
+    """A planning-package pass must retain current, explicitly provisional coverage."""
+    source = REPO_ROOT / 'tools/automation/generate-city-design-status.py'
+    spec = importlib.util.spec_from_file_location('city_design_inventory', source)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    try:
+        report = module.generate(city_dir / 'design.toml', REPO_ROOT, verify=True)
+    except (ValueError, OSError, KeyError):
+        return False
+    return report['counts']['stale_system_domains'] == 0 and all(
+        report.get(flag) is False for flag in (
+            'design_complete', 'engineering_release', 'manufacturing_release', 'physical_release'))
 
 
 def stale_analysis_sources(city_dir: Path, slug: str, *, include_diagnostics: bool = False) -> list[dict[str, str | None]]:
@@ -281,6 +297,8 @@ def main() -> int:
 
     required = [
         city_dir / "README.md",
+        city_dir / "engineering/design-system/summary.json",
+        city_dir / "engineering/design-system/index.html",
         city_dir / "engineering/local-civil-costs/summary.json",
         city_dir / "engineering/access/README.md",
         city_dir / "engineering/access/summary.json",
@@ -447,6 +465,12 @@ def main() -> int:
         )
 
     stale_sources = stale_analysis_sources(city_dir, slug)
+    inventory_current = current_design_inventory(city_dir)
+    if not inventory_current:
+        stale_sources.append({'artifact': 'engineering/design-system/summary.json',
+                              'source': 'city design inventory',
+                              'expected_sha256': 'current source-bound provisional coverage',
+                              'recorded_sha256': None})
     clearance_path=city_dir/'engineering/clearance/summary.json'
     if not clearance_path.is_file() or json.loads(clearance_path.read_text()).get('physical_release') is not True:
         failed_summaries.append('engineering/clearance/summary.json')
@@ -473,6 +497,9 @@ def main() -> int:
         "passed": passed,
         "planning_example_complete": planning_complete,
         "operational_release": False,
+        "design_inventory_current": inventory_current,
+        "design_complete": False,
+        "manufacturing_release": False,
         "planning_example_open_gates": sorted(set(failed_summaries) & documented_open_gates),
         "source_revision": revision or None,
         "generator": str(Path(__file__).relative_to(REPO_ROOT)),

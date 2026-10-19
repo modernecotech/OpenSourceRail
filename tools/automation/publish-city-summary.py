@@ -39,6 +39,11 @@ def table(headers,rows):
         *['| '+' | '.join(str(x) for x in row)+' |' for row in rows]])
 
 
+def design_system_context(text):
+    title, separator, body = text.partition('\n')
+    return title + separator + '\n[Current design coverage, geometry and open gates](engineering/design-system/index.html) · [Placed station IFC and map](engineering/federation/index.html).\n' + body
+
+
 def compact_local_summary(text):
     """Keep large city landing pages bounded without losing local measures."""
     if len(text.splitlines()) <= 120:
@@ -350,7 +355,7 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
     baseline=residential_context(design,access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)))
     if not entry:
-        expected=compact_local_summary(mapping_context(design,current_catalogue_context(design,baseline))).encode()
+        expected=compact_local_summary(design_system_context(mapping_context(design,current_catalogue_context(design,baseline)))).encode()
         if check:
             if not output.is_file() or output.read_bytes()!=expected:raise ValueError('Stale catalogue README: '+str(output))
         else:output.write_bytes(expected)
@@ -365,11 +370,13 @@ def publish(design, scenario, output, *, check=False, allow_stale_evidence=False
     paths=[]
     for path in [*city.rglob('*.json'),*(city.parent/'finance').glob('*.json')]:
         if path.parent==city and path.name in ('manifest.json','archive-manifest.json','publication-manifest.json','package-manifest.json','appendix-sources.json','national-context.json'):continue
+        if any(path.is_relative_to(city/'engineering'/folder) for folder in ('design-system','federation')):
+            continue  # Published afterwards, with their own exact source/output seals.
         data=read(path)
         if isinstance(data,dict) and any(key in data for key in ('sources_sha256','outputs_sha256','external_outputs_sha256','sources','source_sha256')):paths.append(path)
     planned=refresh_receipts(ROOT,paths,planned)
     # The text uses numerical data, which receipt refresh cannot change.
-    planned[output]=compact_local_summary(mapping_context(design,current_readme(city,study,entry['case'],baseline).decode())).encode()
+    planned[output]=compact_local_summary(design_system_context(mapping_context(design,current_readme(city,study,entry['case'],baseline).decode()))).encode()
     manifest=city/'publication-manifest.json'
     sources={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in (Path(__file__),CONFIG,design,scenario,
         ROOT/'design/city-generation/src/osr_scenario/network_readme.py')}

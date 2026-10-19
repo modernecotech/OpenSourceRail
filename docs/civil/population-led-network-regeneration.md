@@ -37,7 +37,7 @@ Where population evidence is missing or contradicts the controlled source/jurisd
 5. Audit emitted-station population and connectivity, geography and clearance. Update city packages, country briefs, portfolio, construction/assembly, readiness, catalogue audits and publications from the final inventory.
 6. Verify source/output hashes, complete archives, links, file limits, repository health and generated drift before merging.
 
-Use `tools/automation/regenerate-all.sh --current-design-logic --prepare-only --jobs N` for the layout phase. The batch receipt explicitly says engineering refresh is required; it does not mark a planning package complete. The complete run uses actual engineering and native validation, or verified native CI artifacts from the exact frozen source revision.
+Current-source generation is the default for every city. Routine refreshes preserve existing controlled routes and station identities; new cities use their own current planner and local evidence. Use `tools/automation/regenerate-all.sh --resynthesise-design --prepare-only --jobs N` when deliberately replacing existing layouts. The batch receipt explicitly says engineering refresh is required; it does not mark a planning package complete. `--current-design-logic` remains accepted for existing callers. The complete run reruns engineering and native validation, or verifies native CI artifacts from the exact frozen source revision, and writes a source-bound `engineering/design-system/` report with unresolved design and acceptance gates. A current report does not establish manufacturing completion.
 
 ## Finite construction plant
 

@@ -1,5 +1,14 @@
 # Design, Jobs And Evidence Workflows
 
+The [current Baghdad design index](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/design-system/index.html)
+joins the city component register, software allocations, generated models, images
+and open engineering gates. Its [station federation](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/index.html)
+places retained IFC product geometry at proposed city coordinates. The same
+[default city workflow](../../tools/automation/README.md) regenerates supported
+outputs from each city's own inputs and checks their source receipts before
+publication. This covers design development; complete railway, manufacturing
+and physical acceptance remain open.
+
 The [continuous four-lane runner](continuous-runner-2026-10-17.md) runs mechanical,
 civil, generated software-policy and exact-revision integration experiments under
 a durable queue and persistent user service. It retains feedback repairs, native
