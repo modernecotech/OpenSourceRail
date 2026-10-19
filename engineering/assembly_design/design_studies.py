@@ -6,6 +6,7 @@ never turned into selected or accepted designs.
 """
 from html import escape
 from pathlib import Path
+from contextlib import contextmanager
 import csv
 import gzip
 import io
@@ -20,15 +21,52 @@ from engineering.continuous_design import study_confirmation,civil_kit
 from . import baseline, models, system_design
 
 MAX_BYTES=20*1024**2
+MAX_EXCHANGE_RAW=64*1024**2
 
 
-def verify_exchange_mesh(candidate,folder):
+def write_record(folder,name,value):
+    (Path(folder)/(name+'.gz')).write_bytes(gzip.compress(core.encoded(value),mtime=0))
+
+
+def read_record(folder,name):
+    folder=Path(folder);compressed=folder/(name+'.gz');raw=folder/name
+    if compressed.exists():
+        if raw.exists():raise ValueError('ambiguous compressed/raw record')
+        with gzip.open(compressed,'rb') as stream:data=stream.read(MAX_EXCHANGE_RAW+1)
+        if len(data)>MAX_EXCHANGE_RAW:raise ValueError('record decompression budget exceeded')
+        return json.loads(data)
+    return core.read(raw,maximum=MAX_EXCHANGE_RAW)
+
+
+@contextmanager
+def exchange_files(folder):
+    """Open exact raw exchange bytes from bounded, compressed portable copies."""
+    folder=Path(folder)
+    with tempfile.TemporaryDirectory(prefix='osr-exchange-') as temporary:
+        temporary=Path(temporary);paths={}
+        for name in ('assembly.ifc','native-mesh.json','requirements.ids'):
+            compressed=folder/(name+'.gz');raw=folder/name
+            if compressed.exists():
+                if raw.exists():raise ValueError('ambiguous compressed/raw exchange')
+                with gzip.open(compressed,'rb') as stream:data=stream.read(MAX_EXCHANGE_RAW+1)
+                if len(data)>MAX_EXCHANGE_RAW:raise ValueError('exchange decompression budget exceeded')
+                path=temporary/name;path.write_bytes(data)
+            else:
+                if raw.stat().st_size>MAX_EXCHANGE_RAW:raise ValueError('exchange size budget exceeded')
+                path=raw
+            paths[name]=path
+        yield paths
+
+
+def verify_exchange_mesh(candidate,folder,*,paths=None):
     """IFC coordinates/topology/placement must match the retained native mesh."""
     import numpy as np
     import ifcopenshell
     import ifcopenshell.util.placement
-    folder=Path(folder);mesh=core.read(folder/'native-mesh.json',maximum=60_000_000)
-    model=ifcopenshell.open(str(folder/'assembly.ifc'));products={p.Name:p for p in model.by_type('IfcBuildingElementProxy')}
+    if paths is None:
+        with exchange_files(folder) as retained:return verify_exchange_mesh(candidate,folder,paths=retained)
+    folder=Path(folder);mesh=core.read(paths['native-mesh.json'],maximum=MAX_EXCHANGE_RAW)
+    model=ifcopenshell.open(str(paths['assembly.ifc']));products={p.Name:p for p in model.by_type('IfcBuildingElementProxy')}
     if set(products)!={p['id'] for p in candidate['contract']['parts']} or {p['id'] for p in mesh['parts']}!=set(products):
         raise ValueError('exchange mesh part identities differ')
     for part in mesh['parts']:
@@ -68,7 +106,7 @@ def handoff(pairs):
         for part in candidate['contract']['parts']:
             writer.writerow(dict(family=kind,part=part['id'],revision=part['revision'],joint_ids=';'.join(part['joints']),
                 process=part['process_route'],material=part['material'],mass_kg=part['properties']['mass_kg'],
-                definition=kind+'/candidate.json.gz',analysis=kind+'/assessment.json',qa=kind+'/qa-plan.json'))
+                definition=kind+'/candidate.json.gz',analysis=kind+'/assessment.json.gz',qa=kind+'/qa-plan.json.gz'))
     return stream.getvalue()
 
 
@@ -81,7 +119,7 @@ def requests(prototype,pairs):
         request.update(component_revision=candidate['revision'],
             included_component_scope=candidate['source_scope'],full_pilot_complete=False,
             remaining_full_pilot_characteristics='All open characteristics in the 88-task ledger and the pilot completion contract; this request covers the included component only',
-            definition=kind+'/candidate.json.gz',analysis=kind+'/assessment.json',qa=kind+'/qa-plan.json',
+            definition=kind+'/candidate.json.gz',analysis=kind+'/assessment.json.gz',qa=kind+'/qa-plan.json.gz',
             included_part_ids=[part['id'] for part in candidate['contract']['parts']],
             known_digital_failures=assessment['failed_checks'],known_digital_holds=assessment['held_checks'],
             build_authorised=False,samples_manufactured=0,
@@ -138,7 +176,14 @@ def _model(candidate,assessment,folder):
         if candidate['kind']=='service-cassette-detail':
             from . import motion_media
             result['motion_preview']=motion_media.cassette(candidate,folder/'bim/native-mesh.json',folder)
+        for name in ('assembly.ifc','native-mesh.json','requirements.ids'):
+            path=folder/'bim'/name
+            path.with_name(name+'.gz').write_bytes(gzip.compress(path.read_bytes(),mtime=0));path.unlink()
     core.write(folder/'result.json',result)
+    for name in ('definition.json','assessment.json','qa-plan.json','structural-detail.json','manufacturing-pack.json'):
+        path=folder/name
+        if path.exists():path.with_name(name+'.gz').write_bytes(gzip.compress(path.read_bytes(),mtime=0));path.unlink()
+    for backup in (folder/'native').glob('*.FCBak'):backup.unlink()  # Redundant pre-ID autosave, never referenced by proof.
     return result
 
 
@@ -197,15 +242,15 @@ def report_html(value):
         '<style>body{font:16px system-ui;max-width:1100px;margin:2rem auto;padding:1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:.5rem;text-align:left}img,video{max-width:100%}code{overflow-wrap:anywhere}</style>',
         '<h1>Full design closure plan — additional executed work</h1><p>Provisional digital design and numerical evidence. Complete railway design, manufacturing and physical acceptance remain open.</p>',
         '<p lang="ar" dir="rtl">تنفيذ إضافي لمهام خطة استكمال التصميم: نماذج تفصيلية ودراسات رقمية أولية. لا تمثل هذه النتائج قبولاً هندسياً نهائياً أو إذناً للتصنيع. تبقى اختبارات النماذج الأولية وتحريات التربة ومراجعة الجهات المختصة مطلوبة.</p>',
-        '<p><a href="../index.html">All 88 plan tasks, requirements, source registers and external requests</a> | <a href="system-design.json">Electrical architecture and full coupled duty data</a> | <a href="parts.csv">Part-to-analysis/QA handoff</a></p>',
+        '<p><a href="../index.html">All 88 plan tasks, requirements, source registers and external requests</a> | <a href="system-design.json.gz">Electrical architecture and full coupled duty data (compressed)</a> | <a href="parts.csv">Part-to-analysis/QA handoff</a></p>',
         '<h2>New manufactured detail</h2><table><tr><th>Family</th><th>Native state</th><th>Parts</th><th>Failed / held checks</th></tr>']
     for model in value['models']:
-        kind=model['kind'];lines.append('<tr><td><a href="'+h(kind)+'/assessment.json">'+h(kind)+'</a></td><td>'+h(model['native_state'])+'</td><td>'+h(model['parts'])+'</td><td>'+h(', '.join(model['failed_checks']+model['held_checks']))+'</td></tr>')
+        kind=model['kind'];lines.append('<tr><td><a href="'+h(kind)+'/assessment.json.gz">'+h(kind)+'</a></td><td>'+h(model['native_state'])+'</td><td>'+h(model['parts'])+'</td><td>'+h(', '.join(model['failed_checks']+model['held_checks']))+'</td></tr>')
     lines+=['</table>']
     for model in value['models']:
         kind=model['kind'];lines+=['<h3>'+h(kind)+'</h3><p>Revision <code>'+h(model['candidate_revision'])+'</code></p>',
-            '<p><a href="'+h(kind)+'/candidate.json.gz">Detailed definition</a> | <a href="'+h(kind)+'/manufacturing-bom.csv">Cut/part schedule</a> | <a href="'+h(kind)+'/qa-plan.json">Unexecuted QA</a> | <a href="'+h(kind)+'/inspection.svg">Unissued inspection drawing</a></p>']
-        if model['native_state']=='passed':lines+=['<img src="'+h(kind)+'/overview.png" alt="Native detail geometry"><p><a href="'+h(kind)+'/native/candidate.FCStd">Editable FreeCAD</a> | <a href="'+h(kind)+'/model.step.gz">STEP</a> | <a href="'+h(kind)+'/bim/assembly.ifc">Native-derived IFC</a></p>']
+            '<p><a href="'+h(kind)+'/candidate.json.gz">Detailed definition</a> | <a href="'+h(kind)+'/manufacturing-bom.csv">Cut/part schedule</a> | <a href="'+h(kind)+'/qa-plan.json.gz">Unexecuted QA (compressed)</a> | <a href="'+h(kind)+'/inspection.svg">Unissued inspection drawing</a></p>']
+        if model['native_state']=='passed':lines+=['<img src="'+h(kind)+'/overview.png" alt="Native detail geometry"><p><a href="'+h(kind)+'/native/candidate.FCStd">Editable FreeCAD</a> | <a href="'+h(kind)+'/model.step.gz">Compressed STEP</a> | <a href="'+h(kind)+'/bim/assembly.ifc.gz">Compressed native-derived IFC</a> | <a href="'+h(kind)+'/bim/requirements.ids.gz">Compressed IDS requirements</a></p>']
         if model.get('motion_preview',{}).get('state')=='executed':
             lines+=['<video controls preload="metadata" src="'+h(kind)+'/fixture-motion.mp4"></video><p>Native triangles move through the proposed fixture path. This is a rigid kinematic illustration with declared groups detached; contact forces, flexible services and actual vehicle access remain unverified.</p>']
     lines+=['<h2>Coupled electrical, HVAC and battery duty</h2><p>'+h(len(value['duty_cases']))+' executed cases, with an independent RC control and time refinement. Synthetic battery/HVAC parameters test numerical behaviour; no supplier performance or comfort qualification is claimed.</p>',
@@ -213,7 +258,9 @@ def report_html(value):
     if value['media']['state']=='executed':lines+=['<video controls preload="metadata" src="coupled-duty.mp4"></video>']
     lines+=['<table><tr><th>Case</th><th>Final cabin °C</th><th>Final SOC</th><th>Executed horizon</th><th>Numerical failures</th></tr>']
     for case in value['duty_cases']:lines+=['<tr><td>'+h(case['fault'])+'</td><td>'+h(round(case['final']['cabin_c'],3))+'</td><td>'+h(round(case['final']['soc'],5))+'</td><td>'+h(case['elapsed_s'])+' s</td><td>'+h(', '.join(case['failed_checks']))+'</td></tr>']
-    lines+=['</table><p>Conservation passing does not establish passenger comfort or equipment fitness. Cooling-loss and hot-start temperatures remain visible in the retained results.</p></html>']
+    lines+=['</table><p>Conservation passing does not establish passenger comfort or equipment fitness. Cooling-loss and hot-start temperatures remain visible in the retained results.</p>']
+    gap=value['integration_context_gap']
+    lines+=['<p>Open quantity interface: the cassette thermal sensitivity assumes '+h(gap['thermal_ducts_per_car'])+' duct cassettes per car; the gross installed-mass sensitivity places '+h(gap['mass_cassettes_per_car'])+' cassette per car. These are separate provisional cases. Full equipment quantities, refrigeration mass and the vehicle BOM must be reconciled before system admission.</p></html>']
     return '\n'.join(lines)
 
 
@@ -221,7 +268,7 @@ def build(prepared,folder):
     from . import cassette_detail,cassette_duty,civil_detail,structural_bay,workflow
     folder=Path(folder);folder.mkdir(parents=True)
     if list(folder.iterdir()):raise ValueError('new companion study directory required')
-    policy=prepared['policy'];system=system_design.report();core.write(folder/'system-design.json',system)
+    policy=prepared['policy'];system=system_design.report();write_record(folder,'system-design.json',system)
     base=_candidate(policy,'service-cassette')
     cassette_variants=[]
     for gap,float_m,compression in itertools.product((.003,.006,.009),(.001,.006),(.15,.25)):
@@ -243,7 +290,7 @@ def build(prepared,folder):
         structural_variants.append((item,structural_bay.evaluate(policy,item)))
     pairs=[cassette_pair,_choose(civil_variants),_choose(structural_variants)]
     variants=[dict(candidate=candidate,assessment=assessment) for candidate,assessment in cassette_variants+civil_variants+structural_variants]
-    (folder/'variant-evidence.json.gz').write_bytes(gzip.compress(core.encoded(variants),mtime=0))
+    (folder/'variant-evidence.json.gz').write_bytes(gzip.compress(json.dumps(variants,separators=(',',':'),allow_nan=False).encode(),mtime=0))
     search=dict(schema='osr-bounded-detail-variation/1',
         variant_count=len(variants),seed=None,policy='Finite controlled grammar; reject known failures, minimise held-count then represented detail mass; no unknown-cost credit',
         variants=[dict(kind=v['candidate']['kind'],revision=v['candidate']['revision'],variables=v['candidate']['variables'],
@@ -255,21 +302,23 @@ def build(prepared,folder):
         pair,result,failed=confirm_alternatives(choices,folder)
         pairs[index]=pair;models_out.append(result);native_diagnostics.extend(failed)
     final_context=provisional_context
-    core.write(folder/'installed-context.json',final_context)
-    core.write(folder/'civil-context.json',dict(reaction_envelope=envelope,kit_revision=core.digest(kit)))
+    write_record(folder,'installed-context.json',final_context)
+    write_record(folder,'civil-context.json',dict(reaction_envelope=envelope,kit_revision=core.digest(kit)))
     search['exhibit_revisions']=[candidate['revision'] for candidate,_ in pairs]
     search['eligible_research_revisions']=[m['candidate_revision'] for m in models_out if m['eligible_for_research']]
-    core.write(folder/'search.json',search)
-    core.write(folder/'cassette-transient-duty.json',cassette_duty.campaign(candidate=pairs[0][0]))
+    write_record(folder,'search.json',search)
+    transient=cassette_duty.campaign(candidate=pairs[0][0]);write_record(folder,'cassette-transient-duty.json',transient)
     # Cross-discipline handoff is generated from the same exact part definitions.
     (folder/'parts.csv').write_text(handoff(pairs))
     core.write(folder/'prototype-test-requests.json',requests(prepared['prototype'],pairs))
     media=_duty_media(system,folder)
     value=dict(schema='osr-closure-companion-studies/1',epoch=core.digest(prepared),sources_sha256=prepared['source_sha256'],
         system_revision=system['revision'],models=models_out,native_diagnostics=native_diagnostics,media=media,detail_variants=search['variant_count'],
+        integration_context_gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
+            mass_cassettes_per_car=len(final_context['allocations'])/prepared['prototype']['values']['car_count']['value'],state='hold-unadopted-equipment-quantities'),
         duty_cases=[{k:c[k] for k in ('fault','elapsed_s','final','failed_checks','held_checks','revision')} for c in system['duty_cases']],
         circuit=system['circuit'],refinement=system['refinement'],engineering_closed_tasks=0,**core.FLAGS)
-    core.write(folder/'summary.json',value);(folder/'index.html').write_text(report_html(value))
+    write_record(folder,'summary.json',value);(folder/'index.html').write_text(report_html(value))
     if prepared['source_sha256']!=baseline.sources():raise ValueError('sources changed during companion studies')
     if core._size(folder)>MAX_BYTES:raise ValueError('companion evidence size budget exceeded')
     workflow.seal(folder,dict(schema='osr-closure-studies-receipt/1',epoch=core.digest(prepared),system_revision=system['revision']))
@@ -280,12 +329,12 @@ def verify(folder,prepared):
     from . import workflow
     folder=Path(folder);receipt=workflow.verify_folder(folder,dict(schema='osr-closure-studies-receipt/1',epoch=core.digest(prepared)))
     if core._size(folder)>MAX_BYTES:raise ValueError('companion evidence size budget exceeded')
-    value=core.read(folder/'summary.json',maximum=20_000_000)
+    value=read_record(folder,'summary.json')
     if value['epoch']!=receipt['epoch'] or value['sources_sha256']!=prepared['source_sha256']:
         raise ValueError('companion source epoch differs')
     if any(value.get(k) is not False for k in core.FLAGS) or value['engineering_closed_tasks']!=0:
         raise ValueError('companion studies cannot assert engineering acceptance')
-    system=core.read(folder/'system-design.json',maximum=20_000_000)
+    system=read_record(folder,'system-design.json')
     if system['revision']!=core.digest({k:v for k,v in system.items() if k!='revision'}) or system['revision']!=value['system_revision']:
         raise ValueError('coupled study revision differs')
     if any(system.get(k) is not False for k in core.FLAGS):raise ValueError('coupled studies cannot assert release')
@@ -299,8 +348,8 @@ def verify(folder,prepared):
         expected_cases.append({k:case[k] for k in ('fault','elapsed_s','final','failed_checks','held_checks','revision')})
     if value['duty_cases']!=expected_cases or value['refinement']!=system['refinement'] or value['circuit']!=system['circuit']:
         raise ValueError('displayed coupled duty differs')
-    variants=json.loads(gzip.decompress((folder/'variant-evidence.json.gz').read_bytes()))
-    search=core.read(folder/'search.json',maximum=20_000_000)
+    variants=read_record(folder,'variant-evidence.json')
+    search=read_record(folder,'search.json')
     if any(search.get(k) is not False for k in core.FLAGS):raise ValueError('search cannot assert release')
     expected_variants=[]
     for variant in variants:
@@ -325,21 +374,21 @@ def verify(folder,prepared):
         if result!=retained or result['native_state']!='failed' or result['eligible_for_research'] is not False:
             raise ValueError('failed native attempt promoted or changed')
         if any(result.get(k) is not False for k in core.FLAGS):raise ValueError('native diagnostic asserts release')
-        candidate=json.loads(gzip.decompress((folder/path/'candidate.json.gz').read_bytes()));assessment=core.read(folder/path/'assessment.json')
+        candidate=read_record(folder/path,'candidate.json');assessment=read_record(folder/path,'assessment.json')
         if not any(v['candidate']==candidate and v['assessment']==assessment for v in variants):raise ValueError('native diagnostic differs from archived variant')
-        if core.read(folder/path/'definition.json')!=candidate['contract']:raise ValueError('native diagnostic definition differs')
+        if read_record(folder/path,'definition.json')!=candidate['contract']:raise ValueError('native diagnostic definition differs')
         if result['candidate_revision']!=candidate['revision'] or result['kind']!=candidate['kind'] or result['parts']!=len(candidate['contract']['parts']):
             raise ValueError('native diagnostic identity/count differs')
     pairs=[]
     for model in value['models']:
         if Path(model['kind']).name!=model['kind']:raise ValueError('unsafe family path')
-        root=folder/model['kind'];candidate=json.loads(gzip.decompress((root/'candidate.json.gz').read_bytes()))
-        result=core.read(root/'result.json');assessment=core.read(root/'assessment.json',maximum=20_000_000)
+        root=folder/model['kind'];candidate=read_record(root,'candidate.json')
+        result=core.read(root/'result.json');assessment=read_record(root,'assessment.json')
         if not any(v['candidate']==candidate and v['assessment']==assessment for v in variants):raise ValueError('exhibit differs from archived variant')
         pairs.append((candidate,assessment))
         if any(item.get(k) is not False for item in (candidate,assessment,model) for k in core.FLAGS):
             raise ValueError('detail cannot assert physical/design release')
-        if candidate['revision']!=model['candidate_revision'] or result!=model or core.read(root/'definition.json')!=candidate['contract']:
+        if candidate['revision']!=model['candidate_revision'] or result!=model or read_record(root,'definition.json')!=candidate['contract']:
             raise ValueError('manufactured detail identity differs')
         if model['kind']!=candidate['kind'] or model['parts']!=len(candidate['contract']['parts']) or model['scope']!=candidate['source_scope']:
             raise ValueError('displayed detail scope or count differs')
@@ -347,14 +396,14 @@ def verify(folder,prepared):
         checks=assessment['checks'];failed=[k for k,v in checks.items() if v is False];held=[k for k,v in checks.items() if v is None]
         if set(model['failed_checks'])!=set(failed) or set(model['held_checks'])!=set(held):raise ValueError('detail mandatory failures/holds differ')
         if model['eligible_for_research']!=(model['native_state']=='passed' and not failed):raise ValueError('failed detail promoted')
-        if core.read(root/'qa-plan.json')!=candidate['qa_plan']:raise ValueError('QA handoff differs')
+        if read_record(root,'qa-plan.json')!=candidate['qa_plan']:raise ValueError('QA handoff differs')
         with tempfile.TemporaryDirectory(prefix='osr-study-handoff-') as temporary:
             workflow.tables(candidate,Path(temporary))
             for name in ('manufacturing-bom.csv','inspection.svg'):
                 if (Path(temporary)/name).read_bytes()!=(root/name).read_bytes():raise ValueError('manufacturing BOM/drawing differs')
         if 'structural-detail' in assessment.get('supplemental_evidence',{}):
             detail=assessment['supplemental_evidence']['structural-detail']
-            if core.read(root/'structural-detail.json')!=detail or core.read(root/'manufacturing-pack.json')!=detail['manufacturing_pack']:
+            if read_record(root,'structural-detail.json')!=detail or read_record(root,'manufacturing-pack.json')!=detail['manufacturing_pack']:
                 raise ValueError('structural manufacturing handoff differs')
         if model['native_state']=='passed':
             proof=core.read(root/'native/native-cad.json',maximum=10_000_000)
@@ -365,21 +414,26 @@ def verify(folder,prepared):
             if proof['files_sha256']['candidate.FCStd']!=core.sha(root/'native/candidate.FCStd') or proof['files_sha256']['candidate.step']!=sha256(gzip.decompress((root/'model.step.gz').read_bytes())).hexdigest():
                 raise ValueError('detail native/STEP bytes differ')
             from . import bim
-            check=bim.verify(candidate,root/'bim/assembly.ifc',ids_path=root/'bim/requirements.ids')
-            if check['state']!='information-pass' or core.read(root/'bim/ids-report.json')!=check:
-                raise ValueError('detail IFC/IDS differs from candidate')
-            verify_exchange_mesh(candidate,root/'bim')
-            motion=model.get('motion_preview',{})
-            if motion.get('state')=='executed' and (motion['candidate_revision']!=candidate['revision'] or motion['native_mesh_sha256']!=core.sha(root/'bim/native-mesh.json')):
-                raise ValueError('fixture motion source differs')
+            with exchange_files(root/'bim') as paths:
+                check=bim.verify(candidate,paths['assembly.ifc'],ids_path=paths['requirements.ids'])
+                if check['state']!='information-pass' or core.read(root/'bim/ids-report.json')!=check:
+                    raise ValueError('detail IFC/IDS differs from candidate')
+                exchange_receipt=core.read(root/'bim/receipt.json')
+                if exchange_receipt['candidate_revision']!=candidate['revision'] or exchange_receipt['source_cad_sha256']!=core.sha(root/'native/candidate.FCStd'):
+                    raise ValueError('exchange source differs')
+                if any(exchange_receipt['files_sha256'][name]!=core.sha(path) for name,path in paths.items()):raise ValueError('compressed exchange raw hash differs')
+                verify_exchange_mesh(candidate,root/'bim',paths=paths)
+                motion=model.get('motion_preview',{})
+                if motion.get('state')=='executed' and (motion['candidate_revision']!=candidate['revision'] or motion['native_mesh_sha256']!=core.sha(paths['native-mesh.json'])):
+                    raise ValueError('fixture motion source differs')
     if (folder/'parts.csv').read_bytes()!=handoff(pairs).encode():raise ValueError('part handoff differs')
-    civil_context=core.read(folder/'civil-context.json',maximum=20_000_000);envelope=civil_context['reaction_envelope']
+    civil_context=read_record(folder,'civil-context.json');envelope=civil_context['reaction_envelope']
     civil_candidate,civil_assessment=pairs[1]
     if envelope['revision']!=core.digest({k:v for k,v in envelope.items() if k!='revision'}) or civil_context['kit_revision']!=envelope['kit_revision']:
         raise ValueError('civil reaction context revision differs')
     if civil_candidate['source_kit_revision']!=envelope['kit_revision'] or civil_assessment['reaction_revision']!=envelope['revision'] or civil_candidate['source_unit']['revision']!=envelope['unit_revisions'].get(civil_candidate['source_unit']['id']):
         raise ValueError('civil manufactured detail/reaction binding differs')
-    installed=core.read(folder/'installed-context.json',maximum=20_000_000)
+    installed=read_record(folder,'installed-context.json')
     if installed['revision']!=core.digest({k:v for k,v in installed.items() if k!='revision'}) or installed['candidate_revision']!=pairs[0][0]['revision'] or installed['force_ledger']!=envelope:
         raise ValueError('installed mass/reaction context differs')
     from . import integration
@@ -394,11 +448,14 @@ def verify(folder,prepared):
         raise ValueError('installed gross sensitivity asserts unsupported release/admission')
     if core.read(folder/'prototype-test-requests.json',maximum=20_000_000)!=requests(prepared['prototype'],pairs):
         raise ValueError('prototype request identity or scope differs')
-    transient=core.read(folder/'cassette-transient-duty.json',maximum=20_000_000)
+    transient=read_record(folder,'cassette-transient-duty.json')
     if transient['candidate_revision']!=pairs[0][0]['revision'] or any(transient.get(k) is not False for k in core.FLAGS):
         raise ValueError('cassette transient duty identity/scope differs')
     if set(transient['failed_checks'])!={k for k,v in transient['checks'].items() if v is False} or set(transient['held_checks'])!={k for k,v in transient['checks'].items() if v is None}:
         raise ValueError('cassette transient duty classification differs')
+    gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
+        mass_cassettes_per_car=len(installed['allocations'])/prepared['prototype']['values']['car_count']['value'],state='hold-unadopted-equipment-quantities')
+    if value['integration_context_gap']!=gap:raise ValueError('equipment quantity context differs')
     if (folder/'index.html').read_text()!=report_html(value):raise ValueError('companion presentation differs')
     return value
 

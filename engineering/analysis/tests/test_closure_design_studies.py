@@ -1,5 +1,6 @@
 """Companion evidence keeps exclusions, exact source and portable copies."""
 from copy import deepcopy
+import gzip
 import pytest
 from engineering.assembly_design import baseline,contracts,design_studies as studies,system_design,workflow
 from engineering.twin_workflow import core
@@ -39,10 +40,27 @@ def test_ifc_geometry_drift_is_rejected_even_if_information_still_passes(tmp_pat
     mesh=dict(parts=[dict(id=p['id'],vertices=[[0.,0.,0.],[1.,0.,0.],[0.,1.,0.]],faces=[[0,1,2]]) for p in candidate['contract']['parts']])
     bim.export(candidate,None,tmp_path,meshdata=mesh);core.write(tmp_path/'native-mesh.json',mesh)
     studies.verify_exchange_mesh(candidate,tmp_path)
+    original=(tmp_path/'assembly.ifc').read_bytes()
     model=ifcopenshell.open(str(tmp_path/'assembly.ifc'));points=model.by_type('IfcCartesianPointList3D')[0]
     coords=list(points.CoordList);coords[0]=(9.,9.,9.);points.CoordList=coords;model.write(str(tmp_path/'assembly.ifc'))
     assert bim.verify(candidate,tmp_path/'assembly.ifc')['state']=='information-pass'
     with pytest.raises(ValueError,match='native triangles'):studies.verify_exchange_mesh(candidate,tmp_path)
+    (tmp_path/'assembly.ifc').write_bytes(original)
+    for name in ('assembly.ifc','native-mesh.json','requirements.ids'):
+        path=tmp_path/name;(tmp_path/(name+'.gz')).write_bytes(gzip.compress(path.read_bytes(),mtime=0));path.unlink()
+    studies.verify_exchange_mesh(candidate,tmp_path)
+    with studies.exchange_files(tmp_path) as paths:
+        assert paths['assembly.ifc'].read_bytes()==original
+        assert bim.verify(candidate,paths['assembly.ifc'],ids_path=paths['requirements.ids'])['state']=='information-pass'
+
+
+def test_compressed_records_preserve_values_reject_ambiguity_and_bound_expansion(tmp_path,monkeypatch):
+    value=dict(values=list(range(100)));studies.write_record(tmp_path,'test.json',value)
+    assert studies.read_record(tmp_path,'test.json')==value
+    monkeypatch.setattr(studies,'MAX_EXCHANGE_RAW',20)
+    with pytest.raises(ValueError,match='budget'):studies.read_record(tmp_path,'test.json')
+    (tmp_path/'test.json').write_text('{}')
+    with pytest.raises(ValueError,match='ambiguous'):studies.read_record(tmp_path,'test.json')
 
 
 @pytest.fixture
@@ -85,25 +103,25 @@ def test_build_retains_three_models_unissued_requests_and_native_holds(package):
 def test_resealed_inner_inconsistency_fails(package,defect):
     folder,prepared,value=package
     if defect=='source':
-        value['sources_sha256']={};core.write(folder/'summary.json',value)
+        value['sources_sha256']={};studies.write_record(folder,'summary.json',value)
     elif defect=='presentation':(folder/'index.html').write_text('Complete designs')
     elif defect=='hidden-failure':
-        model=value['models'][0];path=folder/model['kind']/'assessment.json';r=core.read(path)
-        r['checks']['unexpected-mandatory-failure']=False;core.write(path,r)
+        model=value['models'][0];root=folder/model['kind'];r=studies.read_record(root,'assessment.json')
+        r['checks']['unexpected-mandatory-failure']=False;studies.write_record(root,'assessment.json',r)
     elif defect=='promoted':
-        value['models'][0]['eligible_for_research']=True;core.write(folder/'summary.json',value)
+        value['models'][0]['eligible_for_research']=True;studies.write_record(folder,'summary.json',value)
         core.write(folder/value['models'][0]['kind']/'result.json',value['models'][0])
         (folder/'index.html').write_text(studies.report_html(value))
     elif defect=='fake-native':
-        value['models'][0]['native_state']='passed';core.write(folder/'summary.json',value)
+        value['models'][0]['native_state']='passed';studies.write_record(folder,'summary.json',value)
         core.write(folder/value['models'][0]['kind']/'result.json',value['models'][0])
         (folder/'index.html').write_text(studies.report_html(value))
     elif defect=='part-mass':(folder/'parts.csv').write_text('forged mass')
-    elif defect=='qa':core.write(folder/value['models'][0]['kind']/'qa-plan.json',[])
+    elif defect=='qa':studies.write_record(folder/value['models'][0]['kind'],'qa-plan.json',[])
     elif defect=='rfq':
         r=core.read(folder/'prototype-test-requests.json');r[0]['included_component_scope']='Complete qualified viaduct';core.write(folder/'prototype-test-requests.json',r)
     else:
-        r=core.read(folder/'search.json');r['eligible_research_revisions']=['invented'];core.write(folder/'search.json',r)
+        r=studies.read_record(folder,'search.json');r['eligible_research_revisions']=['invented'];studies.write_record(folder,'search.json',r)
     reseal(folder,prepared)
     with pytest.raises((ValueError,FileNotFoundError,KeyError)):studies.verify(folder,prepared)
 
