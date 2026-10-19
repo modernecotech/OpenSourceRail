@@ -38,6 +38,8 @@ def report(data,policy):
         for task in c['tasks']:
             lines+=['<tr><td>'+h(task['id'])+' / '+h(task['page'])+'</td><td>'+h(task['title'])+'</td><td>'+h(task['implementation'])+'; '+h(task.get('implementation_scope',task['next_action']))+'</td><td>'+h(task['engineering_exit'])+'</td></tr>']
         lines+=['</table></details>']
+        if data.get('additional_design_studies'):
+            lines+=['<h2>Additional PDF design work executed</h2><p><a href="studies/index.html">Detailed cassette, civil reinforcement/handling, part handoff, electrical architecture and '+h(data['additional_design_studies']['duty_cases'])+' coupled HVAC/battery/control duty cases</a>. Native results, failures, unissued drawings, images and trace video are retained with the exact source epoch. Full engineering exits remain open.</p>']
         if c.get('site_screening_revision'):
             s=data['site_summary']
             lines+=['<h2>Baghdad — usable desktop site estimates</h2><p><a href="site/summary.json">Source dates, resolution, coverage, uncertainty, per-route estimates and investigation quantities</a> | <a href="site/map.geojson.gz">Detailed map layers (compressed GeoJSON)</a> | <a href="site/evidence.tar.gz">Portable source samples</a></p>',
@@ -92,6 +94,11 @@ def export(workspace,output):
         if prepared.get('site'):
             from . import site_bundle
             site_bundle.export(prepared['site'],output/'site')
+        companion=epoch_path/'closure-studies'
+        if companion.exists():
+            from . import design_studies
+            design_studies.verify(companion,prepared)
+            shutil.copytree(companion,output/'studies')
         folders={}
         for row in db.execute("SELECT * FROM jobs WHERE epoch=? AND status='completed'",(epoch,)):
             workflow.verify_folder(row['folder']);folders[row['key']]=Path(row['folder'])
@@ -169,6 +176,13 @@ def verify(output):
         from . import site_bundle
         if data.get('site_summary')!=site_bundle.metrics(prepared['site']):raise ValueError('displayed site estimates differ from source samples')
         site_bundle.verify(prepared['site'],output/'site')
+    if data.get('additional_design_studies'):
+        from . import design_studies
+        executed=design_studies.verify(output/'studies',prepared)
+        expected_studies=dict(revision=core.digest(executed),models=executed['models'],duty_cases=len(executed['duty_cases']),
+            scope='Additional provisional detail and coupled duty; full PDF engineering exits remain open')
+        if data['additional_design_studies']!=expected_studies:raise ValueError('displayed additional design studies differ')
+    elif (output/'studies').exists():raise ValueError('undisclosed additional design studies')
     inv=prepared['inventory']
     expected_counts=dict(requirement_records=len(inv['items']),baghdad_records=inv['baghdad_reference_items'],legacy_or_unreconciled_records=inv['existing_items'],component_records_with_pilot=sum(i['pilot'] is not None for i in inv['items']),component_records_needing_adapter=sum(i['pilot'] is None for i in inv['items']),facts=len(prepared['policy']['facts']),completed_trials=sum(not k.endswith('-native') for k in m['evidence_receipts']),qualified_components=0)
     if data['counts']!=expected_counts:raise ValueError('displayed assembly counts differ from evidence')

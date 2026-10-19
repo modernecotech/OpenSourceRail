@@ -46,7 +46,7 @@ moving paths, welds, threads, anchor development or physical performance.
 
 ```bash
 tools/automation/osr-python tools/automation/design-assemblies.py qualify
-tools/automation/osr-python tools/automation/design-assemblies.py run --budget 50
+tools/automation/osr-python tools/automation/design-assemblies.py run --budget 64
 tools/automation/osr-python tools/automation/design-assemblies.py cycle --budget 6
 tools/automation/osr-python tools/automation/design-assemblies.py install
 tools/automation/osr-python tools/automation/design-assemblies.py status
@@ -57,7 +57,13 @@ tools/automation/osr-python tools/automation/design-assemblies.py verify-cycle -
 
 The five-minute timer runs six pending experiments per cycle and retains a
 portable local report at `~/.local/state/opensourcerail/assembly-design/latest/`.
-The current bounded domain has 48 physical recipes and two software implementations.
+The current bounded domain has 60 physical recipes and two software implementations.
+Once these finish, the same runner executes a bounded companion study: twelve
+detailed cassette variants, twenty-seven civil cap-cage variants and the same
+twenty-four structural variants. Replayed structural variants are not additional
+unique designs. It confirms the best analytical alternatives in native CAD,
+retaining failed confirmations and trying up to three alternatives per family.
+Tool unavailability holds the family instead of spending this fallback budget.
 After exhaustion it explicitly waits for new requirements or capabilities; it
 does not repeat identical trials. A separate hourly capability service assigns
 missing Baghdad component work to an isolated developer and a separate critic.
@@ -123,6 +129,41 @@ four bolted equipment mounts and a steel test block. Independent analytical/FEM,
 mesh, equilibrium, acceleration and support-fixity controls check only the
 equivalent longitudinal elastic model. Local floor/joint resistance, buckling,
 fatigue, modal transfer and the complete carbody remain unresolved.
+
+### Additional closure-plan executions
+
+`design_studies.py` extends the existing epoch, qualification and publication
+paths. Its source-bound `studies/` report adds:
+
+- A detailed cassette and proposed host fixture, with routed conductors,
+  solder-cup envelopes, cover, seals, bond, guides, retention and actual rigid
+  insertion/removal/tool-envelope checks. Original failed guide/connector
+  assumptions remain in the original evidence. Replacement checks identify
+  exactly which revised interfaces supersede them. Carrier/mount loads include
+  the newly represented mass.
+- Structural mount bearing washers and adaptive bolt stacks, local floor/joint
+  checks, proposed weld details, modal/refinement controls and manufacturing
+  instructions. Thin floors fail the new local screens. A 16 mm floor is a heavy
+  research sensitivity; it does not establish an optimal complete carbody.
+- Actual round bars, welded links, embedded lift/jacking parts and spacers in
+  a hollow pier-cap segment. Concrete is not counted again in this cage model.
+  The retained complete cap mass and unresolved allowance remain visible.
+  Construction checks use the actual asymmetric permanent mass distribution.
+- Hierarchical six-car electrical nets and isolation/bond/signal boundaries,
+  twelve coupled HVAC/battery/controller duty cases, independent RC and heat
+  balances, electrical cooling demand, and separate cabin/battery cooling
+  failures. Synthetic equipment maps remain uncalibrated. A complementary
+  cassette campaign retains I²t, electrothermal, CO₂ and map sensitivities.
+- Native FreeCAD/STEP/IFC, unissued inspection layouts, exact part/joint/QA
+  handoffs, revision-specific unissued prototype test requests, native previews,
+  a rigid fixture-motion video and an animation of executed thermal traces.
+  These are distinct from a force/contact simulation or an installed vehicle.
+
+All 88 PDF tasks remain tracked individually. Missing full carbody/bogie,
+refrigeration/CFD, complete prestress/reinforcement, ground, coupled train passage,
+physical correlation, production and authority exits are not closed by these
+software executions. Named engineering reviewers, offered equipment data,
+manufactured samples and calibrated test results remain external work.
 
 The shared integration adapter propagates represented mass, CG and inertia,
 power/heat and complete reference reactions, with exact source/configuration

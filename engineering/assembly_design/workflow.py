@@ -274,6 +274,12 @@ def summary(workspace,db,epoch,prepared):
     if prepared.get('site'):
         from . import site_bundle
         report['site_summary']=site_bundle.metrics(prepared['site'])
+    companion=workspace/'epochs'/epoch/'closure-studies'
+    if companion.exists():
+        from . import design_studies
+        executed=design_studies.verify(companion,prepared)
+        report['additional_design_studies']=dict(revision=core.digest(executed),models=executed['models'],
+            duty_cases=len(executed['duty_cases']),scope='Additional provisional detail and coupled duty; full PDF engineering exits remain open')
     return report
 
 
@@ -291,6 +297,10 @@ def run(workspace=DEFAULT,*,budget=6,native=True):
             for row in [*representatives(db,epoch),*diagnostics(db,epoch)]:
                 if core._size(workspace)>=MAX_WORKSPACE or shutil.disk_usage(workspace).free<RESERVE:mode='waiting-for-disk';break
                 confirm(workspace,db,epoch,row)
+            if prepared.get('closure_plan') and mode!='waiting-for-disk' and not db.execute(
+                    "SELECT 1 FROM jobs WHERE epoch=? AND status!='completed' LIMIT 1",(epoch,)).fetchone():
+                from . import design_studies
+                design_studies.run(workspace,epoch,prepared)
         report=summary(workspace,db,epoch,prepared);report.update(controller_state=mode,executed_this_cycle=executed,heartbeat_unix=time.time())
         core.write(workspace/'status.json',report)
         return report

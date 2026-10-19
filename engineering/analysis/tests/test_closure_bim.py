@@ -19,7 +19,7 @@ def test_ifc_ids_reopen_all_required_information_and_stable_ids(tmp_path,candida
     receipt=bim.export(candidate,None,tmp_path,meshdata=mesh(candidate))
     assert receipt['state']=='information-only' and receipt['ids_verified']
     assert 'fixture' in receipt['mesh_basis']
-    assert receipt['part_count']==26
+    assert receipt['part_count']==30
     check=bim.verify(candidate,tmp_path/'assembly.ifc',ids_path=tmp_path/'requirements.ids')
     assert check['state']=='information-pass' and check['identity_match']
     assert all(check[k] is False for k in core.FLAGS)

@@ -20,4 +20,6 @@ def capture():
         result['packages'][package]=extra
     binary=shutil.which('openssl')
     result['signed_evidence_runtime']=dict(path=binary,sha256=runtime.file_hash(Path(binary).resolve()) if binary else None)
+    result['media_runtime']={name:dict(path=shutil.which(name),sha256=runtime.file_hash(Path(shutil.which(name)).resolve()) if shutil.which(name) else None)
+        for name in ('ffmpeg','ffprobe')}
     return result

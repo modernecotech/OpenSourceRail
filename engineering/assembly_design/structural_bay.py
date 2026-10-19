@@ -12,9 +12,10 @@ from engineering.twin_workflow import core
 from engineering.design_consistency import contracts
 from engineering.continuous_design import beam_confirmation
 from engineering.assembly_design import baseline
+from . import structural_detail
 
 PILOT=dict(requirement_ids=['baghdad:ME-01'],
-    domains=dict(rail_wall_m=[.003,.004,.005],crossmember_count=[2,3],floor_thickness_m=[.003,.004]),
+    domains=dict(rail_wall_m=[.003,.004,.005],crossmember_count=[2,3],floor_thickness_m=[.003,.004,.012,.016]),
     assumptions=dict(length_m=1.2,width_between_rail_centres_m=1.,rail_width_m=.06,rail_height_m=.1,
         crossmember_width_m=.05,crossmember_height_m=.08,gravity_m_s2=9.80665,
         vertical_acceleration_factors=[1.,3.],stress_fraction=.6,deflection_limit_m=.002,
@@ -47,7 +48,7 @@ def build(policy,variables):
     _validate(policy,variables);p=policy['pilots']['structural-bay'];a=p['assumptions'];f=baseline.facts(policy)
     L=a['length_m'];spacing=a['width_between_rail_centres_m'];rw=a['rail_width_m'];rh=a['rail_height_m']
     wall=variables['rail_wall_m'];floor=variables['floor_thickness_m'];count=variables['crossmember_count']
-    materials={'steel':dict(density_kg_m3=f['steel.density'],young_pa=f['steel.elastic_modulus'],poisson=.3,
+    materials={'steel':dict(density_kg_m3=f['steel.density'],young_pa=f['steel.elastic_modulus'],poisson=.3,yield_reference_pa=a['proposed_yield_pa'],
         basis='Nominal reference steel; proposed 355 MPa screen, actual section/product/heat/process qualification open')}
     parts=[];joints=[]
     def add(value,process='cut/drill/deburr',role='manufactured-solid'):
@@ -78,7 +79,9 @@ def build(policy,variables):
             'RHS square-cut end contacts rail inner face; weld throat, access and fatigue design required')
     mounts=[(x,y) for x in (-.18,.18) for y in (-.12,.12)]
     holes=[(x+math.copysign(.022,x),y) for x,y in mounts]
-    primitive=contracts.box('floor',L,spacing+rw,floor,[0,0,floor/2])
+    # 10 mm overhang each side exposes the underside lap-weld corner;
+    # a flush floor edge would obstruct the proposed longitudinal fillet.
+    primitive=contracts.box('floor',L,spacing+rw+.020,floor,[0,0,floor/2])
     primitive.update(kind='perforated-plate',holes_xy_m=[list(p) for p in holes],hole_radius_m=.0055)
     solid('floor-panel',[primitive])
     for side in (-1,1):join('floor-rail-'+str(side),['floor-panel','longitudinal-'+str(side)],
@@ -96,11 +99,13 @@ def build(policy,variables):
         solid('mount-foot-'+str(i),[plate])
         legx=x-math.copysign(.018,x);z0=floor+.006
         solid('mount-leg-'+str(i),[contracts.box('leg',.015,.015,.09-z0,[legx,y,(.09+z0)/2])])
-        solid('mount-bolt-'+str(i),[cylinder('shank',.005,.04,[hx,hy,0]),cylinder('head',.009,.008,[hx,hy,-.024])],
-            process='Purchase M10 nominal envelope; thread/grade/locking and torque to specify',role='hardware-envelope')
+        stack=structural_detail.fastener_stack(floor)
+        solid('mount-bolt-'+str(i),[cylinder('shank',.005,stack['nominal_underhead_length_m'],[hx,hy,stack['nominal_underhead_length_m']/2-.002]),cylinder('head',.009,.008,[hx,hy,-.006])],
+            process='Purchase M10x'+str(round(stack['nominal_underhead_length_m']*1000))+' coarse 1.5 mm pitch, class 8.8 reference; exact part/certificate/preload to qualify',role='hardware-envelope')
+        solid('mount-lower-washer-'+str(i),[cylinder('washer',.010,.002,[hx,hy,-.001],inner=.0055)],process='Purchase lower bearing washer; exact class and dimensions to confirm',role='hardware-envelope')
         solid('mount-washer-'+str(i),[cylinder('washer',.010,.002,[hx,hy,floor+.007],inner=.0055)],process='Purchase washer class/dimensions to specify',role='hardware-envelope')
         solid('mount-nut-'+str(i),[cylinder('nut-envelope',.009,.008,[hx,hy,floor+.012],inner=.0055)],process='Purchase retained M10 nut; thread/engagement not verified',role='hardware-envelope')
-        join('equipment-foot-'+str(i),['floor-panel','mount-foot-'+str(i),'mount-bolt-'+str(i),'mount-washer-'+str(i),'mount-nut-'+str(i)],
+        join('equipment-foot-'+str(i),['floor-panel','mount-foot-'+str(i),'mount-bolt-'+str(i),'mount-washer-'+str(i),'mount-lower-washer-'+str(i),'mount-nut-'+str(i)],
             'Through-bolted floor attachment; bolt stack represented; thread engagement, local plate/prying/preload and vibration open')
         join('equipment-leg-'+str(i),['mount-foot-'+str(i),'mount-leg-'+str(i),'equipment-test-block'],
             'Steel dummy test block on welded legs; actual equipment mount supplier/dynamics and weld qualification open')
@@ -115,7 +120,7 @@ def build(policy,variables):
         requirement_ids=p['requirement_ids'],contract=contract,
         metadata=dict(architecture=policy['architecture'],length_m=L,rail_spacing_m=spacing,crossmember_positions_m=positions,
             mount_positions_m=[[x,y,0] for x,y in holes],steel_test_block_mass_kg=.4*.3*.04*f['steel.density'],
-            section_m=[rw,rh,wall],floor_thickness_m=floor,
+            section_m=[rw,rh,wall],floor_thickness_m=floor,floor_edge_overhang_m=.010,fastener_stack=structural_detail.fastener_stack(floor),
             load_path=['equipment test block','four mount legs and feet','drilled floor','crossmembers and longitudinal rails','four declared end supports'],
             unsupported_scope=['side and roof panels','bogie connection','whole-car load transfer','weld beads/coatings','actual service equipment']),
         assembly_steps=['Verify material/section identities and cut datums','Fixture RHS rails and touching crossmember ends',
@@ -163,13 +168,15 @@ def evaluate(policy,candidate):
     for key in ('local-floor-resistance','bolt-and-weld-resistance','shell-buckling','modal-acceptance','fatigue-spectrum',
                 'actual-equipment-loads','whole-car-bogie-interface','physical-joint-panel-correlation'):
         checks[key]=None
+    detail=structural_detail.report(policy,candidate)
+    checks.update({'detail/'+name:value for name,value in detail['checks'].items()})
     failures=[k for k,v in checks.items() if v is False];held=[k for k,v in checks.items() if v is None]
     measurements=dict(mass_kg=mass,cg_m=summary['cg_m'],inertia_tensor_kg_m2=summary['inertia_tensor_kg_m2'],
         part_count=len(contract['parts']),owned_part_count=sum(p['geometric_role']=='manufactured-solid' for p in contract['parts']),
         beam_cases=cases,load_path=candidate['metadata']['load_path'],mass_scope='All represented steel bay and fastener/test-block geometry only; omitted weld/coating/services listed as open',
-        section_inertia_m4=inertia,geometry_revision=candidate['revision'])
+        section_inertia_m4=inertia,geometry_revision=candidate['revision'],structural_detail_revision=detail['revision'])
     return dict(schema='osr-assembly-screening/1',candidate_revision=candidate['revision'],kind='structural-bay',checks=checks,
         failed_checks=failures,held_checks=held,screen_pass=not failures and not held,implemented_checks_pass=not failures,
-        state='failed' if failures else 'hold',measurements=measurements,open_requirements=candidate['open_requirements'],
+        state='failed' if failures else 'hold',measurements=measurements,supplemental_evidence={'structural-detail':detail},open_requirements=candidate['open_requirements'],
         digital_specification_complete=False,connection_resistance_qualified=False,
-        scope=PILOT['scope']+'; only equivalent longitudinal-rail gravity solution independently screened',**core.FLAGS)
+        scope=PILOT['scope']+'; equivalent rail, local mount/floor, weld direct-shear and modal research screens only',**core.FLAGS)

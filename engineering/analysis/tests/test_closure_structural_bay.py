@@ -16,8 +16,8 @@ def candidate(policy,**changes):
     v=next(s.candidates(policy));v.update(changes);return s.build(policy,v)
 
 
-def test_domain_has_twelve_repeatable_shape_and_assembly_variations(policy):
-    recipes=list(s.candidates(policy));assert len(recipes)==12
+def test_domain_has_twenty_four_repeatable_shape_and_assembly_variations(policy):
+    recipes=list(s.candidates(policy));assert len(recipes)==24
     first=candidate(policy);second=s.build(policy,recipes[0])
     assert first==second
     assert first['requirement_ids']==['baghdad:ME-01']
@@ -28,7 +28,7 @@ def test_domain_has_twelve_repeatable_shape_and_assembly_variations(policy):
 
 def test_mass_cg_inertia_follow_every_represented_part(policy):
     c=candidate(policy);summary=contracts.summary(c['contract']);r=s.evaluate(policy,c)
-    assert len(c['contract']['parts'])==26
+    assert len(c['contract']['parts'])==30
     assert r['measurements']['mass_kg']==pytest.approx(sum(p['properties']['mass_kg'] for p in c['contract']['parts']))
     assert r['measurements']['cg_m']==pytest.approx(summary['cg_m'])
     assert r['measurements']['inertia_tensor_kg_m2']==summary['inertia_tensor_kg_m2']
@@ -65,8 +65,9 @@ def test_closed_form_refinement_equilibrium_and_adverse_scaling(policy):
         assert case['boundary_sensitivity']['ratio']==pytest.approx(5.)
     assert b['deflection_m']==pytest.approx(3*a['deflection_m'])
     assert b['stress_pa']==pytest.approx(3*a['stress_pa'])
-    assert r['implemented_checks_pass'] and not r['screen_pass']
-    assert r['state']=='hold' and r['checks']['modal-acceptance'] is None
+    assert not r['implemented_checks_pass'] and not r['screen_pass']
+    assert 'detail/floor-strip/stress-provisional' in r['failed_checks']
+    assert r['state']=='failed' and r['checks']['modal-acceptance'] is None
     assert r['checks']['shell-buckling'] is None and r['checks']['fatigue-spectrum'] is None
     assert not r['digital_specification_complete']
 
@@ -78,7 +79,7 @@ def test_every_non_external_part_is_connected_in_declared_loadpath(policy):
         assert joint['qualified'] is False
         connected|=set(joint['endpoints'])
     assert ids<=connected
-    assert len([p for p in c['contract']['parts'] if p['geometric_role']=='hardware-envelope'])==12
+    assert len([p for p in c['contract']['parts'] if p['geometric_role']=='hardware-envelope'])==16
 
 
 @pytest.mark.parametrize('change',({'rail_wall_m':float('nan')},{'rail_wall_m':.001},{'crossmember_count':4}))
@@ -93,9 +94,10 @@ def test_stale_geometry_or_lm3_inputs_cannot_reuse_result(policy):
     with pytest.raises(ValueError,match='architecture'):candidate(policy)
 
 
-def test_structural_bay_native_mass_ids_static_contact_and_step(tmp_path,policy):
+@pytest.mark.parametrize('floor',(.003,.016))
+def test_structural_bay_native_mass_ids_static_contact_and_step(tmp_path,policy,floor):
     from engineering.continuous_design import study_confirmation
-    c=candidate(policy);path=tmp_path/'definition.json';core.write(path,c['contract'])
+    c=candidate(policy,floor_thickness_m=floor);path=tmp_path/'definition.json';core.write(path,c['contract'])
     proof,state,error=study_confirmation.native(path,tmp_path/'cad')
     if state=='hold':pytest.skip('Native tool unavailable: '+str(error))
     assert state=='passed',error
