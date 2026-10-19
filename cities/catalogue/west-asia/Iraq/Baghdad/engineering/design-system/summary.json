@@ -601,7 +601,7 @@
     {
       "bytes": 4384387,
       "path": "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/model.ifc",
-      "sha256": "0f6d0b0ee9966eb86370537b30fa3eda0ef4463c3d78d487ae4b80da013569c8",
+      "sha256": "72a84dae944d6c1de914142c57749b9b2aee8225b8408f16fb00a1c9e1f1fff3",
       "type": "geometry-or-visual"
     },
     {
@@ -612,7 +612,7 @@
         "mismatches": [],
         "state": "design-bound"
       },
-      "sha256": "98e7717b25d614666fd00d4b630b55bc7915d414fe10d7fffd04f55aaf28e81d",
+      "sha256": "0927d4174cd5b059b469f0978dd8d998819b9b027aa12ca3e0d2f1263bc285fa",
       "type": "report"
     },
     {
@@ -818,16 +818,16 @@
   "engineering_release": false,
   "external_research": {
     "applicability": "Named Baghdad six-car provisional component research only; route, ground, duty and production acceptance remain open.",
-    "completed_variants": 50,
+    "completed_variants": 62,
     "engineering_complete": false,
-    "epoch": "27a64394e0b8324a33d3140f68f19fa72cf9378ebe6674f94f91a072f35195d7",
+    "epoch": "1db4bb751739072421b9d61783d325c084b58db0d22b10c20eba79627792facc",
     "index": "docs/design-engine/assembly-design/index.html",
     "manifest": "docs/design-engine/assembly-design/manifest.json",
     "manufacturing_release": false,
     "native_exhibits": 3,
     "pilots": [
       {
-        "candidate": "6c0297154d0a514d0988f79e095bda47cdd90bce7ecd8329873f7018fcb64564",
+        "candidate": "3731b486ee1d6021728115220bfb4e857f607362d82a2ef6d7e28d7c054d98b7",
         "diagnostic": false,
         "engineering_complete": false,
         "failed_checks": [],
@@ -846,27 +846,27 @@
         "kind": "bearing-seat",
         "links": {
           "BOM": {
-            "manifest_sha256": "f860664a6e60e6fa01151652de98aae91236d3e344cdf2bcd21dd38f58c068f4",
+            "manifest_sha256": "50d20650e231b0f8991d6b195d0ff02a5b71e90e43ae8d78189e228eb9c41b8c",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/manufacturing-bom.csv"
           },
           "CAD": {
-            "manifest_sha256": "4f4124ba06b6a88772bc53f786a3a0ef7e3e4b122c802bd248c062c4e03d4f35",
+            "manifest_sha256": "731b8e28ea724aa476777f8400372130b69f0e5cea166b20020b318fa71612a6",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/model.FCStd"
           },
           "IFC": {
-            "manifest_sha256": "9c5c12869950c04d848f2b4701543e40607f0f0d5800c9539a83a831bcd553d2",
+            "manifest_sha256": "7d58069cc4efde7963e42b5dd15aa4274543f9c9afc95611174b3bb81bc4c5ac",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/assembly.ifc.gz"
           },
           "QA": {
-            "manifest_sha256": "07dc771e611e5548b4903c3b8909269d53af84fe55de636df1e74ba4244101bb",
+            "manifest_sha256": "3d0252d93861a6617d4a968abea0554f5ad21d04c6264079e881b601aa11895f",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/qa-plan.json"
           },
           "STEP": {
-            "manifest_sha256": "05e8d0c1a1543d48ec4e665968d616f3f8e783a282f0c2a6f810a5de8c3dedbf",
+            "manifest_sha256": "82f8e05ac90e91e86d023b2d621fecb0d9bf6c02736d9f3c74568ff6a8c0141f",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/model.step.gz"
           },
           "checks": {
-            "manifest_sha256": "0ec1299c6eeb6520bbf50606b954a53f2fd978f6118dad89d9498e2c133e8120",
+            "manifest_sha256": "0111c08ea343122336b3c515f54353f3b786a6275a0a62dfc1e6a2f4efc5dcab",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/result.json"
           },
           "image": {
@@ -874,7 +874,7 @@
             "path": "docs/design-engine/assembly-design/models/bearing-seat/overview.png"
           },
           "native": {
-            "manifest_sha256": "232fa93ce5a6f72b7aa019b7ec242ee48ba16e1468169376e1ca3fc31be32b5e",
+            "manifest_sha256": "9bb3acf72593abd84d965499fadc9561440d0d1aa37640bfd56a95634e899723",
             "path": "docs/design-engine/assembly-design/models/bearing-seat/native-result.json"
           }
         },
@@ -882,7 +882,7 @@
         "state": "held-research-representative"
       },
       {
-        "candidate": "a2da067200a1d132faa973d9222019697e3659b3e2d51b4b57b928b741b06851",
+        "candidate": "85e3f402197cc786fe767c47375ffda538d222fde3f5f0ef26619732694d01f5",
         "diagnostic": false,
         "engineering_complete": false,
         "failed_checks": [],
@@ -894,40 +894,47 @@
           "fatigue-spectrum",
           "actual-equipment-loads",
           "whole-car-bogie-interface",
-          "physical-joint-panel-correlation"
+          "physical-joint-panel-correlation",
+          "detail/thread-stripping-and-selected-nut",
+          "detail/nonlinear-contact-and-prying",
+          "detail/local-shell-buckling-resistance",
+          "detail/actual-modal-transfer-acceptance",
+          "detail/fatigue-duty-and-qualified-SN",
+          "detail/qualified-preload-locking-and-WPS",
+          "detail/physical-joint-panel-correlation"
         ],
         "kind": "structural-bay",
         "links": {
           "BOM": {
-            "manifest_sha256": "6de836c77ef7c8e96d2ab74557809a75d2ccec57bc8e03dbd7c1861dca5c5f48",
+            "manifest_sha256": "0c3d0a69926830d5e40be0e2736761e8fd7f2860fdecdaead7c68ee5c75fdd8d",
             "path": "docs/design-engine/assembly-design/models/structural-bay/manufacturing-bom.csv"
           },
           "CAD": {
-            "manifest_sha256": "1ccbb99f1b44b2de444fe1dbef798020df6864e500885a17829d4b7c006053b4",
+            "manifest_sha256": "525cd6219bf900eca4278d6ca448832f5e255ff8919ad1d35fb9dc77b55d28f5",
             "path": "docs/design-engine/assembly-design/models/structural-bay/model.FCStd"
           },
           "IFC": {
-            "manifest_sha256": "57e03b9b586cf901c14f8fc2e1751fd51e00727089284b87a1eb34cffd3fc38c",
+            "manifest_sha256": "3628e75df63189d7ddcc4c9b9f2538f0526f3f655715bb90246068c215d7a74e",
             "path": "docs/design-engine/assembly-design/models/structural-bay/assembly.ifc.gz"
           },
           "QA": {
-            "manifest_sha256": "33176fc45662a368b0688e01d31284d90da68f31617e1fa4a08f1320cab8a0bd",
+            "manifest_sha256": "a0c45f8641101078508703f859acbe50f4b60fa5504614f72862d90d3f9e30c2",
             "path": "docs/design-engine/assembly-design/models/structural-bay/qa-plan.json"
           },
           "STEP": {
-            "manifest_sha256": "a257c198d5b0b233330996dd77425abe527cede3567e063be0a13a49725a95ea",
+            "manifest_sha256": "44265c1f08d609d1ec6eeb1139be4916c30a1dff197affc26ae1a8c40db9d05c",
             "path": "docs/design-engine/assembly-design/models/structural-bay/model.step.gz"
           },
           "checks": {
-            "manifest_sha256": "111f9c1e447a741300863d1fe6f2aa6fd142d55fb1a12c068ea6912c399a43a1",
+            "manifest_sha256": "3b89f6a0aa845d64e0461a94e4c239e1007eaa64596a506c0daf160ad55a1d88",
             "path": "docs/design-engine/assembly-design/models/structural-bay/result.json"
           },
           "image": {
-            "manifest_sha256": "c9806263bc8360f7662dd97c740ccce4be8afd9118c85fe7c99c6b118e10d5ce",
+            "manifest_sha256": "209f20fa3d0a8f7a8cc1637569d96d32f4e4607cd28fe8f2546195442f4cb9e3",
             "path": "docs/design-engine/assembly-design/models/structural-bay/overview.png"
           },
           "native": {
-            "manifest_sha256": "fdc6ac0704722006af647988d9d7e55f377535a4f67c521fc20085b9cf5fab34",
+            "manifest_sha256": "c148e2c05ec719b9e1b829baec4df7daffd3bc5cade8ac7fd7cbf71c95475291",
             "path": "docs/design-engine/assembly-design/models/structural-bay/native-result.json"
           }
         },
@@ -935,7 +942,7 @@
         "state": "held-research-representative"
       },
       {
-        "candidate": "f5ae0757e32ec08dfa2abc716a1730c842ce78f64a44ac3060257af6f1c00d57",
+        "candidate": "be3d27cc21ca6f6eed17d2d3c868059feea23401e2a5f055220842977b8fbb59",
         "diagnostic": true,
         "engineering_complete": false,
         "failed_checks": [
@@ -954,27 +961,27 @@
         "kind": "service-cassette",
         "links": {
           "BOM": {
-            "manifest_sha256": "513d9e541a61c87cb742a9499b6fa805524190db73568b1609997d4bcb8c875b",
+            "manifest_sha256": "bbb8c84b9d0fc71262fb15357c69ba170371d795d38f905ede9e3895ee81a856",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/manufacturing-bom.csv"
           },
           "CAD": {
-            "manifest_sha256": "d3bae8673f38499452a4a0d2122cc6f7c6dc5ed8ffc8ae9738bc4e95f1101816",
+            "manifest_sha256": "c3b712929f28ee3897b1652ca96a3ab8794c25d63444a0a70b6f0bc15006f299",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/model.FCStd"
           },
           "IFC": {
-            "manifest_sha256": "dceb71906cb8e6334872c5a867460d233cfc7430e906d0a4f67ea4a79254cd8e",
+            "manifest_sha256": "e126d8ae038c6eae13432a28d0e1d3dc9c31e5a6e5bf8852d70a9956ebfc08bb",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/assembly.ifc.gz"
           },
           "QA": {
-            "manifest_sha256": "10df156c0effcafd92bf71e5fa0c4dc5eabcf64f6a09d1253f65f6eb42f5437d",
+            "manifest_sha256": "f4f4f019893d614fb4495143968744c1cd87bcd6746f5fdee7921527ec06d80c",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/qa-plan.json"
           },
           "STEP": {
-            "manifest_sha256": "bce92280ea71920bc4516db1636be0c97345518e14f36ba50f64553ad56d1a44",
+            "manifest_sha256": "8ef89bbc083118aa2d4fa943b221b854847aec63b8ebb353056e6f479608541e",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/model.step.gz"
           },
           "checks": {
-            "manifest_sha256": "6bef905879385442237059e2d32936615f1806add1c6a19575dd83aa444abf06",
+            "manifest_sha256": "707a4a2b80166928b015be1a7a049ca3e32b2bcf45216c9a18238484fdee9c7e",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/result.json"
           },
           "image": {
@@ -982,7 +989,7 @@
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/overview.png"
           },
           "native": {
-            "manifest_sha256": "8be3425c8832362138d37a76aecb422ce252fdc3455ee8a235b4396d30740f38",
+            "manifest_sha256": "71e7d56d84a51129856964ac544435a6b2813f7511484dc86b008ccd8c1f6afb",
             "path": "docs/design-engine/assembly-design/diagnostics/service-cassette/native-result.json"
           }
         },
@@ -2496,8 +2503,8 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/geometry-preview.png": "83796dde497d3a55984f506a8a2ef3f3d63a869e59d282eca844c12ba964de62",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/geometry-turntable.mp4": "b23d56cb2fb4f27054ff589298cad0aab75aa7ba1f7cd3335a9b8b50d49fd882",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/layout.png": "d8be1d730f26d292f7f4a7fd49c064d8e9bb8abab757f4bc0ceba5b939df5edd",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/model.ifc": "0f6d0b0ee9966eb86370537b30fa3eda0ef4463c3d78d487ae4b80da013569c8",
-    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/summary.json": "98e7717b25d614666fd00d4b630b55bc7915d414fe10d7fffd04f55aaf28e81d",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/model.ifc": "72a84dae944d6c1de914142c57749b9b2aee8225b8408f16fb00a1c9e1f1fff3",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/summary.json": "0927d4174cd5b059b469f0978dd8d998819b9b027aa12ca3e0d2f1263bc285fa",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/funding-cashflows.png": "b17d15ea23de87aa61880fb806154814c119c5d7ca589bb5683b2f269109c0c1",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/finance/summary.json": "71342c841d214cdda2506c494b6f77719d01c5457fe09be790e509b68ff78542",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/README.md": "e90a3afd90bce346d07ebc836a6f624e81c53808b87bac31d5ea98b803c8347c",
@@ -2519,17 +2526,17 @@
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/station-product-map.json": "5e67747c22442f6bcebec89d4a3400352f2548b6a98a9855463230274315e254",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/sumo/summary.json": "41164485ca4e7a592aad9e3da04794c88205524f7be1c57353618e743acfa681",
     "cities/catalogue/west-asia/Iraq/Baghdad/engineering/viaduct-rentals/unit-plan.svg": "82d733e7999c0f69a7568f576185ccd732025567f5b6256815970fd2d822862e",
-    "docs/design-engine/assembly-design/baseline.json.gz": "0c532a53c0ae3d29a718185cbe40de1f0b25a986684f3afa7d8a094d0f0d23b3",
-    "docs/design-engine/assembly-design/diagnostics/service-cassette/native-result.json": "8be3425c8832362138d37a76aecb422ce252fdc3455ee8a235b4396d30740f38",
-    "docs/design-engine/assembly-design/diagnostics/service-cassette/result.json": "6bef905879385442237059e2d32936615f1806add1c6a19575dd83aa444abf06",
-    "docs/design-engine/assembly-design/manifest.json": "aab0d06b845510479fd9ec7272c04d052202379a2393eea944892ed7b80fdf1f",
-    "docs/design-engine/assembly-design/models/bearing-seat/native-result.json": "232fa93ce5a6f72b7aa019b7ec242ee48ba16e1468169376e1ca3fc31be32b5e",
-    "docs/design-engine/assembly-design/models/bearing-seat/result.json": "0ec1299c6eeb6520bbf50606b954a53f2fd978f6118dad89d9498e2c133e8120",
-    "docs/design-engine/assembly-design/models/structural-bay/native-result.json": "fdc6ac0704722006af647988d9d7e55f377535a4f67c521fc20085b9cf5fab34",
-    "docs/design-engine/assembly-design/models/structural-bay/result.json": "111f9c1e447a741300863d1fe6f2aa6fd142d55fb1a12c068ea6912c399a43a1",
-    "docs/design-engine/assembly-design/progress.json": "718af79413ba54353eeef8c63151c9006ef67ee68f3bcd349ff3a1e089aa9920",
-    "docs/design-engine/assembly-design/prototype.json": "ebfb849bb4077e63948b29832fa97d7a03d833af608eb55739e167973db8bf43",
-    "docs/design-engine/assembly-design/qualification.json": "21dc878d32a94a502ad7d0efb1bab23d5287d4d719d715999a9f2535aa460583"
+    "docs/design-engine/assembly-design/baseline.json.gz": "82fa131b2bc3e6381c6d7ee57ae3f113b7ca83350e7eef3ca71de1b52b0b83bb",
+    "docs/design-engine/assembly-design/diagnostics/service-cassette/native-result.json": "71e7d56d84a51129856964ac544435a6b2813f7511484dc86b008ccd8c1f6afb",
+    "docs/design-engine/assembly-design/diagnostics/service-cassette/result.json": "707a4a2b80166928b015be1a7a049ca3e32b2bcf45216c9a18238484fdee9c7e",
+    "docs/design-engine/assembly-design/manifest.json": "34b5d75e3d1d94d59e0e992d444984209d7cb3fa666692444cb1b7e57827529d",
+    "docs/design-engine/assembly-design/models/bearing-seat/native-result.json": "9bb3acf72593abd84d965499fadc9561440d0d1aa37640bfd56a95634e899723",
+    "docs/design-engine/assembly-design/models/bearing-seat/result.json": "0111c08ea343122336b3c515f54353f3b786a6275a0a62dfc1e6a2f4efc5dcab",
+    "docs/design-engine/assembly-design/models/structural-bay/native-result.json": "c148e2c05ec719b9e1b829baec4df7daffd3bc5cade8ac7fd7cbf71c95475291",
+    "docs/design-engine/assembly-design/models/structural-bay/result.json": "3b89f6a0aa845d64e0461a94e4c239e1007eaa64596a506c0daf160ad55a1d88",
+    "docs/design-engine/assembly-design/progress.json": "7f391993ed732cebf6eef71baaff27c7b20174f93070b1048d29aec58f8b0ddc",
+    "docs/design-engine/assembly-design/prototype.json": "70716b7bed1ac820a1b5474072dae4e35a79d4f242bbac10aa86ae3d3ead59b7",
+    "docs/design-engine/assembly-design/qualification.json": "4b46fa0903341ec48d8b20d9645cc2b829c24aa7815989d8900eab08ecec0155"
   },
   "systems": [
     {

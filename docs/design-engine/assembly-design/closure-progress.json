@@ -273,7 +273,7 @@
       "physical_validation": false,
       "pilot": "service-cassette",
       "research_shortlist_eligible": false,
-      "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
     },
     "structural-bay": {
@@ -364,7 +364,7 @@
       "physical_validation": false,
       "pilot": "structural-bay",
       "research_shortlist_eligible": false,
-      "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
     },
     "viaduct-bay": {
@@ -475,7 +475,7 @@
       "physical_validation": false,
       "pilot": "viaduct-bay",
       "research_shortlist_eligible": false,
-      "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
     }
   },
@@ -523,7 +523,7 @@
     "manufacturing_release": false,
     "physical_release": false,
     "physical_validation": false,
-    "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+    "revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
     "route": {
       "reason": "Surveyed route, gradient/speed histories and platform positions required",
       "state": "hold",
@@ -549,7 +549,7 @@
     },
     "source_sha256": {
       "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "8bcfb0f66fd4e6fdf2cc85854e101779f996111e07dcaeec34b0b5f1621929be",
-      "engineering/assembly_design/data/baseline.json": "eeff00516af22d313e1ae3bb62856102c284ae27bb8386f5873ecd3eb18a962a",
+      "engineering/assembly_design/data/baseline.json": "df18afd4205d3993e2f34bd3e34951c507580a0a46d019606c199f7123224146",
       "engineering/data/baghdad-reference-parts.json": "5892d816571dcf4d47506c74e35a6c77565016afb577917d19ac763f2afed91c",
       "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
       "lib/templates/track-geometry.toml": "70590b731e73c1694cd9593bd67481a8953f20c4117f1d8671a5bda7fe1065c2"
@@ -633,7 +633,7 @@
   "requests": [
     {
       "component_revision": null,
-      "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "configuration_revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "contact_scope": "Request for data/test scoping only; not issued",
       "design_complete": false,
       "destinations": [
@@ -688,7 +688,7 @@
     },
     {
       "component_revision": null,
-      "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "configuration_revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "contact_scope": "Request for data/test scoping only; not issued",
       "design_complete": false,
       "destinations": [
@@ -743,7 +743,7 @@
     },
     {
       "component_revision": null,
-      "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "configuration_revision": "0fbd80d66f28c812672913ee77873b6b21b25e60e4f27ea66a8f126c5ef25a47",
       "contact_scope": "Request for data/test scoping only; not issued",
       "design_complete": false,
       "desktop_site_evidence": {
@@ -999,7 +999,7 @@
           "entrypoint": "run",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -1125,7 +1125,7 @@
           "entrypoint": "build",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/structural_bay.py",
-          "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          "source_sha256": "73c644cb991e0fd9f5731d999762ea45ff72bee3c7b17bf03b8022dcc4b0f711"
         }
       ],
       "external_evidence": [],
@@ -1141,10 +1141,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "report",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/structural_detail.py",
+          "source_sha256": "972bd5931dbadb062c1a058b9ccbbf313bd06f6438dca87f7797be6ff33b8221"
+        }
+      ],
       "external_evidence": [],
       "id": "WP03-local-joints",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "actual bolt stack and local bearing/net/tearout/block-shear/prying sensitivities; contact/preload and applicable fatigue qualification held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 4,
@@ -1154,10 +1162,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "weld_register",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/structural_detail.py",
+          "source_sha256": "972bd5931dbadb062c1a058b9ccbbf313bd06f6438dca87f7797be6ff33b8221"
+        }
+      ],
       "external_evidence": [],
       "id": "WP03-welds",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "proposed weld register, throat/direct-load screen and inspection/WPS requirements; qualified procedure, distortion and NDT evidence absent",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 4,
@@ -1172,7 +1188,7 @@
           "entrypoint": "evaluate",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/structural_bay.py",
-          "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          "source_sha256": "73c644cb991e0fd9f5731d999762ea45ff72bee3c7b17bf03b8022dcc4b0f711"
         }
       ],
       "external_evidence": [],
@@ -1245,7 +1261,7 @@
           "entrypoint": "tables",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -1274,10 +1290,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "build",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/cassette_detail.py",
+          "source_sha256": "98ce396d6efc4fa4ef20d967cbbdceeb97dc2c5733ddfe1205c7040a548ca957"
+        }
+      ],
       "external_evidence": [],
       "id": "WP04-cassette-details",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "owned detailed cover, seals, bonding, routed conductors and retention alternative; supplier internals and complete prototype acceptance held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 5,
@@ -1287,10 +1311,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "evaluate",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/cassette_detail.py",
+          "source_sha256": "98ce396d6efc4fa4ef20d967cbbdceeb97dc2c5733ddfe1205c7040a548ca957"
+        }
+      ],
       "external_evidence": [],
       "id": "WP04-lock",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "guided host/positive retention and access sensitivities; forces/wear/environmental correlation held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 5,
@@ -1402,10 +1434,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "electrical_architecture",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
+        }
+      ],
       "external_evidence": [],
       "id": "WP05-single-line",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "six-car hierarchical HV/LV, charge, isolation, bond and signal net definition; selected devices, routes and protection held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 6,
@@ -1478,10 +1518,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "simulate",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
+        }
+      ],
       "external_evidence": [],
       "id": "WP05-battery-duty",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "existing battery solver coupled to repeated synthetic duty, HVAC and fault permissions; measured LFP maps and actual route duty held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 6,
@@ -1504,10 +1552,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "circuit_benchmark",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
+        }
+      ],
       "external_evidence": [],
       "id": "WP05-circuits",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "independent IVP and exact RC control; ngspice/electrothermal protection adapter not executed",
       "kind": "software",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 6,
@@ -1551,10 +1607,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "defaults",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
+        }
+      ],
       "external_evidence": [],
       "id": "WP06-whole-car",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "template-bound occupancy/climate plus explicit whole-car sensible/moisture planning assumptions; adopted duty/maps/air-quality criteria held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 7,
@@ -1566,16 +1630,16 @@
       "engineering_exit": "open",
       "evidence": [
         {
-          "entrypoint": "report",
+          "entrypoint": "simulate",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
-          "source": "engineering/assembly_design/cassette_system.py",
-          "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
         }
       ],
       "external_evidence": [],
       "id": "WP06-level1",
       "implementation": "partial-provisional",
-      "implementation_scope": "bounded flow/heat/moisture balances; whole-car refrigeration not complete",
+      "implementation_scope": "temporal air, sensible energy and water balances coupled to battery auxiliary draw; refrigeration circuit and spatial distribution remain open",
       "kind": "software",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 7,
@@ -1628,14 +1692,14 @@
         {
           "entrypoint": "report",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
-          "source": "engineering/assembly_design/cassette_system.py",
-          "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
         }
       ],
       "external_evidence": [],
       "id": "WP06-faults",
       "implementation": "partial-provisional",
-      "implementation_scope": "duct/leak/blockage and LV fault controls; whole-car adverse cases open",
+      "implementation_scope": "ten temporal nominal/degraded cases and refinement; actual comfort, supplier maps and physical correlation held",
       "kind": "software",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 7,
@@ -1658,10 +1722,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "build",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/civil_detail.py",
+          "source_sha256": "f21b3c97b21e38ef02074a50bbb5d86e890d0c315eecb13955199a2e02418cdc"
+        }
+      ],
       "external_evidence": [],
       "id": "WP07-kit-details",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "native-compatible actual cap cage, embedded lift/jacking and spacer detail; complete bay reinforcement/prestress/services and qualified connections held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 8,
@@ -1671,10 +1743,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "evaluate",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/civil_detail.py",
+          "source_sha256": "f21b3c97b21e38ef02074a50bbb5d86e890d0c315eecb13955199a2e02418cdc"
+        }
+      ],
       "external_evidence": [],
       "id": "WP07-resistance",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "hollow cap fibre section and shared-reaction/handling screens; shear/fatigue/early strength/anchor/restraint and qualified resistance held",
       "kind": "design",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 8,
@@ -1853,16 +1933,16 @@
       "engineering_exit": "open",
       "evidence": [
         {
-          "entrypoint": "snapshot",
+          "entrypoint": "simulate",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
-          "source": "engineering/assembly_design/integration.py",
-          "source_sha256": "69a333786e285cc9633b2f77a36e0438e54a18ac524493d11b119435d02a4f73"
+          "source": "engineering/assembly_design/system_design.py",
+          "source_sha256": "67ea05d3ea14891dda665dc0c32767c93b187e5cd672ace994f38911cb94dce2"
         }
       ],
       "external_evidence": [],
       "id": "WP08-cosimulation",
       "implementation": "partial-provisional",
-      "implementation_scope": "force/power/heat interface contract; coupled transient solving pending",
+      "implementation_scope": "sampled controller/HVAC/battery transient with independent energy/water ledgers; coupled vehicle/track/structure physics and hardware timing held",
       "kind": "software",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 9,
@@ -1932,7 +2012,7 @@
           "entrypoint": "candidates",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/structural_bay.py",
-          "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          "source_sha256": "73c644cb991e0fd9f5731d999762ea45ff72bee3c7b17bf03b8022dcc4b0f711"
         }
       ],
       "external_evidence": [],
@@ -1995,7 +2075,7 @@
           "entrypoint": "seal",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -2016,7 +2096,7 @@
           "entrypoint": "run",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -2050,7 +2130,7 @@
           "entrypoint": "completion",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/closure.py",
-          "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          "source_sha256": "28c7fcfb8b09bb9425e9783826958bd1c097fa9afc9cd806d3560eecead1a3bc"
         }
       ],
       "external_evidence": [],
@@ -2071,7 +2151,7 @@
           "entrypoint": "qualify",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -2134,7 +2214,7 @@
           "entrypoint": "requests",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/closure.py",
-          "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          "source_sha256": "28c7fcfb8b09bb9425e9783826958bd1c097fa9afc9cd806d3560eecead1a3bc"
         }
       ],
       "external_evidence": [],
@@ -2168,7 +2248,7 @@
           "entrypoint": "report",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/publication.py",
-          "source_sha256": "99f1cc18972d3eb7b8b0854f426dee494c4e575517e809e62061d4ae98d65db3"
+          "source_sha256": "87a54c17ad283263c96844459f25d0a7eaeead44f75f1c155c7f7311ffb7bf27"
         }
       ],
       "external_evidence": [],
@@ -2184,10 +2264,18 @@
     },
     {
       "engineering_exit": "open",
-      "evidence": [],
+      "evidence": [
+        {
+          "entrypoint": "build",
+          "evidence_level": "implementation-source; executed tests in qualification receipt",
+          "source": "engineering/assembly_design/design_studies.py",
+          "source_sha256": "ec6c57906698aab7ac11fcd9404d7839fcd5d3e25c3b590cda3d75877f53920e"
+        }
+      ],
       "external_evidence": [],
       "id": "WP11-part-links",
-      "implementation": "not-implemented",
+      "implementation": "partial-provisional",
+      "implementation_scope": "exact detailed-part to joint, manufacturing, analysis and QA handoff; full railway and issued manufacturing/ERP handoff held",
       "kind": "software",
       "next_action": "finish remaining scope and execute the exact engineering exit cases",
       "page": 13,
@@ -2215,7 +2303,7 @@
           "entrypoint": "summary",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -2236,7 +2324,7 @@
           "entrypoint": "recover",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/workflow.py",
-          "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          "source_sha256": "e615a96cab96a7c58c40a494a0ff617d90eaf566a6a694482fab87d1710fbbed"
         }
       ],
       "external_evidence": [],
@@ -2309,7 +2397,7 @@
           "entrypoint": "requests",
           "evidence_level": "implementation-source; executed tests in qualification receipt",
           "source": "engineering/assembly_design/closure.py",
-          "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          "source_sha256": "28c7fcfb8b09bb9425e9783826958bd1c097fa9afc9cd806d3560eecead1a3bc"
         }
       ],
       "external_evidence": [],

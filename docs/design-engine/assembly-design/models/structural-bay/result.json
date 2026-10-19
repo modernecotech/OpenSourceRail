@@ -1,8 +1,43 @@
 {
-  "candidate_revision": "872259b8b52c4b53ecde4aee1162377d0ad1fd88b26ea2c51c852c6622329116",
+  "candidate_revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d",
   "checks": {
     "actual-equipment-loads": null,
     "bolt-and-weld-resistance": null,
+    "detail/actual-modal-transfer-acceptance": null,
+    "detail/fatigue-duty-and-qualified-SN": null,
+    "detail/floor-strip/deflection-provisional": true,
+    "detail/floor-strip/equilibrium": true,
+    "detail/floor-strip/independent-fem": true,
+    "detail/floor-strip/stress-provisional": true,
+    "detail/local-shell-buckling-resistance": null,
+    "detail/modal/closed-form-first-three": true,
+    "detail/modal/mesh-refinement": true,
+    "detail/mount/0/block_shear_hypothesis": true,
+    "detail/mount/0/edge_tearout_hypothesis": true,
+    "detail/mount/0/foot_strip_bending_hypothesis": true,
+    "detail/mount/0/full_external_tension_plus_preload_hypothesis": true,
+    "detail/mount/0/net_section_hypothesis": true,
+    "detail/mount/0/no_separation_at_hypothesised_preload": true,
+    "detail/mount/0/no_slip_at_hypothesised_friction": true,
+    "detail/mount/0/plate_bearing_stress_hypothesis": true,
+    "detail/mount/0/thread_elastic_stress": true,
+    "detail/mount/1/block_shear_hypothesis": true,
+    "detail/mount/1/edge_tearout_hypothesis": true,
+    "detail/mount/1/foot_strip_bending_hypothesis": true,
+    "detail/mount/1/full_external_tension_plus_preload_hypothesis": true,
+    "detail/mount/1/net_section_hypothesis": true,
+    "detail/mount/1/no_separation_at_hypothesised_preload": true,
+    "detail/mount/1/no_slip_at_hypothesised_friction": true,
+    "detail/mount/1/plate_bearing_stress_hypothesis": true,
+    "detail/mount/1/thread_elastic_stress": true,
+    "detail/mount/adverse-load-scaling": true,
+    "detail/nonlinear-contact-and-prying": null,
+    "detail/physical-joint-panel-correlation": null,
+    "detail/qualified-preload-locking-and-WPS": null,
+    "detail/stack/projection_two_to_four_pitches": true,
+    "detail/stack/stack_contact": true,
+    "detail/thread-stripping-and-selected-nut": null,
+    "detail/weld/direct-shear-provisional": true,
     "fatigue-spectrum": null,
     "local-floor-resistance": null,
     "modal-acceptance": null,
@@ -36,7 +71,14 @@
     "fatigue-spectrum",
     "actual-equipment-loads",
     "whole-car-bogie-interface",
-    "physical-joint-panel-correlation"
+    "physical-joint-panel-correlation",
+    "detail/thread-stripping-and-selected-nut",
+    "detail/nonlinear-contact-and-prying",
+    "detail/local-shell-buckling-resistance",
+    "detail/actual-modal-transfer-acceptance",
+    "detail/fatigue-duty-and-qualified-SN",
+    "detail/qualified-preload-locking-and-WPS",
+    "detail/physical-joint-panel-correlation"
   ],
   "implemented_checks_pass": true,
   "kind": "structural-bay",
@@ -45,41 +87,41 @@
     "beam_cases": [
       {
         "acceleration_factor": 1.0,
-        "analytical_agreement_relative_error": 4.714006962558415e-13,
-        "analytical_deflection_m": 4.065517758429828e-05,
+        "analytical_agreement_relative_error": 4.666267372499533e-13,
+        "analytical_deflection_m": 9.588253218121514e-05,
         "assumption": "Symmetric uniform gravity apportionment to two simply supported longitudinal RHS; no composite floor stiffness or qualified local joint transfer",
         "boundary_sensitivity": {
-          "clamped_deflection_m": 8.131035516860124e-06,
-          "pinned_deflection_m": 4.065517758427912e-05,
-          "ratio": 4.999999999997356,
+          "clamped_deflection_m": 1.9176506436244138e-05,
+          "pinned_deflection_m": 9.58825321811704e-05,
+          "ratio": 4.999999999997378,
           "scope": "Two ideal boundary-condition formulations only; actual attachment fixity requires local model/test"
         },
-        "deflection_m": 4.065517758427912e-05,
+        "deflection_m": 9.58825321811704e-05,
         "id": "vertical-1.0g",
-        "load_per_rail_n_m": 399.1707831801343,
+        "load_per_rail_n_m": 941.4177415585058,
         "numerical_meshes": [
           {
             "displacement_rotation": [
               0.0,
-              -0.00010841380689146094,
-              -1.578564317140323e-05,
-              -9.909699536172691e-05,
-              -2.8966814028812432e-05,
-              -7.453449223788015e-05,
-              -3.763780112296355e-05,
-              -3.980819471795875e-05,
-              -4.065517758429815e-05,
-              6.587107548722031e-19,
-              -3.76378011229634e-05,
-              3.980819471795964e-05,
-              -2.8966814028812287e-05,
-              7.453449223787932e-05,
-              -1.5785643171403186e-05,
-              9.909699536172637e-05,
+              -0.0002556867524832373,
+              -3.722938944848717e-05,
+              -0.00023371367219171118,
+              -6.831630417911546e-05,
+              -0.00017578464233222765,
+              -8.87662504958902e-05,
+              -9.388497942743915e-05,
+              -9.588253218121453e-05,
+              2.6348430194888124e-18,
+              -8.876625049588975e-05,
+              9.388497942744038e-05,
+              -6.831630417911515e-05,
+              0.00017578464233222496,
+              -3.722938944848712e-05,
+              0.00023371367219171023,
               0.0,
-              0.0001084138068914612
+              0.00025568675248323824
             ],
-            "force_balance_relative_error": 1.7563129922268383e-14,
+            "force_balance_relative_error": 2.0126884644821055e-16,
             "input": {
               "clamped": false,
               "divisions": 8,
@@ -90,10 +132,10 @@
                 0.0,
                 1.2
               ],
-              "uniform_n_m": 399.1707831801343
+              "uniform_n_m": 941.4177415585058
             },
-            "maximum_nodal_deflection_m": 4.065517758429815e-05,
-            "midspan_deflection_m": 4.065517758429815e-05,
+            "maximum_nodal_deflection_m": 9.588253218121453e-05,
+            "midspan_deflection_m": 9.588253218121453e-05,
             "nodes_m": [
               0.0,
               0.15,
@@ -108,12 +150,12 @@
             "reactions": [
               {
                 "dof": "translation",
-                "value": 239.50246990809114,
+                "value": 564.8506449351124,
                 "x_m": 0.0
               },
               {
                 "dof": "translation",
-                "value": 239.5024699080784,
+                "value": 564.8506449350942,
                 "x_m": 1.2
               }
             ]
@@ -121,41 +163,41 @@
           {
             "displacement_rotation": [
               0.0,
-              -0.00010841380689136424,
-              -8.069496917970608e-06,
-              -0.00010597873115065824,
-              -1.5785643171391605e-05,
-              -9.909699536166703e-05,
-              -2.283876064975744e-05,
-              -8.840383667414644e-05,
-              -2.8966814028794126e-05,
-              -7.453449223784893e-05,
-              -3.395541077045935e-05,
-              -5.812419920253314e-05,
-              -3.76378011229428e-05,
-              -3.980819471796083e-05,
-              -3.98948781206654e-05,
-              -2.0221715933869912e-05,
-              -4.065517758427912e-05,
-              -1.6264463083264243e-17,
-              -3.989487812066806e-05,
-              2.0221715933832087e-05,
-              -3.763780112294807e-05,
-              3.980819471792918e-05,
-              -3.395541077046637e-05,
-              5.81241992025184e-05,
-              -2.8966814028801875e-05,
-              7.453449223784482e-05,
-              -2.2838760649765065e-05,
-              8.840383667415405e-05,
-              -1.5785643171397982e-05,
-              9.909699536169307e-05,
-              -8.069496917974464e-06,
-              0.00010597873115070013,
+              -0.00025568675248297624,
+              -1.9031371743958954e-05,
+              -0.00024994378831593047,
+              -3.722938944845638e-05,
+              -0.00023371367219155736,
+              -5.3863697887892816e-05,
+              -0.00020849456867519278,
+              -6.831630417906865e-05,
+              -0.00017578464233216333,
+              -8.008157778118426e-05,
+              -0.00013708205772780817,
+              -8.87662504958402e-05,
+              -9.388497942746136e-05,
+              -9.408941646703601e-05,
+              -4.769157199642636e-05,
+              -9.58825321811704e-05,
+              -4.554049663313988e-17,
+              -9.408941646704332e-05,
+              4.769157199632451e-05,
+              -8.8766250495855e-05,
+              9.388497942736504e-05,
+              -8.008157778120464e-05,
+              0.00013708205772775664,
+              -6.831630417909123e-05,
+              0.0001757846423321582,
+              -5.386369788791487e-05,
+              0.00020849456867521303,
+              -3.7229389448474885e-05,
+              0.0002337136721916326,
+              -1.903137174397015e-05,
+              0.00024994378831605195,
               0.0,
-              0.00010841380689142585
+              0.00025568675248315487
             ],
-            "force_balance_relative_error": 1.547454149907971e-13,
+            "force_balance_relative_error": 2.0207392183400337e-13,
             "input": {
               "clamped": false,
               "divisions": 16,
@@ -166,10 +208,10 @@
                 0.0,
                 1.2
               ],
-              "uniform_n_m": 399.1707831801343
+              "uniform_n_m": 941.4177415585058
             },
-            "maximum_nodal_deflection_m": 4.065517758427912e-05,
-            "midspan_deflection_m": 4.065517758427912e-05,
+            "maximum_nodal_deflection_m": 9.58825321811704e-05,
+            "midspan_deflection_m": 9.58825321811704e-05,
             "nodes_m": [
               0.0,
               0.075,
@@ -192,39 +234,39 @@
             "reactions": [
               {
                 "dof": "translation",
-                "value": 239.50246990819767,
+                "value": 564.8506449353995,
                 "x_m": 0.0
               },
               {
                 "dof": "translation",
-                "value": 239.5024699080376,
+                "value": 564.8506449350356,
                 "x_m": 1.2
               }
             ]
           }
         ],
-        "refinement_relative_change": 4.68070027181966e-13,
-        "represented_mass_kg": 97.68982064541127,
+        "refinement_relative_change": 4.601874437071274e-13,
+        "represented_mass_kg": 230.39494422054565,
         "stiffness_ei_nm2": 265098.1200000002,
-        "stress_pa": 2845862.4309008797,
+        "stress_pa": 6711777.25268506,
         "support_reactions": [
           {
-            "force_z_n": 239.50246990819767,
+            "force_z_n": 564.8506449353995,
             "rail": -1,
             "x_m": -0.6
           },
           {
-            "force_z_n": 239.5024699080376,
+            "force_z_n": 564.8506449350356,
             "rail": -1,
             "x_m": 0.6
           },
           {
-            "force_z_n": 239.50246990819767,
+            "force_z_n": 564.8506449353995,
             "rail": 1,
             "x_m": -0.6
           },
           {
-            "force_z_n": 239.5024699080376,
+            "force_z_n": 564.8506449350356,
             "rail": 1,
             "x_m": 0.6
           }
@@ -232,41 +274,41 @@
       },
       {
         "acceleration_factor": 3.0,
-        "analytical_agreement_relative_error": 5.365707878013382e-13,
-        "analytical_deflection_m": 0.00012196553275289488,
+        "analytical_agreement_relative_error": 5.095923683029469e-13,
+        "analytical_deflection_m": 0.0002876475965436454,
         "assumption": "Symmetric uniform gravity apportionment to two simply supported longitudinal RHS; no composite floor stiffness or qualified local joint transfer",
         "boundary_sensitivity": {
-          "clamped_deflection_m": 2.4393106550580365e-05,
-          "pinned_deflection_m": 0.00012196553275282943,
-          "ratio": 4.999999999997032,
+          "clamped_deflection_m": 5.75295193087324e-05,
+          "pinned_deflection_m": 0.0002876475965434988,
+          "ratio": 4.999999999997163,
           "scope": "Two ideal boundary-condition formulations only; actual attachment fixity requires local model/test"
         },
-        "deflection_m": 0.00012196553275282943,
+        "deflection_m": 0.0002876475965434988,
         "id": "vertical-3.0g",
-        "load_per_rail_n_m": 1197.5123495404032,
+        "load_per_rail_n_m": 2824.2532246755172,
         "numerical_meshes": [
           {
             "displacement_rotation": [
               0.0,
-              -0.0003252414206743951,
-              -4.7356929514210886e-05,
-              -0.00029729098608518526,
-              -8.69004420864388e-05,
-              -0.00022360347671364068,
-              -0.00011291340336889201,
-              -0.00011942458415387452,
-              -0.0001219655327528953,
-              6.5871075487220305e-18,
-              -0.00011291340336889046,
-              0.00011942458415388177,
-              -8.690044208643689e-05,
-              0.00022360347671363797,
-              -4.7356929514209565e-05,
-              0.00029729098608517914,
+              -0.0007670602574496766,
+              -0.00011168816834545775,
+              -0.0007011410165751182,
+              -0.00020494891253734166,
+              -0.0005273539269966843,
+              -0.0002662987514876668,
+              -0.00028165493828232786,
+              -0.0002876475965436416,
+              -5.269686038977625e-18,
+              -0.0002662987514876685,
+              0.00028165493828231827,
+              -0.00020494891253734518,
+              0.0005273539269966726,
+              -0.00011168816834546132,
+              0.0007011410165751304,
               0.0,
-              0.00032524142067438366
+              0.0007670602574497145
             ],
-            "force_balance_relative_error": 2.4525091332897287e-14,
+            "force_balance_relative_error": 9.392546167583158e-15,
             "input": {
               "clamped": false,
               "divisions": 8,
@@ -277,10 +319,10 @@
                 0.0,
                 1.2
               ],
-              "uniform_n_m": 1197.5123495404032
+              "uniform_n_m": 2824.2532246755172
             },
-            "maximum_nodal_deflection_m": 0.0001219655327528953,
-            "midspan_deflection_m": 0.0001219655327528953,
+            "maximum_nodal_deflection_m": 0.0002876475965436416,
+            "midspan_deflection_m": 0.0002876475965436416,
             "nodes_m": [
               0.0,
               0.15,
@@ -295,12 +337,12 @@
             "reactions": [
               {
                 "dof": "translation",
-                "value": 718.5074097242117,
+                "value": 1694.551934805388,
                 "x_m": 0.0
               },
               {
                 "dof": "translation",
-                "value": 718.507409724237,
+                "value": 1694.5519348052644,
                 "x_m": 1.2
               }
             ]
@@ -308,41 +350,41 @@
           {
             "displacement_rotation": [
               0.0,
-              -0.0003252414206739766,
-              -2.420849075390443e-05,
-              -0.0003179361934518931,
-              -4.735692951416248e-05,
-              -0.0002972909860849503,
-              -6.851628194925719e-05,
-              -0.000265211510022415,
-              -8.690044208636636e-05,
-              -0.0002236034767135468,
-              -0.00010186623231136298,
-              -0.0001743725976076237,
-              -0.00011291340336881541,
-              -0.00011942458415391276,
-              -0.00011968463436198554,
-              -6.0665147801639684e-05,
-              -0.00012196553275282943,
-              -9.108099326627976e-17,
-              -0.00011968463436199935,
-              6.0665147801456244e-05,
-              -0.00011291340336884217,
-              0.00011942458415375351,
-              -0.00010186623231139879,
-              0.00017437259760754483,
-              -8.690044208640573e-05,
-              0.00022360347671353446,
-              -6.851628194929526e-05,
-              0.00026521151002246394,
-              -4.735692951419394e-05,
-              0.0002972909860850792,
-              -2.420849075392339e-05,
-              0.0003179361934521003,
+              -0.0007670602574491269,
+              -5.709411523188787e-05,
+              -0.0007498313649478896,
+              -0.0001116881683453843,
+              -0.0007011410165746877,
+              -0.00016159109366369206,
+              -0.0006254837060255251,
+              -0.00020494891253721378,
+              -0.0005273539269963925,
+              -0.00024024473334355282,
+              -0.0004112461731833187,
+              -0.0002662987514875133,
+              -0.0002816549382822994,
+              -0.000282268249401096,
+              -0.00014307471598924126,
+              -0.0002876475965434988,
+              -1.6915041606594812e-16,
+              -0.0002822682494011209,
+              0.0001430747159889135,
+              -0.0002662987514875589,
+              0.0002816549382820747,
+              -0.00024024473334360996,
+              0.0004112461731832353,
+              -0.00020494891253727233,
+              0.0005273539269964395,
+              -0.00016159109366374445,
+              0.0006254837060256426,
+              -0.0001116881683454245,
+              0.0007011410165748942,
+              -5.709411523191044e-05,
+              0.0007498313649481559,
               0.0,
-              0.0003252414206742775
+              0.0007670602574494646
             ],
-            "force_balance_relative_error": 2.6582034476946736e-13,
+            "force_balance_relative_error": 6.856558702335706e-14,
             "input": {
               "clamped": false,
               "divisions": 16,
@@ -353,10 +395,10 @@
                 0.0,
                 1.2
               ],
-              "uniform_n_m": 1197.5123495404032
+              "uniform_n_m": 2824.2532246755172
             },
-            "maximum_nodal_deflection_m": 0.00012196553275282943,
-            "midspan_deflection_m": 0.00012196553275282943,
+            "maximum_nodal_deflection_m": 0.0002876475965434988,
+            "midspan_deflection_m": 0.0002876475965434988,
             "nodes_m": [
               0.0,
               0.075,
@@ -379,39 +421,39 @@
             "reactions": [
               {
                 "dof": "translation",
-                "value": 718.5074097247458,
+                "value": 1694.5519348053833,
                 "x_m": 0.0
               },
               {
                 "dof": "translation",
-                "value": 718.5074097241201,
+                "value": 1694.551934805005,
                 "x_m": 1.2
               }
             ]
           }
         ],
-        "refinement_relative_change": 5.400124791776761e-13,
-        "represented_mass_kg": 97.68982064541127,
+        "refinement_relative_change": 4.963807143099075e-13,
+        "represented_mass_kg": 230.39494422054565,
         "stiffness_ei_nm2": 265098.1200000002,
-        "stress_pa": 8537587.292702643,
+        "stress_pa": 20135331.75805518,
         "support_reactions": [
           {
-            "force_z_n": 718.5074097247458,
+            "force_z_n": 1694.5519348053833,
             "rail": -1,
             "x_m": -0.6
           },
           {
-            "force_z_n": 718.5074097241201,
+            "force_z_n": 1694.551934805005,
             "rail": -1,
             "x_m": 0.6
           },
           {
-            "force_z_n": 718.5074097247458,
+            "force_z_n": 1694.5519348053833,
             "rail": 1,
             "x_m": -0.6
           },
           {
-            "force_z_n": 718.5074097241201,
+            "force_z_n": 1694.551934805005,
             "rail": 1,
             "x_m": 0.6
           }
@@ -421,24 +463,24 @@
     "cg_m": [
       0.0,
       0.0,
-      0.029818498050312992
+      0.018158360379662498
     ],
-    "geometry_revision": "872259b8b52c4b53ecde4aee1162377d0ad1fd88b26ea2c51c852c6622329116",
+    "geometry_revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d",
     "inertia_tensor_kg_m2": [
       [
-        8.753343466508534,
-        -4.336808689942018e-19,
-        5.421010862427522e-20
+        21.793778826525905,
+        -9.75781955236954e-19,
+        1.9989977555201488e-19
       ],
       [
-        -4.336808689942018e-19,
-        10.035000331277981,
-        -1.9312351197398048e-19
+        -9.75781955236954e-19,
+        25.995186909373214,
+        2.219226321806267e-19
       ],
       [
-        5.421010862427522e-20,
-        -1.9312351197398048e-19,
-        17.847504602382717
+        1.9989977555201488e-19,
+        2.219226321806267e-19,
+        46.79816672469254
       ]
     ],
     "load_path": [
@@ -448,11 +490,12 @@
       "crossmembers and longitudinal rails",
       "four declared end supports"
     ],
-    "mass_kg": 97.68982064541127,
+    "mass_kg": 230.39494422054565,
     "mass_scope": "All represented steel bay and fastener/test-block geometry only; omitted weld/coating/services listed as open",
     "owned_part_count": 14,
-    "part_count": 26,
-    "section_inertia_m4": 1.2623720000000011e-06
+    "part_count": 30,
+    "section_inertia_m4": 1.2623720000000011e-06,
+    "structural_detail_revision": "8d29ea9808b9cfc3928f4146d86053b2bc4fe2d1ec20602d6435420958d34e99"
   },
   "open_requirements": [
     "Approved six-car local/global loads, equipment/axle/CG map and emergency conditions",
@@ -467,7 +510,5019 @@
   "physical_release": false,
   "physical_validation": false,
   "schema": "osr-assembly-screening/1",
-  "scope": "Proposed isolated 1.2 m steel floor/rail bay with a represented steel test block; no whole-car or manufacturing acceptance; only equivalent longitudinal-rail gravity solution independently screened",
+  "scope": "Proposed isolated 1.2 m steel floor/rail bay with a represented steel test block; no whole-car or manufacturing acceptance; equivalent rail, local mount/floor, weld direct-shear and modal research screens only",
   "screen_pass": false,
-  "state": "hold"
+  "state": "hold",
+  "supplemental_evidence": {
+    "structural-detail": {
+      "adverse_mount": {
+        "cases": [
+          {
+            "acceleration_vector_g": [
+              5.0,
+              3.0,
+              -3.0
+            ],
+            "bearing_stress_pa": 10293892.55111332,
+            "block_shear_average_pa": 4117557.020445328,
+            "bolt_group": {
+              "bolt_forces_n": [
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  177.60502525304526
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  -320.2343930381892
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  -315.305289886791
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  -813.1447081780254
+                ]
+              ],
+              "capacity_qualified": false,
+              "group_sha256": "a49dba26f56e79368937b8b6a9c4b8922f6bd1d92df27ddf390bc7ba25023b3f",
+              "load_si": [
+                2118.465609749934,
+                1271.0793658499604,
+                -1271.0793658499604,
+                -119.48146038989627,
+                199.13576731649383,
+                0.0
+              ],
+              "open_domains": [
+                "thread stress area",
+                "member/prying compliance",
+                "approved preload/locking",
+                "fatigue and corrosion",
+                "physical joint correlation"
+              ],
+              "peak_shear_n": 617.6335530667991,
+              "peak_tension_n": 177.60502525304526,
+              "physical_validation": false,
+              "production_released": false,
+              "ready_for_independent_review": false,
+              "relative_pose_si": [
+                1.8367425188323805e-06,
+                1.1020455112994283e-06,
+                -4.238636581920878e-07,
+                -2.7668877687539066e-06,
+                1.6274214893170713e-06,
+                0.0
+              ],
+              "resultant_relative_error": 5.6987252304023e-18,
+              "schema": "osr-joint-demand-screen/1",
+              "separation_screen_failed": false,
+              "slip_screen_failed": false,
+              "within_declared_strength": null
+            },
+            "checks": {
+              "block_shear_hypothesis": true,
+              "edge_tearout_hypothesis": true,
+              "foot_strip_bending_hypothesis": true,
+              "full_external_tension_plus_preload_hypothesis": true,
+              "net_section_hypothesis": true,
+              "no_separation_at_hypothesised_preload": true,
+              "no_slip_at_hypothesised_friction": true,
+              "plate_bearing_stress_hypothesis": true,
+              "thread_elastic_stress": true
+            },
+            "combined_preload_stress_pa": 563364832.6968938,
+            "edge_tearout_shear_pa": 4117557.020445328,
+            "equivalent_thread_stress_pa": 18700213.750781983,
+            "foot_strip_bending_stress_pa": 19733891.694782805,
+            "friction_hypothesis": 0.15,
+            "net_section_stress_pa": 2100794.398186392,
+            "peak_shear_n": 617.6335530667992,
+            "peak_tension_n": 177.60502525304526,
+            "preload_hypothesis_n": 32474.106238194443,
+            "resultants_si": [
+              2118.465609749934,
+              1271.0793658499604,
+              -1271.0793658499604,
+              -119.48146038989627,
+              199.13576731649383,
+              0.0
+            ],
+            "thread_area_m2": 5.798947542534722e-05,
+            "torque_sensitivity_nm": [
+              38.968927485833326,
+              81.18526559548611
+            ]
+          },
+          {
+            "acceleration_vector_g": [
+              5.0,
+              3.0,
+              3.0
+            ],
+            "bearing_stress_pa": 10293892.55111332,
+            "block_shear_average_pa": 4117557.020445328,
+            "bolt_group": {
+              "bolt_forces_n": [
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  813.1447081780254
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  315.305289886791
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  320.2343930381892
+                ],
+                [
+                  529.6164024374835,
+                  317.7698414624901,
+                  -177.60502525304526
+                ]
+              ],
+              "capacity_qualified": false,
+              "group_sha256": "a49dba26f56e79368937b8b6a9c4b8922f6bd1d92df27ddf390bc7ba25023b3f",
+              "load_si": [
+                2118.465609749934,
+                1271.0793658499604,
+                1271.0793658499604,
+                -119.48146038989627,
+                199.13576731649383,
+                0.0
+              ],
+              "open_domains": [
+                "thread stress area",
+                "member/prying compliance",
+                "approved preload/locking",
+                "fatigue and corrosion",
+                "physical joint correlation"
+              ],
+              "peak_shear_n": 617.6335530667991,
+              "peak_tension_n": 813.1447081780254,
+              "physical_validation": false,
+              "production_released": false,
+              "ready_for_independent_review": false,
+              "relative_pose_si": [
+                1.8367425188323805e-06,
+                1.1020455112994283e-06,
+                4.238636581920878e-07,
+                -2.7668877687539066e-06,
+                1.6274214893170713e-06,
+                0.0
+              ],
+              "resultant_relative_error": 8.238551495007701e-17,
+              "schema": "osr-joint-demand-screen/1",
+              "separation_screen_failed": false,
+              "slip_screen_failed": false,
+              "within_declared_strength": null
+            },
+            "checks": {
+              "block_shear_hypothesis": true,
+              "edge_tearout_hypothesis": true,
+              "foot_strip_bending_hypothesis": true,
+              "full_external_tension_plus_preload_hypothesis": true,
+              "net_section_hypothesis": true,
+              "no_separation_at_hypothesised_preload": true,
+              "no_slip_at_hypothesised_friction": true,
+              "plate_bearing_stress_hypothesis": true,
+              "thread_elastic_stress": true
+            },
+            "combined_preload_stress_pa": 574318636.8685858,
+            "edge_tearout_shear_pa": 4117557.020445328,
+            "equivalent_thread_stress_pa": 23172012.265388004,
+            "foot_strip_bending_stress_pa": 90349412.0197806,
+            "friction_hypothesis": 0.15,
+            "net_section_stress_pa": 2100794.398186392,
+            "peak_shear_n": 617.6335530667992,
+            "peak_tension_n": 813.1447081780254,
+            "preload_hypothesis_n": 32474.106238194443,
+            "resultants_si": [
+              2118.465609749934,
+              1271.0793658499604,
+              1271.0793658499604,
+              -119.48146038989627,
+              199.13576731649383,
+              0.0
+            ],
+            "thread_area_m2": 5.798947542534722e-05,
+            "torque_sensitivity_nm": [
+              38.968927485833326,
+              81.18526559548611
+            ]
+          }
+        ],
+        "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+        "design_complete": false,
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "removed_bolt_index": null,
+        "represented_bolt_count": 4,
+        "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+      },
+      "buckling_scope": "Ideal simply supported internal plate elastic eigenstress, k=4; no welded RHS imperfections/postbuckling or rail design resistance",
+      "candidate_revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d",
+      "checks": {
+        "actual-modal-transfer-acceptance": null,
+        "fatigue-duty-and-qualified-SN": null,
+        "floor-strip/deflection-provisional": true,
+        "floor-strip/equilibrium": true,
+        "floor-strip/independent-fem": true,
+        "floor-strip/stress-provisional": true,
+        "local-shell-buckling-resistance": null,
+        "modal/closed-form-first-three": true,
+        "modal/mesh-refinement": true,
+        "mount/0/block_shear_hypothesis": true,
+        "mount/0/edge_tearout_hypothesis": true,
+        "mount/0/foot_strip_bending_hypothesis": true,
+        "mount/0/full_external_tension_plus_preload_hypothesis": true,
+        "mount/0/net_section_hypothesis": true,
+        "mount/0/no_separation_at_hypothesised_preload": true,
+        "mount/0/no_slip_at_hypothesised_friction": true,
+        "mount/0/plate_bearing_stress_hypothesis": true,
+        "mount/0/thread_elastic_stress": true,
+        "mount/1/block_shear_hypothesis": true,
+        "mount/1/edge_tearout_hypothesis": true,
+        "mount/1/foot_strip_bending_hypothesis": true,
+        "mount/1/full_external_tension_plus_preload_hypothesis": true,
+        "mount/1/net_section_hypothesis": true,
+        "mount/1/no_separation_at_hypothesised_preload": true,
+        "mount/1/no_slip_at_hypothesised_friction": true,
+        "mount/1/plate_bearing_stress_hypothesis": true,
+        "mount/1/thread_elastic_stress": true,
+        "mount/adverse-load-scaling": true,
+        "nonlinear-contact-and-prying": null,
+        "physical-joint-panel-correlation": null,
+        "qualified-preload-locking-and-WPS": null,
+        "stack/projection_two_to_four_pitches": true,
+        "stack/stack_contact": true,
+        "thread-stripping-and-selected-nut": null,
+        "weld/direct-shear-provisional": true
+      },
+      "design_complete": false,
+      "failed_checks": [],
+      "fatigue": {
+        "SN_curve": null,
+        "damage": null,
+        "evaluator": "engineering.assembly_design.structural_detail.fatigue_damage; explicit compatible curve and measured duty required",
+        "spectrum": null,
+        "state": "hold"
+      },
+      "floor_fem": {
+        "displacement_rotation": [
+          0.0,
+          -0.00456611330894053,
+          -0.00026661461317280916,
+          -0.0044825721659138285,
+          -0.0005235666762170578,
+          -0.004238917664019874,
+          -0.0007617565976533921,
+          -0.0038456031940364522,
+          -0.0009726989227106525,
+          -0.003313082146741317,
+          -0.001148522333325875,
+          -0.002651807912912309,
+          -0.0012819696481442915,
+          -0.0018722338833271827,
+          -0.0013663978225193314,
+          -0.000984813448763876,
+          -0.0013957779485126122,
+          2.3559441679523733e-16,
+          -0.0013663978225193023,
+          0.000984813448764385,
+          -0.0012819696481442256,
+          0.0018722338833279178,
+          -0.0011485223333257684,
+          0.0026518079129129518,
+          -0.0009726989227105165,
+          0.0033130821467416594,
+          -0.0007617565976532491,
+          0.0038456031940363304,
+          -0.0005235666762169356,
+          0.004238917664019262,
+          -0.0002666146131727351,
+          0.004482572165912797,
+          0.0,
+          0.004566113308939038
+        ],
+        "force_balance_relative_error": 6.384842874493091e-13,
+        "input": {
+          "clamped": false,
+          "divisions": 16,
+          "ei_nm2": 5734.400000000001,
+          "length_m": 0.94,
+          "point_loads_n": [
+            [
+              0.47,
+              288.8816740568092
+            ]
+          ],
+          "supports_m": [
+            0.0,
+            0.94
+          ],
+          "uniform_n_m": 295.6116576
+        },
+        "maximum_nodal_deflection_m": 0.0013957779485126122,
+        "midspan_deflection_m": 0.0013957779485126122,
+        "nodes_m": [
+          0.0,
+          0.05875,
+          0.1175,
+          0.17625,
+          0.235,
+          0.29374999999999996,
+          0.3525,
+          0.41125,
+          0.47,
+          0.5287499999999999,
+          0.5874999999999999,
+          0.64625,
+          0.705,
+          0.7637499999999999,
+          0.8225,
+          0.88125,
+          0.94
+        ],
+        "reactions": [
+          {
+            "dof": "translation",
+            "value": 283.3783161001764,
+            "x_m": 0.0
+          },
+          {
+            "dof": "translation",
+            "value": 283.378316100271,
+            "x_m": 0.94
+          }
+        ]
+      },
+      "floor_strip": {
+        "deflection_m": 0.001395777948512934,
+        "force_n": 288.8816740568092,
+        "inertia_m4": 2.7306666666666668e-08,
+        "scope": "Central point force on a simply supported one-way floor strip; no plate membrane or composite credit",
+        "span_m": 0.94,
+        "stress_pa": 29454345.991778363,
+        "thickness_m": 0.016,
+        "uniform_n_m": 295.6116576,
+        "width_m": 0.08
+      },
+      "held_checks": [
+        "thread-stripping-and-selected-nut",
+        "nonlinear-contact-and-prying",
+        "local-shell-buckling-resistance",
+        "actual-modal-transfer-acceptance",
+        "fatigue-duty-and-qualified-SN",
+        "qualified-preload-locking-and-WPS",
+        "physical-joint-panel-correlation"
+      ],
+      "manufacturing_pack": {
+        "candidate_revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d",
+        "design_complete": false,
+        "fastener_stack": {
+          "bolt_tip_z_m": 0.038,
+          "checks": {
+            "projection_two_to_four_pitches": true,
+            "stack_contact": true
+          },
+          "design_complete": false,
+          "engagement_m": 0.008,
+          "floor_z_m": [
+            0.0,
+            0.016
+          ],
+          "foot_z_m": [
+            0.016,
+            0.022
+          ],
+          "grip_m": 0.022,
+          "head_bearing_z_m": -0.002,
+          "locking": "All-metal prevailing-torque candidate; qualified reuse, temperature, preload and inspection required",
+          "lower_washer_z_m": [
+            -0.002,
+            0.0
+          ],
+          "manufacturing_release": false,
+          "nominal_diameter_m": 0.01,
+          "nominal_underhead_length_m": 0.04,
+          "nut_height_m": 0.008,
+          "nut_z_m": [
+            0.024,
+            0.032
+          ],
+          "physical_release": false,
+          "physical_validation": false,
+          "pitch_m": 0.0015,
+          "projected_threads": 3.9999999999999987,
+          "projection_m": 0.005999999999999998,
+          "proposed_strength_class": "8.8 reference; exact purchased certification required",
+          "qualified": false,
+          "schema": "osr-proposed-fastener-stack/1",
+          "thread": "M10x1.5",
+          "thread_geometry": "Controlled thread specification; smooth envelope in CAD, not modelled thread contact",
+          "upper_washer_z_m": [
+            0.022,
+            0.024
+          ]
+        },
+        "fixtures": [
+          "Rail/end datum and diagonal fixture",
+          "Common floor/foot hole gauge",
+          "Supported dummy-block welding fixture",
+          "Rated bench and removal support"
+        ],
+        "manufacturing_release": false,
+        "mass_ledger": {
+          "coating_services_mass_kg": null,
+          "complete_installed_mass_kg": null,
+          "proposed_weld_allowance_kg": 0.096084,
+          "represented_solid_mass_kg": 230.39494422054565,
+          "scope": "CAD solids plus separately stated bead allowance; no hidden omission or complete mass claim"
+        },
+        "operations": [
+          {
+            "after": [],
+            "id": "cut",
+            "instruction": "Saw RHS square, cut/drill plates and deburr; preserve part/material/heat trace",
+            "parts": [
+              "longitudinal--1",
+              "longitudinal-1",
+              "crossmember-0",
+              "crossmember-1",
+              "floor-panel",
+              "mount-foot-0",
+              "mount-leg-0",
+              "mount-foot-1",
+              "mount-leg-1",
+              "mount-foot-2",
+              "mount-leg-2",
+              "mount-foot-3",
+              "mount-leg-3",
+              "equipment-test-block"
+            ]
+          },
+          {
+            "after": [
+              "cut"
+            ],
+            "id": "fixture-frame",
+            "instruction": "Set rail top datum A, centre B, bay centre C; inspect diagonals and end contact before welding",
+            "parts": [
+              "longitudinal--1",
+              "longitudinal-1",
+              "crossmember-0",
+              "crossmember-1"
+            ]
+          },
+          {
+            "after": [
+              "fixture-frame"
+            ],
+            "id": "weld-frame",
+            "instruction": "Balanced opposite end progression; qualified WPS/tacks/heat input and distortion controls required",
+            "parts": [
+              "longitudinal--1",
+              "longitudinal-1",
+              "crossmember-0",
+              "crossmember-1"
+            ]
+          },
+          {
+            "after": [
+              "weld-frame"
+            ],
+            "id": "inspect-frame",
+            "instruction": "Verify datums, rail spacing, diagonals, surface condition and qualified NDT",
+            "parts": []
+          },
+          {
+            "after": [
+              "inspect-frame"
+            ],
+            "id": "floor",
+            "instruction": "Locate through common drill jig; balanced floor stitch sequence; inspect distortion",
+            "parts": [
+              "floor-panel"
+            ]
+          },
+          {
+            "after": [
+              "cut"
+            ],
+            "id": "equipment-subassembly",
+            "instruction": "Fixture feet and dummy block, weld/inspect; compare all four holes to gauge",
+            "parts": [
+              "mount-foot-0",
+              "mount-leg-0",
+              "mount-foot-1",
+              "mount-leg-1",
+              "mount-foot-2",
+              "mount-leg-2",
+              "mount-foot-3",
+              "mount-leg-3",
+              "equipment-test-block"
+            ]
+          },
+          {
+            "after": [
+              "floor",
+              "equipment-subassembly"
+            ],
+            "id": "mount",
+            "instruction": "Support dummy block; insert bolts from below, fit both washers and specified locking nuts. Do not issue torque from illustrative K-factor range",
+            "parts": [
+              "mount-foot-0",
+              "mount-leg-0",
+              "mount-bolt-0",
+              "mount-lower-washer-0",
+              "mount-washer-0",
+              "mount-nut-0",
+              "mount-foot-1",
+              "mount-leg-1",
+              "mount-bolt-1",
+              "mount-lower-washer-1",
+              "mount-washer-1",
+              "mount-nut-1",
+              "mount-foot-2",
+              "mount-leg-2",
+              "mount-bolt-2",
+              "mount-lower-washer-2",
+              "mount-washer-2",
+              "mount-nut-2",
+              "mount-foot-3",
+              "mount-leg-3",
+              "mount-bolt-3",
+              "mount-lower-washer-3",
+              "mount-washer-3",
+              "mount-nut-3"
+            ]
+          },
+          {
+            "after": [
+              "mount"
+            ],
+            "id": "inspect-mounted",
+            "instruction": "Inspect stack/projection, qualified preload, locking and witness identification",
+            "parts": []
+          },
+          {
+            "after": [
+              "inspect-mounted"
+            ],
+            "id": "bench-test",
+            "instruction": "Measure actual mass/CG, control-load response, joint slip/strain and modes with calibrated apparatus",
+            "parts": []
+          },
+          {
+            "after": [
+              "bench-test"
+            ],
+            "id": "remove",
+            "instruction": "Isolate and support dummy block; access nuts laterally under block, restrain lower heads, remove four bolts and lift supported subassembly. Lifting fixture/rating required",
+            "parts": []
+          }
+        ],
+        "parts": [
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "longitudinal--1",
+            "inspection": [
+              "wall and section dimensions",
+              "material trace",
+              "weld/joint interfaces"
+            ],
+            "mass_kg": 8.70408,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  -0.5,
+                  -0.0015000000000000013
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.06,
+                  0.003
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  -0.5,
+                  -0.0985
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.06,
+                  0.003
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  -0.5285,
+                  -0.05
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.003,
+                  0.094
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  -0.47150000000000003,
+                  -0.05
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.003,
+                  0.094
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "longitudinal-1",
+            "inspection": [
+              "wall and section dimensions",
+              "material trace",
+              "weld/joint interfaces"
+            ],
+            "mass_kg": 8.70408,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  0.5,
+                  -0.0015000000000000013
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.06,
+                  0.003
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0.5,
+                  -0.0985
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.06,
+                  0.003
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0.47150000000000003,
+                  -0.05
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.003,
+                  0.094
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0.5285,
+                  -0.05
+                ],
+                "dimensions_m": [
+                  1.2,
+                  0.003,
+                  0.094
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "crossmember-0",
+            "inspection": [
+              "end square and fit",
+              "wall dimensions",
+              "end weld inspection"
+            ],
+            "mass_kg": 5.489976,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  0,
+                  -1,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  1
+                ]
+              ],
+              "translation_m": [
+                -0.55,
+                0,
+                -0.04
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  0.0385
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.05,
+                  0.003
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  -0.0385
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.05,
+                  0.003
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  -0.0235,
+                  0
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.003,
+                  0.074
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0.0235,
+                  0
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.003,
+                  0.074
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "crossmember-1",
+            "inspection": [
+              "end square and fit",
+              "wall dimensions",
+              "end weld inspection"
+            ],
+            "mass_kg": 5.489976,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  0,
+                  -1,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  1
+                ]
+              ],
+              "translation_m": [
+                0.55,
+                0,
+                -0.04
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  0.0385
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.05,
+                  0.003
+                ],
+                "id": "top",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  -0.0385
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.05,
+                  0.003
+                ],
+                "id": "bottom",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  -0.0235,
+                  0
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.003,
+                  0.074
+                ],
+                "id": "left",
+                "kind": "box"
+              },
+              {
+                "centre_m": [
+                  0,
+                  0.0235,
+                  0
+                ],
+                "dimensions_m": [
+                  0.94,
+                  0.003,
+                  0.074
+                ],
+                "id": "right",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "floor-panel",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 162.7298553314878,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  0.008
+                ],
+                "dimensions_m": [
+                  1.2,
+                  1.08,
+                  0.016
+                ],
+                "hole_radius_m": 0.0055,
+                "holes_xy_m": [
+                  [
+                    -0.20199999999999999,
+                    -0.12
+                  ],
+                  [
+                    -0.20199999999999999,
+                    0.12
+                  ],
+                  [
+                    0.20199999999999999,
+                    -0.12
+                  ],
+                  [
+                    0.20199999999999999,
+                    0.12
+                  ]
+                ],
+                "id": "floor",
+                "kind": "perforated-plate"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-foot-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.22160393732698158,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  -0.18,
+                  -0.12,
+                  0.019
+                ],
+                "dimensions_m": [
+                  0.08,
+                  0.06,
+                  0.006
+                ],
+                "hole_radius_m": 0.0055,
+                "holes_xy_m": [
+                  [
+                    -0.021999999999999992,
+                    0
+                  ]
+                ],
+                "id": "plate",
+                "kind": "perforated-plate"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-leg-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.12010499999999999,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  -0.162,
+                  -0.12,
+                  0.055999999999999994
+                ],
+                "dimensions_m": [
+                  0.015,
+                  0.015,
+                  0.068
+                ],
+                "id": "leg",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-bolt-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.04064215584096044,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  -0.12,
+                  0.018000000000000002
+                ],
+                "id": "shank",
+                "kind": "cylinder",
+                "length_m": 0.04,
+                "radius_m": 0.005
+              },
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  -0.12,
+                  -0.006
+                ],
+                "id": "head",
+                "kind": "cylinder",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase M10x40 coarse 1.5 mm pitch, class 8.8 reference; exact part/certificate/preload to qualify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-lower-washer-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  -0.12,
+                  -0.001
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase lower bearing washer; exact class and dimensions to confirm",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-washer-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  -0.12,
+                  0.023
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase washer class/dimensions to specify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-nut-0",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.010012569946256029,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  -0.12,
+                  0.028
+                ],
+                "id": "nut-envelope",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase retained M10 nut; thread/engagement not verified",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-foot-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.22160393732698158,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  -0.18,
+                  0.12,
+                  0.019
+                ],
+                "dimensions_m": [
+                  0.08,
+                  0.06,
+                  0.006
+                ],
+                "hole_radius_m": 0.0055,
+                "holes_xy_m": [
+                  [
+                    -0.021999999999999992,
+                    0
+                  ]
+                ],
+                "id": "plate",
+                "kind": "perforated-plate"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-leg-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.12010499999999999,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  -0.162,
+                  0.12,
+                  0.055999999999999994
+                ],
+                "dimensions_m": [
+                  0.015,
+                  0.015,
+                  0.068
+                ],
+                "id": "leg",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-bolt-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.04064215584096044,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  0.12,
+                  0.018000000000000002
+                ],
+                "id": "shank",
+                "kind": "cylinder",
+                "length_m": 0.04,
+                "radius_m": 0.005
+              },
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  0.12,
+                  -0.006
+                ],
+                "id": "head",
+                "kind": "cylinder",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase M10x40 coarse 1.5 mm pitch, class 8.8 reference; exact part/certificate/preload to qualify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-lower-washer-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  0.12,
+                  -0.001
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase lower bearing washer; exact class and dimensions to confirm",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-washer-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  0.12,
+                  0.023
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase washer class/dimensions to specify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-nut-1",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.010012569946256029,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  -0.20199999999999999,
+                  0.12,
+                  0.028
+                ],
+                "id": "nut-envelope",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase retained M10 nut; thread/engagement not verified",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-foot-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.22160393732698158,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0.18,
+                  -0.12,
+                  0.019
+                ],
+                "dimensions_m": [
+                  0.08,
+                  0.06,
+                  0.006
+                ],
+                "hole_radius_m": 0.0055,
+                "holes_xy_m": [
+                  [
+                    0.021999999999999992,
+                    0
+                  ]
+                ],
+                "id": "plate",
+                "kind": "perforated-plate"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-leg-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.12010499999999999,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0.162,
+                  -0.12,
+                  0.055999999999999994
+                ],
+                "dimensions_m": [
+                  0.015,
+                  0.015,
+                  0.068
+                ],
+                "id": "leg",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-bolt-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.04064215584096044,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  -0.12,
+                  0.018000000000000002
+                ],
+                "id": "shank",
+                "kind": "cylinder",
+                "length_m": 0.04,
+                "radius_m": 0.005
+              },
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  -0.12,
+                  -0.006
+                ],
+                "id": "head",
+                "kind": "cylinder",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase M10x40 coarse 1.5 mm pitch, class 8.8 reference; exact part/certificate/preload to qualify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-lower-washer-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  -0.12,
+                  -0.001
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase lower bearing washer; exact class and dimensions to confirm",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-washer-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  -0.12,
+                  0.023
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase washer class/dimensions to specify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-nut-2",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.010012569946256029,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  -0.12,
+                  0.028
+                ],
+                "id": "nut-envelope",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase retained M10 nut; thread/engagement not verified",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-foot-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.22160393732698158,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0.18,
+                  0.12,
+                  0.019
+                ],
+                "dimensions_m": [
+                  0.08,
+                  0.06,
+                  0.006
+                ],
+                "hole_radius_m": 0.0055,
+                "holes_xy_m": [
+                  [
+                    0.021999999999999992,
+                    0
+                  ]
+                ],
+                "id": "plate",
+                "kind": "perforated-plate"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-leg-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.12010499999999999,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0.162,
+                  0.12,
+                  0.055999999999999994
+                ],
+                "dimensions_m": [
+                  0.015,
+                  0.015,
+                  0.068
+                ],
+                "id": "leg",
+                "kind": "box"
+              }
+            ],
+            "process": "cut/drill/deburr",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-bolt-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.04064215584096044,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  0.12,
+                  0.018000000000000002
+                ],
+                "id": "shank",
+                "kind": "cylinder",
+                "length_m": 0.04,
+                "radius_m": 0.005
+              },
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  0.12,
+                  -0.006
+                ],
+                "id": "head",
+                "kind": "cylinder",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase M10x40 coarse 1.5 mm pitch, class 8.8 reference; exact part/certificate/preload to qualify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-lower-washer-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  0.12,
+                  -0.001
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase lower bearing washer; exact class and dimensions to confirm",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-washer-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.0034402795751298436,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  0.12,
+                  0.023
+                ],
+                "id": "washer",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.002,
+                "radius_m": 0.01
+              }
+            ],
+            "process": "Purchase washer class/dimensions to specify",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "mount-nut-3",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 0.010012569946256029,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "axis": "z",
+                "centre_m": [
+                  0.20199999999999999,
+                  0.12,
+                  0.028
+                ],
+                "id": "nut-envelope",
+                "inner_radius_m": 0.0055,
+                "kind": "tube",
+                "length_m": 0.008,
+                "radius_m": 0.009
+              }
+            ],
+            "process": "Purchase retained M10 nut; thread/engagement not verified",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          },
+          {
+            "dimensional_tolerance_m": 0.0005,
+            "drawing_state": "unissued-provisional",
+            "id": "equipment-test-block",
+            "inspection": [
+              "material trace",
+              "dimensions and interface holes",
+              "burrs/coating",
+              "joint inspection"
+            ],
+            "mass_kg": 37.68,
+            "material": "steel",
+            "placement": {
+              "rotation": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  1.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "translation_m": [
+                0,
+                0,
+                0
+              ]
+            },
+            "primitives": [
+              {
+                "centre_m": [
+                  0,
+                  0,
+                  0.11
+                ],
+                "dimensions_m": [
+                  0.4,
+                  0.3,
+                  0.04
+                ],
+                "id": "test-block",
+                "kind": "box"
+              }
+            ],
+            "process": "Cut steel dummy block for geometry/load-path study; not actual vehicle equipment",
+            "revision": "4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d"
+          }
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "release_state": "unissued-provisional; loads, WPS, metrology and independent engineering acceptance open",
+        "repair": {
+          "fasteners": "Replace/inspect per qualified locking and preload procedure",
+          "floor": "Replace with frame supported and requalify heat/distortion/attachments",
+          "welds": "Approved defect/removal/repair WPS and reinspection required"
+        },
+        "schema": "osr-structural-manufacturing-pack/1",
+        "tool_access": {
+          "demonstrated": false,
+          "lower_head": "Vertical underside access proposed; verify actual fixture and lower supports",
+          "upper_nut": "Lateral open/ring spanner under dummy block; vertical socket shaft intersects block and is not claimed"
+        },
+        "welds": [
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0091845,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0005515432893255071,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "crossmember-0-end--1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "crossmember-0",
+              "longitudinal--1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.26,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0091845,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0005515432893255071,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "crossmember-0-end-1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "crossmember-0",
+              "longitudinal-1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.26,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0091845,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0005515432893255071,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "crossmember-1-end--1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "crossmember-1",
+              "longitudinal--1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.26,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0091845,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0005515432893255071,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "crossmember-1-end-1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "crossmember-1",
+              "longitudinal-1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.26,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0105975,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0006363961030678927,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "floor-rail--1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "floor-panel",
+              "longitudinal--1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [
+              {
+                "end_m": [
+                  -0.475,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.525,
+                  -0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.27499999999999997,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.325,
+                  -0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.07500000000000001,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.125,
+                  -0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.125,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.07500000000000001,
+                  -0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.325,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.27499999999999997,
+                  -0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.525,
+                  -0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.475,
+                  -0.53,
+                  0.0
+                ]
+              }
+            ],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.3,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0105975,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0006363961030678927,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "floor-rail-1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "floor-panel",
+              "longitudinal-1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [
+              {
+                "end_m": [
+                  -0.475,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.525,
+                  0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.27499999999999997,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.325,
+                  0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.07500000000000001,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  -0.125,
+                  0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.125,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.07500000000000001,
+                  0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.325,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.27499999999999997,
+                  0.53,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.525,
+                  0.53,
+                  0.0
+                ],
+                "face": "accessible underside floor lap to outer rail web",
+                "start_m": [
+                  0.475,
+                  0.53,
+                  0.0
+                ]
+              }
+            ],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.3,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0105975,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0006363961030678927,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "floor-cross-0",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "floor-panel",
+              "crossmember-0"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [
+              {
+                "end_m": [
+                  -0.5750000000000001,
+                  -0.27499999999999997,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.5750000000000001,
+                  -0.325,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.5750000000000001,
+                  0.025,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.5750000000000001,
+                  -0.025,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.5750000000000001,
+                  0.325,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.5750000000000001,
+                  0.27499999999999997,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.525,
+                  -0.27499999999999997,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.525,
+                  -0.325,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.525,
+                  0.025,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.525,
+                  -0.025,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  -0.525,
+                  0.325,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  -0.525,
+                  0.27499999999999997,
+                  0.0
+                ]
+              }
+            ],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.3,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.0105975,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0006363961030678927,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "floor-cross-1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "floor-panel",
+              "crossmember-1"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [
+              {
+                "end_m": [
+                  0.525,
+                  -0.27499999999999997,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.525,
+                  -0.325,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.525,
+                  0.025,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.525,
+                  -0.025,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.525,
+                  0.325,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.525,
+                  0.27499999999999997,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.5750000000000001,
+                  -0.27499999999999997,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.5750000000000001,
+                  -0.325,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.5750000000000001,
+                  0.025,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.5750000000000001,
+                  -0.025,
+                  0.0
+                ]
+              },
+              {
+                "end_m": [
+                  0.5750000000000001,
+                  0.325,
+                  0.0
+                ],
+                "face": "underside floor to crossmember side web",
+                "start_m": [
+                  0.5750000000000001,
+                  0.27499999999999997,
+                  0.0
+                ]
+              }
+            ],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.3,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.004239,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0002545584412271571,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "equipment-leg-0",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "mount-foot-0",
+              "mount-leg-0",
+              "equipment-test-block"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.12,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.004239,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0002545584412271571,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "equipment-leg-1",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "mount-foot-1",
+              "mount-leg-1",
+              "equipment-test-block"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.12,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.004239,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0002545584412271571,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "equipment-leg-2",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "mount-foot-2",
+              "mount-leg-2",
+              "equipment-test-block"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.12,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          },
+          {
+            "NDT_acceptance": null,
+            "WPS": null,
+            "bead_mass_allowance_kg": 0.004239,
+            "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+            "detail_category": null,
+            "distortion_allowance_m": 0.0005,
+            "effective_throat_area_m2": 0.0002545584412271571,
+            "effective_throat_m": 0.0021213203435596424,
+            "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+            "inspection": [
+              "100% visual and dimensional planning",
+              "qualified surface/NDT method and acceptance to be adopted"
+            ],
+            "joint_id": "equipment-leg-3",
+            "pattern": "Symmetric balanced opposite-side progression",
+            "physical_part_ids": [
+              "mount-foot-3",
+              "mount-leg-3",
+              "equipment-test-block"
+            ],
+            "process": "Proposed GMAW/MAG; qualified WPS required",
+            "proposed_segments": [],
+            "root_gap_acceptance_m": null,
+            "root_gap_target_m": 0.0,
+            "state": "proposed; not issued or qualified",
+            "total_proposed_length_m": 0.12,
+            "weld_leg_m": 0.003,
+            "welder_qualification": null
+          }
+        ]
+      },
+      "manufacturing_release": false,
+      "modal": [
+        {
+          "analytical_hz": [
+            57.32312489448392,
+            229.29249957793567,
+            515.9081240503552
+          ],
+          "elements": 8,
+          "frequencies_hz": [
+            57.32406743004593,
+            229.35203818378696,
+            516.5718792694013
+          ],
+          "relative_errors": [
+            1.64425014119729e-05,
+            0.0002596622478314714,
+            0.0012865764040213001
+          ],
+          "scope": "Uniform equivalent beam only; actual floor/equipment contact, mode shapes, damping and vehicle transfer not represented"
+        },
+        {
+          "analytical_hz": [
+            57.32312489448392,
+            229.29249957793567,
+            515.9081240503552
+          ],
+          "elements": 16,
+          "frequencies_hz": [
+            57.32318399777073,
+            229.29626972088948,
+            515.9508341603711
+          ],
+          "relative_errors": [
+            1.0310548652636697e-06,
+            1.6442504489955212e-05,
+            8.278627147895179e-05
+          ],
+          "scope": "Uniform equivalent beam only; actual floor/equipment contact, mode shapes, damping and vehicle transfer not represented"
+        }
+      ],
+      "mount": {
+        "cases": [
+          {
+            "acceleration_vector_g": [
+              5.0,
+              3.0,
+              -3.0
+            ],
+            "bearing_stress_pa": 9358084.137375746,
+            "block_shear_average_pa": 3743233.6549502984,
+            "bolt_group": {
+              "bolt_forces_n": [
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  161.45911386640478
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  -291.1221754892629
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  -286.6411726243554
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  -739.2224619800231
+                ]
+              ],
+              "capacity_qualified": false,
+              "group_sha256": "a49dba26f56e79368937b8b6a9c4b8922f6bd1d92df27ddf390bc7ba25023b3f",
+              "load_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                -1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "open_domains": [
+                "thread stress area",
+                "member/prying compliance",
+                "approved preload/locking",
+                "fatigue and corrosion",
+                "physical joint correlation"
+              ],
+              "peak_shear_n": 561.4850482425447,
+              "peak_tension_n": 161.45911386640478,
+              "physical_validation": false,
+              "production_released": false,
+              "ready_for_independent_review": false,
+              "relative_pose_si": [
+                1.669765926211255e-06,
+                1.001859555726753e-06,
+                -3.8533059835644345e-07,
+                -2.515352517049006e-06,
+                1.4794740811973374e-06,
+                0.0
+              ],
+              "resultant_relative_error": 1.2537195506885059e-17,
+              "schema": "osr-joint-demand-screen/1",
+              "separation_screen_failed": false,
+              "slip_screen_failed": false,
+              "within_declared_strength": null
+            },
+            "checks": {
+              "block_shear_hypothesis": true,
+              "edge_tearout_hypothesis": true,
+              "foot_strip_bending_hypothesis": true,
+              "full_external_tension_plus_preload_hypothesis": true,
+              "net_section_hypothesis": true,
+              "no_separation_at_hypothesised_preload": true,
+              "no_slip_at_hypothesised_friction": true,
+              "plate_bearing_stress_hypothesis": true,
+              "thread_elastic_stress": true
+            },
+            "combined_preload_stress_pa": 563034105.2102054,
+            "edge_tearout_shear_pa": 3743233.6549502984,
+            "equivalent_thread_stress_pa": 17000194.31889271,
+            "foot_strip_bending_stress_pa": 17939901.54071164,
+            "friction_hypothesis": 0.15,
+            "net_section_stress_pa": 1909813.0892603563,
+            "peak_shear_n": 561.4850482425447,
+            "peak_tension_n": 161.45911386640478,
+            "preload_hypothesis_n": 32474.106238194443,
+            "resultants_si": [
+              1925.8778270453947,
+              1155.5266962272367,
+              -1155.5266962272367,
+              -108.61950944536025,
+              181.0325157422671,
+              0.0
+            ],
+            "thread_area_m2": 5.798947542534722e-05,
+            "torque_sensitivity_nm": [
+              38.968927485833326,
+              81.18526559548611
+            ]
+          },
+          {
+            "acceleration_vector_g": [
+              5.0,
+              3.0,
+              3.0
+            ],
+            "bearing_stress_pa": 9358084.137375746,
+            "block_shear_average_pa": 3743233.6549502984,
+            "bolt_group": {
+              "bolt_forces_n": [
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  739.2224619800231
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  286.6411726243554
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  291.1221754892629
+                ],
+                [
+                  481.4694567613487,
+                  288.8816740568092,
+                  -161.45911386640478
+                ]
+              ],
+              "capacity_qualified": false,
+              "group_sha256": "a49dba26f56e79368937b8b6a9c4b8922f6bd1d92df27ddf390bc7ba25023b3f",
+              "load_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "open_domains": [
+                "thread stress area",
+                "member/prying compliance",
+                "approved preload/locking",
+                "fatigue and corrosion",
+                "physical joint correlation"
+              ],
+              "peak_shear_n": 561.4850482425447,
+              "peak_tension_n": 739.2224619800231,
+              "physical_validation": false,
+              "production_released": false,
+              "ready_for_independent_review": false,
+              "relative_pose_si": [
+                1.669765926211255e-06,
+                1.001859555726753e-06,
+                3.8533059835644345e-07,
+                -2.515352517049006e-06,
+                1.4794740811973374e-06,
+                0.0
+              ],
+              "resultant_relative_error": 1.2537195506885059e-17,
+              "schema": "osr-joint-demand-screen/1",
+              "separation_screen_failed": false,
+              "slip_screen_failed": false,
+              "within_declared_strength": null
+            },
+            "checks": {
+              "block_shear_hypothesis": true,
+              "edge_tearout_hypothesis": true,
+              "foot_strip_bending_hypothesis": true,
+              "full_external_tension_plus_preload_hypothesis": true,
+              "net_section_hypothesis": true,
+              "no_separation_at_hypothesised_preload": true,
+              "no_slip_at_hypothesised_friction": true,
+              "plate_bearing_stress_hypothesis": true,
+              "thread_elastic_stress": true
+            },
+            "combined_preload_stress_pa": 572993006.2492772,
+            "edge_tearout_shear_pa": 3743233.6549502984,
+            "equivalent_thread_stress_pa": 21065465.695807274,
+            "foot_strip_bending_stress_pa": 82135829.10889146,
+            "friction_hypothesis": 0.15,
+            "net_section_stress_pa": 1909813.0892603563,
+            "peak_shear_n": 561.4850482425447,
+            "peak_tension_n": 739.2224619800231,
+            "preload_hypothesis_n": 32474.106238194443,
+            "resultants_si": [
+              1925.8778270453947,
+              1155.5266962272367,
+              1155.5266962272367,
+              -108.61950944536025,
+              181.0325157422671,
+              0.0
+            ],
+            "thread_area_m2": 5.798947542534722e-05,
+            "torque_sensitivity_nm": [
+              38.968927485833326,
+              81.18526559548611
+            ]
+          }
+        ],
+        "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+        "design_complete": false,
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "removed_bolt_index": null,
+        "represented_bolt_count": 4,
+        "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+      },
+      "one_bolt_missing": [
+        {
+          "cases": [
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                -3.0
+              ],
+              "bearing_stress_pa": 12495525.128983911,
+              "block_shear_average_pa": 4998210.051593564,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    642.3779144384924,
+                    386.58498255661596,
+                    -129.6630616228582
+                  ],
+                  [
+                    641.12199816841,
+                    384.4708568353104,
+                    -125.18205875795076
+                  ],
+                  [
+                    642.3779144384924,
+                    384.4708568353104,
+                    -900.6815758464278
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "c3763fe5158a94103db7c0d54dfedbde5043df35877e3238f0d533c2b449bb43",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  -1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 749.7315077390347,
+                "peak_tension_n": 0.0,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.2256286357001745e-06,
+                  1.337034727481194e-06,
+                  -1.6996513026514415e-07,
+                  -4.3100647511431665e-06,
+                  2.545639764817631e-06,
+                  -1.8148314537474654e-08
+                ],
+                "resultant_relative_error": 9.058069526937974e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": true,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 560447551.3668845,
+              "edge_tearout_shear_pa": 4998210.051593564,
+              "equivalent_thread_stress_pa": 22393254.188183606,
+              "foot_strip_bending_stress_pa": 0.0,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2550107.16918039,
+              "peak_shear_n": 749.7315077390347,
+              "peak_tension_n": 0.0,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                -1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            },
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                3.0
+              ],
+              "bearing_stress_pa": 12495525.128983911,
+              "block_shear_average_pa": 4998210.051593564,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    642.3779144384924,
+                    386.58498255661596,
+                    1025.8636346043784
+                  ],
+                  [
+                    641.12199816841,
+                    384.4708568353104,
+                    1030.3446374692858
+                  ],
+                  [
+                    642.3779144384924,
+                    384.4708568353104,
+                    -900.6815758464277
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "c3763fe5158a94103db7c0d54dfedbde5043df35877e3238f0d533c2b449bb43",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 749.7315077390347,
+                "peak_tension_n": 1030.3446374692858,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.2256286357001745e-06,
+                  1.337034727481194e-06,
+                  1.3713572631606294e-06,
+                  -1.0732241390417222e-05,
+                  6.360794203990338e-06,
+                  -1.8148314537474654e-08
+                ],
+                "resultant_relative_error": 9.144421046005095e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": false,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 578201585.3715353,
+              "edge_tearout_shear_pa": 4998210.051593564,
+              "equivalent_thread_stress_pa": 28585872.066570967,
+              "foot_strip_bending_stress_pa": 114482737.4965873,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2550107.16918039,
+              "peak_shear_n": 749.7315077390347,
+              "peak_tension_n": 1030.3446374692858,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            }
+          ],
+          "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+          "design_complete": false,
+          "manufacturing_release": false,
+          "physical_release": false,
+          "physical_validation": false,
+          "removed_bolt_index": 0,
+          "represented_bolt_count": 3,
+          "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+        },
+        {
+          "cases": [
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                -3.0
+              ],
+              "bearing_stress_pa": 14510582.66359682,
+              "block_shear_average_pa": 5804233.065438729,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    557.8128855862708,
+                    668.468412064021,
+                    -129.66306162285827
+                  ],
+                  [
+                    557.8128855862708,
+                    243.52914208160792,
+                    4.481002864907325
+                  ],
+                  [
+                    810.2520558728529,
+                    243.52914208160792,
+                    -1030.3446374692858
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "b72567692abf3c43376db13520d618bf38ec84a84249846bfca81b00f8357998",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  -1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 870.6349598158092,
+                "peak_tension_n": 4.481002864907325,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.37226701716297e-06,
+                  1.5814320299191864e-06,
+                  -7.736497343569054e-07,
+                  -5.751345317052854e-06,
+                  -4.428978792009892e-07,
+                  -3.6478112220324133e-06
+                ],
+                "resultant_relative_error": 9.666657422048074e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": true,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 560680642.09584,
+              "edge_tearout_shear_pa": 5804233.065438729,
+              "equivalent_thread_stress_pa": 26004557.410862695,
+              "foot_strip_bending_stress_pa": 497889.207211925,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2961343.400734045,
+              "peak_shear_n": 870.6349598158092,
+              "peak_tension_n": 4.481002864907325,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                -1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            },
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                3.0
+              ],
+              "bearing_stress_pa": 14510582.66359682,
+              "block_shear_average_pa": 5804233.065438729,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    557.8128855862708,
+                    668.468412064021,
+                    1025.8636346043786
+                  ],
+                  [
+                    557.8128855862708,
+                    243.52914208160792,
+                    4.481002864907737
+                  ],
+                  [
+                    810.2520558728529,
+                    243.52914208160792,
+                    125.18205875795059
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "b72567692abf3c43376db13520d618bf38ec84a84249846bfca81b00f8357998",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 870.6349598158092,
+                "peak_tension_n": 1025.8636346043786,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.37226701716297e-06,
+                  1.5814320299191864e-06,
+                  7.676726590688682e-07,
+                  6.708313222211998e-07,
+                  3.3722565599717174e-06,
+                  -3.6478112220324133e-06
+                ],
+                "resultant_relative_error": 9.13152037504457e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": false,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 578275506.2726192,
+              "edge_tearout_shear_pa": 5804233.065438729,
+              "equivalent_thread_stress_pa": 31451316.751009103,
+              "foot_strip_bending_stress_pa": 113984848.28937541,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2961343.400734045,
+              "peak_shear_n": 870.6349598158092,
+              "peak_tension_n": 1025.8636346043786,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            }
+          ],
+          "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+          "design_complete": false,
+          "manufacturing_release": false,
+          "physical_release": false,
+          "physical_validation": false,
+          "removed_bolt_index": 1,
+          "represented_bolt_count": 3,
+          "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+        },
+        {
+          "cases": [
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                -3.0
+              ],
+              "bearing_stress_pa": 14510582.66359682,
+              "block_shear_average_pa": 5804233.065438729,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    810.2520558728529,
+                    243.52914208160792,
+                    -125.18205875795059
+                  ],
+                  [
+                    557.8128855862708,
+                    243.52914208160792,
+                    -4.481002864907737
+                  ],
+                  [
+                    557.8128855862708,
+                    668.468412064021,
+                    -1025.8636346043786
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "837bf62fb5e88f20fba787df20c533565e6f29f730c3278f241c32b1452c67ea",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  -1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 870.6349598158092,
+                "peak_tension_n": 0.0,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.37226701716297e-06,
+                  1.5814320299191864e-06,
+                  -7.676726590688682e-07,
+                  6.708313222211998e-07,
+                  3.3722565599717174e-06,
+                  3.6478112220324133e-06
+                ],
+                "resultant_relative_error": 1.2736211047856831e-16,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": true,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 560603452.5714821,
+              "edge_tearout_shear_pa": 5804233.065438729,
+              "equivalent_thread_stress_pa": 26004442.60248523,
+              "foot_strip_bending_stress_pa": 0.0,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2961343.400734045,
+              "peak_shear_n": 870.6349598158092,
+              "peak_tension_n": 0.0,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                -1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            },
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                3.0
+              ],
+              "bearing_stress_pa": 14510582.66359682,
+              "block_shear_average_pa": 5804233.065438729,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    810.2520558728529,
+                    243.52914208160792,
+                    1030.3446374692858
+                  ],
+                  [
+                    557.8128855862708,
+                    243.52914208160792,
+                    -4.481002864907325
+                  ],
+                  [
+                    557.8128855862708,
+                    668.468412064021,
+                    129.66306162285827
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "837bf62fb5e88f20fba787df20c533565e6f29f730c3278f241c32b1452c67ea",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 870.6349598158092,
+                "peak_tension_n": 1030.3446374692858,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.37226701716297e-06,
+                  1.5814320299191864e-06,
+                  7.736497343569054e-07,
+                  -5.751345317052854e-06,
+                  -4.428978792009892e-07,
+                  3.6478112220324133e-06
+                ],
+                "resultant_relative_error": 9.646310825247778e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": false,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 578352700.804696,
+              "edge_tearout_shear_pa": 5804233.065438729,
+              "equivalent_thread_stress_pa": 31494845.351830326,
+              "foot_strip_bending_stress_pa": 114482737.4965873,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2961343.400734045,
+              "peak_shear_n": 870.6349598158092,
+              "peak_tension_n": 1030.3446374692858,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            }
+          ],
+          "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+          "design_complete": false,
+          "manufacturing_release": false,
+          "physical_release": false,
+          "physical_validation": false,
+          "removed_bolt_index": 2,
+          "represented_bolt_count": 3,
+          "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+        },
+        {
+          "cases": [
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                -3.0
+              ],
+              "bearing_stress_pa": 12495525.128983911,
+              "block_shear_average_pa": 4998210.051593564,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    642.3779144384924,
+                    384.4708568353104,
+                    900.6815758464277
+                  ],
+                  [
+                    641.12199816841,
+                    384.4708568353104,
+                    -1030.3446374692858
+                  ],
+                  [
+                    642.3779144384924,
+                    386.58498255661596,
+                    -1025.8636346043784
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "c541f8041525b44891e64cbbbe43179fed2ae9e355f0c41ad3ad89a249692ee1",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  -1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 749.7315077390347,
+                "peak_tension_n": 900.6815758464277,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.2256286357001745e-06,
+                  1.337034727481194e-06,
+                  -1.3713572631606294e-06,
+                  -1.0732241390417222e-05,
+                  6.360794203990338e-06,
+                  1.8148314537474654e-08
+                ],
+                "resultant_relative_error": 1.2797768733936747e-16,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": true,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 575967293.6691439,
+              "edge_tearout_shear_pa": 4998210.051593564,
+              "equivalent_thread_stress_pa": 27252430.863656912,
+              "foot_strip_bending_stress_pa": 100075730.64960308,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2550107.16918039,
+              "peak_shear_n": 749.7315077390347,
+              "peak_tension_n": 900.6815758464277,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                -1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            },
+            {
+              "acceleration_vector_g": [
+                5.0,
+                3.0,
+                3.0
+              ],
+              "bearing_stress_pa": 12495525.128983911,
+              "block_shear_average_pa": 4998210.051593564,
+              "bolt_group": {
+                "bolt_forces_n": [
+                  [
+                    642.3779144384924,
+                    384.4708568353104,
+                    900.6815758464278
+                  ],
+                  [
+                    641.12199816841,
+                    384.4708568353104,
+                    125.18205875795076
+                  ],
+                  [
+                    642.3779144384924,
+                    386.58498255661596,
+                    129.6630616228582
+                  ]
+                ],
+                "capacity_qualified": false,
+                "group_sha256": "c541f8041525b44891e64cbbbe43179fed2ae9e355f0c41ad3ad89a249692ee1",
+                "load_si": [
+                  1925.8778270453947,
+                  1155.5266962272367,
+                  1155.5266962272367,
+                  -108.61950944536025,
+                  181.0325157422671,
+                  0.0
+                ],
+                "open_domains": [
+                  "thread stress area",
+                  "member/prying compliance",
+                  "approved preload/locking",
+                  "fatigue and corrosion",
+                  "physical joint correlation"
+                ],
+                "peak_shear_n": 749.7315077390347,
+                "peak_tension_n": 900.6815758464278,
+                "physical_validation": false,
+                "production_released": false,
+                "ready_for_independent_review": false,
+                "relative_pose_si": [
+                  2.2256286357001745e-06,
+                  1.337034727481194e-06,
+                  1.6996513026514415e-07,
+                  -4.3100647511431665e-06,
+                  2.545639764817631e-06,
+                  1.8148314537474654e-08
+                ],
+                "resultant_relative_error": 9.109978659794408e-17,
+                "schema": "osr-joint-demand-screen/1",
+                "separation_screen_failed": false,
+                "slip_screen_failed": false,
+                "within_declared_strength": null
+              },
+              "checks": {
+                "block_shear_hypothesis": true,
+                "edge_tearout_hypothesis": true,
+                "foot_strip_bending_hypothesis": true,
+                "full_external_tension_plus_preload_hypothesis": true,
+                "net_section_hypothesis": true,
+                "no_separation_at_hypothesised_preload": true,
+                "no_slip_at_hypothesised_friction": true,
+                "plate_bearing_stress_hypothesis": true,
+                "thread_elastic_stress": true
+              },
+              "combined_preload_stress_pa": 575967293.6691439,
+              "edge_tearout_shear_pa": 4998210.051593564,
+              "equivalent_thread_stress_pa": 27252430.863656912,
+              "foot_strip_bending_stress_pa": 100075730.64960308,
+              "friction_hypothesis": 0.15,
+              "net_section_stress_pa": 2550107.16918039,
+              "peak_shear_n": 749.7315077390347,
+              "peak_tension_n": 900.6815758464278,
+              "preload_hypothesis_n": 32474.106238194443,
+              "resultants_si": [
+                1925.8778270453947,
+                1155.5266962272367,
+                1155.5266962272367,
+                -108.61950944536025,
+                181.0325157422671,
+                0.0
+              ],
+              "thread_area_m2": 5.798947542534722e-05,
+              "torque_sensitivity_nm": [
+                38.968927485833326,
+                81.18526559548611
+              ]
+            }
+          ],
+          "criteria_status": "Proposed test-domain sensitivities; approved loads/material/preload/friction and fatigue remain open",
+          "design_complete": false,
+          "manufacturing_release": false,
+          "physical_release": false,
+          "physical_validation": false,
+          "removed_bolt_index": 3,
+          "represented_bolt_count": 3,
+          "scope": "Elastic bolt group and simplified local stress hypotheses; no certified connection resistance, contact/prying solution or torque instruction"
+        }
+      ],
+      "physical_release": false,
+      "physical_validation": false,
+      "rail_web_elastic_buckling_stress_pa": 773291426.7664119,
+      "revision": "8d29ea9808b9cfc3928f4146d86053b2bc4fe2d1ec20602d6435420958d34e99",
+      "schema": "osr-structural-detail-screen/1",
+      "scope": "Configuration-specific local elastic/detail/manufacturing research; no full-body, crash, fatigue life or qualified joint claim",
+      "sources": [
+        {
+          "applicability": "Method reference; no railway adoption or physical qualification",
+          "document": "NASA RP-1228 Fastener Design Manual",
+          "licence": "US government public use permitted",
+          "locator": "Fastener group, grip, preload, torque, locking and fatigue design topics",
+          "publisher": "NASA",
+          "revision": "1990-03-01",
+          "url": "https://ntrs.nasa.gov/citations/19900009424"
+        },
+        {
+          "applicability": "Building examples; project rail criteria not adopted",
+          "document": "P364 Worked Examples \u2014 Open Sections",
+          "licence": "Copyright SCI; facts/links only",
+          "locator": "Connection worked examples; independent implementation reference",
+          "publisher": "Steel Construction Institute",
+          "revision": "2009",
+          "url": "https://www.steelconstruction.info/images/5/50/Sci_p364.pdf"
+        }
+      ],
+      "weld_register": [
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0091845,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0005515432893255071,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "crossmember-0-end--1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "crossmember-0",
+            "longitudinal--1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.26,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0091845,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0005515432893255071,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "crossmember-0-end-1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "crossmember-0",
+            "longitudinal-1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.26,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0091845,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0005515432893255071,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "crossmember-1-end--1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "crossmember-1",
+            "longitudinal--1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.26,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0091845,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0005515432893255071,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "crossmember-1-end-1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "crossmember-1",
+            "longitudinal-1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.26,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0105975,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0006363961030678927,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "floor-rail--1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "floor-panel",
+            "longitudinal--1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [
+            {
+              "end_m": [
+                -0.475,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.525,
+                -0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.27499999999999997,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.325,
+                -0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.07500000000000001,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.125,
+                -0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.125,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.07500000000000001,
+                -0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.325,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.27499999999999997,
+                -0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.525,
+                -0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.475,
+                -0.53,
+                0.0
+              ]
+            }
+          ],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.3,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0105975,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0006363961030678927,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "floor-rail-1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "floor-panel",
+            "longitudinal-1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [
+            {
+              "end_m": [
+                -0.475,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.525,
+                0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.27499999999999997,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.325,
+                0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.07500000000000001,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                -0.125,
+                0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.125,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.07500000000000001,
+                0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.325,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.27499999999999997,
+                0.53,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.525,
+                0.53,
+                0.0
+              ],
+              "face": "accessible underside floor lap to outer rail web",
+              "start_m": [
+                0.475,
+                0.53,
+                0.0
+              ]
+            }
+          ],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.3,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0105975,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0006363961030678927,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "floor-cross-0",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "floor-panel",
+            "crossmember-0"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [
+            {
+              "end_m": [
+                -0.5750000000000001,
+                -0.27499999999999997,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.5750000000000001,
+                -0.325,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.5750000000000001,
+                0.025,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.5750000000000001,
+                -0.025,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.5750000000000001,
+                0.325,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.5750000000000001,
+                0.27499999999999997,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.525,
+                -0.27499999999999997,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.525,
+                -0.325,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.525,
+                0.025,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.525,
+                -0.025,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                -0.525,
+                0.325,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                -0.525,
+                0.27499999999999997,
+                0.0
+              ]
+            }
+          ],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.3,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.0105975,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0006363961030678927,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "floor-cross-1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "floor-panel",
+            "crossmember-1"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [
+            {
+              "end_m": [
+                0.525,
+                -0.27499999999999997,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.525,
+                -0.325,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.525,
+                0.025,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.525,
+                -0.025,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.525,
+                0.325,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.525,
+                0.27499999999999997,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.5750000000000001,
+                -0.27499999999999997,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.5750000000000001,
+                -0.325,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.5750000000000001,
+                0.025,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.5750000000000001,
+                -0.025,
+                0.0
+              ]
+            },
+            {
+              "end_m": [
+                0.5750000000000001,
+                0.325,
+                0.0
+              ],
+              "face": "underside floor to crossmember side web",
+              "start_m": [
+                0.5750000000000001,
+                0.27499999999999997,
+                0.0
+              ]
+            }
+          ],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.3,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.004239,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0002545584412271571,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "equipment-leg-0",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "mount-foot-0",
+            "mount-leg-0",
+            "equipment-test-block"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.12,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.004239,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0002545584412271571,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "equipment-leg-1",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "mount-foot-1",
+            "mount-leg-1",
+            "equipment-test-block"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.12,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.004239,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0002545584412271571,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "equipment-leg-2",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "mount-foot-2",
+            "mount-leg-2",
+            "equipment-test-block"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.12,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        },
+        {
+          "NDT_acceptance": null,
+          "WPS": null,
+          "bead_mass_allowance_kg": 0.004239,
+          "corrosion": "Clean/inspect before compatible coating; mask dedicated earth/bearing surfaces",
+          "detail_category": null,
+          "distortion_allowance_m": 0.0005,
+          "effective_throat_area_m2": 0.0002545584412271571,
+          "effective_throat_m": 0.0021213203435596424,
+          "geometry_status": "Straight stitch coordinates specified where applicable; weld bead is an explicit mass allowance, not a CAD solid",
+          "inspection": [
+            "100% visual and dimensional planning",
+            "qualified surface/NDT method and acceptance to be adopted"
+          ],
+          "joint_id": "equipment-leg-3",
+          "pattern": "Symmetric balanced opposite-side progression",
+          "physical_part_ids": [
+            "mount-foot-3",
+            "mount-leg-3",
+            "equipment-test-block"
+          ],
+          "process": "Proposed GMAW/MAG; qualified WPS required",
+          "proposed_segments": [],
+          "root_gap_acceptance_m": null,
+          "root_gap_target_m": 0.0,
+          "state": "proposed; not issued or qualified",
+          "total_proposed_length_m": 0.12,
+          "weld_leg_m": 0.003,
+          "welder_qualification": null
+        }
+      ],
+      "weld_shear_cases": [
+        {
+          "average_throat_shear_pa": 3072382.4722400494,
+          "joint_id": "crossmember-0-end--1",
+          "load_n": 1694.5519348053103,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 3072382.4722400494,
+          "joint_id": "crossmember-0-end-1",
+          "load_n": 1694.5519348053103,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 3072382.4722400494,
+          "joint_id": "crossmember-1-end--1",
+          "load_n": 1694.5519348053103,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 3072382.4722400494,
+          "joint_id": "crossmember-1-end-1",
+          "load_n": 1694.5519348053103,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 4669286.058586079,
+          "joint_id": "floor-rail--1",
+          "load_n": 2971.5154517934207,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 4669286.058586079,
+          "joint_id": "floor-rail-1",
+          "load_n": 2971.5154517934207,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 4669286.058586079,
+          "joint_id": "floor-cross-0",
+          "load_n": 2971.5154517934207,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 4669286.058586079,
+          "joint_id": "floor-cross-1",
+          "load_n": 2971.5154517934207,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 1134834.3927005096,
+          "joint_id": "equipment-leg-0",
+          "load_n": 288.8816740568092,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 1134834.3927005096,
+          "joint_id": "equipment-leg-1",
+          "load_n": 288.8816740568092,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 1134834.3927005096,
+          "joint_id": "equipment-leg-2",
+          "load_n": 288.8816740568092,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        },
+        {
+          "average_throat_shear_pa": 1134834.3927005096,
+          "joint_id": "equipment-leg-3",
+          "load_n": 288.8816740568092,
+          "proposed_limit_pa": 122975607.33739029,
+          "scope": "Conservative apportioned gravity direct-average throat shear only; actual load sharing, eccentric stress, fatigue, HAZ and end effects remain open"
+        }
+      ]
+    }
+  }
 }
