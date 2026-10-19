@@ -371,6 +371,54 @@
         "baghdad:ME-11"
       ],
       "scope": "LV distribution/data and ventilation service cassette; complete refrigeration and whole-car HVAC remain separate"
+    },
+    "structural-bay": {
+      "assumptions": {
+        "crossmember_height_m": 0.08,
+        "crossmember_width_m": 0.05,
+        "deflection_limit_m": 0.002,
+        "dimensional_tolerance_m": 0.0005,
+        "gravity_m_s2": 9.80665,
+        "length_m": 1.2,
+        "proposed_yield_pa": 355000000.0,
+        "rail_height_m": 0.1,
+        "rail_width_m": 0.06,
+        "stress_fraction": 0.6,
+        "vertical_acceleration_factors": [
+          1.0,
+          3.0
+        ],
+        "width_between_rail_centres_m": 1.0
+      },
+      "domains": {
+        "crossmember_count": [
+          2,
+          3
+        ],
+        "floor_thickness_m": [
+          0.003,
+          0.004
+        ],
+        "rail_wall_m": [
+          0.003,
+          0.004,
+          0.005
+        ]
+      },
+      "holds": [
+        "Approved six-car local/global loads, equipment/axle/CG map and emergency conditions",
+        "Local holes/inserts, weld throat/procedure/NDT, bolt preload/prying/slip/fatigue and loss-of-fastener checks",
+        "Floor plate local bending, global torsion and shell/local buckling with mesh/boundary sensitivity",
+        "Modal acceptance and vehicle frequency transfer, measured damping and equipment maps",
+        "Fatigue duty/spectra, crash/lifting/jacking/recovery and degraded configurations",
+        "Material heat/process/hot-wet/fire, corrosion, panel/joint physical correlation and independent acceptance",
+        "Complete structural bay enclosure, panels/inserts, repairs, removal access and qualified vehicle integration",
+        "Weld-bead/coating/service mass and actual equipment fixture replacement remain unrepresented"
+      ],
+      "requirement_ids": [
+        "baghdad:ME-01"
+      ],
+      "scope": "Proposed isolated 1.2 m steel floor/rail bay with a represented steel test block; no whole-car or manufacturing acceptance"
     }
   },
   "revision": "2026-10-19",

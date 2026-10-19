@@ -10,7 +10,7 @@ import tempfile
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT),str(ROOT/'design/component-catalogue/src')]
-from engineering.assembly_design import workflow,publication,baseline,development
+from engineering.assembly_design import workflow,publication,baseline,development,closure,acceptance
 from engineering.twin_workflow import core
 
 
@@ -18,7 +18,10 @@ def units(workspace):
     def quote(x):return '"'+str(x).replace('\\','\\\\').replace('"','\\"').replace('%','%%')+'"'
     command=' '.join(map(quote,[sys.executable,Path(__file__).resolve(),'cycle','--workspace',Path(workspace).resolve(),'--budget','6']))
     developer=' '.join(map(quote,[sys.executable,Path(__file__).resolve(),'develop','--workspace',Path(workspace).resolve()]))
-    return {'osr-assembly-capability.service':'[Unit]\nDescription=OpenSourceRail isolated assembly capability development and review\n\n[Service]\nType=oneshot\nExecStart='+developer+'\nEnvironment=OPENBLAS_NUM_THREADS=1\nEnvironment=OMP_NUM_THREADS=1\nNice=15\nCPUQuota=150%\nMemoryMax=2G\nTasksMax=256\nTimeoutStartSec=30min\nUMask=0077\n',
+    verify=' '.join(map(quote,[sys.executable,Path(__file__).resolve(),'verify-cycle','--workspace',Path(workspace).resolve(),'--budget','6']))
+    return {'osr-assembly-verification.service':'[Unit]\nDescription=OpenSourceRail weekly complete assembly qualification and current-source verification\n\n[Service]\nType=oneshot\nExecStart='+verify+'\nEnvironment=OPENBLAS_NUM_THREADS=1\nEnvironment=OMP_NUM_THREADS=1\nNice=15\nCPUQuota=150%\nMemoryMax=3G\nTasksMax=256\nTimeoutStartSec=30min\nUMask=0077\n',
+        'osr-assembly-verification.timer':'[Unit]\nDescription=OpenSourceRail weekly equipped-runner native acceptance checks\n\n[Timer]\nOnCalendar=Sun *-*-* 03:00:00\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n',
+        'osr-assembly-capability.service':'[Unit]\nDescription=OpenSourceRail isolated assembly capability development and review\n\n[Service]\nType=oneshot\nExecStart='+developer+'\nEnvironment=OPENBLAS_NUM_THREADS=1\nEnvironment=OMP_NUM_THREADS=1\nNice=15\nCPUQuota=150%\nMemoryMax=2G\nTasksMax=256\nTimeoutStartSec=30min\nUMask=0077\n',
         'osr-assembly-capability.timer':'[Unit]\nDescription=OpenSourceRail hourly assembly capability development\n\n[Timer]\nOnBootSec=3min\nOnUnitActiveSec=1h\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n',
         'osr-assembly-design.service':'[Unit]\nDescription=OpenSourceRail sourced assembly design and verification\n\n[Service]\nType=oneshot\nExecStart='+command+'\nEnvironment=OPENBLAS_NUM_THREADS=1\nEnvironment=OMP_NUM_THREADS=1\nNice=15\nCPUQuota=150%\nMemoryMax=2G\nTasksMax=256\nTimeoutStartSec=15min\nUMask=0077\n',
         'osr-assembly-design.timer':'[Unit]\nDescription=OpenSourceRail automatic assembly design cadence\n\n[Timer]\nOnBootSec=2min\nOnUnitActiveSec=5min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n'}
@@ -46,11 +49,24 @@ def cycle(workspace,budget):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('qualify','run','cycle','status','export','verify','install','develop'))
-    p.add_argument('--workspace',type=Path,default=workflow.DEFAULT);p.add_argument('--output',type=Path);p.add_argument('--budget',type=int,default=6);p.add_argument('--no-native',action='store_true');a=p.parse_args();a.workspace=a.workspace.resolve()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('qualify','run','cycle','verify-cycle','status','export','verify','install','develop','plan','ingest'))
+    p.add_argument('--workspace',type=Path,default=workflow.DEFAULT);p.add_argument('--output',type=Path);p.add_argument('--budget',type=int,default=6);p.add_argument('--no-native',action='store_true')
+    for name in ('record','calibration','review','trust','expected','evidence-root'):p.add_argument('--'+name,type=Path)
+    a=p.parse_args();a.workspace=a.workspace.resolve()
     if a.action=='qualify':result={'qualification':str(workflow.qualify(a.workspace))}
     elif a.action=='run':result=workflow.run(a.workspace,budget=a.budget,native=not a.no_native)
     elif a.action=='cycle':result=cycle(a.workspace,a.budget)
+    elif a.action=='verify-cycle':
+        workflow.qualify(a.workspace);result=cycle(a.workspace,a.budget)
+    elif a.action=='plan':result=closure.snapshot(baseline.build())
+    elif a.action=='ingest':
+        if not all(getattr(a,name) is not None for name in ('record','calibration','review','trust','expected','evidence_root')):
+            p.error('ingest requires --record --calibration --review --trust --expected --evidence-root')
+        result=acceptance.ingest(core.read(a.record),core.read(a.calibration),core.read(a.review),
+            core.read(a.trust),a.evidence_root,core.read(a.expected))
+        if a.output:
+            if a.output.exists():raise ValueError('new authenticated-record output required')
+            core.write(a.output,result,exclusive=True)
     elif a.action=='develop':
         result=development.run(a.workspace);core.write(a.workspace/'development/status.json',result)
     elif a.action=='status':result=core.read(a.workspace/'status.json',maximum=20_000_000)
@@ -64,7 +80,7 @@ def main():
             if path.exists() and 'Description=OpenSourceRail' not in path.read_text():raise ValueError('unit is owned by another application')
             path.write_text(body)
         subprocess.run(['systemctl','--user','daemon-reload'],check=True)
-        subprocess.run(['systemctl','--user','enable','--now','osr-assembly-design.timer','osr-assembly-capability.timer'],check=True)
+        subprocess.run(['systemctl','--user','enable','--now','osr-assembly-design.timer','osr-assembly-capability.timer','osr-assembly-verification.timer'],check=True)
         result=dict(timer='osr-assembly-design.timer',cadence='five minutes',workspace=str(a.workspace),report=str(a.workspace/'latest/index.html'))
     if 'trials' in result:result={k:result[k] for k in ('epoch','controller_state','executed_this_cycle','counts','selected') if k in result}
     elif 'files_sha256' in result:result={k:result[k] for k in ('schema','epoch','design_complete')}

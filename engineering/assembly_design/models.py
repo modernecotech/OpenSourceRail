@@ -20,6 +20,9 @@ def validate(policy,kind,variables):
 
 
 def build(policy,kind,variables):
+    if kind=='structural-bay':
+        from . import structural_bay
+        return structural_bay.build(policy,variables)
     validate(policy,kind,variables);f=baseline.facts(policy);p=policy['pilots'][kind];a=p['assumptions'];parts=[];joints=[]
     materials=dict(steel=dict(density_kg_m3=f['steel.density'],young_pa=f['steel.elastic_modulus'],poisson=.3,basis='Nominal reference; heat, temperature, weld and fatigue qualification open'),
         grout=dict(density_kg_m3=2200.,basis='Unqualified grout mass hypothesis; strength and installation not inferred'),
@@ -84,10 +87,15 @@ def build(policy,kind,variables):
         for i,(x,y) in enumerate(itertools.product((-.35,.35),(-.105,.105))):
             block('duct-foot-'+str(i),.02,.015,z-.003,[x,y,(z+.003)/2])
             joint('duct-foot-'+str(i),['tray-floor','duct-foot-'+str(i),'duct-bottom'],'spot/fillet weld; detailed fatigue and sealing open')
-        radius=math.sqrt(2.5e-6/math.pi)
+        # The exact M80-326 solder contact supplied in the reference kit is
+        # specified for 14 AWG.  AWG geometric area is not rail ampacity or a
+        # selected insulation/strand construction.
+        wire_diameter=.005*.0254*92**((36-14)/39)
+        wire_area=math.pi*wire_diameter**2/4
+        radius=math.sqrt(wire_area/math.pi)
         for i,y in enumerate(.124+.004*j for j in range(8)):
             primitive=dict(id='conductor',kind='cylinder',centre_m=[0,y,.07],radius_m=radius,length_m=.8,axis='x')
-            add('wire-'+str(i)+'-conductor',[primitive],material='copper',route='cut/strip/terminate from selected 2.5mm2 cable; cable type open')
+            add('wire-'+str(i)+'-conductor',[primitive],material='copper',route='14 AWG reference geometry; M80-326 solder contact, IS-52 process; actual strand/insulation and termination routing open')
             shell=dict(primitive,id='insulation',kind='tube',radius_m=.0018,inner_radius_m=radius)
             add('wire-'+str(i)+'-jacket',[shell],material='insulation',route='purchase rail cable; bend/termination details open')
         # Two feed-through strain-relief bars, with eight actual drilled
@@ -120,6 +128,8 @@ def build(policy,kind,variables):
         netlist=dict(voltage_v=a['lv_voltage_v'],current_a=a['branch_current_a'],connector=f['connector.part'],
             pins={'1':'24V-fused','2':'LV-return','3':'lock-sense','4':'lock-return','5':'data-A','6':'data-B','7':'temperature','8':'temperature-return','9':'spare','10':'spare'},
             protective_earth='Separate chassis earth stud and tested bond required; not inferred from signal return',
+            active_pins=list(range(1,9)),reserved_pins=[9,10],contact='M80-326',termination_process='solder; not crimp',
+            reference_wire_awg=14,reference_conductor_area_m2=wire_area,
             termination_geometry_complete=False,wire_gauge_qualified=False,derating_qualified=False)
         metadata=dict(mount_positions_m=[[x,y,0] for x,y in mounts],duct_clear_area_m2=area,rail_section_m=[.04,.06,t],netlist=netlist)
     else:

@@ -18,9 +18,9 @@ import tarfile
 import time
 
 from engineering.twin_workflow import core
-from engineering.continuous_design import runtime,study_confirmation
+from engineering.continuous_design import study_confirmation
 from engineering.design_delivery.pipeline import safe,archive_members
-from . import baseline,models,evaluate
+from . import baseline,models,evaluate,numerical_runtime as runtime
 
 DEFAULT=Path.home()/'.local/state/opensourcerail/assembly-design'
 TEST='engineering/analysis/tests/test_assembly_design.py'
@@ -31,14 +31,18 @@ RESERVE=20*1024**3
 def qualify(workspace):
     workspace=Path(workspace).resolve();before=baseline.sources();identity=runtime.capture();key=core.digest(dict(sources=before,runtime=identity));folder=workspace/'qualifications'/key
     folder.mkdir(parents=True,exist_ok=True)
-    command=[sys.executable,'-m','pytest',TEST,'-q']
+    tests=[TEST,*sorted(str(p.relative_to(core.ROOT)) for p in (core.ROOT/'engineering/analysis/tests').glob('test_closure_*.py'))]
+    command=[sys.executable,'-m','pytest',*tests,'-q']
     call=subprocess.run(command,cwd=core.ROOT,capture_output=True,text=True,timeout=600,
         env={**os.environ,'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','PYTHONPATH':str(core.ROOT)+':'+str(core.ROOT/'design/component-catalogue/src')})
     (folder/'tests.log').write_text(call.stdout+call.stderr)
     receipt=dict(schema='osr-assembly-qualification/1',sources=before,runtime_identity=identity,command=command,returncode=call.returncode,
         passed=call.returncode==0 and before==baseline.sources() and identity==runtime.capture(),log_sha256=core.sha(folder/'tests.log'),tested_unix=time.time(),source_commit=subprocess.run(['git','rev-parse','HEAD'],cwd=core.ROOT,check=True,capture_output=True,text=True).stdout.strip(),**core.FLAGS)
     core.write(folder/'qualification.json',receipt)
-    if not receipt['passed']:raise ValueError('assembly qualification failed: '+str(folder/'tests.log'))
+    # A zero exit code with skipped required native checks is not qualification.
+    if ' skipped' in call.stdout:
+        receipt['passed']=False;core.write(folder/'qualification.json',receipt)
+    if not receipt['passed']:raise ValueError('assembly qualification failed or required check skipped: '+str(folder/'tests.log'))
     return folder/'qualification.json'
 
 
@@ -83,6 +87,7 @@ def initialise(workspace,db):
 
 
 def work_orders(prepared):
+    from . import closure
     orders=[]
     for item in prepared['inventory']['items']:
         orders.append(dict(item_id=item['id'],architecture=item['architecture'],source=item['source'],source_sha256=item['source_sha256'],
@@ -90,6 +95,8 @@ def work_orders(prepared):
             stages={k:'open' for k in ('requirements','parts-and-connections','manufacturing','independent-analysis','system-integration','physical-correlation','acceptance')},
             next_action='execute available assembly generator and screens' if item['pilot'] else 'develop component-specific generator/evaluator from exact source records',
             expected_evidence=item['required_detail_sections'],state='open',**core.FLAGS))
+        if prepared.get('closure_plan'):
+            orders[-1]['closure_task_ids']=closure.tasks_for(item,prepared['closure_plan'])
     return orders
 
 
@@ -157,6 +164,10 @@ def execute(workspace,db,epoch,prepared,row):
             (folder/'candidate.json.gz').write_bytes(gzip.compress(core.encoded(candidate),mtime=0));core.write(folder/'result.json',result)
             tables(candidate,folder);core.write(folder/'qa-plan.json',candidate['qa_plan'])
             if kind=='service-cassette':
+                from . import cassette_system
+                system=cassette_system.report(prepared['policy'],candidate)
+                cassette_system.verify_report(prepared['policy'],candidate,system)
+                core.write(folder/'cassette-system.json',system)
                 core.write(folder/'netlist.json',candidate['metadata']['netlist']);(folder/'controller.py').write_text(evaluate.control_source('branch'))
                 core.write(folder/'software-tests.json',evaluate.control_trial())
         if prepared['source_sha256']!=baseline.sources():raise ValueError('design sources changed during execution')
@@ -205,6 +216,8 @@ def confirm(workspace,db,epoch,row):
     folder.mkdir(parents=True);candidate=json.loads(gzip.decompress((Path(row['folder'])/'candidate.json.gz').read_bytes()));core.write(folder/'definition.json',candidate['contract'])
     proof,state,error=study_confirmation.native(folder/'definition.json',folder/'cad')
     if state=='passed':
+        from . import bim
+        bim.export(candidate,folder/'cad/candidate.FCStd',folder/'bim')
         from .presentation import preview
         preview(folder/'cad/candidate.FCStd',folder/'overview.png',row['kind'])
     result=dict(child=row['key'],state=state,error=error,proof=proof,
@@ -227,12 +240,20 @@ def summary(workspace,db,epoch,prepared):
         selected.append(dict(key=row['key'],kind=row['kind'],native=n['status'] if n else 'not-run',
             design_complete=False,scope='Provisional research representative; all assembly closure and qualification holds remain applicable'))
     inventory=prepared['inventory'];remaining=sum(i['pilot'] is None for i in inventory['items'])
-    return dict(schema='osr-assembly-progress/1',epoch=epoch,source_sha256=prepared['source_sha256'],trials=rows,selected=selected,
+    report=dict(schema='osr-assembly-progress/1',epoch=epoch,source_sha256=prepared['source_sha256'],trials=rows,selected=selected,
         counts=dict(requirement_records=len(inventory['items']),baghdad_records=inventory['baghdad_reference_items'],legacy_or_unreconciled_records=inventory['existing_items'],
             component_records_with_pilot=sum(i['pilot'] is not None for i in inventory['items']),component_records_needing_adapter=remaining,
             facts=len(prepared['policy']['facts']),completed_trials=sum(r['status']=='completed' for r in rows),qualified_components=0),
         unresolved=prepared['policy']['external_holds'],pilot_open_requirements={k:v['holds'] for k,v in prepared['policy']['pilots'].items()},
-        controller_scope='Automatic parameter/design generation and scoped verification for two registered pilot assemblies plus executable cassette software; remaining components require generator/evaluator development',**core.FLAGS)
+        controller_scope='Automatic parameter/design generation and scoped verification for registered provisional pilot families plus executable cassette software; remaining families require generator/evaluator development',**core.FLAGS)
+    if prepared.get('closure_plan'):
+        from . import closure,families
+        report['closure']=closure.snapshot(prepared)
+        report['families']=families.registry(prepared['policy'])
+    if prepared.get('site'):
+        from . import site_bundle
+        report['site_summary']=site_bundle.metrics(prepared['site'])
+    return report
 
 
 def run(workspace=DEFAULT,*,budget=6,native=True):

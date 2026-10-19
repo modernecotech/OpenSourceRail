@@ -1,0 +1,1061 @@
+{
+  "schema": "osr-full-design-closure-plan/1",
+  "source_pdf": "OpenSourceRail_Full_Design_Closure_Plan_2026-10-19.pdf",
+  "source_sha256": "258963e409fa69a94ef0954aed502d4e696b1079f74459c7829db50446857ab8",
+  "pages": 19,
+  "review_baseline": "97773368",
+  "architecture": "baghdad-six-car",
+  "scope": "Task inventory for implementation and independently evidenced engineering closure; no completion inferred from a file or experiment count",
+  "packages": [
+    {
+      "id": "WP00",
+      "role": "Systems/configuration",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [],
+      "exit_state": "open",
+      "page": 3
+    },
+    {
+      "id": "WP01",
+      "role": "CAD/BIM/data",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP00"
+      ],
+      "exit_state": "open",
+      "page": 3
+    },
+    {
+      "id": "WP02",
+      "role": "Loads/integration",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP00",
+        "WP01"
+      ],
+      "exit_state": "open",
+      "page": 2
+    },
+    {
+      "id": "WP03",
+      "role": "Mechanical/composites",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP01",
+        "WP02"
+      ],
+      "exit_state": "open",
+      "page": 4
+    },
+    {
+      "id": "WP04",
+      "role": "Manufacturing/assembly",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP01",
+        "WP02"
+      ],
+      "exit_state": "open",
+      "page": 5
+    },
+    {
+      "id": "WP05",
+      "role": "Electrical/battery",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP00",
+        "WP01",
+        "WP02"
+      ],
+      "exit_state": "open",
+      "page": 6
+    },
+    {
+      "id": "WP06",
+      "role": "Thermal-fluid/HVAC",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP00",
+        "WP01",
+        "WP02",
+        "WP05"
+      ],
+      "exit_state": "open",
+      "page": 7
+    },
+    {
+      "id": "WP07",
+      "role": "Civil/geotechnical",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP00",
+        "WP01",
+        "WP02"
+      ],
+      "exit_state": "open",
+      "page": 8
+    },
+    {
+      "id": "WP08",
+      "role": "Dynamics/integration",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07"
+      ],
+      "exit_state": "open",
+      "page": 9
+    },
+    {
+      "id": "WP09",
+      "role": "Generative/V&V",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP01"
+      ],
+      "exit_state": "open",
+      "page": 10
+    },
+    {
+      "id": "WP10",
+      "role": "V&V/QA",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP01"
+      ],
+      "exit_state": "open",
+      "page": 11
+    },
+    {
+      "id": "WP11",
+      "role": "UI/ERP/cost",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP01",
+        "WP04",
+        "WP10"
+      ],
+      "exit_state": "open",
+      "page": 13
+    },
+    {
+      "id": "WP12",
+      "role": "Prototype team",
+      "owner": null,
+      "independent_reviewer": null,
+      "dependencies": [
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP10"
+      ],
+      "exit_state": "open",
+      "page": 14
+    }
+  ],
+  "tasks": [
+    {
+      "id": "WP00-prototype",
+      "wp": "WP00",
+      "page": 3,
+      "title": "Freeze the named provisional six-car prototype and operating duty",
+      "kind": "mixed",
+      "required_evidence": "Freeze named provisional six-car geometry, layout, consist, loads, duty, route, speed, gauge, charging, climate and emergency baseline",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP00-architecture",
+      "wp": "WP00",
+      "page": 3,
+      "title": "Reconcile architecture alternatives and conflicting dimensions or masses",
+      "kind": "design",
+      "required_evidence": "Resolve contradictory dimensions/masses; keep LM3 and Baghdad alternatives separate",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP00-sources",
+      "wp": "WP00",
+      "page": 3,
+      "title": "Create complete, revisioned source cards with applicability and uncertainty",
+      "kind": "software",
+      "required_evidence": "Source cards: exact identity, revision, publisher, URL, hash, locator, units, licence, date, envelope and uncertainty",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP00-standards",
+      "wp": "WP00",
+      "page": 3,
+      "title": "Maintain standards editions, licences, jurisdiction and impact reviews",
+      "kind": "mixed",
+      "required_evidence": "Licensed standards, editions, categories and Iraqi adoption register; IEC61373:2026 impact and chemistry applicability",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP00-authority",
+      "wp": "WP00",
+      "page": 3,
+      "title": "Appoint engineering owners, independent reviewers and acceptance authority",
+      "kind": "external",
+      "required_evidence": "Appoint named engineering owners, independent reviewers and Iraqi acceptance authority",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-crosswalk",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Crosswalk all 414 records into architecture and reusable component families",
+      "kind": "software",
+      "required_evidence": "Crosswalk all345legacy+69Baghdad records by architecture, function, duplicate/alternative/assembly/requirement and reusable family",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-component",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Define the common owned/purchased component contract",
+      "kind": "software",
+      "required_evidence": "Common owned/purchased component: geometry, process, mass/CG/inertia, units, datums, tolerances, provenance, uncertainty",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-interfaces",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Define structural, bearing, electrical, air/fluid and software interfaces",
+      "kind": "software",
+      "required_evidence": "Structural/bearing/electrical/fluid/software endpoints, degrees of freedom and revisioned interface contracts",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-invalidation",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Propagate design changes to every affected representation and check",
+      "kind": "software",
+      "required_evidence": "Propagate mount/connector/material changes into CAD, analysis, harness, schedule, cost and QA; reject mismatch/staleness",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-consolidation",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Consolidate existing workflows through compatibility adapters",
+      "kind": "software",
+      "required_evidence": "Reuse discipline adapters, queues, identities, qualification and publication; avoid another workflow",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP01-bim",
+      "wp": "WP01",
+      "page": 3,
+      "title": "Export identity-preserving CAD/STEP/IFC and validate IFC information with IDS",
+      "kind": "software",
+      "required_evidence": "EditableCAD/STEP and IFC/Bonsai placement/classification with sameIDs and IDS information checks",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP02-bearing-omission",
+      "wp": "WP02",
+      "page": 2,
+      "title": "Correct the omitted 60-tonne track-support bearing load",
+      "kind": "software",
+      "required_evidence": "Correct missing60000kg track support through one revision-bound complete-kit reaction envelope",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP02-permanent",
+      "wp": "WP02",
+      "page": 2,
+      "title": "Account for every permanent allocation without omission or duplication",
+      "kind": "software",
+      "required_evidence": "Inventory rails/trackform/services/walkway and every permanent allocation without omission or double count",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP02-actions",
+      "wp": "WP02",
+      "page": 2,
+      "title": "Define signed action envelopes and applicable load combinations",
+      "kind": "mixed",
+      "required_evidence": "Signed braking, thermal, uplift, wind, seismic, construction and erection combinations with explicit applicability",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP02-load-path",
+      "wp": "WP02",
+      "page": 2,
+      "title": "Carry the shared load path through every support to ground",
+      "kind": "design",
+      "required_evidence": "Propagate actual reactions through bearing/cap/column/foundation to ground; shared mass/CG/inertia and force/power/heat ledgers",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-connected-bay",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Complete the connected structural bay and vehicle interfaces",
+      "kind": "design",
+      "required_evidence": "Connected underframe, side/roof/floor, doors/windows, equipment and bogie/articulation interfaces",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-local-joints",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Detail reversible joints and local load introduction",
+      "kind": "design",
+      "required_evidence": "Local holes/welds/inserts/cutouts/load introduction models; bolt stack, preload/locking, engagement, bearing/net/block/prying/access/corrosion",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-welds",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Define welds, distortion allowances, inspection and NDT",
+      "kind": "design",
+      "required_evidence": "Weld throat/category/sequence/distortion and NDTplan",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-structural-checks",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Check structural, fatigue, modal, handling and degraded load cases",
+      "kind": "design",
+      "required_evidence": "Global bending/torsion, localbuckling, fatigue, modal, lifting/jacking/recovery, attachmentloss/degraded checks",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-crash",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Develop and validate the crash load path",
+      "kind": "mixed",
+      "required_evidence": "Justified crash load path and independent tests; no geometry-freeenergy allocation credit",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-purchased",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Define qualified purchased running-gear and traction boundaries",
+      "kind": "mixed",
+      "required_evidence": "Qualified bought-out bogie/wheel/brake/traction/articulation with maps, stiffness/damping, fatigue and maintenance boundaries",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-composite",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Qualify compatible composite material systems and repairs",
+      "kind": "design",
+      "required_evidence": "Compatible resin/fibre/core/bond/finish bundle, inserts/plydrops/core failure/delamination/impact/hotwet/repair; retain85Cfailures",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-solver",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Benchmark shell, contact, preload and nonlinear analysis adapters",
+      "kind": "software",
+      "required_evidence": "Verified shell/contact/preload/nonlinear adapters; processconstrained optimisation, reconstructedCAD and independentremesh",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-build-pack",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Issue a consistent pilot CAD, drawing, BOM, process and inspection package",
+      "kind": "design",
+      "required_evidence": "EditableCAD/STEP, issued-state drawings, material/process/BOM/joints/tolerances, instructions/QA and exactanalysisinputs",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP03-correlation",
+      "wp": "WP03",
+      "page": 4,
+      "title": "Correlate the structural bay with independent and physical evidence",
+      "kind": "external",
+      "required_evidence": "One structuralbay: mesh/boundary sensitivity, independentformulation, measuredmass and joint/paneltestcorrelation",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-cassette-details",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Finish cassette mating, retention, bonding, seals and inspection details",
+      "kind": "design",
+      "required_evidence": "Mating connector/terminations, clamping/lining/retention, earthconductor, ductseals, inspectioncover and installinterface",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-lock",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Design guided location and positive retention",
+      "kind": "design",
+      "required_evidence": "Guidedlocation, positive and secondaryretention, seated/locked indication, insertion/release/mismating/wear",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-process",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Generate assembly, inspection and removal from one process graph",
+      "kind": "software",
+      "required_evidence": "Shared joint/processgraph: dependencies/fixtures/access/path/rotation/parameters/testprerequisites andteardown",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-stages",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Distinguish bench, transport, temporary, installed and maintenance states",
+      "kind": "software",
+      "required_evidence": "Bench, transportrestraint, temporarymount, finallock, serviceconnection, installedtest and maintenanceremoval states",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-tolerance",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Check worst-case dimensional and thermal tolerance stacks",
+      "kind": "software",
+      "required_evidence": "Worstcase dimensional/thermal stack with weld/cure/site/connectorfloat; statisticalyield only with measured distributions",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-civil-kits",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Apply the joint/process method to complete civil kits",
+      "kind": "design",
+      "required_evidence": "Repeatable pile/cage/cap/column/bearing/deck/track/walkway/serviceprocessgraph with engineered force transfer",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-comparison",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Compare conventional, guided and quick-lock installation at production scale",
+      "kind": "mixed",
+      "required_evidence": "Compare conventional/guided/captive/quicklock using personhours/path/tool/height/yield/rework/repair/lifts/fullcost at productionvolume",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP04-bench",
+      "wp": "WP04",
+      "page": 5,
+      "title": "Demonstrate cassette installation, removal and environmental qualification",
+      "kind": "external",
+      "required_evidence": "Demonstrated installation/removal/access; serial/revision lock/connection/bond/seal checks and environmental/vibration qualification",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-single-line",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Create hierarchical traction, charging, battery and auxiliary schematics",
+      "kind": "design",
+      "required_evidence": "Hierarchical traction/charge/batteryBMS/converters/auxLV/protection/bonding/comms, nets/voltagelimits/faultreturns/isolation",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-harness",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Generate the complete harness definition and manufacturing BOM",
+      "kind": "design",
+      "required_evidence": "Same-netlist harnessdrawings/BOM bothhalves/terminals/seals/backshell/strainrelief/solderorcrimp/wire/shield/route/bends/IDs",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-ratings",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Verify electrical ratings, derating, protection, bonding and EMC",
+      "kind": "design",
+      "required_evidence": "Continuous/transient current, voltagedrop, derating/heat/inrush/precharge/fault/selectivity/clearance/bonding/EMC",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-harwin",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Represent the exact Harwin solder-contact mating kits and process",
+      "kind": "software",
+      "required_evidence": "Exact Harwin female/male kit, soldercontacts, jackscrews and assembly instructions; reject genericcontactcrimps",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-battery-duty",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Bind battery and charging calculations to chemistry and repeated route duty",
+      "kind": "design",
+      "required_evidence": "Selectedchemistry measuredPyBaMM parameters; stationcycles/grade/HVAC/recovery/chargingconcurrency/loss/hotage/degraded",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-battery-safety",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Detail battery cooling, isolation, protection, venting and traction limits",
+      "kind": "design",
+      "required_evidence": "Cooling/leak/vent/contactor/fuse/sensor/HVinterlock/emergencyisolation/fire and supplier traction/brakemaps",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-circuits",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Benchmark circuit transients and electrothermal adapters",
+      "kind": "software",
+      "required_evidence": "KiCad/ngspice transient/electrothermal adapter and independentpower/heatcontrols",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-lv-faults",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Test complete LV faults, supply variation and power balances",
+      "kind": "mixed",
+      "required_evidence": "CompleteLV open/short/reverse/mismate/supplyvariation and thermal/fault tests",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP05-battery-bench",
+      "wp": "WP05",
+      "page": 6,
+      "title": "Verify the battery, charger and auxiliary chain on bench/SIL/HIL",
+      "kind": "external",
+      "required_evidence": "Battery/charger/auxiliary bench/SIL/HIL and independentenergy/heatbalance",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-whole-car",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Define whole-car sensible, latent, ventilation and hot-soak duty",
+      "kind": "design",
+      "required_evidence": "Sensible/latent passengers/solar/glazing/doors/equipment/ventilation/history/hotsoak; humidity/CO2/filter/noise/pressure/degraded duty",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-level1",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Implement conserving heat, moisture and duct-network models",
+      "kind": "software",
+      "required_evidence": "Controlled one/twozone heat/moisture/ductnetwork with mass/energy/water conservation",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-level2",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Couple fan, duct, filter, coolant and refrigeration maps",
+      "kind": "software",
+      "required_evidence": "Fan/duct/damper/filter/refrigerant/coolant maps with pinnedModelica/CoolProp and railway boundaries",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-level3",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Confirm shortlisted flow layouts with converged CFD and measurements",
+      "kind": "mixed",
+      "required_evidence": "ShortlistCFD mesh/time/domain convergence for distribution/bypass/stagnation/obstruction and measuredflow",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-interfaces",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Detail HVAC seals, drains, supports, isolation, fire and maintenance interfaces",
+      "kind": "design",
+      "required_evidence": "Flanges/sealcompression/insulation/vapour/drainfall/access/support/isolation/firepenetrations/removal/mass/power",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-faults",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Evaluate thermal, airflow, control and cooling failures",
+      "kind": "software",
+      "required_evidence": "Occupancy/hotstart/door/filter/fanfan/coolingfailure/sensorbias; updatebattery everyvariation",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP06-rig",
+      "wp": "WP06",
+      "page": 7,
+      "title": "Correlate the complete cabin/HVAC duty on a calibrated rig",
+      "kind": "external",
+      "required_evidence": "Calibratedcar/cabinrig airflow/distribution/temp/humidity/condensate/power using adopted14750edition",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-kit-details",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Detail every manufactured civil unit and installed item",
+      "kind": "design",
+      "required_evidence": "Manufactured reinforcement/prestress/tendon/anchor/diaphragm/bearing/jacking/lift/drain/trackfastener/parapet/services",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-resistance",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Check concrete, prestress, bearing and staged structural resistance",
+      "kind": "design",
+      "required_evidence": "Cracking/ultimate/shear/torsion/fatigue/creep/shrinkage/prestresstransferlosses/restraint/rotation/thermal/uplift/windseismic/stages",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-ground-model",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Develop site-applicable ground and foundation models",
+      "kind": "design",
+      "required_evidence": "Zonedstrata/water/investigation/settlement/pilegroup/cyclicpy/tz/qz with boundedvalidity",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-ground-input",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Obtain Baghdad ground, water, survey, hazard and utility evidence",
+      "kind": "external",
+      "required_evidence": "Actualsiteinvestigation/survey/utilities/water/seismicwindflood/groundresistanceandvibration",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-system-opt",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Optimise foundations, supports, span and deck as one installed system",
+      "kind": "software",
+      "required_evidence": "Optimise piles/caps/piers/span/spacing/joint/material together; retainresistance/durability and fullinstalledmass",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-corridor",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Extend comparisons to repeated corridors and real erection logistics",
+      "kind": "software",
+      "required_evidence": "Repeatedcorridor/sharedsupports/crossings/stations/plant/mould/transport/craneradius/outriggers/temporaryworks/weather/calendars",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-erection",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Verify transport, erection and temporary load paths",
+      "kind": "mixed",
+      "required_evidence": "Replaytransport/erection with permanentandtemporaryloadpaths, independentcontrols and connectionmockups",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP07-installed",
+      "wp": "WP07",
+      "page": 8,
+      "title": "Close civil as-built and installed interface evidence",
+      "kind": "external",
+      "required_evidence": "Traceablematerials/ground, surveyed asbuilt and installed interface tests",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-adapters",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Reuse and requalify existing flexible, spatial and contact adapters",
+      "kind": "software",
+      "required_evidence": "Reuse/requalify flexible/spatial/wheelrail/fullpassage adapters; labelhistorical sourcemismatch",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-exact-vehicle",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Bind dynamics to exact vehicle modes, mass properties and supplier laws",
+      "kind": "design",
+      "required_evidence": "Bindexact generatedmodalmass/modes/equipmentCG/inertia and supplier suspension/joint/wheelrail data",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-kit-interface",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Connect the complete kit, bearing, cassette and software revisions",
+      "kind": "software",
+      "required_evidence": "Connect currentcivilkit/bearingseat/cassette revisions to shared integration interface",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-passages",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Complete full train passages and adverse operating cases",
+      "kind": "design",
+      "required_evidence": "Fullapproach/passage/exit plus speed/curve/cant/roughness/tractionbrake/wind/degradedsuspension and contact/unloading/clearance/acceleration/reactions",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-convergence",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Demonstrate time, mesh, rail and modal convergence",
+      "kind": "software",
+      "required_evidence": "Independenttime/structure/rail/modalconvergence; timeout/shortkernel never fullpassage",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-cosimulation",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Couple power, heat, force and control through explicit interfaces",
+      "kind": "software",
+      "required_evidence": "Power/heat/force causality/sampletime, HVACbattery/voltagecommunicationpermission/regen limits",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP08-calibration",
+      "wp": "WP08",
+      "page": 9,
+      "title": "Calibrate against independent physical data and untouched holdouts",
+      "kind": "external",
+      "required_evidence": "Separateparameter/calibration/holdout; measuredjoint/modal/bogie/track and independentphysicschecks",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-two-loops",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Separate the design loop from benchmarked capability development",
+      "kind": "software",
+      "required_evidence": "Separate design generation/evaluation/Pareto/native/adoption from isolatedcapability/critic/independentbenchmark/registration",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-families",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Register reusable families with controlled domains and independent checks",
+      "kind": "software",
+      "required_evidence": "Joint/bracket/panel/bay/harness/duct/batteryenclosure/bearing/pile/cap/pier/stationfamilies: domains/outputs/independentchecks",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-grammar",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Generate manufacturing-constrained shape and assembly alternatives",
+      "kind": "software",
+      "required_evidence": "Manufacturingconstrainedstock/fold/weld/ribs/shell/laminate/core/reinforcement/partitions",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-material-bundle",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Keep material properties in inseparable sourced bundles",
+      "kind": "software",
+      "required_evidence": "Inseparablesourcedstrength/density/fatigue/fire/hotwet/process/fibrebundles; no artificialmixing",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-objectives",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Retain constraint-first multiobjective alternatives with unknown costs visible",
+      "kind": "software",
+      "required_evidence": "Fullmass/cost/factorysiteeffort/lift/delivery/replacement/uncertaintyPareto with coverage constraints andnullunknowncost",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-reproducibility",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Preserve sources, runtime, seeds, budgets, failures and fidelity discrepancy",
+      "kind": "software",
+      "required_evidence": "Seeds/budgets/failures/toolsource/domain/uncertainty/fidelitydiscrepancy/surrogateholdout/finalmanufacturedCAD",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-fairness",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Allocate effort fairly and stop when missing inputs prevent progress",
+      "kind": "software",
+      "required_evidence": "Spendonundercoveredconstraints; stopmissingdata/modelrepeats; consistentleaders everyview/export",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP09-improvement",
+      "wp": "WP09",
+      "page": 10,
+      "title": "Demonstrate independently checked shape and assembly/material improvements",
+      "kind": "software",
+      "required_evidence": "Benchmarkedautomaticshape andassembly/materialimprovement perpilot; invalidcontrols/relaxedlimits cannotwin",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-test-pyramid",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Implement the layered verification and acceptance evidence contracts",
+      "kind": "software",
+      "required_evidence": "Contract/reference/native/numerical/system/physical/productiontiers with applicability and evidence",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-ci",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Run fast CI and scheduled equipped-runner native acceptance profiles",
+      "kind": "software",
+      "required_evidence": "FastadverseCI plus affectednative/FEA and scheduled equippedrunnerprofiles; skippedrequiredchecks leavegatesopen",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-negative-controls",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Maintain adverse controls for omissions, faults and invalid domains",
+      "kind": "software",
+      "required_evidence": "Deadloadomission, connector/lock/electricalfaults/ductleakblock/paneldamage/prestress/ground/removal adversecases",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-authentication",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Authenticate raw measurements, calibration and independent disposition",
+      "kind": "software",
+      "required_evidence": "Pinnedkey externalsignedraw/calibration/fixture/method/conditions/uncertainty and separateapplicable review/disposition",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-fixtures",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Define and build the coupon, joint and subsystem test fixtures",
+      "kind": "mixed",
+      "required_evidence": "Coupon/joint/cassette/panel/bearing/civil fixtures, calibration, samplematrix andholdoutprogramme",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP10-acceptance",
+      "wp": "WP10",
+      "page": 11,
+      "title": "Close serial/batch acceptance, NCRs, retests and authority release",
+      "kind": "external",
+      "required_evidence": "Authenticatedserial/batch evidence, NCR/retest/disposition and appointedauthorityrelease",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP11-common-ui",
+      "wp": "WP11",
+      "page": 13,
+      "title": "Publish a common offline coverage and release interface with Arabic/RTL",
+      "kind": "software",
+      "required_evidence": "Oneofflineindex: architecture/coverage/ownedpurchased/interfaces/source/maturity/nextaction; ArabicRTL",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP11-part-links",
+      "wp": "WP11",
+      "page": 13,
+      "title": "Link each part to joints, drawings, analyses, QA and manufacturing handoffs",
+      "kind": "software",
+      "required_evidence": "Part->joints/drawings/analyses/QA withexact BOM/revision/serial and cost/manufacturinghandoff",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP11-compare",
+      "wp": "WP11",
+      "page": 13,
+      "title": "Compare scope-complete mass, lifting, time and cost with assumptions visible",
+      "kind": "software",
+      "required_evidence": "Visibleassumptions in mass/lift/time/assembly/costcomparison; distinguishplanned/executed/correlated/accepted",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP11-publication",
+      "wp": "WP11",
+      "page": 13,
+      "title": "Expose current sources, runner status and portable evidence",
+      "kind": "software",
+      "required_evidence": "Exposeallrunner/sourceepoch/publicationstate; retainboundedraw plusportableverifiedreviewexports",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP11-recovery",
+      "wp": "WP11",
+      "page": 13,
+      "title": "Maintain publication recovery and exported-copy consistency checks",
+      "kind": "software",
+      "required_evidence": "Maintaincommit/pushcrashrecovery and presentationcopyconsistencyregressions",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP12-cassette-build",
+      "wp": "WP12",
+      "page": 14,
+      "title": "Manufacture and qualify the service-cassette prototype",
+      "kind": "external",
+      "required_evidence": "Manufacture/test servicecassette withpull/lock/earth/leak/flow/environmentfire and installedacceptance",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP12-bay-build",
+      "wp": "WP12",
+      "page": 14,
+      "title": "Manufacture and qualify the structural-bay prototype",
+      "kind": "external",
+      "required_evidence": "Manufacture/test structuralbay withcoupons/weldbond/panel/jointcorrelation/crashfire asapplicable",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP12-civil-build",
+      "wp": "WP12",
+      "page": 14,
+      "title": "Manufacture and qualify the viaduct-bay prototype",
+      "kind": "external",
+      "required_evidence": "Manufacture/test viaductbay withground/mockup/lifttemporaryworks/survey/installacceptance",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP12-ncr",
+      "wp": "WP12",
+      "page": 14,
+      "title": "Resolve prototype NCRs and calibrate production and engineering models",
+      "kind": "external",
+      "required_evidence": "Resolveprototype NCRs, measuredassemblyeffort/cost andcalibratemodels usingholdoutpredictions",
+      "engineering_exit": "open",
+      "external_evidence": []
+    },
+    {
+      "id": "WP12-rfq",
+      "wp": "WP12",
+      "page": 14,
+      "title": "Prepare revision-specific prototype RFQ and test-data requests",
+      "kind": "software",
+      "required_evidence": "Revisionedprototype RFQ/datarequests: method/envelope/samples/fixtures/calibration/raw/uncertainty/rights/responsibility/commercialscope",
+      "engineering_exit": "open",
+      "external_evidence": []
+    }
+  ],
+  "physical_validation": false,
+  "design_complete": false,
+  "manufacturing_release": false,
+  "physical_release": false
+}

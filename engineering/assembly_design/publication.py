@@ -23,12 +23,43 @@ def report(data,policy):
         '<p>Provisional engineering development. No complete train, civil system, manufacturing qualification or physical release is claimed.</p>',
         '<p>'+h(counts['requirement_records'])+' scoped requirement records: '+h(counts['baghdad_records'])+' Baghdad reference parts plus '+h(counts['legacy_or_unreconciled_records'])+' legacy/unreconciled records. '+h(counts['facts'])+' sourced facts. '+h(counts['completed_trials'])+' completed trials; '+h(counts['qualified_components'])+' qualified components.</p>',
         '<p>'+h(data['controller_scope'])+'</p><p><a href="baseline.json.gz">Baseline and requirement inventory</a> | <a href="progress.json">Full progress and open work</a> | <a href="qualification.json">Executed test receipt</a> | <a href="tests.log">Test log</a> | <a href="evidence.tar.gz">Original evidence</a> | <a href="manifest.json">Checksums</a></p>']
+    if 'closure' in data:
+        c=data['closure']
+        lines+=['<h2>Full design closure plan — execution and open exits</h2>',
+            '<p>'+h(c['task_count'])+' deliverables across 13 work packages. '+h(c['engineering_closed_tasks'])+' engineering exits closed. Partial implementation and executed research checks do not constitute completed designs.</p>',
+            '<p><a href="closure-progress.json">All task statuses, pilot contracts and RFQ/test requests</a> | <a href="prototype.json">Named prototype and conflicts</a> | <a href="family-crosswalk.json">414-record architecture/family crosswalk</a> | <a href="registers.json">Source, standards and family registers</a> | <a href="integration.json">Exact revision integration and open passage gates</a></p>',
+            '<div lang="ar" dir="rtl"><h2>بغداد — متابعة استكمال التصميم</h2><p>هذه تصاميم ودراسات أولية. لم يكتمل تصميم القطار أو المنشآت، ولا يوجد تصريح للتصنيع أو التشغيل. يتضمن السجل '+h(c['task_count'])+' مهمة؛ لا توجد مهام ذات قبول هندسي نهائي. الفحوص البرمجية والهندسية المنفذة منفصلة عن الاختبارات الميدانية والقبول المستقل. تبقى بيانات التربة والموردين والاختبارات الفعلية مطلوبة.</p><p>توضح الروابط أعلاه المتطلبات والمكونات والواجهات والأدلة والمهمة التالية لكل حزمة عمل. لم تُرسل طلبات البيانات أو عروض الأسعار إلى أي جهة.</p></div>',
+            '<details><summary>Every plan task and its remaining work</summary><table><tr><th>Task / PDF page</th><th>Deliverable</th><th>Implementation evidence / limit</th><th>Engineering exit</th></tr>']
+        for task in c['tasks']:
+            lines+=['<tr><td>'+h(task['id'])+' / '+h(task['page'])+'</td><td>'+h(task['title'])+'</td><td>'+h(task['implementation'])+'; '+h(task.get('implementation_scope',task['next_action']))+'</td><td>'+h(task['engineering_exit'])+'</td></tr>']
+        lines+=['</table></details>']
+        if c.get('site_screening_revision'):
+            s=data['site_summary']
+            lines+=['<h2>Baghdad — usable desktop site estimates</h2><p><a href="site/summary.json">Source dates, resolution, coverage, uncertainty, per-route estimates and investigation quantities</a> | <a href="site/map.geojson.gz">Detailed map layers (compressed GeoJSON)</a> | <a href="site/evidence.tar.gz">Portable source samples</a></p>',
+                '<table><tr><th>Estimate</th><th>Result</th><th>Scope / uncertainty</th></tr>',
+                '<tr><td>WorldPop 2026 context population</td><td>'+h(f'{s["modelled_population"]:,.0f}')+'</td><td>Modelled residents in 44.1–44.6°E, 33.1–33.5°N; not census or rail demand</td></tr>',
+                '<tr><td>SRTM-derived elevation</td><td>Median '+h(s['median_elevation_m'])+' m; 5th–95th '+h(s['elevation_percentiles_m']['5'])+'–'+h(s['elevation_percentiles_m']['95'])+' m</td><td>Unsure local vertical accuracy and datum; surface/outlier effects; no survey, flood stage or groundwater level</td></tr>',
+                '<tr><td>WorldCover 2021 classes</td><td>Built-up '+h(f'{100*s["built_up_fraction"]:.2f}')+'%; permanent water '+h(f'{100*s["permanent_water_fraction"]:.2f}')+'%</td><td>'+h(f'{s["classified_area_km2"]:,.1f}')+' km² approximate sampled area. Western 44.1–44.2°E land-cover gap; unknown is not dry/vacant land</td></tr>',
+                '<tr><td>Clipped concept corridors</td><td>'+h(s['concept_route_count'])+' lines; '+h(f'{s["concept_route_length_km"]:,.1f}')+' route-km; '+h(s['river_centreline_crossings'])+' river-centreline intersections</td><td>Repository alternatives, not surveyed or adopted alignments; crossings are screening events, not designed bridges</td></tr>',
+                '<tr><td>Provisional investigation quantities</td><td>'+h(s['investigation_locations']['250'])+' locations at 250 m; '+h(s['investigation_locations']['500'])+' at 500 m</td><td>Chainage scenarios; shared corridors can duplicate locations. Not a specified borehole programme</td></tr>',
+                '<tr><td>Land-use investigation candidates</td><td>'+h(s['landuse_investigation_candidates'])+'</td><td>Mapped parcels for investigation only; ownership, availability, services and soil capacity unconfirmed</td></tr>']
+            for row in s['network_corridor_population']:
+                bounds=row['algorithm_bounds']
+                lines+=['<tr><td>Unique population within '+h(row['radius_m'])+' m of concept lines</td><td>'+h(f'{row["nominal"]["persons"]:,.0f}')+'; distance-sampling range '+h(f'{bounds["lower"]["persons"]:,.0f}')+'–'+h(f'{bounds["upper"]["persons"]:,.0f}')+'</td><td>WorldPop 2026 retained extent 44.2–44.75°E, 33.05–33.5°N; ±25 m algorithm bound plus separate pixel/route/model uncertainty. Not station access or ridership</td></tr>']
+            lines+=['</table>',
+                '<img alt="Actual open water, infrastructure, land use and population with proposed Baghdad corridors" src="site/map.svg">',
+                '<p>Terrain, population and mapped infrastructure support investigation planning. River proximity supplies no design flood level, groundwater depth or soil bearing capacity. Corridor proximity estimates are separate from station access and ridership; overlapping routes are counted once in the population union. Missing map coverage remains unknown.</p>',
+                '<p lang="ar" dir="rtl">تقديرات مكتبية مبنية على بيانات مفتوحة فعلية للسكان والتضاريس والمياه والبنية التحتية. تساعد في تحديد أولويات المسح والتحريات؛ ولا تثبت قدرة تحمل التربة أو منسوب المياه الجوفية أو الفيضان أو ملكية الأراضي. أعداد السكان قرب المسارات ليست توقعات لعدد الركاب.</p>']
     for c in data['selected']:
         base='models/'+c['kind']+'/'
         lines+=['<h2>'+h(c['kind'])+'</h2><p>Exact candidate <code>'+h(c['key'])+'</code>. Native state: '+h(c['native'])+'. '+h(c['scope'])+'</p>',
             '<p><a href="'+base+'candidate.json.gz">Part/joint definition</a> | <a href="'+base+'result.json">Checks and unresolved requirements</a> | <a href="'+base+'manufacturing-bom.csv">Manufacturing BOM and dimensions</a> | <a href="'+base+'qa-plan.json">Unexecuted QA plan</a></p>',
             '<img alt="Unissued inspection layout from generated definitions" src="'+base+'inspection.svg">']
-        if c['native']=='completed':lines+=['<img alt="Retained native model, with purchased coordination envelopes" src="'+base+'overview.png"><p><a href="'+base+'model.FCStd">Native FreeCAD</a> | <a href="'+base+'model.step.gz">Compressed STEP</a> — correspondence/static overlap checks only; bought-out items may be coordination envelopes.</p>']
+        if c['native']=='completed':
+            lines+=['<img alt="Retained native model, with purchased coordination envelopes" src="'+base+'overview.png"><p><a href="'+base+'model.FCStd">Native FreeCAD</a> | <a href="'+base+'model.step.gz">Compressed STEP</a> — correspondence/static overlap checks only; bought-out items may be coordination envelopes.</p>']
+            if 'closure' in data:lines+=['<p><a href="'+base+'assembly.ifc.gz">Native-derived IFC</a> | <a href="'+base+'requirements.ids">Required information (IDS)</a> | <a href="'+base+'ids-report.json">Executed IFC information checks</a>. Information exchange preserves identities; it does not grant engineering acceptance.</p>']
+        if 'closure' in data and c['kind']=='service-cassette':
+            lines+=['<p><a href="'+base+'cassette-system.json">Electrical/HVAC, solder harness, process/removal graph, tolerance failures and open qualification</a>. This supplemental chain has known failed fit screens and unresolved supplier/physical gates; the retained geometry representative is not system eligible.</p>']
     lines+=['<h2>Evaluated alternatives</h2><table><tr><th>Family</th><th>Variables</th><th>State</th><th>Represented mass kg</th><th>Failed / held checks</th></tr>']
     for trial in data['trials']:lines+=['<tr><td>'+h(trial['kind'])+'</td><td>'+h(json.dumps(trial['variables'],sort_keys=True))+'</td><td>'+h(trial.get('state',trial['status']))+'</td><td>'+h(trial.get('mass_kg'))+'</td><td>'+h(', '.join(trial.get('failed_checks',[])+trial.get('held_checks',[])))+'</td></tr>']
     lines+=['</table><h2>Reference facts and applicability</h2><table><tr><th>Fact</th><th>Value / unit</th><th>Source and scope</th></tr>']
@@ -49,6 +80,12 @@ def export(workspace,output):
         data=workflow.summary(workspace,db,epoch,prepared);output.mkdir(parents=True)
         (output/'baseline.json.gz').write_bytes(gzip.compress((epoch_path/'baseline.json').read_bytes(),mtime=0))
         for name in ('qualification.json','tests.log','work-orders.json'):shutil.copyfile(epoch_path/name,output/name)
+        if 'closure' in data:
+            for name,value in [('closure-progress.json',data['closure']),('prototype.json',prepared['prototype']),
+                ('family-crosswalk.json',prepared['family_crosswalk']),('registers.json',prepared['registers']),('integration.json',prepared['integration'])]:core.write(output/name,value)
+        if prepared.get('site'):
+            from . import site_bundle
+            site_bundle.export(prepared['site'],output/'site')
         folders={}
         for row in db.execute("SELECT * FROM jobs WHERE epoch=? AND status='completed'",(epoch,)):
             workflow.verify_folder(row['folder']);folders[row['key']]=Path(row['folder'])
@@ -65,13 +102,16 @@ def export(workspace,output):
         for entry in data['selected']:
             row=db.execute('SELECT * FROM jobs WHERE key=?',(entry['key'],)).fetchone();destination=output/'models'/entry['kind'];destination.mkdir(parents=True)
             folder=Path(row['folder'])
-            for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json'):
+            for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json','cassette-system.json'):
                 if (folder/name).exists():shutil.copyfile(folder/name,destination/name)
             if entry['native']=='completed':
                 native=db.execute('SELECT * FROM native WHERE child=?',(entry['key'],)).fetchone();nf=Path(native['folder']);workflow.verify_folder(nf)
                 shutil.copyfile(nf/'cad/candidate.FCStd',destination/'model.FCStd')
                 (destination/'model.step.gz').write_bytes(gzip.compress((nf/'cad/candidate.step').read_bytes(),mtime=0))
                 shutil.copyfile(nf/'result.json',destination/'native-result.json');shutil.copyfile(nf/'overview.png',destination/'overview.png')
+                if (nf/'bim/assembly.ifc').exists():
+                    (destination/'assembly.ifc.gz').write_bytes(gzip.compress((nf/'bim/assembly.ifc').read_bytes(),mtime=0))
+                    for name in ('requirements.ids','ids-report.json','receipt.json'):shutil.copyfile(nf/'bim'/name,destination/('bim-receipt.json' if name=='receipt.json' else name))
         for row in db.execute("SELECT * FROM jobs WHERE epoch=? AND kind='cassette-control' AND status='completed'",(epoch,)):
             destination=output/'software'/json.loads(row['variables'])['variant'];destination.mkdir(parents=True)
             for name in ('controller.py','result.json'):shutil.copyfile(Path(row['folder'])/name,destination/name)
@@ -113,6 +153,16 @@ def verify(output):
     data=core.read(output/'progress.json',maximum=20_000_000)
     if data['epoch']!=m['epoch'] or any(data.get(k) is not False for k in core.FLAGS) or data['counts']['qualified_components']!=0:raise ValueError('assembly progress scope differs')
     if data['source_sha256']!=prepared['source_sha256'] or core.read(output/'work-orders.json',maximum=20_000_000)!=workflow.work_orders(prepared):raise ValueError('requirement/work-order allocation differs')
+    if prepared.get('closure_plan'):
+        from . import closure,families
+        if data.get('closure')!=closure.snapshot(prepared) or data.get('families')!=families.registry(prepared['policy']):raise ValueError('closure status or family allocation differs')
+        for name,value in [('closure-progress.json',data['closure']),('prototype.json',prepared['prototype']),
+            ('family-crosswalk.json',prepared['family_crosswalk']),('registers.json',prepared['registers']),('integration.json',prepared['integration'])]:
+            if core.read(output/name,maximum=20_000_000)!=value:raise ValueError('exported closure, source or integration copy differs')
+    if prepared.get('site'):
+        from . import site_bundle
+        if data.get('site_summary')!=site_bundle.metrics(prepared['site']):raise ValueError('displayed site estimates differ from source samples')
+        site_bundle.verify(prepared['site'],output/'site')
     inv=prepared['inventory']
     expected_counts=dict(requirement_records=len(inv['items']),baghdad_records=inv['baghdad_reference_items'],legacy_or_unreconciled_records=inv['existing_items'],component_records_with_pilot=sum(i['pilot'] is not None for i in inv['items']),component_records_needing_adapter=sum(i['pilot'] is None for i in inv['items']),facts=len(prepared['policy']['facts']),completed_trials=sum(not k.endswith('-native') for k in m['evidence_receipts']),qualified_components=0)
     if data['counts']!=expected_counts:raise ValueError('displayed assembly counts differ from evidence')
@@ -135,7 +185,7 @@ def verify(output):
         state=json.loads(members[native_key])['state'] if native_key in members else 'not-run'
         if state=='failed' or entry['native']!=('completed' if state=='passed' else state):raise ValueError('selected native eligibility differs')
 
-        for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json'):
+        for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json','cassette-system.json'):
             original=members.get(key+'/'+name)
             if original is not None and (folder/name).read_bytes()!=original:raise ValueError('exported assembly copy differs from original')
         if entry['native']=='completed':
@@ -145,6 +195,11 @@ def verify(output):
             nr=json.loads(members[key+'-native/result.json'])
             if nr['child']!=key or nr['state']!='passed':raise ValueError('failed native evidence cannot support a selected confirmation')
             if (folder/'model.FCStd').read_bytes()!=members[key+'-native/cad/candidate.FCStd'] or gzip.decompress((folder/'model.step.gz').read_bytes())!=members[key+'-native/cad/candidate.step']:raise ValueError('exported native geometry differs from original')
+            if key+'-native/bim/assembly.ifc' in members:
+                if gzip.decompress((folder/'assembly.ifc.gz').read_bytes())!=members[key+'-native/bim/assembly.ifc']:raise ValueError('exported IFC differs from native exchange evidence')
+                for name in ('requirements.ids','ids-report.json','receipt.json'):
+                    destination='bim-receipt.json' if name=='receipt.json' else name
+                    if (folder/destination).read_bytes()!=members[key+'-native/bim/'+name]:raise ValueError('exported IDS evidence differs')
     if core.digest(data)!=m['progress_digest']:raise ValueError('assembly progress digest differs')
     if (output/'index.html').read_text()!=report(data,prepared['policy']):raise ValueError('displayed assembly report differs from originals')
     return dict(verified=True,files=len(m['files_sha256']),evidence_jobs=len(m['evidence_receipts']),bytes=total,**core.FLAGS)

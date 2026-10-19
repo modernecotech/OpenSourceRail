@@ -52,6 +52,9 @@ def control_trial(variant='branch',source=None):
 
 
 def evaluate(policy,candidate):
+    if candidate.get('kind')=='structural-bay':
+        from . import structural_bay
+        return structural_bay.evaluate(policy,candidate)
     from . import models
     if core.digest(candidate)!=core.digest(models.build(policy,candidate['kind'],candidate['variables'])):raise ValueError('candidate differs from its controlled generator revision')
     kind=candidate['kind'];p=policy['pilots'][kind];a=p['assumptions'];f=baseline.facts(policy);v=candidate['variables'];contract=candidate['contract']
@@ -85,18 +88,27 @@ def evaluate(policy,candidate):
             offline_airflow_trace_m3_s=[a['duct_flow_m3_s'] if r['output']['enabled'] else 0 for r in software['trace']],
             controller_scope=software['scope'],unresolved_physical_geometry=['qualified clamp lining/grip','mating connector and termination bends','bond conductor routing and crimp','duct seals and inspection covers'])
     else:
+        from . import reactions
         kit=civil_kit.build(civil_kit.defaults());deck_mass=sum(u['mass_kg'] for u in kit['units'] if u['category']=='deck')
+        train=reactions.revisioned(dict(architecture=policy['architecture'],mass_cases_kg=f['train.mass_cases'],cars=a['train_cars'],
+            car_length_m=f['train.car_length'],tracks=a['tracks'],span_m=a['span_m'],gravity_m_s2=a['gravity_m_s2'],
+            permanent_factor=a['vertical_factor'],variable_factor=a['vertical_factor']))
+        seat=reactions.revisioned(dict(candidate_revision=candidate['revision'],mass_kg=mass))
+        reaction_envelope=reactions.envelope(kit,train,seat,expected_kit_revision=core.digest(kit),expected_train_revision=train['revision'])
+        checks.update({'reaction-envelope/'+name:value for name,value in reaction_envelope['checks'].items()})
+        checks.update({'mandatory-action/'+name:None for name in reaction_envelope['mandatory_action_holds']})
         for train_mass in f['train.mass_cases']:
-            # Exact compiler deck mass + declared uniformly distributed six-car
-            # planning mass. This is NOT an axle/moving-load/dynamic evaluation.
-            train_length=a['train_cars']*f['train.car_length']
-            force=((deck_mass+a['tracks']*train_mass*a['span_m']/train_length)*a['vertical_factor']/a['bearings_per_cell']+mass)*a['gravity_m_s2']
+            # One controlled kit/train/seat envelope supplies downstream demands;
+            # no parallel deck-only force calculation is allowed here.
+            combination=next(c for c in reaction_envelope['combinations'] if c['id']=='research-factored-'+str(train_mass))
+            selected=max(combination['bearing_reactions'],key=lambda r:r['force_n'][2]);force=selected['force_n'][2]
             area=math.prod(a['plate_plan_m']);pressure=force/area;overhang=max((x-y)/2 for x,y in zip(a['plate_plan_m'],a['bearing_plan_m']))
             moment=pressure*overhang**2/2;stress=6*moment/v['plate_thickness_m']**2
             fy=next(y for upper,y in f['steel.yield_by_thickness'] if v['plate_thickness_m']<=upper)
             checks['plate-strip-stress-'+str(train_mass)]=stress<=fy*a['steel_stress_fraction']
             checks['concrete-pressure-hypothesis-'+str(train_mass)]=pressure<=a['concrete_pressure_limit_pa']
             cases.append(dict(id='train-mass-'+str(train_mass),train_mass_kg=train_mass,deck_mass_kg=deck_mass,
+                reaction_envelope_revision=reaction_envelope['revision'],combination_id=combination['id'],critical_bearing_id=selected['bearing_id'],
                 normal_force_n=force,pressure_pa=pressure,stress_pa=stress,yield_reference_pa=fy,
                 scope='Uniform plate-overhang strips and uniform concrete bedding; contact, prying, local concrete and reinforcement remain unverified'))
         force=max(c['normal_force_n'] for c in cases)
@@ -107,7 +119,8 @@ def evaluate(policy,candidate):
         # Supplier performance is a mandatory unresolved applicability check,
         # rather than treating an unspecified rating as a pass.
         checks['bearing-continuous-temperature-applicability']=max(policy['pilots']['service-cassette']['assumptions']['temperature_sensitivity_c'])<=f['bearing.reference_temperature'][1] if v['bearing_family']=='elastomeric-reference' else None
-        measurements.update(seat_load_cases=cases,compiler_kit_sha256=core.digest(kit),thermal_movement_m=movement,
+        measurements.update(seat_load_cases=cases,compiler_kit_sha256=core.digest(kit),reaction_envelope=reaction_envelope,thermal_movement_m=movement,
+            horizontal_and_uplift_scope='Legacy fraction-of-gravity elastic sensitivity only; mandatory braking/thermal/wind/seismic/uplift actions remain held in the shared envelope',
             combined_bearing_ratings_verified=False,unresolved_physical_geometry=['offered bearing internals','pier-cap reinforcement and anchor development','qualified lifting provisions'])
     As=next(value for key,value in f['bolts.stress_areas'].items() if float(key)==v['bolt_diameter_m'])
     equivalent=max(math.sqrt(max(0.,z)**2+3*(x*x+y*y))/As for x,y,z in joint['bolt_forces_n'])

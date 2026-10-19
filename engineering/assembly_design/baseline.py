@@ -15,6 +15,12 @@ def sources():
     paths=[*Path(__file__).parent.glob('*.py'),*DATA.parent.glob('*.json'),REFERENCE,
         core.ROOT/'tools/automation/design-assemblies.py',core.ROOT/'engineering/analysis/tests/test_assembly_design.py',
         core.ROOT/'engineering/integration_programme/joints.py',core.ROOT/'engineering/design_delivery/pipeline.py',core.ROOT/'engineering/design_delivery/visuals.py',core.ROOT/'tools/automation/design-progress.py',core.ROOT/'tools/automation/design-progress-mesh.py']
+    paths += list((core.ROOT/'engineering/analysis/tests').glob('test_closure_*.py'))
+    paths += [core.ROOT/'OpenSourceRail_Full_Design_Closure_Plan_2026-10-19.pdf',
+              core.ROOT/'lib/templates/rolling-stock.toml',core.ROOT/'lib/templates/track-geometry.toml',
+              core.ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/trainset.py']
+    from . import site_bundle
+    paths += [core.ROOT/name for name in site_bundle.paths()]
     graph=json.loads(gzip.decompress((core.PACKET/'specifications.json.gz').read_bytes()))
     paths += [core.ROOT/i['source'] for i in graph['items']]
     paths += [core.ROOT/p['source'] for p in core.read(REFERENCE)['parts'] if (core.ROOT/p['source']).is_file()]
@@ -67,4 +73,10 @@ def inventory(policy):
 
 
 def build():
-    policy=validate(core.read(DATA));return dict(policy=policy,inventory=inventory(policy),source_sha256=sources(),**core.FLAGS)
+    from . import closure,contracts,cassette_system,families,integration,site_bundle
+    policy=validate(core.read(DATA));inv=inventory(policy)
+    return dict(policy=policy,inventory=inv,prototype=contracts.prototype_configuration(),
+        family_crosswalk=contracts.crosswalk(inv),closure_plan=closure.plan(),
+        registers=dict(sources=contracts.baseline_source_cards(policy)+cassette_system.SOURCE_CARDS,
+            standards=contracts.standards_register(),families=families.registry(policy)),
+        integration=integration.snapshot(policy),site=site_bundle.snapshot(),source_sha256=sources(),**core.FLAGS)

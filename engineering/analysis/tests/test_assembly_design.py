@@ -103,8 +103,8 @@ def test_executable_software_variants_propagate_faults_and_recover(variant):
 def campaign(tmp_path,policy,monkeypatch):
     monkeypatch.setattr(workflow,'RESERVE',1024**2)  # /tmp is a small test tmpfs, not the production volume.
     workspace=tmp_path/'workspace';workspace.mkdir();qpath=workspace/'fixture-qualification.json'
-    inv=baseline.inventory(policy);items=[i for i in inv['items'] if i['id'] in {'baghdad:ME-10','baghdad:ME-11','baghdad:CI-01'}]
-    prepared=dict(policy=policy,inventory=dict(items=items,existing_items=0,baghdad_reference_items=3,packages=[]),source_sha256={'synthetic-fixture.py':'f'*64},**core.FLAGS)
+    inv=baseline.inventory(policy);items=[i for i in inv['items'] if i['id'] in {'baghdad:ME-01','baghdad:ME-10','baghdad:ME-11','baghdad:CI-01'}]
+    prepared=dict(policy=policy,inventory=dict(items=items,existing_items=0,baghdad_reference_items=4,packages=[]),source_sha256={'synthetic-fixture.py':'f'*64},**core.FLAGS)
     (workspace/'tests.log').write_text('Synthetic fixture only; not engineering qualification\n')
     q=dict(passed=True,sources=prepared['source_sha256'],runtime_identity={'fixture':True},log_sha256=core.sha(workspace/'tests.log'),**core.FLAGS);core.write(qpath,q)
     monkeypatch.setattr(baseline,'sources',lambda:prepared['source_sha256']);monkeypatch.setattr(baseline,'build',lambda:deepcopy(prepared));monkeypatch.setattr(workflow.runtime,'capture',lambda:{'fixture':True});monkeypatch.setattr(workflow,'qualification',lambda w:(qpath,q))
@@ -125,14 +125,14 @@ def execute_examples(campaign):
     return workspace
 
 
-def test_run_is_durable_and_deduplicated_and_fair_across_three_families(campaign):
+def test_run_is_durable_and_deduplicated_and_fair_across_four_families(campaign):
     w,epoch,_=campaign
-    first=workflow.run(w,budget=3,native=False)
-    assert first['counts']['completed_trials']==3
-    assert {r['kind'] for r in first['trials'] if r['status']=='completed'}=={'service-cassette','bearing-seat','cassette-control'}
-    second=workflow.run(w,budget=3,native=False);assert second['counts']['completed_trials']==6
+    first=workflow.run(w,budget=4,native=False)
+    assert first['counts']['completed_trials']==4
+    assert {r['kind'] for r in first['trials'] if r['status']=='completed'}=={'service-cassette','bearing-seat','structural-bay','cassette-control'}
+    second=workflow.run(w,budget=3,native=False);assert second['counts']['completed_trials']==7
     assert second['counts']['qualified_components']==0 and not second['design_complete']
-    with workflow.locked(w) as (_,db):assert db.execute('SELECT COUNT(*) FROM jobs WHERE epoch=?',(epoch,)).fetchone()[0]==38
+    with workflow.locked(w) as (_,db):assert db.execute('SELECT COUNT(*) FROM jobs WHERE epoch=?',(epoch,)).fetchone()[0]==50
 
 
 def test_recovery_uses_sealed_identity_and_preserves_interrupted_attempts(campaign):
@@ -168,6 +168,22 @@ def reseal(path):
 def test_portable_evidence_survives_removal_of_private_workspace(campaign,tmp_path):
     w=execute_examples(campaign);output=tmp_path/'export';publication.export(w,output);shutil.rmtree(w)
     assert publication.verify(output)['verified']
+
+
+@pytest.mark.parametrize('target',('closure-progress.json','prototype.json','registers.json','integration.json','family-crosswalk.json'))
+def test_full_plan_export_cannot_disagree_with_frozen_source_after_reseal(campaign,tmp_path,target):
+    from engineering.assembly_design import closure,contracts
+    workspace,old_epoch,prepared=campaign
+    prepared.update(closure_plan=closure.plan(),prototype=contracts.prototype_configuration(),
+        family_crosswalk=contracts.crosswalk(prepared['inventory']),registers={'fixture':'synthetic, not qualification'},
+        integration={'state':'hold','fixture':'synthetic'})
+    workflow.run(workspace,budget=4,native=False)
+    output=tmp_path/'plan-export';publication.export(workspace,output)
+    assert publication.verify(output)['verified']
+    value=core.read(output/target,maximum=20_000_000)
+    value['falsified_completion']=True
+    core.write(output/target,value);reseal(output)
+    with pytest.raises(ValueError):publication.verify(output)
 
 
 @pytest.mark.parametrize('target',('result','bom','drawing','metrics','counts','selection-scope','software','report','work-order'))
