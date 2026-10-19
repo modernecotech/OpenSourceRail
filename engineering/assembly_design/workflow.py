@@ -165,7 +165,7 @@ def execute(workspace,db,epoch,prepared,row):
             tables(candidate,folder);core.write(folder/'qa-plan.json',candidate['qa_plan'])
             if kind=='service-cassette':
                 from . import cassette_system
-                system=cassette_system.report(prepared['policy'],candidate)
+                system=result['supplemental_evidence']['cassette-system']
                 cassette_system.verify_report(prepared['policy'],candidate,system)
                 core.write(folder/'cassette-system.json',system)
                 core.write(folder/'netlist.json',candidate['metadata']['netlist']);(folder/'controller.py').write_text(evaluate.control_source('branch'))
@@ -191,6 +191,22 @@ def representatives(db,epoch):
         verify_folder(row['folder']);r=core.read(Path(row['folder'])/'result.json');native=db.execute('SELECT * FROM native WHERE child=?',(row['key'],)).fetchone()
         if r['failed_checks'] or (native and native['status']=='failed'):continue
         rank=(len(r['held_checks']),r['measurements']['mass_kg'],row['key'])
+        if row['kind'] not in groups or rank<groups[row['kind']][0]:groups[row['kind']]=(rank,dict(row))
+    return [r for _,r in groups.values()]
+
+
+DIAGNOSTIC_SCOPE='Excluded diagnostic exhibit; known mandatory failure or failed native geometry; never a research or integration shortlist'
+
+
+def diagnostics(db,epoch):
+    """Retain one bounded failure exhibit for families with no eligible representative."""
+    represented={r['kind'] for r in representatives(db,epoch)};groups={}
+    for row in db.execute("SELECT * FROM jobs WHERE epoch=? AND status='completed' AND kind!='cassette-control'",(epoch,)):
+        if row['kind'] in represented:continue
+        verify_folder(row['folder']);r=core.read(Path(row['folder'])/'result.json')
+        n=db.execute('SELECT * FROM native WHERE child=?',(row['key'],)).fetchone()
+        if not r['failed_checks'] and not (n and n['status']=='failed'):continue
+        rank=(len(r['failed_checks']),len(r['held_checks']),r['measurements']['mass_kg'],row['key'])
         if row['kind'] not in groups or rank<groups[row['kind']][0]:groups[row['kind']]=(rank,dict(row))
     return [r for _,r in groups.values()]
 
@@ -239,8 +255,13 @@ def summary(workspace,db,epoch,prepared):
         n=db.execute('SELECT * FROM native WHERE child=?',(row['key'],)).fetchone()
         selected.append(dict(key=row['key'],kind=row['kind'],native=n['status'] if n else 'not-run',
             design_complete=False,scope='Provisional research representative; all assembly closure and qualification holds remain applicable'))
+    diagnostic_entries=[]
+    for row in diagnostics(db,epoch):
+        n=db.execute('SELECT * FROM native WHERE child=?',(row['key'],)).fetchone()
+        diagnostic_entries.append(dict(key=row['key'],kind=row['kind'],native=n['status'] if n else 'not-run',
+            design_complete=False,selection_eligible=False,scope=DIAGNOSTIC_SCOPE))
     inventory=prepared['inventory'];remaining=sum(i['pilot'] is None for i in inventory['items'])
-    report=dict(schema='osr-assembly-progress/1',epoch=epoch,source_sha256=prepared['source_sha256'],trials=rows,selected=selected,
+    report=dict(schema='osr-assembly-progress/1',epoch=epoch,source_sha256=prepared['source_sha256'],trials=rows,selected=selected,diagnostics=diagnostic_entries,
         counts=dict(requirement_records=len(inventory['items']),baghdad_records=inventory['baghdad_reference_items'],legacy_or_unreconciled_records=inventory['existing_items'],
             component_records_with_pilot=sum(i['pilot'] is not None for i in inventory['items']),component_records_needing_adapter=remaining,
             facts=len(prepared['policy']['facts']),completed_trials=sum(r['status']=='completed' for r in rows),qualified_components=0),
@@ -267,7 +288,7 @@ def run(workspace=DEFAULT,*,budget=6,native=True):
             if row is None:mode='waiting-for-new-requirements-or-capabilities';break
             execute(workspace,db,epoch,prepared,row);executed+=1
         if native and mode!='waiting-for-disk':
-            for row in representatives(db,epoch):
+            for row in [*representatives(db,epoch),*diagnostics(db,epoch)]:
                 if core._size(workspace)>=MAX_WORKSPACE or shutil.disk_usage(workspace).free<RESERVE:mode='waiting-for-disk';break
                 confirm(workspace,db,epoch,row)
         report=summary(workspace,db,epoch,prepared);report.update(controller_state=mode,executed_this_cycle=executed,heartbeat_unix=time.time())

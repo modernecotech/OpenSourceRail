@@ -102,6 +102,10 @@ def build(policy,cassette,bearing,kit,vehicle,allocations,children,*,expected_so
         if any(s in ('failed','rejected') for s in states):child_states[name]='failed'
         elif any(s not in ('passed','screened-with-open-design-requirements') for s in states):child_states[name]='hold'
         else:child_states[name]='passed'
+    # Caller-provided passing summaries cannot override current mandatory physics.
+    current_cassette=evaluate.evaluate(policy,cassette)
+    if current_cassette['failed_checks']:child_states['cassette']='failed'
+    elif current_cassette['held_checks'] and child_states['cassette']!='failed':child_states['cassette']='hold'
     installed=mass_properties(cassette['contract']['parts'],allocations)
     local=mass_properties(cassette['contract']['parts'],[dict(id='cassette-local',translation_m=[0.,0.,0.],rotation=np.eye(3).tolist())])
     facts=baseline.facts(policy);a=policy['pilots']['bearing-seat']['assumptions']
@@ -129,7 +133,7 @@ def build(policy,cassette,bearing,kit,vehicle,allocations,children,*,expected_so
         removal_credit_mass_kg=0.,net_vehicle_cg_m=None,net_vehicle_inertia_kg_m2=None,
         mass_change_basis='Gross addition only; complete baseline vehicle CG/inertia and exact removed-scope ledger absent. No removal or lightening credit',
         electrical_ledger=power_ledger(powers),thermal_ledger=dict(entries=heat_rows,reconciled=True if thermal_complete else None),
-        force_ledger=force,child_states=child_states,disqualified_children=failed+held,
+        force_ledger=force,current_cassette_screen=current_cassette,child_states=child_states,disqualified_children=failed+held,
         required_reassessments=[dict(domain=domain,candidate_revision=revision,load_revision=force['revision'],state='hold')
             for domain,revision in (('bearing-resistance',bearing['revision']),('complete-civil-kit',core.digest(kit)),('vehicle-mounts-and-axle-map',vehicle['revision']))],
         interface_consistent=True,children_eligible=not failed and not held,

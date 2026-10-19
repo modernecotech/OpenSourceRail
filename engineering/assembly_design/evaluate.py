@@ -58,7 +58,7 @@ def evaluate(policy,candidate):
     from . import models
     if core.digest(candidate)!=core.digest(models.build(policy,candidate['kind'],candidate['variables'])):raise ValueError('candidate differs from its controlled generator revision')
     kind=candidate['kind'];p=policy['pilots'][kind];a=p['assumptions'];f=baseline.facts(policy);v=candidate['variables'];contract=candidate['contract']
-    mass=sum(part['properties']['mass_kg'] for part in contract['parts']);checks={};measurements={};cases=[]
+    mass=sum(part['properties']['mass_kg'] for part in contract['parts']);checks={};measurements={};cases=[];supplemental={}
     checks['qa_revision_coverage']=all(t['unit_revision']==candidate['revision'] for t in candidate['qa_plan'])
     checks['positive_mass_and_unique_parts']=mass>0 and len({p['id'] for p in contract['parts']})==len(contract['parts'])
     checks['mount_clearance_tolerance']=v['bolt_diameter_m']*.1>2*a['dimensional_tolerance_m']
@@ -83,6 +83,11 @@ def evaluate(policy,candidate):
         checks['netlist-conductor-coverage']=sum(p['id'].endswith('-conductor') for p in contract['parts'])==sum(n!='spare' for n in candidate['metadata']['netlist']['pins'].values())
         checks['connector-headline-current-only']=a['branch_current_a']<=f['connector.current_max']
         checks['connector-operating-temperature-only']=max(a['temperature_sensitivity_c'])<=f['connector.temperature'][1]
+        from . import cassette_system
+        system=cassette_system.report(policy,candidate)
+        supplemental['cassette-system']=system
+        checks.update({'cassette-system/'+key:value for key,value in system['checks'].items()})
+        measurements['cassette_system_revision']=system['revision']
         software=control_trial();checks.update({'software/'+k:value for k,value in software['checks'].items()})
         measurements.update(beam_cases=cases,duct_velocity_m_s=velocity,
             offline_airflow_trace_m3_s=[a['duct_flow_m3_s'] if r['output']['enabled'] else 0 for r in software['trace']],
@@ -131,6 +136,6 @@ def evaluate(policy,candidate):
     return dict(schema='osr-assembly-screening/1',candidate_revision=candidate['revision'],kind=kind,checks=checks,
         failed_checks=failures,held_checks=held,screen_pass=not failures and not held,implemented_checks_pass=not failures,
         state='failed' if failures else 'hold' if held else 'screened-with-open-design-requirements',
-        measurements=measurements,open_requirements=candidate['open_requirements'],
+        measurements=measurements,supplemental_evidence=supplemental,open_requirements=candidate['open_requirements'],
         digital_specification_complete=False,connection_resistance_qualified=False,
         scope='Only listed geometry, elastic, thermal-expansion and offline interface screens; no full component/system acceptance',**core.FLAGS)

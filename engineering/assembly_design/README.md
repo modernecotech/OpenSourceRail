@@ -113,6 +113,11 @@ simultaneous derating, protection coordination, installed access and physical
 evidence keep the complete chain out of system acceptance. Assumed fan curves
 and circuit disconnects are identified as hypotheses.
 
+Supplemental cassette failures propagate into its parent result and downstream
+integration eligibility. A failed candidate can still have valid native geometry
+for inspection. Such evidence is published under `diagnostics/`, with explicit
+exclusion from shortlists; its CAD image is not a successful design selection.
+
 The structural pilot includes RHS rails and crossmembers, a drilled floor,
 four bolted equipment mounts and a steel test block. Independent analytical/FEM,
 mesh, equilibrium, acceleration and support-fixity controls check only the

@@ -15,6 +15,11 @@ from . import workflow
 MAX_BYTES=32*1024**2
 
 
+def exhibits(data):
+    """One copying/verification path; diagnostic exhibits never imply selection."""
+    return [('models',entry) for entry in data['selected']]+[('diagnostics',entry) for entry in data.get('diagnostics',[])]
+
+
 def report(data,policy):
     h=lambda value:escape(str(value),quote=True)
     counts=data['counts'];lines=['<!doctype html><html lang="en"><meta charset="utf-8"><title>Baghdad assembly design programme</title>',
@@ -50,8 +55,9 @@ def report(data,policy):
                 '<img alt="Actual open water, infrastructure, land use and population with proposed Baghdad corridors" src="site/map.svg">',
                 '<p>Terrain, population and mapped infrastructure support investigation planning. River proximity supplies no design flood level, groundwater depth or soil bearing capacity. Corridor proximity estimates are separate from station access and ridership; overlapping routes are counted once in the population union. Missing map coverage remains unknown.</p>',
                 '<p lang="ar" dir="rtl">تقديرات مكتبية مبنية على بيانات مفتوحة فعلية للسكان والتضاريس والمياه والبنية التحتية. تساعد في تحديد أولويات المسح والتحريات؛ ولا تثبت قدرة تحمل التربة أو منسوب المياه الجوفية أو الفيضان أو ملكية الأراضي. أعداد السكان قرب المسارات ليست توقعات لعدد الركاب.</p>']
-    for c in data['selected']:
-        base='models/'+c['kind']+'/'
+    for category,c in exhibits(data):
+        base=category+'/'+c['kind']+'/'
+        if category=='diagnostics':lines+=['<h2>Excluded diagnostic exhibit</h2><p>This candidate failed mandatory checks and is excluded from research and integration selection. Geometry and harness data are retained to diagnose and repair it.</p>']
         lines+=['<h2>'+h(c['kind'])+'</h2><p>Exact candidate <code>'+h(c['key'])+'</code>. Native state: '+h(c['native'])+'. '+h(c['scope'])+'</p>',
             '<p><a href="'+base+'candidate.json.gz">Part/joint definition</a> | <a href="'+base+'result.json">Checks and unresolved requirements</a> | <a href="'+base+'manufacturing-bom.csv">Manufacturing BOM and dimensions</a> | <a href="'+base+'qa-plan.json">Unexecuted QA plan</a></p>',
             '<img alt="Unissued inspection layout from generated definitions" src="'+base+'inspection.svg">']
@@ -99,8 +105,8 @@ def export(workspace,output):
                     content=(folder/name).read_bytes();raw+=len(content)
                     if raw>128*1024**2:raise ValueError('assembly raw evidence budget exceeded')
                     info=tarfile.TarInfo(key+'/'+name);info.size=len(content);info.mtime=0;archive.addfile(info,io.BytesIO(content))
-        for entry in data['selected']:
-            row=db.execute('SELECT * FROM jobs WHERE key=?',(entry['key'],)).fetchone();destination=output/'models'/entry['kind'];destination.mkdir(parents=True)
+        for category,entry in exhibits(data):
+            row=db.execute('SELECT * FROM jobs WHERE key=?',(entry['key'],)).fetchone();destination=output/category/entry['kind'];destination.mkdir(parents=True)
             folder=Path(row['folder'])
             for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json','cassette-system.json'):
                 if (folder/name).exists():shutil.copyfile(folder/name,destination/name)
@@ -171,19 +177,32 @@ def verify(output):
         if trial['status']!='completed':continue
         r=json.loads(members[trial['key']+'/result.json']);receipt=json.loads(members[trial['key']+'/receipt.json'])
         if trial['kind']!=receipt['kind'] or trial['variables']!=receipt['variables']:raise ValueError('exported trial differs from original')
+        if trial['kind']!='cassette-control':
+            failed=[name for name,value in r['checks'].items() if value is False];held=[name for name,value in r['checks'].items() if value is None]
+            if set(failed)!=set(r['failed_checks']) or set(held)!=set(r['held_checks']):raise ValueError('mandatory check classification differs')
+            if r['screen_pass']!=(not failed and not held) or r['implemented_checks_pass']!=(not failed):raise ValueError('mandatory check eligibility differs')
         expected_fields=dict(state=r.get('state','offline-tests'),mass_kg=r.get('measurements',{}).get('mass_kg'),failed_checks=r.get('failed_checks',[]),held_checks=r.get('held_checks',[]))
         if any(trial.get(k)!=v for k,v in expected_fields.items()):raise ValueError('displayed trial differs from original')
+        if trial['kind']=='service-cassette' and r.get('supplemental_evidence'):
+            chain=r['supplemental_evidence']['cassette-system']
+            if chain!=json.loads(members[trial['key']+'/cassette-system.json']) or chain['unit_revision']!=r['candidate_revision']:raise ValueError('supplemental cassette evidence differs')
+            if chain['revision']!=core.digest({name:value for name,value in chain.items() if name!='revision'}):raise ValueError('supplemental cassette revision differs')
+            if any('cassette-system/'+name not in r['checks'] or r['checks']['cassette-system/'+name]!=value for name,value in chain['checks'].items()):raise ValueError('mandatory cassette checks not propagated')
         if trial['kind']=='cassette-control':
             folder=output/'software'/receipt['variables']['variant']
             for name in ('controller.py','result.json'):
                 if (folder/name).read_bytes()!=members[trial['key']+'/'+name]:raise ValueError('exported software differs from original')
-    for entry in data['selected']:
-        key=entry['key'];folder=output/'models'/safe(entry['kind'])
+    if {r['key'] for r in data['selected']}&{r['key'] for r in data.get('diagnostics',[])}:raise ValueError('diagnostic candidate promoted to selection')
+    for category,entry in exhibits(data):
+        key=entry['key'];folder=output/category/safe(entry['kind'])
         receipt=json.loads(members[key+'/receipt.json']);result=json.loads(members[key+'/result.json'])
-        if entry['kind']!=receipt['kind'] or result['failed_checks'] or entry.get('design_complete') is not False or entry['scope']!='Provisional research representative; all assembly closure and qualification holds remain applicable':raise ValueError('selected assembly scope or eligibility differs')
+        if entry['kind']!=receipt['kind'] or entry.get('design_complete') is not False:raise ValueError('assembly exhibit identity or scope differs')
+        if category=='models' and (result['failed_checks'] or entry['scope']!='Provisional research representative; all assembly closure and qualification holds remain applicable'):raise ValueError('selected assembly scope or eligibility differs')
+        if category=='diagnostics' and (entry.get('selection_eligible') is not False or entry['scope']!=workflow.DIAGNOSTIC_SCOPE):raise ValueError('diagnostic scope or exclusion differs')
         native_key=key+'-native/result.json'
         state=json.loads(members[native_key])['state'] if native_key in members else 'not-run'
-        if state=='failed' or entry['native']!=('completed' if state=='passed' else state):raise ValueError('selected native eligibility differs')
+        if (category=='models' and state=='failed') or entry['native']!=('completed' if state=='passed' else state):raise ValueError('selected native eligibility differs')
+        if category=='diagnostics' and not result['failed_checks'] and state!='failed':raise ValueError('diagnostic lacks recorded failure')
 
         for name in ('candidate.json.gz','result.json','manufacturing-bom.csv','qa-plan.json','inspection.svg','netlist.json','controller.py','software-tests.json','cassette-system.json'):
             original=members.get(key+'/'+name)

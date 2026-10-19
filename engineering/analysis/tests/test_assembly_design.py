@@ -152,7 +152,7 @@ def test_recovery_uses_sealed_identity_and_preserves_interrupted_attempts(campai
 def test_failed_native_receipt_never_recovers_as_passed(campaign):
     w=execute_examples(campaign);epoch=campaign[1]
     with workflow.locked(w) as (_,db):
-        row=next(r for r in workflow.representatives(db,epoch) if r['kind']=='service-cassette')
+        row=next(r for r in workflow.representatives(db,epoch) if r['kind']=='bearing-seat')
         folder=w/'epochs'/epoch/'native'/row['key'];folder.mkdir(parents=True)
         core.write(folder/'result.json',dict(child=row['key'],state='failed',**core.FLAGS));workflow.seal(folder,dict(key=row['key']+'-native',child=row['key'],epoch=epoch))
         workflow.confirm(w,db,epoch,row)
@@ -188,9 +188,9 @@ def test_full_plan_export_cannot_disagree_with_frozen_source_after_reseal(campai
 
 @pytest.mark.parametrize('target',('result','bom','drawing','metrics','counts','selection-scope','software','report','work-order'))
 def test_export_cannot_disagree_with_original_after_checksum_reseal(campaign,tmp_path,target):
-    w=execute_examples(campaign);output=tmp_path/'export';publication.export(w,output);folder=output/'models/service-cassette'
+    w=execute_examples(campaign);output=tmp_path/'export';publication.export(w,output);folder=output/'diagnostics/service-cassette'
     if target=='result':
-        r=core.read(folder/'result.json');r['screen_pass']=False;core.write(folder/'result.json',r)
+        r=core.read(folder/'result.json');r['screen_pass']=True;core.write(folder/'result.json',r)
     elif target=='bom':(folder/'manufacturing-bom.csv').write_text('invented BOM')
     elif target=='drawing':(folder/'inspection.svg').write_text('<svg/>')
     elif target in {'metrics','counts','selection-scope'}:
@@ -212,7 +212,7 @@ def test_real_native_owned_geometry_and_purchased_envelope_correspondence(campai
         if not shutil.which('flatpak') or subprocess.run(['flatpak','info','org.freecad.FreeCAD'],capture_output=True).returncode:pytest.skip('native FreeCAD unavailable')
     w=execute_examples(campaign);epoch=campaign[1]
     with workflow.locked(w) as (_,db):
-        row=next(r for r in workflow.representatives(db,epoch) if r['kind']==kind);workflow.confirm(w,db,epoch,row)
+        row=next(r for r in [*workflow.representatives(db,epoch),*workflow.diagnostics(db,epoch)] if r['kind']==kind);workflow.confirm(w,db,epoch,row)
         n=db.execute('SELECT * FROM native WHERE child=?',(row['key'],)).fetchone()
         assert n['status']=='completed',core.read(Path(n['folder'])/'result.json')
         native=core.read(Path(n['folder'])/'cad/native-cad.json',maximum=10_000_000)
@@ -319,3 +319,26 @@ def test_automatic_development_runs_writer_then_critic_without_promoting_unknown
     folder=Path(result['folder']);assert not (folder/'worktree').exists() and (folder/'retained-private/proposed.py').is_file()
     assert workflow.verify_folder(folder)['decision']=='hold'
     assert development.run(w)['state']=='hourly-development-budget'
+
+
+def test_mandatory_supplemental_failures_veto_research_selection_and_are_retained_as_diagnostics(campaign,tmp_path):
+    w=execute_examples(campaign);epoch=campaign[1]
+    with workflow.locked(w) as (_,db):
+        assert 'service-cassette' not in {r['kind'] for r in workflow.representatives(db,epoch)}
+        diagnostic=next(r for r in workflow.diagnostics(db,epoch) if r['kind']=='service-cassette')
+        original=core.read(Path(diagnostic['folder'])/'result.json')
+        chain=core.read(Path(diagnostic['folder'])/'cassette-system.json')
+        assert original['state']=='failed' and original['failed_checks']
+        assert original['supplemental_evidence']['cassette-system']==chain
+        for name,value in chain['checks'].items():assert original['checks']['cassette-system/'+name] is value
+        assert 'cassette-system/worst_case_guide_fit' in original['failed_checks']
+        assert 'cassette-system/connector_derating' in original['held_checks']
+    output=tmp_path/'diagnostic-export';publication.export(w,output)
+    assert (output/'diagnostics/service-cassette/cassette-system.json').exists()
+    assert not (output/'models/service-cassette').exists()
+    data=core.read(output/'progress.json');entry=next(r for r in data['diagnostics'] if r['kind']=='service-cassette')
+    assert not entry['selection_eligible'] and entry['key']==diagnostic['key']
+    assert publication.verify(output)['verified']
+    entry['selection_eligible']=True;core.write(output/'progress.json',data)
+    (output/'index.html').write_text(publication.report(data,campaign[2]['policy']));reseal(output)
+    with pytest.raises(ValueError,match='diagnostic'):publication.verify(output)

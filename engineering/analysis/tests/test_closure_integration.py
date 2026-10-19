@@ -58,8 +58,9 @@ def test_exact_revision_mass_power_heat_force_ledgers_and_passage_holds(case):
     assert [c['train_mass_kg'] for c in planning]==pytest.approx([m+6*mass for m in f['train.mass_cases']])
     assert all(result['force_ledger']['checks'].values())
     assert result['candidate_revisions']['civil-kit']==core.digest(inputs['kit'])
-    assert result['children_eligible'] and result['interface_consistent']
-    assert result['state']=='hold' and result['full_train_passage_executed'] is False
+    assert not result['children_eligible'] and result['interface_consistent']
+    assert result['child_states']['cassette']=='failed' and 'cassette' in result['disqualified_children']
+    assert result['state']=='failed' and result['full_train_passage_executed'] is False
     assert result['admitted_for_system_simulation'] is False
     assert {'time-step-convergence','deck-spatial-convergence','rail-mesh-convergence','carbody-modal-convergence'}<=result['full_passage_acceptance'].keys()
     assert all(gate['state']=='hold' and gate['evidence'] is None for gate in result['full_passage_acceptance'].values())
@@ -89,7 +90,10 @@ def test_missing_stale_and_inconsistent_interface_inputs_rejected(case,defect):
 
 
 @pytest.mark.parametrize('state',('failed','hold'))
-def test_known_failed_or_held_confirmation_disqualifies_original_child(case,state):
+def test_known_failed_or_held_confirmation_disqualifies_original_child(case,state,monkeypatch):
+    # Isolate confirmation precedence after a synthetic passing current evaluator;
+    # separate regression below exercises real known mandatory cassette failure.
+    monkeypatch.setattr(evaluate,'evaluate',lambda policy,candidate:dict(candidate_revision=candidate['revision'],state='passed',failed_checks=[],held_checks=[]))
     inputs=case();child=inputs['children']['cassette']
     child['mandatory_evidence'].append(dict(candidate_revision=child['candidate_revision'],state=state))
     result=build(inputs)
@@ -116,7 +120,7 @@ def test_unknown_heat_map_cannot_become_balanced_zero_heat(case):
     result=build(inputs)
     assert result['thermal_ledger']['reconciled'] is None
     assert result['thermal_ledger']['entries'][0]['heat_w'] is None
-    assert result['state']=='hold'
+    assert result['state']=='failed'
 
 
 def test_failed_check_veto_survives_a_contradictory_passing_summary(case):
@@ -135,3 +139,16 @@ def test_live_snapshot_reuses_adapters_and_retains_missing_qualification(case):
     assert result['thermal_ledger']['reconciled'] is None
     assert result['children_eligible'] is False and result['state'] in ('hold','failed')
     assert result['full_train_passage_executed'] is False
+
+
+def test_real_mandatory_cassette_failure_overrides_synthetic_passing_child_result(case):
+    inputs=case();assert inputs['children']['cassette']['result']['state']=='passed'
+    result=build(inputs)
+    actual=result['current_cassette_screen']
+    assert actual['candidate_revision']==inputs['cassette']['revision']
+    assert 'cassette-system/worst_case_guide_fit' in actual['failed_checks']
+    assert 'cassette-system/connector_derating' in actual['held_checks']
+    assert result['state']=='failed' and not result['children_eligible']
+    assert result['child_states']['cassette']=='failed' and 'cassette' in result['disqualified_children']
+    assert not result['admitted_for_system_simulation']
+    assert inputs['children']['cassette']['result']['state']=='passed'  # original history preserved
