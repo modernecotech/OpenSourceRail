@@ -208,3 +208,21 @@ def test_report_binds_exact_candidate_and_preserves_known_failures_holds(pair):
 @pytest.mark.parametrize('kwargs',({'voltage_v':float('nan')},{'female_length_m':0},{'source_ohm':-1},{'ambient_c':float('nan')},{'fault':'unknown'}))
 def test_invalid_electrical_inputs_fail(kwargs):
     with pytest.raises(ValueError):c.electrical_case(**kwargs)
+
+
+def test_nominal_flow_failure_propagates_without_confusing_expected_fault_loss(pair):
+    from engineering.assembly_design import evaluate
+    policy,candidate=pair
+    undersized=evaluate.evaluate(policy,candidate)
+    key='cassette-system/nominal-duct/proposed_flow_target'
+    assert key in undersized['failed_checks']
+    assert undersized['supplemental_evidence']['cassette-system']['duct_cases'][0]['useful_flow_m3_s']<.08
+    variables=dict(candidate['variables'],duct_area_m2=.02)
+    larger=evaluate.evaluate(policy,models.build(policy,'service-cassette',variables))
+    assert larger['checks'][key] is True
+    # Increasing area repairs this implemented duty screen without erasing the
+    # independent guide/connector failures or inventing a supplier fan map.
+    assert larger['state']=='failed' and 'cassette-system/worst_case_guide_fit' in larger['failed_checks']
+    assert 'cassette-system/nominal-duct/fan_supplier_map' in larger['held_checks']
+    faults=larger['supplemental_evidence']['cassette-system']['duct_cases'][1:]
+    assert any(not case['checks']['proposed_flow_target'] for case in faults)

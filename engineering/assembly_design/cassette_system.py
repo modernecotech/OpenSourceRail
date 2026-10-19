@@ -415,6 +415,10 @@ def report(policy,candidate):
         process_dependencies=sequence['passed'],reference_harness_topology=all(topology[k] for k in ('active_pin_count_matches','conductor_count_matches','conductor_area_matches')),
         worst_case_guide_fit=stack['checks']['guide_fit'],worst_case_connector_float=stack['checks']['connector_float'],
         connector_derating=None,protection_coordination=None,actual_removal_access=None,physical_qualification=None)
+    # Nominal useful-flow duty is mandatory. Fault-case flow loss is retained
+    # separately, with degraded acceptance still open; do not silently promote
+    # a nominally undersized duct because its conservation equations balance.
+    checks.update({'nominal-duct/'+key:value for key,value in ducts[0]['checks'].items()})
     result=dict(schema='osr-service-cassette-chain/1',unit_revision=revision,policy_sha256=core.digest(policy),
         requirements=['baghdad:ME-10','baghdad:ME-11'],source_cards=deepcopy(SOURCE_CARDS),harness=loom,
         electrical_cases=electrical,electrical_faults=faults,connectivity_faults=connectivity_faults(),
